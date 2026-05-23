@@ -21,6 +21,7 @@ import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
 import UserlistForm from "./UserlistForm";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function UserlistWalkin() {
   const state = useSelector((state) => state);
@@ -322,14 +323,7 @@ function UserlistWalkin() {
     <>
       {!canReadWalkin ? (
         <>
-          <div className="flex flex-col items-center justify-center mt-24">
-            <img src={Emptystate} alt="Empty State" />
-
-            <ErrorMessage
-              message={["You do not have access to view Walk In"]}
-              type="warning"
-            />
-          </div>
+          <PermissionDeniedMessage />
         </>
       ) : (
         <>

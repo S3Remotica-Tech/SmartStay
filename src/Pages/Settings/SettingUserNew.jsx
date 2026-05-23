@@ -18,6 +18,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import DeleteStaff from "./DeleteStaff";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingNewUser() {
   const state = useSelector((state) => state);
@@ -266,13 +267,9 @@ function SettingNewUser() {
         </div>
       )}
       {!canReadUser ? (
-        <div className="flex flex-col items-center justify-center h-[80vh] mt-24">
-          <img src={Emptystate} alt="Empty State" />
-          <ErrorMessage
-            message={["You do not have access to view User"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
         <div className="mt-2">
           {usersFilterddata?.length > 0 ? (
@@ -285,7 +282,7 @@ function SettingNewUser() {
                 <Table className=" w-full font-gilroy">
                   <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                     <tr>
-                      <th className="whitespace-nowrap">Staff Name</th>
+                      <th className="whitespace-nowrap px-4">Staff Name</th>
                       <th>Email</th>
                       <th>Mobile No</th>
                       <th>Roles</th>
@@ -298,7 +295,7 @@ function SettingNewUser() {
                         <tr className="border-b border-gray-200">
                           <td
                             title={`${item?.fullName}`}
-                            className="text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
+                            className="px-4 text-sm font-medium text-gray-800 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
                           >
                             {item?.fullName}
                           </td>

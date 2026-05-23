@@ -5,12 +5,16 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import AddExpenses from "../Pages/ExpenseFile/AddExpenses";
 
-
-function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostelId }) {
+function SidebarQuickActions({
+  showMenuModal,
+  setShowMenuModal,
+  navigate,
+  hostelId,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const menuItems = [
-    // { name: "Home", path: "/dashboard-new" },
+    // { name: "Home", path: "/dashboard" },
     // { name: "Paying Guest", path: "/paying-guest" },
     { name: "Tenant", path: "/tenant" },
     { name: "Asset", path: "/asset" },
@@ -26,11 +30,10 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
     // { name: "Reports", path: "/reports" },
   ];
 
-
-const [activePath, setActivePath] = useState("");
+  const [activePath, setActivePath] = useState("");
 
   const filteredItems = menuItems.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleMenuItemClick = (name, item) => {
@@ -46,15 +49,14 @@ const [activePath, setActivePath] = useState("");
         isBillsForm: item.path === "/invoice",
         isComplaintForm: item.path === "/compliance",
         isReportsForm: item.path === "/reports",
-      }
+      },
     });
-
   };
 
   useEffect(() => {
-  const currentPath = "/" + location.pathname.split("/")[1];
-  setActivePath(currentPath);
-}, [location.pathname]);
+    const currentPath = "/" + location.pathname.split("/")[1];
+    setActivePath(currentPath);
+  }, [location.pathname]);
 
   return (
     <>
@@ -120,7 +122,6 @@ const [activePath, setActivePath] = useState("");
           </div>
         </Offcanvas.Body>
       </Offcanvas>
-
     </>
   );
 }
@@ -129,10 +130,7 @@ SidebarQuickActions.propTypes = {
   showMenuModal: PropTypes.bool.isRequired,
   setShowMenuModal: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
-  hostelId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  hostelId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default SidebarQuickActions;

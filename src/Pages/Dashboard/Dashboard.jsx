@@ -40,6 +40,7 @@ import DashExpenseProfit from "./DashExpense&Profit";
 import DashQuickAccess from "./DashQuickAccess";
 import DashCoreAnalytics from "./DashCoreAnalytics";
 import DashRequestAndComplaints from "./DashRequestsAndComplaints";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function Dashboard() {
   const state = useSelector((state) => state);
@@ -454,13 +455,7 @@ function Dashboard() {
         <div>
           {activeTab === "1" &&
             (!canReadDashboard && !loading ? (
-              <div className="flex flex-col items-center justify-center mt-24">
-                <img src={Emptystate} alt="Empty State" />
-                <ErrorMessage
-                  message={["You do not have access to view Dashboardss"]}
-                  type="warning"
-                />
-              </div>
+              <PermissionDeniedMessage />
             ) : (
               <div className="max-h-[calc(100vh-120px)] overflow-y-auto relative">
                 {loading && (

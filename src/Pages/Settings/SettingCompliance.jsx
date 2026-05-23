@@ -16,6 +16,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingCompliance() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ function SettingCompliance() {
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const {
     canWriteModule: canWriteComplaints,
     canReadModule: canReadComplaints,
@@ -85,6 +86,7 @@ function SettingCompliance() {
         type: "DELETE-COMPLAINT-TYPE",
         payload: { id: rowDetails.complaintTypeId },
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -307,6 +309,7 @@ function SettingCompliance() {
 
   useEffect(() => {
     if (state.Settings.deletecomplaintStatuscode === 200) {
+      setDeleteLoading(false);
       setFormLoading(false);
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
@@ -407,17 +410,12 @@ function SettingCompliance() {
       </div>
 
       {!canReadComplaints ? (
-        // <div className="flex flex-col items-center justify-center h-screen mt-24">
-        <div className="flex flex-col items-center justify-center min-h-[60vh] mt-10">
-          <img src={Emptystate} alt="Empty State" />
-          <ErrorMessage
-            message={["You do not have access to view Settings Compliants"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
-        <div className="complainttype mt-2">
-          {complianceFilterddata && complianceFilterddata.length > 0 && (
+        <div className=" mt-2">
+          {complianceFilterddata && complianceFilterddata.length > 0 ? (
             <div className="container show-scrolls relative max-h-[475px] overflow-y-auto">
               {loading && (
                 <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
@@ -542,21 +540,23 @@ function SettingCompliance() {
                 ))}
               </div>
             </div>
+          ) : (
+            !loading &&
+            complianceFilterddata.length === 0 &&
+            canReadComplaints && (
+              <div className="flex flex-col items-center justify-center text-center h-[80vh] md:min-h-0 animated-text">
+                <div className="flex justify-center">
+                  <img src={EmptyState} className="lg:mt-16 md:mt-8 2xl:mt-0" />
+                </div>
+                <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
+                  No ComplaintTypes
+                </div>
+                <div className="text-center font-gilroy font-medium text-sm text-gray-700">
+                  There are no ComplaintTypes available.
+                </div>
+              </div>
+            )
           )}
-        </div>
-      )}
-
-      {!loading && complianceFilterddata.length === 0 && canReadComplaints && (
-        <div className="flex flex-col items-center justify-center text-center h-[80vh] md:min-h-0 animated-text">
-          <div className="flex justify-center">
-            <img src={EmptyState} className="lg:mt-16 md:mt-8 2xl:mt-0" />
-          </div>
-          <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-            No ComplaintTypes
-          </div>
-          <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-            There are no ComplaintTypes available.
-          </div>
         </div>
       )}
 
@@ -739,10 +739,34 @@ function SettingCompliance() {
           </button>
 
           <button
+            disabled={deleteLoading}
             onClick={handleConfirmDelete}
-            className="!flex-1 !h-13 !px-5 !py-3.5 !rounded-md !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm"
+            className={`
+    !flex-1 
+    !h-13 
+    !px-5 
+    !py-3.5 
+    !rounded-md 
+    !bg-blue-700 
+    !text-white 
+    !font-gilroy 
+    !font-semibold 
+    !text-sm
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
           >
-            Delete
+            {deleteLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
           </button>
         </Modal.Footer>
       </Modal>

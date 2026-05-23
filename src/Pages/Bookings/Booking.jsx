@@ -38,6 +38,9 @@ import {
 import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoData from "../../Assets/v2Images/NoData.svg";
+import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -336,17 +339,19 @@ function Booking() {
 
     const apiData = row[row.length - 1];
 
-    // console.log("apiData", apiData);
+    console.log("apiData", apiData);
 
     obj.apiCall = {
       invoiceId: apiData?.invoiceId || null,
       canApply: apiData?.canApply || null,
       availableAmount: apiData?.availableAmount || 0,
       customerId: apiData?.customerId,
-      status: apiData?.status,
+      // status: apiData?.status,
+      // availableAmount: apiData?.availableAmount,
     };
 
     obj.status = apiData?.status || "-";
+    obj.availableAmount = apiData?.availableAmount;
     return obj;
   });
 
@@ -547,7 +552,7 @@ function Booking() {
   }, []);
 
   useEffect(() => {
-    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    // const statusValue = statusfilter === "ALL" ? "" : statusfilter;
 
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -593,16 +598,30 @@ function Booking() {
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        // name: debouncedInput || "",
-        // type: statusValue,
         page: page,
         size: size,
-        // period: selectedMonth?.value,
       },
     });
 
     setChips([]);
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_BOOKING_FILTERS",
+        payload: {
+          period: [],
+          search: "",
+          floor: [],
+          room: [],
+          minPaidAmount: "",
+          maxPaidAmount: "",
+          paymentMode: [],
+        },
+      });
+    };
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     setPage(0);
@@ -612,7 +631,7 @@ function Booking() {
     const filters = state.Booking?.bookingFilters;
     const filterData = [];
 
-    if (filters?.period.length) {
+    if (filters?.period?.length) {
       filterData.push({
         key: "period",
         label: "Period",
@@ -764,7 +783,9 @@ function Booking() {
     },
   };
 
-  console.log("state,%%%", state.Booking.bookingFilters);
+  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
+
+  console.log("state", state.login.selectedHostel_Id);
 
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
@@ -799,10 +820,13 @@ function Booking() {
           </div>
         </div>
       </div>
-
-      <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
-        <div className="flex flex-wrap items-center gap-3">
-          {/* <div className="w-[150px]">
+      {!canReadBooking ? (
+        <PermissionDeniedMessage />
+      ) : (
+        <>
+          <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* <div className="w-[150px]">
               <Select
                 menuPlacement="auto"
                 isDisabled={isComingSoon}
@@ -816,97 +840,87 @@ function Booking() {
               />
             </div> */}
 
-          <Select
-            menuPlacement="auto"
-            isDisabled={isComingSoon}
-            options={monthOptions}
-            value={selectedMonth}
-            onChange={handleMonthChange}
-            styles={CustomStyles}
-            classNamePrefix="custom"
-            noOptionsMessage={() => "No options"}
-          />
+              <Select
+                menuPlacement="auto"
+                isDisabled={isComingSoon}
+                options={monthOptions}
+                value={selectedMonth}
+                onChange={handleMonthChange}
+                styles={CustomStyles}
+                classNamePrefix="custom"
+                noOptionsMessage={() => "No options"}
+              />
 
-          <button
-            onClick={() => canReadBooking && handleShowFilterBills()}
-            disabled={!canReadBooking}
-            className={`border border-slate-300 rounded-full p-2
+              <button
+                onClick={() => canReadBooking && handleShowFilterBills()}
+                disabled={!canReadBooking}
+                className={`border border-slate-300 rounded-full p-2
             ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
-          >
-            <Filter size={18} />
-          </button>
-        </div>
+              >
+                <Filter size={18} />
+              </button>
+            </div>
 
-        <div className="flex  items-center gap-3">
-          <Setting3
-            onClick={() => setOpen(!open)}
-            className="cursor-pointer"
-            size="22"
-            color="#4B4B4B"
-          />
+            <div className="flex  items-center gap-3">
+              <Setting3
+                onClick={() => setOpen(!open)}
+                className="cursor-pointer"
+                size="22"
+                color="#4B4B4B"
+              />
 
-          {formattedData?.length > 0 && (
-            <ApiPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-              onPageChange={handlePageChange}
-              onSizeChange={handleSizeChange}
-              isTenantPagination={true}
-              size={size}
-            />
-          )}
-        </div>
-      </div>
-
-      <div className="">
-        {!canReadBooking ? (
-          <div className="h-full flex flex-col items-center justify-center">
-            <img src={EmptyState} alt="Empty" className="max-w-full h-auto" />
-            <ErrorMessage
-              message={["You do not have access to view Booking"]}
-              type="warning"
-            />
-          </div>
-        ) : (
-          <div>
-            <div>
-              {chips.length > 0 && (
-                <div className="px-3 py-3 bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col my-2 ">
-                  <div className=" p-3 flex items-start gap-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
-                    <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
-                      {chips.map((chip) => (
-                        <div key={chip.key}>
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
-                            {chip.label} :
-                            <span className="text-[12px] font-medium text-[#16151C]">
-                              {chip.value}
-                            </span>
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <span
-                      onClick={handleReset}
-                      className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
-                    >
-                      Reset
-                    </span>
-                  </div>
-                </div>
+              {formattedData?.length > 0 && (
+                <ApiPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalRecords={totalRecords}
+                  onPageChange={handlePageChange}
+                  onSizeChange={handleSizeChange}
+                  isTenantPagination={true}
+                  size={size}
+                />
               )}
+            </div>
+          </div>
+          <div className="">
+            <div>
+              <div>
+                {chips.length > 0 && (
+                  <div className="px-3 py-3 bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col my-2 ">
+                    <div className=" p-3 flex items-start gap-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+                      <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
+                        {chips.map((chip) => (
+                          <div key={chip.key}>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
+                              {chip.label} :
+                              <span className="text-[12px] font-medium text-[#16151C]">
+                                {chip.value}
+                              </span>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
 
-              <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
-                <div
-                  id="tableContainer"
-                  ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-                >
-                  <table className="w-full  font-gilroy">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                      <tr className="h-9">
-                        {/* <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
+                      <span
+                        onClick={handleReset}
+                        className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
+                      >
+                        Reset
+                      </span>
+                    </div>
+                  </div>
+                )}
+                {formattedData?.length > 0 ? (
+                  <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
+                    <div
+                      id="tableContainer"
+                      ref={tableContainerRef}
+                      className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                    >
+                      <table className="w-full  font-gilroy">
+                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                          <tr className="h-9">
+                            {/* <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
                           <input
                             disabled
                             type="checkbox"
@@ -918,45 +932,48 @@ function Booking() {
                           />
                         </th> */}
 
-                        {selectedColumns?.map((col, index) => {
-                          let stickyClass = "";
+                            {selectedColumns?.map((col, index) => {
+                              let stickyClass = "";
 
-                          if (index === 0) {
-                            stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                          }
+                              if (index === 0) {
+                                stickyClass =
+                                  "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                              }
 
-                          return (
-                            <th
-                              key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                            >
-                              {col.fieldName}
+                              return (
+                                <th
+                                  key={col.key}
+                                  className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                                >
+                                  {col.fieldName}
+                                </th>
+                              );
+                            })}
+                            <th className=" px-2  bg-[#F9FAFB] text-center whitespace-nowrap">
+                              Available Amount
                             </th>
-                          );
-                        })}
-                        <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
-                          Status
-                        </th>
-                        <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
+                            <th className=" px-2 bg-[#F9FAFB] text-center">
+                              Status
+                            </th>
+                            <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
 
-                    <tbody>
-                      {formattedData?.length > 0 ? (
-                        formattedData?.map((item, index) => (
-                          <tr
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleNavigatePdf(item?.apiCall?.invoiceId);
-                            }}
-                            key={item?.apiCall?.invoiceId}
-                            className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
+                        <tbody>
+                          {formattedData?.length > 0 ? (
+                            formattedData?.map((item, index) => (
+                              <tr
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleNavigatePdf(item?.apiCall?.invoiceId);
+                                }}
+                                key={item?.apiCall?.invoiceId}
+                                className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
-                          >
-                            {/* <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
+                              >
+                                {/* <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
                               <input
                                 disabled
                                 type="checkbox"
@@ -965,280 +982,316 @@ function Booking() {
                               />
                             </td> */}
 
-                            {selectedColumns?.map((col, index) => {
-                              const baseClass = `
+                                {selectedColumns?.map((col, index) => {
+                                  const baseClass = `
   ${columnStyles[col.fieldName] || "px-4"}
   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
 `;
 
-                              let stickyClass = "";
+                                  let stickyClass = "";
 
-                              if (index === 0) {
-                                stickyClass = `sticky left-[0px] z-30  w-[80px] ${
-                                  isScrolling ? "!bg-white" : "!bg-transparent"
-                                }`;
-                              }
+                                  if (index === 0) {
+                                    stickyClass = `sticky left-[0px] z-30  w-[80px] ${
+                                      isScrolling
+                                        ? "!bg-white"
+                                        : "!bg-transparent"
+                                    }`;
+                                  }
 
-                              const finalClass = `${baseClass} ${stickyClass}`;
+                                  const finalClass = `${baseClass} ${stickyClass}`;
 
-                              switch (col.fieldName) {
-                                case "Profile Pic":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`px-4 ${finalClass}`}
-                                    >
-                                      {typeof item?.profilePic === "string" &&
-                                      item.profilePic.startsWith("http") ? (
-                                        <img
-                                          src={item.profilePic}
-                                          className="w-8 h-8 rounded-full"
-                                          alt="profile"
-                                        />
-                                      ) : (
-                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                          {typeof item?.profilePic === "string"
-                                            ? item.profilePic
-                                            : "NA"}
-                                        </div>
-                                      )}
-                                    </td>
-                                  );
+                                  switch (col.fieldName) {
+                                    case "Profile Pic":
+                                      return (
+                                        <td
+                                          key={col.fieldName}
+                                          className={`px-4 ${finalClass}`}
+                                        >
+                                          {typeof item?.profilePic ===
+                                            "string" &&
+                                          item.profilePic.startsWith("http") ? (
+                                            <img
+                                              src={item.profilePic}
+                                              className="w-8 h-8 rounded-full"
+                                              alt="profile"
+                                            />
+                                          ) : (
+                                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                              {typeof item?.profilePic ===
+                                              "string"
+                                                ? item.profilePic
+                                                : "NA"}
+                                            </div>
+                                          )}
+                                        </td>
+                                      );
 
-                                case "Tenant Name":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div
-                                        className="relative group w-[100px] "
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleNavigateTenantProfile(
-                                            item?.apiCall,
-                                          );
-                                        }}
-                                      >
-                                        <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
-                                          {item.tenantName}
-                                        </span>
+                                    case "Tenant Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div
+                                            className="relative group w-[100px] "
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleNavigateTenantProfile(
+                                                item?.apiCall,
+                                              );
+                                            }}
+                                          >
+                                            <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
+                                              {item.tenantName}
+                                            </span>
 
-                                        <div
-                                          className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                            <div
+                                              className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
+                                            >
+                                              {item?.tenantName}
+                                            </div>
+                                          </div>
+                                        </td>
+                                      );
+
+                                    case "Inv No":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
                                         >
-                                          {item?.tenantName}
-                                        </div>
-                                      </div>
-                                    </td>
-                                  );
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
+                                              {item.invNo}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
 
-                                case "Inv No":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div className="relative group w-[100px] ">
-                                        <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
-                                          {item.invNo}
-                                        </span>
-                                      </div>
-                                    </td>
-                                  );
+                                    case "Booking Date":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#111928] ">
+                                              {item.bookingDate}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
 
-                                case "Booking Date":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div className="relative group w-[100px] ">
-                                        <span className="block w-full truncate text-sm text-[#111928] ">
-                                          {item.bookingDate}
-                                        </span>
-                                      </div>
-                                    </td>
-                                  );
+                                    case "Joining Date":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#111928] ">
+                                              {item.joiningDate}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
 
-                                case "Joining Date":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div className="relative group w-[100px] ">
-                                        <span className="block w-full truncate text-sm text-[#111928] ">
-                                          {item.joiningDate}
-                                        </span>
-                                      </div>
-                                    </td>
-                                  );
+                                    case "Mobile No":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          {item.mobile}
+                                        </td>
+                                      );
 
-                                case "Mobile No":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {item.mobile}
-                                    </td>
-                                  );
+                                    case "Floor Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          {item.floorName}
+                                        </td>
+                                      );
 
-                                case "Floor Name":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {item.floorName}
-                                    </td>
-                                  );
+                                    case "Room Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.roomName}
+                                        </td>
+                                      );
 
-                                case "Room Name":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {item.roomName}
-                                    </td>
-                                  );
+                                    case "Bed Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.bedName}
+                                        </td>
+                                      );
+                                    case "Amount":
+                                      return (
+                                        <td
+                                          key={col.fieldName}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.amount}
+                                        </td>
+                                      );
 
-                                case "Bed Name":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {item.bedName}
-                                    </td>
-                                  );
-                                case "Amount":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {item.amount}
-                                    </td>
-                                  );
-
-                                default:
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {typeof item[
-                                        headerKeyMap[col.fieldName]
-                                      ] === "object"
-                                        ? "-"
-                                        : (item[headerKeyMap[col.fieldName]] ??
-                                          "-")}
-                                    </td>
-                                  );
-                              }
-                            })}
-                            <td
-                              className={`${
-                                isScrolling ? "!bg-white" : "bg-white"
-                              } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
-                            >
-                              <span
-                                className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                style={{
-                                  backgroundColor:
-                                    statusStyles[item.status]?.bg || "#EFFFF2",
-                                }}
-                              >
-                                <span
-                                  className="h-2 w-2 rounded-full"
-                                  style={{
-                                    backgroundColor:
-                                      statusStyles[item.status]?.text ||
-                                      "#038C3D",
-                                  }}
-                                ></span>
-
-                                {item.status}
-                              </span>
-                            </td>
-                            <td
-                              className={`${
-                                isScrolling ? "!bg-white" : "bg-white"
-                              } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                            >
-                              <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
-                                <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleShowDots(e, index);
-                                  }}
-                                />
-                                {showDots === index && (
-                                  <div
-                                    ref={popupRef}
-                                    className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                    default:
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          {typeof item[
+                                            headerKeyMap[col.fieldName]
+                                          ] === "object"
+                                            ? "-"
+                                            : (item[
+                                                headerKeyMap[col.fieldName]
+                                              ] ?? "-")}
+                                        </td>
+                                      );
+                                  }
+                                })}
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                                >
+                                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]">
+                                    {item.availableAmount}
+                                  </span>
+                                </td>
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                                >
+                                  <span
+                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
                                     style={{
-                                      top: showAbove
-                                        ? popupPosition.top -
-                                          (popupRef.current?.offsetHeight ||
-                                            120) -
-                                          10
-                                        : popupPosition.top + 5,
-                                      left: popupPosition.left - 40,
-                                      position: "fixed",
-                                      zIndex: 1000,
+                                      backgroundColor:
+                                        statusStyles[item.status]?.bg ||
+                                        "#EFFFF2",
                                     }}
                                   >
-                                    <button
-                                      disabled={
-                                        !canUpdateInvoice ||
-                                        !item.apiCall?.canApply
-                                      }
+                                    <span
+                                      className="h-2 w-2 rounded-full"
+                                      style={{
+                                        backgroundColor:
+                                          statusStyles[item.status]?.text ||
+                                          "#038C3D",
+                                      }}
+                                    ></span>
+
+                                    {item.status}
+                                  </span>
+                                </td>
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                >
+                                  <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
+                                    <PiDotsThreeOutlineVerticalFill
+                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        handleApplyInvoices(item?.apiCall);
+                                        handleShowDots(e, index);
                                       }}
-                                      className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                                    />
+                                    {showDots === index && (
+                                      <div
+                                        ref={popupRef}
+                                        className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                120) -
+                                              10
+                                            : popupPosition.top + 5,
+                                          left: popupPosition.left - 40,
+                                          position: "fixed",
+                                          zIndex: 1000,
+                                        }}
+                                      >
+                                        <button
+                                          disabled={
+                                            !canUpdateInvoice ||
+                                            !item.apiCall?.canApply
+                                          }
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleApplyInvoices(item?.apiCall);
+                                          }}
+                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
       ${
         !canUpdateInvoice || !item.apiCall?.canApply
           ? "cursor-not-allowed opacity-50 bg-gray-100"
           : "cursor-pointer hover:bg-[#EDF2FF]"
       }`}
-                                    >
-                                      <Link21
-                                        color={
-                                          !canUpdateInvoice ||
-                                          !item.apiCall?.canApply
-                                            ? "#A9A9A9"
-                                            : "#1E45E1"
-                                        }
-                                        size="16"
-                                      />
+                                        >
+                                          <Link21
+                                            color={
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                                ? "#A9A9A9"
+                                                : "#1E45E1"
+                                            }
+                                            size="16"
+                                          />
 
-                                      <span
-                                        className={`text-sm font-medium ${
-                                          !canUpdateInvoice ||
-                                          !item.apiCall?.canApply
-                                            ? "text-[#A9A9A9]"
-                                            : "text-[#222222]"
-                                        }`}
-                                      >
-                                        Apply Invoices
-                                      </span>
-                                    </button>
+                                          <span
+                                            className={`text-sm font-medium ${
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
+                                            }`}
+                                          >
+                                            Apply Invoices
+                                          </span>
+                                        </button>
+                                      </div>
+                                    )}
                                   </div>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={12}
-                            className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
-                          >
-                            No Data Found
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                  {open && (
-                    <>
-                      <div
-                        className="fixed inset-0 bg-black/20 z-50 "
-                        onClick={() => setOpen(false)}
-                      />
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={12}
+                                className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
+                              >
+                                No Data Found
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                      {open && (
+                        <>
+                          <div
+                            className="fixed inset-0 bg-black/20 z-50 "
+                            onClick={() => setOpen(false)}
+                          />
 
-                      <div
-                        className={`
+                          <div
+                            className={`
                             fixed top-[180px] right-10 h-fit w-[350px]
                             bg-white z-50
                             border-r border-[#E5E7EB]
@@ -1246,121 +1299,174 @@ function Booking() {
                             transform transition-transform duration-300 ease-in-out
                             ${open ? "translate-x-0" : "-translate-x-full"}
                           `}
-                      >
-                        <div className="relative">
-                          {customizeLoading && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                              <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-                            </div>
-                          )}
-                          <div className="p-3 border-b ">
-                            <div className="flex items-center gap-2 justify-between mb-2">
-                              <div className="text-[16px] text-[#333333] font-semibold ">
-                                Customize Tabs{" "}
-                              </div>
-                              <div
-                                onClick={() => {
-                                  setCustomizeItems((prev) =>
-                                    prev.map((i) => ({
-                                      ...i,
-                                      selected: !allSelected,
-                                    })),
-                                  );
-
-                                  setError("");
-                                }}
-                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                              >
-                                {" "}
-                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                <span>
-                                  {allSelected ? "Unselect all" : "Select all"}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                              <SearchNormal1 size={16} color="#98A2B3" />
-                              <input
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                                placeholder="Search"
-                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                              />
-                            </div>
-                          </div>
-
-                          <DndContext
-                            collisionDetection={closestCenter}
-                            onDragEnd={(event) => {
-                              const { active, over } = event;
-                              if (!over) return;
-                              if (active.id !== over?.id) {
-                                const oldIndex = customizeItems.findIndex(
-                                  (i) => i.key === active.id,
-                                );
-                                const newIndex = customizeItems.findIndex(
-                                  (i) => i.key === over.id,
-                                );
-
-                                setCustomizeItems(
-                                  arrayMove(customizeItems, oldIndex, newIndex),
-                                );
-                              }
-                            }}
                           >
-                            <SortableContext
-                              items={customizeItems.map((i) => i.key)}
-                              strategy={verticalListSortingStrategy}
-                            >
-                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                {filteredCustomizeItems.length === 0 ? (
-                                  <div className="text-sm text-gray-400 text-center py-3">
-                                    No results found
+                            <div className="relative">
+                              {customizeLoading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                                  <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
+                                </div>
+                              )}
+                              <div className="p-3 border-b ">
+                                <div className="flex items-center gap-2 justify-between mb-2">
+                                  <div className="text-[16px] text-[#333333] font-semibold ">
+                                    Customize Tabs{" "}
                                   </div>
-                                ) : (
-                                  filteredCustomizeItems.map((item) => (
-                                    <SortableItem key={item.key} item={item} />
-                                  ))
-                                )}
-                              </div>
-                            </SortableContext>
-                          </DndContext>
-                        </div>
-                        {error && (
-                          <div className="flex justify-center my-2">
-                            <ErrorMessage message={error} type="warning" />
-                          </div>
-                        )}
+                                  <div
+                                    onClick={() => {
+                                      setCustomizeItems((prev) =>
+                                        prev.map((i) => ({
+                                          ...i,
+                                          selected: !allSelected,
+                                        })),
+                                      );
 
-                        <div className="p-3 border-t flex gap-2">
-                          <button
-                            onClick={handleResetCustomize}
-                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
-                          >
-                            Reset
-                          </button>
-                          <button
-                            onClick={handleSave}
-                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
-                          >
-                            Save
-                          </button>
-                        </div>
+                                      setError("");
+                                    }}
+                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                  >
+                                    {" "}
+                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                    <span>
+                                      {allSelected
+                                        ? "Unselect all"
+                                        : "Select all"}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                  <SearchNormal1 size={16} color="#98A2B3" />
+                                  <input
+                                    value={searchText}
+                                    onChange={(e) =>
+                                      setSearchText(e.target.value)
+                                    }
+                                    placeholder="Search"
+                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                  />
+                                </div>
+                              </div>
+
+                              <DndContext
+                                collisionDetection={closestCenter}
+                                onDragEnd={(event) => {
+                                  const { active, over } = event;
+                                  if (!over) return;
+                                  if (active.id !== over?.id) {
+                                    const oldIndex = customizeItems.findIndex(
+                                      (i) => i.key === active.id,
+                                    );
+                                    const newIndex = customizeItems.findIndex(
+                                      (i) => i.key === over.id,
+                                    );
+
+                                    setCustomizeItems(
+                                      arrayMove(
+                                        customizeItems,
+                                        oldIndex,
+                                        newIndex,
+                                      ),
+                                    );
+                                  }
+                                }}
+                              >
+                                <SortableContext
+                                  items={customizeItems.map((i) => i.key)}
+                                  strategy={verticalListSortingStrategy}
+                                >
+                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                    {filteredCustomizeItems.length === 0 ? (
+                                      <div className="text-sm text-gray-400 text-center py-3">
+                                        No results found
+                                      </div>
+                                    ) : (
+                                      filteredCustomizeItems.map((item) => (
+                                        <SortableItem
+                                          key={item.key}
+                                          item={item}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                                </SortableContext>
+                              </DndContext>
+                            </div>
+                            {error && (
+                              <div className="flex justify-center my-2">
+                                <ErrorMessage message={error} type="warning" />
+                              </div>
+                            )}
+
+                            <div className="p-3 border-t flex gap-2">
+                              <button
+                                onClick={handleResetCustomize}
+                                className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                              >
+                                Reset
+                              </button>
+                              <button
+                                onClick={handleSave}
+                                className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full my-2 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <div>
+                        {isSearching ? (
+                          <img src={DataSearch} alt="img" />
+                        ) : (
+                          <img src={NoData} alt="img" />
+                        )}
                       </div>
-                    </>
-                  )}
+
+                      <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
+                        {isSearching
+                          ? "No Search Results Found"
+                          : "No Data Found !"}
+                      </h3>
+
+                      <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
+                        {isSearching
+                          ? "Your Search didn’t match any projects"
+                          : "No Tenants found yet"}
+                      </p>
+
+                      <div className="flex">
+                        {isSearching && (
+                          <button
+                            onClick={() => {
+                              setFilterInput("");
+                              setChips([]);
+                            }}
+                            className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
+                        !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7]"
+                          >
+                            Clear Search
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {showBookingPdf && (
+                <div className="col-span-8 border-l border-gray-300">
+                  <BookingInvoice />
                 </div>
-              </div>
+              )}
             </div>
-            {showBookingPdf && (
-              <div className="col-span-8 border-l border-gray-300">
-                <BookingInvoice />
-              </div>
-            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
+
       {loading && (
         <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
           <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>

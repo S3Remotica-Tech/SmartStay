@@ -12,6 +12,7 @@ import { useHasPermission } from "../../../Utils/Permission";
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
+import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 function SettingsElectricityNew() {
   const dispatch = useDispatch();
@@ -90,14 +91,9 @@ function SettingsElectricityNew() {
       </div>
       <div className="flex-1 overflow-hidden px-4 py-3">
         {!canReadElectricity ? (
-          <div className="flex flex-col items-center justify-center h-full text-center mt-24">
-            <img src={Emptystate} alt="Empty State" />
-
-            <ErrorMessage
-              message={["You do not have access to view Electricity"]}
-              type="warning"
-            />
-          </div>
+          <>
+            <PermissionDeniedMessage />
+          </>
         ) : (
           <div className="space-y-6">
             <div className="flex items-start md:items-center justify-between gap-2 flex-col md:flex-row bg-white rounded-md  p-4 md:p-3 shadow-sm">

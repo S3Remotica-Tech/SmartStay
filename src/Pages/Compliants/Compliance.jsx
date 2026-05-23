@@ -31,6 +31,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 const Compliance = () => {
   const state = useSelector((state) => state);
@@ -996,18 +997,7 @@ const Compliance = () => {
 
         {!canReadComplaints ? (
           <>
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <img
-                src={Emptystate}
-                alt="Empty State"
-                className="h-[240px] w-[240px]"
-              />
-
-              <ErrorMessage
-                message={["You do not have access to view Compliants"]}
-                type="warning"
-              />
-            </div>
+            <PermissionDeniedMessage />
           </>
         ) : (
           <div
@@ -1027,7 +1017,7 @@ const Compliance = () => {
               ))}
 
             {!loading && filteredUsers.length === 0 && (
-              <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in h-[85vh]">
+              <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in h-[70vh]">
                 <div className="flex flex-col items-center justify-center text-center">
                   <img src={Emptystate} alt="emptystate" />
 

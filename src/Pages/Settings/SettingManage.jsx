@@ -29,6 +29,7 @@ import ParticularHostelDetails from "../PayingGuestFile/ParticularHostelDetails"
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingManage() {
   const dispatch = useDispatch();
@@ -600,13 +601,7 @@ function SettingManage() {
 
           {!canReadPayingGuests ? (
             <>
-              <div className="flex flex-col items-center justify-center mt-24">
-                <img src={EmptyState} alt="Empty State" className="mt-2" />
-                <ErrorMessage
-                  message={["You do not have access to view paying guest"]}
-                  type="warning"
-                />
-              </div>
+              <PermissionDeniedMessage />
             </>
           ) : (
             // <div className="mt-4 h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">

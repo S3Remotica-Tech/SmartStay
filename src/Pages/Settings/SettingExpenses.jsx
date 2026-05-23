@@ -18,6 +18,7 @@ import AddSubCategory from "../Settings/AddSubCategory";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingExpenses() {
   const state = useSelector((state) => state);
@@ -337,23 +338,10 @@ function SettingExpenses() {
       </div>
 
       {!canReadExpense ? (
-        <div className="flex flex-col items-center justify-center mt-24">
-          <img src={Emptystate} alt="Empty State" />
-
-          <ErrorMessage
-            message={["You do not have access to view Expense Category"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
-        //         <div
-        //           className={`mt-2 px-3 py-4 rounded-lg show-scrolls relative
-        //   ${expensesFilterddata.length === 0
-        //               ? "bg-[#FFFFFF] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
-        //               : "bg-[#F9FAFB] h-[530px] lg:h-[530px] xl:h-[530px] 2xl:h-[810px] 3xl:h-[810px]"
-        //             }
-        // `}
-        //         >
         <div
           className={`mt-2 px-3 py-4 rounded-lg relative h-[calc(100vh-85px)]
     ${

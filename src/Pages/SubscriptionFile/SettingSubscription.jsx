@@ -36,6 +36,7 @@ import PremiumPlan from "./PremiumPlan";
 import ComingSoon from "../../Utils/ComingSoon";
 import { Connect } from "../../WebService/SocketConfig";
 import AllPlans from "./AllPlans";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -225,13 +226,9 @@ function SettingSubscription() {
         </div>
 
         {!canReadSubscription ? (
-          <div className="flex flex-col items-center justify-center mt-20">
-            <img src={Emptystate} alt="Empty State" />
-            <ErrorMessage
-              message={["You do not have access to view Subscription"]}
-              type="warning"
-            />
-          </div>
+          <>
+            <PermissionDeniedMessage />
+          </>
         ) : (
           <div>
             <div className="container mt-2 p-0 mb-1 h-[510px] lg:h-[510px] xl:h-[510px] 2xl:h-[780px] show-scrolls overflow-y-auto font-gilroy overflow-visible">

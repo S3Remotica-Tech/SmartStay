@@ -52,6 +52,9 @@ import {
 } from "@dnd-kit/sortable";
 import Cell from "../../Assets/Images/New_images/Cell.svg";
 import listview from "../../Assets/Images/New_images/listview-rectangle.svg";
+import NoData from "../../Assets/v2Images/NoData.svg";
+import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -94,6 +97,8 @@ const InvoicePage = () => {
   const [search, setSearch] = useState(false);
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([]);
+
+  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
   const [originalBills, setOriginalBills] = useState([]);
   const [open, setOpen] = useState(false);
@@ -1370,359 +1375,368 @@ const InvoicePage = () => {
                   onClick={handleManualShow}
                   className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
                 >
-                  {DownloadInvoice ? "+ " : "+ Create Bill"}
+                  {DownloadInvoice ? "+ " : "+ Create Invoice"}
                 </Button>
               </div>
             </div>
           </div>
-          <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 font-gilroy">
-            {stats.map((item, index) => (
-              <div key={index} className="flex items-center gap-3">
-                {item.highlight && (
-                  <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
-                    {item.icon && (
-                      <ArrowDown
-                        color="#FF9500"
-                        size="18"
-                        className="rotate-[310deg]"
-                      />
+          {!canReadInvoice ? (
+            <PermissionDeniedMessage />
+          ) : (
+            <>
+              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 font-gilroy">
+                {stats.map((item, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    {item.highlight && (
+                      <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                        {item.icon && (
+                          <ArrowDown
+                            color="#FF9500"
+                            size="18"
+                            className="rotate-[310deg]"
+                          />
+                        )}
+                      </div>
                     )}
-                  </div>
-                )}
 
-                <div>
-                  <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
-                    {item.label}
+                    <div>
+                      <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
+                        {item.label}
 
-                    <div className="relative group w-fit">
-                      {item.label !== "Notice Period" && (
-                        <Filter
-                          size="14"
-                          color="#9CA3AF"
-                          className="cursor-pointer"
-                        />
-                      )}
+                        <div className="relative group w-fit">
+                          {item.label !== "Notice Period" && (
+                            <Filter
+                              size="14"
+                              color="#9CA3AF"
+                              className="cursor-pointer"
+                            />
+                          )}
 
-                      <div
-                        className="absolute left-1/2 -translate-x-1/2 mt-2 
+                          <div
+                            className="absolute left-1/2 -translate-x-1/2 mt-2 
               hidden group-hover:flex
               px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
               items-center gap-1 whitespace-nowrap z-50"
-                      >
-                        <Filter size="14" color="#fff" />
-                        Click to Filter
+                          >
+                            <Filter size="14" color="#fff" />
+                            Click to Filter
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-lg font-semibold text-[#111827]">
+                        {item.value}
                       </div>
                     </div>
                   </div>
-
-                  <div className="text-lg font-semibold text-[#111827]">
-                    {item.value}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="border border-gray-300 rounded-lg w-36 z-50">
-                <Select
-                  options={selectOptions}
-                  styles={CustomStyles}
-                  disabled={!canReadInvoice}
-                  onChange={(e) => handleStatusFilter(e)}
-                  value={selectOptions.find(
-                    (opt) => opt.value === statusfilter,
-                  )}
-                  id="statusselect"
-                  menuPlacement="auto"
-                  classNamePrefix="custom"
-                />
+                ))}
               </div>
 
-              <div className="flex items-center gap-3 z-50">
-                <Select
-                  isDisabled
-                  options={monthOptions}
-                  value={selectedMonth}
-                  onChange={handleMonthChange}
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No options"}
-                  styles={CustomStyles}
-                />
-              </div>
-
-              <div
-                className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                onClick={() => canReadInvoice && handleShowFilterBills()}
-              >
-                <Filter
-                  size={18}
-                  className={`transition-opacity duration-300 ${
-                    canReadInvoice
-                      ? "cursor-pointer opacity-100 pointer-events-auto"
-                      : "cursor-not-allowed opacity-40 pointer-events-none"
-                  }`}
-                />
-              </div>
-            </div>
-
-            <div className={` flex items-center justify-end gap-2 mr-2 `}>
-              <div className="relative">
-                <button
-                  disabled
-                  className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
-                >
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsOpen(!isOpen);
-                    }}
-                    className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-gray-100 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {(() => {
-                      const SelectedIcon = ListOptions.find(
-                        (item) => item.key === view,
-                      )?.img;
-                      return SelectedIcon ? (
-                        <SelectedIcon size="18" color="#4B4B4B" />
-                      ) : null;
-                    })()}
-
-                    <span className="text-sm text-gray-700">{view}</span>
-
-                    <ArrowDown2
-                      size="16"
-                      color="#4B4B4B"
-                      className={`transition-transform duration-200 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
+              <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="border border-gray-300 rounded-lg w-36 z-50">
+                    <Select
+                      options={selectOptions}
+                      styles={CustomStyles}
+                      disabled={!canReadInvoice}
+                      onChange={(e) => handleStatusFilter(e)}
+                      value={selectOptions.find(
+                        (opt) => opt.value === statusfilter,
+                      )}
+                      id="statusselect"
+                      menuPlacement="auto"
+                      classNamePrefix="custom"
                     />
                   </div>
 
-                  {isOpen && (
-                    <div
-                      ref={listRef}
-                      className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
-                    >
-                      {ListOptions.map((item) => {
-                        const Icon = item.img;
+                  <div className="flex items-center gap-3 z-50">
+                    <Select
+                      isDisabled
+                      options={monthOptions}
+                      value={selectedMonth}
+                      onChange={handleMonthChange}
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No options"}
+                      styles={CustomStyles}
+                    />
+                  </div>
 
-                        return (
-                          <div
-                            key={item.key}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setView(item.key);
-                              setIsOpen(false);
-                            }}
-                            className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
-                              view === item.key
-                                ? "bg-[#F7FAFF] font-medium "
-                                : ""
-                            }`}
-                          >
+                  <div
+                    className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                    onClick={() => canReadInvoice && handleShowFilterBills()}
+                  >
+                    <Filter
+                      size={18}
+                      className={`transition-opacity duration-300 ${
+                        canReadInvoice
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className={` flex items-center justify-end gap-2 mr-2 `}>
+                  <div className="relative">
+                    <button
+                      disabled
+                      className="relative disabled:opacity-50 disabled:cursor-not-allowed  "
+                    >
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsOpen(!isOpen);
+                        }}
+                        className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 bg-gray-100 w-fit disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {(() => {
+                          const SelectedIcon = ListOptions.find(
+                            (item) => item.key === view,
+                          )?.img;
+                          return SelectedIcon ? (
+                            <SelectedIcon size="18" color="#4B4B4B" />
+                          ) : null;
+                        })()}
+
+                        <span className="text-sm text-gray-700">{view}</span>
+
+                        <ArrowDown2
+                          size="16"
+                          color="#4B4B4B"
+                          className={`transition-transform duration-200 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </div>
+
+                      {isOpen && (
+                        <div
+                          ref={listRef}
+                          className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
+                        >
+                          {ListOptions.map((item) => {
+                            const Icon = item.img;
+
+                            return (
+                              <div
+                                key={item.key}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setView(item.key);
+                                  setIsOpen(false);
+                                }}
+                                className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
+                                  view === item.key
+                                    ? "bg-[#F7FAFF] font-medium "
+                                    : ""
+                                }`}
+                              >
+                                <div
+                                  className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                                    view === item.key
+                                      ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                      : ""
+                                  }`}
+                                >
+                                  <Icon size="16" color="#4B4B4B" />
+                                  {item.label}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </button>
+
+                    {isOpen && (
+                      <div
+                        ref={listRef}
+                        className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
+                      >
+                        {ListOptions.map((item) => {
+                          const Icon = item.img;
+
+                          return (
                             <div
-                              className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                              key={item.key}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setView(item.key);
+                                setIsOpen(false);
+                              }}
+                              className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
                                 view === item.key
-                                  ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                  ? "bg-[#F7FAFF] font-medium "
                                   : ""
                               }`}
                             >
-                              <Icon size="16" color="#4B4B4B" />
-                              {item.label}
+                              <div
+                                className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
+                                  view === item.key
+                                    ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                    : ""
+                                }`}
+                              >
+                                <Icon size="16" color="#4B4B4B" />
+                                {item.label}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <Setting3
+                      // onClick={() => setOpen(!open)}
+                      className="cursor-not-allowed"
+                      size="22"
+                      color="#4B4B4B"
+                    />
+                  </div>
 
-                {isOpen && (
-                  <div
-                    ref={listRef}
-                    className="absolute mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-md z-[9999]"
-                  >
-                    {ListOptions.map((item) => {
-                      const Icon = item.img;
-
-                      return (
-                        <div
-                          key={item.key}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setView(item.key);
-                            setIsOpen(false);
-                          }}
-                          className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
-                            view === item.key ? "bg-[#F7FAFF] font-medium " : ""
-                          }`}
+                  <div className="mr-2">
+                    <PaginationList
+                      totalItems={sortedData.length}
+                      itemsPerPage={pageSize}
+                      currentPage={page}
+                      onPageChange={(p) => setPage(p)}
+                      onPageSizeChange={(size) => setPageSize(size)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`overflow-x-hidden ${chips.length > 0 ? "overflow-y-auto h-[32rem]" : "overflow-y-hidden h-auto"}`}
+              >
+                {chips.length > 0 && (
+                  <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="flex flex-wrap gap-2 flex-1">
+                      {chips.map((chip) => (
+                        <span
+                          key={chip.key}
+                          className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
                         >
-                          <div
-                            className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
-                              view === item.key
-                                ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
-                                : ""
-                            }`}
-                          >
-                            <Icon size="16" color="#4B4B4B" />
-                            {item.label}
-                          </div>
-                        </div>
-                      );
-                    })}
+                          {chip.label} :
+                          <span className="text-gray-900">{chip.value}</span>
+                        </span>
+                      ))}
+                    </div>
+                    <span
+                      className="text-blue-600 text-sm font-medium cursor-pointer"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </span>
                   </div>
                 )}
-              </div>
-              <div>
-                <Setting3
-                  // onClick={() => setOpen(!open)}
-                  className="cursor-not-allowed"
-                  size="22"
-                  color="#4B4B4B"
-                />
-              </div>
 
-              <div className="mr-2">
-                <PaginationList
-                  totalItems={sortedData.length}
-                  itemsPerPage={pageSize}
-                  currentPage={page}
-                  onPageChange={(p) => setPage(p)}
-                  onPageSizeChange={(size) => setPageSize(size)}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            className={`overflow-x-hidden ${chips.length > 0 ? "overflow-y-auto h-[32rem]" : "overflow-y-hidden h-auto"}`}
-          >
-            {chips.length > 0 && (
-              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
-                <div className="flex flex-wrap gap-2 flex-1">
-                  {chips.map((chip) => (
-                    <span
-                      key={chip.key}
-                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
-                    >
-                      {chip.label} :
-                      <span className="text-gray-900">{chip.value}</span>
-                    </span>
-                  ))}
-                </div>
-                <span
-                  className="text-blue-600 text-sm font-medium cursor-pointer"
-                  onClick={handleReset}
-                >
-                  Reset
-                </span>
-              </div>
-            )}
+                <div className="relative">
+                  {sortedData && sortedData.length > 0 ? (
+                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div
+                        id="tableContainer"
+                        ref={tableContainerRef}
+                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                      >
+                        <table className=" w-full font-gilroy">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                            <tr className="h-9">
+                              <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
+                                <div className="flex items-center gap-2">
+                                  <input
+                                    type="checkbox"
+                                    className="rounded cursor-pointer"
+                                    checked={
+                                      selectedRows.length ===
+                                        paginatedData.length &&
+                                      paginatedData.length > 0
+                                    }
+                                    onChange={handleSelectAll}
+                                  />
+                                </div>
+                              </th>
+                              <th className="w-[230px] px-2 whitespace-nowrap ">
+                                Invoice No
+                              </th>
+                              <th className="w-[250px] px-2">Name</th>
 
-            {!canReadInvoice ? (
-              <div className="flex flex-col items-center justify-center mt-24">
-                <img src={Emptystate} alt="Empty State" />
-                <ErrorMessage
-                  message={["You do not have access to view Invoice"]}
-                  type="warning"
-                />
-              </div>
-            ) : (
-              <div className="relative">
-                {sortedData && sortedData.length > 0 ? (
-                  <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                    <div
-                      id="tableContainer"
-                      ref={tableContainerRef}
-                      className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
-                    >
-                      <table className=" w-full font-gilroy">
-                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                          <tr className="h-9">
-                            <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
-                              <div className="flex items-center gap-2">
-                                <input
-                                  type="checkbox"
-                                  className="rounded cursor-pointer"
-                                  checked={
-                                    selectedRows.length ===
-                                      paginatedData.length &&
-                                    paginatedData.length > 0
-                                  }
-                                  onChange={handleSelectAll}
-                                />
-                              </div>
-                            </th>
-                            <th className="w-[230px] px-2 whitespace-nowrap ">
-                              Invoice No
-                            </th>
-                            <th className="w-[250px] px-2">Name</th>
+                              <th className="w-[230px] px-2">
+                                <div className="flex items-center gap-1">
+                                  TYPE
+                                  <ArrowSwapVertical
+                                    size="14"
+                                    color="#000000"
+                                  />
+                                </div>
+                              </th>
 
-                            <th className="w-[230px] px-2">
-                              <div className="flex items-center gap-1">
-                                TYPE
-                                <ArrowSwapVertical size="14" color="#000000" />
-                              </div>
-                            </th>
+                              <th className="w-[230px] px-2 whitespace-nowrap">
+                                INVOICE DATE
+                              </th>
 
-                            <th className="w-[230px] px-2 whitespace-nowrap">
-                              INVOICE DATE
-                            </th>
+                              <th className="w-[230px] px-2 whitespace-nowrap">
+                                <div className="flex items-center gap-1">
+                                  DUE DATE
+                                  <ArrowSwapVertical
+                                    size="14"
+                                    color="#000000"
+                                  />
+                                </div>
+                              </th>
 
-                            <th className="w-[230px] px-2 whitespace-nowrap">
-                              <div className="flex items-center gap-1">
-                                DUE DATE
-                                <ArrowSwapVertical size="14" color="#000000" />
-                              </div>
-                            </th>
+                              <th className="w-[230px] px-2">
+                                <div className="flex items-center gap-1">
+                                  AMOUNT
+                                  <ArrowSwapVertical
+                                    size="14"
+                                    color="#000000"
+                                  />
+                                </div>
+                              </th>
 
-                            <th className="w-[230px] px-2">
-                              <div className="flex items-center gap-1">
-                                AMOUNT
-                                <ArrowSwapVertical size="14" color="#000000" />
-                              </div>
-                            </th>
-
-                            <th className="w-[230px] px-2">
-                              <div className="flex items-center gap-1">
-                                DUE
-                                <ArrowSwapVertical size="14" color="#000000" />
-                              </div>
-                            </th>
-                            <th className="w-[270px] px-2">Status</th>
-                            <th className="w-[230px] px-2 ">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="relative">
-                          {paginatedData.map((item, index) => (
-                            <InvoiceTable
-                              // key={item.id}
-                              isScrolling={isScrolling}
-                              key={item.invoiceId}
-                              item={item}
-                              index={index}
-                              selectedRows={selectedRows}
-                              handleRowSelect={handleRowSelect}
-                              OnHandleshowform={handleShowForm}
-                              OnHandleshowEditform={handleEdit}
-                              OnHandleshowInvoicePdf={handleInvoiceDetail}
-                              OnHandleshowDeleteform={handleBillDelete}
-                              DisplayInvoice={handleDisplayInvoiceDownload}
+                              <th className="w-[230px] px-2">
+                                <div className="flex items-center gap-1">
+                                  DUE
+                                  <ArrowSwapVertical
+                                    size="14"
+                                    color="#000000"
+                                  />
+                                </div>
+                              </th>
+                              <th className="w-[270px] px-2">Status</th>
+                              <th className="w-[230px] px-2 ">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody className="relative">
+                            {paginatedData.map((item, index) => (
+                              <InvoiceTable
+                                // key={item.id}
+                                isScrolling={isScrolling}
+                                key={item.invoiceId}
+                                item={item}
+                                index={index}
+                                selectedRows={selectedRows}
+                                handleRowSelect={handleRowSelect}
+                                OnHandleshowform={handleShowForm}
+                                OnHandleshowEditform={handleEdit}
+                                OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                OnHandleshowDeleteform={handleBillDelete}
+                                DisplayInvoice={handleDisplayInvoiceDownload}
+                              />
+                            ))}
+                          </tbody>
+                        </table>
+                        {open && (
+                          <>
+                            <div
+                              className="fixed inset-0 bg-black/20 z-50 "
+                              onClick={() => setOpen(false)}
                             />
-                          ))}
-                        </tbody>
-                      </table>
-                      {open && (
-                        <>
-                          <div
-                            className="fixed inset-0 bg-black/20 z-50 "
-                            onClick={() => setOpen(false)}
-                          />
 
-                          <div
-                            className={`
+                            <div
+                              className={`
         fixed top-[180px] right-10 h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -1730,118 +1744,153 @@ const InvoicePage = () => {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-                          >
-                            <div className="p-3 border-b">
-                              <div className="flex items-center gap-2 justify-between mb-2">
-                                <div className="text-[16px] text-[#333333] font-semibold ">
-                                  Customize Tabs{" "}
-                                </div>
-                                <div
-                                  onClick={() => {
-                                    const allSelected = customizeItems.every(
-                                      (i) => i.checked,
-                                    );
-
-                                    setCustomizeItems((prev) =>
-                                      prev.map((i) => ({
-                                        ...i,
-                                        checked: !allSelected,
-                                      })),
-                                    );
-                                  }}
-                                  className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                                >
-                                  {" "}
-                                  <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                  <span>
-                                    {allSelected
-                                      ? "Unselect all"
-                                      : "Select all"}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                                <SearchNormal1 size={16} color="#98A2B3" />
-                                <input
-                                  placeholder="Search"
-                                  className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                                />
-                              </div>
-                            </div>
-
-                            <DndContext
-                              collisionDetection={closestCenter}
-                              onDragEnd={(event) => {
-                                const { active, over } = event;
-
-                                if (active.id !== over?.id) {
-                                  const oldIndex = customizeItems.findIndex(
-                                    (i) => i.key === active.id,
-                                  );
-                                  const newIndex = customizeItems.findIndex(
-                                    (i) => i.key === over.id,
-                                  );
-
-                                  setCustomizeItems(
-                                    arrayMove(
-                                      customizeItems,
-                                      oldIndex,
-                                      newIndex,
-                                    ),
-                                  );
-                                }
-                              }}
                             >
-                              <SortableContext
-                                items={customizeItems.map((i) => i.key)}
-                                strategy={verticalListSortingStrategy}
-                              >
-                                <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                  {customizeItems?.map((item) => (
-                                    <SortableItem key={item.key} item={item} />
-                                  ))}
-                                </div>
-                              </SortableContext>
-                            </DndContext>
+                              <div className="p-3 border-b">
+                                <div className="flex items-center gap-2 justify-between mb-2">
+                                  <div className="text-[16px] text-[#333333] font-semibold ">
+                                    Customize Tabs{" "}
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      const allSelected = customizeItems.every(
+                                        (i) => i.checked,
+                                      );
 
-                            <div className="p-3 border-t flex justify-end gap-2">
-                              <button className="px-4 py-2 text-sm border rounded-lg text-[#344054]">
-                                Cancel
-                              </button>
-                              <button className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
-                                Save
-                              </button>
+                                      setCustomizeItems((prev) =>
+                                        prev.map((i) => ({
+                                          ...i,
+                                          checked: !allSelected,
+                                        })),
+                                      );
+                                    }}
+                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                  >
+                                    {" "}
+                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                    <span>
+                                      {allSelected
+                                        ? "Unselect all"
+                                        : "Select all"}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                  <SearchNormal1 size={16} color="#98A2B3" />
+                                  <input
+                                    placeholder="Search"
+                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                  />
+                                </div>
+                              </div>
+
+                              <DndContext
+                                collisionDetection={closestCenter}
+                                onDragEnd={(event) => {
+                                  const { active, over } = event;
+
+                                  if (active.id !== over?.id) {
+                                    const oldIndex = customizeItems.findIndex(
+                                      (i) => i.key === active.id,
+                                    );
+                                    const newIndex = customizeItems.findIndex(
+                                      (i) => i.key === over.id,
+                                    );
+
+                                    setCustomizeItems(
+                                      arrayMove(
+                                        customizeItems,
+                                        oldIndex,
+                                        newIndex,
+                                      ),
+                                    );
+                                  }
+                                }}
+                              >
+                                <SortableContext
+                                  items={customizeItems.map((i) => i.key)}
+                                  strategy={verticalListSortingStrategy}
+                                >
+                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                    {customizeItems?.map((item) => (
+                                      <SortableItem
+                                        key={item.key}
+                                        item={item}
+                                      />
+                                    ))}
+                                  </div>
+                                </SortableContext>
+                              </DndContext>
+
+                              <div className="p-3 border-t flex justify-end gap-2">
+                                <button className="px-4 py-2 text-sm border rounded-lg text-[#344054]">
+                                  Cancel
+                                </button>
+                                <button className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                                  Save
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  !loading &&
-                  sortedData &&
-                  sortedData.length === 0 && (
-                    <div className="mt-[68px] 2xl:mt-52 flex justify-center animated-text">
-                      <div className="text-center">
-                        <img
-                          src={Emptystate}
-                          alt="emptystate"
-                          className="mx-auto"
-                        />
-                        <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                          No bills available
-                        </div>
-                        <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                          There are no bills added
-                        </div>
+                          </>
+                        )}
                       </div>
                     </div>
-                  )
-                )}
+                  ) : (
+                    !loading &&
+                    sortedData &&
+                    sortedData.length === 0 && (
+                      <div className="w-full my-2 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
+                        <div className="flex flex-col items-center justify-center text-center">
+                          <div>
+                            {isSearching ? (
+                              <img src={DataSearch} alt="img" />
+                            ) : (
+                              <img src={NoData} alt="img" />
+                            )}
+                          </div>
+
+                          <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
+                            {isSearching
+                              ? "No Search Results Found"
+                              : "No Data Found !"}
+                          </h3>
+
+                          <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
+                            {isSearching
+                              ? "Your Search didn’t match any projects"
+                              : "No invoices were still generated Yet"}
+                          </p>
+
+                          <div className="flex">
+                            {isSearching && (
+                              <button
+                                onClick={() => {
+                                  setFilterInput("");
+                                  setChips([]);
+                                }}
+                                className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
+              !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7]"
+                              >
+                                Clear Search
+                              </button>
+                            )}
+
+                            <button
+                              disabled={!canWriteInvoice}
+                              onClick={handleManualShow}
+                              className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
+                            >
+                              + Create Invoice
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       )}
 

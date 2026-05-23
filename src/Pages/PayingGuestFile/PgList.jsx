@@ -31,7 +31,7 @@ import { triggerPG } from "../../Redux/Action/LoginAction";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 function PgList() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -719,13 +719,7 @@ function PgList() {
             )}
 
             {!canReadPayingGuests ? (
-              <div className="flex flex-col items-center justify-center h-screen">
-                <img src={EmptyState} alt="Empty State" className="-mt-28" />
-                <ErrorMessage
-                  message={["You do not have access to view paying guest"]}
-                  type="warning"
-                />
-              </div>
+              <PermissionDeniedMessage />
             ) : floorList?.length > 0 ? (
               <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ml-2 md:ml-0">
                 <div className="sticky top-24 z-10">

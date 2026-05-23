@@ -19,6 +19,7 @@ import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function CheckOut() {
   const navigate = useNavigate();
@@ -237,13 +238,7 @@ function CheckOut() {
             )}
             {!canReadCheckout ? (
               <>
-                <div className="flex flex-col items-center justify-center mt-24">
-                  <img src={Emptystate} alt="Empty State" />
-                  <ErrorMessage
-                    message={["You do not have access to view Checkout"]}
-                    type="warning"
-                  />
-                </div>
+                <PermissionDeniedMessage />
               </>
             ) : (
               <div>

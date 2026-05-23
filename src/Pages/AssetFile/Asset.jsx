@@ -19,6 +19,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function Asset() {
   const state = useSelector((state) => state);
@@ -461,7 +462,7 @@ function Asset() {
                   placeholder="Search"
                   value={filterInput}
                   onChange={(e) => handlefilterInput(e)}
-                  disabled={canReadAssets}
+                  disabled={!canReadAssets}
                 />
 
                 <SearchNormal1
@@ -523,22 +524,11 @@ function Asset() {
 
           {!canReadAssets ? (
             <>
-              <div className="flex flex-col items-center justify-center h-screen">
-                <img
-                  src={EmptyState}
-                  alt="Empty State"
-                  className="max-w-full h-auto"
-                />
-
-                <ErrorMessage
-                  message={["You do not have access to view Asset"]}
-                  type="warning"
-                />
-              </div>
+              <PermissionDeniedMessage />
             </>
           ) : (
             <div className="relative">
-              {getData && getData?.length > 0 && (
+              {getData && getData?.length > 0 ? (
                 <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                   <div
                     id="tableContainer"
@@ -572,26 +562,29 @@ function Asset() {
                     </table>
                   </div>
                 </div>
+              ) : (
+                !loading &&
+                getData &&
+                getData.length === 0 && (
+                  <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-20">
+                    <div>
+                      <div className="flex justify-center mb-2 mt-8">
+                        <img src={EmptyState} alt="Empty state" />
+                      </div>
+
+                      <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
+                        No Assets available
+                      </div>
+
+                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
+                        There are no Assets added.
+                      </div>
+                    </div>
+
+                    <div></div>
+                  </div>
+                )
               )}
-            </div>
-          )}
-          {!loading && getData && getData.length === 0 && (
-            <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-20">
-              <div>
-                <div className="flex justify-center mb-2 mt-8">
-                  <img src={EmptyState} alt="Empty state" />
-                </div>
-
-                <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                  No Assets available
-                </div>
-
-                <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                  There are no Assets added.
-                </div>
-              </div>
-
-              <div></div>
             </div>
           )}
         </div>

@@ -97,14 +97,14 @@ export async function AddBooking(booking) {
 
 export async function GetBooking(book) {
   const params = {};
-  // if (users.name) params.name = users.name;
-  // if (users.floor) params.floor = users.floor;
-  // if (users.room) params.room = users.room;
-  // if (users.minAmount) params.minAmount = users.minAmount;
-  // if (users.maxAmount) params.maxAmount = users.maxAmount;
+  if (book.name) params.name = book.name;
+  if (book.floor) params.floor = book.floor;
+  if (book.room) params.room = book.room;
+  if (book.minAmount) params.minAmount = book.minAmount;
+  if (book.maxAmount) params.maxAmount = book.maxAmount;
   if (book.page) params.page = book.page;
   if (book.size) params.size = book.size;
-  // if (users.period) params.period = users.period;
+  if (book.period) params.period = book.period;
 
   return await AxiosConfigV2.get(`/v2/bills/advances/new/${book.hostelId}`, {
     params,
