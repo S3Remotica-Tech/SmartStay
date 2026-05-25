@@ -9,8 +9,6 @@ function NoDataMessage({
   isHeightChanged,
   isClearSearch,
 }) {
-  console.log("isSearching", isSearching);
-
   return (
     <div
       className={`w-full  ${isHeightChanged ? "min-h-[350px]" : "min-h-[500px]"}  border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center`}

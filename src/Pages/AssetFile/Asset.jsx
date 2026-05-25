@@ -568,8 +568,7 @@ function Asset() {
                 getData &&
                 getData.length === 0 && (
                   <div className="my-2">
-                    {" "}
-                    <NoDataMessage label="Asset" />{" "}
+                    <NoDataMessage label="Asset" />
                   </div>
                 )
               )}
