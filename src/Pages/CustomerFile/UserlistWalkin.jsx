@@ -22,6 +22,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
 import UserlistForm from "./UserlistForm";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function UserlistWalkin() {
   const state = useSelector((state) => state);
@@ -496,19 +497,7 @@ function UserlistWalkin() {
             </div>
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
-              <div className="animated-text flex items-center justify-center h-[55vh]">
-                <div className="text-center mt-20 2xl:mt-24">
-                  <img src={Emptystate} alt="emptystate" className="mx-auto" />
-
-                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                    No Walk-in available
-                  </div>
-
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no Walk-in added.
-                  </div>
-                </div>
-              </div>
+              <NoDataMessage label="Walk-In" />
             )}
           </div>
         </>

@@ -30,6 +30,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
 import { Setting3, SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -958,23 +959,7 @@ function Banking() {
                     <div>
                       {!loader &&
                         transactionFilterddata.length === 0 &&
-                        canReadBanking && (
-                          <div className="flex justify-center mt-[105px] 2xl:mt-60">
-                            <div>
-                              <div className="text-center mb-2">
-                                <img src={emptyimg} alt="emptystate" />
-                              </div>
-
-                              <div className="pb-1 text-center font-semibold font-gilroy text-lg text-gray-700">
-                                No Transaction
-                              </div>
-
-                              <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-700">
-                                There are no Transaction available.
-                              </div>
-                            </div>
-                          </div>
-                        )}
+                        canReadBanking && <NoDataMessage label="Transaction" />}
 
                       {loader && (
                         <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">

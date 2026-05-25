@@ -34,7 +34,6 @@ export const initialState = {
     minPaidAmount: "",
     maxPaidAmount: "",
     paymentMode: [],
-   
   },
 };
 

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from "/src/Assets/Images/New_images/building1.svg";
 import Ellipse1 from "../../Assets/Images/Profile.jpg";
-import emptyimg from "../../Assets/Images/New_images/empty_image.png";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import { Table } from "react-bootstrap";
@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const EBRoomOverview = ({ onBack, room }) => {
   const state = useSelector((state) => state);
@@ -237,23 +238,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
         {activeTab === "room" &&
           (roomReadingList?.length === 0 ? (
-            <div className="flex justify-center text-center mt-9 animated-text">
-              <div className="2xl:mt-20">
-                <img
-                  src={emptyimg}
-                  width={240}
-                  height={240}
-                  alt="emptystate"
-                  className="mb-2"
-                />
-                <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
-                  No Room Reading
-                </div>
-                <div className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]">
-                  There are no Room Reading available.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label="Room reading" />
           ) : (
             <>
               <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
@@ -336,23 +321,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
         {activeTab === "customer" &&
           (tenantReadingList?.length === 0 ? (
-            <div className="flex justify-center text-center mt-9 animated-text">
-              <div className="2xl:mt-20">
-                <img
-                  src={emptyimg}
-                  width={240}
-                  height={240}
-                  alt="emptystate"
-                  className="mb-2"
-                />
-                <div className="pb-1 text-center font-gilroy font-semibold text-lg text-[#4B4B4B]">
-                  No tenant reading
-                </div>
-                <div className="pb-1 text-center font-gilroy font-medium text-sm text-[#4B4B4B]">
-                  There are no tenant reading available.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label={"Tenant reading"} />
           ) : (
             <>
               <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">

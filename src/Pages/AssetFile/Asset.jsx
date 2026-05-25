@@ -20,6 +20,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function Asset() {
   const state = useSelector((state) => state);
@@ -565,25 +566,7 @@ function Asset() {
               ) : (
                 !loading &&
                 getData &&
-                getData.length === 0 && (
-                  <div className="animated-text flex items-center justify-center h-[60vh] 2xl:mt-20">
-                    <div>
-                      <div className="flex justify-center mb-2 mt-8">
-                        <img src={EmptyState} alt="Empty state" />
-                      </div>
-
-                      <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                        No Assets available
-                      </div>
-
-                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                        There are no Assets added.
-                      </div>
-                    </div>
-
-                    <div></div>
-                  </div>
-                )
+                getData.length === 0 && <NoDataMessage label="Asset" />
               )}
             </div>
           )}

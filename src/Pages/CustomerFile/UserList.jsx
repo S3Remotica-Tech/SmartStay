@@ -91,7 +91,7 @@ import { ButtonGroupButtonContext } from "@mui/material";
 import NoData from "../../Assets/v2Images/NoData.svg";
 import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-
+import NoDataMessage from "../../Utils/NoDataMessage";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -3146,44 +3146,13 @@ function UserList(props) {
                       </div>
                     </div>
                   ) : (
-                    <div className="w-full my-2 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
-                      <div className="flex flex-col items-center justify-center text-center">
-                        <div>
-                          {isSearching ? (
-                            <img src={DataSearch} alt="img" />
-                          ) : (
-                            <img src={NoData} alt="img" />
-                          )}
-                        </div>
-
-                        <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
-                          {isSearching
-                            ? "No Search Results Found"
-                            : "No Data Found !"}
-                        </h3>
-
-                        <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
-                          {isSearching
-                            ? "Your Search didn’t match any projects"
-                            : "No Tenants found yet"}
-                        </p>
-
-                        <div className="flex">
-                          {isSearching && (
-                            <button
-                              onClick={() => {
-                                setFilterInput("");
-                                setChips([]);
-                              }}
-                              className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
-              !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7]"
-                            >
-                              Clear Search
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    <NoDataMessage
+                      label="Tenants"
+                      isSearching={isSearching}
+                      handleClear={() => {
+                        setFilterInput("");
+                      }}
+                    />
                   )}
                 </div>
               )}

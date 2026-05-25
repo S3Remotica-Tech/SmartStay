@@ -22,6 +22,7 @@ import { IoMdMore } from "react-icons/io";
 import { AddCircle, Profile2User, Shield } from "iconsax-react";
 import PaginationList from "../../../Components/PaginationList";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../../Utils/NoDataMessage";
 function SettingNewRole() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -302,7 +303,7 @@ function SettingNewRole() {
           <>
             <PermissionDeniedMessage />
           </>
-        ) : (
+        ) : paginatedData.length > 0 ? (
           <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] w-full">
             <div
               id="tableContainer"
@@ -321,115 +322,97 @@ function SettingNewRole() {
                 </thead>
 
                 <tbody className="text-sm text-gray-700">
-                  {paginatedData.length > 0
-                    ? paginatedData.map((view, index) => (
-                        <tr key={index} className="border-t max-h-fit ">
-                          <td className="px-4 py-1 whitespace-nowrap">
-                            <div className="flex items-center gap-2">
-                              <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
-                                <Shield size={14} color="#FF9900" />
-                              </span>
+                  {paginatedData.map((view, index) => (
+                    <tr key={index} className="border-t max-h-fit ">
+                      <td className="px-4 py-1 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <span className="flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0">
+                            <Shield size={14} color="#FF9900" />
+                          </span>
 
-                              <span className="font-semibold text-[#111928] text-[14px]">
-                                {view.name}
-                              </span>
-                            </div>
-                          </td>
+                          <span className="font-semibold text-[#111928] text-[14px]">
+                            {view.name}
+                          </span>
+                        </div>
+                      </td>
 
-                          <td className="px-4 py-1 text-[#4B4B4B] font-medium text-[14px]">
-                            {view.description || "-"}
-                          </td>
+                      <td className="px-4 py-1 text-[#4B4B4B] font-medium text-[14px]">
+                        {view.description || "-"}
+                      </td>
 
-                          <td className="px-4 py-1 text-[13px] text-[#6F767E]">
-                            <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
-                              <Profile2User size={12} />
-                              {view.userCount || 0}
-                            </div>
-                          </td>
+                      <td className="px-4 py-1 text-[13px] text-[#6F767E]">
+                        <div className="flex items-center gap-1 bg-[#F8F9FC] px-1.5 py-[2px] rounded w-fit">
+                          <Profile2User size={12} />
+                          {view.userCount || 0}
+                        </div>
+                      </td>
 
-                          <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
-                            {view.createdAt || "-"}
-                          </td>
+                      <td className="px-4 py-1 text-[#111928] font-medium text-[14px]">
+                        {view.createdAt || "-"}
+                      </td>
 
-                          <td className="px-4 py-1 text-right relative">
+                      <td className="px-4 py-1 text-right relative">
+                        <div
+                          className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
+                          onClick={(e) => handleShowDots(e, index)}
+                        >
+                          <IoMdMore className="text-black text-xl" />
+                        </div>
+
+                        {showDots === index && view.editable && (
+                          <div
+                            ref={popupRef}
+                            className="fixed bg-white border border-gray-200 rounded-lg shadow-md px-2 py-2 w-[140px] z-[1000]"
+                            style={{
+                              top: popupPosition.top,
+                              left: popupPosition.left,
+                            }}
+                          >
                             <div
-                              className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 cursor-pointer"
-                              onClick={(e) => handleShowDots(e, index)}
+                              className={`flex items-center gap-2 px-3 py-2 rounded ${
+                                view.editable && canUpdateRole
+                                  ? "cursor-pointer hover:bg-blue-50"
+                                  : "opacity-50 cursor-not-allowed"
+                              }`}
+                              onClick={() => {
+                                if (view.editable && canUpdateRole)
+                                  handleEditForm(view);
+                              }}
                             >
-                              <IoMdMore className="text-black text-xl" />
+                              <i className="isax isax-edit text-blue-600"></i>
+                              <span className="text-sm font-medium text-blue-700">
+                                Edit
+                              </span>
                             </div>
 
-                            {showDots === index && view.editable && (
-                              <div
-                                ref={popupRef}
-                                className="fixed bg-white border border-gray-200 rounded-lg shadow-md px-2 py-2 w-[140px] z-[1000]"
-                                style={{
-                                  top: popupPosition.top,
-                                  left: popupPosition.left,
-                                }}
-                              >
-                                <div
-                                  className={`flex items-center gap-2 px-3 py-2 rounded ${
-                                    view.editable && canUpdateRole
-                                      ? "cursor-pointer hover:bg-blue-50"
-                                      : "opacity-50 cursor-not-allowed"
-                                  }`}
-                                  onClick={() => {
-                                    if (view.editable && canUpdateRole)
-                                      handleEditForm(view);
-                                  }}
-                                >
-                                  <i className="isax isax-edit text-blue-600"></i>
-                                  <span className="text-sm font-medium text-blue-700">
-                                    Edit
-                                  </span>
-                                </div>
-
-                                <div
-                                  className={`flex items-center gap-2 px-3 py-2  rounded ${
-                                    view.editable && canDeleteRole
-                                      ? "cursor-pointer hover:bg-blue-50"
-                                      : "opacity-50 cursor-not-allowed"
-                                  }`}
-                                  onClick={() =>
-                                    view.editable &&
-                                    canDeleteRole &&
-                                    handleDeleteForm(view)
-                                  }
-                                >
-                                  <i className="isax isax-trash text-red-600"></i>
-                                  <span className="text-sm font-medium text-red-600">
-                                    Delete
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      ))
-                    : !loading && (
-                        <tr>
-                          <td colSpan="5" className="text-center py-16">
-                            <div className="flex flex-col items-center">
-                              <img
-                                src={EmptyState}
-                                alt="empty"
-                                className="mb-2"
-                              />
-                              <div className="font-semibold text-lg text-gray-700">
-                                No Roles
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                There are no Roles available
-                              </div>
+                            <div
+                              className={`flex items-center gap-2 px-3 py-2  rounded ${
+                                view.editable && canDeleteRole
+                                  ? "cursor-pointer hover:bg-blue-50"
+                                  : "opacity-50 cursor-not-allowed"
+                              }`}
+                              onClick={() =>
+                                view.editable &&
+                                canDeleteRole &&
+                                handleDeleteForm(view)
+                              }
+                            >
+                              <i className="isax isax-trash text-red-600"></i>
+                              <span className="text-sm font-medium text-red-600">
+                                Delete
+                              </span>
                             </div>
-                          </td>
-                        </tr>
-                      )}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
+        ) : (
+          !loading && <NoDataMessage label="Role" />
         )}
       </div>
 

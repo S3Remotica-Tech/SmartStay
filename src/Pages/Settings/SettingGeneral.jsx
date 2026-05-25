@@ -44,6 +44,7 @@ import ConfirmIdentity from "./ResetPin/ConfirmIdentity";
 import VerifyOtp from "./ResetPin/VerifyOtp";
 import ResetMpin from "./ResetPin/ResetMpin";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -1572,21 +1573,7 @@ function SettingGeneral() {
                           </div>
                         );
                       })
-                    : !loading && (
-                        <div className="flex flex-col items-center text-center animated-text 2xl:-mt-44">
-                          <img
-                            src={EmptyState}
-                            alt="emptystate"
-                            className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48  object-contain lg:mt-3 "
-                          />
-                          <div className="pb-1 mt-1 text-center font-gilroy font-semibold lg:text-lg 2xl:text-lg md:text-base text-gray-700">
-                            No Profile
-                          </div>
-                          <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                            There are no Profile available.
-                          </div>
-                        </div>
-                      )}
+                    : !loading && <NoDataMessage label="Profile" isHeightChanged={true} />}
                 </div>
               )}
 

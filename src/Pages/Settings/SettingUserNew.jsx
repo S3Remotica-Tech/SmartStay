@@ -19,6 +19,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import DeleteStaff from "./DeleteStaff";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingNewUser() {
   const state = useSelector((state) => state);
@@ -417,23 +418,7 @@ function SettingNewUser() {
               </div>
             </div>
           ) : (
-            !loading && (
-              <div className="flex items-center justify-center w-full lg:mt-[140px] md:mt-[90px] 2xl:mt-52 animated-text">
-                <div className="text-center">
-                  <div className="flex justify-center mb-2">
-                    <img src={emptyimg} alt="Empty state" />
-                  </div>
-
-                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                    No Staff
-                  </div>
-
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no staff's available
-                  </div>
-                </div>
-              </div>
-            )
+            !loading && <NoDataMessage label="Staff" />
           )}
         </div>
       )}

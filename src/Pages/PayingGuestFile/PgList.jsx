@@ -32,6 +32,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 function PgList() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -1009,21 +1010,7 @@ function PgList() {
                 </div>
               </div>
             ) : (
-              !loading && (
-                <div className="w-full flex flex-col items-center justify-center animated-text">
-                  <div>
-                    <div className="flex justify-center lg:mt-28 md:mt-16 2xl:mt-60">
-                      <img src={EmptyState} alt="Empty state" />
-                    </div>
-                    <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                      No floors available
-                    </div>
-                    <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                      There is no floor added to this paying guest.
-                    </div>
-                  </div>
-                </div>
-              )
+              !loading && <NoDataMessage label="Floor" />
             )}
           </div>
         )}
