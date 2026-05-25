@@ -409,7 +409,10 @@ function RecurringBills() {
           {!recurLoader &&
           (!recurringbills || recurringbills.length === 0) &&
           activeStay === "long_stay" ? (
-            <NoDataMessage label="Long Stay" />
+            <div className="my-2">
+              
+              <NoDataMessage label="Long Stay" />
+            </div>
           ) : !recurLoader && activeStay === "short_stay" ? (
             <div className="h-[calc(100vh-100px)] flex justify-center items-start -translate-y-10 overflow-hidden">
               <ComingSoon />

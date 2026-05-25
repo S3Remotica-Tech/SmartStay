@@ -401,7 +401,9 @@ function Receipt() {
                 </div>
               </div>
             ) : !receiptLoader && receiptData?.length === 0 ? (
-              <NoDataMessage label="Receipt" />
+              <div className="my-2">
+                <NoDataMessage label="Receipt" />{" "}
+              </div>
             ) : null}
           </div>
         )}

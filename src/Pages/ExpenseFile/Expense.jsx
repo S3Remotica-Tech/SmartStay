@@ -854,7 +854,9 @@ function Expenses({ allPageHostel_Id }) {
             ) : (
               !loading &&
               (!filteredData || filteredData.length === 0) && (
-                <NoDataMessage label="Expense" />
+                <div className="my-2">
+                  <NoDataMessage label="Expense" />
+                </div>
               )
             )}
           </div>

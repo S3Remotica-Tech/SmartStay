@@ -566,7 +566,12 @@ function Asset() {
               ) : (
                 !loading &&
                 getData &&
-                getData.length === 0 && <NoDataMessage label="Asset" />
+                getData.length === 0 && (
+                  <div className="my-2">
+                    {" "}
+                    <NoDataMessage label="Asset" />{" "}
+                  </div>
+                )
               )}
             </div>
           )}

@@ -45,7 +45,8 @@ function CreateBill() {
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
-
+  const joiningDate = state.UsersList?.customerdetails?.hostelInfo?.joiningDate;
+  console.log("joiningDate", joiningDate);
   const [tableErrmsg, setTableErrmsg] = useState("");
   const [tableErrmsgAmount, setTableErrmsgAmount] = useState("");
   const [tableErrmsgDes, setTableErrmsgDes] = useState("");
@@ -499,8 +500,6 @@ function CreateBill() {
     setTableErrmsgDes("");
   };
 
-  console.log("newRows", newRows);
-
   useEffect(() => {
     const types = [];
     newRows.forEach((row) => {
@@ -783,8 +782,6 @@ function CreateBill() {
 
   // const EXCLUDED_STATUSES = ["Booked", "Settlement Generated"];
 
-  // console.log("state", state.UsersList.TenantList);
-
   return (
     <div className="mt-4 pl-[5px] relative">
       <div className="sticky top-0 left-0 z-[1000] w-full h-[50px] bg-white px-[5px] py-[5px] flex items-start justify-start whitespace-nowrap">
@@ -913,7 +910,9 @@ function CreateBill() {
                 triggerNode.closest(".datepicker-wrapper")
               }
               disabledDate={(current) =>
-                current && current > dayjs().endOf("day")
+                current &&
+                (current < dayjs(joiningDate, "DD/MM/YYYY").startOf("day") ||
+                  current > dayjs().endOf("day"))
               }
               dropdownAlign={{
                 points: ["tl", "bl"],
