@@ -18,6 +18,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import InvoiceRegisterFilter from "./InvoiceRegisterFilter";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function InvoiceRegister() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function InvoiceRegister() {
   const [page, setPage] = useState(0);
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
-
+  const isSearching = chips.length > 0;
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
   };
@@ -846,190 +847,193 @@ function InvoiceRegister() {
             ))}
           </div>
         </div>
+        {invoiceRegister?.invoiceList?.length > 0 ? (
+          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+            <div
+              ref={tableRef}
+              className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
+            >
+              <table className="w-full  text-[12px] font-gilroy ">
+                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
+                  <tr className="border-b border-[#E8E8E8]">
+                    <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[30px]  rounded-tl-xl">
+                      <Setting3
+                        //   onClick={() => setOpen(!open)}
+                        className="cursor-pointer"
+                        size="18"
+                        color="#4B4B4B"
+                      />
+                    </th>
 
-        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-          <div
-            ref={tableRef}
-            className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
-          >
-            <table className="w-full  text-[12px] font-gilroy ">
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                <tr className="border-b border-[#E8E8E8]">
-                  <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[30px]  rounded-tl-xl">
-                    <Setting3
-                      //   onClick={() => setOpen(!open)}
-                      className="cursor-pointer"
-                      size="18"
-                      color="#4B4B4B"
-                    />
-                  </th>
+                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] whitespace-nowrap ">
+                      INVOICE NO
+                    </th>
 
-                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] whitespace-nowrap ">
-                    INVOICE NO
-                  </th>
+                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px] ">
+                      NAME
+                    </th>
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px] ">
-                    NAME
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold ">
+                      <div className="flex justify-center items-center gap-1">
+                        TYPE
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
-                    <div className="flex justify-center items-center gap-1">
-                      TYPE
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] whitespace-nowrap">
+                      INVOICE DATE
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] whitespace-nowrap">
-                    INVOICE DATE
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold whitespace-nowrap">
+                      DUE DATE
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold whitespace-nowrap">
-                    DUE DATE
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold ">
+                      <div className="flex justify-center items-center gap-1">
+                        AMOUNT
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
-                    <div className="flex justify-center items-center gap-1">
-                      AMOUNT
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold ">
+                      <div className="flex justify-center items-center gap-1">
+                        DUE
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
-                    <div className="flex justify-center items-center gap-1">
-                      DUE
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold rounded-tr-xl">
+                      STATUS
+                    </th>
+                  </tr>
+                </thead>
 
-                  <th className="px-4 py-2.5 text-center font-semibold rounded-tr-xl">
-                    STATUS
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {invoiceRegister?.invoiceList?.length > 0 ? (
-                  invoiceRegister?.invoiceList?.map((row, i) => (
-                    <tr
-                      key={i}
-                      className="border-b last:border-none  transition"
-                    >
-                      <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[30px]"></td>
-                      <td
-                        onClick={() => handleNavigateBillsPdf(row)}
-                        className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
-                                                     sticky left-[42px] z-20 bg-white w-[140px]"
-                        title={row.invoiceNumber}
+                <tbody>
+                  {invoiceRegister?.invoiceList?.length > 0 ? (
+                    invoiceRegister?.invoiceList?.map((row, i) => (
+                      <tr
+                        key={i}
+                        className="border-b last:border-none  transition"
                       >
-                        {row.invoiceNumber}
-                      </td>
+                        <td className="px-4 py-1.5 sticky left-0 z-20 bg-white w-[30px]"></td>
+                        <td
+                          onClick={() => handleNavigateBillsPdf(row)}
+                          className="cursor-pointer px-4 py-1.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap
+                                                     sticky left-[42px] z-20 bg-white w-[140px]"
+                          title={row.invoiceNumber}
+                        >
+                          {row.invoiceNumber}
+                        </td>
 
-                      <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white max-w-[200px]">
-                        <div className="flex items-center gap-2 max-w-[200px] relative">
-                          {row.profilePic ? (
-                            <img
-                              src={row.profilePic}
-                              alt={row.fullName}
-                              className="w-7 h-7 rounded-full object-cover flex-shrink-0"
-                            />
-                          ) : (
-                            <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
-                              {row.initials}
-                            </div>
-                          )}
+                        <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white max-w-[200px]">
+                          <div className="flex items-center gap-2 max-w-[200px] relative">
+                            {row.profilePic ? (
+                              <img
+                                src={row.profilePic}
+                                alt={row.fullName}
+                                className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                              />
+                            ) : (
+                              <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                {row.initials}
+                              </div>
+                            )}
 
-                          <span
-                            onMouseEnter={(e) => {
-                              const rect = e.target.getBoundingClientRect();
-                              setPosition({
-                                top: rect.top + rect.height / 2,
-                                left: rect.right - 20,
-                              });
-                              setHovered(i);
-                            }}
-                            onMouseLeave={() => setHovered(null)}
-                            className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
-                          >
-                            {row.fullName}
-                          </span>
-
-                          {hovered === i && (
-                            <div
-                              style={{ top: position.top, left: position.left }}
-                              className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
+                            <span
+                              onMouseEnter={(e) => {
+                                const rect = e.target.getBoundingClientRect();
+                                setPosition({
+                                  top: rect.top + rect.height / 2,
+                                  left: rect.right - 20,
+                                });
+                                setHovered(i);
+                              }}
+                              onMouseLeave={() => setHovered(null)}
+                              className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
                             >
                               {row.fullName}
-                            </div>
-                          )}
-                        </div>
-                      </td>
+                            </span>
 
-                      <td
-                        className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                        title={row.invoiceType}
-                      >
-                        {row.invoiceType}
-                      </td>
+                            {hovered === i && (
+                              <div
+                                style={{
+                                  top: position.top,
+                                  left: position.left,
+                                }}
+                                className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
+                              >
+                                {row.fullName}
+                              </div>
+                            )}
+                          </div>
+                        </td>
 
-                      <td
-                        className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                      >
-                        {row.invoiceDate}
-                      </td>
-
-                      <td
-                        className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                      >
-                        {row.dueDate}
-                      </td>
-
-                      <td
-                        className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}
-                      >
-                        ₹ {row.invoiceAmount}
-                      </td>
-
-                      <td
-                        className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                      >
-                        ₹ {row.dueAmount}
-                      </td>
-
-                      <td
-                        className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                      >
-                        <span
-                          className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
-      ${statusColor[row.paymentStatus]}`}
+                        <td
+                          className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                          title={row.invoiceType}
                         >
-                          {row.paymentStatus.replace(/_/g, " ")}
-                        </span>
+                          {row.invoiceType}
+                        </td>
+
+                        <td
+                          className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                        >
+                          {row.invoiceDate}
+                        </td>
+
+                        <td
+                          className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                        >
+                          {row.dueDate}
+                        </td>
+
+                        <td
+                          className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}
+                        >
+                          ₹ {row.invoiceAmount}
+                        </td>
+
+                        <td
+                          className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                        >
+                          ₹ {row.dueAmount}
+                        </td>
+
+                        <td
+                          className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}
+                        >
+                          <span
+                            className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap
+      ${statusColor[row.paymentStatus]}`}
+                          >
+                            {row.paymentStatus.replace(/_/g, " ")}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="py-10 text-center text-sm text-red-800 font-semibold"
+                      >
+                        No Data Found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={9}
-                      className="py-10 text-center text-sm text-red-800 font-semibold"
-                    >
-                      No Data Found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-          {open && (
-            <>
-              <div
-                className="fixed inset-0 bg-black/20 z-40 "
-                onClick={() => setOpen(false)}
-              />
+            {open && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black/20 z-40 "
+                  onClick={() => setOpen(false)}
+                />
 
-              <div
-                className={`
+                <div
+                  className={`
         fixed top-[250px] left-[250px] h-fit w-[280px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -1037,46 +1041,54 @@ function InvoiceRegister() {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-              >
-                <div className="p-3 border-b">
-                  <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                    <SearchNormal1 size={16} color="#98A2B3" />
-                    <input
-                      placeholder="Search"
-                      className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                    />
+                >
+                  <div className="p-3 border-b">
+                    <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                      <SearchNormal1 size={16} color="#98A2B3" />
+                      <input
+                        placeholder="Search"
+                        className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                    {options.map((item) => (
+                      <label
+                        key={item.key}
+                        className="flex items-center gap-3 text-sm cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          defaultChecked={item.checked}
+                          className="w-4 h-4 accent-[#1E45E1] rounded"
+                        />
+                        <span className="text-[#101828]">{item.label}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="p-3 border-t flex gap-2">
+                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                      Reset
+                    </button>
+                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                      Apply Filters
+                    </button>
                   </div>
                 </div>
-
-                <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                  {options.map((item) => (
-                    <label
-                      key={item.key}
-                      className="flex items-center gap-3 text-sm cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        defaultChecked={item.checked}
-                        className="w-4 h-4 accent-[#1E45E1] rounded"
-                      />
-                      <span className="text-[#101828]">{item.label}</span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="p-3 border-t flex gap-2">
-                  <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
-                    Reset
-                  </button>
-                  <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
-                    Apply Filters
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="my-2">
+            <NoDataMessage
+              label="Invoice"
+              isSearching={isSearching}
+              isClearSearch={false}
+            />
+          </div>
+        )}
         {invoiceFilter && (
           <InvoiceRegisterFilter
             show={invoiceFilter}

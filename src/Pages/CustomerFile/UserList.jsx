@@ -3149,6 +3149,7 @@ function UserList(props) {
                     <NoDataMessage
                       label="Tenants"
                       isSearching={isSearching}
+                      isClearSearch={true}
                       handleClear={() => {
                         setFilterInput("");
                       }}

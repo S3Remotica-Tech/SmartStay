@@ -2,7 +2,13 @@ import React from "react";
 import NoData from "../Assets/v2Images/NoData.svg";
 import DataSearch from "../Assets/v2Images/DataSearch.svg";
 
-function NoDataMessage({ label, isSearching, handleClear, isHeightChanged }) {
+function NoDataMessage({
+  label,
+  isSearching,
+  handleClear,
+  isHeightChanged,
+  isClearSearch,
+}) {
   console.log("isSearching", isSearching);
 
   return (
@@ -29,7 +35,7 @@ function NoDataMessage({ label, isSearching, handleClear, isHeightChanged }) {
         </p>
 
         <div className="flex">
-          {isSearching && (
+          {isSearching && isClearSearch && (
             <button
               onClick={handleClear}
               className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]

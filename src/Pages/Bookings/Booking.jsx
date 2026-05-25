@@ -1404,6 +1404,7 @@ function Booking() {
                   <NoDataMessage
                     label="Bookings"
                     isSearching={isSearching}
+                    isClearSearch={true}
                     handleClear={() => {
                       setFilterInput("");
                     }}

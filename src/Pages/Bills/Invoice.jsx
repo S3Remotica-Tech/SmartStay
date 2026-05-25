@@ -1843,11 +1843,11 @@ const InvoicePage = () => {
                       <NoDataMessage
                         label="Invoices"
                         isSearching={isSearching}
+                        isClearSearch={true}
                         handleClear={() => {
                           setFilterInput("");
                         }}
                       />
-                     
                     )
                   )}
                 </div>
