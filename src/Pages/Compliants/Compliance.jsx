@@ -32,6 +32,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const Compliance = () => {
   const state = useSelector((state) => state);
@@ -1017,18 +1018,8 @@ const Compliance = () => {
               ))}
 
             {!loading && filteredUsers.length === 0 && (
-              <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in h-[70vh]">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <img src={Emptystate} alt="emptystate" />
-
-                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                    No Active complaint
-                  </div>
-
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no active complaints
-                  </div>
-                </div>
+              <div className="col-span-1 md:col-span-2">
+                <NoDataMessage label="Complaints" />
               </div>
             )}
           </div>

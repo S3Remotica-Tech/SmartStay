@@ -19,6 +19,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingExpenses() {
   const state = useSelector((state) => state);
@@ -343,7 +344,7 @@ function SettingExpenses() {
         </>
       ) : (
         <div
-          className={`mt-2 px-3 py-4 rounded-lg relative h-[calc(100vh-85px)]
+          className={`mt-2 px-3 py-4 rounded-lg relative 
     ${
       expensesFilterddata.length === 0
         ? "bg-[#FFFFFF] flex items-center justify-center overflow-hidden"
@@ -357,10 +358,9 @@ function SettingExpenses() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full">
-            {expensesFilterddata &&
-              expensesFilterddata.length > 0 &&
-              expensesFilterddata.map((category) => (
+          {expensesFilterddata && expensesFilterddata.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full h-[calc(100vh-85px)]">
+              {expensesFilterddata.map((category) => (
                 <div
                   key={category.categoryId}
                   className="border-0 shadow rounded-lg p-2 font-gilroy text-[16px] font-medium flex flex-col bg-white"
@@ -514,22 +514,12 @@ function SettingExpenses() {
                   </div>
                 </div>
               ))}
-          </div>
-
-          {!loading && expensesFilterddata.length === 0 && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center animated-text">
-              <div className="mt-8 md:mt-4 2xl:-mt-24">
-                <img
-                  src={EmptyState}
-                  alt="emptystate"
-                  className="object-contain"
-                />
-              </div>
-
-              <div className="mt-3 pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                No Expense available
-              </div>
             </div>
+          ) : (
+            !loading &&
+            expensesFilterddata.length === 0 && (
+              <NoDataMessage label="Expense" />
+            )
           )}
 
           {showform && (

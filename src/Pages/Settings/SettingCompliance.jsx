@@ -17,7 +17,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-
+import NoDataMessage from "../../Utils/NoDataMessage";
 function SettingCompliance() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -543,19 +543,7 @@ function SettingCompliance() {
           ) : (
             !loading &&
             complianceFilterddata.length === 0 &&
-            canReadComplaints && (
-              <div className="flex flex-col items-center justify-center text-center h-[80vh] md:min-h-0 animated-text">
-                <div className="flex justify-center">
-                  <img src={EmptyState} className="lg:mt-16 md:mt-8 2xl:mt-0" />
-                </div>
-                <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                  No ComplaintTypes
-                </div>
-                <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                  There are no ComplaintTypes available.
-                </div>
-              </div>
-            )
+            canReadComplaints && <NoDataMessage label="Complaints" />
           )}
         </div>
       )}

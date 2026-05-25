@@ -20,6 +20,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function CheckOut() {
   const navigate = useNavigate();
@@ -331,21 +332,7 @@ function CheckOut() {
                 ) : (
                   !checkoutLoader &&
                   checkOutCustomer?.length === 0 && (
-                    <div className="animated-text flex items-center justify-center h-[75vh]">
-                      <div>
-                        <div className="text-center 2xl:mt-24">
-                          <img src={Emptystate} alt="emptystate" />
-                        </div>
-
-                        <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                          No Checkout Tenant available
-                        </div>
-
-                        <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                          There are no checkout tenant added
-                        </div>
-                      </div>
-                    </div>
+                    <NoDataMessage label="Checkout" />
                   )
                 )}
               </div>

@@ -10,8 +10,6 @@ import Group from "../../Assets/Images/New_images/Group.svg";
 import { CloseCircle, ArrowUp2, ArrowDown2, Flash } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
-// import Ellipse1 from "../../Assets/Images/Profile.jpg";
-import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
 import { useDispatch, useSelector } from "react-redux";
 import AddRoomReading from "./AddRoomReading";
@@ -26,6 +24,7 @@ import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import DeleteReading from "./DeleteReading";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -804,17 +803,7 @@ const RoomReadingTable = () => {
                   )}
 
                   {roomReadingList?.length === 0 && !loading ? (
-                    <div className="animated-text flex items-center justify-center h-[77vh] 2xl:-mt-8">
-                      <div className="2xl:mt-24">
-                        <img src={emptyimg} alt="emptystate" />
-                        <div className="pb-1 mt-2 text-center font-semibold font-gilroy text-lg text-gray-600">
-                          No Room Reading
-                        </div>
-                        <div className="pb-1 text-center font-medium font-gilroy text-sm text-gray-600">
-                          There are no Room Reading available.
-                        </div>
-                      </div>
-                    </div>
+                    <NoDataMessage label="Room reading" />
                   ) : (
                     <>
                       <div
@@ -1082,19 +1071,9 @@ const RoomReadingTable = () => {
 
               {activeTab === "customer" &&
                 (customerReadingList?.length === 0 ? (
-                  <div className="animated-text flex items-center justify-center h-[76vh]">
-                    <div className="">
-                      <img src={emptyimg} alt="emptystate" />
-
-                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                        No Tenant Readings
-                      </div>
-
-                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                        There are no tenant reading available.
-                      </div>
-                    </div>
-                  </div>
+                  <>
+                    <NoDataMessage label={"Tenant reading"} />
+                  </>
                 ) : (
                   <>
                     <div

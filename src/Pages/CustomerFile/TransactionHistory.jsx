@@ -9,6 +9,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function TransactionHistory() {
   const state = useSelector((state) => state);
@@ -66,25 +67,16 @@ function TransactionHistory() {
       ) : (
         <div>
           {CustomerOverView?.length === 0 ? (
-            <div className="mt-4 flex justify-center">
-              <div className="flex flex-col items-center justify-center">
-                <div className="2xl:mt-24 text-center">
-                  <img src={emptyimg} alt="emptystate" />
-                  <div className="pb-1 text-center font-bold font-gilroy text-[16px] text-[#4B4B4B]">
-                    No Transaction available
-                  </div>
-
-                  <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                    There are no transaction available
-                  </div>
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label="Transaction" isHeightChanged={true} />
           ) : (
-            <div className="relative flex flex-col h-[calc(100vh-250px)]">
-              <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll pb-4">
-                <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                  <thead className="bg-blue-100 sticky top-0 z-20">
+            <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-4 ">
+              <div
+                id="tableContainer"
+                // ref={tableContainerRef}
+                className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+              >
+                <table className=" w-full font-gilroy">
+                  <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                     <tr className="h-9">
                       <th className="w-[230px] px-2 py-1">Date</th>
                       <th className="w-[230px] px-2 py-1 whitespace-nowrap">

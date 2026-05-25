@@ -22,7 +22,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import SmarstayLogo from "../../Assets/Images/get.png";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-
+import NoDataMessage from "../../Utils/NoDataMessage";
 function Vendor() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -396,18 +396,7 @@ function Vendor() {
               )}
 
               {!loading && filteredData?.length === 0 && (
-                //  <div className="animated-text flex flex-col items-center justify-center flex-1">
-                <div className="animated-text flex flex-col items-center justify-center lg:h-[85vh]">
-                  <div clasame="flex justify-center 2xl:mt-24">
-                    <img src={EmptyState} alt="Empty state" />
-                  </div>
-                  <div className="text-center font-gilroy font-semibold text-lg text-gray-700 pb-1">
-                    No vendor available
-                  </div>
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no Vendors added.
-                  </div>
-                </div>
+                <NoDataMessage label="Vendor" />
               )}
             </div>
           </div>

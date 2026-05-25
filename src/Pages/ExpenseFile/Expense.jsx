@@ -26,7 +26,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-
+import NoDataMessage from "../../Utils/NoDataMessage";
 function Expenses({ allPageHostel_Id }) {
   const location = useLocation();
   const state = useSelector((state) => state);
@@ -854,18 +854,8 @@ function Expenses({ allPageHostel_Id }) {
             ) : (
               !loading &&
               (!filteredData || filteredData.length === 0) && (
-                <div className="animated-text flex items-center justify-center h-[60vh] 2xl:-mt-16">
-                  <div>
-                    <div className="flex justify-center 2xl:mt-24">
-                      <img src={EmptyState} alt="Empty state" />
-                    </div>
-                    <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                      No expenses available
-                    </div>
-                    <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                      There are no expenses available.
-                    </div>
-                  </div>
+                <div className="my-2">
+                  <NoDataMessage label="Expense" />
                 </div>
               )
             )}

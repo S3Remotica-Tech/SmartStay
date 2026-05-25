@@ -10,6 +10,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import PaginationList from "../../Components/PaginationList";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function UserEb(props) {
   const state = useSelector((state) => state);
@@ -221,20 +222,7 @@ function UserEb(props) {
               </div>
             </div>
           ) : (
-            <div className="mt-4 flex justify-center">
-              <div className="flex flex-col items-center justify-center">
-                <div className="2xl:mt-24 text-center">
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-
-                <div className="pb-1 text-center font-bold font-gilroy text-[16px] text-[#4B4B4B]">
-                  No Electricity available
-                </div>
-                <div className="pb-1 text-center font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                  There are no Electricity added.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label="Electricity" isHeightChanged={true} />
           )}
         </div>
       </div>

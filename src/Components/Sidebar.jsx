@@ -207,7 +207,7 @@ function Sidebar() {
         });
         isFirstLogin.current = false;
       }
-    } else if (state.login.selectedHostel_Id) {
+    } else {
       const lastPage = localStorage.getItem("lastPage");
 
       if (lastPage) {

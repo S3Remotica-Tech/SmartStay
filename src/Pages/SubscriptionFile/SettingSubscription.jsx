@@ -37,6 +37,7 @@ import ComingSoon from "../../Utils/ComingSoon";
 import { Connect } from "../../WebService/SocketConfig";
 import AllPlans from "./AllPlans";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -374,8 +375,10 @@ function SettingSubscription() {
                     </div>
                   </div>
                 ) : null
-              ) : (
+              ) : state.login.selectedHostel_Id ? (
                 <BasicPlan />
+              ) : (
+                <NoDataMessage label="Subscription" />
               )}
 
               {currentPlan?.isTrial && <AllPlans />}

@@ -41,6 +41,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoData from "../../Assets/v2Images/NoData.svg";
 import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -77,6 +78,7 @@ function Booking() {
   const [showAbove, setShowAbove] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
   const popupRef = useRef(null);
+  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
   const {
     // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
@@ -319,6 +321,7 @@ function Booking() {
     "Room Name": "roomName",
     "Bed Name": "bedName",
     Amount: "amount",
+    "Available Amount": "availableAmount",
   };
 
   const formattedData = (
@@ -346,12 +349,9 @@ function Booking() {
       canApply: apiData?.canApply || null,
       availableAmount: apiData?.availableAmount || 0,
       customerId: apiData?.customerId,
-      // status: apiData?.status,
-      // availableAmount: apiData?.availableAmount,
     };
 
     obj.status = apiData?.status || "-";
-    obj.availableAmount = apiData?.availableAmount;
     return obj;
   });
 
@@ -367,6 +367,7 @@ function Booking() {
     "Bed Name": "px-4",
     Amount: "px-4",
     status: "px-4",
+    "Available Amount": "px-4 whitespace-nowrap",
   };
 
   useEffect(() => {
@@ -552,8 +553,6 @@ function Booking() {
   }, []);
 
   useEffect(() => {
-    // const statusValue = statusfilter === "ALL" ? "" : statusfilter;
-
     if (!state.login.selectedHostel_Id) return;
     dispatch({
       type: "GET_BOOKING_LIST",
@@ -567,18 +566,6 @@ function Booking() {
     });
 
     setLoading(true);
-
-    // const filters = {
-    //   status: statusfilter ? [statusfilter] : [],
-    //   search: debouncedInput?.trim() || "",
-    //   period: selectedMonth?.value ? selectedMonth?.value : "",
-    //   periodLabel: selectedMonth?.label ? selectedMonth?.label : "",
-    // };
-
-    // dispatch({
-    //   type: "SET_TENANT_TABLE_FILTERS",
-    //   payload: filters,
-    // });
   }, [page, size, filterInput]);
 
   const handleReset = () => {
@@ -604,6 +591,7 @@ function Booking() {
     });
 
     setChips([]);
+    setFilterInput("");
   };
 
   useEffect(() => {
@@ -783,10 +771,6 @@ function Booking() {
     },
   };
 
-  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
-
-  console.log("state", state.login.selectedHostel_Id);
-
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
       <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
@@ -949,9 +933,7 @@ function Booking() {
                                 </th>
                               );
                             })}
-                            <th className=" px-2  bg-[#F9FAFB] text-center whitespace-nowrap">
-                              Available Amount
-                            </th>
+
                             <th className=" px-2 bg-[#F9FAFB] text-center">
                               Status
                             </th>
@@ -1148,6 +1130,16 @@ function Booking() {
                                         </td>
                                       );
 
+                                    case "Available Amount":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.availableAmount}
+                                        </td>
+                                      );
+
                                     default:
                                       return (
                                         <td
@@ -1165,15 +1157,7 @@ function Booking() {
                                       );
                                   }
                                 })}
-                                <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
-                                >
-                                  <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]">
-                                    {item.availableAmount}
-                                  </span>
-                                </td>
+
                                 <td
                                   className={`${
                                     isScrolling ? "!bg-white" : "bg-white"
@@ -1417,44 +1401,14 @@ function Booking() {
                     </div>
                   </div>
                 ) : (
-                  <div className="w-full my-2 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
-                    <div className="flex flex-col items-center justify-center text-center">
-                      <div>
-                        {isSearching ? (
-                          <img src={DataSearch} alt="img" />
-                        ) : (
-                          <img src={NoData} alt="img" />
-                        )}
-                      </div>
-
-                      <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
-                        {isSearching
-                          ? "No Search Results Found"
-                          : "No Data Found !"}
-                      </h3>
-
-                      <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
-                        {isSearching
-                          ? "Your Search didn’t match any projects"
-                          : "No Tenants found yet"}
-                      </p>
-
-                      <div className="flex">
-                        {isSearching && (
-                          <button
-                            onClick={() => {
-                              setFilterInput("");
-                              setChips([]);
-                            }}
-                            className="flex justify-center rounded-lg !font-gilroy !text-[#4B4B4B]
-                        !bg-[#F9F9F9] px-4 py-1 min-w-[95px] mr-2 !border !border-[#E7E7E7]"
-                          >
-                            Clear Search
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  <NoDataMessage
+                    label="Bookings"
+                    isSearching={isSearching}
+                    isClearSearch={true}
+                    handleClear={() => {
+                      setFilterInput("");
+                    }}
+                  />
                 )}
               </div>
               {showBookingPdf && (

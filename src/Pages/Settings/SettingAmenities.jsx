@@ -23,6 +23,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingAmenities() {
   const state = useSelector((state) => state);
@@ -482,19 +483,7 @@ function SettingAmenities() {
                     </div>
                   </div>
                 ))
-              : !loading && (
-                  <div className="flex items-center justify-center w-full lg:mt-32 md:mt-20 2xl:mt-52 animated-text">
-                    <div className="text-center">
-                      <div className="flex justify-center mb-2">
-                        <img src={EmptyState} alt="Empty state" />
-                      </div>
-
-                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                        No Amenities available
-                      </div>
-                    </div>
-                  </div>
-                )}
+              : !loading && <NoDataMessage label="Amenities" />}
           </div>
 
           {loading && (

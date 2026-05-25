@@ -15,6 +15,7 @@ import verify from "../../Assets/Images/New_images/verify.svg";
 import Bed from "../../Assets/Images/New_images/Bed.svg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Buildings, Building3 } from "iconsax-react";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const EBTenantOverview = ({ tenant, onBack }) => {
   const state = useSelector((state) => state);
@@ -231,19 +232,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
         {activeTab === "room" &&
           (billingData?.length === 0 ? (
-            <div className="flex justify-center text-center mt-6 animated-text">
-              <div className="2xl:mt-20">
-                <img src={emptyimg} width={200} height={200} alt="emptystate" />
-
-                <div className="pb-1 mt-2 font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
-                  No Room Reading
-                </div>
-
-                <div className="pb-1 font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                  There are no Room Reading available.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label={"Room reading"} />
           ) : (
             <>
               <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
@@ -324,19 +313,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
         {activeTab === "customer" &&
           (formattedTenantReadings?.length === 0 ? (
-            <div className="flex justify-center text-center mt-6 animated-text">
-              <div className="2xl:mt-20">
-                <img src={emptyimg} width={200} height={200} alt="emptystate" />
-
-                <div className="pb-1 mt-2 font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
-                  No Reading
-                </div>
-
-                <div className="pb-1 font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                  There are no reading available.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label={"No reading"} />
           ) : (
             <>
               <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">

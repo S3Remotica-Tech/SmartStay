@@ -32,6 +32,8 @@ import { useHasPermission } from "../../Utils/Permission";
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
+import ComingSoon from "../../Utils/ComingSoon";
 
 function RecurringBills() {
   const state = useSelector((state) => state);
@@ -66,6 +68,7 @@ function RecurringBills() {
   }, [state.UsersList?.accessRestrictionError]);
 
   const handleClick = (stayType) => {
+    console.log("stayType", stayType);
     setActiveStay(stayType);
   };
 
@@ -292,7 +295,7 @@ function RecurringBills() {
 
   return (
     <div className="relative bg-white">
-      <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap">
+      <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap flex-nowrap min-h-[60px] shrink-0">
         <div className="flex lg:justify-start justify-center items-center flex-wrap">
           <label className="text-lg text-black font-semibold font-gilroy">
             Recurring
@@ -367,7 +370,7 @@ function RecurringBills() {
         </>
       ) : (
         <>
-          <div className="flex items-center justify-between mt-1 mb-0">
+          <div className="flex items-center justify-between mt-1 mb-0  sticky top-[60px] z-40">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleClick("long_stay")}
@@ -402,38 +405,17 @@ function RecurringBills() {
               />
             </div>
           </div>
+
           {!recurLoader &&
           (!recurringbills || recurringbills.length === 0) &&
           activeStay === "long_stay" ? (
-            <div
-              className="flex flex-col items-center justify-center h-full 
-              animated-text mt-20 2xl:mt-52"
-            >
-              <div className="text-center">
-                <img src={Emptystate} alt="emptystate" />
-              </div>
-              <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                No {activeStay} Recuring bills available
-              </div>
-              <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                There are no Recuring bills added
-              </div>
+            <div className="my-2">
+              
+              <NoDataMessage label="Long Stay" />
             </div>
           ) : !recurLoader && activeStay === "short_stay" ? (
-            <div className="mt-4 !h-[450px] md:h-[350px] flex justify-center items-center bg-[#f2f6fc] rounded-[10px] mr-5 shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-dashed border-[#b0c4de]">
-              <div className="text-center">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                  alt="Coming Soon"
-                  width="80"
-                  height="80"
-                  style={{ marginBottom: "15px", opacity: 0.7 }}
-                />
-
-                <p className="text-[#7a7a7a] text-[14px] font-gilroy">
-                  Coming Soon. Stay tuned!
-                </p>
-              </div>
+            <div className="h-[calc(100vh-100px)] flex justify-center items-start -translate-y-10 overflow-hidden">
+              <ComingSoon />
             </div>
           ) : (
             ""

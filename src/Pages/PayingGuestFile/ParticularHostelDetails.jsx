@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import "./ParticularHostelDetails.css";
 import BedDetailsMap from "./BedDetailsMap";
 import { useHasPermission } from "../../Utils/Permission";
-
+import NoData from "../../Assets/v2Images/NoData.svg";
 function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -545,22 +545,19 @@ function ParticularHostelDetails(props) {
               )}
             </>
           ) : (
-            <div
-              className="flex items-center justify-center text-center w-full font-gilroy px-3 fade-in bg-white overflow-hidden"
-              style={{ height: "calc(100vh - 120px)" }}
-            >
-              <div className="flex flex-col items-center">
-                <img
-                  src={EmptyState}
-                  alt="Empty state"
-                  className="h-[240px] w-[240px] max-h-[240px] max-w-[240px] object-contain"
-                />
-                <div className="mt-2 text-[20px] font-semibold text-[#4B4B4B]">
-                  No rooms available
+            <div className="w-full my-6 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
+              <div className="flex flex-col items-center justify-center text-center">
+                <div>
+                  <img src={NoData} alt="img" />
                 </div>
-                <div className="mt-1 text-[16px] font-medium text-[#4B4B4B]">
-                  There is no room added in this floor.
-                </div>
+
+                <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
+                  No Data Found !
+                </h3>
+
+                <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
+                  No Room found yet
+                </p>
                 <button
                   disabled={!canWritePayingGuests}
                   onClick={() =>
