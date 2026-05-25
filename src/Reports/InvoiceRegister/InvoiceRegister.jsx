@@ -40,6 +40,8 @@ function InvoiceRegister() {
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const isSearching = chips.length > 0;
+
+  
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
   };
