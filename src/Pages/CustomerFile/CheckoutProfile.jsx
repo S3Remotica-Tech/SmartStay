@@ -142,11 +142,11 @@ function CustomerProfile(props) {
   // }, [details]);
 
   const handleBack = () => {
-   navigate(`/tenant/${state.login.selectedHostel_Id}`, {
-  state: {
-    isCheckoutWay: true,
-  },
-});
+    navigate(`/tenant/${state.login.selectedHostel_Id}`, {
+      state: {
+        isCheckoutWay: true,
+      },
+    });
     dispatch(checkoutCustomerProfile(true));
     props.setcheckoutTableShow(true);
     props.handleCloseCheckoutProfile(false);
@@ -271,192 +271,113 @@ function CustomerProfile(props) {
           )}
         </div>
       </div>
-      <div className="w-full  px-4 ">
-        <TabContext value={value}>
-          <div className="sticky top-[60px] z-[900] bg-white">
-            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-              <TabList
-                orientation={isSmallScreen ? "vertical" : "horizontal"}
-                onChange={handleChanges}
-                aria-label="lab API tabs example"
-                style={{ marginLeft: "20px" }}
-                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+      <div className="w-full">
+        <div className="sticky top-[60px] z-[900] bg-white">
+          <div className="my-2">
+            <div
+              role="tablist"
+              aria-label="lab API tabs example"
+              className={`ml-5 flex  gap-10 ${
+                isSmallScreen ? "flex-col" : "flex-col sm:flex-col lg:flex-row"
+              }`}
+            >
+              <button
+                onClick={(e) => handleChanges(e, "1")}
+                className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4  transition-all duration-200 ${
+                  value === "1"
+                    ? "text-[#222222] border-[#1E45E1]"
+                    : "text-[#4B4B4B] border-transparent"
+                }`}
               >
-                <Tab
-                  label="Overview"
-                  value="1"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "1" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
-                />
-                <Tab
-                  label="EB Reading"
-                  value="2"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "2" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
-                />
-                <Tab
-                  label="Bill"
-                  value="3"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "3" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
-                />
+                Overview
+              </button>
 
-                <Tab
-                  label="Transaction"
-                  value="4"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: value === "5" ? "#222222" : "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
-                />
-              </TabList>
-            </Box>
+              <button
+                onClick={(e) => handleChanges(e, "2")}
+                className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4 transition-all duration-200 ${
+                  value === "2"
+                    ? "text-[#222222] border-[#1E45E1]"
+                    : "text-[#4B4B4B] border-transparent"
+                }`}
+              >
+                EB Reading
+              </button>
+
+              <button
+                onClick={(e) => handleChanges(e, "3")}
+                className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4 transition-all duration-200 ${
+                  value === "3"
+                    ? "text-[#222222] border-[#1E45E1]"
+                    : "text-[#4B4B4B] border-transparent"
+                }`}
+              >
+                Bill
+              </button>
+
+              <button
+                onClick={(e) => handleChanges(e, "4")}
+                className={`text-[16px] font-[Gilroy] leading-normal font-medium normal-case  py-2 text-left border-b-4 transition-all duration-200 ${
+                  value === "4"
+                    ? "text-[#222222] border-[#1E45E1]"
+                    : "text-[#4B4B4B] border-transparent"
+                }`}
+              >
+                Transaction
+              </button>
+            </div>
           </div>
-          <TabPanel value="1" className="px-0 mt-4">
-            <div className="container mt-3">
-              <div className="row">
-                <div className="col-md-6">
-                  <div
-                    className="card  p-3 mb-3"
-                    style={{ borderRadius: 10, border: "1px solid #DCDCDC" }}
-                  >
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <p
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          fontWeight: 400,
-                        }}
-                        className="mb-0"
-                      >
+        </div>
+        {value === "1" && (
+          <div className="px-0 mt-4">
+            <div className="container  mt-3 ">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="rounded-[10px] border border-[#DCDCDC] p-4 bg-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[16px] font-[Gilroy] font-normal mb-0">
                         Basic Details
                       </p>
                     </div>
-                    <hr style={{ marginTop: "-10px" }} />
+                    <hr className="-mt-[10px]" />
 
-                    <div className="row">
-                      <div className="col-6">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1 "
-                        >
+                    <div className="grid grid-cols-2 gap-y-4 pt-3">
+                      <div>
+                        <p className="text-[12px] font-[Gilroy] font-normal text-[#4B4B4B] mb-1">
                           First Name
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+                        <p className="text-[14px] font-[Gilroy] font-semibold">
                           {" "}
                           {CustomerOverView?.firstName}
                         </p>
                       </div>
-                      <div className="col-6">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1"
-                        >
+                      <div>
+                        <p className="text-[12px] font-[Gilroy] font-normal text-[#4B4B4B] mb-1">
                           Last Name
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+                        <p className="text-[14px] font-[Gilroy] font-semibold">
                           {" "}
                           {CustomerOverView?.lastName}
                         </p>
                       </div>
-                      <div className="col-6">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1"
-                        >
+                      <div>
+                        <p className="text-[12px] font-[Gilroy] font-normal text-[#4B4B4B] mb-1">
                           Email
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
-                          <Sms
-                            size="16"
-                            color="#1E45E1"
-                            className="me-0"
-                            style={{ flexShrink: 0 }}
-                          />
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
+                          <Sms size="16" color="#1E45E1" />
                           {CustomerOverView?.emailId || "N/A"}
                         </p>
                       </div>
-                      <div className="col-6">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1 "
-                        >
+                      <div>
+                        <p className="text-[12px] font-[Gilroy] font-normal text-[#4B4B4B] mb-1">
                           Mobile no.
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {" "}
-                          <Call size="16" color="#1E45E1" className="me-0" />
-                          {CustomerOverView && CustomerOverView.mobileNo
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
+                          <Call size="16" color="#1E45E1" />
+
+                          {CustomerOverView?.mobileNo
                             ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
                             : ""}
                         </p>
@@ -464,121 +385,76 @@ function CustomerProfile(props) {
                     </div>
                   </div>
 
-                  <div
-                    className="card p-3"
-                    style={{ borderRadius: 10, border: "1px solid #DCDCDC" }}
-                  >
-                    <div
-                      className="card-header p-0 border-0"
-                      style={{ background: "transparent", width: "100%" }}
-                    >
-                      <div
-                        className="d-flex gap-5 align-items-center justify-content-around border-0"
-                        style={{ width: "100%" }}
-                      >
+                  <div className="border border-[#DCDCDC] rounded-[10px] p-3">
+                    <div className="w-full bg-transparent">
+                      <div className="flex items-center justify-around gap-5 w-full">
                         <div
-                          className="d-flex align-items-center "
                           onClick={() => setActiveTab("kyc")}
-                          style={{
-                            cursor: "pointer",
-                            padding: "6px 12px",
-                            borderBottom:
-                              activeTab === "kyc"
-                                ? "2px solid #1E45E1"
-                                : "2px solid transparent",
-                            color: activeTab === "kyc" ? "#1E45E1" : "#555",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
+                          className={`flex items-center cursor-pointer px-3 py-[6px] border-b-2 font-[Gilroy] font-semibold transition-all duration-200 ${
+                            activeTab === "kyc"
+                              ? "border-[#1E45E1] text-[#1E45E1]"
+                              : "border-transparent text-[#555]"
+                          }`}
                         >
                           KYC Address
                         </div>
 
                         <div
-                          className="d-flex align-items-center "
                           onClick={() => setActiveTab("manual")}
-                          style={{
-                            cursor: "pointer",
-                            padding: "6px 12px",
-                            borderBottom:
-                              activeTab === "manual"
-                                ? "2px solid #1E45E1"
-                                : "2px solid transparent",
-                            color: activeTab === "manual" ? "#1E45E1" : "#555",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
+                          className={`flex items-center cursor-pointer px-3 py-[6px] border-b-2 font-[Gilroy] font-semibold transition-all duration-200 ${
+                            activeTab === "manual"
+                              ? "border-[#1E45E1] text-[#1E45E1]"
+                              : "border-transparent text-[#555]"
+                          }`}
                         >
                           Manual Address
                         </div>
 
                         {activeTab === "manual" && (
                           <span
-                            style={{
-                              cursor: !canUpdateTenant
-                                ? "not-allowed"
-                                : "pointer",
-                              opacity: !canUpdateTenant ? 0.6 : 1,
-                            }}
+                            className={`${
+                              !canUpdateTenant
+                                ? "cursor-not-allowed opacity-60"
+                                : "cursor-pointer opacity-100"
+                            }`}
                           ></span>
                         )}
                       </div>
                     </div>
-                    <div className="card-body">
+
+                    <div className="mt-4">
                       {activeTab === "manual" ? (
                         <div>
-                          <div className="row p-0">
-                            <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 House No / Apartment
                               </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <House size="18" color="#1E45E1" />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                              <div className="flex items-center gap-2">
+                                <House size={18} color="#1E45E1" />
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {CustomerOverView.address?.houseNo}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 Street / Area
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={Areaimage}
                                   alt="area"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
+
                                 <span
                                   title={CustomerOverView.address?.streetName}
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                  }}
+                                  className="text-[14px] font-semibold font-[Gilroy] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]"
                                 >
                                   {CustomerOverView.address?.streetName}
                                 </span>
@@ -586,120 +462,76 @@ function CustomerProfile(props) {
                             </div>
                           </div>
 
-                          <div className="row mt-3">
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 Landmark
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={Landamrkimage}
                                   alt="landmark"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {CustomerOverView.address?.landmark}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 Pincode
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={PincodeImage}
                                   alt="pincode"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {CustomerOverView.address?.pincode}
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          <div className="row mt-3">
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 City
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={CityImage}
                                   alt="city"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {CustomerOverView.address?.city}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 State
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={CityImage}
                                   alt="state"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
                                   {CustomerOverView.address?.state}
                                 </span>
                               </div>
@@ -708,179 +540,111 @@ function CustomerProfile(props) {
                         </div>
                       ) : (
                         <div>
-                          <div className="row p-0">
-                            <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 House No / Apartment
                               </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <House size="18" color="#1E45E1" />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                              <div className="flex items-center gap-2">
+                                <House size={18} color="#1E45E1" />
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {/* {CustomerOverView.address?.houseNo} */}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 Street / Area
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={Areaimage}
                                   alt="area"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  // title={CustomerOverView.address?.streetName}
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
                                   {/* {CustomerOverView.address?.streetName} */}
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          <div className="row mt-3">
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                          {/* Row 2 */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 Landmark
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={Landamrkimage}
                                   alt="landmark"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {/* {CustomerOverView.address?.landmark} */}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 Pincode
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={PincodeImage}
                                   alt="pincode"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {/* {CustomerOverView.address?.pincode} */}
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          <div className="row mt-3">
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 City
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={CityImage}
                                   alt="city"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy]">
                                   {/* {CustomerOverView.address?.city} */}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
+                            <div className="flex flex-col items-start">
+                              <p className="text-[12px] font-medium font-[Gilroy]">
                                 State
                               </p>
-                              <div className="d-flex align-items-center gap-2">
+
+                              <div className="flex items-center gap-2">
                                 <img
                                   src={CityImage}
                                   alt="state"
-                                  style={{ width: 16, height: 16 }}
+                                  className="w-4 h-4"
                                 />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                  }}
-                                >
+
+                                <span className="text-[14px] font-semibold font-[Gilroy] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
                                   {/* {CustomerOverView.address?.state} */}
                                 </span>
                               </div>
@@ -892,76 +656,40 @@ function CustomerProfile(props) {
                   </div>
                 </div>
 
-                <div className="col-md-6 row ">
-                  <div
-                    className="card  mb-3"
-                    style={{
-                      borderRadius: 10,
-                      border: "1px solid #DCDCDC",
-                      paddingLeft: 10,
-                      paddingRight: 20,
-                      paddingTop: 2,
-                    }}
-                  >
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <p
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          fontWeight: 400,
-                        }}
-                        className="mb-0"
-                      >
+                <div className="">
+                  <div className="border border-[#DCDCDC] rounded-[10px] px-[10px] pr-5 pt-[2px]  bg-white">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="mb-0 text-[16px] font-[Gilroy] font-normal">
                         Stay details
                       </p>
 
                       <div
-                        style={{
-                          backgroundColor: "#fff",
-                          borderRadius: "50%",
-                          padding: "6px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          cursor: "pointer",
-                        }}
+                        className="bg-white rounded-full p-[6px] flex items-center justify-center cursor-pointer"
+                        onClick={handleShowStayHistory}
                       >
                         <img
-                          onClick={handleShowStayHistory}
                           src={Stayhistory}
-                          className="me-2"
                           alt="Edit"
-                          style={{ width: "25px", height: "25px" }}
+                          className="w-[25px] h-[25px]"
                         />
                       </div>
                     </div>
-                    <hr style={{ marginTop: "-10px" }} />
-                    <div className="row">
-                      <div className="col-4">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1"
-                        >
+
+                    <hr className="-mt-[10px]" />
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div>
+                        <p className="mb-1 text-[12px] font-[Gilroy] font-normal text-[#4B4B4B]">
                           Floor
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
                           <img
                             src={Floorimage}
                             alt="Floorimage"
-                            size="16"
-                            color="#1E45E1"
-                          />{" "}
+                            className="w-4 h-4"
+                          />
+
                           {CustomerOverView.hostelInfo?.floorName &&
                           CustomerOverView.hostelInfo?.floorName !==
                             "undefined" &&
@@ -971,289 +699,176 @@ function CustomerProfile(props) {
                             : "N/A"}
                         </p>
                       </div>
-                      <div className="col-4">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1"
-                        >
+
+                      <div>
+                        <p className="mb-1 text-[12px] font-[Gilroy] font-normal text-[#4B4B4B]">
                           Room
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
                           <img
                             src={RoomImage}
-                            alt="Floorimage"
-                            size="16"
-                            color="#1E45E1"
+                            alt="Roomimage"
+                            className="w-4 h-4"
                           />
-                          {CustomerOverView?.hostelInfo?.roomName
-                            ? CustomerOverView?.hostelInfo?.roomName
-                            : "N/A"}
+
+                          {CustomerOverView?.hostelInfo?.roomName || "N/A"}
                         </p>
                       </div>
-                      <div className="col-4">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1"
-                        >
+
+                      <div>
+                        <p className="mb-1 text-[12px] font-[Gilroy] font-normal text-[#4B4B4B]">
                           Bed
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
-                          <img
-                            src={Group}
-                            alt="Floorimage"
-                            size="16"
-                            color="#1E45E1"
-                          />{" "}
-                          {CustomerOverView?.hostelInfo?.bedName
-                            ? CustomerOverView?.hostelInfo?.bedName
-                            : "N/A"}
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
+                          <img src={Group} alt="Bedimage" className="w-4 h-4" />
+
+                          {CustomerOverView?.hostelInfo?.bedName || "N/A"}
                         </p>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="col-4">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1"
-                        >
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+                      <div>
+                        <p className="mb-1 text-[12px] font-[Gilroy] font-normal text-[#4B4B4B]">
                           Joined Date
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
                           <img
                             src={LinkImage}
-                            alt="Floorimage"
-                            size="16"
-                            color="#1E45E1"
-                          />{" "}
-                          {CustomerOverView.hostelInfo?.joiningDate
-                            ? CustomerOverView.hostelInfo?.joiningDate
-                            : "N/A"}
+                            alt="Joineddate"
+                            className="w-4 h-4"
+                          />
+
+                          {CustomerOverView.hostelInfo?.joiningDate || "N/A"}
                         </p>
                       </div>
-                      <div className="col-4">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1 "
-                        >
+
+                      <div>
+                        <p className="mb-1 text-[12px] font-[Gilroy] font-normal text-[#4B4B4B]">
                           Checkout Date
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
                           <img
                             src={LinkImage}
-                            alt="Floorimage"
-                            size="16"
-                            color="#1E45E1"
+                            alt="Checkoutdate"
+                            className="w-4 h-4"
                           />
-                          {CustomerOverView.checkoutInfo?.checkoutDate
-                            ? CustomerOverView.checkoutInfo?.checkoutDate
-                            : "N/A"}
+
+                          {CustomerOverView.checkoutInfo?.checkoutDate || "N/A"}
                         </p>
                       </div>
-                      <div className="col-4">
-                        <p
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "#4B4B4B",
-                          }}
-                          className="mb-1 "
-                        >
+
+                      <div>
+                        <p className="mb-1 text-[12px] font-[Gilroy] font-normal text-[#4B4B4B]">
                           Booking Date
                         </p>
-                        <p
-                          style={{
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
+
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
                           <img
                             src={LinkImage}
-                            alt="Floorimage"
-                            size="16"
-                            color="#1E45E1"
+                            alt="Bookingdate"
+                            className="w-4 h-4"
                           />
-                          {CustomerOverView.bookingInfo?.bookingDate
-                            ? CustomerOverView.bookingInfo?.bookingDate
-                            : "N/A"}
+
+                          {CustomerOverView.bookingInfo?.bookingDate || "N/A"}
                         </p>
                       </div>
                     </div>
 
-                    <hr />
+                    <hr className="my-4" />
 
-                    <p
-                      style={{
-                        fontSize: 18,
-                        fontFamily: "Gilroy",
-                        fontWeight: 400,
-                      }}
-                      className=""
-                    >
+                    <p className="text-[18px] font-[Gilroy] font-normal mb-4">
                       Financial details
                     </p>
-                    <div className="col-md-12 col-lg-12 mb-md-0">
-                      <div
-                        className="card border-0 p-0"
-                        style={{
-                          borderRadius: "10px",
-                          // backgroundColor: 'rgba(247, 249, 255, 1)'
-                        }}
-                      >
-                        <div className="card-body border-0 p-0">
-                          <div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-3">
-                              <div className="flex flex-col items-start">
-                                <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
-                                  Monthly Rent
-                                </div>
-                                <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
-                                  ₹
-                                  {CustomerOverView.hostelInfo?.monthlyRent ??
-                                    0}
-                                </p>
-                              </div>
 
-                              {CustomerOverView?.isNewRentApplied && (
-                                <div
-                                  className=" bg-[#FFF8EB] rounded-xl px-3 w-full
-                              py-2 flex flex-col items-start min-w-0"
-                                >
-                                  <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
-                                    New Monthly Rent
-                                  </p>
-                                  <p className="text-sm font-semibold text-black font-gilroy mt-1 mb-0">
-                                    ₹ {CustomerOverView?.newRentAmount ?? 0}
-                                  </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                      <div className="flex flex-col items-start">
+                        <div className="text-xs font-medium font-[Gilroy] text-[#4B4B4B]">
+                          Monthly Rent
+                        </div>
 
-                                  <div className="flex items-start gap-1 mt-2 text-[12px] text-[#C27B0D] font-medium font-gilroy w-full min-w-0">
-                                    <ArrowUp
-                                      size="14"
-                                      className="shrink-0 mt-[2px]"
-                                    />
+                        <p className="pt-2 text-sm font-semibold font-[Gilroy] text-blue-600">
+                          ₹{CustomerOverView.hostelInfo?.monthlyRent ?? 0}
+                        </p>
+                      </div>
 
-                                    <span className="font-semibold break-words  min-w-0">
-                                      {CustomerOverView?.newRentLabel || ""}
-                                    </span>
-                                  </div>
-                                </div>
-                              )}
+                      {CustomerOverView?.isNewRentApplied && (
+                        <div className="bg-[#FFF8EB] rounded-xl px-3 py-2 flex flex-col items-start w-full min-w-0">
+                          <p className="mb-1 text-xs text-[#4B4B4B] font-medium font-[Gilroy] whitespace-nowrap">
+                            New Monthly Rent
+                          </p>
 
-                              {/* {CustomerOverView?.isNewRentApplied && (
-                                <div className="flex flex-col items-start">
-                                  <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
-                                    Monthly New Rent
-                                  </div>
-                                  <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
-                                    ₹{CustomerOverView.newRentAmount ?? 0}
-                                  </p>
-                                </div>
-                              )} */}
+                          <p className="mt-1 mb-0 text-sm font-semibold text-black font-[Gilroy]">
+                            ₹ {CustomerOverView?.newRentAmount ?? 0}
+                          </p>
 
-                              <div className="flex flex-col items-start">
-                                <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
-                                  Advance Amount
-                                </div>
-                                <p className="text-sm font-semibold font-gilroy pt-2">
-                                  ₹{advanceList?.advanceAmount ?? 0}
-                                </p>
-                              </div>
+                          <div className="flex items-start gap-1 mt-2 text-[12px] text-[#C27B0D] font-medium font-[Gilroy] w-full min-w-0">
+                            <ArrowUp size={14} className="shrink-0 mt-[2px]" />
 
-                              <div className="flex flex-col items-start">
-                                <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
-                                  Booking Amount
-                                </div>
-                                <p className="text-sm font-semibold font-gilroy text-[#222] pt-2">
-                                  ₹
-                                  {CustomerOverView.bookingInfo
-                                    ?.bookingAmount ?? 0}
-                                </p>
-                              </div>
-
-                              {CustomerOverView.hostelInfo?.maintenance !==
-                                null && (
-                                <div className="flex flex-col items-start">
-                                  <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
-                                    Maintenance
-                                  </div>
-                                  <p className="text-sm font-semibold font-gilroy pt-2">
-                                    ₹
-                                    {CustomerOverView.hostelInfo?.maintenance ??
-                                      0}
-                                  </p>
-                                </div>
-                              )}
-
-                              {/* Other Deductions */}
-                              {CustomerOverView.hostelInfo?.otherDeductionsBreakup?.map(
-                                (item, index) => (
-                                  <div
-                                    key={index}
-                                    className="flex flex-col items-start"
-                                  >
-                                    <div className="text-xs font-medium font-gilroy text-[#4B4B4B]">
-                                      {item.type || ""}
-                                    </div>
-                                    <p className="text-sm font-semibold font-gilroy pt-2">
-                                      ₹{item.amount ?? 0}
-                                    </p>
-                                  </div>
-                                ),
-                              )}
-                            </div>
+                            <span className="font-semibold break-words min-w-0">
+                              {CustomerOverView?.newRentLabel || ""}
+                            </span>
                           </div>
                         </div>
+                      )}
+
+                      <div className="flex flex-col items-start">
+                        <div className="text-xs font-medium font-[Gilroy] text-[#4B4B4B]">
+                          Advance Amount
+                        </div>
+
+                        <p className="pt-2 text-sm font-semibold font-[Gilroy]">
+                          ₹{advanceList?.advanceAmount ?? 0}
+                        </p>
                       </div>
+
+                      <div className="flex flex-col items-start">
+                        <div className="text-xs font-medium font-[Gilroy] text-[#4B4B4B]">
+                          Booking Amount
+                        </div>
+
+                        <p className="pt-2 text-sm font-semibold font-[Gilroy] text-[#222]">
+                          ₹{CustomerOverView.bookingInfo?.bookingAmount ?? 0}
+                        </p>
+                      </div>
+
+                      {CustomerOverView.hostelInfo?.maintenance !== null && (
+                        <div className="flex flex-col items-start">
+                          <div className="text-xs font-medium font-[Gilroy] text-[#4B4B4B]">
+                            Maintenance
+                          </div>
+
+                          <p className="pt-2 text-sm font-semibold font-[Gilroy]">
+                            ₹{CustomerOverView.hostelInfo?.maintenance ?? 0}
+                          </p>
+                        </div>
+                      )}
+
+                      {CustomerOverView.hostelInfo?.otherDeductionsBreakup?.map(
+                        (item, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-col items-start"
+                          >
+                            <div className="text-xs font-medium font-[Gilroy] text-[#4B4B4B]">
+                              {item.type || ""}
+                            </div>
+
+                            <p className="pt-2 text-sm font-semibold font-[Gilroy]">
+                              ₹{item.amount ?? 0}
+                            </p>
+                          </div>
+                        ),
+                      )}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex-1 bg-white relative    border border-[#E5E7EB] rounded-[20px] ms-2 mt-3">
+                <div className=" bg-white relative    border border-[#E5E7EB] rounded-[10px] ">
                   <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
                     <div className="flex justify-around w-full   ">
                       <button
@@ -1365,7 +980,7 @@ function CustomerProfile(props) {
                   </div>
                 </div>
 
-                <div className="flex-1 bg-white border border-[#E5E7EB] rounded-[20px] p-2 h-auto me-4 ms-2">
+                <div className=" bg-white border border-[#E5E7EB] rounded-[10px] p-2 h-auto mt-[-80px] ">
                   <div className="w-full max-w-full px-2 sm:px-3 py-3">
                     <div className="flex justify-between items-center border-b border-gray-300 pb-2">
                       <div className="font-semibold text-[16px] font-gilroy">
@@ -1417,113 +1032,51 @@ function CustomerProfile(props) {
                     </div>
                   </div>
                 </div>
-
-                {/* <div
-                  className="col-md-6"
-                  style={{
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    marginTop: 30,
-                    marginLeft: 0
-                  }}
-                >
-                  <div
-                    className="card"
-                    style={{
-                      borderRadius: "20px",
-                      padding: "8px", marginLeft: 0
-                    }}
-                  >
-                    <div
-                      className="card-header d-flex justify-content-between align-items-center"
-                      style={{
-                        backgroundColor: "transparent",
-                        borderBottom: "1px solid #e0e0e0",
-                      }}
-                    >
-                      <div
-                        className="fw-semibold"
-                        style={{
-                          fontSize: 16,
-                          lineHeight: "40px",
-                          fontFamily: "Gilroy"
-                        }}
-                      >
-                        Parent/Guardian Details
-                      </div>
-
-
-                    </div>
-
-                    <div className="card-body" style={{ fontFamily: "Gilroy" }}>
-                      <ParentsGuardian />
-                    </div>
-                  </div>
-                </div> */}
               </div>
 
-              <div className="row">
-                <div
-                  className="col-md-12 col-lg-12 "
-                  style={{
-                    marginTop: 30,
-                  }}
-                >
-                  <div
-                    className="card m-"
-                    style={{
-                      borderRadius: "14px",
-                    }}
-                  >
-                    <div
-                      className="card-header d-flex justify-content-between align-items-center"
-                      style={{
-                        backgroundColor: "transparent",
-                        borderBottom: "1px solid #e0e0e0",
-                      }}
-                    >
-                      <div
-                        className="fw-semibold"
-                        style={{
-                          fontSize: 16,
-                          lineHeight: "40px",
-                          fontFamily: "Gilroy",
-                          color: "#000",
-                        }}
-                      >
+              <div className="grid grid-cols-1 mt-[30px]">
+                <div className="w-full">
+                  <div className="rounded-[14px] border border-[#E5E7EB] bg-white">
+                    <div className="flex items-center justify-between border-b border-[#e0e0e0] bg-transparent px-4 py-3">
+                      <div className="font-semibold text-[16px] leading-[40px] text-black font-[Gilroy]">
                         Amenities provided
                       </div>
 
-                      <div className="d-flex justify-content-start ms-3"></div>
+                      <div className="flex justify-start ml-3"></div>
                     </div>
 
-                    <div className="card-body" style={{ fontFamily: "Gilroy" }}>
+                    <div className="p-4 font-[Gilroy]">
                       <div>
                         <UserListAmenities />
                       </div>
 
-                      {/* <div className="mt-1">
-              
-                                        <RequestedAmenities />
-              
-              
-                                      </div> */}
+                      {/* 
+        <div className="mt-1">
+          <RequestedAmenities />
+        </div> 
+        */}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </TabPanel>
-          <TabPanel value="2" className="px-0 mt-4">
+          </div>
+        )}
+        {value === "2" && (
+          <div className="px-0 mt-4">
             <UserEb id={state.UsersList?.customerdetails?.customerId} />
-          </TabPanel>
-          <TabPanel value="3" className="px-0 mt-16">
+          </div>
+        )}
+        {value === "3" && (
+          <div className="px-0 mt-16">
             <UserListInvoice />
-          </TabPanel>
-          <TabPanel value="4" className="px-0 mt-4">
+          </div>
+        )}
+        {value === "4" && (
+          <div className="px-0 mt-4">
             <TransactionHistory />
-          </TabPanel>
-        </TabContext>
+          </div>
+        )}
       </div>
 
       {stayDetailsShow && (
