@@ -387,7 +387,7 @@ function CustomerProfile(props) {
 
                   <div className="border border-[#DCDCDC] rounded-[10px] p-3">
                     <div className="w-full bg-transparent">
-                      <div className="flex items-center justify-around gap-5 w-full">
+                      <div className="flex items-center justify-around gap-4 w-full border-0">
                         <div
                           onClick={() => setActiveTab("kyc")}
                           className={`flex items-center cursor-pointer px-3 py-[6px] border-b-2 font-[Gilroy] font-semibold transition-all duration-200 ${
