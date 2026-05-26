@@ -31,7 +31,8 @@ import { triggerPG } from "../../Redux/Action/LoginAction";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 function PgList() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -86,7 +87,7 @@ function PgList() {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
 
@@ -632,6 +633,8 @@ function PgList() {
     dispatch(triggerPG(false));
   }, []);
 
+  const CustomerOverView = state.UsersList?.customerdetails;
+
   return (
     <>
       {loading && (
@@ -656,13 +659,9 @@ function PgList() {
             <div className="mt-1 ml-5 rounded-[14px] border border-gray-200 bg-white mb-2">
               <div className="p-3 flex flex-col md:flex-row items-center justify-between">
                 <div className="flex items-center mb-2 md:mb-0">
-                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                    ?.profilePic ? (
+                  {CustomerOverView?.profilePic ? (
                     <img
-                      src={
-                        state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                          ?.profilePic
-                      }
+                      src={CustomerOverView?.profilePic}
                       alt="Tenant Profile"
                       className="h-16 w-16 rounded-full object-cover"
                       onError={(e) => {
@@ -672,31 +671,27 @@ function PgList() {
                     />
                   ) : (
                     <div className="h-16 w-16 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-lg uppercase font-gilroy">
-                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                        .tenantInitials || "-"}
+                      {CustomerOverView?.initials || "-"}
                     </div>
                   )}
 
                   <div className="ml-2.5">
                     <span className="block font-semibold text-lg font-gilroy">
-                      {
-                        state.PgList?.isClickedBed?.currentTenantInfo?.[0]
-                          .tenantFullName
-                      }
+                      {CustomerOverView?.fullName}
                     </span>
 
                     <div className="flex gap-6 mt-1 text-xs font-gilroy">
                       <div className="flex items-center gap-1">
                         <img src={Floorimage} alt="Floor" className="w-4 h-4" />
-                        {state.PgList?.isClickedBed?.floorName}
+                        {CustomerOverView?.hostelInfo?.floorName}
                       </div>
                       <div className="flex items-center gap-1">
                         <img src={RoomImage} alt="Room" className="w-4 h-4" />
-                        {state.PgList?.isClickedBed?.roomName}
+                        {CustomerOverView?.hostelInfo?.roomName}
                       </div>
                       <div className="flex items-center gap-1">
                         <img src={Group} alt="Group" className="w-4 h-4" />
-                        {state.PgList?.isClickedBed?.bedName}
+                        {CustomerOverView?.hostelInfo?.bedName}
                       </div>
                     </div>
                   </div>
@@ -725,13 +720,7 @@ function PgList() {
             )}
 
             {!canReadPayingGuests ? (
-              <div className="flex flex-col items-center justify-center h-screen">
-                <img src={EmptyState} alt="Empty State" className="-mt-28" />
-                <ErrorMessage
-                  message={["You do not have access to view paying guest"]}
-                  type="warning"
-                />
-              </div>
+              <PermissionDeniedMessage />
             ) : floorList?.length > 0 ? (
               <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ml-2 md:ml-0">
                 <div className="sticky top-24 z-10">
@@ -1021,21 +1010,7 @@ function PgList() {
                 </div>
               </div>
             ) : (
-              !loading && (
-                <div className="w-full flex flex-col items-center justify-center animated-text">
-                  <div>
-                    <div className="flex justify-center lg:mt-28 md:mt-16 2xl:mt-60">
-                      <img src={EmptyState} alt="Empty state" />
-                    </div>
-                    <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                      No floors available
-                    </div>
-                    <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                      There is no floor added to this paying guest.
-                    </div>
-                  </div>
-                </div>
-              )
+              !loading && <NoDataMessage label="Floor" />
             )}
           </div>
         )}

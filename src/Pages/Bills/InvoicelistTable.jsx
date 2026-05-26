@@ -14,7 +14,9 @@ import { useNavigate } from "react-router-dom";
 import UnPaidInvoice from "./UnPaidInvoice";
 import { DiscountCircle, ReceiptEdit } from "iconsax-react";
 import DiscountInvoice from "../PDF/DiscountInvoice";
-import { Edit } from "iconsax-react";
+import { Edit, Link21 } from "iconsax-react";
+import ApplyBookingModal from "../Bookings/ApplyInvoices";
+import ApplyAdvance from "./ApplyAdvance";
 
 const InvoiceTable = (props) => {
   const { item, selectedRows, handleRowSelect } = props;
@@ -23,7 +25,8 @@ const InvoiceTable = (props) => {
   const navigate = useNavigate();
   const [showDots, setShowDots] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
+  const [applyInvoice, setApplyInvoice] = useState(false);
+  const [applyAdvance, setApplyAdvance] = useState(false);
   const [WriteoffForm, setWriteOffForm] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [refundDetails, setRefundDetails] = useState("");
@@ -33,7 +36,8 @@ const InvoiceTable = (props) => {
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [discountDetails, setDiscountDetails] = useState("");
   const [showAbove, setShowAbove] = useState(false);
-
+  const [advanceDetails, setAdvanceDetails] = useState("");
+  const [label, setLabel] = useState("");
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
@@ -160,6 +164,26 @@ const InvoiceTable = (props) => {
     }
   };
 
+  const handleApplyInvoices = (item) => {
+    setApplyInvoice(true);
+    setAdvanceDetails(item);
+    setShowDots(false);
+  };
+  const handleCloseApplyInvoices = () => {
+    setApplyInvoice(false);
+  };
+
+  const handleBookingApplyRedeem = (item) => {
+    setApplyAdvance(true);
+    setAdvanceDetails(item);
+    setShowDots(false);
+    setLabel("Advance");
+  };
+
+  const handleCloseBookingApplyRedeem = (item) => {
+    setApplyAdvance(false);
+  };
+
   const handleUnpaid = (item) => {
     setShowDots(false);
     setSelectedInvoice(item);
@@ -204,9 +228,16 @@ const InvoiceTable = (props) => {
     <>
       <tr
         key={props.item.invoiceId}
-        className="text-sm font-gilroy border-b border-[#E8E8E8]  hover:bg-gray-50"
+        className={`text-sm font-gilroy border-b border-[#E8E8E8] hover:bg-gray-50
+   `}
       >
-        <td className="px-4 w-[80px]">
+        <td
+          className={`px-4 py-1   w-[80px]    ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle"
+          }`}
+        >
           <div className="flex items-center justify-end">
             <input
               type="checkbox"
@@ -216,8 +247,18 @@ const InvoiceTable = (props) => {
               onChange={() => handleRowSelect(item.invoiceId)}
             />
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer">
+        <td
+          className={`w-[230px]    px-2 py-1 whitespace-nowrap text-[#1E45E1] font-semibold cursor-pointer
+             ${
+               props.item.isDiscounted || props.item.isInvoicesApplied
+                 ? ""
+                 : "align-middle "
+             }`}
+        >
           <div
             onClick={() => handleNavigatePDF(props.item)}
             className="Invoice_Name"
@@ -227,11 +268,20 @@ const InvoiceTable = (props) => {
               ? "0.00"
               : props.item?.invoiceNumber}
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[250px] py-1 px-2 relative">
+        <td
+          className={`w-[250px]  px-2 py-1 relative ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
           <div
-            className="flex items-center gap-2 cursor-pointer w-fit  group"
+            className={`flex items-center gap-2 cursor-pointer w-fit group `}
             onClick={() => handleNavigateTenantProfile(props.item)}
           >
             {props.item?.profilePic ? (
@@ -246,7 +296,7 @@ const InvoiceTable = (props) => {
               </div>
             )}
 
-            <div className="truncate w-[120px] text-black hover:underline ">
+            <div className="truncate w-[120px] text-[#1E45E1] hover:underline  ">
               {props.item?.fullName}
             </div>
             <span
@@ -257,9 +307,18 @@ const InvoiceTable = (props) => {
               {props.item?.fullName}
             </span>
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[230px] py-1 px-2 relative">
+        <td
+          className={`w-[230px]    px-2 py-1 relative  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
           <div className="flex items-center gap-2 group w-fit">
             <span className="truncate max-w-[150px]">
               {props.item.invoiceType}
@@ -278,71 +337,145 @@ const InvoiceTable = (props) => {
               {props.item.invoiceMode}
             </span>
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td
+          className={`w-[230px]    px-2 py-1 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle"
+          }`}
+        >
           {props.item?.invoiceDate}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-          {props.item?.dueDate}
+        <td
+          className={`w-[230px] px-2 py-1 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle"
+          }`}
+        >
+          {props.item?.dueDate}{" "}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-          <div className="flex flex-col">
-            <span>
+        <td
+          className={`w-[230px] px-2 py-1 relative align-middle whitespace-nowrap ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
+          <div className="relative inline-block">
+            <span className="leading-5">
               ₹{Number(props.item?.invoiceAmount || 0).toLocaleString("en-IN")}
             </span>
 
-            {props.item.isDiscounted && (
-              <span className="text-[11px] text-[#64748B] mt-1">
-                Discount Applied : ₹
-                {Number(props.item?.discountAmount || 0).toLocaleString(
-                  "en-IN",
+            {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+              <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
+                {props.item.isDiscounted && (
+                  <span>
+                    Discount Applied : ₹
+                    <span className="text-[11px] font-semibold">
+                      {Number(props.item?.discountAmount || 0).toLocaleString(
+                        "en-IN",
+                      )}
+                    </span>
+                  </span>
                 )}
-              </span>
+
+                {props.item.isInvoicesApplied && (
+                  <span className="">
+                    Adjusted Amount : ₹
+                    <span className="text-[11px] font-semibold">
+                      {Number(
+                        props.item?.invoicesApplied?.amountApplied || 0,
+                      ).toLocaleString("en-IN")}
+                    </span>
+                  </span>
+                )}
+              </div>
             )}
           </div>
         </td>
 
-        <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+        <td
+          className={`w-[230px]  px-2 py-1 whitespace-nowrap  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[270px] py-1 px-2 whitespace-nowrap overflow-hidden">
+        <td
+          className={`w-[270px] px-2 py-1 whitespace-nowrap overflow-hidden  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
           {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
-            <span className="bg-[#FFD9D9] rounded-[13px] px-3 py-1">
+            <span className="inline-flex items-center gap-2 bg-[#FFD9D9] rounded-[13px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-red-500"></span>
               {props.item?.paymentStatus}
             </span>
           )}
 
           {props.item?.paymentStatus === "Paid" && (
-            <span className="cursor-pointer bg-[#B3E5BB4D] rounded-[14px] px-3 py-1">
+            <span className="inline-flex items-center gap-2 cursor-pointer bg-green-100 rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-green-600"></span>
               {props.item?.paymentStatus}
             </span>
           )}
 
           {(props.item?.paymentStatus === "Refunded" ||
             props.item?.paymentStatus === "Partially Refunded") && (
-            <span className="bg-[#FFF3CD] rounded-[14px] px-3 py-1">
+            <span className="inline-flex items-center gap-2 bg-[#FFF3CD] rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
               {props.item?.paymentStatus}
             </span>
           )}
 
           {props.item?.paymentStatus === "Pending Refund" && (
-            <span className="bg-[#FFE6B3] rounded-[14px] px-3 py-1">
+            <span className="inline-flex items-center gap-2 bg-[#FFE6B3] rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-orange-500"></span>
               {props.item?.paymentStatus}
             </span>
           )}
+
           {props.item?.isCancelled && (
-            <span className="bg-[#FFE6B3] rounded-[14px] px-3 py-1">
+            <span className="inline-flex items-center gap-2 bg-[#FFE6B3] rounded-[14px] px-3 py-1 text-xs">
+              <span className="w-2 h-2 rounded-full bg-gray-500"></span>
               Cancelled
             </span>
           )}
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
 
-        <td className="w-[230px] py-1 px-2">
+        <td
+          className={`w-[230px] py-1   px-2  ${
+            props.item.isDiscounted || props.item.isInvoicesApplied
+              ? ""
+              : "align-middle "
+          }`}
+        >
           <div className="w-full flex justify-start">
             <div className="cursor-pointer flex justify-center items-center relative">
               <PiDotsThreeOutlineVerticalFill
@@ -353,7 +486,7 @@ const InvoiceTable = (props) => {
               {showDots && (
                 <div
                   ref={popupRef}
-                  className="fixed w-[170px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
+                  className="fixed max-w-[250px] bg-[#F9F9F9] border border-[#EBEBEB] rounded-[10px] flex flex-col z-[3000]"
                   style={{
                     top: showAbove
                       ? popupPosition.top -
@@ -384,6 +517,110 @@ const InvoiceTable = (props) => {
                       </span>
                     </div>
                   )}
+
+                  {props.item.canRedeem ? (
+                    <button
+                      disabled={!canUpdateInvoice}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBookingApplyRedeem(props.item);
+                      }}
+                      className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                    >
+                      <Link21
+                        className="flex-shrink-0"
+                        color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
+                        size="16"
+                      />
+
+                      <span
+                        className={`text-sm font-medium ${
+                          !canUpdateInvoice
+                            ? "text-[#A9A9A9]"
+                            : "text-[#222222]"
+                        }`}
+                      >
+                        Apply to Invoices
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      disabled={
+                        !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleApplyInvoices(props.item);
+                      }}
+                      className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !props.item?.canApplyFromAdvance
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                    >
+                      <Link21
+                        className="flex-shrink-0"
+                        color={
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                            ? "#A9A9A9"
+                            : "#1E45E1"
+                        }
+                        size="16"
+                      />
+
+                      <span
+                        className={`text-sm font-medium ${
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                            ? "text-[#A9A9A9]"
+                            : "text-[#222222]"
+                        }`}
+                      >
+                        Adjust with Advance
+                      </span>
+                    </button>
+                  )}
+
+                  {/* <button
+                    disabled={!canUpdateInvoice || !props.item.canRedeem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleApplyInvoices(props.item);
+                    }}
+                    className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !props.item.canRedeem
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                  >
+                    <Link21
+                      className="flex-shrink-0"
+                      color={
+                        !canUpdateInvoice || !props.item.canRedeem
+                          ? "#A9A9A9"
+                          : "#1E45E1"
+                      }
+                      size="16"
+                    />
+
+                    <span
+                      className={`text-sm font-medium ${
+                        !canUpdateInvoice || !props.item.canRedeem
+                          ? "text-[#A9A9A9]"
+                          : "text-[#222222]"
+                      }`}
+                    >
+                      {props.item?.canApplyFromAdvance
+                        ? "Adjust with Advance"
+                        : "Apply to Invoice"}
+                    </span>
+                  </button> */}
 
                   {props.item.invoiceMode === "Manual" &&
                     props.item?.paymentStatus === "Paid" &&
@@ -505,6 +742,9 @@ const InvoiceTable = (props) => {
               )}
             </div>
           </div>
+          {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
+            <div className="h-4"></div>
+          )}
         </td>
       </tr>
 
@@ -513,6 +753,24 @@ const InvoiceTable = (props) => {
           show={showDiscountInvoice}
           handleClose={handleCloseFormDiscount}
           discountDetails={discountDetails}
+        />
+      )}
+
+      {applyAdvance && (
+        <ApplyBookingModal
+          show={applyAdvance}
+          handleClose={handleCloseBookingApplyRedeem}
+          advanceDetails={advanceDetails}
+          label={label}
+        />
+      )}
+
+      {applyInvoice && (
+        <ApplyAdvance
+          label={""}
+          show={applyInvoice}
+          handleClose={handleCloseApplyInvoices}
+          advanceDetails={advanceDetails}
         />
       )}
 

@@ -22,6 +22,8 @@ import { useHasPermission } from "../../Utils/Permission";
 import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingAmenities() {
   const state = useSelector((state) => state);
@@ -38,6 +40,7 @@ function SettingAmenities() {
   // const [amenityDetails, setAmenityDetails] = useState('')
   const [switchStates, setSwitchStates] = useState({});
   const [deleteAmenities, setDeleteAmenities] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState("");
   const [loading, setLoading] = useState(false);
@@ -64,7 +67,7 @@ function SettingAmenities() {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
   useEffect(() => {
@@ -156,6 +159,7 @@ function SettingAmenities() {
           hostelId: state.login.selectedHostel_Id,
         },
       });
+      setDeleteLoading(true);
     }
   };
 
@@ -279,7 +283,7 @@ function SettingAmenities() {
       }
 
       setDeleteAmenities(false);
-
+      setDeleteLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_DELETE_AMENITIES_STATUS_CODE" });
       }, 2000);
@@ -320,13 +324,9 @@ function SettingAmenities() {
       )}
 
       {!canReadAmenities ? (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <img src={Emptystate} alt="Empty State" />
-          <ErrorMessage
-            message={["You do not have access to view Settings Amenities"]}
-            type="warning"
-          />
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
         <div
           className={`relative mt-2 mb-3 
@@ -483,19 +483,7 @@ function SettingAmenities() {
                     </div>
                   </div>
                 ))
-              : !loading && (
-                  <div className="flex items-center justify-center w-full lg:mt-32 md:mt-20 2xl:mt-52 animated-text">
-                    <div className="text-center">
-                      <div className="flex justify-center mb-2">
-                        <img src={EmptyState} alt="Empty state" />
-                      </div>
-
-                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                        No Amenities available
-                      </div>
-                    </div>
-                  </div>
-                )}
+              : !loading && <NoDataMessage label="Amenities" />}
           </div>
 
           {loading && (
@@ -560,10 +548,32 @@ function SettingAmenities() {
                 Cancel
               </button>
               <button
+                disabled={deleteLoading}
                 onClick={handleDeleteAmenitiesConfirm}
-                className="!flex-1 !h-14 !rounded-lg !bg-blue-700 !text-white !font-gilroy !font-semibold !text-sm"
+                className={`
+    !flex-1 
+    !h-14 
+    !rounded-lg 
+    !bg-blue-700 
+    !text-white 
+    !font-gilroy 
+    !font-semibold 
+    !text-sm
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
               >
-                Delete
+                {deleteLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete"
+                )}
               </button>
             </div>
           </Modal.Footer>

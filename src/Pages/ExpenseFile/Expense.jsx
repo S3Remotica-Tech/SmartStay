@@ -9,9 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Expenses.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import "react-toastify/dist/ReactToastify.css";
-import { CloseCircle, SearchNormal1 } from "iconsax-react";
+import { CloseCircle, SearchNormal1, Setting3 } from "iconsax-react";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-// import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
@@ -19,16 +18,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Filters from "../../Assets/Images/Filters.svg";
-import Image from 'react-bootstrap/Image';
-// import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
-import { useMediaQuery, useTheme } from '@mui/material'
+import Image from "react-bootstrap/Image";
+import { useMediaQuery, useTheme } from "@mui/material";
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from '../../Components/ErrorMessage';
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
-
-
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 function Expenses({ allPageHostel_Id }) {
   const location = useLocation();
   const state = useSelector((state) => state);
@@ -47,20 +45,20 @@ function Expenses({ allPageHostel_Id }) {
   const [amountValue, setAmountValue] = useState("");
   const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
   const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
-  const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState('')
+  const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState("");
   const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
-  const [ExcelFilterDates, setExcelFilterDates] = useState([])
+  const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
   const [pickerKey, setPickerKey] = useState(0);
-
+  const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-
-
-
+  const [showExpenseDelete, setShowExpenseDelete] = useState(false);
+  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const {
     canWriteModule: canWriteExpense,
     canReadModule: canReadExpense,
@@ -68,38 +66,26 @@ function Expenses({ allPageHostel_Id }) {
     // canDeleteModule: canDeleteElectricity,
   } = useHasPermission("Expense");
 
-
-
   useEffect(() => {
     if (!canReadExpense) {
       setLoading(false);
     }
   }, [canReadExpense]);
 
-
-
-
   const isExpenseForm = location.state?.isExpenseForm || false;
-
-
 
   useEffect(() => {
     setShowModal(isExpenseForm);
   }, [isExpenseForm]);
 
-
-
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
-
-
+  }, [state.UsersList?.accessRestrictionError]);
 
   const handleClickOutside = (event) => {
     if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -119,86 +105,79 @@ function Expenses({ allPageHostel_Id }) {
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
       setExcelDownload(
-        state.UsersList?.exportExpenceDetails?.response?.fileUrl
+        state.UsersList?.exportExpenceDetails?.response?.fileUrl,
       );
     }
   }, [state.UsersList?.exportExpenceDetails?.response?.fileUrl]);
 
-
-
   const handleExpenceExcel = () => {
-
     if (ExcelFilterminAmount && ExcelFiltermaxAmount) {
       dispatch({
         type: "EXPORTEXPENCESDETAILS",
         payload: {
-          type: "expenses", hostel_id: state.login.selectedHostel_Id,
-          min_amount: Number(ExcelFilterminAmount) || 0, max_amount: Number(ExcelFiltermaxAmount) || 0,
-        }
-      })
-      setExcelFilterMinAmount('')
-      setExcelFilterMaxAmount('')
-      setExcelFilterPaymentmode('')
-      setExcelFilterCategoryValue('')
-      setExcelFilterDates([])
-    }
-
-    else if (ExcelFilterDates.length === 2) {
+          type: "expenses",
+          hostel_id: state.login.selectedHostel_Id,
+          min_amount: Number(ExcelFilterminAmount) || 0,
+          max_amount: Number(ExcelFiltermaxAmount) || 0,
+        },
+      });
+      setExcelFilterMinAmount("");
+      setExcelFilterMaxAmount("");
+      setExcelFilterPaymentmode("");
+      setExcelFilterCategoryValue("");
+      setExcelFilterDates([]);
+    } else if (ExcelFilterDates.length === 2) {
       dispatch({
         type: "EXPORTEXPENCESDETAILS",
         payload: {
-          type: "expenses", hostel_id: state.login.selectedHostel_Id,
+          type: "expenses",
+          hostel_id: state.login.selectedHostel_Id,
           start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
-        }
-      })
-      setExcelFilterMinAmount('')
-      setExcelFilterMaxAmount('')
-      setExcelFilterPaymentmode('')
-      setExcelFilterCategoryValue('')
-      setExcelFilterDates([])
-    }
-
-    else if (ExcelFiltercategoryValue) {
+          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD"),
+        },
+      });
+      setExcelFilterMinAmount("");
+      setExcelFilterMaxAmount("");
+      setExcelFilterPaymentmode("");
+      setExcelFilterCategoryValue("");
+      setExcelFilterDates([]);
+    } else if (ExcelFiltercategoryValue) {
       dispatch({
         type: "EXPORTEXPENCESDETAILS",
         payload: {
-          type: "expenses", hostel_id: state.login.selectedHostel_Id,
-          category: Number(ExcelFiltercategoryValue)
-        }
-      })
-      setExcelFilterMinAmount('')
-      setExcelFilterMaxAmount('')
-      setExcelFilterPaymentmode('')
-      setExcelFilterCategoryValue('')
-      setExcelFilterDates([])
-    }
-
-    else if (ExcelFilterPaymentmode) {
+          type: "expenses",
+          hostel_id: state.login.selectedHostel_Id,
+          category: Number(ExcelFiltercategoryValue),
+        },
+      });
+      setExcelFilterMinAmount("");
+      setExcelFilterMaxAmount("");
+      setExcelFilterPaymentmode("");
+      setExcelFilterCategoryValue("");
+      setExcelFilterDates([]);
+    } else if (ExcelFilterPaymentmode) {
       dispatch({
         type: "EXPORTEXPENCESDETAILS",
         payload: {
-          type: "expenses", hostel_id: state.login.selectedHostel_Id,
-          payment_mode: Number(ExcelFilterPaymentmode)
-        }
-      })
-      setExcelFilterMinAmount('')
-      setExcelFilterMaxAmount('')
-      setExcelFilterPaymentmode('')
-      setExcelFilterCategoryValue('')
-      setExcelFilterDates([])
-    }
-
-    else {
+          type: "expenses",
+          hostel_id: state.login.selectedHostel_Id,
+          payment_mode: Number(ExcelFilterPaymentmode),
+        },
+      });
+      setExcelFilterMinAmount("");
+      setExcelFilterMaxAmount("");
+      setExcelFilterPaymentmode("");
+      setExcelFilterCategoryValue("");
+      setExcelFilterDates([]);
+    } else {
       dispatch({
         type: "EXPORTEXPENCESDETAILS",
-        payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id }
+        payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id },
       });
     }
 
     setIsDownloadTriggered(true);
   };
-
 
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
@@ -213,22 +192,13 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [excelDownload, isDownloadTriggered]);
 
-
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
-
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
       }, 200);
     }
   }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
-
-
-
-
-
-
-
 
   useEffect(() => {
     if (dates.length === 2) {
@@ -242,7 +212,6 @@ function Expenses({ allPageHostel_Id }) {
       });
     }
   }, [dates, state.login.selectedHostel_Id]);
-
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -262,8 +231,6 @@ function Expenses({ allPageHostel_Id }) {
     setShowModal(true);
   };
 
-
-
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
     const value = e.target.getAttribute("value");
@@ -273,13 +240,10 @@ function Expenses({ allPageHostel_Id }) {
     const [minAmount, maxAmount] = amountRange.split("-").map(Number);
     // setMinAmount(minAmount);
     // setMaxAmount(maxAmount);
-    setExcelFilterMinAmount(minAmount)
-    setExcelFilterMaxAmount(maxAmount)
+    setExcelFilterMinAmount(minAmount);
+    setExcelFilterMaxAmount(maxAmount);
     setShowAmount(false);
   };
-
-
-
 
   const [currentItem, setCurrentItem] = useState("");
 
@@ -292,7 +256,7 @@ function Expenses({ allPageHostel_Id }) {
       });
       // dispatch({
       //   type: "EXPENCES-CATEGORY-LIST",
-      //   payload: state.login.selectedHostel_Id 
+      //   payload: state.login.selectedHostel_Id
       // });
       dispatch({
         type: "VENDORLIST",
@@ -307,7 +271,6 @@ function Expenses({ allPageHostel_Id }) {
 
   const { getExpenseStatusCode } = state.ExpenseList;
 
-
   useEffect(() => {
     if (getExpenseStatusCode === 200) {
       setLoading(false);
@@ -319,10 +282,6 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [getExpenseStatusCode, state.ExpenseList.expenseList]);
 
-
-
-
-
   useEffect(() => {
     setLoading(false);
   }, [state.ExpenseList.expenseList]);
@@ -330,7 +289,8 @@ function Expenses({ allPageHostel_Id }) {
   useEffect(() => {
     if (
       state.ExpenseList.StatusCodeForAddExpenseSuccess === 201 ||
-      state.ExpenseList.deleteExpenseStatusCode === 204 || state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
+      state.ExpenseList.deleteExpenseStatusCode === 204 ||
+      state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
     ) {
       dispatch({
         type: "EXPENSELIST",
@@ -338,21 +298,19 @@ function Expenses({ allPageHostel_Id }) {
       });
       setShowModal(false);
       setShowExpenseDelete(false);
+      setDeleteLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_EXPENSE" });
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
         dispatch({ type: "REMOVE_UPDATE_EXPENSE_REDUCER" });
       }, 200);
-
     }
-  },
-    [
-      state.ExpenseList.StatusCodeForAddExpenseSuccess,
-      state.ExpenseList.deleteExpenseStatusCode,
-      state.login.selectedHostel_Id,
-      state.ExpenseList.StatusCodeForUpdateExpenseSuccess
-    ]
-  );
+  }, [
+    state.ExpenseList.StatusCodeForAddExpenseSuccess,
+    state.ExpenseList.deleteExpenseStatusCode,
+    state.login.selectedHostel_Id,
+    state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
+  ]);
 
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
@@ -377,33 +335,27 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (getData.length === 0) {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }, [getData])
+  }, [getData]);
 
   // const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage, setItemsPerPage] = useState(10);
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-
   const filteredData = React.useMemo(
     () => filterByPriceRange(getData) || [],
-    [getData]
+    [getData],
   );
   const sortedData = React.useMemo(() => {
     return Array.isArray(filteredData) ? filteredData : [];
   }, [filteredData]);
 
-
   const handleEditExpen = (item) => {
     setShowModal(true);
     setCurrentItem(item);
   };
-
-  const [showExpenseDelete, setShowExpenseDelete] = useState(false);
-  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
 
   const handleDeleteExpense = (id) => {
     if (!id) return;
@@ -421,14 +373,12 @@ function Expenses({ allPageHostel_Id }) {
         type: "DELETEEXPENSE",
         payload: {
           expenseId: deleteExpenseRowData,
-          hostelId: state.login.selectedHostel_Id
+          hostelId: state.login.selectedHostel_Id,
         },
       });
-      // setCurrentPage(1);
+      setDeleteLoading(true);
     }
   };
-
-
 
   const [showCategory, setShowCategory] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
@@ -442,12 +392,10 @@ function Expenses({ allPageHostel_Id }) {
     setShowCategory(false);
   };
 
-
-
   const handleModeValueChange = (e) => {
     setSelectedValue(null);
     setModeValue(e.target.getAttribute("value"));
-    setExcelFilterPaymentmode(e.target.getAttribute("value"))
+    setExcelFilterPaymentmode(e.target.getAttribute("value"));
     setShowFilter(false);
     setShowPaymentMode(false);
   };
@@ -456,8 +404,6 @@ function Expenses({ allPageHostel_Id }) {
     setSelectedValue(value);
     setShowFilter(false);
   };
-
-
 
   const [showFilterExpense, setShowFilterExpense] = useState(false);
 
@@ -484,7 +430,7 @@ function Expenses({ allPageHostel_Id }) {
         state.ExpenseList.expenseList.filter(
           (user) =>
             user.category_Name &&
-            user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
+            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
         );
 
       setGetData(filteredItems);
@@ -504,7 +450,7 @@ function Expenses({ allPageHostel_Id }) {
         state.ExpenseList.expenseList.filter(
           (user) =>
             user.category_Name &&
-            user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
+            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
         );
 
       setGetData(filteredItems);
@@ -519,11 +465,10 @@ function Expenses({ allPageHostel_Id }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-
   const handleDateChange = (selectedDates) => {
     if (!selectedDates || selectedDates.length !== 2) {
       setDates([]);
-      setExcelFilterDates([])
+      setExcelFilterDates([]);
       setSelectedValue("All");
       setCategoryValue("");
       setModeValue("");
@@ -545,7 +490,7 @@ function Expenses({ allPageHostel_Id }) {
     const newStartDate = dayjs(selectedDates[0]).startOf("day");
     const newEndDate = dayjs(selectedDates[1]).endOf("day");
     setDates([newStartDate, newEndDate]);
-    setExcelFilterDates([newStartDate, newEndDate])
+    setExcelFilterDates([newStartDate, newEndDate]);
     // setCurrentPage(1);
   };
 
@@ -585,7 +530,14 @@ function Expenses({ allPageHostel_Id }) {
       payload.vendor_id = vendorValue;
       dispatch({ type: "EXPENSELIST", payload });
     }
-  }, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue]);
+  }, [
+    selectedValue,
+    categoryValue,
+    modeValue,
+    amountValue,
+    assetValue,
+    vendorValue,
+  ]);
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -596,7 +548,6 @@ function Expenses({ allPageHostel_Id }) {
       }, 1000);
     }
   }, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList]);
-
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
@@ -609,9 +560,7 @@ function Expenses({ allPageHostel_Id }) {
   }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(
-    window.innerWidth >= 1440 ? 20 : 10
-  );
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
 
   useEffect(() => {
     const handleResize = () => {
@@ -632,14 +581,16 @@ function Expenses({ allPageHostel_Id }) {
 
   const paginatedData = sortedData.slice(startIndex, endIndex);
 
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+  };
+
   return (
     <>
-
-      <div>
-        <div className="sticky-top bg-white">
-          <div className="sticky top-0 flex flex-wrap justify-between items-center bg-white z-10">
+      <div className="bg-white font-gilroy">
+        <div className="w-full p-0">
+          <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
             <div className="col-span-12 md:col-auto flex flex-wrap items-center">
-
               <label className="text-lg text-black font-semibold font-gilroy">
                 Expenses
               </label>
@@ -647,46 +598,29 @@ function Expenses({ allPageHostel_Id }) {
               <RangePicker
                 key={pickerKey}
                 className={`range-picker-with-left-arrow h-10 w-64 ml-2 mt-1 pl-7 font-gilroy transition-opacity duration-300 ease-in-out
-  ${canReadExpense
-                    ? "cursor-pointer opacity-100 pointer-events-auto"
-                    : "cursor-not-allowed opacity-40 pointer-events-none"}
+  ${
+    canReadExpense
+      ? "cursor-pointer opacity-100 pointer-events-auto"
+      : "cursor-not-allowed opacity-40 pointer-events-none"
+  }
 `}
-
                 onChange={handleDateChange}
                 value={dates.length === 2 ? [dates[0], dates[1]] : null}
                 format="DD-MM-YYYY"
                 placeholder={["Start Date", "End Date"]}
               />
-
             </div>
 
-            <div className="col-span-12 md:col flex flex-wrap md:justify-end items-center">
-              {!showFilterExpense && (
-                <div onClick={() => canReadExpense && handleShowSearch()}
-                  className="pr-4"
-                >
-
-                  <SearchNormal1
-                    color="#222"
-                    className={`
-    h-6 w-6  font-gilroy transition-opacity duration-300 ease-in-out
-    ${canReadExpense
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"}
-  `}
-                  />
-
-                </div>
-              )}
-
-              <div className="mr-3 mt-1">
+            <div className="col-span-12 md:col flex flex-wrap gap-1 md:justify-end items-center">
+              <div className=" mt-1">
                 <Image
                   src={Filters}
                   className={`h-12 w-12 transition-opacity duration-300 ease-in-out
-      ${canReadExpense
-                      ? "cursor-pointer opacity-100 pointer-events-auto"
-                      : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
+      ${
+        canReadExpense
+          ? "cursor-pointer opacity-100 pointer-events-auto"
+          : "cursor-not-allowed opacity-40 pointer-events-none"
+      }`}
                   onClick={handleFilterByPrice}
                 />
               </div>
@@ -700,7 +634,6 @@ function Expenses({ allPageHostel_Id }) {
                     <ListGroup.Item value="All" onClick={handleExpenseAll}>
                       All
                     </ListGroup.Item>
-
 
                     <ListGroup.Item
                       active={showCategory}
@@ -728,7 +661,6 @@ function Expenses({ allPageHostel_Id }) {
                       )}
                     </ListGroup.Item>
 
-
                     <ListGroup.Item
                       active={showPaymentMode}
                       onMouseEnter={() => setShowPaymentMode(true)}
@@ -755,7 +687,6 @@ function Expenses({ allPageHostel_Id }) {
                       )}
                     </ListGroup.Item>
 
-
                     <ListGroup.Item
                       active={showAmount}
                       onMouseEnter={() => setShowAmount(true)}
@@ -768,10 +699,7 @@ function Expenses({ allPageHostel_Id }) {
                           value={amountValue}
                           onClick={handleAmountValueChange}
                         >
-                          <ListGroup.Item
-                            className="sub_item"
-                            value="0-1000"
-                          >
+                          <ListGroup.Item className="sub_item" value="0-1000">
                             0-1000
                           </ListGroup.Item>
                           <ListGroup.Item
@@ -786,10 +714,7 @@ function Expenses({ allPageHostel_Id }) {
                           >
                             5000-10000
                           </ListGroup.Item>
-                          <ListGroup.Item
-                            className="sub_item"
-                            value="10000"
-                          >
+                          <ListGroup.Item className="sub_item" value="10000">
                             10000 Above
                           </ListGroup.Item>
                         </ListGroup>
@@ -799,74 +724,31 @@ function Expenses({ allPageHostel_Id }) {
                 </div>
               )}
 
-              {showFilterExpense && (
-                <div
-                  className={`mr-3 relative ${isSmallScreen && showFilterExpense ? "w-[150px]" : "w-[240px]"}`}
-                >
-                  <InputGroup className="flex flex-nowrap w-full mt-2 h-[40px]">
-                    <FormControl
-                      value={searchQuery}
-                      onChange={handleInputChange}
-                      className="w-[235px] shadow-none border border-light-gray border-r-0 text-[15px] font-medium text-[#222] font-filroy"
-                      placeholder="Search..."
-                    />
-                    <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
-                      <CloseCircle
-                        size="24"
-                        color="#222"
-                        className="cursor-pointer"
-                        onClick={handleCloseSearch}
-                      />
-                    </InputGroup.Text>
-                  </InputGroup>
+              <div
+                className={`flex items-center rounded-xl border px-3 py-1.5 !bg-white  transition
+                                 ${
+                                   canReadExpense
+                                     ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                                     : "border-gray-200 opacity-60 cursor-not-allowed"
+                                 }`}
+              >
+                <input
+                  type="text"
+                  className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
+                  placeholder="Search"
+                  value={filterInput}
+                  onChange={(e) => handlefilterInput(e)}
+                  disabled={canReadExpense}
+                />
 
-                  {getData?.length > 0 &&
-                    searchQuery !== "" &&
-                    showDropDown && (
-                      <div className="absolute top-15 left-0 z-[1000] p-2.5 rounded-lg border border-gray-300 bg-white" >
-                        <ul
-                          className={`
-    w-[215px] bg-white max-h-[174px] rounded-lg box-border p-[5px_10px] m-0 list-none
-    ${getData?.length > 1 ? "min-h-[100px]" : "min-h-auto"}
-    ${getData?.length > 2 ? "overflow-y-auto" : "overflow-y-hidden"}
-  `}
-                        >
-                          {getData.map((user, index) => (
-                            <li
-                              key={index}
-                              onClick={() => {
-                                handleDropDown(user.category_Name);
-                              }}
-                              onMouseEnter={() => setHoveredIndex(index)}
-                              onMouseLeave={() => setHoveredIndex(null)}
-                              style={{
-                                padding: "10px",
-                                cursor: "pointer",
-                                borderBottom: "1px solid #dcdcdc",
-                                fontSize: "14px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                backgroundColor:
-                                  hoveredIndex === index
-                                    ? "#1E45E1"
-                                    : "transparent",
-                                color:
-                                  hoveredIndex === index
-                                    ? "white"
-                                    : "black",
+                <SearchNormal1
+                  size="18"
+                  color={canReadExpense ? "#6B7280" : "#A0A0A0"}
+                  className="mr-2"
+                />
+              </div>
 
-                              }}
-                            >
-                              {user.category_Name}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                </div>
-              )}
-
-              <div className="mr-3 cursor-pointer">
+              <div className=" cursor-pointer">
                 <img
                   src={excelimg}
                   alt="excel"
@@ -885,7 +767,6 @@ function Expenses({ allPageHostel_Id }) {
                   disabled={!canWriteExpense || state?.login?.planStatus === 0}
                   onClick={handleShow}
                   className="!font-gilroy text-[14px] !bg-[#1E45E1] text-white !font-semibold rounded-lg p-2 w-[146px] whitespace-nowrap"
-
                 >
                   {" "}
                   + Expense
@@ -895,79 +776,65 @@ function Expenses({ allPageHostel_Id }) {
           </div>
         </div>
 
-        {searchQuery && (
-          <div className="container mt-5 mb-4 font-gilroy font-semibold text-base"
-
-          >
-            {getData.length > 0 ? (
-              <span className="text-center font-gilroy font-semibold text-base text-gray-600">
-                {getData.length} result{getData.length > 1 ? "s" : ""} found
-                for{" "}
-                <span className="text-center font-gilroy font-semibold text-base text-gray-600">
-                  &quot;${searchQuery}&quot;
-                </span>
-              </span>
-            ) : (
-              <span className="text-center font-gilroy font-semibold text-base text-gray-600">
-                No results found for{" "}
-                <span className="text-center font-gilroy font-semibold text-base text-gray-600">
-                  &quot;${searchQuery}&quot;
-                </span>
-              </span>
-            )}
+        <div className="flex justify-end  gap-2  items-center ">
+          <div>
+            <Setting3
+              // onClick={() => setOpen(!open)}
+              className="cursor-not-allowed"
+              size="22"
+              color="#4B4B4B"
+            />
           </div>
-        )}
-
-        {loading && (
-          <div className="absolute top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
+          <div>
+            <PaginationList
+              totalItems={sortedData.length}
+              itemsPerPage={pageSize}
+              currentPage={page}
+              onPageChange={(p) => setPage(p)}
+              onPageSizeChange={(size) => setPageSize(size)}
+            />
           </div>
-        )}
-
+        </div>
 
         {!canReadExpense ? (
           <>
-            <div className="flex flex-col items-center justify-center h-[60vh]">
-              <img
-                src={EmptyState}
-                alt="Empty State"
-
-              />
-              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
-            </div>
+            <PermissionDeniedMessage />
           </>
-        ) :
-
-          sortedData && sortedData.length > 0 ? (
-
-
-            <div>
-              <div className="relative h-[calc(100vh-88px)] flex flex-col mt-3 font-gilroy">
-                <div className="flex justify-end mb-3">
-                  <div>
-                    <PaginationList
-                      totalItems={sortedData.length}
-                      itemsPerPage={pageSize}
-                      currentPage={page}
-                      onPageChange={(p) => setPage(p)}
-                      onPageSizeChange={(size) => setPageSize(size)}
-                    />
-                  </div>
-                </div>
-
-                 <div className="w-full overflow-x-auto md:scroll-smooth">
-                   <table className="min-w-[900px] border-collapse font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+        ) : (
+          <div className="relative">
+            {sortedData && sortedData.length > 0 ? (
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
-                        <th className="px-2 text-left w-[70px]">Date</th>
+                        <th className="px-4 text-left w-[70px]">Date</th>
                         <th className="px-2 text-left w-[70px]">Category</th>
-                        <th className="px-2 text-left w-[90px] whitespace-nowrap">Sub Category</th>
-                        <th className="px-2 text-left min-w-[80px]">Description</th>
-                        <th className="px-2 text-left min-w-[60px] whitespace-nowrap">Unit Count</th>
-                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">Per Unit Price</th>
-                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">Total Amount</th>
-                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">Mode of Payment</th>
-                        <th className="px-2 text-left min-w-[70px] whitespace-nowrap">Action</th>
+                        <th className="px-2 text-left w-[90px] whitespace-nowrap">
+                          Sub Category
+                        </th>
+                        <th className="px-2 text-left min-w-[80px]">
+                          Description
+                        </th>
+                        <th className="px-2 text-left min-w-[60px] whitespace-nowrap">
+                          Unit Count
+                        </th>
+                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">
+                          Per Unit Price
+                        </th>
+                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">
+                          Total Amount
+                        </th>
+                        <th className="px-2 text-left min-w-[90px] whitespace-nowrap">
+                          Mode of Payment
+                        </th>
+                        <th className="px-2 text-left min-w-[70px] whitespace-nowrap">
+                          Action
+                        </th>
                       </tr>
                     </thead>
 
@@ -984,40 +851,23 @@ function Expenses({ allPageHostel_Id }) {
                   </table>
                 </div>
               </div>
-            </div>
-
-
-
-          )
-
-            :
-
-
-            !loading && (!filteredData || filteredData.length === 0) && canReadExpense ? (
-              <div className="animated-text flex items-center justify-center h-[90vh] 2xl:-mt-16"
-              >
-                <div>
-                  <div className="flex justify-center 2xl:mt-24">
-                    <img
-                      src={EmptyState}
-                      alt="Empty state"
-                    />
-                  </div>
-                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                    No expenses available
-                  </div>
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no expenses available.
-                  </div>
+            ) : (
+              !loading &&
+              (!filteredData || filteredData.length === 0) && (
+                <div className="my-2">
+                  <NoDataMessage label="Expense" />
                 </div>
-              </div>
-            )
-              :
-              null
-        }
-
+              )
+            )}
+          </div>
+        )}
       </div>
 
+      {loading && (
+        <div className="absolute top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
       {showModal && (
         <AddExpenses
@@ -1035,8 +885,7 @@ function Expenses({ allPageHostel_Id }) {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-
-        <Modal.Header className="border-b-0">
+        <Modal.Header className="!border-b-0">
           <Modal.Title className="w-full text-center !text-[18px] font-semibold !font-gilroy">
             Delete expense?
           </Modal.Title>
@@ -1046,9 +895,8 @@ function Expenses({ allPageHostel_Id }) {
           Are you sure you want to delete this expense?
         </Modal.Body>
 
-        <Modal.Footer className="!border-t-0 -mt-2.5">
+        <Modal.Footer className="!border-0 ">
           <div className="flex justify-center gap-2 w-full">
-
             <Button
               onClick={handleCloseForDeleteExpense}
               className="flex justify-center text-center w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy font-semibold text-[14px]"
@@ -1057,15 +905,34 @@ function Expenses({ allPageHostel_Id }) {
             </Button>
 
             <Button
+              disabled={deleteLoading}
               onClick={ConfirmDeleteExpense}
-              className="w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 !bg-[#1E45E1] text-white !font-semibold !font-gilroy text-[14px]"
+              className={`
+    !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-[8px] 
+    !px-[20px] 
+    !py-[12px]  
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-[14px]
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
             >
-              Delete
+              {deleteLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Deleting...
+                </div>
+              ) : (
+                "Delete"
+              )}
             </Button>
-
           </div>
         </Modal.Footer>
-
       </Modal>
     </>
   );

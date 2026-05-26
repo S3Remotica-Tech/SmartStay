@@ -31,6 +31,8 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const Compliance = () => {
   const state = useSelector((state) => state);
@@ -108,7 +110,7 @@ const Compliance = () => {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
 
@@ -476,20 +478,19 @@ const Compliance = () => {
 
   const [selectedUsername, setSelectedUserName] = useState("");
 
+  useEffect(() => {
+    if (!selectedUsername) return;
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: selectedUsername },
+    });
+  }, [selectedUsername]);
 
-  useEffect(()=>{
-      if (!selectedUsername) return;
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId:selectedUsername} });
-  
-  },[selectedUsername])
-  
- const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo
+  const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo;
   useEffect(() => {
     if (selectedUsername) {
-     
-     
       if (CustomerOverview) {
-              //  setHostelName(firstFilteredDetail.HostelName || "");
+        //  setHostelName(firstFilteredDetail.HostelName || "");
         setFloor(CustomerOverview.floorId || "");
         setBeds(CustomerOverview.bedId || "");
         setBedName(CustomerOverview.bedName || "");
@@ -515,14 +516,14 @@ const Compliance = () => {
     }
   }, [selectedUsername]);
 
- const handleCheckoutChange = (selectedOption) => {
-  setSelectedUserName(selectedOption?.value || "");
-  if (!selectedOption) {
-    setUserErrmsg("Please Select Name");
-  } else {
-    setUserErrmsg("");
-  }
-};
+  const handleCheckoutChange = (selectedOption) => {
+    setSelectedUserName(selectedOption?.value || "");
+    if (!selectedOption) {
+      setUserErrmsg("Please Select Name");
+    } else {
+      setUserErrmsg("");
+    }
+  };
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
@@ -997,18 +998,7 @@ const Compliance = () => {
 
         {!canReadComplaints ? (
           <>
-            <div className="flex flex-col items-center justify-center min-h-screen">
-              <img
-                src={Emptystate}
-                alt="Empty State"
-                className="h-[240px] w-[240px]"
-              />
-
-              <ErrorMessage
-                message={["You do not have access to view Compliants"]}
-                type="warning"
-              />
-            </div>
+            <PermissionDeniedMessage />
           </>
         ) : (
           <div
@@ -1028,18 +1018,8 @@ const Compliance = () => {
               ))}
 
             {!loading && filteredUsers.length === 0 && (
-              <div className="col-span-1 md:col-span-2 flex items-center justify-center fade-in h-[85vh]">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <img src={Emptystate} alt="emptystate" />
-
-                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                    No Active complaint
-                  </div>
-
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no active complaints
-                  </div>
-                </div>
+              <div className="col-span-1 md:col-span-2">
+                <NoDataMessage label="Complaints" />
               </div>
             )}
           </div>
@@ -1366,10 +1346,10 @@ const Compliance = () => {
                               return true;
                             }
 
-                           
-                              
-
-                            if (!CustomerOverview || !CustomerOverview.joiningDate) {
+                            if (
+                              !CustomerOverview ||
+                              !CustomerOverview.joiningDate
+                            ) {
                               return current && current > dayjs().endOf("day");
                             }
 

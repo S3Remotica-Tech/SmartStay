@@ -11,16 +11,16 @@ import { Button, Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
-import { CloseCircle,  Tag2 } from "iconsax-react";
-import { useHasPermission } from '../../Utils/Permission';
-import ErrorMessage from '../../Components/ErrorMessage'
+import { CloseCircle, Tag2 } from "iconsax-react";
+import { useHasPermission } from "../../Utils/Permission";
+import ErrorMessage from "../../Components/ErrorMessage";
 import Image from "react-bootstrap/Image";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [formLoading, setFormLoading] = useState(false)
-
+  const [formLoading, setFormLoading] = useState(false);
 
   const [selectAmneties, setselectAmneties] = useState("");
 
@@ -28,17 +28,10 @@ function UserListAmenities(props) {
   const [createby, setcreateby] = useState("");
   const [amnityError, setamnityError] = useState("");
 
-
-
-
-
-
-
   // const canReadAmenities = useHasPermission("Amenities", "canRead")
   //     const canWriteAmenities = useHasPermission("Amenities", "canWrite");
   //     const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
   //     const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
-
 
   const {
     canWriteModule: canWriteAmenities,
@@ -47,10 +40,7 @@ function UserListAmenities(props) {
     // canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
-
   const [CustomerOverView, setCustomerOverView] = useState([]);
-
-
 
   useEffect(() => {
     if (state.UsersList?.customerdetails?.assignedAmenities) {
@@ -60,15 +50,14 @@ function UserListAmenities(props) {
     }
   }, [state.UsersList?.customerdetails?.assignedAmenities]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-    setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
+  }, [state.UsersList?.accessRestrictionError]);
 
   const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";
@@ -84,9 +73,7 @@ useEffect(() => {
     }
     setaddamenityShow(true);
     setstatusShow(false);
-
   };
-
 
   // const handleShowAssignAmenities = () => {
 
@@ -94,8 +81,6 @@ useEffect(() => {
   //   setstatusShow(false);
 
   // };
-
-
 
   useEffect(() => {
     if (
@@ -109,10 +94,13 @@ useEffect(() => {
         });
       setcreateby(AmnitiesNamelist);
     } else {
-      setcreateby('');
+      setcreateby("");
     }
-  }, [state.InvoiceList.AmenitiesList?.amenities, selectAmneties, state.InvoiceList.tenantAssignStatus]);
-
+  }, [
+    state.InvoiceList.AmenitiesList?.amenities,
+    selectAmneties,
+    state.InvoiceList.tenantAssignStatus,
+  ]);
 
   const uniqueAmenities = [];
   const seenNames = new Set();
@@ -169,7 +157,6 @@ useEffect(() => {
     }
   };
 
-
   const handleAmnitiesSelect = () => {
     if (!validateAssignField(statusAmni, "statusAmni")) return;
 
@@ -195,19 +182,18 @@ useEffect(() => {
       return;
     }
 
-
     setamnityError("");
 
     if (selectAmneties) {
       dispatch({
-        type: 'TENANTASSIGNAMENITIES',
+        type: "TENANTASSIGNAMENITIES",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           newAmenities: [createby[0]?.amenityId],
-          customerId: state.UsersList?.customerdetails?.customerId
+          customerId: state.UsersList?.customerdetails?.customerId,
         },
-      })
-      setFormLoading(true)
+      });
+      setFormLoading(true);
     }
 
     setStatusAmni("");
@@ -215,7 +201,6 @@ useEffect(() => {
   };
 
   // const handleUnAssignAmenities = (amenities) => {
-
 
   //   // dispatch({
   //   //   type: 'TENANTUNASSIGNAMENITIES',
@@ -228,7 +213,6 @@ useEffect(() => {
   //   // })
   // }
 
-
   // useEffect(() => {
 
   //   if (state.InvoiceList.assignAmenitiesSuccessStatusCode === 200) {
@@ -240,49 +224,43 @@ useEffect(() => {
   //       dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
   //     }, 100)
 
-
   //   }
 
   // }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
 
-
-
   useEffect(() => {
-
-    if (state.InvoiceList.tenantAssignStatus === 201 || state.InvoiceList?.tenantUnAssignStatus === 201) {
-      setFormLoading(false)
+    if (
+      state.InvoiceList.tenantAssignStatus === 201 ||
+      state.InvoiceList?.tenantUnAssignStatus === 201
+    ) {
+      setFormLoading(false);
 
       setaddamenityShow(false);
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: state.UsersList?.customerdetails?.customerId },
+      });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_TENANT_ASSIGN_AMENITIES' })
-        dispatch({ type: 'REMOVE_TENANT_UNASSIGN_AMENITIES' })
-
-      }, 100)
-
-
+        dispatch({ type: "REMOVE_TENANT_ASSIGN_AMENITIES" });
+        dispatch({ type: "REMOVE_TENANT_UNASSIGN_AMENITIES" });
+      }, 100);
     }
-
-  }, [state.InvoiceList?.tenantAssignStatus, state.InvoiceList?.tenantUnAssignStatus])
-
-
-
-
+  }, [
+    state.InvoiceList?.tenantAssignStatus,
+    state.InvoiceList?.tenantUnAssignStatus,
+  ]);
 
   useEffect(() => {
-
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
-
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: state.UsersList?.customerdetails?.customerId },
+      });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE' })
-      }, 100)
-
-
+        dispatch({ type: "REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE" });
+      }, 100);
     }
-
-  }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
-
+  }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode]);
 
   // const [activeDotsId, setActiveDotsId] = useState(null);
   // const handleEdit = (v) => {
@@ -296,14 +274,14 @@ useEffect(() => {
     setSelectError("");
     setaddamenityShow(false);
     // setActiveDotsId(null)
-    setStatusAmni(false)
+    setStatusAmni(false);
     setamnityError("");
 
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleFormClose();
     }
   }, [state.UsersList.statusCustomerAddUser]);
@@ -348,7 +326,6 @@ useEffect(() => {
   //   setSortConfig({ key, direction });
   // };
 
-
   // const handleAmnitiesPageChange = (amnitiespageNumber) => {
   //   setAmnitycurrentPage(amnitiespageNumber);
 
@@ -376,31 +353,25 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
+  }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id })
+      dispatch({
+        type: "AMENITIESLIST",
+        payload: state.login.selectedHostel_Id,
+      });
     }
+  }, [state.login.selectedHostel_Id]);
 
-
-  }, [state.login.selectedHostel_Id])
-
-
-
-  
   return (
     <div className="">
-
-          <Modal
+      <Modal
         show={addamenityShow}
         onHide={handleFormClose}
         backdrop="static"
@@ -428,12 +399,8 @@ useEffect(() => {
 
         <Modal.Body className="pb-1 pt-2">
           <div className="row">
-
             <div className="d-flex align-items-center mb-3 ">
-              <div
-
-              >
-
+              <div>
                 {state.UsersList.customerdetails?.profilePic ? (
                   <Image
                     src={state.UsersList.customerdetails.profilePic}
@@ -442,7 +409,6 @@ useEffect(() => {
                     style={{ height: 60, width: 60 }}
                     onError={(e) => {
                       e.target.onerror = null;
-                      
                     }}
                   />
                 ) : (
@@ -452,23 +418,20 @@ useEffect(() => {
                       width: 60,
                       borderRadius: "50%",
                       backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                      color: "#44536A",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       fontSize: 24,
                       fontWeight: "600",
-                                           textTransform: "uppercase",
+                      textTransform: "uppercase",
                     }}
                   >
                     {state.UsersList.customerdetails?.initials || "-"}
                   </div>
                 )}
-
-
-
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <div className="ps-3">
                   <div>
                     <label
@@ -482,11 +445,9 @@ useEffect(() => {
                       {state.UsersList?.customerdetails?.fullName}
                     </label>
                   </div>
-
                 </div>
 
                 <div className="d-flex flex-wrap gap-2 ms-2">
-
                   <div
                     style={{
                       display: "flex",
@@ -518,10 +479,9 @@ useEffect(() => {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {state.UsersList.customerdetails?.hostelInfo?.roomName}  -  {state.UsersList.customerdetails?.hostelInfo?.bedName}
+                    {state.UsersList.customerdetails?.hostelInfo?.roomName} -{" "}
+                    {state.UsersList.customerdetails?.hostelInfo?.bedName}
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -530,9 +490,14 @@ useEffect(() => {
               style={{ marginTop: "-10px" }}
             >
               <Form.Label
-                style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                }}
               >
-                Amenities {" "} <span
+                Amenities{" "}
+                <span
                   style={{
                     color: "red",
                     fontSize: "20px",
@@ -542,18 +507,27 @@ useEffect(() => {
                 </span>
               </Form.Label>
               <Select
-                isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+                isDisabled={
+                  !canWriteAmenities ||
+                  state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+                    "BOOKED" ||
+                  state.UsersList.customerdetails?.customerCurrentStatus ===
+                    "INACTIVE" ||
+                  state.UsersList.customerdetails?.customerCurrentStatus ===
+                    "VACATED"
+                }
                 placeholder="Select an Amenities"
                 value={
                   state.InvoiceList?.AmenitiesList?.amenities?.find(
-                    (item) => item.amenityId === selectAmneties
+                    (item) => item.amenityId === selectAmneties,
                   )
                     ? {
-                      value: selectAmneties,
-                      label: state.InvoiceList?.AmenitiesList?.amenities?.find(
-                        (item) => item.amenityId === selectAmneties
-                      )?.amenityName,
-                    }
+                        value: selectAmneties,
+                        label:
+                          state.InvoiceList?.AmenitiesList?.amenities?.find(
+                            (item) => item.amenityId === selectAmneties,
+                          )?.amenityName,
+                      }
                     : null
                 }
                 onChange={(e) => {
@@ -561,11 +535,12 @@ useEffect(() => {
                     handleselect(e);
                   }
                 }}
-                options={state.InvoiceList?.AmenitiesList?.amenities?.filter(
+                options={state.InvoiceList?.AmenitiesList?.amenities
+                  ?.filter(
                     (item) =>
                       !CustomerOverView?.some(
-                        (c) => c.amenityId === item.amenityId
-                      )
+                        (c) => c.amenityId === item.amenityId,
+                      ),
                   )
                   ?.map((item) => ({
                     value: item.amenityId,
@@ -703,13 +678,14 @@ useEffect(() => {
               <div className="mb-3 ps-2  pe-2 ">
                 <label
                   className="mb-1"
-                  style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
                 >
                   Select Status{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </label>
                 <Form.Select
                   aria-label="Default select example"
@@ -725,8 +701,7 @@ useEffect(() => {
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                     color: "grey",
-                    cursor: "pointer"
-
+                    cursor: "pointer",
                   }}
                 >
                   <option
@@ -734,28 +709,38 @@ useEffect(() => {
                       fontSize: 16,
                       fontWeight: 500,
                       fontFamily: "Gilroy",
-                      opacity: 1
+                      opacity: 1,
                     }}
                   >
                     Select Status
                   </option>
 
-                  <option value="1" style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    opacity: 1,
-                    color: "gray",
-                    cursor: "pointer"
-                  }}>Active</option>
-                  <option value="0" style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    opacity: 1,
-                    color: "gray",
-                    cursor: "pointer"
-                  }}>In Active</option>
+                  <option
+                    value="1"
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      opacity: 1,
+                      color: "gray",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Active
+                  </option>
+                  <option
+                    value="0"
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      opacity: 1,
+                      color: "gray",
+                      cursor: "pointer",
+                    }}
+                  >
+                    In Active
+                  </option>
                 </Form.Select>
                 {selectError && (
                   <ErrorMessage message={selectError} type="error" />
@@ -765,39 +750,38 @@ useEffect(() => {
           </div>
         </Modal.Body>
 
-
-        {formLoading &&
+        {formLoading && (
           <div
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
               opacity: 0.75,
               zIndex: 10,
             }}
           >
             <div
               style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
               }}
             ></div>
           </div>
-        }
+        )}
 
-
-
-
-        <Modal.Footer className="d-flex justify-content-end pt-0" style={{ borderTop: "none" }}>
+        <Modal.Footer
+          className="d-flex justify-content-end pt-0"
+          style={{ borderTop: "none" }}
+        >
           <Button
             style={{
               backgroundColor: "white",
@@ -806,15 +790,23 @@ useEffect(() => {
               borderRadius: 10,
               fontSize: 16,
               fontFamily: "Gilroy",
-              color: 'rgba(75, 75, 75, 1)',
-              border: '1px solid white'
+              color: "rgba(75, 75, 75, 1)",
+              border: "1px solid white",
             }}
             onClick={handleFormClose}
           >
             Cancel
           </Button>
           <Button
-            disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+            disabled={
+              !canWriteAmenities ||
+              state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+                "BOOKED" ||
+              state.UsersList.customerdetails?.customerCurrentStatus ===
+                "INACTIVE" ||
+              state.UsersList.customerdetails?.customerCurrentStatus ===
+                "VACATED"
+            }
             className=""
             style={{
               backgroundColor: "#1E45E1",
@@ -823,7 +815,6 @@ useEffect(() => {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-
             }}
             onClick={() => {
               if (statusShow) {
@@ -837,51 +828,40 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {
-
-        !canReadAmenities ? (
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: "45vh"
-            }}
-          >
-
-            <ErrorMessage message={['You do not have access to view Amenities']} type="warning" />
-
-          </div>
-
-        )
-          :
-          (
-            <>
-              <div className="row d-flex flex-wrap g-2">
-                {CustomerOverView.length > 0 ? CustomerOverView.map((v) => (
-
-                  <div key={v?.amenityId} className="col-md-4 col-12">
-                    <div className="card " style={{
-                      backgroundColor: "#FFF", padding: 14,
+      {!canReadAmenities ? (
+        <>
+          <PermissionDeniedMessage isHeightChanged={true} />
+        </>
+      ) : (
+        <>
+          <div className="row d-flex flex-wrap g-2">
+            {CustomerOverView.length > 0 ? (
+              CustomerOverView.map((v) => (
+                <div key={v?.amenityId} className="col-md-4 col-12">
+                  <div
+                    className="card "
+                    style={{
+                      backgroundColor: "#FFF",
+                      padding: 14,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       fontSize: 14,
-                      color: "#000",border:"1px solid #EFF2FF"
-                    }}>
-                      <div className="d-flex align-items-center gap-3">
-                      <div style={{ backgroundColor: "#EFF2FF", padding: 8, borderRadius: 8 }}>
-                        <Tag2
-                          size="32"
-                          color="#1E45E1"
-                        />
+                      color: "#000",
+                      border: "1px solid #EFF2FF",
+                    }}
+                  >
+                    <div className="d-flex align-items-center gap-3">
+                      <div
+                        style={{
+                          backgroundColor: "#EFF2FF",
+                          padding: 8,
+                          borderRadius: 8,
+                        }}
+                      >
+                        <Tag2 size="32" color="#1E45E1" />
                       </div>
 
                       <div>
-
-
-
                         <div>
                           <span
                             key={v.amenityId}
@@ -894,7 +874,6 @@ useEffect(() => {
                             }}
                           >
                             {v.amenityName}
-
                           </span>
                         </div>
                         <div>
@@ -909,53 +888,31 @@ useEffect(() => {
                             }}
                           >
                             ₹{v.amenityAmount}/m
-
                           </span>
                         </div>
                       </div>
-
-   </div>
-
-
-
-
-
-
-
-
-
-
                     </div>
-
-
-
-
-
-
-
                   </div>
-
-                ))
-              :
-              <div className="d-flex align-items-center justify-content-center">
-                <label style={{fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              fontSize: 14,
-                              color: "#4B4B4B",}}>No amenities assigned</label>
                 </div>
-              
-              }
+              ))
+            ) : (
+              <div className="d-flex align-items-center justify-content-center">
+                <label
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    fontSize: 14,
+                    color: "#4B4B4B",
+                  }}
+                >
+                  No amenities assigned
+                </label>
               </div>
-
-
-
-
-            </>
-          )
-
-      }
+            )}
+          </div>
+        </>
+      )}
     </div>
-
   );
 }
 UserListAmenities.propTypes = {

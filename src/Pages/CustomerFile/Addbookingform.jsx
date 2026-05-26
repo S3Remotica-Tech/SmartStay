@@ -39,6 +39,8 @@ function BookingModal(props) {
   const [floorError, setFloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
+  const errorRef = useRef(null);
+
   // const [file, setFile] = useState(null);
 
   // useEffect(() => {
@@ -49,6 +51,16 @@ function BookingModal(props) {
   //   }
   // }, []);
 
+  useEffect(() => {
+    if (bedWarning && errorRef.current) {
+      errorRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      errorRef.current.focus?.();
+    }
+  }, [bedWarning]);
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -339,13 +351,13 @@ function BookingModal(props) {
     const selectedBedId = selectedOption?.value || "";
     setBed(selectedBedId);
 
-    const selectedBed = state.UsersList?.bednumberdetails?.find(
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
       (bed) => String(bed.bedId) === String(selectedBedId),
     );
 
     if (selectedBed) {
-      if (selectedBed.showWarning) {
-        setBedWarning(selectedBed.warningMessage);
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
       } else {
         setBedWarning("");
       }
@@ -471,13 +483,15 @@ function BookingModal(props) {
 
   const isComingSoon = false;
 
+  console.log("props.userDetail", props.userDetail);
+
   return (
     <>
       <Modal
         show={props.add_bookingshow}
         onHide={handleCloseBooking}
         backdrop="static"
-        dialogClassName="custom-modals-style"
+        dialogClassName="tenantCheck-style"
         className="2xl:mt-24 mt-0 h-auto flex items-center justify-center"
       >
         <Modal.Header className="flex justify-between">
@@ -506,33 +520,39 @@ function BookingModal(props) {
         ) : (
           <>
             <Modal.Body className="pt-2">
-              <div className="flex items-center mb-2">
+              <div className="flex items-center gap-2 mb-2">
                 <div className="h-16 w-16 relative flex-shrink-0">
                   {props.userDetail?.profilePic &&
                   props.userDetail?.profilePic !== "0" ? (
                     <Image
                       src={props.userDetail?.profilePic}
                       roundedCircle
-                      className="h-16 w-16"
+                      className="h-14 w-14"
                       alt="image"
                     />
                   ) : (
                     <div
-                      className="h-16 w-16 rounded-full bg-[#E2E8F0] text-[#44536A] flex justify-center items-center text-xl font-semibold font-gilroy truncate"
+                      className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex justify-center items-center text-xl font-semibold font-gilroy truncate"
                       title={props.userDetail?.initials || "-"}
                     >
                       {props.userDetail?.initials || "-"}
                     </div>
                   )}
                 </div>
-
-                <div className="pl-3 max-w-xs">
-                  <label
-                    className="pt-2 text-lg font-medium text-gray-900 font-gilroy truncate"
-                    title={props?.userDetail?.fullName}
-                  >
-                    {props?.userDetail?.fullName || "-"}
-                  </label>
+                <div className="">
+                  <div className="max-w-xs">
+                    <label
+                      className="pt-2 text-lg font-semibold text-gray-900 font-gilroy truncate"
+                      title={props?.userDetail?.fullName}
+                    >
+                      {props?.userDetail?.fullName || "-"}
+                    </label>
+                  </div>
+                  <div>
+                    <label className=" text-sm font-gilroy text-gray-500 font-medium  truncate max-w-[150px]">
+                      {props?.userDetail?.mobile}
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -1025,10 +1045,6 @@ function BookingModal(props) {
                       }}
                     />
 
-                    {bedWarning ? (
-                      <ErrorMessage message={bedWarning} type="error" />
-                    ) : null}
-
                     {state.Booking?.bookingBedError ? (
                       <ErrorMessage
                         message={state.Booking?.bookingBedError}
@@ -1036,6 +1052,11 @@ function BookingModal(props) {
                       />
                     ) : null}
 
+                    {bedWarning ? (
+                      <div ref={errorRef} tabIndex={-1} className="">
+                        <ErrorMessage message={bedWarning} type="error" />
+                      </div>
+                    ) : null}
                     {bedError && (
                       <ErrorMessage message={bedError} type="error" />
                     )}

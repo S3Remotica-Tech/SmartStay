@@ -43,6 +43,8 @@ import ComingSoon from "../../Utils/ComingSoon";
 import ConfirmIdentity from "./ResetPin/ConfirmIdentity";
 import VerifyOtp from "./ResetPin/VerifyOtp";
 import ResetMpin from "./ResetPin/ResetMpin";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -87,6 +89,7 @@ function SettingGeneral() {
   const [editId, setEditId] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -100,6 +103,7 @@ function SettingGeneral() {
   const [passwordError, setPasswordError] = useState("");
 
   const [formError, setFormError] = useState("");
+  const errorRef = useRef(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [changePassword, setChangePassword] = useState(false);
@@ -159,9 +163,10 @@ function SettingGeneral() {
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
+      setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
 
@@ -346,6 +351,7 @@ function SettingGeneral() {
 
   const handleCloseDeleteFormShow = () => {
     setDeleteForm(false);
+    setDeleteLoading(false);
     setGeneralDeleteError("");
     dispatch({ type: "CLEAR_DELETE_GENERAL_ERROR" });
   };
@@ -353,6 +359,7 @@ function SettingGeneral() {
   const handleConformDelete = () => {
     if (deleteId) {
       dispatch({ type: "GENERALDELETEGENERAL", payload: deleteId });
+      setDeleteLoading(true);
     }
   };
 
@@ -788,6 +795,14 @@ function SettingGeneral() {
 
       if (!isChanged) {
         setFormError("No Changes Detected");
+
+        setTimeout(() => {
+          errorRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 100);
+
         return;
       }
 
@@ -1131,13 +1146,9 @@ function SettingGeneral() {
           )}
 
           {!canReadProfile ? (
-            <div className="flex flex-col items-center justify-center mt-24">
-              <img src={Emptystate} alt="Empty State" />
-              <ErrorMessage
-                message={["You do not have access to view General"]}
-                type="warning"
-              />
-            </div>
+            <>
+              <PermissionDeniedMessage />
+            </>
           ) : (
             // <div className="sticky top-0 bg-white z-[900] ">
             <div className="sticky top-0 bg-white z-[900] flex flex-col h-full">
@@ -1185,7 +1196,7 @@ function SettingGeneral() {
                                   onClick={() => {
                                     handleAdminEdit();
                                   }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg
+                                  className={`flex items-center gap-2 p-2.5 w-full   rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
@@ -1212,7 +1223,7 @@ function SettingGeneral() {
                                   onClick={() => {
                                     handleOpenAdminProfile(account);
                                   }}
-                                  className={`flex items-center gap-2 p-2.5 w-full bg-gray-100 rounded-lg
+                                  className={`flex items-center gap-2 p-2.5 w-full rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
                                     (e.currentTarget.style.backgroundColor =
@@ -1239,7 +1250,7 @@ function SettingGeneral() {
                                     onClick={() => {
                                       handleResetPin(account);
                                     }}
-                                    className={`flex items-center gap-2 p-2.5 w-full bg-gray-100  rounded-lg 
+                                    className={`flex items-center gap-2 p-2.5 w-full   rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.backgroundColor =
@@ -1504,7 +1515,7 @@ function SettingGeneral() {
 
                                     <div>
                                       <label className="text-gray-400 text-sm font-normal font-gilroy">
-                                        Profile last updated - 20/11/25
+                                        Profile last updated
                                       </label>
                                     </div>
                                   </div>
@@ -1562,21 +1573,7 @@ function SettingGeneral() {
                           </div>
                         );
                       })
-                    : !loading && (
-                        <div className="flex flex-col items-center text-center animated-text 2xl:-mt-44">
-                          <img
-                            src={EmptyState}
-                            alt="emptystate"
-                            className="h-32 w-32 md:h-32 md:w-32 lg:h-48 lg:w-48  object-contain lg:mt-3 "
-                          />
-                          <div className="pb-1 mt-1 text-center font-gilroy font-semibold lg:text-lg 2xl:text-lg md:text-base text-gray-700">
-                            No Profile
-                          </div>
-                          <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                            There are no Profile available.
-                          </div>
-                        </div>
-                      )}
+                    : !loading && <NoDataMessage label="Profile" isHeightChanged={true} />}
                 </div>
               )}
 
@@ -1626,10 +1623,35 @@ function SettingGeneral() {
           </Button>
 
           <Button
+            disabled={deleteLoading}
             onClick={handleConformDelete}
-            className="!w-full !max-w-40 !h-13 !rounded-lg !py-3 !px-5 !bg-blue-700 !text-white !font-semibold !font-gilroy !text-sm"
+            className={`
+    !w-full 
+    !max-w-40 
+    !h-13 
+    !rounded-lg 
+    !py-3 
+    !px-5 
+    !bg-blue-700 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-sm
+    !flex 
+    !items-center 
+    !justify-center 
+    !gap-2
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
           >
-            Delete
+            {deleteLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -2318,7 +2340,7 @@ function SettingGeneral() {
             </div>
           </div>
           {formError && (
-            <div className="flex justify-center mt-1">
+            <div ref={errorRef} className="flex justify-center mt-1">
               <ErrorMessage message={formError} type="error" />
             </div>
           )}

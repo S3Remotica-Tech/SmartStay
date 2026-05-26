@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
@@ -33,6 +33,17 @@ function MakeAsInactive({
   const [isActiveDateError, setIsACtiveDateError] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [paymentError, setPaymentError] = useState("");
+  const [transactionId, setTransactionId] = useState("");
+
+  const handleTransactionId = (e) => {
+    const value = e.target.value;
+    const regex = /^[A-Za-z0-9_.-]*$/;
+
+    if (regex.test(value)) {
+      setTransactionId(value);
+    }
+  };
+  console.log("inActiveDetails", inActiveDetails);
 
   const handleInActiveReason = (e) => {
     setInActiveComments(e.target.value);
@@ -85,8 +96,11 @@ function MakeAsInactive({
           cancelDate: formattedDate,
           reason: inActiveComments,
           customerId:
-            inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId,
+            inActiveDetails?.apiCall?.customerId ||
+            inActiveDetails?.tenetId ||
+            inActiveDetails?.customerId,
           bankId: modeOfPayment,
+          referenceNumber: transactionId,
         },
       });
       setFormLoading(true);
@@ -117,11 +131,17 @@ function MakeAsInactive({
 
   useEffect(() => {
     if (!inActiveDetails) return;
-    if (inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId) {
+    if (
+      inActiveDetails?.apiCall?.customerId ||
+      inActiveDetails?.tenetId ||
+      inActiveDetails?.customerId
+    ) {
       dispatch({
         type: "INITIALIZECANCELBOOKING",
         payload:
-          inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId,
+          inActiveDetails?.apiCall?.customerId ||
+          inActiveDetails?.tenetId ||
+          inActiveDetails?.customerId,
       });
     }
   }, [inActiveDetails]);
@@ -129,12 +149,18 @@ function MakeAsInactive({
   const CustomerOverView = state?.UsersList?.customerdetails;
 
   useEffect(() => {
-    if (inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId) {
+    if (
+      inActiveDetails?.apiCall?.customerId ||
+      inActiveDetails?.tenetId ||
+      inActiveDetails?.customerId
+    ) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: {
           customerId:
-            inActiveDetails?.apiCall?.customerId || inActiveDetails?.tenetId,
+            inActiveDetails?.apiCall?.customerId ||
+            inActiveDetails?.tenetId ||
+            inActiveDetails?.customerId,
         },
       });
     }
@@ -187,6 +213,7 @@ function MakeAsInactive({
           <div className="h-14 w-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xl font-semibold font-gilroy">
             {inActiveDetails?.profilePic ||
               inActiveDetails?.tenantInitials ||
+              inActiveDetails?.initials ||
               "-"}
           </div>
         )}
@@ -219,7 +246,7 @@ function MakeAsInactive({
         </div>
       </div>
 
-      <Modal.Body className="px-4 pb-4 pt-0 max-h-[70vh] md:max-h-[56vh] lg:max-h-full overflow-y-auto show-scroll">
+      <Modal.Body className="px-4 pb-4 pt-0 max-h-[350px]  overflow-y-auto show-scrolls">
         <div className="mb-2">
           <Form.Group controlId="joiningDate">
             <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
@@ -330,6 +357,22 @@ function MakeAsInactive({
           {paymentError && <ErrorMessage message={paymentError} type="error" />}
         </div>
 
+        <div className="mt-1">
+          <Form.Group>
+            <Form.Label className="text-sm font-medium font-gilroy">
+              Transaction ID{" "}
+            </Form.Label>
+            <FormControl
+              type="text"
+              id="form-controls"
+              placeholder="Enter Transaction ID"
+              value={transactionId}
+              onChange={(e) => handleTransactionId(e)}
+              className="w-full h-12 rounded-lg border border-gray-300 text-base font-medium text-[#4B4B4B] font-gilroy focus:outline-none focus:ring-0"
+            />
+          </Form.Group>
+        </div>
+
         <div className="mb-2">
           <Form.Group>
             <Form.Label className="text-sm font-medium text-gray-900 font-gilroy">
@@ -356,28 +399,25 @@ function MakeAsInactive({
             />
           </div>
         )}
-
-        {/* <Modal.Footer className="border-0 p-0"> */}
-        <Modal.Footer className="border-0 pt-2 pb-1 px-0">
-          <div className="flex w-full gap-3">
-            <Button
-              onClick={handleCloseInActive}
-              className="w-full bg-white !border !border-gray-300 !text-gray-600 !font-semibold rounded-lg !text-base !font-gilroy py-2"
-            >
-              Cancel
-            </Button>
-
-            <Button
-              disabled={formLoading}
-              onClick={SubmitInActiveForm}
-              className="w-full !bg-blue-700 text-white !font-semibold rounded-lg !text-base !font-gilroy py-2"
-            >
-              Confirm
-            </Button>
-          </div>
-        </Modal.Footer>
       </Modal.Body>
+      <Modal.Footer className="border-0 pt-2 pb-1 px-4">
+        <div className="flex w-full gap-3">
+          <Button
+            onClick={handleCloseInActive}
+            className="w-full bg-white !border !border-gray-300 !text-gray-600 !font-semibold rounded-lg !text-base !font-gilroy py-2"
+          >
+            Cancel
+          </Button>
 
+          <Button
+            disabled={formLoading}
+            onClick={SubmitInActiveForm}
+            className="w-full !bg-blue-700 text-white !font-semibold rounded-lg !text-base !font-gilroy py-2"
+          >
+            Confirm
+          </Button>
+        </div>
+      </Modal.Footer>
       {formLoading && (
         <div className="absolute inset-x-0 bottom-0 top-24 flex items-center justify-center opacity-75 z-10">
           <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>

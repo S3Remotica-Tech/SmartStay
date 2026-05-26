@@ -255,6 +255,7 @@ function UserListRoomDetail(props) {
     isDashboardWay,
     isBillWay,
     isReceiptWay,
+    isBookingWay,
   } = location.state || {};
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
@@ -2066,20 +2067,26 @@ function UserListRoomDetail(props) {
     }
   }, [state.Booking.StatusCodeInactiveCode]);
 
+  // useEffect(() => {
+  //   if (
+  //     state.UsersList.statusCodeForDueCustomer === 200 ||
+  //     state.UsersList.statusCodeAddConfirmCheckout === 200
+  //   ) {
+  //     handleNavigateTenant();
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+  //     }, 500);
+  //   }
+  // }, [
+  //   state.UsersList.statusCodeForDueCustomer,
+  //   state.UsersList.statusCodeAddConfirmCheckout,
+  // ]);
+
   useEffect(() => {
-    if (
-      state.UsersList.statusCodeForDueCustomer === 200 ||
-      state.UsersList.statusCodeAddConfirmCheckout === 200
-    ) {
-      navigate(`/tenant/${state.login.selectedHostel_Id}`);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
-      }, 500);
+    if (state.UsersList.statuscodeForConformCheckout === 200) {
+      handleNavigateTenant();
     }
-  }, [
-    state.UsersList.statusCodeForDueCustomer,
-    state.UsersList.statusCodeAddConfirmCheckout,
-  ]);
+  }, [state.UsersList.statuscodeForConformCheckout]);
 
   const handleClose = () => {
     setShowModal(false);
@@ -2236,6 +2243,12 @@ function UserListRoomDetail(props) {
   };
 
   useEffect(() => {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
+    }
+  }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
+  useEffect(() => {
     setAdvanceList(state.UsersList.customerdetails?.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
 
@@ -2319,11 +2332,13 @@ function UserListRoomDetail(props) {
     if (isPgWay) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
     } else if (isDashboardWay) {
-      navigate(`/dashboard-new/${state.login.selectedHostel_Id}`);
+      navigate(`/dashboard/${state.login.selectedHostel_Id}`);
     } else if (isBillWay) {
       navigate(`/invoice/${state.login.selectedHostel_Id}`);
     } else if (isReceiptWay) {
       navigate(`/receipts/${state.login.selectedHostel_Id}`);
+    } else if (isBookingWay) {
+      navigate(`/booking/${state.login.selectedHostel_Id}`);
     } else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     }

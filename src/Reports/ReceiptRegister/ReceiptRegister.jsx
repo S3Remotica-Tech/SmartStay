@@ -18,6 +18,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import ReceiptFilter from "./ReceiptFilter";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function ReceiptRegister() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function ReceiptRegister() {
   const [customerTooltip, setCustomerTooltip] = useState(null);
   const [bankTooltip, setBankTooltip] = useState(null);
   const [collectedTooltip, setCollectedTooltip] = useState(null);
-
+  const isSearching = chips.length > 0;
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const isInitialLoad = useRef(true);
@@ -418,7 +419,6 @@ function ReceiptRegister() {
 
     const receiptFilters = state.reports?.receiptRegisterFilters;
 
- 
     const filters = {
       startDate: startDate,
       endDate: endDate,
@@ -710,226 +710,228 @@ function ReceiptRegister() {
             </div>
           ))}
         </div>
+        {receiptRegister?.data?.length > 0 ? (
+          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+            <div
+              ref={tableRef}
+              className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
+            >
+              <table className="w-full  text-[12px] font-gilroy">
+                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
+                  <tr className="border-b border-[#E8E8E8]">
+                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
+                      <Setting3
+                        // onClick={() => setOpen(!open)}
+                        className="cursor-pointer"
+                        size="18"
+                        color="#4B4B4B"
+                      />
+                    </th>
 
-        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-          <div
-            ref={tableRef}
-            className=" overflow-y-auto relative h-[calc(100vh-200px)] rounded-xl show-scrolls "
-          >
-            <table className="w-full  text-[12px] font-gilroy">
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                <tr className="border-b border-[#E8E8E8]">
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
-                    <Setting3
-                      // onClick={() => setOpen(!open)}
-                      className="cursor-pointer"
-                      size="18"
-                      color="#4B4B4B"
-                    />
-                  </th>
+                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase whitespace-nowrap">
+                      Receipt No
+                    </th>
 
-                  <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase whitespace-nowrap">
-                    Receipt No
-                  </th>
+                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] uppercase whitespace-nowrap">
+                      date
+                    </th>
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] uppercase whitespace-nowrap">
-                    date
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold  uppercase whitespace-nowrap">
+                      Name
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase whitespace-nowrap">
-                    Name
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase whitespace-nowrap">
+                      Invoice No
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      <div className="flex justify-center items-center gap-1">
+                        Type
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase whitespace-nowrap">
-                    Invoice No
-                  </th>
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
-                    <div className="flex justify-center items-center gap-1">
-                      Type
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                      <div className="flex justify-center items-center gap-1">
+                        Amount
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                      <div className="flex justify-center items-center gap-1">
+                        Payment Mode
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
-                    <div className="flex justify-center items-center gap-1">
-                      Amount
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
-                    <div className="flex justify-center items-center gap-1">
-                      Payment Mode
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl whitespace-nowrap">
+                      <div className="flex justify-center items-center gap-1">
+                        Collected BY
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase rounded-tr-xl whitespace-nowrap">
-                    <div className="flex justify-center items-center gap-1">
-                      Collected BY
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {receiptRegister?.data?.length > 0 ? (
-                  receiptRegister?.data?.map((row, i) => (
-                    <tr
-                      key={i}
-                      className="border-b last:border-none  transition"
-                    >
-                      <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
-                      <td
-                        className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
+                <tbody>
+                  {receiptRegister?.data?.length > 0 ? (
+                    receiptRegister?.data?.map((row, i) => (
+                      <tr
+                        key={i}
+                        className="border-b last:border-none  transition"
+                      >
+                        <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
+                        <td
+                          className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
                       left-[42px] z-20 bg-white w-[140px]"
-                        title={row.receiptNo}
-                        // onClick={() => handleNavigateReceiptPdf(row)}
-                      >
-                        {row.receiptNo}
-                      </td>
+                          title={row.receiptNo}
+                          // onClick={() => handleNavigateReceiptPdf(row)}
+                        >
+                          {row.receiptNo}
+                        </td>
 
-                      <td className="px-4 py-2.5 sticky left-[170px] z-20 bg-white w-[200px]">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="truncate whitespace-nowrap font-semibold text-[#111928]"
-                            title={row.date}
-                          >
-                            {row.date}
-                          </span>
-                        </div>
-                      </td>
-
-                      <td
-                        onMouseEnter={(e) => {
-                          const rect = e.target.getBoundingClientRect();
-                          setPosition({
-                            top: rect.top + rect.height / 2,
-                            left: rect.right - 20,
-                          });
-                          setCustomerTooltip(i);
-                        }}
-                        onMouseLeave={() => setCustomerTooltip(null)}
-                        className={`px-4 py-2.5 text-center font-semibold  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
-                      >
-                        {row.customerName}
-                        {customerTooltip === i && (
-                          <div
-                            style={{ top: position.top, left: position.left }}
-                            className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
-                          >
-                            {row.customerName}
+                        <td className="px-4 py-2.5 sticky left-[170px] z-20 bg-white w-[200px]">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="truncate whitespace-nowrap font-semibold text-[#111928]"
+                              title={row.date}
+                            >
+                              {row.date}
+                            </span>
                           </div>
-                        )}
-                      </td>
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center text-[#6B7280] truncate whitespace-nowrap transition-colors
+                        <td
+                          onMouseEnter={(e) => {
+                            const rect = e.target.getBoundingClientRect();
+                            setPosition({
+                              top: rect.top + rect.height / 2,
+                              left: rect.right - 20,
+                            });
+                            setCustomerTooltip(i);
+                          }}
+                          onMouseLeave={() => setCustomerTooltip(null)}
+                          className={`px-4 py-2.5 text-center font-semibold  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.invoiceNumber}
-                      </td>
+                        >
+                          {row.customerName}
+                          {customerTooltip === i && (
+                            <div
+                              style={{ top: position.top, left: position.left }}
+                              className="fixed -translate-y-1/2 z-[9999] bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  whitespace-nowrap pointer-events-none"
+                            >
+                              {row.customerName}
+                            </div>
+                          )}
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center font-semibold truncate text-[#6B7280] transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] truncate whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.type}
-                      </td>
+                        >
+                          {row.invoiceNumber}
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center    text-[#222222] truncate font-semibold transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center font-semibold truncate text-[#6B7280] transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        ₹ {row.paymentMade}
-                      </td>
+                        >
+                          {row.type}
+                        </td>
 
-                      <td
-                        onMouseEnter={(e) => {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          setPosition({
-                            top: rect.top + rect.height / 2,
-                            left: rect.right - 20,
-                          });
-                          setBankTooltip(i);
-                        }}
-                        onMouseLeave={() => setBankTooltip(null)}
-                        className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
+                        <td
+                          className={`px-4 py-2.5 text-center    text-[#222222] truncate font-semibold transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.bankAccount}
-                        {bankTooltip === i && (
-                          <div
-                            style={{ top: position.top, left: position.left }}
-                            className="fixed -translate-y-1/2 z-[9999] 
+                        >
+                          ₹ {row.paymentMade}
+                        </td>
+
+                        <td
+                          onMouseEnter={(e) => {
+                            const rect =
+                              e.currentTarget.getBoundingClientRect();
+                            setPosition({
+                              top: rect.top + rect.height / 2,
+                              left: rect.right - 20,
+                            });
+                            setBankTooltip(i);
+                          }}
+                          onMouseLeave={() => setBankTooltip(null)}
+                          className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                        >
+                          {row.bankAccount}
+                          {bankTooltip === i && (
+                            <div
+                              style={{ top: position.top, left: position.left }}
+                              className="fixed -translate-y-1/2 z-[9999] 
       bg-gray-200 text-gray-800  border-gray-200
       text-xs px-3 py-1.5 rounded-md 
       whitespace-normal break-words pointer-events-none max-w-[220px]"
-                          >
-                            {row.bankAccount}
-                          </div>
-                        )}
-                      </td>
+                            >
+                              {row.bankAccount}
+                            </div>
+                          )}
+                        </td>
 
-                      <td
-                        onMouseEnter={(e) => {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          setPosition({
-                            top: rect.top + rect.height / 2,
-                            left: rect.right - 20,
-                          });
-                          setCollectedTooltip(i);
-                        }}
-                        onMouseLeave={() => setCollectedTooltip(null)}
-                        className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
+                        <td
+                          onMouseEnter={(e) => {
+                            const rect =
+                              e.currentTarget.getBoundingClientRect();
+                            setPosition({
+                              top: rect.top + rect.height / 2,
+                              left: rect.right - 20,
+                            });
+                            setCollectedTooltip(i);
+                          }}
+                          onMouseLeave={() => setCollectedTooltip(null)}
+                          className={`px-4 py-2.5 text-center font-semibold truncate text-[#222222] transition-colors  min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.collectedBy}
+                        >
+                          {row.collectedBy}
 
-                        {collectedTooltip === i && (
-                          <div
-                            style={{ top: position.top, left: position.left }}
-                            className="fixed -translate-y-1/2 z-[9999] 
+                          {collectedTooltip === i && (
+                            <div
+                              style={{ top: position.top, left: position.left }}
+                              className="fixed -translate-y-1/2 z-[9999] 
      bg-gray-200 text-gray-800  border-gray-200
       text-xs px-3 py-1.5 rounded-md 
           whitespace-normal break-words pointer-events-none max-w-[220px]"
-                          >
-                            {row.collectedBy}
-                          </div>
-                        )}
+                            >
+                              {row.collectedBy}
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="py-10 text-center text-sm text-red-800 font-semibold"
+                      >
+                        No Data Found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={9}
-                      className="py-10 text-center text-sm text-red-800 font-semibold"
-                    >
-                      No Data Found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-          {open && (
-            <>
-              <div
-                className="fixed inset-0 bg-black/20 z-40 "
-                onClick={() => setOpen(false)}
-              />
+            {open && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black/20 z-40 "
+                  onClick={() => setOpen(false)}
+                />
 
-              <div
-                className={`
+                <div
+                  className={`
               fixed top-[250px] left-[250px] h-fit w-[280px]
               bg-white z-50
               border-r border-[#E5E7EB]
@@ -937,45 +939,54 @@ function ReceiptRegister() {
               transform transition-transform duration-300 ease-in-out
               ${open ? "translate-x-0" : "-translate-x-full"}
             `}
-              >
-                <div className="p-3 border-b">
-                  <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                    <SearchNormal1 size={16} color="#98A2B3" />
-                    <input
-                      placeholder="Search"
-                      className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                    />
+                >
+                  <div className="p-3 border-b">
+                    <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                      <SearchNormal1 size={16} color="#98A2B3" />
+                      <input
+                        placeholder="Search"
+                        className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                    {options.map((item) => (
+                      <label
+                        key={item.key}
+                        className="flex items-center gap-3 text-sm cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          defaultChecked={item.checked}
+                          className="w-4 h-4 accent-[#1E45E1] rounded"
+                        />
+                        <span className="text-[#101828]">{item.label}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="p-3 border-t flex gap-2">
+                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                      Reset
+                    </button>
+                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                      Apply Filters
+                    </button>
                   </div>
                 </div>
-
-                <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                  {options.map((item) => (
-                    <label
-                      key={item.key}
-                      className="flex items-center gap-3 text-sm cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        defaultChecked={item.checked}
-                        className="w-4 h-4 accent-[#1E45E1] rounded"
-                      />
-                      <span className="text-[#101828]">{item.label}</span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="p-3 border-t flex gap-2">
-                  <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
-                    Reset
-                  </button>
-                  <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
-                    Apply Filters
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="my-2">
+            <NoDataMessage
+              label="Receipt"
+              isSearching={isSearching}
+              isClearSearch={false}
+            />
+          </div>
+        )}
       </div>
       {invoiceFilter && (
         <ReceiptFilter

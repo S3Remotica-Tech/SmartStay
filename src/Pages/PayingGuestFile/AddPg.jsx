@@ -12,7 +12,7 @@ import { InputGroup, Card, FormControl } from "react-bootstrap";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function AddPg({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -43,7 +43,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   // const [hostel_Id, setHostel_Id] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
   // const errorRef = useRef(null);
   const pgNameRef = useRef(null);
   const countryCodeRef = useRef(null);
@@ -54,8 +54,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
-
-
+  const particularEditDetails = state.UsersList?.hostelList?.find(
+    (view) => view.hostelId === currentItem?.hostelId,
+  );
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -102,10 +103,6 @@ function AddPg({ show, handleClose, currentItem }) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-
-
-
-
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
     if (fileImage) {
@@ -149,7 +146,6 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-
   useEffect(() => {
     if (pgNameRef.current) {
       pgNameRef.current.focus();
@@ -183,7 +179,6 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-
   const handleStreetName = (e) => {
     const value = e.target.value;
     const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
@@ -198,7 +193,6 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-
   const handleLandmark = (e) => {
     const value = e.target.value;
     const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
@@ -212,7 +206,6 @@ function AddPg({ show, handleClose, currentItem }) {
       setLandmarkError("Please Enter Valid Landmark");
     }
   };
-
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -244,7 +237,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   useEffect(() => {
     const closeButton = document.querySelector(
-      'button[aria-label="close-button"]'
+      'button[aria-label="close-button"]',
     );
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
@@ -256,19 +249,12 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   }, []);
 
-
-
-
-
-
-
-  const nochangeRef = useRef(null)
-
+  const nochangeRef = useRef(null);
 
   const handleCreatePayingGuest = () => {
     let hasError = false;
     let focused = false;
-    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+    dispatch({ type: "CLEAR_NETWORK_ERROR" });
 
     setGeneralError("");
     setPgNameError("");
@@ -319,9 +305,6 @@ function AddPg({ show, handleClose, currentItem }) {
       setMobileError("");
     }
 
-
-
-
     const pinString = String(pincode).trim();
 
     if (!pinString) {
@@ -331,51 +314,44 @@ function AddPg({ show, handleClose, currentItem }) {
         focused = true;
       }
       hasError = true;
-    }
-    else if (!/^\d+$/.test(pinString)) {
+    } else if (!/^\d+$/.test(pinString)) {
       setPincodeError("Pin Code Must Be Numeric");
       if (!focused) {
         pincodeRef.current?.focus();
         focused = true;
       }
       hasError = true;
-    }
-    else if (pinString.length !== 6) {
+    } else if (pinString.length !== 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
       if (!focused) {
         pincodeRef.current?.focus();
         focused = true;
       }
       hasError = true;
-    }
-    else if (pinString === "000000") {
+    } else if (pinString === "000000") {
       setPincodeError("Pin Code cannot be all zeros");
       if (!focused) {
         pincodeRef.current?.focus();
         focused = true;
       }
       hasError = true;
-    }
-    else if (pinString[0] === "0") {
+    } else if (pinString[0] === "0") {
       setPincodeError("Pin Code cannot start with 0");
       if (!focused) {
         pincodeRef.current?.focus();
         focused = true;
       }
       hasError = true;
-    }
-    else if (pinString.slice(-3) === "000") {
+    } else if (pinString.slice(-3) === "000") {
       setPincodeError("Last 3 digits cannot be 000");
       if (!focused) {
         pincodeRef.current?.focus();
         focused = true;
       }
       hasError = true;
-    }
-    else {
+    } else {
       setPincodeError("");
     }
-
 
     if (!city) {
       setCityError("Please Enter City");
@@ -385,8 +361,6 @@ function AddPg({ show, handleClose, currentItem }) {
       }
       hasError = true;
     }
-
-
 
     if (!state_name) {
       setStateNameError("Please Select State");
@@ -427,7 +401,6 @@ function AddPg({ show, handleClose, currentItem }) {
 
     if (hasError) return;
 
-
     // const arraysAreEqual = (arr1, arr2) => {
     //   if (arr1.length !== arr2.length) return false;
     //   for (let i = 0; i < arr1.length; i++) {
@@ -437,29 +410,32 @@ function AddPg({ show, handleClose, currentItem }) {
     // };
 
     const isChanged =
-      String(pgName || "").trim() !== String(initialState.pgName || "").trim() ||
+      String(pgName || "").trim() !==
+        String(initialState.pgName || "").trim() ||
       Number(mobile || 0) !== Number(initialState.mobile || 0) ||
       String(email || "").trim() !== String(initialState.email || "").trim() ||
-      String(house_no || "").trim() !== String(initialState.house_no || "").trim() ||
-      String(street || "").trim() !== String(initialState.street || "").trim() ||
-      String(landmark || "").trim() !== String(initialState.landmark || "").trim() ||
+      String(house_no || "").trim() !==
+        String(initialState.house_no || "").trim() ||
+      String(street || "").trim() !==
+        String(initialState.street || "").trim() ||
+      String(landmark || "").trim() !==
+        String(initialState.landmark || "").trim() ||
       String(city || "").trim() !== String(initialState.city || "").trim() ||
-      String(pincode || "").trim() !== String(initialState.pincode || "").trim() ||
+      String(pincode || "").trim() !==
+        String(initialState.pincode || "").trim() ||
       String(state_name || "") !== String(initialState.state || "") ||
       file !== null ||
       images.some((img) => img?.isChanged === true);
 
-
-
-
-
     if (currentItem && !isChanged) {
       setIsChangedError("No Changes Detected");
 
-
       setTimeout(() => {
         if (nochangeRef.current) {
-          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
           nochangeRef.current.focus();
         }
       }, 100);
@@ -468,7 +444,6 @@ function AddPg({ show, handleClose, currentItem }) {
     } else {
       setIsChangedError("");
     }
-
 
     if (currentItem?.hostelId) {
       dispatch({
@@ -481,7 +456,7 @@ function AddPg({ show, handleClose, currentItem }) {
               if (img.isChanged) {
                 return img.image;
               }
-              return currentItem.images?.[i]?.image || null;
+              return particularEditDetails?.images?.[i]?.image || null;
             })
             .filter(Boolean),
 
@@ -498,10 +473,8 @@ function AddPg({ show, handleClose, currentItem }) {
           },
         },
       });
-      setFormLoading(true)
-    }
-    else {
-
+      setFormLoading(true);
+    } else {
       dispatch({
         type: "CREATEPG",
         payload: {
@@ -509,16 +482,16 @@ function AddPg({ show, handleClose, currentItem }) {
           additionalImages: [
             images[0]?.isChanged
               ? images[0].image
-              : currentItem.images?.[0]?.image || null,
+              : particularEditDetails?.images?.[0]?.image || null,
             images[1]?.isChanged
               ? images[1].image
-              : currentItem.images?.[1]?.image || null,
+              : particularEditDetails?.images?.[1]?.image || null,
             images[2]?.isChanged
               ? images[2].image
-              : currentItem.images?.[2]?.image || null,
+              : particularEditDetails?.images?.[2]?.image || null,
             images[3]?.isChanged
               ? images[3].image
-              : currentItem.images?.[3]?.image || null,
+              : particularEditDetails?.images?.[3]?.image || null,
           ].filter(Boolean),
 
           payloads: {
@@ -534,82 +507,134 @@ function AddPg({ show, handleClose, currentItem }) {
           },
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     }
-
-
   };
-
 
   // useEffect(() => {
   //   setHostel_Id(state.login.selectedHostel_Id);
   // }, [state?.login?.selectedHostel_Id]);
 
+  // useEffect(() => {
+  //   if (particularEditDetails) {
+  //     const initialData = {
+  //       pgName: particularEditDetails.name || "",
+  //       mobile: particularEditDetails.mobile,
+  //       countryCode: countryCode,
+  //       email:
+  //         particularEditDetails.emailId &&
+  //         particularEditDetails.emailId !== "undefined"
+  //           ? particularEditDetails.emailId
+  //           : "",
+  //       house_no: particularEditDetails.houseNo || "",
+  //       street: particularEditDetails.street || "",
+  //       city: particularEditDetails.city || "",
+  //       pincode: particularEditDetails.pincode || "",
+  //       landmark: particularEditDetails.landmark || "",
+  //       state: particularEditDetails.state || "",
+  //       file: particularEditDetails.mainImage
+  //         ? particularEditDetails.mainImage
+  //         : null,
+  //     };
 
+  //     setPgName(initialData.pgName);
+  //     setMobile(initialData.mobile);
+  //     setEmail(initialData.email);
+  //     setFile(initialData.file);
+  //     setCountryCode(initialData.countryCode);
+  //     setHouseNo(initialData.house_no);
+  //     setStreet(initialData.street);
+  //     setLandmark(initialData.landmark);
+  //     setPincode(initialData.pincode);
+  //     setCity(initialData.city);
+  //     setStateName(initialData.state);
+
+  //     const formattedImages = particularEditDetails?.images?.map((img) => ({
+  //       id: img.id,
+  //       name:
+  //         img.image !== "0" && typeof img.image === "string" ? img.name : "",
+  //       image:
+  //         img.image !== "0" && typeof img.image === "string" ? img.image : null,
+  //     }));
+
+  //     const maxSlots = 4;
+
+  //     const finalImages = Array(maxSlots)
+  //       .fill(null)
+  //       .map((_, i) => ({
+  //         image: formattedImages[i]?.image || null,
+  //         isChanged: false,
+  //         id: formattedImages[i]?.id || null,
+  //       }));
+
+  //     setImages(finalImages);
+
+  //     setInitialState({
+  //       ...initialData,
+  //       imageUrls: formattedImages,
+  //     });
+  //   }
+  // }, [particularEditDetails]);
 
   useEffect(() => {
-    if (currentItem) {
+    if (!particularEditDetails) return;
 
+    const initialData = {
+      pgName: particularEditDetails.name || "",
+      mobile: particularEditDetails.mobile || "",
+      countryCode: countryCode,
+      email:
+        particularEditDetails.emailId &&
+        particularEditDetails.emailId !== "undefined"
+          ? particularEditDetails.emailId
+          : "",
+      house_no: particularEditDetails.houseNo || "",
+      street: particularEditDetails.street || "",
+      city: particularEditDetails.city || "",
+      pincode: particularEditDetails.pincode || "",
+      landmark: particularEditDetails.landmark || "",
+      state: particularEditDetails.state || "",
+      file: particularEditDetails.mainImage || null,
+    };
 
+    setPgName(initialData.pgName);
+    setMobile(initialData.mobile);
+    setEmail(initialData.email);
+    setFile(initialData.file);
+    setCountryCode(initialData.countryCode);
+    setHouseNo(initialData.house_no);
+    setStreet(initialData.street);
+    setLandmark(initialData.landmark);
+    setPincode(initialData.pincode);
+    setCity(initialData.city);
+    setStateName(initialData.state);
 
-      const initialData = {
-        pgName: currentItem.name || "",
-        mobile: currentItem.mobile,
-        countryCode: countryCode,
-        email: currentItem.emailId && currentItem.emailId !== "undefined" ? currentItem.emailId : "",
-        house_no: currentItem.houseNo || "",
-        street: currentItem.street || "",
-        city: currentItem.city || "",
-        pincode: currentItem.pincode || "",
-        landmark: currentItem.landmark || "",
-        state: currentItem.state || "",
-        file: currentItem.mainImage ? currentItem.mainImage : null,
-      };
-
-
-      setPgName(initialData.pgName);
-      setMobile(initialData.mobile);
-      setEmail(initialData.email);
-      setFile(initialData.file);
-      setCountryCode(initialData.countryCode);
-      setHouseNo(initialData.house_no);
-      setStreet(initialData.street);
-      setLandmark(initialData.landmark);
-      setPincode(initialData.pincode);
-      setCity(initialData.city);
-      setStateName(initialData.state);
-
-
-      const formattedImages = currentItem?.images?.map((img) => ({
+    const formattedImages =
+      particularEditDetails?.images?.map((img) => ({
         id: img.id,
         name:
           img.image !== "0" && typeof img.image === "string" ? img.name : "",
         image:
           img.image !== "0" && typeof img.image === "string" ? img.image : null,
+      })) || [];
+
+    const maxSlots = 4;
+
+    const finalImages = Array(maxSlots)
+      .fill(null)
+      .map((_, i) => ({
+        image: formattedImages[i]?.image || null,
+        isChanged: false,
+        id: formattedImages[i]?.id || null,
       }));
 
-      const maxSlots = 4;
+    setImages(finalImages);
 
-      const finalImages = Array(maxSlots)
-        .fill(null)
-        .map((_, i) => ({
-          image: formattedImages[i]?.image || null,
-          isChanged: false,
-          id: formattedImages[i]?.id || null
-        }));
-
-      setImages(finalImages);
-
-      setInitialState({
-        ...initialData,
-        imageUrls: formattedImages,
-      });
-    }
-  }, [currentItem]);
-
-
-
-
+    setInitialState({
+      ...initialData,
+      imageUrls: formattedImages,
+    });
+  }, [particularEditDetails]);
 
   const handleFileChange = (index) => async (e) => {
     setIsChangedError("");
@@ -635,7 +660,7 @@ function AddPg({ show, handleClose, currentItem }) {
             console.error("Image compression error:", error);
             return null;
           }
-        })
+        }),
       );
 
       setImages((prevImages) => {
@@ -658,9 +683,6 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-
-
-
   const handleMouseEnter = (index) => {
     setDisplayLayer(index);
   };
@@ -670,7 +692,7 @@ function AddPg({ show, handleClose, currentItem }) {
   };
 
   const handleDeleteImages = (imageId, index) => {
-        if (imageId) {
+    if (imageId) {
       if (imageId) {
         dispatch({
           type: "DELETEHOSTELIMAGES",
@@ -695,29 +717,22 @@ function AddPg({ show, handleClose, currentItem }) {
         return updatedImages;
       });
     }
-
   };
 
-
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 201 || state.PgList.updatePgStatusCode === 200) {
-      setFormLoading(false)
+    if (
+      state.PgList.createPgStatusCode === 201 ||
+      state.PgList.updatePgStatusCode === 200
+    ) {
+      setFormLoading(false);
     }
-  }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode])
-
-
- 
-
-
+  }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
     }
-
-  }, [state.createAccount?.networkError])
-
-  console.log("images", images)
+  }, [state.createAccount?.networkError]);
 
   return (
     <div className="modal show block static">
@@ -733,9 +748,7 @@ function AddPg({ show, handleClose, currentItem }) {
             className="cursor-pointer"
           />
         </Modal.Header>
-        {generalError && (
-          <ErrorMessage message={generalError} type="error" />
-        )}
+        {generalError && <ErrorMessage message={generalError} type="error" />}
 
         <Modal.Body className="show-scroll mt-1 mr-3 max-h-96 overflow-y-scroll">
           <div className="flex items-center">
@@ -780,7 +793,6 @@ function AddPg({ show, handleClose, currentItem }) {
                 </label>
               </div>
             </div>
-
           </div>
 
           <div className="grid grid-cols-12 gap-x-4 gap-y-0 mt-4">
@@ -794,7 +806,7 @@ function AddPg({ show, handleClose, currentItem }) {
                     fontWeight: 500,
                   }}
                 >
-                  Paying Guest Name {" "}
+                  Paying Guest Name{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
@@ -886,7 +898,6 @@ function AddPg({ show, handleClose, currentItem }) {
 
               {mobileError && (
                 <ErrorMessage message={mobileError} type="error" />
-
               )}
             </div>
 
@@ -903,7 +914,6 @@ function AddPg({ show, handleClose, currentItem }) {
                   }}
                 >
                   Email ID
-
                 </Form.Label>
                 <Form.Control
                   value={email}
@@ -923,10 +933,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 />
               </Form.Group>
 
-              {emailError && (
-                <ErrorMessage message={emailError} type="error" />
-
-              )}
+              {emailError && <ErrorMessage message={emailError} type="error" />}
             </div>
 
             <div className="col-span-12 mb-1">
@@ -1071,7 +1078,6 @@ function AddPg({ show, handleClose, currentItem }) {
                 />
                 {pincodeError && (
                   <ErrorMessage message={pincodeError} type="error" />
-
                 )}
               </Form.Group>
             </div>
@@ -1108,9 +1114,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   }}
                 />
               </Form.Group>
-              {cityError && (
-                <ErrorMessage message={cityError} type="error" />
-              )}
+              {cityError && <ErrorMessage message={cityError} type="error" />}
             </div>
 
             <div className="col-span-12 ">
@@ -1144,7 +1148,7 @@ function AddPg({ show, handleClose, currentItem }) {
                     if (action === "input-change") {
                       const lettersOnly = inputValue.replace(
                         /[^a-zA-Z\s]/g,
-                        ""
+                        "",
                       );
                       return lettersOnly;
                     }
@@ -1211,7 +1215,7 @@ function AddPg({ show, handleClose, currentItem }) {
           </div>
 
           <div className="grid grid-cols-12 gap-x-3">
-            <Form.Label className="text-sm text-gray-900 font-medium font-gilroy col-span-12 mb-0" >
+            <Form.Label className="text-sm text-gray-900 font-medium font-gilroy col-span-12 mb-0">
               Images{" "}
             </Form.Label>
 
@@ -1228,7 +1232,8 @@ function AddPg({ show, handleClose, currentItem }) {
     ${img.image ? "border border-gray-300/50" : "border border-gray-300"}`}
                   >
                     {imageSrc ? (
-                      <div className="relative"
+                      <div
+                        className="relative"
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -1241,12 +1246,10 @@ function AddPg({ show, handleClose, currentItem }) {
                               : URL.createObjectURL(imageSrc))
                           }
                           alt={`currentItem-image-${index}`}
-
                         />
 
                         {displayLayer === index && (
-                          <div className="absolute top-0 left-0 w-full h-full bg-black/50 rounded-md flex items-center justify-center p-1 transition-opacity duration-300 ease-in-out"
-                          >
+                          <div className="absolute top-0 left-0 w-full h-full bg-black/50 rounded-md flex items-center justify-center p-1 transition-opacity duration-300 ease-in-out">
                             <div className="flex justify-between w-full rounded-full bg-white/50 p-1">
                               <label htmlFor={`imageUpload${index}`}>
                                 <Gallery
@@ -1256,9 +1259,7 @@ function AddPg({ show, handleClose, currentItem }) {
                                   className="cursor-pointer"
                                 />
                               </label>
-                              <div className="w-[2px] bg-white border border-white"
-
-                              />
+                              <div className="w-[2px] bg-white border border-white" />
                               <Trash
                                 size="24"
                                 color="#FFF"
@@ -1301,12 +1302,9 @@ function AddPg({ show, handleClose, currentItem }) {
             })}
           </div>
 
-
-
           {/* {
             state.createAccount?.networkError &&   <ErrorMessage message={state.createAccount?.networkError} type="error" />
           } */}
-
         </Modal.Body>
 
         {formLoading && (
@@ -1315,11 +1313,12 @@ function AddPg({ show, handleClose, currentItem }) {
           </div>
         )}
 
-        <Modal.Footer
-          className="flex items-center justify-center !border-t-0"
-        >
+        <Modal.Footer className="flex items-center justify-center !border-t-0">
           {isChangedError && (
-            <div ref={nochangeRef} className="w-full flex justify-center text-center">
+            <div
+              ref={nochangeRef}
+              className="w-full flex justify-center text-center"
+            >
               <ErrorMessage message={isChangedError} type="error" />
             </div>
           )}
@@ -1327,7 +1326,8 @@ function AddPg({ show, handleClose, currentItem }) {
           <Button
             disabled={formLoading}
             onClick={handleCreatePayingGuest}
-            className="w-100 !bg-[#1E45E1] !font-semibold !rounded-lg !text-base !font-gilroy h-12">
+            className="w-100 !bg-[#1E45E1] !font-semibold !rounded-lg !text-base !font-gilroy h-12"
+          >
             {currentItem ? "Save Changes" : "Add Paying Guest"}
           </Button>
         </Modal.Footer>

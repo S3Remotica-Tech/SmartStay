@@ -136,7 +136,7 @@ function Sidebar() {
 
   const pageMap = {
     // "/dashboard/:hostelId": "dashboard",
-    "/dashboard-new/:hostelId": "dashboard-new",
+    "/dashboard/:hostelId": "dashboard",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
     "/tenant/details/:hostelId": "user-details",
@@ -202,20 +202,26 @@ function Sidebar() {
   useEffect(() => {
     if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
       if (isFirstLogin.current) {
-        navigate(`/dashboard-new/${state.login.selectedHostel_Id}`, {
+        navigate(`/dashboard/${state.login.selectedHostel_Id}`, {
           replace: true,
         });
         isFirstLogin.current = false;
       }
-    } else if (!state.login.selectedHostel_Id && state.login?.isLoggedIn) {
+    } else {
       const lastPage = localStorage.getItem("lastPage");
+
       if (lastPage) {
         navigate(lastPage, { replace: true });
       } else {
-        navigate(`/dashboard-new`);
+        navigate(`/dashboard`);
       }
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
+
+  // console.log("state.login", state.login);
+  const lastPage = localStorage.getItem("lastPage");
+
+  // console.log("lastPagelastPage", lastPage);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -390,7 +396,7 @@ function Sidebar() {
   //   setCurrentPage(localStorage.getItem("currentPage"));
   // }, [currentPage]);
 
-  const hostelId = state.login?.selectedHostel_Id;
+  const hostelId = state?.login?.selectedHostel_Id;
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
@@ -401,7 +407,6 @@ function Sidebar() {
 
     const validPages = [
       "dashboard",
-      "dashboard-new",
       "paying-guest",
       "tenant",
       "invoice",
@@ -554,38 +559,23 @@ function Sidebar() {
     }
   };
 
-  useEffect(() => {
-    if (allPageHostel_Id) {
-      dispatch(StoreSelectedHostelAction(allPageHostel_Id));
-    }
-  }, [allPageHostel_Id]);
-
-  // useEffect(() => {
-  //   const hostelId = state.login?.apiResponseHostelId;
-
-  //   if (hostelId && hostelId !== "undefined") {
-  //     cookies.set("selected_hostelId", hostelId, { path: "/" });
-  //   }
-  // }, [state.login?.apiResponseHostelId]);
-
-  // const reduxHostelId = state.login?.apiResponseHostelId;
   const cookieHostelId = cookies.get("selected_hostelId");
-
-  const finalHostelId = cookieHostelId;
 
   useEffect(() => {
     if (!hostelListDetail?.length || initials) return;
 
     const selectedHostel =
-      hostelListDetail.find((h) => h.hostelId === finalHostelId) ||
-      hostelListDetail[0];
+      hostelListDetail.find(
+        (h) => String(h.hostelId) === String(cookieHostelId),
+      ) || hostelListDetail[0];
 
     if (!selectedHostel) return;
 
-    setAllPageHostel_Id(selectedHostel.hostelId);
-    setPayingGuestName(selectedHostel.name);
-    setLocationName(selectedHostel.city);
-    setInitials(selectedHostel.initials);
+    setAllPageHostel_Id(selectedHostel?.hostelId);
+    dispatch(StoreSelectedHostelAction(selectedHostel?.hostelId));
+    setPayingGuestName(selectedHostel?.name);
+    setLocationName(selectedHostel?.city);
+    setInitials(selectedHostel?.initials);
 
     setSelectedProfileImage(
       selectedHostel.mainImage &&
@@ -596,7 +586,13 @@ function Sidebar() {
     );
 
     dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-  }, [hostelListDetail, finalHostelId]);
+  }, [hostelListDetail, cookieHostelId]);
+
+  useEffect(() => {
+    if (allPageHostel_Id) {
+      dispatch(StoreSelectedHostelAction(allPageHostel_Id));
+    }
+  }, [allPageHostel_Id]);
 
   const handleShowsettingsPG = (settingNewDesign) => {
     const hostelId = state.login?.selectedHostel_Id;
@@ -656,7 +652,11 @@ function Sidebar() {
     setShowNotify(true);
   };
 
-  const withHostel = (path) => (hostelId ? `${path}/${hostelId}` : path);
+  const withHostel = (path) => {
+    const finalPath = hostelId ? `${path}/${hostelId}` : path;
+
+    return finalPath;
+  };
 
   const TooltipWrapper = ({ title, children }) => {
     return (
@@ -710,7 +710,8 @@ function Sidebar() {
           </div> */}
 
           <div
-            className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`} >
+            className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`}
+          >
             <div>
               <div className="p-3 flex-shrink-0 mt-1.5">
                 <img
@@ -918,11 +919,11 @@ function Sidebar() {
 
                   <li className="list-none flex items-center">
                     <NavLink
-                      to={withHostel("/dashboard-new")}
+                      to={withHostel("/dashboard")}
                       className={({ isActive }) =>
                         `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
                       }
-                      onClick={() => handlePageClick("dashboard-new")}
+                      onClick={() => handlePageClick("dashboard")}
                     >
                       <Chart2 size="20" variant="Bold" />
                       <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1">
@@ -1413,7 +1414,7 @@ function Sidebar() {
                 import.meta.env.MODE === "development" && */}
 
               <Route
-                path="/dashboard-new/:hostelId?"
+                path="/dashboard/:hostelId?"
                 element={
                   <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
                     <Dashboard

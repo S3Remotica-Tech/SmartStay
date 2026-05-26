@@ -32,16 +32,26 @@ import {
   ArrowDown2,
   ArrowDown,
   CloseCircle,
+  Document,
+  Link21,
 } from "iconsax-react";
 import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoData from "../../Assets/v2Images/NoData.svg";
+import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function Booking() {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
+
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [search, setSearch] = useState(false);
+  const [bookingList, setBookingList] = useState([]);
   const [statusfilter, setStatusfilter] = useState("");
   const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
@@ -61,6 +71,14 @@ function Booking() {
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  const [showDots, setShowDots] = useState("");
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showAbove, setShowAbove] = useState(false);
+  const [advanceDetails, setAdvanceDetails] = useState("");
+  const popupRef = useRef(null);
+  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
   const {
     // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
@@ -68,23 +86,25 @@ function Booking() {
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Booking");
 
-  // useEffect(() => {
-  //     if (state.UsersList?.accessRestrictionError) {
-  //     // setLoading(false)
-  //       setTimeout(() => {
-  //         dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-  //       }, 1000)
-  //     }
+  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Bills");
 
-  //   }, [state.UsersList?.accessRestrictionError])
+  useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
+    }
+  }, [state.UsersList?.accessRestrictionError]);
 
-  // useEffect(() => {
-  //     if (!canReadBooking) {
-  //       // setLoading(false);
-  //     }
-  //   }, [canReadBooking]);
+  useEffect(() => {
+    if (!canReadBooking) {
+      setLoading(false);
+    }
+  }, [canReadBooking]);
 
   const sortedData = [];
+
   useEffect(() => {
     const container = tableContainerRef.current;
     if (!container) return;
@@ -115,9 +135,32 @@ function Booking() {
       container.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   useEffect(() => {
     setShowBookingPdf(false);
   }, []);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+    setPage(1);
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+    setLoading(true);
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeGetBooking) {
+      setBookingList(state?.Booking?.tenantBookingList);
+      setLoading(false);
+      dispatch({ type: "CLEAR_BOOKING_LIST" });
+    }
+  }, [state?.Booking?.statusCodeGetBooking]);
 
   const handleSearch = () => {
     setSearch(!search);
@@ -251,9 +294,7 @@ function Booking() {
   };
 
   useEffect(() => {
-    const cols =
-      // state?.UsersList?.Users?.columnList ||
-      [];
+    const cols = state?.Booking?.tenantBookingList?.columnList || [];
 
     const formatted = cols.map((col) => ({
       ...col,
@@ -263,7 +304,7 @@ function Booking() {
 
     setCustomizeItems(formatted);
     setInitialCustomizeItems(formatted);
-  }, [state?.UsersList?.Users?.columnList]);
+  }, [state?.Booking?.tenantBookingList?.columnList]);
 
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
@@ -271,57 +312,84 @@ function Booking() {
 
   const headerKeyMap = {
     "Profile Pic": "profilePic",
-    "Full Name": "fullName",
-    Status: "status",
-    "Joining Date": "joiningDate",
-    "Mobile No": "mobile",
-    Floor: "floorName",
-    Room: "roomName",
-    Bed: "bedName",
-    "Email ID": "emailId",
+    "Inv No": "invNo",
     "Booking Date": "bookingDate",
-    "Monthly Rent": "monthlyRent",
-    Advance: "advanceAmount",
-    "Booking Amount": "bookingAmount",
+    "Tenant Name": "tenantName",
+    "Mobile No": "mobile",
+    "Joining Date": "joiningDate",
+    "Floor Name": "floorName",
+    "Room Name": "roomName",
+    "Bed Name": "bedName",
+    Amount: "amount",
+    "Available Amount": "availableAmount",
   };
 
-  // const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //   const obj = {};
+  const formattedData = (
+    state?.Booking?.tenantBookingList?.bookingsList || []
+  ).map((row) => {
+    const obj = {};
 
-  //   (userListDetail?.tableHeaders || []).forEach((header, index) => {
-  //     const key = headerKeyMap[header];
-  //     const value = row[index];
+    (state?.Booking?.tenantBookingList?.tableHeaders || []).forEach(
+      (header, index) => {
+        const key = headerKeyMap[header];
+        const value = row[index];
 
-  //     if (key) {
-  //       obj[key] = value ?? "-";
-  //     }
-  //   });
+        if (key) {
+          obj[key] = value ?? "-";
+        }
+      },
+    );
 
-  //   const apiData = row[row.length - 1];
+    const apiData = row[row.length - 1];
 
-  //   obj.apiCall = {
-  //     customerId: apiData?.customerId || null,
-  //     status: apiData?.status || null,
-  //   };
+    console.log("apiData", apiData);
 
-  //   return obj;
-  // });
+    obj.apiCall = {
+      invoiceId: apiData?.invoiceId || null,
+      canApply: apiData?.canApply || null,
+      availableAmount: apiData?.availableAmount || 0,
+      customerId: apiData?.customerId,
+    };
+
+    obj.status = apiData?.status || "-";
+    return obj;
+  });
+
+  const columnStyles = {
+    "Profile Pic": "px-4 whitespace-nowrap",
+    "Inv No": "px-4 whitespace-nowrap",
+    "Booking Date": "px-4 whitespace-nowrap",
+    "Tenant Name": "px-4 whitespace-nowrap",
+    "Joining Date": "px-4 whitespace-nowrap",
+    "Mobile No": "px-4 whitespace-nowrap",
+    "Floor Name": "px-4",
+    "Room Name": "px-4",
+    "Bed Name": "px-4",
+    Amount: "px-4",
+    status: "px-4",
+    "Available Amount": "px-4 whitespace-nowrap",
+  };
+
+  useEffect(() => {
+    console.log("formattedData", formattedData);
+  }, [formattedData]);
 
   const handleStatusFilter = (selectedOption) => {
     setStatusfilter(selectedOption);
   };
 
   const handleShowFilterBills = () => {
-    setShowBillsFilter(true)
+    setShowBillsFilter(true);
   };
 
   const handleCloseFilterBills = () => {
-      setShowBillsFilter(false)
+    setShowBillsFilter(false);
+  };
 
-  }
-
-  const handleApplyInvoices = () => {
+  const handleApplyInvoices = (item) => {
     setApplyInvoice(true);
+    setAdvanceDetails(item);
+    setShowDots("");
   };
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
@@ -330,8 +398,9 @@ function Booking() {
     setFilterInput(e.target.value);
   };
 
-  const isComingSoon =
-    import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
+  const isComingSoon = true;
+
+  const tableData = [];
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -347,7 +416,24 @@ function Booking() {
     );
   };
 
-  const tableData = [];
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
+
+  const handleShowDots = (event, index) => {
+    setShowDots((prev) => (prev === index ? null : index));
+
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + height / 2;
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+  };
 
   const handleSave = () => {
     setError("");
@@ -363,13 +449,13 @@ function Booking() {
     }));
 
     if (payload) {
-      // dispatch({
-      //   type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     customize: payload,
-      //   },
-      // });
+      dispatch({
+        type: "CUSTOMIZE_COLUMNS_BOOKING_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
       setCustomizeLoading(true);
     }
   };
@@ -435,11 +521,12 @@ function Booking() {
       clearTimeout(timeout);
     };
   }, []);
-  const currentPage = state?.UsersList?.Users?.currentPage ?? 1;
 
-  const totalPages = state?.UsersList?.Users?.totalPages ?? 1;
+  const currentPage = bookingList?.currentPage ?? 1;
 
-  const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
+  const totalPages = bookingList?.totalPage ?? 1;
+
+  const totalRecords = bookingList?.totalBookings ?? 0;
 
   useEffect(() => {
     setPage(1);
@@ -452,55 +539,278 @@ function Booking() {
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
   };
-  return (
-     <div className=" bg-white font-gilroy  mr-2 ">
-      <div className="">
-        <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
-          <label className="text-lg text-black font-semibold font-gilroy">
-            Booking
-          </label>
 
-          <div className="flex items-center gap-2">
-            <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
-              <div className="flex items-center h-10 border border-[#CFD5DB] rounded-xl bg-white">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={filterInput}
-                  onChange={handlefilterInput}
-                  disabled={isComingSoon}
-                  className="flex-1 h-full px-2 text-sm font-gilroy
-                     outline-none border-none focus:ring-0"
-                />
-                <span className="px-2 flex items-center">
-                  <SearchNormal1
-                    className={`h-5 w-5 transition-opacity duration-300 text-gray-500
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        name: filterInput || "",
+        page: page,
+        size: size,
+        // period: selectedMonth?.value,
+      },
+    });
+
+    setLoading(true);
+  }, [page, size, filterInput]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_BOOKING_FILTERS",
+      payload: {
+        period: [],
+        search: "",
+        floor: [],
+        room: [],
+        minPaidAmount: "",
+        maxPaidAmount: "",
+        paymentMode: [],
+      },
+    });
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+
+    setChips([]);
+    setFilterInput("");
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_BOOKING_FILTERS",
+        payload: {
+          period: [],
+          search: "",
+          floor: [],
+          room: [],
+          minPaidAmount: "",
+          maxPaidAmount: "",
+          paymentMode: [],
+        },
+      });
+    };
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [state.Booking?.bookingFilters]);
+
+  useEffect(() => {
+    const filters = state.Booking?.bookingFilters;
+    const filterData = [];
+
+    if (filters?.period?.length) {
+      filterData.push({
+        key: "period",
+        label: "Period",
+        type: "single",
+        value: filters.period,
+      });
+    }
+
+    if (filters?.search?.trim()) {
+      filterData.push({
+        key: "search",
+        label: "Search",
+        type: "text",
+        value: filters.search,
+      });
+    }
+
+    if (filters?.floor?.length) {
+      filters.floor.forEach((floor) => {
+        filterData.push({
+          key: "floor",
+          label: "Floor",
+          type: "multi",
+          value: floor.label || floor,
+        });
+      });
+    }
+
+    if (filters?.room?.length) {
+      filters.room.forEach((room) => {
+        filterData.push({
+          key: "room",
+          label: "Room",
+          type: "multi",
+          value: room.label || room,
+        });
+      });
+    }
+
+    if (filters?.minPaidAmount) {
+      filterData.push({
+        key: "minPaidAmount",
+        label: "Min Paid",
+        type: "text",
+        value: `₹ ${filters.minPaidAmount}`,
+      });
+    }
+
+    if (filters?.maxPaidAmount) {
+      filterData.push({
+        key: "maxPaidAmount",
+        label: "Max Paid",
+        type: "text",
+        value: `₹ ${filters.maxPaidAmount}`,
+      });
+    }
+
+    if (filters?.paymentMode?.length) {
+      filterData.push({
+        key: "paymentMode",
+        label: "Payment Mode",
+        type: "single",
+        value: filters.paymentMode,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.Booking?.bookingFilters]);
+  useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
+
+  useEffect(() => {
+    if (state.Booking?.successBookingCustomizeColumns === 200) {
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_COLUMNS_BOOKING_REDUCER" });
+      }, 100);
+    }
+  }, [state.Booking?.successBookingCustomizeColumns]);
+
+  // console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
+
+  const handleNavigatePdf = (invoiceId) => {
+    if (invoiceId) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: invoiceId,
+        },
+      });
+      navigate(`/booking/details/${invoiceId}`, {
+        state: {
+          rowData: invoiceId,
+        },
+      });
+    }
+  };
+
+  const handleNavigateTenantProfile = (view) => {
+    if (view) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: view.customerId },
+      });
+      navigate(`/tenant/details/${view.customerId}`, {
+        state: {
+          customerId: view.customerId,
+          IsOverView: true,
+          totriggerBillTap: false,
+          isBookingWay: true,
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
+
+  const statusStyles = {
+    Paid: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+  };
+
+  return (
+    <div className="relative bg-white font-gilroy  mr-2 ">
+      <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
+        <label className="text-lg text-black font-semibold font-gilroy">
+          Booking
+        </label>
+
+        <div className="flex items-center gap-2">
+          <div className="relative min-w-[200px] max-w-[260px] z-[3000]">
+            <div className="flex items-center h-10 border border-[#CFD5DB] rounded-xl bg-white">
+              <input
+                type="text"
+                placeholder="Search"
+                value={filterInput}
+                onChange={handlefilterInput}
+                // disabled
+                className="flex-1 h-full px-2 text-sm font-gilroy
+                     outline-none border-none focus:ring-0  rounded-xl"
+              />
+              <span className="px-2 flex items-center">
+                <SearchNormal1
+                  className={`h-5 w-5 transition-opacity duration-300 text-gray-500
               ${
                 canReadBooking
                   ? "cursor-pointer opacity-100"
                   : "cursor-not-allowed opacity-40 pointer-events-none"
               }`}
-                  />
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                disabled={isComingSoon}
-                onClick={handleApplyInvoices}
-                className="bg-[#1E45E1] text-white text-sm font-semibold font-gilroy
-                 rounded-lg px-3 py-2.5 min-w-[150px] whitespace-nowrap disabled:bg-gray-200 cursor-not-allowed"
-              >
-                Apply Invoices
-              </button>
+                />
+              </span>
             </div>
           </div>
         </div>
-
-        <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="w-[150px]">
+      </div>
+      {!canReadBooking ? (
+        <PermissionDeniedMessage />
+      ) : (
+        <>
+          <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* <div className="w-[150px]">
               <Select
                 menuPlacement="auto"
                 isDisabled={isComingSoon}
@@ -512,173 +822,460 @@ function Booking() {
                 aria-label="Select"
                 id="statusselect"
               />
+            </div> */}
+
+              <Select
+                menuPlacement="auto"
+                isDisabled={isComingSoon}
+                options={monthOptions}
+                value={selectedMonth}
+                onChange={handleMonthChange}
+                styles={CustomStyles}
+                classNamePrefix="custom"
+                noOptionsMessage={() => "No options"}
+              />
+
+              <button
+                onClick={() => canReadBooking && handleShowFilterBills()}
+                disabled={!canReadBooking}
+                className={`border border-slate-300 rounded-full p-2
+            ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
+              >
+                <Filter size={18} />
+              </button>
             </div>
 
-            <Select
-              menuPlacement="auto"
-              isDisabled={isComingSoon}
-              options={monthOptions}
-              value={selectedMonth}
-              onChange={handleMonthChange}
-              styles={CustomStyles}
-              classNamePrefix="custom"
-              noOptionsMessage={() => "No options"}
-            />
+            <div className="flex  items-center gap-3">
+              <Setting3
+                onClick={() => setOpen(!open)}
+                className="cursor-pointer"
+                size="22"
+                color="#4B4B4B"
+              />
 
-            <button
-              onClick={() => canReadBooking && handleShowFilterBills()}
-              disabled={!canReadBooking}
-              className={`border border-slate-300 rounded-full p-2
-            ${canReadBooking ? "" : "opacity-40 cursor-not-allowed"}`}
-            >
-              <Filter size={18} />
-            </button>
+              {formattedData?.length > 0 && (
+                <ApiPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalRecords={totalRecords}
+                  onPageChange={handlePageChange}
+                  onSizeChange={handleSizeChange}
+                  isTenantPagination={true}
+                  size={size}
+                />
+              )}
+            </div>
           </div>
-
-          <div className="flex  items-center gap-3">
-            <Setting3
-              onClick={() => setOpen(!open)}
-              className="cursor-pointer"
-              size="22"
-              color="#4B4B4B"
-            />
-
-            {/* {formattedData?.length > 0 && ( */}
-            <ApiPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-              onPageChange={handlePageChange}
-              onSizeChange={handleSizeChange}
-              isTenantPagination={true}
-              size={size}
-            />
-            {/* )} */}
-          </div>
-        </div>
-      </div>
-
-      <div className="">
-        {!canReadBooking ? (
-          <div className="h-full flex flex-col items-center justify-center">
-            <img src={EmptyState} alt="Empty" className="max-w-full h-auto" />
-            <ErrorMessage
-              message={["You do not have access to view Booking"]}
-              type="warning"
-            />
-          </div>
-        ) : (
-          <div>
+          <div className="">
             <div>
-              {isComingSoon ? (
-                <ComingSoon />
-              ) : (
-                <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
-                  <div
-                    id="tableContainer"
-                    ref={tableContainerRef}
-                    className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-                  >
-                    <table className="w-full  font-gilroy">
-                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
-                        <tr className="h-9">
-                          <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
-                            <input
-                              type="checkbox"
-                              checked={
-                                selectedRows.length === tableData.length &&
-                                tableData.length > 0
-                              }
-                              onChange={handleSelectAll}
-                            />
-                          </th>
-
-                          <th className=" px-2">INV NO</th>
-                          <th className=" px-2">Booking date</th>
-                          <th className=" px-2">Tenant NamE</th>
-                          <th className=" px-2">Mobile No</th>
-                          <th className=" px-2">Floor</th>
-                          <th className=" px-2">Room</th>
-                          <th className=" px-2">Bed</th>
-                          <th className=" px-2">Amount</th>
-                          <th className="px-2">Status</th>
-                          <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB]">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {tableData.map((item) => (
-                          <tr
-                            key={item.id}
-                            className="border-b last:border-0 text-sm"
-                          >
-                            <td className="px-4 py-2.5 sticky left-0 bg-white z-40 w-[80px]">
-                              <input
-                                type="checkbox"
-                                checked={selectedRows.includes(item.id)}
-                                onChange={() => handleRowSelect(item.id)}
-                              />
-                            </td>
-
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.invoiceNo}
-                            </td>
-                            <td className="w-[250px] px-2 py-2.5">
-                              {item.name}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.type}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.invoiceDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.dueDate}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.amount}
-                            </td>
-                            <td className="w-[230px] px-2 py-2.5">
-                              {item.due}
-                            </td>
-
-                            <td className="w-[270px] px-2 py-2.5">
-                              <span
-                                className={`px-2 py-1 text-xs rounded ${
-                                  item.status === "Paid"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
-                                }`}
-                              >
-                                {item.status}
+              <div>
+                {chips.length > 0 && (
+                  <div className="px-3 py-3 bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col my-2 ">
+                    <div className=" p-3 flex items-start gap-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
+                      <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
+                        {chips.map((chip) => (
+                          <div key={chip.key}>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FF] rounded-full text-[12px] font-medium text-[#1F2937] border border-[#E0E7FF] shrink-0">
+                              {chip.label} :
+                              <span className="text-[12px] font-medium text-[#16151C]">
+                                {chip.value}
                               </span>
-                            </td>
-
-                            <td className="w-[230px] px-2 py-2.5 sticky right-0 bg-white z-40"></td>
-                          </tr>
+                            </span>
+                          </div>
                         ))}
-                      </tbody>
-                    </table>
-                    {open && (
-                      <>
-                        <div
-                          className="fixed inset-0 bg-black/20 z-50 "
-                          onClick={() => setOpen(false)}
-                        />
+                      </div>
 
-                        <div
-                          className={`
+                      <span
+                        onClick={handleReset}
+                        className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
+                      >
+                        Reset
+                      </span>
+                    </div>
+                  </div>
+                )}
+                {formattedData?.length > 0 ? (
+                  <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] ">
+                    <div
+                      id="tableContainer"
+                      ref={tableContainerRef}
+                      className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                    >
+                      <table className="w-full  font-gilroy">
+                        <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                          <tr className="h-9">
+                            {/* <th className="px-4 py-2.5 sticky left-0 z-30 bg-[#F9FAFB] w-[80px]">
+                          <input
+                            disabled
+                            type="checkbox"
+                            checked={
+                              selectedRows.length === tableData.length &&
+                              tableData.length > 0
+                            }
+                            onChange={handleSelectAll}
+                          />
+                        </th> */}
+
+                            {selectedColumns?.map((col, index) => {
+                              let stickyClass = "";
+
+                              if (index === 0) {
+                                stickyClass =
+                                  "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                              }
+
+                              return (
+                                <th
+                                  key={col.key}
+                                  className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                                >
+                                  {col.fieldName}
+                                </th>
+                              );
+                            })}
+
+                            <th className=" px-2 bg-[#F9FAFB] text-center">
+                              Status
+                            </th>
+                            <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {formattedData?.length > 0 ? (
+                            formattedData?.map((item, index) => (
+                              <tr
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleNavigatePdf(item?.apiCall?.invoiceId);
+                                }}
+                                key={item?.apiCall?.invoiceId}
+                                className="text-xs font-gilroy border-b border-[#E8E8E8] h-10 
+                                    cursor-pointer group  hover:!bg-gray-50"
+                              >
+                                {/* <td className="px-4 py-2.5 sticky left-0 hover:!bg-gray-50 group-hover:!bg-gray-50 z-40 w-[80px]">
+                              <input
+                                disabled
+                                type="checkbox"
+                                // checked={selectedRows.includes(item.id)}
+                                // onChange={() => handleRowSelect(item.id)}
+                              />
+                            </td> */}
+
+                                {selectedColumns?.map((col, index) => {
+                                  const baseClass = `
+  ${columnStyles[col.fieldName] || "px-4"}
+  hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
+`;
+
+                                  let stickyClass = "";
+
+                                  if (index === 0) {
+                                    stickyClass = `sticky left-[0px] z-30  w-[80px] ${
+                                      isScrolling
+                                        ? "!bg-white"
+                                        : "!bg-transparent"
+                                    }`;
+                                  }
+
+                                  const finalClass = `${baseClass} ${stickyClass}`;
+
+                                  switch (col.fieldName) {
+                                    case "Profile Pic":
+                                      return (
+                                        <td
+                                          key={col.fieldName}
+                                          className={`px-4 ${finalClass}`}
+                                        >
+                                          {typeof item?.profilePic ===
+                                            "string" &&
+                                          item.profilePic.startsWith("http") ? (
+                                            <img
+                                              src={item.profilePic}
+                                              className="w-8 h-8 rounded-full"
+                                              alt="profile"
+                                            />
+                                          ) : (
+                                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                              {typeof item?.profilePic ===
+                                              "string"
+                                                ? item.profilePic
+                                                : "NA"}
+                                            </div>
+                                          )}
+                                        </td>
+                                      );
+
+                                    case "Tenant Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div
+                                            className="relative group w-[100px] "
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleNavigateTenantProfile(
+                                                item?.apiCall,
+                                              );
+                                            }}
+                                          >
+                                            <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
+                                              {item.tenantName}
+                                            </span>
+
+                                            <div
+                                              className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+        hidden group-hover:!block
+       bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
+        z-[9999] pointer-events-none"
+                                            >
+                                              {item?.tenantName}
+                                            </div>
+                                          </div>
+                                        </td>
+                                      );
+
+                                    case "Inv No":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#1E45E1] font-semibold ">
+                                              {item.invNo}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
+
+                                    case "Booking Date":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#111928] ">
+                                              {item.bookingDate}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
+
+                                    case "Joining Date":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#111928] ">
+                                              {item.joiningDate}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
+
+                                    case "Mobile No":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          {item.mobile}
+                                        </td>
+                                      );
+
+                                    case "Floor Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          {item.floorName}
+                                        </td>
+                                      );
+
+                                    case "Room Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.roomName}
+                                        </td>
+                                      );
+
+                                    case "Bed Name":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.bedName}
+                                        </td>
+                                      );
+                                    case "Amount":
+                                      return (
+                                        <td
+                                          key={col.fieldName}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.amount}
+                                        </td>
+                                      );
+
+                                    case "Available Amount":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        >
+                                          {item.availableAmount}
+                                        </td>
+                                      );
+
+                                    default:
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          {typeof item[
+                                            headerKeyMap[col.fieldName]
+                                          ] === "object"
+                                            ? "-"
+                                            : (item[
+                                                headerKeyMap[col.fieldName]
+                                              ] ?? "-")}
+                                        </td>
+                                      );
+                                  }
+                                })}
+
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
+                                >
+                                  <span
+                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                    style={{
+                                      backgroundColor:
+                                        statusStyles[item.status]?.bg ||
+                                        "#EFFFF2",
+                                    }}
+                                  >
+                                    <span
+                                      className="h-2 w-2 rounded-full"
+                                      style={{
+                                        backgroundColor:
+                                          statusStyles[item.status]?.text ||
+                                          "#038C3D",
+                                      }}
+                                    ></span>
+
+                                    {item.status}
+                                  </span>
+                                </td>
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                >
+                                  <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
+                                    <PiDotsThreeOutlineVerticalFill
+                                      className={`h-5 w-5 rotate-90 ${showDots === index ? "text-[#1E45E1]" : "text-gray-500"}`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleShowDots(e, index);
+                                      }}
+                                    />
+                                    {showDots === index && (
+                                      <div
+                                        ref={popupRef}
+                                        className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                120) -
+                                              10
+                                            : popupPosition.top + 5,
+                                          left: popupPosition.left - 40,
+                                          position: "fixed",
+                                          zIndex: 1000,
+                                        }}
+                                      >
+                                        <button
+                                          disabled={
+                                            !canUpdateInvoice ||
+                                            !item.apiCall?.canApply
+                                          }
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleApplyInvoices(item?.apiCall);
+                                          }}
+                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+      ${
+        !canUpdateInvoice || !item.apiCall?.canApply
+          ? "cursor-not-allowed opacity-50 bg-gray-100"
+          : "cursor-pointer hover:bg-[#EDF2FF]"
+      }`}
+                                        >
+                                          <Link21
+                                            color={
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                                ? "#A9A9A9"
+                                                : "#1E45E1"
+                                            }
+                                            size="16"
+                                          />
+
+                                          <span
+                                            className={`text-sm font-medium ${
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
+                                            }`}
+                                          >
+                                            Apply Invoices
+                                          </span>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={12}
+                                className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
+                              >
+                                No Data Found
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                      {open && (
+                        <>
+                          <div
+                            className="fixed inset-0 bg-black/20 z-50 "
+                            onClick={() => setOpen(false)}
+                          />
+
+                          <div
+                            className={`
                             fixed top-[180px] right-10 h-fit w-[350px]
                             bg-white z-50
                             border-r border-[#E5E7EB]
@@ -686,144 +1283,164 @@ function Booking() {
                             transform transition-transform duration-300 ease-in-out
                             ${open ? "translate-x-0" : "-translate-x-full"}
                           `}
-                        >
-                          <div className="relative">
-                            {customizeLoading && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-                              </div>
-                            )}
-                            <div className="p-3 border-b ">
-                              <div className="flex items-center gap-2 justify-between mb-2">
-                                <div className="text-[16px] text-[#333333] font-semibold ">
-                                  Customize Tabs{" "}
+                          >
+                            <div className="relative">
+                              {customizeLoading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                                  <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
                                 </div>
-                                <div
-                                  onClick={() => {
-                                    setCustomizeItems((prev) =>
-                                      prev.map((i) => ({
-                                        ...i,
-                                        selected: !allSelected,
-                                      })),
+                              )}
+                              <div className="p-3 border-b ">
+                                <div className="flex items-center gap-2 justify-between mb-2">
+                                  <div className="text-[16px] text-[#333333] font-semibold ">
+                                    Customize Tabs{" "}
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      setCustomizeItems((prev) =>
+                                        prev.map((i) => ({
+                                          ...i,
+                                          selected: !allSelected,
+                                        })),
+                                      );
+
+                                      setError("");
+                                    }}
+                                    className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                                  >
+                                    {" "}
+                                    <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                    <span>
+                                      {allSelected
+                                        ? "Unselect all"
+                                        : "Select all"}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                                  <SearchNormal1 size={16} color="#98A2B3" />
+                                  <input
+                                    value={searchText}
+                                    onChange={(e) =>
+                                      setSearchText(e.target.value)
+                                    }
+                                    placeholder="Search"
+                                    className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                                  />
+                                </div>
+                              </div>
+
+                              <DndContext
+                                collisionDetection={closestCenter}
+                                onDragEnd={(event) => {
+                                  const { active, over } = event;
+                                  if (!over) return;
+                                  if (active.id !== over?.id) {
+                                    const oldIndex = customizeItems.findIndex(
+                                      (i) => i.key === active.id,
+                                    );
+                                    const newIndex = customizeItems.findIndex(
+                                      (i) => i.key === over.id,
                                     );
 
-                                    setError("");
-                                  }}
-                                  className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                                >
-                                  {" "}
-                                  <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                  <span>
-                                    {allSelected
-                                      ? "Unselect all"
-                                      : "Select all"}
-                                  </span>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                                <SearchNormal1 size={16} color="#98A2B3" />
-                                <input
-                                  value={searchText}
-                                  onChange={(e) =>
-                                    setSearchText(e.target.value)
+                                    setCustomizeItems(
+                                      arrayMove(
+                                        customizeItems,
+                                        oldIndex,
+                                        newIndex,
+                                      ),
+                                    );
                                   }
-                                  placeholder="Search"
-                                  className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                                />
-                              </div>
-                            </div>
-
-                            <DndContext
-                              collisionDetection={closestCenter}
-                              onDragEnd={(event) => {
-                                const { active, over } = event;
-                                if (!over) return;
-                                if (active.id !== over?.id) {
-                                  const oldIndex = customizeItems.findIndex(
-                                    (i) => i.key === active.id,
-                                  );
-                                  const newIndex = customizeItems.findIndex(
-                                    (i) => i.key === over.id,
-                                  );
-
-                                  setCustomizeItems(
-                                    arrayMove(
-                                      customizeItems,
-                                      oldIndex,
-                                      newIndex,
-                                    ),
-                                  );
-                                }
-                              }}
-                            >
-                              <SortableContext
-                                items={customizeItems.map((i) => i.key)}
-                                strategy={verticalListSortingStrategy}
+                                }}
                               >
-                                <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                  {filteredCustomizeItems.length === 0 ? (
-                                    <div className="text-sm text-gray-400 text-center py-3">
-                                      No results found
-                                    </div>
-                                  ) : (
-                                    filteredCustomizeItems.map((item) => (
-                                      <SortableItem
-                                        key={item.key}
-                                        item={item}
-                                      />
-                                    ))
-                                  )}
-                                </div>
-                              </SortableContext>
-                            </DndContext>
-                          </div>
-                          {error && (
-                            <div className="flex justify-center my-2">
-                              <ErrorMessage message={error} type="warning" />
+                                <SortableContext
+                                  items={customizeItems.map((i) => i.key)}
+                                  strategy={verticalListSortingStrategy}
+                                >
+                                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                    {filteredCustomizeItems.length === 0 ? (
+                                      <div className="text-sm text-gray-400 text-center py-3">
+                                        No results found
+                                      </div>
+                                    ) : (
+                                      filteredCustomizeItems.map((item) => (
+                                        <SortableItem
+                                          key={item.key}
+                                          item={item}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                                </SortableContext>
+                              </DndContext>
                             </div>
-                          )}
+                            {error && (
+                              <div className="flex justify-center my-2">
+                                <ErrorMessage message={error} type="warning" />
+                              </div>
+                            )}
 
-                          <div className="p-3 border-t flex gap-2">
-                            <button
-                              onClick={handleResetCustomize}
-                              className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
-                            >
-                              Reset
-                            </button>
-                            <button
-                              onClick={handleSave}
-                              className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
-                            >
-                              Save
-                            </button>
+                            <div className="p-3 border-t flex gap-2">
+                              <button
+                                onClick={handleResetCustomize}
+                                className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
+                              >
+                                Reset
+                              </button>
+                              <button
+                                onClick={handleSave}
+                                className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                              >
+                                Save
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )}
+                        </>
+                      )}
+                    </div>
                   </div>
+                ) : (
+                  <NoDataMessage
+                    label="Bookings"
+                    isSearching={isSearching}
+                    isClearSearch={true}
+                    handleClear={() => {
+                      setFilterInput("");
+                    }}
+                  />
+                )}
+              </div>
+              {showBookingPdf && (
+                <div className="col-span-8 border-l border-gray-300">
+                  <BookingInvoice />
                 </div>
               )}
             </div>
-            {showBookingPdf && (
-              <div className="col-span-8 border-l border-gray-300">
-                <BookingInvoice />
-              </div>
-            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
 
+      {loading && (
+        <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
+          <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
+        </div>
+      )}
       {applyInvoice && (
         <ApplyBookingModal
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
+          advanceDetails={advanceDetails}
         />
       )}
 
-      {
-        showBillsFilter && <BookingsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
-      }
+      {showBillsFilter && (
+        <BookingsFilter
+          show={showBillsFilter}
+          handleClose={handleCloseFilterBills}
+          size={size}
+        />
+      )}
     </div>
   );
 }

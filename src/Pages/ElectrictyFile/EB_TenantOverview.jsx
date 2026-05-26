@@ -15,6 +15,7 @@ import verify from "../../Assets/Images/New_images/verify.svg";
 import Bed from "../../Assets/Images/New_images/Bed.svg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Buildings, Building3 } from "iconsax-react";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const EBTenantOverview = ({ tenant, onBack }) => {
   const state = useSelector((state) => state);
@@ -25,7 +26,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
   const [tenantReadingList, setTenantreadingList] = useState([]);
 
-  // console.log("tenant called", tenant)
+  // console.log("tenant called", tenant);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id && tenant?.customerId) {
@@ -152,13 +153,19 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             </span>
           </div>
 
-          <div className="bg-white rounded-[15px] border border-gray-200">
+          <div className="bg-white rounded-[15px] p-2 border border-gray-200">
             <div className="flex items-center gap-2 p-1">
-              <img
-                src={tenant?.profilePic || Profile}
-                alt="Profile"
-                className="w-20 h-20 rounded-full ml-3"
-              />
+              {tenant?.profilePic ? (
+                <img
+                  src={tenant.profilePic}
+                  alt="Profile"
+                  className="w-20 h-20 rounded-full ml-3 object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-full font-gilroy ml-3 bg-gray-200 flex items-center justify-center text-2xl font-semibold text-[#44536A]">
+                  {tenant?.initials || "-"}
+                </div>
+              )}
 
               <div>
                 <p className="mb-1 text-[17px] font-semibold font-gilroy flex gap-1">
@@ -225,25 +232,17 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
         {activeTab === "room" &&
           (billingData?.length === 0 ? (
-            <div className="flex justify-center text-center mt-6 animated-text">
-              <div className="2xl:mt-20">
-                <img src={emptyimg} width={200} height={200} alt="emptystate" />
-
-                <div className="pb-1 mt-2 font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
-                  No Room Reading
-                </div>
-
-                <div className="pb-1 font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                  There are no Room Reading available.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label={"Room reading"} />
           ) : (
             <>
-              <div className="flex flex-col h-[calc(100vh-230px)] px-1">
-                <div className="flex-1 overflow-y-auto overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
                         <th className="font-gilroy text-black font-bold text-[13px] px-4 py-2">
                           BILLING MONTH
@@ -314,25 +313,17 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
         {activeTab === "customer" &&
           (formattedTenantReadings?.length === 0 ? (
-            <div className="flex justify-center text-center mt-6 animated-text">
-              <div className="2xl:mt-20">
-                <img src={emptyimg} width={200} height={200} alt="emptystate" />
-
-                <div className="pb-1 mt-2 font-semibold font-gilroy text-[18px] text-[#4B4B4B]">
-                  No Reading
-                </div>
-
-                <div className="pb-1 font-medium font-gilroy text-[14px] text-[#4B4B4B]">
-                  There are no reading available.
-                </div>
-              </div>
-            </div>
+            <NoDataMessage label={"No reading"} />
           ) : (
             <>
-              <div className="flex flex-col h-[calc(100vh-230px)] px-1">
-                <div className="flex-1 overflow-y-auto overflow-x-auto show-scroll">
-                  <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                    <thead className="bg-blue-100 sticky top-0 z-20">
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                       <tr className="h-9">
                         <th className="px-2 whitespace-nowrap">
                           Billing month

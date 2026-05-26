@@ -36,6 +36,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigate = useNavigate();
+  const [hoveredBedId, setHoveredBedId] = useState(null);
   const [emptybed, setEmptyBed] = useState(false);
   const [showReservedBed, setShowReservedBed] = useState(false);
   const [occupiedCustomer, setOccupiedCustomer] = useState(false);
@@ -128,11 +129,16 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setShowReAssignBedForm(false);
   };
 
-  const handleShowReAssignBedPopup = () => {
+  const handleShowReAssignBedPopup = (isVisible, customer) => {
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: customer?.tenetId },
+    });
     setOccubiedBed(false);
     dispatch(triggerPG(true));
     setNoticePeriodBed(false);
   };
+
   const handleShowNoticePeriod = (isVisible, customer) => {
     setNoticePeriodBed(false);
     setOccubiedBed(false);
@@ -416,23 +422,11 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
   const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-  // const filteredBeds = state.login.isTrigger
-  //     ? bedsForRoom.filter(
-  //         (bed) =>
-  //             (!bed.isBooked && !bed.isOccupied) ||
-  //             (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
-  //     )
-  //     : bedsForRoom;
+  console.log("bedsForRoom", bedsForRoom);
 
-  // const filteredBeds = React.useMemo(() => {
-  //     if (!state.login.isTrigger) return bedsForRoom;
+  console.log("state.PgList?.bedList", state.PgList?.bedList);
 
-  //     return bedsForRoom.filter(
-  //         bed =>
-  //             (!bed.isBooked && !bed.isOccupied) ||
-  //             (bed.onNotice && !bed.isBooked && !bed.isOccupied)
-  //     );
-  // }, [bedsForRoom, state.login.isTrigger]);
+ 
 
   const filteredBeds = React.useMemo(() => {
     if (!state.login.isTrigger) return bedsForRoom;
@@ -797,7 +791,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
                         >
                           {hoveredBedId !== bed.id && count}
 
-                          {/* Icons (show on hover) */}
                           {hoveredBedId === bed.id && (
                             <div
                               className="absolute top-0 left-0 -translate-x-1/2 bg-white rounded-full px-[6px] py-[3px]
@@ -828,7 +821,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
                     })()}
 
                   <img
-                    className={`mt-1 h-10 w-9 ${propsValue.addPermissionError ? "cursor-not-allowed" : "cursor-pointer"}`}
+                    className={`mt-1 h-10 w-9  cursor-pointer`}
                     src={bed.isOccupied ? Green : White}
                     alt="bedd"
                     onClick={() => {

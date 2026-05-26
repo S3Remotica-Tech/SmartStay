@@ -1,45 +1,71 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updatePgList, UpdateBed, getAllBed,dashboardNew, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
+import {
+  updatePgList,
+  UpdateBed,
+  getAllBed,
+  dashboardNew,
+  updateRoom,
+  getAllRoom,
+  add_sub_comments,
+  get_comments,
+  add_comments,
+  delete_announcement,
+  deleteHostelImages,
+  UpdateFloor,
+  DeletePG,
+  DeleteBed,
+  createBed,
+  createPgList,
+  createRoom,
+  CheckRoomId,
+  CheckBedDetails,
+  Checkeblist,
+  CreateEbbill,
+  EB_Customerlist,
+  EB_startmeterlist,
+  dashboardReports,
+  OccupiedCustomer,
+  EB_CustomerListTable,
+  editElectricity,
+  deleteElectricity,
+  dashboardFilter,
+  ebAddHostelReading,
+  ebHostelBasedRead,
+  ebAddHostelEdit,
+  ebAddHostelDelete,
+  announcement_list,
+  add_announcement,
+  DeleteHostel,
+} from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
-   const status = error?.response?.status || error?.status;
+  const status = error?.response?.status || error?.status;
 
-   if (status === 401) {
-      yield put({
-         type: "UN-AUTHORIZED",
-         payload: "Access Denied",
-      });
-   }
-   else if (status === 500) {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
-   }
-   else if (error.code === "ERR_NETWORK") {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-     
-   }
-    else if (status === 403){
-     yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-      }
+  if (status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  } else if (status === 500) {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+  } else if (error.code === "ERR_NETWORK") {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+  } else if (status === 403) {
+    yield put({
+      type: "ACCESS_RESTRICTION_ERROR",
+      payload: "Access Restricted",
+    });
+  }
 }
-
-
-
-
-
-
-
-
-
 
 function* handleUpdateBed(datum) {
   try {
     const response = yield call(UpdateBed, datum.payload);
- 
+
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -53,14 +79,13 @@ function* handleUpdateBed(datum) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     if (response?.status === 200) {
       yield put({
         type: "UPDATE_BED",
         payload: {
           response: response.data,
-          statusCode: response?.status
+          statusCode: response?.status,
         },
       });
 
@@ -79,38 +104,32 @@ function* handleUpdateBed(datum) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
+    if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: 'ALREADY_BED', payload: error.response.data });
+        yield put({ type: "ALREADY_BED", payload: error.response.data });
       }
     }
   }
 }
 
-
-
-
-
 function* handleGetAllRooms(action) {
   try {
     const response = yield call(getAllRoom, action.payload);
 
-const hostelId = GlobalHostelId(response);
+    const hostelId = GlobalHostelId(response);
     if (hostelId) {
-     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-         }
-    if (response?.status === 200) {
-      yield put({ type: 'GET_ALL_ROOMS', payload: { response: response.data, statusCode: response?.status } })
-
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
     }
-    
-  }
-  catch (error) {
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_ALL_ROOMS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
 
@@ -118,34 +137,32 @@ function* handleGetAllBed(action) {
   try {
     const response = yield call(getAllBed, action.payload);
 
-const hostelId = GlobalHostelId(response);
+    const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
     }
 
     if (response?.status === 200) {
-      yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response?.status } })
-
+      yield put({
+        type: "GET_ALL_BEDS",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+          roomId: action.payload.roomId,
+        },
+      });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
-
-
 
 function* handlePgList(datum) {
   try {
     const response = yield call(createPgList, datum.payload);
-
-
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -160,7 +177,6 @@ function* handlePgList(datum) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 201) {
@@ -190,20 +206,14 @@ function* handlePgList(datum) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
-
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
-
-
 
 function* handleUpdatePgList(datum) {
   try {
     const response = yield call(updatePgList, datum.payload);
-
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -218,7 +228,6 @@ function* handleUpdatePgList(datum) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
@@ -242,28 +251,13 @@ function* handleUpdatePgList(datum) {
       });
     }
 
-
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
-
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function* handleCreateRoom(datum) {
   try {
@@ -281,7 +275,6 @@ function* handleCreateRoom(datum) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     if (response?.status === 201) {
       yield put({
@@ -311,18 +304,15 @@ function* handleCreateRoom(datum) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
+    if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: 'ALREADY_ROOM_ERROR', payload: error.response.data });
+        yield put({ type: "ALREADY_ROOM_ERROR", payload: error.response.data });
       }
     }
-
   }
 }
-
 
 function* handleUpdateRoom(datum) {
   try {
@@ -340,14 +330,13 @@ function* handleUpdateRoom(datum) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     if (response?.status === 200) {
       yield put({
         type: "UPDATE_ROOM",
         payload: {
           response: response.data,
-          statusCode: response?.status
+          statusCode: response?.status,
         },
       });
 
@@ -366,24 +355,15 @@ function* handleUpdateRoom(datum) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
+    if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: 'ALREADY_ROOM_ERROR', payload: error.response.data });
+        yield put({ type: "ALREADY_ROOM_ERROR", payload: error.response.data });
       }
     }
   }
 }
-
-
-
-
-
-
-
-
 
 function* handleCheckRoom() {
   const response = yield call(CheckRoomId);
@@ -413,13 +393,16 @@ function* handleCheckEbStartmeterlist(action) {
   const response = yield call(EB_startmeterlist, action.payload);
 
   if (response?.status === 200) {
-    yield put({ type: "EB_STARTMETER_LIST", payload: { response: response.data.data, statusCode: response?.status } });
-  }
-  else if (response?.status === 201) {
-    yield put({ type: 'NO_ROOM_BASED', payload: { statusCode: response?.status } })
-  }
-
-  else {
+    yield put({
+      type: "EB_STARTMETER_LIST",
+      payload: { response: response.data.data, statusCode: response?.status },
+    });
+  } else if (response?.status === 201) {
+    yield put({
+      type: "NO_ROOM_BASED",
+      payload: { statusCode: response?.status },
+    });
+  } else {
     yield put({ type: "ERROR", payload: response?.data?.message });
   }
   if (response) {
@@ -429,14 +412,16 @@ function* handleCheckEbStartmeterlist(action) {
 function* handleCustomerEblist(action) {
   const response = yield call(EB_CustomerListTable, action.payload);
   if (response?.status === 200) {
-
-    yield put({ type: "EB_CUSTOMER_EBLIST", payload: { response: response.data.eb_details, statusCode: response?.status } });
-
-  }
-  else if (response?.status === 201) {
-    yield put({ type: 'NO_HOSTEL', payload: { statusCode: response?.status } })
-  }
-  else {
+    yield put({
+      type: "EB_CUSTOMER_EBLIST",
+      payload: {
+        response: response.data.eb_details,
+        statusCode: response?.status,
+      },
+    });
+  } else if (response?.status === 201) {
+    yield put({ type: "NO_HOSTEL", payload: { statusCode: response?.status } });
+  } else {
     yield put({ type: "ERROR", payload: response?.data?.message });
   }
   if (response) {
@@ -462,7 +447,6 @@ function* handleCheckEB(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     toast.success(response.data.message, {
       position: "bottom-center",
@@ -473,8 +457,8 @@ function* handleCheckEB(action) {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      style: toastStyle
-    })
+      style: toastStyle,
+    });
   } else {
     yield put({ type: "ERROR", payload: response?.data?.message });
   }
@@ -508,7 +492,6 @@ function* handleCreateEB(action) {
         display: "flex",
         alignItems: "center",
         padding: "10px",
-
       };
 
       toast.success(response.data.message, {
@@ -529,12 +512,10 @@ function* handleCreateEB(action) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
-
 
 function* handleCreatePGDashboard(action) {
   try {
@@ -542,11 +523,10 @@ function* handleCreatePGDashboard(action) {
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
       // const cookies = new Cookies()
       // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
-
 
     if (response?.status === 200) {
       yield put({
@@ -558,52 +538,34 @@ function* handleCreatePGDashboard(action) {
       });
     }
 
-
-
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
 
-
-
 function* handleDashboard(action) {
-   try {
-      const { hostelId, filters } = action.payload;
-      const response = yield call(dashboardNew, hostelId, filters)
+  try {
+    const { hostelId, filters } = action.payload;
+    const response = yield call(dashboardNew, hostelId, filters);
 
-      const hostel_Id = GlobalHostelId(response);
-      if (hostel_Id) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'GET_DASHBOARD_REDUCER', payload: { response: response.data, statusCode: response?.status } })
-      }
-   }
-   catch (err) {
-
-      const error = err || {};
-      yield* handleApiError(error);
-
-   }
-
-
+    const hostel_Id = GlobalHostelId(response);
+    if (hostel_Id) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_DASHBOARD_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function* handleCheckBedDetails(action) {
   const response = yield call(CheckBedDetails, action.payload);
@@ -633,8 +595,6 @@ function* handleCreateBed(action) {
   try {
     const response = yield call(createBed, action.payload);
 
-
-
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -648,7 +608,6 @@ function* handleCreateBed(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 201) {
@@ -675,16 +634,13 @@ function* handleCreateBed(action) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
-
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
+    if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: 'ALREADY_BED', payload: error.response.data });
+        yield put({ type: "ALREADY_BED", payload: error.response.data });
       }
     }
-
   }
 }
 
@@ -705,7 +661,6 @@ function* handleDeleteBed(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200 || response?.status === 204) {
@@ -727,16 +682,18 @@ function* handleDeleteBed(action) {
         progress: undefined,
         style: toastStyle,
       });
-    } 
-    
-  }
-  catch (error) {
+    }
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
+    if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: 'DELETE_BED_ERROR', payload: error.response.data });
-         toast.error(`${error.response.data}`, {
-          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+        yield put({ type: "DELETE_BED_ERROR", payload: error.response.data });
+        toast.error(`${error.response.data}`, {
+          style: {
+            fontFamily: "Gilroy",
+            font: "#000",
+            borderBottom: "5px solid red",
+          },
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: true,
@@ -745,7 +702,6 @@ function* handleDeleteBed(action) {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-
         });
       }
     }
@@ -768,7 +724,6 @@ function* handleDeletePG(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     if (response?.status === 200) {
       yield put({
@@ -793,26 +748,26 @@ function* handleDeletePG(action) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
-      if (error.status === 400) {
-        yield put({ type: 'DELETE_PG_ERROR', payload: error.response.data });
-         toast.error(`${error.response.data}`, {
-          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeButton: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
 
-        });
-
-      }
+    if (error) {
+      yield put({ type: "DELETE_PG_ERROR", payload: error.response.data });
+      // toast.error(`${error.response.data}`, {
+      //   style: {
+      //     fontFamily: "Gilroy",
+      //     font: "#000",
+      //     borderBottom: "5px solid red",
+      //   },
+      //   position: "top-right",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeButton: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
     }
   }
 }
@@ -833,7 +788,6 @@ function* handleUpdateFloor(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     if (response?.status === 200) {
       yield put({
@@ -858,25 +812,23 @@ function* handleUpdateFloor(action) {
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
+    if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: 'UPDATE_FLOOR_ERROR', payload: error.response.data });
+        yield put({ type: "UPDATE_FLOOR_ERROR", payload: error.response.data });
       }
     }
   }
 }
 
-
 function* handleOccupiedCustomer(action) {
   try {
     const response = yield call(OccupiedCustomer, action.payload);
 
-const hostelId = GlobalHostelId(response);
+    const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
       // const cookies = new Cookies()
       // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
@@ -889,17 +841,14 @@ const hostelId = GlobalHostelId(response);
           statusCode: response?.status,
         },
       });
-
     }
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
-
 
 function* handleDeleteHostelImages(action) {
   try {
@@ -917,7 +866,6 @@ function* handleDeleteHostelImages(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
     if (response?.status === 200) {
       yield put({
@@ -938,27 +886,26 @@ function* handleDeleteHostelImages(action) {
         progress: undefined,
         style: toastStyle,
       });
-
-
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-      if (error.status === 400) {
-        toast.error(`${error.response.data}`, {
-          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeButton: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-
-        });
-        
-      }
+    if (error.status === 400) {
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 }
 
@@ -979,11 +926,13 @@ function* handleEditElectricity(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'EDIT_ELECTRICITY', payload: { response: response.data, statusCode: response?.status } })
+      yield put({
+        type: "EDIT_ELECTRICITY",
+        payload: { response: response.data, statusCode: response?.status },
+      });
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -1001,12 +950,10 @@ function* handleEditElectricity(action) {
     //   yield put({ type: 'ERROR_EDIT_ELECTRICITY', payload:  response?.data?.message })
     // }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
 
@@ -1027,11 +974,13 @@ function* handleDeleteElectricity(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'DELETE_ELECTRICITY', payload: { response: response.data, statusCode: response?.status } })
+      yield put({
+        type: "DELETE_ELECTRICITY",
+        payload: { response: response.data, statusCode: response?.status },
+      });
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -1043,40 +992,33 @@ function* handleDeleteElectricity(action) {
         progress: undefined,
         style: toastStyle,
       });
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response?.data?.message })
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
 
-
 function* handleDropFilter(action) {
   try {
-
-
     const response = yield call(dashboardFilter, action.payload);
 
     if (response?.status === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_DETAILS', payload: { response: response.data, statusCode: response?.status } })
-
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response?.data?.message })
+      yield put({
+        type: "DASHBOARD_FILTER_DETAILS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
@@ -1084,46 +1026,42 @@ function* handleDropFilterCashBack(action) {
   try {
     const response = yield call(dashboardFilter, action.payload);
     if (response?.status === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_CASHBACK', payload: { response: response.data, statusCode: response?.status } })
-
-    }
-
-    else if (response?.status === 201) {
-      yield put({ type: 'NO_DASHBOARD_LIST', payload: { statusCode: response?.status } })
-
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response?.data?.message })
+      yield put({
+        type: "DASHBOARD_FILTER_CASHBACK",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "NO_DASHBOARD_LIST",
+        payload: { statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
-
-
 
 function* handleDropFilterRevenue(action) {
   try {
     const response = yield call(dashboardFilter, action.payload);
 
     if (response?.status === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_REVENUE', payload: { response: response.data, statusCode: response?.status } })
-
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response?.data?.message })
+      yield put({
+        type: "DASHBOARD_FILTER_REVENUE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
@@ -1133,22 +1071,20 @@ function* handleDropFilterAdvance(action) {
     const response = yield call(dashboardFilter, action.payload);
 
     if (response?.status === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_ADVANCE', payload: { response: response.data, statusCode: response?.status } })
-
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response?.data?.message })
+      yield put({
+        type: "DASHBOARD_FILTER_ADVANCE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
-
 
 function* handleAddHostelElectricity(action) {
   try {
@@ -1167,11 +1103,13 @@ function* handleAddHostelElectricity(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'ADD_HOSTEL_BASED', payload: { response: response.data, statusCode: response?.status } })
+      yield put({
+        type: "ADD_HOSTEL_BASED",
+        payload: { response: response.data, statusCode: response?.status },
+      });
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -1189,12 +1127,10 @@ function* handleAddHostelElectricity(action) {
     //   yield put({ type: 'SAME_DATE_ALREADY', payload: { response:  response?.data?.message } })
     // }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
 
@@ -1215,11 +1151,13 @@ function* handleHostelEditElectricity(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'EDIT_HOSTEL_BASED', payload: { response: response.data, statusCode: response?.status } })
+      yield put({
+        type: "EDIT_HOSTEL_BASED",
+        payload: { response: response.data, statusCode: response?.status },
+      });
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -1231,18 +1169,17 @@ function* handleHostelEditElectricity(action) {
         progress: undefined,
         style: toastStyle,
       });
-    }
-
-    else if (response?.status === 201) {
-      yield put({ type: 'EDIT_SAME_DATE_ALREADY', payload: { response: response?.data?.message } })
+    } else if (response?.status === 201) {
+      yield put({
+        type: "EDIT_SAME_DATE_ALREADY",
+        payload: { response: response?.data?.message },
+      });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
 
@@ -1263,11 +1200,13 @@ function* handleHostelDeleteElectricity(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'DELETE_HOSTEL_BASED', payload: { response: response.data, statusCode: response?.status } })
+      yield put({
+        type: "DELETE_HOSTEL_BASED",
+        payload: { response: response.data, statusCode: response?.status },
+      });
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -1279,15 +1218,13 @@ function* handleHostelDeleteElectricity(action) {
         progress: undefined,
         style: toastStyle,
       });
-    }
-    else {
-      yield put({ type: 'ERROR', payload: response?.data?.message })
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
@@ -1297,52 +1234,45 @@ function* handleHostelBasedEblist(action) {
     const response = yield call(ebHostelBasedRead, action.payload);
     if (response?.status === 200) {
       yield put({ type: "EB_CUSTOMER_HOSTEL_EBLIST", payload: response.data });
-    }
-    else if (response?.status === 201) {
-      yield put({ type: 'NO_EB_HOSTEL_BASED', payload: { statusCode: response?.status } })
-
-    }
-
-    else {
-      yield put({ type: "ERROR", payload: response?.data?.message });
-    }
-    if (response) {
-      refreshToken(response);
-    }
-  }
-  catch (error) {
-    yield* handleApiError(error);
-  }
-}
-
-
-
-
-
-function* handleAnnouncementList(action) {
-  try {
-    const response = yield call(announcement_list, action.payload);
-
-    if (response?.status === 200) {
-      yield put({ type: "ANNOUNCEMENT_LIST", payload: { response: response.data, statusCode: response?.status } });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "NO_EB_HOSTEL_BASED",
+        payload: { statusCode: response?.status },
+      });
     } else {
       yield put({ type: "ERROR", payload: response?.data?.message });
     }
     if (response) {
       refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
 
+function* handleAnnouncementList(action) {
+  try {
+    const response = yield call(announcement_list, action.payload);
 
+    if (response?.status === 200) {
+      yield put({
+        type: "ANNOUNCEMENT_LIST",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
 
 function* handleAddAnnounce(action) {
   try {
     const response = yield call(add_announcement, action.payload);
-
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -1357,11 +1287,13 @@ function* handleAddAnnounce(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'ADD_ANNOUNCEMENT', payload: { response: response.data, statusCode: response?.status } })
+      yield put({
+        type: "ADD_ANNOUNCEMENT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -1383,16 +1315,12 @@ function* handleAddAnnounce(action) {
     //   yield put({ type: 'TITTLE_UNIQUE', payload: { response: response.data.message, statusCode: response.data.statusCode } });
     // }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
-
-
 
 function* handleDeleteAnnounce(action) {
   try {
@@ -1410,12 +1338,14 @@ function* handleDeleteAnnounce(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'DELETE_ANNOUNCEMENT', payload: { response: response.data, statusCode: response?.status } })
-      toast.success('Deleted Successfully', {
+      yield put({
+        type: "DELETE_ANNOUNCEMENT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success("Deleted Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -1428,39 +1358,35 @@ function* handleDeleteAnnounce(action) {
       });
     }
 
-
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
-
 
 function* handleGetComments(action) {
   try {
     const response = yield call(get_comments, action.payload);
 
     if (response?.status === 200) {
-      yield put({ type: 'GET_COMMENTS', payload: { response: response.data.comments, statusCode: response?.status } })
+      yield put({
+        type: "GET_COMMENTS",
+        payload: {
+          response: response.data.comments,
+          statusCode: response?.status,
+        },
+      });
     }
-
 
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
-
-
-
-
-
 
 function* handleCreateComments(action) {
   try {
@@ -1478,12 +1404,14 @@ function* handleCreateComments(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'CREATE_COMMENTS', payload: { response: response.data, statusCode: response?.status } })
-      toast.success('Send Successfully', {
+      yield put({
+        type: "CREATE_COMMENTS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success("Send Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -1496,16 +1424,12 @@ function* handleCreateComments(action) {
       });
     }
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
-
-
 
 function* handleCreateSubComments(action) {
   try {
@@ -1523,12 +1447,14 @@ function* handleCreateSubComments(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
-
     };
 
     if (response?.status === 200) {
-      yield put({ type: 'CREATE_SUB_COMMENTS', payload: { response: response.data, statusCode: response?.status } })
-      toast.success('Send Successfully', {
+      yield put({
+        type: "CREATE_SUB_COMMENTS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success("Send Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -1541,17 +1467,13 @@ function* handleCreateSubComments(action) {
       });
     }
 
-
     if (response) {
-      refreshToken(response)
+      refreshToken(response);
     }
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-
   }
 }
-
 
 function* handleDeleteHostel(action) {
   try {
@@ -1596,32 +1518,29 @@ function* handleDeleteHostel(action) {
     if (response) {
       refreshToken(response);
     }
-
-  }
-  catch (error) {
+  } catch (error) {
     yield* handleApiError(error);
-    if (error.code === 'ERR_BAD_REQUEST') {
-      if (error.status === 400) {
 
-        toast.error(`${error.response.data}`, {
-          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeButton: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-
-        });
-        // yield put({ type: 'DELETE_HOSTEL_ERROR', payload: error.response.data });
-      }
+    if (error) {
+      yield put({ type: "DELETE_PG_ERROR", payload: error.response.data });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 }
-
-
 
 function refreshToken(response) {
   if (response.data && response.data.refresh_token) {
@@ -1636,12 +1555,12 @@ function refreshToken(response) {
 }
 
 function* PgListSaga() {
-yield takeEvery("GET_DASHBOARD_SAGA",handleDashboard)
+  yield takeEvery("GET_DASHBOARD_SAGA", handleDashboard);
   yield takeEvery("UPDATEBED", handleUpdateBed);
   yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
-  yield takeEvery("GETALLBEDSLIST", handleGetAllBed)
+  yield takeEvery("GETALLBEDSLIST", handleGetAllBed);
   yield takeEvery("CREATEPG", handlePgList);
-  yield takeEvery("UPDATEPG", handleUpdatePgList)
+  yield takeEvery("UPDATEPG", handleUpdatePgList);
   yield takeEvery("CREATEROOM", handleCreateRoom);
   yield takeEvery("UPDATEROOM", handleUpdateRoom);
   yield takeEvery("CHECKROOM", handleCheckRoom);
@@ -1670,11 +1589,10 @@ yield takeEvery("GET_DASHBOARD_SAGA",handleDashboard)
   yield takeEvery("HOSTELBASEDADDEB", handleAddHostelElectricity);
   yield takeEvery("ANNOUNCEMENTLIST", handleAnnouncementList);
   yield takeEvery("ADDANNOUNCEMENT", handleAddAnnounce);
-  yield takeEvery("DELETEANNOUNCEMENT", handleDeleteAnnounce)
-  yield takeEvery("CREATECOMMENTS", handleCreateComments)
-  yield takeEvery("GETCOMMENTS", handleGetComments)
-  yield takeEvery("CREATESUBCOMMENTS", handleCreateSubComments)
-  yield takeEvery("DELETEHOSTEL", handleDeleteHostel)
-
+  yield takeEvery("DELETEANNOUNCEMENT", handleDeleteAnnounce);
+  yield takeEvery("CREATECOMMENTS", handleCreateComments);
+  yield takeEvery("GETCOMMENTS", handleGetComments);
+  yield takeEvery("CREATESUBCOMMENTS", handleCreateSubComments);
+  yield takeEvery("DELETEHOSTEL", handleDeleteHostel);
 }
 export default PgListSaga;

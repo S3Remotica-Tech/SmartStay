@@ -13,32 +13,26 @@ import CustomerProfile from "./CheckoutProfile";
 import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
 import { Table } from "react-bootstrap";
 import PropTypes from "prop-types";
-import './UserlistCheckout.css';
+import "./UserlistCheckout.css";
 import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
-import ErrorMessage from '../../Components/ErrorMessage';
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function CheckOut() {
-
-
   const navigate = useNavigate();
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-
-
-
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
-  const [checkoutLoader, setCheckOutLoader] = useState(false)
-  const [CheckoutProfile, setCheckoutProfile] = useState(false)
+  const [checkoutLoader, setCheckOutLoader] = useState(false);
+  const [CheckoutProfile, setCheckoutProfile] = useState(false);
   const [checkouttableshow, setcheckoutTableShow] = useState(true);
-  const [checkoutWithoutPay, setCheckoutWithoutPay] = useState("")
-
-
-
+  const [checkoutWithoutPay, setCheckoutWithoutPay] = useState("");
 
   const {
     // canWriteModule: canWriteCheckout,
@@ -49,106 +43,98 @@ function CheckOut() {
 
   useEffect(() => {
     if (!canReadCheckout) {
-      setCheckOutLoader(false)
+      setCheckOutLoader(false);
     }
   }, [canReadCheckout]);
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setCheckOutLoader(false)
+      setCheckOutLoader(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
+  }, [state.UsersList?.accessRestrictionError]);
 
   const handleCustomerProfilePage = (checkout) => {
-    setCheckoutWithoutPay(checkout)
-    navigate(`/tenant/checkout/details/${checkout.customerId}`)
-    setcheckoutTableShow(false)
-    dispatch(checkoutCustomerProfile(false))
-    dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkout.customerId } });
-
-  }
-
-
-
-
-
-
-
-
+    setCheckoutWithoutPay(checkout);
+    navigate(`/tenant/checkout/details/${checkout.customerId}`);
+    setcheckoutTableShow(false);
+    dispatch(checkoutCustomerProfile(false));
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: { customerId: checkout.customerId },
+    });
+  };
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
-      setCheckOutLoader(true)
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      setCheckOutLoader(true);
     }
   }, [state.login.selectedHostel_Id]);
 
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id } })
+      dispatch({
+        type: "AVAILABLECHECKOUTCUSTOMER",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
     }
-
-  }, [state.login.selectedHostel_Id])
-
-
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
-      setCheckOutLoader(false)
-      setCheckOutCustomer(state.UsersList.CheckOutCustomerList?.checkoutCustomers);
+      setCheckOutLoader(false);
+      setCheckOutCustomer(
+        state.UsersList.CheckOutCustomerList?.checkoutCustomers,
+      );
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
       }, 10);
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
-
   useEffect(() => {
-    setCheckOutLoader(false)
-  }, [state.UsersList.CheckOutCustomerList])
-
+    setCheckOutLoader(false);
+  }, [state.UsersList.CheckOutCustomerList]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-
-      checkoutcloseModal()
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
+      checkoutcloseModal();
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
-      }, 1000)
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 1000);
     }
-
-  }, [state.UsersList.statusCodeAddConfirmCheckout])
-
-
-
+  }, [state.UsersList.statusCodeAddConfirmCheckout]);
 
   useEffect(() => {
     if (state.UsersList?.checkoutcustomeEmpty === 201) {
-      setCheckOutLoader(false)
-      setCheckOutCustomer([])
+      setCheckOutLoader(false);
+      setCheckOutCustomer([]);
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR' })
-      }, 2000)
+        dispatch({ type: "REMOVE_CLEAR_CHECKOUT_CUSTOMER_LIST_ERROR" });
+      }, 2000);
     }
-
-  }, [state.UsersList?.checkoutcustomeEmpty])
-
-
+  }, [state.UsersList?.checkoutcustomeEmpty]);
 
   useEffect(() => {
     if (
       state.UsersList.addCheckoutCustomerStatusCode === 201 ||
       state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
-
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
       setcheckoutForm(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
@@ -163,20 +149,15 @@ function CheckOut() {
     state.UsersList.deleteCheckoutCustomerStatusCode,
   ]);
 
-
-
   const sortedData = React.useMemo(() => {
     return Array.isArray(checkOutCustomer) ? checkOutCustomer : [];
   }, [checkOutCustomer]);
 
- 
-  const [DueCustomerShow, setDueCustomerShow] = useState(false)
-  
+  const [DueCustomerShow, setDueCustomerShow] = useState(false);
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
       setDueCustomerShow(true);
-
     }
 
     setTimeout(() => {
@@ -184,65 +165,49 @@ function CheckOut() {
     }, 500);
   }, [state.UsersList.statusCodegetConfirmCheckout]);
 
-
-
-
   useEffect(() => {
     if (state.UsersList.statusCodeForDueCustomer === 200) {
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
-      setDueCustomerShow(false)
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      setDueCustomerShow(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
       }, 500);
     }
-
-  }, [state.UsersList.statusCodeForDueCustomer])
-
-
+  }, [state.UsersList.statusCodeForDueCustomer]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      setDueCustomerShow(false)
+      setDueCustomerShow(false);
 
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
-      }, 1000)
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 1000);
     }
-
-  }, [state.UsersList.statusCodeAddConfirmCheckout])
-
+  }, [state.UsersList.statusCodeAddConfirmCheckout]);
 
   const handleCloseDuePopup = () => {
-    setDueCustomerShow(false)
-  }
-
-
-  
-
-
-
-
-
-
-
+    setDueCustomerShow(false);
+  };
 
   const [checkoutForm, setcheckoutForm] = useState(false);
-
-
 
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
 
   const handleCloseCheckoutProfile = () => {
-    setCheckoutProfile(false)
-  }
+    setCheckoutProfile(false);
+  };
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(
-    window.innerWidth >= 1440 ? 20 : 10
-  );
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
 
   useEffect(() => {
     const handleResize = () => {
@@ -263,12 +228,10 @@ function CheckOut() {
 
   const paginatedData = sortedData.slice(startIndex, endIndex);
   return (
-
     <>
-      {checkouttableshow &&
+      {checkouttableshow && (
         <>
           <div>
-
             {checkoutLoader && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
                 <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
@@ -276,24 +239,13 @@ function CheckOut() {
             )}
             {!canReadCheckout ? (
               <>
-                <div className="flex flex-col items-center justify-center mt-24">
-
-                  <img
-                    src={Emptystate}
-                    alt="Empty State"
-
-                  />
-                  <ErrorMessage message={['You do not have access to view Checkout']} type="warning" />
-
-                </div>
+                <PermissionDeniedMessage />
               </>
-            ) :
-
-
+            ) : (
               <div>
                 {sortedData?.length > 0 ? (
                   <>
-                    <div className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}>
+                    <div className={`flex justify-end mr-2 `}>
                       <PaginationList
                         totalItems={sortedData.length}
                         itemsPerPage={pageSize}
@@ -303,14 +255,22 @@ function CheckOut() {
                       />
                     </div>
 
-                    <div className="relative h-[calc(100vh-165px)] flex flex-col">
-                      <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                        <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                          <thead className="bg-blue-100 sticky top-0 z-20">
+                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                      <div
+                        id="tableContainer"
+                        // ref={tableContainerRef}
+                        className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                      >
+                        <table className=" w-full font-gilroy">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                             <tr className="h-9">
                               <th className="w-[230px] px-2">Name</th>
-                              <th className="w-[230px] px-2"><div className="-ml-1">Mobile No</div></th>
-                              <th className="w-[230px] px-2"><div className="-ml-2">Floor</div></th>
+                              <th className="w-[230px] px-2">
+                                <div className="-ml-1">Mobile No</div>
+                              </th>
+                              <th className="w-[230px] px-2">
+                                <div className="-ml-2">Floor</div>
+                              </th>
                               <th className="w-[230px] px-2">Room</th>
                               <th className="w-[230px] px-2">Bed</th>
                               <th className="w-[230px] px-2">Check-Out Date</th>
@@ -325,12 +285,12 @@ function CheckOut() {
                                 className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                               >
                                 <td
-                                  onClick={() => handleCustomerProfilePage(checkout)}
+                                  onClick={() =>
+                                    handleCustomerProfilePage(checkout)
+                                  }
                                   className="w-[230px] px-2 py-1 whitespace-nowrap"
                                 >
-                                  <span
-                                    className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold text-blue-700 cursor-pointer underline"
-                                  >
+                                  <span className="block max-w-32 truncate whitespace-nowrap text-sm font-semibold text-blue-700 cursor-pointer underline">
                                     {checkout.fullName}
                                   </span>
                                 </td>
@@ -366,55 +326,44 @@ function CheckOut() {
                             ))}
                           </tbody>
                         </table>
-                       
                       </div>
-
                     </div>
                   </>
-
-                ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
-
-                  <div className="animated-text flex items-center justify-center h-[75vh]">
-                    <div>
-                      <div className="text-center 2xl:mt-24">
-                        <img src={Emptystate} alt="emptystate" />
-                      </div>
-
-                      <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                        No Checkout Tenant available
-                      </div>
-
-                      <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                        There are no checkout tenant added
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                ) : (
+                  !checkoutLoader &&
+                  checkOutCustomer?.length === 0 && (
+                    <NoDataMessage label="Checkout" />
+                  )
+                )}
               </div>
-
-
-            }
-            {(checkoutForm) && (
+            )}
+            {checkoutForm && (
               <CheckOutForm
                 show={checkoutForm}
                 item={checkOutCustomer}
                 handleClose={checkoutcloseModal}
-
               />
             )}
           </div>
         </>
-      }
+      )}
 
-      {
-        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} handleClose={handleCloseDuePopup} />
-      }
+      {DueCustomerShow && (
+        <DueCustomerConfirmCheckout
+          show={DueCustomerShow}
+          handleClose={handleCloseDuePopup}
+        />
+      )}
 
-      {
-        CheckoutProfile && <CustomerProfile CheckoutProfile={CheckoutProfile} setcheckoutTableShow={setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile} checkoutWithoutPay={checkoutWithoutPay} />
-      }
-
-
+      {CheckoutProfile && (
+        <CustomerProfile
+          CheckoutProfile={CheckoutProfile}
+          setcheckoutTableShow={setcheckoutTableShow}
+          handleCloseCheckoutProfile={handleCloseCheckoutProfile}
+          setCheckoutProfile={setCheckoutProfile}
+          checkoutWithoutPay={checkoutWithoutPay}
+        />
+      )}
     </>
   );
 }
@@ -431,7 +380,6 @@ CheckOut.propTypes = {
   resetPage: PropTypes.func.isRequired,
   checkoutDateRange: PropTypes.func.isRequired,
   setResetPage: PropTypes.func.isRequired,
-
 };
 
 export default CheckOut;

@@ -16,24 +16,26 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
-import { CloseCircle, } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import '../OthersComponent/BillPdfModal.css';
+import "../OthersComponent/BillPdfModal.css";
 // import AxiosConfig from "../../WebService/AxiosConfig";
 // import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
 // import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 // import { useNavigate } from "react-router-dom";
 // import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
+import ComingSoon from "../../Utils/ComingSoon";
 
 function RecurringBills() {
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [recurLoader, setRecurLoader] = useState(false);
@@ -47,39 +49,28 @@ function RecurringBills() {
   const [filterInput, setFilterInput] = useState("");
   const [activeStay, setActiveStay] = useState("long_stay");
 
-  const {
-    canReadModule: canReadRecurring,
-  } = useHasPermission("Recurring bills");
-
-
-
-
-
-
-
-
+  const { canReadModule: canReadRecurring } =
+    useHasPermission("Recurring bills");
 
   useEffect(() => {
     if (!canReadRecurring) {
-      setRecurLoader(false)
+      setRecurLoader(false);
     }
-
-  }, [canReadRecurring])
+  }, [canReadRecurring]);
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setRecurLoader(false)
+      setRecurLoader(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
+  }, [state.UsersList?.accessRestrictionError]);
 
   const handleClick = (stayType) => {
+    console.log("stayType", stayType);
     setActiveStay(stayType);
   };
-
 
   useEffect(() => {
     const initialState = {};
@@ -89,10 +80,7 @@ function RecurringBills() {
     setCheckedRows(initialState);
   }, [recurringbills]);
 
-
-
   const handleToggle = (id) => {
-
     if (!id) return;
 
     const updatedValue = !checkedRows[id];
@@ -108,89 +96,55 @@ function RecurringBills() {
       payload: {
         status: stringValue,
         hostelId: state.login.selectedHostel_Id,
-        customerId: id
+        customerId: id,
       },
     });
   };
 
-
-
-
-
-
-
-
   useEffect(() => {
     if (state.InvoiceList.updateTenantRecurringStatusCode) {
-
-      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: state.login?.selectedHostel_Id,
+      });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_UPDATE_TENANT_RECURRING' })
-      }, 100)
+        dispatch({ type: "REMOVE_UPDATE_TENANT_RECURRING" });
+      }, 100);
     }
-
-  }, [state.InvoiceList.updateTenantRecurringStatusCode])
-
-
-
-
-
+  }, [state.InvoiceList.updateTenantRecurringStatusCode]);
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
-      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-      setLoading(true)
-      dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
-
-
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: state.login?.selectedHostel_Id,
+      });
+      setLoading(true);
+      dispatch({ type: "REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE" });
     }
-
-  }, [state.InvoiceList.CustomerRecurringEnableDisableStatusCode])
-
-
-
+  }, [state.InvoiceList.CustomerRecurringEnableDisableStatusCode]);
 
   useEffect(() => {
     setLoading(false);
-    setRecurLoader(false)
-
-  }, [state.InvoiceList.RecurringBills])
-
-
-
-
+    setRecurLoader(false);
+  }, [state.InvoiceList.RecurringBills]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setLoading(false)
+      setLoading(false);
       // setShowLoader(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
+  }, [state.createAccount?.networkError]);
 
   // const [dropdownValue, setDropdownValue] = useState("");
-
-
-
-
-
-
 
   const sortedDataRecure = React.useMemo(() => {
     return Array.isArray(recurringbills) ? recurringbills : [];
   }, [recurringbills]);
-
-
-
-
-
-
 
   const handleDeleteRecurringbills = (item) => {
     if (item) {
@@ -201,23 +155,21 @@ function RecurringBills() {
     }
   };
 
-
   useEffect(() => {
-
     if (state.login?.selectedHostel_Id) {
       setRecurLoader(true);
-      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: state.login?.selectedHostel_Id,
+      });
     }
   }, [state.login?.selectedHostel_Id, activeStay]);
-
-
-
 
   useEffect(() => {
     if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
       setRecurLoader(false);
       setRecurringBills(state.InvoiceList.RecurringBills?.customers);
-      setOriginalRecuiring(state.InvoiceList.RecurringBills)
+      setOriginalRecuiring(state.InvoiceList.RecurringBills);
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_LIST" });
@@ -230,7 +182,10 @@ function RecurringBills() {
       state.InvoiceList.RecurringBillAddStatusCode === 200 ||
       state.InvoiceList.deleterecurringbillsStatuscode
     ) {
-      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: state.login?.selectedHostel_Id,
+      });
       setRecurringBills(state.InvoiceList.RecurringBills);
 
       setTimeout(() => {
@@ -245,8 +200,6 @@ function RecurringBills() {
     state.InvoiceList.RecurringBillAddStatusCode,
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
-
-
 
   useEffect(() => {
     if (recurringbills?.length > 0 && originalRecuiring?.length === 0) {
@@ -268,22 +221,17 @@ function RecurringBills() {
         paymentStatus: [],
         search: "",
       },
-    })
-
+    });
   };
-
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
       // setFormLoading(false)
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
+  }, [state.createAccount?.networkError]);
 
   // useEffect(() => {
   //   const handleClickOutside = (event) => {
@@ -314,9 +262,6 @@ function RecurringBills() {
     verticalAlign: "middle",
   };
 
-
-
-
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
@@ -327,9 +272,7 @@ function RecurringBills() {
   };
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(
-    window.innerWidth >= 1440 ? 20 : 10
-  );
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
 
   useEffect(() => {
     const handleResize = () => {
@@ -351,9 +294,8 @@ function RecurringBills() {
   const paginatedData = recurringbills.slice(startIndex, endIndex);
 
   return (
-
     <div className="relative bg-white">
-      <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap">
+      <div className="sticky top-0 z-50 bg-white flex justify-between items-center flex-wrap flex-nowrap min-h-[60px] shrink-0">
         <div className="flex lg:justify-start justify-center items-center flex-wrap">
           <label className="text-lg text-black font-semibold font-gilroy">
             Recurring
@@ -364,17 +306,13 @@ function RecurringBills() {
           <div className="flex items-center ">
             {search ? (
               <>
-                <div className="relative min-w-[160px] max-w-[250px] z-[3000]"
-                >
-                  <div
-                    className="input-group p-0 mr-5"
-                  >
-                    <span className="input-group-text bg-white" >
+                <div className="relative min-w-[160px] max-w-[250px] z-[3000]">
+                  <div className="input-group p-0 mr-5">
+                    <span className="input-group-text bg-white">
                       <img
                         src={searchteam}
                         alt="search"
                         className="h-5 w-5 transition-opacity duration-300 cursor-pointer opacity-100 pointer-events-auto"
-
                       />
                     </span>
                     <input
@@ -383,7 +321,7 @@ function RecurringBills() {
                       placeholder="Search"
                       value={filterInput}
                       onChange={(e) => handlefilterInput(e)}
-                    // disabled={!canReadInvoice}
+                      // disabled={!canReadInvoice}
                     />
                     <span className="input-group-text bg-white border-start-0">
                       <img
@@ -406,61 +344,52 @@ function RecurringBills() {
                 </div>
               </>
             )}
-
           </div>
 
-          <div className="mt-0 mr-2 cursor-pointer"
-          >
-            <img src={excelimg} alt='excel' width={38} height={38}
-              className={`transition-opacity duration-300 ${canReadRecurring
-                ? "cursor-pointer opacity-100 pointer-events-auto"
-                : "cursor-not-allowed opacity-40 pointer-events-none"
-                }`}
+          <div className="mt-0 mr-2 cursor-pointer">
+            <img
+              src={excelimg}
+              alt="excel"
+              width={38}
+              height={38}
+              className={`transition-opacity duration-300 ${
+                canReadRecurring
+                  ? "cursor-pointer opacity-100 pointer-events-auto"
+                  : "cursor-not-allowed opacity-40 pointer-events-none"
+              }`}
 
-            //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
+              //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
             />
           </div>
-
-
         </div>
       </div>
 
       {!canReadRecurring ? (
         <>
-          <div className="flex flex-col items-center justify-center mt-[95px]">
-
-            <img
-              src={Emptystate}
-              alt="Empty State"
-
-            />
-
-            <ErrorMessage message={['You do not have access to view Recurring']} type="warning" />
-
-          </div>
+          <PermissionDeniedMessage />
         </>
       ) : (
         <>
-
-          <div className="flex items-center justify-between mt-1 mb-0">
-
+          <div className="flex items-center justify-between mt-1 mb-0  sticky top-[60px] z-40">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleClick("long_stay")}
-                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
-                  ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
-                  : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
-                  }`}
+                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${
+                  activeStay === "long_stay"
+                    ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                    : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                }`}
               >
                 Long Stay
               </button>
 
               <button
                 onClick={() => handleClick("short_stay")}
-                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
-                  ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
-                  : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
-                  }`}
+                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${
+                  activeStay === "short_stay"
+                    ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                    : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                }`}
               >
                 Short Stay
               </button>
@@ -475,106 +404,83 @@ function RecurringBills() {
                 onPageSizeChange={(size) => setPageSize(size)}
               />
             </div>
-
           </div>
+
           {!recurLoader &&
-            (!recurringbills || recurringbills.length === 0) &&
-            activeStay === 'long_stay' ?
-            (
-              <div className="flex flex-col items-center justify-center h-full 
-              animated-text mt-20 2xl:mt-52">
-                <div className="text-center">
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-                <div className="pb-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                  No {activeStay} Recuring bills available
-                </div>
-                <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                  There are no Recuring bills added
-                </div>
-              </div>
-            ) : !recurLoader && activeStay === 'short_stay' ?
-
-              <div className="mt-4 !h-[450px] md:h-[350px] flex justify-center items-center bg-[#f2f6fc] rounded-[10px] mr-5 shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-dashed border-[#b0c4de]">
-                <div className="text-center">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                    alt="Coming Soon"
-                    width="80"
-                    height="80"
-                    style={{ marginBottom: "15px", opacity: 0.7 }}
-                  />
-
-                  <p className="text-[#7a7a7a] text-[14px] font-gilroy">Coming Soon. Stay tuned!</p>
-                </div>
-              </div>
-              :
-              ""}
-
-
-
-          {!loading && recurLoader &&
-            <div className="absolute top-[200px] left-[200px] right-0 bottom-0 flex items-center justify-center h-[50vh] bg-transparent opacity-75 z-10">
-              <div
-                className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"
-              ></div>
+          (!recurringbills || recurringbills.length === 0) &&
+          activeStay === "long_stay" ? (
+            <div className="my-2">
+              
+              <NoDataMessage label="Long Stay" />
             </div>
-          }
+          ) : !recurLoader && activeStay === "short_stay" ? (
+            <div className="h-[calc(100vh-100px)] flex justify-center items-start -translate-y-10 overflow-hidden">
+              <ComingSoon />
+            </div>
+          ) : (
+            ""
+          )}
 
-          {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
-
-            <div className="relative h-[calc(100vh-135px)] flex flex-col mt-3">
-              <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                  <thead className="bg-blue-100 sticky top-0 z-20">
-                    <tr className="h-9">
-                      <th className="w-[230px] px-2">
-                        Name
-                      </th>
-
-                      <th className="w-[230px] px-2 whitespace-nowrap">
-                        Last Invoice number
-                      </th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">
-                        Last Invoice Date
-                      </th>
-                      <th className="w-[230px] px-2 whitespace-nowrap">
-                        Next Invoice Date
-                      </th>
-                      <th className="w-[230px] px-2">
-                        Amount
-                      </th>
-                      {/* <th
-                      >
-                       Recurring
-                      </th> */}
-                      <th className="w-[230px] px-2">Action</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {paginatedData.map((item) => (
-                      <RecurringBillList
-                        key={item.customerId}
-                        item={item}
-                        checked={checkedRows[item.customerId] ?? false}
-                        onToggle={() => handleToggle(item.customerId)}
-                        handleDeleteRecurringbills={handleDeleteRecurringbills}
-                      // OnHandleshowform={handleShowForm}
-                      />
-                    ))}
-                  </tbody>
-
-                </table>
-              </div>
+          {!loading && recurLoader && (
+            <div className="fixed inset-0 flex items-center justify-center h-screen bg-transparent opacity-75 z-10">
+              <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
             </div>
           )}
 
+          {recurringbills &&
+            recurringbills.length > 0 &&
+            activeStay === "long_stay" && (
+              <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  // ref={tableContainerRef}
+                  className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                      <tr className="h-9">
+                        <th className="w-[230px] px-2">Name</th>
+
+                        <th className="w-[230px] px-2 whitespace-nowrap">
+                          Last Invoice number
+                        </th>
+                        <th className="w-[230px] px-2 whitespace-nowrap">
+                          Last Invoice Date
+                        </th>
+                        <th className="w-[230px] px-2 whitespace-nowrap">
+                          Next Invoice Date
+                        </th>
+                        <th className="w-[230px] px-2">Amount</th>
+                        {/* <th
+                      >
+                       Recurring
+                      </th> */}
+                        <th className="w-[230px] px-2">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {paginatedData.map((item) => (
+                        <RecurringBillList
+                          key={item.customerId}
+                          item={item}
+                          checked={checkedRows[item.customerId] ?? false}
+                          onToggle={() => handleToggle(item.customerId)}
+                          handleDeleteRecurringbills={
+                            handleDeleteRecurringbills
+                          }
+                          // OnHandleshowform={handleShowForm}
+                        />
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
         </>
       )}
-
     </div>
-  )
+  );
 }
 
-export default RecurringBills
+export default RecurringBills;

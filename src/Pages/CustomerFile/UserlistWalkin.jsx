@@ -21,6 +21,8 @@ import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
 import UserlistForm from "./UserlistForm";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
 import DirectCheckin from "./DirectCheckin";
 
 function UserlistWalkin() {
@@ -32,9 +34,9 @@ function UserlistWalkin() {
   const [showFormCheckInNew, setShowFormCheckInNew] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
-  const [formLoading, setFormLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  console.log("state", state);
+  // console.log("state", state);
 
   const {
     // canWriteModule: canWriteWalkin,
@@ -71,14 +73,12 @@ function UserlistWalkin() {
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList?.tenantListGetSuccessCode) {
+    if (state.UsersList?.TenantList) {
       setWalkingLoader(false);
       setWalkInCustomer(state.UsersList?.TenantList);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 100);
+      dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
     }
-  }, [state.UsersList?.tenantListGetSuccessCode]);
+  }, [state.UsersList?.TenantList]);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -101,7 +101,7 @@ function UserlistWalkin() {
       setWalkingLoader(false);
       setTimeout(() => {
         dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
 
@@ -131,6 +131,8 @@ function UserlistWalkin() {
       }, 1000);
     }
   }, [state.UsersList.deleteWalkInCustomerStatusCode]);
+
+  // console.log("state.UsersList?.TenantList", state.UsersList?.TenantList);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -190,9 +192,9 @@ function UserlistWalkin() {
     };
   }, [popupRef]);
 
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(walkInCustomer) ? walkInCustomer : [];
-  }, [walkInCustomer]);
+  // const walkInCustomer = React.useMemo(() => {
+  //   return Array.isArray(walkInCustomer) ? walkInCustomer : [];
+  // }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
     // console.log("user", user);
@@ -207,7 +209,7 @@ function UserlistWalkin() {
 
   useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
-      setFormLoading(false);
+      setDeleteLoading(false);
       setDeleteShow(false);
       dispatch({
         type: "TENANT_LIST_SAGA",
@@ -237,7 +239,7 @@ function UserlistWalkin() {
         },
       });
     }
-    setFormLoading(true);
+    setDeleteLoading(true);
   };
 
   useEffect(() => {
@@ -327,87 +329,83 @@ function UserlistWalkin() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = sortedData?.slice(startIndex, endIndex);
+  const paginatedData = walkInCustomer?.slice(startIndex, endIndex);
 
   return (
     <>
       {!canReadWalkin ? (
         <>
-          <div className="flex flex-col items-center justify-center mt-24">
-            <img src={Emptystate} alt="Empty State" />
-
-            <ErrorMessage
-              message={["You do not have access to view Walk In"]}
-              type="warning"
-            />
-          </div>
+          <PermissionDeniedMessage />
         </>
       ) : (
         <>
           <div>
-            {walkinLoader ? (
-              <div className="font-gilroy fixed inset-y-0 right-0 left-48 flex items-center justify-center bg-transparent opacity-75 z-10">
+            {walkinLoader && (
+              <div className="font-gilroy fixed inset-0 right-0 left-48 flex items-center justify-center bg-transparent opacity-75 z-10">
                 <div className="h-10 w-10 rounded-full border-4 border-r-transparent border-t-blue-700 animate-spin"></div>
               </div>
-            ) : (
-              <div className="px-0">
-                <div
-                  className={`flex justify-end mr-2 ${sortedData.length > 10 ? "-mt-8 mb-3" : "mt-0 mb-3"}`}
-                >
-                  <PaginationList
-                    totalItems={sortedData.length}
-                    itemsPerPage={pageSize}
-                    currentPage={page}
-                    onPageChange={(p) => setPage(p)}
-                    onPageSizeChange={(size) => setPageSize(size)}
-                  />
-                </div>
+            )}
 
-                {sortedData.length > 0 && (
-                  <div className="relative h-[calc(100vh-165px)] flex flex-col mt-3">
-                    <div className="flex-1 overflow-y-scroll overflow-x-auto show-scroll">
-                      <table className="min-w-full border-collapse w-full font-gilroy text-gray-900 text-sm font-medium">
-                        <thead className="bg-blue-100 sticky top-0 z-20">
-                          <tr className="h-9">
-                            <th className="w-[230px] px-2">Name</th>
-                            <th className="w-[230px] px-2">Email ID </th>
-                            <th className="w-[230px] px-2">Mobile No</th>
-                            <th className="w-[230px] px-2">Action</th>
-                          </tr>
-                        </thead>
+            <div className="px-0">
+              <div className={`flex justify-end mr-2 `}>
+                <PaginationList
+                  totalItems={walkInCustomer.length}
+                  itemsPerPage={pageSize}
+                  currentPage={page}
+                  onPageChange={(p) => setPage(p)}
+                  onPageSizeChange={(size) => setPageSize(size)}
+                />
+              </div>
 
-                        <tbody className="text-start">
-                          {paginatedData.map((v) => (
-                            <tr
-                              key={v.customerId}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
-                            >
-                              <td className="w-[230px] px-2 py-1">
-                                <span className="">{v.fullName}</span>
-                              </td>
+              {paginatedData.length > 0 && (
+                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                  <div
+                    id="tableContainer"
+                    // ref={tableContainerRef}
+                    className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
+                  >
+                    <table className=" w-full font-gilroy">
+                      <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                        <tr className="h-9">
+                          <th className="w-[230px] px-2">Name</th>
+                          <th className="w-[230px] px-2">Email ID </th>
+                          <th className="w-[230px] px-2">Mobile No</th>
+                          <th className="w-[230px] px-2">Action</th>
+                        </tr>
+                      </thead>
 
-                              <td className="w-[230px] px-2 py-1">
-                                {v.emailId || "N/A"}
-                              </td>
+                      <tbody className="text-start">
+                        {paginatedData.map((v) => (
+                          <tr
+                            key={v.customerId}
+                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+                          >
+                            <td className="w-[230px] px-2 py-1">
+                              <span className="">{v.fullName}</span>
+                            </td>
 
-                              <td className="w-[230px] px-2 py-1">
-                                {v && v.mobile}
-                              </td>
+                            <td className="w-[230px] px-2 py-1">
+                              {v.emailId || "N/A"}
+                            </td>
 
-                              <td className="w-[230px] px-2 py-1">
-                                <div
-                                  className="relative flex justify-start items-center cursor-pointer"
-                                  onClick={(e) =>
-                                    handleDotsClick(v.customerId, e)
-                                  }
-                                >
-                                  <PiDotsThreeOutlineVerticalFill
-                                    className={`h-5 w-5 rotate-90 ${
-                                      dotsButton === v.customerId
-                                        ? "text-blue-700"
-                                        : "text-gray-500"
-                                    }`}
-                                  />
+                            <td className="w-[230px] px-2 py-1">
+                              {v && v.mobile}
+                            </td>
+
+                            <td className="w-[230px] px-2 py-1">
+                              <div
+                                className="relative flex justify-start items-center cursor-pointer"
+                                onClick={(e) =>
+                                  handleDotsClick(v.customerId, e)
+                                }
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  className={`h-5 w-5 rotate-90 ${
+                                    dotsButton === v.customerId
+                                      ? "text-blue-700"
+                                      : "text-gray-500"
+                                  }`}
+                                />
 
                                   {dotsButton === v.customerId && (
                                     <div
@@ -473,86 +471,73 @@ function UserlistWalkin() {
                                         </div>
                                       )}
 
-                                      <div
-                                        onClick={() =>
-                                          canWriteBooking && handleBooking(v)
-                                        }
-                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                    <div
+                                      onClick={() =>
+                                        canWriteBooking && handleBooking(v)
+                                      }
+                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                        canWriteBooking
+                                          ? "cursor-pointer hover:bg-red-50"
+                                          : "cursor-not-allowed opacity-50"
+                                      }`}
+                                    >
+                                      <img
+                                        src={Addbook}
+                                        alt="Add Book"
+                                        className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
+                                      />
+                                      <label
+                                        className={`text-sm font-medium ${
                                           canWriteBooking
-                                            ? "cursor-pointer hover:bg-red-50"
-                                            : "cursor-not-allowed opacity-50"
+                                            ? "text-blue-700 cursor-pointer"
+                                            : "text-gray-400 cursor-not-allowed"
                                         }`}
                                       >
-                                        <img
-                                          src={Addbook}
-                                          alt="Add Book"
-                                          className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
-                                        />
-                                        <label
-                                          className={`text-sm font-medium ${
-                                            canWriteBooking
-                                              ? "text-blue-700 cursor-pointer"
-                                              : "text-gray-400 cursor-not-allowed"
-                                          }`}
-                                        >
-                                          Add Booking
-                                        </label>
-                                      </div>
-
-                                      <div
-                                        onClick={() =>
-                                          canDeleteWalkin && handleDeleteShow(v)
-                                        }
-                                        className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${
-                                          canDeleteWalkin
-                                            ? "cursor-pointer hover:bg-red-50"
-                                            : "cursor-not-allowed opacity-60"
-                                        } bg-gray-50`}
-                                      >
-                                        <Trash
-                                          size={16}
-                                          color={
-                                            !canDeleteWalkin ? "#A9A9A9" : "red"
-                                          }
-                                        />
-                                        <label
-                                          className={`text-sm font-medium ${
-                                            canDeleteWalkin
-                                              ? "text-red-600 cursor-pointer"
-                                              : "text-gray-400 cursor-not-allowed"
-                                          }`}
-                                        >
-                                          Delete
-                                        </label>
-                                      </div>
+                                        Add Booking
+                                      </label>
                                     </div>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
 
-            {!walkinLoader && walkInCustomer?.length === 0 && (
-              <div className="animated-text flex items-center justify-center h-[55vh]">
-                <div className="text-center mt-20 2xl:mt-24">
-                  <img src={Emptystate} alt="emptystate" className="mx-auto" />
-
-                  <div className="pb-1 mt-1 text-center font-gilroy font-semibold text-lg text-gray-700">
-                    No Walk-in available
-                  </div>
-
-                  <div className="text-center font-gilroy font-medium text-sm text-gray-700">
-                    There are no Walk-in added.
+                                    <div
+                                      onClick={() =>
+                                        canDeleteWalkin && handleDeleteShow(v)
+                                      }
+                                      className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${
+                                        canDeleteWalkin
+                                          ? "cursor-pointer hover:bg-red-50"
+                                          : "cursor-not-allowed opacity-60"
+                                      } bg-gray-50`}
+                                    >
+                                      <Trash
+                                        size={16}
+                                        color={
+                                          !canDeleteWalkin ? "#A9A9A9" : "red"
+                                        }
+                                      />
+                                      <label
+                                        className={`text-sm font-medium ${
+                                          canDeleteWalkin
+                                            ? "text-red-600 cursor-pointer"
+                                            : "text-gray-400 cursor-not-allowed"
+                                        }`}
+                                      >
+                                        Delete
+                                      </label>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-              </div>
+              )}
+            </div>
+
+            {!walkinLoader && walkInCustomer?.length === 0 && (
+              <NoDataMessage label="Walk-In" />
             )}
           </div>
         </>
@@ -625,34 +610,6 @@ function UserlistWalkin() {
         >
           Are you sure you want to delete this Tenant?
         </Modal.Body>
-        {formLoading && (
-          <div
-            style={{
-              position: "absolute",
-              top: 70,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "transparent",
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: "4px solid #1E45E1",
-                borderRight: "4px solid transparent",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                animation: "spin 1s linear infinite",
-              }}
-            ></div>
-          </div>
-        )}
 
         <Modal.Footer
           className="d-flex justify-content-center"
@@ -678,21 +635,31 @@ function UserlistWalkin() {
             Cancel
           </Button>
           <Button
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
+            className={`
+   !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-[8px] 
+    !px-[20px] 
+    !py-[12px]  
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-[14px]
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
             onClick={handleDeleteCustomer}
+            disabled={deleteLoading}
           >
-            Delete
+            {deleteLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Deleting...
+              </div>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

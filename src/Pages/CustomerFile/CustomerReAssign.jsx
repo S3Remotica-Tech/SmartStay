@@ -39,7 +39,7 @@ function CustomerReAssign(props) {
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [availableBed, setAvailableBed] = useState("");
-  // const [bedWarning, setBedWarning] = useState('')
+  const [bedWarning, setBedWarning] = useState("");
 
   // console.log("props", props);
   const rentRef = useRef(null);
@@ -193,7 +193,7 @@ function CustomerReAssign(props) {
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
-    // setBedWarning("");
+    setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
 
@@ -203,11 +203,11 @@ function CustomerReAssign(props) {
 
     if (selectedBed) {
       setNewRoomRent(selectedBed.rentAmount);
-      // if (selectedBed.showWarning) {
-      //   setBedWarning(selectedBed.warningMessage);
-      // } else {
-      //   setBedWarning("");
-      // }
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
+      } else {
+        setBedWarning("");
+      }
     }
 
     setBedError("");
@@ -320,6 +320,7 @@ function CustomerReAssign(props) {
   }, [selectedDate]);
 
   const handleSaveReassignBed = () => {
+    setBedWarning("");
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     focusedRef.current = false;
     let hasError = false;
@@ -547,6 +548,7 @@ function CustomerReAssign(props) {
           onHide={handleCloseReAssign}
           backdrop="static"
           centered
+          dialogClassName="tenantCheck-style font-gilroy"
         >
           <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white">
             <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b mb-2">
@@ -613,7 +615,7 @@ function CustomerReAssign(props) {
                     </div>
                   </div>
 
-                  <div className="overflow-y-auto max-h-[360px] lg:h-[320px] md:h-[200px] lg:h-auto mt-1 pt-1 show-scroll p-2">
+                  <div className="overflow-y-auto max-h-[330px]   mt-1 pt-1 show-scroll p-2">
                     <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
                       <div className="mb-2">
                         <Form.Group controlId="purchaseDate">
@@ -963,6 +965,11 @@ function CustomerReAssign(props) {
                           {bedError && (
                             <ErrorMessage message={bedError} type="error" />
                           )}
+                          {bedWarning ? (
+                            <div className="flex justify-center">
+                              <ErrorMessage message={bedWarning} type="error" />
+                            </div>
+                          ) : null}
                         </Form.Group>
                       </div>
 

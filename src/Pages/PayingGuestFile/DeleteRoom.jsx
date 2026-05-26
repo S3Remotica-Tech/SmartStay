@@ -5,11 +5,12 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // useEffect(() => {
   //   if (state.PgList.roomCount && deleteRoomDetails) {
@@ -31,22 +32,26 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
         roomId: deleteRoomDetails.Room_Id,
       },
     });
+    setDeleteLoading(true);
   };
-  const [deleteRoomError, setDeleteRoomError] = useState("");
+  // const [deleteRoomError, setDeleteRoomError] = useState("");
+
   useEffect(() => {
     if (state.UsersList?.deleteRoomError) {
-      setDeleteRoomError(state.UsersList.deleteRoomError);
+      setDeleteLoading(false);
+      // setDeleteRoomError(state.UsersList.deleteRoomError);
     }
   }, [state.UsersList?.deleteRoomError]);
 
   const handleDeleteRoomForm = () => {
     handleClose();
     setDeleteRoomError("");
-    dispatch({ type: 'CLEAR_DELETE_ROOM_ERROR' })
+    dispatch({ type: "CLEAR_DELETE_ROOM_ERROR" });
   };
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
+      setDeleteLoading(false);
       handleDeleteRoomForm();
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
@@ -72,9 +77,6 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
         <Modal.Body className="text-sm font-semibold font-gilroy text-center -mt-5 text-gray-600">
           Are you sure you want to delete the room?
         </Modal.Body>
-        {deleteRoomError && (
-          <ErrorMessage message={deleteRoomError} type="error" />
-        )}
 
         <Modal.Footer
           style={{
@@ -83,13 +85,26 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
             marginTop: "-10px",
           }}
         >
-
-          <Button onClick={handleDeleteRoomForm} className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy">
+          <Button
+            onClick={handleDeleteRoomForm}
+            className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-white !text-[#1E45E1] !text-sm !font-semibold !font-gilroy"
+          >
             Cancel
           </Button>
 
-          <Button className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy" onClick={handleDeleteRoomConfirm}>
-            Delete
+          <Button
+            className="!rounded-lg !py-3 !px-10 !border !border-[#1E45E1] !bg-[#1E45E1] !text-white !text-sm !font-semibold !font-gilroy disabled:!opacity-50"
+            onClick={handleDeleteRoomConfirm}
+            disabled={deleteLoading}
+          >
+            {deleteLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Deleting...
+              </div>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

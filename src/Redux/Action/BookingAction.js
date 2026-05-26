@@ -1,13 +1,9 @@
 // import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-
-
-
 // export async function AddBooking(datum) {
 
 //   const formData = new FormData();
-
 
 //   if (datum.id) formData.append('id', datum.id);
 //   if (datum.profile) formData.append('profile', datum.profile);
@@ -26,7 +22,6 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   if (datum.pin_code) formData.append("pin_code", datum.pin_code)
 //   if (datum.state) formData.append("state", datum.state)
 
-
 //   try {
 
 //     const response = await AxiosConfig.post('/add_booking', formData, {
@@ -40,18 +35,15 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //     return response.data;
 //   } catch (error) {
 //     console.error("Axios Error:", error);
-//     throw error; 
+//     throw error;
 //   }
 // }
 
-
 // v1
-
 
 // export async function AddBooking(datum) {
 
 //   const formData = new FormData();
-
 
 //   if (datum.id) formData.append('id', datum.id);
 //   if (datum.profile) formData.append('profile', datum.profile);
@@ -74,8 +66,6 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   if (datum.customer_Id) formData.append("customer_Id", datum.customer_Id)
 //   if (datum.state) formData.append("state", datum.state)
 
-
-
 //   try {
 
 //     const response = await AxiosConfig.post('/add_booking', formData, {
@@ -89,51 +79,97 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //     return response.data;
 //   } catch (error) {
 //     console.error("Axios Error:", error);
-//     throw error; 
-//   } 
+//     throw error;
+//   }
 // }
-
 
 // v2
 
-
 export async function AddBooking(booking) {
-  return await AxiosConfigV2.post(`/v2/customers/booking/${booking.hostelId}`, booking, {
-    data: booking
-  })
+  return await AxiosConfigV2.post(
+    `/v2/customers/booking/${booking.hostelId}`,
+    booking,
+    {
+      data: booking,
+    },
+  );
 }
 
+export async function GetBooking(book) {
+  const params = {};
+  if (book.name) params.name = book.name;
+  if (book.floor) params.floor = book.floor;
+  if (book.room) params.room = book.room;
+  if (book.minAmount) params.minAmount = book.minAmount;
+  if (book.maxAmount) params.maxAmount = book.maxAmount;
+  if (book.page) params.page = book.page;
+  if (book.size) params.size = book.size;
+  if (book.period) params.period = book.period;
 
-
-
-export function GetAddBooking() {
-  new Promise((resolve) => {
-    resolve({ status: 200 });
-  })
+  return await AxiosConfigV2.get(`/v2/bills/advances/${book.hostelId}`, {
+    params,
+  });
 }
+
+export async function ApplyInvoice(booking) {
+  return await AxiosConfigV2.post(
+    `/v2/bills/redeem/${booking?.hostelId}/${booking?.invoiceId}`,
+    {
+      listItems: booking?.listItems,
+    },
+  );
+}
+
+export async function advanceRedeemInitialize(hostel) {
+  return await AxiosConfigV2.get(
+    `/v2/bills/redeem/initialize/${hostel.hostelId}/${hostel.advanceInvoiceId}`,
+  );
+}
+
+export async function ApplyAdvanceInvoice(advance) {
+  // console.log("advance", advance);
+
+  return await AxiosConfigV2.get(
+    `/v2/bills/advances/${advance.hostelId}/${advance.invoiceId}`,
+    {
+      params: {
+        type: advance.type,
+      },
+    },
+  );
+}
+
 export function DeleteBooking() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function assignBooking() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
-
 
 export function assignBookingBed() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
-
 export async function bookingInActive(book) {
+  return await AxiosConfigV2.put(
+    `/v2/bookings/cancel/${book.customerId}`,
+    book,
+    {
+      data: book,
+    },
+  );
+}
 
-  return await AxiosConfigV2.put(`/v2/bookings/cancel/${book.customerId}`, book, {
-    data: book
-  })
+export async function bookingCustomizeData(book) {
+  return await AxiosConfigV2.put(
+    `/v2/table-config/bookings/${book.hostelId}`,
+    book.customize,
+  );
 }

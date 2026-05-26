@@ -15,7 +15,6 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
-// import Closebtn from "../../Assets/Images/CloseCircle.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CloseCircle } from "iconsax-react";
 
@@ -30,43 +29,36 @@ function CreateBill() {
   const [formLoading, setFormLoading] = useState(false);
 
   const [dropdownValue, setDropdownValue] = useState("");
-  // const [selectedUserId, setSelectedUserId] = useState("");
   const [customername, setCustomerName] = useState("");
   const [invoicenumber, setInvoiceNumber] = useState("");
   const [startdate, setStartDate] = useState(null);
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
-  // const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
-  // const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
-  // const [amenityArray, setamenityArray] = useState([]);
-
+  const [rowErrors, setRowErrors] = useState([]);
   const startRef = useRef(null);
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
-
-  // const calendarRef = useRef(null);;
+  const joiningDate = state.UsersList?.customerdetails?.hostelInfo?.joiningDate;
+  console.log("joiningDate", joiningDate);
   const [tableErrmsg, setTableErrmsg] = useState("");
-
+  const [tableErrmsgAmount, setTableErrmsgAmount] = useState("");
+  const [tableErrmsgDes, setTableErrmsgDes] = useState("");
   const [hostelId, setHostelId] = useState("");
 
   const [selectedTypes, setSelectedTypes] = useState([]);
-
-  // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
 
   useEffect(() => {
     if (id || billData?.customerId) {
       const selectedCustomer = state.UsersList.TenantList.find(
         (u) => u.customerId === (id || billData?.customerId),
       );
-
-      // console.log("selectedCustomer", selectedCustomer);
 
       if (selectedCustomer) {
         setCustomerName(selectedCustomer.customerId);
@@ -98,7 +90,6 @@ function CreateBill() {
     }
   }, [hostelId]);
 
-  // console.log("billData", billData);
   useEffect(() => {
     if (billData) {
       dispatch({
@@ -129,14 +120,12 @@ function CreateBill() {
     }
   }, [customername]);
 
-  // console.log("customername", customername);
-
   useEffect(() => {
     if (!billData) {
       const SelectedCustomerRoomRent =
         state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
 
-      if (SelectedCustomerRoomRent) {
+      if (SelectedCustomerRoomRent && customername) {
         setNewRows((prevRows) => {
           const roomRentIndex = prevRows.findIndex(
             (row) => row.am_name === "Room Rent",
@@ -165,8 +154,6 @@ function CreateBill() {
           return updated;
         });
 
-        // console.log("selectedTypes", selectedTypes)
-
         setTimeout(() => {
           dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
         }, 500);
@@ -193,6 +180,7 @@ function CreateBill() {
   };
 
   const handleCustomerName = (selectedOption) => {
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     setCustomerName(selectedOption?.value || "");
     setAllFieldErrmsg("");
     if (!selectedOption) {
@@ -214,14 +202,12 @@ function CreateBill() {
     setStartDate("");
     setEndDate("");
     setInvoiceDate("");
-    // setInvoiceDueDate("");
     setTotalAmount("");
     setCustomerErrmsg("");
     setInvoiceDateErrmsg("");
-    // setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    // setamenityArray([]);
+    setTableErrmsgAmount("");
     setNewRows([]);
     setDropdownValue("");
     if (state.UsersList.userRoomfor) {
@@ -235,11 +221,8 @@ function CreateBill() {
     }
   };
 
-  // const formatDateForPayloadmanualinvoice = (date) => {
-  //     return dayjs(date).format("YYYY-MM-DD");
-  // };
-
   const handleInvoiceDate = (selectedDate) => {
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     setAllFieldErrmsg("");
 
     if (!selectedDate) {
@@ -448,6 +431,7 @@ function CreateBill() {
   CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
 
   const handleNewRowChange = (index, field, value) => {
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
     setNewRows((prevRows) =>
       prevRows.map((row, i) =>
@@ -463,6 +447,7 @@ function CreateBill() {
   );
 
   const handleRowTypeSelect = (type) => {
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
     let newRow = {
       am_name: "",
@@ -484,11 +469,14 @@ function CreateBill() {
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
-
+    setTableErrmsgAmount("");
     setDropdownValue("");
+    setTableErrmsgDes("");
   };
 
   const handleDeleteNewRow = (index) => {
+    dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     setNewRows((prevRows) => {
       const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
@@ -508,6 +496,8 @@ function CreateBill() {
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
+    setTableErrmsgAmount("");
+    setTableErrmsgDes("");
   };
 
   useEffect(() => {
@@ -521,6 +511,7 @@ function CreateBill() {
 
   const handleCreateBill = () => {
     let hasError = false;
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
 
     if (!customername) {
@@ -537,63 +528,44 @@ function CreateBill() {
       setInvoiceDateErrmsg("");
     }
 
-    // if (!invoiceduedate) {
-    //     setInvoiceDueDateErrmsg("Please Select Due Date");
-    //     hasError = true;
-    // } else {
-    //     setInvoiceDueDateErrmsg("");
-    // }
-
     if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill",
-      );
+      setTableErrmsg("Please add at least one item before generating the bill");
       hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0,
-      )
-    ) {
-      setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill",
-      );
+    }
+
+    const errors = newRows.map((row) => {
+      return {
+        am_name: !row.am_name?.trim() ? "Please Enter Description" : "",
+        amount:
+          !row.amount || row.amount === "0" || isNaN(Number(row.amount))
+            ? "Please Enter Amount"
+            : "",
+      };
+    });
+
+    const hasRowError = errors.some((err) => err.am_name || err.amount);
+
+    if (hasRowError) {
+      setRowErrors(errors);
       hasError = true;
     } else {
-      setTableErrmsg("");
+      setRowErrors([]);
     }
 
     const selectedUser =
       state.UsersList?.customerdetails?.hostelInfo?.joiningDate;
 
-    // console.log("selectedUser", selectedUser);
     if (selectedUser) {
       const formattedJoiningDate = dayjs(selectedUser, "DD/MM/YYYY").format(
         "YYYY-MM-DD",
       );
 
       const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      // const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
       if (dayjs(formattedInvoiceDate).isBefore(formattedJoiningDate, "day")) {
         setInvoiceDateErrmsg("Before join date not allowed");
         hasError = true;
       }
-
-      // if (dayjs(formattedDueDate).isBefore(formattedJoiningDate, "day")) {
-      //     setInvoiceDueDateErrmsg("Before join date not allowed");
-      //     hasError = true;
-      // }
-
-      // if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate, "day")) {
-      //     setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-      //     hasError = true;
-      // }
     }
 
     if (hasError) {
@@ -601,14 +573,11 @@ function CreateBill() {
     }
 
     const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
-    // const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
-
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
         customerId: customername,
         invoiceDate: formatinvoicedate,
-        // dueDate: formatduedate,
         invoiceNumber: invoicenumber,
         total_amount: totalAmount,
         items: newRows.map((row) => ({
@@ -621,21 +590,8 @@ function CreateBill() {
     setFormLoading(true);
   };
 
-  // console.log("billData", billData)
   const [originalRows, setOriginalRows] = useState([]);
 
-  // const getChangedRows = () => {
-  //   return newRows.filter((row, index) => {
-  //     const original = originalRows[index];
-
-  //     if (!original) return true;
-
-  //     return (
-  //       row.am_name !== original.am_name ||
-  //       Number(row.amount) !== Number(original.amount)
-  //     );
-  //   });
-  // };
   const CustomerOverView = state?.UsersList?.customerdetails;
 
   useEffect(() => {
@@ -671,46 +627,41 @@ function CreateBill() {
 
   const handleEditBill = () => {
     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
+    dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     let hasError = false;
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
     setInvoiceDateErrmsg("");
-    // setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
 
     if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg(
-        "Please Add At Least One Item Row Before Generating The Bill",
-      );
+      setTableErrmsg("Please add at least one item before generating the bill");
       hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0,
-      )
-    ) {
-      setTableErrmsg(
-        "Please Fill All Details & Amount > 0 Before Generating The Bill",
-      );
+    }
+
+    const errors = newRows.map((row) => {
+      return {
+        am_name: !row.am_name?.trim() ? "Please Enter Description" : "",
+        amount:
+          !row.amount || row.amount === "0" || isNaN(Number(row.amount))
+            ? "Please Enter Amount"
+            : "",
+      };
+    });
+
+    const hasRowError = errors.some((err) => err.am_name || err.amount);
+
+    if (hasRowError) {
+      setRowErrors(errors);
       hasError = true;
     } else {
-      setTableErrmsg("");
+      setRowErrors([]);
     }
 
     if (hasError) {
       return;
     }
-    // const changedRows = getChangedRows();
 
-    // if (changedRows.length === 0) {
-    //   setTableErrmsg("No changes detected to update");
-    //   return;
-    // }
     if (billData?.invoiceId) {
       setFormLoading(true);
       dispatch({
@@ -728,8 +679,6 @@ function CreateBill() {
       setAllFieldErrmsg("");
     }
   };
-
-  // console.log("newRows", newRows);
 
   useEffect(() => {
     if (
@@ -760,17 +709,12 @@ function CreateBill() {
       state.InvoiceList.manualInvoiceAddStatusCode === 201 ||
       state.InvoiceList.manualInvoiceEditStatusCode === 200
     ) {
-      // setShowManualInvoice(false)
       setFormLoading(false);
-      // setShowRecurringBillForm(false);
-      // setReceiptFormShow(false);
-      // setShowAllBill(true);
       setCustomerName("");
       setInvoiceNumber("");
       setStartDate("");
       setEndDate("");
       setInvoiceDate("");
-      // setInvoiceDueDate("");
       setTotalAmount("");
       if (state.UsersList.userRoomfor) {
         navigate(`/tenant/details/${id}`, {
@@ -782,7 +726,6 @@ function CreateBill() {
         navigate(`/invoice/${state.login.selectedHostel_Id}`);
       }
       setNewRows([]);
-      // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
       if (id) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
@@ -828,8 +771,6 @@ function CreateBill() {
         }))
         .filter((detail) => detail.am_name && detail.amount);
 
-      // setamenityArray(allRows);
-
       const Total_amout = allRows.reduce(
         (sum, item) => sum + parseFloat(item.amount || 0),
         0,
@@ -840,8 +781,6 @@ function CreateBill() {
   }, [newRows]);
 
   // const EXCLUDED_STATUSES = ["Booked", "Settlement Generated"];
-
-  // console.log("state", state.UsersList.TenantList);
 
   return (
     <div className="mt-4 pl-[5px] relative">
@@ -864,7 +803,7 @@ function CreateBill() {
         <div className="col-span-4">
           <div className="mb-3">
             <label className="font-[Gilroy] text-[14px] font-medium text-[#222]">
-              Customer <span className="text-red-500 text-[20px]">*</span>
+              Select Tenant <span className="text-red-500 text-[20px]">*</span>
             </label>
 
             <Select
@@ -971,7 +910,9 @@ function CreateBill() {
                 triggerNode.closest(".datepicker-wrapper")
               }
               disabledDate={(current) =>
-                current && current > dayjs().endOf("day")
+                current &&
+                (current < dayjs(joiningDate, "DD/MM/YYYY").startOf("day") ||
+                  current > dayjs().endOf("day"))
               }
               dropdownAlign={{
                 points: ["tl", "bl"],
@@ -1051,7 +992,7 @@ function CreateBill() {
         <>
           <div className="mt-3 w-[80%] border border-[#DCDCDC] rounded-[10px] overflow-hidden font-gilroy">
             <div className="bg-[#E7F1FF]">
-              <div className="grid grid-cols-10 text-[14px] text-[#939393] font-[Gilroy] font-medium">
+              <div className="grid grid-cols-10 text-[14px] text-[#939393] font-medium">
                 <div className="col-span-1 text-center py-2">S.No</div>
                 <div className="col-span-5 py-2">Description</div>
                 <div className="col-span-3 py-2">Total Amount</div>
@@ -1061,77 +1002,107 @@ function CreateBill() {
 
             <div className="max-h-[300px] overflow-y-auto">
               {newRows.map((u, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-10 items-center border-t gap-2"
-                >
-                  <div className="col-span-1 text-center py-2">{index + 1}</div>
+                <div key={index} className="border-t">
+                  <div className="grid grid-cols-10 items-center gap-2 py-2">
+                    <div className="col-span-1 text-center">{index + 1}</div>
 
-                  <div className="col-span-5 my-2 ">
-                    <input
-                      type="text"
-                      disabled={u.isFromApi}
-                      // disabled={u.isRent}
-                      value={u.am_name}
-                      onChange={(e) =>
-                        handleNewRowChange(index, "am_name", e.target.value)
-                      }
-                      placeholder="Enter Description"
-                      className="w-full border border-[#D9D9D9] rounded px-2 py-1 font-[Gilroy] outline-none"
-                    />
-                  </div>
+                    <div className="col-span-5">
+                      <input
+                        type="text"
+                        disabled={u.isFromApi}
+                        value={u.am_name}
+                        onChange={(e) => {
+                          handleNewRowChange(index, "am_name", e.target.value);
+                          setRowErrors((prev) => {
+                            const updated = [...prev];
+                            if (updated[index]) updated[index].am_name = "";
+                            return updated;
+                          });
+                        }}
+                        placeholder="Enter Description"
+                        className="w-full border border-[#D9D9D9] rounded px-2 py-1 outline-none"
+                      />
+                    </div>
 
-                  <div className="col-span-3 ">
-                    <input
-                      type="text"
-                      // onKeyDown={(e) => {
-                      //   if (e.key === "." || e.key === "e" || e.key === "-") {
-                      //     e.preventDefault();
-                      //   }
-                      // }}
-                      // disabled={u.isFromApi && u.am_name !== "EB"}
-                      disabled={u.isRent}
-                      value={u.amount !== "0" ? u.amount : ""}
-                      placeholder="Please Enter Amount"
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*\.?\d*$/.test(value)) {
-                          handleNewRowChange(index, "amount", value);
+                    <div className="col-span-3">
+                      <input
+                        type="text"
+                        disabled={u.isRent}
+                        value={u.amount !== "0" ? u.amount : ""}
+                        placeholder="Please Enter Amount"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^-?\d*\.?\d*$/.test(value)) {
+                            handleNewRowChange(index, "amount", value);
+                          }
+                          setRowErrors((prev) => {
+                            const updated = [...prev];
+                            if (updated[index]) updated[index].amount = "";
+                            return updated;
+                          });
+                        }}
+                        className="w-full border border-[#D9D9D9] rounded px-2 py-1 outline-none"
+                      />
+                    </div>
+
+                    <div className="col-span-1 flex justify-start">
+                      <CloseCircle
+                        onClick={() =>
+                          !u.isFromApi && handleDeleteNewRow(index)
                         }
-                      }}
-                      className="w-full border border-[#D9D9D9] rounded px-2 py-1 font-[Gilroy] outline-none"
-                    />
+                        size="24"
+                        className={`${
+                          u.isFromApi
+                            ? "text-gray-400 cursor-not-allowed opacity-40"
+                            : "text-red-500 cursor-pointer"
+                        }`}
+                      />
+                    </div>
                   </div>
 
-                  <div className="col-span-1 flex justify-start">
-                    <CloseCircle
-                      onClick={() => !u.isFromApi && handleDeleteNewRow(index)}
-                      size="24"
-                      className={`${
-                        u.isFromApi
-                          ? "text-gray-400 cursor-not-allowed opacity-40"
-                          : "text-red-500 cursor-pointer"
-                      }`}
-                    />
-                  </div>
+                  {(rowErrors[index]?.am_name || rowErrors[index]?.amount) && (
+                    <div className="grid grid-cols-10 pb-2">
+                      <div className="col-span-1"></div>
+
+                      <div className="col-span-5 text-red-600 text-xs">
+                        {rowErrors[index]?.am_name && (
+                          <ErrorMessage
+                            message={rowErrors[index].am_name}
+                            type="error"
+                          />
+                        )}
+                      </div>
+
+                      <div className="col-span-3 text-red-500 text-xs">
+                        {rowErrors[index]?.amount && (
+                          <ErrorMessage
+                            message={rowErrors[index].amount}
+                            type="error"
+                          />
+                        )}
+                      </div>
+
+                      <div className="col-span-1"></div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
-
-          <div className="grid grid-cols-12 mt-3">
-            <div className="col-span-2 md:col-span-4 md:col-start-8">
-              <h5 className="font-[Gilroy] font-medium  text-gray-600">
-                Total Amount :
-                <span className="font-semibold text-black  ">
-                  {" "}
-                 ₹{Number(totalAmount || 0).toFixed(2)}
-                </span>
-              </h5>
-            </div>
-          </div>
         </>
       )}
+
+      <div className="grid grid-cols-12 mt-3">
+        <div className="col-span-2 md:col-span-4 md:col-start-8">
+          <h5 className="font-[Gilroy] font-medium  text-gray-600">
+            Total Amount :
+            <span className="font-semibold text-black  ">
+              {" "}
+              ₹{Number(totalAmount || 0).toFixed(2)}
+            </span>
+          </h5>
+        </div>
+      </div>
 
       {formLoading && (
         <div className="absolute top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
@@ -1153,13 +1124,12 @@ function CreateBill() {
         </div>
       </div>
       <div>
-        {tableErrmsg.trim() !== "" && (
-          <ErrorMessage message={tableErrmsg} type="error" />
-        )}
         {allfielderrmsg.trim() !== "" && (
           <ErrorMessage message={allfielderrmsg} type="error" />
         )}
-
+        {tableErrmsg.trim() !== "" && (
+          <ErrorMessage message={tableErrmsg} type="error" />
+        )}
         {state.InvoiceList.unableAddInvoiceDetailsError && (
           <ErrorMessage
             message={state.InvoiceList.unableAddInvoiceDetailsError}

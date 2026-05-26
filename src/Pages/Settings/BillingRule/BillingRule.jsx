@@ -3,16 +3,15 @@ import React, { useState, useEffect } from "react";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowRight2, } from 'iconsax-react';
-import { useHasPermission } from '../../../Utils/Permission';
+import { ArrowRight2 } from "iconsax-react";
+import { useHasPermission } from "../../../Utils/Permission";
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-import ErrorMessage from '../../../Components/ErrorMessage';
+import ErrorMessage from "../../../Components/ErrorMessage";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
+import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 function BillingRule() {
-
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function BillingRule() {
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
   const [shortStayChecked, setShortStayChecked] = useState(false);
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
   const [showShortStay, setShowShortStay] = useState(false);
   // const [showLongStay, setShowLongStay] = useState(false);
 
@@ -32,17 +31,12 @@ function BillingRule() {
     } else {
       navigate(`/settings/${tabName}`);
     }
-
-
   };
-
-
 
   // const handleCloseLongStay = () => {
   //   dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
   //   setShowLongStay(false)
   // }
-
 
   const handleShowShortStay = () => setShowShortStay(true);
   const handleCloseShortStay = () => setShowShortStay(false);
@@ -50,17 +44,8 @@ function BillingRule() {
   // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
   // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
 
-
-  const {
-    canWriteModule: canWriteBills,
-    canReadModule: canReadRecurring,
-  } = useHasPermission("Bills");
-
-
-
-
-
-
+  const { canWriteModule: canWriteBills, canReadModule: canReadRecurring } =
+    useHasPermission("Bills");
 
   //  Future needed this function so don't delete this command line.............
 
@@ -82,7 +67,10 @@ function BillingRule() {
 
   useEffect(() => {
     if (state.Settings.SettingsRecurringAddSuccess === 200) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "SETTINGS_GET_RECURRING",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTINGSADDRECURRING_STATUS_CODE" });
       }, 100);
@@ -91,56 +79,47 @@ function BillingRule() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
-      setFormLoading(false)
+      dispatch({
+        type: "SETTINGS_GET_RECURRING",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      setFormLoading(false);
     }
   }, [state.login.selectedHostel_Id]);
 
-
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
-
-  }, [state.UsersList?.accessRestrictionError])
+  }, [state.UsersList?.accessRestrictionError]);
   useEffect(() => {
     if (state?.Settings?.settingsBillsggetRecurrSucesscode === 200) {
-      setFormLoading(false)
-      setRecuringBills(state?.Settings?.SettingsBillsGetRecurring)
+      setFormLoading(false);
+      setRecuringBills(state?.Settings?.SettingsBillsGetRecurring);
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTINGSGETRECURRING_STATUS_CODE" });
       }, 1000);
     }
-  }, [state?.Settings?.settingsBillsggetRecurrSucesscode])
+  }, [state?.Settings?.settingsBillsggetRecurrSucesscode]);
 
   useEffect(() => {
     if (state.Settings?.RecurringOffStatusCode === 201) {
-      setRecuringBills("")
-      setFormLoading(false)
+      setRecuringBills("");
+      setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_RECURRINGOFF" });
       }, 100);
-
-
     }
-
-  }, [state.Settings?.RecurringOffStatusCode])
-
-
-
+  }, [state.Settings?.RecurringOffStatusCode]);
 
   useEffect(() => {
     if (recurringBills?.billStartDate) {
-      setChecked(true)
+      setChecked(true);
     }
-
-  }, [recurringBills?.billStartDate, state.login.selectedHostel_Id])
-
-
-
+  }, [recurringBills?.billStartDate, state.login.selectedHostel_Id]);
 
   return (
     <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy">
@@ -148,24 +127,15 @@ function BillingRule() {
         <label className="text-black font-semibold text-[18px] font-gilroy -ml-2">
           Billing Rule
         </label>
-
       </div>
 
       <div className="flex-1 overflow-hidden px-4 py-3">
         {!canReadRecurring ? (
           <>
-            <div className="flex flex-col items-center justify-center mt-24">
-              <img src={Emptystate} alt="Empty State" />
-
-              <ErrorMessage
-                message={['You do not have access to view Billing Rule']}
-                type="warning"
-              />
-            </div>
+            <PermissionDeniedMessage />
           </>
         ) : (
           <div className="space-y-4">
-
             <div className="grid grid-cols-12 gap-3">
               <div
                 className={`col-span-12 md:col-span-12 cursor-pointer`}
@@ -175,7 +145,6 @@ function BillingRule() {
               >
                 <div className="h-full rounded-lg  shadow-md bg-white">
                   <div className="px-[10px] py-[10px] flex  items-center justify-between">
-
                     <div className="flex gap-2 items-center">
                       <div className="bg-white rounded-lg p-2 ">
                         <BsShieldCheck size={24} color="#1E45E1" />
@@ -194,7 +163,6 @@ function BillingRule() {
 
                     <div className="flex gap-4 items-center">
                       <div className="flex items-center">
-
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
@@ -216,21 +184,21 @@ function BillingRule() {
                         <ArrowRight2
                           color="#28303F"
                           size="14"
-                          className={`${!canWriteBills ? "opacity-40 cursor-not-allowed pointer-events-none" : "cursor-pointer"
-                            }`}
+                          className={`${
+                            !canWriteBills
+                              ? "opacity-40 cursor-not-allowed pointer-events-none"
+                              : "cursor-pointer"
+                          }`}
                         />
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
 
-
               <div className="col-span-12 md:col-span-12">
                 <div className="h-full rounded-lg  shadow-md bg-white">
                   <div className="px-[10px] py-[10px] flex  items-center justify-between">
-
                     <div className="flex gap-2 items-center">
                       <div className="bg-white rounded-lg p-2 ">
                         <BsHourglassSplit size={24} color="#1E45E1" />
@@ -244,7 +212,6 @@ function BillingRule() {
                         {/* <div className="text-gray-600 text-[13px] font-gilroy mb-1">
                           Fill the template form with details you'd like to customize.
                         </div> */}
-
                       </div>
                     </div>
 
@@ -259,35 +226,29 @@ function BillingRule() {
                         </button>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-        )
-        }
-
+        )}
       </div>
-
-
 
       {/* {
         showLongStay && <LongStayRecurringModal handleClose={handleCloseLongStay} show={handleShowLongStay} />
       } */}
-      {
-        showShortStay && <ShortStayRecurringModal handleClose={handleCloseShortStay} show={handleShowShortStay} />
-      }
+      {showShortStay && (
+        <ShortStayRecurringModal
+          handleClose={handleCloseShortStay}
+          show={handleShowShortStay}
+        />
+      )}
 
       {formLoading && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
           <div className="w-10 h-10 rounded-full border-4 border-transparent border-t-blue-700 animate-spin"></div>
         </div>
       )}
-
-
     </div>
   );
 }

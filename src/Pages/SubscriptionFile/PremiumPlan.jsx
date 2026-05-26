@@ -1,12 +1,14 @@
 import React from "react";
 import { Card, Button, Row, Col, Table } from "react-bootstrap";
 import PaginationList from "../../Components/PaginationList";
-import { Calendar } from "iconsax-react";
+import { Calendar, Crown } from "iconsax-react";
 import { TbCheck } from "react-icons/tb";
 import { MdPayment } from "react-icons/md";
 import { PiLightning } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { TiTick } from "react-icons/ti";
 
 function PremiumPlan() {
   const state = useSelector((state) => state);
@@ -32,12 +34,12 @@ function PremiumPlan() {
                 {currentPlan?.planName}
               </p>
               <p className="font-medium text-[#4A4A4A] text-[14px]">
-                ₹999/month
+                {currentPlan?.planAmount}
               </p>
             </div>
 
             <div className="bg-[#00A32E] text-white px-3 py-1 rounded-xl text-[12px] font-medium flex items-center gap-2 h-fit">
-              <TbCheck /> Active
+              <TbCheck /> {currentPlan?.status}
             </div>
           </div>
 
@@ -54,7 +56,9 @@ function PremiumPlan() {
             <Calendar size="16" color="#4B4B4B" />
             <div>
               <p className="text-[13px] text-[#4B4B4B] mb-1">Renewal Date</p>
-              <p className="text-[16px] text-[#4B4B4B] mb-1">Oct 21, 2025</p>
+              <p className="text-[16px] text-[#4B4B4B] mb-1">
+                {currentPlan?.renewalDate}
+              </p>
             </div>
           </div>
 
@@ -62,7 +66,9 @@ function PremiumPlan() {
             <MdPayment size="16" color="#4B4B4B" />
             <div>
               <p className="text-[13px] text-[#4B4B4B] mb-1">Payment Method</p>
-              <p className="text-[16px] text-[#4B4B4B] mb-1">UPI Auto Debit</p>
+              <p className="text-[16px] text-[#4B4B4B] mb-1">
+                {currentPlan?.paymentMethod}
+              </p>
             </div>
           </div>
 
@@ -70,7 +76,9 @@ function PremiumPlan() {
             <PiLightning size="16" color="#4B4B4B" />
             <div>
               <p className="text-[13px] text-[#4B4B4B] mb-1">Status</p>
-              <p className="text-[16px] text-[#1E45E1] mb-1">Active</p>
+              <p className="text-[16px] text-[#1E45E1] mb-1">
+                {currentPlan?.status}
+              </p>
             </div>
           </div>
         </div>
@@ -80,34 +88,82 @@ function PremiumPlan() {
         Billing History
       </h5>
 
-      <div className="mt-2">
-        <div className="mr-2 pb-5">
-          <div className="max-h-[200px] overflow-y-auto border-t border-[#E8E8E8] mb-5 show-scrolls">
-            <table className="w-full text-sm font-gilroy text-[#222222]">
-              <thead className="bg-[#E7F1FF] text-[12px] text-[#939393] sticky top-0 z-10">
-                <tr className="h-[30px]">
-                  <th className="text-left px-5 py-2 whitespace-nowrap">
-                    INVOICE
-                  </th>
-                  <th className="text-left px-4 py-2 whitespace-nowrap">
-                    BILLING DATE
-                  </th>
-                  <th className="text-left px-4 py-2 whitespace-nowrap">
-                    PLAN
-                  </th>
-                  <th className="text-left px-4 py-2 whitespace-nowrap">
-                    AMOUNT
-                  </th>
-                  <th className="text-left px-4 py-2">STATUS</th>
-                  <th className="text-left px-4 py-2">ACTION</th>
-                </tr>
-              </thead>
+      <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] mt-4 ">
+        <div className="max-h-[200px] overflow-y-auto  rounded-xl border-[#E8E8E8] show-scrolls">
+          <table className="w-full text-sm text-[#222]">
+            <thead className="bg-gray-50 sticky top-0 z-40 text-[#6B7280] text-xs">
+              <tr className="h-8">
+                <th className="px-5 py-2 text-left whitespace-nowrap">
+                  INVOICE
+                </th>
+                <th className="py-2 text-left whitespace-nowrap">
+                  BILLING DATE
+                </th>
+                <th className="py-2 text-left whitespace-nowrap">PLAN</th>
+                <th className="py-2 text-left whitespace-nowrap">AMOUNT</th>
+                <th className="py-2 text-left">STATUS</th>
+                <th className="py-2 text-left">ACTION</th>
+              </tr>
+            </thead>
 
-              <tbody className="text-[11px] align-middle h-[50px]">
-                <PaginationList display={true}></PaginationList>
-              </tbody>
-            </table>
-          </div>
+            <tbody className="text-[12px] align-middle">
+              {currentPlan?.billingHistory?.length > 0 ? (
+                currentPlan.billingHistory.map((item) => (
+                  <tr key={item.historyId} className="border-b">
+                    <td className="px-5 py-2 whitespace-nowrap">
+                      {item.subscriptionNumber || "-"}
+                    </td>
+
+                    <td className="py-2 whitespace-nowrap">{item.createdAt}</td>
+
+                    <td className="py-2">
+                      <div className="flex items-center gap-1">
+                        <Crown color="#FF9900" size="14" />
+                        <span>{item.planName}</span>
+                      </div>
+                    </td>
+
+                    <td className="py-2 whitespace-nowrap">
+                      ₹{item.totalAmount}
+                    </td>
+
+                    <td className="py-2">
+                      <div className="flex items-center gap-2">
+                        {item.orderStatus === "PAID" ? (
+                          <>
+                            <span className="text-black text-[11px] font-medium rounded-xl bg-green-50 flex items-center gap-1 px-2 py-1">
+                              <TiTick className="text-green-600 text-[14px] font-medium" />{" "}
+                              PAID
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-black text-[11px] font-medium rounded-xl bg-yellow-50 flex items-center gap-1 px-2 py-1">
+                              <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+                              CREATED
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </td>
+
+                    <td className="py-2 text-center">
+                      <PiDotsThreeOutlineVerticalFill className="h-5 w-5 rotate-90 cursor-pointer mx-auto" />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="text-center py-6 text-base text-gray-400"
+                  >
+                    No billing history found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

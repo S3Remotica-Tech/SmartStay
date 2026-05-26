@@ -19,6 +19,8 @@ import TenantsFilter from "./TenantsFilter";
 import ApiPagination from "../../Components/ApiPagination";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useHasPermission } from "../../Utils/Permission";
+import NoDataMessage from "../../Utils/NoDataMessage";
+
 function TenantsRegister() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -38,6 +40,7 @@ function TenantsRegister() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [customerTooltip, setCustomerTooltip] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
+  const isSearching = chips.length > 0;
 
   const { canReadModule: canReadReports } = useHasPermission("Reports");
 
@@ -786,175 +789,175 @@ function TenantsRegister() {
             ))}
           </div>
         </div>
-        {/* max-h-[400px] */}
-        <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-          <div
-            ref={tableRef}
-            className=" overflow-y-auto relative  h-[calc(100vh-200px)] rounded-xl show-scrolls "
-          >
-            <table className="w-full  text-[12px] font-gilroy">
-              <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
-                <tr className="border-b border-[#E8E8E8]">
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-30 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
-                    <Setting3
-                      // onClick={() => setOpen(!open)}
-                      className="cursor-pointer"
-                      size="18"
-                      color="#4B4B4B"
-                    />
-                  </th>
+        {tenantRegister?.tenants?.length > 0 ? (
+          <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+            <div
+              ref={tableRef}
+              className=" overflow-y-auto relative  h-[calc(100vh-200px)] rounded-xl show-scrolls "
+            >
+              <table className="w-full  text-[12px] font-gilroy">
+                <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
+                  <tr className="border-b border-[#E8E8E8]">
+                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-30 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
+                      <Setting3
+                        // onClick={() => setOpen(!open)}
+                        className="cursor-pointer"
+                        size="18"
+                        color="#4B4B4B"
+                      />
+                    </th>
 
-                  {/* <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                    {/* <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
                                         Tenant ID
                                     </th> */}
 
-                  <th className="px-4 py-2.5 text-left font-semibold sticky left-[40px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
-                    NAME
-                  </th>
+                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[40px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
+                      NAME
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase  bg-[#F9FAFB] whitespace-nowrap">
-                    Mobile No
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase  bg-[#F9FAFB] whitespace-nowrap">
+                      Mobile No
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase">
-                    <div className="flex justify-center items-center gap-1">
-                      Sharing
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold  uppercase">
+                      <div className="flex justify-center items-center gap-1">
+                        Sharing
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] whitespace-nowrap">
-                    <div className="flex justify-center items-center gap-1">
-                      Checkin date
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] whitespace-nowrap">
+                      <div className="flex justify-center items-center gap-1">
+                        Checkin date
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold uppercase w-[250px] whitespace-nowrap">
-                    <div className="flex justify-center items-center gap-1">
-                      Checkout date
-                      <ArrowSwapVertical size="16" color="#4B4B4B" />
-                    </div>
-                  </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase w-[250px] whitespace-nowrap">
+                      <div className="flex justify-center items-center gap-1">
+                        Checkout date
+                        <ArrowSwapVertical size="16" color="#4B4B4B" />
+                      </div>
+                    </th>
 
-                  <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] rounded-tr-xl whitespace-nowrap">
-                    Stay Duration
-                  </th>
-                </tr>
-              </thead>
+                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px] rounded-tr-xl whitespace-nowrap">
+                      Stay Duration
+                    </th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {tenantRegister?.tenants?.length > 0 ? (
-                  tenantRegister?.tenants?.map((row, i) => (
-                    <tr
-                      key={row.tenantId}
-                      className="border-b last:border-none  transition"
-                    >
-                      <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
+                <tbody>
+                  {tenantRegister?.tenants?.length > 0 ? (
+                    tenantRegister?.tenants?.map((row, i) => (
+                      <tr
+                        key={row.tenantId}
+                        className="border-b last:border-none  transition"
+                      >
+                        <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
 
-                      <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px] ">
-                        <div className="flex items-center gap-2 max-w-[200px]">
-                          {row.profilePic ? (
-                            <img
-                              src={row.profilePic}
-                              alt={row.fullName}
-                              className="w-7 h-7 rounded-full object-cover flex-shrink-0"
-                            />
-                          ) : (
-                            <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
-                              {row.initials}
-                            </div>
-                          )}
-                          <span
-                            onMouseEnter={(e) => {
-                              const rect = e.target.getBoundingClientRect();
-                              setPosition({
-                                top: rect.top + rect.height / 2,
-                                left: rect.right,
-                              });
-                              setCustomerTooltip(i);
-                            }}
-                            onMouseLeave={() => setCustomerTooltip(null)}
-                            className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
-                          >
-                            {row.name}
-                            {customerTooltip === i && (
-                              <div
-                                style={{
-                                  top: position.top,
-                                  left: position.left,
-                                }}
-                                className="fixed -translate-y-1/2 z-[9999]  bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  max-w-[220px] whitespace-normal break-words pointer-events-none"
-                              >
-                                {row.name}
+                        <td className="px-4 py-2.5 sticky left-[40px] z-20 bg-white max-w-[200px] ">
+                          <div className="flex items-center gap-2 max-w-[200px]">
+                            {row.profilePic ? (
+                              <img
+                                src={row.profilePic}
+                                alt={row.fullName}
+                                className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                              />
+                            ) : (
+                              <div className="w-7 h-7 rounded-full bg-slate-200 text-[#44536A] flex-shrink-0 flex items-center justify-center text-xs font-semibold">
+                                {row.initials}
                               </div>
                             )}
-                          </span>
-                        </div>
-                      </td>
+                            <span
+                              onMouseEnter={(e) => {
+                                const rect = e.target.getBoundingClientRect();
+                                setPosition({
+                                  top: rect.top + rect.height / 2,
+                                  left: rect.right,
+                                });
+                                setCustomerTooltip(i);
+                              }}
+                              onMouseLeave={() => setCustomerTooltip(null)}
+                              className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#111928] cursor-pointer"
+                            >
+                              {row.name}
+                              {customerTooltip === i && (
+                                <div
+                                  style={{
+                                    top: position.top,
+                                    left: position.left,
+                                  }}
+                                  className="fixed -translate-y-1/2 z-[9999]  bg-gray-200 text-gray-800  border-gray-200 text-xs px-3 py-1.5 rounded-md  max-w-[220px] whitespace-normal break-words pointer-events-none"
+                                >
+                                  {row.name}
+                                </div>
+                              )}
+                            </span>
+                          </div>
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}`}
-                      >
-                        {row.mobileNo}
-                      </td>
+                        >
+                          {row.mobileNo}
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.sharing || "-"}
-                      </td>
+                        >
+                          {row.sharing || "-"}
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.checkInDate || "-"}
-                      </td>
+                        >
+                          {row.checkInDate || "-"}
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
-                      >
-                        {row.checkOutDate || "-"}
-                      </td>
+                        >
+                          {row.checkOutDate || "-"}
+                        </td>
 
-                      <td
-                        className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] whitespace-nowrap transition-colors
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
+                        >
+                          {row.stayDuration || "-"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="py-10 text-center text-sm text-red-800 font-semibold"
                       >
-                        {row.stayDuration || "-"}
+                        No Data Found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={9}
-                      className="py-10 text-center text-sm text-red-800 font-semibold"
-                    >
-                      No Data Found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-          {open && (
-            <>
-              <div
-                className="fixed inset-0 bg-black/20 z-40 "
-                onClick={() => setOpen(false)}
-              />
+            {open && (
+              <>
+                <div
+                  className="fixed inset-0 bg-black/20 z-40 "
+                  onClick={() => setOpen(false)}
+                />
 
-              <div
-                className={`
+                <div
+                  className={`
         fixed top-[250px] left-[250px] h-fit w-[280px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -962,45 +965,54 @@ function TenantsRegister() {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-              >
-                <div className="p-3 border-b">
-                  <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                    <SearchNormal1 size={16} color="#98A2B3" />
-                    <input
-                      placeholder="Search"
-                      className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                    />
+                >
+                  <div className="p-3 border-b">
+                    <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                      <SearchNormal1 size={16} color="#98A2B3" />
+                      <input
+                        placeholder="Search"
+                        className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                    {options.map((item) => (
+                      <label
+                        key={item.key}
+                        className="flex items-center gap-3 text-sm cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          defaultChecked={item.checked}
+                          className="w-4 h-4 accent-[#1E45E1] rounded"
+                        />
+                        <span className="text-[#101828]">{item.label}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="p-3 border-t flex gap-2">
+                    <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
+                      Reset
+                    </button>
+                    <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
+                      Apply Filters
+                    </button>
                   </div>
                 </div>
-
-                <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                  {options.map((item) => (
-                    <label
-                      key={item.key}
-                      className="flex items-center gap-3 text-sm cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        defaultChecked={item.checked}
-                        className="w-4 h-4 accent-[#1E45E1] rounded"
-                      />
-                      <span className="text-[#101828]">{item.label}</span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="p-3 border-t flex gap-2">
-                  <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
-                    Reset
-                  </button>
-                  <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
-                    Apply Filters
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="my-2">
+            <NoDataMessage
+              label="Tenant"
+              isSearching={isSearching}
+              isClearSearch={false}
+            />
+          </div>
+        )}
 
         {invoiceFilter && (
           <TenantsFilter

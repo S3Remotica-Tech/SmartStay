@@ -1,31 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { useHasPermission } from '../Utils/Permission';
-import ErrorMessage from '../Components/ErrorMessage'
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import { useHasPermission } from "../Utils/Permission";
+import ErrorMessage from "../Components/ErrorMessage";
 import {
-  ArrowRight, DocumentText, ReceiptText, UserOctagon,
+  ArrowRight,
+  DocumentText,
+  ReceiptText,
+  UserOctagon,
   Wallet,
   TrendUp,
-  DollarCircle, Buildings,
+  DollarCircle,
+  Buildings,
   ReceiptItem,
   Clock,
-  MessageText
+  MessageText,
 } from "iconsax-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import ComingSoon from '../Utils/ComingSoon';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import ComingSoon from "../Utils/ComingSoon";
 import Emptystate from "../Assets/Images/Empty-State-svg.svg";
 import withErrorBoundary from "../Hoc/WithErrorBountry";
-
+import PermissionDeniedMessage from "../Utils/PermissionDeniedMessage";
 
 function Reports() {
-
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("operational");
   const [selectedRange, setSelectedRange] = useState(null);
@@ -34,9 +37,6 @@ function Reports() {
   // const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
-
-
-
   const {
     // canWriteModule: canWriteReports,
     canReadModule: canReadReports,
@@ -44,48 +44,34 @@ function Reports() {
     // canDeleteModule: canDeleteReports,
   } = useHasPermission("Reports");
 
-
   useEffect(() => {
     if (!canReadReports) {
       setLoading(false);
     }
   }, [canReadReports]);
 
-
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'ACCESS_RESTRICTION_ERROR_REMOVE' })
-      }, 1000)
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
     }
+  }, [state.UsersList?.accessRestrictionError]);
 
-  }, [state.UsersList?.accessRestrictionError])
-
-
-
-
-
-
-
-
-  const reportsList = state.reports?.getReportsList
+  const reportsList = state.reports?.getReportsList;
 
   useEffect(() => {
-
     setLoading(false);
-  }, [state.reports?.getReportsList])
-
-
+  }, [state.reports?.getReportsList]);
 
   useEffect(() => {
     if (analytical) {
-      setActiveTab("analytical")
+      setActiveTab("analytical");
     } else {
-      setActiveTab("operational")
+      setActiveTab("operational");
     }
-
-  }, [analytical])
+  }, [analytical]);
 
   const tabs = [
     { id: "operational", label: "Operational Reports" },
@@ -100,7 +86,6 @@ function Reports() {
       value: `₹${reportsList?.invoices?.totalAmount || 0}`,
       icon: DocumentText,
       color: "text-blue-600 bg-blue-100",
-
     },
     {
       title: "Receipt Register",
@@ -125,7 +110,6 @@ function Reports() {
       value: `${reportsList?.tenantInfo?.totalTenants || 0}`,
       icon: UserOctagon,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
-
     },
     // {
     //   title: "Occupancy",
@@ -185,8 +169,6 @@ function Reports() {
     // },
   ];
 
-
-
   const summaryData = [
     {
       label: "Total Revenue (MTD)",
@@ -205,7 +187,7 @@ function Reports() {
     },
     {
       label: "Occupancy Rate",
-      value: `${reportsList?.tenantInfo?.occupancyRate || ''} %`,
+      value: `${reportsList?.tenantInfo?.occupancyRate || ""} %`,
       valueColor: "#222222",
     },
   ];
@@ -217,8 +199,7 @@ function Reports() {
       desc: "Compare revenue performance across months with trend analysis",
       icon: TrendUp,
       color: "text-blue-600 bg-blue-100",
-      subTitle: "MonthRevenue"
-
+      subTitle: "MonthRevenue",
     },
     {
       id: 2,
@@ -226,7 +207,7 @@ function Reports() {
       desc: "Track payment collections and outstanding amounts",
       icon: DollarCircle,
       color: "text-green-600 bg-green-100",
-      subTitle: "Outstanding"
+      subTitle: "Outstanding",
     },
     {
       id: 3,
@@ -234,7 +215,7 @@ function Reports() {
       desc: "Real-time bed occupancy and availability status",
       icon: Buildings,
       color: "text-purple-600 bg-purple-100",
-      subTitle: "Vacant"
+      subTitle: "Vacant",
     },
     {
       id: 4,
@@ -242,7 +223,7 @@ function Reports() {
       desc: "Track and analyze monthly expense patterns",
       icon: ReceiptItem,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
-      subTitle: "MonthlyExpenseTrend"
+      subTitle: "MonthlyExpenseTrend",
     },
     {
       id: 5,
@@ -250,8 +231,7 @@ function Reports() {
       desc: "Monitor overdue payment trends and risks",
       icon: Clock,
       color: "text-red-600 bg-red-100",
-      subTitle: "OverdueInvoicesTrend"
-
+      subTitle: "OverdueInvoicesTrend",
     },
     {
       id: 6,
@@ -259,97 +239,95 @@ function Reports() {
       desc: "Track complaint resolution performance",
       icon: MessageText,
       color: "text-indigo-600 bg-indigo-100",
-      subTitle: "Complaints"
-
-    }
+      subTitle: "Complaints",
+    },
   ];
-
 
   useEffect(() => {
     const appearOptions = {
-      threshold: 0.5
+      threshold: 0.5,
     };
-    const faders = document.querySelectorAll('.fade-in');
+    const faders = document.querySelectorAll(".fade-in");
     const appearOnScro1l = new IntersectionObserver(function (entries) {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           return;
-        }
-        else {
-          entry.target.classList.add('appear');
+        } else {
+          entry.target.classList.add("appear");
           appearOnScro1l.unobserve(entry.target);
         }
-      })
-    }, appearOptions)
-    faders.forEach(fader => {
+      });
+    }, appearOptions);
+    faders.forEach((fader) => {
       appearOnScro1l.observe(fader);
-    })
+    });
   });
-
-
-
 
   useEffect(() => {
     if (state.reports.getSuccessReports === 200) {
-      setLoading(false)
-      dispatch({ type: 'CLEAR_GET_REPORTS_REDUCER' })
+      setLoading(false);
+      dispatch({ type: "CLEAR_GET_REPORTS_REDUCER" });
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }, [state.reports.getSuccessReports])
-
+  }, [state.reports.getSuccessReports]);
 
   const handleNavigateRegister = (item) => {
     if (item?.title === "Tenant Register") {
-      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Receipt Register") {
-      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Bank Transaction Register") {
-      navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.title === "Occupancy") {
-      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Expense Register") {
-      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Vendor Ledger") {
-      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Electricity Billing Register") {
-      navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.title === "Complaint Register") {
-      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Request Register") {
-      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Final Settlement") {
-      navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/final-settlement-register/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.title === "Invoice Register") {
       navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
     }
-  }
+  };
 
   const handleNavigateAnalyTics = (item) => {
     if (item?.subTitle === "MonthRevenue") {
-      navigate(`/reports/month-revenue/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/month-revenue/${state.login?.selectedHostel_Id}`);
     } else if (item?.subTitle === "Outstanding") {
-      navigate(`/reports/collected-outstanding/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/collected-outstanding/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.subTitle === "Vacant") {
-      navigate(`/reports/vacant-occupied/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/vacant-occupied/${state.login?.selectedHostel_Id}`);
     } else if (item?.subTitle === "MonthlyExpenseTrend") {
-      navigate(`/reports/expense-trend/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/expense-trend/${state.login?.selectedHostel_Id}`);
     } else if (item?.subTitle === "OverdueInvoicesTrend") {
-      navigate(`/reports/overdue-invoice-trend/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/overdue-invoice-trend/${state.login?.selectedHostel_Id}`,
+      );
+    } else if (item?.subTitle === "Complaints") {
+      navigate(
+        `/reports/complaints-resolved/${state.login?.selectedHostel_Id}`,
+      );
     }
-    else if (item?.subTitle === "Complaints") {
-      navigate(`/reports/complaints-resolved/${state.login?.selectedHostel_Id}`)
-    }
-  }
-
-
-
+  };
 
   const apiStart = reportsList?.startDate;
   const apiEnd = reportsList?.endDate;
-
-
 
   const isInitialLoad = useRef(true);
 
@@ -363,8 +341,6 @@ function Reports() {
       to: dayjs(apiEnd, "DD/MM/YYYY").toDate(),
     });
   }, [apiStart, apiEnd]);
-
-
 
   const handleDateChange = (dates) => {
     if (!dates) {
@@ -399,9 +375,6 @@ function Reports() {
       : undefined;
   }, [selectedRange?.to]);
 
-
-
-
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -416,11 +389,7 @@ function Reports() {
       },
     });
     setLoading(true);
-  }, [
-    state.login?.selectedHostel_Id,
-    startDate,
-    endDate,]);
-
+  }, [state.login?.selectedHostel_Id, startDate, endDate]);
 
   useEffect(() => {
     return () => {
@@ -428,31 +397,23 @@ function Reports() {
         type: "GET_REEPORTS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          filters: {
-          },
+          filters: {},
         },
       });
-    }
-  }, [])
-
+    };
+  }, []);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setLoading(false)
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
-
+  }, [state.createAccount?.networkError]);
 
   return (
-
     <div className="w-full flex flex-col font-[Gilroy] px-0 mt-px h-[600px] 2xl:h-[800px] 3xl:h-[800px]">
-
       {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
@@ -460,33 +421,29 @@ function Reports() {
       )}
 
       <div className="sticky top-0 z-20 bg-white  flex justify-between">
-
-
         <div className="px-2 flex gap-6">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`pb-2 text-base font-semibold transition ${activeTab === tab.id
-                ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                : "text-[#64748B]"
-                }`}
+              className={`pb-2 text-base font-semibold transition ${
+                activeTab === tab.id
+                  ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                  : "text-[#64748B]"
+              }`}
             >
               {tab.label}
             </button>
           ))}
         </div>
-        <div
-          className="datepicker-wrapper"
-          style={{ position: "relative", }}
-        >
-          <RangePicker disabled={!canReadReports}
+        <div className="datepicker-wrapper" style={{ position: "relative" }}>
+          <RangePicker
+            disabled={!canReadReports}
             style={{
               width: "100%",
               height: "100%",
               cursor: "pointer",
               fontFamily: "Gilroy",
-
             }}
             format="DD/MM/YYYY"
             placeholder={["From date", "To date"]}
@@ -497,43 +454,29 @@ function Reports() {
             }
             onChange={handleDateChange}
             disabledDate={(current) => {
-
               if (current && current > dayjs().endOf("day")) {
                 return true;
               }
 
               return false;
             }}
-
             getPopupContainer={(triggerNode) =>
               triggerNode.closest(".datepicker-wrapper")
             }
           />
         </div>
-
       </div>
 
       {!canReadReports ? (
-        <div className="flex-1 flex items-center justify-center">
-          <div>
-            <img src={Emptystate} alt="Empty State" />
-            <ErrorMessage
-              message={['You do not have access to view Reports']}
-              type="warning"
-            />
-          </div>
-        </div>
+        <>
+          <PermissionDeniedMessage />
+        </>
       ) : (
-
         <div className="flex-1 overflow-y-auto p-0 my-3 show-scrolls">
-          {
-            activeTab === "operational" && <div>
-
+          {activeTab === "operational" && (
+            <div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-[Gilroy] my-2">
                 {summaryData?.map((item, index) => {
-
-
-
                   return (
                     <div
                       key={index}
@@ -543,9 +486,11 @@ function Reports() {
                         <div>
                           <label className="text-sm text-gray-500 font-medium">
                             {item.label}
-                          </label></div>
+                          </label>
+                        </div>
                         <div>
-                          <label style={{ color: item.valueColor }}
+                          <label
+                            style={{ color: item.valueColor }}
                             className={`mt-1 text-xl font-semibold `}
                           >
                             {item.value}
@@ -561,7 +506,9 @@ function Reports() {
                 {reportCards.map((item, idx) => {
                   const Icon = item.icon;
 
-                  const isDev = import.meta.env.MODE === "development" || import.meta.env.MODE === "qa";
+                  const isDev =
+                    import.meta.env.MODE === "development" ||
+                    import.meta.env.MODE === "qa";
                   const isProd = import.meta.env.MODE === "production";
 
                   const allowedRegisters = [
@@ -572,18 +519,20 @@ function Reports() {
                   ];
 
                   const isClickable =
-                    (isDev && allowedRegisters.includes(item.title)) || (isProd && allowedRegisters.includes(item.title));
+                    (isDev && allowedRegisters.includes(item.title)) ||
+                    (isProd && allowedRegisters.includes(item.title));
 
                   return (
                     <div
                       key={idx}
                       className="rounded-2xl  border border-[#E5E7EB] bg-white p-3 hover:shadow-md transition"
                     >
-                      <div className={`p-2 rounded-lg w-fit my-1 ${item.color}`}>
+                      <div
+                        className={`p-2 rounded-lg w-fit my-1 ${item.color}`}
+                      >
                         <Icon size={22} variant="Bold" />
                       </div>
                       <div className="flex items-start gap-4">
-
                         <div className="flex-1">
                           <h3 className="text-sm font-semibold text-[#101828">
                             {item.title}
@@ -591,7 +540,10 @@ function Reports() {
                           <p className="text-xs text-[#4A5565] mt-1">
                             {item.desc}
                           </p>
-                          <label className='text-xs text-[#6A7282]'> {item.subTitle}</label>
+                          <label className="text-xs text-[#6A7282]">
+                            {" "}
+                            {item.subTitle}
+                          </label>
                         </div>
                       </div>
 
@@ -628,21 +580,15 @@ function Reports() {
     `}
                         />
                       </div>
-
-
-
-
-
-
-
                     </div>
                   );
                 })}
               </div>
             </div>
-          }
+          )}
 
-          {activeTab === "analytical" && import.meta.env.MODE === "development" ? (
+          {activeTab === "analytical" &&
+          import.meta.env.MODE === "development" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {analyticsCards?.map((item, idx) => {
                 const Icon = item.icon;
@@ -655,7 +601,6 @@ function Reports() {
                       <Icon size={22} variant="Bold" />
                     </div>
                     <div className="flex items-start gap-4 h-[70px]">
-
                       <div className="flex-1">
                         <h3 className="text-sm font-semibold text-[#101828">
                           {item.title}
@@ -663,7 +608,6 @@ function Reports() {
                         <p className="text-xs text-[#4A5565] mt-1">
                           {item.desc}
                         </p>
-
                       </div>
                     </div>
 
@@ -674,8 +618,11 @@ function Reports() {
                     )}
                     <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
 
-                    <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics(item)}>
-                      <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
+                    <div
+                      className="mt-3 flex items-center justify-between gap-1 group cursor-pointer"
+                      onClick={() => handleNavigateAnalyTics(item)}
+                    >
+                      <span className="text-sm font-semibold text-[#155DFC] group-hover:underline">
                         View Analytics
                       </span>
 
@@ -684,24 +631,19 @@ function Reports() {
                         className="text-blue-600 transition-transform group-hover:translate-x-1"
                       />
                     </div>
-
                   </div>
                 );
               })}
             </div>
-          )
-            :
-
+          ) : (
             activeTab === "analytical" &&
             (import.meta.env.MODE === "production" ||
-              import.meta.env.MODE === "qa") && <ComingSoon />}
+              import.meta.env.MODE === "qa") && <ComingSoon />
+          )}
         </div>
       )}
     </div>
-
-  )
+  );
 }
 
-export default withErrorBoundary(Reports)
-
-
+export default withErrorBoundary(Reports);

@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Table, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
+function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -14,12 +13,12 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
   const [applyAmountForInvoice, setApplyAmountForInvoice] = useState([]);
   const [formLoading, setFormLoading] = useState(false);
 
-  const handleApplyAmountChange = (index, value) => {
+  const handleApplyAmountChange = (value) => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
     setError("");
 
-    const invoice = initializeDetails.listInvoices[index];
-    const invoiceId = invoice.invoiceId;
+    const invoice = initializeDetails?.currentInvoiceInfo;
+    const invoiceId = invoice?.invoiceId;
 
     if (value === "") {
       const updated = applyAmountForInvoice.filter(
@@ -34,9 +33,9 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
       return;
     }
     let amount = Number(value);
-    if (amount > Number(invoice.pendingAmount)) {
+    if (amount > Number(invoice?.pendingAmount)) {
       setError("Cannot exceed invoice balance");
-      amount = Number(invoice.pendingAmount);
+      amount = Number(invoice?.pendingAmount);
     }
     const otherApplied = applyAmountForInvoice.reduce(
       (sum, item) =>
@@ -72,21 +71,25 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     );
   };
 
+  console.log("label", label);
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
-      type: "REDEEM_ADVANCE_INITIALIZE_SAGA",
+      type: "APPLY_ADVANCE_INVOICE_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        advanceInvoiceId: advanceDetails?.invoiceId,
+        invoiceId: advanceDetails?.invoiceId,
+        type: label === "booking" ? "Credit" : "",
       },
     });
   }, [state.login.selectedHostel_Id]);
 
-  const initializeDetails = state?.Booking?.initializeRedeem;
+  const initializeDetails = state?.Booking?.advanceInitialize;
+
+  // console.log("initializeDetails", initializeDetails);
 
   const bookingAmount = Number(
-    initializeDetails?.advanceInfo?.advanceBalanceAmount || 0,
+    initializeDetails?.advanceInfo?.availableBalance || 0,
   );
 
   const totalApplied = applyAmountForInvoice.reduce(
@@ -94,6 +97,10 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     0,
   );
   const remainingBalance = bookingAmount - totalApplied;
+
+  // useEffect(() => {
+  //   // console.log("advanceDetails", advanceDetails);
+  // }, [advanceDetails]);
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
@@ -114,11 +121,10 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
       type: "APPLY_INVOICE_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        invoiceId: advanceDetails?.invoiceId,
+        invoiceId: initializeDetails?.advanceInfo?.invoiceId,
         listItems: applyAmountForInvoice,
       },
     });
-
     setFormLoading(true);
   };
 
@@ -143,14 +149,17 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
+  console.log(
+    "state?.Booking?.applyRedeemError",
+    state?.Booking?.applyRedeemError,
+  );
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
         <div className="flex justify-between items-center p-3 border-b">
-          <h5 className="font-semibold text-lg text-black">
-            {label === "Advance"
-              ? "Apply to Invoice"
-              : "Apply Booking to Invoice"}
+          <h5 className="font-semibold text-lg text-black capitalize">
+            Apply {label} to Invoice
           </h5>
 
           <button
@@ -198,11 +207,16 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
 
             <div className="text-right">
               <div className="text-sm text-gray-400">
-                {" "}
-                {label === "Advance" ? "Advance Amount" : "Booking Amount"}
+                {initializeDetails?.advanceInfo?.invoiceType === "BOOKING"
+                  ? "Booking"
+                  : "Advance"}{" "}
+                Amount
               </div>
               <div className="font-semibold text-lg">
-                ₹ {initializeDetails?.advanceInfo?.advanceBalanceAmount}
+                ₹ {bookingAmount ?? 0}
+              </div>
+              <div className="font-semibold text-blue-600 text-sm">
+                {initializeDetails?.advanceInfo?.invoiceNumber}
               </div>
             </div>
           </div>
@@ -226,50 +240,55 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
                   </thead>
 
                   <tbody>
-                    {initializeDetails?.listInvoices?.length > 0 ? (
-                      initializeDetails.listInvoices.map((item, index) => (
-                        <tr key={index} className="border-t  whitespace-nowrap">
-                          <td className="px-4 py-2 font-semibold">
-                            {item.invoiceType}
-                          </td>
+                    {initializeDetails?.currentInvoiceInfo ? (
+                      <tr
+                        key={initializeDetails?.currentInvoiceInfo?.invoiceId}
+                        className="border-t  whitespace-nowrap"
+                      >
+                        <td className="px-4 py-2 font-semibold">
+                          {initializeDetails?.currentInvoiceInfo?.invoiceType}
+                        </td>
 
-                          <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
-                            {item.invoiceNumber}
-                          </td>
+                        <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
+                          {initializeDetails?.currentInvoiceInfo?.invoiceNumber}
+                        </td>
 
-                          <td className="px-4 py-2 text-gray-500">
-                            {item.dueDate}
-                          </td>
+                        <td className="px-4 py-2 text-gray-500">
+                          {initializeDetails?.currentInvoiceInfo?.dueDate}
+                        </td>
 
-                          <td className="font-semibold px-4 py-2">
-                            ₹{item.invoiceAmount}
-                          </td>
+                        <td className="font-semibold px-4 py-2">
+                          ₹{initializeDetails?.currentInvoiceInfo?.totalAmount}
+                        </td>
 
-                          <td className="px-4 py-2 font-semibold">
-                            ₹{item.pendingAmount}
-                          </td>
+                        <td className="px-4 py-2 font-semibold">
+                          ₹
+                          {initializeDetails?.currentInvoiceInfo?.pendingAmount}
+                        </td>
 
-                          <td className="px-4 py-2 font-semibold">
-                            <input
-                              type="number"
-                              value={
-                                applyAmountForInvoice.find(
-                                  (i) => i.invoiceId === item.invoiceId,
-                                )?.amount || ""
-                              }
-                              onChange={(e) =>
-                                handleApplyAmountChange(index, e.target.value)
-                              }
-                              placeholder="₹ 0.00"
-                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                                item.applyAmount
-                                  ? "font-semibold"
-                                  : "font-medium"
-                              }`}
-                            />
-                          </td>
-                        </tr>
-                      ))
+                        <td className="px-4 py-2 font-semibold">
+                          <input
+                            type="number"
+                            value={
+                              applyAmountForInvoice.find(
+                                (i) =>
+                                  i.invoiceId ===
+                                  initializeDetails?.currentInvoiceInfo
+                                    ?.invoiceId,
+                              )?.amount || ""
+                            }
+                            onChange={(e) =>
+                              handleApplyAmountChange(e.target.value)
+                            }
+                            placeholder="₹ 0.00"
+                            className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
+                              initializeDetails?.currentInvoiceInfo?.applyAmount
+                                ? "font-semibold"
+                                : "font-medium"
+                            }`}
+                          />
+                        </td>
+                      </tr>
                     ) : (
                       <tr>
                         <td
@@ -341,9 +360,9 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     </div>
   );
 }
-ApplyBookingModal.propTypes = {
+ApplyAdvance.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default ApplyBookingModal;
+export default ApplyAdvance;

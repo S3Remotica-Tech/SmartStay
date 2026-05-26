@@ -36,6 +36,7 @@ const ComplianceList = (props) => {
   const [deleteForm, setDeleteForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
+    const [deleteLoading, setDeleteLoading] = useState(false);
   // const [assignId, setAssignId] = useState("");
   const [loading, setLoading] = useState(true);
   const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
@@ -95,11 +96,13 @@ const ComplianceList = (props) => {
   const handleComplianceDelete = () => {
     if (deleteId) {
       dispatch({ type: "DELETECOMPLIANCE", payload: deleteId });
+      setDeleteLoading(true)
     }
   };
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
+       setDeleteLoading(false)
       handleCloseDeleteForm();
     }
   }, [state.ComplianceList.statusCodeForDeleteCompliance]);
@@ -1488,12 +1491,33 @@ const ComplianceList = (props) => {
             Cancel
           </Button>
 
-          <Button
-            onClick={handleComplianceDelete}
-            className="w-full max-w-[160px] h-12 px-5 py-3 rounded-lg !bg-blue-700 text-white !text-sm !font-semibold !font-gilroy"
-          >
-            Delete
-          </Button>
+         <Button
+  disabled={deleteLoading}
+  onClick={handleComplianceDelete}
+  className={`
+    !w-full 
+    !max-w-[160px] 
+    !h-[52px] 
+    !rounded-[8px] 
+    !px-[20px] 
+    !py-[12px]  
+    !bg-[#1E45E1] 
+    !text-white 
+    !font-semibold 
+    !font-gilroy 
+    !text-[14px]
+    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+  `}
+>
+  {deleteLoading ? (
+    <div className="flex items-center justify-center gap-2">
+      <div className="w-4 h-4 border-2 border-white border-t-transparent !rounded-full animate-spin" />
+      Deleting...
+    </div>
+  ) : (
+    "Delete"
+  )}
+</Button>
         </Modal.Footer>
 
       </Modal>
