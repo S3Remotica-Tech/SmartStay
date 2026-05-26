@@ -10,6 +10,7 @@ import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
+import NoDataMessage from "../../Utils/NoDataMessage";
 import Select from "react-select";
 import {
   Add,
@@ -33,13 +34,158 @@ import { RiShoppingBag3Line } from "react-icons/ri";
 import ErrorMessage from "../../Components/ErrorMessage";
 import AddTenantBookingCheckin from "./AddTenantBookingCheckin";
 
+const indianStates = [
+  { value: "Tamil Nadu", label: "Tamil Nadu" },
+  { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+  { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+  { value: "Assam", label: "Assam" },
+  { value: "Bihar", label: "Bihar" },
+  { value: "Chhattisgarh", label: "Chhattisgarh" },
+  { value: "Goa", label: "Goa" },
+  { value: "Gujarat", label: "Gujarat" },
+  { value: "Haryana", label: "Haryana" },
+  { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+  { value: "Jharkhand", label: "Jharkhand" },
+  { value: "Karnataka", label: "Karnataka" },
+  { value: "Kerala", label: "Kerala" },
+  { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+  { value: "Maharashtra", label: "Maharashtra" },
+  { value: "Manipur", label: "Manipur" },
+  { value: "Meghalaya", label: "Meghalaya" },
+  { value: "Mizoram", label: "Mizoram" },
+  { value: "Nagaland", label: "Nagaland" },
+  { value: "Odisha", label: "Odisha" },
+  { value: "Punjab", label: "Punjab" },
+  { value: "Rajasthan", label: "Rajasthan" },
+  { value: "Sikkim", label: "Sikkim" },
+  { value: "Telangana", label: "Telangana" },
+  { value: "Tripura", label: "Tripura" },
+  { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+  { value: "Uttarakhand", label: "Uttarakhand" },
+  { value: "West Bengal", label: "West Bengal" },
+  {
+    value: "Andaman and Nicobar Islands",
+    label: "Andaman and Nicobar Islands",
+  },
+  { value: "Chandigarh", label: "Chandigarh" },
+  {
+    value: "Dadra and Nagar Haveli and Daman and Diu",
+    label: "Dadra and Nagar Haveli and Daman and Diu",
+  },
+  { value: "Delhi", label: "Delhi" },
+  { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+  { value: "Ladakh", label: "Ladakh" },
+  { value: "Lakshadweep", label: "Lakshadweep" },
+  { value: "Puducherry", label: "Puducherry" },
+];
+
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "45px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 function AddTenant({ showMenu, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
-  const [firstname, setFirstname] = useState("Mathu");
+  const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [Phone, setPhone] = useState("9965003581");
+  const [Phone, setPhone] = useState("");
   const [step, setStep] = useState(1);
   const [hovered, setHovered] = useState(null);
   const [Email, setEmail] = useState("");
@@ -94,67 +240,22 @@ function AddTenant({ showMenu, handleClose }) {
   const handleDeleteAadhaar = () => setAadhaarFile(null);
   const handleDeletePan = () => setPanFile(null);
 
-  const indianStates = [
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
-    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-    { value: "Assam", label: "Assam" },
-    { value: "Bihar", label: "Bihar" },
-    { value: "Chhattisgarh", label: "Chhattisgarh" },
-    { value: "Goa", label: "Goa" },
-    { value: "Gujarat", label: "Gujarat" },
-    { value: "Haryana", label: "Haryana" },
-    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-    { value: "Jharkhand", label: "Jharkhand" },
-    { value: "Karnataka", label: "Karnataka" },
-    { value: "Kerala", label: "Kerala" },
-    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-    { value: "Maharashtra", label: "Maharashtra" },
-    { value: "Manipur", label: "Manipur" },
-    { value: "Meghalaya", label: "Meghalaya" },
-    { value: "Mizoram", label: "Mizoram" },
-    { value: "Nagaland", label: "Nagaland" },
-    { value: "Odisha", label: "Odisha" },
-    { value: "Punjab", label: "Punjab" },
-    { value: "Rajasthan", label: "Rajasthan" },
-    { value: "Sikkim", label: "Sikkim" },
-    { value: "Telangana", label: "Telangana" },
-    { value: "Tripura", label: "Tripura" },
-    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-    { value: "Uttarakhand", label: "Uttarakhand" },
-    { value: "West Bengal", label: "West Bengal" },
-    {
-      value: "Andaman and Nicobar Islands",
-      label: "Andaman and Nicobar Islands",
-    },
-    { value: "Chandigarh", label: "Chandigarh" },
-    {
-      value: "Dadra and Nagar Haveli and Daman and Diu",
-      label: "Dadra and Nagar Haveli and Daman and Diu",
-    },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-    { value: "Ladakh", label: "Ladakh" },
-    { value: "Lakshadweep", label: "Lakshadweep" },
-    { value: "Puducherry", label: "Puducherry" },
-  ];
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id || search.trim() === "") return;
 
-  const usersData = [
-    {
-      id: 1,
-      name: "Charles C",
-      phone: "+91 76049 21098",
-      email: "charles@example.com",
-      avatar: "",
-    },
-    {
-      id: 2,
-      name: "Rajesh K",
-      phone: "+91 98765 47604",
-      email: "",
-      avatar: "",
-    },
-  ];
+    const timer = setTimeout(() => {
+      dispatch({
+        type: "TENANT_SEARCH_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          search,
+        },
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [state.login.selectedHostel_Id, search]);
+
   const handleAadhaarChange = (e) => {
     const file = e.target.files[0];
     if (file) setAadhaarFile(file);
@@ -169,16 +270,12 @@ function AddTenant({ showMenu, handleClose }) {
     setSearch(e.target.value);
   };
 
-  const filteredUsers = usersData.filter((user) =>
-    user.phone.replace(/\s/g, "").includes(search.replace(/\s/g, "")),
-  );
-
   const highlightText = (text, search) => {
     if (!search) return text;
     const regex = new RegExp(`(${search})`, "gi");
     return text.split(regex).map((part, i) =>
       part.toLowerCase() === search.toLowerCase() ? (
-        <span key={i} className="text-green-600 font-semibold ">
+        <span key={i} className="text-black  bg-[#F8FFAC] font-semibold ">
           {part}
         </span>
       ) : (
@@ -227,107 +324,6 @@ function AddTenant({ showMenu, handleClose }) {
 
   const handleInputChange = (e) => {
     setIdProofNo(e.target.value);
-  };
-
-  const CustomStyles = {
-    control: (base, state) => ({
-      ...base,
-      minHeight: "45px",
-      height: "45px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "15px",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      alignItems: "center",
-
-      cursor: state.isDisabled ? "not-allowed" : "pointer",
-      backgroundColor: state.isDisabled
-        ? "#F3F4F6"
-        : state.hasValue
-          ? "#FFF"
-          : "#fff",
-      opacity: state.isDisabled ? 0.7 : 1,
-    }),
-
-    singleValue: (base, state) => ({
-      ...base,
-      color: state.isDisabled ? "#9CA3AF" : "#333",
-      fontWeight: 500,
-    }),
-
-    placeholder: (base, state) => ({
-      ...base,
-      color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-    }),
-
-    option: (base, state) => {
-      const isSelected = state.isSelected;
-
-      return {
-        ...base,
-        position: "relative",
-        fontSize: 14,
-        padding: "6px 12px",
-        backgroundColor: isSelected
-          ? "#EEF2FF"
-          : state.isFocused
-            ? "#F3F4F6"
-            : "#fff",
-        color: "#111827",
-        cursor: "pointer",
-
-        whiteSpace: "nowrap",
-        overflow: "visible",
-
-        paddingLeft: isSelected ? "9px" : "12px",
-
-        ...(isSelected && {
-          borderLeft: "3px solid #1E45E1",
-          fontWeight: 500,
-        }),
-      };
-    },
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#fff",
-      border: "1px solid #E5E7EB",
-      borderRadius: "8px",
-      padding: "6px 0",
-      zIndex: 9999,
-      width: "max-content",
-      minWidth: "100%",
-    }),
-
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "100px",
-      padding: 0,
-      overflowY: "auto",
-    }),
-
-    valueContainer: (base) => ({
-      ...base,
-      padding: "0 8px",
-    }),
-
-    indicatorsContainer: (base) => ({
-      ...base,
-      height: "45px",
-    }),
-
-    dropdownIndicator: (base, state) => ({
-      ...base,
-      padding: "4px",
-      color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-      cursor: state.isDisabled ? "not-allowed" : "pointer",
-    }),
-
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
   };
 
   useEffect(() => {
@@ -519,7 +515,7 @@ function AddTenant({ showMenu, handleClose }) {
     setIsAlreadyTenant(false);
   };
 
-  const handleSaveUserlist = () => {
+  const handleSaveStepOne = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
 
@@ -626,52 +622,37 @@ function AddTenant({ showMenu, handleClose }) {
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
 
-    const basicAndAddressPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      customerInfo: {
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobileNumber: MobileNumber,
-        emailId: Email,
-        type: 1,
-        address: {
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-        },
-      },
-    };
+    // const basicAndAddressPayload = {
+    //   profilePic: file,
+    //   hostelId: state.login.selectedHostel_Id,
+    //   customerInfo: {
+    //     firstName: capitalizedFirstname,
+    //     lastName: capitalizedLastname,
+    //     mobileNumber: MobileNumber,
+    //     emailId: Email,
+    //     type: 1,
+    //     address: {
+    //       houseNo: house_no,
+    //       street: street,
+    //       landmark: landmark,
+    //       city: city,
+    //       pincode: pincode,
+    //       state: state_name,
+    //     },
+    //   },
+    // };
 
-    const basicPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      payloads: {
+    dispatch({
+      type: "SAVE_DRAFT_SAGA",
+      payload: {
+        hostelId: state?.login?.selectedHostel_Id,
         firstName: capitalizedFirstname,
         lastName: capitalizedLastname,
         mobile: MobileNumber,
         emailId: Email,
       },
-    };
-
-    const hasAddress =
-      house_no?.trim() ||
-      street?.trim() ||
-      landmark?.trim() ||
-      city?.trim() ||
-      pincode?.trim() ||
-      state_name?.trim();
-
-    if (hasAddress) {
-      dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
-      setFormLoading(true);
-    } else {
-      dispatch({ type: "CREATECUSTOMERSAVEINFO", payload: basicPayload });
-      setFormLoading(true);
-    }
+    });
+    setFormLoading(true);
   };
 
   useEffect(() => {
@@ -679,6 +660,17 @@ function AddTenant({ showMenu, handleClose }) {
       setFormLoading(false);
     }
   }, [state.UsersList?.phoneError]);
+
+  useEffect(() => {
+    if (state.UsersList?.saveDreaftTenant === 201) {
+      setFormLoading(false);
+      setFirstname("");
+      setLastname("");
+      setEmail("");
+      setMobile("");
+      dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
+    }
+  }, [state.UsersList?.saveDreaftTenant]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -846,15 +838,101 @@ function AddTenant({ showMenu, handleClose }) {
                               <p className="text-sm text-[#505F76] mb-1 font-medium">
                                 Search Mobile Number
                               </p>
-                              <div className="flex items-center border rounded-lg px-3 py-2 bg-white mb-2">
-                                <span className="text-gray-600 mr-4 ">+91</span>
-                                <input
-                                  type="text"
-                                  value={search}
-                                  onChange={handleChange}
-                                  placeholder="Search"
-                                  className="bg-transparent outline-none w-full"
-                                />
+                              <div className="relative w-full">
+                                {/* SEARCH INPUT */}
+                                <div className="flex items-center border rounded-lg px-3 py-2 bg-white mb-2">
+                                  <span className="text-gray-600 mr-4">
+                                    +91
+                                  </span>
+
+                                  <input
+                                    type="text"
+                                    value={search}
+                                    onChange={handleChange}
+                                    placeholder="Search"
+                                    className="bg-transparent outline-none w-full"
+                                  />
+                                </div>
+
+                                {/* DROPDOWN */}
+                                {search && (
+                                  <div className="absolute top-full left-0 w-full z-50 mt-1">
+                                    {state?.UsersList?.searchTenant?.length >
+                                    0 ? (
+                                      <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-lg overflow-hidden max-h-[300px] overflow-y-auto">
+                                        {state?.UsersList?.searchTenant?.map(
+                                          (user, index) => (
+                                            <div
+                                              key={user.id}
+                                              className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${
+                                                index !==
+                                                state?.UsersList?.searchTenant
+                                                  ?.length -
+                                                  1
+                                                  ? "border-b border-[#F1F1F1]"
+                                                  : ""
+                                              }`}
+                                            >
+                                              {user.profilePic ? (
+                                                <img
+                                                  src={user.profilePic}
+                                                  alt="avatar"
+                                                  className="w-10 h-10 rounded-full"
+                                                />
+                                              ) : (
+                                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
+                                                  {user.initials?.charAt(0)}
+                                                </div>
+                                              )}
+
+                                              <div className="flex flex-col">
+                                                <p className="font-medium mb-1">
+                                                  {user.fullName}
+                                                </p>
+
+                                                <div className="flex items-center text-sm text-gray-500 gap-2 flex-wrap">
+                                                  <Mobile
+                                                    size="18"
+                                                    color="#1E45E1"
+                                                  />
+
+                                                  <span>
+                                                    {highlightText(
+                                                      user.mobile,
+                                                      search,
+                                                    )}
+                                                  </span>
+
+                                                  {user.emailId && (
+                                                    <>
+                                                      <span className="bg-[#D9D9D9] h-4 w-[1px]" />
+
+                                                      <Sms
+                                                        size="18"
+                                                        color="#1E45E1"
+                                                      />
+
+                                                      <span>
+                                                        {user.emailId}
+                                                      </span>
+                                                    </>
+                                                  )}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          ),
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <div className="absolute w-full bg-white border border-[#E5E7EB] rounded-lg shadow-lg p-3">
+                                        <NoDataMessage
+                                          label="Tenant"
+                                          isHeightChanged={true}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
                               </div>
                               <span className="text-xs text-[#747686] mb-1 font-medium whitespace-nowrap">
                                 Search existing tenants in the Property flow
@@ -882,63 +960,6 @@ function AddTenant({ showMenu, handleClose }) {
                                 </button>
                               </div>
                             </div>
-                            {/* <div className="bg-white border border-[#FFFFFF] rounded-lg shadow-sm overflow-hidden">
-                                  {search ? (
-                                    filteredUsers.map((user, index) => (
-                                      <div
-                                        key={user.id}
-                                        className={`flex items-center gap-3 p-3 ${
-                                          index !== filteredUsers.length - 1
-                                            ? "border-b"
-                                            : ""
-                                        }`}
-                                      >
-                                        {user.avatar ? (
-                                          <img
-                                            src={user.avatar}
-                                            alt="avatar"
-                                            className="w-10 h-10 rounded-full"
-                                          />
-                                        ) : (
-                                          <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-                                            {user.name.charAt(0)}
-                                          </div>
-                                        )}
-
-                                        <div className="flex flex-col">
-                                          <p className="font-medium">
-                                            {user.name}
-                                          </p>
-
-                                          <div className="flex items-center text-sm text-gray-500 gap-2 flex-wrap">
-                                            <Mobile size="18" color="#1E45E1" />
-                                            <span>
-                                              {highlightText(
-                                                user.phone,
-                                                search,
-                                              )}
-                                            </span>
-
-                                            {user.email && (
-                                              <>
-                                                <span className="bg-[#D9D9D9] h-4 w-[1px]" />
-                                                <Sms
-                                                  size="18"
-                                                  color="#1E45E1"
-                                                />
-                                                <span>{user.email}</span>
-                                              </>
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))
-                                  ) : (
-                                    <p className="text-center text-gray-400 text-sm p-4">
-                                      No users found
-                                    </p>
-                                  )}
-                                </div> */}
                           </div>
                         ) : (
                           <div className="flex flex-col justify-between">
@@ -1175,7 +1196,6 @@ function AddTenant({ showMenu, handleClose }) {
                               </div>
                             </div>
 
-                            {/* Address details  */}
                             <div className="flex justify-between my-3 gap-1">
                               <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
                                 <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
@@ -1364,10 +1384,21 @@ function AddTenant({ showMenu, handleClose }) {
                             <div className="d-flex justify-content-between mt-3">
                               <button
                                 disabled={formLoading || isAlredayTenant}
-                                className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                                // onClick={handleSaveUserlist}
+                                className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1] border border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
+                                  formLoading || isAlredayTenant
+                                    ? "cursor-not-allowed opacity-70"
+                                    : "cursor-pointer"
+                                }`}
+                                onClick={handleSaveStepOne}
                               >
-                                Save Draft
+                                {formLoading ? (
+                                  <>
+                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
+                                    Saving...
+                                  </>
+                                ) : (
+                                  "Save Draft"
+                                )}
                               </button>
                               <button
                                 disabled={isAlredayTenant}
@@ -1699,12 +1730,6 @@ function AddTenant({ showMenu, handleClose }) {
               </div>
             </div>
           </div>
-
-          {formLoading && (
-            <div className="absolute inset-x-0 top-24 bottom-0 flex items-center justify-center bg-transparent opacity-75 z-10">
-              <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
-            </div>
-          )}
         </div>
       </div>
     </>

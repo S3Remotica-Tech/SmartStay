@@ -158,6 +158,27 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
 
+  const stayTypes = [
+    { value: "SHORT", label: "Short Stay" },
+    { value: "LONG", label: "Long Stay" },
+    { value: "DAY", label: "Day Stay" },
+  ];
+  const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
+
+  const [selectedStayType, setSelectedStayType] = useState(null);
+  const [stay_typenameErrmsg, setStay_typenameErrmsg] = useState("");
+
+  const handleStayTypeChange = (selectedOption) => {
+    setSelectedStayType(selectedOption);
+
+    if (!selectedOption) {
+      setStay_typenameErrmsg("Please select stay type");
+      return;
+    }
+
+    setStay_typenameErrmsg("");
+  };
+
   const handleTransactionId = (e) => {
     const value = e.target.value;
     const regex = /^[A-Za-z0-9_.-]*$/;
@@ -573,6 +594,34 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
                   style={{ fontSize: 10 }}
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 mb-2">
+            <div className="mb-2">
+              <label className="mb-2 block font-gilroy text-sm font-medium leading-normal text-[#222222]">
+                Stay Type <span className="text-xl text-red-600">*</span>
+              </label>
+
+              <Select
+                options={longStayOnly}
+                value={selectedStayType}
+                onChange={(selectedOption) => {
+                  setSelectedStayType(selectedOption);
+                  handleStayTypeChange(selectedOption);
+
+                  setStay_typenameErrmsg("");
+                }}
+                placeholder="Select a type"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No stay types available"}
+                styles={CustomStyles}
+              />
+
+              {stay_typenameErrmsg?.trim() !== "" && (
+                <ErrorMessage message={stay_typenameErrmsg} type="error" />
+              )}
             </div>
           </div>
 

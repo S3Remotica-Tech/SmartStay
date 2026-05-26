@@ -36,6 +36,15 @@ export async function userlist(users) {
   });
 }
 
+export async function tenantSearch(tenant) {
+  const params = {};
+
+  if (tenant.search) params.search = tenant.search;
+  return await AxiosConfigV2.get(`/v3/customers/search/${tenant.hostelId}`, {
+    params,
+  });
+}
+
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
     params: {
@@ -171,6 +180,17 @@ export async function CheckIn(CheckIn) {
     CheckIn,
     {
       data: CheckIn,
+    },
+  );
+}
+
+export async function SaveDraftTenant(tenant) {
+  console.log("save draft ", tenant);
+  return await AxiosConfigV2.post(
+    `/v3/customers/saveDraft/${tenant.hostelId}`,
+    tenant,
+    {
+      data: tenant,
     },
   );
 }
@@ -612,7 +632,6 @@ export async function customerReAssignBed(hostelId, customerId, datum) {
 }
 
 export async function customerAddContact(contact) {
-  
   return await AxiosConfigV2.put(
     `/v2/customers/additional-contacts/${contact.hostelId}/${contact.customerId}`,
     contact,
