@@ -23,6 +23,7 @@ import Addbooking from "./Addbookingform";
 import UserlistForm from "./UserlistForm";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import DirectCheckin from "./DirectCheckin";
 
 function UserlistWalkin() {
   const state = useSelector((state) => state);
@@ -30,6 +31,7 @@ function UserlistWalkin() {
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
+  const [showFormCheckInNew, setShowFormCheckInNew] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -53,7 +55,7 @@ function UserlistWalkin() {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
   const [deleteShow, setDeleteShow] = useState(false);
-
+  const isDev = import.meta.env.MODE === "development";
   const calledOnceRef = useRef(false);
 
   useEffect(() => {
@@ -165,8 +167,17 @@ function UserlistWalkin() {
     // setCheckInNew(false)
   };
 
+  const handleCheckInNew = (data) => {
+    setShowFormCheckInNew(true);
+    setTenantDetails(data);
+  };
+
   const handleCloseCheckInForm = () => {
     setShowFormCheckIn(false);
+  };
+
+  const handleCloseCheckInFormNew = () => {
+    setShowFormCheckInNew(false);
   };
 
   useEffect(() => {
@@ -396,40 +407,69 @@ function UserlistWalkin() {
                                   }`}
                                 />
 
-                                {dotsButton === v.customerId && (
-                                  <div
-                                    ref={popupRef}
-                                    className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
-                                    style={{
-                                      top: popupPosition.top - 15,
-                                      left: popupPosition.left - 10,
-                                    }}
-                                  >
+                                  {dotsButton === v.customerId && (
                                     <div
-                                      onClick={() =>
-                                        canWriteTenant && handleCheckIn(v)
-                                      }
-                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
-                                        canWriteTenant
-                                          ? "cursor-pointer hover:bg-blue-50"
-                                          : "cursor-not-allowed opacity-50"
-                                      }`}
+                                      ref={popupRef}
+                                      className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
+                                      style={{
+                                        top: popupPosition.top - 15,
+                                        left: popupPosition.left - 10,
+                                      }}
                                     >
-                                      <img
-                                        src={addcircle}
-                                        alt="Assign Bed"
-                                        className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
-                                      />
-                                      <label
-                                        className={`text-sm font-medium ${
+                                      <div
+                                        onClick={() =>
+                                          canWriteTenant && handleCheckIn(v)
+                                        }
+                                        className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
                                           canWriteTenant
-                                            ? "text-gray-900 cursor-pointer"
-                                            : "text-gray-400 cursor-not-allowed"
+                                            ? "cursor-pointer hover:bg-blue-50"
+                                            : "cursor-not-allowed opacity-50"
                                         }`}
                                       >
-                                        Check-In
-                                      </label>
-                                    </div>
+                                        <img
+                                          src={addcircle}
+                                          alt="Assign Bed"
+                                          className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
+                                        />
+                                        <label
+                                          className={`text-sm font-medium ${
+                                            canWriteTenant
+                                              ? "text-gray-900 cursor-pointer"
+                                              : "text-gray-400 cursor-not-allowed"
+                                          }`}
+                                        >
+                                          Check-In
+                                        </label>
+                                      </div>
+
+                                      {isDev && (
+                                        <div
+                                          onClick={() =>
+                                            canWriteTenant &&
+                                            handleCheckInNew(v)
+                                          }
+                                          className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                            canWriteTenant
+                                              ? "cursor-pointer hover:bg-blue-50"
+                                              : "cursor-not-allowed opacity-50"
+                                          }`}
+                                        >
+                                          <img
+                                            src={addcircle}
+                                            alt="Assign Bed"
+                                            className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
+                                          />
+                                          <label
+                                            className={`text-sm font-medium ${
+                                              canWriteTenant
+                                                ? "text-gray-900 cursor-pointer"
+                                                : "text-gray-400 cursor-not-allowed"
+                                            }`}
+                                          >
+                                            Check-In New
+                                          </label>
+                                        </div>
+                                      )}
 
                                     <div
                                       onClick={() =>
@@ -516,6 +556,14 @@ function UserlistWalkin() {
           EditObj={tenantDetails}
           showAssignMenu={showFormCheckIn}
           setShowAssignMenu={handleCloseCheckInForm}
+        />
+      )}
+
+      {showFormCheckInNew && (
+        <DirectCheckin
+          tenantDetails={tenantDetails}
+          show={showFormCheckInNew}
+          handleClose={handleCloseCheckInFormNew}
         />
       )}
 

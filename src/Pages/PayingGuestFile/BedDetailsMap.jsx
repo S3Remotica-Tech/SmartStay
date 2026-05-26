@@ -53,6 +53,8 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     bed: null,
     room: null,
   });
+
+  // const [hoveredBedId, setHoveredBedId] = useState(null);
   const [customer, setCustomer] = useState([]);
   const [add_customerform, setAddCustomerForm] = useState(false);
   const [assign_tenantform, setAssignTenantForm] = useState(false);
@@ -423,8 +425,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   console.log("bedsForRoom", bedsForRoom);
 
   console.log("state.PgList?.bedList", state.PgList?.bedList);
-
- 
 
   const filteredBeds = React.useMemo(() => {
     if (!state.login.isTrigger) return bedsForRoom;
