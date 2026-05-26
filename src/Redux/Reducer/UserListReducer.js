@@ -171,7 +171,11 @@ export const initialState = {
   successTenantCustomizeColumns: 0,
   templatesGlobalImagesDeleteStatusCode: 0,
   tenantListGetSuccessCode: 0,
+  draftTenantDetails: "",
   bedInitiaLizeError: "",
+  searchTenant: [],
+  statuscodeForSearchTenant: 0,
+
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -185,7 +189,6 @@ export const initialState = {
 };
 
 const UserListReducer = (state = initialState, action) => {
- 
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
@@ -204,6 +207,20 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
       return { ...state, accessRestrictionError: "" };
+
+    case "SAVE_DRAFT_REDUCER":
+      return {
+        ...state,
+        saveDreaftTenant: action.payload.statusCode,
+        draftTenantDetails: action.payload.response,
+      };
+    case "REMOVE_SAVE_DRAFT_REDUCER":
+      return { ...state, saveDreaftTenant: 0 };
+
+    case "DRAFT_ERROR":
+      return { ...state, saveDreaftTenantError: action.payload };
+    case "REMOVE_DRAFT_ERROR":
+      return { ...state, saveDreaftTenantError: "" };
 
     case "TENANT_LIST_REDUCER":
       return {
@@ -919,6 +936,20 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADHAR_UPLOAD_ERROR":
       return { ...state, adharuploadfileError: "" };
+
+    case "TENANT_SEARCH_LIST_REDUCER":
+      return {
+        ...state,
+        searchTenant: action.payload.response,
+        statuscodeForSearchTenant: action.payload.statusCode,
+      };
+
+    case "REMOVE_TENANT_SEARCH_LIST_REDUCER":
+      return {
+        ...state,
+        statuscodeForSearchTenant: 0,
+      };
+
     case "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE":
       return { ...state, statuscodeForAdharFileError: 0 };
 

@@ -75,6 +75,8 @@ import {
   GenerateDetails,
   conformCheckout,
   TenantListGet,
+  tenantSearch,
+  SaveDraftTenant,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -98,6 +100,64 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleSaveDraft(draft) {
+  try {
+    const response = yield call(SaveDraftTenant, draft.payload);
+
+    console.log("response", response);
+
+    if (response?.status === 201) {
+      yield put({
+        type: "SAVE_DRAFT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Created Successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      if (error.response.data.emailStatus !== "") {
+        yield put({
+          type: "EMAIL_ERROR",
+          payload: error.response.data.emailStatus,
+        });
+      } else if (error.response.data.mobileStatus !== "") {
+        yield put({
+          type: "PHONE_ERROR",
+          payload: error.response.data.mobileStatus,
+        });
+      }
+    }
   }
 }
 
@@ -955,6 +1015,27 @@ function* handleCheckIn(datum) {
         });
       }
     }
+  }
+}
+
+function* handleSearchTenant(user) {
+  try {
+    const response = yield call(tenantSearch, user.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "TENANT_SEARCH_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
   }
 }
 
@@ -3237,6 +3318,9 @@ function* handleCheckoutProfile(action) {
 }
 
 function* UserListSaga() {
+  yield takeEvery("SAVE_DRAFT_SAGA", handleSaveDraft);
+  yield takeEvery("TENANT_SEARCH_LIST_SAGA", handleSearchTenant);
+
   yield takeEvery(
     "DELETE_GLOBAL_TEMPLATES_IMAGES_SAGA",
     handleDeleteGlobalTemplatesImages,

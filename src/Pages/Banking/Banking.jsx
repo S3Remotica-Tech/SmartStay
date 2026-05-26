@@ -31,6 +31,7 @@ import { useLocation } from "react-router-dom";
 import { Setting3, SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import SelfTransfer from "./SelfTransfer";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -70,6 +71,7 @@ function Banking() {
   const [bankking, setBanking] = useState("");
   const tableContainerRef = useRef(null);
   const [selfTranfer, setSelfTransfer] = useState(false);
+  const [selfDetails, setSelfDetails] = useState("");
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
@@ -93,6 +95,10 @@ function Banking() {
   }, [canReadBanking]);
 
   const isBankingForm = location.state?.isBankingForm || false;
+
+  const handleCloseSelfTransfer = () => {
+    setSelfTransfer(false);
+  };
 
   useEffect(() => {
     setShowForm(isBankingForm);
@@ -249,9 +255,10 @@ function Banking() {
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
 
-  const handleOpenSelfTransfer = () => {
+  const handleOpenSelfTransfer = (item) => {
     setOpenMenuId(null);
     setSelfTransfer(true);
+    setSelfDetails(item);
   };
   const handleCloseSElfTransfer = () => {
     setSelfTransfer(false);
@@ -566,9 +573,10 @@ function Banking() {
     }`}
                   >
                     <input
-                      disabled={!canReadBanking}
+                      disabled
+                      // disabled={!canReadBanking}
                       type="text"
-                      className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]"
+                      className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] disabled:cursor-not-allowed"
                       placeholder="Search"
                       aria-label="Search"
                       value={filterInput}
@@ -694,8 +702,9 @@ function Banking() {
                                   className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
                                 >
                                   <button
-                                    disabled
-                                    // disabled={!(canWriteBanking && !item.isDeleted)}
+                                    disabled={
+                                      !(canWriteBanking && !item.isDeleted)
+                                    }
                                     onClick={() => handleOpenSelfTransfer(item)}
                                     className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
     disabled:cursor-not-allowed disabled:opacity-50
@@ -800,7 +809,22 @@ function Banking() {
                                 Change
                               </span>
                             </div>
-
+                            <div className="flex justify-end my-1">
+                              <span
+                                className={`text-sm font-semibold font-gilroy ${
+                                  canWriteBanking && !item.isDeleted
+                                    ? "text-blue-600 cursor-pointer"
+                                    : "text-gray-400 cursor-not-allowed"
+                                }`}
+                                onClick={() => {
+                                  if (canWriteBanking && !item.isDeleted) {
+                                    handleShowAddBalance(item);
+                                  }
+                                }}
+                              >
+                                +Add Amount
+                              </span>
+                            </div>
                             {showAccountTypeOptions === item.bankingId && (
                               <div
                                 className="
@@ -861,28 +885,9 @@ function Banking() {
                               Balance
                             </span>
 
-                            {item.accountBalance === 0 ||
-                            item.accountBalance === "" ||
-                            item.accountBalance === null ? (
-                              <span
-                                className={`text-sm font-semibold font-gilroy ${
-                                  canWriteBanking && !item.isDeleted
-                                    ? "text-blue-600 cursor-pointer"
-                                    : "text-gray-400 cursor-not-allowed"
-                                }`}
-                                onClick={() => {
-                                  if (canWriteBanking && !item.isDeleted) {
-                                    handleShowAddBalance(item);
-                                  }
-                                }}
-                              >
-                                +Add Amount
-                              </span>
-                            ) : (
-                              <span className="text-sm font-semibold text-black font-gilroy">
-                                ₹{item.accountBalance}
-                              </span>
-                            )}
+                            <span className="text-sm font-semibold text-black font-gilroy">
+                              ₹{item.accountBalance}
+                            </span>
                           </div>
                         </div>
                       );
@@ -1083,147 +1088,13 @@ function Banking() {
             )}
           </Modal>
 
-          <Modal
-            show={selfTranfer}
-            onHide={handleCloseSElfTransfer}
-            centered
-            backdrop="static"
-          >
-            <Modal.Header className="relative">
-              <div className="text-[1.25rem] font-semibold font-gilroy text-[#1E45E1]">
-                Self Transfer
-              </div>
-              <CloseCircle
-                size="24"
-                color="#000"
-                className="cursor pointer"
-                onClick={handleCloseSElfTransfer}
-              />
-            </Modal.Header>
-
-            <Modal.Body>
-              <div>
-                <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy">
-                  From
-                </h6>
-
-                <div className="flex items-center p-3 border-b border-[#ccc]">
-                  <img
-                    src={banklogo}
-                    className="-mt-2 mr-3 w-12 h-12"
-                    alt="bank"
-                  />
-
-                  <div className="w-full flex justify-between items-start">
-                    <div>
-                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        Canara Bank
-                      </div>
-                      <div className="text-xs text-gray-500 font-gilroy">
-                        Savings A/C
-                      </div>
-                    </div>
-
-                    <div className="text-right font-gilroy">
-                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                        Immanuel
-                      </div>
-                      <div className="text-xs font-normal font-gilroy mb-0.5">
-                        4561 2013 6210 6540
-                      </div>
-                      <div className="text-xs font-semibold text-[#1E45E1]">
-                        Avl Bal : ₹10,000.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-3">
-                <h6 className="mt-1 text-[#4B4B4B] text-base font-medium font-gilroy">
-                  To
-                </h6>
-                <div className="flex items-center p-3">
-                  <img
-                    src={banklogo}
-                    className="-mt-2 mr-3 w-12 h-12"
-                    alt="bank"
-                  />
-                  <div className="w-full flex justify-between items-start">
-                    <div>
-                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        State Bank of India
-                      </div>
-                      <div className="text-xs text-gray-500 font-gilroy">
-                        Savings A/C
-                      </div>
-                    </div>
-
-                    <div className="text-right font-gilroy">
-                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                        Immanuel
-                      </div>
-                      <div className="text-xs font-normal font-gilroy mb-0.5">
-                        4561 2013 6210 6540
-                      </div>
-                      <div className="text-xs font-semibold text-[#1E45E1] ">
-                        Avl Bal : ₹10,000.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center p-3 -mt-2">
-                  <img
-                    src={banklogo}
-                    className="-mt-2 mr-3 w-12 h-12"
-                    alt="bank"
-                  />
-                  <div className="w-full flex justify-between items-start">
-                    <div>
-                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        ICICI
-                      </div>
-                      <div className="text-xs text-gray-500 font-gilroy">
-                        Savings A/C
-                      </div>
-                    </div>
-
-                    <div className="text-right font-gilroy">
-                      <div className="font-medium text-[#1A1A1A] text-sm  mb-0.5">
-                        Immanuel
-                      </div>
-                      <div className="text-xs font-normal font-gilroy mb-0.5">
-                        4561 2013 6210 6540
-                      </div>
-                      <div className="text-xs font-semibold text-[#1E45E1] ">
-                        Avl Bal : ₹10,000.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="input-group">
-                <span className="input-group-text bg-white border-r-0 rounded-l-md">
-                  ₹
-                </span>
-                <input
-                  type="text"
-                  className="form-control border-l-0 rounded-r-md shadow-none outline-none font-gilroy"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="text-right mt-3">
-                <Button variant="primary" disabled>
-                  {/* Transfer */} Coming Soon
-                </Button>
-              </div>
-            </Modal.Body>
-          </Modal>
+          {selfTranfer && (
+            <SelfTransfer
+              show={selfTranfer}
+              handleClose={handleCloseSelfTransfer}
+              selfDetails={selfDetails}
+            />
+          )}
 
           {showForm === true ? (
             <BankingAddForm
