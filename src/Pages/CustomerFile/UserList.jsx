@@ -897,7 +897,9 @@ function UserList(props) {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const [showMenu, setShowMenu] = useState(false);
+  const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
   const [showAssignMenu, setShowAssignMenu] = useState(false);
+ 
   const [showForm, setShowForm] = useState(false);
   const [edit, setEdit] = useState("");
   const [EditObj, setEditObj] = useState("");
@@ -905,6 +907,8 @@ function UserList(props) {
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
+
+  const isDev = import.meta.env.MODE === "development";
 
   const handleShowDots = (id, event) => {
     setActiveRow((prev) => (prev === id ? null : id));
@@ -1021,6 +1025,10 @@ function UserList(props) {
     setEditObj(u);
   };
 
+  const handleShowAddTenant = () => {
+    setShowMenuNewTenant(true);
+  };
+
   const handleChange = (key) => {
     setValue(key);
     setSearch(false);
@@ -1091,16 +1099,16 @@ function UserList(props) {
     setAddBasicDetail(false);
     setEditObj(u);
   };
-  const handleShowAssignBed = (u) => {
-    setEdit("Edit");
-    handleMenuClick();
-    setShowMenu(false);
-    setShowAssignMenu(true);
-    setAdvanceForm(false);
-    setAddCheckoutForm(false);
-    setAddBasicDetail(false);
-    setEditObj(u);
-  };
+  // const handleShowAssignBed = (u) => {
+  //   setEdit("Edit");
+  //   handleMenuClick();
+  //   setShowMenu(false);
+  //   setShowAssignMenu(true);
+  //   setAdvanceForm(false);
+  //   setAddCheckoutForm(false);
+  //   setAddBasicDetail(false);
+  //   setEditObj(u);
+  // };
 
   const [hostelIds, setHostelIds] = useState("");
 
@@ -1639,6 +1647,10 @@ function UserList(props) {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     setShowMenu(false);
+  };
+
+  const handleCloseAddTenant = () => {
+    setShowMenuNewTenant(false);
   };
 
   const handleCloseBackToCheckIn = () => {
@@ -2318,13 +2330,25 @@ function UserList(props) {
               )}
 
               {value === "4" && (
-                <button
-                  disabled={!canWriteWalkin}
-                  onClick={handleShow}
-                  className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
-                >
-                  + Walk-In
-                </button>
+                <>
+                  <button
+                    disabled={!canWriteWalkin}
+                    onClick={handleShow}
+                    className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
+                  >
+                    + Walk-In
+                  </button>
+
+                  {isDev && (
+                    <button
+                      disabled={!canWriteWalkin}
+                      onClick={handleShowAddTenant}
+                      className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
+                    >
+                      + Walk-In New
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -3393,8 +3417,14 @@ function UserList(props) {
       ) : null}
 
       {showMenu && (
-        // <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
-        <AddTenant showMenu={showMenu} handleClose={handleCloseAddCustomer} />
+        <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
+      )}
+
+      {showMenuNewTenant && (
+        <AddTenant
+          showMenu={showMenuNewTenant}
+          handleClose={handleCloseAddTenant}
+        />
       )}
 
       {BookingAssignForm && (
@@ -3443,6 +3473,9 @@ function UserList(props) {
           // setBacktoCheckInForm={setBacktoCheckInForm}
         />
       )}
+
+
+    
 
       {finalsettlepage && (
         <FinalOld

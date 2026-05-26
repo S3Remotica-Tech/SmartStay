@@ -21,6 +21,7 @@ import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
 import UserlistForm from "./UserlistForm";
+import DirectCheckin from "./DirectCheckin";
 
 function UserlistWalkin() {
   const state = useSelector((state) => state);
@@ -28,6 +29,7 @@ function UserlistWalkin() {
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
+  const [showFormCheckInNew, setShowFormCheckInNew] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
@@ -51,7 +53,7 @@ function UserlistWalkin() {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
   const [deleteShow, setDeleteShow] = useState(false);
-
+  const isDev = import.meta.env.MODE === "development";
   const calledOnceRef = useRef(false);
 
   useEffect(() => {
@@ -161,6 +163,11 @@ function UserlistWalkin() {
     setShowFormCheckIn(true);
     setTenantDetails(data);
     // setCheckInNew(false)
+  };
+
+  const handleCheckInNew = (data) => {
+    setShowFormCheckInNew(true);
+    setTenantDetails(data);
   };
 
   const handleCloseCheckInForm = () => {
@@ -433,6 +440,35 @@ function UserlistWalkin() {
                                         </label>
                                       </div>
 
+                                      {isDev && (
+                                        <div
+                                          onClick={() =>
+                                            canWriteTenant &&
+                                            handleCheckInNew(v)
+                                          }
+                                          className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                            canWriteTenant
+                                              ? "cursor-pointer hover:bg-blue-50"
+                                              : "cursor-not-allowed opacity-50"
+                                          }`}
+                                        >
+                                          <img
+                                            src={addcircle}
+                                            alt="Assign Bed"
+                                            className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
+                                          />
+                                          <label
+                                            className={`text-sm font-medium ${
+                                              canWriteTenant
+                                                ? "text-gray-900 cursor-pointer"
+                                                : "text-gray-400 cursor-not-allowed"
+                                            }`}
+                                          >
+                                            Check-In New
+                                          </label>
+                                        </div>
+                                      )}
+
                                       <div
                                         onClick={() =>
                                           canWriteBooking && handleBooking(v)
@@ -533,6 +569,15 @@ function UserlistWalkin() {
           setShowAssignMenu={handleCloseCheckInForm}
         />
       )}
+
+{ showFormCheckInNew && (
+  <DirectCheckin    EditObj={tenantDetails}
+          showAssignMenu={showFormCheckIn}
+          setShowAssignMenu={handleCloseCheckInForm}/>
+)}
+
+
+
 
       <Modal
         show={deleteShow}
