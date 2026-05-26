@@ -12,6 +12,7 @@ import {
   Setting3,
   MessageQuestion,
   Edit2,
+  ArrowRight,
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { IoBedOutline } from "react-icons/io5";
@@ -127,7 +128,7 @@ const CustomStyles = {
   }),
 };
 
-function AddTenantBookingCheckin({ handleClose }) {
+function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -141,9 +142,7 @@ function AddTenantBookingCheckin({ handleClose }) {
   const [bookingBed, setBookingBed] = useState(null);
   const [totalRent, setTotalRent] = useState("");
   const [errors, setErrors] = useState([]);
-  const [fields, setFields] = useState([
-    { reason_name: "", amount: "", showInput: false },
-  ]);
+  const [fields, setFields] = useState([]);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [pgLayout, setPgLatyout] = useState(false);
   const [joiningDate, setJoiningDate] = useState("");
@@ -156,6 +155,8 @@ function AddTenantBookingCheckin({ handleClose }) {
   const [transactionId, setTransactionId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [reading, setReading] = useState("");
+  const [advanceAmountError, setAdvanceAmountError] = useState("");
+  const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
 
   const handleTransactionId = (e) => {
     const value = e.target.value;
@@ -171,7 +172,14 @@ function AddTenantBookingCheckin({ handleClose }) {
   const handleBookingDateChange = (date) => {
     setBookingDate(date ? date.toDate() : null);
   };
+  const handleAdvanceAmount = (e) => {
+    const value = e.target.value;
 
+    if (value === "" || /^(0|[1-9]\d*)$/.test(value)) {
+      setAdvanceAmount(value);
+      setAdvanceAmountError("");
+    }
+  };
   const handleBookingAmountChange = (e) => {
     setBookingAmount(e.target.value);
   };
@@ -523,24 +531,24 @@ function AddTenantBookingCheckin({ handleClose }) {
 
           <div className="flex justify-between mt-3">
             <button
-              className="bg-gray-200 text-gray-600 px-4 py-2 rounded !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-              onClick={handleClose}
+              // disabled={formLoading || isAlredayTenant}
+              className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
+              // onClick={handleSaveUserlist}
             >
-              Cancel
+              Save Draft
             </button>
             <div className="flex gap-2">
-              <button
-                // disabled={formLoading || isAlredayTenant}
-                className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                // onClick={handleSaveUserlist}
-              >
-                Save Draft
-              </button>
               <button
                 // disabled={isAlredayTenant}
                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
               >
                 Book
+              </button>
+              <button
+                className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                onClick={handleNextStep}
+              >
+                Next <ArrowRight color="#FFFFFF" size="18" />
               </button>
             </div>
           </div>
@@ -620,75 +628,69 @@ function AddTenantBookingCheckin({ handleClose }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-2">
-            <div className="mb-2">
-              <label className="text-sm font-medium text-[#222222] mb-2 block">
-                Advance Amount <span className="text-red-500 text-xl">*</span>
-              </label>
+          <div className="grid grid-cols-12 gap-x-4">
+            <div className="col-span-12">
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-gray-800 font-gilroy font-medium">
+                  Advance amount ₹ (INR)
+                  {!isAdvanceRefused && (
+                    <span className="text-red-500 text-xl">*</span>
+                  )}
+                </label>
+
+                <div className="flex items-center justify-between mt-1 gap-2 mb-2">
+                  <span className="text-xs text-gray-700 font-medium">
+                    Do you want to refuse advance amount?
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsAdvanceRefused(!isAdvanceRefused);
+                      if (!isAdvanceRefused) setAdvanceAmount("");
+                    }}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                      isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                        isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+
               <input
-                placeholder="Enter Advance Amount"
+                type="text"
+                placeholder="Enter Amount"
                 value={advanceAmount}
-                onChange={handleAdvanceAmountChange}
-                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                onChange={handleAdvanceAmount}
+                disabled={isAdvanceRefused}
+                className={`w-full text-[14px] text-gray-700 font-gilroy ${
+                  advanceAmount ? "font-semibold" : "font-medium"
+                } shadow-none border h-12 rounded-md px-3 outline-none ${
+                  isAdvanceRefused
+                    ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                    : "border-gray-300"
+                }`}
               />
-            </div>
-            <div className="mb-2">
-              <label className="text-sm font-medium text-[#222222] mb-2 block">
-                Rental Amount <span className="text-red-500 text-xl">*</span>
-              </label>
-              <input
-                placeholder="Enter Rental Amount"
-                value={rentAmount}
-                onChange={handleRentAmountChange}
-                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-              />
-            </div>
-          </div>
 
-          <div className="mb-2">
-            <label className="text-xs text-gray-600 font-medium mb-1 block">
-              EB Reading
-            </label>
-
-            <div className="flex items-center justify-between border border-[#C8D3FF]  rounded-lg px-3 h-[44px]">
-              {isEditing ? (
-                <input
-                  type="number"
-                  value={reading}
-                  onChange={(e) => setReading(e.target.value)}
-                  onBlur={() => setIsEditing(false)}
-                  autoFocus
-                  className="w-full bg-transparent outline-none text-[14px] text-gray-800 font-medium"
-                />
-              ) : (
-                <span className="text-[14px] text-gray-800 font-medium">
-                  {reading || "Enter reading"}
-                </span>
+              {!isAdvanceRefused && advanceAmountError && (
+                <ErrorMessage message={advanceAmountError} type="error" />
               )}
-
-              <Edit2
-                size={16}
-                className="text-gray-500 cursor-pointer ml-2"
-                onClick={() => setIsEditing(true)}
-              />
             </div>
+          </div>
 
-            <div className="flex items-center gap-2 mt-2 bg-[#FEF3C7] text-[#92400E] text-[12px] px-3 py-2 rounded-md">
-              <MessageQuestion size="18" />
-              <label>
-                This reading was calculated using the room's last entry. Edit if
-                the Reading is Wrong.
+          <div className="border-1 rounded-lg border-[#F2F4F6]  bg-[#F7FAFF] my-3">
+            <div className="p-2">
+              <label className="text-sm font-gilroy font-medium  text-[#222222]">
+                Non Refundable Amount
               </label>
             </div>
-          </div>
 
-          <div className="my-2">
-            <label className="text-sm font-gilroy font-medium  text-[#222222]">
-              Non Refundable Amount
-            </label>
-          </div>
-          <div className="border rounded-lg border-[#F3F3F3]">
-            <div className="bg-[#FFFFFF] rounded-lg pb-1 mt-3 mb-3">
+            <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
               {fields.map((item, index) => {
                 const isMaintenanceSelected = fields.some(
                   (field) => field.reason === "maintenance",
@@ -807,29 +809,45 @@ function AddTenantBookingCheckin({ handleClose }) {
                 );
               })}
             </div>
-            <div className="flex justify-end">
+            <div className="flex w-full px-4">
               <button
                 onClick={handleAddField}
-                className="!flex !items-center !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1] !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
+                className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1] !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
               >
                 <AddCircle color="#1E45E1" size="16" />
                 Add
               </button>
             </div>
-            <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
+            {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
               <span className="text-[#505F76] text-xs ">
                 TOTAL FIXED CHARGES
               </span>
               <span className="text-[#191C1E] text-base">
                 ₹ {total.toLocaleString()}
               </span>
-            </div>
+            </div> */}
           </div>
 
           <div className="text-[#505F76] text-xs font-medium text-justify flex flex-wrap my-2 pe-16">
             Note: These charges are deducted from the initial security deposit
             or collected at the time of check-in and are non-adjustable.
           </div>
+
+          <div className="grid grid-cols-1 gap-4 mb-2">
+            <div className="mb-2">
+              <label className="text-sm font-medium text-[#222222] mb-2 block">
+                Rental amount-Base ₹(INR){" "}
+                <span className="text-red-500 text-xl">*</span>
+              </label>
+              <input
+                placeholder="Enter Rental Amount"
+                value={rentAmount}
+                onChange={handleRentAmountChange}
+                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+              />
+            </div>
+          </div>
+
           <div className="flex items-center gap-2 my-4">
             <input
               type="checkbox"
@@ -840,26 +858,34 @@ function AddTenantBookingCheckin({ handleClose }) {
             </span>
           </div>
 
-          <div className="flex justify-between mt-3">
+          {/* <div className="flex justify-between mt-3">
             <button
               className="bg-gray-200 text-gray-600 px-4 py-2 rounded !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
               onClick={handleClose}
             >
               Cancel
             </button>
+          </div> */}
+          <div className="flex justify-between mt-3">
+            <button
+              // disabled={formLoading || isAlredayTenant}
+              className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
+              // onClick={handleSaveUserlist}
+            >
+              Save Draft
+            </button>
             <div className="flex gap-2">
-              <button
-                // disabled={formLoading || isAlredayTenant}
-                className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                // onClick={handleSaveUserlist}
-              >
-                Save Draft
-              </button>
               <button
                 // disabled={isAlredayTenant}
                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
               >
-                Check-In
+                Check in
+              </button>
+              <button
+                className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                onClick={handleNextStep}
+              >
+                Next <ArrowRight color="#FFFFFF" size="18" />
               </button>
             </div>
           </div>

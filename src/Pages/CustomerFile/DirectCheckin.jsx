@@ -122,7 +122,7 @@ const CustomStyles = {
     display: "none",
   }),
 };
-function DirectCheckin(props) {
+function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -331,40 +331,27 @@ function DirectCheckin(props) {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
-    if (props?.setShowForm) props.setShowForm(false);
-    if (props?.OnShowTable) props.OnShowTable(true);
-    if (props.edit === "Edit") {
-      if (props?.OnShowTable) props.OnShowTable(true);
-    } else {
-      if (props?.setRoomDetail) props.setRoomDetail(false);
-    }
   };
 
-  console.log("props.EditObj", props.EditObj);
+  console.log("tenantDetails", tenantDetails);
 
   useEffect(() => {
-    if (props.EditObj && props.EditObj.customerId) {
-      setId(props.EditObj.customerId);
-      if (props.EditObj.profilePic === 0) setFile(null);
+    if (tenantDetails?.customerId) {
+      setId(tenantDetails?.customerId);
+      if (tenantDetails?.profilePic === 0) setFile(null);
       else {
-        setFile(props.EditObj.profilePic);
+        setFile(tenantDetails?.profilePic);
       }
 
       setFirstname(
-        props.EditObj?.firstName ||
-          props.EditObj?.name ||
-          props.EditObj?.fullName,
+        tenantDetails?.firstName ||
+          tenantDetails?.name ||
+          tenantDetails?.fullName,
       );
-      // setLastname(props.EditObj?.lastName);
 
-      setRooms(props.EditObj.Rooms || props.EditObj?.room);
-    } else {
-      if (typeof props.setEdit === "function") {
-        props.setEdit("Add");
-      }
+      setRooms(tenantDetails.Rooms || tenantDetails?.room);
     }
-  }, [props.EditObj]);
+  }, [tenantDetails]);
 
   const handleSaveUserlistAddUser = async () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
@@ -520,50 +507,6 @@ function DirectCheckin(props) {
   };
 
   useEffect(() => {
-    if (props.BookingAssignForm) {
-      setId(props.EditObj.ID);
-      if (props.EditObj.profile === 0) setFile(null);
-      else {
-        setFile(props.EditObj.profile);
-      }
-
-      if (props.EditObj?.Name) {
-        const value = props.EditObj.Name.trim().split(" ");
-        setFirstname(value[0] || "");
-        setLastname(value[1] || "");
-      } else {
-        setFirstname("");
-        setLastname("");
-      }
-
-      setRooms(props.EditObj.booking_room_id);
-      setBed(props.EditObj.booking_bed_id);
-
-      setFloor(props.EditObj.booking_floor_id);
-      setSelectedDate(props.EditObj.booking_joining_date);
-
-      setFile(props.EditObj.profile);
-
-      const Bedfilter = state?.UsersList?.roomdetails?.filter(
-        (u) =>
-          String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
-          String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
-          String(u.Room_Id) === String(props?.EditObj?.booking_room_id),
-      );
-
-      const Roomamountfilter =
-        Bedfilter?.[0]?.bed_details?.filter(
-          (amount) =>
-            String(amount.id) === String(props?.EditObj?.booking_bed_id),
-        ) ?? [];
-
-      if (Roomamountfilter.length > 0) {
-        setRoomRent(Roomamountfilter[0]?.bed_amount);
-      }
-    }
-  }, [props.BookingAssignForm]);
-
-  useEffect(() => {
     if (
       state.UsersList?.statusCodeForAddUser === 201 ||
       state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
@@ -693,78 +636,6 @@ function DirectCheckin(props) {
   // const [RequestDate, setRequestDate] = useState(null)
 
   useEffect(() => {
-    if (props?.bactocheckinForm) {
-      setId(props?.EditObj?.ID || props?.customer_details?.ID);
-      if (
-        props?.EditObj?.profile === 0 ||
-        props?.customer_details?.profile === 0
-      )
-        setFile(null);
-      else {
-        setFile(props?.EditObj?.profile || props?.customer_details?.profile);
-      }
-
-      if (props?.EditObj?.Name || props?.customer_details?.Name) {
-        const value =
-          props?.EditObj?.Name.trim().split(" ") ||
-          props?.customer_details?.Name.trim().split(" ");
-        setFirstname(value[0] || "");
-        setLastname(value[1] || "");
-      } else {
-        setFirstname("");
-        setLastname("");
-      }
-
-      // setRecheckinbedName(props?.EditObj?.Bed || props?.customer_details?.Bed)
-
-      setRooms(
-        props?.EditObj?.hstl_Rooms || props?.customer_details?.hstl_Rooms,
-      );
-      setBed(props?.EditObj?.hstl_Bed || props?.customer_details?.hstl_Bed);
-
-      setFloor(props.EditObj?.Floor || props?.customer_details?.Floor);
-      setSelectedDate(
-        props.EditObj?.joining_Date || props?.customer_details?.joining_Date,
-      );
-
-      // setBookingFloorId(props.EditObj?.floor_name || props?.customer_details?.floor_name)
-      // setBookingRoomId(props.EditObj?.Room_Id || props?.customer_details?.Room_Id)
-      // setBookingBedId(props.EditObj?.Bed || props?.customer_details?.Bed)
-      setAdvanceAmount(
-        props.EditObj?.AdvanceAmount || props?.customer_details?.AdvanceAmount,
-      );
-      setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent);
-      // if (props.EditObj?.req_date || props.customer_details?.req_date) {
-      //   setRequestDate(dayjs(props.EditObj?.req_date || props.customer_details?.req_date));
-      // }
-    }
-
-    const reasonData =
-      Array.isArray(props?.EditObj?.reasonData) &&
-      props.EditObj.reasonData.length > 0
-        ? props.EditObj.reasonData
-        : Array.isArray(props?.customer_details?.reasonData)
-          ? props.customer_details.reasonData
-          : [];
-
-    if (reasonData.length > 0) {
-      const formattedFields = reasonData.map((entry) => {
-        const isCustom = String(entry.reason) !== "maintenance";
-
-        return {
-          reason_name: entry.reason,
-          amount: entry.amount || "",
-          showInput: isCustom,
-          customReason: isCustom ? entry.reason : "",
-          id: entry.id || "",
-        };
-      });
-
-      setFields(formattedFields);
-    }
-  }, [props.bactocheckinForm, props?.customer_details, props.recheckin]);
-
-  useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
       setFormLoading(false);
       handleCloseBacktoCheckin();
@@ -810,7 +681,7 @@ function DirectCheckin(props) {
             <CloseCircle
               size="24"
               color="#000"
-              onClick={handleCloseAssign}
+              onClick={handleClose}
               className="cursor-pointer"
             />
           </div>
@@ -818,14 +689,14 @@ function DirectCheckin(props) {
           <div className="flex items-center gap-3 mb-3  bg-[#F7F9FF] px-3 py-2 rounded">
             {file && file !== "0" ? (
               <Image
-                src={file || props.EditObj?.fullName}
+                src={file || tenantDetails?.fullName}
                 roundedCircle
                 className="h-14 w-14"
                 alt="image"
               />
             ) : (
               <div className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center text-xl !font-semibold font-gilroy">
-                {props.EditObj?.initials || "-"}
+                {tenantDetails?.initials || "-"}
               </div>
             )}
             <div className="">
@@ -835,7 +706,7 @@ function DirectCheckin(props) {
                 </p>
               </div>
               <div className="text-xs text-[#4B4B4B]">
-                {props.EditObj?.mobile}
+                {tenantDetails?.mobile}
               </div>
             </div>
           </div>
@@ -1459,30 +1330,8 @@ function DirectCheckin(props) {
 }
 
 DirectCheckin.propTypes = {
-  EditObj: PropTypes.func.isRequired,
-  setRoomDetail: PropTypes.func.isRequired,
-  setUserClicked: PropTypes.func.isRequired,
-  setShowForm: PropTypes.func.isRequired,
-  OnShowTable: PropTypes.func.isRequired,
-  setEdit: PropTypes.func.isRequired,
-  edit: PropTypes.func.isRequired,
-  AfterEditFloors: PropTypes.func.isRequired,
-  AfterEditRoomses: PropTypes.func.isRequired,
-  AfterEditBeds: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  displayDetail: PropTypes.func.isRequired,
-  showMenu: PropTypes.func.isRequired,
-  advanceForm: PropTypes.func.isRequired,
-  setAdvanceForm: PropTypes.func.isRequired,
-  setShowAssignMenu: PropTypes.func.isRequired,
-  showAssignMenu: PropTypes.func.isRequired,
-  bactocheckinForm: PropTypes.func.isRequired,
-  setBacktoCheckInForm: PropTypes.func.isRequired,
-  BookingAssignForm: PropTypes.func.isRequired,
-  setBookingAssignForm: PropTypes.func.isRequired,
-  customer_details: PropTypes.func.isRequired,
-  recheckin: PropTypes.func.isRequired,
-  handleCloseBed: PropTypes.func.isRequired,
+  tenantDetails: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.bool.isRequired,
 };
 export default DirectCheckin;

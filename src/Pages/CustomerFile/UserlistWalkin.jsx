@@ -174,6 +174,10 @@ function UserlistWalkin() {
     setShowFormCheckIn(false);
   };
 
+  const handleCloseCheckInFormNew = () => {
+    setShowFormCheckInNew(false);
+  };
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -570,14 +574,13 @@ function UserlistWalkin() {
         />
       )}
 
-{ showFormCheckInNew && (
-  <DirectCheckin    EditObj={tenantDetails}
-          showAssignMenu={showFormCheckIn}
-          setShowAssignMenu={handleCloseCheckInForm}/>
-)}
-
-
-
+      {showFormCheckInNew && (
+        <DirectCheckin
+          tenantDetails={tenantDetails}
+          show={showFormCheckInNew}
+          handleClose={handleCloseCheckInFormNew}
+        />
+      )}
 
       <Modal
         show={deleteShow}

@@ -23,6 +23,7 @@ import {
   ArrowForward,
   DocumentText,
   TableDocument,
+  ArrowRight,
 } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Flipbackward from "../../Assets/Images/flip-backward.png";
@@ -743,6 +744,9 @@ function AddTenant({ showMenu, handleClose }) {
     });
   };
 
+  const handleNextStep = () => {
+    setStep(3);
+  };
   const handlePrevious = () => {
     setStep(1);
   };
@@ -773,7 +777,7 @@ function AddTenant({ showMenu, handleClose }) {
               </div>
               <div className="flex items-center mb-4">
                 <div
-                  className={`rounded-full flex items-center  justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
+                  className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
                 >
                   <DocumentText
                     size="20"
@@ -784,15 +788,12 @@ function AddTenant({ showMenu, handleClose }) {
                 <span className="ml-2 font-gilroy text-sm">
                   Step 2
                   <br />
-                  <label className=" font-gilroy text-base">
-                    Documents & Job Details
-                  </label>
+                  <label className=" font-gilroy text-base">Finalize</label>
                 </span>
               </div>
-
               <div className="flex items-center mb-4">
                 <div
-                  className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
+                  className={`rounded-full flex items-center  justify-center w-8 h-8 border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
                 >
                   <DocumentText
                     size="20"
@@ -803,7 +804,9 @@ function AddTenant({ showMenu, handleClose }) {
                 <span className="ml-2 font-gilroy text-sm">
                   Step 3
                   <br />
-                  <label className=" font-gilroy text-base">Finalize</label>
+                  <label className=" font-gilroy text-base">
+                    Documents & Job Details
+                  </label>
                 </span>
               </div>
             </div>
@@ -1358,20 +1361,20 @@ function AddTenant({ showMenu, handleClose }) {
                                 />
                               </Form.Group>
                             </div>
-                            <div className="d-flex justify-content-end mt-3">
+                            <div className="d-flex justify-content-between mt-3">
                               <button
                                 disabled={formLoading || isAlredayTenant}
-                                className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                                onClick={handleSaveUserlist}
+                                className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
+                                // onClick={handleSaveUserlist}
                               >
                                 Save Draft
                               </button>
                               <button
                                 disabled={isAlredayTenant}
-                                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                                className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                                 onClick={handleNext}
                               >
-                                Next
+                                Next <ArrowRight color="#FFFFFF" size="18" />
                               </button>
                             </div>
 
@@ -1397,6 +1400,13 @@ function AddTenant({ showMenu, handleClose }) {
                   )}
 
                   {step === 2 && (
+                    <AddTenantBookingCheckin
+                      handleClose={handleClose}
+                      handleNextStep={handleNextStep}
+                    />
+                  )}
+
+                  {step === 3 && (
                     <div className="space-y-6" ref={scrollRef}>
                       <div>
                         <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
@@ -1671,35 +1681,19 @@ function AddTenant({ showMenu, handleClose }) {
                         </div>
                       </div>
 
-                      <div className="flex justify-between mt-4">
+                      <div className="flex justify-end mt-4">
                         <button
                           className="bg-gray-200 text-gray-600 px-4 py-2 rounded !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                          onClick={handlePrevious}
+                          onClick={handleClose}
                         >
-                          Previous
+                          Do it later
                         </button>
 
-                        <div className="flex gap-2">
-                          <button
-                            disabled={formLoading || isAlredayTenant}
-                            className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                            onClick={handleSaveUserlist}
-                          >
-                            Save Draft
-                          </button>
-                          <button
-                            className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-                            onClick={() => setStep(3)}
-                          >
-                            Next
-                          </button>
-                        </div>
+                        <button className="!font-gilroy text-sm !bg-[#038C3D] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap">
+                          Save
+                        </button>
                       </div>
                     </div>
-                  )}
-
-                  {step === 3 && (
-                    <AddTenantBookingCheckin handleClose={handleClose} />
                   )}
                 </div>
               </div>
