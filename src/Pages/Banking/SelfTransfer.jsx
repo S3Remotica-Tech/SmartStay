@@ -1,0 +1,159 @@
+import React from "react";
+import { Bank, CloseCircle } from "iconsax-react";
+
+function SelfTransfer({ show, handleClose, selfDetails }) {
+  console.log("selfDetailsselfDetails", selfDetails);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+      <div className="w-full max-w-[600px] rounded-2xl bg-white shadow-xl overflow-hidden">
+        <div className="relative flex items-center justify-between border-b border-[#E5E7EB] px-4 py-3">
+          <div className="text-[1.25rem] font-semibold font-gilroy text-[#1E45E1]">
+            Self Transfer
+          </div>
+
+          <CloseCircle
+            size="24"
+            color="#000"
+            className="cursor-pointer"
+            onClick={handleClose}
+          />
+        </div>
+
+        <div className="px-4 py-4">
+          <div>
+            <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy mb-2">
+              From
+            </h6>
+
+            <div className="flex items-center gap-2 p-3 border-b border-[#ccc]">
+              <div>
+                <Bank color="#1E45E1" size="20" />
+              </div>
+
+              <div className="w-full flex justify-between items-start">
+                <div>
+                  <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                    Canara Bank
+                  </div>
+
+                  <div className="text-xs text-gray-500 font-gilroy">
+                    Savings A/C
+                  </div>
+                </div>
+
+                <div className="text-right font-gilroy">
+                  <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                    Immanuel
+                  </div>
+
+                  <div className="text-xs font-normal font-gilroy mb-0.5">
+                    4561 2013 6210 6540
+                  </div>
+
+                  <div className="text-xs font-semibold text-[#1E45E1]">
+                    Avl Bal : ₹10,000.00
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-3 mt-3">
+            <h6 className="text-[#4B4B4B] text-base font-medium font-gilroy mb-2">
+              To
+            </h6>
+
+            <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#F7FAFF] transition-all duration-200 cursor-pointer">
+              <div>
+                <Bank color="#1E45E1" size="20" />
+              </div>
+
+              <div className="w-full flex justify-between items-start">
+                <div>
+                  <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                    State Bank of India
+                  </div>
+
+                  <div className="text-xs text-gray-500 font-gilroy">
+                    Savings A/C
+                  </div>
+                </div>
+
+                <div className="text-right font-gilroy">
+                  <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                    Immanuel
+                  </div>
+
+                  <div className="text-xs font-normal font-gilroy mb-0.5">
+                    4561 2013 6210 6540
+                  </div>
+
+                  <div className="text-xs font-semibold text-[#1E45E1]">
+                    Avl Bal : ₹10,000.00
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#F7FAFF] transition-all duration-200 cursor-pointer">
+              <div>
+                <Bank color="#1E45E1" size="20" />
+              </div>
+
+              <div className="w-full flex justify-between items-start">
+                <div>
+                  <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                    ICICI
+                  </div>
+
+                  <div className="text-xs text-gray-500 font-gilroy">
+                    Savings A/C
+                  </div>
+                </div>
+
+                <div className="text-right font-gilroy">
+                  <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                    Immanuel
+                  </div>
+
+                  <div className="text-xs font-normal font-gilroy mb-0.5">
+                    4561 2013 6210 6540
+                  </div>
+
+                  <div className="text-xs font-semibold text-[#1E45E1]">
+                    Avl Bal : ₹10,000.00
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center border border-[#D1D5DB] rounded-md overflow-hidden h-11">
+            <span className="px-4 bg-white text-[#4B4B4B] font-medium border-r border-[#D1D5DB]">
+              ₹
+            </span>
+
+            <input
+              type="text"
+              placeholder="Enter amount"
+              //   value={amount}
+              //   onChange={handleChange}
+              className="w-full h-full px-3 outline-none shadow-none font-gilroy text-sm"
+            />
+          </div>
+
+          <div className="flex justify-end mt-4">
+            <button className="bg-[#1E45E1] hover:bg-[#1738C7] transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy">
+              {/* Transfer */} Coming Soon
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default SelfTransfer;
