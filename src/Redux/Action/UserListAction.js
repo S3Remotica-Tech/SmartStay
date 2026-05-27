@@ -45,6 +45,21 @@ export async function tenantSearch(tenant) {
   });
 }
 
+export async function draftTenantSearch(customerId) {
+  return await AxiosConfigV2.get(`/v3/customers/draftDetails/${customerId}`);
+}
+
+export async function SaveDraftTenant(tenant) {
+  console.log("save draft ", tenant);
+  return await AxiosConfigV2.post(
+    `/v3/customers/saveDraft/${tenant.hostelId}`,
+    tenant,
+    {
+      data: tenant,
+    },
+  );
+}
+
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
     params: {
@@ -180,17 +195,6 @@ export async function CheckIn(CheckIn) {
     CheckIn,
     {
       data: CheckIn,
-    },
-  );
-}
-
-export async function SaveDraftTenant(tenant) {
-  console.log("save draft ", tenant);
-  return await AxiosConfigV2.post(
-    `/v3/customers/saveDraft/${tenant.hostelId}`,
-    tenant,
-    {
-      data: tenant,
     },
   );
 }

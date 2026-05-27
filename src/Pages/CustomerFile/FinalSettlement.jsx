@@ -320,10 +320,10 @@ function FinalSettlement() {
         finalSettlementList.settlementInfo;
 
       const apiDeductions =
-        finalSettlementList?.customerInfo?.listDeductions || [];
+        finalSettlementList?.deductionsInfo?.listDeductions || [];
       const apiMap = new Map(
         apiDeductions.map((item) => [
-          item.type?.toLowerCase(),
+          item.item?.toLowerCase(),
           Number(item.amount) || 0,
         ]),
       );
@@ -369,23 +369,23 @@ function FinalSettlement() {
     }
   }, [finalSettlementList, fields, discount]);
 
-  const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+  const apiDeductions =
+    finalSettlementList?.deductionsInfo?.listDeductions || [];
   const totalApiDeductions = apiDeductions.reduce(
     (sum, item) => sum + (Number(item.amount) || 0),
     0,
   );
 
   useEffect(() => {
-    if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
-      const mappedFields = finalSettlementList.customerInfo.listDeductions.map(
-        (item) => ({
-          reason_name: item.type,
+    if (finalSettlementList?.deductionsInfo?.listDeductions?.length > 0) {
+      const mappedFields =
+        finalSettlementList.deductionsInfo.listDeductions.map((item) => ({
+          reason_name: item.item,
           amount: item.amount || "",
           showInput: true,
-          customReason: item.type,
+          customReason: item.item,
           isSystemGenerated: true,
-        }),
-      );
+        }));
       setFields(mappedFields);
     }
   }, [finalSettlementList]);
@@ -445,11 +445,11 @@ function FinalSettlement() {
     dispatch({ type: "REMOVE_FINAL_GENERATE_ERROR" });
     if (!validateFields()) return;
     const apiDeductions =
-      finalSettlementList?.customerInfo?.listDeductions || [];
+      finalSettlementList?.deductionsInfo?.listDeductions || [];
 
     const apiMap = new Map(
       apiDeductions.map((item) => [
-        item.type?.toLowerCase(),
+        item.item?.toLowerCase(),
         Number(item.amount) || 0,
       ]),
     );
@@ -1516,21 +1516,13 @@ function FinalSettlement() {
                 className="mt-3 border border-gray-200 rounded-lg font-gilroy cursor-pointer"
                 onClick={() => setShowDeductions((prev) => !prev)}
               >
-                <div className="flex justify-between items-center py-3 px-3 cursor-pointer">
-                  <div className="flex items-center gap-2">
+                <div className="flex justify-between items-center py-3 px-3 cursor-pointer flex-wrap gap-3">
+                  <div className="flex items-center gap-2 min-w-[180px]">
                     <span className="rounded-[5px] p-1 flex">
                       {showDeductions ? (
-                        <ArrowUp2
-                          size="16"
-                          color="#1E45E1"
-                          // onClick={() => setShowDeductions(false)}
-                        />
+                        <ArrowUp2 size="16" color="#1E45E1" />
                       ) : (
-                        <ArrowDown2
-                          size="16"
-                          color="#1E45E1"
-                          // onClick={() => setShowDeductions(true)}
-                        />
+                        <ArrowDown2 size="16" color="#1E45E1" />
                       )}
                     </span>
 
@@ -1539,15 +1531,33 @@ function FinalSettlement() {
                     </span>
                   </div>
 
+                  <div className="flex items-center gap-6 flex-wrap">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-3 py-1">
+                      <label className="text-sm font-medium text-orange-700">
+                        Pending Amount :
+                      </label>
+
+                      <span className="text-sm font-semibold text-orange-900">
+                        ₹{" "}
+                        {finalSettlementList?.deductionsInfo?.pendingAmount ||
+                          0}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex !items-center w-fit !justify-end w-full">
                   <div
-                    className="flex items-center gap-1 cursor-pointer"
+                    className="flex !items-center w-fit !justify-end my-2 mx-4 gap-1 cursor-pointer text-[#1E429F] 
+                      border-1 border-[#E1EFFE] 
+                      bg-[#E1EFFE] px-3 py-1 rounded"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleAddField();
                     }}
                   >
                     <AddCircle size="18" color="#1E45E1" variant="Bold" />
-                    <label className="text-[13px] text-gray-800 font-medium cursor-pointer">
+
+                    <label className="text-[13px] text-blue-800 font-medium cursor-pointer">
                       Add
                     </label>
                   </div>
@@ -1714,7 +1724,7 @@ function FinalSettlement() {
                               disabled={
                                 apiDeductions.some(
                                   (apiItem) =>
-                                    apiItem.type?.toLowerCase() ===
+                                    apiItem.item?.toLowerCase() ===
                                     item.reason_name?.toLowerCase(),
                                 ) && item.isSystemGenerated
                               }
@@ -1806,8 +1816,8 @@ function FinalSettlement() {
         disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-white
         ${
           isEditing
-            ? "text-[#03543F] border border-[#DEF7EC] bg-[#DEF7EC]"
-            : "text-[#1E429F] border border-[#E1EFFE] bg-[#E1EFFE]"
+            ? "text-[#03543F] border-1 border-[#DEF7EC] bg-[#DEF7EC]"
+            : "text-[#1E429F] border-1 border-[#E1EFFE] bg-[#E1EFFE]"
         }
     `}
                     >

@@ -135,10 +135,13 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
 
   const [activeTab, setActiveTab] = useState("booking");
   const [bookingDate, setBookingDate] = useState("");
+  const [isConfirmChecked, setIsConfirmChecked] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [bookingJoiningDate, setBookingJoiningDate] = useState(null);
   const [bookingAmount, setBookingAmount] = useState("");
   const [bookingFloor, setBookingFloor] = useState(null);
   const [bookingRoom, setBookingRoom] = useState(null);
+  const [availableBed, setAvailableBed] = useState("");
   const [bookingBed, setBookingBed] = useState(null);
   const [totalRent, setTotalRent] = useState("");
   const [errors, setErrors] = useState([]);
@@ -150,6 +153,7 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
   const [checkinFloor, setCheckinFloor] = useState(null);
   const [checkinRoom, setCheckinRoom] = useState(null);
   const [checkinBed, setCheckinBed] = useState(null);
+  const [bedWarning, setBedWarning] = useState("");
   const [rentAmount, setRentAmount] = useState("");
   const [ebReading, setEbReading] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -157,6 +161,28 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
   const [reading, setReading] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
+
+  // booking
+
+  const [joiningDateError, setJoiningDateError] = useState("");
+  const [bookingDateError, setBookingDateError] = useState("");
+  const [bookingAmountError, setBookingAmountError] = useState("");
+  const [floorError, setFloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [bedError, setBedError] = useState("");
+  const [rentError, setRentError] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+  const [transactionError, setTransactionError] = useState("");
+
+  const joiningDateRef = useRef(null);
+  const bookingDateRef = useRef(null);
+  const bookingAmountRef = useRef(null);
+  const floorRef = useRef(null);
+  const roomRef = useRef(null);
+  const bedRef = useRef(null);
+  const rentRef = useRef(null);
+  const paymentRef = useRef(null);
+  const transactionRef = useRef(null);
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -179,20 +205,8 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
     setStay_typenameErrmsg("");
   };
 
-  const handleTransactionId = (e) => {
-    const value = e.target.value;
-    const regex = /^[A-Za-z0-9_.-]*$/;
-
-    if (regex.test(value)) {
-      setTransactionId(value);
-    }
-  };
-
   const total = fields.reduce((sum, item) => sum + Number(item.amount || 0), 0);
 
-  const handleBookingDateChange = (date) => {
-    setBookingDate(date ? date.toDate() : null);
-  };
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
 
@@ -201,20 +215,9 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
       setAdvanceAmountError("");
     }
   };
-  const handleBookingAmountChange = (e) => {
-    setBookingAmount(e.target.value);
-  };
-
-  const handleTotalRentChange = (e) => {
-    setTotalRent(e.target.value);
-  };
 
   const handleJoiningDateChange = (date) => {
     setJoiningDate(date ? date.toDate() : null);
-  };
-
-  const handleBookingJoiningDateChange = (date) => {
-    setBookingJoiningDate(date ? date.toDate() : null);
   };
 
   const handleAdvanceAmountChange = (e) => {
@@ -225,16 +228,215 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
     setRentAmount(e.target.value);
   };
 
-  const handleEbReadingChange = (e) => {
-    setEbReading(e.target.value);
-  };
-  const handleBookingFloorChange = (val) => setBookingFloor(val);
-  const handleBookingRoomChange = (val) => setBookingRoom(val);
-  const handleBookingBedChange = (val) => setBookingBed(val);
+  // Booking Onchanges
 
-  const handleCheckinFloorChange = (val) => setCheckinFloor(val);
-  const handleCheckinRoomChange = (val) => setCheckinRoom(val);
-  const handleCheckinBedChange = (val) => setCheckinBed(val);
+  const handleBookingDateChange = (date) => {
+    setBookingDate(date ? date.toDate() : null);
+    setBookingDateError("");
+  };
+  const handleBookingJoiningDateChange = (date) => {
+    setBookingJoiningDate(date ? date.toDate() : null);
+    setJoiningDateError("");
+  };
+  const handleBookingFloorChange = (val) => {
+    setBookingFloor(val.value);
+    setFloorError("");
+  };
+
+  const handleBookingRoomChange = (val) => {
+    setBookingRoom(val.value);
+    setRoomError("");
+  };
+  const handleBookingBedChange = (val) => {
+    setBookingBed(val.value);
+    setBedError("");
+  };
+  const handleBookingAmountChange = (e) => {
+    setBookingAmount(e.target.value);
+    setBookingAmountError("");
+  };
+
+  const handleTotalRentChange = (e) => {
+    setTotalRent(e.target.value);
+    setRentError("");
+  };
+  const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+    setModeOfPayment(selectedOption.value);
+    setPaymentError("");
+  };
+  const handleTransactionId = (e) => {
+    const value = e.target.value;
+    const regex = /^[A-Za-z0-9_.-]*$/;
+
+    if (regex.test(value)) {
+      setTransactionId(value);
+    }
+  };
+
+  const validateBookingDraft = () => {
+    let isValid = true;
+
+    setJoiningDateError("");
+    setBookingDateError("");
+    setBookingAmountError("");
+    setFloorError("");
+    setRoomError("");
+    setBedError("");
+    setRentError("");
+    setPaymentError("");
+    setTransactionError("");
+
+    let firstInvalidRef = null;
+
+    if (!bookingDate) {
+      setBookingDateError("Please Select Booking Date");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = bookingDateRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!bookingAmount) {
+      setBookingAmountError("Please Enter Booking Amount");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = bookingAmountRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!bookingJoiningDate) {
+      setJoiningDateError("Please Select Joining Date");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = joiningDateRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!bookingFloor) {
+      setFloorError("Please Select Floor");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = floorRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!bookingRoom) {
+      setRoomError("Please Select Room");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = roomRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!bookingBed) {
+      setBedError("Please Select Bed");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = bedRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!totalRent) {
+      setRentError("Please Enter Total Rent");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = rentRef;
+      }
+
+      isValid = false;
+    }
+
+    if (!modeOfPayment) {
+      setPaymentError("Please Select Mode Of Transaction");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = paymentRef;
+      }
+
+      isValid = false;
+    }
+
+    if (firstInvalidRef?.current) {
+      firstInvalidRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      setTimeout(() => {
+        firstInvalidRef.current?.focus?.();
+      }, 300);
+    }
+
+    return isValid;
+  };
+
+  const handleBookingSaveDraft = () => {
+    const isValid = validateBookingDraft();
+
+    if (!isValid) return;
+
+    dispatch({
+      type: "SAVE_DRAFT_SAGA",
+      payload: {
+        hostelId: state?.login?.selectedHostel_Id,
+        joiningDate: bookingJoiningDate
+          ? dayjs(bookingJoiningDate).format("YYYY-MM-DD")
+          : "",
+        bookingDate: bookingDate ? dayjs(bookingDate).format("YYYY-MM-DD") : "",
+        bookingAmount: Number(bookingAmount || 0),
+        floorId: bookingFloor || 0,
+        roomId: bookingRoom || 0,
+        bedId: bookingBed || 0,
+        bankId: modeOfPayment || "",
+        referenceNumber: transactionId,
+        advanceAmount: Number(bookingAmount || 0),
+        rentalAmount: Number(totalRent || 0),
+      },
+    });
+    setFormLoading(true);
+  };
+
+  useEffect(() => {
+    if (state.UsersList?.saveDreaftTenant === 201) {
+      setFormLoading(false);
+
+      dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
+    }
+  }, [state.UsersList?.saveDreaftTenant]);
+
+  // Checkin
+
+  const handleCheckinFloorChange = (val) => setCheckinFloor(val.value);
+  const handleCheckinRoomChange = (val) => setCheckinRoom(val.value);
+
+  const handleCheckinBedChange = (val) => {
+    const selectedBedId = val?.value || "";
+    setCheckinBed(selectedBedId);
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+      (bed) => String(bed.bedId) === String(selectedBedId),
+    );
+
+    if (selectedBed) {
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
+      } else {
+        setBedWarning("");
+      }
+    }
+  };
 
   const handleAddField = () => {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
@@ -300,23 +502,112 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
   };
 
   const paymentOptions = Array.isArray(
-    state.bankingDetails.bankingList.listBanks,
+    state.UsersList?.availableBedList.bankDetails,
   )
-    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
-        value: String(item.bankingId),
-        label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+    ? state.UsersList?.availableBedList?.bankDetails.map((item) => ({
+        value: String(item.bankId),
+        label: `${item.holderName} - ${labelMap[item.type] || ""}`,
       }))
     : [];
 
-  const handleModeOfPaymentChange = (selectedOption) => {
-    if (!selectedOption) return;
+  useEffect(() => {
+    dispatch({
+      type: "ALLFLOORLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, []);
 
-    setModeOfPayment(selectedOption);
-  };
+  useEffect(() => {
+    if (bookingFloor) {
+      dispatch({
+        type: "GETALLROOMSLIST",
+        payload: { floor_Id: bookingFloor },
+      });
+    }
+  }, [bookingFloor]);
+
+  useEffect(() => {
+    if (state.UsersList.floorListStatusCode === 200) {
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_ALL_FLOOR_LIST" });
+      }, 500);
+    }
+  }, [state.UsersList.floorListStatusCode]);
+
+  useEffect(() => {
+    if (state?.PgList?.getAllRoomSuccessStatus === 200) {
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
+      }, 100);
+    }
+  }, [state?.PgList?.getAllRoomSuccessStatus]);
+
+  const roomOptions =
+    state.PgList?.roomsList?.map((item) => ({
+      value: item.id,
+      label: (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <span style={{ fontWeight: 600 }}>{item.name}</span>
+
+          <span
+            style={{
+              backgroundColor: "#E9F2FF",
+              color: "#2563EB",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontSize: "12px",
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.sharingType || 0}
+          </span>
+        </div>
+      ),
+    })) || [];
+
+  useEffect(() => {
+    if (bookingRoom) {
+      const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter(
+        (view) => {
+          return view.roomId === bookingRoom;
+        },
+      );
+      setAvailableBed(filteredBed);
+    }
+  }, [bookingRoom, joiningDate, state.UsersList?.availableBedList?.listBeds]);
+
+  useEffect(() => {
+    if (bookingJoiningDate) {
+      const formatDate = (date) => {
+        if (!date) return "";
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      const joiningDateForFormatted = formatDate(bookingJoiningDate);
+      dispatch({
+        type: "AVAILBALEBEDDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          joiningDate: joiningDateForFormatted,
+        },
+      });
+    }
+  }, [bookingJoiningDate]);
 
   const handleBedLayoutPreview = () => {
     setPgLatyout(true);
-    console.log("callledddd");
   };
 
   const handleClosePgLayOut = () => {
@@ -356,7 +647,10 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
               <label className="mb-2 text-sm font-medium text-[#222222]  block">
                 Booking Date
               </label>
-              <div className="datepicker-wrapper relative w-full">
+              <div
+                className="datepicker-wrapper relative w-full"
+                ref={bookingDateRef}
+              >
                 <DatePicker
                   className={`w-full h-[45px] cursor-pointer text-[14px] font-gilroy ${
                     bookingDate ? "font-semibold" : "font-medium"
@@ -371,6 +665,9 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
                   getPopupContainer={() => document.body}
                 />
               </div>
+              {bookingDateError && (
+                <ErrorMessage message={bookingDateError} type="error" />
+              )}
             </div>
 
             <div className="mb-3">
@@ -378,69 +675,18 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
                 Booking Amount
               </label>
               <input
+                ref={bookingAmountRef}
                 value={bookingAmount}
                 onChange={handleBookingAmountChange}
                 placeholder="Enter Booking Amount"
                 className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
               />
+              {bookingAmountError && (
+                <ErrorMessage message={bookingAmountError} type="error" />
+              )}
             </div>
           </div>
-
-          <div className="mb-2">
-            <label className="text-sm font-medium text-[#222222] mb-2 block">
-              Select Stay Details
-            </label>
-
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Floor <span className="text-red-500 text-xl">*</span>
-                </label>
-                <Select
-                  options={options}
-                  value={bookingFloor}
-                  onChange={handleBookingFloorChange}
-                  styles={CustomStyles}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Room <span className="text-red-500 text-xl">*</span>
-                </label>
-                <Select
-                  options={options}
-                  value={bookingRoom}
-                  onChange={handleBookingRoomChange}
-                  styles={CustomStyles}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Bed <span className="text-red-500 text-xl">*</span>
-                </label>
-                <Select
-                  options={options}
-                  value={bookingBed}
-                  onChange={handleBookingBedChange}
-                  styles={CustomStyles}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-2">
-            <label className="text-sm font-medium text-[#222222] mb-2 block">
-              Total Rent <span className="text-red-500 text-xl">*</span>
-            </label>
-            <input
-              value={totalRent}
-              onChange={handleTotalRentChange}
-              placeholder="Enter  Total Rent"
-              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-            />
-          </div>
-
-          <div className="mb-2">
+          <div className="mb-2" ref={joiningDateRef}>
             <label className="text-sm font-medium text-[#222222] mb-2 block">
               Joining Date (Tentative){" "}
               <span className="text-red-500 text-xl">*</span>
@@ -471,10 +717,133 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
                   placement="top"
                 />
               </div>
+              {joiningDateError && (
+                <ErrorMessage message={joiningDateError} type="error" />
+              )}
             </div>
           </div>
+          <div className="mb-2">
+            <label className="text-sm font-medium text-[#222222] mb-2 block">
+              Select Stay Details
+            </label>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div ref={floorRef}>
+                <label className="text-sm font-medium text-[#222222] mb-2 block">
+                  Floor <span className="text-red-500 text-xl">*</span>
+                </label>
+                <Select
+                  options={
+                    state.UsersList.floorList?.map((u) => ({
+                      value: u.id,
+                      label: u.name,
+                    })) || []
+                  }
+                  value={
+                    state.UsersList.floorList?.find(
+                      (option) => option.id === bookingFloor,
+                    )
+                      ? {
+                          value: bookingFloor,
+                          label: state.UsersList.floorList.find(
+                            (option) => option.id === bookingFloor,
+                          )?.name,
+                        }
+                      : null
+                  }
+                  onChange={handleBookingFloorChange}
+                  styles={CustomStyles}
+                />
+                {floorError && (
+                  <ErrorMessage message={floorError} type="error" />
+                )}
+              </div>
+              <div ref={roomRef}>
+                <label className="text-sm font-medium text-[#222222] mb-2 block">
+                  Room <span className="text-red-500 text-xl">*</span>
+                </label>
+                <Select
+                  isDisabled={!bookingJoiningDate || !bookingFloor}
+                  options={roomOptions}
+                  value={
+                    state.PgList?.roomsList?.find(
+                      (option) => option.id === bookingRoom,
+                    )
+                      ? {
+                          value: bookingRoom,
+                          label: state.PgList?.roomsList.find(
+                            (option) => option.id === bookingRoom,
+                          )?.name,
+                        }
+                      : null
+                  }
+                  onChange={handleBookingRoomChange}
+                  styles={CustomStyles}
+                />
+                {roomError && <ErrorMessage message={roomError} type="error" />}
+              </div>
+              <div ref={bedRef}>
+                <label className="text-sm font-medium text-[#222222] mb-2 block">
+                  Bed <span className="text-red-500 text-xl">*</span>
+                </label>
+                <Select
+                  isDisabled={!bookingRoom}
+                  options={
+                    availableBed
+                      ? availableBed
+                          .filter(
+                            (item) =>
+                              item &&
+                              item?.bedName !== "0" &&
+                              item?.bedName !== "undefined" &&
+                              item?.bedName !== "" &&
+                              item?.bedName !== "null",
+                          )
+                          .map((item) => ({
+                            value: item?.bedId,
+                            label: item?.bedName,
+                          }))
+                      : []
+                  }
+                  value={
+                    availableBed
+                      ? (() => {
+                          const selected = availableBed?.find(
+                            (option) => option?.bedId === bookingBed,
+                          );
+                          return selected
+                            ? {
+                                value: selected.bedId,
+                                label: selected.bedName,
+                              }
+                            : null;
+                        })()
+                      : null
+                  }
+                  onChange={handleBookingBedChange}
+                  styles={CustomStyles}
+                />
+                {bedError && <ErrorMessage message={bedError} type="error" />}
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-2">
+            <label className="text-sm font-medium text-[#222222] mb-2 block">
+              Total Rent <span className="text-red-500 text-xl">*</span>
+            </label>
+            <input
+              ref={rentRef}
+              value={totalRent}
+              onChange={handleTotalRentChange}
+              placeholder="Enter  Total Rent"
+              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+            />
+            {rentError && <ErrorMessage message={rentError} type="error" />}
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
-            <div className="mb-2">
+            <div className="mb-2" ref={paymentRef}>
               <label className="text-sm font-medium text-[#222222] mb-2 block">
                 Mode Of Transaction{" "}
                 <span className="text-red-500 text-xl">*</span>
@@ -499,6 +868,9 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
                 noOptionsMessage={() => "No mode available"}
                 styles={CustomStyles}
               />
+              {paymentError && (
+                <ErrorMessage message={paymentError} type="error" />
+              )}
             </div>
 
             <div className="mb-2">
@@ -530,7 +902,7 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
           </div>
           <div className="mb-2">
             <label className="text-sm font-medium text-[#222222] mb-2 block">
-              Transaction ID <span className="text-red-500 text-xl">*</span>
+              Transaction ID
             </label>
 
             <input
@@ -543,6 +915,8 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
           <div className="flex items-center gap-2 my-4">
             <input
               type="checkbox"
+              checked={isConfirmChecked}
+              onChange={(e) => setIsConfirmChecked(e.target.checked)}
               className="cursor-pointer accent-green-600 w-4 h-4 "
             />
             <span className="text-[#0A090B] text-sm ">
@@ -552,11 +926,25 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
 
           <div className="flex justify-between mt-3">
             <button
-              // disabled={formLoading || isAlredayTenant}
-              className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-              // onClick={handleSaveUserlist}
+              disabled={formLoading || !isConfirmChecked}
+              onClick={handleBookingSaveDraft}
+              className={`!font-gilroy text-sm border-1 !font-semibold !rounded-md 
+  !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap 
+  flex items-center justify-center gap-2
+  ${
+    formLoading || !isConfirmChecked
+      ? "!bg-[#EBEFFF] text-[#A0A0A0] border-[#D6DEFF] cursor-not-allowed opacity-70"
+      : "!bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] cursor-pointer"
+  }`}
             >
-              Save Draft
+              {formLoading ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
+                  Saving...
+                </>
+              ) : (
+                "Save Draft"
+              )}
             </button>
             <div className="flex gap-2">
               <button
@@ -674,6 +1062,11 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
                   styles={CustomStyles}
                 />
               </div>
+              {bedWarning ? (
+                <div className="">
+                  <ErrorMessage message={bedWarning} type="error" />
+                </div>
+              ) : null}
             </div>
           </div>
 
