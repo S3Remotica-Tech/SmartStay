@@ -77,6 +77,7 @@ import {
   TenantListGet,
   tenantSearch,
   SaveDraftTenant,
+  draftTenantSearch,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -1030,6 +1031,27 @@ function* handleSearchTenant(user) {
     if (response?.status === 200) {
       yield put({
         type: "TENANT_SEARCH_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+  }
+}
+
+function* handleDraftTenantSearch(user) {
+  try {
+    const response = yield call(draftTenantSearch, user.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "DRAFT_TENANT_LIST_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
     }
@@ -3318,6 +3340,7 @@ function* handleCheckoutProfile(action) {
 }
 
 function* UserListSaga() {
+  yield takeEvery("DRAFT_TENANT_LIST_SAGA", handleDraftTenantSearch);
   yield takeEvery("SAVE_DRAFT_SAGA", handleSaveDraft);
   yield takeEvery("TENANT_SEARCH_LIST_SAGA", handleSearchTenant);
 

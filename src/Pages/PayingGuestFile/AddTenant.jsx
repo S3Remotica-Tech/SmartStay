@@ -513,6 +513,7 @@ function AddTenant({ showMenu, handleClose }) {
 
   const handleAddManually = () => {
     setIsAlreadyTenant(false);
+    
   };
 
   const handleSaveStepOne = () => {
@@ -743,6 +744,34 @@ function AddTenant({ showMenu, handleClose }) {
     setStep(1);
   };
 
+  const handleDraftTenant = (customerId) => {
+    if (customerId) {
+      dispatch({ type: "DRAFT_TENANT_LIST_SAGA", payload: customerId });
+    }
+  };
+
+  useEffect(() => {
+    if (state.UsersList?.draftTenantGetStatusCode === 200) {
+      setSearch("");
+      setIsAlreadyTenant(false);
+      dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
+    }
+  }, [state.UsersList?.draftTenantGetStatusCode]);
+
+  const DraftTenantDetails = state?.UsersList?.draftTenantGetList;
+
+  useEffect(() => {
+    if (
+      DraftTenantDetails &&
+      DraftTenantDetails?.customerCurrentStatus === "DRAFT"
+    ) {
+      setFirstname(DraftTenantDetails?.firstName);
+      setLastname(DraftTenantDetails?.lastName);
+      setPhone(DraftTenantDetails?.mobileNo);
+      setEmail(DraftTenantDetails?.emailId);
+    }
+  }, [DraftTenantDetails]);
+
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -839,7 +868,6 @@ function AddTenant({ showMenu, handleClose }) {
                                 Search Mobile Number
                               </p>
                               <div className="relative w-full">
-                                {/* SEARCH INPUT */}
                                 <div className="flex items-center border rounded-lg px-3 py-2 bg-white mb-2">
                                   <span className="text-gray-600 mr-4">
                                     +91
@@ -854,7 +882,6 @@ function AddTenant({ showMenu, handleClose }) {
                                   />
                                 </div>
 
-                                {/* DROPDOWN */}
                                 {search && (
                                   <div className="absolute top-full left-0 w-full z-50 mt-1">
                                     {state?.UsersList?.searchTenant?.length >
@@ -863,6 +890,11 @@ function AddTenant({ showMenu, handleClose }) {
                                         {state?.UsersList?.searchTenant?.map(
                                           (user, index) => (
                                             <div
+                                              onClick={() =>
+                                                handleDraftTenant(
+                                                  user?.customerId,
+                                                )
+                                              }
                                               key={user.id}
                                               className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${
                                                 index !==

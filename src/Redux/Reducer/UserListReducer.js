@@ -186,6 +186,8 @@ export const initialState = {
     sharingType: "",
     sharingTypeLabel: "",
   },
+  draftTenantGetStatusCode: 0,
+  draftTenantGetList: "",
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -216,6 +218,18 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "REMOVE_SAVE_DRAFT_REDUCER":
       return { ...state, saveDreaftTenant: 0 };
+
+    case "DRAFT_TENANT_LIST_REDUCER":
+      return {
+        ...state,
+        draftTenantGetStatusCode: action.payload.statusCode,
+        draftTenantGetList: action.payload.response,
+      };
+    case "REMOVE_DRAFT_TENANT_LIST_REDUCER":
+      return {
+        ...state,
+        draftTenantGetStatusCode: 0,
+      };
 
     case "DRAFT_ERROR":
       return { ...state, saveDreaftTenantError: action.payload };
