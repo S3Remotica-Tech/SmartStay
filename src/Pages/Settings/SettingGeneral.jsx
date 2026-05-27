@@ -1194,7 +1194,7 @@ function SettingGeneral() {
                               >
                                 <div
                                   onClick={() => {
-                                    handleAdminEdit();
+                                    canUpdateProfile && handleAdminEdit();
                                   }}
                                   className={`flex items-center gap-2 p-2.5 w-full   rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
@@ -1221,7 +1221,8 @@ function SettingGeneral() {
 
                                 <div
                                   onClick={() => {
-                                    handleOpenAdminProfile(account);
+                                    canUpdateProfile &&
+                                      handleOpenAdminProfile(account);
                                   }}
                                   className={`flex items-center gap-2 p-2.5 w-full rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
@@ -1248,7 +1249,8 @@ function SettingGeneral() {
                                 {isDev && (
                                   <div
                                     onClick={() => {
-                                      handleResetPin(account);
+                                      canUpdateProfile &&
+                                        handleResetPin(account);
                                     }}
                                     className={`flex items-center gap-2 p-2.5 w-full   rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
@@ -1573,7 +1575,9 @@ function SettingGeneral() {
                           </div>
                         );
                       })
-                    : !loading && <NoDataMessage label="Profile" isHeightChanged={true} />}
+                    : !loading && (
+                        <NoDataMessage label="Profile" isHeightChanged={true} />
+                      )}
                 </div>
               )}
 
