@@ -15,7 +15,7 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { Trash } from "iconsax-react";
+import { AddCircle, Trash, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -65,12 +65,10 @@ import {
   Filter,
   Export,
   ArrowLeft,
-  ArrowUp2,
   ArrowSwapVertical,
   Setting3,
   SearchNormal1,
   Buildings,
-  ArrowDown2,
   ArrowDown,
 } from "iconsax-react";
 import Select from "react-select";
@@ -185,6 +183,9 @@ function UserList(props) {
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const dropdownRef = useRef(null);
   // console.log("isScrolling", isScrolling);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
@@ -208,6 +209,7 @@ function UserList(props) {
   const isTenantForm = location.state?.isTenantForm || false;
   const isCheckoutWay = location.state?.isCheckoutWay || false;
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
+
   useEffect(() => {
     const pageParam = Number(searchParams.get("page")) || 1;
     const sizeParam = Number(searchParams.get("size")) || 20;
@@ -215,6 +217,20 @@ function UserList(props) {
     setPage(pageParam);
     setSize(sizeParam);
   }, [searchParams]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
@@ -916,7 +932,7 @@ function UserList(props) {
   const [showMenu, setShowMenu] = useState(false);
   const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
   const [showAssignMenu, setShowAssignMenu] = useState(false);
- 
+
   const [showForm, setShowForm] = useState(false);
   const [edit, setEdit] = useState("");
   const [EditObj, setEditObj] = useState("");
@@ -1039,6 +1055,7 @@ function UserList(props) {
 
   const handleShowAddTenant = () => {
     setShowMenuNewTenant(true);
+    setShowDropdown(false);
   };
 
   const handleChange = (key) => {
@@ -2352,17 +2369,79 @@ function UserList(props) {
                   >
                     + Walk-In
                   </button>
-
-                  {isDev && (
-                    <button
-                      disabled={!canWriteWalkin}
-                      onClick={handleShowAddTenant}
-                      className="bg-[#1E45E1] text-white text-sm font-semibold rounded-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
-                    >
-                      + Walk-In New
-                    </button>
-                  )}
                 </>
+              )}
+
+              {isDev && (
+                <div className="relative flex" ref={dropdownRef}>
+                  <button
+                    disabled={!canWriteWalkin}
+                    onClick={handleShowAddTenant}
+                    className="bg-[#1E45E1] text-white flex items-center gap-1 text-sm font-semibold rounded-l-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
+                  >
+                    <AddCircle size="16" />
+                    Add Tenant
+                  </button>
+
+                  <button
+                    disabled={!canWriteWalkin}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className="bg-[#1E45E1] border-l border-[#4B6BEE] text-white px-2 rounded-r-lg flex items-center justify-center disabled:opacity-50"
+                  >
+                    {showDropdown ? (
+                      <ArrowUp2 size="16" />
+                    ) : (
+                      <ArrowDown2 size="16" />
+                    )}
+                  </button>
+
+                  {showDropdown && (
+                    <div
+                      className="fixed  right-10 top-16 w-56 z-50
+                     bg-white rounded-lg shadow-lg border border-[#E5E7EB]  "
+                    >
+                      <button
+                        onClick={() => {
+                          setShowDropdown(false);
+                          handleShowAddTenant();
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF]  rounded-t-lg"
+                      >
+                        New Tenant
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setShowDropdown(false);
+                          // handleShowAddShortStay?.();
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF]"
+                      >
+                        New Tenant (Shortstay)
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setShowDropdown(false);
+                          // handleBooking?.();
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF]"
+                      >
+                        Booking
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setShowDropdown(false);
+                          // handleEnquiry?.();
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF] rounded-b-lg"
+                      >
+                        Enquiry
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -2401,7 +2480,7 @@ function UserList(props) {
                     ))}
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[40px]">
+                  <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
                     <div className="flex flex-wrap items-center gap-3">
                       <div
                         className={`border border-gray-300 rounded-lg w-36 ${
@@ -2581,7 +2660,7 @@ function UserList(props) {
                         className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy ">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
                             <tr className="h-9">
                               {selectedColumns?.map((col, index) => {
                                 let stickyClass = "";
@@ -2605,7 +2684,7 @@ function UserList(props) {
                                 );
                               })}
 
-                              <th className="px-4 py-2.5 uppercase sticky right-0 z-40 bg-[#F9FAFB] text-center">
+                              <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
                                 Action
                               </th>
                             </tr>
@@ -2632,7 +2711,7 @@ function UserList(props) {
                                       let stickyClass = "";
 
                                       if (index === 0) {
-                                        stickyClass = `sticky left-[0px] z-30  w-[80px] ${
+                                        stickyClass = `sticky left-[0px] z-20  w-[80px] ${
                                           isScrolling
                                             ? "!bg-white"
                                             : "!bg-transparent"
@@ -2842,7 +2921,7 @@ function UserList(props) {
                                     <td
                                       className={`${
                                         isScrolling ? "!bg-white" : "bg-white"
-                                      } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                      } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
                                       {" "}
                                       <div
@@ -3488,9 +3567,6 @@ function UserList(props) {
           // setBacktoCheckInForm={setBacktoCheckInForm}
         />
       )}
-
-
-    
 
       {finalsettlepage && (
         <FinalOld

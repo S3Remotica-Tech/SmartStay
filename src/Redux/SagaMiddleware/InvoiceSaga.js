@@ -2071,7 +2071,7 @@ function* handleDeleteReceipt(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-
+    yield put({ type: "DELETE_RECEIPT_ERROR", payload: error.response.data });
     if (error.status === 400 || error.status === 403) {
       toast.error(error.response.data, {
         style: {
@@ -2335,7 +2335,7 @@ function refreshToken(response) {
 }
 
 function* InvoiceSaga() {
- yield takeEvery("SUBSCRIPTION_PDF_SAGA",handleSubscriptionPDF)
+  yield takeEvery("SUBSCRIPTION_PDF_SAGA", handleSubscriptionPDF);
   yield takeEvery("INVOICE_DISCOUNT_SAGA", handleInvoiceDiscount);
   yield takeEvery("MANUAL_BILL_UPDATE_UNPAID_SAGA", handleUpdatemanualUnPaid);
   yield takeEvery("WHATSAPPSHAREPDFRECEIPT", handleGetshareWhatsappPDFReceipt);

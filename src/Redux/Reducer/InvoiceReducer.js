@@ -103,6 +103,7 @@ export const initialState = {
   manualInvoiceUnpaidStatusCode: 0,
   subsriptionPdfStatusCode: 0,
   unPaidError: "",
+  receiptDeleteError: "",
   makeInvoiceDiscountStatus: 0,
   makeDiscountError: "",
   // EDIT DISCOUNT
@@ -158,6 +159,11 @@ const InvoiceReducer = (state = initialState, action) => {
       return { ...state, recurringEditError: action.payload };
     case "REMOVE_MANUAL_INVOICE_ERROR":
       return { ...state, recurringEditError: "" };
+
+    case "DELETE_RECEIPT_ERROR":
+      return { ...state, receiptDeleteError: action.payload };
+      case "REMOVE_DELETE_RECEIPT_ERROR":
+      return { ...state, receiptDeleteError:"" };
 
     case "TENANT_ASSIGN_AMENITIES":
       return { ...state, tenantAssignStatus: action.payload.statusCode };

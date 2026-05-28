@@ -19,7 +19,7 @@ import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
 import Tick from "../../Assets/v2Images/Tick.svg";
 
-function PgLayoutView({ show, handleClose, selectedBedDetails }) {
+function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [selectedBed, setSelectedBed] = useState("");
@@ -86,8 +86,18 @@ function PgLayoutView({ show, handleClose, selectedBedDetails }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-[900px] h-fit  bg-white rounded-[20px] flex  shadow-lg">
+    <div
+      className={`fixed inset-0 z-50 transition-all duration-300 ${
+        show
+          ? "bg-black/40 visible opacity-100"
+          : "bg-black/0 invisible opacity-0"
+      }`}
+    >
+      <div
+        className={`fixed top-0 right-0 h-full w-full max-w-[900px] bg-white shadow-xl
+    transition-transform duration-300 ease-in-out
+    ${show ? "translate-x-0" : "translate-x-full"}`}
+      >
         <div className="w-full h-full rounded-[20px]">
           <div className="flex justify-between items-start px-3 py-4 sticky top-0 z-10 bg-white w-full border-[#eee] rounded-[20px]">
             <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
@@ -150,7 +160,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails }) {
               roomList?.map((room) => {
                 const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-                const filteredBeds = state.login.isTrigger
+                const filteredBeds = !isWay
                   ? bedsForRoom.filter((bed) => !bed.isOccupied)
                   : bedsForRoom;
                 return (

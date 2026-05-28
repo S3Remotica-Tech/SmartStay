@@ -142,17 +142,20 @@ function AddTenantBookingCheckin({
   const [bookingDate, setBookingDate] = useState("");
   const [isConfirmChecked, setIsConfirmChecked] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+  const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingJoiningDate, setBookingJoiningDate] = useState(null);
   const [bookingAmount, setBookingAmount] = useState("");
   const [bookingFloor, setBookingFloor] = useState(null);
   const [bookingRoom, setBookingRoom] = useState(null);
   const [availableBed, setAvailableBed] = useState("");
+  const [availableCheckinBed, setAvailableCheckinBed] = useState("");
   const [bookingBed, setBookingBed] = useState(null);
   const [totalRent, setTotalRent] = useState("");
   const [errors, setErrors] = useState([]);
   const [fields, setFields] = useState([]);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [pgLayout, setPgLatyout] = useState(false);
+  const [isWay, setIsWay] = useState(null);
   const [joiningDate, setJoiningDate] = useState("");
   const [advanceAmount, setAdvanceAmount] = useState("");
   const [checkinFloor, setCheckinFloor] = useState(null);
@@ -195,6 +198,10 @@ function AddTenantBookingCheckin({
     { value: "DAY", label: "Day Stay" },
   ];
   const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
+
+  const customerId =
+    state?.UsersList?.draftTenantDetails.customerId ||
+    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId;
 
   const [selectedStayType, setSelectedStayType] = useState(null);
   const [stay_typenameErrmsg, setStay_typenameErrmsg] = useState("");
@@ -252,10 +259,25 @@ function AddTenantBookingCheckin({
     setBookingRoom(val.value);
     setRoomError("");
   };
+
   const handleBookingBedChange = (val) => {
-    setBookingBed(val.value);
+    dispatch({ type: "ERROR_BOOKING_REMOVE" });
     setBedError("");
+    const selectedBedId = val?.value || "";
+    setBookingBed(selectedBedId);
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+      (bed) => String(bed.bedId) === String(selectedBedId),
+    );
+
+    if (selectedBed) {
+      if (selectedBed.shouldShowError) {
+        setBedWarning(selectedBed.errorMessage);
+      } else {
+        setBedWarning("");
+      }
+    }
   };
+
   const handleBookingAmountChange = (e) => {
     setBookingAmount(e.target.value);
     setBookingAmountError("");
@@ -389,9 +411,9 @@ function AddTenantBookingCheckin({
   };
 
   const handleBookingSaveDraft = () => {
-    const isValid = validateBookingDraft();
+    // const isValid = validateBookingDraft();
 
-    if (!isValid) return;
+    // if (!isValid) return;
 
     dispatch({
       type: "SAVE_DRAFT_SAGA",
@@ -416,6 +438,55 @@ function AddTenantBookingCheckin({
     setFormLoading(true);
   };
 
+  const handleAddBooking = () => {
+    dispatch({ type: "ERROR_BOOKING_REMOVE" });
+    const isValid = validateBookingDraft();
+
+    if (!isValid) return;
+
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const joiningDateForFormatted = formatDate(bookingJoiningDate);
+    const bookingDateForFormatted = formatDate(bookingDate);
+
+    dispatch({
+      type: "ADD_BOOKING",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        joiningDate: joiningDateForFormatted,
+        bookingDate: bookingDateForFormatted,
+        bookingAmount: bookingAmount,
+        floorId: bookingFloor,
+        roomId: bookingRoom,
+        bedId: bookingBed,
+        customerId: customerId,
+        bankId: modeOfPayment,
+        referenceNumber: transactionId,
+      },
+    });
+    setBookingLoading(true);
+  };
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+      setBookingLoading(false);
+
+      dispatch({ type: "CLEAR_EMAIL_ERROR" });
+      dispatch({ type: "CLEAR_PHONE_ERROR" });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
+
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenant === 201) {
       setFormLoading(false);
@@ -423,6 +494,23 @@ function AddTenantBookingCheckin({
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.saveDreaftTenant]);
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false);
+      setBookingLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
+    }
+  }, [state.createAccount?.networkError]);
+
+  useEffect(() => {
+    if (state.Booking?.bookingBedError) {
+      setFormLoading(false);
+      setBookingLoading(false);
+    }
+  }, [state.Booking?.bookingBedError]);
 
   // Checkin
 
@@ -444,6 +532,17 @@ function AddTenantBookingCheckin({
       }
     }
   };
+
+  useEffect(() => {
+    if (checkinRoom) {
+      const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter(
+        (view) => {
+          return view.roomId === checkinRoom;
+        },
+      );
+      setAvailableCheckinBed(filteredBed);
+    }
+  }, [checkinRoom, joiningDate, state.UsersList?.availableBedList?.listBeds]);
 
   const handleAddField = () => {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
@@ -516,6 +615,11 @@ function AddTenantBookingCheckin({
         label: `${item.holderName} - ${labelMap[item.type] || ""}`,
       }))
     : [];
+
+  // console.log(
+  //   "state?.UsersList?.draftTenantDetails",
+  //   state?.UsersList?.draftTenantDetails,
+  // );
 
   useEffect(() => {
     dispatch({
@@ -592,7 +696,7 @@ function AddTenantBookingCheckin({
   }, [bookingRoom, joiningDate, state.UsersList?.availableBedList?.listBeds]);
 
   useEffect(() => {
-    if (bookingJoiningDate) {
+    if (bookingJoiningDate || joiningDate) {
       const formatDate = (date) => {
         if (!date) return "";
         const d = new Date(date);
@@ -602,7 +706,9 @@ function AddTenantBookingCheckin({
         return `${day}-${month}-${year}`;
       };
 
-      const joiningDateForFormatted = formatDate(bookingJoiningDate);
+      const joiningDateForFormatted = formatDate(
+        bookingJoiningDate || joiningDate,
+      );
       dispatch({
         type: "AVAILBALEBEDDETAILS",
         payload: {
@@ -611,14 +717,28 @@ function AddTenantBookingCheckin({
         },
       });
     }
-  }, [bookingJoiningDate]);
+  }, [bookingJoiningDate, joiningDate]);
 
-  const handleBedLayoutPreview = () => {
+  const handleBedLayoutPreview = (way) => {
     setPgLatyout(true);
+    if (way === "booking-way") {
+      setIsWay(true);
+    } else {
+      setIsWay(false);
+    }
   };
 
   const handleClosePgLayOut = () => {
     setPgLatyout(false);
+  };
+
+  const handleSelectedBedDetails = (details) => {
+    setCheckinRoom(details?.roomId);
+    setCheckinBed(details?.id);
+    setCheckinFloor(details?.floorId);
+    setBookingFloor(details?.floorId);
+    setBookingRoom(details?.roomId);
+    setBookingBed(details?.id);
   };
 
   return (
@@ -652,7 +772,7 @@ function AddTenantBookingCheckin({
           <div className="grid grid-cols-2 gap-4">
             <div className="mb-3">
               <label className="mb-2 text-sm font-medium text-[#222222]  block">
-                Booking Date
+                Booking Date <span className="text-red-500 text-xl">*</span>
               </label>
               <div
                 className="datepicker-wrapper relative w-full"
@@ -679,7 +799,7 @@ function AddTenantBookingCheckin({
 
             <div className="mb-3">
               <label className="text-sm font-medium text-[#222222] mb-2 block">
-                Booking Amount
+                Booking Amount <span className="text-red-500 text-xl">*</span>
               </label>
               <input
                 ref={bookingAmountRef}
@@ -730,9 +850,19 @@ function AddTenantBookingCheckin({
             </div>
           </div>
           <div className="mb-2">
-            <label className="text-sm font-medium text-[#222222] mb-2 block">
-              Select Stay Details
-            </label>
+            <div className="flex justify-between mb-2 ">
+              <div>
+                <label className="text-sm font-medium text-[#222222] mb-2 block">
+                  Select Stay Details
+                </label>
+              </div>
+              <button
+                onClick={() => handleBedLayoutPreview("booking-way")}
+                className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
+              >
+                <IoBedOutline className="text-[12px]" /> Bed Layout View
+              </button>
+            </div>
 
             <div className="grid grid-cols-3 gap-3">
               <div ref={floorRef}>
@@ -830,7 +960,18 @@ function AddTenantBookingCheckin({
                   onChange={handleBookingBedChange}
                   styles={CustomStyles}
                 />
+                {state.Booking?.bookingBedError ? (
+                  <ErrorMessage
+                    message={state.Booking?.bookingBedError}
+                    type="error"
+                  />
+                ) : null}
                 {bedError && <ErrorMessage message={bedError} type="error" />}
+                {bedWarning ? (
+                  <div className="">
+                    <ErrorMessage message={bedWarning} type="error" />
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -849,7 +990,7 @@ function AddTenantBookingCheckin({
             {rentError && <ErrorMessage message={rentError} type="error" />}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 items-stretch ">
             <div className="mb-2" ref={paymentRef}>
               <label className="text-sm font-medium text-[#222222] mb-2 block">
                 Mode Of Transaction{" "}
@@ -879,8 +1020,22 @@ function AddTenantBookingCheckin({
                 <ErrorMessage message={paymentError} type="error" />
               )}
             </div>
-
             <div className="mb-2">
+              <label className="text-sm font-medium text-[#222222] mb-2 block">
+                Transaction ID{" "}
+                <span className="text-transparent text-xl opacity-0 select-none">
+                  *
+                </span>
+              </label>
+
+              <input
+                value={transactionId}
+                onChange={(e) => handleTransactionId(e)}
+                placeholder="Enter Transaction ID"
+                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+              />
+            </div>
+            {/* <div className="mb-2">
               <label className="text-sm font-medium text-[#222222] mb-2 block">
                 Transferring Account{" "}
                 <span className="text-red-500 text-xl">*</span>
@@ -905,20 +1060,9 @@ function AddTenantBookingCheckin({
                 noOptionsMessage={() => "No mode available"}
                 styles={CustomStyles}
               />
-            </div>
+            </div> */}
           </div>
-          <div className="mb-2">
-            <label className="text-sm font-medium text-[#222222] mb-2 block">
-              Transaction ID
-            </label>
 
-            <input
-              value={transactionId}
-              onChange={(e) => handleTransactionId(e)}
-              placeholder="Enter Transaction ID"
-              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-            />
-          </div>
           <div className="flex items-center gap-2 my-4">
             <input
               type="checkbox"
@@ -955,10 +1099,20 @@ function AddTenantBookingCheckin({
             </button>
             <div className="flex gap-2">
               <button
-                disabled={!isConfirmChecked}
-                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                disabled={!isConfirmChecked || bookingLoading}
+                onClick={handleAddBooking}
+                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
               >
-                Book
+                {bookingLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Booking...
+                  </>
+                ) : (
+                  "Book"
+                )}
               </button>
               <button
                 className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
@@ -987,36 +1141,11 @@ function AddTenantBookingCheckin({
                   onChange={handleJoiningDateChange}
                   getPopupContainer={() => document.body}
                   style={{ fontSize: 10 }}
+                  disabledDate={(current) =>
+                    current && current > dayjs().endOf("day")
+                  }
                 />
               </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 mb-2">
-            <div className="mb-2">
-              <label className="mb-2 block font-gilroy text-sm font-medium leading-normal text-[#222222]">
-                Stay Type <span className="text-xl text-red-600">*</span>
-              </label>
-
-              <Select
-                options={longStayOnly}
-                value={selectedStayType}
-                onChange={(selectedOption) => {
-                  setSelectedStayType(selectedOption);
-                  handleStayTypeChange(selectedOption);
-
-                  setStay_typenameErrmsg("");
-                }}
-                placeholder="Select a type"
-                classNamePrefix="custom"
-                menuPlacement="auto"
-                noOptionsMessage={() => "No stay types available"}
-                styles={CustomStyles}
-              />
-
-              {stay_typenameErrmsg?.trim() !== "" && (
-                <ErrorMessage message={stay_typenameErrmsg} type="error" />
-              )}
             </div>
           </div>
 
@@ -1028,7 +1157,7 @@ function AddTenantBookingCheckin({
                 </label>
               </div>
               <button
-                onClick={handleBedLayoutPreview}
+                onClick={() => handleBedLayoutPreview("checkin-way")}
                 className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
               >
                 <IoBedOutline className="text-[12px]" /> Bed Layout View
@@ -1041,8 +1170,25 @@ function AddTenantBookingCheckin({
                   Floor <span className="text-red-500 text-xl">*</span>
                 </label>
                 <Select
-                  options={options}
-                  value={checkinFloor}
+                  disabled={!joiningDate}
+                  options={
+                    state.UsersList.floorList?.map((u) => ({
+                      value: u.id,
+                      label: u.name,
+                    })) || []
+                  }
+                  value={
+                    state.UsersList.floorList?.find(
+                      (option) => option.id === checkinFloor,
+                    )
+                      ? {
+                          value: checkinFloor,
+                          label: state.UsersList.floorList.find(
+                            (option) => option.id === checkinFloor,
+                          )?.name,
+                        }
+                      : null
+                  }
                   onChange={handleCheckinFloorChange}
                   styles={CustomStyles}
                 />
@@ -1052,8 +1198,20 @@ function AddTenantBookingCheckin({
                   Room <span className="text-red-500 text-xl">*</span>
                 </label>
                 <Select
-                  options={options}
-                  value={checkinRoom}
+                  isDisabled={!joiningDate || !checkinFloor}
+                  options={roomOptions}
+                  value={
+                    state.PgList?.roomsList?.find(
+                      (option) => option.id === checkinRoom,
+                    )
+                      ? {
+                          value: checkinRoom,
+                          label: state.PgList?.roomsList.find(
+                            (option) => option.id === checkinRoom,
+                          )?.name,
+                        }
+                      : null
+                  }
                   onChange={handleCheckinRoomChange}
                   styles={CustomStyles}
                 />
@@ -1063,8 +1221,39 @@ function AddTenantBookingCheckin({
                   Bed <span className="text-red-500 text-xl">*</span>
                 </label>
                 <Select
-                  options={options}
-                  value={checkinBed}
+                  disabled={!joiningDate}
+                  options={
+                    availableCheckinBed
+                      ? availableCheckinBed
+                          .filter(
+                            (item) =>
+                              item &&
+                              item?.bedName !== "0" &&
+                              item?.bedName !== "undefined" &&
+                              item?.bedName !== "" &&
+                              item?.bedName !== "null",
+                          )
+                          .map((item) => ({
+                            value: item?.bedId,
+                            label: item?.bedName,
+                          }))
+                      : []
+                  }
+                  value={
+                    availableCheckinBed
+                      ? (() => {
+                          const selected = availableCheckinBed?.find(
+                            (option) => option?.bedId === checkinBed,
+                          );
+                          return selected
+                            ? {
+                                value: selected.bedId,
+                                label: selected.bedName,
+                              }
+                            : null;
+                        })()
+                      : null
+                  }
                   onChange={handleCheckinBedChange}
                   styles={CustomStyles}
                 />
@@ -1342,7 +1531,12 @@ function AddTenantBookingCheckin({
       )}
 
       {pgLayout && (
-        <PgLayoutView show={pgLayout} handleClose={handleClosePgLayOut} />
+        <PgLayoutView
+          show={pgLayout}
+          handleClose={handleClosePgLayOut}
+          selectedBedDetails={handleSelectedBedDetails}
+          isWay={isWay}
+        />
       )}
     </div>
   );
