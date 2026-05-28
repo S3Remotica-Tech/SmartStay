@@ -128,7 +128,12 @@ const CustomStyles = {
   }),
 };
 
-function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
+function AddTenantBookingCheckin({
+  handleClose,
+  handleNextStep,
+  mobile,
+  firstname,
+}) {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -262,7 +267,7 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
   };
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
-    setModeOfPayment(selectedOption.value);
+    setModeOfPayment(selectedOption);
     setPaymentError("");
   };
   const handleTransactionId = (e) => {
@@ -392,6 +397,8 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
       type: "SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
+        mobile: mobile,
+        firstName: firstname,
         joiningDate: bookingJoiningDate
           ? dayjs(bookingJoiningDate).format("YYYY-MM-DD")
           : "",
@@ -926,13 +933,13 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
 
           <div className="flex justify-between mt-3">
             <button
-              disabled={formLoading || !isConfirmChecked}
+              disabled={formLoading}
               onClick={handleBookingSaveDraft}
               className={`!font-gilroy text-sm border-1 !font-semibold !rounded-md 
   !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap 
   flex items-center justify-center gap-2
   ${
-    formLoading || !isConfirmChecked
+    formLoading
       ? "!bg-[#EBEFFF] text-[#A0A0A0] border-[#D6DEFF] cursor-not-allowed opacity-70"
       : "!bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] cursor-pointer"
   }`}
@@ -948,7 +955,7 @@ function AddTenantBookingCheckin({ handleClose, handleNextStep }) {
             </button>
             <div className="flex gap-2">
               <button
-                // disabled={isAlredayTenant}
+                disabled={!isConfirmChecked}
                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
               >
                 Book

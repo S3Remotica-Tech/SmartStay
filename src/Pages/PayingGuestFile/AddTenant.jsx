@@ -199,6 +199,7 @@ function AddTenant({ showMenu, handleClose }) {
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [isAlredayTenant, setIsAlreadyTenant] = useState(true);
+  const [newTenant, setNewTenant] = useState(false);
   const scrollRef = useRef(null);
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
@@ -513,7 +514,7 @@ function AddTenant({ showMenu, handleClose }) {
 
   const handleAddManually = () => {
     setIsAlreadyTenant(false);
-    
+    setNewTenant(true);
   };
 
   const handleSaveStepOne = () => {
@@ -623,26 +624,6 @@ function AddTenant({ showMenu, handleClose }) {
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
 
-    // const basicAndAddressPayload = {
-    //   profilePic: file,
-    //   hostelId: state.login.selectedHostel_Id,
-    //   customerInfo: {
-    //     firstName: capitalizedFirstname,
-    //     lastName: capitalizedLastname,
-    //     mobileNumber: MobileNumber,
-    //     emailId: Email,
-    //     type: 1,
-    //     address: {
-    //       houseNo: house_no,
-    //       street: street,
-    //       landmark: landmark,
-    //       city: city,
-    //       pincode: pincode,
-    //       state: state_name,
-    //     },
-    //   },
-    // };
-
     dispatch({
       type: "SAVE_DRAFT_SAGA",
       payload: {
@@ -747,6 +728,7 @@ function AddTenant({ showMenu, handleClose }) {
   const handleDraftTenant = (customerId) => {
     if (customerId) {
       dispatch({ type: "DRAFT_TENANT_LIST_SAGA", payload: customerId });
+      setNewTenant(false);
     }
   };
 
@@ -761,17 +743,21 @@ function AddTenant({ showMenu, handleClose }) {
   const DraftTenantDetails = state?.UsersList?.draftTenantGetList;
 
   useEffect(() => {
-    if (
-      DraftTenantDetails &&
-      DraftTenantDetails?.customerCurrentStatus === "DRAFT"
-    ) {
+    if (DraftTenantDetails && !newTenant) {
       setFirstname(DraftTenantDetails?.firstName);
       setLastname(DraftTenantDetails?.lastName);
       setPhone(DraftTenantDetails?.mobileNo);
       setEmail(DraftTenantDetails?.emailId);
+      setFile(DraftTenantDetails?.profilePic);
+    } else {
+      setFirstname("");
+      setLastname("");
+      setPhone("");
+      setEmail("");
     }
-  }, [DraftTenantDetails]);
+  }, [DraftTenantDetails, newTenant]);
 
+  console.log("newTenant", newTenant);
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -1466,6 +1452,8 @@ function AddTenant({ showMenu, handleClose }) {
                     <AddTenantBookingCheckin
                       handleClose={handleClose}
                       handleNextStep={handleNextStep}
+                      mobile={Phone}
+                      firstname={firstname}
                     />
                   )}
 
