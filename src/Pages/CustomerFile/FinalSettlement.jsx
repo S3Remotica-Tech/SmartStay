@@ -16,12 +16,114 @@ import { Tooltip } from "bootstrap";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit, AddCircle, Verify } from "iconsax-react";
+import { Edit, AddCircle, Verify, CloseCircle } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddRoomReading from "../ElectrictyFile/AddRoomReading";
 
 dayjs.extend(customParseFormat);
+
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "45px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
 function FinalSettlement() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,6 +146,7 @@ function FinalSettlement() {
 
   const [showInvoices, setShowInvoices] = React.useState(false);
   const [showRentDetails, setShowRentDetails] = React.useState(false);
+  const [collectFullRent, setCollectFullRent] = useState(false);
   const [showEbMissed, setShowEbMissed] = useState(false);
   const [showOtherCharges, setShowOtherCharges] = useState(false);
 
@@ -921,7 +1024,28 @@ function FinalSettlement() {
                     }
                   </span>
                 </div>
+                <div
+                  className="flex items-center gap-2 px-4 py-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <input
+                    type="checkbox"
+                    id="collectFullRent"
+                    checked={collectFullRent}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      setCollectFullRent(e.target.checked);
+                    }}
+                    className="w-4 h-4 cursor-pointer accent-[#1E45E1]"
+                  />
 
+                  <label
+                    htmlFor="collectFullRent"
+                    className="text-sm font-medium text-[#222222] cursor-pointer"
+                  >
+                    Do you want to collect Full Rent for current month?
+                  </label>
+                </div>
                 {showRentDetails && <hr className="m-0 border-gray-300" />}
 
                 {showRentDetails && (
@@ -1532,17 +1656,10 @@ function FinalSettlement() {
                   </div>
 
                   <div className="flex items-center gap-6 flex-wrap">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-3 py-1">
-                      <label className="text-sm font-medium text-orange-700">
-                        Pending Amount :
-                      </label>
-
-                      <span className="text-sm font-semibold text-orange-900">
-                        ₹{" "}
-                        {finalSettlementList?.deductionsInfo?.pendingAmount ||
-                          0}
-                      </span>
-                    </div>
+                    <span className="text-sm font-semibold text-black">
+                      - ₹{" "}
+                      {finalSettlementList?.deductionsInfo?.pendingAmount || 0}
+                    </span>
                   </div>
                 </div>
                 <div className="flex !items-center w-fit !justify-end w-full">
@@ -1639,48 +1756,7 @@ function FinalSettlement() {
                                 }
                                 menuPlacement="bottom"
                                 menuPosition="fixed"
-                                styles={{
-                                  control: (base) => ({
-                                    ...base,
-                                    height: "50px",
-                                    border: "1px solid #D9D9D9",
-                                    borderRadius: "8px",
-                                    fontSize: "16px",
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                  }),
-                                  menu: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    border: "1px solid #ced4da",
-                                    fontFamily: "Gilroy",
-                                  }),
-                                  menuList: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    maxHeight: "120px",
-                                    padding: 0,
-                                    overflowY: "auto",
-                                    scrollbarWidth: "thin",
-                                  }),
-                                  indicatorSeparator: () => ({
-                                    display: "none",
-                                  }),
-                                  option: (base, state) => ({
-                                    ...base,
-                                    cursor: state.isDisabled
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    backgroundColor: state.isFocused
-                                      ? "#E7F1FF"
-                                      : state.isDisabled
-                                        ? "#f0f0f0"
-                                        : "#fff",
-                                    color: state.isDisabled ? "#aaa" : "#000",
-                                  }),
-                                }}
+                                styles={CustomStyles}
                               />
                             ) : (
                               <input
@@ -1707,20 +1783,11 @@ function FinalSettlement() {
                             )}
                           </div>
 
-                          <div className="w-[40%]">
+                          <div className="w-[40%] relative">
                             <input
                               type="text"
                               placeholder="Enter amount"
                               value={item.amount}
-                              // onKeyDown={(e) => {
-                              //   if (
-                              //     e.key === "." ||
-                              //     e.key === "e" ||
-                              //     e.key === "-"
-                              //   ) {
-                              //     e.preventDefault();
-                              //   }
-                              // }}
                               disabled={
                                 apiDeductions.some(
                                   (apiItem) =>
@@ -1744,21 +1811,20 @@ function FinalSettlement() {
                                 type="error"
                               />
                             )}
-                          </div>
 
-                          <div className="w-[10%] flex justify-center items-center p-0">
-                            {!item.isSystemGenerated && (
-                              <Trash
-                                size="20"
-                                color="red"
-                                variant="Bold"
-                                className="cursor-pointer"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleRemoveField(index);
-                                }}
-                              />
-                            )}
+                            <div className="w-[10%] flex justify-center items-center p-0">
+                              {!item.isSystemGenerated && (
+                                <CloseCircle
+                                  variant="Bold"
+                                  size="20"
+                                  className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveField(index);
+                                  }}
+                                />
+                              )}
+                            </div>
                           </div>
                         </div>
                       );
