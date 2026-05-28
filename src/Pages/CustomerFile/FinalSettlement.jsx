@@ -997,7 +997,7 @@ function FinalSettlement() {
                   setShowRentDetails((prev) => !prev);
                 }}
               >
-                <div className="flex justify-between items-center p-3">
+                <div className="flex justify-between items-center p-2">
                   <div className="flex items-center gap-2">
                     <span className="rounded-[5px] p-1 flex cursor-pointer">
                       {showRentDetails ? (
@@ -1025,7 +1025,7 @@ function FinalSettlement() {
                   </span>
                 </div>
                 <div
-                  className="flex items-center gap-2 px-4 py-1"
+                  className="flex items-center gap-2 px-4 py-2"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <input
