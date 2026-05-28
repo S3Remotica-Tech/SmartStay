@@ -25,6 +25,7 @@ import {
   DocumentText,
   TableDocument,
   ArrowRight,
+  SearchNormal,
 } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Flipbackward from "../../Assets/Images/flip-backward.png";
@@ -198,7 +199,8 @@ function AddTenant({ showMenu, handleClose }) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [isAlredayTenant, setIsAlreadyTenant] = useState(true);
+
+  const [newTenant, setNewTenant] = useState(true);
   const scrollRef = useRef(null);
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
@@ -232,29 +234,13 @@ function AddTenant({ showMenu, handleClose }) {
   const [idProofNo, setIdProofNo] = useState("");
   const emailRef = useRef(null);
   const [search, setSearch] = useState("");
-
+  const dropdownRef = useRef(null);
   const aadhaarRef = useRef(null);
   const panRef = useRef(null);
   const isImage = (file) => file && file.type.startsWith("image/");
-
+  const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
   const handleDeletePan = () => setPanFile(null);
-
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id || search.trim() === "") return;
-
-    const timer = setTimeout(() => {
-      dispatch({
-        type: "TENANT_SEARCH_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          search,
-        },
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [state.login.selectedHostel_Id, search]);
 
   const handleAadhaarChange = (e) => {
     const file = e.target.files[0];
@@ -268,6 +254,22 @@ function AddTenant({ showMenu, handleClose }) {
 
   const handleChange = (e) => {
     setSearch(e.target.value);
+    dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
+    dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
+  };
+
+  const handleSearch = () => {
+    dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
+    if (!state.login.selectedHostel_Id || search.trim() === "") return;
+
+    dispatch({
+      type: "TENANT_SEARCH_LIST_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        search,
+      },
+    });
+    setSearchLoading(true);
   };
 
   const highlightText = (text, search) => {
@@ -511,10 +513,9 @@ function AddTenant({ showMenu, handleClose }) {
     return true;
   };
 
-  const handleAddManually = () => {
-    setIsAlreadyTenant(false);
-    
-  };
+  // const handleAddManually = () => {
+  //   setNewTenant(true);
+  // };
 
   const handleSaveStepOne = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
@@ -623,26 +624,6 @@ function AddTenant({ showMenu, handleClose }) {
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
 
-    // const basicAndAddressPayload = {
-    //   profilePic: file,
-    //   hostelId: state.login.selectedHostel_Id,
-    //   customerInfo: {
-    //     firstName: capitalizedFirstname,
-    //     lastName: capitalizedLastname,
-    //     mobileNumber: MobileNumber,
-    //     emailId: Email,
-    //     type: 1,
-    //     address: {
-    //       houseNo: house_no,
-    //       street: street,
-    //       landmark: landmark,
-    //       city: city,
-    //       pincode: pincode,
-    //       state: state_name,
-    //     },
-    //   },
-    // };
-
     dispatch({
       type: "SAVE_DRAFT_SAGA",
       payload: {
@@ -747,30 +728,67 @@ function AddTenant({ showMenu, handleClose }) {
   const handleDraftTenant = (customerId) => {
     if (customerId) {
       dispatch({ type: "DRAFT_TENANT_LIST_SAGA", payload: customerId });
+      setNewTenant(false);
     }
   };
 
   useEffect(() => {
     if (state.UsersList?.draftTenantGetStatusCode === 200) {
       setSearch("");
-      setIsAlreadyTenant(false);
+
+      dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
       dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
     }
   }, [state.UsersList?.draftTenantGetStatusCode]);
 
-  const DraftTenantDetails = state?.UsersList?.draftTenantGetList;
+  const DraftTenantDetails = state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
   useEffect(() => {
-    if (
-      DraftTenantDetails &&
-      DraftTenantDetails?.customerCurrentStatus === "DRAFT"
-    ) {
+    if (DraftTenantDetails && !newTenant) {
       setFirstname(DraftTenantDetails?.firstName);
       setLastname(DraftTenantDetails?.lastName);
       setPhone(DraftTenantDetails?.mobileNo);
       setEmail(DraftTenantDetails?.emailId);
+      setFile(DraftTenantDetails?.profilePic);
+    } else {
+      setFirstname("");
+      setLastname("");
+      setPhone("");
+      setEmail("");
     }
-  }, [DraftTenantDetails]);
+  }, [DraftTenantDetails, newTenant]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.UsersList?.minimumFourDigitError) {
+      setSearchLoading(false);
+    }
+  }, [state.UsersList?.minimumFourDigitError]);
+
+  useEffect(() => {
+    if (state.UsersList?.isTenantSearching) {
+      setSearchLoading(false);
+    }
+  }, [state.UsersList?.isTenantSearching]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
+    };
+  }, []);
 
   return (
     <>
@@ -779,7 +797,10 @@ function AddTenant({ showMenu, handleClose }) {
           <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
               <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
-              <div className="flex items-center mb-4">
+              <div
+                onClick={() => setStep(1)}
+                className="flex items-start  mb-4 cursor-pointer"
+              >
                 <div
                   className={`rounded-full flex items-center justify-center w-8 h-8 border ${step === 1 ? "bg-[#1E45E1]" : "bg-white"} border-[#1E45E1]`}
                 >
@@ -788,44 +809,52 @@ function AddTenant({ showMenu, handleClose }) {
                     color={step === 1 ? "#FFFFFF" : "#1E45E1"}
                   />
                 </div>
-                <span className="ml-2 font-gilroy text-sm">
+                <span className="ml-2 font-gilroy text-sm cursor-pointer">
                   Step 1
                   <br />
-                  <label className=" font-gilroy text-base">
+                  <label className=" font-gilroy text-base cursor-pointer break-words">
                     Basic Details
                   </label>
                 </span>
               </div>
-              <div className="flex items-center mb-4">
+              <div
+                onClick={() => setStep(2)}
+                className="flex items-start  mb-4 cursor-pointer"
+              >
                 <div
                   className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
                 >
                   <DocumentText
-                    size="20"
+                    size="16"
                     color={step === 2 ? "#FFFFFF" : "#1E45E1"}
                     className=" flex-shrink-0"
                   />
                 </div>
-                <span className="ml-2 font-gilroy text-sm">
+                <span className="ml-2 font-gilroy text-sm cursor-pointer">
                   Step 2
                   <br />
-                  <label className=" font-gilroy text-base">Finalize</label>
+                  <label className=" font-gilroy text-base cursor-pointer">
+                    Finalize
+                  </label>
                 </span>
               </div>
-              <div className="flex items-center mb-4">
+              <div
+                onClick={() => setStep(3)}
+                className="flex items-start  mb-4 cursor-pointer"
+              >
                 <div
-                  className={`rounded-full flex items-center  justify-center w-8 h-8 border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
+                  className={`rounded-full flex items-center  justify-center w-8 h-8 min-w-[32px] border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
                 >
                   <DocumentText
-                    size="20"
+                    size="16"
                     color={step === 3 ? "#FFFFFF" : "#1E45E1"}
                     className=" flex-shrink-0"
                   />
                 </div>
-                <span className="ml-2 font-gilroy text-sm">
+                <span className="ml-2 font-gilroy text-sm cursor-pointer">
                   Step 3
                   <br />
-                  <label className=" font-gilroy text-base">
+                  <label className=" font-gilroy text-base cursor-pointer break-words">
                     Documents & Job Details
                   </label>
                 </span>
@@ -835,17 +864,11 @@ function AddTenant({ showMenu, handleClose }) {
             <div className="flex-1 relative bg-white rounded-tr-[20px] rounded-br-[20px] overflow-y-auto my-2 mx-1">
               {step === 1 && (
                 <div className="flex justify-between items-start px-2 py-1 sticky top-0 z-10 bg-white  border-[#eee]">
-                  {isAlredayTenant ? (
-                    <h5 className="font-giroy font-semibold text-[18px]">
+                  {step === 1 && (
+                    <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
+                      <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                       Tenant Information
                     </h5>
-                  ) : (
-                    step === 1 && (
-                      <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
-                        <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
-                        Tenant Information
-                      </h5>
-                    )
                   )}
 
                   <Add
@@ -861,587 +884,567 @@ function AddTenant({ showMenu, handleClose }) {
                   {step === 1 && (
                     <div className="grid grid-cols-12 gap-3">
                       <div className="col-span-12 flex flex-col">
-                        {isAlredayTenant ? (
-                          <div className="w-full">
-                            <div className="mb-4">
-                              <p className="text-sm text-[#505F76] mb-1 font-medium">
-                                Search Mobile Number
-                              </p>
-                              <div className="relative w-full">
-                                <div className="flex items-center border rounded-lg px-3 py-2 bg-white mb-2">
-                                  <span className="text-gray-600 mr-4">
-                                    +91
-                                  </span>
+                        <div className="w-full">
+                          <div className="mb-4">
+                            <p className="text-sm text-[#505F76] mb-1 font-medium">
+                              Search or Add by Mobile Number
+                            </p>
+                            <div className="relative w-full">
+                              <div className="flex items-center border rounded-lg bg-white mb-2">
+                                <span className="text-gray-600 mr-4 px-2">
+                                  +91
+                                </span>
 
-                                  <input
-                                    type="text"
-                                    value={search}
-                                    onChange={handleChange}
-                                    placeholder="Search"
-                                    className="bg-transparent outline-none w-full"
+                                <input
+                                  type="text"
+                                  maxLength={10}
+                                  value={search}
+                                  onChange={handleChange}
+                                  placeholder="Search"
+                                  className="bg-transparent outline-none w-full"
+                                />
+
+                                <div
+                                  onClick={!searchLoading && handleSearch}
+                                  className={`bg-[#1E45E1] px-3 py-2 rounded-r-lg flex items-center justify-center min-w-[90px]
+    ${searchLoading ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                                >
+                                  {searchLoading ? (
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    </div>
+                                  ) : (
+                                    <SearchNormal color="#FFF" />
+                                  )}
+                                </div>
+                              </div>
+                              {state.UsersList?.isTenantSearching && (
+                                <div
+                                  ref={dropdownRef}
+                                  className="absolute top-full left-0 w-full z-50 mt-1"
+                                >
+                                  {state?.UsersList?.searchTenant?.length >
+                                  0 ? (
+                                    <div className="bg-white border-1 border-[#46464640] shadow rounded-lg  max-h-[300px] overflow-y-auto show-scrolls">
+                                      {state?.UsersList?.searchTenant?.map(
+                                        (user, index) => (
+                                          <div
+                                            onClick={() =>
+                                              handleDraftTenant(
+                                                user?.customerId,
+                                              )
+                                            }
+                                            key={user.id}
+                                            className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${
+                                              index !==
+                                              state?.UsersList?.searchTenant
+                                                ?.length -
+                                                1
+                                                ? "border-b border-[#F1F1F1]"
+                                                : ""
+                                            }`}
+                                          >
+                                            {user.profilePic ? (
+                                              <img
+                                                src={user.profilePic}
+                                                alt="avatar"
+                                                className="w-10 h-10 rounded-full"
+                                              />
+                                            ) : (
+                                              <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
+                                                {user.initials?.charAt(0)}
+                                              </div>
+                                            )}
+
+                                            <div className="flex flex-col">
+                                              <p className="font-medium mb-1">
+                                                {user.fullName}
+                                              </p>
+
+                                              <div className="flex items-center text-sm text-gray-500 gap-2 flex-wrap">
+                                                <Mobile
+                                                  size="18"
+                                                  color="#1E45E1"
+                                                />
+
+                                                <span>
+                                                  {highlightText(
+                                                    user.mobile,
+                                                    search,
+                                                  )}
+                                                </span>
+
+                                                {user.emailId && (
+                                                  <>
+                                                    <span className="bg-[#D9D9D9] h-4 w-[1px]" />
+
+                                                    <Sms
+                                                      size="18"
+                                                      color="#1E45E1"
+                                                    />
+
+                                                    <span>{user.emailId}</span>
+                                                  </>
+                                                )}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        ),
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div className="absolute w-full bg-white  rounded-lg shadow-lg p-3">
+                                      <NoDataMessage
+                                        label="Tenant"
+                                        isHeightChanged={true}
+                                        isSearching={true}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+
+                            {state.UsersList?.minimumFourDigitError && (
+                              <ErrorMessage
+                                message={state.UsersList?.minimumFourDigitError}
+                                type="error"
+                              />
+                            )}
+                            <span className="text-xs text-[#747686] mb-1 font-medium whitespace-nowrap">
+                              Search existing tenants in the Property flow
+                              ecosystem to auto-fill details.
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col justify-between">
+                          <div className="flex items-center mt-1">
+                            <div className="relative h-[100px] w-[100px]">
+                              <img
+                                src={
+                                  file
+                                    ? typeof file === "string"
+                                      ? file
+                                      : URL.createObjectURL(file)
+                                    : Profile
+                                }
+                                alt="profile"
+                                className="rounded-full h-[100px] w-[100px] object-cover"
+                              />
+
+                              <label htmlFor="imageInput">
+                                <div
+                                  className="absolute bottom-2 right-2 translate-x-1/4 translate-y-1/4 
+                      bg-white rounded-full p-1.5 shadow-md cursor-pointer"
+                                >
+                                  <AddCircle
+                                    size="20"
+                                    color="#1E45E1"
+                                    variant="Bold"
                                   />
                                 </div>
 
-                                {search && (
-                                  <div className="absolute top-full left-0 w-full z-50 mt-1">
-                                    {state?.UsersList?.searchTenant?.length >
-                                    0 ? (
-                                      <div className="bg-white border border-[#E5E7EB] rounded-lg shadow-lg overflow-hidden max-h-[300px] overflow-y-auto">
-                                        {state?.UsersList?.searchTenant?.map(
-                                          (user, index) => (
-                                            <div
-                                              onClick={() =>
-                                                handleDraftTenant(
-                                                  user?.customerId,
-                                                )
-                                              }
-                                              key={user.id}
-                                              className={`flex items-center gap-3 p-3 hover:bg-[#F7FAFF] cursor-pointer ${
-                                                index !==
-                                                state?.UsersList?.searchTenant
-                                                  ?.length -
-                                                  1
-                                                  ? "border-b border-[#F1F1F1]"
-                                                  : ""
-                                              }`}
-                                            >
-                                              {user.profilePic ? (
-                                                <img
-                                                  src={user.profilePic}
-                                                  alt="avatar"
-                                                  className="w-10 h-10 rounded-full"
-                                                />
-                                              ) : (
-                                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-                                                  {user.initials?.charAt(0)}
-                                                </div>
-                                              )}
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  id="imageInput"
+                                  onChange={handleImageChange}
+                                  className="hidden"
+                                />
+                              </label>
+                            </div>
 
-                                              <div className="flex flex-col">
-                                                <p className="font-medium mb-1">
-                                                  {user.fullName}
-                                                </p>
-
-                                                <div className="flex items-center text-sm text-gray-500 gap-2 flex-wrap">
-                                                  <Mobile
-                                                    size="18"
-                                                    color="#1E45E1"
-                                                  />
-
-                                                  <span>
-                                                    {highlightText(
-                                                      user.mobile,
-                                                      search,
-                                                    )}
-                                                  </span>
-
-                                                  {user.emailId && (
-                                                    <>
-                                                      <span className="bg-[#D9D9D9] h-4 w-[1px]" />
-
-                                                      <Sms
-                                                        size="18"
-                                                        color="#1E45E1"
-                                                      />
-
-                                                      <span>
-                                                        {user.emailId}
-                                                      </span>
-                                                    </>
-                                                  )}
-                                                </div>
-                                              </div>
-                                            </div>
-                                          ),
-                                        )}
-                                      </div>
-                                    ) : (
-                                      <div className="absolute w-full bg-white border border-[#E5E7EB] rounded-lg shadow-lg p-3">
-                                        <NoDataMessage
-                                          label="Tenant"
-                                          isHeightChanged={true}
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                              <span className="text-xs text-[#747686] mb-1 font-medium whitespace-nowrap">
-                                Search existing tenants in the Property flow
-                                ecosystem to auto-fill details.
-                              </span>
-
-                              <div className="flex items-center my-4">
-                                <div className="flex-1 h-px bg-gray-300"></div>
-
-                                <span className="px-3 text-gray-500 text-sm font-medium">
-                                  OR
-                                </span>
-
-                                <div className="flex-1 h-px bg-gray-300"></div>
-                              </div>
-                              <div className="flex justify-center w-full ">
-                                <button
-                                  className="!font-gilroy text-sm !border !border-[#F4F8FF] !bg-[#F4F8FF]
-                                       !text-[#1E45E1]
-                                       !font-semibold !rounded-md !py-2.5 !px-4 !mb-2   w-full
-                                       !whitespace-nowrap"
-                                  onClick={handleAddManually}
-                                >
-                                  Add Manually
-                                </button>
-                              </div>
+                            <div className="pl-5">
+                              <p className="text-base font-medium text-[#222222] mb-1">
+                                Upload Tenant Photo
+                              </p>
+                              <p className="text-sm text-[#4B4B4B]">
+                                Recommended size 400x400px. JPG or PNG allowed.
+                              </p>
                             </div>
                           </div>
-                        ) : (
-                          <div className="flex flex-col justify-between">
-                            <div className="flex justify-between items-start gap-4 !bg-[#F4F8FF] px-2 py-4 rounded-md">
-                              <div className="text-sm text-[#64748B] font-medium pr-[20px]">
-                                Press the button to Search existing tenants in
-                                the Property flow ecosystem to auto-fill
-                                details.
-                              </div>
-                              <div>
-                                <button
-                                  className="!font-gilroy text-xs !border !border-[#1E45E1] !bg-[#1E45E1]
-                                       !text-white
-                                       !font-semibold !rounded-md !py-2 !px-10 !mb-2   w-full
-                                       !whitespace-nowrap"
-                                  onClick={() => setIsAlreadyTenant(true)}
-                                >
-                                  Existing User
-                                </button>
-                              </div>
-                            </div>
 
-                            <div className="flex items-center mt-1">
-                              <div className="relative h-[100px] w-[100px]">
-                                <img
-                                  src={
-                                    file
-                                      ? typeof file === "string"
-                                        ? file
-                                        : URL.createObjectURL(file)
-                                      : Profile
-                                  }
-                                  alt="profile"
-                                  className="rounded-full h-[100px] w-[100px] object-cover"
+                          <div className="mt-4 col-span-12">
+                            <Form.Group className="mb-1">
+                              <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                                First Name{" "}
+                                <span className="text-red-500 text-[20px]">
+                                  *
+                                </span>
+                              </Form.Label>
+                              <FormControl
+                                id="form-controls"
+                                placeholder="Enter First Name"
+                                type="text"
+                                ref={firstnameRef}
+                                value={firstname}
+                                onChange={(e) => handleFirstName(e)}
+                                className={`text-base text-[#4B4B4B] font-gilroy ${
+                                  firstname ? "font-semibold" : "font-medium"
+                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              />
+                              {firstnameError && (
+                                <ErrorMessage
+                                  message={firstnameError}
+                                  type="error"
                                 />
+                              )}
+                            </Form.Group>
 
-                                <label htmlFor="imageInput">
-                                  <div
-                                    className="absolute bottom-2 right-2 translate-x-1/4 translate-y-1/4 
-                      bg-white rounded-full p-1.5 shadow-md cursor-pointer"
-                                  >
-                                    <AddCircle
-                                      size="20"
-                                      color="#1E45E1"
-                                      variant="Bold"
-                                    />
-                                  </div>
+                            <Form.Group className="mb-1">
+                              <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                                Last Name
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter Last Name"
+                                value={lastname}
+                                onChange={(e) => handleLastName(e)}
+                                className={`text-base text-[#4B4B4B] font-gilroy ${
+                                  lastname ? "font-semibold" : "font-medium"
+                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              />
+                            </Form.Group>
 
-                                  <input
-                                    type="file"
-                                    accept="image/*"
-                                    id="imageInput"
-                                    onChange={handleImageChange}
-                                    className="hidden"
-                                  />
-                                </label>
-                              </div>
-
-                              <div className="pl-5">
-                                <p className="text-base font-medium text-[#222222] mb-1">
-                                  Upload Tenant Photo
-                                </p>
-                                <p className="text-sm text-[#4B4B4B]">
-                                  Recommended size 400x400px. JPG or PNG
-                                  allowed.
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="mt-4 col-span-12">
+                            <div className="col-span-12">
                               <Form.Group className="mb-1">
                                 <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
-                                  First Name{" "}
+                                  Mobile Number{" "}
                                   <span className="text-red-500 text-[20px]">
-                                    *
+                                    {" "}
+                                    *{" "}
                                   </span>
                                 </Form.Label>
-                                <FormControl
-                                  id="form-controls"
-                                  placeholder="Enter First Name"
-                                  type="text"
-                                  ref={firstnameRef}
-                                  value={firstname}
-                                  onChange={(e) => handleFirstName(e)}
-                                  className={`text-base text-[#4B4B4B] font-gilroy ${
-                                    firstname ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
-                                />
-                                {firstnameError && (
-                                  <ErrorMessage
-                                    message={firstnameError}
-                                    type="error"
-                                  />
-                                )}
-                              </Form.Group>
 
-                              <Form.Group className="mb-1">
-                                <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
-                                  Last Name
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Last Name"
-                                  value={lastname}
-                                  onChange={(e) => handleLastName(e)}
-                                  className={`text-base text-[#4B4B4B] font-gilroy ${
-                                    lastname ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
-                                />
-                              </Form.Group>
+                                <InputGroup>
+                                  <div
+                                    className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${
+                                      countryCode
+                                        ? "font-semibold"
+                                        : "font-light"
+                                    }`}
+                                  >
+                                    <span>+{countryCode}</span>
 
-                              <div className="col-span-12">
-                                <Form.Group className="mb-1">
-                                  <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
-                                    Mobile Number{" "}
-                                    <span className="text-red-500 text-[20px]">
-                                      {" "}
-                                      *{" "}
-                                    </span>
-                                  </Form.Label>
+                                    <ArrowDown2 size="18" />
+                                  </div>
 
-                                  <InputGroup>
-                                    <div
-                                      className={`flex items-center justify-between gap-2 border border-gray-300 rounded-l-md h-11 max-w-xs px-3 bg-white font-gilroy text-base text-gray-700 cursor-default select-none ${
-                                        countryCode
-                                          ? "font-semibold"
-                                          : "font-light"
-                                      }`}
-                                    >
-                                      <span>+{countryCode}</span>
-
-                                      <ArrowDown2 size="18" />
-                                    </div>
-
-                                    <Form.Control
-                                      value={Phone}
-                                      ref={phoneRef}
-                                      onChange={handlePhone}
-                                      type="text"
-                                      placeholder="Enter Mobile Number"
-                                      maxLength={10}
-                                      className={`text-base text-[#4B4B4B] font-gilroy ${
-                                        Phone ? "font-semibold" : "font-medium"
-                                      } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
-                                    />
-                                  </InputGroup>
-
-                                  {phoneError && (
-                                    <ErrorMessage
-                                      message={phoneError}
-                                      type="error"
-                                    />
-                                  )}
-                                  {state.UsersList.phoneError && (
-                                    <ErrorMessage
-                                      message={state.UsersList.phoneError}
-                                      type="error"
-                                    />
-                                  )}
-                                  {phoneErrorMessage && (
-                                    <ErrorMessage
-                                      message={phoneErrorMessage}
-                                      type="error"
-                                    />
-                                  )}
-                                </Form.Group>
-                              </div>
-
-                              <Form.Group className="mb-1">
-                                <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
-                                  Email ID
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Email ID"
-                                  value={Email}
-                                  ref={emailRef}
-                                  onChange={(e) => handleEmail(e)}
-                                  className={`text-base text-[#4B4B4B] font-gilroy ${
-                                    Email ? "font-semibold" : "font-medium"
-                                  } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
-                                />
-                                {emailError && (
-                                  <ErrorMessage
-                                    message={emailError}
-                                    type="error"
-                                  />
-                                )}
-                                {state.UsersList.emailError && (
-                                  <ErrorMessage
-                                    message={state.UsersList.emailError}
-                                    type="error"
-                                  />
-                                )}
-                                {emailErrorMessage && (
-                                  <ErrorMessage
-                                    message={emailErrorMessage}
-                                    type="error"
-                                  />
-                                )}
-                              </Form.Group>
-                            </div>
-
-                            <div className="grid grid-cols-12 gap-4 mb-1">
-                              <div className="col-span-12 md:col-span-6">
-                                <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                                  ID Proof type
-                                </label>
-
-                                <Select
-                                  options={idProofOptions}
-                                  value={idProofType}
-                                  onChange={handleSelectChange}
-                                  placeholder="Select"
-                                  classNamePrefix="custom"
-                                  styles={CustomStyles}
-                                />
-                              </div>
-
-                              <div className="col-span-12 md:col-span-6">
-                                <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                                  ID Proof no
-                                </label>
-
-                                <input
-                                  type="text"
-                                  value={idProofNo}
-                                  onChange={handleInputChange}
-                                  placeholder="Enter no"
-                                  className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                                />
-                              </div>
-                            </div>
-
-                            <div className="flex justify-between my-3 gap-1">
-                              <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
-                                <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
-                                Address Details
-                              </h5>
-
-                              <div className="text-[#64748B]">
-                                <input
-                                  type="checkbox"
-                                  className="cursor-pointer "
-                                />{" "}
-                                Do it later
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-2 mt-2">
-                              <div className="col-span-1 mb-1">
-                                <Form.Group>
-                                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                    Flat , House no , Building , Company ,
-                                    Apartment{" "}
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    id="form-controls"
-                                    placeholder="Enter House No"
-                                    value={house_no}
-                                    onChange={(e) => handleHouseNo(e)}
-                                    className={`text-base text-gray-700 font-gilroy ${
-                                      house_no ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-gray-300 h-10 rounded-md`}
-                                  />
-                                </Form.Group>
-                                {house_noError && (
-                                  <ErrorMessage
-                                    message={house_noError}
-                                    type="error"
-                                  />
-                                )}
-                              </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2 mt-2">
-                              <div className=" mb-1">
-                                <Form.Group>
-                                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                    Area , Street , Sector , Village{" "}
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    id="form-controls"
-                                    placeholder="Enter Street"
-                                    value={street}
-                                    onChange={(e) => handleStreetName(e)}
-                                    className={`text-base text-gray-700 font-gilroy ${
-                                      street ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-gray-300 h-10 rounded-md`}
-                                  />
-                                </Form.Group>
-                                {streetError && (
-                                  <ErrorMessage
-                                    message={streetError}
-                                    type="error"
-                                  />
-                                )}
-                              </div>
-
-                              <div className=" mb-1">
-                                <Form.Group className="">
-                                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                    Landmark{" "}
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    id="form-controls"
-                                    placeholder="E.g , near appollo hospital"
-                                    value={landmark}
-                                    onChange={(e) => handleLandmark(e)}
-                                    className={`text-base text-gray-700 font-gilroy ${
-                                      landmark ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-gray-300 h-10 rounded-md`}
-                                  />
-                                </Form.Group>
-                                {landmarkError && (
-                                  <ErrorMessage
-                                    message={landmarkError}
-                                    type="error"
-                                  />
-                                )}
-                              </div>
-
-                              <div className="mb-1">
-                                <Form.Group controlId="exampleForm.ControlInput1">
-                                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                    Pincode
-                                  </Form.Label>
                                   <Form.Control
-                                    value={pincode}
-                                    ref={pincodeRef}
-                                    onChange={(e) => handlePinCodeChange(e)}
-                                    type="tel"
-                                    maxLength={6}
-                                    inputMode="numeric"
-                                    pattern="[0-9]*"
-                                    placeholder="Enter Pincode"
-                                    className={`text-base text-gray-700 font-gilroy ${
-                                      pincode ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-gray-300 h-10 rounded-md`}
-                                  />
-
-                                  {pincodeError && (
-                                    <ErrorMessage
-                                      message={pincodeError}
-                                      type="error"
-                                    />
-                                  )}
-                                </Form.Group>
-                              </div>
-
-                              <div className=" mb-1">
-                                <Form.Group>
-                                  <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
-                                    Town/City{" "}
-                                  </Form.Label>
-                                  <FormControl
+                                    value={Phone}
+                                    ref={phoneRef}
+                                    onChange={handlePhone}
                                     type="text"
-                                    id="form-controls"
-                                    placeholder="Enter City"
-                                    value={city}
-                                    ref={cityRef}
-                                    onChange={(e) => handleCity(e)}
-                                    className={`text-base text-gray-700 font-gilroy ${
-                                      city ? "font-semibold" : "font-medium"
-                                    } shadow-none border border-gray-300 h-10 rounded-md`}
+                                    placeholder="Enter Mobile Number"
+                                    maxLength={10}
+                                    className={`text-base text-[#4B4B4B] font-gilroy ${
+                                      Phone ? "font-semibold" : "font-medium"
+                                    } shadow-none border border-[#D9D9D9] border-l-0 h-11 rounded-r-[8px]`}
                                   />
-                                </Form.Group>
-                                {cityError && (
+                                </InputGroup>
+
+                                {phoneError && (
                                   <ErrorMessage
-                                    message={cityError}
+                                    message={phoneError}
                                     type="error"
                                   />
                                 )}
-                              </div>
+                                {state.UsersList.phoneError && (
+                                  <ErrorMessage
+                                    message={state.UsersList.phoneError}
+                                    type="error"
+                                  />
+                                )}
+                                {phoneErrorMessage && (
+                                  <ErrorMessage
+                                    message={phoneErrorMessage}
+                                    type="error"
+                                  />
+                                )}
+                              </Form.Group>
+                            </div>
+
+                            <Form.Group className="mb-1">
+                              <Form.Label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                                Email ID
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter Email ID"
+                                value={Email}
+                                ref={emailRef}
+                                onChange={(e) => handleEmail(e)}
+                                className={`text-base text-[#4B4B4B] font-gilroy ${
+                                  Email ? "font-semibold" : "font-medium"
+                                } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
+                              />
+                              {emailError && (
+                                <ErrorMessage
+                                  message={emailError}
+                                  type="error"
+                                />
+                              )}
+                              {state.UsersList.emailError && (
+                                <ErrorMessage
+                                  message={state.UsersList.emailError}
+                                  type="error"
+                                />
+                              )}
+                              {emailErrorMessage && (
+                                <ErrorMessage
+                                  message={emailErrorMessage}
+                                  type="error"
+                                />
+                              )}
+                            </Form.Group>
+                          </div>
+
+                          <div className="grid grid-cols-12 gap-4 mb-1">
+                            <div className="col-span-12 md:col-span-6">
+                              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                ID Proof type
+                              </label>
+
+                              <Select
+                                options={idProofOptions}
+                                value={idProofType}
+                                onChange={handleSelectChange}
+                                placeholder="Select"
+                                classNamePrefix="custom"
+                                styles={CustomStyles}
+                              />
+                            </div>
+
+                            <div className="col-span-12 md:col-span-6">
+                              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                ID Proof no
+                              </label>
+
+                              <input
+                                type="text"
+                                value={idProofNo}
+                                onChange={handleInputChange}
+                                placeholder="Enter no"
+                                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex justify-between my-3 gap-1">
+                            <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
+                              <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
+                              Address Details
+                            </h5>
+
+                            {/* <div className="text-[#64748B]">
+                              <input
+                                type="checkbox"
+                                className="cursor-pointer "
+                              />{" "}
+                              Do it later
+                            </div> */}
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-2 mt-2">
+                            <div className="col-span-1 mb-1">
+                              <Form.Group>
+                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                  Flat , House no , Building , Company ,
+                                  Apartment{" "}
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder="Enter House No"
+                                  value={house_no}
+                                  onChange={(e) => handleHouseNo(e)}
+                                  className={`text-base text-gray-700 font-gilroy ${
+                                    house_no ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                />
+                              </Form.Group>
+                              {house_noError && (
+                                <ErrorMessage
+                                  message={house_noError}
+                                  type="error"
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 mt-2">
+                            <div className=" mb-1">
+                              <Form.Group>
+                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                  Area , Street , Sector , Village{" "}
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder="Enter Street"
+                                  value={street}
+                                  onChange={(e) => handleStreetName(e)}
+                                  className={`text-base text-gray-700 font-gilroy ${
+                                    street ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                />
+                              </Form.Group>
+                              {streetError && (
+                                <ErrorMessage
+                                  message={streetError}
+                                  type="error"
+                                />
+                              )}
+                            </div>
+
+                            <div className=" mb-1">
+                              <Form.Group className="">
+                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                  Landmark{" "}
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder="E.g , near appollo hospital"
+                                  value={landmark}
+                                  onChange={(e) => handleLandmark(e)}
+                                  className={`text-base text-gray-700 font-gilroy ${
+                                    landmark ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                />
+                              </Form.Group>
+                              {landmarkError && (
+                                <ErrorMessage
+                                  message={landmarkError}
+                                  type="error"
+                                />
+                              )}
                             </div>
 
                             <div className="mb-1">
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlInput5"
-                              >
-                                <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
-                                  State{" "}
+                              <Form.Group controlId="exampleForm.ControlInput1">
+                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                  Pincode
                                 </Form.Label>
-
-                                <Select
-                                  options={indianStates}
-                                  ref={stateRef}
-                                  onChange={(selectedOption) => {
-                                    setStateName(selectedOption?.value);
-                                  }}
-                                  onInputChange={(inputValue, { action }) => {
-                                    if (action === "input-change") {
-                                      const lettersOnly = inputValue.replace(
-                                        /[^a-zA-Z\s]/g,
-                                        "",
-                                      );
-                                      return lettersOnly;
-                                    }
-                                    return inputValue;
-                                  }}
-                                  value={
-                                    state_name
-                                      ? {
-                                          value: state_name,
-                                          label: state_name,
-                                        }
-                                      : null
-                                  }
-                                  placeholder="Select State"
-                                  classNamePrefix="custom"
-                                  menuPlacement="auto"
-                                  noOptionsMessage={() => "No state available"}
-                                  styles={CustomStyles}
+                                <Form.Control
+                                  value={pincode}
+                                  ref={pincodeRef}
+                                  onChange={(e) => handlePinCodeChange(e)}
+                                  type="tel"
+                                  maxLength={6}
+                                  inputMode="numeric"
+                                  pattern="[0-9]*"
+                                  placeholder="Enter Pincode"
+                                  className={`text-base text-gray-700 font-gilroy ${
+                                    pincode ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
                                 />
+
+                                {pincodeError && (
+                                  <ErrorMessage
+                                    message={pincodeError}
+                                    type="error"
+                                  />
+                                )}
                               </Form.Group>
                             </div>
-                            <div className="d-flex justify-content-between mt-3">
-                              <button
-                                disabled={formLoading || isAlredayTenant}
-                                className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1] border border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
-                                  formLoading || isAlredayTenant
-                                    ? "cursor-not-allowed opacity-70"
-                                    : "cursor-pointer"
-                                }`}
-                                onClick={handleSaveStepOne}
-                              >
-                                {formLoading ? (
-                                  <>
-                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
-                                    Saving...
-                                  </>
-                                ) : (
-                                  "Save Draft"
-                                )}
-                              </button>
-                              <button
-                                disabled={isAlredayTenant}
-                                className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-                                onClick={handleNext}
-                              >
-                                Next <ArrowRight color="#FFFFFF" size="18" />
-                              </button>
-                            </div>
 
-                            {/* <div className="flex justify-end mt-3">
+                            <div className=" mb-1">
+                              <Form.Group>
+                                <Form.Label className="text-sm text-gray-900 font-gilroy font-medium">
+                                  Town/City{" "}
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  id="form-controls"
+                                  placeholder="Enter City"
+                                  value={city}
+                                  ref={cityRef}
+                                  onChange={(e) => handleCity(e)}
+                                  className={`text-base text-gray-700 font-gilroy ${
+                                    city ? "font-semibold" : "font-medium"
+                                  } shadow-none border border-gray-300 h-10 rounded-md`}
+                                />
+                              </Form.Group>
+                              {cityError && (
+                                <ErrorMessage
+                                  message={cityError}
+                                  type="error"
+                                />
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mb-1">
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput5"
+                            >
+                              <Form.Label className="font-gilroy text-sm font-medium text-gray-900 not-italic leading-normal">
+                                State{" "}
+                              </Form.Label>
+
+                              <Select
+                                options={indianStates}
+                                ref={stateRef}
+                                onChange={(selectedOption) => {
+                                  setStateName(selectedOption?.value);
+                                }}
+                                onInputChange={(inputValue, { action }) => {
+                                  if (action === "input-change") {
+                                    const lettersOnly = inputValue.replace(
+                                      /[^a-zA-Z\s]/g,
+                                      "",
+                                    );
+                                    return lettersOnly;
+                                  }
+                                  return inputValue;
+                                }}
+                                value={
+                                  state_name
+                                    ? {
+                                        value: state_name,
+                                        label: state_name,
+                                      }
+                                    : null
+                                }
+                                placeholder="Select State"
+                                classNamePrefix="custom"
+                                menuPlacement="auto"
+                                noOptionsMessage={() => "No state available"}
+                                styles={CustomStyles}
+                              />
+                            </Form.Group>
+                          </div>
+                          <div className="d-flex justify-content-between mt-3">
+                            <button
+                              disabled={formLoading}
+                              className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1] border border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
+                                formLoading
+                                  ? "cursor-not-allowed opacity-70"
+                                  : "cursor-pointer"
+                              }`}
+                              onClick={handleSaveStepOne}
+                            >
+                              {formLoading ? (
+                                <>
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
+                                  Saving...
+                                </>
+                              ) : (
+                                "Save Draft"
+                              )}
+                            </button>
+                            <button
+                              className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                              onClick={handleNext}
+                            >
+                              Next <ArrowRight color="#FFFFFF" size="18" />
+                            </button>
+                          </div>
+
+                          {/* <div className="flex justify-end mt-3">
                         <Button
                           className="!font-gilroy !text-sm bg-white !text-blue-700 !font-semibold !rounded-md mb-2 h-11 w-36 whitespace-nowrap"
                           onClick={handlePrevious}
@@ -1456,8 +1459,7 @@ function AddTenant({ showMenu, handleClose }) {
                           Create Tenant
                         </Button>
                       </div> */}
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -1466,6 +1468,8 @@ function AddTenant({ showMenu, handleClose }) {
                     <AddTenantBookingCheckin
                       handleClose={handleClose}
                       handleNextStep={handleNextStep}
+                      mobile={Phone}
+                      firstname={firstname}
                     />
                   )}
 

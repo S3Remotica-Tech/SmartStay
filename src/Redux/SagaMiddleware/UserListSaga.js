@@ -1036,7 +1036,15 @@ function* handleSearchTenant(user) {
     }
   } catch (err) {
     const error = err || {};
+    if(error){
+       yield put({
+          type: "MOBILENUMBER_ERROR",
+          payload: error.response.data,
+        });
+    }
     yield* handleApiError(error);
+    
+
   }
 }
 

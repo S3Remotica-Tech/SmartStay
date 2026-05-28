@@ -82,6 +82,14 @@ const Receipt = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (state.InvoiceList?.receiptDeleteError) {
+      setDeleteLoading(false);
+      setDeleteShow(false);
+      dispatch({ type: "REMOVE_DELETE_RECEIPT_ERROR" });
+    }
+  }, [state.InvoiceList?.receiptDeleteError]);
+
   const handleEdit = (item) => {
     props.onhandleEdit(item);
   };

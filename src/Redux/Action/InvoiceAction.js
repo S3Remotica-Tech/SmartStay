@@ -2,86 +2,80 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 import qs from "qs";
 
-
-
-
 export function invoicelist() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function invoiceList() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
-
-// v1 
+// v1
 // export async function UpdateInvoice(datum) {
 //   return await AxiosConfig.post('/transaction/list', datum, {
 //     data: datum
 //   })
 // }
 
-// v2 
+// v2
 export async function RecordPayment(hostelId, invoiceId, data) {
-  return await AxiosConfigV2.post(`/v2/transaction/${hostelId}/${invoiceId}`, data)
+  return await AxiosConfigV2.post(
+    `/v2/transaction/${hostelId}/${invoiceId}`,
+    data,
+  );
 }
-
-
 
 export function ManualInvoice() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 export function ManualInvoiceNumber() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function ManualInvoiceUserData() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function RecurrInvoiceamountData() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export async function AddManualInvoiceBill(manualinvoice) {
-  return await AxiosConfigV2.post(`/v2/bills/manual/${manualinvoice.customerId}`, manualinvoice, {
-    data: manualinvoice
-  })
-}
-
-
-export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
-  return AxiosConfigV2.put(
-    `/v2/bills/${hostelId}/${invoiceId}`,
-    items
+  return await AxiosConfigV2.post(
+    `/v2/bills/manual/${manualinvoice.customerId}`,
+    manualinvoice,
+    {
+      data: manualinvoice,
+    },
   );
 }
 
-
-
+export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
+  return AxiosConfigV2.put(`/v2/bills/${hostelId}/${invoiceId}`, items);
+}
 
 export function DeleteManualInvoiceBill() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function AddRecurringBill() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 // v1
@@ -97,9 +91,8 @@ export async function GetManualInvoices() {
   // })
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
-
 
 export async function GetFilterInvoices(hostelId, filters = {}) {
   return AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
@@ -112,148 +105,158 @@ export async function GetFilterInvoices(hostelId, filters = {}) {
       paymentStatus: filters.paymentStatus,
       search: filters.search,
     },
-    paramsSerializer: params =>
+    paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
-
 
 export async function getFinalSettlementList(customer) {
   return await AxiosConfigV2.get(
     `/v2/customers/settlement/${customer.customerId}`,
     {
-      params: customer.leavingDate
-        ? { leavingDate: customer.leavingDate }
-        : {},
-    }
+      params: customer.leavingDate ? { leavingDate: customer.leavingDate } : {},
+    },
   );
 }
 
-
-
 export async function getParticularBillsDetails(bill) {
-  return await AxiosConfigV2.get(`/v2/bills/${bill.hostelId}/${bill.invoiceId}`)
+  return await AxiosConfigV2.get(
+    `/v2/bills/${bill.hostelId}/${bill.invoiceId}`,
+  );
 }
 
 export async function getParticularReceiptDetails(bill) {
-  return await AxiosConfigV2.get(`/v2/transaction/${bill.hostelId}/${bill.transactionId}`)
+  return await AxiosConfigV2.get(
+    `/v2/transaction/${bill.hostelId}/${bill.transactionId}`,
+  );
 }
-
 
 export async function getInitializeRefund(bill) {
-
-  return await AxiosConfigV2.get(`/v2/bills/refund/${bill.hostelId}/${bill.invoiceId}`)
+  return await AxiosConfigV2.get(
+    `/v2/bills/refund/${bill.hostelId}/${bill.invoiceId}`,
+  );
 }
 
-
 export async function createRefund(bill) {
-  return await AxiosConfigV2.post(`/v2/transaction/refund/${bill.hostelId}/${bill.invoiceId}`, bill, {
-    data: bill
-  })
+  return await AxiosConfigV2.post(
+    `/v2/transaction/refund/${bill.hostelId}/${bill.invoiceId}`,
+    bill,
+    {
+      data: bill,
+    },
+  );
 }
 
 export async function getInitializeEditRecurring(hostel) {
-  return await AxiosConfigV2.get(`/v2/bills/details/${hostel.hostelId}/${hostel.invoiceId}`, {
-  })
-
-
+  return await AxiosConfigV2.get(
+    `/v2/bills/details/${hostel.hostelId}/${hostel.invoiceId}`,
+    {},
+  );
 }
 
 export function AddRecurrBillsUsers() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export async function GetRecurrBills(hostelId) {
-  return await AxiosConfigV2.get(`/v2/customers/config/${hostelId}`,)
+  return await AxiosConfigV2.get(`/v2/customers/config/${hostelId}`);
 }
-
-
-
 
 export function DeleteRecurrBills() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
-// v1 
+// v1
 // export async function GetReceiptData(receipt) {
-//   return await AxiosConfig.post('/receipts/all_receipts', receipt, { 
+//   return await AxiosConfig.post('/receipts/all_receipts', receipt, {
 //     data: receipt
 //   })
 // }
 
-// v2 
+// v2
 export async function GetReceiptData(hostelId) {
-  return await AxiosConfigV2.get(`/v2/bills/receipts/${hostelId}`, {
-  })
+  return await AxiosConfigV2.get(`/v2/bills/receipts/${hostelId}`, {});
 }
 
 export function AddReceipt() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
-
 
 export function EditReceipt() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export async function DeleteReceipt(receipt) {
-  return await AxiosConfigV2.delete(`/v2/transaction/receipts/${receipt.hostelId}/${receipt.receiptId}`)
+  return await AxiosConfigV2.delete(
+    `/v2/transaction/receipts/${receipt.hostelId}/${receipt.receiptId}`,
+  );
 }
 
 export function ReferenceIdGet() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export async function shareWhatsappPDF(bill) {
-  return await AxiosConfigV2.get(`/v2/bills/share/${bill.hostelId}/${bill.invoiceId}`, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.get(
+    `/v2/bills/share/${bill.hostelId}/${bill.invoiceId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  })
+  );
 }
-
 
 export async function shareWhatsappPDFReceipt(receipt) {
-  return await AxiosConfigV2.get(`/v2/transaction/share/${receipt.hostelId}/${receipt.transactionId}`)
+  return await AxiosConfigV2.get(
+    `/v2/transaction/share/${receipt.hostelId}/${receipt.transactionId}`,
+  );
 }
-
-
-
-
-
-
 
 export async function ReceiptPDf(bill) {
-  return await AxiosConfigV2.get(`/v2/transaction/download/${bill.hostelId}/${bill.transactionId}`, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.get(
+    `/v2/transaction/download/${bill.hostelId}/${bill.transactionId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  })
+  );
 }
 
-
+export async function subscriptionPDF(sub) {
+  return await AxiosConfigV2.get(
+    `/v2/transaction/download/${sub.hostelId}/${sub.transactionId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+}
 
 export async function InvoicePDf(bill) {
-  return await AxiosConfigV2.get(`/v2/bills/download/${bill.hostelId}/${bill.invoiceId}`, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.get(
+    `/v2/bills/download/${bill.hostelId}/${bill.invoiceId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  })
+  );
 }
 
-
-
-// v1 
+// v1
 // export async function GetAmenities(datum) {
 //   return await AxiosConfig.post('/list/amenities-list', datum, {
 //     data: datum
@@ -265,25 +268,28 @@ export async function GetAmenities(hostelId) {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  });
 }
 
-// v1 
+// v1
 // export async function UpdateAmenities(datum) {
 //   return await AxiosConfig.post('/amenities/amnityUpdate', datum, {
 //     data: datum
 //   })
 // }
 
-// v2 
+// v2
 export async function UpdateAmenities(hostelId, amenityId, datum) {
-  return await AxiosConfigV2.put(`/v2/amenity/${hostelId}/${amenityId}`, datum, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.put(
+    `/v2/amenity/${hostelId}/${amenityId}`,
+    datum,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  })
+  );
 }
-
 
 export async function UpdateManualUnPaid(hostelId, invoiceId) {
   return await AxiosConfigV2.put(
@@ -293,39 +299,33 @@ export async function UpdateManualUnPaid(hostelId, invoiceId) {
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
 }
-
-
 
 export async function AddAmenity(hostelId, datum) {
   return await AxiosConfigV2.post(`/v2/amenity/${hostelId}`, datum, {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  });
 }
 
 export async function updateRecurringTenant(recurring) {
-
-
   const body = {
-    status: recurring?.status
+    status: recurring?.status,
   };
 
   return await AxiosConfigV2.put(
     `/v2/customers/config/${recurring.hostelId}/${recurring.customerId}`,
-    body
+    body,
   );
 }
-
-
 
 export function InvoiceSettings() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 
   // const formData = new FormData();
   // if (params.profile) formData.append("profile", params.profile);
@@ -349,11 +349,10 @@ export function InvoiceSettings() {
   // }
 }
 
-
 export function InvoiceRecurringsettings() {
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
   // return await AxiosConfig.post('/settings/add_recuring', datum, {
   //   data: datum
   // })
@@ -368,61 +367,62 @@ export function InvoiceRecurringsettings() {
 
 // v2
 export async function DeleteUser(user) {
-  return await AxiosConfigV2.delete(`/v2/profile/delete-user/${user.hostelId}/${user.userId}`, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.delete(
+    `/v2/profile/delete-user/${user.hostelId}/${user.userId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
 }
 
-
-// v1 
+// v1
 // export async function DeleteAmenities(datum) {
 //   return await AxiosConfig.post('/amenities/delete', datum, {
 //     data: datum
 //   })
 // }
 
-// v2 
+// v2
 export async function DeleteAmenities(amenityId, hostelId) {
   return await AxiosConfigV2.delete(`/v2/amenity/${amenityId}/${hostelId}`, {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  });
 }
-
 
 export async function InvoiceDiscount(discount) {
-  return await AxiosConfigV2.post(`/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`, discount, {
-  })
+  return await AxiosConfigV2.post(
+    `/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`,
+    discount,
+    {},
+  );
 }
-   
+
 export async function EditInvoiceDiscount(discount) {
   return await AxiosConfigV2.put(
     `/v2/bills/discount/${discount.hostelId}/${discount.invoiceId}`,
     discount,
-    {}
+    {},
   );
 }
 
 export async function RefuseInvoiceDiscount(data) {
-    return await AxiosConfigV2.delete(
-    `/v2/bills/discount/${data.hostelId}/${data.invoiceId}`
+  return await AxiosConfigV2.delete(
+    `/v2/bills/discount/${data.hostelId}/${data.invoiceId}`,
   );
 }
 
-
-
-// v1 
+// v1
 // export async function AssignAmenities(datum) {
 //   return await AxiosConfig.post('/settings/assign_amenity', datum, {
 //     data: datum
 //   })
 // }
 
-
-// v2 
+// v2
 export async function AssignAmenities(hostelId, amenityId, customers) {
   return await AxiosConfigV2.put(
     `/v2/amenity/assign/${hostelId}/${amenityId}`,
@@ -431,11 +431,11 @@ export async function AssignAmenities(hostelId, amenityId, customers) {
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
 }
 
-// v1 
+// v1
 // export async function UnAssignAmenities(datum) {
 //   return await AxiosConfig.post('/settings/remove_assigned_amenitie', datum, {
 //     data: datum
@@ -450,68 +450,59 @@ export async function UnAssignAmenities(hostelId, amenityId, customers) {
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
 }
 
-
-// v1 
+// v1
 // export async function GetAssignAmenities(datum) {
 //   return await AxiosConfig.post('/settings/all_customer_list', datum, {
 //     data: datum
 //   })
 // }
 
-// v2 
+// v2
 export async function ParticularAmentityList(hostelId, amenityId) {
   return await AxiosConfigV2.get(`/v2/amenity/${hostelId}/${amenityId}`, {
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  });
 }
-
-
 
 export async function AssignAmenitiesForTenant(datum) {
   return await AxiosConfigV2.put(
-    `/v2/amenity/assign/customer/${datum.hostelId}`, datum, {
-    data: datum
-  });
+    `/v2/amenity/assign/customer/${datum.hostelId}`,
+    datum,
+    {
+      data: datum,
+    },
+  );
 }
 
 export async function UnAssignAmenitiesForTenant(datum) {
   return await AxiosConfigV2.put(
-    `/v2/amenity/assign/customer/${datum.hostelId}`, datum, {
-    data: datum
-  });
+    `/v2/amenity/assign/customer/${datum.hostelId}`,
+    datum,
+    {
+      data: datum,
+    },
+  );
 }
-
-
-
-
-
-
-
-
-
-
 
 export function GetBillsPdfDetails() {
   // return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
 
 export function ReceiptPDFNewChanges() {
   // return await AxiosConfig.get('/get_receipt_details/' + params.id);
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }
-
-
 
 export function CustomerRecurringEnableDisable() {
   // return await AxiosConfig.post('/add_recuring_bill_enabled', recur, {
@@ -519,5 +510,5 @@ export function CustomerRecurringEnableDisable() {
   // })
   new Promise((resolve) => {
     resolve({ status: 200 });
-  })
+  });
 }

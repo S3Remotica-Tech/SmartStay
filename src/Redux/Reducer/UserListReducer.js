@@ -25,6 +25,7 @@ export const initialState = {
   amnitiesnamelist: [],
   addUserAmnities: "",
   usermessage: "",
+  isTenantSearching: false,
   statusCustomerAddUser: 0,
   CustomerdetailsgetStatuscode: 0,
   AmentiesHistorygetStatuscode: 0,
@@ -135,6 +136,7 @@ export const initialState = {
   availableBedList: [],
   bookedDetails: [],
   bedError: "",
+  minimumFourDigitError: "",
   addRoomReadingStatusCode: 0,
   getRoomReadingList: [],
   getRoomReadingStatus: 0,
@@ -187,7 +189,7 @@ export const initialState = {
     sharingTypeLabel: "",
   },
   draftTenantGetStatusCode: 0,
-  draftTenantGetList: "",
+  alreadyAvailableDraftTenantGetList: "",
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -223,7 +225,7 @@ const UserListReducer = (state = initialState, action) => {
       return {
         ...state,
         draftTenantGetStatusCode: action.payload.statusCode,
-        draftTenantGetList: action.payload.response,
+        alreadyAvailableDraftTenantGetList: action.payload.response,
       };
     case "REMOVE_DRAFT_TENANT_LIST_REDUCER":
       return {
@@ -956,13 +958,21 @@ const UserListReducer = (state = initialState, action) => {
         ...state,
         searchTenant: action.payload.response,
         statuscodeForSearchTenant: action.payload.statusCode,
+        isTenantSearching: true,
       };
 
     case "REMOVE_TENANT_SEARCH_LIST_REDUCER":
       return {
         ...state,
         statuscodeForSearchTenant: 0,
+        isTenantSearching: false,
       };
+
+    case "MOBILENUMBER_ERROR":
+      return { ...state, minimumFourDigitError: action.payload };
+
+    case "REMOVE_MOBILENUMBER_ERROR":
+      return { ...state, minimumFourDigitError: "" };
 
     case "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE":
       return { ...state, statuscodeForAdharFileError: 0 };

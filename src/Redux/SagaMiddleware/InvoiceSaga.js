@@ -1,104 +1,90 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-   InvoiceDiscount,EditInvoiceDiscount,
-    RefuseInvoiceDiscount,
-   getInitializeEditRecurring, shareWhatsappPDF, shareWhatsappPDFReceipt, UpdateManualUnPaid,
-   GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
-   GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
+  InvoiceDiscount,
+  EditInvoiceDiscount,
+  RefuseInvoiceDiscount,
+  subscriptionPDF,
+  getInitializeEditRecurring,
+  shareWhatsappPDF,
+  shareWhatsappPDFReceipt,
+  UpdateManualUnPaid,
+  GetFilterInvoices,
+  updateRecurringTenant,
+  AssignAmenitiesForTenant,
+  UnAssignAmenitiesForTenant,
+  createRefund,
+  getInitializeRefund,
+  getParticularReceiptDetails,
+  getParticularBillsDetails,
+  getFinalSettlementList,
+  CustomerRecurringEnableDisable,
+  UnAssignAmenities,
+  ParticularAmentityList,
+  AssignAmenities,
+  DeleteUser,
+  DeleteAmenities,
+  invoicelist,
+  invoiceList,
+  RecordPayment,
+  InvoiceSettings,
+  InvoicePDf,
+  GetAmenities,
+  UpdateAmenities,
+  AddAmenity,
+  ManualInvoice,
+  ManualInvoiceUserData,
+  AddManualInvoiceBill,
+  EditManualInvoiceBill,
+  DeleteManualInvoiceBill,
+  ManualInvoiceNumber,
+  GetManualInvoices,
+  RecurrInvoiceamountData,
+  AddRecurringBill,
+  GetRecurrBills,
+  DeleteRecurrBills,
+  InvoiceRecurringsettings,
+  GetReceiptData,
+  AddReceipt,
+  ReferenceIdGet,
+  DeleteReceipt,
+  EditReceipt,
+  ReceiptPDf,
+  AddRecurrBillsUsers,
+  GetBillsPdfDetails,
 } from "../Action/InvoiceAction";
-import Cookies from 'universal-cookie';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "universal-cookie";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
-
 function* handleApiError(error) {
-   const status = error?.response?.status || error?.status;
+  const status = error?.response?.status || error?.status;
 
-   if (status === 401) {
-      yield put({
-         type: "UN-AUTHORIZED",
-         payload: "Access Denied",
-      });
-   }
-   else if (status === 500) {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-
-   }
-   else if (error.code === "ERR_NETWORK") {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-
-   }
-   else if (status === 403) {
-      yield put({ type: "ACCESS_RESTRICTION_ERROR", payload: "Access Restricted" });
-   }
+  if (status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  } else if (status === 500) {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+  } else if (error.code === "ERR_NETWORK") {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+  } else if (status === 403) {
+    yield put({
+      type: "ACCESS_RESTRICTION_ERROR",
+      payload: "Access Restricted",
+    });
+  }
 }
 
 function* handleInvoiceDiscount(action) {
-
-   try {
-      const response = yield call(InvoiceDiscount, action.payload)
-
-      if (response?.status === 200) {
-         yield put({ type: 'INVOICE_DISCOUNT_REDUCER', payload: { response: response.data, statusCode: response?.status } })
-
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.data || "Updated Successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'INVOICE_DISCOUNT_REDUCER_ERROR', payload: error.response.data });
-      }
-
-   }
-
-}
-
-
-function* handleEditInvoiceDiscount(action) {
   try {
-   
-    const response = yield call(EditInvoiceDiscount, action.payload);
+    const response = yield call(InvoiceDiscount, action.payload);
 
     if (response?.status === 200) {
       yield put({
-        type: 'EDIT_INVOICE_DISCOUNT_REDUCER',
-        payload: {
-          response: response.data,
-          statusCode: response?.status
-        }
+        type: "INVOICE_DISCOUNT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
       });
 
       var toastStyle = {
@@ -121,2232 +107,2294 @@ function* handleEditInvoiceDiscount(action) {
         autoClose: 2000,
         hideProgressBar: true,
         closeButton: false,
-        style: toastStyle
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
       });
     }
 
     if (response) {
       refreshToken(response);
     }
-
   } catch (error) {
-   
     yield* handleApiError(error);
-
     if (error.status === 400 || error.status === 403) {
       yield put({
-        type: 'EDIT_INVOICE_DISCOUNT_REDUCER_ERROR',
-        payload: error.response.data
+        type: "INVOICE_DISCOUNT_REDUCER_ERROR",
+        payload: error.response.data,
       });
     }
   }
 }
 
+function* handleEditInvoiceDiscount(action) {
+  try {
+    const response = yield call(EditInvoiceDiscount, action.payload);
 
-function* handleRefuseInvoiceDiscount(action) {
-   try {
+    if (response?.status === 200) {
+      yield put({
+        type: "EDIT_INVOICE_DISCOUNT_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
 
-      const response = yield call(RefuseInvoiceDiscount, action.payload);
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 200 || response?.status === 204) {
-         yield put({
-            type: 'REFUSE_DISCOUNT_REDUCER',
-            payload: {
-               response: response.data,
-               statusCode: response?.status
-            }
-         });
+      toast.success(response.data || "Updated Successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: toastStyle,
+      });
+    }
 
-        
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-         };
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
 
-         toast.success(response.data || "Discount Refused Successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            style: toastStyle
-         });
-      }
-
-      if (response) {
-         refreshToken(response);
-      }
-
-   } catch (error) {
-     
-      yield* handleApiError(error);
-
-      if (error?.status === 400 || error?.status === 403) {
-         yield put({
-            type: 'REFUSE_DISCOUNT_REDUCER_ERROR',
-            payload: error.response?.data
-         });
-
-               }
-   }
+    if (error.status === 400 || error.status === 403) {
+      yield put({
+        type: "EDIT_INVOICE_DISCOUNT_REDUCER_ERROR",
+        payload: error.response.data,
+      });
+    }
+  }
 }
 
+function* handleRefuseInvoiceDiscount(action) {
+  try {
+    const response = yield call(RefuseInvoiceDiscount, action.payload);
 
+    if (response?.status === 200 || response?.status === 204) {
+      yield put({
+        type: "REFUSE_DISCOUNT_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
+      toast.success(response.data || "Discount Refused Successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: toastStyle,
+      });
+    }
 
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error?.status === 400 || error?.status === 403) {
+      yield put({
+        type: "REFUSE_DISCOUNT_REDUCER_ERROR",
+        payload: error.response?.data,
+      });
+    }
+  }
+}
 
 function* handleGetInitializeEditRecurring(action) {
+  try {
+    const response = yield call(getInitializeEditRecurring, action.payload);
 
-   try {
-      const response = yield call(getInitializeEditRecurring, action.payload)
-
-
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'GET_INITIALIZE_EDIT_RECURRING', payload: { response: response.data, statusCode: response?.status } })
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_INITIALIZE_EDIT_RECURRING",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleGetshareWhatsappPDF(action) {
+  try {
+    const response = yield call(shareWhatsappPDF, action.payload);
 
-   try {
-      const response = yield call(shareWhatsappPDF, action.payload)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_SHARE_PDF",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'GET_SHARE_PDF', payload: { response: response.data, statusCode: response?.status } })
-
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success("PDF sent to WhatsApp successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'SHARE_PDF_ERROR', payload: error.response.data });
-      }
-   }
-
+      toast.success("PDF sent to WhatsApp successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: "SHARE_PDF_ERROR", payload: error.response.data });
+    }
+  }
 }
 
 function* handleGetshareWhatsappPDFReceipt(action) {
+  try {
+    const response = yield call(shareWhatsappPDFReceipt, action.payload);
 
-   try {
-      const response = yield call(shareWhatsappPDFReceipt, action.payload)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "WHATSAPP_SHARE_PDF_RECEIPT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'WHATSAPP_SHARE_PDF_RECEIPT', payload: { response: response.data, statusCode: response?.status } })
-
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success("PDF sent to WhatsApp successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'SHARE_PDF_ERROR', payload: error.response.data });
-      }
-   }
-
+      toast.success("PDF sent to WhatsApp successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: "SHARE_PDF_ERROR", payload: error.response.data });
+    }
+  }
 }
 function* handleGetFilterInvoice(action) {
-   try {
-
-      const { hostelId, filters } = action.payload;
-      const response = yield call(GetFilterInvoices, hostelId, filters)
-      const hostel_Id = GlobalHostelId(response);
-      if (hostel_Id) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'INVOICES_LIST_FILTER', payload: { response: response?.data || [], statusCode: response?.status } })
-      }
-
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+  try {
+    const { hostelId, filters } = action.payload;
+    const response = yield call(GetFilterInvoices, hostelId, filters);
+    const hostel_Id = GlobalHostelId(response);
+    if (hostel_Id) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "INVOICES_LIST_FILTER",
+        payload: {
+          response: response?.data || [],
+          statusCode: response?.status,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
-
-
-
-
-
-
-
 
 function* handleUpdateTenantRecurring(action) {
+  try {
+    const response = yield call(updateRecurringTenant, action.payload);
 
-   try {
-      const response = yield call(updateRecurringTenant, action.payload)
+    if (response?.status === 200) {
+      yield put({
+        type: "UPDATE_TENANT_RECURRING_SUCCESS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
-      if (response?.status === 200) {
-         yield put({ type: 'UPDATE_TENANT_RECURRING_SUCCESS', payload: { response: response.data, statusCode: response?.status } })
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
 
-         };
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'UPDATE_TENANT_RECURRING_ERROR', payload: error.response.data });
-      }
-
-   }
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({
+        type: "UPDATE_TENANT_RECURRING_ERROR",
+        payload: error.response.data,
+      });
+    }
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 function* handleCreateRefund(action) {
+  try {
+    const response = yield call(createRefund, action.payload);
 
-   try {
-      const response = yield call(createRefund, action.payload)
+    if (response?.status === 200) {
+      yield put({
+        type: "CREATE_REFUND",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 200) {
-         yield put({ type: 'CREATE_REFUND', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
 
-         };
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'REFUNDABLE_ERROR', payload: error.response.data });
-      }
-
-   }
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: "REFUNDABLE_ERROR", payload: error.response.data });
+    }
+  }
 }
 
-
-
 function* handleAssignAmenitiesForTenant(action) {
+  try {
+    const response = yield call(AssignAmenitiesForTenant, action.payload);
 
-   try {
-      const response = yield call(AssignAmenitiesForTenant, action.payload)
+    if (response?.status === 201) {
+      yield put({
+        type: "TENANT_ASSIGN_AMENITIES",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 201) {
-         yield put({ type: 'TENANT_ASSIGN_AMENITIES', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
 
-         };
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleUnAssignAmenitiesForTenant(action) {
+  try {
+    const response = yield call(UnAssignAmenitiesForTenant, action.payload);
 
-   try {
-      const response = yield call(UnAssignAmenitiesForTenant, action.payload)
+    if (response?.status === 201) {
+      yield put({
+        type: "TENANT_UNASSIGN_AMENITIES",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 201) {
-         yield put({ type: 'TENANT_UNASSIGN_AMENITIES', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
 
-         };
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleGetInitializeRefund(action) {
+  try {
+    const response = yield call(getInitializeRefund, action.payload);
 
-   try {
-      const response = yield call(getInitializeRefund, action.payload)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_INITIALIZE_REFUND_DETAILS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
-
-
-
-      if (response?.status === 200) {
-         yield put({ type: 'GET_INITIALIZE_REFUND_DETAILS', payload: { response: response.data, statusCode: response?.status } })
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
-
-
 
 function* handleGetFinalSettlementList(action) {
+  try {
+    const response = yield call(getFinalSettlementList, action.payload);
 
-   try {
-      const response = yield call(getFinalSettlementList, action.payload)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-      }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_FINAL_SETTLEMENT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
 
-
-
-
-      if (response?.status === 200) {
-         yield put({ type: 'GET_FINAL_SETTLEMENT', payload: { response: response.data, statusCode: response?.status } })
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'FINAL_SETTLMENT_ERROR', payload: error.response.data });
-         toast.error(`${error.response.data}`, {
-            style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-
-         });
-
-      }
-   }
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({
+        type: "FINAL_SETTLMENT_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 }
-
 
 function* handleGetParticularBillsDetails(action) {
+  try {
+    const response = yield call(getParticularBillsDetails, action.payload);
 
-   try {
-      const response = yield call(getParticularBillsDetails, action.payload)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_PARTICULAR_BILL_DETAILS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
 
-      if (response?.status === 200) {
-         yield put({ type: 'GET_PARTICULAR_BILL_DETAILS', payload: { response: response.data, statusCode: response?.status } })
-      }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
-
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
 
 function* handleGetParticularReceiptDetails(action) {
-
-   try {
-      const response = yield call(getParticularReceiptDetails, action.payload)
-      if (response?.status === 200) {
-         yield put({ type: 'GET_PARTICULAR_RECEIPT_DETAILS', payload: { response: response.data, statusCode: response?.status } })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+  try {
+    const response = yield call(getParticularReceiptDetails, action.payload);
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_PARTICULAR_RECEIPT_DETAILS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
-
-
 function* handleDeleteUser(action) {
+  try {
+    const response = yield call(DeleteUser, action.payload);
 
-   try {
-      const response = yield call(DeleteUser, action.payload)
+    if (response?.status === 200) {
+      yield put({
+        type: "DELETE_USER",
+        payload: { response: response.data.data, statusCode: response?.status },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 200) {
-         yield put({ type: 'DELETE_USER', payload: { response: response.data.data, statusCode: response?.status } })
-
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleDeleteAmenities(action) {
-   try {
-      const { amenityId, hostelId } = action.payload
-      const response = yield call(DeleteAmenities, amenityId, hostelId);
+  try {
+    const { amenityId, hostelId } = action.payload;
+    const response = yield call(DeleteAmenities, amenityId, hostelId);
 
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
 
-      }
+    if (response?.status === 200) {
+      yield put({
+        type: "DELETE_AMENITIES",
+        payload: {
+          response: response.data.data || [],
+          statusCode: response?.status,
+        },
+      });
 
-      if (response?.status === 200) {
-         yield put({ type: 'DELETE_AMENITIES', payload: { response: response.data.data || [], statusCode: response?.status } })
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-
-
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: error.response.data });
-         toast.error('This amenity is assigned and cannot be deleted', {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-         })
-
-      }
-   }
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: "ALREADY_ASSIGN_ERROR", payload: error.response.data });
+      toast.error("This amenity is assigned and cannot be deleted", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 }
-
 
 function* handleAssignAmenities(action) {
-   try {
-      const { hostelId, amenityId, customers } = action.payload;
+  try {
+    const { hostelId, amenityId, customers } = action.payload;
 
-      const response = yield call(AssignAmenities, hostelId, amenityId, customers);
+    const response = yield call(
+      AssignAmenities,
+      hostelId,
+      amenityId,
+      customers,
+    );
 
-      if (response?.status === 200) {
-         yield put({
-            type: 'ASSIGN_AMENITIES',
-            payload: {
-               response: response.data.data,
-               statusCode: response?.status,
-            },
-         });
+    if (response?.status === 200) {
+      yield put({
+        type: "ASSIGN_AMENITIES",
+        payload: {
+          response: response.data.data,
+          statusCode: response?.status,
+        },
+      });
 
-         toast.success(response?.data || "Amenities assigned successfully!", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            style: {
-               backgroundColor: "#E6F6E6",
-               color: "black",
-               fontFamily: "Gilroy",
-               fontWeight: 600,
-               fontSize: 14,
-               textAlign: "start",
-               borderRadius: "60px",
-               padding: "10px",
-            },
-         });
-      } else {
-         yield put({
-            type: 'ERROR',
-            payload: response?.data?.message || "Failed to assign amenities",
-         });
-      }
+      toast.success(response?.data || "Amenities assigned successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: {
+          backgroundColor: "#E6F6E6",
+          color: "black",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          fontSize: 14,
+          textAlign: "start",
+          borderRadius: "60px",
+          padding: "10px",
+        },
+      });
+    } else {
+      yield put({
+        type: "ERROR",
+        payload: response?.data?.message || "Failed to assign amenities",
+      });
+    }
 
-      if (response) {
-         yield call(refreshToken, response);
-      }
-   } catch (error) {
-      yield* handleApiError(error);
-
-   }
+    if (response) {
+      yield call(refreshToken, response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
-
 
 function* handleUnAssignAmenities(action) {
-   try {
-      const { hostelId, amenityId, customers } = action.payload;
-      const response = yield call(UnAssignAmenities, hostelId, amenityId, customers);
-      // const response = yield call(UnAssignAmenities, action.payload)
+  try {
+    const { hostelId, amenityId, customers } = action.payload;
+    const response = yield call(
+      UnAssignAmenities,
+      hostelId,
+      amenityId,
+      customers,
+    );
+    // const response = yield call(UnAssignAmenities, action.payload)
 
-      if (response?.status === 200) {
-         yield put({ type: 'UN_ASSIGN_AMENITIES', payload: { response: response.data.data, statusCode: response?.status } })
+    if (response?.status === 200) {
+      yield put({
+        type: "UN_ASSIGN_AMENITIES",
+        payload: { response: response.data.data, statusCode: response?.status },
+      });
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
-
-
-         toast.success(response?.data || "Amenities UnAssigned successfully!", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
+      toast.success(response?.data || "Amenities UnAssigned successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
 
 function* handleGetParticularAmentityList(action) {
-   try {
-      const { hostelId, amenityId } = action.payload
-      const response = yield call(ParticularAmentityList, hostelId, amenityId);
+  try {
+    const { hostelId, amenityId } = action.payload;
+    const response = yield call(ParticularAmentityList, hostelId, amenityId);
 
-      const hostel_Id = GlobalHostelId(response);
-      if (hostel_Id) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostel_Id, { path: '/' });
-      }
+    const hostel_Id = GlobalHostelId(response);
+    if (hostel_Id) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostel_Id, { path: '/' });
+    }
 
-
-      if (response?.status === 200) {
-         yield put({ type: 'GET_ASSIGN_AMENITIES', payload: { unAssigned: response?.data?.unassignedCustomers, Assigned: response?.data?.assignedCustomers, statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_ASSIGN_AMENITIES",
+        payload: {
+          unAssigned: response?.data?.unassignedCustomers,
+          Assigned: response?.data?.assignedCustomers,
+          statusCode: response?.status,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
-
-
-
-
-
-
 
 function* handleinvoicelist() {
-   try {
-      const response = yield call(invoicelist);
+  try {
+    const response = yield call(invoicelist);
 
-      if (response?.status === 200) {
-         yield put({ type: 'invoicelist', payload: response.data, statusCode: response?.status })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "invoicelist",
+        payload: response.data,
+        statusCode: response?.status,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
-
 function* handleInvoiceList(action) {
-   try {
-      const response = yield call(invoiceList, action.payload)
+  try {
+    const response = yield call(invoiceList, action.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'INVOICE_LIST', payload: { response: response.data.data, statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "INVOICE_LIST",
+        payload: { response: response.data.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleRecordPaymentUpdate(action) {
-   try {
-      const { hostelId, invoiceId, data } = action.payload
-      const response = yield call(RecordPayment, hostelId, invoiceId, data)
+  try {
+    const { hostelId, invoiceId, data } = action.payload;
+    const response = yield call(RecordPayment, hostelId, invoiceId, data);
 
-      if (response?.status === 200) {
-         yield put({ type: 'RECORD-PAYMENT', payload: { response: response.data, statusCode: response?.status } })
+    if (response?.status === 200) {
+      yield put({
+        type: "RECORD-PAYMENT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
 
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.code === "ERR_BAD_REQUEST") {
+      if (error.status === 400 || error.status === 403) {
+        yield put({ type: "PAYABLE_AMOUNT", payload: error.response.data });
       }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.status === 400 || error.status === 403) {
-            yield put({ type: 'PAYABLE_AMOUNT', payload: error.response.data });
-         }
-      }
-   }
+    }
+  }
 }
 
 function* handleInvoiceSettings(param) {
-   try {
-      const response = yield call(InvoiceSettings, param.payload)
+  try {
+    const response = yield call(InvoiceSettings, param.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'INVOICE_SETTINGS', payload: { response: response.data, statusCode: response?.status } })
-
-
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
-}
-
-
-function* handleInvoicePdf(action) {
-   try {
-      const response = yield call(InvoicePDf, action.payload)
-
+    if (response?.status === 200) {
+      yield put({
+        type: "INVOICE_SETTINGS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
       var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "red",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
-
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
       };
-      if (response?.status === 200) {
-         yield put({
-            type: 'INVOICE_PDF', payload: {
-               response: response.data, statusCode: response?.status
-            }
-         })
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
 
-      if (error.status === 400) {
-         yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
-         toast.error(error.response.data, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-   }
+      toast.success(response.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
+function* handleSubscriptionPDF(action) {
+  try {
+    const response = yield call(subscriptionPDF, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "red",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+    if (response?.status === 200) {
+      yield put({
+        type: "SUBSCRIPTION_PDF",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error.status === 400) {
+      yield put({
+        type: "SUBSCRIPTION_PDF_ERROR",
+        payload: { response: error.response.data },
+      });
+      toast.error(error.response.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  }
+}
+
+function* handleInvoicePdf(action) {
+  try {
+    const response = yield call(InvoicePDf, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "red",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+    if (response?.status === 200) {
+      yield put({
+        type: "INVOICE_PDF",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error.status === 400) {
+      yield put({
+        type: "PDF_ERROR",
+        payload: { response: error.response.data },
+      });
+      toast.error(error.response.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  }
+}
 
 function* handleAddAmenity(action) {
-   try {
-      const { hostelId, data } = action.payload
-      const response = yield call(AddAmenity, hostelId, data)
+  try {
+    const { hostelId, data } = action.payload;
+    const response = yield call(AddAmenity, hostelId, data);
 
+    if (response?.status === 200) {
+      yield put({
+        type: "AMENITIES_SETTINGS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 200) {
-         yield put({ type: 'AMENITIES_SETTINGS', payload: { response: response.data, statusCode: response?.status } })
-
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         }
-
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      else if (response?.status === 403) {
-         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: response.data } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-
-      yield* handleApiError(error);
-      if (error.status === 403 || error.response?.status === 403) {
-         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
-      }
-
-   }
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response?.status === 403) {
+      yield put({
+        type: "ERROR_AMENITIES_SETTINGS",
+        payload: { response: response.data },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 403 || error.response?.status === 403) {
+      yield put({
+        type: "ERROR_AMENITIES_SETTINGS",
+        payload: { response: error.response.data },
+      });
+    }
+  }
 }
 
 function* handleGetAmenities(action) {
-   try {
-      const response = yield call(GetAmenities, action.payload)
+  try {
+    const response = yield call(GetAmenities, action.payload);
 
-      // console.log("response", response)
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
+    // console.log("response", response)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
-      if (response?.status === 200) {
-         yield put({ type: 'AMENITIES_LIST', payload: { response: response?.data || [], statusCode: response?.status } })
-      }
-      else if (response?.status === 201) {
-         yield put({ type: 'NO_AMENITIES_LIST', payload: { statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR_AMENITIES', payload: { statusCode: response?.status } })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "AMENITIES_LIST",
+        payload: {
+          response: response?.data || [],
+          statusCode: response?.status,
+        },
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "NO_AMENITIES_LIST",
+        payload: { statusCode: response?.status },
+      });
+    } else {
+      yield put({
+        type: "ERROR_AMENITIES",
+        payload: { statusCode: response?.status },
+      });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleUpdateAmenities(action) {
-   try {
-      const { hostelId, amenityId, data } = action.payload
-      const response = yield call(UpdateAmenities, hostelId, amenityId, data);
-      // const response = yield call(UpdateAmenities, action.payload)
+  try {
+    const { hostelId, amenityId, data } = action.payload;
+    const response = yield call(UpdateAmenities, hostelId, amenityId, data);
+    // const response = yield call(UpdateAmenities, action.payload)
 
-      if (response?.status === 200) {
-         yield put({ type: 'AMENITIES_UPDATE', payload: { response: response.data, statusCode: response?.status } })
+    if (response?.status === 200) {
+      yield put({
+        type: "AMENITIES_UPDATE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.response?.status === 403) {
-         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
-      }
-
-   }
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.response?.status === 403) {
+      yield put({
+        type: "ERROR_AMENITIES_SETTINGS",
+        payload: { response: error.response.data },
+      });
+    }
+  }
 }
 
 function* handleUpdatemanualUnPaid(action) {
-   try {
+  try {
+    const { hostelId, invoiceId } = action.payload;
 
-      const { hostelId, invoiceId } = action.payload;
+    const response = yield call(UpdateManualUnPaid, hostelId, invoiceId);
 
-      const response = yield call(UpdateManualUnPaid, hostelId, invoiceId);
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_BILL_UPDATE_UNPAID_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response.status,
+        },
+      });
 
-      if (response?.status === 200) {
+      const toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        minHeight: "40px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         yield put({
-            type: "MANUAL_BILL_UPDATE_UNPAID_REDUCER",
-            payload: {
-               response: response.data,
-               statusCode: response.status
-            }
-         });
+      toast.success(response?.data?.message || "Bill marked as unpaid", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: toastStyle,
+      });
+    } else {
+      yield put({
+        type: "ERROR",
+        payload: response?.data?.message,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
 
-         const toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            minHeight: "40px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-         };
+    if (error?.response?.status === 400 || error?.response?.status === 403) {
+      yield put({
+        type: "UNPAID_ERROR",
+        payload: { response: error.response.data },
+      });
 
-         toast.success(response?.data?.message || "Bill marked as unpaid", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            style: toastStyle
-         });
-
-      } else {
-         yield put({
-            type: "ERROR",
-            payload: response?.data?.message
-         });
-      }
-
-
-
-   } catch (error) {
-
-      yield* handleApiError(error);
-
-      if (error?.response?.status === 400 || error?.response?.status === 403) {
-         yield put({
-            type: "UNPAID_ERROR",
-            payload: { response: error.response.data }
-         });
-
-         toast.error(error.response.data, {
-            style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-         });
-
-
-
-
-
-      }
-
-   }
+      toast.error(error.response.data, {
+        style: {
+          fontFamily: "Gilroy",
+          color: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 }
 
 function* handleManualInvoice() {
-   try {
-      const response = yield call(ManualInvoice)
+  try {
+    const response = yield call(ManualInvoice);
 
-      if (response?.status === 200) {
-         yield put({ type: 'MANUAL_INVOICE', payload: { response: response.data, statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_INVOICE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleManualInvoiceNumber(params) {
-   try {
-      const response = yield call(ManualInvoiceNumber, params.payload)
+  try {
+    const response = yield call(ManualInvoiceNumber, params.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'MANUAL_INVOICE_NUMBER_GET', payload: { response: response.data, statusCode: response?.status } })
-      }
-      else if (response?.status === 201) {
-
-         yield put({ type: 'INVALID_DETAILS_ERROR', payload: response?.data?.message });
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_INVOICE_NUMBER_GET",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "INVALID_DETAILS_ERROR",
+        payload: response?.data?.message,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleManualInvoiceGetData(params) {
-   try {
-      const response = yield call(ManualInvoiceUserData, params.payload)
+  try {
+    const response = yield call(ManualInvoiceUserData, params.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'MANUAL_INVOICE_AMOUNT_GET', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_INVOICE_AMOUNT_GET",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleRecurrbillamountData(params) {
-   try {
-      const response = yield call(RecurrInvoiceamountData, params.payload)
+  try {
+    const response = yield call(RecurrInvoiceamountData, params.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'RECURRING_BILL_GET_AMOUNT', payload: { response: response.data.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+    if (response?.status === 200) {
+      yield put({
+        type: "RECURRING_BILL_GET_AMOUNT",
+        payload: { response: response.data.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      else if (response?.status === 202) {
-         yield put({ type: 'FAIL_ADD_RECURRING_BILL', payload: { response: response.data.recure, statusCode: response?.status, message: response?.data?.message } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response?.status === 202) {
+      yield put({
+        type: "FAIL_ADD_RECURRING_BILL",
+        payload: {
+          response: response.data.recure,
+          statusCode: response?.status,
+          message: response?.data?.message,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleManualInvoiceAdd(params) {
-   try {
-      const response = yield call(AddManualInvoiceBill, params.payload);
+  try {
+    const response = yield call(AddManualInvoiceBill, params.payload);
 
-      if (response?.status === 201) {
-         yield put({ type: 'MANUAL_INVOICE_ADD', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+    if (response?.status === 201) {
+      yield put({
+        type: "MANUAL_INVOICE_ADD",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
 
-         toast.success(response.data, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.code === "ERR_BAD_REQUEST") {
+      if (error.status === 400 || error.status === 403) {
+        yield put({
+          type: "UNABLE_ADD_INVOICE_DETAILS",
+          payload: error.response.data,
+        });
       }
-
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.status === 400 || error.status === 403) {
-            yield put({ type: 'UNABLE_ADD_INVOICE_DETAILS', payload: error.response.data });
-         }
-      }
-   }
+    }
+  }
 }
-
 
 function* handleManualInvoiceEdit(action) {
-   try {
-      const { hostelId, invoiceId, payload } = action;
+  try {
+    const { hostelId, invoiceId, payload } = action;
 
-      const response = yield call(EditManualInvoiceBill, {
-         hostelId,
-         invoiceId,
-         items: payload,
+    const response = yield call(EditManualInvoiceBill, {
+      hostelId,
+      invoiceId,
+      items: payload,
+    });
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_INVOICE_EDIT",
+        payload: { response: response.data, statusCode: response?.status },
       });
-      if (response?.status === 200) {
-         yield put({ type: 'MANUAL_INVOICE_EDIT', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
-
-         toast.success("Updated successfully", {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400 || error.status === 403) {
-         yield put({ type: 'MANUAL_INVOICE_ERROR', payload: error.response.data });
-      }
-   }
+      toast.success("Updated successfully", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: "MANUAL_INVOICE_ERROR", payload: error.response.data });
+    }
+  }
 }
-
 
 function* handleManualInvoiceDelete(params) {
-   try {
-      const response = yield call(DeleteManualInvoiceBill, params.payload);
+  try {
+    const response = yield call(DeleteManualInvoiceBill, params.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'MANUAL_INVOICE_DELETE', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_INVOICE_DELETE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "DELETE_MANUAL_ERROR",
+        payload: response?.data?.message,
+      });
 
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-      else if (response?.status === 201) {
-         yield put({ type: 'DELETE_MANUAL_ERROR', payload: response?.data?.message })
-
-         toast.error(response.data.message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+      toast.error(response.data.message, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
 
 function* handleRecurrBillsAdd(params) {
-   try {
-      const response = yield call(AddRecurringBill, params.payload);
+  try {
+    const response = yield call(AddRecurringBill, params.payload);
 
+    if (response?.status === 200) {
+      yield put({
+        type: "RECURRING_BILLS_ADD",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-      if (response?.status === 200) {
-         yield put({ type: 'RECURRING_BILLS_ADD', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      else if (response?.status === 201) {
-         yield put({ type: 'ERROR_RECURE', payload: { response: response.data.message, statusCode: response?.status } })
-      }
-
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "ERROR_RECURE",
+        payload: {
+          response: response.data.message,
+          statusCode: response?.status,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
-
 function* handleGetManualInvoice(action) {
-   try {
-      const response = yield call(GetManualInvoices, action.payload)
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response?.status } })
-      }
-      else if (response?.status === 201) {
-         yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
+  try {
+    const response = yield call(GetManualInvoices, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "MANUAL_INVOICES_LIST",
+        payload: {
+          response: response?.data || [],
+          statusCode: response?.status,
+        },
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "NODATA_BILL_LIST",
+        payload: { response: response.message, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleGetRecurrbills(action) {
-   try {
-      const response = yield call(GetRecurrBills, action.payload)
+  try {
+    const response = yield call(GetRecurrBills, action.payload);
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
-      if (response?.status === 200) {
-         yield put({ type: 'RECURRING_BILLS_LIST', payload: { response: response.data, statusCode: response?.status } })
-      }
-
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "RECURRING_BILLS_LIST",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleDeleteRecuringBills(action) {
-   try {
-      const response = yield call(DeleteRecurrBills, action.payload);
-      if (response?.status === 200) {
-         yield put({ type: 'DELETE_RECURRING_BILLS', payload: { response: response.data, statusCode: response?.status } })
+  try {
+    const response = yield call(DeleteRecurrBills, action.payload);
+    if (response?.status === 200) {
+      yield put({
+        type: "DELETE_RECURRING_BILLS",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         });
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
-
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
 
 function* handleAddInvoiceRecurringSettings(param) {
-   try {
-      const response = yield call(InvoiceRecurringsettings, param.payload)
+  try {
+    const response = yield call(InvoiceRecurringsettings, param.payload);
 
+    if (response?.status === 200) {
+      yield put({
+        type: "SETTINGS_ADD_RECURRING",
+        payload: { response, statusCode: response?.status },
+      });
 
-      if (response?.status === 200) {
-         yield put({ type: 'SETTINGS_ADD_RECURRING', payload: { response, statusCode: response?.status } })
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
 
 function* handleGetReceipts(action) {
+  try {
+    const response = yield call(GetReceiptData, action.payload);
 
-   try {
-      const response = yield call(GetReceiptData, action.payload)
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
-
-
-      if (response?.status === 200) {
-         yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response?.status } })
-      }
-      else if (response?.status === 400) {
-         yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
-
-
+    if (response?.status === 200) {
+      yield put({
+        type: "RECEIPTS_LIST",
+        payload: {
+          response: response?.data || [],
+          statusCode: response?.status,
+        },
+      });
+    } else if (response?.status === 400) {
+      yield put({
+        type: "NODATA_RECEIPTS_LIST",
+        payload: { response: response.message, statusCode: response?.status },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
-
 function* handleAddReceipt(action) {
-   try {
-      const response = yield call(AddReceipt, action.payload);
+  try {
+    const response = yield call(AddReceipt, action.payload);
 
+    if (response?.status === 200) {
+      yield put({
+        type: "RECEIPTS_ADD",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-
-      if (response?.status === 200) {
-         yield put({ type: 'RECEIPTS_ADD', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-      else if (response?.status === 201) {
-         yield put({ type: 'ERROR_RECEIPTS_ADD', payload: { response: response.data.message, statusCode: response?.status } })
-      }
-
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response?.status === 201) {
+      yield put({
+        type: "ERROR_RECEIPTS_ADD",
+        payload: {
+          response: response.data.message,
+          statusCode: response?.status,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleEditReceipt(action) {
-   try {
-      const response = yield call(EditReceipt, action.payload);
-      if (response?.status === 200) {
-         yield put({ type: 'RECEIPTS_EDIT', payload: { response: response.data, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+  try {
+    const response = yield call(EditReceipt, action.payload);
+    if (response?.status === 200) {
+      yield put({
+        type: "RECEIPTS_EDIT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleDeleteReceipt(action) {
-   try {
-      const response = yield call(DeleteReceipt, action.payload);
-      if (response?.status === 204) {
-         yield put({ type: 'DELETERECEIPT', payload: { response: response.data, statusCode: response?.status } })
+  try {
+    const response = yield call(DeleteReceipt, action.payload);
+    if (response?.status === 204) {
+      yield put({
+        type: "DELETERECEIPT",
+        payload: { response: response.data, statusCode: response?.status },
+      });
 
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-
-         };
-
-         toast.success("Deleted Successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         });
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-      if (error.status === 400 || error.status === 403) {
-         toast.error(error.response.data, {
-            style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-         });
-      }
-
-   }
-
+      toast.success("Deleted Successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    yield put({ type: "DELETE_RECEIPT_ERROR", payload: error.response.data });
+    if (error.status === 400 || error.status === 403) {
+      toast.error(error.response.data, {
+        style: {
+          fontFamily: "Gilroy",
+          color: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 }
 
-
 function* handleReference_Id() {
-   try {
-      const response = yield call(ReferenceIdGet)
+  try {
+    const response = yield call(ReferenceIdGet);
 
-      if (response?.status === 200) {
-         yield put({ type: 'REFERENCEID_GET', payload: { response: response.data.reference_id, statusCode: response?.status } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+    if (response?.status === 200) {
+      yield put({
+        type: "REFERENCEID_GET",
+        payload: {
+          response: response.data.reference_id,
+          statusCode: response?.status,
+        },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
 
-         };
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleReceiptPdf(action) {
-   try {
-      const response = yield call(ReceiptPDf, action.payload)
+  try {
+    const response = yield call(ReceiptPDf, action.payload);
 
-      if (response?.status === 200) {
-         yield put({
-            type: 'RECEIPT_PDF', payload: {
-               response: response.data, statusCode: response?.status
-            }
-         })
-      }
-
-   }
-   catch (error) {
-      yield* handleApiError(error);
-      if (error.status === 400) {
-         yield put({ type: 'PDF_ERROR', payload: { response: error.response.data } })
-         toast.error(error.response.data, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-
-         })
-      }
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "RECEIPT_PDF",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.status === 400) {
+      yield put({
+        type: "PDF_ERROR",
+        payload: { response: error.response.data },
+      });
+      toast.error(error.response.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 }
 
 function* handleFilterRecurrCustomer(action) {
-   try {
-      const response = yield call(AddRecurrBillsUsers, action.payload)
+  try {
+    const response = yield call(AddRecurrBillsUsers, action.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'FILTER_RECURR_CUSTOMERS', payload: { response: response.data.user_data, statusCode: response?.status } })
-
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "FILTER_RECURR_CUSTOMERS",
+        payload: {
+          response: response.data.user_data,
+          statusCode: response?.status,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
-
 
 function* handleGetBillPdfDetails(action) {
-   try {
-      const response = yield call(GetBillsPdfDetails, action.payload)
+  try {
+    const response = yield call(GetBillsPdfDetails, action.payload);
 
-      if (response?.status === 200) {
-         yield put({ type: 'GET-BILLS-PDF-DETAILS', payload: { response: response.data.receipt, statusCode: response?.status } })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET-BILLS-PDF-DETAILS",
+        payload: {
+          response: response.data.receipt,
+          statusCode: response?.status,
+        },
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
-
-
-
 function* handleReceiptPdfNewChanges(action) {
-   try {
-      const response = yield call(getParticularReceiptDetails, action.payload);
+  try {
+    const response = yield call(getParticularReceiptDetails, action.payload);
 
-      if (response?.status === 200) {
-         yield put({
-            type: 'RECEIPT_PDF_CHANGES',
-            payload: response.data,
-            statusCode: response?.status
-         });
-      } else {
-         yield put({
-            type: 'ERROR',
-            payload: response.data.message
-         });
-      }
+    if (response?.status === 200) {
+      yield put({
+        type: "RECEIPT_PDF_CHANGES",
+        payload: response.data,
+        statusCode: response?.status,
+      });
+    } else {
+      yield put({
+        type: "ERROR",
+        payload: response.data.message,
+      });
+    }
 
-      if (response) {
-         refreshToken(response);
-      }
-   } catch (error) {
-      yield* handleApiError(error);
-
-   }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
 
 function* handleCustomerRecurringEnableDisable(params) {
-   try {
-      const response = yield call(CustomerRecurringEnableDisable, params.payload)
+  try {
+    const response = yield call(CustomerRecurringEnableDisable, params.payload);
 
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
 
-      };
+    const toastStyleWarning = {
+      backgroundColor: "#FFFBE6",
+      color: "#856404",
+      width: "100%",
+      borderRadius: "60px",
+      height: "auto",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px 16px",
+      border: "1px solid #ffeeba",
+      boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.05)",
+    };
 
-      const toastStyleWarning = {
-         backgroundColor: "#FFFBE6",
-         color: "#856404",
-         width: "100%",
-         borderRadius: "60px",
-         height: "auto",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px 16px",
-         border: "1px solid #ffeeba",
-         boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.05)",
-      };
+    if (response?.status === 200) {
+      yield put({
+        type: "CUSTOMER_RECURRING_ENABLE_DISABLE",
+        payload: { response: response.data.data, statusCode: response?.status },
+      });
 
-
-
-      if (response?.status === 200) {
-         yield put({ type: 'CUSTOMER_RECURRING_ENABLE_DISABLE', payload: { response: response.data.data, statusCode: response?.status } })
-
-
-         toast.success(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-      }
-
-      else if (response?.status === 201) {
-         toast.warn(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyleWarning
-         })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-
-   }
+      toast.success(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response?.status === 201) {
+      toast.warn(response.data.message, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyleWarning,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response?.data?.message });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
 }
-
 
 function refreshToken(response) {
-   if (response.data && response.data.refresh_token) {
-      const refreshTokenGet = response.data.refresh_token
-      const cookies = new Cookies()
-      cookies.set('token', refreshTokenGet, { path: '/' });
-   } else if (response?.status === 206) {
-      const message = response?.status
-      const cookies = new Cookies()
-      cookies.set('access-denied', message, { path: '/' });
-
-   }
-
+  if (response.data && response.data.refresh_token) {
+    const refreshTokenGet = response.data.refresh_token;
+    const cookies = new Cookies();
+    cookies.set("token", refreshTokenGet, { path: "/" });
+  } else if (response?.status === 206) {
+    const message = response?.status;
+    const cookies = new Cookies();
+    cookies.set("access-denied", message, { path: "/" });
+  }
 }
 
-
 function* InvoiceSaga() {
-   yield takeEvery('INVOICE_DISCOUNT_SAGA', handleInvoiceDiscount)
-   yield takeEvery('MANUAL_BILL_UPDATE_UNPAID_SAGA', handleUpdatemanualUnPaid)
-   yield takeEvery('WHATSAPPSHAREPDFRECEIPT', handleGetshareWhatsappPDFReceipt)
-   yield takeEvery('GETSHAREPDF', handleGetshareWhatsappPDF)
-   yield takeEvery('GETINITIALIZEEDITRECURRING', handleGetInitializeEditRecurring)
-   yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
-   yield takeEvery('UPDATE_TENANT_RECURRING', handleUpdateTenantRecurring)
-   yield takeEvery('TENANTUNASSIGNAMENITIES', handleUnAssignAmenitiesForTenant)
-   yield takeEvery('TENANTASSIGNAMENITIES', handleAssignAmenitiesForTenant)
-   yield takeEvery('CREATEREFUND', handleCreateRefund)
-   yield takeEvery('GETINITIALIZEREFUNDDETAILS', handleGetInitializeRefund)
-   yield takeEvery('GETPARTICULARRECEIPTSDETAILS', handleGetParticularReceiptDetails)
-   yield takeEvery('GETPARTICULARBILLSDETAILS', handleGetParticularBillsDetails)
-   yield takeEvery('GETFINALSETTLEMENT', handleGetFinalSettlementList)
-   yield takeEvery('INVOICEITEM', handleinvoicelist)
-   yield takeEvery('INVOICELIST', handleInvoiceList)
-   yield takeEvery('RECORD_PAYMENT', handleRecordPaymentUpdate)
-   yield takeEvery('INVOICESETTINGS', handleInvoiceSettings)
-   yield takeEvery('INVOICEPDF', handleInvoicePdf)
-   yield takeEvery('ADD_AMENITIY', handleAddAmenity)
-   yield takeEvery('AMENITIESLIST', handleGetAmenities)
-   yield takeEvery('AMENITIESUPDATE', handleUpdateAmenities)
-   yield takeEvery('MANUALINVOICE', handleManualInvoice)
-   yield takeEvery('MANUAL-INVOICE-NUMBER-GET', handleManualInvoiceNumber)
-   yield takeEvery('GET-MANUAL-INVOICE-AMOUNTS', handleManualInvoiceGetData)
-   yield takeEvery('GET-RECURRING-BILL-AMOUNTS', handleRecurrbillamountData)
-   yield takeEvery('MANUAL-INVOICE-ADD', handleManualInvoiceAdd)
-   yield takeEvery('MANUAL-INVOICE-EDIT', handleManualInvoiceEdit)
-   yield takeEvery('MANUAL-INVOICE-DELETE', handleManualInvoiceDelete)
-   yield takeEvery('RECURRING-BILLS-ADD', handleRecurrBillsAdd)
-   yield takeEvery('MANUALINVOICESLIST', handleGetManualInvoice)
-   yield takeEvery('RECURRING-BILLS-LIST', handleGetRecurrbills)
-   yield takeEvery('DELETE-RECURRING-BILLS', handleDeleteRecuringBills)
-   yield takeEvery('SETTINGSADDRECURRING', handleAddInvoiceRecurringSettings)
-   yield takeEvery('DELETEUSER', handleDeleteUser)
-   yield takeEvery('DELETEAMENITIES', handleDeleteAmenities)
-   yield takeEvery('ASSIGNAMENITIES', handleAssignAmenities)
-   yield takeEvery('UNASSIGNAMENITIES', handleUnAssignAmenities)
-   yield takeEvery('GET_PARTICULAR_AMENITIES', handleGetParticularAmentityList)
-   yield takeEvery('RECEIPTSLIST', handleGetReceipts)
-   yield takeEvery('ADD_RECEIPT', handleAddReceipt)
-   yield takeEvery('EDIT_RECEIPTS', handleEditReceipt)
-   yield takeEvery('DELETE_RECEIPT', handleDeleteReceipt)
-   yield takeEvery('GET_REFERENCE_ID', handleReference_Id)
-   yield takeEvery('RECEIPTPDF', handleReceiptPdf)
-   yield takeEvery('FILTERRECURRCUSTOMERS', handleFilterRecurrCustomer)
-   yield takeEvery('BILL_PDF_DETAILS', handleGetBillPdfDetails)
-   yield takeEvery('RECEIPTPDF_NEWCHANGES', handleReceiptPdfNewChanges)
-   yield takeEvery('CUSTOMERRECURRINGENABLEDISABLE', handleCustomerRecurringEnableDisable)
-   yield takeEvery("EDIT_INVOICE_DISCOUNT", handleEditInvoiceDiscount);
-   yield takeEvery("REFUSE_DISCOUNT", handleRefuseInvoiceDiscount);
- 
-
-
-
+  yield takeEvery("SUBSCRIPTION_PDF_SAGA", handleSubscriptionPDF);
+  yield takeEvery("INVOICE_DISCOUNT_SAGA", handleInvoiceDiscount);
+  yield takeEvery("MANUAL_BILL_UPDATE_UNPAID_SAGA", handleUpdatemanualUnPaid);
+  yield takeEvery("WHATSAPPSHAREPDFRECEIPT", handleGetshareWhatsappPDFReceipt);
+  yield takeEvery("GETSHAREPDF", handleGetshareWhatsappPDF);
+  yield takeEvery(
+    "GETINITIALIZEEDITRECURRING",
+    handleGetInitializeEditRecurring,
+  );
+  yield takeEvery("INVOICESLISTFILTER", handleGetFilterInvoice);
+  yield takeEvery("UPDATE_TENANT_RECURRING", handleUpdateTenantRecurring);
+  yield takeEvery("TENANTUNASSIGNAMENITIES", handleUnAssignAmenitiesForTenant);
+  yield takeEvery("TENANTASSIGNAMENITIES", handleAssignAmenitiesForTenant);
+  yield takeEvery("CREATEREFUND", handleCreateRefund);
+  yield takeEvery("GETINITIALIZEREFUNDDETAILS", handleGetInitializeRefund);
+  yield takeEvery(
+    "GETPARTICULARRECEIPTSDETAILS",
+    handleGetParticularReceiptDetails,
+  );
+  yield takeEvery("GETPARTICULARBILLSDETAILS", handleGetParticularBillsDetails);
+  yield takeEvery("GETFINALSETTLEMENT", handleGetFinalSettlementList);
+  yield takeEvery("INVOICEITEM", handleinvoicelist);
+  yield takeEvery("INVOICELIST", handleInvoiceList);
+  yield takeEvery("RECORD_PAYMENT", handleRecordPaymentUpdate);
+  yield takeEvery("INVOICESETTINGS", handleInvoiceSettings);
+  yield takeEvery("INVOICEPDF", handleInvoicePdf);
+  yield takeEvery("ADD_AMENITIY", handleAddAmenity);
+  yield takeEvery("AMENITIESLIST", handleGetAmenities);
+  yield takeEvery("AMENITIESUPDATE", handleUpdateAmenities);
+  yield takeEvery("MANUALINVOICE", handleManualInvoice);
+  yield takeEvery("MANUAL-INVOICE-NUMBER-GET", handleManualInvoiceNumber);
+  yield takeEvery("GET-MANUAL-INVOICE-AMOUNTS", handleManualInvoiceGetData);
+  yield takeEvery("GET-RECURRING-BILL-AMOUNTS", handleRecurrbillamountData);
+  yield takeEvery("MANUAL-INVOICE-ADD", handleManualInvoiceAdd);
+  yield takeEvery("MANUAL-INVOICE-EDIT", handleManualInvoiceEdit);
+  yield takeEvery("MANUAL-INVOICE-DELETE", handleManualInvoiceDelete);
+  yield takeEvery("RECURRING-BILLS-ADD", handleRecurrBillsAdd);
+  yield takeEvery("MANUALINVOICESLIST", handleGetManualInvoice);
+  yield takeEvery("RECURRING-BILLS-LIST", handleGetRecurrbills);
+  yield takeEvery("DELETE-RECURRING-BILLS", handleDeleteRecuringBills);
+  yield takeEvery("SETTINGSADDRECURRING", handleAddInvoiceRecurringSettings);
+  yield takeEvery("DELETEUSER", handleDeleteUser);
+  yield takeEvery("DELETEAMENITIES", handleDeleteAmenities);
+  yield takeEvery("ASSIGNAMENITIES", handleAssignAmenities);
+  yield takeEvery("UNASSIGNAMENITIES", handleUnAssignAmenities);
+  yield takeEvery("GET_PARTICULAR_AMENITIES", handleGetParticularAmentityList);
+  yield takeEvery("RECEIPTSLIST", handleGetReceipts);
+  yield takeEvery("ADD_RECEIPT", handleAddReceipt);
+  yield takeEvery("EDIT_RECEIPTS", handleEditReceipt);
+  yield takeEvery("DELETE_RECEIPT", handleDeleteReceipt);
+  yield takeEvery("GET_REFERENCE_ID", handleReference_Id);
+  yield takeEvery("RECEIPTPDF", handleReceiptPdf);
+  yield takeEvery("FILTERRECURRCUSTOMERS", handleFilterRecurrCustomer);
+  yield takeEvery("BILL_PDF_DETAILS", handleGetBillPdfDetails);
+  yield takeEvery("RECEIPTPDF_NEWCHANGES", handleReceiptPdfNewChanges);
+  yield takeEvery(
+    "CUSTOMERRECURRINGENABLEDISABLE",
+    handleCustomerRecurringEnableDisable,
+  );
+  yield takeEvery("EDIT_INVOICE_DISCOUNT", handleEditInvoiceDiscount);
+  yield takeEvery("REFUSE_DISCOUNT", handleRefuseInvoiceDiscount);
 }
 export default InvoiceSaga;

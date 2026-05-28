@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import AddExpenses from "../Pages/ExpenseFile/AddExpenses";
-
+import { useSelector } from "react-redux";
 function SidebarQuickActions({
   showMenuModal,
   setShowMenuModal,
@@ -12,7 +12,7 @@ function SidebarQuickActions({
   hostelId,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
-
+  const state = useSelector((state) => state);
   const menuItems = [
     // { name: "Home", path: "/dashboard" },
     // { name: "Paying Guest", path: "/paying-guest" },
@@ -102,7 +102,10 @@ function SidebarQuickActions({
               filteredItems.map((item, index) => (
                 <div
                   key={index}
-                  onClick={() => handleMenuItemClick(item.path, item)}
+                  onClick={() =>
+                    state.login.selectedHostel_Id &&
+                    handleMenuItemClick(item.path, item)
+                  }
                   role="button"
                   className={`px-3 py-2.5 text-sm font-medium rounded-md cursor-pointer transition-colors duration-200
         ${

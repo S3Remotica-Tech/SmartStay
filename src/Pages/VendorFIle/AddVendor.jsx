@@ -636,10 +636,10 @@ function AddVendor({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (currentItem) {
-      const phoneNumber = String(currentItem.mobile || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      // const phoneNumber = String(currentItem.mobile || "");
+      // const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
 
-      const mobileNumber = phoneNumber.slice(-10);
+      // const mobileNumber = phoneNumber.slice(-10);
 
       const emailValue = currentItem.emailId;
       const normalizedEmail =
@@ -659,8 +659,8 @@ function AddVendor({ show, setShow, currentItem }) {
       setCheck("EDIT");
       setFirst_Name(currentItem.firstName);
       setLast_Name(currentItem.lastName);
-      setVendor_Mobile(mobileNumber);
-      setCountryCode(countryCode);
+      setVendor_Mobile(currentItem?.mobile);
+      setCountryCode(currentItem?.countryCode);
 
       setEmail_Id(normalizedEmail);
 
@@ -679,8 +679,8 @@ function AddVendor({ show, setShow, currentItem }) {
       setInitialState({
         first_Name: currentItem.firstName || "",
         last_Name: currentItem.lastName || "",
-        vendor_Mobile: mobileNumber || "",
-        countryCode: countryCode || "",
+        vendor_Mobile: currentItem?.mobile || "",
+        countryCode: currentItem?.countryCode || "",
 
         house_no: sanitize(currentItem.houseNo),
         street: sanitize(currentItem.area),

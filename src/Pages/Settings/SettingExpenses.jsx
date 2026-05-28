@@ -359,7 +359,7 @@ function SettingExpenses() {
           )}
 
           {expensesFilterddata && expensesFilterddata.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full h-[calc(100vh-85px)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 w-full min-h-[200px]">
               {expensesFilterddata.map((category) => (
                 <div
                   key={category.categoryId}
