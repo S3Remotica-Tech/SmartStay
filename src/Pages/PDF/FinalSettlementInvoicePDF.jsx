@@ -353,56 +353,54 @@ function FinalSettlementInvoicePDF() {
             </div>
           </div>
 
-          <div className="py-3 flex justify-end pe-1">
-            <div className="w-[260px] space-y-1">
-              <div className="flex justify-between items-center gap-3 text-[14px] text-[#1A1C21]">
-                <span className=" min-w-0">Subtotal</span>
+          <div className="py-3 space-y-2 flex flex-col">
+            <div className="w-[70%] ml-auto pe-2">
+              <div className="flex justify-between items-start gap-3 text-[14px] text-[#1A1C21]">
+                <span>Subtotal</span>
 
-                <span className="font-semibold flex items-center gap-1 shrink-0 max-w-[120px] ">
+                <span className="font-semibold flex items-center gap-1 text-right ml-auto shrink-0">
                   <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block shrink-0"></span>
 
-                  <span className="">₹ 999.00</span>
+                  <span>₹ 999.00</span>
                 </span>
               </div>
 
-              <div className="flex justify-between items-center gap-3 text-[14px] text-[#1A1C21]">
-                <span className=" min-w-0">Tax-GST (8%)</span>
+              <div className="flex justify-between items-start gap-3 text-[14px] text-[#1A1C21]">
+                <span>Tax-GST (8%)</span>
 
-                <span className="font-semibold shrink-0 max-w-[120px]  text-right">
+                <span className="font-semibold text-right ml-auto shrink-0">
                   ₹ 79.33
                 </span>
               </div>
 
-              <div className="flex justify-between items-center gap-3 text-[14px]  text-[#1A1C21]">
-                <span className="">Deductions- Non Refundable</span>
+              <div className="flex justify-between whitespace-nowrap items-start gap-3 text-[14px] text-[#1A1C21]">
+                <span>Deductions- Non Refundable</span>
 
-                <span className="font-semibold shrink-0 max-w-[120px] text-right">
-                  ₹ 522525.2558
+                <span className="font-semibold text-right ml-auto shrink-0">
+                  ₹ 52252555555555555.25
                 </span>
               </div>
 
-              <div className="flex justify-between items-center gap-3 text-[14px] text-[#1A1C21]">
-                <span className=" min-w-0">Unpaid Invoices</span>
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[14px] text-[#1A1C21]">
+                <span>Unpaid Invoices</span>
 
-                <span className="font-semibold shrink-0 max-w-[120px]  text-right">
-                  ₹ 79.3385
+                <span className="font-semibold text-right ml-auto shrink-0">
+                  ₹ 79.338598588
                 </span>
               </div>
 
-              <div className="flex justify-between items-center gap-3 text-[14px] text-[#1A1C21]">
-                <span className=" min-w-0">Electricity Bill</span>
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[14px] text-[#1A1C21]">
+                <span>Electricity Bill</span>
 
-                <span className="font-semibold shrink-0 max-w-[120px]  text-right">
+                <span className="font-semibold text-right ml-auto shrink-0">
                   ₹ 79.33
                 </span>
               </div>
 
-              <div className="flex justify-between items-center pt-3 border-t border-[#E5E7EB] text-[15px] font-semibold text-[#1A1C21] gap-3">
+              <div className="flex justify-between items-start pt-3 border-t border-[#E5E7EB] text-[15px] font-semibold text-[#1A1C21] gap-3">
                 <span>Total</span>
 
-                <span className="shrink-0 max-w-[120px] truncate text-right">
-                  ₹ 1078.33
-                </span>
+                <span className="text-right ml-auto shrink-0">₹ 1078.33</span>
               </div>
             </div>
           </div>

@@ -681,7 +681,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           </div>
         </div>
 
-        <div className="relative h-[calc(200vh-80px)] overflow-y-auto bg-[#F7F8FC] py-[10px]   flex justify-center p-3 show-scrolls">
+        <div className="relative h-[calc(120vh-80px)] overflow-y-auto bg-[#F7F8FC] py-[10px]   flex justify-center p-3 show-scrolls">
           {pdfLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
               <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
