@@ -361,7 +361,7 @@ function NoticeBedStatusDetails({
                           {activeMenu === index && (
                             <div
                               ref={popupRef}
-                              className="absolute right-16 -top-3 w-fit flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50"
+                              className="absolute right-16 -top-3 w-fit  flex flex-col rounded-lg bg-gray-100 border border-gray-200 shadow-md z-50"
                             >
                               {(matchedDataStatus === "NOTICE" ||
                                 matchedDataStatus ===
@@ -373,7 +373,7 @@ function NoticeBedStatusDetails({
                                         ? () => handleNewBooking(tenant)
                                         : undefined
                                     }
-                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                    className={`flex gap-2 items-center   px-2.5 pe-5 py-2.5 rounded-b-lg ${
                                       canWriteBooking
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-50"
@@ -397,7 +397,7 @@ function NoticeBedStatusDetails({
                                       }}
                                     />
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0  whitespace-nowrap${
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
                                         canWriteBooking
                                           ? "text-gray-900 cursor-pointer"
                                           : "text-gray-400 cursor-not-allowed"
@@ -422,7 +422,7 @@ function NoticeBedStatusDetails({
                                       if (hasCheckinAndNotice) return;
                                       handleRecheckInBed(tenant);
                                     }}
-                                    className={`flex gap-2 items-center p-2.5 rounded-t-lg ${
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-t-lg ${
                                       canWriteCustomers && !hasCheckinAndNotice
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-50"
@@ -470,7 +470,7 @@ function NoticeBedStatusDetails({
                                       canWriteCheckout &&
                                       handleFinalsettelmentGenerate(tenant)
                                     }
-                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
                                       canWriteCheckout
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-50"
@@ -552,7 +552,7 @@ function NoticeBedStatusDetails({
                               {matchedDataStatus === "CHECK_IN" && (
                                 <div>
                                   <div
-                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
                                       canWriteCustomers
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-60"
@@ -591,7 +591,7 @@ function NoticeBedStatusDetails({
 
                                   <div className="h-px bg-gray-300" />
                                   <div
-                                    className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
                                       canWriteCustomers
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-60"
@@ -633,7 +633,7 @@ function NoticeBedStatusDetails({
 
                               {matchedDataStatus === "SETTLEMENT_GENERATED" && (
                                 <div
-                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                  className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
                                     canWriteCheckout
                                       ? "cursor-pointer opacity-100"
                                       : "cursor-not-allowed opacity-50"
@@ -676,7 +676,7 @@ function NoticeBedStatusDetails({
                               <div className="h-px bg-gray-300" />
 
                               <div
-                                className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
+                                className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
                                   canUpdatePayingGuests
                                     ? "cursor-pointer opacity-100"
                                     : "cursor-not-allowed opacity-60"
