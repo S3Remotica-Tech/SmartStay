@@ -408,6 +408,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 Period
               </Form.Label>
               <Select
+                isDisabled
                 styles={selectStyles}
                 placeholder="Select"
                 value={period}
@@ -422,6 +423,7 @@ function BookingsFilter({ show, handleClose, size }) {
               </Form.Label>
               <Select
                 isMulti
+                isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={paymentModeOptions}

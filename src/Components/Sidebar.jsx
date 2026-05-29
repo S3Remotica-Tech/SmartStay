@@ -691,7 +691,7 @@ function Sidebar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const tooltipTrigger = isMd ? ["hover"] : [];
+  const tooltipTrigger = isMd ? ["hover", "focus"] : [];
   return (
     <>
       {showNotify && (

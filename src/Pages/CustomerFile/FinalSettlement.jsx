@@ -7,7 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import { ArrowDown2, ArrowUp2, ArrowLeft, Edit2 } from "iconsax-react";
+import {
+  ArrowDown2,
+  ArrowUp2,
+  ArrowLeft,
+  Edit2,
+  InfoCircle,
+} from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from "iconsax-react";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
@@ -222,7 +228,7 @@ function FinalSettlement() {
   useEffect(() => {
     if (state.InvoiceList.finalSettlementGetStatusCode === 200) {
       setFormLoading(false);
-      setFinalSettlementList(state.InvoiceList.finalSettlementDetails);
+      setFinalSettlementList(state.InvoiceList?.finalSettlementDetails);
       setTimeout(() => {
         dispatch({ type: "REMOVE_GET_FINAL_SETTLEMENT" });
       }, []);
@@ -424,6 +430,7 @@ function FinalSettlement() {
 
       const apiDeductions =
         finalSettlementList?.deductionsInfo?.listDeductions || [];
+
       const apiMap = new Map(
         apiDeductions.map((item) => [
           item.item?.toLowerCase(),
@@ -449,20 +456,36 @@ function FinalSettlement() {
         return sum + userAmount;
       }, 0);
 
-      // const totalDeductions = totalApiDeductions + totalUserDeductions;
-
+      let updatedAmountToBePaid = amountTobePaid;
       let finalAmount = 0;
-      if (amountTobePaid < 0) {
+      let balanceRent = 0;
+      if (collectFullRent) {
+        if (finalSettlementList?.settlementInfo?.payableAmount > 0) {
+          balanceRent =
+            finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+            finalSettlementList?.settlementInfo?.payableAmount;
+        } else {
+          balanceRent =
+            finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+            finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
+        }
+
+        console.log("balanceRent", balanceRent);
+        updatedAmountToBePaid = amountTobePaid + balanceRent;
+      }
+
+      if (updatedAmountToBePaid < 0) {
         finalAmount = isRefundable
-          ? amountTobePaid + totalUserDeductions
-          : amountTobePaid - totalUserDeductions;
+          ? updatedAmountToBePaid + totalUserDeductions
+          : updatedAmountToBePaid - totalUserDeductions;
       } else {
         finalAmount = isRefundable
-          ? amountTobePaid - totalUserDeductions
-          : amountTobePaid + totalUserDeductions;
+          ? updatedAmountToBePaid - totalUserDeductions
+          : updatedAmountToBePaid + totalUserDeductions;
       }
 
       const appliedDiscount = Number(discount) || 0;
+
       finalAmount -= appliedDiscount;
 
       const normalizedAmount =
@@ -470,7 +493,7 @@ function FinalSettlement() {
 
       setReturnAmount(normalizedAmount);
     }
-  }, [finalSettlementList, fields, discount]);
+  }, [finalSettlementList, fields, discount, collectFullRent]);
 
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];
@@ -1041,9 +1064,10 @@ function FinalSettlement() {
 
                   <label
                     htmlFor="collectFullRent"
-                    className="text-sm font-medium text-[#222222] cursor-pointer"
+                    className="text-sm font-medium text-[#222222] cursor-pointer flex items-center gap-4"
                   >
-                    Do you want to collect Full Rent for current month?
+                    Do you want to collect Full Rent for current month?{" "}
+                    {/* <InfoCircle size="14" color="#DCDCDC" /> */}
                   </label>
                 </div>
                 {showRentDetails && <hr className="m-0 border-gray-300" />}
@@ -1655,11 +1679,14 @@ function FinalSettlement() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-6 flex-wrap">
+                  <div className=" items-center gap-6 flex-wrap">
                     <span className="text-sm font-semibold text-black">
                       - ₹{" "}
                       {finalSettlementList?.deductionsInfo?.pendingAmount || 0}
                     </span>
+                    <div className="flex items-center gap-1 text-[#AA6805] text-sm ">
+                      <InfoCircle size="14" color="#AA6805" /> Pending
+                    </div>
                   </div>
                 </div>
                 <div className="flex !items-center w-fit !justify-end w-full">
@@ -1831,6 +1858,11 @@ function FinalSettlement() {
                     })}
                   </div>
                 )}
+
+                <div className="text-sm flex flex-wrap text-[#505F76] px-[10px] py-2">
+                  Note: These amount was be withheld from the Non Refundable
+                  Deposit amount due to lack of payment.
+                </div>
               </div>
 
               {/* discount */}

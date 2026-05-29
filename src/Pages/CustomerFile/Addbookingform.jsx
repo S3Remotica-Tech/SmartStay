@@ -136,6 +136,7 @@ function BookingModal(props) {
   };
 
   const handleTransactionId = (e) => {
+    setBedWarning("");
     const value = e.target.value;
     const regex = /^[A-Za-z0-9_.-]*$/;
 
@@ -170,6 +171,7 @@ function BookingModal(props) {
   // }, [state.UsersList?.availableBedList]);
 
   const handleModeOfPaymentChange = (selectedOption) => {
+    setBedWarning("");
     if (!selectedOption) return;
 
     setModeOfPayment(selectedOption);
@@ -237,6 +239,7 @@ function BookingModal(props) {
     })) || [];
 
   const handleRooms = (selectedOption) => {
+    setBedWarning("");
     const selectedRoomId = selectedOption;
 
     setRoom(selectedRoomId);
@@ -262,11 +265,13 @@ function BookingModal(props) {
   //  view.floorId === Floor &&
 
   const handleCloseBooking = () => {
+    setBedWarning("");
     dispatch({ type: "ERROR_BOOKING_REMOVE" });
     props.handleCloseAddBooking();
   };
 
   const handleBookingDateChange = (date) => {
+    setBedWarning("");
     setDateError("");
     setBookingDate(date ? date.toDate() : null);
     setJoiningDate("");
@@ -277,6 +282,7 @@ function BookingModal(props) {
   //   setBookingAmount(e.target.value);
   // };
   const handleBookingAmountChange = (e) => {
+    setBedWarning("");
     const value = e.target.value;
 
     if (/^\d*$/.test(value)) {
@@ -286,6 +292,7 @@ function BookingModal(props) {
   };
 
   const handleJoiningDateChange = (date) => {
+    setBedWarning("");
     if (bookingDate && dayjs(date).isBefore(dayjs(bookingDate), "day")) {
       setJoiningDateError("Joining Date cannot be before Booking Date");
       setJoiningDate(null);
@@ -369,6 +376,7 @@ function BookingModal(props) {
   // };
 
   const handleBookingSubmit = () => {
+    setBedWarning("");
     dispatch({ type: "ERROR_BOOKING_REMOVE" });
     let isValid = true;
 
@@ -461,6 +469,7 @@ function BookingModal(props) {
   };
 
   const handleFloor = (selectedOption) => {
+    setBedWarning("");
     if (!selectedOption) {
       setFloorError("");
       setBed("");

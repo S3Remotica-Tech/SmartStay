@@ -138,6 +138,7 @@ function UserlistForm(props) {
   }, [state.UsersList.floorListStatusCode]);
 
   const handleFloor = (selectedOption) => {
+    setBedWarning("");
     setFloor(selectedOption?.value || "");
     setRooms("");
     setBed("");
@@ -146,6 +147,7 @@ function UserlistForm(props) {
   };
 
   const handleRooms = (selectedValue) => {
+    setBedWarning("");
     setRooms(selectedValue);
     setBed("");
 
@@ -192,6 +194,7 @@ function UserlistForm(props) {
   }, [Bed]);
 
   const handleRoomRent = (e) => {
+    setBedWarning("");
     const value = e.target.value;
 
     if (value === "" || /^[1-9]\d*$/.test(value)) {
@@ -201,6 +204,7 @@ function UserlistForm(props) {
   };
 
   const handleAdvanceAmount = (e) => {
+    setBedWarning("");
     const value = e.target.value;
 
     if (value === "" || /^(0|[1-9]\d*)$/.test(value)) {
@@ -535,6 +539,7 @@ function UserlistForm(props) {
   };
 
   const handleJoiningDateChange = (date) => {
+    setBedWarning("");                    
     setDateError("");
     setSelectedDate(date ? date.toDate() : null);
     setJoingDateErrmsg("");
