@@ -377,7 +377,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Deductions- Non Refundable</span>
 
                 <span className="font-semibold text-right ml-auto shrink-0">
-                  ₹ 52252555555555555.25
+                  ₹ 5225255.25
                 </span>
               </div>
 
@@ -385,7 +385,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Unpaid Invoices</span>
 
                 <span className="font-semibold text-right ml-auto shrink-0">
-                  ₹ 79.338598588
+                  ₹ 79.338
                 </span>
               </div>
 
