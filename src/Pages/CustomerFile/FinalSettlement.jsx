@@ -1681,7 +1681,7 @@ function FinalSettlement() {
 
                   <div className=" items-center gap-6 flex-wrap">
                     <span className="text-sm font-semibold text-black">
-                      - ₹{" "}
+                      ₹{" "}
                       {finalSettlementList?.deductionsInfo?.pendingAmount || 0}
                     </span>
                     <div className="flex items-center gap-1 text-[#AA6805] text-sm ">

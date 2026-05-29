@@ -2714,7 +2714,7 @@ function UserList(props) {
                                         stickyClass = `sticky left-[0px] z-20  w-[80px] ${
                                           isScrolling
                                             ? "!bg-white"
-                                            : "!bg-transparent"
+                                            : "!bg-white"
                                         }`;
                                       }
                                       // else if (index === 1) {
