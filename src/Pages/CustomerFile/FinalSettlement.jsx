@@ -458,14 +458,20 @@ function FinalSettlement() {
 
       let updatedAmountToBePaid = amountTobePaid;
       let finalAmount = 0;
-
+      let balanceRent = 0;
       if (collectFullRent) {
-        const balanceRent =
-          finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
-          finalSettlementList?.settlementInfo?.payableAmount;
+        if (finalSettlementList?.settlementInfo?.payableAmount > 0) {
+          balanceRent =
+            finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+            finalSettlementList?.settlementInfo?.payableAmount;
+        } else {
+          balanceRent =
+            finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+            finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
+        }
+
         console.log("balanceRent", balanceRent);
         updatedAmountToBePaid = amountTobePaid + balanceRent;
-        console.log("updatedAmountToBePaid", updatedAmountToBePaid);
       }
 
       if (updatedAmountToBePaid < 0) {
