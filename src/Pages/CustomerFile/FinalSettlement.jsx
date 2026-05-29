@@ -146,7 +146,7 @@ function FinalSettlement() {
 
   const [showInvoices, setShowInvoices] = React.useState(false);
   const [showRentDetails, setShowRentDetails] = React.useState(false);
-  const [collectFullRent, setCollectFullRent] = useState(false);
+  const [collectFullRent, setCollectFullRent] = useState(true);
   const [showEbMissed, setShowEbMissed] = useState(false);
   const [showOtherCharges, setShowOtherCharges] = useState(false);
 
@@ -222,7 +222,7 @@ function FinalSettlement() {
   useEffect(() => {
     if (state.InvoiceList.finalSettlementGetStatusCode === 200) {
       setFormLoading(false);
-      setFinalSettlementList(state.InvoiceList.finalSettlementDetails);
+      setFinalSettlementList(state.InvoiceList?.finalSettlementDetails);
       setTimeout(() => {
         dispatch({ type: "REMOVE_GET_FINAL_SETTLEMENT" });
       }, []);
@@ -424,6 +424,7 @@ function FinalSettlement() {
 
       const apiDeductions =
         finalSettlementList?.deductionsInfo?.listDeductions || [];
+
       const apiMap = new Map(
         apiDeductions.map((item) => [
           item.item?.toLowerCase(),
@@ -449,20 +450,29 @@ function FinalSettlement() {
         return sum + userAmount;
       }, 0);
 
-      // const totalDeductions = totalApiDeductions + totalUserDeductions;
-
+      let updatedAmountToBePaid = amountTobePaid;
       let finalAmount = 0;
-      if (amountTobePaid < 0) {
+
+      if (collectFullRent) {
+        const balanceRent =
+          finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+          finalSettlementList?.settlementInfo?.payableAmount;
+
+        updatedAmountToBePaid = amountTobePaid + balanceRent;
+      }
+
+      if (updatedAmountToBePaid < 0) {
         finalAmount = isRefundable
-          ? amountTobePaid + totalUserDeductions
-          : amountTobePaid - totalUserDeductions;
+          ? updatedAmountToBePaid + totalUserDeductions
+          : updatedAmountToBePaid - totalUserDeductions;
       } else {
         finalAmount = isRefundable
-          ? amountTobePaid - totalUserDeductions
-          : amountTobePaid + totalUserDeductions;
+          ? updatedAmountToBePaid - totalUserDeductions
+          : updatedAmountToBePaid + totalUserDeductions;
       }
 
       const appliedDiscount = Number(discount) || 0;
+
       finalAmount -= appliedDiscount;
 
       const normalizedAmount =
@@ -470,7 +480,7 @@ function FinalSettlement() {
 
       setReturnAmount(normalizedAmount);
     }
-  }, [finalSettlementList, fields, discount]);
+  }, [finalSettlementList, fields, discount, collectFullRent]);
 
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];

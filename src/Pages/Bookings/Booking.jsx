@@ -322,6 +322,7 @@ function Booking() {
     "Bed Name": "bedName",
     Amount: "amount",
     "Available Amount": "availableAmount",
+    Status: "status",
   };
 
   const formattedData = (
@@ -351,7 +352,7 @@ function Booking() {
       customerId: apiData?.customerId,
     };
 
-    obj.status = apiData?.status || "-";
+    // obj.status = apiData?.status || "-";
     return obj;
   });
 
@@ -764,12 +765,17 @@ function Booking() {
     }
   }, [state.createAccount?.networkError]);
 
-  const statusStyles = {
-    Paid: {
-      bg: "#EFFFF2",
-      text: "#038C3D",
-    },
-  };
+ const statusStyles = {
+  Redeemed: {
+    bg: "#EFFFF2",
+    text: "#038C3D",
+  },
+
+  "Partially Redeemed": {
+    bg: "#FFF4E5",
+    text: "#F59E0B",
+  },
+};
 
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
@@ -934,9 +940,6 @@ function Booking() {
                               );
                             })}
 
-                            <th className=" px-2 bg-[#F9FAFB] text-center">
-                              Status
-                            </th>
                             <th className=" px-2 sticky right-0 z-50 bg-[#F9FAFB] text-center">
                               Action
                             </th>
@@ -1129,6 +1132,33 @@ function Booking() {
                                           {item.amount}
                                         </td>
                                       );
+                                    case "Status":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <span
+                                            className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                            style={{
+                                              backgroundColor:
+                                                statusStyles[item.status]?.bg ||
+                                                "#EEE",
+                                            }}
+                                          >
+                                            <span
+                                              className="h-2 w-2 rounded-full"
+                                              style={{
+                                                backgroundColor:
+                                                  statusStyles[item.status]
+                                                    ?.text || "#333",
+                                              }}
+                                            ></span>
+
+                                            {item.status}
+                                          </span>
+                                        </td>
+                                      );
 
                                     case "Available Amount":
                                       return (
@@ -1158,31 +1188,6 @@ function Booking() {
                                   }
                                 })}
 
-                                <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 text-center text-[#111928] hover:!bg-gray-50 group-hover:!bg-gray-50`}
-                                >
-                                  <span
-                                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                    style={{
-                                      backgroundColor:
-                                        statusStyles[item.status]?.bg ||
-                                        "#EFFFF2",
-                                    }}
-                                  >
-                                    <span
-                                      className="h-2 w-2 rounded-full"
-                                      style={{
-                                        backgroundColor:
-                                          statusStyles[item.status]?.text ||
-                                          "#038C3D",
-                                      }}
-                                    ></span>
-
-                                    {item.status}
-                                  </span>
-                                </td>
                                 <td
                                   className={`${
                                     isScrolling ? "!bg-white" : "bg-white"
