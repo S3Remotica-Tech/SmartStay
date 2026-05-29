@@ -765,17 +765,17 @@ function Booking() {
     }
   }, [state.createAccount?.networkError]);
 
- const statusStyles = {
-  Redeemed: {
-    bg: "#EFFFF2",
-    text: "#038C3D",
-  },
+  const statusStyles = {
+    Redeemed: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
 
-  "Partially Redeemed": {
-    bg: "#FFF4E5",
-    text: "#F59E0B",
-  },
-};
+    "Partially Redeemed": {
+      bg: "#FFF4E5",
+      text: "#F59E0B",
+    },
+  };
 
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
@@ -977,9 +977,7 @@ function Booking() {
 
                                   if (index === 0) {
                                     stickyClass = `sticky left-[0px] z-30  w-[80px] ${
-                                      isScrolling
-                                        ? "!bg-white"
-                                        : "!bg-transparent"
+                                      isScrolling ? "!bg-white" : "!bg-white"
                                     }`;
                                   }
 

@@ -688,13 +688,12 @@ function* handleBookingToCheckIn(reading) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({
-          type: "BED_AVAILABLE_ERROR_BOOKED",
-          payload: error.response.data,
-        });
-      }
+
+    if (error) {
+      yield put({
+        type: "BED_AVAILABLE_ERROR_BOOKED",
+        payload: error.response.data,
+      });
     }
   }
 }
@@ -950,17 +949,15 @@ function* handleBookedDetails(action) {
   } catch (error) {
     yield* handleApiError(error);
 
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error?.status === 400 || error?.response?.status === 400) {
-        yield put({
-          type: "ERROR_INITIALIZE_BED",
-          payload: error.response.data,
-        });
-        yield put({
-          type: "BOOKED_DETAILS",
-          payload: { response: "", statusCode: 0 },
-        });
-      }
+    if (error?.status === 400 || error?.response?.status === 400) {
+      yield put({
+        type: "ERROR_INITIALIZE_BED",
+        payload: error.response.data,
+      });
+      yield put({
+        type: "BOOKED_DETAILS",
+        payload: { response: "", statusCode: 0 },
+      });
     }
   }
 }
@@ -1036,15 +1033,13 @@ function* handleSearchTenant(user) {
     }
   } catch (err) {
     const error = err || {};
-    if(error){
-       yield put({
-          type: "MOBILENUMBER_ERROR",
-          payload: error.response.data,
-        });
+    if (error) {
+      yield put({
+        type: "MOBILENUMBER_ERROR",
+        payload: error.response.data,
+      });
     }
     yield* handleApiError(error);
-    
-
   }
 }
 

@@ -170,6 +170,8 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   };
 
   const handleCheckin = async () => {
+     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
     let hasReasonAmountError = false;
     let newErrors = [];
     let hasError = false;
@@ -350,10 +352,6 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   useEffect(() => {
     if (state.UsersList.bedError) {
       setFormLoading(false);
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
-      }, 1000);
     }
   }, [state.UsersList.bedError]);
 
@@ -736,6 +734,15 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
             {state.UsersList.bedError ? (
               <ErrorMessage message={state.UsersList.bedError} type="error" />
             ) : null}
+
+            {state.UsersList.bedInitiaLizeError && (
+              <div className="d-flex justify-center">
+                <ErrorMessage
+                  message={state.UsersList.bedInitiaLizeError}
+                  type="error"
+                />
+              </div>
+            )}
 
             <Modal.Footer className="border-0 pt-0">
               <div className="flex justify-end gap-2.5">
