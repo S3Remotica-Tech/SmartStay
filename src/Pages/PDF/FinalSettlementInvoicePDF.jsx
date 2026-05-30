@@ -241,7 +241,7 @@ function FinalSettlementInvoicePDF() {
         </div>
 
         <div className="mt-2">
-          <div className="flex justify-between text-[11px] text-gray-700 font-semibold border-y-2 bg-[#F9F9F9] border-[#E5E7EB] p-2 uppercase">
+          <div className="flex justify-between text-[10px] text-gray-700 font-semibold border-y-2 bg-[#F9F9F9] border-[#E5E7EB] p-2 uppercase">
             <span>Item Detail</span>
             <span>Amount</span>
           </div>
@@ -249,18 +249,18 @@ function FinalSettlementInvoicePDF() {
           <div className="py-3 border-b border-[#E5E7EB]">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-[14px] font-semibold text-[#1A1C21]">
+                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
                   Unpaid Invoices
                 </h3>
 
-                <div className="mt-1 space-y-1 text-[12px] text-[#6B7280]">
+                <div className="mt-1 space-y-1 text-[10px] text-[#6B7280]">
                   <span className="block">INV141 - ₹ 500</span>
 
                   <span className="block">INV075 - ₹ 2100</span>
                 </div>
               </div>
 
-              <p className="text-[14px] font-semibold text-[#1A1C21]">
+              <p className="text-[11px] font-semibold text-[#1A1C21]">
                 ₹ 2,600.00
               </p>
             </div>
@@ -269,11 +269,11 @@ function FinalSettlementInvoicePDF() {
           <div className="py-3 border-b border-[#E5E7EB]">
             <div className="flex justify-between items-start gap-4">
               <div>
-                <h3 className="text-[14px] font-semibold text-[#1A1C21]">
+                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
                   Electricity Bill
                 </h3>
 
-                <div className="mt-1 space-y-2 text-[12px] text-[#6B7280] leading-5">
+                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280] leading-5">
                   <div>
                     {" "}
                     <span>
@@ -290,7 +290,7 @@ function FinalSettlementInvoicePDF() {
                 </div>
               </div>
 
-              <p className="text-[14px] font-semibold text-[#1A1C21] whitespace-nowrap">
+              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap">
                 ₹ 500.00
               </p>
             </div>
@@ -299,11 +299,11 @@ function FinalSettlementInvoicePDF() {
           <div className="py-3 border-b border-[#E5E7EB]">
             <div className="flex justify-between items-start gap-4">
               <div>
-                <h3 className="text-[14px] font-semibold text-[#1A1C21]">
+                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
                   Refundable Advance
                 </h3>
 
-                <div className="mt-1 space-y-2 text-[12px] text-[#6B7280]">
+                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
                   <div>
                     <span>Total Paid ₹ 10,000</span>
                   </div>
@@ -318,7 +318,7 @@ function FinalSettlementInvoicePDF() {
                 </div>
               </div>
 
-              <p className="text-[14px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
                 <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>{" "}
                 ₹ 3,300.00
               </p>
@@ -327,11 +327,11 @@ function FinalSettlementInvoicePDF() {
           <div className="py-3 border-b border-[#E5E7EB]">
             <div className="flex justify-between items-start gap-4">
               <div>
-                <h3 className="text-[14px] font-semibold text-[#1A1C21]">
+                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
                   Refundable Rent
                 </h3>
 
-                <div className="mt-1 space-y-2 text-[12px] text-[#6B7280]">
+                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
                   <label>Last Rent Paid ₹ 10,000</label>
                   <label>
                     Current Stay Days (Rent)- 14 - ₹ 2,800 Ground Floor G 005 -
@@ -349,7 +349,7 @@ function FinalSettlementInvoicePDF() {
                 </div>
               </div>
 
-              <p className="text-[14px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
                 <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>{" "}
                 ₹ 3,300.00
               </p>
@@ -358,52 +358,56 @@ function FinalSettlementInvoicePDF() {
 
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
-              <div className="flex justify-between items-start gap-3 text-[14px] text-[#1A1C21]">
+              <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Subtotal</span>
 
                 <span className="font-semibold flex items-center gap-1 text-right ml-auto shrink-0">
                   <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block shrink-0"></span>
 
-                  <span>₹ 999.00</span>
+                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                    ₹ 999.00
+                  </span>
                 </span>
               </div>
 
-              <div className="flex justify-between items-start gap-3 text-[14px] text-[#1A1C21]">
+              <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Tax-GST (8%)</span>
 
-                <span className="font-semibold text-right ml-auto shrink-0">
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
                   ₹ 79.33
                 </span>
               </div>
 
-              <div className="flex justify-between whitespace-nowrap items-start gap-3 text-[14px] text-[#1A1C21]">
+              <div className="flex justify-between whitespace-nowrap items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Deductions- Non Refundable</span>
 
-                <span className="font-semibold text-right ml-auto shrink-0">
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
                   ₹ 5225255.25
                 </span>
               </div>
 
-              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[14px] text-[#1A1C21]">
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                 <span>Unpaid Invoices</span>
 
-                <span className="font-semibold text-right ml-auto shrink-0">
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
                   ₹ 79.338
                 </span>
               </div>
 
-              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[14px] text-[#1A1C21]">
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                 <span>Electricity Bill</span>
 
-                <span className="font-semibold text-right ml-auto shrink-0">
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
                   ₹ 79.33
                 </span>
               </div>
 
-              <div className="flex justify-between items-start pt-3 border-t border-[#E5E7EB] text-[15px] font-semibold text-[#1A1C21] gap-3">
+              <div className="flex justify-between items-start pt-3 border-t border-[#E5E7EB] text-[10px] font-semibold text-[#1A1C21] gap-3">
                 <span>Total</span>
 
-                <span className="text-right ml-auto shrink-0">₹ 1078.33</span>
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                  ₹ 1078.33
+                </span>
               </div>
             </div>
           </div>
@@ -413,44 +417,44 @@ function FinalSettlementInvoicePDF() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div className="md:col-span-6">
               <h6
-                className="mb-3 text-[11px] font-extrabold font-gilroy"
+                className="mb-3 text-[10px] font-extrabold font-gilroy"
                 style={textStyle}
               >
                 ACCOUNT DETAILS
               </h6>
 
               <div className="mb-1">
-                <label className="text-[11px] font-medium text-[#4B4B4B] font-gilroy">
+                <label className="text-[9px] font-medium text-[#4B4B4B] font-gilroy">
                   Account No:
                 </label>{" "}
-                <span className="text-[12px] font-medium text-[#171717] font-gilroy">
+                <span className="text-[10px] font-medium text-[#171717] font-gilroy">
                   {pdfDetails?.accountDetails?.accountNo || "N/A"}
                 </span>
               </div>
 
               <div className="mb-1">
-                <label className="text-[11px] font-medium text-[#4B4B4B] font-gilroy">
+                <label className="text-[9px] font-medium text-[#4B4B4B] font-gilroy">
                   IFSC Code:
                 </label>{" "}
-                <span className="text-[12px] font-medium text-[#171717] font-gilroy">
+                <span className="text-[10px] font-medium text-[#171717] font-gilroy">
                   {pdfDetails?.accountDetails?.ifscCode || "N/A"}
                 </span>
               </div>
 
               <div className="mb-1">
-                <label className="text-[11px] font-medium text-[#4B4B4B] font-gilroy">
+                <label className="text-[9px] font-medium text-[#4B4B4B] font-gilroy">
                   Bank Name:
                 </label>{" "}
-                <span className="text-[12px] font-medium text-[#171717] font-gilroy">
+                <span className="text-[10px] font-medium text-[#171717] font-gilroy">
                   {pdfDetails?.accountDetails?.bankName || "N/A"}
                 </span>
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-[#4B4B4B] font-gilroy">
+                <label className="text-[9px] font-medium text-[#4B4B4B] font-gilroy">
                   UPI Details:
                 </label>{" "}
-                <span className="text-[12px] font-medium text-[#171717] font-gilroy">
+                <span className="text-[10px] font-medium text-[#171717] font-gilroy">
                   {pdfDetails?.accountDetails?.upiId || "N/A"}
                 </span>
               </div>
@@ -519,4 +523,3 @@ function FinalSettlementInvoicePDF() {
 }
 
 export default FinalSettlementInvoicePDF;
-
