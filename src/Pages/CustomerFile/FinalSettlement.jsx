@@ -142,6 +142,7 @@ function FinalSettlement() {
 
   const [ReturnAmount, setReturnAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
+  const [GenerateLoading, setGenerateLoading] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
   const breakdownRef = useRef(null);
   const [finalSettlementList, setFinalSettlementList] = useState();
@@ -623,13 +624,13 @@ function FinalSettlement() {
           },
         },
       });
-      setFormLoading(true);
+      setGenerateLoading(true);
     }
   };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
-      setFormLoading(false);
+      setGenerateLoading(false);
       handleClose();
       dispatch({
         type: "USERLIST",
@@ -648,6 +649,7 @@ function FinalSettlement() {
   useEffect(() => {
     if (state.InvoiceList.finalSettlementError) {
       setFormLoading(false);
+      setGenerateLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_FINAL_SETTLMENT_ERROR" });
       }, 100);
@@ -2094,16 +2096,30 @@ function FinalSettlement() {
               </button>
 
               <button
-                disabled={formLoading}
+                disabled={GenerateLoading}
                 onClick={handleClickGenerate}
-                className="
-        bg-[#1E45E1] text-white  w-full flex items-center gap-3 px-4 py-2.5 rounded   transition
-        text-base font-normal font-gilroy
-       
-        
-      "
+                className={`
+                  !w-[130px]
+                  !h-[52px]
+                  !rounded-lg
+                  !border
+                  !border-[#1E45E1]
+                  !bg-[#1E45E1]
+                  !text-white
+                  !text-sm
+                  !font-semibold
+                  !font-gilroy
+                  ${GenerateLoading ? "!opacity-70 !cursor-not-allowed" : ""}
+                `}
               >
-                Generate Bill
+                {GenerateLoading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Generating...
+                  </div>
+                ) : (
+                  " Generate Bill"
+                )}
               </button>
             </div>
           </div>

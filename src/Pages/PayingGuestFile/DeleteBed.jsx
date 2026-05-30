@@ -107,11 +107,11 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
     <ErrorMessage message={state.PgList?.deleteBedError} type="error"/>
   )} */}
 
-        {formLoading && (
+        {/* {formLoading && (
           <div className="!absolute !inset-0 !flex !items-center !justify-center !bg-transparent !opacity-75 !z-10">
             <div className="!w-10 !h-10 !rounded-full !border-4 !border-t-[#1E45E1] !border-r-transparent !animate-spin" />
           </div>
-        )}
+        )} */}
 
         <Modal.Footer className="!flex !justify-center !gap-4 !mb-2 !border-0">
           <Button

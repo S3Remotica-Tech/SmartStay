@@ -204,7 +204,7 @@ function* handleSelfTranfer(action) {
 
     if (response?.status === 200) {
       yield put({
-        type: "SELF_TRANSER_REDUCER",
+        type: "SELF_TRANSFER_REDUCER",
         payload: {
           response: response.data,
           statusCode: response?.status,
