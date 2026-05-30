@@ -127,10 +127,7 @@ function FinalSettlementInvoicePDF() {
         </div>
       </div>
       <div className="text-center pt-2 pb-1">
-        <h5
-          className="text-[17px] font-gilroy font-semibold text-[#171717]"
-          // style={textStyle}
-        >
+        <h5 className="text-[17px] font-gilroy font-semibold text-[#171717]">
           Final Settlement Invoice
         </h5>
       </div>
