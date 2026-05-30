@@ -102,6 +102,7 @@ export const initialState = {
   shareReceiptPdfSuccess: 0,
   manualInvoiceUnpaidStatusCode: 0,
   subsriptionPdfStatusCode: 0,
+  subscriptionPdfURL: "",
   unPaidError: "",
   receiptDeleteError: "",
   makeInvoiceDiscountStatus: 0,
@@ -162,8 +163,8 @@ const InvoiceReducer = (state = initialState, action) => {
 
     case "DELETE_RECEIPT_ERROR":
       return { ...state, receiptDeleteError: action.payload };
-      case "REMOVE_DELETE_RECEIPT_ERROR":
-      return { ...state, receiptDeleteError:"" };
+    case "REMOVE_DELETE_RECEIPT_ERROR":
+      return { ...state, receiptDeleteError: "" };
 
     case "TENANT_ASSIGN_AMENITIES":
       return { ...state, tenantAssignStatus: action.payload.statusCode };
@@ -191,9 +192,20 @@ const InvoiceReducer = (state = initialState, action) => {
       return { ...state, createRefundStatusCode: 0 };
 
     case "SUBSCRIPTION_PDF":
-      return { ...state, subsriptionPdfStatusCode: action.payload.statusCode };
+      return {
+        ...state,
+        subsriptionPdfStatusCode: action.payload.statusCode,
+        subscriptionPdfURL: action.payload.response,
+      };
+
     case "REMOVE_SUBSCRIPTION_PDF":
       return { ...state, subsriptionPdfStatusCode: 0 };
+
+    case "SUBSCRIPTION_PDF_ERROR":
+      return { ...state, subscriptionPdfError: action.payload };
+
+    case "REMOVE_SUBSCRIPTION_PDF_ERROR":
+      return { ...state, subscriptionPdfError: "" };
 
     case "GET_INITIALIZE_REFUND_DETAILS":
       return {
