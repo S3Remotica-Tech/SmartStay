@@ -10,12 +10,15 @@ export const initialState = {
   statusEditTrasactionCode: 0,
   statusCodeDeleteBank: 0,
   statusCodeForDeleteTrans: 0,
-  bankingCreateError: ""
+  bankingCreateError: "",
+  selfTransferInitialize: "",
+  statusSelfTransferInitialize: 0,
+  statusSuccessSelfTransfer: 0,
 };
 
 const BankingReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'RESET_ALL':
+    case "RESET_ALL":
       return initialState;
     case "ADD_USER_BANKING":
       return {
@@ -31,15 +34,30 @@ const BankingReducer = (state = initialState, action) => {
     // case 'REMOVE_ERROR_BOOKING':
     //   return { ...state, bankingError: '' }
 
-case 'CREATE_BANKING_ERROR':
-    return { ...state, bankingCreateError: action.payload }
+    case "CREATE_BANKING_ERROR":
+      return { ...state, bankingCreateError: action.payload };
 
-case 'REMOVE_CREATE_BANKING_ERROR':
-    return { ...state, bankingCreateError: "" }
+    case "REMOVE_CREATE_BANKING_ERROR":
+      return { ...state, bankingCreateError: "" };
 
+    case "SELF_TRANSFER_INITIALIZE_REDUCER":
+      return {
+        ...state,
+        selfTransferInitialize: action.payload.response,
+        statusSelfTransferInitialize: action.payload.statusCode,
+      };
 
+    case "SELF_TRANSFER__REDUCER":
+      return {
+        ...state,
+        statusSuccessSelfTransfer: action.payload.statusCode,
+      };
 
-
+    case "REMOVE_SELF_TRANSFER__REDUCER":
+      return {
+        ...state,
+        statusSuccessSelfTransfer: 0,
+      };
 
     case "EDIT_BANK_TRANSACTION":
       return {
@@ -75,9 +93,6 @@ case 'REMOVE_CREATE_BANKING_ERROR':
     case "CLEAR_NO_BANKING":
       return { ...state, statusCodeForBankingNoData: 0 };
 
-
-
-
     case "DEFAULT_ACCOUNT":
       return {
         ...state,
@@ -85,7 +100,6 @@ case 'REMOVE_CREATE_BANKING_ERROR':
       };
     case "CLEAR_DEFAULT_ACCOUNT":
       return { ...state, statusCodeForDefaultAccount: 0 };
-
 
     case "DELETE_BANKING":
       return {
@@ -108,11 +122,10 @@ case 'REMOVE_CREATE_BANKING_ERROR':
         statusCodeForEditBanking: action.payload.statusCode,
       };
     case "CLEAR_EDITBANKING":
-      return { ...state, statusCodeForEditBanking: 0 };  
+      return { ...state, statusCodeForEditBanking: 0 };
 
     default:
       return state;
   }
-
 };
 export default BankingReducer;

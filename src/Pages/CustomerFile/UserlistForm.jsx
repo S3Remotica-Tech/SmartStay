@@ -492,6 +492,7 @@ function UserlistForm(props) {
   ];
 
   const handleAddField = () => {
+    setBedWarning("");        
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
   };
 

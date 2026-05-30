@@ -45,7 +45,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
 
   const handleDeleteRoomForm = () => {
     handleClose();
-    setDeleteRoomError("");
+    // setDeleteRoomError("");
     dispatch({ type: "CLEAR_DELETE_ROOM_ERROR" });
   };
 
