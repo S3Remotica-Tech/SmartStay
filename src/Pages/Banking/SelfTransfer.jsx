@@ -1,10 +1,79 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Bank, CloseCircle } from "iconsax-react";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
   console.log("selfDetailsselfDetails", selfDetails);
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [amount, setAmount] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
+    setError("");
+    const value = e.target.value;
+
+    if (/^\d*\.?\d*$/.test(value)) {
+      setAmount(value);
+    }
+  };
+
+  const handleTransfer = async () => {
+    if (!amount || Number(amount) <= 0) {
+      setError("Please enter a valid amount");
+      amountRef.current?.focus();
+      return;
+    }
+
+    setError("");
+
+    setLoading(true);
+
+    // const payload = {
+    //   fromBankId: selfDetails?.fromBankId,
+    //   toBankId: selfDetails?.toBankId,
+    //   balance: Number(amount),
+    // };
+
+    // console.log(payload);
+    dispatch({
+      type: "SELF_TRANSER_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        //    fromBankId: bank.fromBankId,
+        // toBankId: bank.toBankId,
+        // balance: bank.balance,
+      },
+    });
+  };
 
   if (!show) return null;
+
+  useEffect(() => {
+    return () => {
+      setError("");
+      dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.bankingDetails?.statusSuccessSelfTransfer) {
+      setLoading(false);
+    }
+  }, [state.bankingDetails?.statusSuccessSelfTransfer]);
+
+  useEffect(() => {
+    if (state.createAccount?.networkError || state?.bankingDetails?.selfError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
+    }
+  }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
@@ -137,18 +206,39 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             </span>
 
             <input
-              type="text"
+              type="number"
               placeholder="Enter amount"
-              //   value={amount}
-              //   onChange={handleChange}
+              value={amount}
+              onChange={handleChange}
               className="w-full h-full px-3 outline-none shadow-none font-gilroy text-sm"
             />
           </div>
-
+          {error && <ErrorMessage message={error} type="error" />}
+          {state?.bankingDetails?.selfError && (
+            <ErrorMessage
+              message={state?.bankingDetails?.selfError}
+              type="error"
+            />
+          )}
           <div className="flex justify-end mt-4">
-            <button className="bg-[#1E45E1] hover:bg-[#1738C7] transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy">
-              {/* Transfer */} Coming Soon
-            </button>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleTransfer}
+                disabled={loading}
+                className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Processing...
+                    </div>
+                  </>
+                ) : (
+                  "Transfer"
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

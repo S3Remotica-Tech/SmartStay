@@ -205,7 +205,7 @@ function* handleSelfTranfer(action) {
     if (response?.status === 200) {
       yield put({
         type: "SELF_TRANSFER_REDUCER",
-        payload: {
+                payload: {
           response: response.data,
           statusCode: response?.status,
         },
@@ -213,6 +213,15 @@ function* handleSelfTranfer(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
+if (error) {
+        yield put({
+          type: "SELF_TRANSFER_",
+          payload: error.response.data,
+        });
+      }
+
+
+
   }
 }
 

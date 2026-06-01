@@ -14,6 +14,7 @@ export const initialState = {
   selfTransferInitialize: "",
   statusSelfTransferInitialize: 0,
   statusSuccessSelfTransfer: 0,
+  selfError: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -47,16 +48,27 @@ const BankingReducer = (state = initialState, action) => {
         statusSelfTransferInitialize: action.payload.statusCode,
       };
 
-    case "SELF_TRANSFER__REDUCER":
+    case "SELF_TRANSFER_REDUCER":
       return {
         ...state,
         statusSuccessSelfTransfer: action.payload.statusCode,
       };
 
-    case "REMOVE_SELF_TRANSFER__REDUCER":
+    case "REMOVE_SELF_TRANSFER_REDUCER":
       return {
         ...state,
         statusSuccessSelfTransfer: 0,
+      };
+
+    case "SELF_TRANSFER_ERROR":
+      return {
+        ...state,
+        selfError: action.payload,
+      };
+    case "REMOVE_SELF_TRANSFER_ERROR":
+      return {
+        ...state,
+        selfError: "",
       };
 
     case "EDIT_BANK_TRANSACTION":

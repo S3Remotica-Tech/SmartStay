@@ -100,12 +100,12 @@ function FinalSettlementInvoicePDF() {
               />
             </div>
             <div className="py-1">
-              <div className="text-[#222222] text-[11px] font-medium ">
+              <div className="text-[#222222] text-[10px] font-medium ">
                 {pdfDetails?.emailId}
               </div>
             </div>
             <div className="py-1">
-              <div className="text-[#222222] text-[11px] font-medium  ">
+              <div className="text-[#222222] text-[10px] font-medium  ">
                 {pdfDetails?.mobile &&
                   `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
               </div>
@@ -113,14 +113,14 @@ function FinalSettlementInvoicePDF() {
           </div>
 
           <div className="mt-2 sm:pl-4">
-            <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
+            <div className="text-[10px] font-semibold text-[#2B2B2B] font-gilroy">
               {pdfDetails?.stayInfo?.hostelName}
             </div>
 
-            <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
+            <div className="text-[10px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
               {pdfDetails?.configurations?.address}
             </div>
-            <div className="text-[#222222] text-[11px] font-medium  ">
+            <div className="text-[#222222] text-[10px] font-medium  ">
               <span>GST IN : </span> <span></span>
             </div>
           </div>
@@ -137,7 +137,7 @@ function FinalSettlementInvoicePDF() {
       >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4  mt-1 font-gilroy">
           <div className="md:col-span-5 mb-3 text-[13px] text-[#222]">
-            <div className="mb-2 text-[11px] font-semibold " style={textStyle}>
+            <div className="mb-2 text-[10px] font-semibold " style={textStyle}>
               Billed to:
             </div>
 
@@ -156,7 +156,7 @@ function FinalSettlementInvoicePDF() {
                 <IoBed className="text-[16px]" />
               </span> */}
 
-              <span className="ml-1 flex font-semibold items-center text-[12px] text-[#171717]">
+              <span className="ml-1 flex font-semibold items-center text-[10px] text-[#171717]">
                 {pdfDetails?.stayInfo?.floorName && (
                   <> {pdfDetails.stayInfo.floorName}, </>
                 )}
@@ -172,7 +172,7 @@ function FinalSettlementInvoicePDF() {
                 <Location size="16" variant="Bold" />
               </span> */}
 
-              <div className="ml-1 text-[12px] text-[#5E6470] break-words">
+              <div className="ml-1 text-[10px] text-[#5E6470] break-words">
                 {pdfDetails?.customerInfo?.fullAddress}
               </div>
             </div>
@@ -181,7 +181,7 @@ function FinalSettlementInvoicePDF() {
                 <Call size="16" variant="Bold" />
               </span> */}
 
-              <span className="ml-1 text-[12px] text-[#5E6470]">
+              <span className="ml-1 text-[10px] text-[#5E6470]">
                 {pdfDetails?.customerInfo?.customerMobileNo &&
                 pdfDetails.customerInfo.customerMobileNo !== "undefined"
                   ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
@@ -196,7 +196,7 @@ function FinalSettlementInvoicePDF() {
                 Invoice :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                 {pdfDetails?.invoiceNumber}
               </div>
 
@@ -204,7 +204,7 @@ function FinalSettlementInvoicePDF() {
                 Invoice Date :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                 {pdfDetails?.invoiceDate}
               </div>
 
@@ -212,7 +212,7 @@ function FinalSettlementInvoicePDF() {
                 Due date :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                 {pdfDetails?.dueDate}
               </div>
 
@@ -220,7 +220,7 @@ function FinalSettlementInvoicePDF() {
                 Joining date :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                 {pdfDetails?.customerInfo?.joiningDate}
               </div>
 
@@ -229,7 +229,7 @@ function FinalSettlementInvoicePDF() {
                   Rental Period :
                 </div>
 
-                <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
+                <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                   {pdfDetails?.invoiceInfo?.invoicePeriod}
                 </div>
               </>

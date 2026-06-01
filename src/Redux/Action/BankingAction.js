@@ -43,8 +43,12 @@ export async function selfTranferInitialize(hostelId) {
   return await AxiosConfigV2.get(`/v2/bank`, {});
 }
 
-export async function selfTranfer(hostelId) {
-  return await AxiosConfigV2.get(`/v2/bank`, {});
+export async function selfTranfer(bank) {
+  return await AxiosConfigV2.post(`/v2/bank/transfer/${bank.hostelId}`, {
+    fromBankId: bank.fromBankId,
+    toBankId: bank.toBankId,
+    balance: bank.balance,
+  });
 }
 
 export function AddDefaultAccount() {
