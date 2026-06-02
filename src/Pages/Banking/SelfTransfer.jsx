@@ -5,7 +5,7 @@ import { Bank, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
-  console.log("selfDetailsselfDetails", selfDetails);
+  // console.log("selfDetailsselfDetails", selfDetails);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -24,6 +24,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
   };
 
   const handleTransfer = () => {
+    dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
     if (!selectedBank) {
       setError("Please select a destination account");
       return;
