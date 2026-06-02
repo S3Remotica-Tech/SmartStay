@@ -38,10 +38,10 @@ import { TiTick } from "react-icons/ti";
 function FinalSettlementInvoicePDF() {
   const state = useSelector((state) => state);
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
-  const templateColor = pdfDetails?.configurations?.templateColor;
+  const templateColor = pdfDetails?.configInfo?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
   const showRentalPeriod =
-    pdfDetails?.configurations?.invoiceType === "Rent" &&
+    pdfDetails?.configInfo?.invoiceType === "Rent" &&
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
@@ -88,40 +88,41 @@ function FinalSettlementInvoicePDF() {
             <div>
               <img
                 src={
-                  pdfDetails?.configurations?.hostelLogo
-                    ? pdfDetails?.configurations?.hostelLogo
+                  pdfDetails?.headerInfo?.hostelImage
+                    ? pdfDetails?.headerInfo?.hostelImage
                     : Logo
                 }
                 alt="logo"
                 className="mt-2 max-w-[134px] rounded object-contain"
                 style={{
-                  height: pdfDetails?.configurations?.hostelLogo ? 50 : 25,
+                  height: pdfDetails?.headerInfo?.hostelImage ? 50 : 25,
                 }}
               />
             </div>
             <div className="py-1">
-              <div className="text-[#222222] text-[11px] font-medium ">
-                {pdfDetails?.emailId}
+              <div className="text-[#222222] text-[10px] font-medium ">
+                {pdfDetails?.headerInfo?.emailId}
               </div>
             </div>
             <div className="py-1">
-              <div className="text-[#222222] text-[11px] font-medium  ">
-                {pdfDetails?.mobile &&
-                  `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+              <div className="text-[#222222] text-[10px] font-medium  ">
+                {pdfDetails?.headerInfo?.phoneNumber &&
+                  `+${pdfDetails?.headerInfo?.countryCode} ${pdfDetails?.headerInfo?.phoneNumber}`}
               </div>
             </div>
           </div>
 
           <div className="mt-2 sm:pl-4">
-            <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
+            <div className="text-[10px] font-semibold text-[#2B2B2B] font-gilroy">
               {pdfDetails?.stayInfo?.hostelName}
             </div>
 
-            <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
-              {pdfDetails?.configurations?.address}
+            <div className="text-[10px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
+              {pdfDetails?.configInfo?.address}
             </div>
-            <div className="text-[#222222] text-[11px] font-medium  ">
-              <span>GST IN : </span> <span></span>
+            <div className="text-[#222222] text-[10px] font-medium  ">
+              <span>GST IN : </span>{" "}
+              <span>{pdfDetails?.headerInfo?.gstNumber}</span>
             </div>
           </div>
         </div>
@@ -137,15 +138,11 @@ function FinalSettlementInvoicePDF() {
       >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4  mt-1 font-gilroy">
           <div className="md:col-span-5 mb-3 text-[13px] text-[#222]">
-            <div className="mb-2 text-[11px] font-semibold " style={textStyle}>
+            <div className="mb-2 text-[10px] font-semibold " style={textStyle}>
               Billed to:
             </div>
 
             <div className="mb-1 flex items-center">
-              {/* <span style={getIconStyle(templateColor)}>
-                <Profile size="16" variant="Bold" />
-              </span> */}
-
               <span className="ml-1 text-[12px] font-bold text-[#171717]">
                 {pdfDetails?.customerInfo?.fullName}
               </span>
@@ -156,7 +153,7 @@ function FinalSettlementInvoicePDF() {
                 <IoBed className="text-[16px]" />
               </span> */}
 
-              <span className="ml-1 flex font-semibold items-center text-[12px] text-[#171717]">
+              <span className="ml-1 flex font-semibold items-center text-[10px] text-[#171717]">
                 {pdfDetails?.stayInfo?.floorName && (
                   <> {pdfDetails.stayInfo.floorName}, </>
                 )}
@@ -172,7 +169,7 @@ function FinalSettlementInvoicePDF() {
                 <Location size="16" variant="Bold" />
               </span> */}
 
-              <div className="ml-1 text-[12px] text-[#5E6470] break-words">
+              <div className="ml-1 text-[10px] text-[#5E6470] break-words">
                 {pdfDetails?.customerInfo?.fullAddress}
               </div>
             </div>
@@ -181,7 +178,7 @@ function FinalSettlementInvoicePDF() {
                 <Call size="16" variant="Bold" />
               </span> */}
 
-              <span className="ml-1 text-[12px] text-[#5E6470]">
+              <span className="ml-1 text-[10px] text-[#5E6470]">
                 {pdfDetails?.customerInfo?.customerMobileNo &&
                 pdfDetails.customerInfo.customerMobileNo !== "undefined"
                   ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
@@ -196,31 +193,31 @@ function FinalSettlementInvoicePDF() {
                 Invoice :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
-                {pdfDetails?.invoiceNumber}
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
+                {pdfDetails?.invoiceInfo?.invoiceNo}
               </div>
 
               <div className="truncate text-right text-[10px] font-normal text-[#4B4B4B]">
                 Invoice Date :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
-                {pdfDetails?.invoiceDate}
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
+                {pdfDetails?.invoiceInfo?.invoiceDate}
               </div>
 
               <div className="truncate text-right text-[10px] font-normal text-[#4B4B4B]">
                 Due date :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
-                {pdfDetails?.dueDate}
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
+                {pdfDetails?.invoiceInfo?.dueDate}
               </div>
 
               <div className="truncate text-right text-[10px] font-normal text-[#4B4B4B]">
                 Joining date :
               </div>
 
-              <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
+              <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                 {pdfDetails?.customerInfo?.joiningDate}
               </div>
 
@@ -229,8 +226,8 @@ function FinalSettlementInvoicePDF() {
                   Rental Period :
                 </div>
 
-                <div className="truncate text-left text-[12px] font-semibold text-[#171717]">
-                  {pdfDetails?.invoiceInfo?.invoicePeriod}
+                <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
+                  {pdfDetails?.invoiceInfo?.rentalPeriod}
                 </div>
               </>
             </div>
@@ -242,116 +239,193 @@ function FinalSettlementInvoicePDF() {
             <span>Item Detail</span>
             <span>Amount</span>
           </div>
+          {/* unpaid */}
+          {pdfDetails?.unpaidInvoiceInfo && (
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                    Unpaid Invoices
+                  </h3>
 
-          <div className="py-3 border-b border-[#E5E7EB]">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
-                  Unpaid Invoices
-                </h3>
-
-                <div className="mt-1 space-y-1 text-[10px] text-[#6B7280]">
-                  <span className="block">INV141 - ₹ 500</span>
-
-                  <span className="block">INV075 - ₹ 2100</span>
-                </div>
-              </div>
-
-              <p className="text-[11px] font-semibold text-[#1A1C21]">
-                ₹ 2,600.00
-              </p>
-            </div>
-          </div>
-
-          <div className="py-3 border-b border-[#E5E7EB]">
-            <div className="flex justify-between items-start gap-4">
-              <div>
-                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
-                  Electricity Bill
-                </h3>
-
-                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280] leading-5">
-                  <div>
-                    {" "}
-                    <span>
-                      Ground Floor - G 005 - B 03 &nbsp; - &nbsp; ₹ 270 (27
-                      Units)
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      First Floor - F 002 - B 01 &nbsp; - &nbsp; ₹ 230 (23
-                      Units)
-                    </span>
+                  <div className="mt-1 space-y-1 text-[10px] text-[#6B7280]">
+                    {pdfDetails?.unpaidInvoiceInfo?.unpaidInvoiceItems?.map(
+                      (invoice, index) => (
+                        <span key={index} className="block">
+                          {invoice.invoiceNumber} - ₹{" "}
+                          {Number(invoice.pendingAmount).toLocaleString(
+                            "en-IN",
+                          )}
+                        </span>
+                      ),
+                    )}
                   </div>
                 </div>
+
+                <p className="text-[11px] font-semibold text-[#1A1C21]">
+                  ₹{" "}
+                  {pdfDetails?.unpaidInvoiceInfo?.unpaidInvoiceTotalAmount || 0}
+                </p>
               </div>
-
-              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap">
-                ₹ 500.00
-              </p>
             </div>
-          </div>
+          )}
 
-          <div className="py-3 border-b border-[#E5E7EB]">
-            <div className="flex justify-between items-start gap-4">
-              <div>
-                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
-                  Refundable Advance
-                </h3>
+          {/* eb */}
+          {pdfDetails?.currentMonthEbInfo && (
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                    Electricity Bill
+                  </h3>
+                  {pdfDetails?.currentMonthEbInfo?.ebItemsList?.map((view) => (
+                    <div className="mt-1 space-y-2 text-[10px] text-[#6B7280] leading-5">
+                      <div>
+                        {" "}
+                        <span>
+                          {view.floorName || "Floor"} -{" "}
+                          {view.roomName || "Room"} -{view.bedName || "Bed"}{" "}
+                          &nbsp; - &nbsp; ₹ {view.totalAmount} (
+                          {view.consumption} Units)
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
-                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
-                  <div>
-                    <span>Total Paid ₹ 10,000</span>
-                  </div>
+                <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap">
+                  ₹ {pdfDetails?.currentMonthEbInfo?.currentMonthEbAmount}
+                </p>
+              </div>
+            </div>
+          )}
 
-                  <div>
-                    <span className="mb-1 block">INV001 - - ₹ 5000</span>
-                  </div>
+          {/* advance */}
 
-                  <div>
-                    <span>INV654 - - ₹ 700</span>
+          {pdfDetails?.advanceItems && (
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                    {pdfDetails?.advanceItems?.label}
+                  </h3>
+
+                  <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
+                    <div>
+                      <span>
+                        Total Paid ₹ {pdfDetails?.advanceItems?.paidAmount}
+                      </span>
+                    </div>
+
+                    {pdfDetails?.advanceItems?.redeemedList?.map(
+                      (item, index) => (
+                        <div key={item.invoiceId || index}>
+                          <span className="mb-1 block">
+                            {item.invoiceNumber} - ₹ {item.redeemedAmount}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </div>
+
+                <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                  <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                  ₹ {pdfDetails?.advanceItems?.availableAdvanceBalance || 0}
+                </p>
               </div>
-
-              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
-                <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>{" "}
-                ₹ 3,300.00
-              </p>
             </div>
-          </div>
-          <div className="py-3 border-b border-[#E5E7EB]">
-            <div className="flex justify-between items-start gap-4">
-              <div>
-                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
-                  Refundable Rent
-                </h3>
+          )}
 
-                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
-                  <label>Last Rent Paid ₹ 10,000</label>
-                  <label>
-                    Current Stay Days (Rent)- 14 - ₹ 2,800 Ground Floor G 005 -
-                    B 03 ( 10 days * 200 )
-                  </label>
-                  <div>
-                    <label>Other Charges - ₹ 700</label>
-                  </div>
-                  <div>
-                    <label>EB - ₹ 700</label>
-                  </div>
-                  <div>
-                    <label>Laundry - ₹ 700</label>
+          {/* bookings */}
+          {pdfDetails?.bookingItems && (
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                    {pdfDetails?.bookingItems?.label}
+                  </h3>
+
+                  <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
+                    <div>
+                      <span>
+                        Total Paid ₹ {pdfDetails?.bookingItems?.paidAmount}
+                      </span>
+                    </div>
+
+                    {pdfDetails?.bookingItems?.redeemedList?.map(
+                      (item, index) => (
+                        <div key={item.invoiceId || index}>
+                          <span className="mb-1 block">
+                            {item.invoiceNumber} - ₹ {item.redeemedAmount}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </div>
-              </div>
 
-              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
-                <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>{" "}
-                ₹ 3,300.00
-              </p>
+                <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                  <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                  ₹ {pdfDetails?.bookingItems?.availableAdvanceBalance || 0}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
+
+          {pdfDetails?.currentMonthRentInfo && (
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                    Refundable Rent
+                  </h3>
+
+                  <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
+                    <div>
+                      <label>
+                        Last Rent Paid ₹{" "}
+                        {
+                          pdfDetails?.currentMonthRentInfo
+                            ?.currentMonthPaidAmount
+                        }
+                      </label>
+                    </div>
+
+                    {pdfDetails?.currentMonthRentInfo?.listBreakup?.map(
+                      (item, index) => (
+                        <div key={index}>
+                          <label>
+                            Current Stay Days (Rent) - {item.noOfDays} Days - ₹{" "}
+                            {item.totalRent} {item.floorName} - {item.roomName}{" "}
+                            - {item.bedName} - ({item.noOfDays} days × ₹
+                            {item.rentPerDay})
+                          </label>
+                        </div>
+                      ),
+                    )}
+
+                    {pdfDetails?.currentMonthRentInfo?.listCurrentMonthOtherItems?.map(
+                      (item, index) => (
+                        <div key={index}>
+                          <label>
+                            {item.itemName} - ₹ {item.amount}
+                          </label>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                  <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                  ₹{" "}
+                  {pdfDetails?.currentMonthRentInfo
+                    ?.currentMonthPayableAmount || 0}
+                </p>
+              </div>
+            </div>
+          )}
 
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
@@ -362,16 +436,16 @@ function FinalSettlementInvoicePDF() {
                   <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block shrink-0"></span>
 
                   <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                    ₹ 999.00
+                    ₹ {pdfDetails?.invoiceInfo?.subTotal}
                   </span>
                 </span>
               </div>
 
               <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
-                <span>Tax-GST (8%)</span>
+                <span>Tax-GST (0%)</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 79.33
+                  ₹ 0
                 </span>
               </div>
 
@@ -379,7 +453,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Deductions- Non Refundable</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 5225255.25
+                  ₹ 0
                 </span>
               </div>
 
@@ -387,7 +461,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Unpaid Invoices</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 79.338
+                  ₹ {pdfDetails?.invoiceInfo?.unpaidInvoiceAmount}
                 </span>
               </div>
 
@@ -395,7 +469,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Electricity Bill</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 79.33
+                  ₹ {pdfDetails?.invoiceInfo?.electricityAmount}
                 </span>
               </div>
 
@@ -403,7 +477,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Total</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 1078.33
+                  ₹ {pdfDetails?.invoiceInfo?.finalAmount}
                 </span>
               </div>
             </div>
@@ -479,9 +553,9 @@ function FinalSettlementInvoicePDF() {
 
         <div className="flex flex-wrap justify-between  items-center mt-4">
           <div className="">
-            {pdfDetails?.configurations?.signatureUrl && (
+            {pdfDetails?.configInfo?.signatureUrl && (
               <img
-                src={pdfDetails?.configurations?.signatureUrl}
+                src={pdfDetails?.configInfo?.signatureUrl}
                 alt="Digital Signature"
                 className="h-[60px] w-[130px]"
               />
@@ -493,9 +567,32 @@ function FinalSettlementInvoicePDF() {
           </div>
 
           <div>
-            <div className="text-[12px] flex items-center gap-2 text-gray-900 font-semibold ">
-              Status : <TiTick className="text-[#038C3D]" />{" "}
-              <span className="text-[#038C3D] text-sm"></span>
+            <div className="text-[12px] flex items-center gap-2 text-gray-900 font-semibold">
+              Status :
+              <TiTick
+                className={`${
+                  pdfDetails?.invoiceInfo?.status === "PENDING"
+                    ? "text-[#F59E0B]"
+                    : pdfDetails?.invoiceInfo?.status === "PAID"
+                      ? "text-[#038C3D]"
+                      : pdfDetails?.invoiceInfo?.status === "OVERDUE"
+                        ? "text-[#DC2626]"
+                        : "text-[#6B7280]"
+                }`}
+              />
+              <span
+                className={`text-sm ${
+                  pdfDetails?.invoiceInfo?.status === "PENDING"
+                    ? "text-[#F59E0B]"
+                    : pdfDetails?.invoiceInfo?.status === "PAID"
+                      ? "text-[#038C3D]"
+                      : pdfDetails?.invoiceInfo?.status === "OVERDUE"
+                        ? "text-[#DC2626]"
+                        : "text-[#6B7280]"
+                }`}
+              >
+                {pdfDetails?.invoiceInfo?.status}
+              </span>
             </div>
             <div className="text-[12px] flex items-center font-semibold gap-2 text-gray-900 ">
               Thanks for the business.
@@ -511,7 +608,7 @@ function FinalSettlementInvoicePDF() {
         <h4 className="text-[11px] font-[Gilroy] font-semibold text-gray-600">
           T&C :{" "}
           <span className="whitespace-pre-line text-[10px] font-[Gilroy] font-semibold text-gray-900 pr-[50px]">
-            {pdfDetails?.configurations?.termAndCondition}
+            {pdfDetails?.configInfo?.termAndCondition}
           </span>
         </h4>
       </div>

@@ -193,7 +193,6 @@ function* handleSelfTranferInitialize(action) {
   }
 }
 
-
 function* handleSelfTranfer(action) {
   try {
     const response = yield call(selfTranfer, action.payload);
@@ -201,7 +200,20 @@ function* handleSelfTranfer(action) {
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
     }
-
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
     if (response?.status === 200) {
       yield put({
         type: "SELF_TRANSFER_REDUCER",
@@ -210,22 +222,29 @@ function* handleSelfTranfer(action) {
           statusCode: response?.status,
         },
       });
+
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
     }
   } catch (error) {
     yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "SELF_TRANSFER_ERROR",
+        payload: error.response.data,
+      });
+    }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function* handleDefaultAccount(action) {
   try {
@@ -488,14 +507,8 @@ function* CreateBankingSaga() {
   yield takeEvery("ADD_BANKING", handleAddBanking);
   yield takeEvery("EDIT_BANKING", handleEditBanking);
   yield takeEvery("BANKINGLIST", handleGetBanking);
-  yield takeEvery(
-    "SELF_TRANSER_INITIALIZE_SAGA",
-    handleSelfTranferInitialize,
-  );
-   yield takeEvery(
-    "SELF_TRANSER_SAGA",
-    handleSelfTranfer,
-  );
+  yield takeEvery("SELF_TRANSER_INITIALIZE_SAGA", handleSelfTranferInitialize);
+  yield takeEvery("SELF_TRANSER_SAGA", handleSelfTranfer);
   yield takeEvery("DEFAULTACCOUNT", handleDefaultAccount);
   yield takeEvery("ADDBANKAMOUNT", handleAddBankAmount);
   yield takeEvery("EDITBANKTRANSACTION", handleEditBankTrans);

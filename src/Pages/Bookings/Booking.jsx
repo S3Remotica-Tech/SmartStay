@@ -565,6 +565,12 @@ function Booking() {
         // period: selectedMonth?.value,
       },
     });
+    dispatch({
+      type: "SET_BOOKING_FILTERS",
+      payload: {
+        search: filterInput,
+      },
+    });
 
     setLoading(true);
   }, [page, size, filterInput]);
@@ -1288,11 +1294,6 @@ function Booking() {
                           `}
                           >
                             <div className="relative">
-                              {customizeLoading && (
-                                <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                                  <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-                                </div>
-                              )}
                               <div className="p-3 border-b ">
                                 <div className="flex items-center gap-2 justify-between mb-2">
                                   <div className="text-[16px] text-[#333333] font-semibold ">
@@ -1393,9 +1394,17 @@ function Booking() {
                               </button>
                               <button
                                 onClick={handleSave}
-                                className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                                disabled={customizeLoading}
+                                className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70"
                               >
-                                Save
+                                {customizeLoading ? (
+                                  <div className="flex items-center justify-center gap-2">
+                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Saving...
+                                  </div>
+                                ) : (
+                                  "Save"
+                                )}
                               </button>
                             </div>
                           </div>

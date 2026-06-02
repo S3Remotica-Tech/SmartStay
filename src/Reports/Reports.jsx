@@ -34,15 +34,9 @@ function Reports() {
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
   const location = useLocation();
-  // const lastRangeRef = useRef(null);
   const analytical = location.state?.analytical;
 
-  const {
-    // canWriteModule: canWriteReports,
-    canReadModule: canReadReports,
-    // canUpdateModule: canUpdateReports,
-    // canDeleteModule: canDeleteReports,
-  } = useHasPermission("Reports");
+  const { canReadModule: canReadReports } = useHasPermission("Reports");
 
   useEffect(() => {
     if (!canReadReports) {

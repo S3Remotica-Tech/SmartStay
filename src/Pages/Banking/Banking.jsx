@@ -130,6 +130,14 @@ function Banking() {
     }
   }, [hostel_id]);
 
+  useEffect(() => {
+    if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
+      setSelfTransfer(false);
+      dispatch({ type: "REMOVE_SELF_TRANSFER_REDUCER" });
+    }
+  }, [state.bankingDetails?.statusSuccessSelfTransfer]);
+
   // console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
 
   useEffect(() => {
@@ -661,7 +669,7 @@ function Banking() {
                           key={item.id}
                           className={` flex-shrink-0
             w-[280px]
-            h-[180px]
+            h-[200px]
             flex flex-col justify-between
             
             rounded-xl
@@ -886,7 +894,7 @@ function Banking() {
                             </span>
 
                             <span className="text-sm font-semibold text-black font-gilroy">
-                              ₹{item.accountBalance}
+                              ₹{item.accountBalance || 0}
                             </span>
                           </div>
                         </div>

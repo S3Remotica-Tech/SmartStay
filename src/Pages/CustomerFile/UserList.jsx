@@ -905,7 +905,7 @@ function UserList(props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedInput(filterInput);
-    }, 400);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [filterInput]);
@@ -1568,7 +1568,7 @@ function UserList(props) {
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
-      }, 3000);
+      }, 100);
     }
   }, [state.createAccount?.networkError]);
 
@@ -2309,7 +2309,7 @@ function UserList(props) {
       {userList && (
         <div className="font-gilroy font-medium text-base">
           {loading && (
-            <div className="fixed inset-0 flex items-center justify-center bg-transparent z-[9999]">
+            <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
               <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
             </div>
           )}
@@ -2632,7 +2632,7 @@ function UserList(props) {
                     </div>
                   </div>
                   {chips?.length > 0 && (
-                    <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
                       <div className="flex flex-wrap gap-2 flex-1">
                         {chips.map((chip) => (
                           <span
@@ -3131,11 +3131,6 @@ function UserList(props) {
       `}
                             >
                               <div className="relative">
-                                {customizeLoading && (
-                                  <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                                    <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-                                  </div>
-                                )}
                                 <div className="p-3 border-b ">
                                   <div className="flex items-center gap-2 justify-between mb-2">
                                     <div className="text-[16px] text-[#333333] font-semibold ">
@@ -3239,9 +3234,17 @@ function UserList(props) {
                                 </button>
                                 <button
                                   onClick={handleSave}
-                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
+                                  disabled={customizeLoading}
+                                  className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70"
                                 >
-                                  Save
+                                  {customizeLoading ? (
+                                    <div className="flex items-center justify-center gap-2">
+                                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                      Saving...
+                                    </div>
+                                  ) : (
+                                    "Save"
+                                  )}
                                 </button>
                               </div>
                             </div>
