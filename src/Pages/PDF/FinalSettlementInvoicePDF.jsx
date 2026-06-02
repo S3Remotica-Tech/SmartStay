@@ -373,37 +373,59 @@ function FinalSettlementInvoicePDF() {
             </div>
           )}
 
-          <div className="py-3 border-b border-[#E5E7EB]">
-            <div className="flex justify-between items-start gap-4">
-              <div>
-                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
-                  Refundable Rent
-                </h3>
+          {pdfDetails?.currentMonthRentInfo && (
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                    Refundable Rent
+                  </h3>
 
-                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
-                  <label>Last Rent Paid ₹ 10,000</label>
-                  <label>
-                    Current Stay Days (Rent)- 14 - ₹ 2,800 Ground Floor G 005 -
-                    B 03 ( 10 days * 200 )
-                  </label>
-                  <div>
-                    <label>Other Charges - ₹ 700</label>
-                  </div>
-                  <div>
-                    <label>EB - ₹ 700</label>
-                  </div>
-                  <div>
-                    <label>Laundry - ₹ 700</label>
+                  <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
+                    <div>
+                      <label>
+                        Last Rent Paid ₹{" "}
+                        {
+                          pdfDetails?.currentMonthRentInfo
+                            ?.currentMonthPaidAmount
+                        }
+                      </label>
+                    </div>
+
+                    {pdfDetails?.currentMonthRentInfo?.listBreakup?.map(
+                      (item, index) => (
+                        <div key={index}>
+                          <label>
+                            Current Stay Days (Rent) - {item.noOfDays} Days - ₹{" "}
+                            {item.totalRent} {item.floorName} - {item.roomName}{" "}
+                            - {item.bedName} - ({item.noOfDays} days × ₹
+                            {item.rentPerDay})
+                          </label>
+                        </div>
+                      ),
+                    )}
+
+                    {pdfDetails?.currentMonthRentInfo?.listCurrentMonthOtherItems?.map(
+                      (item, index) => (
+                        <div key={index}>
+                          <label>
+                            {item.itemName} - ₹ {item.amount}
+                          </label>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </div>
-              </div>
 
-              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
-                <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>{" "}
-                ₹ 3,300.00
-              </p>
+                <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                  <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                  ₹{" "}
+                  {pdfDetails?.currentMonthRentInfo
+                    ?.currentMonthPayableAmount || 0}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
