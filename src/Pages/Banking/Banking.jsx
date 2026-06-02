@@ -669,7 +669,7 @@ function Banking() {
                           key={item.id}
                           className={` flex-shrink-0
             w-[280px]
-            h-[180px]
+            h-[200px]
             flex flex-col justify-between
             
             rounded-xl

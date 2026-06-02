@@ -11,6 +11,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedBank, setSelectedBank] = useState("");
 
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
@@ -22,33 +23,35 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     }
   };
 
-  const handleTransfer = async () => {
+  const handleTransfer = () => {
+    if (!selectedBank) {
+      setError("Please select a destination account");
+      return;
+    }
+
     if (!amount || Number(amount) <= 0) {
       setError("Please enter a valid amount");
-      amountRef.current?.focus();
+      return;
+    }
+
+    if (Number(amount) > availableBalance) {
+      setError("Transfer amount cannot exceed available balance");
       return;
     }
 
     setError("");
 
-    setLoading(true);
-
-    // const payload = {
-    //   fromBankId: selfDetails?.fromBankId,
-    //   toBankId: selfDetails?.toBankId,
-    //   balance: Number(amount),
-    // };
-
-    // console.log(payload);
     dispatch({
       type: "SELF_TRANSER_SAGA",
       payload: {
         hostelId: state.login?.selectedHostel_Id,
-        //    fromBankId: bank.fromBankId,
-        // toBankId: bank.toBankId,
-        // balance: bank.balance,
+        fromBankId: bankDetails?.fromBank?.bankingId,
+        toBankId: selectedBank,
+        balance: Number(amount),
       },
     });
+
+    setLoading(true);
   };
 
   if (!show) return null;
@@ -59,6 +62,18 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
       dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
     };
   }, []);
+
+  useEffect(() => {
+    if (selfDetails?.bankingId) {
+      dispatch({
+        type: "SELF_TRANSER_INITIALIZE_SAGA",
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          bankId: selfDetails?.bankingId,
+        },
+      });
+    }
+  }, [selfDetails]);
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer) {
@@ -74,6 +89,19 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
       }, 3000);
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
+
+  console.log("state", state.bankingDetails?.selfTransferInitialize);
+
+  const bankDetails = state.bankingDetails?.selfTransferInitialize;
+
+  const availableBalance = Number(bankDetails?.fromBank?.accountBalance || 0);
+
+  const isTransferDisabled =
+    loading || !selectedBank || Number(amount) > availableBalance;
+
+  const handleSelect = (item) => {
+    setSelectedBank(item);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
@@ -102,102 +130,85 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
                 <Bank color="#1E45E1" size="20" />
               </div>
 
-              <div className="w-full flex justify-between items-start">
-                <div>
-                  <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                    Canara Bank
-                  </div>
+              <div className="w-full flex justify-between items-center">
+                <div className="h-fit">
+                  {bankDetails?.fromBank?.bankName && (
+                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                      {bankDetails?.fromBank?.bankName}
+                    </div>
+                  )}
 
                   <div className="text-xs text-gray-500 font-gilroy">
-                    Savings A/C
+                    {bankDetails?.fromBank?.accountType || ""}
                   </div>
                 </div>
 
                 <div className="text-right font-gilroy">
                   <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                    Immanuel
+                    {bankDetails?.fromBank?.accountHolderName}
                   </div>
 
                   <div className="text-xs font-normal font-gilroy mb-0.5">
-                    4561 2013 6210 6540
+                    {bankDetails?.fromBank?.accountNumber || "-"}
                   </div>
 
                   <div className="text-xs font-semibold text-[#1E45E1]">
-                    Avl Bal : ₹10,000.00
+                    Avl Bal : ₹ {bankDetails?.fromBank?.accountBalance || 0}
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mb-3 mt-3">
+          <div className="mb-3 mt-3  pe-2 overflow-y-auto h-[250px] show-scrolls">
             <h6 className="text-[#4B4B4B] text-base font-medium font-gilroy mb-2">
               To
             </h6>
 
-            <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#F7FAFF] transition-all duration-200 cursor-pointer">
-              <div>
-                <Bank color="#1E45E1" size="20" />
-              </div>
-
-              <div className="w-full flex justify-between items-start">
+            {bankDetails?.toBanks?.map((bank) => (
+              <div
+                key={bank.bankingId}
+                onClick={() => handleSelect(bank.bankingId)}
+                className={`flex items-center gap-2 mb-3 p-3 rounded-lg transition-all duration-200 cursor-pointer
+      ${
+        selectedBank === bank.bankingId
+          ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
+          : "bg-[#F7FAFF] border-1  border-transparent"
+      }`}
+              >
                 <div>
-                  <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                    State Bank of India
-                  </div>
-
-                  <div className="text-xs text-gray-500 font-gilroy">
-                    Savings A/C
-                  </div>
+                  <Bank color="#1E45E1" size="20" />
                 </div>
 
-                <div className="text-right font-gilroy">
-                  <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                    Immanuel
+                <div className="w-full flex justify-between items-center">
+                  <div>
+                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                      {bank.bankName}
+                    </div>
+
+                    <div className="text-xs text-gray-500 font-gilroy">
+                      {bank.accountType}
+                    </div>
                   </div>
 
-                  <div className="text-xs font-normal font-gilroy mb-0.5">
-                    4561 2013 6210 6540
-                  </div>
+                  <div className="text-right font-gilroy">
+                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                      {bank.accountHolderName}
+                    </div>
 
-                  <div className="text-xs font-semibold text-[#1E45E1]">
-                    Avl Bal : ₹10,000.00
-                  </div>
-                </div>
-              </div>
-            </div>
+                    <div className="text-xs font-normal font-gilroy mb-0.5">
+                      {bank.accountNumber}
+                    </div>
 
-            <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#F7FAFF] transition-all duration-200 cursor-pointer">
-              <div>
-                <Bank color="#1E45E1" size="20" />
-              </div>
-
-              <div className="w-full flex justify-between items-start">
-                <div>
-                  <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                    ICICI
-                  </div>
-
-                  <div className="text-xs text-gray-500 font-gilroy">
-                    Savings A/C
-                  </div>
-                </div>
-
-                <div className="text-right font-gilroy">
-                  <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                    Immanuel
-                  </div>
-
-                  <div className="text-xs font-normal font-gilroy mb-0.5">
-                    4561 2013 6210 6540
-                  </div>
-
-                  <div className="text-xs font-semibold text-[#1E45E1]">
-                    Avl Bal : ₹10,000.00
+                    {bank.accountBalance && (
+                      <div className="text-xs font-semibold text-[#1E45E1]">
+                        Avl Bal : ₹ {bank.accountBalance || 0}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="flex items-center border border-[#D1D5DB] rounded-md overflow-hidden h-11">
@@ -224,7 +235,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             <div className="flex justify-end mt-4">
               <button
                 onClick={handleTransfer}
-                disabled={loading}
+                disabled={isTransferDisabled}
                 className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
               >
                 {loading ? (
