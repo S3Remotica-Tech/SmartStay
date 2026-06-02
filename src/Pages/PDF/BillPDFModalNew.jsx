@@ -38,6 +38,7 @@ import ApplyAdvance from "../Bills/ApplyAdvance";
 import FinalSettlementInvoicePDF from "./FinalSettlementInvoicePDF";
 import RentInvoicePDF from "./RentInvoicePDF";
 import AdvanceInvoicePDF from "./AdvanceInvoicePDF";
+import FinalSettlementOldPDF from "./FinalSettlementOldPDF";
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const state = useSelector((state) => state);
@@ -693,12 +694,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 ref={innerScrollRef}
                 className="bg-white rounded-lg  shadow-md"
               >
-                {pdfDetails?.invoiceType === "SETTLEMENT" ? (
-                  <FinalSettlementInvoicePDF />
-                ) : pdfDetails?.configurations?.invoiceType === "Advance" ? (
+                {pdfDetails?.configurations?.invoiceType === "Advance" ? (
                   <AdvanceInvoicePDF />
-                ) : (
+                ) : pdfDetails?.configurations?.invoiceType === "Rent" ? (
                   <RentInvoicePDF />
+                ) : pdfDetails?.invoiceInfo?.isNewPattern ? (
+                  <FinalSettlementInvoicePDF />
+                ) : (
+                  <FinalSettlementOldPDF />
                 )}
               </div>
             </div>

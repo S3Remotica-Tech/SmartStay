@@ -236,7 +236,7 @@ export async function ReceiptPDf(bill) {
 
 export async function subscriptionPDF(sub) {
   return await AxiosConfigV2.get(
-    `/v2/transaction/download/${sub.hostelId}/${sub.transactionId}`,
+    `/v2/subscription/download/${sub.hostelId}/${sub.subscriptionId}`,
     {
       headers: {
         "Content-Type": "application/json",

@@ -147,6 +147,13 @@ function SettingSubscription() {
     setAmount(hostelCount * (Number(selectedPlan) || 0));
   }, [selectedPlan, hostelCount]);
 
+
+
+
+
+
+
+  
   useEffect(() => {
     if (changePlan && modalRef.current) {
       const modal = new bootstrap.Modal(modalRef.current);

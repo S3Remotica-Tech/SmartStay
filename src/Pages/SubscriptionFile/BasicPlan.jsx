@@ -32,10 +32,20 @@ function SubscriptionCard() {
     }
   };
 
+  useEffect(() => {
+    console.log("openMenu changed:", openMenu);
+  }, [openMenu]);
+
   const handleDownload = (item) => {
-    console.log("Download billing history:", item);
+    setOpenMenu(null);
     if (item) {
-      dispatch({ type: "SUBSCRIPTION_PDF_SAGA" });
+      dispatch({
+        type: "SUBSCRIPTION_PDF_SAGA",
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          subscriptionId: item,
+        },
+      });
       setDownLoading(true);
     }
   };
@@ -255,10 +265,11 @@ function SubscriptionCard() {
                           }}
                         >
                           <PiDotsThreeOutlineVerticalFill
-                            className={`h-5 w-5 rotate-90 cursor-pointer mx-auto ${Number(openMenu) === item.historyId ? "#1E45E1" : "#222222"}`}
+                            className={`h-5 w-5 rotate-90 cursor-pointer mx-auto
+                               ${Number(openMenu) === item.historyId ? "#1E45E1" : "#222222"}`}
                           />
 
-                          {Number(openMenu) === item.historyId && (
+                          {openMenu === item.historyId && (
                             <>
                               <div
                                 ref={popupRef}
@@ -277,7 +288,8 @@ function SubscriptionCard() {
                               >
                                 <button
                                   className="w-full px-4 py-2 text-sm flex items-center gap-2 hover:bg-gray-50 rounded-lg"
-                                  onClick={() => {
+                                  onClick={(e) => {
+                                    e.stopPropagation();
                                     handleDownload(item?.historyId);
                                     setOpenMenu(null);
                                   }}
