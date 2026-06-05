@@ -221,7 +221,7 @@ function FinalSettlementInvoicePDF() {
                 {pdfDetails?.customerInfo?.joiningDate}
               </div>
 
-              <>
+              {/* <>
                 <div className="truncate text-right text-[10px] font-normal text-[#4B4B4B]">
                   Rental Period :
                 </div>
@@ -229,7 +229,7 @@ function FinalSettlementInvoicePDF() {
                 <div className="truncate text-left text-[10px] font-semibold text-[#171717]">
                   {pdfDetails?.invoiceInfo?.rentalPeriod}
                 </div>
-              </>
+              </> */}
             </div>
           </div>
         </div>

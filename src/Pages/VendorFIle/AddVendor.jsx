@@ -12,7 +12,7 @@ import { InputGroup, FormControl } from "react-bootstrap";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function AddVendor({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -25,7 +25,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
-  const [city, setCity] = useState("")
+  const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
   const [business_Name, setBusiness_Name] = useState("");
@@ -44,14 +44,14 @@ function AddVendor({ show, setShow, currentItem }) {
   const [countryError, setCountryError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
-  const [vendorPhoneError, setVendorPhoneError] = useState("")
-  const [vendorEmailError, setVendorEmailError] = useState("")
+  const [vendorPhoneError, setVendorPhoneError] = useState("");
+  const [vendorEmailError, setVendorEmailError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
 
   const firstNameRef = useRef(null);
   const mobileRef = useRef(null);
@@ -61,14 +61,11 @@ function AddVendor({ show, setShow, currentItem }) {
   const stateRef = useRef(null);
   const countryRef = useRef(null);
 
-
   useEffect(() => {
-
     if (firstNameRef.current) {
       firstNameRef.current.focus();
     }
   }, []);
-
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -99,9 +96,15 @@ function AddVendor({ show, setShow, currentItem }) {
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
     { value: "Uttarakhand", label: "Uttarakhand" },
     { value: "West Bengal", label: "West Bengal" },
-    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+    {
+      value: "Andaman and Nicobar Islands",
+      label: "Andaman and Nicobar Islands",
+    },
     { value: "Chandigarh", label: "Chandigarh" },
-    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+    {
+      value: "Dadra and Nagar Haveli and Daman and Diu",
+      label: "Dadra and Nagar Haveli and Daman and Diu",
+    },
     { value: "Delhi", label: "Delhi" },
     { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
     { value: "Ladakh", label: "Ladakh" },
@@ -109,11 +112,7 @@ function AddVendor({ show, setShow, currentItem }) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-
-
-  const countryList = [
-    { value: 1, label: "India" },
-  ];
+  const countryList = [{ value: 1, label: "India" }];
 
   // const handleCountryChange = (e) => {
   //   const value = e.target.value
@@ -134,7 +133,6 @@ function AddVendor({ show, setShow, currentItem }) {
 
     setPinCode(value);
 
-
     if (value.length > 0 && value.length < 6) {
       setPinCodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
@@ -145,11 +143,9 @@ function AddVendor({ show, setShow, currentItem }) {
     setIsChangedError("");
   };
 
-
   // const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
   const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
-
 
   const handleHouseNo = (e) => {
     const value = e.target.value;
@@ -174,7 +170,7 @@ function AddVendor({ show, setShow, currentItem }) {
     setStreetError("");
     setGeneralError("");
     setIsChangedError("");
-  }
+  };
 
   const handleLandmark = (e) => {
     const value = e.target.value;
@@ -186,12 +182,9 @@ function AddVendor({ show, setShow, currentItem }) {
     setLandmarkError("");
     setGeneralError("");
     setIsChangedError("");
-  }
-
-
+  };
 
   const handleCity = (e) => {
-
     const value = e.target.value;
     const regex = /^[a-zA-Z\s]*$/;
     if (regex.test(value)) {
@@ -200,17 +193,15 @@ function AddVendor({ show, setShow, currentItem }) {
       setGeneralError("");
       setIsChangedError("");
     }
-  }
-
-
+  };
 
   const handleClose = () => {
-    setShow(false)
-    setVendorPhoneError("")
-    setVendorEmailError("")
+    setShow(false);
+    setVendorPhoneError("");
+    setVendorEmailError("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
-  }
+  };
 
   const handleBusinessChange = (e) => {
     const value = e.target.value;
@@ -221,7 +212,6 @@ function AddVendor({ show, setShow, currentItem }) {
 
     setBusiness_Name(value);
   };
-
 
   // const handleBusinessChange = (e) => {
   //   const value = e.target.value;
@@ -243,11 +233,8 @@ function AddVendor({ show, setShow, currentItem }) {
   //   }
   // };
 
-
-
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
-
 
     if (fileImage) {
       setFile(fileImage);
@@ -272,7 +259,6 @@ function AddVendor({ show, setShow, currentItem }) {
 
     if (value.trim() !== "") {
       setFirst_Name(value);
-
     }
   };
 
@@ -290,11 +276,8 @@ function AddVendor({ show, setShow, currentItem }) {
     if (value.trim() !== "") {
       setLast_Name(value);
     }
-    setIsChangedError("")
+    setIsChangedError("");
   };
-
-
-
 
   const handleMobileChange = (e) => {
     const input = e.target.value;
@@ -316,14 +299,13 @@ function AddVendor({ show, setShow, currentItem }) {
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
   };
 
-
   const handleEmailChange = (e) => {
     const email = e.target.value.toLowerCase();
     setEmail_Id(email);
     setGeneralError("");
     setIsChangedError("");
     setEmailError("");
-    setVendorEmailError("")
+    setVendorEmailError("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
 
     if (email) {
@@ -336,8 +318,6 @@ function AddVendor({ show, setShow, currentItem }) {
       }
     }
   };
-
-
 
   const handleAddVendor = () => {
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
@@ -400,7 +380,6 @@ function AddVendor({ show, setShow, currentItem }) {
       setMobileError("");
     }
 
-
     if (!business_Name) {
       setBusinessNameError("Please Enter Business Name");
       if (!focusedRef.current && businessNameRef.current) {
@@ -433,52 +412,44 @@ function AddVendor({ show, setShow, currentItem }) {
         focusedRef.current = true;
       }
       isValid = false;
-    }
-    else if (!/^\d+$/.test(String(pinCode))) {
+    } else if (!/^\d+$/.test(String(pinCode))) {
       setPinCodeError("Pin Code Must Be Numeric");
       if (!focusedRef.current && pinCodeRef.current) {
         pinCodeRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
-    }
-    else if (String(pinCode).length !== 6) {
+    } else if (String(pinCode).length !== 6) {
       setPinCodeError("Pin Code Must Be Exactly 6 Digits");
       if (!focusedRef.current && pinCodeRef.current) {
         pinCodeRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
-    }
-    else if (pinCode === "000000") {
+    } else if (pinCode === "000000") {
       setPinCodeError("Pin Code cannot be all zeros");
       if (!focusedRef.current && pinCodeRef.current) {
         pinCodeRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
-    }
-    else if (String(pinCode)[0] === "0") {
+    } else if (String(pinCode)[0] === "0") {
       setPinCodeError("Pin Code cannot start with 0");
       if (!focusedRef.current && pinCodeRef.current) {
         pinCodeRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
-    }
-    else if (String(pinCode).slice(-3) === "000") {
+    } else if (String(pinCode).slice(-3) === "000") {
       setPinCodeError("Last 3 digits cannot be 000");
       if (!focusedRef.current && pinCodeRef.current) {
         pinCodeRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
-    }
-    else {
+    } else {
       setPinCodeError("");
     }
-
-
 
     if (!state_name) {
       setStateNameError("Please Select State");
@@ -498,19 +469,10 @@ function AddVendor({ show, setShow, currentItem }) {
       isValid = false;
     }
 
-
-
-
-
-
-
-
     const normalize = (value) => {
       const val = (value ?? "").toString().trim().toLowerCase();
       return val === "null" || val === "undefined" ? "" : val;
     };
-
-
 
     const isChanged =
       first_Name.trim() !== (initialState.first_Name || "").trim() ||
@@ -526,11 +488,7 @@ function AddVendor({ show, setShow, currentItem }) {
       normalize(street) !== normalize(initialState.street) ||
       normalize(landmark) !== normalize(initialState.landmark) ||
       city !== initialState.city ||
-      state_name?.trim() !== (initialState.state || "").trim()
-
-
-
-
+      state_name?.trim() !== (initialState.state || "").trim();
 
     if (!isChanged) {
       setIsChangedError("No Changes Detected");
@@ -559,11 +517,11 @@ function AddVendor({ show, setShow, currentItem }) {
               landmark: landmark,
               city: city,
               state: state_name,
-              vendorId: Number(currentItem.id)
+              vendorId: Number(currentItem.id),
             },
           },
         });
-        setFormLoading(true)
+        setFormLoading(true);
       } else {
         dispatch({
           type: "ADDVENDOR",
@@ -587,40 +545,38 @@ function AddVendor({ show, setShow, currentItem }) {
           },
         });
 
-        setFormLoading(true)
+        setFormLoading(true);
       }
-
-
     }
-
   };
 
-
-
-
-
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.updateVendorSuccessStatusCode === 201) {
-      setFormLoading(false)
+    if (
+      state.ComplianceList.addVendorSuccessStatusCode === 201 ||
+      state.ComplianceList.updateVendorSuccessStatusCode === 201
+    ) {
+      setFormLoading(false);
       setFile("");
       setFirst_Name("");
       setLast_Name("");
       setVendor_Mobile("");
       setEmail_Id("");
       setBusiness_Name("");
-      setHouseNo("")
-      setStreet("")
-      setLandmark("")
-      setCity("")
-      setPinCode("")
-      setStateName("")
+      setHouseNo("");
+      setStreet("");
+      setLandmark("");
+      setCity("");
+      setPinCode("");
+      setStateName("");
     }
-  }, [state.ComplianceList.addVendorSuccessStatusCode, state.ComplianceList.updateVendorSuccessStatusCode]);
-
+  }, [
+    state.ComplianceList.addVendorSuccessStatusCode,
+    state.ComplianceList.updateVendorSuccessStatusCode,
+  ]);
 
   useEffect(() => {
     const closeButton = document.querySelector(
-      'button[aria-label="close-button"]'
+      'button[aria-label="close-button"]',
     );
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
@@ -632,8 +588,6 @@ function AddVendor({ show, setShow, currentItem }) {
     }
   }, []);
 
-
-
   useEffect(() => {
     if (currentItem) {
       // const phoneNumber = String(currentItem.mobile || "");
@@ -644,23 +598,32 @@ function AddVendor({ show, setShow, currentItem }) {
       const emailValue = currentItem.emailId;
       const normalizedEmail =
         emailValue === "undefined" ||
-          emailValue === null ||
-          emailValue === undefined
+        emailValue === null ||
+        emailValue === undefined
           ? ""
           : emailValue;
 
       const sanitize = (value) => {
-        return value === null || value === undefined || value === "null" || value === "undefined"
+        return value === null ||
+          value === undefined ||
+          value === "null" ||
+          value === "undefined"
           ? ""
           : value;
       };
 
-
       setCheck("EDIT");
       setFirst_Name(currentItem.firstName);
       setLast_Name(currentItem.lastName);
-      setVendor_Mobile(currentItem?.mobile);
-      setCountryCode(currentItem?.countryCode);
+      const mobile = currentItem?.mobile || "";
+      const countryCode =
+        currentItem?.countryCode ||
+        (mobile.length > 10 ? `${mobile.slice(0, -10)}` : "+91");
+
+      const phoneNumber = mobile.length > 10 ? mobile.slice(-10) : mobile;
+
+      setCountryCode(countryCode);
+      setVendor_Mobile(phoneNumber);
 
       setEmail_Id(normalizedEmail);
 
@@ -670,11 +633,11 @@ function AddVendor({ show, setShow, currentItem }) {
       setCountry(currentItem.countryId);
       setPinCode(currentItem.pinCode);
 
-      setHouseNo(sanitize(currentItem.houseNo))
-      setStreet(sanitize(currentItem.area))
-      setLandmark(sanitize(currentItem.landMark))
-      setCity(currentItem.city)
-      setStateName(currentItem.state)
+      setHouseNo(sanitize(currentItem.houseNo));
+      setStreet(sanitize(currentItem.area));
+      setLandmark(sanitize(currentItem.landMark));
+      setCity(currentItem.city);
+      setStateName(currentItem.state);
 
       setInitialState({
         first_Name: currentItem.firstName || "",
@@ -698,36 +661,30 @@ function AddVendor({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
-
-
-
-
   useEffect(() => {
     if (state.ComplianceList?.alreadyVendorHere) {
-      setFormLoading(false)
-      setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+      setFormLoading(false);
+      setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
     }
-
-  }, [state.ComplianceList?.alreadyVendorHere])
+  }, [state.ComplianceList?.alreadyVendorHere]);
 
   useEffect(() => {
     if (state.ComplianceList.alreadyVendorEmailError) {
-      setFormLoading(false)
-      setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
+      setFormLoading(false);
+      setVendorEmailError(state.ComplianceList.alreadyVendorEmailError);
     }
-  }, [state.ComplianceList.alreadyVendorEmailError])
-
+  }, [state.ComplianceList.alreadyVendorEmailError]);
 
   const [initialState, setInitialState] = useState({
     first_Name: "",
     last_Name: "",
     vendor_Mobile: "",
     address: "",
-    house_no: '',
-    street: '',
-    city: '',
-    landmark: '',
-    state: '',
+    house_no: "",
+    street: "",
+    city: "",
+    landmark: "",
+    state: "",
     email_Id: "",
     business_Name: "",
     file: null,
@@ -737,29 +694,22 @@ function AddVendor({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
-
+  }, [state.createAccount?.networkError]);
 
   return (
-    <div
-      className="block relative"   >
+    <div className="block relative">
       <Modal
         show={show}
         onHide={handleClose}
         centered
         backdrop="static"
         className="custom-modal-width-vendor"
-
       >
-      
         <Modal.Dialog className="m-0 p-0">
           <Modal.Header className="border border-[#E7E7E7]">
             <Modal.Title className="!text-[18px] !text-[#222222] !font-gilroy !font-semibold">
@@ -773,7 +723,6 @@ function AddVendor({ show, setShow, currentItem }) {
               className="cursor-pointer"
             />
           </Modal.Header>
-
 
           <Modal.Body className="max-h-[380px] overflow-y-scroll pt-2 mt-2 mr-3 show-scroll">
             <div className="flex items-center">
@@ -808,7 +757,7 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="pl-3">
                 <div>
-                  <label className="text-[16px] font-medium text-[#222222] font-gilroy" >
+                  <label className="text-[16px] font-medium text-[#222222] font-gilroy">
                     Profile Photo
                   </label>
                 </div>
@@ -821,12 +770,9 @@ function AddVendor({ show, setShow, currentItem }) {
             </div>
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-4">
-
               <div className="col-span-12 lg:col-span-6">
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
                     First Name{" "}
                     <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
@@ -836,11 +782,9 @@ function AddVendor({ show, setShow, currentItem }) {
                     ref={firstNameRef}
                     type="text"
                     placeholder="Enter First Name"
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${first_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
-
-                 
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      first_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                   />
                 </Form.Group>
                 {firstNameError && (
@@ -848,45 +792,36 @@ function AddVendor({ show, setShow, currentItem }) {
                 )}
               </div>
               <div className="col-span-12 lg:col-span-6">
-                <Form.Group
-
-
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
                     Last Name{" "}
-
                   </Form.Label>
                   <Form.Control
                     value={last_Name}
                     onChange={(e) => handleLastNameChange(e)}
                     type="text"
                     placeholder="Enter Last Name"
-                    className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${last_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`mt-1.5 text-[16px] text-[#4B4B4B] font-gilroy ${
+                      last_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                   />
                 </Form.Group>
               </div>
 
               <div className="col-span-12 lg:col-span-6">
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
                     Mobile No{" "}
-
                     <span className="text-red-600 text-[20px]">*</span>
-
                   </Form.Label>
 
                   <InputGroup>
                     <Form.Select
                       value={countryCode}
                       // id="vendor-select-pg"
-                      className={`border border-[#D9D9D9] rounded-l-[8px] h-[50px] text-[14px] text-[#4B4B4B] font-gilroy ${countryCode ? "font-semibold" : "font-medium"
-                        } bg-white max-w-[72px] focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
-
+                      className={`border border-[#D9D9D9] rounded-l-[8px] h-[50px] text-[14px] text-[#4B4B4B] font-gilroy ${
+                        countryCode ? "font-semibold" : "font-medium"
+                      } bg-white max-w-[72px] focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
                     >
                       <option>+{countryCode}</option>
                     </Form.Select>
@@ -897,9 +832,9 @@ function AddVendor({ show, setShow, currentItem }) {
                       type="text"
                       placeholder="9876543210"
                       maxLength={10}
-                      className={`text-[16px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
-                        } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
-
+                      className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                        vendor_Mobile ? "font-semibold" : "font-medium"
+                      } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                     />
                   </InputGroup>
 
@@ -910,8 +845,6 @@ function AddVendor({ show, setShow, currentItem }) {
                   {countryCodeError && (
                     <ErrorMessage message={countryCodeError} type="error" />
                   )}
-
-
                 </Form.Group>
 
                 {vendorPhoneError && (
@@ -919,20 +852,18 @@ function AddVendor({ show, setShow, currentItem }) {
                 )}
               </div>
               <div className="col-span-12 lg:col-span-6">
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium mt-2">
                     Email ID{" "}
-
                   </Form.Label>
                   <Form.Control
                     value={email_Id}
                     onChange={(e) => handleEmailChange(e)}
                     type="email"
                     placeholder="Enter Email ID"
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
-                      } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      vendor_Mobile ? "font-semibold" : "font-medium"
+                    } h-[50px] border border-r-[#D9D9D9] border-t-[#D9D9D9] border-b-[#D9D9D9] border-l-0 rounded-r-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                   />
                   {emailError && (
                     <ErrorMessage message={emailError} type="error" />
@@ -944,13 +875,8 @@ function AddVendor({ show, setShow, currentItem }) {
                 )}
               </div>
               <div className="col-span-12 ">
-                <Form.Group
-
-
-
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
                     Business Name{" "}
                     <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
@@ -960,9 +886,9 @@ function AddVendor({ show, setShow, currentItem }) {
                     type="text"
                     ref={businessNameRef}
                     placeholder="Enter Business Name"
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      business_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                   />
                   {businessNameError && (
                     <ErrorMessage message={businessNameError} type="error" />
@@ -970,14 +896,10 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
               </div>
 
-
-
-
               <div className="col-span-12 mb-1">
-                <Form.Group
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
-                    Flat , House no , Building , Company , Apartment {" "}
+                <Form.Group>
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
+                    Flat , House no , Building , Company , Apartment{" "}
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -985,9 +907,9 @@ function AddVendor({ show, setShow, currentItem }) {
                     placeholder="Enter House No"
                     value={house_no}
                     onChange={(e) => handleHouseNo(e)}
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      business_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0 focus:shadow-none shadow-none focus:ring-0`}
                   />
                 </Form.Group>
                 {house_noError && (
@@ -996,9 +918,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
 
               <div className="col-span-12 lg:col-span-6 mb-1">
-                <Form.Group
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
+                <Form.Group>
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
                     Area , Street , Sector , Village{" "}
                   </Form.Label>
                   <FormControl
@@ -1007,9 +928,9 @@ function AddVendor({ show, setShow, currentItem }) {
                     placeholder="Enter Street"
                     value={street}
                     onChange={(e) => handleStreetName(e)}
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      business_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
                   />
                 </Form.Group>
                 {streetError && (
@@ -1018,8 +939,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
 
               <div className="col-span-12 lg:col-span-6 mb-1">
-                <Form.Group >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
+                <Form.Group>
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
                     Landmark{" "}
                   </Form.Label>
                   <FormControl
@@ -1028,9 +949,9 @@ function AddVendor({ show, setShow, currentItem }) {
                     placeholder="E.g , near appollo hospital"
                     value={landmark}
                     onChange={(e) => handleLandmark(e)}
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      business_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
                   />
                 </Form.Group>
                 {landmarkError && (
@@ -1038,12 +959,10 @@ function AddVendor({ show, setShow, currentItem }) {
                 )}
               </div>
 
-
-
               <div className="col-span-12 lg:col-span-6 mb-1">
                 <Form.Group>
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
-                    Town/City {" "}
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
+                    Town/City{" "}
                     <span className="text-red-600 text-[20px]"> * </span>
                   </Form.Label>
                   <FormControl
@@ -1053,24 +972,18 @@ function AddVendor({ show, setShow, currentItem }) {
                     value={city}
                     ref={cityRef}
                     onChange={(e) => handleCity(e)}
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      business_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
                   />
                 </Form.Group>
-                {cityError && (
-                  <ErrorMessage message={cityError} type="error" />
-                )}
+                {cityError && <ErrorMessage message={cityError} type="error" />}
               </div>
 
               <div className="col-span-12 lg:col-span-6">
-                <Form.Group
-
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
-                    Pincode {" "}
-                    <span className="text-red-600 text-[20px]">*</span>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
+                    Pincode <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
                   <Form.Control
                     value={pinCode}
@@ -1081,23 +994,20 @@ function AddVendor({ show, setShow, currentItem }) {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     placeholder="Enter Pincode"
-                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${business_Name ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
-
+                    className={`text-[16px] text-[#4B4B4B] font-gilroy ${
+                      business_Name ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:shadow-none shadow-none focus:ring-0`}
                   />
                   {pinCodeError && (
                     <ErrorMessage message={pinCodeError} type="error" />
                   )}
-
-
                 </Form.Group>
               </div>
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group controlId="exampleForm.ControlInput5">
-                  <Form.Label className="font-gilroy text-[14px] font-medium text-[#222] not-italic leading-normal"
-                  >
-                    State {" "}  <span className="text-red-600 text-[20px]">*</span>
+                  <Form.Label className="font-gilroy text-[14px] font-medium text-[#222] not-italic leading-normal">
+                    State <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
 
                   <Select
@@ -1110,14 +1020,16 @@ function AddVendor({ show, setShow, currentItem }) {
                       if (action === "input-change") {
                         const lettersOnly = inputValue.replace(
                           /[^a-zA-Z\s]/g,
-                          ""
+                          "",
                         );
                         return lettersOnly;
                       }
                       return inputValue;
                     }}
                     value={
-                      state_name ? { value: state_name, label: state_name } : null
+                      state_name
+                        ? { value: state_name, label: state_name }
+                        : null
                     }
                     placeholder="Select State"
                     classNamePrefix="custom"
@@ -1176,18 +1088,15 @@ function AddVendor({ show, setShow, currentItem }) {
                 {!state_name && state_nameError && (
                   <ErrorMessage message={state_nameError} type="error" />
                 )}
-
               </div>
-
 
               <div className="col-span-12 lg:col-span-6">
                 <Form.Group
                   className="mb-0"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium" >
-                    Country {" "}
-                    <span className="text-red-600 text-[20px]">*</span>
+                  <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
+                    Country <span className="text-red-600 text-[20px]">*</span>
                   </Form.Label>
 
                   <Select
@@ -1201,7 +1110,10 @@ function AddVendor({ show, setShow, currentItem }) {
                     }}
                     onInputChange={(inputValue, { action }) => {
                       if (action === "input-change") {
-                        const lettersOnly = inputValue.replace(/[^a-zA-Z\s]/g, "");
+                        const lettersOnly = inputValue.replace(
+                          /[^a-zA-Z\s]/g,
+                          "",
+                        );
                         return lettersOnly;
                       }
                       return inputValue;
@@ -1263,12 +1175,8 @@ function AddVendor({ show, setShow, currentItem }) {
                   {countryError && (
                     <ErrorMessage message={countryError} type="error" />
                   )}
-
-
                 </Form.Group>
               </div>
-
-
             </div>
           </Modal.Body>
 
@@ -1278,23 +1186,21 @@ function AddVendor({ show, setShow, currentItem }) {
             </div>
           )}
 
-          {generalError && (
-            <ErrorMessage message={generalError} type="error" />
-          )}
+          {generalError && <ErrorMessage message={generalError} type="error" />}
 
           {/* {state.createAccount?.networkError ?
             <ErrorMessage message={state.createAccount?.networkError}  type="error"/>
             : null} */}
           {isChangedError && (
-            <div className="d-flex align-items-center justify-content-center" >
+            <div className="d-flex align-items-center justify-content-center">
               <ErrorMessage message={isChangedError} />
             </div>
           )}
 
-
           <Modal.Footer className="border-0">
-            <Button  disabled={formLoading}
-            className="w-100 !bg-[#1E45E1] !rounded-[12px] !text-[16px] !font-gilroy !font-bold p-3"
+            <Button
+              disabled={formLoading}
+              className="w-100 !bg-[#1E45E1] !rounded-[12px] !text-[16px] !font-gilroy !font-bold p-3"
               onClick={handleAddVendor}
             >
               {check === "EDIT" ? "Save Changes" : "Add  vendor"}
@@ -1310,7 +1216,6 @@ AddVendor.propTypes = {
   show: PropTypes.func.isRequired,
   setShow: PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
-
 };
 
 export default AddVendor;
