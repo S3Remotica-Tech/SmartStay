@@ -659,7 +659,7 @@ function FinalSettlement() {
             discountAmount: Number(discount) || 0,
             deductions: Finalsettelmenntdata,
             shouldCollectFullRent: collectFullRent,
-            customRent: collectFullRent && amount,
+            customRent: collectFullRent ? amount : "",
           },
         },
       });

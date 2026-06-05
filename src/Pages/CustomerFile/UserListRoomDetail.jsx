@@ -2057,6 +2057,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
+      setInActiveForm(false);
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },

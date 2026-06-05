@@ -43,7 +43,7 @@ function MakeAsInactive({
       setTransactionId(value);
     }
   };
-  console.log("inActiveDetails", inActiveDetails);
+  // console.log("inActiveDetails", inActiveDetails);
 
   const handleInActiveReason = (e) => {
     setInActiveComments(e.target.value);
