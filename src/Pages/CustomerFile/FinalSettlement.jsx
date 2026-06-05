@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   Edit2,
   InfoCircle,
+  TickSquare,
 } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from "iconsax-react";
@@ -26,6 +27,7 @@ import { Edit, AddCircle, Verify, CloseCircle } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddRoomReading from "../ElectrictyFile/AddRoomReading";
+import { TiTick } from "react-icons/ti";
 
 dayjs.extend(customParseFormat);
 
@@ -139,6 +141,8 @@ function FinalSettlement() {
   const datePickerRef = useRef(null);
   const [fields, setFields] = useState([]);
   const [errors, setErrors] = useState([]);
+  const [isEditingRent, setIsEditingRent] = useState(false);
+  const [amount, setAmount] = useState("");
 
   const [ReturnAmount, setReturnAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -166,8 +170,13 @@ function FinalSettlement() {
   const { data, pgDetails, isPGWay, customer } = location.state || {};
 
   const [isEditing, setIsEditing] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(false);
   const [discount, setDiscount] = useState("");
   const [tempDiscount, setTempDiscount] = useState(discount);
+
+  const PayableORRefundabeleRent = finalAmount
+    ? amount
+    : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
 
   const handleSet = () => {
     setDiscount(tempDiscount === "" ? 0 : Number(tempDiscount));
@@ -460,19 +469,26 @@ function FinalSettlement() {
       let updatedAmountToBePaid = amountTobePaid;
       let finalAmount = 0;
       let balanceRent = 0;
-      if (collectFullRent) {
-        if (finalSettlementList?.settlementInfo?.payableAmount > 0) {
-          balanceRent =
-            finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
-            finalSettlementList?.settlementInfo?.payableAmount;
-        } else {
-          balanceRent =
-            finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
-            finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
-        }
+      // if (collectFullRent) {
+      //   if (finalSettlementList?.settlementInfo?.payableAmount > 0) {
+      //     balanceRent =
+      //       finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+      //       finalSettlementList?.settlementInfo?.payableAmount;
+      //   } else {
+      //     balanceRent =
+      //       finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+      //       finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
+      //   }
 
-        console.log("balanceRent", balanceRent);
-        updatedAmountToBePaid = amountTobePaid + balanceRent;
+      //   // console.log("balanceRent", balanceRent);
+      //   updatedAmountToBePaid = amountTobePaid + balanceRent;
+      // }
+
+      if (collectFullRent) {
+        // console.log("balanceRent", balanceRent);
+        updatedAmountToBePaid =
+          amountTobePaid +
+          finalSettlementList?.currentMonthRentInfo?.rentDifference;
       }
 
       if (updatedAmountToBePaid < 0) {
@@ -622,6 +638,7 @@ function FinalSettlement() {
             discountAmount: Number(discount) || 0,
             deductions: Finalsettelmenntdata,
             shouldCollectFullRent: collectFullRent,
+            customRent: collectFullRent && amount,
           },
         },
       });
@@ -1041,14 +1058,56 @@ function FinalSettlement() {
                       {finalSettlementList?.settlementInfo?.label}
                     </span>
                   </div>
+                  {isEditingRent ? (
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      className="rounded-[8px] border border-blue-100 bg-white p-1 shadow-[0_0_12px_rgba(59,130,246,0.15)]"
+                    >
+                      <div className="flex items-center justify-between">
+                        {isEditingRent ? (
+                          <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className="w-40 border-none outline-none text-[16px] font-semibold py-2 px-2 text-[#1A1C21]"
+                            autoFocus
+                          />
+                        ) : (
+                          <h2 className="text-4xl font-semibold text-[#1A1C21]">
+                            ₹ {Number(amount).toFixed(2)}
+                          </h2>
+                        )}
 
-                  <span className="text-base font-semibold text-black">
-                    ₹
-                    {
-                      finalSettlementList?.currentMonthRentInfo
-                        ?.currentMonthPayableAmount
-                    }
-                  </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setFinalAmount(true);
+                            setIsEditingRent(false);
+                          }}
+                          className="flex  items-center gap-2 rounded-md bg-blue-50 px-2 py-1 text-sm font-medium text-blue-600"
+                        >
+                          <TiTick size={14} />
+                          Set
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 ">
+                      <span className="text-base font-semibold text-black">
+                        ₹{PayableORRefundabeleRent}
+                      </span>
+                      {finalAmount && (
+                        <Edit2
+                          size="16"
+                          color="#1E45E1"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEditingRent(true);
+                          }}
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div
                   className="flex items-center gap-2 px-4 py-2"
@@ -1061,6 +1120,7 @@ function FinalSettlement() {
                     onChange={(e) => {
                       e.stopPropagation();
                       setCollectFullRent(e.target.checked);
+                      setIsEditingRent(true);
                     }}
                     className="w-4 h-4 cursor-pointer accent-[#1E45E1]"
                   />
