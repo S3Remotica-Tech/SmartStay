@@ -345,6 +345,19 @@ function FinalSettlement() {
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
+  const handleCheckboxChange = (e) => {
+    setCollectFullRent(e.target.checked);
+    setIsEditingRent(!isEditingRent);
+  };
+
+  useEffect(() => {
+    if (isEditingRent) {
+      setAmount(finalSettlementList?.currentMonthRentInfo?.currentMonthRent);
+    } else {
+      setAmount(finalSettlementList?.currentMonthRentInfo?.currentMonthRent);
+    }
+  }, [isEditingRent]);
+
   // console.log("data", data);
   useEffect(() => {
     if (state.UsersList.conformChekoutError) {
@@ -469,6 +482,13 @@ function FinalSettlement() {
       let updatedAmountToBePaid = amountTobePaid;
       let finalAmount = 0;
       let balanceRent = 0;
+
+      const currentMonthOtherItems =
+        finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems;
+      const totalOtherItemsAmount = currentMonthOtherItems.reduce(
+        (sum, item) => sum + Number(item.amount || 0),
+        0,
+      );
       // if (collectFullRent) {
       //   if (finalSettlementList?.settlementInfo?.payableAmount > 0) {
       //     balanceRent =
@@ -488,7 +508,8 @@ function FinalSettlement() {
         // console.log("balanceRent", balanceRent);
         updatedAmountToBePaid =
           amountTobePaid +
-          finalSettlementList?.currentMonthRentInfo?.rentDifference;
+          finalSettlementList?.currentMonthRentInfo?.rentDifference +
+          totalOtherItemsAmount;
       }
 
       if (updatedAmountToBePaid < 0) {
@@ -1119,8 +1140,7 @@ function FinalSettlement() {
                     checked={collectFullRent}
                     onChange={(e) => {
                       e.stopPropagation();
-                      setCollectFullRent(e.target.checked);
-                      setIsEditingRent(true);
+                      handleCheckboxChange(e);
                     }}
                     className="w-4 h-4 cursor-pointer accent-[#1E45E1]"
                   />
