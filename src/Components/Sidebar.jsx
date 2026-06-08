@@ -108,6 +108,9 @@ import BillingRuleOld from "../Pages/Settings/BillingRule/BillingRuleOld";
 import SettingsElectricityNew from "../Pages/Settings/ElectricityRule/SettingsElectricityNew";
 import ElectricityRule from "../Pages/Settings/ElectricityRule/ElectricityRule";
 import AllPlans from "../Pages/SubscriptionFile/AllPlans";
+import VendorNew from "../Pages/VendorFIle/VendorNew";
+import AddVendorNew from "../Pages/VendorFIle/AddVendorNew";
+import VendorOverView from "../Pages/VendorFIle/VendorOverView";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -150,6 +153,7 @@ function Sidebar() {
     "/receipts/:hostelId": "receipts",
 
     "/vendor/:hostelId": "vendor",
+    "/vendor/new/:hostelId": "vendor-new",
     "/compliance/:hostelId": "compliance",
     "/asset/:hostelId": "asset",
     "/reports/:hostelId": "reports",
@@ -1034,6 +1038,27 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
+                        {import.meta.env.MODE === "development" && (
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/vendor/new")}
+                              className={({ isActive }) =>
+                                `align-items-center list-sub-Item no-underline d-flex ${
+                                  isActive || currentPage === "vendor-new"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("vendor-new")}
+                            >
+                              <Shop size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Vendor New
+                              </span>
+                            </NavLink>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   )}
@@ -1532,6 +1557,29 @@ function Sidebar() {
                   </div>
                 }
               />
+              {import.meta.env.MODE === "development" && (
+                <>
+                  <Route
+                    path="/vendor/new/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <VendorNew />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/add-vendor/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <AddVendorNew />
+                      </div>
+                    }
+                  />
+
+                 
+                </>
+              )}
               <Route
                 path="/compliance/:hostelId?"
                 element={
