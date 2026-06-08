@@ -1,13 +1,151 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowDown2, ArrowUp2 } from "iconsax-react";
+import { useDispatch, useSelector } from "react-redux";
+
+import Select from "react-select";
+import { TiTick } from "react-icons/ti";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import {
+  CloseCircle,
+  SearchNormal1,
+  ArrowDown,
+  Filter,
+  Setting3,
+  ArrowDown2,
+  ArrowUp2,
+  DirectSend,
+  ExportSquare,
+} from "iconsax-react";
+
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
+
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "32px",
+    height: "32px",
+    width: "100%",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "12px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    cursor: "pointer",
+    backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
+  }),
+
+  singleValue: (base) => ({
+    ...base,
+    color: "#333",
+    fontWeight: 500,
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 13,
+      padding: "6px 12px",
+      // margin: "2px 10px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "32px",
+  }),
+
+  dropdownIndicator: (base) => ({
+    ...base,
+    padding: "4px",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 
 function VendorExpenseHistory() {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [openExpense, setOpenExpense] = useState(null);
+  const monthOptions = [
+    { value: "this_month", label: "This Month" },
+    { value: "last_month", label: "Last Month" },
+    { value: "last_3_months", label: "Last 3 Months" },
+    { value: "last_6_months", label: "Last 6 Months" },
+    { value: "this_year", label: "This Year" },
+  ];
+  const selectOptions = [{ value: "ALL", label: "All" }];
+  const [statusfilter, setStatusFilter] = useState("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const [selectedMonth, setSelectedMonth] = useState();
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+  };
   const handleToggleExpense = (id) => {
     setOpenExpense((prev) => (prev === id ? null : id));
   };
+
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value;
+    setSearchQuery(searchItem);
+
+    // setCurrentPage(1);
+  };
+  const {
+    canWriteModule: canWriteExpense,
+    canReadModule: canReadExpense,
+    // canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteElectricity,
+  } = useHasPermission("Expense");
 
   const expenses = [
     {
@@ -52,7 +190,98 @@ function VendorExpenseHistory() {
     },
   ];
   return (
-    <div>
+    <div className="my-2">
+      <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
+        <div className="flex flex-wrap items-center gap-3">
+          <div
+            className={`border border-gray-300 rounded-lg w-36 ${
+              statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
+            }`}
+          >
+            <Select
+              options={selectOptions}
+              styles={CustomStyles}
+              isDisabled={!canReadExpense}
+              menuPlacement="auto"
+              classNamePrefix="custom"
+              onChange={(e) => handleStatusFilter(e)}
+              value={
+                selectOptions.find((opt) => opt.value === statusfilter) || null
+              }
+              id="statusselect"
+            />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Select
+              isDisabled={!canReadExpense}
+              options={monthOptions}
+              value={selectedMonth}
+              onChange={handleMonthChange}
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No options"}
+              styles={CustomStyles}
+            />
+          </div>
+
+          <div
+            className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+          >
+            <Filter
+              size={16}
+              onClick={() => {
+                if (canReadExpense) {
+                  setIsFilterOpen(true);
+                }
+              }}
+              className={`transition-opacity duration-300 ${
+                canReadExpense
+                  ? "cursor-pointer opacity-100 pointer-events-auto"
+                  : "cursor-not-allowed opacity-40 pointer-events-none"
+              }`}
+            />
+          </div>
+        </div>
+
+        <div className={` flex items-center justify-end gap-2 mr-2 `}>
+          <div className="relative min-w-[180px] max-w-[260px]">
+            <div
+              className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
+                ${
+                  canReadExpense
+                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                    : "border-gray-200 opacity-60 cursor-not-allowed"
+                }`}
+            >
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={handleInputChange}
+                disabled={!canReadExpense}
+                className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
+              />
+              <SearchNormal1
+                size="18"
+                color={canReadExpense ? "#6B7280" : "#A0A0A0"}
+                className="mr-2"
+              />
+            </div>
+          </div>
+          {/* {filteredData?.length > 0 && (
+                          <ApiPagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            totalRecords={totalRecords}
+                            onPageChange={handlePageChange}
+                            onSizeChange={handleSizeChange}
+                            isTenantPagination={true}
+                            size={size}
+                          />
+                        )} */}
+        </div>
+      </div>
       <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
         <div
           id="tableContainer"
@@ -62,11 +291,11 @@ function VendorExpenseHistory() {
           <table className=" w-full font-gilroy ">
             <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
               <tr>
-                <th className="px-4 py-3 text-left text-xs text-[#666]">
-                  DATE
+                <th className="px-4 py-3 text-left text-xs text-[#666] whitespace-nowrap">
+                  EXpense ID
                 </th>
                 <th className="px-4 py-3 text-left text-xs text-[#666]">
-                  EXpense ID
+                  DATE
                 </th>
 
                 <th className="px-4 py-3 text-left text-xs text-[#666] whitespace-nowrap">
@@ -90,12 +319,11 @@ function VendorExpenseHistory() {
             <tbody>
               {expenses.map((expense) => (
                 <React.Fragment key={expense.expenseId}>
-                  <tr className="border-t">
-                    <td className="px-4 py-3 text-sm">{expense.date}</td>
-
-                    <td className="px-4 py-3 text-sm text-[#1E45E1]">
-                      {expense.expenseId}
+                  <tr className="border-t whitespace-nowrap">
+                    <td className="px-4 py-3 text-sm text-[#1E45E1] flex items-center gap-2">
+                      {expense.expenseId} <ExportSquare size="14" />
                     </td>
+                    <td className="px-4 py-3 text-sm">{expense.date}</td>
 
                     <td className="px-4 py-3 text-sm">{expense.title}</td>
 

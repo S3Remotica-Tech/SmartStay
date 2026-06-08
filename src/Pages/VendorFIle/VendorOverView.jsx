@@ -7,6 +7,7 @@ import {
   Call,
   Location,
   Warning2,
+  AddCircle,
 } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -175,9 +176,9 @@ function VendorOverView({ show, onClose }) {
             {activeTab === "expenses" && (
               <button
                 onClick={() => {}}
-                className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
+                className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1"
               >
-                Add Expense
+                <AddCircle size="14" /> Add Expense
               </button>
             )}
           </div>

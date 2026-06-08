@@ -383,21 +383,6 @@ function Vendor() {
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ComplianceList.VendorList &&
-        state.ComplianceList.VendorList.filter(
-          (user) =>
-            user.Vendor_Name &&
-            user.Vendor_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
-
-      setFilteredData(filteredItems);
-    } else {
-      setFilteredData(state.ComplianceList.VendorList);
-    }
-    // setCurrentPage(1);
-    setShowDropDown(false);
   };
 
   const handleShow = () => {
@@ -1411,8 +1396,12 @@ function Vendor() {
           />
         )}
 
-        {showOverview && <VendorOverView  show={showOverview}
-        onClose={() => setShowOverview(false)}/>}
+        {showOverview && (
+          <VendorOverView
+            show={showOverview}
+            onClose={() => setShowOverview(false)}
+          />
+        )}
 
         <Modal
           show={showDeleteVendor}
