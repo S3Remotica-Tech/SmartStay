@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";
-import { CloseCircle, Add } from "iconsax-react";
+import { CloseCircle, Add, More } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -22,7 +22,7 @@ import { Calendar } from "iconsax-react";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
-    minHeight: "50px",
+    minHeight: "45px",
     height: "45px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
@@ -123,15 +123,15 @@ const CustomStyles = {
 const CustomStylesCode = {
   control: (base, state) => ({
     ...base,
-    minHeight: "50px",
-    height: "50px",
-    border: "1px solid #D9D9D9",
-    borderRight: "none",
+    minHeight: "40px",
+    height: "35px",
+    // border: "1px solid #D9D9D9",
+    border: "none",
 
-    borderTopLeftRadius: "8px",
-    borderBottomLeftRadius: "8px",
-    borderTopRightRadius: "0",
-    borderBottomRightRadius: "0",
+    // borderTopLeftRadius: "8px",
+    // borderBottomLeftRadius: "8px",
+    // borderTopRightRadius: "0",
+    // borderBottomRightRadius: "0",
 
     fontSize: "15px",
     fontFamily: "Gilroy, sans-serif",
@@ -141,11 +141,6 @@ const CustomStylesCode = {
 
     cursor: state.isDisabled ? "not-allowed" : "pointer",
     backgroundColor: "#FFF",
-
-    "&:hover": {
-      border: "1px solid #D9D9D9",
-      borderRight: "none",
-    },
   }),
 
   singleValue: (base, state) => ({
@@ -324,6 +319,7 @@ function AddExpenseNew() {
   const [categoryError, setCategoryError] = useState("");
   const [subCategoryError, setSubCategoryError] = useState("");
   const [amountError, setAmountError] = useState("");
+  const [discountType, setDiscountType] = useState("amount");
   const [expenseItems, setExpenseItems] = useState([
     {
       itemName: "LED Tube Light",
@@ -418,8 +414,11 @@ function AddExpenseNew() {
   );
 
   const taxAmount = (subTotal * Number(tax || 0)) / 100;
-
-  const discountAmount = (subTotal * Number(discount || 0)) / 100;
+  const discountAmount =
+    discountType === "percent"
+      ? (subTotal * Number(discount || 0)) / 100
+      : Number(discount || 0);
+  //   const discountAmount = (subTotal * Number(discount || 0)) / 100;
 
   const totalAmount = subTotal + taxAmount - discountAmount;
 
@@ -498,11 +497,13 @@ function AddExpenseNew() {
             {currentItem ? "Edit Expense" : "Add Expense"}
           </h2>
 
-          <button className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy ">
+          <button
+            onClick={handleClose}
+            className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy "
+          >
             <Add
               size="24"
               color="#FF0000"
-              onClick={handleClose}
               className="cursor-pointer rotate-45"
             />{" "}
             Close
@@ -740,124 +741,202 @@ function AddExpenseNew() {
               Select Retainer Balance to adjust with Bills
             </p>
 
-            <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-[#F9FAFB] text-left text-xs text-[#6B7280]">
-                    <th className="p-3">ITEM DETAILS</th>
-                    <th className="p-3 w-[100px]">QUANTITY</th>
-                    <th className="p-3 w-[140px]">UNIT</th>
-                    <th className="p-3 w-[140px]">PER UNIT PRICE</th>
-                    <th className="p-3 w-[140px]">AMOUNT</th>
-                    <th className="p-3 w-[80px] text-center">ACTION</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {expenseItems.map((item, index) => (
-                    <tr key={index} className="border-t border-[#E5E7EB]">
-                      <td className="p-2">
-                        <input
-                          value={item.itemName}
-                          onChange={(e) =>
-                            handleItemChange(index, "itemName", e.target.value)
-                          }
-                          placeholder="Enter Item Name"
-                          className="w-full border-0 outline-none text-sm"
-                        />
-                      </td>
-
-                      <td className="p-2">
-                        <input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            handleItemChange(index, "quantity", e.target.value)
-                          }
-                          className="w-full border-0 outline-none text-sm"
-                        />
-                      </td>
-
-                      <td className="p-2">
-                        <Select
-                          value={item.unit}
-                          options={unitOptions}
-                          styles={CustomStyles}
-                          onChange={(selected) =>
-                            handleItemChange(index, "unit", selected)
-                          }
-                        />
-                      </td>
-
-                      <td className="p-2">
-                        <input
-                          type="number"
-                          value={item.price}
-                          onChange={(e) =>
-                            handleItemChange(index, "price", e.target.value)
-                          }
-                          className="w-full border-0 outline-none text-sm"
-                        />
-                      </td>
-
-                      <td className="p-2 text-sm font-medium">
-                        ₹ {item.amount.toLocaleString("en-IN")}
-                      </td>
-
-                      <td className="p-2 text-center">
-                        <button onClick={() => removeRow(index)}>
-                          <CloseCircle size="18" color="#EF4444" />
-                        </button>
-                      </td>
+            <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div
+                id="tableContainer"
+                className="overflow-auto relative  rounded-xl show-scrolls"
+              >
+                <table className=" w-full font-gilroy ">
+                  <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                    <tr className="bg-[#F9FAFB] text-left text-xs text-[#6B7280] rounded-xl">
+                      <th className="p-2 border border-[#F9FAFB] rounded-t-lg">
+                        ITEM DETAILS
+                      </th>
+                      <th className="p-2 w-[100px] border border-[#F9FAFB]">
+                        QUANTITY
+                      </th>
+                      <th className="p-2 w-[140px] border border-[#F9FAFB]">
+                        UNIT
+                      </th>
+                      <th className="p-2 w-[140px] border border-[#F9FAFB]">
+                        PER UNIT PRICE
+                      </th>
+                      <th className="p-2 w-[140px] border border-[#F9FAFB]">
+                        AMOUNT
+                      </th>
+                      <th className="p-2 w-[80px] text-center border border-[#F9FAFB] rounded-r-lg">
+                        ACTION
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+
+                  <tbody>
+                    {expenseItems.map((item, index) => (
+                      <tr key={index} className="border border-[#F9FAFB]">
+                        <td className="p-2  border border-[#F9FAFB]">
+                          <input
+                            value={item.itemName}
+                            onChange={(e) =>
+                              handleItemChange(
+                                index,
+                                "itemName",
+                                e.target.value,
+                              )
+                            }
+                            placeholder="Enter Item Name"
+                            className="w-full  outline-none text-sm rounded-md"
+                          />
+                        </td>
+
+                        <td className="p-2 border border-[#F9FAFB]">
+                          <input
+                            type="number"
+                            value={item.quantity}
+                            placeholder="Enter "
+                            onChange={(e) =>
+                              handleItemChange(
+                                index,
+                                "quantity",
+                                e.target.value,
+                              )
+                            }
+                            className="w-full  outline-none text-sm rounded-md"
+                          />
+                        </td>
+
+                        <td className="p-2">
+                          <Select
+                            value={item.unit}
+                            options={unitOptions}
+                            styles={CustomStylesCode}
+                            menuPlacement="bottom"
+                            placeholder="Select"
+                            onChange={(selected) =>
+                              handleItemChange(index, "unit", selected)
+                            }
+                          />
+                        </td>
+
+                        <td className="p-2 border border-[#F9FAFB]">
+                          <input
+                            type="number"
+                            value={item.price}
+                            placeholder="₹0.00"
+                            onChange={(e) =>
+                              handleItemChange(index, "price", e.target.value)
+                            }
+                            className="w-full  outline-none text-sm rounded-md"
+                          />
+                        </td>
+
+                        <td className="p-2 text-sm font-medium border border-[#F9FAFB]">
+                          ₹ {item.amount.toLocaleString("en-IN")}
+                        </td>
+
+                        <td className="p-2 text-center ">
+                          <button onClick={() => removeRow(index)}>
+                            <Add
+                              size="18"
+                              color="#EF4444"
+                              className="cursor-pointer rotate-45"
+                            />
+                          </button>
+                          <button>
+                            <More
+                              color="#28303F"
+                              size="16"
+                              variant="Outline"
+                              className="cursor-pointer rotate-90"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-
-            <button
-              onClick={addNewRow}
-              className="mt-4 bg-[#EEF2FF] text-[#1E45E1]
+            <div className="flex justify-between">
+              <div>
+                <button
+                  onClick={addNewRow}
+                  className="mt-4 bg-[#EEF2FF] text-[#1E45E1] w-fit  whitespace-nowrap
                text-sm font-medium px-4 py-2 rounded-lg"
-            >
-              + Add New Row
-            </button>
+                >
+                  + Add New Row
+                </button>
+              </div>
+              <div className="w-full">
+                <div className="flex justify-end  mt-6 me-6 ">
+                  <div className="w-[320px] space-y-3 p-4 rounded-md  bg-[#FAFAFA] ">
+                    <div className="flex justify-between">
+                      <span className="text-sm">Sub Total</span>
+                      <span>₹ {subTotal.toLocaleString("en-IN")}</span>
+                    </div>
 
-            <div className="flex justify-end mt-6">
-              <div className="w-[320px] space-y-3">
-                <div className="flex justify-between">
-                  <span>Sub Total</span>
-                  <span>₹ {subTotal.toLocaleString("en-IN")}</span>
-                </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Tax Optional</span>
 
-                <div className="flex justify-between items-center">
-                  <span>Tax Optional</span>
+                      <input
+                        type="number"
+                        value={tax}
+                        onChange={(e) => setTax(e.target.value)}
+                        className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                      />
+                    </div>
 
-                  <input
-                    type="number"
-                    value={tax}
-                    onChange={(e) => setTax(e.target.value)}
-                    className="w-[80px] h-[36px] border border-[#D9D9D9]
-                     rounded px-2"
-                  />
-                </div>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-[#222222]">
+                          Discount
+                        </span>
 
-                <div className="flex justify-between items-center">
-                  <span>Discount</span>
+                        <div className="flex border border-[#D9D9D9] rounded-md overflow-hidden">
+                          <button
+                            type="button"
+                            onClick={() => setDiscountType("amount")}
+                            className={`px-3 py-1 text-sm font-medium transition-all ${
+                              discountType === "amount"
+                                ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
+                                : "bg-[#EAEEFF] text-[#222222] border-[#EAEEFF]"
+                            }`}
+                          >
+                            ₹
+                          </button>
 
-                  <input
-                    type="number"
-                    value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}
-                    className="w-[80px] h-[36px] border border-[#D9D9D9]
-                     rounded px-2"
-                  />
-                </div>
+                          <button
+                            type="button"
+                            onClick={() => setDiscountType("percent")}
+                            className={`px-3 py-1 text-sm font-medium border-l  transition-all ${
+                              discountType === "percent"
+                                ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
+                                : "bg-[#EAEEFF] text-[#222222] border-[#EAEEFF]"
+                            }`}
+                          >
+                            %
+                          </button>
+                        </div>
+                      </div>
 
-                <div className="border-t pt-3 flex justify-between font-semibold">
-                  <span>TOTAL RETAINER AMOUNT</span>
+                      <input
+                        type="number"
+                        value={discount}
+                        onChange={(e) => setDiscount(e.target.value)}
+                        placeholder={
+                          discountType === "amount" ? "Amount" : "Percentage"
+                        }
+                        className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                      />
+                    </div>
 
-                  <span>₹ {totalAmount.toLocaleString("en-IN")}</span>
+                    <div className="border-t pt-3 flex justify-between font-semibold">
+                      <span className="text-sm">TOTAL RETAINER AMOUNT</span>
+
+                      <span className="text-sm">
+                        ₹ {totalAmount.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

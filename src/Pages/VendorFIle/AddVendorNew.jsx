@@ -981,11 +981,13 @@ function AddVendorNew() {
             {check === "EDIT" ? "Edit a vendor" : "Add new Vendor"}
           </h2>
 
-          <button className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy ">
+          <button
+            onClick={handleClose}
+            className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy "
+          >
             <Add
               size="24"
               color="#FF0000"
-              onClick={handleClose}
               className="cursor-pointer rotate-45"
             />{" "}
             Close
