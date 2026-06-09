@@ -453,7 +453,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Deductions- Non Refundable</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 0
+                  ₹ {pdfDetails?.deductionsInfo?.pendingAmount}
                 </span>
               </div>
 

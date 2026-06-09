@@ -18,6 +18,7 @@ import {
   Filter,
   Setting3,
   ArrowDown2,
+  Chart21,
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -201,6 +202,11 @@ function Vendor() {
   const selectOptions = [{ value: "ALL", label: "All" }];
 
   const [selectedMonth, setSelectedMonth] = useState();
+
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected?.value || "");
+  };
+
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
   };
@@ -604,8 +610,8 @@ function Vendor() {
 
   return (
     <>
-      <div>
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy">
+      <div className="bg-white font-gilroy">
+        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Vendor
@@ -678,9 +684,9 @@ function Vendor() {
               {stats.map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   {item.highlight && (
-                    <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                    <div className="w-10 h-10 rounded-full bg-[#F3E4D0] flex items-center justify-center text-[#FF9500] font-semibold">
                       {item.icon && (
-                        <ArrowDown
+                        <Chart21
                           color="#FF9500"
                           size="18"
                           className="rotate-[310deg]"

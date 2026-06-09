@@ -111,6 +111,8 @@ import AllPlans from "../Pages/SubscriptionFile/AllPlans";
 import VendorNew from "../Pages/VendorFIle/VendorNew";
 import AddVendorNew from "../Pages/VendorFIle/AddVendorNew";
 import VendorOverView from "../Pages/VendorFIle/VendorOverView";
+import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
+import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -159,6 +161,7 @@ function Sidebar() {
     "/reports/:hostelId": "reports",
     "/electricity/:hostelId": "eb",
     "/expense/:hostelId": "expenses",
+    "/expense/new/:hostelId": "expenses-new",
     "/banking/:hostelId": "banking",
     "/settings/:hostelId": "settingNewDesign",
   };
@@ -696,6 +699,9 @@ function Sidebar() {
   }, []);
 
   const tooltipTrigger = isMd ? ["hover", "focus"] : [];
+
+  const isDevelopment = import.meta.env.MODE === "development";
+
   return (
     <>
       {showNotify && (
@@ -1382,6 +1388,39 @@ function Sidebar() {
                     </OverlayTrigger>
                   </li>
 
+                  {isDevelopment && (
+                    <li
+                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                    >
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        delay={{ show: 200, hide: 0 }}
+                        overlay={
+                          <Tooltip className="custom-tooltip">Expenses</Tooltip>
+                        }
+                      >
+                        <NavLink
+                          to={withHostel("/expense/new")}
+                          className={({ isActive }) =>
+                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                              isActive || currentPage === "expenses-new"
+                                ? "active"
+                                : ""
+                            }`
+                          }
+                          onClick={() => handlePageClick("expenses-new")}
+                        >
+                          <MoneySend size="20" variant="Bold" />
+
+                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                            Expenses New
+                          </span>
+                        </NavLink>
+                      </OverlayTrigger>
+                    </li>
+                  )}
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <OverlayTrigger
                       trigger={tooltipTrigger}
@@ -1557,7 +1596,7 @@ function Sidebar() {
                   </div>
                 }
               />
-              {import.meta.env.MODE === "development" && (
+              {isDevelopment && (
                 <>
                   <Route
                     path="/vendor/new/:hostelId?"
@@ -1576,8 +1615,23 @@ function Sidebar() {
                       </div>
                     }
                   />
+                  <Route
+                    path="/expense/new/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <ExpenseNew />
+                      </div>
+                    }
+                  />
 
-                 
+                  <Route
+                    path="/add-expense/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <AddExpenseNew />
+                      </div>
+                    }
+                  />
                 </>
               )}
               <Route
