@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import SettlementPayment from "./SettlementPayment";
 import {
   CloseCircle,
   SearchNormal1,
@@ -186,7 +187,7 @@ function Vendor() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const navigate = useNavigate();
-
+  const [showSettlementForm, setShowSettlementForm] = useState(false);
   const { canWriteModule: canWriteVendor, canReadModule: canReadVendor } =
     useHasPermission("Vendor");
 
@@ -606,6 +607,15 @@ function Vendor() {
         <span className="text-[#101828] text-base">{item.fieldName}</span>
       </label>
     );
+  };
+
+  const handleShowSettlement = () => {
+    setShowSettlementForm(true);
+    setShowOverview(false);
+  };
+
+  const handleCloseSettlement = () => {
+    setShowSettlementForm(false);
   };
 
   return (
@@ -1406,9 +1416,15 @@ function Vendor() {
           <VendorOverView
             show={showOverview}
             onClose={() => setShowOverview(false)}
+            handleShowSettlement={handleShowSettlement}
           />
         )}
-
+        {showSettlementForm && (
+          <SettlementPayment
+            show={showSettlementForm}
+            handleClose={handleCloseSettlement}
+          />
+        )}
         <Modal
           show={showDeleteVendor}
           onHide={handleCloseForDeleteVendor}
