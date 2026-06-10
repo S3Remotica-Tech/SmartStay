@@ -144,7 +144,7 @@ function ExpenseOverview({ show, onClose }) {
                 }}
                 className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
               >
-                + Record Payment
+                + Settle Payment
               </button>
             )}
           </div>

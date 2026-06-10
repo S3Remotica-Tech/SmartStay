@@ -73,7 +73,14 @@ body {
   overflow: hidden;
 }
 
-
+.ql-toolbar.ql-snow {
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+.ql-container.ql-snow  {
+   border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
 
 .form-control::placeholder {
   color: #9aa0a6 !important;
