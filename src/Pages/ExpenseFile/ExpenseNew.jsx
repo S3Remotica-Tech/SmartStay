@@ -32,7 +32,7 @@ import {
   ArrowDown2,
   Chart21,
 } from "iconsax-react";
-
+import ExpenseOverview from "./ExpenseOverview";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -156,7 +156,7 @@ const stats = [
   },
 ];
 
-function Expenses({ allPageHostel_Id }) {
+function Expenses() {
   const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -191,7 +191,6 @@ function Expenses({ allPageHostel_Id }) {
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
-  const [showOverview, setShowOverview] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -212,7 +211,7 @@ function Expenses({ allPageHostel_Id }) {
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
+  const [showOverview, setShowOverview] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState();
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
@@ -881,7 +880,7 @@ function Expenses({ allPageHostel_Id }) {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
+        <div className="flex items-center justify-between sticky top-0 bg-white z-20  min-h-[60px] sm:min-h-[60px]">
           <div className="col-span-12 md:col-auto flex flex-wrap items-center">
             <label className="text-lg text-black font-semibold font-gilroy">
               Expenses
@@ -985,6 +984,13 @@ function Expenses({ allPageHostel_Id }) {
                     }`}
                   />
                 </div>
+
+                <button
+                  onClick={() => setShowOverview(true)}
+                  className="cursor-pointer"
+                >
+                  <PiDotsThreeOutlineVerticalFill size={20} />
+                </button>
               </div>
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -1650,11 +1656,15 @@ function Expenses({ allPageHostel_Id }) {
           deleteExpenseRowData={deleteExpenseRowData}
         />
       )}
+
+      {showOverview && (
+        <ExpenseOverview
+          show={showOverview}
+          onClose={() => setShowOverview(false)}
+        />
+      )}
     </>
   );
 }
-Expenses.propTypes = {
-  allPageHostel_Id: PropTypes.func.isRequired,
-};
 
 export default withErrorBoundary(Expenses);

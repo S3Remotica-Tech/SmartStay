@@ -10,7 +10,7 @@ function VendorPaymentHistory() {
         className="overflow-auto relative h-[calc(100vh-250px)] rounded-xl show-scrolls"
       >
         <table className=" w-full font-gilroy ">
-          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
             <tr>
               <th className="px-4 py-3 text-left text-xs text-[#666]">DATE</th>
               <th className="px-4 py-3 text-left text-xs text-[#666]">

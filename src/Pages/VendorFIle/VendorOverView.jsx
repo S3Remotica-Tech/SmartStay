@@ -31,7 +31,7 @@ function VendorOverView({ show, onClose }) {
       />
 
       <div
-        className={`fixed top-2 right-2 h-screen w-[900px] bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
+        className={`fixed top-2 right-2 h-screen w-[1200px] bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
           show ? "translate-x-0" : "translate-x-full"
         }`}
       >
