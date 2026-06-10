@@ -223,7 +223,11 @@ function SettlementPayment({ show, handleClose }) {
 
   const [attachments, setAttachments] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
-
+  const [selectedImageName, setSelectedImageName] = useState({
+    name: "",
+    index: "",
+  });
+  const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -316,9 +320,9 @@ function SettlementPayment({ show, handleClose }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-[60]" onClick={handleClose} />
 
-      <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 font-gilroy">
         <div
-          className="bg-white rounded-xl shadow-xl w-full max-w-[700px] max-h-[90vh] show-scrolls overflow-y-auto"
+          className="bg-white rounded-xl shadow-xl w-full max-w-[500px] max-h-[90vh] show-scrolls overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="sticky top-0 z-50 flex items-center  justify-between gap-4 border-b border-[#E5E7EB] bg-white px-4 py-3">
@@ -460,12 +464,13 @@ function SettlementPayment({ show, handleClose }) {
             </div>
 
             {/* Transaction ID */}
-            <div className="mb-2">
+            <div className="mb-2 relative">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Transaction ID
               </label>
               <input
                 type="text"
+                placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
                 className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
@@ -508,59 +513,90 @@ function SettlementPayment({ show, handleClose }) {
                   </p>
                 </div>
               </div>
+
+              {previewImage && (
+                <div className="flex items-center justify-center">
+                  <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
+                    <div
+                      className="relative px-4 py-2 group"
+                      onMouseEnter={() => setHoveredImage(previewImage)}
+                      onMouseLeave={() => setHoveredImage(null)}
+                    >
+                      <img
+                        src={previewImage}
+                        alt="preview"
+                        className="w-[350px] h-auto rounded-md object-fit"
+                      />
+
+                      <div
+                        className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
+                          hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                        }`}
+                      >
+                        <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
+                          <p className="text-white text-sm truncate max-w-[170px]">
+                            {selectedImageName?.name}
+                          </p>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPreviewImage(null);
+                              handleRemoveFile(selectedImageName?.index);
+                            }}
+                            className="bg-white rounded-md p-1"
+                          >
+                            <Add
+                              size={20}
+                              color="#FF0000"
+                              className="rotate-45"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {attachments.length > 0 && (
-              <div className="grid grid-cols-4 gap-3 mt-3">
+            {attachments?.length > 0 && (
+              <div className="grid grid-cols-3 gap-3 mt-3">
                 {attachments.map((item, index) => (
                   <div
                     key={index}
-                    className="relative border rounded-lg overflow-hidden"
+                    className="relative border rounded-lg w-full"
                   >
                     <img
                       src={item.preview}
                       alt="preview"
-                      className="h-24 w-full object-cover cursor-pointer"
-                      onClick={() => setPreviewImage(item.preview)}
+                      className="h-[100px]  w-[200px] object-cover cursor-pointer rounded-lg"
+                      onClick={() => {
+                        setSelectedImageName({
+                          name: item.file.name,
+                          index: index,
+                        });
+                        setPreviewImage(item.preview);
+                      }}
                     />
 
-                    <button
+                    {/* <button
                       type="button"
                       onClick={() => handleRemoveFile(index)}
-                      className="absolute top-1 right-1 bg-white rounded-full p-1 shadow"
+                      className="absolute top-1 right-1 bg-[#FFF2F2] rounded-full p-1 shadow"
                     >
                       <Add size={16} color="#FF0000" className="rotate-45" />
-                    </button>
+                    </button> */}
 
-                    <div className="p-1">
+                    {/* <div className="p-1">
                       <p className="text-[10px] truncate">{item.file.name}</p>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
             )}
-            {previewImage && (
-              <div
-                className="fixed inset-0 bg-black/70 z-[999] flex items-center justify-center"
-                onClick={() => setPreviewImage(null)}
-              >
-                <div className="relative max-w-4xl max-h-[90vh] p-4">
-                  <img
-                    src={previewImage}
-                    alt="preview"
-                    className="max-h-[85vh] rounded-lg"
-                  />
 
-                  <button
-                    onClick={() => setPreviewImage(null)}
-                    className="absolute top-2 right-2 bg-white rounded-full p-1"
-                  >
-                    <Add size={24} color="#FF0000" className="rotate-45" />
-                  </button>
-                </div>
-              </div>
-            )}
-            <div className="mb-2">
+            <div className="mb-2 mt-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Description
               </label>
@@ -571,7 +607,7 @@ function SettlementPayment({ show, handleClose }) {
                 placeholder="Enter the Notes/Description for this invoice "
                 className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                   description ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+                } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
               />
             </div>
 
