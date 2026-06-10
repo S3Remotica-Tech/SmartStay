@@ -1,16 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { FormControl, InputGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState, useRef } from "react";
+import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import AddVendor from "./AddVendor";
+import { useDispatch, useSelector } from "react-redux";
+import AddExpenses from "./AddExpenses";
+import ExpensesListTable from "./ExpensesListTable";
+import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-import Select from "react-select";
-import { TiTick } from "react-icons/ti";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import Filters from "../../Assets/Images/Filters.svg";
+import Image from "react-bootstrap/Image";
+import { useMediaQuery, useTheme } from "@mui/material";
+import PaginationList from "../../Components/PaginationList";
+import ErrorMessage from "../../Components/ErrorMessage";
+import { useHasPermission } from "../../Utils/Permission";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useLocation } from "react-router-dom";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import NoDataMessage from "../../Utils/NoDataMessage";
+import DeleteExpense from "./DeleteExpense";
 import {
   CloseCircle,
   SearchNormal1,
@@ -20,16 +32,7 @@ import {
   ArrowDown2,
   Chart21,
 } from "iconsax-react";
-import { IoMdMenu } from "react-icons/io";
-import { toast } from "react-toastify";
-import { useMediaQuery, useTheme } from "@mui/material";
-import ErrorMessage from "../../Components/ErrorMessage";
-import { useHasPermission } from "../../Utils/Permission";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import SmarstayLogo from "../../Assets/Images/get.png";
-import { useLocation } from "react-router-dom";
-import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-import NoDataMessage from "../../Utils/NoDataMessage";
+import ExpenseOverview from "./ExpenseOverview";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -38,9 +41,10 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import AddVendorNew from "./AddVendorNew";
 import { useNavigate } from "react-router-dom";
-import VendorOverView from "./VendorOverView";
+import Select from "react-select";
+import { TiTick } from "react-icons/ti";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -133,83 +137,104 @@ const CustomStyles = {
 
 const stats = [
   {
-    label: "Total Vendors",
+    label: "Total Expense Amount",
     value: "0",
     icon: true,
     highlight: true,
   },
   {
-    label: "Total Purchase",
+    label: "Paid",
     value: "0",
   },
   {
-    label: "Total Paid",
+    label: "Unpaid(Credit)",
     value: "0",
   },
   {
-    label: "Outstanding (Payable) ",
+    label: "Partially paid ",
     value: "0",
   },
 ];
 
-function Vendor() {
+function Expenses() {
+  const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [filteredData, setFilteredData] = useState([]);
-  const [show, setShow] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeRow, setActiveRow] = useState(null);
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [showAbove, setShowAbove] = useState(false);
+  const filterRef = useRef(null);
+  const navigate = useNavigate();
+  const { RangePicker } = DatePicker;
+  const [getData, setGetData] = useState([]);
+  const selectedPriceRange = "All";
+  const [showModal, setShowModal] = useState(null);
+  const [showFilter, setShowFilter] = useState(false);
+  const [categoryValue, setCategoryValue] = useState("");
+  const [assetValue, setAssetValue] = useState("");
+  const [vendorValue, setVendorValue] = useState("");
+  const [modeValue, setModeValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [amountValue, setAmountValue] = useState("");
+  const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
+  const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
+  const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState("");
+  const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
+  const [ExcelFilterDates, setExcelFilterDates] = useState([]);
+  const [excelDownload, setExcelDownload] = useState("");
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
+  const [dates, setDates] = useState([]);
+  const [pickerKey, setPickerKey] = useState(0);
+  const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const location = useLocation();
-  const [showDropDown, setShowDropDown] = useState(false);
-  const [showFilterData, setShowFilterData] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-  const [showDeleteVendor, setShowDeleteVendor] = useState(false);
-  const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState("");
-  const [open, setOpen] = useState(false);
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
-  const [showOverview, setShowOverview] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
+  const [isScrolling, setIsScrolling] = useState(false);
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const navigate = useNavigate();
+  const [activeRow, setActiveRow] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showAbove, setShowAbove] = useState(false);
+  const [showExpenseDelete, setShowExpenseDelete] = useState(false);
+  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [statusfilter, setStatusFilter] = useState("ALL");
 
-  const { canWriteModule: canWriteVendor, canReadModule: canReadVendor } =
-    useHasPermission("Vendor");
-
-  useEffect(() => {
-    if (!canReadVendor) {
-      setLoading(false);
-    }
-  }, [canReadVendor]);
-
-  const isVendorForm = location.state?.isVendorForm || false;
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
-
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [showOverview, setShowOverview] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState();
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+  };
 
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
   };
 
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
+  const {
+    canWriteModule: canWriteExpense,
+    canReadModule: canReadExpense,
+    // canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteElectricity,
+  } = useHasPermission("Expense");
+
+  useEffect(() => {
+    if (!canReadExpense) {
+      setLoading(false);
+    }
+  }, [canReadExpense]);
+
+  const isExpenseForm = location.state?.isExpenseForm || false;
 
   const handleShowDots = (id, event) => {
     setActiveRow((prev) => (prev === id ? null : id));
@@ -231,10 +256,6 @@ function Vendor() {
       left: rect.left,
     });
   };
-
-  useEffect(() => {
-    setShow(isVendorForm);
-  }, [isVendorForm]);
 
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
@@ -298,6 +319,10 @@ function Vendor() {
   }, []);
 
   useEffect(() => {
+    setShowModal(isExpenseForm);
+  }, [isExpenseForm]);
+
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
       setTimeout(() => {
@@ -305,95 +330,33 @@ function Vendor() {
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
-      dispatch({
-        type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
+
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilter(false);
     }
-  }, [state.login.selectedHostel_Id]);
-
-  useEffect(() => {
-    if (state.ComplianceList.getVendorStatusCode === 200) {
-      setFilteredData(state.ComplianceList.VendorList);
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_VENDOR_STATUS_CODE" });
-      }, 500);
-    }
-  }, [state.ComplianceList.getVendorStatusCode]);
-
-  useEffect(() => {
-    setLoading(false);
-  }, [state.ComplianceList.VendorList]);
-
-  useEffect(() => {
-    if (
-      state.ComplianceList.addVendorSuccessStatusCode === 201 ||
-      state.ComplianceList.deleteVendorStatusCode === 200 ||
-      state.ComplianceList.updateVendorSuccessStatusCode === 200
-    ) {
-      setShow(false);
-      setShowDeleteVendor(false);
-      setDeleteLoading(false);
-      setTimeout(() => {
-        dispatch({
-          type: "VENDORLIST",
-          payload: { hostelId: state.login.selectedHostel_Id },
-        });
-      }, 100);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_VENDOR_STATUS_CODE" });
-        dispatch({ type: "CLEAR_UPDATE_VENDOR_STATUS_CODE" });
-        dispatch({ type: "CLEAR_DELETE_VENDOR_STATUS_CODE" });
-      }, 5000);
-    }
-  }, [
-    state.ComplianceList.addVendorSuccessStatusCode,
-    state.ComplianceList.deleteVendorStatusCode,
-    state.ComplianceList.updateVendorSuccessStatusCode,
-  ]);
-
-  const handleShowSearch = () => {
-    setShowFilterData(!showFilterData);
   };
 
-  const handleCloseSearch = () => {
-    setShowFilterData(false);
-    setFilteredData(state.ComplianceList.VendorList);
-    setSearchQuery("");
-  };
-
-  const handleInputChange = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ComplianceList.VendorList &&
-        state.ComplianceList.VendorList.filter(
-          (user) =>
-            user.Vendor_Name &&
-            user.Vendor_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
+  useEffect(() => {
+    if (showFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      setFilteredData(state.ComplianceList.VendorList);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
-    // setCurrentPage(1);
-  };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showFilter]);
 
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-  };
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForExportExpence === 200) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
+      }, 200);
+    }
+  }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
-      toast.error("Please add a hostel before adding vendor information.", {
+      toast.error("Please add a hostel before adding expense information.", {
         hideProgressBar: true,
         autoClose: 1500,
         style: {
@@ -404,62 +367,362 @@ function Vendor() {
       });
       return;
     }
-    // setShow(true);
-    // setCurrentItem("");
 
-    navigate(`/add-vendor/${state.login.selectedHostel_Id}`, {
+    navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
         currentItem: currentItem,
       },
     });
   };
 
-  const handleEditVendor = (vendorData) => {
-    setCurrentItem(vendorData);
-    setShow(true);
+  const handleAmountValueChange = (e) => {
+    setSelectedValue(null);
+    const value = e.target.getAttribute("value");
+    setAmountValue(value);
+    setShowFilter(false);
+    const amountRange = value;
+    const [minAmount, maxAmount] = amountRange.split("-").map(Number);
+    // setMinAmount(minAmount);
+    // setMaxAmount(maxAmount);
+    setExcelFilterMinAmount(minAmount);
+    setExcelFilterMaxAmount(maxAmount);
+    setShowAmount(false);
   };
 
-  const handleDeleteVendor = (item) => {
-    setShowDeleteVendor(true);
-    setShowDeleteVendorDetails(item);
-  };
+  const [currentItem, setCurrentItem] = useState("");
 
-  const handleCloseForDeleteVendor = () => {
-    setShowDeleteVendor(false);
-  };
-
-  const ConfirmDeleteVendor = () => {
-    if (showDeleteVendorDetails) {
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setLoading(true);
       dispatch({
-        type: "DELETEVENDOR",
+        type: "ASSETLIST",
+        payload: state.login.selectedHostel_Id,
+      });
+      // dispatch({
+      //   type: "EXPENCES-CATEGORY-LIST",
+      //   payload: state.login.selectedHostel_Id
+      // });
+      dispatch({
+        type: "VENDORLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  const { getExpenseStatusCode } = state.ExpenseList;
+
+  useEffect(() => {
+    if (getExpenseStatusCode === 200) {
+      setLoading(false);
+      setGetData(state.ExpenseList.expenseList);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+      }, 4000);
+    }
+  }, [getExpenseStatusCode, state.ExpenseList.expenseList]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [state.ExpenseList.expenseList]);
+
+  useEffect(() => {
+    if (
+      state.ExpenseList.StatusCodeForAddExpenseSuccess === 201 ||
+      state.ExpenseList.deleteExpenseStatusCode === 204 ||
+      state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
+    ) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      setShowModal(false);
+      setShowExpenseDelete(false);
+      setDeleteLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_EXPENSE" });
+        dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
+        dispatch({ type: "REMOVE_UPDATE_EXPENSE_REDUCER" });
+      }, 200);
+    }
+  }, [
+    state.ExpenseList.StatusCodeForAddExpenseSuccess,
+    state.ExpenseList.deleteExpenseStatusCode,
+    state.login.selectedHostel_Id,
+    state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
+  ]);
+
+  const filterByPriceRange = (data) => {
+    switch (selectedPriceRange) {
+      case "0-100":
+        return data.filter((item) => item.price <= 100);
+      case "100-500":
+        return data.filter((item) => item.price > 100 && item.price <= 500);
+      case "500-1000":
+        return data.filter((item) => item.price > 500 && item.price <= 1000);
+      case "1000+":
+        return data.filter((item) => item.price > 1000);
+      case "All":
+        return data;
+      default:
+        return data;
+    }
+  };
+
+  const handleFilterByPrice = () => {
+    setShowFilter(!showFilter);
+  };
+
+  useEffect(() => {
+    if (getData.length === 0) {
+      setLoading(false);
+    }
+  }, [getData]);
+
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(10);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // const filteredData = React.useMemo(
+  //   () => filterByPriceRange(getData) || [],
+  //   [getData],
+  // );
+
+  // const sortedData = React.useMemo(() => {
+  //   return Array.isArray(filteredData) ? filteredData : [];
+  // }, [filteredData]);
+
+  const handleEditExpen = (item) => {
+    setShowModal(true);
+    setCurrentItem(item);
+  };
+
+  const handleDeleteExpense = (id) => {
+    if (!id) return;
+    setShowExpenseDelete(true);
+    setDeleteExpenseRowData(id);
+  };
+
+  const handleCloseForDeleteExpense = () => {
+    setShowExpenseDelete(false);
+  };
+
+  const ConfirmDeleteExpense = () => {
+    if (deleteExpenseRowData) {
+      dispatch({
+        type: "DELETEEXPENSE",
         payload: {
-          vendorId: showDeleteVendorDetails.id,
-          // Status: 0,
+          expenseId: deleteExpenseRowData,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
       setDeleteLoading(true);
     }
   };
 
-  useEffect(() => {
-    const appearOptions = {
-      threshold: 0.5,
-    };
-    const faders = document.querySelectorAll(".fade-in");
-    const appearOnScro1l = new IntersectionObserver(function (entries) {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        } else {
-          entry.target.classList.add("appear");
-          appearOnScro1l.unobserve(entry.target);
-        }
+  const [showCategory, setShowCategory] = useState(false);
+  const [showPaymentMode, setShowPaymentMode] = useState(false);
+  const [showAmount, setShowAmount] = useState(false);
+
+  const handleCatogoryChange = (e) => {
+    setSelectedValue(null);
+    setCategoryValue(e.target.getAttribute("value"));
+    setExcelFilterCategoryValue(e.target.getAttribute("value"));
+    setShowFilter(false);
+    setShowCategory(false);
+  };
+
+  const handleModeValueChange = (e) => {
+    setSelectedValue(null);
+    setModeValue(e.target.getAttribute("value"));
+    setExcelFilterPaymentmode(e.target.getAttribute("value"));
+    setShowFilter(false);
+    setShowPaymentMode(false);
+  };
+  const handleExpenseAll = (event) => {
+    const value = event.target.getAttribute("value");
+    setSelectedValue(value);
+    setShowFilter(false);
+  };
+
+  const [showFilterExpense, setShowFilterExpense] = useState(false);
+
+  const handleShowSearch = () => {
+    setShowFilterExpense(!showFilterExpense);
+  };
+
+  const handleCloseSearch = () => {
+    setShowFilterExpense(false);
+    setGetData(state.ExpenseList.expenseList);
+    setSearchQuery("");
+  };
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [showDropDown, setShowDropDown] = useState(false);
+
+  const handleInputChange = (e) => {
+    const searchItem = e.target.value;
+    setSearchQuery(searchItem);
+    if (searchItem !== "") {
+      const filteredItems =
+        state.ExpenseList.expenseList &&
+        state.ExpenseList.expenseList.filter(
+          (user) =>
+            user.category_Name &&
+            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
+        );
+
+      setGetData(filteredItems);
+      setShowDropDown(true);
+    } else {
+      setGetData(state.ExpenseList.expenseList);
+    }
+    // setCurrentPage(1);
+  };
+
+  const handleDropDown = (value) => {
+    const searchItem = value;
+    setSearchQuery(searchItem);
+    if (searchItem !== "") {
+      const filteredItems =
+        state.ExpenseList.expenseList &&
+        state.ExpenseList.expenseList.filter(
+          (user) =>
+            user.category_Name &&
+            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
+        );
+
+      setGetData(filteredItems);
+      setShowDropDown(true);
+    } else {
+      setGetData(state.ExpenseList.expenseList);
+    }
+    // setCurrentPage(1);
+    setShowDropDown(false);
+  };
+
+  const handleDateChange = (selectedDates) => {
+    if (!selectedDates || selectedDates.length !== 2) {
+      setDates([]);
+      setExcelFilterDates([]);
+      setSelectedValue("All");
+      setCategoryValue("");
+      setModeValue("");
+      setAmountValue("");
+      // setMinAmount("");
+      // setMaxAmount("");
+      setAssetValue("");
+      setVendorValue("");
+      setPickerKey((prevKey) => prevKey + 1);
+      // setCurrentPage(1);
+
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
-    }, appearOptions);
-    faders.forEach((fader) => {
-      appearOnScro1l.observe(fader);
-    });
-  });
+      return;
+    }
+
+    const newStartDate = dayjs(selectedDates[0]).startOf("day");
+    const newEndDate = dayjs(selectedDates[1]).endOf("day");
+    setDates([newStartDate, newEndDate]);
+    setExcelFilterDates([newStartDate, newEndDate]);
+    // setCurrentPage(1);
+  };
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+
+    const payload = { hostelId: state.login.selectedHostel_Id };
+    if (dates.length === 2) {
+      payload.start_date = dates[0].format("YYYY-MM-DD");
+      payload.end_date = dates[1].format("YYYY-MM-DD");
+    }
+    dispatch({ type: "EXPENSELIST", payload });
+  }, [dates, state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+
+    const payload = { hostelId: state.login.selectedHostel_Id };
+
+    if (selectedValue === "All") {
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (categoryValue) {
+      payload.category = categoryValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (modeValue) {
+      payload.payment_mode = modeValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (amountValue) {
+      const [minAmount, maxAmount] = amountValue.split("-").map(Number);
+      payload.min_amount = minAmount;
+      payload.max_amount = maxAmount;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (assetValue) {
+      payload.asset_id = assetValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (vendorValue) {
+      payload.vendor_id = vendorValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    }
+  }, [
+    selectedValue,
+    categoryValue,
+    modeValue,
+    amountValue,
+    assetValue,
+    vendorValue,
+  ]);
+
+  useEffect(() => {
+    if (state.ExpenseList.getExpenseStatusCode === 200) {
+      setGetData(state.ExpenseList.expenseList || []);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList]);
+
+  useEffect(() => {
+    if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
+      setGetData([]);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NOEXPENSEdATA" });
+      }, 1000);
+    }
+  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setPageSize(20);
+      } else {
+        setPageSize(10);
+      }
+      setPage(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedData = getData?.slice(startIndex, endIndex);
+
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+  };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
@@ -468,7 +731,7 @@ function Vendor() {
   //   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
-  const [isScrolling, setIsScrolling] = useState(false);
+
   const statusStyles = {
     "Checked In": {
       bg: "#EFFFF2",
@@ -489,25 +752,31 @@ function Vendor() {
   };
 
   const selectedColumns = [
-    { key: "vendorId", fieldName: "Vendor ID" },
-    { key: "vendorName", fieldName: "Vendor Name" },
+    { key: "expenseId", fieldName: "Expense No" },
+    { key: "title", fieldName: "TITLE" },
+    { key: "date", fieldName: "date & Time" },
     { key: "category", fieldName: "Category" },
-    { key: "mobileNo", fieldName: "Mobile No" },
-    { key: "address", fieldName: "Address" },
+    { key: "subcategory", fieldName: "SUB Category" },
+    { key: "vendor", fieldName: "Vendor" },
     { key: "status", fieldName: "Status" },
-    { key: "outstanding", fieldName: "Outstanding" },
-    { key: "lastTransaction", fieldName: "Last Transaction" },
+    { key: "paymentMode", fieldName: "Payment Mode" },
+    { key: "totalAmount", fieldName: "Total amount" },
+    { key: "paidAmount", fieldName: "Paid amount" },
+    { key: "balanceAmount", fieldName: "Balance amount" },
   ];
 
   const headerKeyMap = {
-    "Vendor ID": "vendorId",
-    "Vendor Name": "vendorName",
+    "Expense No": "expenseId",
+    TITLE: "title",
+    "date & Time": "date",
     Category: "category",
-    "Mobile No": "mobileNo",
-    Address: "address",
+    "SUB Category": "subcategory",
+    Vendor: "vendor",
     Status: "status",
-    Outstanding: "outstanding",
-    "Last Transaction": "lastTransaction",
+    "Payment Mode": "paymentMode",
+    "Total amount": "totalAmount",
+    "Paid amount": "paidAmount",
+    "Balance amount": "balanceAmount",
   };
 
   //   const formattedData = (userListDetail?.tenants || []).map((row) => {
@@ -611,71 +880,142 @@ function Vendor() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
-          <div>
-            <label className="text-[18px] font-semibold font-gilroy text-black">
-              Vendor
+        <div className="flex items-center justify-between sticky top-0 bg-white z-20  min-h-[60px] sm:min-h-[60px]">
+          <div className="col-span-12 md:col-auto flex flex-wrap items-center">
+            <label className="text-lg text-black font-semibold font-gilroy">
+              Expenses
             </label>
           </div>
 
-          <div className="flex justify-between items-center flex-wrap gap-2">
-            <div className="relative min-w-[180px] max-w-[260px]">
-              <div
-                className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-    ${
-      canReadVendor
-        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-        : "border-gray-200 opacity-60 cursor-not-allowed"
-    }`}
-              >
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={handleInputChange}
-                  disabled={!canReadVendor}
-                  className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
-                />
-                <SearchNormal1
-                  size="18"
-                  color={canReadVendor ? "#6B7280" : "#A0A0A0"}
-                  className="mr-2"
-                />
-              </div>
+          <div className="col-span-12 md:col flex flex-wrap gap-1 md:justify-end items-center">
+            <div
+              className={`flex items-center rounded-xl border px-3 py-1.5 !bg-white  transition
+                                 ${
+                                   canReadExpense
+                                     ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                                     : "border-gray-200 opacity-60 cursor-not-allowed"
+                                 }`}
+            >
+              <input
+                type="text"
+                className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
+                placeholder="Search"
+                value={filterInput}
+                onChange={(e) => handlefilterInput(e)}
+                disabled={canReadExpense}
+              />
+
+              <SearchNormal1
+                size="18"
+                color={canReadExpense ? "#6B7280" : "#A0A0A0"}
+                className="mr-2"
+              />
             </div>
 
-            <div>
+            <div className="mr-1">
               <button
-                disabled={!canWriteVendor}
+                disabled={!canWriteExpense}
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
              rounded-md px-4 py-2  whitespace-nowrap font-gilroy
              disabled:opacity-50 disabled:cursor-not-allowed "
               >
-                Add Vendor
+                Add Expense
               </button>
             </div>
           </div>
         </div>
 
-        {!canReadVendor ? (
+        {!canReadExpense ? (
           <>
             <PermissionDeniedMessage />
           </>
         ) : (
-          // <div className="relative flex flex-col h-[calc(100vh-80px)]">
-          <div className="relative flex flex-col flex-1 min-h-0">
-            {loading && (
-              <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
-                <div className="w-[60px] h-[60px] rounded-full border-t-[2px] border-b-[2px] border-r-[2px] border-r-transparent border-[#1E45E1] animate-spin relative flex items-center justify-center">
-                  <img
-                    src={SmarstayLogo}
-                    alt="logo"
-                    className="w-[35px] h-[35px] rounded-full absolute animate-spin-reverse"
+          <div className="relative">
+            <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
+              <div className="flex flex-wrap items-center gap-3">
+                <div
+                  className={`border border-gray-300 rounded-lg w-36 ${
+                    statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
+                  }`}
+                >
+                  <Select
+                    options={selectOptions}
+                    styles={CustomStyles}
+                    isDisabled={!canReadExpense}
+                    menuPlacement="auto"
+                    classNamePrefix="custom"
+                    onChange={(e) => handleStatusFilter(e)}
+                    value={
+                      selectOptions.find((opt) => opt.value === statusfilter) ||
+                      null
+                    }
+                    id="statusselect"
                   />
                 </div>
+
+                <div className="flex items-center gap-3">
+                  <Select
+                    isDisabled={!canReadExpense}
+                    options={monthOptions}
+                    value={selectedMonth}
+                    onChange={handleMonthChange}
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                    styles={CustomStyles}
+                  />
+                </div>
+
+                <div
+                  className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                >
+                  <Filter
+                    size={16}
+                    onClick={() => {
+                      if (canReadExpense) {
+                        setIsFilterOpen(true);
+                      }
+                    }}
+                    className={`transition-opacity duration-300 ${
+                      canReadExpense
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
+                  />
+                </div>
+
+                <button
+                  onClick={() => setShowOverview(true)}
+                  className="cursor-pointer"
+                >
+                  <PiDotsThreeOutlineVerticalFill size={20} />
+                </button>
               </div>
-            )}
+
+              <div className={` flex items-center justify-end gap-2 mr-2 `}>
+                <div>
+                  <Setting3
+                    onClick={() => setOpen(!open)}
+                    className="cursor-pointer"
+                    size="22"
+                    color="#4B4B4B"
+                  />
+                </div>
+
+                {/* {filteredData?.length > 0 && (
+                  <ApiPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    totalRecords={totalRecords}
+                    onPageChange={handlePageChange}
+                    onSizeChange={handleSizeChange}
+                    isTenantPagination={true}
+                    size={size}
+                  />
+                )} */}
+              </div>
+            </div>
 
             <div
               className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 
@@ -684,7 +1024,10 @@ function Vendor() {
               {stats.map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   {item.highlight && (
-                    <div className="w-10 h-10 rounded-full bg-[#F3E4D0] flex items-center justify-center text-[#FF9500] font-semibold">
+                    <div
+                      className="w-10 h-10 rounded-full bg-[#F3E4D0] flex items-center justify-center 
+                    text-[#FF9500] font-semibold"
+                    >
                       {item.icon && (
                         <Chart21
                           color="#FF9500"
@@ -728,106 +1071,7 @@ function Vendor() {
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
-              <div className="flex flex-wrap items-center gap-3">
-                <div
-                  className={`border border-gray-300 rounded-lg w-36 ${
-                    statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-                  }`}
-                >
-                  <Select
-                    options={selectOptions}
-                    styles={CustomStyles}
-                    isDisabled={!canReadVendor}
-                    menuPlacement="auto"
-                    classNamePrefix="custom"
-                    onChange={(e) => handleStatusFilter(e)}
-                    value={
-                      selectOptions.find((opt) => opt.value === statusfilter) ||
-                      null
-                    }
-                    id="statusselect"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Select
-                    isDisabled={!canReadVendor}
-                    options={monthOptions}
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
-                    styles={CustomStyles}
-                  />
-                </div>
-
-                <div
-                  className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                >
-                  <Filter
-                    size={16}
-                    onClick={() => {
-                      if (canReadVendor) {
-                        setIsFilterOpen(true);
-                      }
-                    }}
-                    className={`transition-opacity duration-300 ${
-                      canReadVendor
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
-                  />
-                </div>
-
-                <button
-                  onClick={() => setShowOverview(true)}
-                  className="cursor-pointer"
-                >
-                  <PiDotsThreeOutlineVerticalFill size={20} />
-                </button>
-              </div>
-
-              <div className={` flex items-center justify-end gap-2 mr-2 `}>
-                <div>
-                  <Setting3
-                    onClick={() => setOpen(!open)}
-                    className="cursor-pointer"
-                    size="22"
-                    color="#4B4B4B"
-                  />
-                </div>
-
-                {/* {filteredData?.length > 0 && (
-                  <ApiPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    totalRecords={totalRecords}
-                    onPageChange={handlePageChange}
-                    onSizeChange={handleSizeChange}
-                    isTenantPagination={true}
-                    size={size}
-                  />
-                )} */}
-              </div>
-            </div>
-
-            {/* <div className="flex-1 max-h-[700px] overflow-y-auto pr-5 ">
-              {filteredData?.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {filteredData.map((vendor) => (
-                    <VendorListMap
-                      key={vendor.id}
-                      vendor={vendor}
-                      onEditVendor={handleEditVendor}
-                      onDeleteVendor={handleDeleteVendor}
-                    />
-                  ))}
-                </div>
-              )}
-            </div> */}
-            {filteredData?.length > 0 ? (
+            {getData?.length > 0 ? (
               <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                 <div
                   id="tableContainer"
@@ -1382,90 +1626,45 @@ function Vendor() {
                 </div>
               </div>
             ) : (
-              <NoDataMessage
-                label="Vendor"
-                //   isSearching={isSearching}
-                //   isClearSearch={true}
-                //   handleClear={() => {
-                //     setFilterInput("");
-                //   }}
-              />
+              <div className="my-2">
+                <NoDataMessage label="Expense" />
+              </div>
             )}
           </div>
         )}
-
-        {show && (
-          <AddVendorNew
-            show={show}
-            currentItem={currentItem}
-            setShow={setShow}
-          />
-        )}
-
-        {showOverview && (
-          <VendorOverView
-            show={showOverview}
-            onClose={() => setShowOverview(false)}
-          />
-        )}
-
-        <Modal
-          show={showDeleteVendor}
-          onHide={handleCloseForDeleteVendor}
-          centered
-          backdrop="static"
-          dialogClassName="custom-delete-modal"
-        >
-          <Modal.Header className="border-0">
-            <Modal.Title className="w-full text-center !text-[18px] !font-gilroy !font-semibold text-[#222222]">
-              Delete Vendor?
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body className="text-center !text-[14px] !font-medium !font-gilroy -mt-2">
-            Are you sure you want to delete this vendor?
-          </Modal.Body>
-
-          <Modal.Footer className="flex justify-center border-0 -mt-2">
-            <Button
-              onClick={handleCloseForDeleteVendor}
-              className="me-2 w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
-            >
-              Cancel
-            </Button>
-
-            <Button
-              disabled={deleteLoading}
-              onClick={ConfirmDeleteVendor}
-              className={`
-     !w-full 
-    !max-w-[160px] 
-    !h-[52px] 
-    !rounded-[8px] 
-    !px-[20px] 
-    !py-[12px]  
-    !bg-[#1E45E1] 
-    !text-white 
-    !font-semibold 
-    !font-gilroy 
-    !text-[14px]
-    ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
-  `}
-            >
-              {deleteLoading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Deleting...
-                </div>
-              ) : (
-                "Delete"
-              )}
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </div>
+
+      {loading && (
+        <div className="absolute top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {showModal && (
+        <AddExpenses
+          hostelId={allPageHostel_Id}
+          show={showModal}
+          currentItem={currentItem}
+          setShowModal={setShowModal}
+        />
+      )}
+
+      {showExpenseDelete && (
+        <DeleteExpense
+          show={showExpenseDelete}
+          handleClose={handleCloseForDeleteExpense}
+          deleteExpenseRowData={deleteExpenseRowData}
+        />
+      )}
+
+      {showOverview && (
+        <ExpenseOverview
+          show={showOverview}
+          onClose={() => setShowOverview(false)}
+        />
+      )}
     </>
   );
 }
 
-export default withErrorBoundary(Vendor);
+export default withErrorBoundary(Expenses);

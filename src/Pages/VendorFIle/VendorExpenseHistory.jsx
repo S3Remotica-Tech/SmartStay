@@ -282,35 +282,35 @@ function VendorExpenseHistory() {
                         )} */}
         </div>
       </div>
-      <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+      <div className="bg-white    rounded-xl  mx-1 my-3 ">
         <div
           id="tableContainer"
           //   ref={tableContainerRef}
-          className="overflow-auto relative h-[calc(100vh-250px)] rounded-xl show-scrolls"
+          className="overflow-auto relative h-[calc(100vh-250px)]  show-scrolls"
         >
           <table className=" w-full font-gilroy ">
             <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
               <tr>
-                <th className="px-4 py-3 text-left text-xs text-[#666] whitespace-nowrap">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
                   EXpense ID
                 </th>
-                <th className="px-4 py-3 text-left text-xs text-[#666]">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
                   DATE
                 </th>
 
-                <th className="px-4 py-3 text-left text-xs text-[#666] whitespace-nowrap">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
                   Expense Title
                 </th>
-                <th className="px-4 py-3 text-left text-xs text-[#666]">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
                   Amount
                 </th>
-                <th className="px-4 py-3 text-left text-xs text-[#666]  whitespace-nowrap">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666]  whitespace-nowrap">
                   Balance (if)
                 </th>
-                <th className="px-4 py-3 text-left text-xs text-[#666]">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
                   STATUS
                 </th>
-                <th className="px-4 py-3 text-left text-xs text-[#666]">
+                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
                   Action
                 </th>
               </tr>
@@ -320,25 +320,25 @@ function VendorExpenseHistory() {
               {expenses.map((expense) => (
                 <React.Fragment key={expense.expenseId}>
                   <tr className="border-t whitespace-nowrap">
-                    <td className="px-4 py-3 text-sm text-[#1E45E1] flex items-center gap-2">
+                    <td className="px-4 py-2.5 text-sm text-[#1E45E1] flex items-center gap-2">
                       {expense.expenseId} <ExportSquare size="14" />
                     </td>
-                    <td className="px-4 py-3 text-sm">{expense.date}</td>
+                    <td className="px-4 py-2.5 text-sm">{expense.date}</td>
 
-                    <td className="px-4 py-3 text-sm">{expense.title}</td>
+                    <td className="px-4 py-2.5 text-sm">{expense.title}</td>
 
-                    <td className="px-4 py-3 text-sm">{expense.amount}</td>
+                    <td className="px-4 py-2.5 text-sm">{expense.amount}</td>
 
-                    <td className="px-4 py-3 text-sm">{expense.balance}</td>
+                    <td className="px-4 py-2.5 text-sm">{expense.balance}</td>
 
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="inline-flex items-center gap-1 rounded-full bg-[#E8F8EC] px-2 py-1 text-[11px] text-[#00A32E]">
                         <span className="h-2 w-2 rounded-full bg-[#00A32E]" />
                         {expense.status}
                       </span>
                     </td>
 
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <button
                         onClick={() => handleToggleExpense(expense.expenseId)}
                         className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"

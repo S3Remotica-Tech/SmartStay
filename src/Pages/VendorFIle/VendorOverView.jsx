@@ -31,7 +31,7 @@ function VendorOverView({ show, onClose }) {
       />
 
       <div
-        className={`fixed top-2 right-2 h-screen w-[900px] bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
+        className={`fixed top-2 right-2 h-screen w-[1100px] bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
           show ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -127,8 +127,8 @@ function VendorOverView({ show, onClose }) {
             </div>
           </div>
 
-          <div className="flex items-center justify-between mt-8 border-b  ">
-            <div className="flex gap-8">
+          <div className="flex items-center justify-between mt-8 border-b   ">
+            <div className="flex gap-8 ">
               <button
                 onClick={() => setActiveTab("payments")}
                 className={`pb-3 font-medium ${
@@ -169,7 +169,7 @@ function VendorOverView({ show, onClose }) {
                 }}
                 className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
               >
-                + Record Payment
+                + Settle Payment
               </button>
             )}
 

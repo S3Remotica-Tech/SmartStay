@@ -6,6 +6,14 @@ import {
   TextItalic,
   TextUnderline,
 } from "iconsax-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const quillStyle = {
+  height: "50px",
+  borderRadius: "22px",
+  marginBottom: "42px",
+};
 
 function VendorComments() {
   const [comment, setComment] = useState("");
@@ -86,31 +94,14 @@ function VendorComments() {
           <span className="text-red-500 ml-1">*</span>
         </label>
 
-        <div className="border border-[#D9D9D9] rounded-lg overflow-hidden">
-          <textarea
-            ref={textareaRef}
+        <div className=" rounded-lg mb-[50px] ">
+          <ReactQuill
+            theme="snow"
             value={comment}
-            onChange={handleCommentChange}
+            onChange={setComment}
             placeholder="Comment here"
-            rows={4}
-            className="w-full resize-none p-3 text-sm focus:outline-none"
+            style={quillStyle}
           />
-
-          <div className="flex justify-end items-center px-2 py-2">
-            <div className="w-fit flex justify-end items-center gap-2  px-3 py-2   bg-[#F2F5FF] rounded-md ">
-              <button onClick={() => applyFormat("bold")}>
-                <TextBold size={14} color="#6B7280" />
-              </button>
-
-              <button onClick={() => applyFormat("italic")}>
-                <TextItalic size={14} color="#6B7280" />
-              </button>
-
-              <button onClick={() => applyFormat("underline")}>
-                <TextUnderline size={14} color="#6B7280" />
-              </button>
-            </div>
-          </div>
         </div>
 
         <div className="flex justify-end mt-3">
@@ -123,23 +114,24 @@ function VendorComments() {
           </button>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-2">
           <p className="text-[11px] font-semibold text-[#6B7280] uppercase mb-4">
             All Comments
           </p>
 
-          {comments.map((item) => (
-            <div
-              key={item.id}
-              className="flex gap-3 pb-6 mb-6 border-b border-[#F1F1F1] last:border-b-0"
-            >
-              <div className="flex-shrink-0">
-                <div className="h-10 w-10 rounded-full bg-[#EEF2FF] flex items-center justify-center">
+          {comments.map((item, index) => (
+            <div key={item.id} className="flex gap-3 relative">
+              <div className="flex flex-col items-center flex-shrink-0">
+                <div className="h-10 w-10 rounded-full bg-[#EEF2FF] flex items-center justify-center z-10">
                   <MessageText size={18} color="#6B7280" variant="Linear" />
                 </div>
+
+                {index !== comments.length - 1 && (
+                  <div className="w-[2px] flex-1 min-h-[60px] bg-[#E5E7EB]" />
+                )}
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 pb-8">
                 <h4 className="text-[14px] font-medium text-[#222222]">
                   {item.comment}
                 </h4>

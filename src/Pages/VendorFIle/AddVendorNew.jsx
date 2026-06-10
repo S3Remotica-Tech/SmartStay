@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -267,7 +267,7 @@ const indianStates = [
   { value: "Puducherry", label: "Puducherry" },
 ];
 
-function AddVendorNew({ show, setShow, currentItem }) {
+function AddVendorNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -287,7 +287,7 @@ function AddVendorNew({ show, setShow, currentItem }) {
   // const [id, setId] = useState("");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
-
+  const location = useLocation();
   const [check, setCheck] = useState(null);
   const [generalError, setGeneralError] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
@@ -327,6 +327,8 @@ function AddVendorNew({ show, setShow, currentItem }) {
   const [creditPeriod, setCreditPeriod] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+
+  const currentItem = location.state?.currentItem || "";
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -979,11 +981,13 @@ function AddVendorNew({ show, setShow, currentItem }) {
             {check === "EDIT" ? "Edit a vendor" : "Add new Vendor"}
           </h2>
 
-          <button className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy ">
+          <button
+            onClick={handleClose}
+            className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy "
+          >
             <Add
               size="24"
               color="#FF0000"
-              onClick={handleClose}
               className="cursor-pointer rotate-45"
             />{" "}
             Close
@@ -1567,11 +1571,5 @@ function AddVendorNew({ show, setShow, currentItem }) {
     </div>
   );
 }
-
-AddVendorNew.propTypes = {
-  show: PropTypes.func.isRequired,
-  setShow: PropTypes.func.isRequired,
-  currentItem: PropTypes.func.isRequired,
-};
 
 export default AddVendorNew;

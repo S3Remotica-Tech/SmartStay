@@ -143,7 +143,7 @@ function FinalSettlement() {
   const [errors, setErrors] = useState([]);
   const [isEditingRent, setIsEditingRent] = useState(false);
   const [amount, setAmount] = useState("");
-
+  const [customRent, setCustomRent] = useState(null);
   const [ReturnAmount, setReturnAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [GenerateLoading, setGenerateLoading] = useState(false);
@@ -170,13 +170,12 @@ function FinalSettlement() {
   const { data, pgDetails, isPGWay, customer } = location.state || {};
 
   const [isEditing, setIsEditing] = useState(false);
-  const [finalAmount, setFinalAmount] = useState(false);
+  const [finalAmountSetClicked, setFinalAmountSetClicked] = useState(false);
+  const [PayableORRefundabeleRent, setPayableORRefundabeleRent] = useState("");
   const [discount, setDiscount] = useState("");
   const [tempDiscount, setTempDiscount] = useState(discount);
 
-  const PayableORRefundabeleRent = finalAmount
-    ? amount
-    : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
+  // console.log("finalAmountSetClicked", finalAmountSetClicked);
 
   const handleSet = () => {
     setDiscount(tempDiscount === "" ? 0 : Number(tempDiscount));
@@ -350,14 +349,6 @@ function FinalSettlement() {
     setIsEditingRent(!isEditingRent);
   };
 
-  useEffect(() => {
-    if (isEditingRent) {
-      setAmount(finalSettlementList?.currentMonthRentInfo?.currentMonthRent);
-    } else {
-      setAmount(finalSettlementList?.currentMonthRentInfo?.currentMonthRent);
-    }
-  }, [isEditingRent]);
-
   // console.log("data", data);
   useEffect(() => {
     if (state.UsersList.conformChekoutError) {
@@ -489,27 +480,24 @@ function FinalSettlement() {
         (sum, item) => sum + Number(item.amount || 0),
         0,
       );
-      // if (collectFullRent) {
-      //   if (finalSettlementList?.settlementInfo?.payableAmount > 0) {
-      //     balanceRent =
-      //       finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
-      //       finalSettlementList?.settlementInfo?.payableAmount;
-      //   } else {
-      //     balanceRent =
-      //       finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
-      //       finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
-      //   }
-
-      //   // console.log("balanceRent", balanceRent);
-      //   updatedAmountToBePaid = amountTobePaid + balanceRent;
-      // }
 
       if (collectFullRent) {
-        // console.log("balanceRent", balanceRent);
-        updatedAmountToBePaid =
-          amountTobePaid +
-          finalSettlementList?.currentMonthRentInfo?.rentDifference +
-          totalOtherItemsAmount;
+        if (!finalAmountSetClicked) {
+          updatedAmountToBePaid =
+            amountTobePaid +
+            finalSettlementList?.currentMonthRentInfo?.rentDifference;
+        } else {
+          const customRentDiff =
+            customRent -
+            finalSettlementList?.currentMonthRentInfo?.currentMonthRent;
+          // console.log("customRentDiff", customRentDiff);
+          // console.log("customRent", customRent)
+
+          updatedAmountToBePaid =
+            amountTobePaid +
+            finalSettlementList?.currentMonthRentInfo?.rentDifference +
+            customRentDiff;
+        }
       }
 
       if (updatedAmountToBePaid < 0) {
@@ -531,7 +519,41 @@ function FinalSettlement() {
 
       setReturnAmount(normalizedAmount);
     }
-  }, [finalSettlementList, fields, discount, collectFullRent]);
+  }, [
+    finalSettlementList,
+    fields,
+    discount,
+    collectFullRent,
+    customRent,
+    finalAmountSetClicked,
+  ]);
+
+  useEffect(() => {
+    const isPayableORRefundabeleRent = finalAmountSetClicked
+      ? Number(customRent) +
+        Number(finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0)
+      : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
+
+    setPayableORRefundabeleRent(isPayableORRefundabeleRent);
+  }, [
+    finalAmountSetClicked,
+    finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount,
+    finalSettlementList?.currentMonthRentInfo?.otherItemAmount,
+    customRent,
+  ]);
+
+  useEffect(() => {
+    if (!finalAmountSetClicked) {
+      setAmount(
+        finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0,
+      );
+    }
+  }, [
+    finalAmountSetClicked,
+    finalSettlementList?.currentMonthRentInfo?.currentMonthRent,
+  ]);
+
+  // console.log("amount", amount);
 
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];
@@ -1102,7 +1124,8 @@ function FinalSettlement() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setFinalAmount(true);
+                            setCustomRent(Number(amount));
+                            setFinalAmountSetClicked(true);
                             setIsEditingRent(false);
                           }}
                           className="flex  items-center gap-2 rounded-md bg-blue-50 px-2 py-1 text-sm font-medium text-blue-600"
@@ -1117,13 +1140,14 @@ function FinalSettlement() {
                       <span className="text-base font-semibold text-black">
                         ₹{PayableORRefundabeleRent}
                       </span>
-                      {finalAmount && (
+                      {finalAmountSetClicked && (
                         <Edit2
                           size="16"
                           color="#1E45E1"
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsEditingRent(true);
+                            setAmount(customRent);
                           }}
                         />
                       )}
