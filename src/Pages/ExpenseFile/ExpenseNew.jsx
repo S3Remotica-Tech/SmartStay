@@ -45,6 +45,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import SettlementPayment from "../VendorFIle/SettlementPayment";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -213,12 +214,22 @@ function Expenses() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState();
+  const [showSettlementForm, setShowSettlementForm] = useState(false);
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
   };
 
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
+  };
+
+  const handleShowSettlement = () => {
+    setShowSettlementForm(true);
+    setShowOverview(false);
+  };
+
+  const handleCloseSettlement = () => {
+    setShowSettlementForm(false);
   };
 
   const {
@@ -1661,6 +1672,13 @@ function Expenses() {
         <ExpenseOverview
           show={showOverview}
           onClose={() => setShowOverview(false)}
+          handleShowSettlement={handleShowSettlement}
+        />
+      )}
+      {showSettlementForm && (
+        <SettlementPayment
+          show={showSettlementForm}
+          handleClose={handleCloseSettlement}
         />
       )}
     </>

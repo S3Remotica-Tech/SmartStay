@@ -345,8 +345,16 @@ function FinalSettlement() {
   };
 
   const handleCheckboxChange = (e) => {
-    setCollectFullRent(e.target.checked);
-    setIsEditingRent(!isEditingRent);
+    const checked = e.target.checked;
+
+    setCollectFullRent(checked);
+    setIsEditingRent(checked);
+    if (!checked) {
+      setCustomRent(
+        finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0,
+      );
+      setFinalAmountSetClicked(false);
+    }
   };
 
   // console.log("data", data);
@@ -498,6 +506,8 @@ function FinalSettlement() {
             finalSettlementList?.currentMonthRentInfo?.rentDifference +
             customRentDiff;
         }
+      } else {
+        updatedAmountToBePaid = amountTobePaid;
       }
 
       if (updatedAmountToBePaid < 0) {

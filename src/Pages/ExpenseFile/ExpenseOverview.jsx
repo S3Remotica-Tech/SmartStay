@@ -15,12 +15,24 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpensePaymentHistory from "./ExpensePaymentHistory";
 import ExpenseItems from "./ExpenseItems";
 
-function ExpenseOverview({ show, onClose }) {
+function ExpenseOverview({ show, onClose, handleShowSettlement}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("payments");
 
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div className="font-gilroy">
       <div
@@ -139,9 +151,7 @@ function ExpenseOverview({ show, onClose }) {
             </div>
             {activeTab === "payments" && (
               <button
-                onClick={() => {
-                  console.log("Record Payment Clicked");
-                }}
+               onClick={() => handleShowSettlement(true)}
                 className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
               >
                 + Settle Payment

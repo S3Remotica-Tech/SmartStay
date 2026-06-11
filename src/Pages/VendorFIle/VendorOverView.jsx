@@ -15,7 +15,7 @@ import VendorExpenseHistory from "./VendorExpenseHistory";
 import VendorComments from "./VendorComments";
 import VendorPaymentHistory from "./VendorPaymentHistory";
 
-function VendorOverView({ show, onClose }) {
+function VendorOverView({ show, onClose, handleShowSettlement }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -164,9 +164,7 @@ function VendorOverView({ show, onClose }) {
             </div>
             {activeTab === "payments" && (
               <button
-                onClick={() => {
-                  console.log("Record Payment Clicked");
-                }}
+                onClick={() => handleShowSettlement(true)}
                 className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
               >
                 + Settle Payment
