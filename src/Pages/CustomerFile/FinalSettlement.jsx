@@ -498,13 +498,20 @@ function FinalSettlement() {
           const customRentDiff =
             customRent -
             finalSettlementList?.currentMonthRentInfo?.currentMonthRent;
-          // console.log("customRentDiff", customRentDiff);
-          // console.log("customRent", customRent)
 
           updatedAmountToBePaid =
             amountTobePaid +
             finalSettlementList?.currentMonthRentInfo?.rentDifference +
             customRentDiff;
+
+          // const customRentDiff =
+          //   finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
+          //   customRent;
+
+          // console.log("customRent", customRent);
+          // console.log("customRentDiff", customRentDiff);
+
+          // updatedAmountToBePaid = amountTobePaid - customRentDiff;
         }
       } else {
         updatedAmountToBePaid = amountTobePaid;
@@ -539,12 +546,31 @@ function FinalSettlement() {
   ]);
 
   useEffect(() => {
-    const isPayableORRefundabeleRent = finalAmountSetClicked
-      ? Number(customRent) +
-        Number(finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0)
-      : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
+    const RedeemAmount =
+      finalSettlementList?.bookingItems?.appliedAmount +
+      finalSettlementList?.advanceItems?.appliedAmount;
 
-    setPayableORRefundabeleRent(isPayableORRefundabeleRent);
+    // console.log("RedeemAmount", RedeemAmount);
+    if (collectFullRent) {
+      const isPayableORRefundabeleRent = finalAmountSetClicked
+        ? Number(customRent) +
+          Number(
+            finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0,
+          )
+        : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
+
+      const finalPayableAmount = isPayableORRefundabeleRent - RedeemAmount;
+
+      setPayableORRefundabeleRent(finalPayableAmount);
+    } else {
+      const isPayableORRefundabeleRent = finalAmountSetClicked
+        ? Number(customRent) +
+          Number(
+            finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0,
+          )
+        : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
+      setPayableORRefundabeleRent(isPayableORRefundabeleRent);
+    }
   }, [
     finalAmountSetClicked,
     finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount,
@@ -2096,8 +2122,9 @@ function FinalSettlement() {
                         {finalSettlementList?.settlementInfo?.label}
                       </p>
                       <p className="text-sm font-medium text-gray-900">
-                        ₹ {finalSettlementList?.settlementInfo?.payableAmount}
+                        {/* ₹ {finalSettlementList?.settlementInfo?.payableAmount} */}
                         {/* {finalSettlementList?.settlementInfo?.refundableRent} */}
+                        ₹{PayableORRefundabeleRent}
                       </p>
                     </div>
 
