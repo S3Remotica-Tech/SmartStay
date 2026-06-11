@@ -740,7 +740,10 @@ function BankingNew() {
                   ? bankking.map((item) => {
                       return (
                         <div
-                          onClick={() => handleShowOverview()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShowOverview();
+                          }}
                           key={item.id}
                           className={` flex-shrink-0
             w-fit
@@ -777,8 +780,9 @@ function BankingNew() {
     ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
     }
   `}
-                                onClick={() => {
+                                onClick={(e) => {
                                   if (!item.isDeleted) {
+                                    e.stopPropagation();
                                     handleShowDots(item.bankingId);
                                   }
                                 }}
@@ -878,7 +882,8 @@ function BankingNew() {
                                     ? "text-blue-600 cursor-pointer"
                                     : "text-gray-400 cursor-not-allowed"
                                 }`}
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   if (canWriteBanking && !item.isDeleted) {
                                     handleShowAddBalance(item);
                                   }
@@ -1023,6 +1028,7 @@ function BankingNew() {
                               <th className="w-[230px] px-2">
                                 Running Balance
                               </th>
+                              <th className="w-[230px] px-2">Action</th>
                             </tr>
                           </thead>
 
@@ -1046,6 +1052,15 @@ function BankingNew() {
                                 </td>
                                 <td className="w-[230px] px-2 py-1 whitespace-nowrap">
                                   {user.type}
+                                </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {user.type}
+                                </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  {user.type}
+                                </td>
+                                <td className="w-[230px] px-2 py-1 whitespace-nowrap">
+                                  <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                                 </td>
                               </tr>
                             ))}

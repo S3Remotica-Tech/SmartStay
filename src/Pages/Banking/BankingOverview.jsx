@@ -202,40 +202,42 @@ function BankingOverview({ show, onClose }) {
           </button>
         </div>
         <div className="flex-1 overflow-y-auto show-scrolls">
-          <div className="flex gap-8 px-6 py-6">
-            {summaryCards.map((item, index) => {
-              const Icon = item.icon;
+          {activeTab === "overview" && (
+            <div className="flex gap-8 px-6 py-6">
+              {summaryCards.map((item, index) => {
+                const Icon = item.icon;
 
-              return (
-                <div
-                  key={index}
-                  className={`flex items-center gap-6 px-6 ${
-                    index !== summaryCards.length - 1 ? "border-r" : ""
-                  }`}
-                >
-                  {Icon && (
-                    <div className="w-11 h-11 rounded-full bg-[#FBF7FF] flex items-center justify-center">
-                      <ArrowUp
-                        size="18"
-                        color="#7840A9"
-                        className="rotate-45"
-                      />
-                    </div>
-                  )}
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-6 px-6 ${
+                      index !== summaryCards.length - 1 ? "border-r" : ""
+                    }`}
+                  >
+                    {Icon && (
+                      <div className="w-11 h-11 rounded-full bg-[#FBF7FF] flex items-center justify-center">
+                        <ArrowUp
+                          size="18"
+                          color="#7840A9"
+                          className="rotate-45"
+                        />
+                      </div>
+                    )}
 
-                  <div>
-                    <div className="text-[12px] text-[#4A5565] font-medium">
-                      {item.title}
-                    </div>
+                    <div>
+                      <div className="text-[12px] text-[#4A5565] font-medium">
+                        {item.title}
+                      </div>
 
-                    <div className="text-[18px] font-semibold text-[#101828]">
-                      {item.amount}
+                      <div className="text-[18px] font-semibold text-[#101828]">
+                        {item.amount}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           {activeTab === "overview" && <BankingChart />}
 
