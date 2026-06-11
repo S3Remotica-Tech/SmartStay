@@ -558,6 +558,14 @@ function SettlementPayment({ show, handleClose }) {
                   </div>
                 </div>
               )}
+              <div
+                className="flex justify-end my-2"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
+                  + Add more Files
+                </label>
+              </div>
             </div>
 
             {attachments?.length > 0 && (
