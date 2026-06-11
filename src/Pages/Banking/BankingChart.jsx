@@ -38,9 +38,17 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
+const bankDetails = [
+  { label: "Bank Name", value: "Canara Bank" },
+  { label: "Beneficiary Name", value: "Immanuvel" },
+  { label: "Account No", value: "526525XXXX85858" },
+  { label: "IFSC Code", value: "CAN45789" },
+  { label: "Branch", value: "Navalur Canara" },
+];
+
 function BankingChart() {
   return (
-    <div className="max-h-[500px] overflow-y-auto show-scrolls">
+    <div className="">
       <div className="border border-[#E5E7EB] rounded-xl p-3 mx-4 my-4 ">
         <div className="text-[18px] font-semibold text-[#101828] mb-6">
           Account Analysis
@@ -148,6 +156,20 @@ function BankingChart() {
             <div className="font-semibold">₹16,500</div>
           </div>
         </div>
+      </div>
+      <div className="mx-4 my-4">
+        {bankDetails.map((item) => (
+          <div
+            key={item.label}
+            className="grid grid-cols-[140px_20px_1fr] gap-3 mb-2"
+          >
+            <div className="text-[#4B4B4B] text-[13px] ">{item.label}</div>
+            <div>:</div>
+            <div className="font-medium text-[14px] text-[#000825]">
+              {item.value}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
