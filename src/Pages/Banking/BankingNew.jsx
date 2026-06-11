@@ -33,6 +33,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import SelfTransfer from "./SelfTransfer";
 import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
+import BankingOverview from "./BankingOverview";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -160,6 +161,7 @@ function BankingNew() {
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
+  const [showOverview, setShowOverview] = useState(false);
 
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const dropdownRef = useRef(null);
@@ -624,11 +626,16 @@ function BankingNew() {
     startIndex,
     endIndex,
   );
+
+  const handleShowOverview = () => {
+    setShowOverview(true);
+  };
+
   return (
     <>
       <div className="bg-white font-gilroy">
         <div className="w-full p-0">
-          <div className="flex items-center justify-between sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px]">
+          <div className="flex items-center justify-between sticky top-0 bg-white z-40  min-h-[60px] sm:min-h-[60px]">
             <div className="flex lg:justify-start justify-center items-center flex-wrap">
               <label className="text-lg text-black font-semibold font-gilroy">
                 Banking
@@ -733,12 +740,13 @@ function BankingNew() {
                   ? bankking.map((item) => {
                       return (
                         <div
+                          onClick={() => handleShowOverview()}
                           key={item.id}
                           className={` flex-shrink-0
             w-fit
             h-auto
             flex flex-col justify-between
-            
+            cursor-pointer
             rounded-xl
             
             relative
@@ -1004,11 +1012,17 @@ function BankingNew() {
                             <tr className="h-9">
                               <th className="w-[230px] px-2">date & Time</th>
                               <th className="w-[230px] px-2">Type</th>
-                              <th className="w-[230px] px-2">Account / Method</th>
+                              <th className="w-[230px] px-2">
+                                Account / Method
+                              </th>
                               <th className="w-[230px] px-2">Description</th>
-                              <th className="w-[230px] px-2">Source / Beneficiary</th>
+                              <th className="w-[230px] px-2">
+                                Source / Beneficiary
+                              </th>
                               <th className="w-[230px] px-2">Amount</th>
-                              <th className="w-[230px] px-2">Running Balance</th>
+                              <th className="w-[230px] px-2">
+                                Running Balance
+                              </th>
                             </tr>
                           </thead>
 
@@ -1166,6 +1180,13 @@ function BankingNew() {
               </div>
             )}
           </Modal>
+
+          {showOverview && (
+            <BankingOverview
+              show={showOverview}
+              onClose={() => setShowOverview(false)}
+            />
+          )}
 
           {selfTranfer && (
             <SelfTransfer
