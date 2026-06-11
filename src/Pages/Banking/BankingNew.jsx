@@ -2,7 +2,6 @@
 import Filters from "../../Assets/Images/Filters.svg";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import "./Banking.css";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -13,12 +12,12 @@ import BankingAddForm from "../Banking/BankingAddForm";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
-import { Edit, Trash } from "iconsax-react";
+import { ArrowDown2, Bank, Edit, Location, Trash } from "iconsax-react";
 import money from "../../Assets/Images/New_images/Amount.png";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, Filter } from "iconsax-react";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import transArrow from "../../Assets/Images/New_images/arrow-transfer.png";
@@ -32,8 +31,99 @@ import { Setting3, SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import SelfTransfer from "./SelfTransfer";
+import { BsExclamationCircle } from "react-icons/bs";
+import Select from "react-select";
 
-function Banking() {
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "32px",
+    height: "32px",
+    width: "100%",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "12px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    cursor: "pointer",
+    backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
+  }),
+
+  singleValue: (base) => ({
+    ...base,
+    color: "#333",
+    fontWeight: 500,
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 13,
+      padding: "6px 12px",
+      // margin: "2px 10px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "32px",
+  }),
+
+  dropdownIndicator: (base) => ({
+    ...base,
+    padding: "4px",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
+function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const { RangePicker } = DatePicker;
@@ -55,7 +145,7 @@ function Banking() {
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
-    const [hostel_id, setHostel_Id] = useState("");
+  const [hostel_id, setHostel_Id] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
@@ -70,6 +160,18 @@ function Banking() {
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
+
+  const [showTransactionMenu, setShowTransactionMenu] = useState(false);
+  const dropdownRef = useRef(null);
+  const transactionMenus = [
+    "Add Expense",
+    "Tenant Payment",
+    "Transfer",
+    "Vendor Payment",
+    "Credit Card Payment",
+    "Investment",
+  ];
+
   const {
     canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
@@ -77,7 +179,20 @@ function Banking() {
     canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
- 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const monthOptions = [];
+  const selectOptions = [{ value: "ALL", label: "All" }];
+
+  const [selectedMonth, setSelectedMonth] = useState();
+
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected?.value || "");
+  };
+
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+  };
+
   useEffect(() => {
     if (!canReadBanking) {
       setLoader(false);
@@ -106,6 +221,20 @@ function Banking() {
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowTransactionMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // useEffect(() => {
   //   setBankingRolePermission(state.createAccount.accountList);
@@ -374,41 +503,6 @@ function Banking() {
     setFormLoading(true);
   };
 
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return transactionFilterddata;
-
-  //   const sorted = [...transactionFilterddata].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
-  //       return sortConfig.direction === 'asc'
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [transactionFilterddata, sortConfig]);
-
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
-  // const sortedData = React.useMemo(() => {
-  //   return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
-  // }, [transactionFilterddata]);
-
-  // console.log("sortedData",sortedData)
-
   useEffect(() => {
     if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
       setOriginalBills(transactionFilterddata);
@@ -459,24 +553,6 @@ function Banking() {
 
   const [dateRange, setDateRange] = useState(null);
 
-  const handleStatusFilter = (event) => {
-    const value = event.target.value;
-    setStatusfilter(value);
-
-    if (value === "All") {
-      settransactionFilterddata(originalBillsFilter);
-    } else if (value === "date") {
-      settransactionFilterddata(originalBillsFilter);
-    } else {
-      const filtered = originalBillsFilter?.filter((user) => {
-        const isCredit = user.desc === "Invoice";
-        const isDebit = user.desc !== "Invoice";
-
-        return (value === "1" && isCredit) || (value === "2" && isDebit);
-      });
-      settransactionFilterddata(filtered);
-    }
-  };
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
 
@@ -589,51 +665,52 @@ function Banking() {
                 </div>
               </div>
 
-              <div className="pr-4">
-                <Image
-                  src={Filters}
-                  roundedCircle
-                  className={`w-12 h-12 rounded-full transition-opacity duration-300 ease-in-out
-      ${canReadBanking ? "cursor-pointer opacity-100 pointer-events-auto" : "cursor-not-allowed opacity-40 pointer-events-none"}`}
-                  onClick={handleFilterd}
-                />
-              </div>
-
-              {filterStatus && (
-                <div className="mr-4 border border-[#D4D4D4] rounded-md w-30">
-                  <Form.Select
-                    onChange={(e) => handleStatusFilter(e)}
-                    value={statusfilter}
-                    aria-label="Select Price Range"
-                    id="statusselect"
-                    className="text-gray-900 font-semibold font-gilroy cursor-pointer"
-                  >
-                    <option value="All">All</option>
-                    <option value="1">Credit</option>
-                    <option value="2">Debit</option>
-                    <option value="date">Date</option>
-                  </Form.Select>
-                </div>
-              )}
-              {statusfilter === "date" && (
-                <div className="mr-4">
-                  <RangePicker
-                    value={dateRange}
-                    format="DD-MM-YYYY"
-                    onChange={handleDateRangeChange}
-                    className="h-9 rounded-md cursor-pointer"
-                  />
-                </div>
-              )}
-
-              <div className="mr-2">
-                <Button
+              <div className="mx-2">
+                <button
                   disabled={!canWriteBanking}
                   onClick={handleShowForm}
                   className="!font-gilroy text-[14px] !bg-[#1e45e1] text-white !font-semibold rounded-[8px] p-2 mb-2.5 w-[146px] whitespace-nowrap"
                 >
                   + Add
-                </Button>
+                </button>
+              </div>
+
+              <div className="relative mx-2">
+                <button
+                  disabled={!canWriteBanking}
+                  onClick={() => setShowTransactionMenu((prev) => !prev)}
+                  className="flex items-center justify-between gap-2 !font-gilroy text-[14px] !bg-[#1e45e1] 
+                  text-white !font-semibold rounded-[8px] px-3 py-2 mb-2.5 w-[170px] whitespace-nowrap"
+                >
+                  Add Transaction
+                  <ArrowDown2
+                    size="16"
+                    className={`transition-transform ${
+                      showTransactionMenu ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {showTransactionMenu && (
+                  <div
+                    ref={dropdownRef}
+                    className="absolute top-full  right-[20px] mt-1 bg-white 
+                  border border-[#E5E7EB] rounded-[8px] shadow-lg z-50 min-w-[220px] "
+                  >
+                    {transactionMenus?.map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => {
+                          setShowTransactionMenu(false);
+                        }}
+                        className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
+                         hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -646,10 +723,10 @@ function Banking() {
               <div
                 className="
     flex flex-row gap-4 mt-1 ml-1
-    overflow-x-auto overflow-y-hidden
+    overflow-x-auto 
     whitespace-nowrap
     pb-2
-    scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200
+    scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 show-scrolls
   "
               >
                 {bankking && bankking.length > 0
@@ -658,32 +735,39 @@ function Banking() {
                         <div
                           key={item.id}
                           className={` flex-shrink-0
-            w-[280px]
-            h-[200px]
+            w-fit
+            h-auto
             flex flex-col justify-between
             
             rounded-xl
-            overflow-hidden
+            
             relative
-           ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border border-gray-300 hover:shadow-md transition"} `}
+           ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border-1 border-gray-100 shadow-md hover:shadow-md transition"} `}
                         >
-                          <div className="p-4 overflow-y-auto">
+                          <div className="p-2">
                             <div className="flex justify-between items-center">
-                              <div>
-                                <p className="text-sm font-semibold font-gilroy mb-0">
-                                  Type: {item?.accountType}
-                                </p>
+                              <div className="flex justify-between items-center gap-2">
+                                <div className="bg-[#E8ECFF] rounded-full px-2 py-2">
+                                  <Bank color="#1E45E1" size="16" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold font-gilroy mb-0 text-[#222222]">
+                                    {item?.accountType}
+                                  </p>
 
-                                <p className="text-sm font-semibold text-gray-600 font-gilroy mb-0">
-                                  {item.accountHolderName ||
-                                    item.benificiary_name}
-                                </p>
+                                  <p className="text-xs font-semibold text-gray-500 font-gilroy mb-1">
+                                    Bank Account
+                                  </p>
+                                  <p className="text-sm font-semibold text-gray-600 font-gilroy mb-1">
+                                    {item.accountHolderName}
+                                  </p>
+                                </div>
                               </div>
 
                               <div
-                                className={`h-10 w-10 rounded-full border border-gray-200 flex items-center justify-center
+                                className={` flex items-center justify-center
     ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
-    ${openMenuId === item.bankingId && !item.isDeleted ? "bg-blue-100" : "bg-white"}
+    }
   `}
                                 onClick={() => {
                                   if (!item.isDeleted) {
@@ -761,55 +845,27 @@ function Banking() {
                               )}
                             </div>
 
-                            <p className="mt-2 text-lg font-medium font-gilroy">
+                            {/* <p className="mt-2 text-lg font-medium font-gilroy">
                               {item?.accountNumber ||
                                 item?.upiId ||
                                 item.creditCardNumber}
-                            </p>
-
-                            <div className="flex justify-between items-center mt-3">
+                            </p> */}
+                            <div className="flex justify-between">
                               <div>
-                                <p className="text-sm text-gray-500 font-medium font-gilroy mb-0">
-                                  {item.isDefault
-                                    ? `Default: ${
-                                        item.transactionType === "BOTH"
-                                          ? "Both A/C"
-                                          : item.transactionType + " A/C"
-                                      }`
-                                    : ""}
-                                </p>
-
-                                {item.isDefault === 0 && (
-                                  <p
-                                    className={`text-sm font-semibold font-gilroy ${
-                                      canWriteBanking
-                                        ? "text-blue-600 cursor-pointer"
-                                        : "text-gray-300 cursor-not-allowed"
-                                    }`}
-                                    onClick={() => {
-                                      if (canWriteBanking) {
-                                        handleAccountTypeChange(item);
-                                      }
-                                    }}
-                                  >
-                                    Set as default account
-                                  </p>
-                                )}
+                                <span className="text-[20px] font-semibold text-black font-gilroy">
+                                  ₹{item.accountBalance || 0}
+                                </span>
+                                <span className="flex items-center gap-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
+                                  Balance
+                                </span>
                               </div>
-
-                              <span
-                                className={`text-sm font-semibold font-gilroy ${
-                                  canWriteBanking
-                                    ? "text-gray-400 cursor-not-allowed"
-                                    : "text-gray-400 cursor-not-allowed"
-                                }`}
-                              >
-                                Change
-                              </span>
+                              <div>
+                                <BsExclamationCircle className="text-[#64748B] cursor-pointer" />
+                              </div>
                             </div>
                             <div className="flex justify-end my-1">
                               <span
-                                className={`text-sm font-semibold font-gilroy ${
+                                className={`text-xs font-semibold font-gilroy ${
                                   canWriteBanking && !item.isDeleted
                                     ? "text-blue-600 cursor-pointer"
                                     : "text-gray-400 cursor-not-allowed"
@@ -820,96 +876,119 @@ function Banking() {
                                   }
                                 }}
                               >
-                                +Add Amount
+                                + Add Amount
                               </span>
                             </div>
-                            {showAccountTypeOptions === item.bankingId && (
+
+                            <div className="flex justify-between my-3 gap-2">
                               <div
-                                className="
-                  absolute top-16 left-12
-                  bg-white
-                  border border-gray-200
-                  rounded-xl
-                  p-2
-                  w-36
-                  shadow-md
-                  z-[1000]
-                "
-                                onMouseDown={(e) => e.stopPropagation()}
+                                className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                               text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
                               >
-                                <label className="block text-sm mb-1 font-gilroy font-medium">
-                                  <input
-                                    type="radio"
-                                    name={`accountType-${item.bankingId}`}
-                                    value={1}
-                                    checked={selectedAccountType === 1}
-                                    onChange={handleAccountTypeSelection}
-                                  />{" "}
-                                  Credit A/C
-                                </label>
-
-                                <label className="block text-sm mb-1 font-gilroy font-medium">
-                                  <input
-                                    type="radio"
-                                    name={`accountType-${item.bankingId}`}
-                                    value={2}
-                                    checked={selectedAccountType === 2}
-                                    onChange={handleAccountTypeSelection}
-                                  />{" "}
-                                  Debit A/C
-                                </label>
-
-                                <label className="block text-sm mb-1 font-gilroy font-medium">
-                                  <input
-                                    type="radio"
-                                    name={`accountType-${item.bankingId}`}
-                                    value={3}
-                                    checked={selectedAccountType === 3}
-                                    onChange={handleAccountTypeSelection}
-                                  />{" "}
-                                  Both A/C
-                                </label>
+                                <Location size="12" color="#8F5C09" /> Navalur
                               </div>
-                            )}
-                          </div>
+                              <div
+                                className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
+                               text-[#1E45E1] border-1 border-[#9EB1FF2B] text-[11px] rounded-md"
+                              >
+                                UPI : imman@oksbi
+                              </div>
+                              <div
+                                className="flex gap-2 items-center  px-2 py-1 bg-[#FFFFFF]
+                               text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
+                              >
+                                Default A/C
+                              </div>
+                            </div>
 
-                          <div className="bg-[#F9FAFB] px-4 py-2 flex justify-between items-center">
-                            <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                              <img
-                                src={money}
-                                alt="money"
-                                className="h-4 w-4"
-                              />
-                              Balance
-                            </span>
-
-                            <span className="text-sm font-semibold text-black font-gilroy">
-                              ₹{item.accountBalance || 0}
-                            </span>
+                            <div className="flex justify-end my-1">
+                              <label className="text-[#4B4B4B] text-xs font-medium">
+                                Last Txn : Today, 10:30 AM
+                              </label>
+                            </div>
                           </div>
                         </div>
                       );
                     })
                   : null}
               </div>
-
+              <div className="my-2 mx-2">
+                <label className="text-lg text-black font-semibold font-gilroy">
+                  All Transactions
+                </label>
+              </div>
               <div className=" m-2">
-                <div className="flex justify-end items-center gap-2 mr-2 mb-3">
-                  <div>
-                    <Setting3
-                      // onClick={() => setOpen(!open)}
-                      className="cursor-not-allowed"
-                      size="22"
-                      color="#4B4B4B"
+                <div className="flex justify-between items-center gap-2 ">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div
+                      className={`border border-gray-300 rounded-lg w-36 ${
+                        statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
+                      }`}
+                    >
+                      <Select
+                        options={selectOptions}
+                        styles={CustomStyles}
+                        isDisabled={!canReadBanking}
+                        menuPlacement="auto"
+                        classNamePrefix="custom"
+                        onChange={(e) => handleStatusFilter(e)}
+                        value={
+                          selectOptions.find(
+                            (opt) => opt.value === statusfilter,
+                          ) || null
+                        }
+                        id="statusselect"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Select
+                        isDisabled={!canReadBanking}
+                        options={monthOptions}
+                        value={selectedMonth}
+                        onChange={handleMonthChange}
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        noOptionsMessage={() => "No options"}
+                        styles={CustomStyles}
+                      />
+                    </div>
+
+                    <div
+                      className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                    >
+                      <Filter
+                        size={16}
+                        onClick={() => {
+                          if (canReadBanking) {
+                            setIsFilterOpen(true);
+                          }
+                        }}
+                        className={`transition-opacity duration-300 ${
+                          canReadBanking
+                            ? "cursor-pointer opacity-100 pointer-events-auto"
+                            : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex  items-center gap-2">
+                    <div>
+                      <Setting3
+                        // onClick={() => setOpen(!open)}
+                        className="cursor-not-allowed"
+                        size="22"
+                        color="#4B4B4B"
+                      />
+                    </div>
+                    <PaginationList
+                      totalItems={transactionFilterddata.length}
+                      itemsPerPage={pageSize}
+                      currentPage={page}
+                      onPageChange={(p) => setPage(p)}
+                      onPageSizeChange={(size) => setPageSize(size)}
                     />
                   </div>
-                  <PaginationList
-                    totalItems={transactionFilterddata.length}
-                    itemsPerPage={pageSize}
-                    currentPage={page}
-                    onPageChange={(p) => setPage(p)}
-                    onPageSizeChange={(size) => setPageSize(size)}
-                  />
                 </div>
 
                 <div className="relative ">
@@ -923,11 +1002,13 @@ function Banking() {
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                             <tr className="h-9">
-                              <th className="w-[230px] px-2">Account Name</th>
-                              <th className="w-[230px] px-2">Date</th>
-                              <th className="w-[230px] px-2">Amount</th>
+                              <th className="w-[230px] px-2">date & Time</th>
+                              <th className="w-[230px] px-2">Type</th>
+                              <th className="w-[230px] px-2">Account / Method</th>
                               <th className="w-[230px] px-2">Description</th>
-                              <th className="w-[230px] px-2">Transaction</th>
+                              <th className="w-[230px] px-2">Source / Beneficiary</th>
+                              <th className="w-[230px] px-2">Amount</th>
+                              <th className="w-[230px] px-2">Running Balance</th>
                             </tr>
                           </thead>
 
@@ -1110,4 +1191,4 @@ function Banking() {
     </>
   );
 }
-export default withErrorBoundary(Banking);
+export default withErrorBoundary(BankingNew);
