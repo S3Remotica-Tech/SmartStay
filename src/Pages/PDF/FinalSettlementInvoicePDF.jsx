@@ -456,23 +456,24 @@ function FinalSettlementInvoicePDF() {
                   ₹ {pdfDetails?.deductionsInfo?.pendingAmount}
                 </span>
               </div>
+              {Number(pdfDetails?.invoiceInfo?.unpaidInvoiceAmount) !== 0 && (
+                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                  <span>Unpaid Invoices</span>
 
-              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                <span>Unpaid Invoices</span>
+                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                    ₹ {pdfDetails?.invoiceInfo?.unpaidInvoiceAmount}
+                  </span>
+                </div>
+              )}
+              {Number(pdfDetails?.invoiceInfo?.electricityAmount) !== 0 && (
+                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                  <span>Electricity Bill</span>
 
-                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ {pdfDetails?.invoiceInfo?.unpaidInvoiceAmount}
-                </span>
-              </div>
-
-              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                <span>Electricity Bill</span>
-
-                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ {pdfDetails?.invoiceInfo?.electricityAmount}
-                </span>
-              </div>
-
+                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                    ₹ {pdfDetails?.invoiceInfo?.electricityAmount}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between items-start pt-3 border-t border-[#E5E7EB] text-[10px] font-semibold text-[#1A1C21] gap-3">
                 <span>Total</span>
 

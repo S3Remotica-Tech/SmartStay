@@ -113,6 +113,7 @@ import AddVendorNew from "../Pages/VendorFIle/AddVendorNew";
 import VendorOverView from "../Pages/VendorFIle/VendorOverView";
 import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
 import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
+import BankingNew from "../Pages/Banking/BankingNew";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -163,6 +164,7 @@ function Sidebar() {
     "/expense/:hostelId": "expenses",
     "/expense/new/:hostelId": "expenses-new",
     "/banking/:hostelId": "banking",
+    "/banking/new/:hostelId": "banking-new",
     "/settings/:hostelId": "settingNewDesign",
   };
 
@@ -1102,6 +1104,38 @@ function Sidebar() {
                   </li>
 
                   <li
+                    className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
+                  >
+                    <OverlayTrigger
+                      trigger={tooltipTrigger}
+                      placement="right"
+                      container={document.body}
+                      delay={{ show: 200, hide: 0 }}
+                      overlay={
+                        <Tooltip className="custom-tooltip">Banking</Tooltip>
+                      }
+                    >
+                      <NavLink
+                        to={withHostel("/banking/new")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item  d-flex ${
+                            isActive || currentPage === "banking-new"
+                              ? "active"
+                              : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("banking-new")}
+                      >
+                        <Bank size="20" variant="Bold" className="-mt-1" />
+
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Banking New
+                        </span>
+                      </NavLink>
+                    </OverlayTrigger>
+                  </li>
+
+                  <li
                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
@@ -1629,6 +1663,15 @@ function Sidebar() {
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <AddExpenseNew />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/banking/new/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <BankingNew />
                       </div>
                     }
                   />

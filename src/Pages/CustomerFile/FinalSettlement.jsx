@@ -508,8 +508,8 @@ function FinalSettlement() {
           //   finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
           //   customRent;
 
-          // console.log("customRent", customRent);
-          // console.log("customRentDiff", customRentDiff);
+          console.log("customRent", customRent);
+          console.log("customRentDiff", customRentDiff);
 
           // updatedAmountToBePaid = amountTobePaid - customRentDiff;
         }
@@ -550,8 +550,11 @@ function FinalSettlement() {
       finalSettlementList?.bookingItems?.appliedAmount +
       finalSettlementList?.advanceItems?.appliedAmount;
 
-    // console.log("RedeemAmount", RedeemAmount);
+    console.log("RedeemAmount", RedeemAmount);
     if (collectFullRent) {
+      const LastMonthPaid =
+        finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
+
       const isPayableORRefundabeleRent = finalAmountSetClicked
         ? Number(customRent) +
           Number(
@@ -559,7 +562,8 @@ function FinalSettlement() {
           )
         : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
 
-      const finalPayableAmount = isPayableORRefundabeleRent - RedeemAmount;
+      const finalPayableAmount =
+        isPayableORRefundabeleRent - RedeemAmount - LastMonthPaid;
 
       setPayableORRefundabeleRent(finalPayableAmount);
     } else {
