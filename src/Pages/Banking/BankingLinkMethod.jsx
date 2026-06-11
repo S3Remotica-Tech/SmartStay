@@ -50,11 +50,9 @@ function BankingLinkMethod() {
         </button>
       </div>
 
-      {/* List */}
       <div className="space-y-4">
         {paymentMethods.map((item) => (
           <div key={item.id} className="flex items-center justify-between">
-            {/* Left */}
             <div className="flex items-center gap-3">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center
@@ -84,17 +82,16 @@ function BankingLinkMethod() {
               </div>
 
               <div>
-                <div className="text-[13px] font-medium text-[#111827]">
+                <div className="text-[16px] font-medium text-[#222222]">
                   {item.name}
                 </div>
 
-                <div className="text-[11px] text-[#6B7280]">
+                <div className="text-[14px] text-[#7B8797]">
                   {item.subTitle}
                 </div>
               </div>
             </div>
 
-            {/* Right */}
             <div className="flex items-start gap-3">
               <div className="text-right">
                 <div
@@ -121,7 +118,12 @@ function BankingLinkMethod() {
               </div>
 
               <button>
-                <More size="16" color="#6B7280" variant="Outline" />
+                <More
+                  size="16"
+                  color="#6B7280"
+                  variant="Outline"
+                  className="rotate-90"
+                />
               </button>
             </div>
           </div>
