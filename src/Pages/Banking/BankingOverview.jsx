@@ -15,21 +15,10 @@ import BankingChart from "./BankingChart";
 import BankingLinkMethod from "./BankingLinkMethod";
 import BankingLedger from "./BankingLedger";
 
-
-
 const tabs = [
   { id: "overview", label: "Overview" },
   { id: "linkedMethods", label: "Linked Methods" },
   { id: "ledger", label: "Ledger" },
-];
-
-const chartData = [
-  { month: "Jan", balance: 15500 },
-  { month: "Feb", balance: 18500 },
-  { month: "Mar", balance: 22500 },
-  { month: "Apr", balance: 20500 },
-  { month: "May", balance: 24500 },
-  { month: "Jun", balance: 28500 },
 ];
 
 const summaryCards = [
@@ -63,8 +52,6 @@ const accountDetails = [
   { label: "IFSC Code", value: "CAN45789" },
   { label: "Branch", value: "Navalur Canara" },
 ];
-
-
 
 function BankingOverview({ show, onClose }) {
   if (!show) return null;
@@ -104,9 +91,10 @@ function BankingOverview({ show, onClose }) {
         onClick={onClose}
       />
       <div
-        className={`fixed top-2 right-2 h-screen w-[1100px] bottom-2 bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
-          show ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-2 right-2 h-screen w-[1100px] bottom-2 bg-white z-50 shadow-xl 
+            rounded-md transition-transform duration-300 ease-in-out ${
+              show ? "translate-x-0" : "translate-x-full"
+            }`}
       >
         <div className="bg-white rounded-2xl ">
           <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0]">
