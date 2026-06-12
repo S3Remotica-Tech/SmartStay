@@ -631,6 +631,13 @@ function BankingNew() {
     setShowOverview(true);
   };
 
+
+const handleAddExpense = () =>{
+
+  setShowTransactionMenu(false)
+}
+
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -701,21 +708,49 @@ function BankingNew() {
                 {showTransactionMenu && (
                   <div
                     ref={dropdownRef}
-                    className="absolute top-full  right-[20px] mt-1 bg-white 
-                  border border-[#E5E7EB] rounded-[8px] shadow-lg z-50 min-w-[220px] "
+                    className="absolute top-full right-[20px] mt-1 bg-white border border-[#E5E7EB] rounded-[8px] shadow-lg z-50 min-w-[220px]"
                   >
-                    {transactionMenus?.map((item) => (
-                      <button
-                        key={item}
-                        onClick={() => {
-                          setShowTransactionMenu(false);
-                        }}
-                        className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
-                         hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                      >
-                        {item}
-                      </button>
-                    ))}
+                    <button
+                      onClick={() => handleAddExpense()}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Add Expense
+                    </button>
+
+                    <button
+                      onClick={() => setShowTransactionMenu(false)}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Tenant Payment
+                    </button>
+
+                    <button
+                      onClick={() => setShowTransactionMenu(false)}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Transfer
+                    </button>
+
+                    <button
+                      onClick={() => setShowTransactionMenu(false)}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Vendor Payment
+                    </button>
+
+                    <button
+                      onClick={() => setShowTransactionMenu(false)}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Credit Card Payment
+                    </button>
+
+                    <button
+                      onClick={() => setShowTransactionMenu(false)}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Investment
+                    </button>
                   </div>
                 )}
               </div>
