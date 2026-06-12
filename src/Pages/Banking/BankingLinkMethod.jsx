@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Wallet3, Card, More, Add } from "iconsax-react";
-import AddMethod from "./AddMethod";
+import AddMethod from "../Banking/AddMethod/AddMethod";
 
 const paymentMethods = [
   {
@@ -143,7 +143,12 @@ function BankingLinkMethod() {
         ))}
       </div>
 
-      {showAddMethodForm && <AddMethod  show={showAddMethodForm} handleClose={handleCloseAddMethod}   />}
+      {showAddMethodForm && (
+        <AddMethod
+          show={showAddMethodForm}
+          handleClose={handleCloseAddMethod}
+        />
+      )}
     </div>
   );
 }
