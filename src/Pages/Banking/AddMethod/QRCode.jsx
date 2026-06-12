@@ -137,7 +137,8 @@ function QRCode() {
   const [qrImage, setQrImage] = useState(null);
   const [qrImagePreview, setQrImagePreview] = useState("");
   const [qrImageError, setQrImageError] = useState("");
- const [hoveredImage, setHoveredImage] = useState(null);
+  const [qrImageName, setQrImageName] = useState("");
+  const [hoveredImage, setHoveredImage] = useState(null);
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
 
@@ -183,6 +184,7 @@ function QRCode() {
     if (!file) return;
 
     setQrImage(file);
+    setQrImageName(file.name);
     setQrImagePreview(URL.createObjectURL(file));
     setQrImageError("");
   };
@@ -372,9 +374,9 @@ function QRCode() {
                     hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
                   }`}
                 >
-                  <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
-                    <p className="text-white text-sm truncate max-w-[170px]">
-                      {qrImagePreview?.name}
+                  <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
+                    <p className="text-white text-sm truncate max-w-[170px] mb-0">
+                      {qrImageName}
                     </p>
 
                     <button
@@ -383,9 +385,9 @@ function QRCode() {
                         setQrImagePreview(null);
                         removeQrImage();
                       }}
-                      className="bg-white rounded-md p-1"
+                      className="bg-[#FFF2F2] rounded-md p-1"
                     >
-                      <Add size={20} color="#FF0000" className="rotate-45" />
+                      <Add size={20} color="#FF3B30" className="rotate-45" />
                     </button>
                   </div>
                 </div>
