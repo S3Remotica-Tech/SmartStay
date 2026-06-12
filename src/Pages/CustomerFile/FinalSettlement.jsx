@@ -546,11 +546,11 @@ function FinalSettlement() {
   ]);
 
   useEffect(() => {
-    const RedeemAmount =
-      finalSettlementList?.bookingItems?.appliedAmount +
-      finalSettlementList?.advanceItems?.appliedAmount;
+    // const RedeemAmount =
+    //   finalSettlementList?.bookingItems?.appliedAmount +
+    //   finalSettlementList?.advanceItems?.appliedAmount;
 
-    console.log("RedeemAmount", RedeemAmount);
+    // console.log("RedeemAmount", RedeemAmount);
     if (collectFullRent) {
       const LastMonthPaid =
         finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
@@ -562,8 +562,7 @@ function FinalSettlement() {
           )
         : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
 
-      const finalPayableAmount =
-        isPayableORRefundabeleRent - RedeemAmount - LastMonthPaid;
+      const finalPayableAmount = isPayableORRefundabeleRent - LastMonthPaid;
 
       setPayableORRefundabeleRent(finalPayableAmount);
     } else {
