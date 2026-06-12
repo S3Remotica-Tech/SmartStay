@@ -427,6 +427,24 @@ function FinalSettlementInvoicePDF() {
             </div>
           )}
 
+          {/* Wallet */}
+
+          <div className="py-3 border-b border-[#E5E7EB]">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                  Wallet
+                </h3>
+              </div>
+
+              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                ₹ 00.00
+                {/* {pdfDetails?.currentMonthRentInfo?.currentMonthPayableAmount ||
+                  0} */}
+              </p>
+            </div>
+          </div>
+
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
               <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">

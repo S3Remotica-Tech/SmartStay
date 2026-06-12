@@ -13,10 +13,14 @@ import {
   MessageQuestion,
   Edit2,
   ArrowRight,
+  InfoCircle,
+  ArrowUp2,
+  ArrowDown2,
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "./PgLayoutView";
+
 const reasonOptions = [
   { value: "maintenance", label: "Maintenance" },
   { value: "others", label: "Others" },
@@ -615,6 +619,34 @@ function AddTenantBookingCheckin({
         label: `${item.holderName} - ${labelMap[item.type] || ""}`,
       }))
     : [];
+
+  const [collectFullRent, setCollectFullRent] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [oneTimePayments, setOneTimePayments] = useState([]);
+  const handleCheckboxChange = (e) => {
+    setCollectFullRent(e.target.checked);
+  };
+
+  const handleAccordionToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleAdd = () => {
+    console.log("Add clicked");
+  };
+
+  const handleAddOneTimePayment = () => {
+    setOneTimePayments([
+      ...oneTimePayments,
+      {
+        reason: "",
+        reason_name: "",
+        customReason: "",
+        amount: "",
+        showInput: false,
+      },
+    ]);
+  };
 
   // console.log(
   //   "state?.UsersList?.draftTenantDetails",
@@ -1483,6 +1515,189 @@ function AddTenantBookingCheckin({
                 onChange={handleRentAmountChange}
                 className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
               />
+            </div>
+          </div>
+
+          <div className="w-full max-w-[680px] bg-white">
+            <div className="flex items-center gap-2 px-1 py-3">
+              <input
+                type="checkbox"
+                checked={collectFullRent}
+                onChange={handleCheckboxChange}
+                className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+              />
+
+              <label className="text-[15px] text-[#222222] font-medium flex items-center gap-2">
+                Do you want to collect Full Rent for current month?
+                <InfoCircle
+                  size="16"
+                  color="#9CA3AF"
+                  variant="Linear"
+                  className="cursor-pointer"
+                />
+              </label>
+            </div>
+
+            <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
+              <div
+                onClick={handleAccordionToggle}
+                className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
+              >
+                <h3 className="text-[14px] font-medium text-[#222222]">
+                  Add Onetime Payment
+                </h3>
+
+                {isOpen ? (
+                  <ArrowUp2 size="20" color="#4B5563" variant="Linear" />
+                ) : (
+                  <ArrowDown2 size="20" color="#4B5563" variant="Linear" />
+                )}
+              </div>
+
+              <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
+                {oneTimePayments.map((item, index) => {
+                  const isMaintenanceSelected = fields.some(
+                    (field) => field.reason === "maintenance",
+                  );
+
+                  const filteredOptions = reasonOptions.map((opt) => {
+                    if (opt.value === "maintenance") {
+                      return {
+                        ...opt,
+                        isDisabled:
+                          isMaintenanceSelected &&
+                          item.reason !== "maintenance",
+                      };
+                    }
+                    return opt;
+                  });
+
+                  return (
+                    <div className="row px-4 mb-3" key={index}>
+                      <div className="col-md-6">
+                        {!item.showInput ? (
+                          <Select
+                            menuPlacement="top"
+                            // menuPosition="fixed"
+                            options={filteredOptions}
+                            value={
+                              filteredOptions.find(
+                                (opt) => opt.value === item.reason_name,
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              const selectedValue = selectedOption.value;
+
+                              if (selectedValue === "others") {
+                                handleInputChangeOneTime(
+                                  index,
+                                  "reason",
+                                  "others",
+                                );
+                              } else {
+                                handleInputChangeOneTime(
+                                  index,
+                                  "reason",
+                                  selectedValue,
+                                );
+                              }
+                            }}
+                            isDisabled={item.reason === "maintenance"}
+                            styles={CustomStyles}
+                          />
+                        ) : (
+                          <>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter custom reason"
+                              value={item.customReason}
+                              onChange={(e) =>
+                                handleInputChangeOneTime(
+                                  index,
+                                  "customReason",
+                                  e.target.value,
+                                )
+                              }
+                              style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                                border: "1px solid #D9D9D9",
+                                height: 45,
+                                borderRadius: 8,
+                              }}
+                            />
+                          </>
+                        )}
+                        {errors[index]?.reason && (
+                          <ErrorMessage
+                            message={errors[index]?.reason}
+                            type="error"
+                          />
+                        )}
+                      </div>
+
+                      <div className="col-md-5 relative">
+                        <input
+                          type="text"
+                          placeholder="Enter amount"
+                          value={item.amount}
+                          //                                  onKeyDown={(e) => {
+                          // if (e.key === "." || e.key === "e" || e.key === "-") {
+                          //   e.preventDefault();
+                          // }
+                          // }}
+                          onChange={(e) =>
+                            handleInputChangeOneTime(
+                              index,
+                              "amount",
+                              e.target.value,
+                            )
+                          }
+                          className="form-control"
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 45,
+                            borderRadius: 8,
+                          }}
+                        />
+                        {errors[index]?.amount && (
+                          <ErrorMessage
+                            message={errors[index]?.amount}
+                            type="error"
+                          />
+                        )}
+                        <CloseCircle
+                          variant="Bold"
+                          size="20"
+                          className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                          onClick={() => handleRemoveFieldOneTime(index)}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {isOpen && (
+                <div className="p-4 bg-[#F7FAFF]">
+                  <button
+                    onClick={handleAddOneTimePayment}
+                    className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                  >
+                    <Add size="16" color="#4F46E5" variant="Linear" />
+                    Add
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
