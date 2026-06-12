@@ -1,9 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Filters from "../../Assets/Images/Filters.svg";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import React, { useState, useEffect, useRef } from "react";
-import Image from "react-bootstrap/Image";
 import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Table } from "react-bootstrap";
@@ -34,6 +30,10 @@ import SelfTransfer from "./SelfTransfer";
 import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
 import BankingOverview from "./BankingOverview";
+import { useNavigate } from "react-router-dom";
+import SettlementPayment from "../VendorFIle/SettlementPayment";
+import TenantPayment from "./TenantPayment";
+import CreditCardPayment from "./CreditCardPayment";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -127,10 +127,12 @@ const CustomStyles = {
 function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { RangePicker } = DatePicker;
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
+
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -162,17 +164,12 @@ function BankingNew() {
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
   const [showOverview, setShowOverview] = useState(false);
+  const [showSettlementForm, setShowSettlementForm] = useState(false);
+  const [showTenantPaymentForm, setShowTenantPaymentForm] = useState(false);
+  const [showCreditCardForm, seShowCreditCardForm] = useState(false);
 
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const dropdownRef = useRef(null);
-  const transactionMenus = [
-    "Add Expense",
-    "Tenant Payment",
-    "Transfer",
-    "Vendor Payment",
-    "Credit Card Payment",
-    "Investment",
-  ];
 
   const {
     canWriteModule: canWriteBanking,
@@ -631,6 +628,41 @@ function BankingNew() {
     setShowOverview(true);
   };
 
+  const handleAddExpense = () => {
+    navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+      state: {
+        isBankingWayTrigger: true,
+      },
+    });
+    setShowTransactionMenu(false);
+  };
+
+  const handleVendorPayment = () => {
+    setShowSettlementForm(true);
+    setShowTransactionMenu(false);
+  };
+
+  const handleCloseSettlement = () => {
+    setShowSettlementForm(false);
+  };
+
+  const handleTenantPayment = () => {
+    setShowTransactionMenu(false);
+    setShowTenantPaymentForm(true);
+  };
+
+  const handleClosePayment = () => {
+    setShowTenantPaymentForm(false);
+  };
+
+  const handleCreditPayment = () => {
+    seShowCreditCardForm(true);
+  };
+
+  const handleCloseCreditPayment = () => {
+    seShowCreditCardForm(false);
+  };
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -701,21 +733,43 @@ function BankingNew() {
                 {showTransactionMenu && (
                   <div
                     ref={dropdownRef}
-                    className="absolute top-full  right-[20px] mt-1 bg-white 
-                  border border-[#E5E7EB] rounded-[8px] shadow-lg z-50 min-w-[220px] "
+                    className="absolute top-full right-[20px] mt-1 bg-white border border-[#E5E7EB] 
+                    rounded-[8px] shadow-lg  min-w-[220px]"
                   >
-                    {transactionMenus?.map((item) => (
-                      <button
-                        key={item}
-                        onClick={() => {
-                          setShowTransactionMenu(false);
-                        }}
-                        className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
-                         hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                      >
-                        {item}
-                      </button>
-                    ))}
+                    <button
+                      onClick={() => handleAddExpense()}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Add Expense
+                    </button>
+
+                    <button
+                      onClick={() => handleTenantPayment()}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Tenant Payment
+                    </button>
+
+                    <button
+                      onClick={() => handleVendorPayment()}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Vendor Payment
+                    </button>
+
+                    <button
+                      onClick={() => handleCreditPayment()}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Credit Card Payment
+                    </button>
+
+                    <button
+                      onClick={() => setShowTransactionMenu(false)}
+                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      Investment
+                    </button>
                   </div>
                 )}
               </div>
@@ -1013,7 +1067,7 @@ function BankingNew() {
                         className="overflow-auto relative  h-[calc(100vh-140px)]  rounded-xl show-scrolls"
                       >
                         <table className=" w-full font-gilroy">
-                          <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
                             <tr className="h-9">
                               <th className="w-[230px] px-2">date & Time</th>
                               <th className="w-[230px] px-2">Type</th>
@@ -1195,6 +1249,28 @@ function BankingNew() {
               </div>
             )}
           </Modal>
+
+          {showSettlementForm && (
+            <SettlementPayment
+              show={showSettlementForm}
+              handleClose={handleCloseSettlement}
+              isBanking={true}
+            />
+          )}
+
+          {showTenantPaymentForm && (
+            <TenantPayment
+              show={showTenantPaymentForm}
+              handleClose={handleClosePayment}
+            />
+          )}
+
+          {showCreditCardForm && (
+            <CreditCardPayment
+              show={showCreditCardForm}
+              handleClose={handleCloseCreditPayment}
+            />
+          )}
 
           {showOverview && (
             <BankingOverview

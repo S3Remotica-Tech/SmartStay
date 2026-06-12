@@ -537,15 +537,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     ) {
       setFormLoading(false);
       setLoading(false);
-      if (props?.setShowForm) props.setShowForm(false);
-      if (props?.OnShowTable) props.OnShowTable(true);
-
-      if (props.edit === "Edit") {
-        if (props?.setRoomDetail) props.setRoomDetail(true);
-        if (props?.OnShowTable) props.OnShowTable(true);
-      } else {
-        if (props?.setRoomDetail) props.setRoomDetail(false);
-      }
     }
   }, [
     state.UsersList?.statusCodeForAddUser,
@@ -695,17 +686,17 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [selectedDate]);
 
-  const handleCloseBacktoCheckin = () => {
-    if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
-    if (props?.handleCloseBed) props.handleCloseBed();
-  };
+  // const handleCloseBacktoCheckin = () => {
+  //   if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
+  //   if (props?.handleCloseBed) props.handleCloseBed();
+  // };
 
   // const [RequestDate, setRequestDate] = useState(null)
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
       setFormLoading(false);
-      handleCloseBacktoCheckin();
+      // handleCloseBacktoCheckin();
       dispatch({
         type: "USERLIST",
         payload: {
@@ -1056,10 +1047,17 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     </div>
                     <div className="">
                       <button
+                        disabled={isAdvanceRefused}
                         onClick={handleAddField}
-                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF] text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
+                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
+                        disabled:bg-gray-100 disabled:text-gray-500
+                        disabled:cursor-not-allowed 
+                        text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
                       >
-                        <AddCircle color="#1E45E1" size="14" />
+                        <AddCircle
+                          color={`${isAdvanceRefused ? "#4a4948" : "#1E45E1"}`}
+                          size="14"
+                        />
                         Add
                       </button>
                     </div>

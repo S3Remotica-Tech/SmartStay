@@ -27,14 +27,10 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
         className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
           show ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
-        onClick={onClose}
+        // onClick={onClose}
       />
 
-      <div
-        className={`fixed top-2 right-2 h-screen w-[1100px] bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
-          show ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
+      <div className="fixed top-2 right-2 bottom-2 w-[1100px]  bg-white z-50 rounded-md flex flex-col">
         <div className="px-6 py-2">
           <div className="flex items-start justify-between">
             <div>

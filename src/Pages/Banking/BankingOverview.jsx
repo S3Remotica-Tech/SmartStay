@@ -88,7 +88,7 @@ function BankingOverview({ show, onClose }) {
         className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
           show ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
-        onClick={onClose}
+        // onClick={onClose}
       />
       <div className="fixed top-2 right-2 bottom-2 w-[1100px]  bg-white z-50 rounded-md flex flex-col">
         <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0] shrink-0">

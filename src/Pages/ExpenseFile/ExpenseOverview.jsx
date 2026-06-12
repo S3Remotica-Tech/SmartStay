@@ -15,38 +15,22 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpensePaymentHistory from "./ExpensePaymentHistory";
 import ExpenseItems from "./ExpenseItems";
 
-function ExpenseOverview({ show, onClose, handleShowSettlement}) {
+function ExpenseOverview({ show, onClose, handleShowSettlement }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("payments");
 
-
-
-
-
-
-
-
-
-
-
-
-  
   return (
     <div className="font-gilroy">
       <div
         className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
           show ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
-        onClick={onClose}
+        // onClick={onClose}
       />
 
-      <div
-        className={`fixed top-2 right-2 h-screen w-[1200px] bg-white z-50 shadow-xl rounded-md transition-transform duration-300 ease-in-out ${
-          show ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
+      <div className="fixed top-2 right-2 bottom-2 w-[1100px]  bg-white z-50 rounded-md flex flex-col">
         <div className="px-6 py-2">
           <div className="flex items-start justify-between">
             <div className="mt-3">
@@ -151,7 +135,7 @@ function ExpenseOverview({ show, onClose, handleShowSettlement}) {
             </div>
             {activeTab === "payments" && (
               <button
-               onClick={() => handleShowSettlement(true)}
+                onClick={() => handleShowSettlement(true)}
                 className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
               >
                 + Settle Payment

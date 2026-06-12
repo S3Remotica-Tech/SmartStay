@@ -1,13 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
-import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
-import { InputGroup, FormControl } from "react-bootstrap";
 import { CloseCircle, Add, More } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -310,7 +303,7 @@ function AddExpenseNew() {
   const [amount, setAmount] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
   const [purchaseDateError, setPurchaseDateError] = useState("");
-  const [linkVendor, setLinkVendor] = useState(false);
+  const [linkVendor, setLinkVendor] = useState(true);
   const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [description, setDescription] = useState("");
@@ -320,6 +313,18 @@ function AddExpenseNew() {
   const [subCategoryError, setSubCategoryError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [discountType, setDiscountType] = useState("amount");
+  const [vendor, setVendor] = useState(null);
+  const [vendorError, setVendorError] = useState("");
+
+  const [paymentStatus, setPaymentStatus] = useState("Fully Paid");
+  const [paymentStatusError, setPaymentStatusError] = useState("");
+
+  const [paidAmount, setPaidAmount] = useState("");
+  const [paidAmountError, setPaidAmountError] = useState("");
+
+  const [balanceAmount, setBalanceAmount] = useState("");
+  const [balanceAmountError, setBalanceAmountError] = useState("");
+
   const [expenseItems, setExpenseItems] = useState([
     {
       itemName: "LED Tube Light",
@@ -335,7 +340,7 @@ function AddExpenseNew() {
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
-  const currentItem = location.state?.currentItem || "";
+  const { isBankingWayTrigger, currentItem } = location?.state;
 
   const expenseTitleRef = useRef(null);
   const categoryRef = useRef(null);
@@ -345,8 +350,44 @@ function AddExpenseNew() {
   const paidThroughRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
+  const handleVendorChange = (selected) => {
+    setVendor(selected);
+
+    if (selected) {
+      setVendorError("");
+    }
+  };
+
+  const handlePaidAmountChange = (e) => {
+    const value = e.target.value;
+
+    setPaidAmount(value);
+
+    if (!value.trim()) {
+      setPaidAmountError("Paid amount is required");
+    } else {
+      setPaidAmountError("");
+    }
+  };
+
+  const handleBalanceAmountChange = (e) => {
+    const value = e.target.value;
+
+    setBalanceAmount(value);
+
+    if (!value.trim()) {
+      setBalanceAmountError("Balance amount is required");
+    } else {
+      setBalanceAmountError("");
+    }
+  };
+
   const handleClose = () => {
-    navigate(`/expense/new/${state.login.selectedHostel_Id}`);
+    if (isBankingWayTrigger) {
+      navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/expense/new/${state.login.selectedHostel_Id}`);
+    }
   };
 
   const handleExpenseTitle = (e) => {
@@ -357,11 +398,6 @@ function AddExpenseNew() {
   const handleAmount = (e) => {
     setAmount(e.target.value);
     setAmountError("");
-  };
-
-  const handleExpenseDate = (e) => {
-    setExpenseDate(e.target.value);
-    setExpenseDateError("");
   };
 
   const handleCategory = (e) => {
@@ -426,32 +462,52 @@ function AddExpenseNew() {
     let isValid = true;
 
     if (!expenseTitle.trim()) {
-      setExpenseTitleError("Expense title is required");
+      setExpenseTitleError("Please Enter Expense Title ");
       isValid = false;
     }
 
     if (!category) {
-      setCategoryError("Category is required");
+      setCategoryError("Please Select Category");
       isValid = false;
     }
 
     if (!subCategory) {
-      setSubCategoryError("Sub category is required");
+      setSubCategoryError("Please Select Sub Category ");
       isValid = false;
     }
 
     if (!amount) {
-      setAmountError("Amount is required");
+      setAmountError("Please Enter Amount ");
       isValid = false;
     }
 
-    if (!expenseDate) {
-      setExpenseDateError("Expense date is required");
+    if (!purchaseDate) {
+      setPurchaseDateError("Please Select Expense Date ");
       isValid = false;
     }
 
-    if (!paidThrough) {
-      setPaidThroughError("Select Paid Through");
+    // if (!paidThrough) {
+    //   setPaidThroughError("Select Paid Through");
+    //   isValid = false;
+    // }
+
+    if (!vendor) {
+      setVendorError("Please select a vendor");
+      isValid = false;
+    }
+
+    if (!paymentStatus) {
+      setPaymentStatusError("Please select payment status");
+      isValid = false;
+    }
+
+    if (!paidAmount.trim()) {
+      setPaidAmountError("Paid amount is required");
+      isValid = false;
+    }
+
+    if (!balanceAmount.trim()) {
+      setBalanceAmountError("Balance amount is required");
       isValid = false;
     }
 
@@ -471,7 +527,7 @@ function AddExpenseNew() {
       category,
       subCategory,
       amount,
-      expenseDate,
+      purchaseDate,
       linkVendor,
       paidThrough,
       paymentMethod,
@@ -589,7 +645,7 @@ function AddExpenseNew() {
                   value={amount}
                   onChange={handleAmount}
                   type="text"
-                  placeholder="Enter Proprietor / Contact Person Name"
+                  placeholder="Enter Amount"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     amount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
@@ -670,7 +726,7 @@ function AddExpenseNew() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
+          {/* <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
             <div className="col-span-8 mt-4">
               <label className="block mb-2 text-[13px] text-[#222222] font-medium">
                 Paid Through
@@ -692,45 +748,154 @@ function AddExpenseNew() {
                 <ErrorMessage message={paidThroughError} type="error" />
               )}
             </div>
-          </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-            <div className="col-span-8">
-              <label className="block mb-2 text-[13px] text-[#222222] font-medium">
-                Payment Method
-                <span className="text-red-500 ml-1">*</span>
-              </label>
+          </div> */}
+          {linkVendor && (
+            <div className="mb-2">
+              <div className="grid grid-cols-12 gap-x-4 gap-y-3 mb-2">
+                <div className="lg:col-span-8">
+                  <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                    Vendor
+                    <span className="text-red-600 text-[20px]">*</span>
+                  </label>
 
-              <Select
-                value={paymentMethod}
-                onChange={(selected) => {
-                  setPaymentMethod(selected);
-                  setPaymentMethodError("");
-                }}
-                options={paymentMethodOptions}
-                placeholder="Select"
-                styles={CustomStyles}
-              />
+                  <Select
+                    // options={vendorCategoryOptions}
+                    value={vendor}
+                    onChange={handleVendorChange}
+                    placeholder="Select"
+                    classNamePrefix="custom"
+                    styles={CustomStyles}
+                  />
+                  {vendorError && (
+                    <ErrorMessage message={vendorError} type="error" />
+                  )}
+                </div>
+              </div>
 
-              {paymentMethodError && (
-                <ErrorMessage message={paymentMethodError} type="error" />
-              )}
+              <div className="mb-2">
+                <label className="text-[13px] font-medium text-[#1A1C21]">
+                  Payment Status <span className="text-red-500">*</span>
+                </label>
+
+                <div className="flex gap-6 mt-3">
+                  {["Fully Paid", "Partially Paid", "Credit/Pending"].map(
+                    (item) => (
+                      <label
+                        key={item}
+                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                      >
+                        <input
+                          type="radio"
+                          name="paymentType"
+                          value={item}
+                          checked={paymentStatus === item}
+                          onChange={(e) => {
+                            setPaymentStatus(e.target.value);
+                            setPaymentStatusError("");
+                          }}
+                          className="accent-blue-600"
+                        />
+                        {item}
+                      </label>
+                    ),
+                  )}
+                </div>
+
+                {paymentStatusError && (
+                  <ErrorMessage message={paymentStatusError} type="error" />
+                )}
+              </div>
+              <div className="grid grid-cols-12 gap-x-4 gap-y-3">
+                <div className="lg:col-span-4">
+                  <div>
+                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                      Paid Amount (INR){" "}
+                      <span className="text-red-500 text-[20px]">*</span>
+                    </label>
+
+                    <input
+                      type="text"
+                      value={paidAmount}
+                      onChange={handlePaidAmountChange}
+                      placeholder="Enter Paid Amount"
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                        paidAmount ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                    />
+
+                    {paidAmountError && (
+                      <ErrorMessage message={paidAmountError} type="error" />
+                    )}
+                  </div>
+                </div>
+                <div className="lg:col-span-4">
+                  <div>
+                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                      Balance Amount (Outstanding){" "}
+                      <span className="text-transparent select-none text-[20px]">
+                        *
+                      </span>
+                    </label>
+
+                    <input
+                      type="text"
+                      value={balanceAmount}
+                      onChange={handleBalanceAmountChange}
+                      placeholder="Enter Balance Amount"
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                        balanceAmount ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                    />
+
+                    {balanceAmountError && (
+                      <ErrorMessage message={balanceAmountError} type="error" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div>
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
+              <div className="col-span-8">
+                <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                  Payment Method
+                  <span className="text-red-500 ml-1">*</span>
+                </label>
+
+                <Select
+                  value={paymentMethod}
+                  onChange={(selected) => {
+                    setPaymentMethod(selected);
+                    setPaymentMethodError("");
+                  }}
+                  options={paymentMethodOptions}
+                  placeholder="Select Payment Method"
+                  styles={CustomStyles}
+                />
+
+                {paymentMethodError && (
+                  <ErrorMessage message={paymentMethodError} type="error" />
+                )}
+              </div>
+            </div>
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
+              <div className="col-span-8">
+                <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                  Description
+                </label>
+
+                <textarea
+                  value={description}
+                  onChange={handleDescription}
+                  rows={4}
+                  placeholder="Ex : Wifi Bill Paid for May"
+                  className="w-full rounded-lg border border-[#D9D9D9] px-3 py-3 text-[14px] text-[#4B4B4B] resize-none focus:outline-none focus:border-[#1E45E1]"
+                />
+              </div>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-            <div className="col-span-8">
-              <label className="block mb-2 text-[13px] text-[#222222] font-medium">
-                Description
-              </label>
 
-              <textarea
-                value={description}
-                onChange={handleDescription}
-                rows={4}
-                placeholder="Ex : Wifi Bill Paid for May"
-                className="w-full rounded-lg border border-[#D9D9D9] px-3 py-3 text-[14px] text-[#4B4B4B] resize-none focus:outline-none focus:border-[#1E45E1]"
-              />
-            </div>
-          </div>
           <div className="mt-8">
             <h5 className="flex items-center text-[18px] font-semibold text-[#222222] mb-1">
               <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>

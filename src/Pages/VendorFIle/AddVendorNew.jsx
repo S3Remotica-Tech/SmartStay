@@ -39,7 +39,7 @@ const CustomStyles = {
   singleValue: (base, state) => ({
     ...base,
     color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
+    fontWeight: 600,
   }),
 
   placeholder: (base, state) => ({
@@ -146,7 +146,7 @@ const CustomStylesCode = {
   singleValue: (base, state) => ({
     ...base,
     color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
+    fontWeight: 600,
   }),
 
   placeholder: (base, state) => ({

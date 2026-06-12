@@ -1,5 +1,8 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Wallet3, Card, More, Add } from "iconsax-react";
+import AddMethod from "../Banking/AddMethod/AddMethod";
 
 const paymentMethods = [
   {
@@ -32,16 +35,26 @@ const paymentMethods = [
     icon: "credit",
   },
 ];
+
 function BankingLinkMethod() {
+  const [showAddMethodForm, setShowAddMethodForm] = useState(false);
+
+  const handleAddMethod = () => {
+    setShowAddMethodForm(true);
+  };
+  const handleCloseAddMethod = () => {
+    setShowAddMethodForm(false);
+  };
+
   return (
     <div className="px-4 py-4">
-      {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="text-[16px] font-semibold text-[#111827]">
           Linked Payment methods
         </div>
 
         <button
+          onClick={() => handleAddMethod()}
           className="flex items-center gap-1 bg-[#1E45E1] text-white
                      rounded-md px-3 py-1.5 text-[12px] font-medium"
         >
@@ -129,6 +142,13 @@ function BankingLinkMethod() {
           </div>
         ))}
       </div>
+
+      {showAddMethodForm && (
+        <AddMethod
+          show={showAddMethodForm}
+          handleClose={handleCloseAddMethod}
+        />
+      )}
     </div>
   );
 }
