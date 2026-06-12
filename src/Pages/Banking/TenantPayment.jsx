@@ -206,19 +206,19 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function SettlementPayment({ show, handleClose }) {
+function TenantPayment({ show, handleClose }) {
   if (!show) return null;
+  const [tenant, setTenant] = useState(null);
+  const [tenantError, setTenantError] = useState("");
 
-  const [selectedVendor, setSelectedVendor] = useState(null);
-  const [paidAmount, setPaidAmount] = useState("");
-  const [paidDate, setPaidDate] = useState(null);
+  const [amountReceived, setAmountReceived] = useState(4500);
+  const [amountReceivedError, setAmountReceivedError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentDate, setPaymentDate] = useState(null);
+  const [paymentDateError, setPaymentDateError] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [description, setDescription] = useState("");
 
-  const [vendorError, setVendorError] = useState("");
-  const [paidAmountError, setPaidAmountError] = useState("");
-  const [paidDateError, setPaidDateError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
   const [attachments, setAttachments] = useState([]);
@@ -229,6 +229,40 @@ function SettlementPayment({ show, handleClose }) {
   });
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [invoiceDetails, setInvoiceDetails] = useState([
+    {
+      id: 1,
+      type: "Rental",
+      invoiceNo: "#INV-987",
+      dueDate: "11 Dec 2025",
+      invoiceDue: 4500,
+      amountToApply: 4500,
+    },
+    {
+      id: 2,
+      type: "Advance",
+      invoiceNo: "#ADV-287",
+      dueDate: "12 Dec 2025",
+      invoiceDue: 5000,
+      amountToApply: "",
+    },
+  ]);
+
+  const handleAmountApplyChange = (index, value) => {
+    const updatedList = [...invoiceDetails];
+
+    updatedList[index].amountToApply = value;
+
+    setInvoiceDetails(updatedList);
+  };
+
+  const amountUsedForPayments = invoiceDetails.reduce(
+    (sum, item) => sum + (Number(item.amountToApply) || 0),
+    0,
+  );
+
+  const balance = amountReceived - amountUsedForPayments;
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -243,27 +277,27 @@ function SettlementPayment({ show, handleClose }) {
     e.target.value = "";
   };
 
+  const handleTenantChange = (selected) => {
+    setTenant(selected);
+    setTenantError("");
+  };
+
+  const handleAmountReceivedChange = (e) => {
+    setAmountReceived(e.target.value);
+    setAmountReceivedError("");
+  };
+
+  const handlePaymentDateChange = (date) => {
+    setPaymentDate(date);
+    setPaymentDateError("");
+  };
+
   const handleRemoveFile = (index) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleVendorChange = (selected) => {
-    setSelectedVendor(selected);
-    setVendorError("");
-  };
-
-  const handlePaidAmountChange = (e) => {
-    setPaidAmount(e.target.value);
-    setPaidAmountError("");
-  };
-
-  const handleDateChange = (date) => {
-    setPaidDate(date);
-    setPaidDateError("");
-  };
-
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
+  const handlePaymentMethodChange = (selected) => {
+    setPaymentMethod(selected);
     setPaymentMethodError("");
   };
 
@@ -278,23 +312,23 @@ function SettlementPayment({ show, handleClose }) {
   const validateForm = () => {
     let isValid = true;
 
-    if (!selectedVendor) {
-      setVendorError("Vendor is required");
+    if (!tenant) {
+      setTenantError("Tenant is required");
       isValid = false;
     }
 
-    if (!paidAmount) {
-      setPaidAmountError("Paid amount is required");
+    if (!amountReceived) {
+      setAmountReceivedError("Amount Received is required");
       isValid = false;
     }
 
-    if (!purchaseDate) {
-      setPurchaseDateError("Paid date is required");
+    if (!paymentDate) {
+      setPaymentDateError("Date is required");
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Payment method is required");
+      setPaymentMethodError("Payment Method is required");
       isValid = false;
     }
 
@@ -303,17 +337,6 @@ function SettlementPayment({ show, handleClose }) {
 
   const handleSubmit = () => {
     if (!validateForm()) return;
-
-    const payload = {
-      selectedVendor,
-      paidAmount,
-      purchaseDate,
-      paymentMethod,
-      transactionId,
-      description,
-    };
-
-    console.log(payload);
   };
 
   return (
@@ -322,14 +345,14 @@ function SettlementPayment({ show, handleClose }) {
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col"
+        className="fixed inset-y-2 right-2 w-fit bg-white rounded-lg shadow-xl z-50 flex flex-col"
       >
         <div
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
           rounded-xl  bg-white px-4 py-3"
         >
-          <h1 className="text-[20px] font-semibold text-[#222222] mb-0">
-            Settle Payment
+          <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
+            Tenant Payment
           </h1>
           <Add
             size={24}
@@ -339,91 +362,62 @@ function SettlementPayment({ show, handleClose }) {
           />
         </div>
         <div className="flex-1 show-scrolls overflow-y-auto">
-          <div className="grid grid-cols-1  mt-1 px-4 py-2">
-            <div className="mb-2">
+          <div className="grid grid-cols-1 mx-3">
+            <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Vendor/Business Name{" "}
-                <span className="text-red-600 text-[20px]">*</span>
+                Tenant <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
                 <Select
-                  value={selectedVendor}
-                  onChange={handleVendorChange}
-                  options={vendorOptions}
-                  placeholder="Select Vendor"
+                  value={tenant}
+                  onChange={handleTenantChange}
+                  //   options={}
+                  placeholder="Select Tenant"
                   className="text-sm"
                   styles={CustomStyles}
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-500 mb-1">
-                Note : Max 50 Characters
-              </p>
 
-              {vendorError && (
-                <ErrorMessage message={vendorError} type="error" />
+              {tenantError && (
+                <ErrorMessage message={tenantError} type="error" />
               )}
             </div>
-
-            <div className="mb-2">
+          </div>
+          <div className="grid grid-cols-2 gap-2 mx-3 ">
+            <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 flex justify-between">
                 <span>
-                  {" "}
-                  Paid Amount (INR){" "}
+                  Amount Received (INR){" "}
                   <span className="text-red-500 text-[20px]">*</span>
                 </span>
-                <p className="mt-1 text-right text-xs text-gray-600 mb-0">
-                  Due Amount{" "}
-                  <span className="font-semibold  text-base text-[#E27625]">
-                    ₹ 2,000.00
-                  </span>
-                </p>
               </label>
               <div className="relative">
                 <input
                   type="number"
-                  value={paidAmount}
-                  onChange={handlePaidAmountChange}
+                  value={amountReceived}
+                  onChange={handleAmountReceivedChange}
+                  placeholder="Enter Amount"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    paidAmount ? "font-semibold" : "font-medium"
+                    amountReceived ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
-                <button className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
-                  Set
-                </button>
+
+                {amountReceivedError && (
+                  <ErrorMessage message={amountReceivedError} type="error" />
+                )}
               </div>
-
-              {paidAmountError && (
-                <ErrorMessage message={paidAmountError} type="error" />
-              )}
             </div>
-
-            <div className="mb-2">
+            <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Balance payable If (Outstanding){" "}
-                <span className="text-red-500 text-[20px]">*</span>
-              </label>
-              <input
-                type="text"
-                value="₹0.00"
-                readOnly
-                className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700"
-              />
-            </div>
-
-            <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Paid Date <span className="text-red-500">*</span>
+                Date <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <DatePicker
-                  selected={paidDate}
-                  onChange={handleDateChange}
+                  selected={paymentDate}
+                  onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
-                  className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
-                  ${
-                    paidDateError ? "border-red-500" : "border-[#D9D9D9]"
-                  } focus:outline-none`}
+                  className="w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 pr-10 focus:outline-none"
                 />
 
                 <Calendar
@@ -432,6 +426,9 @@ function SettlementPayment({ show, handleClose }) {
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
+              {paymentDateError && (
+                <ErrorMessage message={paymentDateError} type="error" />
+              )}
             </div>
 
             <div className="mb-2">
@@ -441,10 +438,7 @@ function SettlementPayment({ show, handleClose }) {
               </label>
               <Select
                 value={paymentMethod}
-                onChange={(selected) => {
-                  setPaymentMethod(selected);
-                  setPaymentMethodError("");
-                }}
+                onChange={handlePaymentMethodChange}
                 options={paymentOptions}
                 placeholder="Select Payment Method"
                 styles={CustomStyles}
@@ -465,10 +459,12 @@ function SettlementPayment({ show, handleClose }) {
               )}
             </div>
 
-            {/* Transaction ID */}
             <div className="mb-2 relative">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Transaction ID
+                Transaction ID{" "}
+                <span className="text-transparent select-none text-[20px]">
+                  *
+                </span>
               </label>
               <input
                 type="text"
@@ -480,8 +476,25 @@ function SettlementPayment({ show, handleClose }) {
                 } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
               />
             </div>
+          </div>
+          <div className="grid grid-cols-1 mx-3">
+            <div className="mb-1">
+              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                Notes
+              </label>
+              <textarea
+                rows={4}
+                value={description}
+                onChange={handleDescriptionChange}
+                placeholder="Describe the notes... "
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                  description ? "font-semibold" : "font-medium"
+                } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+              />
+            </div>
+          </div>
 
-            {/* Attachments */}
+          <div className="grid grid-cols-1 mx-3">
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Attachments/Proofs (If any)
@@ -605,41 +618,103 @@ function SettlementPayment({ show, handleClose }) {
                 ))}
               </div>
             )}
+          </div>
 
-            <div className="mb-2 mt-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Description
-              </label>
-              <textarea
-                rows={4}
-                value={description}
-                onChange={handleDescriptionChange}
-                placeholder="Enter the Notes/Description for this invoice "
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  description ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
-              />
+          <div className="grid grid-cols-1 mx-3">
+            <label className="text-[#222222] text-[16px] font-semibold mb-2">
+              Invoice Details
+            </label>
+            <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-[#F9FAFB] border-b border-[#E5E7EB] ">
+                    <th className="text-left px-4 py-2 text-[11px] font-semibold text-[#6B7280]">
+                      TYPE
+                    </th>
+                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                      INV NO
+                    </th>
+                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                      DUE DATE
+                    </th>
+                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                      INVOICE DUE
+                    </th>
+                    <th className="text-left px-4 py-2 text-[11px] font-semibold  text-[#6B7280]">
+                      AMOUNT TO APPLY
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {invoiceDetails.map((item, index) => (
+                    <tr key={item.id} className="border-b border-[#E5E7EB]">
+                      <td className="px-4 py-2.5 text-sm font-medium text-[#222222]">
+                        {item.type}
+                      </td>
+
+                      <td className="px-4 py-2.5">
+                        <span className="text-[#1E45E1] text-sm font-medium">
+                          {item.invoiceNo}
+                        </span>
+                      </td>
+
+                      <td className="px-4 py-2.5 text-sm text-[#6B7280]">
+                        {item.dueDate}
+                      </td>
+
+                      <td className="px-4 py-2.5 text-sm font-semibold text-[#222222]">
+                        ₹ {item.invoiceDue.toLocaleString()}
+                      </td>
+
+                      <td className="px-4 py-2.5">
+                        <input
+                          type="number"
+                          value={item.amountToApply}
+                          onChange={(e) =>
+                            handleAmountApplyChange(index, e.target.value)
+                          }
+                          className="w-[140px] h-[38px] border border-[#D9D9D9] rounded-md px-3 text-sm font-medium focus:outline-none focus:border-[#1E45E1]"
+                          placeholder="₹ 0.00"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <div className="rounded-xl bg-[#2633A0] p-4 text-white">
-              <p className="text-xs font-medium opacity-70">SUMMARY</p>
-              <p className="mt-1 text-2xl font-bold">₹ 2,000.00</p>
-              <div className="mt-3 space-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span className="opacity-80">Paid Amount</span>
-                  <span>₹ 2,000.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="opacity-80">
-                    Balance Amount (Outstanding)
-                  </span>
-                  <span>- ₹ 0.00</span>
-                </div>
+          <div className="flex justify-end mt-4 mx-3">
+            <div className="w-[330px] bg-[#F8F8F8] rounded-md p-3">
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-[#555]">Amount Received</span>
+                <span className="font-semibold">
+                  ₹ {amountReceived.toLocaleString()}
+                </span>
+              </div>
+
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-[#555]">Amount used for Payments</span>
+                <span className="font-semibold">
+                  ₹ {amountUsedForPayments.toLocaleString()}
+                </span>
+              </div>
+
+              <div className="flex justify-between text-sm">
+                <span className="text-[#555]">Balance</span>
+                <span
+                  className={`font-semibold ${
+                    balance < 0 ? "text-red-500" : "text-[#222222]"
+                  }`}
+                >
+                  ₹ {balance.toLocaleString()}
+                </span>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex justify-end gap-4 my-4 mr-4">
+        <div className="flex justify-end gap-4 m-3">
           <button
             onClick={handleClose}
             type="button"
@@ -653,7 +728,7 @@ function SettlementPayment({ show, handleClose }) {
             type="submit"
             className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
           >
-            Settle Payment <ArrowRight size="14" color="#FFFFFF" />
+            Save <ArrowRight size="14" color="#FFFFFF" />
           </button>
         </div>
       </div>
@@ -661,4 +736,4 @@ function SettlementPayment({ show, handleClose }) {
   );
 }
 
-export default SettlementPayment;
+export default TenantPayment;

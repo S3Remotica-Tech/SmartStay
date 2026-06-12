@@ -340,7 +340,7 @@ function AddExpenseNew() {
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
-  const currentItem = location.state?.currentItem || "";
+  const { isBankingWayTrigger, currentItem } = location?.state;
 
   const expenseTitleRef = useRef(null);
   const categoryRef = useRef(null);
@@ -383,7 +383,11 @@ function AddExpenseNew() {
   };
 
   const handleClose = () => {
-    navigate(`/expense/new/${state.login.selectedHostel_Id}`);
+    if (isBankingWayTrigger) {
+      navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/expense/new/${state.login.selectedHostel_Id}`);
+    }
   };
 
   const handleExpenseTitle = (e) => {
