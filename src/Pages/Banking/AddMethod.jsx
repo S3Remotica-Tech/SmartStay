@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { CloseCircle, Add } from "iconsax-react";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -11,7 +12,7 @@ const CustomStyles = {
     height: "45px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
-    fontSize: "15px",
+    fontSize: "14px",
     fontFamily: "Gilroy, sans-serif",
     fontWeight: 500,
     boxShadow: "none",
@@ -120,12 +121,116 @@ function AddPaymentMethod({ show, handleClose }) {
   ];
 
   if (!show) return null;
+  const [paymentType, setPaymentType] = useState("UPI");
+  const [paymentTypeError, setPaymentTypeError] = useState("");
+
+  const [linkedBank, setLinkedBank] = useState(null);
+  const [linkedBankError, setLinkedBankError] = useState("");
+
+  const [upiApp, setUpiApp] = useState(null);
+  const [upiAppError, setUpiAppError] = useState("");
+
+  const [upiId, setUpiId] = useState("");
+  const [upiIdError, setUpiIdError] = useState("");
+
+  const [displayName, setDisplayName] = useState("");
+  const [displayNameError, setDisplayNameError] = useState("");
+
+  const [description, setDescription] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+
+  const handlePaymentTypeChange = (value) => {
+    setPaymentType(value);
+    setPaymentTypeError("");
+  };
+
+  const handleLinkedBankChange = (selected) => {
+    setLinkedBank(selected);
+    setLinkedBankError("");
+  };
+
+  const handleUpiAppChange = (selected) => {
+    setUpiApp(selected);
+    setUpiAppError("");
+  };
+
+  const handleUpiIdChange = (e) => {
+    const value = e.target.value;
+
+    setUpiId(value);
+
+    if (!value.trim()) {
+      setUpiIdError("UPI ID is required");
+    } else {
+      setUpiIdError("");
+    }
+  };
+
+  const handleDisplayNameChange = (e) => {
+    const value = e.target.value;
+
+    setDisplayName(value);
+
+    if (!value.trim()) {
+      setDisplayNameError("Display name is required");
+    } else {
+      setDisplayNameError("");
+    }
+  };
+
+  const handleDescriptionChange = (e) => {
+    const value = e.target.value;
+
+    setDescription(value);
+
+    if (!value.trim()) {
+      setDescriptionError("Description is required");
+    } else {
+      setDescriptionError("");
+    }
+  };
+
+  const handleSaveUPI = () => {
+    let isValid = true;
+
+    if (!paymentType) {
+      setPaymentTypeError("Please select payment type");
+      isValid = false;
+    }
+
+    if (!linkedBank) {
+      setLinkedBankError("Please select linked bank");
+      isValid = false;
+    }
+
+    if (!upiApp) {
+      setUpiAppError("Please select UPI app");
+      isValid = false;
+    }
+
+    if (!upiId.trim()) {
+      setUpiIdError("UPI ID is required");
+      isValid = false;
+    }
+
+    if (!displayName.trim()) {
+      setDisplayNameError("Display name is required");
+      isValid = false;
+    }
+
+    if (!description.trim()) {
+      setDescriptionError("Description is required");
+      isValid = false;
+    }
+
+    if (!isValid) return;
+  };
 
   return (
     <div className="font-gilroy">
       <div className="fixed inset-0 bg-black/40 z-40" />
 
-      <div className="fixed top-2 right-2 bottom-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col">
+      <div className="fixed top-2 right-2 bottom-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col h-full">
         <div className="flex items-center justify-between px-6 py-3 border-b border-[#E5E7EB]">
           <h2 className="text-[18px] font-semibold text-[#1A1C21]">
             Add Payment Method
@@ -144,106 +249,146 @@ function AddPaymentMethod({ show, handleClose }) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-2 show-scrolls">
+        <div className="px-6 py-2">
           <div>
             <label className="text-[12px] font-medium text-[#1A1C21]">
               Select Type <span className="text-red-500">*</span>
             </label>
 
-            <div className="flex gap-6 mt-3">
+            <div className="flex gap-6 mt-3 cursor-pointer">
               {["UPI", "Credit Card", "Debit Card", "QR Code"].map(
                 (item, index) => (
                   <label
                     key={index}
-                    className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                    className="flex items-center gap-2 text-[13px] text-[#4B5563] cursor-pointer"
                   >
                     <input
                       type="radio"
                       name="paymentType"
-                      defaultChecked={index === 0}
-                      className="accent-blue-600"
+                      value={item}
+                      checked={paymentType === item}
+                      onChange={(e) => handlePaymentTypeChange(e.target.value)}
+                      className="accent-blue-600 cursor-pointer"
                     />
                     {item}
                   </label>
                 ),
               )}
             </div>
+            {paymentTypeError && (
+              <ErrorMessage message={paymentTypeError} type="error" />
+            )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div>
-              <label className="text-[12px] font-medium">
-                Linked Bank <span className="text-red-500">*</span>
-              </label>
+          {paymentType === "UPI" && (
+            <div className="h-full">
+              <div className="h-[500px] overflow-y-auto  show-scrolls">
+                <div className="grid grid-cols-2 gap-4 mt-3">
+                  <div>
+                    <label className="text-[12px] font-medium">
+                      Linked Bank <span className="text-red-500">*</span>
+                    </label>
 
-              <Select
-                options={bankOptions}
-                placeholder="Select Bank"
-                className="mt-2"
-                styles={CustomStyles}
-              />
+                    <Select
+                      options={bankOptions}
+                      value={linkedBank}
+                      onChange={handleLinkedBankChange}
+                      placeholder="Select Bank"
+                      className="mt-2"
+                      styles={CustomStyles}
+                    />
+                    {linkedBankError && (
+                      <ErrorMessage message={linkedBankError} type="error" />
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-[12px] font-medium">
+                      UPI APP <span className="text-red-500">*</span>
+                    </label>
+
+                    <Select
+                      options={upiOptions}
+                      value={upiApp}
+                      onChange={handleUpiAppChange}
+                      placeholder="Select UPI App"
+                      className="mt-2"
+                      styles={CustomStyles}
+                    />
+
+                    {upiAppError && (
+                      <ErrorMessage message={upiAppError} type="error" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <label className="text-[12px] font-medium">
+                    UPI ID <span className="text-red-500">*</span>
+                  </label>
+
+                  <input
+                    value={upiId}
+                    onChange={handleUpiIdChange}
+                    placeholder="Ex : smartstay@oksbi"
+                    className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+                  />
+                  {upiIdError && (
+                    <ErrorMessage message={upiIdError} type="error" />
+                  )}
+                </div>
+
+                <div className="mt-3">
+                  <label className="text-[12px] font-medium">
+                    Display Name <span className="text-red-500">*</span>
+                  </label>
+
+                  <input
+                    value={displayName}
+                    onChange={handleDisplayNameChange}
+                    placeholder="Gpay UPI"
+                    className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+                  />
+
+                  {displayNameError && (
+                    <ErrorMessage message={displayNameError} type="error" />
+                  )}
+                </div>
+
+                <div className="mt-3">
+                  <label className="text-[12px] font-medium">
+                    Description <span className="text-red-500">*</span>
+                  </label>
+
+                  <textarea
+                    rows={4}
+                    value={description}
+                    onChange={handleDescriptionChange}
+                    placeholder="Describe the notes..."
+                    className="w-full mt-2 p-4 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
+                  />
+                  {descriptionError && (
+                    <ErrorMessage message={descriptionError} type="error" />
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end gap-4 px-6 py-2 ">
+                <button
+                  onClick={handleClose}
+                  className="px-6 py-2 text-[#6B7280] text-sm font-medium"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleSaveUPI}
+                  className="px-8 py-2 bg-[#2952CC] text-white rounded-lg text-sm font-medium hover:bg-[#1E40AF]"
+                >
+                  Save
+                </button>
+              </div>
             </div>
-
-            <div>
-              <label className="text-[12px] font-medium">
-                UPI APP <span className="text-red-500">*</span>
-              </label>
-
-              <Select
-                options={upiOptions}
-                placeholder="Select UPI App"
-                className="mt-2"
-                styles={CustomStyles}
-              />
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <label className="text-[12px] font-medium">
-              UPI ID <span className="text-red-500">*</span>
-            </label>
-
-            <input
-              placeholder="Ex : smartstay@oksbi"
-              className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
-            />
-          </div>
-
-          <div className="mt-5">
-            <label className="text-[12px] font-medium">
-              Display Name <span className="text-red-500">*</span>
-            </label>
-
-            <input
-              placeholder="Gpay UPI"
-              className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
-            />
-          </div>
-
-          <div className="mt-5">
-            <label className="text-[12px] font-medium">
-              Description <span className="text-red-500">*</span>
-            </label>
-
-            <textarea
-              rows={4}
-              placeholder="Describe the notes..."
-              className="w-full mt-2 p-4 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-end gap-4 px-6 py-4 border-t border-[#E5E7EB]">
-          <button
-            onClick={handleClose}
-            className="px-6 py-2 text-[#6B7280] text-sm font-medium"
-          >
-            Cancel
-          </button>
-
-          <button className="px-8 py-2 bg-[#2952CC] text-white rounded-lg text-sm font-medium hover:bg-[#1E40AF]">
-            Save
-          </button>
+          )}
         </div>
       </div>
     </div>
