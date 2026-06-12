@@ -33,6 +33,7 @@ import BankingOverview from "./BankingOverview";
 import { useNavigate } from "react-router-dom";
 import SettlementPayment from "../VendorFIle/SettlementPayment";
 import TenantPayment from "./TenantPayment";
+import CreditCardPayment from "./CreditCardPayment";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -165,6 +166,8 @@ function BankingNew() {
   const [showOverview, setShowOverview] = useState(false);
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [showTenantPaymentForm, setShowTenantPaymentForm] = useState(false);
+  const [showCreditCardForm, seShowCreditCardForm] = useState(false);
+
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -652,6 +655,14 @@ function BankingNew() {
     setShowTenantPaymentForm(false);
   };
 
+  const handleCreditPayment = () => {
+    seShowCreditCardForm(true);
+  };
+
+  const handleCloseCreditPayment = () => {
+    seShowCreditCardForm(false);
+  };
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -747,7 +758,7 @@ function BankingNew() {
                     </button>
 
                     <button
-                      onClick={() => setShowTransactionMenu(false)}
+                      onClick={() => handleCreditPayment()}
                       className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Credit Card Payment
@@ -1243,6 +1254,7 @@ function BankingNew() {
             <SettlementPayment
               show={showSettlementForm}
               handleClose={handleCloseSettlement}
+              isBanking={true}
             />
           )}
 
@@ -1250,6 +1262,13 @@ function BankingNew() {
             <TenantPayment
               show={showTenantPaymentForm}
               handleClose={handleClosePayment}
+            />
+          )}
+
+          {showCreditCardForm && (
+            <CreditCardPayment
+              show={showCreditCardForm}
+              handleClose={handleCloseCreditPayment}
             />
           )}
 

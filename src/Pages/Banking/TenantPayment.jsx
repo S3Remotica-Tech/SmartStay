@@ -27,7 +27,7 @@ const CustomStyles = {
   control: (base, state) => ({
     ...base,
     minHeight: "45px",
-    height: "40px",
+    height: "50px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
     fontSize: "14px",
@@ -385,11 +385,9 @@ function TenantPayment({ show, handleClose }) {
           </div>
           <div className="grid grid-cols-2 gap-2 mx-3 ">
             <div className="mb-1">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 flex justify-between">
-                <span>
-                  Amount Received (INR){" "}
-                  <span className="text-red-500 text-[20px]">*</span>
-                </span>
+              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 ">
+                Amount Received (INR){" "}
+                <span className="text-red-500 text-[20px]">*</span>
               </label>
               <div className="relative">
                 <input
@@ -409,7 +407,7 @@ function TenantPayment({ show, handleClose }) {
             </div>
             <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Date <span className="text-red-500">*</span>
+                Date <span className="text-red-500 text-[20px]">*</span>
               </label>
               <div className="relative">
                 <DatePicker

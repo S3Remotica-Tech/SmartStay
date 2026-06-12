@@ -206,7 +206,7 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function SettlementPayment({ show, handleClose }) {
+function SettlementPayment({ show, handleClose, isBanking }) {
   if (!show) return null;
 
   const [selectedVendor, setSelectedVendor] = useState(null);
@@ -328,8 +328,8 @@ function SettlementPayment({ show, handleClose }) {
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
           rounded-xl  bg-white px-4 py-3"
         >
-          <h1 className="text-[20px] font-semibold text-[#222222] mb-0">
-            Settle Payment
+          <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
+            {isBanking ? "Vendor Payment" : "Settle Payment"}
           </h1>
           <Add
             size={24}
@@ -355,9 +355,6 @@ function SettlementPayment({ show, handleClose }) {
                   styles={CustomStyles}
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-500 mb-1">
-                Note : Max 50 Characters
-              </p>
 
               {vendorError && (
                 <ErrorMessage message={vendorError} type="error" />
@@ -653,7 +650,7 @@ function SettlementPayment({ show, handleClose }) {
             type="submit"
             className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
           >
-            Settle Payment <ArrowRight size="14" color="#FFFFFF" />
+            Save <ArrowRight size="14" color="#FFFFFF" />
           </button>
         </div>
       </div>
