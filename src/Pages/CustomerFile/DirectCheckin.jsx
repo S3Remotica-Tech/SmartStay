@@ -1049,7 +1049,8 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       <button
                         disabled={isAdvanceRefused}
                         onClick={handleAddField}
-                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  disabled:bg-gray-100 disabled:text-gray-500
+                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
+                        disabled:bg-gray-100 disabled:text-gray-500
                         disabled:cursor-not-allowed 
                         text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
                       >

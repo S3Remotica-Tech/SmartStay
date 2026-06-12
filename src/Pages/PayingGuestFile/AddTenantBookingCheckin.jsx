@@ -1481,8 +1481,10 @@ function AddTenantBookingCheckin({
             </div>
             <div className="flex w-full px-4">
               <button
+                disabled={isAdvanceRefused}
                 onClick={handleAddField}
-                className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1] !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
+                className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1]   disabled:bg-gray-100 disabled:text-gray-500
+                        disabled:cursor-not-allowed  !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
               >
                 <AddCircle color="#1E45E1" size="16" />
                 Add
