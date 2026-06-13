@@ -327,7 +327,6 @@ function Credit() {
             onChange={handleCardNumberChange}
             placeholder="**** **** **** 1234"
             maxLength={4}
-            placeholder="**** **** **** 1234"
             className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
           />
           {cardNumberError && (
