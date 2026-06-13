@@ -494,6 +494,8 @@ function FinalSettlement() {
           updatedAmountToBePaid =
             amountTobePaid +
             finalSettlementList?.currentMonthRentInfo?.rentDifference;
+
+          console.log("executed");
         } else {
           const customRentDiff =
             customRent -
@@ -579,6 +581,7 @@ function FinalSettlement() {
     finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount,
     finalSettlementList?.currentMonthRentInfo?.otherItemAmount,
     customRent,
+    collectFullRent,
   ]);
 
   useEffect(() => {
@@ -1137,7 +1140,12 @@ function FinalSettlement() {
                     </span>
 
                     <span className="text-sm font-semibold text-gray-900">
-                      {finalSettlementList?.settlementInfo?.label}
+                      {/* {finalSettlementList?.settlementInfo?.label}  */}
+                      <span>
+                        {PayableORRefundabeleRent < 0
+                          ? "Refundable Rent"
+                          : "Payable Rent"}
+                      </span>
                     </span>
                   </div>
                   {isEditingRent ? (
@@ -2122,7 +2130,10 @@ function FinalSettlement() {
 
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">
-                        {finalSettlementList?.settlementInfo?.label}
+                        {/* {finalSettlementList?.settlementInfo?.label} */}{" "}
+                        {PayableORRefundabeleRent < 0
+                          ? "Refundable Rent"
+                          : "Payable Rent"}
                       </p>
                       <p className="text-sm font-medium text-gray-900">
                         {/* ₹ {finalSettlementList?.settlementInfo?.payableAmount} */}

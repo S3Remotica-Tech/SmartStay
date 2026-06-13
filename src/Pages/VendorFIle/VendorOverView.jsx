@@ -14,12 +14,13 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import VendorExpenseHistory from "./VendorExpenseHistory";
 import VendorComments from "./VendorComments";
 import VendorPaymentHistory from "./VendorPaymentHistory";
+import VendorDetailsOverview from "./VendorDetailsOverview";
 
 function VendorOverView({ show, onClose, handleShowSettlement }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("payments");
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="font-gilroy">
@@ -30,8 +31,8 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
         // onClick={onClose}
       />
 
-      <div className="fixed top-2 right-2 bottom-2 w-[1100px]  bg-white z-50 rounded-md flex flex-col">
-        <div className="px-6 py-2">
+      <div className="fixed top-2 right-2 bottom-2 w-[1100px]   bg-white z-50 rounded-md flex flex-col">
+        <div className="px-6 py-1">
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-2">
@@ -81,8 +82,8 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto h-[calc(100vh-80px)]">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="px-6 py-2">
+          <div className="grid grid-cols-2 gap-4 ">
             <div className="bg-[#F9F9F9] border border-[#F9F9F9] rounded-xl p-4">
               <div className="grid grid-cols-3 gap-4">
                 <div>
@@ -122,60 +123,74 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
               </div>
             </div>
           </div>
+          <div className=" mt-4">
+            <div className="flex items-center justify-between border-b    ">
+              <div className="flex gap-8 ">
+                <button
+                  onClick={() => setActiveTab("overview")}
+                  className={`pb-3  ${
+                    activeTab === "overview"
+                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                      : "text-[#666]  font-medium"
+                  }`}
+                >
+                  Overview
+                </button>
+                <button
+                  onClick={() => setActiveTab("payments")}
+                  className={`pb-3  ${
+                    activeTab === "payments"
+                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                      : "text-[#666] font-medium"
+                  }`}
+                >
+                  Payments Made
+                </button>
 
-          <div className="flex items-center justify-between mt-8 border-b   ">
-            <div className="flex gap-8 ">
-              <button
-                onClick={() => setActiveTab("payments")}
-                className={`pb-3 font-medium ${
-                  activeTab === "payments"
-                    ? "border-b-2 border-[#1E45E1] text-[#222]"
-                    : "text-[#666]"
-                }`}
-              >
-                Payments Made
-              </button>
+                <button
+                  onClick={() => setActiveTab("expenses")}
+                  className={`pb-3  ${
+                    activeTab === "expenses"
+                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                      : "text-[#666]  font-medium"
+                  }`}
+                >
+                  Expenses
+                </button>
 
-              <button
-                onClick={() => setActiveTab("expenses")}
-                className={`pb-3 font-medium ${
-                  activeTab === "expenses"
-                    ? "border-b-2 border-[#1E45E1] text-[#222]"
-                    : "text-[#666]"
-                }`}
-              >
-                Expenses
-              </button>
+                <button
+                  onClick={() => setActiveTab("comments")}
+                  className={`pb-3  ${
+                    activeTab === "comments"
+                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                      : "text-[#666]  font-medium"
+                  }`}
+                >
+                  Comments
+                </button>
+              </div>
+              {activeTab === "payments" && (
+                <button
+                  onClick={() => handleShowSettlement(true)}
+                  className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
+                >
+                  + Settle Payment
+                </button>
+              )}
 
-              <button
-                onClick={() => setActiveTab("comments")}
-                className={`pb-3 font-medium ${
-                  activeTab === "comments"
-                    ? "border-b-2 border-[#1E45E1] text-[#222]"
-                    : "text-[#666]"
-                }`}
-              >
-                Comments
-              </button>
+              {activeTab === "expenses" && (
+                <button
+                  onClick={() => {}}
+                  className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1"
+                >
+                  <AddCircle size="14" /> Add Expense
+                </button>
+              )}
             </div>
-            {activeTab === "payments" && (
-              <button
-                onClick={() => handleShowSettlement(true)}
-                className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
-              >
-                + Settle Payment
-              </button>
-            )}
-
-            {activeTab === "expenses" && (
-              <button
-                onClick={() => {}}
-                className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1"
-              >
-                <AddCircle size="14" /> Add Expense
-              </button>
-            )}
           </div>
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          {activeTab === "overview" && <VendorDetailsOverview />}
 
           {activeTab === "payments" && <VendorPaymentHistory />}
 

@@ -18,7 +18,14 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "../PayingGuestFile/PgLayoutView";
-import { Add, ArrowDown2, ArrowUp2, InfoCircle } from "iconsax-react";
+import {
+  Add,
+  ArrowDown2,
+  ArrowUp2,
+  InfoCircle,
+  ArrowRight2,
+  Edit2,
+} from "iconsax-react";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -160,7 +167,13 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [fields, setFields] = useState([]);
   const [collectFullRent, setCollectFullRent] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
+  const [customRentEnable, setCustomRentEnable] = useState(false);
+  const [customRent, setCustomRent] = useState("");
+  const [customRentEditMode, setCustomRentEditMode] = useState(true);
 
+  const handleCustomRentChange = (e) => {
+    setCustomRent(e.target.value);
+  };
   const handleAddOneTimePayment = () => {
     setOneTimePayments([
       ...oneTimePayments,
@@ -720,7 +733,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   };
 
   const handleSelectedBedDetails = (details) => {
-    console.log("details ******************", details);
     setRooms(details?.roomId);
     setBed(details?.id);
 
@@ -729,7 +741,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-[550px]  bg-white rounded-[20px]  shadow-lg">
+      <div className="w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg">
         <div className="px-4 py-3">
           <div className="pt-0 relative border-0 flex justify-between mb-2">
             <div className="text-xl font-semibold font-gilroy">
@@ -1252,23 +1264,96 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
                 <div className="w-full max-w-[680px] bg-white">
                   <div className="flex items-center gap-2 px-1 py-3">
-                    <input
-                      type="checkbox"
-                      checked={collectFullRent}
-                      onChange={handleCheckboxChange}
-                      className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
-                    />
-
-                    <label className="text-[15px] text-[#222222] font-medium flex items-center gap-2">
-                      Do you want to collect Full Rent for current month?
-                      <InfoCircle
-                        size="16"
-                        color="#9CA3AF"
-                        variant="Linear"
-                        className="cursor-pointer"
+                    <div className="flex items-center gap-2 ">
+                      <input
+                        type="checkbox"
+                        checked={collectFullRent}
+                        onChange={handleCheckboxChange}
+                        className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
                       />
-                    </label>
+
+                      <label className="text-[15px] text-[#222222] font-medium flex items-center gap-2 whitespace-nowrap">
+                        Do you want to collect Full Rent for current month?
+                        <InfoCircle
+                          size="16"
+                          color="#9CA3AF"
+                          variant="Linear"
+                          className="cursor-pointer"
+                        />
+                      </label>
+                    </div>
+                    {collectFullRent && (
+                      <div>
+                        <button
+                          onClick={() => setCustomRentEnable(!customRentEnable)}
+                          className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
+                            customRentEnable
+                              ? "bg-[#0D1B8E] text-white"
+                              : "bg-[#EAEEFF] text-[#1E45E1]"
+                          }`}
+                        >
+                          {customRentEnable ? (
+                            <>
+                              Remove Custom Rent
+                              <CloseCircle size="18" variant="Bold" />
+                            </>
+                          ) : (
+                            <>
+                              Add Custom Rent
+                              <ArrowRight2 size="16" />
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
                   </div>
+
+                  {customRentEnable && (
+                    <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
+                      <div>
+                        <div className="text-sm font-medium text-[#222222] mb-1">
+                          Custom Rent Amount
+                        </div>
+                        <div className="text-[#64748B] text-[12px] font-medium">
+                          This amount is reflects to First month Rent only.
+                        </div>
+                      </div>
+                      <div className="relative min-w-[220px]">
+                        {customRentEditMode ? (
+                          <>
+                            <input
+                              type="number"
+                              value={customRent}
+                              onChange={handleCustomRentChange}
+                              className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                                customRent ? "font-semibold" : "font-medium"
+                              } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                            />
+
+                            <button
+                              onClick={() => setCustomRentEditMode(false)}
+                              className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                            >
+                              Set
+                            </button>
+                          </>
+                        ) : (
+                          <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
+                            <span className="font-semibold text-[#222222] text-base">
+                              ₹ {customRent || 0}
+                            </span>
+
+                            <button
+                              onClick={() => setCustomRentEditMode(true)}
+                              className="text-[#1E45E1]"
+                            >
+                              <Edit2 size="18" color="#64748B" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
                     <div

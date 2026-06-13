@@ -1046,7 +1046,7 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
-                        {import.meta.env.MODE === "development" && (
+                        {isDevelopment && (
                           <li className="list-none">
                             <NavLink
                               to={withHostel("/vendor/new")}
@@ -1102,39 +1102,39 @@ function Sidebar() {
                       </NavLink>
                     </OverlayTrigger>
                   </li>
-
-                  <li
-                    className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
-                  >
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">Banking</Tooltip>
-                      }
+                  {isDevelopment && (
+                    <li
+                      className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                     >
-                      <NavLink
-                        to={withHostel("/banking/new")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item  d-flex ${
-                            isActive || currentPage === "banking-new"
-                              ? "active"
-                              : ""
-                          }`
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        delay={{ show: 200, hide: 0 }}
+                        overlay={
+                          <Tooltip className="custom-tooltip">Banking</Tooltip>
                         }
-                        onClick={() => handlePageClick("banking-new")}
                       >
-                        <Bank size="20" variant="Bold" className="-mt-1" />
+                        <NavLink
+                          to={withHostel("/banking/new")}
+                          className={({ isActive }) =>
+                            `align-items-center list-Item  d-flex ${
+                              isActive || currentPage === "banking-new"
+                                ? "active"
+                                : ""
+                            }`
+                          }
+                          onClick={() => handlePageClick("banking-new")}
+                        >
+                          <Bank size="20" variant="Bold" className="-mt-1" />
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Banking New
-                        </span>
-                      </NavLink>
-                    </OverlayTrigger>
-                  </li>
-
+                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                            Banking New
+                          </span>
+                        </NavLink>
+                      </OverlayTrigger>
+                    </li>
+                  )}
                   <li
                     className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
@@ -1493,23 +1493,6 @@ function Sidebar() {
             <Routes>
               <Route path="/payment-preview" element={<PaymentPreview />} />
               <Route path="/graph" element={<GraphQL />} />
-              {/* {
-                import.meta.env.MODE === "development" &&
-              <Route
-                path="/dashboard/:hostelId?"
-                element={
-                  <div className="bg-white pt-1 pl-3 pr-1">
-                    <DashboardOld
-                      displayCompliance={handledisplaycompliace}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
-} */}
-              {/* {
-                import.meta.env.MODE === "development" && */}
 
               <Route
                 path="/dashboard/:hostelId?"
@@ -1523,7 +1506,6 @@ function Sidebar() {
                   </div>
                 }
               />
-              {/* } */}
 
               <Route
                 path="/paying-guest/:hostelId?"
@@ -2001,7 +1983,6 @@ function Sidebar() {
               )}
             </div>
 
-            {/* Quick Add Button */}
             <button
               onClick={() => setShowMenuModal(true)}
               title="Quick Add"
@@ -2046,7 +2027,6 @@ function Sidebar() {
                 </div>
               </div>
 
-              {/* Settings */}
               <NavLink
                 to={settingsPath}
                 onMouseEnter={() => handleMouseEnter("settings")}
@@ -2103,7 +2083,6 @@ function Sidebar() {
           hostelId={allPageHostel_Id}
         />
       </div>
-      {/* </Container> */}
 
       {logoutformshow && (
         <Logout show={logoutformshow} handleClose={handleCloseLogout} />
