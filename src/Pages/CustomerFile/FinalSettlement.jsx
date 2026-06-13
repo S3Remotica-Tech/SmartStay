@@ -350,9 +350,7 @@ function FinalSettlement() {
     setCollectFullRent(checked);
     setIsEditingRent(checked);
     if (!checked) {
-      setCustomRent(
-        finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0,
-      );
+      setCustomRent(finalSettlementList?.customerInfo?.rentAmount || 0);
       setFinalAmountSetClicked(false);
     }
   };
@@ -494,26 +492,14 @@ function FinalSettlement() {
           updatedAmountToBePaid =
             amountTobePaid +
             finalSettlementList?.currentMonthRentInfo?.rentDifference;
-
-          console.log("executed");
         } else {
           const customRentDiff =
-            customRent -
-            finalSettlementList?.currentMonthRentInfo?.currentMonthRent;
+            customRent - finalSettlementList?.customerInfo?.rentAmount;
 
           updatedAmountToBePaid =
             amountTobePaid +
             finalSettlementList?.currentMonthRentInfo?.rentDifference +
             customRentDiff;
-
-          // const customRentDiff =
-          //   finalSettlementList?.currentMonthRentInfo?.currentMonthRent -
-          //   customRent;
-
-          console.log("customRent", customRent);
-          console.log("customRentDiff", customRentDiff);
-
-          // updatedAmountToBePaid = amountTobePaid - customRentDiff;
         }
       } else {
         updatedAmountToBePaid = amountTobePaid;
@@ -548,11 +534,6 @@ function FinalSettlement() {
   ]);
 
   useEffect(() => {
-    // const RedeemAmount =
-    //   finalSettlementList?.bookingItems?.appliedAmount +
-    //   finalSettlementList?.advanceItems?.appliedAmount;
-
-    // console.log("RedeemAmount", RedeemAmount);
     if (collectFullRent) {
       const LastMonthPaid =
         finalSettlementList?.currentMonthRentInfo?.currentRentPaid;
@@ -586,16 +567,9 @@ function FinalSettlement() {
 
   useEffect(() => {
     if (!finalAmountSetClicked) {
-      setAmount(
-        finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0,
-      );
+      setAmount(finalSettlementList?.customerInfo?.rentAmount || 0);
     }
-  }, [
-    finalAmountSetClicked,
-    finalSettlementList?.currentMonthRentInfo?.currentMonthRent,
-  ]);
-
-  // console.log("amount", amount);
+  }, [finalAmountSetClicked, finalSettlementList?.customerInfo?.rentAmount]);
 
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];
