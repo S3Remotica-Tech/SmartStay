@@ -190,8 +190,8 @@ function VendorExpenseHistory() {
     },
   ];
   return (
-    <div className="my-2">
-      <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
+    <div className="px-4">
+      <div className="flex flex-wrap items-center justify-between  bg-white ">
         <div className="flex flex-wrap items-center gap-3">
           <div
             className={`border border-gray-300 rounded-lg w-36 ${

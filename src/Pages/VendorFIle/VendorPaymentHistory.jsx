@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 function VendorPaymentHistory() {
   return (
-    <div className="bg-white    rounded-xl  mx-1 my-3 ">
+    <div className="bg-white    rounded-xl px-4  ">
       <div
         id="tableContainer"
         //   ref={tableContainerRef}

@@ -157,7 +157,7 @@ function BankingNew() {
   const [statusfilter, setStatusfilter] = useState("");
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
-  const [bankking, setBanking] = useState("");
+  const [banking, setBanking] = useState("");
   const tableContainerRef = useRef(null);
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
@@ -700,7 +700,8 @@ function BankingNew() {
                       disabled
                       // disabled={!canReadBanking}
                       type="text"
-                      className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] disabled:cursor-not-allowed"
+                      className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]
+                       disabled:cursor-not-allowed"
                       placeholder="Search"
                       aria-label="Search"
                       value={filterInput}
@@ -715,7 +716,7 @@ function BankingNew() {
                 </div>
               </div>
 
-              <div className="mx-2">
+              {/* <div className="mx-2">
                 <button
                   disabled={!canWriteBanking}
                   onClick={handleShowForm}
@@ -723,7 +724,7 @@ function BankingNew() {
                 >
                   + Add
                 </button>
-              </div>
+              </div> */}
 
               <div className="relative mx-2">
                 <button
@@ -794,23 +795,26 @@ function BankingNew() {
             <>
               <div
                 className="
-    flex flex-row gap-4 mt-1 ml-1
-    overflow-x-auto 
-    whitespace-nowrap
-    pb-2
-    scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 show-scrolls
+    flex flex-row 
+    
   "
               >
-                {bankking && bankking.length > 0
-                  ? bankking.map((item) => {
-                      return (
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleShowOverview();
-                          }}
-                          key={item.id}
-                          className={` flex-shrink-0
+                <div
+                  className="flex flex-row gap-4 mt-1 ml-1 overflow-x-auto 
+    whitespace-nowrap
+    pb-2
+    scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 show-scrolls"
+                >
+                  {banking && banking.length > 0
+                    ? banking.map((item) => {
+                        return (
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShowOverview();
+                            }}
+                            key={item.id}
+                            className={` flex-shrink-0
             w-fit
             h-auto
             flex flex-col justify-between
@@ -819,177 +823,189 @@ function BankingNew() {
             
             relative
            ${item.isDeleted ? "bg-gray-200 border border-gray-400 opacity-70" : "bg-white border-1 border-gray-100 shadow-md hover:shadow-md transition"} `}
-                        >
-                          <div className="p-2">
-                            <div className="flex justify-between items-center">
-                              <div className="flex justify-between items-center gap-2">
-                                <div className="bg-[#E8ECFF] rounded-full px-2 py-2">
-                                  <Bank color="#1E45E1" size="16" />
-                                </div>
-                                <div>
-                                  <p className="text-sm font-semibold font-gilroy mb-0 text-[#222222]">
-                                    {item?.accountType}
-                                  </p>
+                          >
+                            <div className="p-2">
+                              <div className="flex justify-between items-center">
+                                <div className="flex justify-between items-center gap-2">
+                                  <div className="bg-[#E8ECFF] rounded-full px-2 py-2">
+                                    <Bank color="#1E45E1" size="16" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-semibold font-gilroy mb-0 text-[#222222]">
+                                      {item?.accountType}
+                                    </p>
 
-                                  <p className="text-xs font-semibold text-gray-500 font-gilroy mb-1">
-                                    Bank Account
-                                  </p>
-                                  <p className="text-sm font-semibold text-gray-600 font-gilroy mb-1">
-                                    {item.accountHolderName}
-                                  </p>
+                                    <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0">
+                                      Bank Account
+                                    </p>
+                                    <p className="text-xs font-semibold text-gray-500 font-gilroy mb-1">
+                                      {item.accountHolderName}
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
 
-                              <div
-                                className={` flex items-center justify-center
+                                <div
+                                  className={` flex items-center justify-center
     ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
     }
   `}
-                                onClick={(e) => {
-                                  if (!item.isDeleted) {
-                                    e.stopPropagation();
-                                    handleShowDots(item.bankingId);
-                                  }
-                                }}
-                              >
-                                <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
-                              </div>
-
-                              {openMenuId === item.bankingId && (
-                                <div
-                                  ref={popupRef}
-                                  className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
-                                >
-                                  <button
-                                    disabled={
-                                      !(canWriteBanking && !item.isDeleted)
+                                  onClick={(e) => {
+                                    if (!item.isDeleted) {
+                                      e.stopPropagation();
+                                      handleShowDots(item.bankingId);
                                     }
-                                    onClick={() => handleOpenSelfTransfer(item)}
-                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
+                                  }}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
+                                </div>
+
+                                {openMenuId === item.bankingId && (
+                                  <div
+                                    ref={popupRef}
+                                    className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
+                                  >
+                                    <button
+                                      disabled={
+                                        !(canWriteBanking && !item.isDeleted)
+                                      }
+                                      onClick={() =>
+                                        handleOpenSelfTransfer(item)
+                                      }
+                                      className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-blue-100"
-                                  >
-                                    <img
-                                      src={transArrow}
-                                      alt="transArrow"
-                                      className="h-4 w-4"
-                                    />
+                                    >
+                                      <img
+                                        src={transArrow}
+                                        alt="transArrow"
+                                        className="h-4 w-4"
+                                      />
 
-                                    <span className="text-sm font-semibold font-gilroy">
-                                      Self Transfer
-                                    </span>
-                                  </button>
+                                      <span className="text-sm font-semibold font-gilroy">
+                                        Self Transfer
+                                      </span>
+                                    </button>
 
-                                  <div className="h-px bg-gray-200" />
+                                    <div className="h-px bg-gray-200" />
 
-                                  <button
-                                    disabled={
-                                      !(canUpdateBanking && !item.isDeleted)
-                                    }
-                                    onClick={() => handleEditAddBank(item)}
-                                    className="flex w-full items-center gap-2 px-3 py-2
+                                    <button
+                                      disabled={
+                                        !(canUpdateBanking && !item.isDeleted)
+                                      }
+                                      onClick={() => handleEditAddBank(item)}
+                                      className="flex w-full items-center gap-2 px-3 py-2
       disabled:cursor-not-allowed disabled:opacity-50
       enabled:hover:bg-blue-100"
-                                  >
-                                    <Edit
-                                      size={16}
-                                      className="text-[#1E45E1] disabled:text-gray-400"
-                                    />
-                                    <span className="text-sm font-semibold font-gilroy">
-                                      Edit
-                                    </span>
-                                  </button>
+                                    >
+                                      <Edit
+                                        size={16}
+                                        className="text-[#1E45E1] disabled:text-gray-400"
+                                      />
+                                      <span className="text-sm font-semibold font-gilroy">
+                                        Edit
+                                      </span>
+                                    </button>
 
-                                  <div className="h-px bg-gray-200" />
+                                    <div className="h-px bg-gray-200" />
 
-                                  <button
-                                    disabled
-                                    // disabled={!(canDeleteBanking && !item.isDeleted)}
-                                    onClick={() => handleDeleteForm(item)}
-                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+                                    <button
+                                      disabled
+                                      // disabled={!(canDeleteBanking && !item.isDeleted)}
+                                      onClick={() => handleDeleteForm(item)}
+                                      className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-red-50"
-                                  >
-                                    <Trash
-                                      size={16}
-                                      className="text-red-500 disabled:text-gray-400"
-                                    />
-                                    <span className="text-sm font-semibold text-red-500 font-gilroy">
-                                      Delete
-                                    </span>
-                                  </button>
+                                    >
+                                      <Trash
+                                        size={16}
+                                        className="text-red-500 disabled:text-gray-400"
+                                      />
+                                      <span className="text-sm font-semibold text-red-500 font-gilroy">
+                                        Delete
+                                      </span>
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="flex justify-between">
+                                <div>
+                                  <span className="text-[20px] font-semibold text-black font-gilroy">
+                                    ₹{item.accountBalance || 0}
+                                  </span>
+                                  <span className="flex items-center gap-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
+                                    Balance
+                                  </span>
                                 </div>
-                              )}
-                            </div>
-
-                            {/* <p className="mt-2 text-lg font-medium font-gilroy">
-                              {item?.accountNumber ||
-                                item?.upiId ||
-                                item.creditCardNumber}
-                            </p> */}
-                            <div className="flex justify-between">
-                              <div>
-                                <span className="text-[20px] font-semibold text-black font-gilroy">
-                                  ₹{item.accountBalance || 0}
-                                </span>
-                                <span className="flex items-center gap-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
-                                  Balance
+                                <div>
+                                  <BsExclamationCircle className="text-[#64748B] cursor-pointer" />
+                                </div>
+                              </div>
+                              <div className="flex justify-end my-1">
+                                <span
+                                  className={`text-xs font-semibold font-gilroy ${
+                                    canWriteBanking && !item.isDeleted
+                                      ? "text-blue-600 cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                  }`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (canWriteBanking && !item.isDeleted) {
+                                      handleShowAddBalance(item);
+                                    }
+                                  }}
+                                >
+                                  + Add Amount
                                 </span>
                               </div>
-                              <div>
-                                <BsExclamationCircle className="text-[#64748B] cursor-pointer" />
-                              </div>
-                            </div>
-                            <div className="flex justify-end my-1">
-                              <span
-                                className={`text-xs font-semibold font-gilroy ${
-                                  canWriteBanking && !item.isDeleted
-                                    ? "text-blue-600 cursor-pointer"
-                                    : "text-gray-400 cursor-not-allowed"
-                                }`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (canWriteBanking && !item.isDeleted) {
-                                    handleShowAddBalance(item);
-                                  }
-                                }}
-                              >
-                                + Add Amount
-                              </span>
-                            </div>
 
-                            <div className="flex justify-between my-3 gap-2">
-                              <div
-                                className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                              <div className="flex justify-between my-3 gap-2">
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
-                              >
-                                <Location size="12" color="#8F5C09" /> Navalur
-                              </div>
-                              <div
-                                className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
+                                >
+                                  <Location size="12" color="#8F5C09" /> Navalur
+                                </div>
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
                                text-[#1E45E1] border-1 border-[#9EB1FF2B] text-[11px] rounded-md"
-                              >
-                                UPI : imman@oksbi
-                              </div>
-                              <div
-                                className="flex gap-2 items-center  px-2 py-1 bg-[#FFFFFF]
+                                >
+                                  UPI : imman@oksbi
+                                </div>
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#FFFFFF]
                                text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
-                              >
-                                Default A/C
+                                >
+                                  Default A/C
+                                </div>
                               </div>
-                            </div>
 
-                            <div className="flex justify-end my-1">
-                              <label className="text-[#4B4B4B] text-xs font-medium">
-                                Last Txn : Today, 10:30 AM
-                              </label>
+                              <div className="flex justify-end my-1">
+                                <label className="text-[#4B4B4B] text-xs font-medium">
+                                  Last Txn : Today, 10:30 AM
+                                </label>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  : null}
+                        );
+                      })
+                    : null}
+                </div>
+                <div className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
+                      <Bank size="20" color="#1E45E1" />
+                    </div>
+
+                    <div className="text-base font-medium text-[#1E45E1] leading-6">
+                      Add New Bank / Cash
+                      <br />
+                      Account
+                    </div>
+                  </div>
+                </div>
               </div>
+
               <div className="my-2 mx-2">
                 <label className="text-lg text-black font-semibold font-gilroy">
                   All Transactions

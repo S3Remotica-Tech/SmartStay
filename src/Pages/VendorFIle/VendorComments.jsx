@@ -87,7 +87,7 @@ function VendorComments() {
   };
 
   return (
-    <div className="my-2">
+    <div className="px-4">
       <div className="w-full bg-white">
         <label className="block mb-2 text-[14px] font-medium text-[#222222]">
           Additional Comments
