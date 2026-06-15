@@ -173,7 +173,9 @@ function AddTenantBookingCheckin({
   const [isEditing, setIsEditing] = useState(false);
   const [reading, setReading] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
+  const [rentAmountError, setRentAmountError] = useState("");
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
+  const [stayType, setStayType] = useState("long");
 
   // booking
 
@@ -245,6 +247,179 @@ function AddTenantBookingCheckin({
     setRentAmount(e.target.value);
   };
 
+  const validateCheckInDraft = () => {
+    let isValid = true;
+    let firstInvalidRef = null;
+
+    // Clear errors
+    setJoiningDateError("");
+    setFloorError("");
+    setRoomError("");
+    setBedError("");
+    setAdvanceAmountError("");
+    setRentAmountError("");
+
+    if (!joiningDate) {
+      setJoiningDateError("Please Select Joining Date");
+      firstInvalidRef ??= joiningDateRef;
+      isValid = false;
+    }
+
+    if (!checkinFloor) {
+      setFloorError("Please Select Floor");
+      firstInvalidRef ??= floorRef;
+      isValid = false;
+    }
+
+    if (!checkinRoom) {
+      setRoomError("Please Select Room");
+      firstInvalidRef ??= roomRef;
+      isValid = false;
+    }
+
+    if (!checkinBed) {
+      setBedError("Please Select Bed");
+      firstInvalidRef ??= bedRef;
+      isValid = false;
+    }
+
+    if (!isAdvanceRefused && !advanceAmount) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      firstInvalidRef ??= advanceAmountRef;
+      isValid = false;
+    }
+
+    if (!rentAmount) {
+      setRentAmountError("Please Enter Rental Amount");
+      firstInvalidRef ??= rentAmountRef;
+      isValid = false;
+    }
+
+    if (firstInvalidRef?.current) {
+      firstInvalidRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      setTimeout(() => {
+        firstInvalidRef.current?.focus?.();
+      }, 300);
+    }
+
+    return isValid;
+  };
+
+  const handleCheckin = () => {
+    const isValid = validateCheckInDraft();
+    if (!isValid) return;
+
+    const formattedReasons = fields
+      .map((item) => {
+        let reason_name = "";
+
+        if (
+          item.reason?.toLowerCase() === "others" ||
+          item.reason_name?.toLowerCase() === "others"
+        ) {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        const error = { reason: "", amount: "" };
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
+          error.amount = "Please enter amount";
+          isHasError = true;
+        }
+
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
+          error.reason = "Please enter reason";
+          isHasError = true;
+        }
+
+        newErrors.push(error);
+        return {
+          type: reason_name,
+          amount: item.amount || "",
+        };
+      })
+      .filter((item) => item.type !== "" || item.amount !== "");
+
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const year = newDate.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    };
+
+    const formattedDate = joiningDate
+      ? incrementDateAndFormat(joiningDate)
+      : "";
+
+    dispatch({
+      type: "CHECKIN",
+      payload: {
+        // customerId: id,
+        floorId: checkinFloor,
+        bedId: checkinBed,
+        roomId: checkinRoom,
+        joiningDate: formattedDate,
+        advanceAmount: !isAdvanceRefused && advanceAmount,
+        rentalAmount: rentAmount,
+        stayType: activeTab,
+        deductions: formattedReasons,
+      },
+    });
+  };
+
+  const handleCheckInDraft = () => {
+    dispatch({
+      type: "SAVE_DRAFT_SAGA",
+      payload: {
+        hostelId: state?.login?.selectedHostel_Id,
+
+        request: {
+          joiningDate: joiningDate
+            ? dayjs(joiningDate).format("YYYY-MM-DD")
+            : "",
+
+          floorId: Number(checkinFloor || 0),
+          roomId: Number(checkinRoom || 0),
+          bedId: Number(checkinBed || 0),
+
+          advanceAmount: Number(isAdvanceRefused ? 0 : advanceAmount || 0),
+
+          rentalAmount: Number(rentAmount || 0),
+
+          stayType: stayType,
+
+          deductions: fields
+            ?.filter(
+              (item) => (item.reason || item.customReason) && item.amount,
+            )
+            .map((item) => ({
+              type: item.reason === "others" ? item.customReason : item.reason,
+              amount: Number(item.amount),
+            })),
+
+          proRate: true,
+
+          booking: {
+            refuseAdvanceAmount: isAdvanceRefused,
+          },
+        },
+      },
+    });
+  };
   // Booking Onchanges
 
   const handleBookingDateChange = (date) => {
@@ -424,20 +599,26 @@ function AddTenantBookingCheckin({
       type: "SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        mobile: mobile,
-        firstName: firstname,
-        joiningDate: bookingJoiningDate
-          ? dayjs(bookingJoiningDate).format("YYYY-MM-DD")
-          : "",
-        bookingDate: bookingDate ? dayjs(bookingDate).format("YYYY-MM-DD") : "",
-        bookingAmount: Number(bookingAmount || 0),
-        floorId: bookingFloor || 0,
-        roomId: bookingRoom || 0,
-        bedId: bookingBed || 0,
-        bankId: modeOfPayment || "",
-        referenceNumber: transactionId,
-        advanceAmount: Number(bookingAmount || 0),
-        rentalAmount: Number(totalRent || 0),
+        request: {
+          mobile,
+          firstName: firstname,
+          bookingDate: bookingDate
+            ? dayjs(bookingDate).format("YYYY-MM-DD")
+            : "",
+          bookingAmount: Number(bookingAmount || 0),
+          floorId: Number(bookingFloor || 0),
+          roomId: Number(bookingRoom || 0),
+          bedId: Number(bookingBed || 0),
+          bankId: modeOfPayment || "",
+          referenceNumber: transactionId || "",
+          advanceAmount: Number(bookingAmount || 0),
+          rentalAmount: Number(totalRent || 0),
+          booking: {
+            joiningDateTentative: bookingJoiningDate
+              ? dayjs(bookingJoiningDate).format("YYYY-MM-DD")
+              : "",
+          },
+        },
       },
     });
     setFormLoading(true);
@@ -1166,6 +1347,31 @@ function AddTenantBookingCheckin({
         </div>
       ) : (
         <div>
+          <div className="w-full rounded-lg bg-[#F5F7FA] p-1 flex items-center">
+            <button
+              type="button"
+              onClick={() => setStayType("long")}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all w-full ${
+                stayType === "long"
+                  ? "bg-[#1E45E1] text-white shadow-sm"
+                  : "text-[#222222]"
+              }`}
+            >
+              Long Stay
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setStayType("short")}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all  w-full  ${
+                stayType === "short"
+                  ? "bg-[#1E45E1] text-white shadow-sm"
+                  : "text-[#222222]"
+              }`}
+            >
+              Short Stay
+            </button>
+          </div>
           <div className="grid grid-cols-1 gap-4">
             <div className="mb-2">
               <label className="text-sm font-medium text-[#222222] mb-2 block">
@@ -1794,25 +2000,16 @@ function AddTenantBookingCheckin({
             </span>
           </div>
 
-          {/* <div className="flex justify-between mt-3">
-            <button
-              className="bg-gray-200 text-gray-600 px-4 py-2 rounded !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-              onClick={handleClose}
-            >
-              Cancel
-            </button>
-          </div> */}
           <div className="flex justify-between mt-3">
             <button
-              // disabled={formLoading || isAlredayTenant}
               className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-              // onClick={handleSaveUserlist}
+              onClick={handleCheckInDraft}
             >
               Save Draft
             </button>
             <div className="flex gap-2">
               <button
-                // disabled={isAlredayTenant}
+                onClick={handleCheckin}
                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
               >
                 Check in

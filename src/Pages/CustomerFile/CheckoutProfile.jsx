@@ -28,7 +28,7 @@ import PropTypes from "prop-types";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import repeat from "../../Assets/Images/repeate-one.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import UserEb from "./UserListEb";
 import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
@@ -43,7 +43,7 @@ import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import { ArrowUp } from "iconsax-react";
 function CustomerProfile(props) {
   const state = useSelector((state) => state);
-
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -60,6 +60,8 @@ function CustomerProfile(props) {
   const [documentvalue, setDocumentValue] = useState("1");
   const [activeTab, setActiveTab] = useState("kyc");
   const [additionalContact, setAdditionalContact] = useState([]);
+
+  const { isBillWay } = location.state || {};
 
   const handleChangesupload = (event, newValue) => {
     setDocumentValue(newValue);
@@ -142,11 +144,16 @@ function CustomerProfile(props) {
   // }, [details]);
 
   const handleBack = () => {
-    navigate(`/tenant/${state.login.selectedHostel_Id}`, {
-      state: {
-        isCheckoutWay: true,
-      },
-    });
+    if (isBillWay) {
+      navigate(`/invoice/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`, {
+        state: {
+          isCheckoutWay: true,
+        },
+      });
+    }
+
     dispatch(checkoutCustomerProfile(true));
     props.setcheckoutTableShow(true);
     props.handleCloseCheckoutProfile(false);
