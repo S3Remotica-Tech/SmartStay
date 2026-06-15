@@ -378,7 +378,10 @@ function FinalSettlementInvoicePDF() {
               <div className="flex justify-between items-start gap-4">
                 <div>
                   <h3 className="text-[11px] font-semibold text-[#1A1C21]">
-                    Refundable Rent
+                    {(pdfDetails?.currentMonthRentInfo
+                      ?.currentMonthPayableAmount || 0) < 0
+                      ? "Refundable Rent"
+                      : "Payable Rent"}
                   </h3>
 
                   <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
@@ -409,7 +412,7 @@ function FinalSettlementInvoicePDF() {
                       (item, index) => (
                         <div key={index}>
                           <label>
-                            {item.itemName} - ₹ {item.amount}
+                            {item.item} - ₹ {item.amount}
                           </label>
                         </div>
                       ),
@@ -418,7 +421,10 @@ function FinalSettlementInvoicePDF() {
                 </div>
 
                 <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
-                  <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                  {(pdfDetails?.currentMonthRentInfo
+                    ?.currentMonthPayableAmount || 0) < 0 && (
+                    <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                  )}
                   ₹{" "}
                   {pdfDetails?.currentMonthRentInfo
                     ?.currentMonthPayableAmount || 0}
@@ -435,12 +441,32 @@ function FinalSettlementInvoicePDF() {
                 <h3 className="text-[11px] font-semibold text-[#1A1C21]">
                   Wallet
                 </h3>
+                <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
+                  {pdfDetails?.walletInfo?.walletItems?.map((wal) => (
+                    <div>
+                      <labell>{wal.name}</labell> <label>{wal.amount}</label>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
-                ₹ 00.00
-                {/* {pdfDetails?.currentMonthRentInfo?.currentMonthPayableAmount ||
-                  0} */}
+                ₹{pdfDetails?.walletInfo?.totalWalletAmount || 0}
+              </p>
+            </div>
+          </div>
+          {/* discount */}
+          <div className="py-3 border-b border-[#E5E7EB]">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <h3 className="text-[11px] font-semibold text-[#1A1C21]">
+                  Discount
+                </h3>
+              </div>
+
+              <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                ₹0
+                {/* {pdfDetails?.walletInfo?.totalWalletAmount || 0} */}
               </p>
             </div>
           </div>
@@ -471,7 +497,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Deductions- Non Refundable</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ {pdfDetails?.deductionsInfo?.pendingAmount}
+                  ₹ {pdfDetails?.deductionsInfo?.pendingAmount || 0}
                 </span>
               </div>
               {Number(pdfDetails?.invoiceInfo?.unpaidInvoiceAmount) !== 0 && (
