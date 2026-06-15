@@ -359,6 +359,31 @@ function AddTenant({ showMenu, handleClose }) {
     { value: "other", label: "Other" },
   ];
 
+  const shiftTypeOptions = [
+    { value: "day_shift", label: "Day Shift" },
+    { value: "night_shift", label: "Night Shift" },
+    { value: "rotational_shift", label: "Rotational Shift" },
+    { value: "flexible_shift", label: "Flexible Shift" },
+    { value: "general_shift", label: "General Shift" },
+  ];
+
+  const jobRoleOptions = [
+    { value: "software_engineer", label: "Software Engineer" },
+    { value: "developer", label: "Developer" },
+    { value: "tester", label: "Tester" },
+    { value: "designer", label: "Designer" },
+    { value: "manager", label: "Manager" },
+    { value: "accountant", label: "Accountant" },
+    { value: "teacher", label: "Teacher" },
+    { value: "doctor", label: "Doctor" },
+    { value: "nurse", label: "Nurse" },
+    { value: "lawyer", label: "Lawyer" },
+    { value: "sales_executive", label: "Sales Executive" },
+    { value: "marketing_executive", label: "Marketing Executive" },
+    { value: "student", label: "Student" },
+    { value: "other", label: "Other" },
+  ];
+
   const jobOptions = [
     { value: "employed", label: "Employed" },
     { value: "self_employed", label: "Self Employed" },
@@ -1692,14 +1717,14 @@ function AddTenant({ showMenu, handleClose }) {
                       </div>
 
                       <div>
-                        <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
+                        <h5 className="flex items-center text-[18px] font-semibold text-gray-800 mb-4">
                           <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                           Guardian Details
                         </h5>
                         {guardians.map((guardian, index) => (
                           <div
                             key={index}
-                            className=" border border-gray-200 rounded-lg p-4 mb-4"
+                            className=" border border-gray-200 rounded-lg p-2 mb-4 "
                           >
                             <div className="flex justify-between items-center mb-3">
                               <h6 className="font-semibold">
@@ -1846,7 +1871,7 @@ function AddTenant({ showMenu, handleClose }) {
                               Job Role
                             </label>
                             <Select
-                              options={jobOptions}
+                              options={jobRoleOptions}
                               value={jobRole}
                               onChange={setJobRole}
                               placeholder="Job Role"
@@ -1871,7 +1896,7 @@ function AddTenant({ showMenu, handleClose }) {
                               Shift Type
                             </label>
                             <Select
-                              options={jobOptions}
+                              options={shiftTypeOptions}
                               value={shiftType}
                               onChange={setShiftType}
                               placeholder="Shift Type"
