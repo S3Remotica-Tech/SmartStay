@@ -31,8 +31,10 @@ const InvoiceTable = (props) => {
   const [payapleform, setPayableForm] = useState(false);
   const [refundDetails, setRefundDetails] = useState("");
   const popupRef = useRef(null);
+  const [navigation, setNavigation] = useState(false);
   const [showUnpaidModal, setShowUnpaidModal] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
+
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [discountDetails, setDiscountDetails] = useState("");
   const [showAbove, setShowAbove] = useState(false);
@@ -149,20 +151,42 @@ const InvoiceTable = (props) => {
 
   const handleNavigateTenantProfile = (view) => {
     if (view) {
+      setNavigation(true);
+
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: view.customerId },
       });
-      navigate(`/tenant/details/${view.customerId}`, {
-        state: {
-          customerId: view.customerId,
-          IsOverView: true,
-          totriggerBillTap: false,
-          isBillWay: true,
-        },
-      });
     }
   };
+
+  useEffect(() => {
+    if (state.UsersList?.CustomerdetailsgetStatuscode === 200 && navigation) {
+      const customerId = state.UsersList?.customerdetails?.customerId;
+
+      const isVacated =
+        state.UsersList?.customerdetails?.customerCurrentStatus === "VACATED";
+
+      if (isVacated) {
+        navigate(`/tenant/checkout/details/${customerId}`, {
+          state: { isBillWay: true },
+        });
+      } else {
+        navigate(`/tenant/details/${customerId}`, {
+          state: {
+            customerId,
+            IsOverView: true,
+            totriggerBillTap: false,
+            isBillWay: true,
+          },
+        });
+      }
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      }, 500);
+    }
+  }, [state.UsersList?.CustomerdetailsgetStatuscode, navigation]);
 
   const handleApplyInvoices = (item) => {
     setApplyInvoice(true);
@@ -260,7 +284,11 @@ const InvoiceTable = (props) => {
              }`}
         >
           <div
-            onClick={() => handleNavigatePDF(props.item)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNavigatePDF(props.item);
+              setNavigation(false);
+            }}
             className="Invoice_Name"
           >
             {props.item?.invoiceNumber === null ||
@@ -282,7 +310,10 @@ const InvoiceTable = (props) => {
         >
           <div
             className={`flex items-center gap-2 cursor-pointer w-fit group `}
-            onClick={() => handleNavigateTenantProfile(props.item)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNavigateTenantProfile(props.item);
+            }}
           >
             {props.item?.profilePic ? (
               <img
@@ -480,7 +511,11 @@ const InvoiceTable = (props) => {
             <div className="cursor-pointer flex justify-center items-center relative">
               <PiDotsThreeOutlineVerticalFill
                 className={`h-5 w-5 rotate-90 ${showDots ? "text-[#1E45E1]" : "text-gray-500"}`}
-                onClick={(e) => handleShowDots(e)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShowDots(e);
+                  setNavigation(false);
+                }}
               />
 
               {showDots && (

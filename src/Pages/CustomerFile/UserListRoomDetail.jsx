@@ -3496,6 +3496,22 @@ function UserListRoomDetail(props) {
                               </span>
                             </p>
                           </div>
+                          <div className="w-full sm:w-1/3 flex flex-col items-start mb-2">
+                            <p className="flex items-center text-xs font-medium font-gilroy gap-1.5">
+                              Checkout Date
+                            </p>
+                            <p className="flex items-center -mt-3 gap-1">
+                              <img
+                                src={LinkImage}
+                                alt="joining"
+                                className="h-4 w-4"
+                              />
+                              <span className="ml-1 mt-1 text-sm font-semibold font-gilroy text-black">
+                                {CustomerOverView.checkoutInfo
+                                  ?.requestedLeavingDate ?? "N/A"}
+                              </span>
+                            </p>
+                          </div>
                         </div>
 
                         <label className="text-lg font-semibold font-gilroy mt-2 mb-3">

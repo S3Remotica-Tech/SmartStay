@@ -49,16 +49,81 @@ export async function draftTenantSearch(customerId) {
   return await AxiosConfigV2.get(`/v3/customers/draftDetails/${customerId}`);
 }
 
+// export async function SaveDraftTenant(tenant) {
+//   console.log("save draft ", tenant);
+//   return await AxiosConfigV2.post(
+//     `/v3/customers/saveDraft/${tenant.hostelId}`,
+//     tenant,
+//     {
+//       data: tenant,
+//     },
+//   );
+// }
+
+// export async function SaveDraftTenant(tenant) {
+//   const formData = new FormData();
+
+//   if (tenant.profilePic instanceof File) {
+//     formData.append("profilePic", tenant.profilePic);
+//   }
+
+//   formData.append(
+//     "request",
+//     JSON.stringify({
+//       firstName: tenant.request.firstName,
+//       lastName: tenant.request.lastName,
+//       mobile: tenant.request.mobile,
+//       emailId: tenant.request.emailId,
+
+//       idProof: {
+//         type:
+//           tenant.request.idProof?.type?.value || tenant.request.idProof?.type,
+//         number: tenant.request.idProof?.number,
+//       },
+
+//       address: tenant.request.address,
+//     }),
+//   );
+
+//   return AxiosConfigV2.post(
+//     `/v3/customers/saveDraft/${tenant.hostelId}`,
+//     formData,
+//     {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     },
+//   );
+// }
+
+
 export async function SaveDraftTenant(tenant) {
-  console.log("save draft ", tenant);
-  return await AxiosConfigV2.post(
+  return AxiosConfigV2.post(
     `/v3/customers/saveDraft/${tenant.hostelId}`,
-    tenant,
     {
-      data: tenant,
-    },
+      profilePic: "",
+      aadharPic: "",
+      panPic: "",
+      request: {
+        firstName: tenant.request.firstName,
+        lastName: tenant.request.lastName,
+        mobile: tenant.request.mobile,
+        emailId: tenant.request.emailId,
+
+        idProof: {
+          type:
+            tenant.request.idProof?.type?.value ||
+            tenant.request.idProof?.type,
+          number: tenant.request.idProof?.number,
+        },
+
+        address: tenant.request.address,
+      },
+    }
   );
 }
+
+
 
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
@@ -241,6 +306,14 @@ export async function customerSaveInfo(params) {
 
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
+  }
+
+    if (params.aadharPic instanceof File) {
+    formData.append("aadharPic", params.aadharPic);
+  }
+
+  if (params.panPic instanceof File) {
+    formData.append("panPic", params.panPic);
   }
 
   if (params.payloads) {

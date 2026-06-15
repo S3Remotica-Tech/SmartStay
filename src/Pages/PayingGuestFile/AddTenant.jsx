@@ -211,7 +211,14 @@ function AddTenant({ showMenu, handleClose }) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const [guardianName, setGuardianName] = useState("");
+  const [guardians, setGuardians] = useState([
+    {
+      guardianName: "",
+      relationship: null,
+      occupation: null,
+      mobile: "",
+    },
+  ]);
   const [relationship, setRelationship] = useState(null);
   const [occupation, setOccupation] = useState(null);
   const [mobile, setMobile] = useState("");
@@ -241,6 +248,28 @@ function AddTenant({ showMenu, handleClose }) {
   const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
   const handleDeletePan = () => setPanFile(null);
+
+  const handleGuardianChange = (index, field, value) => {
+    const updated = [...guardians];
+    updated[index][field] = value;
+    setGuardians(updated);
+  };
+
+  const handleAddGuardian = () => {
+    setGuardians([
+      ...guardians,
+      {
+        guardianName: "",
+        relationship: null,
+        occupation: null,
+        mobile: "",
+      },
+    ]);
+  };
+
+  const handleRemoveGuardian = (index) => {
+    setGuardians(guardians.filter((_, i) => i !== index));
+  };
 
   const handleAadhaarChange = (e) => {
     const file = e.target.files[0];
@@ -313,11 +342,60 @@ function AddTenant({ showMenu, handleClose }) {
   const relationOptions = [
     { value: "father", label: "Father" },
     { value: "mother", label: "Mother" },
+    { value: "brother", label: "Brother" },
+    { value: "sister", label: "Sister" },
+    { value: "husband", label: "Husband" },
+    { value: "wife", label: "Wife" },
+    { value: "son", label: "Son" },
+    { value: "daughter", label: "Daughter" },
+    { value: "grandfather", label: "Grandfather" },
+    { value: "grandmother", label: "Grandmother" },
+    { value: "uncle", label: "Uncle" },
+    { value: "aunt", label: "Aunt" },
+    { value: "cousin", label: "Cousin" },
+    { value: "guardian", label: "Guardian" },
+    { value: "friend", label: "Friend" },
+    { value: "relative", label: "Relative" },
+    { value: "other", label: "Other" },
+  ];
+
+  const shiftTypeOptions = [
+    { value: "day_shift", label: "Day Shift" },
+    { value: "night_shift", label: "Night Shift" },
+    { value: "rotational_shift", label: "Rotational Shift" },
+    { value: "flexible_shift", label: "Flexible Shift" },
+    { value: "general_shift", label: "General Shift" },
+  ];
+
+  const jobRoleOptions = [
+    { value: "software_engineer", label: "Software Engineer" },
+    { value: "developer", label: "Developer" },
+    { value: "tester", label: "Tester" },
+    { value: "designer", label: "Designer" },
+    { value: "manager", label: "Manager" },
+    { value: "accountant", label: "Accountant" },
+    { value: "teacher", label: "Teacher" },
+    { value: "doctor", label: "Doctor" },
+    { value: "nurse", label: "Nurse" },
+    { value: "lawyer", label: "Lawyer" },
+    { value: "sales_executive", label: "Sales Executive" },
+    { value: "marketing_executive", label: "Marketing Executive" },
+    { value: "student", label: "Student" },
+    { value: "other", label: "Other" },
   ];
 
   const jobOptions = [
     { value: "employed", label: "Employed" },
-    { value: "self", label: "Self Employed" },
+    { value: "self_employed", label: "Self Employed" },
+    { value: "student", label: "Student" },
+    { value: "business_owner", label: "Business Owner" },
+    { value: "freelancer", label: "Freelancer" },
+    { value: "government_employee", label: "Government Employee" },
+    { value: "private_employee", label: "Private Employee" },
+    { value: "intern", label: "Intern" },
+    { value: "retired", label: "Retired" },
+    { value: "unemployed", label: "Unemployed" },
+    { value: "other", label: "Other" },
   ];
 
   const handleSelectChange = (selectedOption) => {
@@ -628,13 +706,65 @@ function AddTenant({ showMenu, handleClose }) {
       type: "SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobile: MobileNumber,
-        emailId: Email,
+        profilePic: file,
+        request: {
+          firstName: capitalizedFirstname,
+          lastName: capitalizedLastname,
+          mobile: MobileNumber,
+          emailId: Email,
+          idProof: {
+            type: idProofType,
+            number: idProofNo,
+          },
+          address: {
+            house: house_no,
+            area: street,
+            landmark: landmark,
+            pincode: pincode,
+            city: city,
+            state: state_name,
+          },
+        },
       },
     });
     setFormLoading(true);
+  };
+
+  console.log(aadhaarFile); // File {...}
+  console.log(panFile);
+
+  const handleSaveStep3 = () => {
+    dispatch({
+      type: "SAVE_DRAFT_SAGA",
+      payload: {
+        hostelId: state?.login?.selectedHostel_Id,
+
+        aadharPic: aadhaarFile || null,
+        panPic: panFile || null,
+
+        request: {
+          guardians: [
+            {
+              guardianFullName: guardianName || "",
+              relationshipToTenant: relationship?.value || "",
+              guardianOccupation: occupation?.value || "",
+              mobileNo: mobile || "",
+            },
+          ],
+
+          jobDetails: {
+            employmentStatus: employmentStatus?.value || "",
+            companyName: companyName || "",
+            collegeName: companyName || "",
+            jobRole: jobRole?.value || "",
+            workLocation: workLocation || "",
+            shiftType: shiftType?.value || "",
+            shiftFrom: fromTime || "",
+            shiftTo: toTime || "",
+          },
+        },
+      },
+    });
   };
 
   useEffect(() => {
@@ -741,7 +871,8 @@ function AddTenant({ showMenu, handleClose }) {
     }
   }, [state.UsersList?.draftTenantGetStatusCode]);
 
-  const DraftTenantDetails = state?.UsersList?.alreadyAvailableDraftTenantGetList;
+  const DraftTenantDetails =
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
   useEffect(() => {
     if (DraftTenantDetails && !newTenant) {
@@ -1586,65 +1717,116 @@ function AddTenant({ showMenu, handleClose }) {
                       </div>
 
                       <div>
-                        <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
+                        <h5 className="flex items-center text-[18px] font-semibold text-gray-800 mb-4">
                           <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                           Guardian Details
                         </h5>
-                        <div className="grid grid-cols-12 gap-3">
-                          <div className="col-span-12">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Guardian Full Name
-                            </label>
-                            <input
-                              value={guardianName}
-                              onChange={(e) => setGuardianName(e.target.value)}
-                              placeholder="Guardian Full Name"
-                              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                            />
-                          </div>
+                        {guardians.map((guardian, index) => (
+                          <div
+                            key={index}
+                            className=" border border-gray-200 rounded-lg p-2 mb-4 "
+                          >
+                            <div className="flex justify-between items-center mb-3">
+                              <h6 className="font-semibold">
+                                Guardian {index + 1}
+                              </h6>
 
-                          <div className="col-span-6">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Relationship to Tenant
-                            </label>
-                            <Select
-                              options={relationOptions}
-                              value={relationship}
-                              onChange={setRelationship}
-                              placeholder="Select Relationship"
-                              styles={CustomStyles}
-                            />
-                          </div>
+                              {guardians.length > 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveGuardian(index)}
+                                  className="text-red-500 text-sm"
+                                >
+                                  <CloseCircle />
+                                </button>
+                              )}
+                            </div>
 
-                          <div className="col-span-6">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Guardian Occupation
-                            </label>
-                            <Select
-                              options={relationOptions}
-                              value={occupation}
-                              onChange={setOccupation}
-                              placeholder="Select Occupation"
-                              styles={CustomStyles}
-                            />
-                          </div>
+                            <div className="grid grid-cols-12 gap-3">
+                              <div className="col-span-12">
+                                <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                  Guardian Full Name
+                                </label>
 
-                          <div className="col-span-12">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Mobile No
-                            </label>
-                            <input
-                              value={mobile}
-                              onChange={(e) => setMobile(e.target.value)}
-                              placeholder="Mobile No"
-                              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                            />
+                                <input
+                                  value={guardian.guardianName}
+                                  onChange={(e) =>
+                                    handleGuardianChange(
+                                      index,
+                                      "guardianName",
+                                      e.target.value,
+                                    )
+                                  }
+                                  placeholder="Guardian Full Name"
+                                  className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                />
+                              </div>
+
+                              <div className="col-span-6">
+                                <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                  Relationship to Tenant
+                                </label>
+
+                                <Select
+                                  options={relationOptions}
+                                  value={guardian.relationship}
+                                  onChange={(value) =>
+                                    handleGuardianChange(
+                                      index,
+                                      "relationship",
+                                      value,
+                                    )
+                                  }
+                                  placeholder="Select Relationship"
+                                  styles={CustomStyles}
+                                />
+                              </div>
+
+                              <div className="col-span-6">
+                                <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                  Guardian Occupation
+                                </label>
+
+                                <Select
+                                  options={jobOptions}
+                                  value={guardian.occupation}
+                                  onChange={(value) =>
+                                    handleGuardianChange(
+                                      index,
+                                      "occupation",
+                                      value,
+                                    )
+                                  }
+                                  placeholder="Select Occupation"
+                                  styles={CustomStyles}
+                                />
+                              </div>
+
+                              <div className="col-span-12">
+                                <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                  Mobile No
+                                </label>
+
+                                <input
+                                  value={guardian.mobile}
+                                  onChange={(e) =>
+                                    handleGuardianChange(
+                                      index,
+                                      "mobile",
+                                      e.target.value,
+                                    )
+                                  }
+                                  placeholder="Mobile No"
+                                  className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                        ))}
 
                         <div className="flex justify-end mt-2">
                           <button
-                            disabled
+                            onClick={handleAddGuardian}
                             className="!font-gilroy text-sm !bg-[#1E45E1] text-white !font-semibold !rounded-md !py-2.5 
                           px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center gap-2 disabled:opacity-50"
                           >
@@ -1689,7 +1871,7 @@ function AddTenant({ showMenu, handleClose }) {
                               Job Role
                             </label>
                             <Select
-                              options={jobOptions}
+                              options={jobRoleOptions}
                               value={jobRole}
                               onChange={setJobRole}
                               placeholder="Job Role"
@@ -1714,7 +1896,7 @@ function AddTenant({ showMenu, handleClose }) {
                               Shift Type
                             </label>
                             <Select
-                              options={jobOptions}
+                              options={shiftTypeOptions}
                               value={shiftType}
                               onChange={setShiftType}
                               placeholder="Shift Type"
@@ -1756,7 +1938,10 @@ function AddTenant({ showMenu, handleClose }) {
                           Do it later
                         </button>
 
-                        <button className="!font-gilroy text-sm !bg-[#038C3D] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap">
+                        <button
+                          onClick={handleSaveStep3}
+                          className="!font-gilroy text-sm !bg-[#038C3D] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                        >
                           Save
                         </button>
                       </div>

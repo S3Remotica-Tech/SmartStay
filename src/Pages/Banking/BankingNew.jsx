@@ -795,7 +795,7 @@ function BankingNew() {
             <>
               <div
                 className="
-    flex flex-row 
+    flex flex-row  gap-2 
     
   "
               >
@@ -991,7 +991,7 @@ function BankingNew() {
                       })
                     : null}
                 </div>
-                <div className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors">
+                <div className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors">
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
                       <Bank size="20" color="#1E45E1" />
