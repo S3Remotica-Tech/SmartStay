@@ -114,6 +114,7 @@ import VendorOverView from "../Pages/VendorFIle/VendorOverView";
 import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
 import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
 import BankingNew from "../Pages/Banking/BankingNew";
+import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1945,6 +1946,7 @@ function Sidebar() {
                   element={<SettingInvoice handleFormPage={handleFormPage} />}
                 />
                 <Route path="expenses" element={<SettingExpenses />} />
+                <Route path="vendor-category" element={<VendorCategory />} />
                 <Route path="complaints" element={<SettingCompliance />} />
                 <Route path="amenities" element={<SettingAmenities />} />
                 <Route path="user" element={<SettingNewUser />} />

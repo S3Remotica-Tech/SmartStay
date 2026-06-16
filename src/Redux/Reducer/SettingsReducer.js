@@ -101,6 +101,8 @@ export const initialState = {
   editExpencesSubCategoryStatuscode: 0,
   vendorCategorySuccessCode: 0,
   vendorCategoryList: [],
+  createVendorCategorySuccessStatus: 0,
+  deleteVendorCategorySuccessStatus: 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -130,6 +132,38 @@ const SettingsReducer = (state = initialState, action) => {
         ...state,
         vendorCategorySuccessCode: action.payload.statusCode,
         vendorCategoryList: action.payload.response,
+      };
+    case "REMOVE_VENDOR_CATEGORY_LIST_REDUCER":
+      return {
+        ...state,
+        vendorCategorySuccessCode: 0,
+      };
+
+    case "VENDOR_CATEGORY_REDUCER":
+      return {
+        ...state,
+        createVendorCategorySuccessStatus: action.payload.statusCode,
+      };
+    case "REMOVE_VENDOR_CATEGORY_REDUCER":
+      return {
+        ...state,
+        createVendorCategorySuccessStatus: 0,
+      };
+    case "ALREADY_VENDOR_CATEGORY_ERROR":
+      return { ...state, vendorCategoryError: action.payload };
+    case "REMOVE_ALREADY_VENDOR_CATEGORY_ERROR":
+      return { ...state, vendorCategoryError: "" };
+
+    case "DELETE_VENDOR_CATEGORY_REDUCER":
+      return {
+        ...state,
+        deleteVendorCategorySuccessStatus: action.payload,
+      };
+
+    case "REMOVE_DELETE_VENDOR_CATEGORY_REDUCER":
+      return {
+        ...state,
+        deleteVendorCategorySuccessStatus: 0,
       };
 
     case "ASSIGNED_ERROR":
