@@ -294,18 +294,20 @@ function AddVendorNew() {
   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [businessNameError, setBusinessNameError] = useState("");
+  const countryList = [{ value: 1, label: "India" }];
+  const countryCodeOptions = [{ value: "91", label: "+91" }];
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
-  const [businessCountryCode, setBusinessCountryCode] = useState("91");
-  const [businessMobileNo, setBusinessMobileNo] = useState("");
+  const [countryCode, setCountryCode] = useState(countryCodeOptions[0]);
+  const [businessCountryCode, setBusinessCountryCode] = useState(
+    countryCodeOptions[0],
+  );
+  const [businessMobile, setBusinessMobile] = useState("");
   const [vendorPhoneError, setVendorPhoneError] = useState("");
   const [vendorEmailError, setVendorEmailError] = useState("");
-  const [house_noError, setHouse_NoError] = useState("");
+
   const [streetError, setStreetError] = useState("");
-  const [landmarkError, setLandmarkError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -327,8 +329,73 @@ function AddVendorNew() {
   const [creditPeriod, setCreditPeriod] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const countryCodeRef = useRef(null);
+  const emailRef = useRef(null);
+  const houseNoRef = useRef(null);
+  const landmarkRef = useRef(null);
+  const streetRef = useRef(null);
+  const vendorCategoryRef = useRef(null);
+  const businessCountryCodeRef = useRef(null);
+  const businessMobileRef = useRef(null);
+  const contactPersonRef = useRef(null);
+  const descriptionRef = useRef(null);
+
+  const [vendorCategoryError, setVendorCategoryError] = useState("");
+
+  const [businessNameError, setBusinessNameError] = useState("");
+  const [businessCountryCodeError, setBusinessCountryCodeError] = useState("");
+  const [businessMobileError, setBusinessMobileError] = useState("");
+
+  console.log("businessCountryCodeError", businessCountryCodeError);
+  console.log("countryCode:", countryCode);
+  console.log("businessCountryCode:", businessCountryCode);
+  const [houseNoError, setHouseNoError] = useState("");
+  const [landmarkError, setLandmarkError] = useState("");
+
+  const focusFirstError = (() => {
+    let focused = false;
+
+    return (ref) => {
+      if (!focused && ref?.current) {
+        ref.current.focus();
+        focused = true;
+      }
+    };
+  })();
 
   const currentItem = location.state?.currentItem || "";
+
+  useEffect(() => {
+    return () => {
+      setGeneralError("");
+
+      setFirstNameError("");
+      // setLastNameError("");
+
+      setVendorCategoryError("");
+
+      setBusinessNameError("");
+      setBusinessCountryCodeError("");
+      setBusinessMobileError("");
+
+      setContactPersonNameError("");
+
+      setCountryCodeError("");
+      setMobileError("");
+      setEmailError("");
+
+      setHouseNoError("");
+      setLandmarkError("");
+      setStreetError("");
+
+      setCityError("");
+      setStateNameError("");
+      setCountryError("");
+      setPinCodeError("");
+
+      setDescriptionError("");
+    };
+  }, []);
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -338,9 +405,6 @@ function AddVendorNew() {
       firstNameRef.current.focus();
     }
   }, []);
-
-  const countryList = [{ value: 1, label: "India" }];
-  const countryCodeOptions = [{ value: "91", label: "+91" }];
 
   // const handleCountryChange = (e) => {
   //   const value = e.target.value
@@ -378,6 +442,7 @@ function AddVendorNew() {
 
   const handleVendorCategoryChange = (selectedOption) => {
     setVendorCategory(selectedOption);
+    setVendorCategoryError("");
   };
 
   const handleContactPersonNameChange = (e) => {
@@ -387,11 +452,13 @@ function AddVendorNew() {
 
   const handleBusinessMobileChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
-    setBusinessMobileNo(value);
+    setBusinessMobile(value);
+    setBusinessMobileError("");
   };
 
   const handleBusinessCountryCodeChange = (e) => {
     setBusinessCountryCode(e.target.value);
+    setBusinessCountryCodeError("");
   };
 
   const handlePinCodeChange = (e) => {
@@ -425,7 +492,7 @@ function AddVendorNew() {
     }
 
     setHouseNo(value);
-    setHouse_NoError("");
+    setHouseNoError("");
     setGeneralError("");
     setIsChangedError("");
   };
@@ -484,26 +551,6 @@ function AddVendorNew() {
 
     setBusiness_Name(value);
   };
-
-  // const handleBusinessChange = (e) => {
-  //   const value = e.target.value;
-  //   const pattern = /^[a-zA-Z\s]*$/;
-  //   if (!pattern.test(value)) {
-  //     return;
-  //   }
-  //   setGeneralError("");
-  //   setIsChangedError("");
-  //   setBusinessNameError("");
-  //   if (value === "") {
-  //     setBusiness_Name(value);
-
-  //     return;
-  //   }
-
-  //   if (value.trim() !== "") {
-  //     setBusiness_Name(value);
-  //   }
-  // };
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -594,12 +641,27 @@ function AddVendorNew() {
   const handleAddVendor = () => {
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+    setFirstNameError("");
+    setVendorCategoryError("");
+    setBusinessMobileError("");
+    setBusinessCountryCodeError("");
+    setContactPersonNameError("");
+    setMobileError("");
+    setCountryCodeError("");
+    setEmailError("");
+    setHouseNoError("");
+    setLandmarkError("");
+    setCityError("");
+    setStateNameError("");
+    setPinCodeError("");
+    setDescriptionError("");
+    setBusinessNameError("");
+    setStreetError("");
+    setCountryError("");
+    setGeneralError("");
 
     let isValid = true;
     const focusedRef = { current: false };
-
-    const emailInvalid = emailError !== "";
-    // const mobileInvalid = mobileError !== "";
 
     if (
       !first_Name &&
@@ -616,7 +678,7 @@ function AddVendorNew() {
     }
 
     if (!first_Name) {
-      setFirstNameError("Please Enter First Name");
+      setFirstNameError("Please Enter First Name/ Business Name");
       if (!focusedRef.current && firstNameRef.current) {
         firstNameRef.current.focus();
         focusedRef.current = true;
@@ -661,13 +723,84 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    if (emailInvalid) {
-      setEmailError("Please Enter valid Email Id");
+    if (!vendorCategory) {
+      setVendorCategoryError("Please Select Vendor Category");
+      if (!focusedRef.current && vendorCategoryRef.current) {
+        vendorCategoryRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!businessCountryCode) {
+      setBusinessCountryCodeError("Please Select Business Country Code");
+      if (!focusedRef.current && businessCountryCodeRef.current) {
+        businessCountryCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!businessMobile) {
+      setBusinessMobileError("Please Enter Business Mobile Number");
+      if (!focusedRef.current && businessMobileRef.current) {
+        businessMobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else if (!phonePattern.test(businessMobile)) {
+      setBusinessMobileError("Enter Valid Business Mobile Number");
+      if (!focusedRef.current && businessMobileRef.current) {
+        businessMobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!contactPersonName?.trim()) {
+      setContactPersonNameError("Please Enter Contact Person Name");
+      if (!focusedRef.current && contactPersonNameRef.current) {
+        contactPersonNameRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!email_Id) {
+      setEmailError("Please Enter  Email Id");
       if (!focusedRef.current) {
         focusedRef.current = true;
       }
       isValid = false;
     }
+
+    if (!house_no?.trim()) {
+      setHouseNoError("Please Enter House No");
+      if (!focusedRef.current && houseNoRef.current) {
+        houseNoRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!landmark?.trim()) {
+      setLandmarkError("Please Enter Landmark");
+      if (!focusedRef.current && landmarkRef.current) {
+        landmarkRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!street?.trim()) {
+      setStreetError("Please Enter Street");
+      if (!focusedRef.current && streetRef.current) {
+        streetRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
     if (!city) {
       setCityError("Please Enter City");
       if (!focusedRef.current && cityRef.current) {
@@ -745,81 +878,50 @@ function AddVendorNew() {
       const val = (value ?? "").toString().trim().toLowerCase();
       return val === "null" || val === "undefined" ? "" : val;
     };
-
-    const isChanged =
-      first_Name.trim() !== (initialState.first_Name || "").trim() ||
-      last_Name.trim() !== (initialState.last_Name || "").trim() ||
-      Number(vendor_Mobile) !== Number(initialState.vendor_Mobile || 0) ||
-      email_Id.trim() !== (initialState.email_Id || "").trim() ||
-      business_Name.trim() !== (initialState.business_Name || "").trim() ||
-      file !== initialState.file ||
-      countryCode !== (initialState.countryCode || "") ||
-      country !== (initialState.country || "") ||
-      String(pinCode).trim() !== String(initialState.pinCode || "").trim() ||
-      normalize(house_no) !== normalize(initialState.house_no) ||
-      normalize(street) !== normalize(initialState.street) ||
-      normalize(landmark) !== normalize(initialState.landmark) ||
-      city !== initialState.city ||
-      state_name?.trim() !== (initialState.state || "").trim();
-
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
-      isValid = false;
+    if (!isValid) {
+      return;
     }
 
-    const MobileNumber = `${countryCode}${vendor_Mobile}`;
+    dispatch({
+      type: "ADDVENDOR",
+      payload: {
+        profilePic: file,
+        payLoads: {
+          firstName: first_Name,
+          lastName: last_Name,
+          countryCode:
+            typeof countryCode === "object" ? countryCode.value : countryCode,
 
-    if (isValid) {
-      if (check === "EDIT") {
-        dispatch({
-          type: "UPDATEVENDOR",
-          payload: {
-            profilePic: file,
-            updateVendor: {
-              // hostelId: state.login.selectedHostel_Id,
-              firstName: first_Name,
-              lastName: last_Name,
-              mobile: MobileNumber,
-              mailId: email_Id,
-              businessName: business_Name,
-              country: country,
-              houseNo: house_no,
-              pinCode: pinCode,
-              area: street,
-              landmark: landmark,
-              city: city,
-              state: state_name,
-              vendorId: Number(currentItem.id),
-            },
-          },
-        });
-        setFormLoading(true);
-      } else {
-        dispatch({
-          type: "ADDVENDOR",
-          payload: {
-            profilePic: file,
-            payLoads: {
-              hostelId: state.login.selectedHostel_Id,
-              firstName: first_Name,
-              lastName: last_Name,
-              mobile: MobileNumber,
-              mailId: email_Id,
-              businessName: business_Name,
-              country: country,
-              houseNo: house_no,
-              pinCode: pinCode,
-              area: street,
-              landmark: landmark,
-              city: city,
-              state: state_name,
-            },
-          },
-        });
+          mobile: vendor_Mobile,
+          mailId: email_Id,
 
-        setFormLoading(true);
-      }
-    }
+          houseNo: house_no,
+          landmark: landmark,
+          area: street,
+          pinCode: Number(pinCode),
+          city: city,
+          state: state_name,
+
+          businessName: business_Name,
+          hostelId: state.login.selectedHostel_Id,
+
+          vendorCategory: vendorCategory?.value ?? null,
+
+          contactPerson: contactPersonName,
+          description: description,
+
+          vendorCode: vendorCode,
+          gst: gstNumber,
+          pan: panNumber,
+
+          allowCredit: allowCreditPurchase,
+          creditLimit: Number(creditLimit || 0),
+          creditPeriod: Number(creditPeriod || 0),
+        },
+      },
+    });
+
+    setFormLoading(true);
   };
 
   useEffect(() => {
@@ -860,78 +962,78 @@ function AddVendorNew() {
     }
   }, []);
 
-  useEffect(() => {
-    if (currentItem) {
-      // const phoneNumber = String(currentItem.mobile || "");
-      // const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+  // useEffect(() => {
+  //   if (currentItem) {
+  //     // const phoneNumber = String(currentItem.mobile || "");
+  //     // const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
 
-      // const mobileNumber = phoneNumber.slice(-10);
+  //     // const mobileNumber = phoneNumber.slice(-10);
 
-      const emailValue = currentItem.emailId;
-      const normalizedEmail =
-        emailValue === "undefined" ||
-        emailValue === null ||
-        emailValue === undefined
-          ? ""
-          : emailValue;
+  //     const emailValue = currentItem.emailId;
+  //     const normalizedEmail =
+  //       emailValue === "undefined" ||
+  //       emailValue === null ||
+  //       emailValue === undefined
+  //         ? ""
+  //         : emailValue;
 
-      const sanitize = (value) => {
-        return value === null ||
-          value === undefined ||
-          value === "null" ||
-          value === "undefined"
-          ? ""
-          : value;
-      };
+  //     const sanitize = (value) => {
+  //       return value === null ||
+  //         value === undefined ||
+  //         value === "null" ||
+  //         value === "undefined"
+  //         ? ""
+  //         : value;
+  //     };
 
-      setCheck("EDIT");
-      setFirst_Name(currentItem.firstName);
-      setLast_Name(currentItem.lastName);
-      const mobile = currentItem?.mobile || "";
-      const countryCode =
-        currentItem?.countryCode ||
-        (mobile.length > 10 ? `${mobile.slice(0, -10)}` : "+91");
+  //     setCheck("EDIT");
+  //     setFirst_Name(currentItem.firstName);
+  //     setLast_Name(currentItem.lastName);
+  //     const mobile = currentItem?.mobile || "";
+  //     const countryCode =
+  //       currentItem?.countryCode ||
+  //       (mobile.length > 10 ? `${mobile.slice(0, -10)}` : "+91");
 
-      const phoneNumber = mobile.length > 10 ? mobile.slice(-10) : mobile;
+  //     const phoneNumber = mobile.length > 10 ? mobile.slice(-10) : mobile;
 
-      setCountryCode(countryCode);
-      setVendor_Mobile(phoneNumber);
+  //     setCountryCode(countryCode);
+  //     setVendor_Mobile(phoneNumber);
 
-      setEmail_Id(normalizedEmail);
+  //     setEmail_Id(normalizedEmail);
 
-      setBusiness_Name(currentItem.businessName);
+  //     setBusiness_Name(currentItem.businessName);
 
-      setFile(currentItem.profilePic ? currentItem.profilePic : null);
-      setCountry(currentItem.countryId);
-      setPinCode(currentItem.pinCode);
+  //     setFile(currentItem.profilePic ? currentItem.profilePic : null);
+  //     setCountry(currentItem.countryId);
+  //     setPinCode(currentItem.pinCode);
 
-      setHouseNo(sanitize(currentItem.houseNo));
-      setStreet(sanitize(currentItem.area));
-      setLandmark(sanitize(currentItem.landMark));
-      setCity(currentItem.city);
-      setStateName(currentItem.state);
+  //     setHouseNo(sanitize(currentItem.houseNo));
+  //     setStreet(sanitize(currentItem.area));
+  //     setLandmark(sanitize(currentItem.landMark));
+  //     setCity(currentItem.city);
+  //     setStateName(currentItem.state);
 
-      setInitialState({
-        first_Name: currentItem.firstName || "",
-        last_Name: currentItem.lastName || "",
-        vendor_Mobile: currentItem?.mobile || "",
-        countryCode: currentItem?.countryCode || "",
+  //     setInitialState({
+  //       first_Name: currentItem.firstName || "",
+  //       last_Name: currentItem.lastName || "",
+  //       vendor_Mobile: currentItem?.mobile || "",
+  //       countryCode: currentItem?.countryCode || "",
 
-        house_no: sanitize(currentItem.houseNo),
-        street: sanitize(currentItem.area),
-        city: sanitize(currentItem.city),
-        landmark: sanitize(currentItem.landMark),
-        state: sanitize(currentItem.state),
+  //       house_no: sanitize(currentItem.houseNo),
+  //       street: sanitize(currentItem.area),
+  //       city: sanitize(currentItem.city),
+  //       landmark: sanitize(currentItem.landMark),
+  //       state: sanitize(currentItem.state),
 
-        email_Id: normalizedEmail,
-        business_Name: sanitize(currentItem.businessName),
+  //       email_Id: normalizedEmail,
+  //       business_Name: sanitize(currentItem.businessName),
 
-        file: currentItem.profilePic ? currentItem.profilePic : null,
-        country: currentItem.countryId || "",
-        pinCode: currentItem.pinCode || "",
-      });
-    }
-  }, [currentItem]);
+  //       file: currentItem.profilePic ? currentItem.profilePic : null,
+  //       country: currentItem.countryId || "",
+  //       pinCode: currentItem.pinCode || "",
+  //     });
+  //   }
+  // }, [currentItem]);
 
   useEffect(() => {
     if (state.ComplianceList?.alreadyVendorHere) {
@@ -975,7 +1077,7 @@ function AddVendorNew() {
 
   return (
     <div className="block relative font-gilroy ">
-      <div className="relative w-full  bg-white ">
+      <div className="relative w-full  bg-white  ">
         <div className="flex items-center justify-between  p-2">
           <h2 className="text-[18px] text-[#222222] font-gilroy font-semibold">
             {check === "EDIT" ? "Edit a vendor" : "Add new Vendor"}
@@ -993,7 +1095,7 @@ function AddVendorNew() {
             Close
           </button>
         </div>
-        <div className="max-h-[600px] overflow-y-scroll pt-2 mt-2 mr-3 show-scrolls">
+        <div className="max-h-[570px] overflow-y-scroll pt-2 mt-2 mr-3 show-scrolls">
           <h5 className="flex items-center text-[18px] font-semibold text-[#222222]">
             <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
             Vendor Information
@@ -1035,6 +1137,7 @@ function AddVendorNew() {
               </label>
 
               <Select
+                ref={vendorCategoryRef}
                 // options={vendorCategoryOptions}
                 value={vendorCategory}
                 onChange={handleVendorCategoryChange}
@@ -1042,6 +1145,9 @@ function AddVendorNew() {
                 classNamePrefix="custom"
                 styles={CustomStyles}
               />
+              {vendorCategoryError && (
+                <ErrorMessage message={vendorCategoryError} type="error" />
+              )}
             </div>
             <div className="lg:col-span-4">
               <div>
@@ -1052,6 +1158,7 @@ function AddVendorNew() {
 
                 <div className="flex mt-1">
                   <Select
+                    ref={businessCountryCodeRef}
                     options={countryCodeOptions}
                     value={businessCountryCode}
                     onChange={(selectedOption) =>
@@ -1062,29 +1169,29 @@ function AddVendorNew() {
                   />
 
                   <input
-                    value={businessMobileNo}
+                    value={businessMobile}
                     onChange={handleBusinessMobileChange}
                     type="text"
+                    ref={businessMobileRef}
                     placeholder="9876543210"
                     maxLength={10}
                     className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
-                      businessMobileNo ? "font-semibold" : "font-medium"
+                      businessMobile ? "font-semibold" : "font-medium"
                     } focus:outline-none focus:ring-0`}
                   />
                 </div>
 
-                {/* {mobileError && (
-                  <ErrorMessage message={mobileError} type="error" />
+                {businessMobileError && (
+                  <ErrorMessage message={businessMobileError} type="error" />
                 )}
 
-                {countryCodeError && (
-                  <ErrorMessage message={countryCodeError} type="error" />
-                )} */}
+                {businessCountryCodeError && (
+                  <ErrorMessage
+                    message={businessCountryCodeError}
+                    type="error"
+                  />
+                )}
               </div>
-
-              {vendorPhoneError && (
-                <ErrorMessage message={vendorPhoneError} type="error" />
-              )}
             </div>
           </div>
 
@@ -1121,6 +1228,7 @@ function AddVendorNew() {
 
                 <div className="flex mt-1">
                   <Select
+                    ref={countryCodeRef}
                     options={countryCodeOptions}
                     value={countryCode}
                     onChange={(selectedOption) =>
@@ -1151,10 +1259,6 @@ function AddVendorNew() {
                   <ErrorMessage message={countryCodeError} type="error" />
                 )}
               </div>
-
-              {vendorPhoneError && (
-                <ErrorMessage message={vendorPhoneError} type="error" />
-              )}
             </div>
           </div>
           <div className="grid grid-cols-12 gap-x-4 gap-y-3 mb-3">
@@ -1166,6 +1270,7 @@ function AddVendorNew() {
                 </label>
 
                 <input
+                  ref={emailRef}
                   value={email_Id}
                   onChange={handleEmailChange}
                   type="email"
@@ -1179,10 +1284,6 @@ function AddVendorNew() {
                   <ErrorMessage message={emailError} type="error" />
                 )}
               </div>
-
-              {vendorEmailError && (
-                <ErrorMessage message={vendorEmailError} type="error" />
-              )}
             </div>
           </div>
 
@@ -1195,6 +1296,7 @@ function AddVendorNew() {
                 </label>
 
                 <textarea
+                  ref={houseNoRef}
                   value={house_no}
                   onChange={handleHouseNo}
                   placeholder="Enter Commercial Address"
@@ -1205,8 +1307,8 @@ function AddVendorNew() {
                 />
               </div>
 
-              {house_noError && (
-                <ErrorMessage message={house_noError} type="error" />
+              {houseNoError && (
+                <ErrorMessage message={houseNoError} type="error" />
               )}
             </div>
           </div>
@@ -1221,6 +1323,7 @@ function AddVendorNew() {
                 </label>
 
                 <input
+                  ref={landmarkRef}
                   type="text"
                   placeholder="E.g, near Apollo Hospital"
                   value={landmark}
@@ -1310,94 +1413,6 @@ function AddVendorNew() {
                 )}
               </div>
             </div>
-
-            {/* <div className="col-span-12 lg:col-span-6">
-              <Form.Group
-                className="mb-0"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
-                  Country <span className="text-red-600 text-[20px]">*</span>
-                </Form.Label>
-
-                <Select
-                  options={countryList}
-                  ref={countryRef}
-                  onChange={(selectedOption) => {
-                    setCountry(selectedOption?.value);
-                    setGeneralError("");
-                    setIsChangedError("");
-                    setCountryError("");
-                  }}
-                  onInputChange={(inputValue, { action }) => {
-                    if (action === "input-change") {
-                      const lettersOnly = inputValue.replace(
-                        /[^a-zA-Z\s]/g,
-                        "",
-                      );
-                      return lettersOnly;
-                    }
-                    return inputValue;
-                  }}
-                  value={countryList.find((c) => c.value === country) || null}
-                  placeholder="Select Country"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No country available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: country ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#9aa0a6",
-                      fontSize: 16,
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
-                />
-
-                {countryError && (
-                  <ErrorMessage message={countryError} type="error" />
-                )}
-              </Form.Group>
-            </div> */}
           </div>
 
           <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
@@ -1533,38 +1548,40 @@ function AddVendorNew() {
                 </p>
               </>
             )}
-
-            <div className="flex justify-end gap-4 my-10 mr-4">
-              <button
-                onClick={handleClose}
-                type="button"
-                className="text-[#4B4B4B] text-sm font-medium"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handleAddVendor}
-                type="submit"
-                className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium"
-              >
-                {check === "EDIT" ? "Save Changes" : "Save vendor"}
-              </button>
-            </div>
           </div>
         </div>
+        <div className="flex justify-end gap-4 my-10 mr-4">
+          <button
+            onClick={handleClose}
+            type="button"
+            className="text-[#4B4B4B] text-sm font-medium"
+          >
+            Cancel
+          </button>
 
+          <button
+            type="submit"
+            disabled={formLoading}
+            onClick={handleAddVendor}
+            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+              formLoading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {formLoading ? (
+              <>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </div>
+              </>
+            ) : (
+              <span>{check === "EDIT" ? "Save Changes" : "Save Vendor"}</span>
+            )}
+          </button>
+        </div>
         {formLoading && (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
             <div className="w-[40px] h-[40px] rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
-          </div>
-        )}
-
-        {generalError && <ErrorMessage message={generalError} type="error" />}
-
-        {isChangedError && (
-          <div className="d-flex align-items-center justify-content-center">
-            <ErrorMessage message={isChangedError} />
           </div>
         )}
       </div>
