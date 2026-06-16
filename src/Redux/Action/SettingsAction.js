@@ -26,6 +26,13 @@ export async function ExpencesCategorylist(hostelId) {
 
 
 
+export async function VendorCategoryList() {
+  return await AxiosConfigV2.get(`/v2/vendors/categories`);
+}
+
+
+
+
 export  function DeleteExpencesCategoryList() {
   new Promise((resolve) => {
   resolve({status: 200});

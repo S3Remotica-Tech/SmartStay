@@ -276,14 +276,15 @@ function AddVendorNew() {
   const [last_Name, setLast_Name] = useState("");
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [vendorCategory, setVendorCategory] = useState(null);
+  // console.log("vendorCategory", vendorCategory);
   // const [address, setAddress] = useState("");
   const [house_no, setHouseNo] = useState("");
-  const [street, setStreet] = useState("");
+  // const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
-  const [business_Name, setBusiness_Name] = useState("");
+  // const [business_Name, setBusiness_Name] = useState("");
   // const [id, setId] = useState("");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
@@ -296,18 +297,25 @@ function AddVendorNew() {
   const [emailError, setEmailError] = useState("");
   const countryList = [{ value: 1, label: "India" }];
   const countryCodeOptions = [{ value: "91", label: "+91" }];
+  const [countryCode, setCountryCode] = useState(null);
+  const [businessCountryCode, setBusinessCountryCode] = useState(null);
+
+  useEffect(() => {
+    if (countryCodeOptions?.length) {
+      setCountryCode(countryCodeOptions[0]);
+      setBusinessCountryCode(countryCodeOptions[0]);
+    }
+  }, [countryCodeOptions]);
+
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
   const [pinCodeError, setPinCodeError] = useState("");
-  const [countryCode, setCountryCode] = useState(countryCodeOptions[0]);
-  const [businessCountryCode, setBusinessCountryCode] = useState(
-    countryCodeOptions[0],
-  );
+
   const [businessMobile, setBusinessMobile] = useState("");
   const [vendorPhoneError, setVendorPhoneError] = useState("");
   const [vendorEmailError, setVendorEmailError] = useState("");
 
-  const [streetError, setStreetError] = useState("");
+  // const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -346,11 +354,18 @@ function AddVendorNew() {
   const [businessCountryCodeError, setBusinessCountryCodeError] = useState("");
   const [businessMobileError, setBusinessMobileError] = useState("");
 
-  console.log("businessCountryCodeError", businessCountryCodeError);
-  console.log("countryCode:", countryCode);
-  console.log("businessCountryCode:", businessCountryCode);
   const [houseNoError, setHouseNoError] = useState("");
-  const [landmarkError, setLandmarkError] = useState("");
+  // const [landmarkError, setLandmarkError] = useState("");
+
+  const vendorCategoryOptions =
+    state?.Settings?.vendorCategoryList?.map((item) => ({
+      value: item.id,
+      label: item.categoryName,
+    })) || [];
+
+  useEffect(() => {
+    dispatch({ type: "VENDOR_CATEGORY_LIST_SAGA" });
+  }, []);
 
   const focusFirstError = (() => {
     let focused = false;
@@ -385,8 +400,8 @@ function AddVendorNew() {
       setEmailError("");
 
       setHouseNoError("");
-      setLandmarkError("");
-      setStreetError("");
+
+      // setStreetError("");
 
       setCityError("");
       setStateNameError("");
@@ -441,7 +456,7 @@ function AddVendorNew() {
   };
 
   const handleVendorCategoryChange = (selectedOption) => {
-    setVendorCategory(selectedOption);
+    setVendorCategory(selectedOption?.value);
     setVendorCategoryError("");
   };
 
@@ -454,11 +469,6 @@ function AddVendorNew() {
     const value = e.target.value.replace(/\D/g, "");
     setBusinessMobile(value);
     setBusinessMobileError("");
-  };
-
-  const handleBusinessCountryCodeChange = (e) => {
-    setBusinessCountryCode(e.target.value);
-    setBusinessCountryCodeError("");
   };
 
   const handlePinCodeChange = (e) => {
@@ -497,18 +507,6 @@ function AddVendorNew() {
     setIsChangedError("");
   };
 
-  const handleStreetName = (e) => {
-    const value = e.target.value;
-
-    if (!regex.test(value)) {
-      return;
-    }
-    setStreet(value);
-    setStreetError("");
-    setGeneralError("");
-    setIsChangedError("");
-  };
-
   const handleLandmark = (e) => {
     const value = e.target.value;
 
@@ -516,7 +514,7 @@ function AddVendorNew() {
       return;
     }
     setLandmark(value);
-    setLandmarkError("");
+
     setGeneralError("");
     setIsChangedError("");
   };
@@ -650,13 +648,12 @@ function AddVendorNew() {
     setCountryCodeError("");
     setEmailError("");
     setHouseNoError("");
-    setLandmarkError("");
     setCityError("");
     setStateNameError("");
     setPinCodeError("");
     setDescriptionError("");
     setBusinessNameError("");
-    setStreetError("");
+    // setStreetError("");
     setCountryError("");
     setGeneralError("");
 
@@ -666,7 +663,6 @@ function AddVendorNew() {
     if (
       !first_Name &&
       !vendor_Mobile &&
-      !business_Name &&
       !countryCode &&
       !city &&
       !state_name &&
@@ -714,14 +710,14 @@ function AddVendorNew() {
       setMobileError("");
     }
 
-    if (!business_Name) {
-      setBusinessNameError("Please Enter Business Name");
-      if (!focusedRef.current && businessNameRef.current) {
-        businessNameRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
+    // if (!business_Name) {
+    //   setBusinessNameError("Please Enter Business Name");
+    //   if (!focusedRef.current && businessNameRef.current) {
+    //     businessNameRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
+    //   isValid = false;
+    // }
 
     if (!vendorCategory) {
       setVendorCategoryError("Please Select Vendor Category");
@@ -783,23 +779,14 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    if (!landmark?.trim()) {
-      setLandmarkError("Please Enter Landmark");
-      if (!focusedRef.current && landmarkRef.current) {
-        landmarkRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
-
-    if (!street?.trim()) {
-      setStreetError("Please Enter Street");
-      if (!focusedRef.current && streetRef.current) {
-        streetRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
+    // if (!street?.trim()) {
+    //   setStreetError("Please Enter Street");
+    //   if (!focusedRef.current && streetRef.current) {
+    //     streetRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
+    //   isValid = false;
+    // }
 
     if (!city) {
       setCityError("Please Enter City");
@@ -873,14 +860,28 @@ function AddVendorNew() {
       }
       isValid = false;
     }
-
-    const normalize = (value) => {
-      const val = (value ?? "").toString().trim().toLowerCase();
-      return val === "null" || val === "undefined" ? "" : val;
-    };
+    console.log("isValid:", isValid);
+    console.log({
+      first_Name,
+      countryCode,
+      vendor_Mobile,
+      // business_Name,
+      vendorCategory,
+      businessCountryCode,
+      businessMobile,
+      contactPersonName,
+      email_Id,
+      house_no,
+      // street,
+      city,
+      pinCode,
+      state_name,
+      country,
+    });
     if (!isValid) {
       return;
     }
+    console.log("isValid:", isValid);
 
     dispatch({
       type: "ADDVENDOR",
@@ -897,12 +898,12 @@ function AddVendorNew() {
 
           houseNo: house_no,
           landmark: landmark,
-          area: street,
+          // area: street,
           pinCode: Number(pinCode),
           city: city,
           state: state_name,
 
-          businessName: business_Name,
+          // businessName: business_Name,
           hostelId: state.login.selectedHostel_Id,
 
           vendorCategory: vendorCategory?.value ?? null,
@@ -938,7 +939,7 @@ function AddVendorNew() {
       setBusiness_Name("");
       setHouseNo("");
       setStreet("");
-      setLandmark("");
+
       setCity("");
       setPinCode("");
       setStateName("");
@@ -1055,7 +1056,7 @@ function AddVendorNew() {
     vendor_Mobile: "",
     address: "",
     house_no: "",
-    street: "",
+    // street: "",
     city: "",
     landmark: "",
     state: "",
@@ -1138,8 +1139,10 @@ function AddVendorNew() {
 
               <Select
                 ref={vendorCategoryRef}
-                // options={vendorCategoryOptions}
-                value={vendorCategory}
+                options={vendorCategoryOptions}
+                value={vendorCategoryOptions.find(
+                  (option) => option.value === vendorCategory,
+                )}
                 onChange={handleVendorCategoryChange}
                 placeholder="Select"
                 classNamePrefix="custom"
@@ -1160,10 +1163,13 @@ function AddVendorNew() {
                   <Select
                     ref={businessCountryCodeRef}
                     options={countryCodeOptions}
-                    value={businessCountryCode}
-                    onChange={(selectedOption) =>
-                      setBusinessCountryCode(selectedOption)
-                    }
+                    value={countryCodeOptions.find(
+                      (option) => option.value === businessCountryCode,
+                    )}
+                    onChange={(selectedOption) => {
+                      setBusinessCountryCode(selectedOption?.value || "");
+                      setBusinessCountryCodeError("");
+                    }}
                     isSearchable={false}
                     styles={CustomStylesCode}
                   />
@@ -1230,10 +1236,13 @@ function AddVendorNew() {
                   <Select
                     ref={countryCodeRef}
                     options={countryCodeOptions}
-                    value={countryCode}
-                    onChange={(selectedOption) =>
-                      setCountryCode(selectedOption)
-                    }
+                    value={countryCodeOptions.find(
+                      (option) => option.value === countryCode,
+                    )}
+                    onChange={(selectedOption) => {
+                      setCountryCode(selectedOption?.value || "");
+                      setCountryCodeError("");
+                    }}
                     isSearchable={false}
                     styles={CustomStylesCode}
                   />
@@ -1333,10 +1342,6 @@ function AddVendorNew() {
                   } focus:outline-none focus:ring-0`}
                 />
               </div>
-
-              {landmarkError && (
-                <ErrorMessage message={landmarkError} type="error" />
-              )}
             </div>
 
             <div className="lg:col-span-4">
@@ -1579,11 +1584,6 @@ function AddVendorNew() {
             )}
           </button>
         </div>
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-[40px] h-[40px] rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
-          </div>
-        )}
       </div>
     </div>
   );

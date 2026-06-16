@@ -81,7 +81,7 @@ export const initialState = {
   settingsBillsggetRecurrSucesscode: 0,
   settingsAddInvoiceSucesscode: 0,
 
-  planExpired: '',
+  planExpired: "",
   SettingsInvoice: [],
   settingsInvoicegetSucesscode: 0,
   settingsInvoicegetErrorStatuscode: 0,
@@ -98,15 +98,14 @@ export const initialState = {
   planList: [],
   statusCodeForPlanList: 0,
   billingRuleError: "",
-  editExpencesSubCategoryStatuscode: 0
-
+  editExpencesSubCategoryStatuscode: 0,
+  vendorCategorySuccessCode: 0,
+  vendorCategoryList: [],
 };
 
 const SettingsReducer = (state = initialState, action) => {
-
-
   switch (action.type) {
-    case 'RESET_ALL':
+    case "RESET_ALL":
       return initialState;
     case "ERROR_USER":
       return { ...state, errorUser: action.payload.statusCode };
@@ -118,11 +117,20 @@ const SettingsReducer = (state = initialState, action) => {
     case "REMOVE_ERROR_ROLE":
       return { ...state, errorRole: 0 };
 
-
-    case 'ROOM_HOSTEL_EB_CHANGE':
-      return { ...state, ebSettingsChangesStatusCode: action.payload.statusCode };
-    case 'REMOVE_ROOM_HOSTEL_EB_CHANGE':
+    case "ROOM_HOSTEL_EB_CHANGE":
+      return {
+        ...state,
+        ebSettingsChangesStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_ROOM_HOSTEL_EB_CHANGE":
       return { ...state, ebSettingsChangesStatusCode: 0 };
+
+    case "VENDOR_CATEGORY_LIST_REDUCER":
+      return {
+        ...state,
+        vendorCategorySuccessCode: action.payload.statusCode,
+        vendorCategoryList: action.payload.response,
+      };
 
     case "ASSIGNED_ERROR":
       return {
@@ -169,7 +177,10 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE":
       return { ...state, editexpencesStatuscode: 0 };
     case "EDIT-EXPENCES-SUB-CATEGORY":
-      return { ...state, editExpencesSubCategoryStatuscode: action.payload.statusCode, };
+      return {
+        ...state,
+        editExpencesSubCategoryStatuscode: action.payload.statusCode,
+      };
     case "REMOVE-EDIT-EXPENCES-SUB-CATEGORY":
       return { ...state, editExpencesSubCategoryStatuscode: 0 };
     case "DELETE_EXPENCES":
@@ -226,9 +237,9 @@ const SettingsReducer = (state = initialState, action) => {
     case "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
       return { ...state, alreadyAssignComplainterror: "" };
 
-    case 'BILLING_RULE_ERROR':
+    case "BILLING_RULE_ERROR":
       return { ...state, billingRuleError: action.payload };
-    case 'REMOVE_BILLING_RULE_ERROR':
+    case "REMOVE_BILLING_RULE_ERROR":
       return { ...state, billingRuleError: "" };
 
     case "PLAN-EXPIRED":
@@ -236,8 +247,6 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "CLEAR_PLAN-EXPIRED":
       return { ...state, planExpired: "" };
-
-
 
     case "EB_BILLING_UNIT_ADD":
       return {
@@ -267,9 +276,9 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_GET_EBBILLINGS_STATUS_CODE":
       return { ...state, getebStatuscode: 0 };
-    case 'UPDATE_EB_RULE_ERROR':
+    case "UPDATE_EB_RULE_ERROR":
       return { ...state, ebRuleError: action.payload };
-    case 'REMOVE_UPDATE_EB_RULE_ERROR':
+    case "REMOVE_UPDATE_EB_RULE_ERROR":
       return { ...state, ebRuleError: "" };
 
     case "DELETE_ELECTRICITY":
@@ -373,9 +382,13 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_NO_USER_STAFF_LIST_ERROR":
       return { ...state, StatusForNoStaffList: 0 };
 
-    case 'GET_MODULES':
-      return { ...state, getModules: action.payload.response, getModulesSuccessStatusCode: action.payload.statusCode };
-    case 'REMOVE_GET_MODULES_STATUS_CODE':
+    case "GET_MODULES":
+      return {
+        ...state,
+        getModules: action.payload.response,
+        getModulesSuccessStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_GET_MODULES_STATUS_CODE":
       return { ...state, getModulesSuccessStatusCode: 0 };
 
     case "EB_UNIT_ERROR":
@@ -502,11 +515,10 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_UPGRADE_PLAN_REDUCER":
       return { ...state, statusCodeUpgradePlan: 0 };
 
-    case 'UPGRADE_PLAN_ERROR':
+    case "UPGRADE_PLAN_ERROR":
       return { ...state, upgradePlanError: action.payload };
-    case 'REMOVE_UPGRADE_PLAN_ERROR':
-      return { ...state, upgradePlanError: '' };
-
+    case "REMOVE_UPGRADE_PLAN_ERROR":
+      return { ...state, upgradePlanError: "" };
 
     case "CURRENT_PLAN_REDUCER":
       return {
@@ -529,66 +541,88 @@ const SettingsReducer = (state = initialState, action) => {
         statusCodeForPlanList: 0,
       };
 
-
-
-
-
     case "SUBSCRIPTION_PDF":
-      return { ...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode, toTriggerPDF: false, };
+      return {
+        ...state,
+        SubscriptionPDF: action.payload.response,
+        SubscriptionPdfSuccess: action.payload.statusCode,
+        toTriggerPDF: false,
+      };
     case "CLEAR_SUBSCRIPTION_PDF_STATUS_CODE":
       return { ...state, SubscriptionPdfSuccess: 0 };
 
     case "SETTINGSADDRECURRING":
-      return { ...state, SettingsRecurringAddSuccess: action.payload.statusCode, };
+      return {
+        ...state,
+        SettingsRecurringAddSuccess: action.payload.statusCode,
+      };
     case "CLEAR_SETTINGSADDRECURRING_STATUS_CODE":
       return { ...state, SettingsRecurringAddSuccess: 0 };
 
     case "FREQUENCYTYPESLIST":
-      return { ...state, FrequencyTypeList: action.payload.response, FrequncyTypegetSuccessCode: action.payload.statusCode, };
+      return {
+        ...state,
+        FrequencyTypeList: action.payload.response,
+        FrequncyTypegetSuccessCode: action.payload.statusCode,
+      };
     case "CLEAR_FREQUENCYTYPESLIST_STATUS_CODE":
       return { ...state, FrequncyTypegetSuccessCode: 0 };
 
     case "NOTIFICATIONTYPESLIST":
-      return { ...state, NotificationTypeList: action.payload.response, NotificationypegetSuccessCode: action.payload.statusCode, };
+      return {
+        ...state,
+        NotificationTypeList: action.payload.response,
+        NotificationypegetSuccessCode: action.payload.statusCode,
+      };
     case "CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE":
       return { ...state, NotificationypegetSuccessCode: 0 };
 
     case "SETTINGSGETRECURRING":
-      return { ...state, SettingsBillsGetRecurring: action.payload.response, settingsBillsggetRecurrSucesscode: action.payload.statusCode, };
+      return {
+        ...state,
+        SettingsBillsGetRecurring: action.payload.response,
+        settingsBillsggetRecurrSucesscode: action.payload.statusCode,
+      };
     case "CLEAR_SETTINGSGETRECURRING_STATUS_CODE":
       return { ...state, settingsBillsggetRecurrSucesscode: 0 };
 
     case "ADDINVOICE_SETTINGS":
-      return { ...state, settingsAddInvoiceSucesscode: action.payload.statusCode, };
+      return {
+        ...state,
+        settingsAddInvoiceSucesscode: action.payload.statusCode,
+      };
     case "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE":
       return { ...state, settingsAddInvoiceSucesscode: 0 };
 
     case "SETTINGSGETINVOICE":
-      return { ...state, SettingsInvoice: action.payload.response, settingsInvoicegetSucesscode: action.payload.statusCode, };
+      return {
+        ...state,
+        SettingsInvoice: action.payload.response,
+        settingsInvoicegetSucesscode: action.payload.statusCode,
+      };
     case "CLEAR_SETTINGSGETINVOICE_STATUS_CODE":
       return { ...state, settingsInvoicegetSucesscode: 0 };
 
     case "ERROR_SETTINGS_GETINVOICE":
-      return { ...state, settingsInvoicegetErrorStatuscode: action.payload.statusCode, };
+      return {
+        ...state,
+        settingsInvoicegetErrorStatuscode: action.payload.statusCode,
+      };
     case "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE":
       return { ...state, settingsInvoicegetErrorStatuscode: 0 };
 
-    case 'RECURRINGOFF':
+    case "RECURRINGOFF":
       return { ...state, RecurringOffStatusCode: action.payload.statusCode };
-    case 'REMOVE_RECURRINGOFF':
+    case "REMOVE_RECURRINGOFF":
       return { ...state, RecurringOffStatusCode: 0 };
 
-
-
-
-
-
-
     case "ADD_GLOBAL_SETTINGS":
-      return { ...state, settingGlobalAddStatusCode: action.payload.statusCode, };
+      return {
+        ...state,
+        settingGlobalAddStatusCode: action.payload.statusCode,
+      };
     case "CLEAR_ADD_GLOBAL_SETTINGS":
       return { ...state, settingGlobalAddStatusCode: 0 };
-
 
     case "GET_GLOBAL_SETTING":
       return {
@@ -600,18 +634,27 @@ const SettingsReducer = (state = initialState, action) => {
       return { ...state, statusCodeForSettingFetch: 0 };
 
     case "ADD-BILLS-TEMPLATE":
-      return { ...state, settingsBillsAddTemplateSucesscode: action.payload.statusCode, };
+      return {
+        ...state,
+        settingsBillsAddTemplateSucesscode: action.payload.statusCode,
+      };
     case "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE":
       return { ...state, settingsBillsAddTemplateSucesscode: 0 };
 
-
     case "GET_TEMPLATELIST":
-      return { ...state, settingsBillsTemplateList: action.payload.response, SettingsBilltemplategetsuccessCode: action.payload.statusCode, };
+      return {
+        ...state,
+        settingsBillsTemplateList: action.payload.response,
+        SettingsBilltemplategetsuccessCode: action.payload.statusCode,
+      };
     case "CLEAR_GET_TEMPLATELIST_STATUS_CODE":
       return { ...state, SettingsBilltemplategetsuccessCode: 0 };
 
     case "ERROR_TEMPLATELIST":
-      return { ...state, SettingsBilltemplategetErrorCode: action.payload.statusCode, };
+      return {
+        ...state,
+        SettingsBilltemplategetErrorCode: action.payload.statusCode,
+      };
     case "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE":
       return { ...state, SettingsBilltemplategetErrorCode: 0 };
 

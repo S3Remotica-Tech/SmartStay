@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { EditExpencesSubCategory, PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, upgradePlan, CurrentSubscriptionPlan, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
+import { EditExpencesSubCategory,VendorCategoryList,  PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, upgradePlan, CurrentSubscriptionPlan, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -174,14 +174,9 @@ function* handleRecurringRole(action) {
 }
 
 
-
-
-
-
-
 function* handleCategorylist(action) {
    try {
-      const response = yield call(ExpencesCategorylist, action.payload);
+      const response = yield call(VendorCategorylist, action.payload);
 
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
@@ -207,6 +202,30 @@ function* handleCategorylist(action) {
       if (response) {
          refreshToken(response)
       }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+
+   }
+}
+
+
+
+
+function* handleVendorCategorylist(action) {
+   try {
+      const response = yield call(VendorCategoryList, action.payload);
+
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+              }
+
+
+      if (response?.status === 200) {
+         yield put({ type: 'VENDOR_CATEGORY_LIST_REDUCER', payload: { response: response.data, statusCode: response?.status, message: response?.data?.message } })
+      }
+         
    }
    catch (error) {
       yield* handleApiError(error);
@@ -1874,6 +1893,7 @@ function refreshToken(response) {
 
 
 function* SettingsSaga() {
+yield takeEvery('VENDOR_CATEGORY_LIST_SAGA', handleVendorCategorylist)
    yield takeEvery('EDITSUBCATEGORYSAGA', handleEditSubCategory)
    yield takeEvery('ROOMHOSTELEBCHANGE', handleChangeRoomHostelElectricity)
    yield takeEvery('GETMODULES', handleGetModules)
