@@ -283,10 +283,9 @@ function FinalSettlementInvoicePDF() {
                       <div>
                         {" "}
                         <span>
-                          {view.floorName || "Floor"} -{" "}
-                          {view.roomName || "Room"} -{view.bedName || "Bed"}{" "}
-                          &nbsp; - &nbsp; ₹ {view.totalAmount} (
-                          {view.consumption} Units)
+                          {view.floorName || ""} {view.roomName || ""}
+                          {view.bedName || ""} &nbsp; &nbsp; ₹{" "}
+                          {view.totalAmount} ({view.consumption} Units)
                         </span>
                       </div>
                     </div>
@@ -474,7 +473,7 @@ function FinalSettlementInvoicePDF() {
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
               <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
-                <span>Subtotal</span>
+                <span>Total Refundable</span>
 
                 <span className="font-semibold flex items-center gap-1 text-right ml-auto shrink-0">
                   <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block shrink-0"></span>
@@ -509,6 +508,31 @@ function FinalSettlementInvoicePDF() {
                   </span>
                 </div>
               )}
+
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                <span>Payable Rent</span>
+
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                  ₹ 0
+                </span>
+              </div>
+              {pdfDetails?.walletInfo?.totalWalletAmount !== 0 && (
+                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                  <span>Wallet</span>
+
+                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                    ₹ {pdfDetails?.walletInfo?.totalWalletAmount}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                <span>Discount</span>
+
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                  ₹ 0
+                </span>
+              </div>
+
               {Number(pdfDetails?.invoiceInfo?.electricityAmount) !== 0 && (
                 <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                   <span>Electricity Bill</span>
