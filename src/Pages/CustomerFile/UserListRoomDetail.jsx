@@ -256,12 +256,39 @@ function UserListRoomDetail(props) {
     isBillWay,
     isReceiptWay,
     isBookingWay,
+    isTenantWay,
   } = location.state || {};
+
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  // console.log("CustomerOverView?.isJoiningDateEditable",CustomerOverView?.isJoiningDateEditable)
+  const handleNavigateTenant = () => {
+    if (isPgWay) {
+      navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else if (isDashboardWay) {
+      navigate(`/dashboard/${state.login.selectedHostel_Id}`);
+    } else if (isBillWay) {
+      navigate(`/invoice/${state.login.selectedHostel_Id}`);
+    } else if (isReceiptWay) {
+      navigate(`/receipts/${state.login.selectedHostel_Id}`);
+    } else if (isBookingWay) {
+      navigate(`/booking/${state.login.selectedHostel_Id}`);
+    } else if (isTenantWay) {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
+    }
+  };
+
+  const handleCheckoutGenrateNew = (item) => {
+    navigate(`/tenant/final-settlement/${item?.customerId}`, {
+      state: {
+        data: item,
+        isTenantOverview: true,
+      },
+    });
+  };
 
   useEffect(() => {
     if (isDashboardWay) {
@@ -855,14 +882,6 @@ function UserListRoomDetail(props) {
     }
     setReasignDetail(reuser);
     setCustomerReAssign(true);
-  };
-
-  const handleCheckoutGenrateNew = (item) => {
-    navigate(`/tenant/final-settlement/${item?.customerId}`, {
-      state: {
-        data: item,
-      },
-    });
   };
 
   const handleBacktoCheckout = (item) => {
@@ -2328,22 +2347,6 @@ function UserListRoomDetail(props) {
 
   const handleClosePreview = () => {
     setShowPreview(false);
-  };
-
-  const handleNavigateTenant = () => {
-    if (isPgWay) {
-      navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
-    } else if (isDashboardWay) {
-      navigate(`/dashboard/${state.login.selectedHostel_Id}`);
-    } else if (isBillWay) {
-      navigate(`/invoice/${state.login.selectedHostel_Id}`);
-    } else if (isReceiptWay) {
-      navigate(`/receipts/${state.login.selectedHostel_Id}`);
-    } else if (isBookingWay) {
-      navigate(`/booking/${state.login.selectedHostel_Id}`);
-    } else {
-      navigate(`/tenant/${state.login.selectedHostel_Id}`);
-    }
   };
 
   const handleShowWalletHistory = () => {

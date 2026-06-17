@@ -156,9 +156,6 @@ export async function vendorCustomizeData(vendor) {
   );
 }
 
-
-
-
 export async function DeleteVendorList(vendor) {
   return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`);
 }

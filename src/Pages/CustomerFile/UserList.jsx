@@ -1106,6 +1106,7 @@ function UserList(props) {
         customerId: userData.customerId,
         hostelId: state.login.selectedHostel_Id,
         name: userData.fullName,
+        isTenantWay: true,
       },
     });
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });

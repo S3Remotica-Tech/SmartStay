@@ -167,7 +167,8 @@ function FinalSettlement() {
   const [isEditingDate, setIsEditingDate] = useState(false);
   const [checkoutDate, setCheckoutDate] = useState(dayjs());
   const [selectedRowDetails, setSelectedRowDetails] = useState("");
-  const { data, pgDetails, isPGWay, customer } = location.state || {};
+  const { data, pgDetails, isPGWay, customer, isTenantOverview } =
+    location.state || {};
 
   const [isEditing, setIsEditing] = useState(false);
   const [finalAmountSetClicked, setFinalAmountSetClicked] = useState(false);
@@ -378,6 +379,8 @@ function FinalSettlement() {
   const handleClose = () => {
     if (pgDetails || isPGWay) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else if (isTenantOverview) {
+      navigate(`/tenant/details/${state.login.selectedHostel_Id}`);
     } else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     }

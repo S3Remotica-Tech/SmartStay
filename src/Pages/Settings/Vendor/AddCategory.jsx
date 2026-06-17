@@ -18,9 +18,18 @@ function AddCategory({ show, onClose }) {
     dispatch({
       type: "REMOVE_ALREADY_VENDOR_CATEGORY_ERROR",
     });
+
     let value = e.target.value;
 
-    value = value.replace(/[%#@*&\-+=\[\]{}]/g, "");
+    value = value.replace(/^\s+/, "");
+
+    value = value.replace(/\s{2,}/g, " ");
+
+    value = value.replace(/[^a-zA-Z0-9&()/_\-\s]/g, "");
+
+    if (value.length > 50) {
+      value = value.slice(0, 50);
+    }
 
     setCategoryName(value);
     setCategoryError("");
