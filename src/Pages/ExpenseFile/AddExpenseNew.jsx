@@ -339,7 +339,11 @@ function AddExpenseNew() {
   };
 
   const { isBankingWayTrigger, currentItem } = location?.state;
-
+  const [errors, setErrors] = useState({
+    totalAmount: "",
+    paidAmount: "",
+    balanceAmount: "",
+  });
   const expenseTitleRef = useRef(null);
   const categoryRef = useRef(null);
   const subCategoryRef = useRef(null);
@@ -366,6 +370,10 @@ function AddExpenseNew() {
     } else {
       setPaidAmountError("");
     }
+    setErrors((prev) => ({
+      ...prev,
+      paidAmount: "",
+    }));
   };
 
   const handleBalanceAmountChange = (e) => {
@@ -378,6 +386,10 @@ function AddExpenseNew() {
     } else {
       setBalanceAmountError("");
     }
+    setErrors((prev) => ({
+      ...prev,
+      balanceAmount: "",
+    }));
   };
 
   const handleClose = () => {
@@ -555,6 +567,36 @@ function AddExpenseNew() {
 
   const handleSubmit = () => {
     if (!validate()) return;
+
+    const total = Number(totalAmount || 0);
+    const paid = Number(paidAmount || 0);
+    const balance = Number(balanceAmount || 0);
+
+    if (paid > total) {
+      setErrors((prev) => ({
+        ...prev,
+        paidAmount: "Paid amount cannot exceed total amount.",
+      }));
+      return;
+    }
+
+    if (balance > total) {
+      setErrors((prev) => ({
+        ...prev,
+        balanceAmount: "Balance amount cannot exceed total amount.",
+      }));
+      return;
+    }
+
+    if (paid + balance !== total) {
+      setErrors((prev) => ({
+        ...prev,
+        paidAmount: "Paid amount + Balance amount must equal Total amount.",
+        balanceAmount: "Paid amount + Balance amount must equal Total amount.",
+      }));
+      return;
+    }
+
     const formattedDate = moment(purchaseDate).format("DD-MM-YYYY");
 
     dispatch({
