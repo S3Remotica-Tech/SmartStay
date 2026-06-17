@@ -22,6 +22,18 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
 
   const [activeTab, setActiveTab] = useState("overview");
 
+  useEffect(() => {
+    if (state.UsersList.settlementPaymentSuccessCode === 200) {
+      dispatch({
+        type: "VENDORLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
+      }, 1000);
+    }
+  }, [state.UsersList.settlementPaymentSuccessCode]);
+
   return (
     <div className="font-gilroy">
       <div
@@ -35,7 +47,7 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
         <div className="px-6 py-1">
           <div className="flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-2">
                 <h2 className="text-[24px] font-semibold text-[#222]">
                   Vinayaka Electricals
                 </h2>

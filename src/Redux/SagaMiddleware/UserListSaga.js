@@ -29,6 +29,7 @@ import {
   customerSaveInfo,
   CheckIn,
   GetAllFloor,
+  settlePayment,
   getParticularHostelList,
   ConfirmCheckout_Due_Customer,
   deleteCustomer,
@@ -101,6 +102,51 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleSettlementPayemnt(settle) {
+  try {
+    const response = yield call(settlePayment, settle.payload);
+
+    if (response?.status === 201) {
+      yield put({
+        type: "SETTLEMENT_PAYMENT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Created Successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+    }
   }
 }
 
@@ -3343,6 +3389,7 @@ function* handleCheckoutProfile(action) {
 }
 
 function* UserListSaga() {
+  yield takeEvery("SETTLEMENT_PAYMENT_SAGA", handleSettlementPayemnt);
   yield takeEvery("DRAFT_TENANT_LIST_SAGA", handleDraftTenantSearch);
   yield takeEvery("SAVE_DRAFT_SAGA", handleSaveDraft);
   yield takeEvery("TENANT_SEARCH_LIST_SAGA", handleSearchTenant);

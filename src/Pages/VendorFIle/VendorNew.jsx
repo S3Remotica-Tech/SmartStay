@@ -651,12 +651,14 @@ function Vendor() {
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
-    setShowOverview(false);
+    // setShowOverview();
   };
 
   const handleCloseSettlement = () => {
     setShowSettlementForm(false);
   };
+
+  
 
   return (
     <>

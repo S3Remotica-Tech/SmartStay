@@ -9,6 +9,8 @@ import {
   DeleteExpense,
   transactionHistory,
   AddExpenseTag,
+  particularExpenseverview,
+  expenseCustomizeData,
 } from "../Action/ExpensesAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -39,6 +41,34 @@ function* handleGetUnits() {
     if (response?.status === 200) {
       yield put({
         type: "UNITS_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleParticularExpenseOverview(args) {
+  try {
+    const response = yield call(particularExpenseverview, args.payload);
+    if (response?.status === 200) {
+      yield put({
+        type: "EXPENSE_OVERVIEW_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleCustomizeExpense(args) {
+  try {
+    const response = yield call(expenseCustomizeData, args.payload);
+    if (response?.status === 200) {
+      yield put({
+        type: "EXPENSE_CUSTOMIZE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
     }
@@ -354,6 +384,8 @@ function* HandleTransactionHistory(action) {
 }
 
 function* ExpenseSaga() {
+  yield takeEvery("EXPENSE_CUSTOMIZE_SAGA", handleCustomizeExpense);
+  yield takeEvery("EXPENSE_OVERVIEW_SAGA", handleParticularExpenseOverview);
   yield takeEvery("UNITS_LIST_SAGA", handleGetUnits);
   yield takeEvery("CATEGORYLIST", handleGetCategory);
   yield takeEvery("ADDEXPENSE", handleAddExpense);

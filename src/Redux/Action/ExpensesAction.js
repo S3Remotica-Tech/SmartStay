@@ -38,6 +38,18 @@ export async function UpdateExpense(datum) {
   );
 }
 
+// EXPENSE OVERVIEW
+
+export async function particularExpenseverview() {
+  return await AxiosConfigV2.get(``);
+}
+
+//  customization PUT Api
+
+export async function expenseCustomizeData(vendor) {
+  return await AxiosConfigV2.put(``, vendor.customize);
+}
+
 export async function DeleteExpense(expense) {
   return await AxiosConfigV2.delete(
     `/v2/expense/${expense.hostelId}/${expense.expenseId}`,

@@ -16,6 +16,8 @@ import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 
 const vendorOptions = [
   { value: "grow-aqua-services", label: "Grow Aqua Services" },
@@ -208,14 +210,15 @@ const GroupHeading = (props) => (
 
 function SettlementPayment({ show, handleClose, isBanking }) {
   if (!show) return null;
-
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
   const [paidDate, setPaidDate] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [description, setDescription] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false);
   const [vendorError, setVendorError] = useState("");
   const [paidAmountError, setPaidAmountError] = useState("");
   const [paidDateError, setPaidDateError] = useState("");
@@ -229,6 +232,21 @@ function SettlementPayment({ show, handleClose, isBanking }) {
   });
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+    dispatch({
+      type: "VENDORLIST",
+      payload: { hostelId: state.login.selectedHostel_Id },
+    });
+  }, []);
+
+  const vendorOptions =
+    state.ComplianceList?.VendorList?.map((vendor) => ({
+      value: vendor.id,
+      label: vendor.fullName,
+      vendor,
+    })) || [];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -288,8 +306,8 @@ function SettlementPayment({ show, handleClose, isBanking }) {
       isValid = false;
     }
 
-    if (!purchaseDate) {
-      setPurchaseDateError("Paid date is required");
+    if (!paidDate) {
+      setPaidDateError("Paid date is required");
       isValid = false;
     }
 
@@ -303,18 +321,31 @@ function SettlementPayment({ show, handleClose, isBanking }) {
 
   const handleSubmit = () => {
     if (!validateForm()) return;
-
-    const payload = {
-      selectedVendor,
-      paidAmount,
-      purchaseDate,
-      paymentMethod,
-      transactionId,
-      description,
-    };
-
-    console.log(payload);
+    const formattedDate = paidDate ? moment(paidDate).format("DD-MM-YYYY") : "";
+    dispatch({
+      type: "SETTLEMENT_PAYMENT_SAGA",
+      payload: {
+        transactionImage: attachments?.[0]?.file || null,
+        payloads: {
+          expenseId,
+          amount: Number(paidAmount),
+          paymentDate: formattedDate,
+          bankId: paymentMethod?.value,
+          paymentMethod: paymentMethod?.type || paymentMethod?.label,
+          transactionId: transactionId,
+          notes: description,
+        },
+      },
+    });
+    setFormLoading(true);
   };
+
+  useEffect(() => {
+    if (state.UsersList.settlementPaymentSuccessCode === 200) {
+      setFormLoading(false);
+      handleClose();
+    }
+  }, [state.UsersList.settlementPaymentSuccessCode]);
 
   return (
     <>
@@ -322,7 +353,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col"
+        className="fixed inset-y-2 right-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy"
       >
         <div
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
@@ -342,11 +373,11 @@ function SettlementPayment({ show, handleClose, isBanking }) {
           <div className="grid grid-cols-1  mt-1 px-4 py-2">
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Vendor/Business Name{" "}
-                <span className="text-red-600 text-[20px]">*</span>
+                Vendor Name <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
                 <Select
+                  options={vendorOptions}
                   value={selectedVendor}
                   onChange={handleVendorChange}
                   options={vendorOptions}
@@ -379,6 +410,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
                 <input
                   type="number"
                   value={paidAmount}
+                  placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     paidAmount ? "font-semibold" : "font-medium"
@@ -462,7 +494,6 @@ function SettlementPayment({ show, handleClose, isBanking }) {
               )}
             </div>
 
-            {/* Transaction ID */}
             <div className="mb-2 relative">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Transaction ID
@@ -478,7 +509,6 @@ function SettlementPayment({ show, handleClose, isBanking }) {
               />
             </div>
 
-            {/* Attachments */}
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Attachments/Proofs (If any)
@@ -624,7 +654,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
               <div className="mt-3 space-y-1 text-sm">
                 <div className="flex justify-between">
                   <span className="opacity-80">Paid Amount</span>
-                  <span>₹ 2,000.00</span>
+                  <span>₹ {paidAmount}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="opacity-80">
@@ -646,11 +676,23 @@ function SettlementPayment({ show, handleClose, isBanking }) {
           </button>
 
           <button
-            onClick={handleSubmit}
             type="submit"
-            className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
+            disabled={formLoading}
+            onClick={handleSubmit}
+            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+              formLoading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
-            Save <ArrowRight size="14" color="#FFFFFF" />
+            {formLoading ? (
+              <>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </div>
+              </>
+            ) : (
+              <span>Save</span>
+            )}
           </button>
         </div>
       </div>

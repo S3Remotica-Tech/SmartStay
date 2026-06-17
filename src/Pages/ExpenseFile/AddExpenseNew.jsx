@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseCircle, Add, More } from "iconsax-react";
+import { CloseCircle, Add, More, DocumentUpload } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import moment from "moment";
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -308,7 +309,14 @@ function AddExpenseNew() {
   const [transactionId, setTransactionId] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
   const [paidAmountError, setPaidAmountError] = useState("");
-
+  const [attachments, setAttachments] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [selectedImageName, setSelectedImageName] = useState({
+    name: "",
+    index: "",
+  });
+  const [hoveredImage, setHoveredImage] = useState(null);
+  const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
 
@@ -340,6 +348,23 @@ function AddExpenseNew() {
   const [discount, setDiscount] = useState(0);
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    const newFiles = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setAttachments((prev) => [...prev, ...newFiles]);
+
+    e.target.value = "";
+  };
+
+  const handleRemoveFile = (index) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
@@ -1155,6 +1180,122 @@ function AddExpenseNew() {
               </div>
             </div>
 
+            {/* Attachments */}
+            <div className="grid grid-cols-12 gap-4 mt-2">
+              <div className="col-span-12 lg:col-span-8">
+                <div className="mb-2">
+                  <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                    Attachments/Proofs (If any)
+                  </label>
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept="image/jpeg,image/jpg,image/png"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+                  >
+                    <div className="rounded-md bg-blue-100 px-1 py-1">
+                      <DocumentUpload size={20} color="#1E45E1" />
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium text-[#222222] mb-1">
+                        <span className="text-[#1E45E1]">Choose Image to</span>{" "}
+                        Upload
+                      </p>
+
+                      <p className="text-xs text-gray-500">
+                        JPG / JPEG / PNG Format
+                      </p>
+                    </div>
+                  </div>
+
+                  {previewImage && (
+                    <div className="flex items-center justify-center">
+                      <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
+                        <div
+                          className="relative px-4 py-2 group"
+                          onMouseEnter={() => setHoveredImage(previewImage)}
+                          onMouseLeave={() => setHoveredImage(null)}
+                        >
+                          <img
+                            src={previewImage}
+                            alt="preview"
+                            className="w-[350px] h-auto rounded-md object-fit"
+                          />
+
+                          <div
+                            className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
+                              hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                            }`}
+                          >
+                            <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
+                              <p className="text-white text-sm truncate max-w-[170px]">
+                                {selectedImageName?.name}
+                              </p>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setPreviewImage(null);
+                                  handleRemoveFile(selectedImageName?.index);
+                                }}
+                                className="bg-white rounded-md p-1"
+                              >
+                                <Add
+                                  size={20}
+                                  color="#FF0000"
+                                  className="rotate-45"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className="flex justify-end my-2"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
+                      + Add more Files
+                    </label>
+                  </div>
+                </div>
+
+                {attachments?.length > 0 && (
+                  <div className="grid grid-cols-3 gap-3 mt-3">
+                    {attachments.map((item, index) => (
+                      <div
+                        key={index}
+                        className="relative border rounded-lg w-full"
+                      >
+                        <img
+                          src={item.preview}
+                          alt="preview"
+                          className="h-[100px]  w-full object-cover cursor-pointer rounded-lg"
+                          onClick={() => {
+                            setSelectedImageName({
+                              name: item.file.name,
+                              index: index,
+                            });
+                            setPreviewImage(item.preview);
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
             <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
               <div className="col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-medium">

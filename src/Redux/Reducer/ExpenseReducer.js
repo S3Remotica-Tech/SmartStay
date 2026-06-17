@@ -17,6 +17,8 @@ export const initialState = {
   insufficiantFundError: "",
   StatusCodeForUpdateExpenseSuccess: 0,
   unitList: [],
+  expenseOverview: "",
+  customizeExpenseSuccessCode: 0,
 };
 
 const ExpenseReducer = (state = initialState, action) => {
@@ -39,6 +41,15 @@ const ExpenseReducer = (state = initialState, action) => {
 
     case "TRANSACTION_HISTORY":
       return { ...state, transactionHistory: action.payload.response };
+
+    case "EXPENSE_OVERVIEW_REDUCER":
+      return { ...state, expenseOverview: action.payload.response };
+
+    case "EXPENSE_CUSTOMIZE_REDUCER":
+      return { ...state, customizeExpenseSuccessCode: action.payload.response };
+    case "REMOVE_EXPENSE_CUSTOMIZE_REDUCER":
+      return { ...state, customizeExpenseSuccessCode: 0 };
+
     case "ADD_EXPENSE":
       return {
         ...state,
