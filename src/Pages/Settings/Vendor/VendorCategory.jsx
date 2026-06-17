@@ -12,6 +12,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../../Utils/NoDataMessage";
 import AddCategory from "./AddCategory";
+import DeleteVendorCategory from "./DeleteVendorCategory";
 
 function VendorCategory() {
   const state = useSelector((state) => state);
@@ -20,13 +21,41 @@ function VendorCategory() {
   const [categoryList, setCategoryList] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [showDelete, setShowDelete] = useState(false);
+  const menuRef = useRef(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
+  const [activeItem, setActiveItem] = useState(null);
+  const buttonRefs = useRef([]);
+
   const {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
     canDeleteModule: canDeleteVendor,
   } = useHasPermission("Vendor");
-  const handleShowDots = (index) => {
-    setActiveIndex((prev) => (prev === index ? null : index));
+
+  const handleShowDots = (index, item, e) => {
+    e.stopPropagation();
+
+    const rect = buttonRefs.current[index]?.getBoundingClientRect();
+
+    setMenuPos({
+      top: rect.bottom + 8,
+      left: rect.right - 120,
+    });
+
+    setActiveIndex(index);
+    setActiveItem(item);
+  };
+
+  const handleDelete = (deleteId) => {
+    console.log("deleteId", deleteId);
+    setDeleteId(deleteId);
+    setShowDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setShowDelete(false);
   };
 
   useEffect(() => {
@@ -35,6 +64,19 @@ function VendorCategory() {
     }
   }, [canReadVendor]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setActiveIndex(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
@@ -67,6 +109,14 @@ function VendorCategory() {
     }
   }, [state.Settings?.createVendorCategorySuccessStatus]);
 
+  useEffect(() => {
+    if (state.Settings?.deleteVendorCategorySuccessStatus === 200) {
+      setShowDelete(false);
+      dispatch({ type: "VENDOR_CATEGORY_LIST_SAGA" });
+      dispatch({ type: "REMOVE_DELETE_VENDOR_CATEGORY_REDUCER" });
+    }
+  }, [state.Settings?.deleteVendorCategorySuccessStatus]);
+
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error("Please add a hostel before adding Expense information", {
@@ -86,6 +136,14 @@ function VendorCategory() {
   return (
     <div>
       {open && <AddCategory show={open} onClose={() => setOpen(false)} />}
+      {showDelete && (
+        <DeleteVendorCategory
+          show={showDelete}
+          handleClose={handleCloseDelete}
+          deleteId={deleteId}
+        />
+      )}
+
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
         <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
           <label className="font-gilroy text-[18px] text-[#222] font-semibold">
@@ -116,7 +174,7 @@ function VendorCategory() {
       ) : (
         <div className=" mt-2">
           {categoryList && categoryList.length > 0 ? (
-            <div className="container show-scrolls relative max-h-[475px] overflow-y-auto">
+            <div className="container show-scrolls relative h-[500px] overflow-y-auto">
               <div className="flex flex-wrap -mx-2">
                 {categoryList.map((u, i) => (
                   <div
@@ -135,34 +193,29 @@ function VendorCategory() {
                       </div>
 
                       <button
-                        onClick={() => handleShowDots(i)}
-                        className="flex items-center justify-center h-[35px] w-[35px] rounded-full border border-[#EFEFEF] relative cursor-pointer"
+                        ref={(el) => (buttonRefs.current[i] = el)}
+                        onClick={(e) => handleShowDots(i, u.id, e)}
+                        className="flex items-center justify-center h-[35px] w-[35px] rounded-full
+                         border border-[#EFEFEF] relative cursor-pointer font-gilroy"
                       >
                         <PiDotsThreeOutlineVerticalFill className="h-4.5 w-4.5" />
 
-                        {activeIndex === i && (
+                        {activeItem && activeIndex === i && (
                           <div
-                            className="absolute font-gilroy right-10 mt-2 w-fit  bg-white
-                           border border-gray-200 rounded-md shadow-lg z-50"
+                            ref={menuRef}
+                            className="fixed z-50 bg-white border rounded-md "
+                            style={{
+                              top: menuPos.top,
+                              left: menuPos.left,
+                            }}
                           >
-                            {/* <button
-                              onClick={() => {
-                                handleEdit(u);
-                                closeMenu();
-                              }}
-                              className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
-                            >
-                              <Edit2 /> Edit
-                            </button> */}
-
                             <button
                               onClick={() => {
                                 if (!canDeleteVendor) return;
-                                handleDelete(u);
-                                closeMenu();
+                                handleDelete(u?.id);
                               }}
                               disabled={!canDeleteVendor}
-                              className={`w-full text-left rounded-md px-8 py-2 text-base flex items-center gap-1 
+                              className={`w-full font-gilroy text-left rounded-lg px-4 py-2 text-base flex items-center gap-1 
     ${
       canDeleteVendor
         ? "text-red-600 hover:bg-gray-100 cursor-pointer"

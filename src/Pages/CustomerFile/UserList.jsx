@@ -2307,7 +2307,7 @@ function UserList(props) {
   return (
     <div className=" bg-white font-gilroy ">
       {userList && (
-        <div className="font-gilroy font-medium text-base">
+        <div className="font-gilroy font-medium text-base relative">
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
               <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />

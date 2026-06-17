@@ -45,7 +45,7 @@ export async function AddVendorCategory(vendor) {
 }
 
 export async function DeleteVendorCategoryList(categoryId) {
-  return await AxiosConfigV2.delete(
+  return await AxiosConfigV2.post(
     `/v2/vendors/categories/${categoryId}/delete`,
   );
 }

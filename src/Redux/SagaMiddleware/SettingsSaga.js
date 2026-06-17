@@ -526,10 +526,14 @@ function* handleDeleteExpencescategory(action) {
 function* handleDeleteVendorCategory(action) {
   try {
     const response = yield call(DeleteVendorCategoryList, action.payload);
-    if (response?.status === 200 || response?.status === 204) {
+    console.log("responseeeee", response);
+    if (response?.status === 200 || response?.statusCode === 200) {
       yield put({
         type: "DELETE_VENDOR_CATEGORY_REDUCER",
-        payload: { response: response.data, statusCode: response?.status },
+        payload: {
+          response: response.data,
+          statusCode: response?.status || response?.statusCode,
+        },
       });
 
       var toastStyle = {

@@ -1,7 +1,6 @@
 // import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-
 // export async function compliance(compliance) {
 //   return await AxiosConfig.post('/compliance/compliance-list', compliance, {
 //     data: compliance
@@ -10,20 +9,21 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 // v2
 export async function complianceList(compliance) {
-
-  return await AxiosConfigV2.get(`/v2/complaint/all-complaints/${compliance.hostelId}`, {
-    headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.get(
+    `/v2/complaint/all-complaints/${compliance.hostelId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params: {
+        customerName: compliance.customerName,
+        status: compliance.status,
+        startDate: compliance.startDate,
+        endDate: compliance.endDate,
+      },
     },
-     params: {
-      customerName: compliance.customerName,
-      status: compliance.status,
-      startDate: compliance.startDate,
-      endDate: compliance.endDate,
-    },
-  });
+  );
 }
-
 
 // v1
 // export async function Compliancedetails(formDetails) {
@@ -33,20 +33,17 @@ export async function complianceList(compliance) {
 // }
 // v2
 export async function Compliancedetails(formDetails) {
-  return await AxiosConfigV2.post('/v2/complaint', formDetails, {
-    data: formDetails
-  })
+  return await AxiosConfigV2.post("/v2/complaint", formDetails, {
+    data: formDetails,
+  });
 }
 
 // v2
 export async function EditComplaint(complaint) {
-  return await AxiosConfigV2.put(
-    `/v2/complaint/${complaint.complaintId}`,
-    {
-      complaintDate: complaint.complaintDate,
-      description: complaint.description,
-    }
-  );
+  return await AxiosConfigV2.put(`/v2/complaint/${complaint.complaintId}`, {
+    complaintDate: complaint.complaintDate,
+    description: complaint.description,
+  });
 }
 
 export async function ParticularcomplianceDetails(complaintId) {
@@ -57,12 +54,16 @@ export async function ParticularcomplianceDetails(complaintId) {
   });
 }
 
-export async function addComplianceComment(complaintId , datum) {
-  return await AxiosConfigV2.post(`/v2/complaint/add-comment/${complaintId}`, datum, {
-     headers: {
-      "Content-Type": "application/json",
+export async function addComplianceComment(complaintId, datum) {
+  return await AxiosConfigV2.post(
+    `/v2/complaint/add-comment/${complaintId}`,
+    datum,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  }) 
+  );
 }
 
 export async function complaintsView(complaintsId) {
@@ -71,35 +72,26 @@ export async function complaintsView(complaintsId) {
 
 export async function complaintsViewUpdates(complaint) {
   // console.log("complaintsViewUpdates",complaint)
-  return await AxiosConfigV2.get(`/v2/complaint/updates/${complaint.hostelId}/${complaint.complaintsId}`);
+  return await AxiosConfigV2.get(
+    `/v2/complaint/updates/${complaint.hostelId}/${complaint.complaintsId}`,
+  );
 }
-
-
-
 
 export async function VendorList(vendor) {
-  return await AxiosConfigV2.get(`/v2/vendors/all-vendors/${vendor.hostelId}`)
+  return await AxiosConfigV2.get(`/v2/vendors/all-vendors/${vendor.hostelId}`);
 }
 
-
-
 export async function addVendor(params) {
-
-
   const formData = new FormData();
-
 
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
- 
-
   if (params.payLoads) {
-    const payloadBlob = new Blob(
-      [JSON.stringify(params.payLoads)],
-      { type: "application/json" }
-    );
+    const payloadBlob = new Blob([JSON.stringify(params.payLoads)], {
+      type: "application/json",
+    });
     formData.append("payLoads", payloadBlob);
   }
 
@@ -117,22 +109,17 @@ export async function addVendor(params) {
   }
 }
 
-
-//  v2
-
 export async function updateVendor(params) {
   const formData = new FormData();
 
-   if (params.profilePic) {
+  if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
-
   if (params.updateVendor) {
-    const payloadBlob = new Blob(
-      [JSON.stringify(params.updateVendor)],
-      { type: "application/json" }
-    );
+    const payloadBlob = new Blob([JSON.stringify(params.updateVendor)], {
+      type: "application/json",
+    });
     formData.append("updateVendor", payloadBlob);
   }
 
@@ -145,7 +132,7 @@ export async function updateVendor(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -154,36 +141,33 @@ export async function updateVendor(params) {
   }
 }
 
+// vendor overview
 
-
-
-// v1
-
-// export async function DeleteVendorList(vendor) {
-//   return await AxiosConfig.post('/delete-vendor-list', vendor, {
-//     data: vendor
-//   })
-// }
-
-// v2
-export async function DeleteVendorList(vendor) {
-  return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`)
+export async function particularVendorOverview(vendorId) {
+  return await AxiosConfigV2.get(`/v2/complaint/${vendorId}`);
 }
 
-// v1
-// export async function ComplianceChange(compliance) {
-//   return await AxiosConfig.post('/compliance/change_details', compliance, {
-//     data: compliance
-//   })
-// }
+//  customization PUT Api
 
-export async function ComplianceAssign({ complaintId, userId }) {
+export async function vendorCustomizeData(vendor) {
   return await AxiosConfigV2.put(
-    `/v2/complaint/assign-user/${complaintId}`,
-    { userId }
+    `/v2/table-config/customers/${vendor.hostelId}`,
+    vendor.customize,
   );
 }
- 
+
+
+
+
+export async function DeleteVendorList(vendor) {
+  return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`);
+}
+
+export async function ComplianceAssign({ complaintId, userId }) {
+  return await AxiosConfigV2.put(`/v2/complaint/assign-user/${complaintId}`, {
+    userId,
+  });
+}
 
 // v1
 // export async function ComplianceChangeStatus(compliance) {
@@ -195,12 +179,10 @@ export async function ComplianceAssign({ complaintId, userId }) {
 // v2
 
 export async function ComplianceChangeStatus({ complaintId, status }) {
-  return await AxiosConfigV2.put(
-    `/v2/complaint/update-status/${complaintId}`,
-    { status }
-  );
+  return await AxiosConfigV2.put(`/v2/complaint/update-status/${complaintId}`, {
+    status,
+  });
 }
-
 
 // v1
 // export async function complianceDelete(datum) {
@@ -211,16 +193,19 @@ export async function ComplianceChangeStatus({ complaintId, status }) {
 
 // v2
 export async function complianceDelete(complaintId) {
-  return await AxiosConfigV2.delete(`/v2/complaint/delete-complaint/${complaintId}`,  {
-     headers: {
-      "Content-Type": "application/json",
+  return await AxiosConfigV2.delete(
+    `/v2/complaint/delete-complaint/${complaintId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  }) 
+  );
 }
 
-// 
-export  function getComplianceComment() {
- new Promise((resolve) => {
-  resolve({status: 200});
-})
+//
+export function getComplianceComment() {
+  new Promise((resolve) => {
+    resolve({ status: 200 });
+  });
 }

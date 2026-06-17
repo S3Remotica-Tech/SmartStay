@@ -157,7 +157,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "DELETE_VENDOR_CATEGORY_REDUCER":
       return {
         ...state,
-        deleteVendorCategorySuccessStatus: action.payload,
+        deleteVendorCategorySuccessStatus: action.payload.statusCode,
       };
 
     case "REMOVE_DELETE_VENDOR_CATEGORY_REDUCER":

@@ -311,7 +311,7 @@ function AddVendorNew() {
   const [pinCodeError, setPinCodeError] = useState("");
 
   const [businessMobile, setBusinessMobile] = useState("");
-  const [vendorPhoneError, setVendorPhoneError] = useState("");
+  // const [vendorPhoneError, setVendorPhoneError] = useState("");
   const [vendorEmailError, setVendorEmailError] = useState("");
 
   // const [streetError, setStreetError] = useState("");
@@ -330,7 +330,7 @@ function AddVendorNew() {
   const countryRef = useRef(null);
   const [gstNumber, setGstNumber] = useState("");
   const [panNumber, setPanNumber] = useState("");
-  const [vendorCode, setVendorCode] = useState("");
+  // const [vendorCode, setVendorCode] = useState("");
   const [allowCreditPurchase, setAllowCreditPurchase] = useState(true);
   const [creditLimit, setCreditLimit] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
@@ -386,7 +386,10 @@ function AddVendorNew() {
     };
   })();
 
-  const currentItem = location.state?.currentItem || "";
+  const currentItem = location.state?.currentItem || {};
+  const checkMode = location.state?.check;
+
+  console.log("currentItem", currentItem);
 
   useEffect(() => {
     return () => {
@@ -543,7 +546,7 @@ function AddVendorNew() {
     // setShow(false);
     navigate(`/vendor/new/${state.login.selectedHostel_Id}`);
 
-    setVendorPhoneError("");
+    // setVendorPhoneError("");
     setVendorEmailError("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
@@ -578,7 +581,7 @@ function AddVendorNew() {
       setMobileError("");
     }
 
-    setVendorPhoneError("");
+    // setVendorPhoneError("");
     setGeneralError("");
     setCountryCodeError("");
     setIsChangedError("");
@@ -637,7 +640,7 @@ function AddVendorNew() {
       isValid = false;
     }
     if (!businessName) {
-      setBusinessNameError("Please Enter First Name/ Business Name");
+      setBusinessNameError("Please Enter  Business Name");
       if (!focusedRef.current && businessNameRef.current) {
         businessNameRef.current.focus();
         focusedRef.current = true;
@@ -654,24 +657,6 @@ function AddVendorNew() {
     }
 
     const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
-
-    if (!vendor_Mobile) {
-      setMobileError("Please Enter Mobile Number");
-      if (!focusedRef.current && mobileRef.current) {
-        mobileRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else if (!phonePattern.test(vendor_Mobile)) {
-      setMobileError("Enter Valid Mobile Number");
-      if (!focusedRef.current && mobileRef.current) {
-        mobileRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else {
-      setMobileError("");
-    }
 
     if (!vendorCategory) {
       setVendorCategoryError("Please Select Vendor Category");
@@ -707,40 +692,14 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    if (!contactPersonName?.trim()) {
-      setContactPersonNameError("Please Enter Contact Person Name");
-      if (!focusedRef.current && contactPersonNameRef.current) {
-        contactPersonNameRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
-
-    if (!email_Id) {
-      setEmailError("Please Enter  Email Id");
-      if (!focusedRef.current) {
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
-
     if (!house_no?.trim()) {
-      setHouseNoError("Please Enter House No");
+      setHouseNoError("Please Enter House No/Area/Street, Sector");
       if (!focusedRef.current && houseNoRef.current) {
         houseNoRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
     }
-
-    // if (!street?.trim()) {
-    //   setStreetError("Please Enter Street");
-    //   if (!focusedRef.current && streetRef.current) {
-    //     streetRef.current.focus();
-    //     focusedRef.current = true;
-    //   }
-    //   isValid = false;
-    // }
 
     if (!city) {
       setCityError("Please Enter City");
@@ -806,51 +765,72 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    // if (!country) {
-    //   setCountryError("Please Enter Country");
-    //   if (!focusedRef.current && countryRef.current) {
-    //     countryRef.current.focus();
-    //     focusedRef.current = true;
-    //   }
-    //   isValid = false;
-    // }
-
     if (!isValid) {
       return;
     }
-
-    dispatch({
-      type: "ADDVENDOR",
-      payload: {
-        profilePic: file,
-        payLoads: {
-          firstName: vendorName,
-          lastName: last_Name,
-          countryCode:
-            typeof countryCode === "object" ? countryCode.value : countryCode,
-          mobile: vendor_Mobile,
-          mailId: email_Id,
-          houseNo: house_no,
-          landmark: landmark,
-          // area: street,
-          pinCode: Number(pinCode),
-          city: city,
-          state: state_name,
-          businessName: businessName,
-          hostelId: state.login.selectedHostel_Id,
-          vendorCategory: vendorCategory?.value ?? null,
-          contactPerson: contactPersonName,
-          description: description,
-          vendorCode: vendorCode,
-          gst: gstNumber,
-          pan: panNumber,
-          allowCredit: allowCreditPurchase,
-          creditLimit: Number(creditLimit || 0),
-          creditPeriod: Number(creditPeriod || 0),
+    if (checkMode === "EDIT") {
+      dispatch({
+        type: "UPDATEVENDOR",
+        payload: {
+          profilePic: file,
+          payLoads: {
+            firstName: vendorName,
+            lastName: last_Name,
+            countryCode:
+              typeof countryCode === "object" ? countryCode.value : countryCode,
+            mobile: vendor_Mobile,
+            mailId: email_Id,
+            houseNo: house_no,
+            landmark: landmark,
+            pinCode: Number(pinCode),
+            city: city,
+            state: state_name,
+            businessName: businessName,
+            hostelId: state.login.selectedHostel_Id,
+            vendorCategory: vendorCategory?.value ?? null,
+            contactPerson: contactPersonName,
+            description: description,
+            // vendorCode: vendorCode,
+            gst: gstNumber,
+            pan: panNumber,
+            allowCredit: allowCreditPurchase,
+            creditLimit: Number(creditLimit || 0),
+            creditPeriod: Number(creditPeriod || 0),
+          },
         },
-      },
-    });
-
+      });
+    } else {
+      dispatch({
+        type: "ADDVENDOR",
+        payload: {
+          profilePic: file,
+          payLoads: {
+            firstName: vendorName,
+            lastName: last_Name,
+            countryCode:
+              typeof countryCode === "object" ? countryCode.value : countryCode,
+            mobile: vendor_Mobile,
+            mailId: email_Id,
+            houseNo: house_no,
+            landmark: landmark,
+            pinCode: Number(pinCode),
+            city: city,
+            state: state_name,
+            businessName: businessName,
+            hostelId: state.login.selectedHostel_Id,
+            vendorCategory: vendorCategory?.value ?? null,
+            contactPerson: contactPersonName,
+            description: description,
+            // vendorCode: vendorCode,
+            gst: gstNumber,
+            pan: panNumber,
+            allowCredit: allowCreditPurchase,
+            creditLimit: Number(creditLimit || 0),
+            creditPeriod: Number(creditPeriod || 0),
+          },
+        },
+      });
+    }
     setFormLoading(true);
   };
 
@@ -882,18 +862,66 @@ function AddVendorNew() {
   }, []);
 
   useEffect(() => {
-    if (state.ComplianceList?.alreadyVendorHere) {
-      setFormLoading(false);
-      setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
+    if (checkMode === "EDIT" && currentItem?.id) {
+      setVendorName(currentItem.fullName || "");
+      // setLast_Name(currentItem.lastName || "");
+      setVendor_Mobile(currentItem.mobile || "");
+      setBusinessName(currentItem.businessName || "");
+      setEmail_Id(currentItem.emailId || "");
+
+      setHouseNo(currentItem.houseNo || "");
+      setLandmark(currentItem.landMark || "");
+      setCity(currentItem.city || "");
+      setStateName(currentItem.state || "");
+      setPinCode(currentItem.pinCode ? String(currentItem.pinCode) : "");
+
+      setContactPersonName(currentItem.contactPerson || "");
+      setDescription(currentItem.description || "");
+      // setVendorCode(currentItem.vendorCode || "");
+      setGstNumber(currentItem.gst || "");
+      setPanNumber(currentItem.pan || "");
+
+      setAllowCreditPurchase(
+        currentItem.allowCredit !== null ? currentItem.allowCredit : false,
+      );
+
+      setCreditLimit(
+        currentItem.creditLimit != null ? String(currentItem.creditLimit) : "",
+      );
+
+      setCreditPeriod(
+        currentItem.creditPeriod != null
+          ? String(currentItem.creditPeriod)
+          : "",
+      );
+
+      setCountryCode({
+        value: currentItem.countryCode || "91",
+        label: `+${currentItem.countryCode || "91"}`,
+      });
+
+      setBusinessCountryCode({
+        value: currentItem.countryCode || "91",
+        label: `+${currentItem.countryCode || "91"}`,
+      });
+
+      if (currentItem.vendorCategoryId) {
+        setVendorCategory({
+          value: currentItem.vendorCategoryId,
+          label: currentItem.vendorCategoryName,
+        });
+      } else {
+        setVendorCategory(null);
+      }
     }
-  }, [state.ComplianceList?.alreadyVendorHere]);
+  }, [checkMode, currentItem]);
 
   useEffect(() => {
-    if (state.ComplianceList.alreadyVendorEmailError) {
+    if (state.ComplianceList?.alreadyVendorHere) {
       setFormLoading(false);
-      setVendorEmailError(state.ComplianceList.alreadyVendorEmailError);
+      // setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
     }
-  }, [state.ComplianceList.alreadyVendorEmailError]);
+  }, [state.ComplianceList?.alreadyVendorHere]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -909,7 +937,7 @@ function AddVendorNew() {
       <div className="relative w-full  bg-white  ">
         <div className="flex items-center justify-between  p-2 sticky top-0  bg-white">
           <h2 className="text-[18px] text-[#222222] font-gilroy font-semibold">
-            Add new Vendor
+            {checkMode === "EDIT" ? "Edit Vendor" : " Add new Vendor"}
           </h2>
 
           <button
@@ -931,8 +959,8 @@ function AddVendorNew() {
             Vendor Information
           </h5>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-4">
-            <div className=" lg:col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="text-[13px] text-[#222222] font-gilroy font-medium">
                   Vendor Name{" "}
@@ -949,16 +977,13 @@ function AddVendorNew() {
                     vendorName ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
-                <span className="text-xs py-2 text-[#64748B]">
-                  Note : Max 50 Characters
-                </span>
               </div>
 
               {vendorNameError && (
                 <ErrorMessage message={vendorNameError} type="error" />
               )}
             </div>
-            <div className=" lg:col-span-8">
+            <div className=" col-span-1 xl:col-span-8">
               <div>
                 <label className="text-[13px] text-[#222222] font-gilroy font-medium">
                   Vendor / Business Name{" "}
@@ -970,7 +995,7 @@ function AddVendorNew() {
                   value={businessName}
                   ref={businessNameRef}
                   type="text"
-                  placeholder="Enter First Name"
+                  placeholder="Enter Business Name"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     businessName ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
@@ -983,10 +1008,17 @@ function AddVendorNew() {
               {businessNameError && (
                 <ErrorMessage message={businessNameError} type="error" />
               )}
+
+              {state.ComplianceList?.alreadyVendorHere && (
+                <ErrorMessage
+                  message={state.ComplianceList?.alreadyVendorHere}
+                  type="error"
+                />
+              )}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Vendor Category{" "}
                 <span className="text-red-600 text-[20px]">*</span>
@@ -999,7 +1031,7 @@ function AddVendorNew() {
                   (option) => option.value === vendorCategory,
                 )}
                 onChange={handleVendorCategoryChange}
-                placeholder="Select"
+                placeholder="Select Category"
                 classNamePrefix="custom"
                 styles={CustomStyles}
               />
@@ -1007,7 +1039,7 @@ function AddVendorNew() {
                 <ErrorMessage message={vendorCategoryError} type="error" />
               )}
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Business Mobile No
@@ -1032,7 +1064,7 @@ function AddVendorNew() {
                     onChange={handleBusinessMobileChange}
                     type="text"
                     ref={businessMobileRef}
-                    placeholder="9876543210"
+                    placeholder="Enter Mobile Number"
                     maxLength={10}
                     className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
                       businessMobile ? "font-semibold" : "font-medium"
@@ -1054,12 +1086,12 @@ function AddVendorNew() {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Proprietor / Contact Person Name
-                  <span className="text-red-600 text-[20px]">*</span>
+                  Contact Person Name
+                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
 
                 <input
@@ -1073,16 +1105,16 @@ function AddVendorNew() {
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
 
-                {contactPersonNameError && (
+                {/* {contactPersonNameError && (
                   <ErrorMessage message={contactPersonNameError} type="error" />
-                )}
+                )} */}
               </div>
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Mobile Number{" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+                  Contact Person Mobile Number{" "}
+                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
 
                 <div className="flex mt-1">
@@ -1103,7 +1135,7 @@ function AddVendorNew() {
                     ref={mobileRef}
                     onChange={handleMobileChange}
                     type="text"
-                    placeholder="9876543210"
+                    placeholder="Enter Mobile Number"
                     maxLength={10}
                     className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
                       vendor_Mobile ? "font-semibold" : "font-medium"
@@ -1111,22 +1143,23 @@ function AddVendorNew() {
                   />
                 </div>
 
-                {mobileError && (
+                {/* {mobileError && (
                   <ErrorMessage message={mobileError} type="error" />
                 )}
 
                 {countryCodeError && (
                   <ErrorMessage message={countryCodeError} type="error" />
-                )}
+                )} */}
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mb-3">
-            <div className="lg:col-span-8">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Email Address{" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
 
                 <input
@@ -1147,8 +1180,8 @@ function AddVendorNew() {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Commercial Address (No, Area/Street, Sector){" "}
@@ -1172,8 +1205,8 @@ function AddVendorNew() {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 ">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Landmark{" "}
@@ -1195,7 +1228,7 @@ function AddVendorNew() {
               </div>
             </div>
 
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Town/City <span className="text-red-600 text-[20px]">*</span>
@@ -1216,8 +1249,8 @@ function AddVendorNew() {
               {cityError && <ErrorMessage message={cityError} type="error" />}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 ">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   State
@@ -1243,7 +1276,7 @@ function AddVendorNew() {
                 <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Pincode
@@ -1271,8 +1304,8 @@ function AddVendorNew() {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
-            <div className="lg:col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Description
               </label>
@@ -1299,8 +1332,8 @@ function AddVendorNew() {
               Business Details
             </h5>
 
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3 ">
-              <div className="lg:col-span-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+              <div className="col-span-1 xl:col-span-4">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   GST Number (Optional)
                 </label>
@@ -1329,8 +1362,8 @@ function AddVendorNew() {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
-              <div className="lg:col-span-8">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+              <div className="col-span-1 xl:col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Vendor Code
                 </label>
@@ -1341,9 +1374,9 @@ function AddVendorNew() {
                   className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3 bg-[#F8F8F8]  text-[15px]"
                 />
               </div>
-            </div>
+            </div> */}
 
-            <div className="mt-3">
+            <div className="my-3">
               <label className="flex items-start gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -1368,8 +1401,8 @@ function AddVendorNew() {
 
             {allowCreditPurchase && (
               <>
-                <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
-                  <div className="lg:col-span-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+                  <div className="col-span-1 xl:col-span-4">
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                       Credit Limit ₹ INR (Optional)
                     </label>
@@ -1383,7 +1416,7 @@ function AddVendorNew() {
                     />
                   </div>
 
-                  <div className="lg:col-span-4">
+                  <div className="col-span-1 xl:col-span-4">
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                       Credit Period (Optional)
                     </label>
@@ -1431,7 +1464,9 @@ function AddVendorNew() {
                 </div>
               </>
             ) : (
-              <span>{check === "EDIT" ? "Save Changes" : "Save Vendor"}</span>
+              <span>
+                {checkMode === "EDIT" ? "Save Changes" : "Save Vendor"}
+              </span>
             )}
           </button>
         </div>

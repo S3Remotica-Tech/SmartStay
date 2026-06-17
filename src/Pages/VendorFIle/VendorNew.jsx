@@ -20,6 +20,8 @@ import {
   Setting3,
   ArrowDown2,
   Chart21,
+  Edit2,
+  Trash,
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -188,8 +190,13 @@ function Vendor() {
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const navigate = useNavigate();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
-  const { canWriteModule: canWriteVendor, canReadModule: canReadVendor } =
-    useHasPermission("Vendor");
+  const popupRef = useRef(null);
+  const {
+    canWriteModule: canWriteVendor,
+    canReadModule: canReadVendor,
+    canDeleteModule: canDeleteVendor,
+    canUpdateModule: canUpdateVendor,
+  } = useHasPermission("Vendor");
 
   useEffect(() => {
     if (!canReadVendor) {
@@ -197,24 +204,9 @@ function Vendor() {
     }
   }, [canReadVendor]);
 
-  const isVendorForm = location.state?.isVendorForm || false;
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const monthOptions = [];
-  const selectOptions = [{ value: "ALL", label: "All" }];
-
-  const [selectedMonth, setSelectedMonth] = useState();
-
-  const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
-  };
-
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
-
   const handleShowDots = (id, event) => {
     setActiveRow((prev) => (prev === id ? null : id));
-    setSearch(false);
+    // setSearch(false);
 
     const rect = event.currentTarget.getBoundingClientRect();
 
@@ -231,6 +223,31 @@ function Vendor() {
       top: rect.bottom,
       left: rect.left,
     });
+  };
+
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
+
+  const isVendorForm = location.state?.isVendorForm || false;
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const monthOptions = [];
+  const selectOptions = [{ value: "ALL", label: "All" }];
+
+  const [selectedMonth, setSelectedMonth] = useState();
+
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected?.value || "");
+  };
+
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
   };
 
   useEffect(() => {
@@ -408,16 +425,19 @@ function Vendor() {
     // setShow(true);
     // setCurrentItem("");
 
-    navigate(`/add-vendor/${state.login.selectedHostel_Id}`, {
-      state: {
-        currentItem: currentItem,
-      },
-    });
+    navigate(`/add-vendor/${state.login.selectedHostel_Id}`);
   };
 
   const handleEditVendor = (vendorData) => {
     setCurrentItem(vendorData);
-    setShow(true);
+    // setShow(true);
+
+    navigate(`/add-vendor/${state.login.selectedHostel_Id}`, {
+      state: {
+        currentItem: vendorData,
+        check: "EDIT",
+      },
+    });
   };
 
   const handleDeleteVendor = (item) => {
@@ -492,6 +512,7 @@ function Vendor() {
   const selectedColumns = [
     { key: "vendorId", fieldName: "Vendor ID" },
     { key: "vendorName", fieldName: "Vendor Name" },
+    { key: "businessName", fieldName: "Business Name" },
     { key: "category", fieldName: "Category" },
     { key: "mobileNo", fieldName: "Mobile No" },
     { key: "address", fieldName: "Address" },
@@ -503,6 +524,7 @@ function Vendor() {
   const headerKeyMap = {
     "Vendor ID": "vendorId",
     "Vendor Name": "vendorName",
+    "Business Name": "businessName",
     Category: "category",
     "Mobile No": "mobileNo",
     Address: "address",
@@ -556,6 +578,19 @@ function Vendor() {
 
     return row;
   });
+
+  useEffect(() => {
+    const handleClickOutsideAccount = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideAccount);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
+    };
+  }, []);
 
   const columnStyles = {
     "Vendor ID": "px-4 whitespace-nowrap",
@@ -1415,7 +1450,7 @@ function Vendor() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredData?.map((vendor) => (
+                      {filteredData?.map((vendor, index) => (
                         <tr
                           key={vendor.id}
                           className="border-b text-sm text-[#374151]"
@@ -1429,9 +1464,11 @@ function Vendor() {
                                 break;
 
                               case "vendorName":
-                                value = vendor.businessName || vendor.fullName;
+                                value = vendor.fullName;
                                 break;
-
+                              case "businessName":
+                                value = vendor.businessName;
+                                break;
                               case "category":
                                 value = vendor.vendorCategoryName || "-";
                                 break;
@@ -1472,9 +1509,95 @@ function Vendor() {
                             );
                           })}
 
-                          {/* ACTION */}
-                          <td className="px-4 py-2.5 text-center">
-                            <PiDotsThreeOutlineVerticalFill />
+                          <td
+                            className={`${
+                              isScrolling ? "!bg-white" : "bg-white"
+                            } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                          >
+                            {" "}
+                            <div
+                              className="relative mt-1 flex cursor-pointer items-center justify-center"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleShowDots(vendor.id, e);
+                              }}
+                            >
+                              <PiDotsThreeOutlineVerticalFill
+                                className={`h-5 w-5 rotate-90 ${
+                                  activeRow === vendor.id
+                                    ? "text-[#1E45E1]"
+                                    : "text-gray-500"
+                                }`}
+                              />
+
+                              {activeRow === vendor.id && (
+                                <div
+                                  ref={popupRef}
+                                  className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 max-w-[250px] shadow-md z-[9999]"
+                                  style={{
+                                    top: showAbove
+                                      ? popupPosition.top -
+                                        (popupRef.current?.offsetHeight ||
+                                          120) -
+                                        10
+                                      : popupPosition.top + 5,
+                                    left: popupPosition.left - 150,
+                                    position: "fixed",
+                                    zIndex: 1000,
+                                  }}
+                                >
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActiveRow(null);
+                                      if (canUpdateVendor) {
+                                        handleEditVendor(vendor);
+                                      }
+                                    }}
+                                    disabled={!canUpdateVendor}
+                                    className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+      ${
+        canUpdateVendor
+          ? "text-[#1E45E1] hover:bg-blue-100"
+          : "text-gray-400 cursor-not-allowed"
+      }`}
+                                  >
+                                    <Edit2
+                                      size="16"
+                                      color={
+                                        canUpdateVendor ? "#1E45E1" : "#9CA3AF"
+                                      }
+                                    />
+                                    Edit
+                                  </button>
+
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActiveRow(null);
+                                      if (canDeleteVendor) {
+                                        handleDeleteVendor(vendor);
+                                      }
+                                    }}
+                                    disabled={!canDeleteVendor}
+                                    className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+      ${
+        canDeleteVendor
+          ? "text-red-600 hover:bg-red-100"
+          : "text-gray-400 cursor-not-allowed"
+      }`}
+                                  >
+                                    <Trash
+                                      size="16"
+                                      color={
+                                        canDeleteVendor ? "#FF0000" : "#9CA3AF"
+                                      }
+                                    />
+                                    Delete
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}

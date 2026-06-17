@@ -114,18 +114,11 @@ function AddCategory({ show, onClose }) {
             />
           )}
         </div>
-        <div className="flex justify-end gap-3 px-3 my-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg border text-gray-600"
-          >
-            Cancel
-          </button>
-
+        <div className="flex justify-center  gap-3 px-3 my-2">
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg min-w-[100px] flex items-center justify-center"
+            className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg w-full flex items-center justify-center"
           >
             {loading ? (
               <>
