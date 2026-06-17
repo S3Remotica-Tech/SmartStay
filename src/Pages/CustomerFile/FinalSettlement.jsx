@@ -215,7 +215,7 @@ function FinalSettlement() {
 
     dispatch({ type: "GETFINALSETTLEMENT", payload });
     setFormLoading(true);
-  }, [data, checkoutDate]);
+  }, [customerId, checkoutDate]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -362,6 +362,7 @@ function FinalSettlement() {
       setFormLoading(false);
     }
   }, [state.UsersList.conformChekoutError]);
+
   const quillRef = useRef(null);
 
   useEffect(() => {
@@ -730,6 +731,10 @@ function FinalSettlement() {
     if (state.InvoiceList.finalSettlementError) {
       setFormLoading(false);
       setGenerateLoading(false);
+      const date = finalSettlementList?.stayInfo?.actualCheckoutDate;
+      if (date) {
+        setCheckoutDate(dayjs(date, "DD/MM/YYYY"));
+      }
       setTimeout(() => {
         dispatch({ type: "REMOVE_FINAL_SETTLMENT_ERROR" });
       }, 100);

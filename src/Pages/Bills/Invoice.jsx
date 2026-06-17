@@ -275,6 +275,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setPage(1);
+      setFilterInput("");
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },

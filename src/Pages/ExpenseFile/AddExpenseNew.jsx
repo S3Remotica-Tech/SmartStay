@@ -16,7 +16,7 @@ const CustomStyles = {
   control: (base, state) => ({
     ...base,
     minHeight: "45px",
-    height: "45px",
+    height: "50px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
     fontSize: "15px",
@@ -305,7 +305,7 @@ function AddExpenseNew() {
   const [paymentStatus, setPaymentStatus] = useState("Fully Paid");
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
-
+  const [transactionId, setTransactionId] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
   const [paidAmountError, setPaidAmountError] = useState("");
 
@@ -325,12 +325,25 @@ function AddExpenseNew() {
       label: exp.unitName,
     })) || [];
 
-  const [expenseItems, setExpenseItems] = useState([]);
+  const defaultExpenseItem = {
+    itemName: "",
+    quantity: "",
+    unit: null,
+    price: "",
+    amount: 0,
+  };
+
+  const [expenseItems, setExpenseItems] = useState([defaultExpenseItem]);
+
   const [expenseItemErrors, setExpenseItemErrors] = useState([]);
   const [tax, setTax] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
+
+  const handleTransactionIdChange = (e) => {
+    setTransactionId(e.target.value);
+  };
 
   const handleCreditPeriodChange = (e) => {
     let value = e.target.value.replace(/\D/g, "");
@@ -338,12 +351,15 @@ function AddExpenseNew() {
     setCreditPeriod(value);
   };
 
-  const { isBankingWayTrigger, currentItem } = location?.state;
+  const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
+  const currentItem = location?.state?.currentItem;
+
   const [errors, setErrors] = useState({
     totalAmount: "",
     paidAmount: "",
     balanceAmount: "",
   });
+
   const expenseTitleRef = useRef(null);
   const categoryRef = useRef(null);
   const subCategoryRef = useRef(null);
@@ -474,8 +490,6 @@ function AddExpenseNew() {
 
   const totalAmount = subTotal + taxAmount - discountAmount;
 
-  console.log("category", category);
-
   const validate = () => {
     let isValid = true;
 
@@ -504,11 +518,6 @@ function AddExpenseNew() {
       isValid = false;
     }
 
-    // if (!paidThrough) {
-    //   setPaidThroughError("Select Paid Through");
-    //   isValid = false;
-    // }
-
     if (!vendor) {
       setVendorError("Please select a vendor");
       isValid = false;
@@ -534,43 +543,71 @@ function AddExpenseNew() {
       isValid = false;
     }
 
-    const rowErrors = expenseItems.map((item) => {
-      const error = {};
+    if (expenseItems.length === 0) {
+      setExpenseItemErrors([
+        {
+          itemName: "Enter item details",
+          quantity: "Enter quantity",
+          unit: "Select unit",
+          price: "Enter per unit price",
+        },
+      ]);
+      isValid = false;
+    } else {
+      const rowErrors = expenseItems.map((item) => {
+        const error = {};
 
-      if (!item.itemName.trim()) {
-        error.itemName = "Enter item details";
-        isValid = false;
-      }
+        if (!item.itemName.trim()) {
+          error.itemName = "Enter item details";
+          isValid = false;
+        }
 
-      if (!item.quantity || Number(item.quantity) <= 0) {
-        error.quantity = "Enter quantity";
-        isValid = false;
-      }
+        if (!item.quantity || Number(item.quantity) <= 0) {
+          error.quantity = "Enter quantity";
+          isValid = false;
+        }
 
-      if (!item.unit) {
-        error.unit = "Select unit";
-        isValid = false;
-      }
+        if (!item.unit) {
+          error.unit = "Select unit";
+          isValid = false;
+        }
 
-      if (!item.price || Number(item.price) <= 0) {
-        error.price = "Enter amount";
-        isValid = false;
-      }
+        if (!item.price || Number(item.price) <= 0) {
+          error.price = "Enter amount";
+          isValid = false;
+        }
 
-      return error;
-    });
+        return error;
+      });
 
-    setExpenseItemErrors(rowErrors);
-
+      setExpenseItemErrors(rowErrors);
+    }
     return isValid;
   };
 
   const handleSubmit = () => {
     if (!validate()) return;
-
-    const total = Number(totalAmount || 0);
+    setErrors({
+      totalAmount: "",
+      paidAmount: "",
+      balanceAmount: "",
+    });
+    const total = Number(amount || 0);
     const paid = Number(paidAmount || 0);
     const balance = Number(balanceAmount || 0);
+
+    const itemsTotal = expenseItems.reduce(
+      (sum, item) => sum + Number(item.amount || 0),
+      0,
+    );
+
+    if (itemsTotal > total) {
+      setErrors((prev) => ({
+        ...prev,
+        totalAmount: "Expense items total cannot exceed Total Amount.",
+      }));
+      return;
+    }
 
     if (paid > total) {
       setErrors((prev) => ({
@@ -591,8 +628,8 @@ function AddExpenseNew() {
     if (paid + balance !== total) {
       setErrors((prev) => ({
         ...prev,
-        paidAmount: "Paid amount + Balance amount must equal Total amount.",
-        balanceAmount: "Paid amount + Balance amount must equal Total amount.",
+        paidAmount: "Amount doesn't match Total.",
+        balanceAmount: "Amount doesn't match Total.",
       }));
       return;
     }
@@ -629,6 +666,8 @@ function AddExpenseNew() {
         })),
       },
     });
+
+    setFormLoading(true);
   };
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -675,6 +714,20 @@ function AddExpenseNew() {
       }, 100);
     }
   }, [state.ExpenseList?.getInitializeExpenseStatusCode]);
+
+  useEffect(() => {
+    if (
+      state.ExpenseList.StatusCodeForAddExpenseSuccess === 201 ||
+      state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
+    ) {
+      setFormLoading(false);
+      navigate(`/add-expense/${state.login.selectedHostel_Id}`);
+    }
+  }, [
+    state.ExpenseList.StatusCodeForAddExpenseSuccess,
+
+    state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
+  ]);
 
   useEffect(() => {
     if (category) {
@@ -1001,6 +1054,10 @@ function AddExpenseNew() {
                     {paidAmountError && (
                       <ErrorMessage message={paidAmountError} type="error" />
                     )}
+
+                    {errors.paidAmount && (
+                      <ErrorMessage message={errors.paidAmount} type="error" />
+                    )}
                   </div>
                 </div>
                 <div className="lg:col-span-4">
@@ -1024,6 +1081,12 @@ function AddExpenseNew() {
 
                     {balanceAmountError && (
                       <ErrorMessage message={balanceAmountError} type="error" />
+                    )}
+                    {errors.balanceAmount && (
+                      <ErrorMessage
+                        message={errors.balanceAmount}
+                        type="error"
+                      />
                     )}
                   </div>
                 </div>
@@ -1054,6 +1117,23 @@ function AddExpenseNew() {
                 )}
               </div>
             </div>
+            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
+              <div className="col-span-8">
+                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                  Transaction ID
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Transaction ID"
+                  value={transactionId}
+                  onChange={handleTransactionIdChange}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                    transactionId ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-12 gap-4 mt-2">
               <div className="col-span-12 lg:col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
@@ -1108,16 +1188,18 @@ function AddExpenseNew() {
                   <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
                     <tr className="bg-[#F9FAFB] text-left text-xs text-[#6B7280] rounded-xl">
                       <th className="p-2 border border-[#F9FAFB] rounded-t-lg">
-                        ITEM DETAILS
+                        ITEM DETAILS{" "}
+                        <span className="text-red-500 ml-1">*</span>
                       </th>
                       <th className="p-2 w-[100px] border border-[#F9FAFB]">
-                        QUANTITY
+                        QUANTITY <span className="text-red-500 ml-1">*</span>
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
-                        UNIT
+                        UNIT <span className="text-red-500 ml-1">*</span>
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
-                        PER UNIT PRICE
+                        PER UNIT PRICE{" "}
+                        <span className="text-red-500 ml-1">*</span>
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
                         AMOUNT
@@ -1266,7 +1348,7 @@ function AddExpenseNew() {
                       <tr>
                         <td colSpan={6} className="py-10 text-center">
                           <div className="flex flex-col items-center justify-center">
-                            <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
+                            <h3 className="text-[16px] font-semibold text-[#101828] font-gilroy">
                               No Data Found!
                             </h3>
                             <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
@@ -1280,6 +1362,10 @@ function AddExpenseNew() {
                 </table>
               </div>
             </div>
+
+            {errors.totalAmount && (
+              <ErrorMessage message={errors.totalAmount} type="error" />
+            )}
             <div className="flex justify-between">
               <div>
                 <button
@@ -1374,13 +1460,24 @@ function AddExpenseNew() {
             >
               Cancel
             </button>
-
             <button
-              onClick={handleSubmit}
               type="submit"
-              className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium"
+              disabled={formLoading}
+              onClick={handleSubmit}
+              className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+                formLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
             >
-              Save & Alocate
+              {formLoading ? (
+                <>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Saving...
+                  </div>
+                </>
+              ) : (
+                <span>Save</span>
+              )}
             </button>
           </div>
 
