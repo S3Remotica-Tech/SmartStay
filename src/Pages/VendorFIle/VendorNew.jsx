@@ -198,6 +198,11 @@ function Vendor() {
     canUpdateModule: canUpdateVendor,
   } = useHasPermission("Vendor");
 
+  const getAddress = (user) =>
+    [user.houseNo, user.area, user.landMark, user.city, user.state]
+      .filter(Boolean)
+      .join(", ");
+
   useEffect(() => {
     if (!canReadVendor) {
       setLoading(false);
@@ -522,12 +527,12 @@ function Vendor() {
   ];
 
   const headerKeyMap = {
-    "Vendor ID": "vendorId",
-    "Vendor Name": "vendorName",
+    "Vendor ID": "vendorCode",
+    "Vendor Name": "fullName",
     "Business Name": "businessName",
-    Category: "category",
-    "Mobile No": "mobileNo",
-    Address: "address",
+    Category: "vendorCategoryName",
+    "Mobile No": "mobile",
+    Address: "city",
     Status: "status",
     Outstanding: "outstanding",
     "Last Transaction": "lastTransaction",
@@ -858,7 +863,7 @@ function Vendor() {
               </div>
             </div>
 
-            {/* {filteredData?.length > 0 ? (
+            {filteredData?.length > 0 ? (
               <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                 <div
                   id="tableContainer"
@@ -896,15 +901,16 @@ function Vendor() {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(formattedData) &&
-                        formattedData?.length > 0 &&
-                        formattedData?.map((user, index) => {
+                      {Array.isArray(filteredData) &&
+                        filteredData?.length > 0 &&
+                        filteredData?.map((user, index) => {
                           return (
                             <tr
-                              onClick={() =>
-                                handleRoomDetailsPage(user?.apiCall)
-                              }
-                              key={user?.apiCall?.customerId || index}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowOverview(true);
+                              }}
+                              key={index}
                               className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
                             >
@@ -921,13 +927,6 @@ function Vendor() {
                                     isScrolling ? "!bg-white" : "!bg-white"
                                   }`;
                                 }
-                                // else if (index === 1) {
-                                //   stickyClass = `sticky left-[85px] z-30 ${
-                                //     isScrolling
-                                //       ? "!bg-white"
-                                //       : "!bg-transparent"
-                                //   }`;
-                                // }
 
                                 const finalClass = `${baseClass} ${stickyClass}`;
 
@@ -1080,13 +1079,10 @@ function Vendor() {
                                         {user.advanceAmount}
                                       </td>
                                     );
-                                  case "Booking Amount":
+                                  case "Address":
                                     return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.bookingAmount}
+                                      <td key={col.key} className={finalClass}>
+                                        {getAddress(user)}
                                       </td>
                                     );
                                   default:
@@ -1114,21 +1110,21 @@ function Vendor() {
                                   className="relative mt-1 flex cursor-pointer items-center justify-center"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleShowDots(user.apiCall.customerId, e);
+                                    handleShowDots(user.id, e);
                                   }}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90 ${
-                                      activeRow === user?.apiCall?.customerId
+                                      activeRow === user.id
                                         ? "text-[#1E45E1]"
                                         : "text-gray-500"
                                     }`}
                                   />
 
-                                  {activeRow === user?.apiCall?.customerId && (
+                                  {activeRow === user.id && (
                                     <div
                                       ref={popupRef}
-                                      className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 max-w-[250px] shadow-md z-[9999]"
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -1136,147 +1132,64 @@ function Vendor() {
                                               120) -
                                             10
                                           : popupPosition.top + 5,
-                                        left: popupPosition.left - 250,
+                                        left: popupPosition.left - 150,
                                         position: "fixed",
                                         zIndex: 1000,
                                       }}
                                     >
-                                      <div className="flex flex-col py-2 ">
-                                        {user.status === "Checked In" && (
-                                          <>
-                                            <div
-                                              onClick={() =>
-                                                canWriteCheckout &&
-                                                handleCustomerCheckout(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={addcircle}
-                                                className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                              />
-                                              <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                Move to Notice Period
-                                              </span>
-                                            </div>
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setActiveRow(null);
+                                          if (canUpdateVendor) {
+                                            handleEditVendor(user);
+                                          }
+                                        }}
+                                        disabled={!canUpdateVendor}
+                                        className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+      ${
+        canUpdateVendor
+          ? "text-[#1E45E1] hover:bg-blue-100"
+          : "text-gray-400 cursor-not-allowed"
+      }`}
+                                      >
+                                        <Edit2
+                                          size="16"
+                                          color={
+                                            canUpdateVendor
+                                              ? "#1E45E1"
+                                              : "#9CA3AF"
+                                          }
+                                        />
+                                        Edit
+                                      </button>
 
-                                            <div
-                                              onClick={() =>
-                                                canWriteTenant &&
-                                                handleCustomerReAssign(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={Addbook}
-                                                className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                              />
-                                              <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                Change Bed
-                                              </span>
-                                            </div>
-                                          </>
-                                        )}
-
-                                        {user.status === "Notice Period" && (
-                                          <>
-                                            <div
-                                              onClick={() =>
-                                                canWriteTenant &&
-                                                handleBacktoCheckout(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={Addbook}
-                                                className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                              />
-                                              <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                Cancel Check-Out
-                                              </span>
-                                            </div>
-
-                                            <div
-                                              onClick={() =>
-                                                canWriteCheckout &&
-                                                handleCheckoutGenrateNew(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={logout}
-                                                className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                              />
-                                              <span className="text-sm font-medium font-gilroy">
-                                                Generate
-                                              </span>
-                                            </div>
-                                          </>
-                                        )}
-
-                                        {user.status ===
-                                          "Settlement Generated" && (
-                                          <div
-                                            onClick={() =>
-                                              canWriteCheckout &&
-                                              handleConformCheckout(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            style={{ marginLeft: 12 }}
-                                          >
-                                            <img
-                                              src={logout}
-                                              className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                              Check-Out
-                                            </span>
-                                          </div>
-                                        )}
-
-                                        {user.status === "Booked" && (
-                                          <>
-                                            <div
-                                              onClick={() =>
-                                                canWriteTenant &&
-                                                handleBookingAssign(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={addcircle}
-                                                className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                              />
-                                              <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                Check-In
-                                              </span>
-                                            </div>
-
-                                            <div
-                                              onClick={() =>
-                                                canWriteBooking &&
-                                                handleInActive(user)
-                                              }
-                                              className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                            >
-                                              <img
-                                                src={Addbook}
-                                                className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                              />
-                                              <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                Make as Inactive
-                                              </span>
-                                            </div>
-                                          </>
-                                        )}
-                                      </div>
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setActiveRow(null);
+                                          if (canDeleteVendor) {
+                                            handleDeleteVendor(user);
+                                          }
+                                        }}
+                                        disabled={!canDeleteVendor}
+                                        className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+      ${
+        canDeleteVendor
+          ? "text-red-600 hover:bg-red-100"
+          : "text-gray-400 cursor-not-allowed"
+      }`}
+                                      >
+                                        <Trash
+                                          size="16"
+                                          color={
+                                            canDeleteVendor
+                                              ? "#FF0000"
+                                              : "#9CA3AF"
+                                          }
+                                        />
+                                        Delete
+                                      </button>
                                     </div>
                                   )}
                                 </div>
@@ -1414,9 +1327,9 @@ function Vendor() {
               </div>
             ) : (
               <NoDataMessage label="Vendor" />
-            )} */}
+            )}
 
-            {filteredData?.length > 0 ? (
+            {/* {filteredData?.length > 0 ? (
               <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                 <div
                   id="tableContainer"
@@ -1452,8 +1365,12 @@ function Vendor() {
                     <tbody>
                       {filteredData?.map((vendor, index) => (
                         <tr
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowOverview(true);
+                          }}
                           key={vendor.id}
-                          className="border-b text-sm text-[#374151]"
+                          className="border-b text-sm text-[#374151] cursor-pointer"
                         >
                           {selectedColumns?.map((col) => {
                             let value = "-";
@@ -1731,7 +1648,7 @@ function Vendor() {
               </div>
             ) : (
               <NoDataMessage label="Vendor" />
-            )}
+            )} */}
           </div>
         )}
 

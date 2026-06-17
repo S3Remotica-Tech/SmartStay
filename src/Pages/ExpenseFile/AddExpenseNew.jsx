@@ -1006,27 +1006,30 @@ function AddExpenseNew() {
                 </label>
 
                 <div className="flex gap-6 mt-3">
-                  {["Fully Paid", "Partially Paid", "Credit/Pending"].map(
-                    (item) => (
-                      <label
-                        key={item}
-                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
-                      >
-                        <input
-                          type="radio"
-                          name="paymentType"
-                          value={item}
-                          checked={paymentStatus === item}
-                          onChange={(e) => {
-                            setPaymentStatus(e.target.value);
-                            setPaymentStatusError("");
-                          }}
-                          className="accent-blue-600"
-                        />
-                        {item}
-                      </label>
-                    ),
-                  )}
+                  {[
+                    "Fully Paid",
+                    "Partially Paid",
+                    "Credit/Pending",
+                    "Overdue",
+                  ].map((item) => (
+                    <label
+                      key={item}
+                      className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                    >
+                      <input
+                        type="radio"
+                        name="paymentType"
+                        value={item}
+                        checked={paymentStatus === item}
+                        onChange={(e) => {
+                          setPaymentStatus(e.target.value);
+                          setPaymentStatusError("");
+                        }}
+                        className="accent-blue-600"
+                      />
+                      {item}
+                    </label>
+                  ))}
                 </div>
 
                 {paymentStatusError && (

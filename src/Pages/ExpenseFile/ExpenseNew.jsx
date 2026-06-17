@@ -31,6 +31,9 @@ import {
   Setting3,
   ArrowDown2,
   Chart21,
+  Edit,
+  Trash,
+  Document,
 } from "iconsax-react";
 import ExpenseOverview from "./ExpenseOverview";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -168,6 +171,8 @@ function Expenses() {
   const selectedPriceRange = "All";
   const [showModal, setShowModal] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
+  const [showTagAsset, setshowTagAsset] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [categoryValue, setCategoryValue] = useState("");
   const [assetValue, setAssetValue] = useState("");
   const [vendorValue, setVendorValue] = useState("");
@@ -208,13 +213,15 @@ function Expenses() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [statusfilter, setStatusFilter] = useState("ALL");
-
+  const popupRef = useRef(null);
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
+  const [showDots, setShowDots] = useState(null);
+
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
   };
@@ -235,8 +242,8 @@ function Expenses() {
   const {
     canWriteModule: canWriteExpense,
     canReadModule: canReadExpense,
-    // canUpdateModule: canUpdateElectricity,
-    // canDeleteModule: canDeleteElectricity,
+    canUpdateModule: canUpdateExpense,
+    canDeleteModule: canDeleteExpense,
   } = useHasPermission("Expense");
 
   useEffect(() => {
@@ -247,11 +254,10 @@ function Expenses() {
 
   const isExpenseForm = location.state?.isExpenseForm || false;
 
-  const handleShowDots = (id, event) => {
-    setActiveRow((prev) => (prev === id ? null : id));
-    setSearch(false);
-
-    const rect = event.currentTarget.getBoundingClientRect();
+  const handleShowDots = (event, id) => {
+    setShowDots((prev) => (prev === id ? null : id));
+    console.log(id);
+    const rect = event.currentTarget?.getBoundingClientRect();
 
     const popupHeight = 120;
     const spaceBelow = window.innerHeight - rect.bottom;
@@ -267,7 +273,7 @@ function Expenses() {
       left: rect.left,
     });
   };
-
+  console.log(showDots, "showDots");
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
@@ -342,21 +348,6 @@ function Expenses() {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
-  const handleClickOutside = (event) => {
-    if (filterRef.current && !filterRef.current.contains(event.target)) {
-      setShowFilter(false);
-    }
-  };
-
-  useEffect(() => {
-    if (showFilter) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showFilter]);
-
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
       setTimeout(() => {
@@ -364,6 +355,34 @@ function Expenses() {
       }, 200);
     }
   }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
+
+  const handleClickOutside = (event) => {
+    if (
+      showFilter &&
+      filterRef.current &&
+      !filterRef.current.contains(event.target)
+    ) {
+      setShowFilter(false);
+    }
+
+    if (
+      showDots &&
+      popupRef.current &&
+      !popupRef.current.contains(event.target) &&
+      !showTagAsset &&
+      !showDeletePopup
+    ) {
+      setShowDots(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showFilter, showDots, showTagAsset, showDeletePopup]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -507,11 +526,6 @@ function Expenses() {
   // const sortedData = React.useMemo(() => {
   //   return Array.isArray(filteredData) ? filteredData : [];
   // }, [filteredData]);
-
-  const handleEditExpen = (item) => {
-    setShowModal(true);
-    setCurrentItem(item);
-  };
 
   const handleDeleteExpense = (id) => {
     if (!id) return;
@@ -777,14 +791,14 @@ function Expenses() {
   ];
 
   const headerKeyMap = {
-    "Expense No": "expenseId",
+    "Expense No": "referenceNumber",
     TITLE: "title",
-    "date & Time": "date",
-    Category: "category",
-    "SUB Category": "subcategory",
+    "date & Time": "transactionDate",
+    Category: "categoryName",
+    "SUB Category": "subCategoryName",
     Vendor: "vendor",
-    Status: "status",
-    "Payment Mode": "paymentMode",
+    Status: "paymentStatus",
+    "Payment Mode": "bankName",
     "Total amount": "totalAmount",
     "Paid amount": "paidAmount",
     "Balance amount": "balanceAmount",
@@ -825,7 +839,7 @@ function Expenses() {
   //     setInitialCustomizeItems(formatted);
   //   }, [state?.UsersList?.Users?.columnList]);
 
-  const formattedData = state?.ComplianceList?.VendorList?.map((item) => {
+  const formattedData = getData?.map((item) => {
     const row = {};
 
     selectedColumns.forEach((column) => {
@@ -886,6 +900,16 @@ function Expenses() {
         <span className="text-[#101828] text-base">{item.fieldName}</span>
       </label>
     );
+  };
+
+  const handleEditExpense = (item) => {
+    if (item) {
+      navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+        state: {
+          currentItem: item,
+        },
+      });
+    }
   };
 
   return (
@@ -1082,303 +1106,421 @@ function Expenses() {
               ))}
             </div>
 
-            {/* {getData?.length > 0 ? ( */}
-            <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-              <div
-                id="tableContainer"
-                ref={tableContainerRef}
-                className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-              >
-                <table className=" w-full font-gilroy ">
-                  <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                    <tr className="h-9">
-                      {selectedColumns?.map((col, index) => {
-                        let stickyClass = "";
+            {getData?.length > 0 ? (
+              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  ref={tableContainerRef}
+                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy ">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                      <tr className="h-9">
+                        {selectedColumns?.map((col, index) => {
+                          let stickyClass = "";
 
-                        if (index === 0) {
-                          stickyClass =
-                            "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                        }
-                        //  else if (index === 1) {
-                        //   stickyClass =
-                        //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                        // }
+                          if (index === 0) {
+                            stickyClass =
+                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                          }
+                          //  else if (index === 1) {
+                          //   stickyClass =
+                          //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
+                          // }
 
-                        return (
-                          <th
-                            key={col.key}
-                            className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                          >
-                            {col.fieldName}
-                          </th>
-                        );
-                      })}
+                          return (
+                            <th
+                              key={col.key}
+                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                            >
+                              {col.fieldName}
+                            </th>
+                          );
+                        })}
 
-                      <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.isArray(formattedData) &&
-                      formattedData?.length > 0 &&
-                      formattedData?.map((user, index) => {
-                        return (
-                          <tr
-                            onClick={() => handleRoomDetailsPage(user?.apiCall)}
-                            key={user?.apiCall?.customerId || index}
-                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(getData) &&
+                        getData?.length > 0 &&
+                        getData?.map((user, index) => {
+                          return (
+                            <tr
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowOverview(true);
+                              }}
+                              key={index}
+                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
-                          >
-                            {selectedColumns?.map((col, index) => {
-                              const baseClass = `
+                            >
+                              {selectedColumns?.map((col, index) => {
+                                const baseClass = `
   ${columnStyles[col.fieldName] || "px-4"}
   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
 `;
 
-                              let stickyClass = "";
+                                let stickyClass = "";
 
-                              if (index === 0) {
-                                stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                  isScrolling ? "!bg-white" : "!bg-white"
-                                }`;
-                              }
-                              // else if (index === 1) {
-                              //   stickyClass = `sticky left-[85px] z-30 ${
-                              //     isScrolling
-                              //       ? "!bg-white"
-                              //       : "!bg-transparent"
-                              //   }`;
-                              // }
+                                if (index === 0) {
+                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${
+                                    isScrolling ? "!bg-white" : "!bg-white"
+                                  }`;
+                                }
 
-                              const finalClass = `${baseClass} ${stickyClass}`;
+                                const finalClass = `${baseClass} ${stickyClass}`;
 
-                              switch (col.fieldName) {
-                                case "Profile Pic":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`px-4 ${finalClass}`}
-                                    >
-                                      {typeof user?.profilePic === "string" &&
-                                      user.profilePic.startsWith("http") ? (
-                                        <img
-                                          src={user.profilePic}
-                                          className="w-8 h-8 rounded-full"
-                                          alt="profile"
-                                        />
-                                      ) : (
-                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                          {typeof user?.profilePic === "string"
-                                            ? user.profilePic
-                                            : "NA"}
-                                        </div>
-                                      )}
-                                    </td>
-                                  );
+                                switch (col.fieldName) {
+                                  case "Profile Pic":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`px-4 ${finalClass}`}
+                                      >
+                                        {typeof user?.profilePic === "string" &&
+                                        user.profilePic.startsWith("http") ? (
+                                          <img
+                                            src={user.profilePic}
+                                            className="w-8 h-8 rounded-full"
+                                            alt="profile"
+                                          />
+                                        ) : (
+                                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                            {typeof user?.profilePic ===
+                                            "string"
+                                              ? user.profilePic
+                                              : "NA"}
+                                          </div>
+                                        )}
+                                      </td>
+                                    );
 
-                                case "Full Name":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div className="relative group w-[100px] ">
-                                        <span className="block w-full truncate text-sm text-[#111928] ">
-                                          {user.fullName}
-                                        </span>
+                                  case "Full Name":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        <div className="relative group w-[100px] ">
+                                          <span className="block w-full truncate text-sm text-[#111928] ">
+                                            {user.fullName}
+                                          </span>
 
-                                        <div
-                                          className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                          <div
+                                            className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
-                                        >
-                                          {user?.fullName}
+                                          >
+                                            {user?.fullName}
+                                          </div>
                                         </div>
-                                      </div>
-                                    </td>
-                                  );
+                                      </td>
+                                    );
 
-                                case "Status":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <span
-                                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                        style={{
-                                          backgroundColor:
-                                            statusStyles[user.status]?.bg ||
-                                            "#EEE",
-                                        }}
-                                      >
+                                  case "Status":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
                                         <span
-                                          className="h-2 w-2 rounded-full"
+                                          className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs"
                                           style={{
                                             backgroundColor:
-                                              statusStyles[user.status]?.text ||
-                                              "#333",
+                                              statusStyles[user.paymentStatus]
+                                                ?.bg || "#EEE",
                                           }}
-                                        ></span>
+                                        >
+                                          <span
+                                            className="h-2 w-2 rounded-full"
+                                            style={{
+                                              backgroundColor:
+                                                statusStyles[user.paymentStatus]
+                                                  ?.text || "#333",
+                                            }}
+                                          />
+                                          {user.paymentStatus}
+                                        </span>
+                                      </td>
+                                    );
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        <span
+                                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                          style={{
+                                            backgroundColor:
+                                              statusStyles[user.status]?.bg ||
+                                              "#EEE",
+                                          }}
+                                        >
+                                          <span
+                                            className="h-2 w-2 rounded-full"
+                                            style={{
+                                              backgroundColor:
+                                                statusStyles[user.status]
+                                                  ?.text || "#333",
+                                            }}
+                                          ></span>
 
-                                        {user.status}
-                                      </span>
-                                    </td>
-                                  );
+                                          {user.status}
+                                        </span>
+                                      </td>
+                                    );
 
-                                case "Joining Date":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} truncate text-[#6B7280] font-medium`}
-                                    >
-                                      {user.joiningDate}
-                                    </td>
-                                  );
+                                  case "Joining Date":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                      >
+                                        {user.joiningDate}
+                                      </td>
+                                    );
 
-                                case "Mobile No":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {user.mobile}
-                                    </td>
-                                  );
+                                  case "Mobile No":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.mobile}
+                                      </td>
+                                    );
 
-                                case "Floor":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {user.floorName}
-                                    </td>
-                                  );
+                                  case "Floor":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.floorName}
+                                      </td>
+                                    );
 
-                                case "Room":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.roomName}
-                                    </td>
-                                  );
+                                  case "Room":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.roomName}
+                                      </td>
+                                    );
 
-                                case "Bed":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bedName}
-                                    </td>
-                                  );
-                                case "Email ID":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.emailId}
-                                    </td>
-                                  );
-                                case "Booking Date":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bookingDate}
-                                    </td>
-                                  );
-                                case "Monthly Rent":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.monthlyRent}
-                                    </td>
-                                  );
-                                case "Advance":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.advanceAmount}
-                                    </td>
-                                  );
-                                case "Booking Amount":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bookingAmount}
-                                    </td>
-                                  );
-                                default:
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {typeof user[
-                                        headerKeyMap[col.fieldName]
-                                      ] === "object"
-                                        ? "-"
-                                        : (user[headerKeyMap[col.fieldName]] ??
-                                          "-")}
-                                    </td>
-                                  );
-                              }
-                            })}
+                                  case "Bed":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.bedName}
+                                      </td>
+                                    );
+                                  case "Email ID":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.emailId}
+                                      </td>
+                                    );
+                                  case "Booking Date":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.bookingDate}
+                                      </td>
+                                    );
+                                  case "Monthly Rent":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.monthlyRent}
+                                      </td>
+                                    );
+                                  case "Advance":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.advanceAmount}
+                                      </td>
+                                    );
+                                  case "Booking Amount":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.bookingAmount}
+                                      </td>
+                                    );
+                                  default:
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {typeof user[
+                                          headerKeyMap[col.fieldName]
+                                        ] === "object"
+                                          ? "-"
+                                          : (user[
+                                              headerKeyMap[col.fieldName]
+                                            ] ?? "-")}
+                                      </td>
+                                    );
+                                }
+                              })}
 
-                            <td
-                              className={`${
-                                isScrolling ? "!bg-white" : "bg-white"
-                              } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                            >
-                              {" "}
-                              <div
-                                className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleShowDots(user.apiCall.customerId, e);
-                                }}
+                              <td
+                                className={`${
+                                  isScrolling ? "!bg-white" : "bg-white"
+                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
-                                <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${
-                                    activeRow === user?.apiCall?.customerId
-                                      ? "text-[#1E45E1]"
-                                      : "text-gray-500"
-                                  }`}
-                                />
-                                {/* 
-                                  {activeRow === user?.apiCall?.customerId && (
-                                    <div
-                                      ref={popupRef}
-                                      className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                      style={{
-                                        top: showAbove
-                                          ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight ||
-                                              120) -
-                                            10
-                                          : popupPosition.top + 5,
-                                        left: popupPosition.left - 250,
-                                        position: "fixed",
-                                        zIndex: 1000,
-                                      }}
-                                    ></div>
-                                  )} */}
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                                {" "}
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleShowDots(e, user.expenseId);
+                                  }}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    className={`h-5 w-5 rotate-90
+                                         ${String(showDots) === String(user.expenseId) ? "text-blue-600" : "text-gray-500"}`}
+                                  />
 
-                {open && (
-                  <>
-                    <div
-                      className="fixed inset-0 bg-black/20 z-50 "
-                      onClick={() => setOpen(false)}
-                    />
+                                  {String(showDots) ===
+                                    String(user.expenseId) && (
+                                    <>
+                                      <div
+                                        ref={popupRef}
+                                        className={`fixed flex flex-col items-start cursor-pointer
+                                   bg-gray-50 w-40 border border-gray-200 rounded-lg translate-x-10
+                                   
+                                 `}
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                100) -
+                                              5
+                                            : popupPosition.top - 9,
+                                          left: popupPosition.left - 250,
+                                        }}
+                                      >
+                                        <div
+                                          onClick={() => {
+                                            if (canWriteExpense) {
+                                              // handleShowTagAsset();
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#EDF2FF";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9";
+                                          }}
+                                          className={`flex justify-start items-center gap-2 w-full py-2 px-2 rounded-t-lg
+                                 ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
+                               `}
+                                        >
+                                          <Document
+                                            size="16"
+                                            color={"#1E45E1"}
+                                          />
+                                          <label
+                                            className={`text-sm font-semibold font-gilroy text-gray-800
+                                 ${!canWriteExpense ? "cursor-not-allowed" : "cursor-pointer"}
+                               `}
+                                          >
+                                            Tag Asset
+                                          </label>
+                                        </div>
 
-                    <div
-                      className={`
+                                        <div className="h-px bg-gray-100 m-0" />
+                                        <div
+                                          className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${
+                                            !canUpdateExpense
+                                              ? "cursor-not-allowed opacity-50"
+                                              : "cursor-pointer opacity-100"
+                                          }`}
+                                          onClick={() => {
+                                            if (canUpdateExpense) {
+                                              handleEditExpense(user);
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#EDF2FF";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9";
+                                          }}
+                                        >
+                                          <Edit size="16" color={"#1E45E1"} />
+                                          <label
+                                            className={`text-sm font-semibold font-gilroy text-gray-800 ${
+                                              !canUpdateExpense
+                                                ? "cursor-not-allowed"
+                                                : "cursor-pointer"
+                                            }`}
+                                          >
+                                            Edit
+                                          </label>
+                                        </div>
+
+                                        <div className="h-px bg-gray-100 m-0" />
+
+                                        <div
+                                          className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
+                                 ${!canDeleteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
+                               `}
+                                          onClick={() => {
+                                            if (canDeleteExpense) {
+                                              handleDeleteExpense(
+                                                user.expenseId,
+                                              );
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#FFF0F0";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9";
+                                          }}
+                                        >
+                                          <Trash size="16" color={"red"} />
+                                          <label
+                                            className={`text-sm font-semibold font-gilroy  ${
+                                              !canUpdateExpense
+                                                ? "cursor-not-allowed text-gray-800"
+                                                : "cursor-pointer text-red-600"
+                                            }`}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+
+                  {open && (
+                    <>
+                      <div
+                        className="fixed inset-0 bg-black/20 z-50 "
+                        onClick={() => setOpen(false)}
+                      />
+
+                      <div
+                        className={`
         fixed top-[180px] right-10 h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -1386,120 +1528,120 @@ function Expenses() {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-                    >
-                      <div className="relative font-gilroy">
-                        <div className="p-3 border-b ">
-                          <div className="flex items-center gap-2 justify-between mb-2">
-                            <div className="text-[16px] text-[#333333] font-semibold ">
-                              Customize Tabs{" "}
+                      >
+                        <div className="relative font-gilroy">
+                          <div className="p-3 border-b ">
+                            <div className="flex items-center gap-2 justify-between mb-2">
+                              <div className="text-[16px] text-[#333333] font-semibold ">
+                                Customize Tabs{" "}
+                              </div>
+                              <div
+                                onClick={() => {
+                                  setCustomizeItems((prev) =>
+                                    prev.map((i) => ({
+                                      ...i,
+                                      selected: !allSelected,
+                                    })),
+                                  );
+
+                                  setError("");
+                                }}
+                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                {" "}
+                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                <span>
+                                  {allSelected ? "Unselect all" : "Select all"}
+                                </span>
+                              </div>
                             </div>
-                            <div
-                              onClick={() => {
-                                setCustomizeItems((prev) =>
-                                  prev.map((i) => ({
-                                    ...i,
-                                    selected: !allSelected,
-                                  })),
+
+                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                              <SearchNormal1 size={16} color="#98A2B3" />
+                              <input
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                placeholder="Search"
+                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                              />
+                            </div>
+                          </div>
+
+                          <DndContext
+                            collisionDetection={closestCenter}
+                            onDragEnd={(event) => {
+                              const { active, over } = event;
+                              if (!over) return;
+                              if (active.id !== over?.id) {
+                                const oldIndex = customizeItems.findIndex(
+                                  (i) => i.key === active.id,
+                                );
+                                const newIndex = customizeItems.findIndex(
+                                  (i) => i.key === over.id,
                                 );
 
-                                setError("");
-                              }}
-                              className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                            >
-                              {" "}
-                              <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                              <span>
-                                {allSelected ? "Unselect all" : "Select all"}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                            <SearchNormal1 size={16} color="#98A2B3" />
-                            <input
-                              value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
-                              placeholder="Search"
-                              className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                            />
-                          </div>
-                        </div>
-
-                        <DndContext
-                          collisionDetection={closestCenter}
-                          onDragEnd={(event) => {
-                            const { active, over } = event;
-                            if (!over) return;
-                            if (active.id !== over?.id) {
-                              const oldIndex = customizeItems.findIndex(
-                                (i) => i.key === active.id,
-                              );
-                              const newIndex = customizeItems.findIndex(
-                                (i) => i.key === over.id,
-                              );
-
-                              setCustomizeItems(
-                                arrayMove(customizeItems, oldIndex, newIndex),
-                              );
-                            }
-                          }}
-                        >
-                          <SortableContext
-                            items={customizeItems.map((i) => i.key)}
-                            strategy={verticalListSortingStrategy}
+                                setCustomizeItems(
+                                  arrayMove(customizeItems, oldIndex, newIndex),
+                                );
+                              }
+                            }}
                           >
-                            <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                              {filteredCustomizeItems.length === 0 ? (
-                                <div className="text-sm text-gray-400 text-center py-3">
-                                  No results found
-                                </div>
-                              ) : (
-                                filteredCustomizeItems.map((item) => (
-                                  <SortableItem key={item.key} item={item} />
-                                ))
-                              )}
-                            </div>
-                          </SortableContext>
-                        </DndContext>
-                      </div>
-                      {error && (
-                        <div className="flex justify-center my-2">
-                          <ErrorMessage message={error} type="warning" />
+                            <SortableContext
+                              items={customizeItems.map((i) => i.key)}
+                              strategy={verticalListSortingStrategy}
+                            >
+                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                {filteredCustomizeItems.length === 0 ? (
+                                  <div className="text-sm text-gray-400 text-center py-3">
+                                    No results found
+                                  </div>
+                                ) : (
+                                  filteredCustomizeItems.map((item) => (
+                                    <SortableItem key={item.key} item={item} />
+                                  ))
+                                )}
+                              </div>
+                            </SortableContext>
+                          </DndContext>
                         </div>
-                      )}
+                        {error && (
+                          <div className="flex justify-center my-2">
+                            <ErrorMessage message={error} type="warning" />
+                          </div>
+                        )}
 
-                      <div className="p-3 border-t flex gap-2">
-                        <button
-                          onClick={handleResetCustomize}
-                          className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          onClick={handleSave}
-                          disabled={customizeLoading}
-                          className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
-                        >
-                          {customizeLoading ? (
-                            <div className="flex items-center justify-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              Saving...
-                            </div>
-                          ) : (
-                            "Save"
-                          )}
-                        </button>
+                        <div className="p-3 border-t flex gap-2">
+                          <button
+                            onClick={handleResetCustomize}
+                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
+                          >
+                            Reset
+                          </button>
+                          <button
+                            onClick={handleSave}
+                            disabled={customizeLoading}
+                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
+                          >
+                            {customizeLoading ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Saving...
+                              </div>
+                            ) : (
+                              "Save"
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            {/* ) : (
+            ) : (
               <div className="my-2">
                 <NoDataMessage label="Expense" />
               </div>
-            )} */}
+            )}
           </div>
         )}
       </div>
