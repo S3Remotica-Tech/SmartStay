@@ -195,7 +195,7 @@ function* handleRecurringRole(action) {
 
 function* handleCategorylist(action) {
   try {
-    const response = yield call(VendorCategorylist, action.payload);
+    const response = yield call(ExpencesCategorylist, action.payload);
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {

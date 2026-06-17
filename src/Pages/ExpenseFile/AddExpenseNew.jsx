@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
-
+import moment from "moment";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -127,7 +127,7 @@ const CustomStylesCode = {
     // borderBottomRightRadius: "0",
 
     fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
+    fontFamily: "Gilroy",
     fontWeight: 500,
     boxShadow: "none",
     alignItems: "center",
@@ -154,6 +154,7 @@ const CustomStylesCode = {
       ...base,
       position: "relative",
       fontSize: 14,
+      fontFamily: "Gilroy",
       padding: "6px 12px",
       backgroundColor: isSelected
         ? "#EEF2FF"
@@ -271,21 +272,6 @@ const paidThroughOptions = [
   },
 ];
 
-const paymentMethodOptions = [
-  {
-    value: "gpay",
-    label: "Gpay UPI",
-  },
-  {
-    value: "cash",
-    label: "Cash",
-  },
-  {
-    value: "bank_transfer",
-    label: "Bank Transfer",
-  },
-];
-
 const unitOptions = [
   { value: "Nos", label: "Nos" },
   { value: "Packet", label: "Packet" },
@@ -315,9 +301,10 @@ function AddExpenseNew() {
   const [discountType, setDiscountType] = useState("amount");
   const [vendor, setVendor] = useState(null);
   const [vendorError, setVendorError] = useState("");
-
+  const [subCategoryList, setSubCategoryList] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("Fully Paid");
   const [paymentStatusError, setPaymentStatusError] = useState("");
+  const [creditPeriod, setCreditPeriod] = useState("");
 
   const [paidAmount, setPaidAmount] = useState("");
   const [paidAmountError, setPaidAmountError] = useState("");
@@ -325,20 +312,31 @@ function AddExpenseNew() {
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
 
-  const [expenseItems, setExpenseItems] = useState([
-    {
-      itemName: "LED Tube Light",
-      quantity: 10,
-      unit: { value: "Nos", label: "Nos" },
-      price: 150,
-      amount: 1500,
-    },
-  ]);
+  const vendorOptions =
+    state.ComplianceList?.VendorList?.map((vendor) => ({
+      value: vendor.id,
+      label: vendor.fullName,
+      vendor,
+    })) || [];
 
+  const unitOptions =
+    state.ExpenseList?.unitList?.map((exp) => ({
+      value: exp.id,
+      label: exp.unitName,
+    })) || [];
+
+  const [expenseItems, setExpenseItems] = useState([]);
+  const [expenseItemErrors, setExpenseItemErrors] = useState([]);
   const [tax, setTax] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
+
+  const handleCreditPeriodChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+
+    setCreditPeriod(value);
+  };
 
   const { isBankingWayTrigger, currentItem } = location?.state;
 
@@ -400,13 +398,13 @@ function AddExpenseNew() {
     setAmountError("");
   };
 
-  const handleCategory = (e) => {
-    setCategory(e.target.value);
+  const handleCategory = (selectedOption) => {
+    setCategory(selectedOption?.value || "");
     setCategoryError("");
   };
 
-  const handleSubCategory = (e) => {
-    setSubCategory(e.target.value);
+  const handleSubCategory = (selectedOption) => {
+    setSubCategory(selectedOption?.value || "");
     setSubCategoryError("");
   };
 
@@ -425,6 +423,12 @@ function AddExpenseNew() {
     updated[index].amount = qty * price;
 
     setExpenseItems(updated);
+    setExpenseItemErrors((prev) => {
+      const errors = [...prev];
+      if (!errors[index]) errors[index] = {};
+      delete errors[index][field];
+      return errors;
+    });
   };
 
   const addNewRow = () => {
@@ -457,6 +461,8 @@ function AddExpenseNew() {
   //   const discountAmount = (subTotal * Number(discount || 0)) / 100;
 
   const totalAmount = subTotal + taxAmount - discountAmount;
+
+  console.log("category", category);
 
   const validate = () => {
     let isValid = true;
@@ -502,39 +508,85 @@ function AddExpenseNew() {
     }
 
     if (!paidAmount.trim()) {
-      setPaidAmountError("Paid amount is required");
+      setPaidAmountError("Please Enter  Paid amount");
       isValid = false;
     }
 
     if (!balanceAmount.trim()) {
-      setBalanceAmountError("Balance amount is required");
+      setBalanceAmountError("Please Enter Balance amount ");
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Select Payment Method");
+      setPaymentMethodError("Please Select Payment Method");
       isValid = false;
     }
+
+    const rowErrors = expenseItems.map((item) => {
+      const error = {};
+
+      if (!item.itemName.trim()) {
+        error.itemName = "Enter item details";
+        isValid = false;
+      }
+
+      if (!item.quantity || Number(item.quantity) <= 0) {
+        error.quantity = "Enter quantity";
+        isValid = false;
+      }
+
+      if (!item.unit) {
+        error.unit = "Select unit";
+        isValid = false;
+      }
+
+      if (!item.price || Number(item.price) <= 0) {
+        error.price = "Enter amount";
+        isValid = false;
+      }
+
+      return error;
+    });
+
+    setExpenseItemErrors(rowErrors);
 
     return isValid;
   };
 
   const handleSubmit = () => {
     if (!validate()) return;
+    const formattedDate = moment(purchaseDate).format("DD-MM-YYYY");
 
-    const payload = {
-      expenseTitle,
-      category,
-      subCategory,
-      amount,
-      purchaseDate,
-      linkVendor,
-      paidThrough,
-      paymentMethod,
-      description,
-    };
+    dispatch({
+      type: "ADDEXPENSE",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        categoryId: category || 0,
+        subCategory: subCategory || "",
+        purchaseDate: formattedDate,
+        count: expenseItems.length,
+        totalAmount: Number(totalAmount),
+        bankId: paymentMethod?.value || "",
+        description: description.trim(),
 
-    console.log(payload);
+        title: expenseTitle.trim(),
+        isVendorExpense: linkVendor,
+        vendorId: linkVendor ? vendor?.value || vendor?.vendorId || 0 : 0,
+        paymentStatus: paymentStatus,
+        paidAmount: Number(paidAmount || 0),
+        balanceAmount: Number(balanceAmount || 0),
+        paymentMethod: paymentMethod?.value || "",
+        note: "",
+        expenseItems: expenseItems.map((item) => ({
+          item: item.itemName.trim(),
+          quantity: Number(item.quantity || 0),
+          unitId: item.unit?.unitId || item.unit?.id || item.unit?.value || 0,
+          unit: item.unit?.label || "",
+          unitPrice: Number(item.price || 0),
+          totalAmount: Number(item.amount || 0),
+        })),
+      },
+    });
   };
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -544,6 +596,92 @@ function AddExpenseNew() {
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "INITIALIZEEXPENSESLIST",
+        payload: state.login.selectedHostel_Id,
+      });
+      dispatch({
+        type: "VENDORLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      dispatch({ type: "UNITS_LIST_SAGA" });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  const hasShownToast = useRef(false);
+
+  useEffect(() => {
+    if (state.ExpenseList?.getInitializeExpenseStatusCode === 200) {
+      const expenses =
+        state.ExpenseList?.getInitializeExpenseList?.listExpenses || [];
+      if (expenses?.length === 0 && !hasShownToast.current) {
+        toast.error(
+          "Please add a Category option in Settings, accessible after adding an expense",
+          {
+            style: {
+              fontFamily: "Gilroy, sans-serif",
+            },
+          },
+        );
+        hasShownToast.current = true;
+      }
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_INITIALIZE_EXPENSES_LIST" });
+      }, 100);
+    }
+  }, [state.ExpenseList?.getInitializeExpenseStatusCode]);
+
+  useEffect(() => {
+    if (category) {
+      const selectedCat =
+        state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+          (cat) => cat.categoryId === category,
+        );
+
+      setSubCategoryList(
+        selectedCat?.subCategories?.map((sub) => ({
+          value: sub.subCategoryId,
+          label: sub.subCategoryName,
+        })) || [],
+      );
+      const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
+
+      if (categoryHasSubCategory && !subCategory) {
+        setSubCategoryError("Please Select SubCategory");
+      } else {
+        setSubCategoryError("");
+      }
+
+      // setSubCategory("");
+    }
+  }, [category]);
+
+  const expenseOptions =
+    state.ExpenseList?.getInitializeExpenseList?.listExpenses?.map((item) => ({
+      value: item.categoryId,
+      label: item.categoryName,
+    })) || [];
+
+  const paymentOptions = Array.isArray(
+    state.ExpenseList?.getInitializeExpenseList?.banks,
+  )
+    ? state.ExpenseList.getInitializeExpenseList.banks.map((item) => {
+        const typeLabelMap = {
+          bank: "Bank",
+          upi: "UPI",
+          card: "Card",
+          cash: "Cash",
+        };
+        return {
+          value: item.bankId,
+          label: `${item.holderName} - ${item.bankName || typeLabelMap[item.type]}`,
+          type: item.type,
+        };
+      })
+    : [];
 
   return (
     <div className="block relative font-gilroy ">
@@ -602,9 +740,14 @@ function AddExpenseNew() {
 
               <div ref={categoryRef}>
                 <Select
-                  value={category}
+                  value={
+                    category
+                      ? expenseOptions?.find((opt) => opt.value === category) ||
+                        null
+                      : null
+                  }
                   onChange={handleCategory}
-                  //   options={categoryOptions}
+                  options={expenseOptions}
                   placeholder="Select"
                   styles={CustomStyles}
                 />
@@ -616,12 +759,23 @@ function AddExpenseNew() {
             </div>
             <div className="lg:col-span-4">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                Sub Category <span className="text-red-500 text-[20px]">*</span>
+                Sub Category{" "}
+                {subCategoryList.length > 0 ? (
+                  <span className="text-red-600 inline-block text-xl">*</span>
+                ) : (
+                  <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
+                )}
               </label>
 
               <Select
-                // options={vendorCategoryOptions}
-                value={subCategory}
+                options={subCategoryList}
+                value={
+                  subCategory
+                    ? subCategoryList?.find(
+                        (opt) => opt.value === subCategory,
+                      ) || null
+                    : null
+                }
                 onChange={handleSubCategory}
                 placeholder="Select"
                 classNamePrefix="custom"
@@ -644,7 +798,7 @@ function AddExpenseNew() {
                 <input
                   value={amount}
                   onChange={handleAmount}
-                  type="text"
+                  type="number"
                   placeholder="Enter Amount"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     amount ? "font-semibold" : "font-medium"
@@ -726,29 +880,7 @@ function AddExpenseNew() {
               </div>
             </div>
           </div>
-          {/* <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-            <div className="col-span-8 mt-4">
-              <label className="block mb-2 text-[13px] text-[#222222] font-medium">
-                Paid Through
-                <span className="text-red-500 ml-1">*</span>
-              </label>
 
-              <Select
-                value={paidThrough}
-                onChange={(selected) => {
-                  setPaidThrough(selected);
-                  setPaidThroughError("");
-                }}
-                options={paidThroughOptions}
-                placeholder="Select"
-                styles={CustomStyles}
-              />
-
-              {paidThroughError && (
-                <ErrorMessage message={paidThroughError} type="error" />
-              )}
-            </div>
-          </div> */}
           {linkVendor && (
             <div className="mb-2">
               <div className="grid grid-cols-12 gap-x-4 gap-y-3 mb-2">
@@ -759,7 +891,7 @@ function AddExpenseNew() {
                   </label>
 
                   <Select
-                    // options={vendorCategoryOptions}
+                    options={vendorOptions}
                     value={vendor}
                     onChange={handleVendorChange}
                     placeholder="Select"
@@ -774,7 +906,8 @@ function AddExpenseNew() {
 
               <div className="mb-2">
                 <label className="text-[13px] font-medium text-[#1A1C21]">
-                  Payment Status <span className="text-red-500">*</span>
+                  Payment Status{" "}
+                  <span className="text-red-500 text-[20px]">*</span>
                 </label>
 
                 <div className="flex gap-6 mt-3">
@@ -814,7 +947,7 @@ function AddExpenseNew() {
                     </label>
 
                     <input
-                      type="text"
+                      type="number"
                       value={paidAmount}
                       onChange={handlePaidAmountChange}
                       placeholder="Enter Paid Amount"
@@ -838,7 +971,7 @@ function AddExpenseNew() {
                     </label>
 
                     <input
-                      type="text"
+                      type="number"
                       value={balanceAmount}
                       onChange={handleBalanceAmountChange}
                       placeholder="Enter Balance Amount"
@@ -869,7 +1002,7 @@ function AddExpenseNew() {
                     setPaymentMethod(selected);
                     setPaymentMethodError("");
                   }}
-                  options={paymentMethodOptions}
+                  options={paymentOptions}
                   placeholder="Select Payment Method"
                   styles={CustomStyles}
                 />
@@ -879,6 +1012,24 @@ function AddExpenseNew() {
                 )}
               </div>
             </div>
+            <div className="grid grid-cols-12 gap-4 mt-2">
+              <div className="col-span-12 lg:col-span-8">
+                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                  Credit Period (for this expense only)
+                </label>
+
+                <input
+                  type="number"
+                  value={creditPeriod}
+                  onChange={handleCreditPeriodChange}
+                  placeholder="Enter Credit Period"
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                    creditPeriod ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
               <div className="col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-medium">
@@ -909,7 +1060,7 @@ function AddExpenseNew() {
             <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
               <div
                 id="tableContainer"
-                className="overflow-auto relative  rounded-xl show-scrolls"
+                className="overflow-auto relative h-[200px]  rounded-xl show-scrolls"
               >
                 <table className=" w-full font-gilroy ">
                   <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
@@ -936,87 +1087,153 @@ function AddExpenseNew() {
                   </thead>
 
                   <tbody>
-                    {expenseItems.map((item, index) => (
-                      <tr key={index} className="border border-[#F9FAFB]">
-                        <td className="p-2  border border-[#F9FAFB]">
-                          <input
-                            value={item.itemName}
-                            onChange={(e) =>
-                              handleItemChange(
-                                index,
-                                "itemName",
-                                e.target.value,
-                              )
-                            }
-                            placeholder="Enter Item Name"
-                            className="w-full  outline-none text-sm rounded-md"
-                          />
-                        </td>
+                    {expenseItems.length > 0 ? (
+                      expenseItems.map((item, index) => (
+                        <React.Fragment key={index}>
+                          <tr key={index} className="border border-[#F9FAFB]">
+                            <td className="p-2  border border-[#F9FAFB]">
+                              <input
+                                value={item.itemName}
+                                onChange={(e) =>
+                                  handleItemChange(
+                                    index,
+                                    "itemName",
+                                    e.target.value,
+                                  )
+                                }
+                                placeholder="Enter Item Name"
+                                className="w-full  outline-none text-sm rounded-md"
+                              />
+                            </td>
 
-                        <td className="p-2 border border-[#F9FAFB]">
-                          <input
-                            type="number"
-                            value={item.quantity}
-                            placeholder="Enter "
-                            onChange={(e) =>
-                              handleItemChange(
-                                index,
-                                "quantity",
-                                e.target.value,
-                              )
-                            }
-                            className="w-full  outline-none text-sm rounded-md"
-                          />
-                        </td>
+                            <td className="p-2 border border-[#F9FAFB]">
+                              <input
+                                type="number"
+                                value={item.quantity}
+                                placeholder="Enter "
+                                onChange={(e) =>
+                                  handleItemChange(
+                                    index,
+                                    "quantity",
+                                    e.target.value,
+                                  )
+                                }
+                                className="w-full  outline-none text-sm rounded-md"
+                              />
+                            </td>
 
-                        <td className="p-2">
-                          <Select
-                            value={item.unit}
-                            options={unitOptions}
-                            styles={CustomStylesCode}
-                            menuPlacement="bottom"
-                            placeholder="Select"
-                            onChange={(selected) =>
-                              handleItemChange(index, "unit", selected)
-                            }
-                          />
-                        </td>
+                            <td className="p-2">
+                              <Select
+                                value={item.unit}
+                                options={unitOptions}
+                                styles={{
+                                  ...CustomStylesCode,
+                                  menuPortal: (base) => ({
+                                    ...base,
+                                    zIndex: 9999,
+                                  }),
+                                }}
+                                menuPortalTarget={document.body}
+                                menuPosition="fixed"
+                                menuPlacement="auto"
+                                placeholder="Select"
+                                onChange={(selected) =>
+                                  handleItemChange(index, "unit", selected)
+                                }
+                              />
+                            </td>
 
-                        <td className="p-2 border border-[#F9FAFB]">
-                          <input
-                            type="number"
-                            value={item.price}
-                            placeholder="₹0.00"
-                            onChange={(e) =>
-                              handleItemChange(index, "price", e.target.value)
-                            }
-                            className="w-full  outline-none text-sm rounded-md"
-                          />
-                        </td>
+                            <td className="p-2 border border-[#F9FAFB]">
+                              <input
+                                type="number"
+                                value={item.price}
+                                placeholder="₹0.00"
+                                onChange={(e) =>
+                                  handleItemChange(
+                                    index,
+                                    "price",
+                                    e.target.value,
+                                  )
+                                }
+                                className="w-full  outline-none text-sm rounded-md"
+                              />
+                            </td>
 
-                        <td className="p-2 text-sm font-medium border border-[#F9FAFB]">
-                          ₹ {item.amount.toLocaleString("en-IN")}
-                        </td>
+                            <td className="p-2 text-sm font-medium border border-[#F9FAFB]">
+                              ₹ {item.amount.toLocaleString("en-IN")}
+                            </td>
 
-                        <td className="p-2 text-center ">
-                          <button onClick={() => removeRow(index)}>
-                            <Add
-                              size="18"
-                              color="#EF4444"
-                              className="cursor-pointer rotate-45"
-                            />
-                          </button>
-                          <button>
-                            <More
-                              color="#28303F"
-                              size="16"
-                              variant="Outline"
-                              className="cursor-pointer rotate-90"
-                            />
-                          </button>
+                            <td className="p-2 text-center ">
+                              <button onClick={() => removeRow(index)}>
+                                <Add
+                                  size="18"
+                                  color="#EF4444"
+                                  className="cursor-pointer rotate-45"
+                                />
+                              </button>
+                              <button>
+                                <More
+                                  color="#28303F"
+                                  size="16"
+                                  variant="Outline"
+                                  className="cursor-pointer rotate-90"
+                                />
+                              </button>
+                            </td>
+                          </tr>
+                          {(expenseItemErrors[index]?.itemName ||
+                            expenseItemErrors[index]?.quantity ||
+                            expenseItemErrors[index]?.unit ||
+                            expenseItemErrors[index]?.price) && (
+                            <tr className="">
+                              <td className=" pb-2 text-xs  whitespace-nowrap ">
+                                <ErrorMessage
+                                  message={expenseItemErrors[index]?.itemName}
+                                  type="error"
+                                />
+                              </td>
+
+                              <td className=" pb-2 text-xs text-red-500 whitespace-nowrap w-[200px] ">
+                                <ErrorMessage
+                                  message={expenseItemErrors[index]?.quantity}
+                                  type="error"
+                                />
+                              </td>
+
+                              <td className="pb-2 text-xs text-red-500 whitespace-nowrap">
+                                <ErrorMessage
+                                  message={expenseItemErrors[index]?.unit}
+                                  type="error"
+                                />
+                              </td>
+
+                              <td className=" pb-2 text-xs text-red-500 whitespace-nowrap">
+                                <ErrorMessage
+                                  message={expenseItemErrors[index]?.price}
+                                  type="error"
+                                />
+                              </td>
+
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="py-10 text-center">
+                          <div className="flex flex-col items-center justify-center">
+                            <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
+                              No Data Found!
+                            </h3>
+                            <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
+                              No expense items added yet.
+                            </p>
+                          </div>
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
