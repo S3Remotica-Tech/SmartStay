@@ -36,6 +36,10 @@ export const initialState = {
   statusCodeComplianceUpdates: 0,
   updateCustomizationSuccess: 0,
   vendorOverview: "",
+  vendorOverviewExpenseList: "",
+  vendorOverviewExpenseListStatus: 0,
+  vendorOverviewExpensePaymentList: "",
+  vendorOverviewExpensePaymentListStatus: 0,
   vendorFilters: {
     paymentStatus: "",
     paymentStatusLabel: "",
@@ -150,6 +154,30 @@ const ComplianceReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorOverview: action.payload.response,
+      };
+
+    case "VENDOR_OVERVIEW_EXPENSE_LIST":
+      return {
+        ...state,
+        vendorOverviewExpenseList: action.payload.response,
+        vendorOverviewExpenseListStatus: action.payload.statusCode,
+      };
+    case "REMOVE_VENDOR_OVERVIEW_EXPENSE_LIST":
+      return {
+        ...state,
+        vendorOverviewExpenseListStatus: 0,
+      };
+
+    case "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_REDUCER":
+      return {
+        ...state,
+        vendorOverviewExpensePaymentList: action.payload.response,
+        vendorOverviewExpensePaymentListStatus: action.payload.statusCode,
+      };
+    case "REMOVE_VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_REDUCER":
+      return {
+        ...state,
+        vendorOverviewExpensePaymentListStatus: 0,
       };
 
     case "ALREADY_VENDOR_EMAIL_ERROR":

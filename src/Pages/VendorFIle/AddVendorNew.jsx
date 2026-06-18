@@ -14,6 +14,7 @@ import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import VendorOverView from "./VendorOverView";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -392,8 +393,6 @@ function AddVendorNew() {
 
   const currentItem = location.state?.currentItem || {};
   const checkMode = location.state?.check;
-
-  console.log("currentItem", currentItem);
 
   useEffect(() => {
     return () => {
@@ -819,7 +818,8 @@ function AddVendorNew() {
         type: "UPDATEVENDOR",
         payload: {
           profilePic: file,
-          payLoads: {
+          updateVendor: {
+            vendorId: currentItem?.apiCall?.vendorId,
             firstName: vendorName,
             lastName: last_Name,
             countryCode:
@@ -885,7 +885,7 @@ function AddVendorNew() {
   useEffect(() => {
     if (
       state.ComplianceList.addVendorSuccessStatusCode === 201 ||
-      state.ComplianceList.updateVendorSuccessStatusCode === 201
+      state.ComplianceList.updateVendorSuccessStatusCode === 200
     ) {
       setFormLoading(false);
       navigate(`/vendor/${state.login.selectedHostel_Id}`);
@@ -909,78 +909,75 @@ function AddVendorNew() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (checkMode === "EDIT" && currentItem?.id) {
-  //     setVendorName(currentItem.fullName || "");
-  //     // setLast_Name(currentItem.lastName || "");
-  //     setVendor_Mobile(currentItem.mobile || "");
-  //     setBusinessName(currentItem.businessName || "");
-  //     setEmail_Id(currentItem.emailId || "");
-
-  //     setHouseNo(currentItem.houseNo || "");
-  //     setLandmark(currentItem.landMark || "");
-  //     setCity(currentItem.city || "");
-  //     setStateName(currentItem.state || "");
-  //     setPinCode(currentItem.pinCode ? String(currentItem.pinCode) : "");
-
-  //     setContactPersonName(currentItem.contactPerson || "");
-  //     setDescription(currentItem.description || "");
-  //     // setVendorCode(currentItem.vendorCode || "");
-  //     setGstNumber(currentItem.gst || "");
-  //     setPanNumber(currentItem.pan || "");
-
-  //     setAllowCreditPurchase(
-  //       currentItem.allowCredit !== null ? currentItem.allowCredit : false,
-  //     );
-
-  //     setCreditLimit(
-  //       currentItem.creditLimit != null ? String(currentItem.creditLimit) : "",
-  //     );
-
-  //     setCreditPeriod(
-  //       currentItem.creditPeriod != null
-  //         ? String(currentItem.creditPeriod)
-  //         : "",
-  //     );
-
-  //     setCountryCode({
-  //       value: currentItem.countryCode || "91",
-  //       label: `+${currentItem.countryCode || "91"}`,
-  //     });
-
-  //     setBusinessCountryCode({
-  //       value: currentItem.countryCode || "91",
-  //       label: `+${currentItem.countryCode || "91"}`,
-  //     });
-
-  //     if (currentItem.vendorCategoryId) {
-  //       setVendorCategory({
-  //         value: currentItem.vendorCategoryId,
-  //         label: currentItem.vendorCategoryName,
-  //       });
-  //     } else {
-  //       setVendorCategory(null);
-  //     }
-  //   }
-  // }, [checkMode, currentItem]);
-
   useEffect(() => {
-    if (checkMode === "EDIT" && currentItem) {
-      setVendorName(currentItem.fullName || "");
-      // setVendor_Mobile(currentItem.mobile || "");
-      setEmail_Id(currentItem.email === "-" ? "" : currentItem.email);
-      setBusinessMobile(currentItem.mobile || "");
+    if (checkMode === "EDIT") {
+      const vendorOverView = state.ComplianceList?.vendorOverview;
+
+      if (!vendorOverView) return;
+
+      setVendorName(vendorOverView.fullName || "");
+      setBusinessMobile(vendorOverView.mobile || "");
+      setBusinessName(vendorOverView.businessName || "");
+      setEmail_Id(vendorOverView.emailId || "");
+
+      setHouseNo(vendorOverView.houseNo || "");
+      setLandmark(vendorOverView.landMark || "");
+      setCity(vendorOverView.city || "");
+      setStateName(vendorOverView.state || "");
+      setPinCode(vendorOverView.pinCode ? String(vendorOverView.pinCode) : "");
+
+      setContactPersonName(vendorOverView.contactPerson || "");
+      setVendor_Mobile(vendorOverView.contactPersonMobile);
+      setDescription(vendorOverView.description || "");
+      setGstNumber(vendorOverView.gst || "");
+      setPanNumber(vendorOverView.pan || "");
+
+      setAllowCreditPurchase(vendorOverView.allowCredit ?? false);
+
       setCreditLimit(
-        currentItem.creditLimit !== "-" ? String(currentItem.creditLimit) : "",
+        vendorOverView.creditLimit != null
+          ? String(vendorOverView.creditLimit)
+          : "",
       );
 
       setCreditPeriod(
-        currentItem.creditPeriod !== "-"
-          ? String(currentItem.creditPeriod)
+        vendorOverView.creditPeriod != null
+          ? String(vendorOverView.creditPeriod)
           : "",
       );
+
+      setCountryCode({
+        value: vendorOverView.countryCode || "91",
+        label: `+${vendorOverView.countryCode || "91"}`,
+      });
+
+      setBusinessCountryCode({
+        value: vendorOverView.countryCode || "91",
+        label: `+${vendorOverView.countryCode || "91"}`,
+      });
+
+      if (vendorOverView.vendorCategoryId) {
+        setVendorCategory({
+          value: vendorOverView.vendorCategoryId,
+          label: vendorOverView.vendorCategoryName,
+        });
+      } else {
+        setVendorCategory(null);
+      }
     }
-  }, [checkMode, currentItem]);
+  }, [checkMode, state.ComplianceList?.vendorOverview]);
+
+  useEffect(() => {
+    if (checkMode === "EDIT" && currentItem) {
+      dispatch({
+        type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+        payload: {
+          vendorId: currentItem?.apiCall?.vendorId,
+          period: "",
+        },
+      });
+    }
+  }, [currentItem]);
 
   useEffect(() => {
     if (state.ComplianceList?.alreadyVendorHere) {

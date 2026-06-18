@@ -46,6 +46,11 @@ function VendorOverView({
     }
   }, [selectedVendorId, selectedMonth]);
 
+  // useEffect(()=>{
+  // dispatch({ type :'VENDOR_OVERVIEW_EXPENSE_SAGA'})
+  // dispatch({ type :'VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA'})
+  // },[])
+
   useEffect(() => {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
       dispatch({

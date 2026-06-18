@@ -95,6 +95,28 @@ export async function VendorList(vendor) {
   });
 }
 
+export async function VendorOverViewExpenseList(vendor) {
+  const params = {};
+
+  if (vendor.page) params.page = vendor.page;
+  if (vendor.size) params.size = vendor.size;
+
+  return await AxiosConfigV2.get(`v2/vendors/expenses/${vendor}`, {
+    params,
+  });
+}
+
+export async function VendorOverViewExpensePaymentList(vendor) {
+  const params = {};
+
+  if (vendor.page) params.page = vendor.page;
+  if (vendor.size) params.size = vendor.size;
+
+  return await AxiosConfigV2.get(`v2/vendors/expense-payments/${vendor}`, {
+    params,
+  });
+}
+
 export async function addVendor(params) {
   const formData = new FormData();
 

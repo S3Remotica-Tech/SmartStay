@@ -17,6 +17,8 @@ import {
   EditComplaint,
   ParticularcomplianceDetails,
   particularVendorOverview,
+  VendorOverViewExpenseList,
+  VendorOverViewExpensePaymentList,
 } from "../Action/ComplianceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -40,6 +42,55 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleVendorOverViewExpenseList(action) {
+  try {
+    const response = yield call(VendorOverViewExpenseList, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "VENDOR_OVERVIEW_EXPENSE_LIST",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleVendorOverViewExpensePayemntList(action) {
+  try {
+    const response = yield call(
+      VendorOverViewExpensePaymentList,
+      action.payload,
+    );
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -709,6 +760,14 @@ function* handleCompliantsUpdatesView(action) {
 }
 
 function* ComplianceSaga() {
+  yield takeEvery(
+    "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+    handleVendorOverViewExpensePayemntList,
+  );
+  yield takeEvery(
+    "VENDOR_OVERVIEW_EXPENSE_SAGA",
+    handleVendorOverViewExpenseList,
+  );
   yield takeEvery(
     "PARTICULAR_VENDOR_OVERVIEW_SAGA",
     handleParticularVendorOverview,

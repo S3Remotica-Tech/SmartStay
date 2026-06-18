@@ -879,14 +879,8 @@ function Vendor() {
           // <div className="relative flex flex-col h-[calc(100vh-80px)]">
           <div className="relative flex flex-col flex-1 min-h-0">
             {loading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
-                <div className="w-[60px] h-[60px] rounded-full border-t-[2px] border-b-[2px] border-r-[2px] border-r-transparent border-[#1E45E1] animate-spin relative flex items-center justify-center">
-                  <img
-                    src={SmarstayLogo}
-                    alt="logo"
-                    className="w-[35px] h-[35px] rounded-full absolute animate-spin-reverse"
-                  />
-                </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
               </div>
             )}
 
