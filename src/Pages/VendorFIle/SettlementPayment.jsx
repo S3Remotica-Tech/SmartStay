@@ -212,6 +212,10 @@ function SettlementPayment({ show, handleClose, isBanking }) {
   if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+
+const VendorOverView = state.ComplianceList?.vendorOverview;
+
+
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
   const [paidDate, setPaidDate] = useState(null);
@@ -232,6 +236,9 @@ function SettlementPayment({ show, handleClose, isBanking }) {
   });
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
+
+
+  
 
   const [invoiceDetails, setInvoiceDetails] = useState([
     {
@@ -268,12 +275,13 @@ function SettlementPayment({ show, handleClose, isBanking }) {
     });
   }, []);
 
-  const vendorOptions =
-    state.ComplianceList?.VendorList?.map((vendor) => ({
-      value: vendor.id,
-      label: vendor.fullName,
-      vendor,
-    })) || [];
+  // const vendorOptions =
+  //   state.ComplianceList?.VendorList?.map((vendor) => ({
+  //     value: vendor.id,
+  //     label: vendor.fullName,
+  //     vendor,
+  //   })) || [];
+  const vendorOptions = [];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -404,7 +412,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
               </label>
               <div className="relative">
                 <Select
-                  disabled
+                  isDisabled
                   options={vendorOptions}
                   value={selectedVendor}
                   onChange={handleVendorChange}

@@ -129,8 +129,7 @@ function* handleParticularcompliant(action) {
 
 function* handleParticularVendorOverview(action) {
   try {
-    const { complaintId } = action.payload;
-    const response = yield call(particularVendorOverview, complaintId);
+    const response = yield call(particularVendorOverview, action.payload);
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {

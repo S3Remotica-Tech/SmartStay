@@ -161,6 +161,7 @@ function Vendor() {
   const listRef = useRef(null);
   const tableRef = useRef(null);
   const [showOverview, setShowOverview] = useState(false);
+  const [selectedVendorId, setSelectedVendorId] = useState("");
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
   const [error, setError] = useState("");
@@ -173,6 +174,7 @@ function Vendor() {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
+  const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
   const popupRef = useRef(null);
   const {
     canWriteModule: canWriteVendor,
@@ -877,7 +879,7 @@ function Vendor() {
           // <div className="relative flex flex-col h-[calc(100vh-80px)]">
           <div className="relative flex flex-col flex-1 min-h-0">
             {loading && (
-              <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
+              <div className="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
                 <div className="w-[60px] h-[60px] rounded-full border-t-[2px] border-b-[2px] border-r-[2px] border-r-transparent border-[#1E45E1] animate-spin relative flex items-center justify-center">
                   <img
                     src={SmarstayLogo}
@@ -1083,6 +1085,7 @@ function Vendor() {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowOverview(true);
+                                setSelectedVendorId(user.apiCall.vendorId);
                               }}
                               key={index}
                               className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
@@ -1499,329 +1502,15 @@ function Vendor() {
                 </div>
               </div>
             ) : (
-              <NoDataMessage label="Vendor" />
+              <NoDataMessage
+                label="Vendor"
+                isSearching={isSearching}
+                isClearSearch={true}
+                handleClear={() => {
+                  setSearchQuery("");
+                }}
+              />
             )}
-
-            {/* {filteredData?.length > 0 ? (
-              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                <div
-                  id="tableContainer"
-                  ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-                >
-                  <table className=" w-full font-gilroy ">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                      <tr className="h-9">
-                        {selectedColumns?.map((col, index) => {
-                          let stickyClass = "";
-
-                          if (index === 0) {
-                            stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                          }
-
-                          return (
-                            <th
-                              key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                            >
-                              {col.fieldName}
-                            </th>
-                          );
-                        })}
-
-                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredData?.map((vendor, index) => (
-                        <tr
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowOverview(true);
-                          }}
-                          key={vendor.id}
-                          className="border-b text-sm text-[#374151] cursor-pointer"
-                        >
-                          {selectedColumns?.map((col) => {
-                            let value = "-";
-
-                            switch (col.key) {
-                              case "vendorId":
-                                value = vendor.vendorCode;
-                                break;
-
-                              case "vendorName":
-                                value = vendor.fullName;
-                                break;
-                              case "businessName":
-                                value = vendor.businessName;
-                                break;
-                              case "category":
-                                value = vendor.vendorCategoryName || "-";
-                                break;
-
-                              case "mobileNo":
-                                value = vendor.countryCode
-                                  ? `+${vendor.countryCode} ${vendor.mobile}`
-                                  : vendor.mobile;
-                                break;
-
-                              case "address":
-                                value = `${vendor.houseNo || ""} ${vendor.landMark} ${vendor.area || ""} ${vendor.city || ""}`;
-                                break;
-
-                              case "status":
-                                value = vendor.status || "-";
-                                break;
-
-                              case "outstanding":
-                                value = vendor.outstanding || 0;
-                                break;
-
-                              case "lastTransaction":
-                                value = vendor.lastTransaction || "-";
-                                break;
-
-                              default:
-                                value = "-";
-                            }
-
-                            return (
-                              <td
-                                key={col.key}
-                                className="px-4 py-2.5 whitespace-nowrap"
-                              >
-                                {value}
-                              </td>
-                            );
-                          })}
-
-                          <td
-                            className={`${
-                              isScrolling ? "!bg-white" : "bg-white"
-                            } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                          >
-                            {" "}
-                            <div
-                              className="relative mt-1 flex cursor-pointer items-center justify-center"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleShowDots(vendor.id, e);
-                              }}
-                            >
-                              <PiDotsThreeOutlineVerticalFill
-                                className={`h-5 w-5 rotate-90 ${
-                                  activeRow === vendor.id
-                                    ? "text-[#1E45E1]"
-                                    : "text-gray-500"
-                                }`}
-                              />
-
-                              {activeRow === vendor.id && (
-                                <div
-                                  ref={popupRef}
-                                  className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 max-w-[250px] shadow-md z-[9999]"
-                                  style={{
-                                    top: showAbove
-                                      ? popupPosition.top -
-                                        (popupRef.current?.offsetHeight ||
-                                          120) -
-                                        10
-                                      : popupPosition.top + 5,
-                                    left: popupPosition.left - 150,
-                                    position: "fixed",
-                                    zIndex: 1000,
-                                  }}
-                                >
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setActiveRow(null);
-                                      if (canUpdateVendor) {
-                                        handleEditVendor(vendor);
-                                      }
-                                    }}
-                                    disabled={!canUpdateVendor}
-                                    className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
-      ${
-        canUpdateVendor
-          ? "text-[#1E45E1] hover:bg-blue-100"
-          : "text-gray-400 cursor-not-allowed"
-      }`}
-                                  >
-                                    <Edit2
-                                      size="16"
-                                      color={
-                                        canUpdateVendor ? "#1E45E1" : "#9CA3AF"
-                                      }
-                                    />
-                                    Edit
-                                  </button>
-
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setActiveRow(null);
-                                      if (canDeleteVendor) {
-                                        handleDeleteVendor(vendor);
-                                      }
-                                    }}
-                                    disabled={!canDeleteVendor}
-                                    className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
-      ${
-        canDeleteVendor
-          ? "text-red-600 hover:bg-red-100"
-          : "text-gray-400 cursor-not-allowed"
-      }`}
-                                  >
-                                    <Trash
-                                      size="16"
-                                      color={
-                                        canDeleteVendor ? "#FF0000" : "#9CA3AF"
-                                      }
-                                    />
-                                    Delete
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
-                  {open && (
-                    <>
-                      <div
-                        className="fixed inset-0 bg-black/20 z-50 "
-                        onClick={() => setOpen(false)}
-                      />
-
-                      <div
-                        className={`
-        fixed top-[180px] right-10 h-fit w-[350px]
-        bg-white z-50
-        border-r border-[#E5E7EB]
-        shadow-xl  rounded-xl border border-[#E5E7EB] shadow-xl
-        transform transition-transform duration-300 ease-in-out
-        ${open ? "translate-x-0" : "-translate-x-full"}
-      `}
-                      >
-                        <div className="relative font-gilroy">
-                          <div className="p-3 border-b ">
-                            <div className="flex items-center gap-2 justify-between mb-2">
-                              <div className="text-[16px] text-[#333333] font-semibold ">
-                                Customize Tabs{" "}
-                              </div>
-                              <div
-                                onClick={() => {
-                                  setCustomizeItems((prev) =>
-                                    prev.map((i) => ({
-                                      ...i,
-                                      selected: !allSelected,
-                                    })),
-                                  );
-
-                                  setError("");
-                                }}
-                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                              >
-                                {" "}
-                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                                <span>
-                                  {allSelected ? "Unselect all" : "Select all"}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                              <SearchNormal1 size={16} color="#98A2B3" />
-                              <input
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                                placeholder="Search"
-                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                              />
-                            </div>
-                          </div>
-
-                          <DndContext
-                            collisionDetection={closestCenter}
-                            onDragEnd={(event) => {
-                              const { active, over } = event;
-                              if (!over) return;
-                              if (active.id !== over?.id) {
-                                const oldIndex = customizeItems.findIndex(
-                                  (i) => i.key === active.id,
-                                );
-                                const newIndex = customizeItems.findIndex(
-                                  (i) => i.key === over.id,
-                                );
-
-                                setCustomizeItems(
-                                  arrayMove(customizeItems, oldIndex, newIndex),
-                                );
-                              }
-                            }}
-                          >
-                            <SortableContext
-                              items={customizeItems.map((i) => i.key)}
-                              strategy={verticalListSortingStrategy}
-                            >
-                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                                {filteredCustomizeItems.length === 0 ? (
-                                  <div className="text-sm text-gray-400 text-center py-3">
-                                    No results found
-                                  </div>
-                                ) : (
-                                  filteredCustomizeItems.map((item) => (
-                                    <SortableItem key={item.key} item={item} />
-                                  ))
-                                )}
-                              </div>
-                            </SortableContext>
-                          </DndContext>
-                        </div>
-                        {error && (
-                          <div className="flex justify-center my-2">
-                            <ErrorMessage message={error} type="warning" />
-                          </div>
-                        )}
-
-                        <div className="p-3 border-t flex gap-2">
-                          <button
-                            onClick={handleResetCustomize}
-                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
-                          >
-                            Reset
-                          </button>
-                          <button
-                            onClick={handleSave}
-                            disabled={customizeLoading}
-                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
-                          >
-                            {customizeLoading ? (
-                              <div className="flex items-center justify-center gap-2">
-                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                Saving...
-                              </div>
-                            ) : (
-                              "Save"
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <NoDataMessage label="Vendor" />
-            )} */}
           </div>
         )}
 
@@ -1838,6 +1527,7 @@ function Vendor() {
             show={showOverview}
             onClose={() => setShowOverview(false)}
             handleShowSettlement={handleShowSettlement}
+            selectedVendorId={selectedVendorId}
           />
         )}
 

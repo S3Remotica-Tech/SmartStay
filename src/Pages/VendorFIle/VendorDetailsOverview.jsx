@@ -9,7 +9,7 @@ import {
   Calendar,
   ArrowDown2,
 } from "iconsax-react";
-
+import { useDispatch, useSelector } from "react-redux";
 import {
   ResponsiveContainer,
   BarChart,
@@ -20,64 +20,69 @@ import {
   Tooltip,
 } from "recharts";
 
-function VendorDetailsOverview() {
+function VendorDetailsOverview({handleSelected}) {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const VendorOverView = state.ComplianceList?.vendorOverview || {};
+
+
+  const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
+
+  const [selectedPeriod, setSelectedPeriod] = useState(
+    VendorOverView?.filterOptions?.periods?.[0] || {
+      name: "Last 6 Months",
+      type: "LAST_6_MONTHS",
+    },
+  );
+
   const [showVendorInfo, setShowVendorInfo] = useState(true);
   const [showAddressInfo, setShowAddressInfo] = useState(false);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
 
-  const vendorData = {
-    vendorName: "Vinayaka Electricals",
-    category: "Electrical",
-    businessMobile: "+91 9876543210",
-    proprietor: "Charles Jebin S",
-    mobile: "+91 98765 43287",
-    email: "---",
-    description: "Electrical purchase Only",
-  };
-
   const chartData = [
-    { month: "Aug", vendor: 12, nonVendor: 1 },
-    { month: "Sep", vendor: 13, nonVendor: 0.8 },
-    { month: "Oct", vendor: 14, nonVendor: 1.2 },
-    { month: "Nov", vendor: 13.5, nonVendor: 1 },
-    { month: "Dec", vendor: 15, nonVendor: 0.9 },
-    { month: "Jan", vendor: 3, nonVendor: 12 },
+    { month: "Aug", paid: 12, unPaid: 1 },
+    { month: "Sep", paid: 13, unPaid: 0.8 },
+    { month: "Oct", paid: 14, unPaid: 1.2 },
+    { month: "Nov", paid: 13.5, unPaid: 1 },
+    { month: "Dec", paid: 15, unPaid: 0.9 },
+    { month: "Jan", paid: 3, unPaid: 12 },
   ];
 
   const vendorInfoFields = [
     {
       label: "Vendor Name",
-      value: vendorData.vendorName,
+      value: VendorOverView.fullName || "---",
       icon: <Building size={16} />,
     },
     {
       label: "Category",
-      value: vendorData.category,
+      value: VendorOverView.vendorCategoryName || "---",
       icon: <Category size={16} />,
     },
     {
       label: "Business Mobile No",
-      value: vendorData.businessMobile,
+      value: VendorOverView.mobile || "---",
       icon: <Call size={16} />,
     },
     {
-      label: "Proprietor / Contact person Name",
-      value: vendorData.proprietor,
+      label: "Proprietor / Contact Person",
+      value: VendorOverView.contactPerson || "---",
       icon: <ProfileCircle size={16} />,
     },
     {
-      label: "Mobile No",
-      value: vendorData.mobile,
+      label: "Contact Person Mobile",
+      value: VendorOverView.contactPersonMobile || "---",
       icon: <Call size={16} />,
     },
     {
       label: "Mail ID",
-      value: vendorData.email,
+      value: VendorOverView.emailId || "---",
       icon: <Sms size={16} />,
     },
     {
       label: "Description",
-      value: vendorData.description,
+      value: VendorOverView.description || "---",
       icon: null,
     },
   ];
@@ -85,34 +90,45 @@ function VendorDetailsOverview() {
   const addressInfoFields = [
     {
       label: "Address",
-      value:
-        "No,125, South street, Rama Nagar, 6th Avenue, Chennai , Tamilnadu-658989",
+      value: [
+        VendorOverView.houseNo,
+        VendorOverView.area,
+        VendorOverView.landMark,
+        VendorOverView.city,
+        VendorOverView.state,
+        VendorOverView.pinCode,
+        VendorOverView.country,
+      ]
+        .filter(Boolean)
+        .join(", "),
     },
   ];
-
   const businessInfoFields = [
     {
       label: "GSTIN",
-      value: "GSDF526584585878",
+      value: VendorOverView.gst || "---",
     },
     {
       label: "PAN No",
-      value: "785585888",
+      value: VendorOverView.pan || "---",
     },
     {
       label: "Vendor Code",
-      value: "VEN001",
+      value: VendorOverView.vendorCode || "---",
     },
     {
       label: "Credit Limit",
-      value: "₹15000/ month",
+      value: VendorOverView.allowCredit
+        ? `₹${VendorOverView.creditLimit}`
+        : "--",
     },
     {
       label: "Credit Period",
-      value: "10th of month",
+      value: VendorOverView.allowCredit
+        ? `${VendorOverView.creditPeriod} Days`
+        : "---",
     },
   ];
-
   return (
     <div className="bg-white rounded-xl px-4 h-full">
       <div className="grid grid-cols-[300px_1fr] gap-4 h-full">
@@ -235,14 +251,42 @@ function VendorDetailsOverview() {
               </h3>
 
               <p className="text-[11px] text-[#4A5565]">
-                Vendor vs Non Vendor amounts for month
+                Paid vs Unpaid amounts for month
               </p>
             </div>
 
-            <button className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]">
-              <Calendar size="16" />
-              Last 6 Month <ArrowDown2 size="16" />
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
+                className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]"
+              >
+                <Calendar size="16" />
+                {selectedPeriod.name}
+                <ArrowDown2 size="16" />
+              </button>
+
+              {showPeriodDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-20">
+                  {VendorOverView?.filterOptions?.periods?.map((period) => (
+                    <button
+                      key={period.type}
+                      onClick={() => {
+                        setSelectedPeriod(period);
+                        setShowPeriodDropdown(false);
+                        handleSelected(period)
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        selectedPeriod.type === period.type
+                          ? "bg-blue-50 text-blue-600 font-medium"
+                          : ""
+                      }`}
+                    >
+                      {period.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="h-[250px]">
@@ -266,15 +310,15 @@ function VendorDetailsOverview() {
                 <Tooltip />
 
                 <Bar
-                  dataKey="vendor"
-                  fill="#E7D468"
+                  dataKey="paid"
+                  fill="#43CB73"
                   radius={[4, 4, 0, 0]}
                   barSize={18}
                 />
 
                 <Bar
-                  dataKey="nonVendor"
-                  fill="#43CB73"
+                  dataKey="unPaid"
+                  fill="#E7D468"
                   radius={[4, 4, 0, 0]}
                   barSize={18}
                 />
@@ -285,12 +329,12 @@ function VendorDetailsOverview() {
           <div className="flex items-center justify-center gap-8 mt-2">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#43CB73]" />
-              <span className="text-[12px] text-[#43CB73]">Non Vendor</span>
+              <span className="text-[12px] text-[#43CB73]">Paid</span>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#E7D468]" />
-              <span className="text-[12px] text-[#E7D468]">Vendor</span>
+              <span className="text-[12px] text-[#E7D468]">Unpaid</span>
             </div>
           </div>
         </div>

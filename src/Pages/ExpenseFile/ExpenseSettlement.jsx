@@ -241,12 +241,15 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
     });
   }, []);
 
-  const vendorOptions =
-    state.ComplianceList?.VendorList?.map((vendor) => ({
-      value: vendor.id,
-      label: vendor.fullName,
-      vendor,
-    })) || [];
+  // const vendorOptions =
+  //   state.ComplianceList?.VendorList?.map((vendor) => ({
+  //     value: vendor.id,
+  //     label: vendor.fullName,
+  //     vendor,
+  //   })) || [];
+   const vendorOptions =
+    [];
+
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);

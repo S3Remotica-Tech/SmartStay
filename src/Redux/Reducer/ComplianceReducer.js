@@ -41,9 +41,7 @@ export const initialState = {
     paymentStatusLabel: "",
     search: "",
     categoryName: "",
-    categoryId: ""
-
-   
+    categoryId: "",
   },
 };
 
@@ -55,7 +53,7 @@ const ComplianceReducer = (state = initialState, action) => {
     case "SET_HOSTEL_ID":
       return { ...state, apiResponseHostelId: action.payload };
 
- case "SET_VENDOR_FILTERS":
+    case "SET_VENDOR_FILTERS":
       return {
         ...state,
         vendorFilters: {
@@ -63,11 +61,6 @@ const ComplianceReducer = (state = initialState, action) => {
           ...action.payload,
         },
       };
-
-
-
-
-
 
     case "COMPLIANCE_LIST":
       return {
@@ -156,7 +149,7 @@ const ComplianceReducer = (state = initialState, action) => {
     case "PARTICULAR_VENDOR_OVERVIEW":
       return {
         ...state,
-        vendorOverview: action.payload,
+        vendorOverview: action.payload.response,
       };
 
     case "ALREADY_VENDOR_EMAIL_ERROR":

@@ -84,7 +84,7 @@ export async function complaintsViewUpdates(complaint) {
 export async function VendorList(vendor) {
   const params = {};
 
-  if (vendor.name) params.name = vendor.name; 
+  if (vendor.name) params.name = vendor.name;
   if (vendor.categoryId) params.categoryId = vendor.categoryId;
   if (vendor.paymentStatus) params.paymentStatus = vendor.paymentStatus;
   if (vendor.page) params.page = vendor.page;
@@ -157,8 +157,12 @@ export async function updateVendor(params) {
 
 // vendor overview
 
-export async function particularVendorOverview(vendorId) {
-  return await AxiosConfigV2.get(`/v2/complaint/${vendorId}`);
+export async function particularVendorOverview({ vendorId, period }) {
+  return await AxiosConfigV2.get(`/v2/vendors/${vendorId}`, {
+    params: {
+      period,
+    },
+  });
 }
 
 //  customization PUT Api

@@ -235,6 +235,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       setPage(1);
+      setFilterInput("");
     }
   }, [value, state.login.selectedHostel_Id]);
 
