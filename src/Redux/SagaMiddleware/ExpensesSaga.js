@@ -193,13 +193,12 @@ function* handleAddExpense(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400 || error.status === 403) {
-        yield put({
-          type: "BANK_INSUFFICIANT_FUND_ERROR",
-          payload: error.response.data,
-        });
-      }
+
+    if (error) {
+      yield put({
+        type: "BANK_INSUFFICIANT_FUND_ERROR",
+        payload: error.response.data,
+      });
     }
   }
 }

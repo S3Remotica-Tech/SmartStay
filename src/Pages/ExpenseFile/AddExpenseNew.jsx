@@ -320,12 +320,21 @@ function AddExpenseNew() {
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
 
+  // const vendorOptions =
+  //   state.ComplianceList?.VendorList?.map((vendor) => ({
+  //     value: vendor.id,
+  //     label: vendor.fullName,
+  //     vendor,
+  //   })) || []
+  //
+
   const vendorOptions =
-    state.ComplianceList?.VendorList?.map((vendor) => ({
-      value: vendor.id,
-      label: vendor.fullName,
-      vendor,
+    state?.ComplianceList?.VendorList?.vendors?.map((vendor) => ({
+      value: vendor[11]?.vendorId,
+      label: vendor[1]?.trim(),
     })) || [];
+
+  // console.log("vendorOptions", vendorOptions.length);
 
   // const unitOptions =
   //   state.ExpenseList?.unitList?.map((exp) => ({
@@ -367,6 +376,7 @@ function AddExpenseNew() {
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
   const handleFileChange = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const files = Array.from(e.target.files);
 
     const newFiles = files.map((file) => ({
@@ -380,14 +390,17 @@ function AddExpenseNew() {
   };
 
   const handleRemoveFile = (index) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleTransactionIdChange = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setTransactionId(e.target.value);
   };
 
   const handleCreditPeriodChange = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     let value = e.target.value.replace(/\D/g, "");
 
     setCreditPeriod(value);
@@ -411,6 +424,7 @@ function AddExpenseNew() {
   const paymentMethodRef = useRef(null);
 
   const handleVendorChange = (selected) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setVendor(selected);
 
     if (selected) {
@@ -419,6 +433,7 @@ function AddExpenseNew() {
   };
 
   const handlePaidAmountChange = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const value = e.target.value;
 
     setPaidAmount(value);
@@ -435,6 +450,7 @@ function AddExpenseNew() {
   };
 
   const handleBalanceAmountChange = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const value = e.target.value;
 
     setBalanceAmount(value);
@@ -451,6 +467,7 @@ function AddExpenseNew() {
   };
 
   const handleClose = () => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (isBankingWayTrigger) {
       navigate(`/banking/new/${state.login.selectedHostel_Id}`);
     } else {
@@ -459,30 +476,36 @@ function AddExpenseNew() {
   };
 
   const handleExpenseTitle = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setExpenseTitle(e.target.value);
     setExpenseTitleError("");
   };
 
   const handleAmount = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setAmount(e.target.value);
     setAmountError("");
   };
 
   const handleCategory = (selectedOption) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setCategory(selectedOption?.value || "");
     setCategoryError("");
   };
 
   const handleSubCategory = (selectedOption) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setSubCategory(selectedOption?.value || "");
     setSubCategoryError("");
   };
 
   const handleDescription = (e) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setDescription(e.target.value);
   };
 
   const handleItemChange = (index, field, value) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const updated = [...expenseItems];
 
     updated[index][field] = value;
@@ -502,6 +525,7 @@ function AddExpenseNew() {
   };
 
   const addNewRow = () => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setExpenseItems([
       ...expenseItems,
       {
@@ -515,6 +539,7 @@ function AddExpenseNew() {
   };
 
   const removeRow = (index) => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setExpenseItems(expenseItems.filter((_, i) => i !== index));
   };
 
@@ -556,17 +581,17 @@ function AddExpenseNew() {
     }
 
     if (!purchaseDate) {
-      setPurchaseDateError("Please Select Expense Date ");
+      setPurchaseDateError("Please Select Purchase Date ");
       isValid = false;
     }
 
     if (!vendor) {
-      setVendorError("Please select a vendor");
+      setVendorError("Please Select  Vendor");
       isValid = false;
     }
 
     if (!paymentStatus) {
-      setPaymentStatusError("Please select payment status");
+      setPaymentStatusError("Please Select Payment Status");
       isValid = false;
     }
 
@@ -628,6 +653,7 @@ function AddExpenseNew() {
   };
 
   const handleSubmit = () => {
+    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
     setErrors({
       totalAmount: "",
@@ -711,6 +737,13 @@ function AddExpenseNew() {
 
     setFormLoading(true);
   };
+
+  useEffect(() => {
+    if (state.ExpenseList.insufficiantFundError) {
+      setFormLoading(false);
+    }
+  }, [state.ExpenseList.insufficiantFundError]);
+
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false);
@@ -1612,7 +1645,14 @@ function AddExpenseNew() {
               </div>
             </div>
           </div>
-
+          {state.ExpenseList.insufficiantFundError && (
+            <div className="flex items-center justify-center  mb-2 mt-2">
+              <ErrorMessage
+                message={state.ExpenseList.insufficiantFundError}
+                type="error"
+              />
+            </div>
+          )}
           <div className="flex justify-end gap-4 my-10 mr-4">
             <button
               onClick={handleClose}

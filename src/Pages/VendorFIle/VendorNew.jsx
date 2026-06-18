@@ -479,7 +479,7 @@ function Vendor() {
   useEffect(() => {
     const vendorFilters = state.ComplianceList?.vendorFilters;
 
-    console.log("vendorFilters", vendorFilters);
+    // console.log("vendorFilters", vendorFilters);
 
     const filterData = [];
 
@@ -523,7 +523,7 @@ function Vendor() {
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {
-      setFilteredData(state.ComplianceList.VendorList);
+      setFilteredData(state?.ComplianceList?.VendorList);
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_VENDOR_STATUS_CODE" });
@@ -814,7 +814,7 @@ function Vendor() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log("setPage", page);
+    // console.log("setPage", page);
   };
 
   const handleSizeChange = (sizeValue) => {

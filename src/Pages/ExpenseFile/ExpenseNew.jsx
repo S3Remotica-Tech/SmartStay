@@ -257,7 +257,7 @@ function Expenses() {
 
   const handleShowDots = (event, id) => {
     setShowDots((prev) => (prev === id ? null : id));
-    console.log(id);
+    // console.log(id);
     const rect = event.currentTarget?.getBoundingClientRect();
 
     const popupHeight = 120;
@@ -274,7 +274,7 @@ function Expenses() {
       left: rect.left,
     });
   };
-  console.log(showDots, "showDots");
+  // console.log(showDots, "showDots");
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
