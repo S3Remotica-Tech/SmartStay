@@ -1669,12 +1669,16 @@ function Vendor() {
             handleShowSettlement={handleShowSettlement}
           />
         )}
+
+        
         {showSettlementForm && (
           <SettlementPayment
             show={showSettlementForm}
             handleClose={handleCloseSettlement}
           />
         )}
+
+
         <Modal
           show={showDeleteVendor}
           onHide={handleCloseForDeleteVendor}

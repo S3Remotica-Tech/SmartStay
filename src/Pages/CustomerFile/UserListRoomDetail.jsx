@@ -286,6 +286,7 @@ function UserListRoomDetail(props) {
       state: {
         data: item,
         isTenantOverview: true,
+        isPGWay: isPgWay,
       },
     });
   };

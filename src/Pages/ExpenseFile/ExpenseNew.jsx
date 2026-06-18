@@ -49,6 +49,7 @@ import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import SettlementPayment from "../VendorFIle/SettlementPayment";
+import ExpenseSettlement from "./ExpenseSettlement";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -232,7 +233,7 @@ function Expenses() {
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
-    setShowOverview(false);
+    // setShowOverview(false);
   };
 
   const handleCloseSettlement = () => {
@@ -1677,7 +1678,7 @@ function Expenses() {
         />
       )}
       {showSettlementForm && (
-        <SettlementPayment
+        <ExpenseSettlement
           show={showSettlementForm}
           handleClose={handleCloseSettlement}
         />

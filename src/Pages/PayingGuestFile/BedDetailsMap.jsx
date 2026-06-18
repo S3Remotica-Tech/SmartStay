@@ -422,10 +422,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
   const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-  console.log("bedsForRoom", bedsForRoom);
-
-  console.log("state.PgList?.bedList", state.PgList?.bedList);
-
   const filteredBeds = React.useMemo(() => {
     if (!state.login.isTrigger) return bedsForRoom;
 

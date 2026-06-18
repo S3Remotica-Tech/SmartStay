@@ -47,6 +47,8 @@ const ExpenseReducer = (state = initialState, action) => {
 
     case "EXPENSE_CUSTOMIZE_REDUCER":
       return { ...state, customizeExpenseSuccessCode: action.payload.response };
+
+      
     case "REMOVE_EXPENSE_CUSTOMIZE_REDUCER":
       return { ...state, customizeExpenseSuccessCode: 0 };
 

@@ -351,7 +351,7 @@ function FinalSettlement() {
     setCollectFullRent(checked);
     setIsEditingRent(checked);
     if (!checked) {
-      setCustomRent(finalSettlementList?.customerInfo?.rentAmount || 0);
+      setCustomRent(finalSettlementList?.currentMonthRentInfo?.fullRent || 0);
       setFinalAmountSetClicked(false);
     }
   };
@@ -376,6 +376,8 @@ function FinalSettlement() {
       }
     };
   }, []);
+
+  console.log("isPGWay", isPGWay);
 
   const handleClose = () => {
     if (pgDetails || isPGWay) {
@@ -498,7 +500,7 @@ function FinalSettlement() {
             finalSettlementList?.currentMonthRentInfo?.rentDifference;
         } else {
           const customRentDiff =
-            customRent - finalSettlementList?.customerInfo?.rentAmount;
+            customRent - finalSettlementList?.currentMonthRentInfo?.fullRent;
 
           updatedAmountToBePaid =
             amountTobePaid +
@@ -571,9 +573,12 @@ function FinalSettlement() {
 
   useEffect(() => {
     if (!finalAmountSetClicked) {
-      setAmount(finalSettlementList?.customerInfo?.rentAmount || 0);
+      setAmount(finalSettlementList?.currentMonthRentInfo?.fullRent || 0);
     }
-  }, [finalAmountSetClicked, finalSettlementList?.customerInfo?.rentAmount]);
+  }, [
+    finalAmountSetClicked,
+    finalSettlementList?.currentMonthRentInfo?.fullRent,
+  ]);
 
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];
