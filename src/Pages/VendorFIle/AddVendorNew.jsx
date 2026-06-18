@@ -298,7 +298,8 @@ function AddVendorNew() {
   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
-
+  const [gstError, setGstError] = useState("");
+  const [panError, setPanError] = useState("");
   const countryCodeOptions = [{ value: "91", label: "+91" }];
 
   const [countryCode, setCountryCode] = useState(countryCodeOptions[0]);
@@ -372,7 +373,10 @@ function AddVendorNew() {
   };
 
   useEffect(() => {
-    dispatch({ type: "VENDOR_CATEGORY_LIST_SAGA" });
+    dispatch({
+      type: "VENDOR_CATEGORY_LIST_SAGA",
+      payload: state.login.selectedHostel_Id,
+    });
   }, []);
 
   const focusFirstError = (() => {
@@ -444,13 +448,53 @@ function AddVendorNew() {
   // };
 
   const handleGstNumberChange = (e) => {
-    setGstNumber(e.target.value);
+    let value = e.target.value.toUpperCase();
+
+    value = value.replace(/[^A-Z0-9]/g, "");
+
+    if (value.length > 15) {
+      value = value.slice(0, 15);
+    }
+
+    setGstNumber(value);
+
+    const gstRegex =
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+
+    if (!value) {
+      setGstError("");
+    } else if (value.length < 15) {
+      setGstError("GST Number must be 15 characters.");
+    } else if (!gstRegex.test(value)) {
+      setGstError("Enter a valid GST Number.");
+    } else {
+      setGstError("");
+    }
   };
 
   const handlePanNumberChange = (e) => {
-    setPanNumber(e.target.value);
-  };
+    let value = e.target.value.toUpperCase();
 
+    value = value.replace(/[^A-Z0-9]/g, "");
+
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+
+    setPanNumber(value);
+
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+    if (!value) {
+      setPanError("");
+    } else if (value.length < 10) {
+      setPanError("PAN Number must be 10 characters.");
+    } else if (!panRegex.test(value)) {
+      setPanError("Enter a valid PAN Number.");
+    } else {
+      setPanError("");
+    }
+  };
   const handleStateChange = (selectedOption) => {
     setStateName(selectedOption);
   };
@@ -544,7 +588,7 @@ function AddVendorNew() {
 
   const handleClose = () => {
     // setShow(false);
-    navigate(`/vendor/new/${state.login.selectedHostel_Id}`);
+    navigate(`/vendor/${state.login.selectedHostel_Id}`);
 
     // setVendorPhoneError("");
     setVendorEmailError("");
@@ -569,6 +613,8 @@ function AddVendorNew() {
   };
 
   const handleMobileChange = (e) => {
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
     const input = e.target.value;
     const numericInput = input.replace(/\D/g, "");
     setVendor_Mobile(numericInput);
@@ -778,7 +824,8 @@ function AddVendorNew() {
             lastName: last_Name,
             countryCode:
               typeof countryCode === "object" ? countryCode.value : countryCode,
-            mobile: vendor_Mobile,
+            mobile: businessMobile,
+            contactPersonMobile: vendor_Mobile,
             mailId: email_Id,
             houseNo: house_no,
             landmark: landmark,
@@ -809,7 +856,8 @@ function AddVendorNew() {
             lastName: last_Name,
             countryCode:
               typeof countryCode === "object" ? countryCode.value : countryCode,
-            mobile: vendor_Mobile,
+            mobile: businessMobile,
+            contactPersonMobile: vendor_Mobile,
             mailId: email_Id,
             houseNo: house_no,
             landmark: landmark,
@@ -840,7 +888,7 @@ function AddVendorNew() {
       state.ComplianceList.updateVendorSuccessStatusCode === 201
     ) {
       setFormLoading(false);
-      navigate(`/vendor/new/${state.login.selectedHostel_Id}`);
+      navigate(`/vendor/${state.login.selectedHostel_Id}`);
     }
   }, [
     state.ComplianceList.addVendorSuccessStatusCode,
@@ -861,64 +909,83 @@ function AddVendorNew() {
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (checkMode === "EDIT" && currentItem?.id) {
+  //     setVendorName(currentItem.fullName || "");
+  //     // setLast_Name(currentItem.lastName || "");
+  //     setVendor_Mobile(currentItem.mobile || "");
+  //     setBusinessName(currentItem.businessName || "");
+  //     setEmail_Id(currentItem.emailId || "");
+
+  //     setHouseNo(currentItem.houseNo || "");
+  //     setLandmark(currentItem.landMark || "");
+  //     setCity(currentItem.city || "");
+  //     setStateName(currentItem.state || "");
+  //     setPinCode(currentItem.pinCode ? String(currentItem.pinCode) : "");
+
+  //     setContactPersonName(currentItem.contactPerson || "");
+  //     setDescription(currentItem.description || "");
+  //     // setVendorCode(currentItem.vendorCode || "");
+  //     setGstNumber(currentItem.gst || "");
+  //     setPanNumber(currentItem.pan || "");
+
+  //     setAllowCreditPurchase(
+  //       currentItem.allowCredit !== null ? currentItem.allowCredit : false,
+  //     );
+
+  //     setCreditLimit(
+  //       currentItem.creditLimit != null ? String(currentItem.creditLimit) : "",
+  //     );
+
+  //     setCreditPeriod(
+  //       currentItem.creditPeriod != null
+  //         ? String(currentItem.creditPeriod)
+  //         : "",
+  //     );
+
+  //     setCountryCode({
+  //       value: currentItem.countryCode || "91",
+  //       label: `+${currentItem.countryCode || "91"}`,
+  //     });
+
+  //     setBusinessCountryCode({
+  //       value: currentItem.countryCode || "91",
+  //       label: `+${currentItem.countryCode || "91"}`,
+  //     });
+
+  //     if (currentItem.vendorCategoryId) {
+  //       setVendorCategory({
+  //         value: currentItem.vendorCategoryId,
+  //         label: currentItem.vendorCategoryName,
+  //       });
+  //     } else {
+  //       setVendorCategory(null);
+  //     }
+  //   }
+  // }, [checkMode, currentItem]);
+
   useEffect(() => {
-    if (checkMode === "EDIT" && currentItem?.id) {
+    if (checkMode === "EDIT" && currentItem) {
       setVendorName(currentItem.fullName || "");
-      // setLast_Name(currentItem.lastName || "");
-      setVendor_Mobile(currentItem.mobile || "");
-      setBusinessName(currentItem.businessName || "");
-      setEmail_Id(currentItem.emailId || "");
-
-      setHouseNo(currentItem.houseNo || "");
-      setLandmark(currentItem.landMark || "");
-      setCity(currentItem.city || "");
-      setStateName(currentItem.state || "");
-      setPinCode(currentItem.pinCode ? String(currentItem.pinCode) : "");
-
-      setContactPersonName(currentItem.contactPerson || "");
-      setDescription(currentItem.description || "");
-      // setVendorCode(currentItem.vendorCode || "");
-      setGstNumber(currentItem.gst || "");
-      setPanNumber(currentItem.pan || "");
-
-      setAllowCreditPurchase(
-        currentItem.allowCredit !== null ? currentItem.allowCredit : false,
-      );
-
+      // setVendor_Mobile(currentItem.mobile || "");
+      setEmail_Id(currentItem.email === "-" ? "" : currentItem.email);
+      setBusinessMobile(currentItem.mobile || "");
       setCreditLimit(
-        currentItem.creditLimit != null ? String(currentItem.creditLimit) : "",
+        currentItem.creditLimit !== "-" ? String(currentItem.creditLimit) : "",
       );
 
       setCreditPeriod(
-        currentItem.creditPeriod != null
+        currentItem.creditPeriod !== "-"
           ? String(currentItem.creditPeriod)
           : "",
       );
-
-      setCountryCode({
-        value: currentItem.countryCode || "91",
-        label: `+${currentItem.countryCode || "91"}`,
-      });
-
-      setBusinessCountryCode({
-        value: currentItem.countryCode || "91",
-        label: `+${currentItem.countryCode || "91"}`,
-      });
-
-      if (currentItem.vendorCategoryId) {
-        setVendorCategory({
-          value: currentItem.vendorCategoryId,
-          label: currentItem.vendorCategoryName,
-        });
-      } else {
-        setVendorCategory(null);
-      }
     }
   }, [checkMode, currentItem]);
 
   useEffect(() => {
     if (state.ComplianceList?.alreadyVendorHere) {
       setFormLoading(false);
+      businessCountryCodeRef.current?.focus();
       // setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
     }
   }, [state.ComplianceList?.alreadyVendorHere]);
@@ -959,7 +1026,7 @@ function AddVendorNew() {
             Vendor Information
           </h5>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
             <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="text-[13px] text-[#222222] font-gilroy font-medium">
@@ -986,7 +1053,7 @@ function AddVendorNew() {
             <div className=" col-span-1 xl:col-span-8">
               <div>
                 <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-                  Vendor / Business Name{" "}
+                  Business Name{" "}
                   <span className="text-red-600 text-[20px]">*</span>
                 </label>
 
@@ -1007,13 +1074,6 @@ function AddVendorNew() {
 
               {businessNameError && (
                 <ErrorMessage message={businessNameError} type="error" />
-              )}
-
-              {state.ComplianceList?.alreadyVendorHere && (
-                <ErrorMessage
-                  message={state.ComplianceList?.alreadyVendorHere}
-                  type="error"
-                />
               )}
             </div>
           </div>
@@ -1079,6 +1139,13 @@ function AddVendorNew() {
                 {businessCountryCodeError && (
                   <ErrorMessage
                     message={businessCountryCodeError}
+                    type="error"
+                  />
+                )}
+
+                {state.ComplianceList?.alreadyVendorHere && (
+                  <ErrorMessage
+                    message={state.ComplianceList?.alreadyVendorHere}
                     type="error"
                   />
                 )}
@@ -1341,10 +1408,12 @@ function AddVendorNew() {
                 <input
                   type="text"
                   value={gstNumber}
+                  maxLength={15}
                   onChange={handleGstNumberChange}
                   placeholder="Enter GST Number"
                   className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
                 />
+                {gstError && <ErrorMessage message={gstError} type="error" />}
               </div>
 
               <div className="lg:col-span-4">
@@ -1355,10 +1424,12 @@ function AddVendorNew() {
                 <input
                   type="text"
                   value={panNumber}
+                  maxLength={10}
                   onChange={handlePanNumberChange}
                   placeholder="Enter PAN Number"
                   className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
                 />
+                {panError && <ErrorMessage message={panError} type="error" />}
               </div>
             </div>
 
@@ -1439,6 +1510,7 @@ function AddVendorNew() {
             )}
           </div>
         </div>
+
         <div className="flex justify-end gap-4 my-10 mr-4">
           <button
             onClick={handleClose}

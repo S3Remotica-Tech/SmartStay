@@ -44,6 +44,7 @@ import { CSS } from "@dnd-kit/utilities";
 import AddVendorNew from "./AddVendorNew";
 import { useNavigate } from "react-router-dom";
 import VendorOverView from "./VendorOverView";
+import ApiPagination from "../../Components/ApiPagination";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -134,33 +135,13 @@ const CustomStyles = {
   }),
 };
 
-const stats = [
-  {
-    label: "Total Vendors",
-    value: "0",
-    icon: true,
-    highlight: true,
-  },
-  {
-    label: "Total Purchase",
-    value: "0",
-  },
-  {
-    label: "Total Paid",
-    value: "0",
-  },
-  {
-    label: "Outstanding (Payable) ",
-    value: "0",
-  },
-];
-
 function Vendor() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([]);
   const [show, setShow] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [chips, setChips] = useState([]);
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
@@ -188,6 +169,8 @@ function Vendor() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const popupRef = useRef(null);
@@ -197,6 +180,36 @@ function Vendor() {
     canDeleteModule: canDeleteVendor,
     canUpdateModule: canUpdateVendor,
   } = useHasPermission("Vendor");
+
+  const isVendorForm = location.state?.isVendorForm || false;
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const monthOptions = [];
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const [paymentStatus, setPaymentStatus] = useState("");
+
+  const handlePaymentStatusFilter = (selected) => {
+    setPaymentStatus(selected?.value || "");
+
+    dispatch({
+      type: "SET_VENDOR_FILTERS",
+      payload: {
+        paymentStatusLabel: selected.label,
+      },
+    });
+  };
+  const [categoryFilter, setCategoryFilter] = useState("");
+
+  const handleCategoryFilter = (selected) => {
+    setCategoryFilter(selected?.value || "");
+
+    dispatch({
+      type: "SET_VENDOR_FILTERS",
+      payload: {
+        categoryName: selected.label,
+      },
+    });
+  };
 
   const getAddress = (user) =>
     [user.houseNo, user.area, user.landMark, user.city, user.state]
@@ -240,12 +253,67 @@ function Vendor() {
     }
   }, [popupPosition]);
 
-  const isVendorForm = location.state?.isVendorForm || false;
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const monthOptions = [];
-  const selectOptions = [{ value: "ALL", label: "All" }];
+  const categoryOptions =
+    filteredData?.filterOptions?.category?.map((item) => ({
+      value: item.type,
+      label: item.name,
+    })) || [];
 
+  const paymentStatusOptions =
+    filteredData?.filterOptions?.paymentStatus?.map((status) => ({
+      value: status,
+      label: status,
+    })) || [];
   const [selectedMonth, setSelectedMonth] = useState();
+
+  const stats = [
+    {
+      label: "Total Vendors",
+      value: filteredData?.vendorSummary?.totalVendors ?? 0,
+      highlight: true,
+      icon: true,
+    },
+    {
+      label: "Total Purchase",
+      value: filteredData?.vendorSummary?.totalPurchase ?? 0,
+    },
+    {
+      label: "Total Paid",
+      value: filteredData?.vendorSummary?.totalPaid ?? 0,
+    },
+    {
+      label: "Outstanding (Payable)",
+      value: filteredData?.vendorSummary?.outstandingAmount ?? 0,
+    },
+  ];
+
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      setPage(1);
+      setSearchQuery("");
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
@@ -271,23 +339,42 @@ function Vendor() {
       setError("Please select at least one column");
       return;
     }
-    // const payload = customizeItems.map((item, index) => ({
-    //   fieldName: item.key,
-    //   isSelected: item.selected,
-    //   order: index + 1,
-    // }));
+    const payload = customizeItems.map((item, index) => ({
+      fieldName: item.key,
+      isSelected: item.selected,
+      order: index + 1,
+    }));
 
-    // if (payload) {
-    //   dispatch({
-    //     type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-    //     payload: {
-    //       hostelId: state.login.selectedHostel_Id,
-    //       customize: payload,
-    //     },
-    //   });
-    //   setCustomizeLoading(true);
-    // }
+    if (payload) {
+      dispatch({
+        type: "CUSTOMIZE_VENDOR_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
+      setCustomizeLoading(true);
+    }
   };
+
+  useEffect(() => {
+    if (state.ComplianceList?.updateCustomizationSuccess === 200) {
+      dispatch({
+        type: "VENDORLIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_VENDOR_REDUCER" });
+      }, 100);
+    }
+  }, [state.ComplianceList?.updateCustomizationSuccess]);
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -328,15 +415,109 @@ function Vendor() {
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true);
       dispatch({
         type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+          categoryId: categoryFilter,
+          paymentStatus: String(paymentStatus),
+          name: debouncedSearch,
+        },
+      });
+      dispatch({
+        type: "SET_VENDOR_FILTERS",
+        payload: {
+          paymentStatus: paymentStatus,
+          search: searchQuery,
+          categoryId: categoryFilter,
+        },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [
+    state.login.selectedHostel_Id,
+    page,
+    size,
+    categoryFilter,
+    paymentStatus,
+    debouncedSearch,
+  ]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_VENDOR_FILTERS",
+      payload: {
+        paymentStatus: "",
+        paymentStatusLabel: "",
+        search: "",
+        categoryName: "",
+        categoryId: "",
+      },
+    });
+    dispatch({
+      type: "VENDORLIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+
+    setChips([]);
+    setSearchQuery("");
+    setPaymentStatus("");
+    setCategoryFilter("");
+  };
+
+  useEffect(() => {
+    const vendorFilters = state.ComplianceList?.vendorFilters;
+
+    console.log("vendorFilters", vendorFilters);
+
+    const filterData = [];
+
+    if (vendorFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Vendor",
+        type: "search",
+        value: vendorFilters.search,
+      });
+    }
+
+    if (vendorFilters?.paymentStatusLabel) {
+      filterData.push({
+        key: "paymentStatus",
+        label: "Payment Status",
+        type: "paymentStatus",
+        value: vendorFilters.paymentStatusLabel,
+      });
+    }
+
+    if (vendorFilters?.categoryName) {
+      filterData.push({
+        key: "category",
+        label: "Category",
+        type: "category",
+        value: vendorFilters.categoryName,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.ComplianceList?.vendorFilters]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {
@@ -364,14 +545,18 @@ function Vendor() {
       setTimeout(() => {
         dispatch({
           type: "VENDORLIST",
-          payload: { hostelId: state.login.selectedHostel_Id },
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+            page: page,
+            size: size,
+          },
         });
       }, 100);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_VENDOR_STATUS_CODE" });
         dispatch({ type: "CLEAR_UPDATE_VENDOR_STATUS_CODE" });
         dispatch({ type: "CLEAR_DELETE_VENDOR_STATUS_CODE" });
-      }, 5000);
+      }, 100);
     }
   }, [
     state.ComplianceList.addVendorSuccessStatusCode,
@@ -379,38 +564,8 @@ function Vendor() {
     state.ComplianceList.updateVendorSuccessStatusCode,
   ]);
 
-  const handleShowSearch = () => {
-    setShowFilterData(!showFilterData);
-  };
-
-  const handleCloseSearch = () => {
-    setShowFilterData(false);
-    setFilteredData(state.ComplianceList.VendorList);
-    setSearchQuery("");
-  };
-
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ComplianceList.VendorList &&
-        state.ComplianceList.VendorList.filter(
-          (user) =>
-            user.Vendor_Name &&
-            user.Vendor_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.ComplianceList.VendorList);
-    }
-    // setCurrentPage(1);
-  };
-
-  const handleDropDown = (value) => {
-    const searchItem = value;
     setSearchQuery(searchItem);
   };
 
@@ -491,98 +646,96 @@ function Vendor() {
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  //   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
   const [isScrolling, setIsScrolling] = useState(false);
+
   const statusStyles = {
-    "Checked In": {
+    "Fully Settled": {
       bg: "#EFFFF2",
       text: "#038C3D",
     },
-    Booked: {
-      bg: "#E7F1FFB2",
-      text: "#1E45E1",
-    },
-    "Notice Period": {
+    "Partially Paid": {
       bg: "#FFF4E5",
       text: "#F79009",
     },
-    "Settlement Generated": {
+    "Not Paid": {
       bg: "#FEE4E2",
       text: "#D92D20",
     },
+    "No Transaction": {
+      bg: "#F2F4F7",
+      text: "#667085",
+    },
   };
-
-  const selectedColumns = [
-    { key: "vendorId", fieldName: "Vendor ID" },
-    { key: "vendorName", fieldName: "Vendor Name" },
-    { key: "businessName", fieldName: "Business Name" },
-    { key: "category", fieldName: "Category" },
-    { key: "mobileNo", fieldName: "Mobile No" },
-    { key: "address", fieldName: "Address" },
-    { key: "status", fieldName: "Status" },
-    { key: "outstanding", fieldName: "Outstanding" },
-    { key: "lastTransaction", fieldName: "Last Transaction" },
-  ];
-
   const headerKeyMap = {
-    "Vendor ID": "vendorCode",
-    "Vendor Name": "fullName",
-    "Business Name": "businessName",
-    Category: "vendorCategoryName",
+    "Profile Pic": "profilePic",
+    "Full Name": "fullName",
+    "Joining Date": "joiningDate",
     "Mobile No": "mobile",
-    Address: "city",
-    Status: "status",
+    "Email ID": "email",
+    "Vendor Code": "vendorCode",
+    "Vendor Category": "vendorCategoryName",
+    "Credit Limit": "creditLimit",
+    "Credit Period": "creditPeriod",
     Outstanding: "outstanding",
     "Last Transaction": "lastTransaction",
+    "Payment Status": "paymentStatus",
   };
 
-  //   const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //     const obj = {};
+  const formattedData = (filteredData?.vendors || []).map((row) => {
+    const obj = {};
 
-  //     (userListDetail?.tableHeaders || []).forEach((header, index) => {
-  //       const key = headerKeyMap[header];
-  //       const value = row[index];
+    (filteredData?.tableHeaders || []).forEach((header, index) => {
+      const key = headerKeyMap[header];
+      const value = row[index];
 
-  //       if (key) {
-  //         obj[key] = value ?? "-";
-  //       }
-  //     });
-
-  //     const apiData = row[row.length - 1];
-
-  //     obj.apiCall = {
-  //       customerId: apiData?.customerId || null,
-  //       status: apiData?.status || null,
-  //     };
-
-  //     return obj;
-  //   });
-
-  //   useEffect(() => {
-  //     const cols = state?.UsersList?.Users?.columnList || [];
-
-  //     const formatted = cols.map((col) => ({
-  //       ...col,
-  //       key: col.fieldName,
-  //       selected: col.selected,
-  //     }));
-
-  //     setCustomizeItems(formatted);
-  //     setInitialCustomizeItems(formatted);
-  //   }, [state?.UsersList?.Users?.columnList]);
-
-  const formattedData = state?.ComplianceList?.VendorList?.map((item) => {
-    const row = {};
-
-    selectedColumns.forEach((column) => {
-      const key = headerKeyMap[column];
-      row[column] = item[key] ?? "-";
+      if (key) {
+        obj[key] = value ?? "-";
+      }
     });
 
-    return row;
+    const apiData = row[row.length - 1];
+
+    obj.apiCall = {
+      vendorId: apiData?.vendorId || null,
+      status: apiData?.status || null,
+    };
+
+    return obj;
   });
+
+  // console.log("formattedData", formattedData);
+
+  const columnStyles = {
+    "Profile Pic": "px-4 whitespace-nowrap",
+    "Full Name": "px-4 whitespace-nowrap",
+    "Joining Date": "px-4 whitespace-nowrap",
+    "Mobile No": "px-4 whitespace-nowrap",
+    "Email ID": "px-4 whitespace-nowrap",
+    "Vendor Code": "px-4 whitespace-nowrap",
+    "Vendor Category": "px-4 whitespace-nowrap",
+    "Credit Limit": "px-4 whitespace-nowrap",
+    "Credit Period": "px-4 whitespace-nowrap",
+    Outstanding: "px-4 whitespace-nowrap",
+    "Last Transaction": "px-4 whitespace-nowrap",
+    "Payment Status": "px-4 whitespace-nowrap",
+  };
+
+  useEffect(() => {
+    const cols = filteredData?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected: col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
+  }, [filteredData?.columnList]);
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
@@ -596,17 +749,6 @@ function Vendor() {
       document.removeEventListener("mousedown", handleClickOutsideAccount);
     };
   }, []);
-
-  const columnStyles = {
-    "Vendor ID": "px-4 whitespace-nowrap",
-    "Vendor Name": "px-4 whitespace-nowrap",
-    Category: "px-4 whitespace-nowrap",
-    "Mobile No": "px-4 whitespace-nowrap",
-    Address: "px-4 whitespace-nowrap",
-    Status: "px-4 whitespace-nowrap",
-    Outstanding: "px-4 whitespace-nowrap",
-    "Last Transaction": "px-4 whitespace-nowrap",
-  };
 
   const SortableItem = ({ item }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
@@ -658,7 +800,24 @@ function Vendor() {
     setShowSettlementForm(false);
   };
 
-  
+  const currentPage = filteredData?.currentPage ?? 1;
+
+  const totalPages = filteredData?.totalPages ?? 1;
+
+  const totalRecords = filteredData?.totalVendors ?? 0;
+
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.reports?.tenantFilters]);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log("setPage", page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
 
   return (
     <>
@@ -752,14 +911,6 @@ function Vendor() {
                       {item.label}
 
                       <div className="relative group w-fit">
-                        {item.label !== "Notice Period" && (
-                          <Filter
-                            size="14"
-                            color="#9CA3AF"
-                            className="cursor-pointer"
-                          />
-                        )}
-
                         <div
                           className="absolute left-1/2 -translate-x-1/2 mt-2 
                           hidden group-hover:flex
@@ -788,15 +939,16 @@ function Vendor() {
                   }`}
                 >
                   <Select
-                    options={selectOptions}
+                    options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadVendor}
                     menuPlacement="auto"
                     classNamePrefix="custom"
-                    onChange={(e) => handleStatusFilter(e)}
+                    onChange={handleCategoryFilter}
                     value={
-                      selectOptions.find((opt) => opt.value === statusfilter) ||
-                      null
+                      categoryOptions.find(
+                        (opt) => opt.value === categoryFilter,
+                      ) || null
                     }
                     id="statusselect"
                   />
@@ -804,14 +956,19 @@ function Vendor() {
 
                 <div className="flex items-center gap-3">
                   <Select
+                    options={paymentStatusOptions}
                     isDisabled={!canReadVendor}
-                    options={monthOptions}
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
                     classNamePrefix="custom"
                     menuPlacement="auto"
                     noOptionsMessage={() => "No options"}
                     styles={CustomStyles}
+                    id="statusselect"
+                    onChange={handlePaymentStatusFilter}
+                    value={
+                      paymentStatusOptions.find(
+                        (opt) => opt.value === paymentStatus,
+                      ) || null
+                    }
                   />
                 </div>
 
@@ -832,13 +989,6 @@ function Vendor() {
                     }`}
                   />
                 </div>
-
-                <button
-                  onClick={() => setShowOverview(true)}
-                  className="cursor-pointer"
-                >
-                  <PiDotsThreeOutlineVerticalFill size={20} />
-                </button>
               </div>
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -851,7 +1001,7 @@ function Vendor() {
                   />
                 </div>
 
-                {/* {filteredData?.length > 0 && (
+                {formattedData?.length > 0 && (
                   <ApiPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -861,11 +1011,33 @@ function Vendor() {
                     isTenantPagination={true}
                     size={size}
                   />
-                )}  */}
+                )}
               </div>
             </div>
 
-            {filteredData?.length > 0 ? (
+            {chips?.length > 0 && (
+              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip.key}
+                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                    >
+                      {chip.label} :
+                      <span className="text-gray-900">{chip.value}</span>
+                    </span>
+                  ))}
+                </div>
+                <span
+                  className="text-blue-600 text-sm font-medium cursor-pointer"
+                  onClick={handleReset}
+                >
+                  Reset
+                </span>
+              </div>
+            )}
+
+            {formattedData?.length > 0 ? (
               <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                 <div
                   id="tableContainer"
@@ -903,9 +1075,9 @@ function Vendor() {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(filteredData) &&
-                        filteredData?.length > 0 &&
-                        filteredData?.map((user, index) => {
+                      {Array.isArray(formattedData) &&
+                        formattedData?.length > 0 &&
+                        formattedData?.map((user, index) => {
                           return (
                             <tr
                               onClick={(e) => {
@@ -977,27 +1149,27 @@ function Vendor() {
                                       </td>
                                     );
 
-                                  case "Status":
+                                  case "Payment Status":
                                     return (
                                       <td key={col.key} className={finalClass}>
                                         <span
                                           className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
                                           style={{
                                             backgroundColor:
-                                              statusStyles[user.status]?.bg ||
-                                              "#EEE",
+                                              statusStyles[user.paymentStatus]
+                                                ?.bg || "#EEE",
                                           }}
                                         >
                                           <span
                                             className="h-2 w-2 rounded-full"
                                             style={{
                                               backgroundColor:
-                                                statusStyles[user.status]
+                                                statusStyles[user.paymentStatus]
                                                   ?.text || "#333",
                                             }}
                                           ></span>
 
-                                          {user.status}
+                                          {user.paymentStatus}
                                         </span>
                                       </td>
                                     );
@@ -1019,66 +1191,66 @@ function Vendor() {
                                       </td>
                                     );
 
-                                  case "Floor":
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        {user.floorName}
-                                      </td>
-                                    );
-
-                                  case "Room":
-                                    return (
-                                      <td
-                                        key={col.key}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.roomName}
-                                      </td>
-                                    );
-
-                                  case "Bed":
-                                    return (
-                                      <td
-                                        key={col.key}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.bedName}
-                                      </td>
-                                    );
                                   case "Email ID":
                                     return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.emailId}
+                                      <td key={col.key} className={finalClass}>
+                                        {user.email}
                                       </td>
                                     );
-                                  case "Booking Date":
+
+                                  case "Vendor Code":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.vendorCode}
+                                      </td>
+                                    );
+
+                                  case "Vendor Category":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.vendorCategoryName}
+                                      </td>
+                                    );
+                                  case "Credit Limit":
                                     return (
                                       <td
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.bookingDate}
+                                        {user.creditLimit}
                                       </td>
                                     );
-                                  case "Monthly Rent":
+                                  case "Credit Period":
                                     return (
                                       <td
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.monthlyRent}
+                                        {user.creditPeriod}
                                       </td>
                                     );
-                                  case "Advance":
+                                  case "Outstanding":
                                     return (
                                       <td
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.advanceAmount}
+                                        {user.outstanding}
+                                      </td>
+                                    );
+                                  case "Last Transaction":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.lastTransaction}
                                       </td>
                                     );
                                   case "Address":
@@ -1112,21 +1284,21 @@ function Vendor() {
                                   className="relative mt-1 flex cursor-pointer items-center justify-center"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleShowDots(user.id, e);
+                                    handleShowDots(user.apiCall.vendorId, e);
                                   }}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90 ${
-                                      activeRow === user.id
+                                      activeRow === user.apiCall.vendorId
                                         ? "text-[#1E45E1]"
                                         : "text-gray-500"
                                     }`}
                                   />
 
-                                  {activeRow === user.id && (
+                                  {activeRow === user.apiCall.vendorId && (
                                     <div
                                       ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 max-w-[250px] shadow-md z-[9999]"
+                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
@@ -1136,7 +1308,6 @@ function Vendor() {
                                           : popupPosition.top + 5,
                                         left: popupPosition.left - 150,
                                         position: "fixed",
-                                        zIndex: 1000,
                                       }}
                                     >
                                       <button
@@ -1670,14 +1841,12 @@ function Vendor() {
           />
         )}
 
-        
         {showSettlementForm && (
           <SettlementPayment
             show={showSettlementForm}
             handleClose={handleCloseSettlement}
           />
         )}
-
 
         <Modal
           show={showDeleteVendor}

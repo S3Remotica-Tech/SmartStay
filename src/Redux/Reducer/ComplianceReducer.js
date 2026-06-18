@@ -36,6 +36,15 @@ export const initialState = {
   statusCodeComplianceUpdates: 0,
   updateCustomizationSuccess: 0,
   vendorOverview: "",
+  vendorFilters: {
+    paymentStatus: "",
+    paymentStatusLabel: "",
+    search: "",
+    categoryName: "",
+    categoryId: ""
+
+   
+  },
 };
 
 const ComplianceReducer = (state = initialState, action) => {
@@ -45,6 +54,21 @@ const ComplianceReducer = (state = initialState, action) => {
 
     case "SET_HOSTEL_ID":
       return { ...state, apiResponseHostelId: action.payload };
+
+ case "SET_VENDOR_FILTERS":
+      return {
+        ...state,
+        vendorFilters: {
+          ...state.vendorFilters,
+          ...action.payload,
+        },
+      };
+
+
+
+
+
+
     case "COMPLIANCE_LIST":
       return {
         ...state,

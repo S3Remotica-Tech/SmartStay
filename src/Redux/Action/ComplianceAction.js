@@ -77,8 +77,22 @@ export async function complaintsViewUpdates(complaint) {
   );
 }
 
+// export async function VendorList(vendor) {
+//   return await AxiosConfigV2.get(`/v2/vendors/all-vendors/${vendor.hostelId}`);
+// }
+
 export async function VendorList(vendor) {
-  return await AxiosConfigV2.get(`/v2/vendors/all-vendors/${vendor.hostelId}`);
+  const params = {};
+
+  if (vendor.name) params.name = vendor.name; 
+  if (vendor.categoryId) params.categoryId = vendor.categoryId;
+  if (vendor.paymentStatus) params.paymentStatus = vendor.paymentStatus;
+  if (vendor.page) params.page = vendor.page;
+  if (vendor.size) params.size = vendor.size;
+
+  return await AxiosConfigV2.get(`/v2/vendors/all-vendors/${vendor.hostelId}`, {
+    params,
+  });
 }
 
 export async function addVendor(params) {
@@ -151,7 +165,7 @@ export async function particularVendorOverview(vendorId) {
 
 export async function vendorCustomizeData(vendor) {
   return await AxiosConfigV2.put(
-    `/v2/table-config/customers/${vendor.hostelId}`,
+    `/v2/table-config/vendors/${vendor.hostelId}`,
     vendor.customize,
   );
 }

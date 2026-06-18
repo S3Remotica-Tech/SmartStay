@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AddCircle, Edit2, Message, Trash } from "iconsax-react";
+import { AddCircle, Edit2, Message, Messages3, Trash } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import { useHasPermission } from "../../../Utils/Permission";
 import { toast } from "react-toastify";
@@ -89,7 +89,10 @@ function VendorCategory() {
   useEffect(() => {
     setLoading(true);
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "VENDOR_CATEGORY_LIST_SAGA" });
+      dispatch({
+        type: "VENDOR_CATEGORY_LIST_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -104,7 +107,10 @@ function VendorCategory() {
   useEffect(() => {
     if (state.Settings?.createVendorCategorySuccessStatus === 201) {
       setOpen(false);
-      dispatch({ type: "VENDOR_CATEGORY_LIST_SAGA" });
+      dispatch({
+        type: "VENDOR_CATEGORY_LIST_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
       dispatch({ type: "REMOVE_VENDOR_CATEGORY_REDUCER" });
     }
   }, [state.Settings?.createVendorCategorySuccessStatus]);
@@ -112,7 +118,10 @@ function VendorCategory() {
   useEffect(() => {
     if (state.Settings?.deleteVendorCategorySuccessStatus === 200) {
       setShowDelete(false);
-      dispatch({ type: "VENDOR_CATEGORY_LIST_SAGA" });
+      dispatch({
+        type: "VENDOR_CATEGORY_LIST_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
       dispatch({ type: "REMOVE_DELETE_VENDOR_CATEGORY_REDUCER" });
     }
   }, [state.Settings?.deleteVendorCategorySuccessStatus]);
@@ -182,14 +191,25 @@ function VendorCategory() {
                     className="w-full sm:w-1/2 md:w-full lg:w-1/3 px-2 mb-3"
                   >
                     <div
-                      className="flex items-center justify-between p-3 border rounded w-full"
+                      className="flex items-center justify-between p-3 border rounded w-full shrink-0"
                       style={{ height: "64px" }}
                     >
-                      <div className="flex items-center">
-                        <Message />
-                        <span className="ml-5 text-[16px] font-semibold font-gilroy text-[#222222]">
-                          {u.categoryName}
-                        </span>
+                      <div className="flex items-center min-w-0 flex-1">
+                        <Messages3 className="shrink-0" />
+
+                        <div className="relative group ml-5 flex-1 min-w-0">
+                          <span className="block truncate text-[16px] font-semibold font-gilroy text-[#222222]">
+                            {u.categoryName}
+                          </span>
+
+                          <div
+                            className="absolute left-0 top-full mt-2 hidden group-hover:block
+                 whitespace-nowrap rounded-md bg-[#222222] px-3 py-2 font-gilroy 
+                 text-sm text-white shadow-lg z-50"
+                          >
+                            {u.categoryName}
+                          </div>
+                        </div>
                       </div>
 
                       <button

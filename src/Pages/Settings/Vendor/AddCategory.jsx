@@ -20,17 +20,9 @@ function AddCategory({ show, onClose }) {
     });
 
     let value = e.target.value;
-
     value = value.replace(/^\s+/, "");
-
     value = value.replace(/\s{2,}/g, " ");
-
     value = value.replace(/[^a-zA-Z0-9&()/_\-\s]/g, "");
-
-    if (value.length > 50) {
-      value = value.slice(0, 50);
-    }
-
     setCategoryName(value);
     setCategoryError("");
   };
@@ -55,7 +47,10 @@ function AddCategory({ show, onClose }) {
 
     dispatch({
       type: "VENDOR_CATEGORY_SAGA",
-      payload: { categoryName: categoryName },
+      payload: {
+        categoryName: categoryName,
+        hostelId: state.login.selectedHostel_Id,
+      },
     });
 
     setLoading(true);

@@ -327,11 +327,28 @@ function AddExpenseNew() {
       vendor,
     })) || [];
 
-  const unitOptions =
-    state.ExpenseList?.unitList?.map((exp) => ({
-      value: exp.id,
-      label: exp.unitName,
-    })) || [];
+  // const unitOptions =
+  //   state.ExpenseList?.unitList?.map((exp) => ({
+  //     value: exp.id,
+  //     label: exp.unitName,
+  //   })) || [];
+
+  const unitOptions = [
+    { value: "Nos", label: "Nos" },
+    { value: "Kg", label: "Kg" },
+    { value: "Litre", label: "Litre" },
+    { value: "Packet", label: "Packet" },
+    { value: "Box", label: "Box" },
+    { value: "Bottle", label: "Bottle" },
+    { value: "Can", label: "Can" },
+    { value: "Bundle", label: "Bundle" },
+    { value: "Meter", label: "Meter" },
+    { value: "Piece", label: "Piece" },
+    { value: "Set", label: "Set" },
+    { value: "Day", label: "Day" },
+    { value: "Month", label: "Month" },
+    { value: "Hour Wage", label: "Hour Wage" },
+  ];
 
   const defaultExpenseItem = {
     itemName: "",
@@ -713,7 +730,7 @@ function AddExpenseNew() {
         type: "VENDORLIST",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
-      dispatch({ type: "UNITS_LIST_SAGA" });
+      // dispatch({ type: "UNITS_LIST_SAGA" });
     }
   }, [state.login.selectedHostel_Id]);
 

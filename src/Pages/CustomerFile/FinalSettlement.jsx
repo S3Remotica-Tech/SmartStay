@@ -167,8 +167,15 @@ function FinalSettlement() {
   const [isEditingDate, setIsEditingDate] = useState(false);
   const [checkoutDate, setCheckoutDate] = useState(dayjs());
   const [selectedRowDetails, setSelectedRowDetails] = useState("");
-  const { data, pgDetails, isPGWay, customer, isTenantOverview } =
-    location.state || {};
+  const {
+    data,
+    pgDetails,
+    isPGWay,
+    customer,
+    isTenantOverview,
+    isPgWayTrigger,
+    isTenantWayTrigger,
+  } = location.state || {};
 
   const [isEditing, setIsEditing] = useState(false);
   const [finalAmountSetClicked, setFinalAmountSetClicked] = useState(false);
@@ -377,13 +384,17 @@ function FinalSettlement() {
     };
   }, []);
 
-  console.log("isPGWay", isPGWay);
-
   const handleClose = () => {
     if (pgDetails || isPGWay) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
     } else if (isTenantOverview) {
-      navigate(`/tenant/details/${state.login.selectedHostel_Id}`);
+      navigate(`/tenant/details/${state.login.selectedHostel_Id}`, {
+        state: {
+          isTenantOverview: true,
+          navigatePg: isPgWayTrigger,
+          navigateTenant: isTenantWayTrigger,
+        },
+      });
     } else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     }
@@ -488,7 +499,7 @@ function FinalSettlement() {
 
       const currentMonthOtherItems =
         finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems;
-      const totalOtherItemsAmount = currentMonthOtherItems.reduce(
+      const totalOtherItemsAmount = currentMonthOtherItems?.reduce(
         (sum, item) => sum + Number(item.amount || 0),
         0,
       );

@@ -200,8 +200,6 @@ function* handleCategorylist(action) {
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
     if (response?.status === 200) {
@@ -210,7 +208,7 @@ function* handleCategorylist(action) {
         payload: {
           response: response.data,
           statusCode: response?.status,
-          message: response?.data?.message,
+          // message: response?.data?.message,
         },
       });
     } else if (response?.status === 401) {

@@ -257,6 +257,9 @@ function UserListRoomDetail(props) {
     isReceiptWay,
     isBookingWay,
     isTenantWay,
+    isTenantOverview,
+    navigatePg,
+    navigateTenant,
   } = location.state || {};
 
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
@@ -264,7 +267,7 @@ function UserListRoomDetail(props) {
   const CustomerOverView = state.UsersList.customerdetails;
 
   const handleNavigateTenant = () => {
-    if (isPgWay) {
+    if (isPgWay || navigatePg) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
     } else if (isDashboardWay) {
       navigate(`/dashboard/${state.login.selectedHostel_Id}`);
@@ -274,7 +277,7 @@ function UserListRoomDetail(props) {
       navigate(`/receipts/${state.login.selectedHostel_Id}`);
     } else if (isBookingWay) {
       navigate(`/booking/${state.login.selectedHostel_Id}`);
-    } else if (isTenantWay) {
+    } else if (isTenantWay || navigateTenant) {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     } else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
@@ -286,7 +289,8 @@ function UserListRoomDetail(props) {
       state: {
         data: item,
         isTenantOverview: true,
-        isPGWay: isPgWay,
+        isPgWayTrigger: isPgWay,
+        isTenantWayTrigger: isTenantWay,
       },
     });
   };

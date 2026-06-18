@@ -380,7 +380,7 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
                   options={vendorOptions}
                   value={selectedVendor}
                   onChange={handleVendorChange}
-                  options={vendorOptions}
+                  //   options={vendorOptions}
                   placeholder="Select Vendor"
                   className="text-sm"
                   styles={CustomStyles}

@@ -408,7 +408,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
                   options={vendorOptions}
                   value={selectedVendor}
                   onChange={handleVendorChange}
-                  options={vendorOptions}
+                  // options={vendorOptions}
                   placeholder="Select Vendor"
                   className="text-sm"
                   styles={CustomStyles}
@@ -678,7 +678,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
 
             <div className="mb-2">
               <label className="text-[#222222] text-[16px] font-semibold mb-2">
-                Expense Details
+                Unpaid Expenses List
               </label>
               <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
                 <table className="w-full">

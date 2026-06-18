@@ -119,7 +119,7 @@ function UserList(props) {
   const [uniqueostel_Id, setUniqostel_Id] = useState("");
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
   const [deleteShow, setDeleteShow] = useState(false);
-
+  const [selectedMonth, setSelectedMonth] = useState();
   const [customername, setCustomerName] = useState("");
   const [invoicenumber, setInvoiceNumber] = useState("");
   const [invoicedate, setInvoiceDate] = useState(null);
@@ -352,15 +352,15 @@ function UserList(props) {
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       if (value === "1") {
-        dispatch({
-          type: "USERLIST",
-          payload: {
-            hostel_id: state.login.selectedHostel_Id,
-            page: page,
-            size: size,
-          },
-        });
-        setLoading(true);
+        // dispatch({
+        //   type: "USERLIST",
+        //   payload: {
+        //     hostel_id: state.login.selectedHostel_Id,
+        //     page: page,
+        //     size: size,
+        //   },
+        // });
+        // setLoading(true);
       } else if (value === "3") {
         dispatch({
           type: "CHECKOUTCUSTOMERLIST",
@@ -377,6 +377,44 @@ function UserList(props) {
       }
     }
   }, [value, state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    if (!state.login.selectedHostel_Id) return;
+    dispatch({
+      type: "USERLIST",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        name: debouncedInput || "",
+        type: statusValue,
+        page: page,
+        size: size,
+        period: selectedMonth?.value,
+      },
+    });
+
+    setLoading(true);
+
+    const filters = {
+      status: statusfilter ? [statusfilter] : [],
+      search: debouncedInput?.trim() || "",
+      period: selectedMonth?.value ? selectedMonth?.value : "",
+      periodLabel: selectedMonth?.label ? selectedMonth?.label : "",
+    };
+
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: filters,
+    });
+  }, [
+    debouncedInput,
+    statusfilter,
+    page,
+    size,
+    selectedMonth,
+    value,
+    state.login.selectedHostel_Id,
+  ]);
 
   useEffect(() => {
     if (state.UsersList.customerdetails.invoiceResponseList) {
@@ -1524,23 +1562,6 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-  // useEffect(() => {
-  //   if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
-  //     dispatch({
-  //       type: "USERLIST",
-  //       payload: {
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         page: page,
-  //         size: size,
-  //       },
-  //     });
-  //     setShowAssignMenu(false);
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
-  //     }, 2000);
-  //   }
-  // }, [state.UsersList.statusCodeForCheckInCustomer]);
-
   const customDateInput = (props) => {
     return (
       <div
@@ -2071,8 +2092,6 @@ function UserList(props) {
       value: item.type,
     })) || [];
 
-  const [selectedMonth, setSelectedMonth] = useState();
-
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
 
@@ -2085,36 +2104,6 @@ function UserList(props) {
     setCustomizeItems(formatted);
     setInitialCustomizeItems(formatted);
   }, [state?.UsersList?.Users?.columnList]);
-
-  useEffect(() => {
-    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
-    if (!state.login.selectedHostel_Id) return;
-    dispatch({
-      type: "USERLIST",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        name: debouncedInput || "",
-        type: statusValue,
-        page: page,
-        size: size,
-        period: selectedMonth?.value,
-      },
-    });
-
-    setLoading(true);
-
-    const filters = {
-      status: statusfilter ? [statusfilter] : [],
-      search: debouncedInput?.trim() || "",
-      period: selectedMonth?.value ? selectedMonth?.value : "",
-      periodLabel: selectedMonth?.label ? selectedMonth?.label : "",
-    };
-
-    dispatch({
-      type: "SET_TENANT_TABLE_FILTERS",
-      payload: filters,
-    });
-  }, [debouncedInput, statusfilter, page, size, selectedMonth]);
 
   // console.log("statusfilter", statusfilter);
 
@@ -2295,7 +2284,7 @@ function UserList(props) {
 
   useEffect(() => {
     setPage(1);
-  }, [state.reports?.tenantFilters]);
+  }, [state.UsersList?.tenantFilters]);
 
   const handlePageChange = (page) => {
     setPage(page);

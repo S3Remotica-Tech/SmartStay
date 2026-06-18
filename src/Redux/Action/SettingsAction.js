@@ -34,8 +34,12 @@ export async function ExpencesCategorylist(hostelId) {
   return await AxiosConfigV2.get(`/v2/expense/category/${hostelId}`);
 }
 
-export async function VendorCategoryList() {
-  return await AxiosConfigV2.get(`/v2/vendors/categories`);
+export async function VendorCategoryList(hostelId) {
+  return await AxiosConfigV2.get("/v2/vendors/categories", {
+    params: {
+      hostelId,
+    },
+  });
 }
 
 export async function AddVendorCategory(vendor) {

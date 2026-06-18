@@ -157,7 +157,7 @@ function Sidebar() {
     "/receipts/:hostelId": "receipts",
 
     "/vendor/:hostelId": "vendor",
-    "/vendor/new/:hostelId": "vendor-new",
+    // "/vendor/new/:hostelId": "vendor-new",
     "/compliance/:hostelId": "compliance",
     "/asset/:hostelId": "asset",
     "/reports/:hostelId": "reports",
@@ -1047,27 +1047,27 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
-                        {isDevelopment && (
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/vendor/new")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${
-                                  isActive || currentPage === "vendor-new"
-                                    ? "active"
-                                    : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("vendor-new")}
-                            >
-                              <Shop size="20" variant="Bold" />
+                        {/* {isDevelopment && (
+                          // <li className="list-none">
+                          //   <NavLink
+                          //     to={withHostel("/vendor/new")}
+                          //     className={({ isActive }) =>
+                          //       `align-items-center list-sub-Item no-underline d-flex ${
+                          //         isActive || currentPage === "vendor-new"
+                          //           ? "active"
+                          //           : ""
+                          //       }`
+                          //     }
+                          //     onClick={() => handlePageClick("vendor-new")}
+                          //   >
+                          //     <Shop size="20" variant="Bold" />
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Vendor New
-                              </span>
-                            </NavLink>
-                          </li>
-                        )}
+                          //     <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          //       Vendor New
+                          //     </span>
+                          //   </NavLink>
+                          // </li>
+                        )} */}
                       </ul>
                     </div>
                   )}
@@ -1602,7 +1602,7 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
+              {/* <Route
                 path="/vendor/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
@@ -1612,17 +1612,27 @@ function Sidebar() {
                     />
                   </div>
                 }
+              /> */}
+
+              <Route
+                path="/vendor/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <VendorNew />
+                  </div>
+                }
               />
+
               {isDevelopment && (
                 <>
-                  <Route
+                  {/* <Route
                     path="/vendor/new/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <VendorNew />
                       </div>
                     }
-                  />
+                  /> */}
 
                   <Route
                     path="/add-vendor/:hostelId?"
