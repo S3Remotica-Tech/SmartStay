@@ -233,6 +233,33 @@ function SettlementPayment({ show, handleClose, isBanking }) {
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  const [invoiceDetails, setInvoiceDetails] = useState([
+    {
+      id: 1,
+      type: "Table",
+      invoiceNo: "#RF-987",
+      amount: 5000,
+      invoiceDue: 2500,
+      amountToApply: "",
+    },
+    {
+      id: 1,
+      type: "chair",
+      invoiceNo: "#RF-987",
+      amount: 5000,
+      invoiceDue: 2000,
+      amountToApply: "",
+    },
+  ]);
+
+  const handleAmountApplyChange = (index, value) => {
+    const updatedList = [...invoiceDetails];
+
+    updatedList[index].amountToApply = value;
+
+    setInvoiceDetails(updatedList);
+  };
+
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -353,7 +380,7 @@ function SettlementPayment({ show, handleClose, isBanking }) {
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy"
+        className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy border border-gray-50"
       >
         <div
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
@@ -369,14 +396,15 @@ function SettlementPayment({ show, handleClose, isBanking }) {
             className="cursor-pointer rotate-45"
           />
         </div>
-        <div className="flex-1 show-scrolls overflow-y-auto">
+        <div className="flex-1 show-scrolls overflow-y-auto ">
           <div className="grid grid-cols-1  mt-1 px-4 py-2">
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Vendor Name <span className="text-red-600 text-[20px]">*</span>
+                Vendor <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
                 <Select
+                  disabled
                   options={vendorOptions}
                   value={selectedVendor}
                   onChange={handleVendorChange}
@@ -646,6 +674,71 @@ function SettlementPayment({ show, handleClose, isBanking }) {
                   description ? "font-semibold" : "font-medium"
                 } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
               />
+            </div>
+
+            <div className="mb-2">
+              <label className="text-[#222222] text-[16px] font-semibold mb-2">
+                Expense Details
+              </label>
+              <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-[#F9FAFB] border-b border-[#E5E7EB] uppercase">
+                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                        Expense No
+                      </th>
+                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
+                        Ref No
+                      </th>
+                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
+                        AMOUNT
+                      </th>
+                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
+                        DUE
+                      </th>
+                      <th className="text-left px-4 py-2 text-[9px] font-semibold  text-[#6B7280] whitespace-nowrap">
+                        AMOUNT TO APPLY
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {invoiceDetails.map((item, index) => (
+                      <tr key={item.id} className="border-b border-[#E5E7EB]">
+                        <td className="px-4 py-2.5 text-[11px]  font-medium text-[#222222]">
+                          {item.type}
+                        </td>
+
+                        <td className="px-4 py-2.5">
+                          <span className="text-[#1E45E1] text-[11px]  font-medium whitespace-nowrap">
+                            {item.invoiceNo}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-2.5 text-[11px]  text-[#6B7280] whitespace-nowrap">
+                          {item.amount}
+                        </td>
+
+                        <td className="px-4 py-2.5 text-[11px]  font-semibold text-[#222222] whitespace-nowrap">
+                          ₹ {item.invoiceDue}
+                        </td>
+
+                        <td className="px-4 py-2.5">
+                          <input
+                            type="number"
+                            value={item.amountToApply}
+                            onChange={(e) =>
+                              handleAmountApplyChange(index, e.target.value)
+                            }
+                            className="w-[140px] h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px]  font-medium focus:outline-none focus:border-[#1E45E1]"
+                            placeholder="₹ 0.00"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <div className="rounded-xl bg-[#2633A0] p-4 text-white">
