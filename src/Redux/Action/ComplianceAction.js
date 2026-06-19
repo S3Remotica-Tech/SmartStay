@@ -112,9 +112,12 @@ export async function VendorOverViewExpensePaymentList(vendor) {
   if (vendor.page) params.page = vendor.page;
   if (vendor.size) params.size = vendor.size;
 
-  return await AxiosConfigV2.get(`v2/vendors/expense-payments/${vendor}`, {
-    params,
-  });
+  return await AxiosConfigV2.get(
+    `v2/vendors/expense-payments/${vendor.vendorId}`,
+    {
+      params,
+    },
+  );
 }
 
 export async function addVendor(params) {

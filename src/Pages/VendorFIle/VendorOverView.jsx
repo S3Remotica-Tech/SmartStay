@@ -15,6 +15,8 @@ import VendorExpenseHistory from "./VendorExpenseHistory";
 import VendorComments from "./VendorComments";
 import VendorPaymentHistory from "./VendorPaymentHistory";
 import VendorDetailsOverview from "./VendorDetailsOverview";
+import { useHasPermission } from "../../Utils/Permission";
+import { useNavigate } from "react-router-dom";
 
 function VendorOverView({
   show,
@@ -24,12 +26,21 @@ function VendorOverView({
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedMonth, setSelectedMonth] = useState("overview");
 
   const VendorOverView = state.ComplianceList?.vendorOverview;
 
+  const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
+
+  const handleShow = () => {
+    navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+      state: {
+        isVendorWay: true,
+      },
+    });
+  };
   const handleSelected = (selectedPeriod) => {
     setSelectedMonth(selectedPeriod?.type);
   };
@@ -50,13 +61,15 @@ function VendorOverView({
           vendorId: selectedVendorId,
         },
       });
+
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
     }
   }, [selectedVendorId, selectedMonth]);
-
-  // useEffect(()=>{
-  // dispatch({ type :'VENDOR_OVERVIEW_EXPENSE_SAGA'})
-  // dispatch({ type :'VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA'})
-  // },[])
 
   useEffect(() => {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
@@ -251,7 +264,8 @@ function VendorOverView({
 
               {activeTab === "expenses" && (
                 <button
-                  onClick={() => {}}
+                  disabled={!canWriteExpense}
+                  onClick={handleShow}
                   className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1"
                 >
                   <AddCircle size="14" /> Add Expense

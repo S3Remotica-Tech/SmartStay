@@ -402,6 +402,7 @@ function AddExpenseNew() {
 
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
+  const isVendorWay = location.state?.isVendorWay;
 
   const [errors, setErrors] = useState({
     totalAmount: "",
@@ -464,8 +465,10 @@ function AddExpenseNew() {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (isBankingWayTrigger) {
       navigate(`/banking/new/${state.login.selectedHostel_Id}`);
-    } else {
-      navigate(`/expense/new/${state.login.selectedHostel_Id}`);
+    }
+ 
+    else {
+      navigate(`/expense/${state.login.selectedHostel_Id}`);
     }
   };
 
@@ -646,18 +649,10 @@ function AddExpenseNew() {
     return isValid;
   };
 
-
-
-console.log({
-  value: linkVendor,
-  type: typeof linkVendor,
-});
-
-
-
-
-
-
+  console.log({
+    value: linkVendor,
+    type: typeof linkVendor,
+  });
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });

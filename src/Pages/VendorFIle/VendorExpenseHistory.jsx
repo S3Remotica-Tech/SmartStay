@@ -21,6 +21,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import ApiPagination from "../../Components/ApiPagination";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -34,7 +35,7 @@ const CustomStyles = {
     fontFamily: "Gilroy, sans-serif",
     fontWeight: 500,
     boxShadow: "none",
-    cursor: "pointer",
+    cursor: "not-allowed",
     backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
   }),
 
@@ -114,6 +115,8 @@ const CustomStyles = {
 function VendorExpenseHistory() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const vendorExpenseList =
+    state.ComplianceList?.vendorOverviewExpenseList?.expenses || [];
 
   const [openExpense, setOpenExpense] = useState(null);
 
@@ -150,52 +153,85 @@ function VendorExpenseHistory() {
     // canDeleteModule: canDeleteElectricity,
   } = useHasPermission("Expense");
 
-  const expenses = [
-    {
-      expenseId: "EXP-1045",
-      date: "03 June 2026",
-      title: "Electrical Repair",
-      amount: "₹ 5,000.00",
-      balance: "₹ 0.00",
-      status: "Paid",
-      items: [
-        {
-          itemName: "Tubelight (LED)",
-          quantity: 20,
-          unit: "Nos",
-          unitPrice: "₹150.00",
-          amount: "₹3,000",
-        },
-        {
-          itemName: "Electrical Wire Roll (90m)",
-          quantity: 2,
-          unit: "Nos",
-          unitPrice: "₹1,750",
-          amount: "₹3,500",
-        },
-        {
-          itemName: "Modular Switches",
-          quantity: 20,
-          unit: "Nos",
-          unitPrice: "₹80.00",
-          amount: "₹1,600",
-        },
-      ],
-    },
-    {
-      expenseId: "EXP-1047",
-      date: "31 May 2026",
-      title: "Wiring Replacement",
-      amount: "₹ 50,000.00",
-      balance: "₹ 0.00",
-      status: "Paid",
-      items: [],
-    },
-  ];
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
+  const tableContainerRef = useRef(null);
+  const lastScrollLeftRef = useRef(0);
+  const listRef = useRef(null);
+  const currentPage = vendorExpenseList?.currentPage ?? 1;
+
+  const totalPages = vendorExpenseList?.totalPages ?? 1;
+
+  const totalRecords = vendorExpenseList?.totalExpenses ?? 0;
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
+  }, [state.ComplianceList?.vendorFilters]);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    // console.log("setPage", page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
+
+  useEffect(() => {
+    const container = tableContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const current = container.scrollLeft;
+      if (current === 0) {
+        setIsScrolling(false);
+        lastScrollLeftRef.current = current;
+        return;
+      }
+
+      if (Math.abs(current - lastScrollLeftRef.current) < 2) {
+        return;
+      }
+      if (current > lastScrollLeftRef.current) {
+        setIsScrolling(true);
+      } else {
+        setIsScrolling(true);
+      }
+
+      lastScrollLeftRef.current = current;
+    };
+
+    container.addEventListener("scroll", handleScroll);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="px-4">
-      <div className="flex flex-wrap items-center justify-between  bg-white ">
+    <div className="px-4 bg-white">
+      <div className="flex flex-wrap items-center justify-between  bg-white min-h-[60px] sticky top-0 z-[50]">
         <div className="flex flex-wrap items-center gap-3">
           <div
             className={`border border-gray-300 rounded-lg w-36 ${
@@ -205,7 +241,7 @@ function VendorExpenseHistory() {
             <Select
               options={selectOptions}
               styles={CustomStyles}
-              isDisabled={!canReadExpense}
+              isDisabled={canReadExpense}
               menuPlacement="auto"
               classNamePrefix="custom"
               onChange={(e) => handleStatusFilter(e)}
@@ -218,7 +254,7 @@ function VendorExpenseHistory() {
 
           <div className="flex items-center gap-3">
             <Select
-              isDisabled={!canReadExpense}
+              isDisabled={canReadExpense}
               options={monthOptions}
               value={selectedMonth}
               onChange={handleMonthChange}
@@ -241,7 +277,7 @@ function VendorExpenseHistory() {
               }}
               className={`transition-opacity duration-300 ${
                 canReadExpense
-                  ? "cursor-pointer opacity-100 pointer-events-auto"
+                  ? "cursor-not-allowed opacity-100 pointer-events-auto"
                   : "cursor-not-allowed opacity-40 pointer-events-none"
               }`}
             />
@@ -254,7 +290,7 @@ function VendorExpenseHistory() {
               className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
                 ${
                   canReadExpense
-                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1 cursor-not-allowed]"
                     : "border-gray-200 opacity-60 cursor-not-allowed"
                 }`}
             >
@@ -263,8 +299,8 @@ function VendorExpenseHistory() {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={handleInputChange}
-                disabled={!canReadExpense}
-                className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] "
+                disabled={canReadExpense}
+                className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] cursor-not-allowed "
               />
               <SearchNormal1
                 size="18"
@@ -273,140 +309,173 @@ function VendorExpenseHistory() {
               />
             </div>
           </div>
-          {/* {filteredData?.length > 0 && (
-                          <ApiPagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            totalRecords={totalRecords}
-                            onPageChange={handlePageChange}
-                            onSizeChange={handleSizeChange}
-                            isTenantPagination={true}
-                            size={size}
-                          />
-                        )} */}
+          {vendorExpenseList?.expenses?.length > 0 && (
+            <ApiPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              onPageChange={handlePageChange}
+              onSizeChange={handleSizeChange}
+              isTenantPagination={true}
+              size={size}
+            />
+          )}
         </div>
       </div>
-      <div className="bg-white    rounded-xl  mx-1 my-3 ">
-        <div
-          id="tableContainer"
-          //   ref={tableContainerRef}
-          className="overflow-auto relative h-[calc(100vh-250px)]  show-scrolls"
-        >
-          <table className=" w-full font-gilroy ">
-            <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
-              <tr>
-                <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
-                  EXpense ID
-                </th>
-                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
-                  DATE
-                </th>
 
-                <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
-                  Expense Title
-                </th>
-                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
-                  Amount
-                </th>
-                <th className="px-4 py-2.5 text-left text-xs text-[#666]  whitespace-nowrap">
-                  Balance (if)
-                </th>
-                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
-                  STATUS
-                </th>
-                <th className="px-4 py-2.5 text-left text-xs text-[#666]">
-                  Action
-                </th>
-              </tr>
-            </thead>
+      {vendorExpenseList?.expenses?.length > 0 ? (
+        <div className="bg-white    rounded-xl  mx-1 my-3 ">
+          <div
+            id="tableContainer"
+            ref={tableContainerRef}
+            className="overflow-auto relative h-[calc(50vh-60px)]  show-scrolls"
+          >
+            <table className=" w-full font-gilroy ">
+              <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
+                <tr>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
+                    EXpense ID
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    DATE
+                  </th>
 
-            <tbody>
-              {expenses.map((expense) => (
-                <React.Fragment key={expense.expenseId}>
-                  <tr className="border-t whitespace-nowrap">
-                    <td className="px-4 py-2.5 text-sm text-[#1E45E1] flex items-center gap-2">
-                      {expense.expenseId} <ExportSquare size="14" />
-                    </td>
-                    <td className="px-4 py-2.5 text-sm">{expense.date}</td>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666] whitespace-nowrap">
+                    Expense Title
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    Amount
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666]  whitespace-nowrap">
+                    Balance (if)
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    STATUS
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-xs text-[#666]">
+                    Action
+                  </th>
+                </tr>
+              </thead>
 
-                    <td className="px-4 py-2.5 text-sm">{expense.title}</td>
+              <tbody>
+                {vendorExpenseList.map((expense) => (
+                  <React.Fragment key={expense.expenseId}>
+                    <tr className="border-t whitespace-nowrap">
+                      <td className="px-4 py-2.5 text-sm text-[#1E45E1] flex items-center gap-2">
+                        {expense.referenceNumber}
+                        <ExportSquare size="14" />
+                      </td>
 
-                    <td className="px-4 py-2.5 text-sm">{expense.amount}</td>
+                      <td className="px-4 py-2.5 text-sm">
+                        {expense.transactionDate}
+                      </td>
 
-                    <td className="px-4 py-2.5 text-sm">{expense.balance}</td>
+                      <td className="px-4 py-2.5 text-sm">{expense.title}</td>
 
-                    <td className="px-4 py-2.5">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-[#E8F8EC] px-2 py-1 text-[11px] text-[#00A32E]">
-                        <span className="h-2 w-2 rounded-full bg-[#00A32E]" />
-                        {expense.status}
-                      </span>
-                    </td>
+                      <td className="px-4 py-2.5 text-sm">
+                        ₹ {expense.totalAmount}
+                      </td>
 
-                    <td className="px-4 py-2.5">
-                      <button
-                        onClick={() => handleToggleExpense(expense.expenseId)}
-                        className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"
-                      >
-                        {openExpense === expense.expenseId ? (
-                          <ArrowUp2 size={14} color="#1E45E1" />
-                        ) : (
-                          <ArrowDown2 size={14} color="#6B7280" />
-                        )}
-                      </button>
-                    </td>
-                  </tr>
+                      <td className="px-4 py-2.5 text-sm">
+                        ₹ {expense.balanceAmount}
+                      </td>
 
-                  {openExpense === expense.expenseId && (
-                    <tr>
-                      <td colSpan={7} className="p-0 bg-[#FAFAFA]">
-                        <table className="w-full">
-                          <thead className="bg-[#F5F5F5]">
-                            <tr>
-                              <th className="px-4 py-3 text-left text-[11px] text-[#6B7280]">
-                                ITEM DETAILS
-                              </th>
-                              <th className="px-4 py-3 text-left text-[11px] text-[#6B7280]">
-                                QUANTITY
-                              </th>
-                              <th className="px-4 py-3 text-left text-[11px] text-[#6B7280]">
-                                UNIT
-                              </th>
-                              <th className="px-4 py-3 text-left text-[11px] text-[#6B7280]">
-                                PER UNIT PRICE
-                              </th>
-                              <th className="px-4 py-3 text-right text-[11px] text-[#6B7280]">
-                                AMOUNT
-                              </th>
-                            </tr>
-                          </thead>
+                      <td className="px-4 py-2.5">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px]
+              ${
+                expense.balanceAmount === 0
+                  ? "bg-[#E8F8EC] text-[#00A32E]"
+                  : "bg-[#FFF7E6] text-[#FA8C16]"
+              }`}
+                        >
+                          <span
+                            className={`h-2 w-2 rounded-full ${
+                              expense.balanceAmount === 0
+                                ? "bg-[#00A32E]"
+                                : "bg-[#FA8C16]"
+                            }`}
+                          />
+                          {expense.paymentStatus}
+                        </span>
+                      </td>
 
-                          <tbody>
-                            {expense.items.map((item, index) => (
-                              <tr key={index} className="border-t">
-                                <td className="px-4 py-3">{item.itemName}</td>
-
-                                <td className="px-4 py-3">{item.quantity}</td>
-
-                                <td className="px-4 py-3">{item.unit}</td>
-
-                                <td className="px-4 py-3">{item.unitPrice}</td>
-
-                                <td className="px-4 py-3 text-right">
-                                  {item.amount}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                      <td className="px-4 py-2.5">
+                        <button
+                          onClick={() => handleToggleExpense(expense.expenseId)}
+                          className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"
+                        >
+                          {openExpense === expense.expenseId ? (
+                            <ArrowUp2 size={14} color="#1E45E1" />
+                          ) : (
+                            <ArrowDown2 size={14} color="#6B7280" />
+                          )}
+                        </button>
                       </td>
                     </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+
+                    {openExpense === expense.expenseId && (
+                      <tr>
+                        <td colSpan={7} className="p-0 bg-[#FAFAFA]">
+                          <table className="w-full">
+                            <thead className="bg-[#F5F5F5]">
+                              <tr>
+                                <th className="px-4 py-3 text-left text-[11px]">
+                                  ITEM DETAILS
+                                </th>
+                                <th className="px-4 py-3 text-left text-[11px]">
+                                  QUANTITY
+                                </th>
+                                <th className="px-4 py-3 text-left text-[11px]">
+                                  UNIT
+                                </th>
+                                <th className="px-4 py-3 text-left text-[11px]">
+                                  PER UNIT PRICE
+                                </th>
+                                <th className="px-4 py-3 text-right text-[11px]">
+                                  AMOUNT
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              {expense.expenseItems.map((item) => (
+                                <tr key={item.id} className="border-t">
+                                  <td className="px-4 py-3">{item.item}</td>
+
+                                  <td className="px-4 py-3">{item.quantity}</td>
+
+                                  <td className="px-4 py-3">{item.unit}</td>
+
+                                  <td className="px-4 py-3">
+                                    ₹ {item.unitPrice.toFixed(2)}
+                                  </td>
+
+                                  <td className="px-4 py-3 text-right">
+                                    ₹ {item.totalAmount.toFixed(2)}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="">
+          <NoDataMessage
+            label="Vendor Expense History"
+            isHeightChanged={true}
+          />
+        </div>
+      )}
     </div>
   );
 }

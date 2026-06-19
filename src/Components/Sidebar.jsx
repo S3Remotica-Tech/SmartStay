@@ -163,7 +163,7 @@ function Sidebar() {
     "/reports/:hostelId": "reports",
     "/electricity/:hostelId": "eb",
     "/expense/:hostelId": "expenses",
-    "/expense/new/:hostelId": "expenses-new",
+    // "/expense/new/:hostelId": "expenses-new",
     "/banking/:hostelId": "banking",
     "/banking/new/:hostelId": "banking-new",
     "/settings/:hostelId": "settingNewDesign",
@@ -1423,7 +1423,7 @@ function Sidebar() {
                     </OverlayTrigger>
                   </li>
 
-                  {isDevelopment && (
+                  {/* {isDevelopment && (
                     <li
                       className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
@@ -1455,7 +1455,7 @@ function Sidebar() {
                         </NavLink>
                       </OverlayTrigger>
                     </li>
-                  )}
+                  )} */}
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <OverlayTrigger
                       trigger={tooltipTrigger}
@@ -1623,6 +1623,23 @@ function Sidebar() {
                 }
               />
 
+              <Route
+                path="/add-expense/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <AddExpenseNew />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/add-vendor/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <AddVendorNew />
+                  </div>
+                }
+              />
               {isDevelopment && (
                 <>
                   {/* <Route
@@ -1634,31 +1651,14 @@ function Sidebar() {
                     }
                   /> */}
 
-                  <Route
-                    path="/add-vendor/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <AddVendorNew />
-                      </div>
-                    }
-                  />
-                  <Route
+                  {/* <Route
                     path="/expense/new/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <ExpenseNew />
                       </div>
                     }
-                  />
-
-                  <Route
-                    path="/add-expense/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <AddExpenseNew />
-                      </div>
-                    }
-                  />
+                  /> */}
 
                   <Route
                     path="/banking/new/:hostelId?"
@@ -1716,10 +1716,7 @@ function Sidebar() {
                 path="/expense/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
-                    <Expenses
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
+                    <ExpenseNew />
                   </div>
                 }
               />
