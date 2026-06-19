@@ -856,10 +856,10 @@ function AddVendorNew() {
       const hasChanges =
         JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
 
-      if (!hasChanges) {
-        setNochanges("No changes detected");
-        return;
-      }
+      // if (!hasChanges) {
+      //   setNochanges("No changes detected");
+      //   return;
+      // }
 
       dispatch({
         type: "UPDATEVENDOR",

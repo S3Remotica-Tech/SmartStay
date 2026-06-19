@@ -829,13 +829,13 @@ function Vendor() {
 
   const totalRecords = filteredData?.totalVendors ?? 0;
 
-  useEffect(() => {
-    setPage(1);
-  }, [state.ComplianceList?.vendorFilters]);
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.ComplianceList?.vendorFilters]);
 
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log("setPage", page);
+    console.log("setPage", page);
   };
 
   const handleSizeChange = (sizeValue) => {

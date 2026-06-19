@@ -928,9 +928,9 @@ function Expenses() {
 
   const totalRecords = getData?.totalExpenses ?? 0;
 
-  useEffect(() => {
-    setPage(1);
-  }, [state.ComplianceList?.vendorFilters]);
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.ComplianceList?.vendorFilters]);
 
   const handlePageChange = (page) => {
     setPage(page);
