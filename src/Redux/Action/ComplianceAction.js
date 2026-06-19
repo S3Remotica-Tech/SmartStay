@@ -77,9 +77,19 @@ export async function complaintsViewUpdates(complaint) {
   );
 }
 
-export async function withoutCustomizationVendorList(vendor) {
-  return await AxiosConfigV2.get(`/v2/vendors/${vendor.hostelId}`);
+export async function vendorSettlementInitialize(vendor) {
+  return await AxiosConfigV2.get(`/v2/vendors/${vendor}`);
 }
+
+export async function getCommentVendor() {
+  return await AxiosConfigV2.get(``);
+}
+
+export async function addCommentVendor() {
+  return await AxiosConfigV2.put(``);
+}
+
+
 
 export async function VendorList(vendor) {
   const params = {};

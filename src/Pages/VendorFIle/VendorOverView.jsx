@@ -283,7 +283,7 @@ function VendorOverView({
 
           {activeTab === "expenses" && <VendorExpenseHistory />}
 
-          {activeTab === "comments" && <VendorComments />}
+          {activeTab === "comments" && <VendorComments  selectedVendorId={selectedVendorId}/>}
         </div>
       </div>
     </div>

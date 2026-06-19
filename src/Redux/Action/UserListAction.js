@@ -829,13 +829,13 @@ export async function tenantCustomizeData(customer) {
   );
 }
 
-
+// vendor wise all expense settlemnet
 
 export async function settlePayment(params) {
   const formData = new FormData();
 
   if (params.transactionImage) {
-    formData.append("transactionImage", params.profilePic);
+    formData.append("transactionImage", params.transactionImage);
   }
 
   if (params.payloads) {
@@ -846,16 +846,12 @@ export async function settlePayment(params) {
   }
 
   try {
-    const response = await AxiosConfigV2.put(
-      `/v2/expense/payment`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        timeout: 100000000,
+    const response = await AxiosConfigV2.put(`/v2/expense/payment`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
-    );
+      timeout: 100000000,
+    });
     return response;
   } catch (error) {
     console.error("Axios Error", error);
@@ -863,8 +859,35 @@ export async function settlePayment(params) {
   }
 }
 
+// particular expense settlement
 
+export async function settlePaymentExpense(params) {
+  const formData = new FormData();
 
+  if (params.transactionImage) {
+    formData.append("transactionImage", params.transactionImage);
+  }
+
+  if (params.payloads) {
+    const payloadBlob = new Blob([JSON.stringify(params.payloads)], {
+      type: "application/json",
+    });
+    formData.append("payloads", payloadBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.put(`/v2/expense/payment`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      timeout: 100000000,
+    });
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
 
 export function backtoCheckin() {
   new Promise((resolve) => {

@@ -19,7 +19,9 @@ import {
   particularVendorOverview,
   VendorOverViewExpenseList,
   VendorOverViewExpensePaymentList,
-  withoutCustomizationVendorList,
+  vendorSettlementInitialize,
+  getCommentVendor,
+  addCommentVendor,
 } from "../Action/ComplianceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -46,9 +48,9 @@ function* handleApiError(error) {
   }
 }
 
-function* handleWithoutCustomizationVendorList(action) {
+function* handleGetCommentVendor(action) {
   try {
-    const response = yield call(withoutCustomizationVendorList, action.payload);
+    const response = yield call(getCommentVendor, action.payload);
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
@@ -57,7 +59,53 @@ function* handleWithoutCustomizationVendorList(action) {
 
     if (response?.status === 200) {
       yield put({
-        type: "WITHOUT_CUSTOM_VENDOR_LIST_REDUCER",
+        type: "VENDOR_COMMENTS_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleAddCommentVendor(action) {
+  try {
+    const response = yield call(addCommentVendor, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "ADD_VENDOR_COMMENTS_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleVendorSettlementInitialize(action) {
+  try {
+    const response = yield call(vendorSettlementInitialize, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "VENDOR_SETTLE_INITIALIZE_REDUCER",
         payload: {
           response: response.data,
           statusCode: response?.status,
@@ -784,9 +832,11 @@ function* handleCompliantsUpdatesView(action) {
 }
 
 function* ComplianceSaga() {
+  yield takeEvery("ADD_VENDOR_COMMENTS_SAGA", handleAddCommentVendor);
+  yield takeEvery("VENDOR_COMMENTS_SAGA", handleGetCommentVendor);
   yield takeEvery(
-    "WITHOUT_CUSTOM_VENDOR_LIST_SAGA",
-    handleWithoutCustomizationVendorList,
+    "VENDOR_SETTLE_INITIALIZE_REDUCER",
+    handleVendorSettlementInitialize,
   );
 
   yield takeEvery(

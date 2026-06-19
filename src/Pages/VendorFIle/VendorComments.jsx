@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useRef, useEffect } from "react";
 import {
   MessageText,
   Send2,
@@ -8,14 +9,19 @@ import {
 } from "iconsax-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import { useDispatch, useSelector } from "react-redux";
 const quillStyle = {
   height: "50px",
   borderRadius: "22px",
   marginBottom: "42px",
 };
 
-function VendorComments() {
+function VendorComments({ selectedVendorId }) {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const [formLoading, setFormLoading] = useState(false);
+
   const [comment, setComment] = useState("");
 
   const [comments, setComments] = useState([
@@ -75,16 +81,35 @@ function VendorComments() {
   const handleAddComment = () => {
     if (!comment.trim()) return;
 
-    const newComment = {
-      id: Date.now(),
-      comment,
-      createdAt: new Date().toLocaleString("en-IN"),
-      createdBy: "Priya",
-    };
-
-    setComments((prev) => [newComment, ...prev]);
-    setComment("");
+    dispatch({
+      type: "ADD_VENDOR_COMMENTS_SAGA",
+      payload: { comments: comment },
+    });
+    setFormLoading(true);
   };
+
+  useEffect(() => {
+    if (selectedVendorId) {
+      dispatch({
+        type: "VENDOR_COMMENTS_SAGA",
+        payload: { vendorId: selectedVendorId },
+      });
+    }
+  }, [selectedVendorId]);
+
+  useEffect(() => {
+    if (state.ComplianceList?.addCommentsVendorstatusCode) {
+      setComment("");
+      setFormLoading(false);
+      dispatch({
+        type: "VENDOR_COMMENTS_SAGA",
+        payload: { vendorId: selectedVendorId },
+      });
+      dispatch({ type: "REMOVE_ADD_VENDOR_COMMENTS_REDUCER" });
+    }
+  }, [state.ComplianceList?.addCommentsVendorstatusCode]);
+
+  const vendorComments = state.ComplianceList?.getVendorCommentsList;
 
   return (
     <div className="px-4">
@@ -107,10 +132,22 @@ function VendorComments() {
         <div className="flex justify-end mt-3">
           <button
             onClick={handleAddComment}
-            className="flex items-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium"
+            disabled={formLoading}
+            className={`flex items-center justify-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium ${
+              formLoading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
-            <Send2 size={16} color="#fff" />
-            Add
+            {formLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Adding...
+              </div>
+            ) : (
+              <>
+                <Send2 size={16} color="#fff" />
+                Add
+              </>
+            )}
           </button>
         </div>
 

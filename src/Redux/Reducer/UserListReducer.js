@@ -177,7 +177,8 @@ export const initialState = {
   bedInitiaLizeError: "",
   searchTenant: [],
   statuscodeForSearchTenant: 0,
-settlementPaymentSuccessCode: 0,
+  settlementPaymentSuccessCode: 0,
+  ettlementExpensePaymentSuccessCode: 0,
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -423,8 +424,14 @@ const UserListReducer = (state = initialState, action) => {
     case "REMOVE_SETTLEMENT_PAYMENT_REDUCER":
       return { ...state, settlementPaymentSuccessCode: 0 };
 
+    case "EXPENSE_SETTLEMENT_PAYMENT_REDUCER":
+      return {
+        ...state,
+        settlementExpensePaymentSuccessCode: action.payload.statusCode,
+      };
+    case "REMOVE_EXPENSE_SETTLEMENT_PAYMENT_REDUCER":
+      return { ...state, settlementExpensePaymentSuccessCode: 0 };
 
-      
     case "ERROR_INITIALIZE_BED":
       return { ...state, bedInitiaLizeError: action.payload };
     case "REMOVE_ERROR_INITIALIZE_BED":
