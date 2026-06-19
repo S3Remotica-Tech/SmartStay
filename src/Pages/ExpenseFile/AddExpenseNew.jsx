@@ -313,6 +313,15 @@ function AddExpenseNew() {
   const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
+  const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
+
+  useEffect(() => {
+    const balance = Number(amount || 0) - Number(paidAmount || 0);
+    setBalanceAmount(balance);
+  }, [amount, paidAmount]);
+
+  const isAvailablePaid =
+    paymentStatus === "Fully Paid" || paymentStatus === "Partially Paid";
 
   // const vendorOptions =
   //   state.ComplianceList?.VendorList?.map((vendor) => ({
@@ -369,6 +378,10 @@ function AddExpenseNew() {
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
+  useEffect(() => {
+    console.log("paymentMethodError", paymentMethodError);
+  }, [paymentMethodError]);
+
   const handleFileChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const files = Array.from(e.target.files);
@@ -402,7 +415,7 @@ function AddExpenseNew() {
 
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
-  const isVendorWay = location.state?.isVendorWay;
+  // const isVendorWay = location.state?.isVendorWay;
 
   const [errors, setErrors] = useState({
     totalAmount: "",
@@ -465,9 +478,7 @@ function AddExpenseNew() {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (isBankingWayTrigger) {
       navigate(`/banking/new/${state.login.selectedHostel_Id}`);
-    }
- 
-    else {
+    } else {
       navigate(`/expense/${state.login.selectedHostel_Id}`);
     }
   };
@@ -553,8 +564,13 @@ function AddExpenseNew() {
   //   const discountAmount = (subTotal * Number(discount || 0)) / 100;
 
   const totalAmount = subTotal + taxAmount - discountAmount;
+  console.log("isAvailablePaid", isAvailablePaid);
+  console.log("paymentMethod?.value", paymentMethod?.value);
 
   const validate = () => {
+    setPaymentMethodError("");
+    setPaidAmountError("");
+
     let isValid = true;
 
     if (!expenseTitle.trim()) {
@@ -592,17 +608,17 @@ function AddExpenseNew() {
       isValid = false;
     }
 
-    if (!paidAmount.trim()) {
+    if (isAvailablePaid && !paidAmount) {
       setPaidAmountError("Please Enter  Paid amount");
       isValid = false;
     }
 
-    if (!balanceAmount.trim()) {
-      setBalanceAmountError("Please Enter Balance amount ");
-      isValid = false;
-    }
+    // if (!balanceAmount.trim()) {
+    //   setBalanceAmountError("Please Enter Balance amount ");
+    //   isValid = false;
+    // }
 
-    if (!paymentMethod) {
+    if (isAvailablePaid && !paymentMethod?.value) {
       setPaymentMethodError("Please Select Payment Method");
       isValid = false;
     }
@@ -664,7 +680,7 @@ function AddExpenseNew() {
     });
     const total = Number(amount || 0);
     const paid = Number(paidAmount || 0);
-    const balance = Number(balanceAmount || 0);
+    const balance = total - paid;
 
     const itemsTotal = expenseItems.reduce(
       (sum, item) => sum + Number(item.amount || 0),
@@ -687,19 +703,10 @@ function AddExpenseNew() {
       return;
     }
 
-    if (balance > total) {
+    if (balance < 0) {
       setErrors((prev) => ({
         ...prev,
-        balanceAmount: "Balance amount cannot exceed total amount.",
-      }));
-      return;
-    }
-
-    if (paid + balance !== total) {
-      setErrors((prev) => ({
-        ...prev,
-        paidAmount: "Amount doesn't match Total.",
-        balanceAmount: "Amount doesn't match Total.",
+        balanceAmount: "Balance amount cannot be negative.",
       }));
       return;
     }
@@ -1077,7 +1084,7 @@ function AddExpenseNew() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-4 ">
                 <div className="col-span-1 xl:col-span-8">
                   <label className="text-[13px] font-medium text-[#1A1C21]">
                     Payment Status{" "}
@@ -1085,30 +1092,27 @@ function AddExpenseNew() {
                   </label>
 
                   <div className="flex gap-6 mt-3">
-                    {[
-                      "Fully Paid",
-                      "Partially Paid",
-                      "Credit/Pending",
-                      "Overdue",
-                    ].map((item) => (
-                      <label
-                        key={item}
-                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
-                      >
-                        <input
-                          type="radio"
-                          name="paymentType"
-                          value={item}
-                          checked={paymentStatus === item}
-                          onChange={(e) => {
-                            setPaymentStatus(e.target.value);
-                            setPaymentStatusError("");
-                          }}
-                          className="accent-blue-600"
-                        />
-                        {item}
-                      </label>
-                    ))}
+                    {["Fully Paid", "Partially Paid", "Credit/Pending"].map(
+                      (item) => (
+                        <label
+                          key={item}
+                          className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                        >
+                          <input
+                            type="radio"
+                            name="paymentType"
+                            value={item}
+                            checked={paymentStatus === item}
+                            onChange={(e) => {
+                              setPaymentStatus(e.target.value);
+                              setPaymentStatusError("");
+                            }}
+                            className="accent-blue-600"
+                          />
+                          {item}
+                        </label>
+                      ),
+                    )}
                   </div>
 
                   {paymentStatusError && (
@@ -1116,107 +1120,120 @@ function AddExpenseNew() {
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-                <div className="col-span-1 xl:col-span-4">
-                  <div>
-                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                      Paid Amount (INR){" "}
-                      <span className="text-red-500 text-[20px]">*</span>
-                    </label>
+              {isAvailablePaid && (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                  <div className="col-span-1 xl:col-span-4">
+                    <div>
+                      <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                        Paid Amount (INR){" "}
+                        <span className="text-red-500 text-[20px]">*</span>
+                      </label>
 
-                    <input
-                      type="number"
-                      value={paidAmount}
-                      onChange={handlePaidAmountChange}
-                      placeholder="Enter Paid Amount"
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                        paidAmount ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                    />
-
-                    {paidAmountError && (
-                      <ErrorMessage message={paidAmountError} type="error" />
-                    )}
-
-                    {errors.paidAmount && (
-                      <ErrorMessage message={errors.paidAmount} type="error" />
-                    )}
-                  </div>
-                </div>
-                <div className="col-span-1 xl:col-span-4">
-                  <div>
-                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                      Balance Amount (Outstanding){" "}
-                      <span className="text-transparent select-none text-[20px]">
-                        *
-                      </span>
-                    </label>
-
-                    <input
-                      type="number"
-                      value={balanceAmount}
-                      onChange={handleBalanceAmountChange}
-                      placeholder="Enter Balance Amount"
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                        balanceAmount ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                    />
-
-                    {balanceAmountError && (
-                      <ErrorMessage message={balanceAmountError} type="error" />
-                    )}
-                    {errors.balanceAmount && (
-                      <ErrorMessage
-                        message={errors.balanceAmount}
-                        type="error"
+                      <input
+                        type="number"
+                        value={paidAmount}
+                        onChange={handlePaidAmountChange}
+                        placeholder="Enter Paid Amount"
+                        className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                          paidAmount ? "font-semibold" : "font-medium"
+                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                       />
-                    )}
+
+                      {paidAmountError && (
+                        <ErrorMessage message={paidAmountError} type="error" />
+                      )}
+
+                      {errors.paidAmount && (
+                        <ErrorMessage
+                          message={errors.paidAmount}
+                          type="error"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-span-1 xl:col-span-4">
+                    <div>
+                      <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                        Balance Amount (Outstanding){" "}
+                        <span className="text-transparent select-none text-[20px]">
+                          *
+                        </span>
+                      </label>
+
+                      <input
+                        disabled
+                        type="number"
+                        value={balanceAmount}
+                        readOnly
+                        // onChange={handleBalanceAmountChange}
+                        placeholder="Enter Balance Amount"
+                        className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                          balanceAmount ? "font-semibold" : "font-medium"
+                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
+                      />
+
+                      {/* {balanceAmountError && (
+                        <ErrorMessage
+                          message={balanceAmountError}
+                          type="error"
+                        />
+                      )}
+                      {errors.balanceAmount && (
+                        <ErrorMessage
+                          message={errors.balanceAmount}
+                          type="error"
+                        />
+                      )} */}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
-          <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8  ">
-                <label className="block mb-2 text-[13px] text-[#222222] font-medium">
-                  Payment Method
-                  <span className="text-red-500 ml-1">*</span>
-                </label>
+          <div className="">
+            {isAvailablePaid && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
+                  <div className="col-span-1 xl:col-span-8  ">
+                    <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                      Payment Method
+                      <span className="text-red-500 ml-1 text-[20px] ">*</span>
+                    </label>
 
-                <Select
-                  value={paymentMethod}
-                  onChange={(selected) => {
-                    setPaymentMethod(selected);
-                    setPaymentMethodError("");
-                  }}
-                  options={paymentOptions}
-                  placeholder="Select Payment Method"
-                  styles={CustomStyles}
-                />
+                    <Select
+                      value={paymentMethod}
+                      onChange={(selected) => {
+                        setPaymentMethod(selected);
+                        setPaymentMethodError("");
+                      }}
+                      options={paymentOptions}
+                      placeholder="Select Payment Method"
+                      styles={CustomStyles}
+                    />
 
-                {paymentMethodError && (
-                  <ErrorMessage message={paymentMethodError} type="error" />
-                )}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8 ">
-                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                  Transaction ID
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter Transaction ID"
-                  value={transactionId}
-                  onChange={handleTransactionIdChange}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    transactionId ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                />
-              </div>
-            </div>
-
+                    {paymentMethodError && (
+                      <ErrorMessage message={paymentMethodError} type="error" />
+                    )}
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                  <div className="col-span-1 xl:col-span-8 ">
+                    <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                      Transaction ID
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter Transaction ID"
+                      value={transactionId}
+                      onChange={handleTransactionIdChange}
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                        transactionId ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
               <div className="col-span-1 xl:col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">

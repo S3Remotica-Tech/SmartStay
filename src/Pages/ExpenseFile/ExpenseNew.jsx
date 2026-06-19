@@ -1019,7 +1019,7 @@ function Expenses() {
                   />
                 </div>
 
-                <div className="flex items-center gap-3">
+                {/* <div className="flex items-center gap-3">
                   <Select
                     isDisabled={canReadExpense}
                     options={monthOptions}
@@ -1030,7 +1030,7 @@ function Expenses() {
                     noOptionsMessage={() => "No options"}
                     styles={CustomStyles}
                   />
-                </div>
+                </div> */}
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}

@@ -20,12 +20,11 @@ import {
   Tooltip,
 } from "recharts";
 
-function VendorDetailsOverview({handleSelected}) {
+function VendorDetailsOverview({ handleSelected }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const VendorOverView = state.ComplianceList?.vendorOverview || {};
-
 
   const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
 
@@ -130,9 +129,9 @@ function VendorDetailsOverview({handleSelected}) {
     },
   ];
   return (
-    <div className="bg-white rounded-xl px-4 h-full">
+    <div className="bg-white rounded-xl px-4 h-full my-3">
       <div className="grid grid-cols-[300px_1fr] gap-4 h-full">
-        <div className="pr-1 overflow-y-auto show-scrolls h-[500px] mb-10 ">
+        <div className="pr-1 overflow-y-auto show-scrolls h-[500px] mb-[50px] ">
           <div
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setShowVendorInfo(!showVendorInfo)}
@@ -273,7 +272,7 @@ function VendorDetailsOverview({handleSelected}) {
                       onClick={() => {
                         setSelectedPeriod(period);
                         setShowPeriodDropdown(false);
-                        handleSelected(period)
+                        handleSelected(period);
                       }}
                       className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                         selectedPeriod.type === period.type
