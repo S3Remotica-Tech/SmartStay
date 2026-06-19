@@ -208,14 +208,10 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function SettlementPayment({ show, handleClose, isBanking }) {
+function ExpenseSettlement({ show, handleClose, isBanking }) {
   if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
-const VendorOverView = state.ComplianceList?.vendorOverview;
-
-
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
   const [paidDate, setPaidDate] = useState(null);
@@ -237,36 +233,6 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
 
-
-  
-
-  const [invoiceDetails, setInvoiceDetails] = useState([
-    {
-      id: 1,
-      type: "Table",
-      invoiceNo: "#RF-987",
-      amount: 5000,
-      invoiceDue: 2500,
-      amountToApply: "",
-    },
-    {
-      id: 1,
-      type: "chair",
-      invoiceNo: "#RF-987",
-      amount: 5000,
-      invoiceDue: 2000,
-      amountToApply: "",
-    },
-  ]);
-
-  const handleAmountApplyChange = (index, value) => {
-    const updatedList = [...invoiceDetails];
-
-    updatedList[index].amountToApply = value;
-
-    setInvoiceDetails(updatedList);
-  };
-
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -281,7 +247,9 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   //     label: vendor.fullName,
   //     vendor,
   //   })) || [];
-  const vendorOptions = [];
+   const vendorOptions =
+    [];
+
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -332,22 +300,22 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
     let isValid = true;
 
     if (!selectedVendor) {
-      setVendorError("Vendor is required");
+      setVendorError("Please Select Vendor");
       isValid = false;
     }
 
     if (!paidAmount) {
-      setPaidAmountError("Paid amount is required");
+      setPaidAmountError("Please Enter Paid amount");
       isValid = false;
     }
 
     if (!paidDate) {
-      setPaidDateError("Paid date is required");
+      setPaidDateError("Please Select Paid date");
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Payment method is required");
+      setPaymentMethodError("Please Select Payment method");
       isValid = false;
     }
 
@@ -388,14 +356,14 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy border border-gray-50"
+        className="fixed inset-y-2 right-2 w-[500px] bg-white rounded-lg shadow-md border border-gray-50 z-50 flex flex-col font-gilroy"
       >
         <div
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
           rounded-xl  bg-white px-4 py-3"
         >
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
-            {isBanking ? "Vendor Payment" : "Settle Payment"}
+            {isBanking ? "Vendor Payment" : "Expense Settle Payment"}
           </h1>
           <Add
             size={24}
@@ -404,7 +372,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
             className="cursor-pointer rotate-45"
           />
         </div>
-        <div className="flex-1 show-scrolls overflow-y-auto ">
+        <div className="flex-1 show-scrolls overflow-y-auto">
           <div className="grid grid-cols-1  mt-1 px-4 py-2">
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
@@ -412,11 +380,10 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               </label>
               <div className="relative">
                 <Select
-                  isDisabled
                   options={vendorOptions}
                   value={selectedVendor}
                   onChange={handleVendorChange}
-                  // options={vendorOptions}
+                  //   options={vendorOptions}
                   placeholder="Select Vendor"
                   className="text-sm"
                   styles={CustomStyles}
@@ -524,9 +491,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               />
 
               {paymentMethodError && (
-                <p className="mt-1 text-xs text-red-500">
-                  {paymentMethodError}
-                </p>
+                <ErrorMessage message={paymentMethodError} type="error" />
               )}
             </div>
 
@@ -684,71 +649,6 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               />
             </div>
 
-            <div className="mb-2">
-              <label className="text-[#222222] text-[16px] font-semibold mb-2">
-                Unpaid Expenses List
-              </label>
-              <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-[#F9FAFB] border-b border-[#E5E7EB] uppercase">
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
-                        Expense No
-                      </th>
-                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
-                        Ref No
-                      </th>
-                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
-                        AMOUNT
-                      </th>
-                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
-                        DUE
-                      </th>
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold  text-[#6B7280] whitespace-nowrap">
-                        AMOUNT TO APPLY
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {invoiceDetails.map((item, index) => (
-                      <tr key={item.id} className="border-b border-[#E5E7EB]">
-                        <td className="px-4 py-2.5 text-[11px]  font-medium text-[#222222]">
-                          {item.type}
-                        </td>
-
-                        <td className="px-4 py-2.5">
-                          <span className="text-[#1E45E1] text-[11px]  font-medium whitespace-nowrap">
-                            {item.invoiceNo}
-                          </span>
-                        </td>
-
-                        <td className="px-4 py-2.5 text-[11px]  text-[#6B7280] whitespace-nowrap">
-                          {item.amount}
-                        </td>
-
-                        <td className="px-4 py-2.5 text-[11px]  font-semibold text-[#222222] whitespace-nowrap">
-                          ₹ {item.invoiceDue}
-                        </td>
-
-                        <td className="px-4 py-2.5">
-                          <input
-                            type="number"
-                            value={item.amountToApply}
-                            onChange={(e) =>
-                              handleAmountApplyChange(index, e.target.value)
-                            }
-                            className="w-[140px] h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px]  font-medium focus:outline-none focus:border-[#1E45E1]"
-                            placeholder="₹ 0.00"
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
             <div className="rounded-xl bg-[#2633A0] p-4 text-white">
               <p className="text-xs font-medium opacity-70">SUMMARY</p>
               <p className="mt-1 text-2xl font-bold">₹ 2,000.00</p>
@@ -801,4 +701,4 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   );
 }
 
-export default SettlementPayment;
+export default ExpenseSettlement;

@@ -96,34 +96,27 @@ export async function draftTenantSearch(customerId) {
 //   );
 // }
 
-
 export async function SaveDraftTenant(tenant) {
-  return AxiosConfigV2.post(
-    `/v3/customers/saveDraft/${tenant.hostelId}`,
-    {
-      profilePic: "",
-      aadharPic: "",
-      panPic: "",
-      request: {
-        firstName: tenant.request.firstName,
-        lastName: tenant.request.lastName,
-        mobile: tenant.request.mobile,
-        emailId: tenant.request.emailId,
+  return AxiosConfigV2.post(`/v3/customers/saveDraft/${tenant.hostelId}`, {
+    profilePic: "",
+    aadharPic: "",
+    panPic: "",
+    request: {
+      firstName: tenant.request.firstName,
+      lastName: tenant.request.lastName,
+      mobile: tenant.request.mobile,
+      emailId: tenant.request.emailId,
 
-        idProof: {
-          type:
-            tenant.request.idProof?.type?.value ||
-            tenant.request.idProof?.type,
-          number: tenant.request.idProof?.number,
-        },
-
-        address: tenant.request.address,
+      idProof: {
+        type:
+          tenant.request.idProof?.type?.value || tenant.request.idProof?.type,
+        number: tenant.request.idProof?.number,
       },
-    }
-  );
+
+      address: tenant.request.address,
+    },
+  });
 }
-
-
 
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
@@ -308,7 +301,7 @@ export async function customerSaveInfo(params) {
     formData.append("profilePic", params.profilePic);
   }
 
-    if (params.aadharPic instanceof File) {
+  if (params.aadharPic instanceof File) {
     formData.append("aadharPic", params.aadharPic);
   }
 
@@ -836,6 +829,43 @@ export async function tenantCustomizeData(customer) {
   );
 }
 
+
+
+export async function settlePayment(params) {
+  const formData = new FormData();
+
+  if (params.transactionImage) {
+    formData.append("transactionImage", params.profilePic);
+  }
+
+  if (params.payloads) {
+    const payloadBlob = new Blob([JSON.stringify(params.payloads)], {
+      type: "application/json",
+    });
+    formData.append("payloads", payloadBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.put(
+      `/v2/expense/payment`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+      },
+    );
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+
+
+
+
 export function backtoCheckin() {
   new Promise((resolve) => {
     resolve({ status: 200 });
@@ -968,7 +998,6 @@ export async function getInitializeCheckout(hostel) {
 }
 
 export async function TenantUploadDocument(params) {
-  console.log("params", params);
   const formData = new FormData();
   if (params.files?.length) {
     params.files.forEach((item) => {

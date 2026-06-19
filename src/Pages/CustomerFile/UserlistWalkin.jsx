@@ -381,13 +381,28 @@ function UserlistWalkin() {
                             className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                           >
                             <td className="w-[230px] px-2 py-1">
-                              <span className="">{v.fullName}</span>
+                              <div className="relative group w-[200px]">
+                                <span className="block truncate">
+                                  {v.fullName}
+                                </span>
+
+                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-blue-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
+                                  {v.fullName}
+                                </div>
+                              </div>
                             </td>
 
                             <td className="w-[230px] px-2 py-1">
-                              {v.emailId || "N/A"}
-                            </td>
+                              <div className="relative group w-[200px]">
+                                <span className="block truncate">
+                                  {v.emailId || "N/A"}
+                                </span>
 
+                                <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-blue-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap shadow-lg">
+                                  {v.emailId || "N/A"}
+                                </div>
+                              </div>
+                            </td>
                             <td className="w-[230px] px-2 py-1">
                               {v && v.mobile}
                             </td>
@@ -407,18 +422,45 @@ function UserlistWalkin() {
                                   }`}
                                 />
 
-                                  {dotsButton === v.customerId && (
+                                {dotsButton === v.customerId && (
+                                  <div
+                                    ref={popupRef}
+                                    className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
+                                    style={{
+                                      top: popupPosition.top - 15,
+                                      left: popupPosition.left - 10,
+                                    }}
+                                  >
                                     <div
-                                      ref={popupRef}
-                                      className="fixed flex flex-col justify-center w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-md z-10"
-                                      style={{
-                                        top: popupPosition.top - 15,
-                                        left: popupPosition.left - 10,
-                                      }}
+                                      onClick={() =>
+                                        canWriteTenant && handleCheckIn(v)
+                                      }
+                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                                        canWriteTenant
+                                          ? "cursor-pointer hover:bg-blue-50"
+                                          : "cursor-not-allowed opacity-50"
+                                      }`}
                                     >
+                                      <img
+                                        src={addcircle}
+                                        alt="Assign Bed"
+                                        className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
+                                      />
+                                      <label
+                                        className={`text-sm font-medium ${
+                                          canWriteTenant
+                                            ? "text-gray-900 cursor-pointer"
+                                            : "text-gray-400 cursor-not-allowed"
+                                        }`}
+                                      >
+                                        Check-In
+                                      </label>
+                                    </div>
+
+                                    {isDev && (
                                       <div
                                         onClick={() =>
-                                          canWriteTenant && handleCheckIn(v)
+                                          canWriteTenant && handleCheckInNew(v)
                                         }
                                         className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
                                           canWriteTenant
@@ -438,38 +480,10 @@ function UserlistWalkin() {
                                               : "text-gray-400 cursor-not-allowed"
                                           }`}
                                         >
-                                          Check-In
+                                          Check-In New
                                         </label>
                                       </div>
-
-                                      {isDev && (
-                                        <div
-                                          onClick={() =>
-                                            canWriteTenant &&
-                                            handleCheckInNew(v)
-                                          }
-                                          className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
-                                            canWriteTenant
-                                              ? "cursor-pointer hover:bg-blue-50"
-                                              : "cursor-not-allowed opacity-50"
-                                          }`}
-                                        >
-                                          <img
-                                            src={addcircle}
-                                            alt="Assign Bed"
-                                            className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
-                                          />
-                                          <label
-                                            className={`text-sm font-medium ${
-                                              canWriteTenant
-                                                ? "text-gray-900 cursor-pointer"
-                                                : "text-gray-400 cursor-not-allowed"
-                                            }`}
-                                          >
-                                            Check-In New
-                                          </label>
-                                        </div>
-                                      )}
+                                    )}
 
                                     <div
                                       onClick={() =>

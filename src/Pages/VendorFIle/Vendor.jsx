@@ -23,6 +23,7 @@ import SmarstayLogo from "../../Assets/Images/get.png";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+
 function Vendor() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();

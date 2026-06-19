@@ -72,7 +72,18 @@ body {
   margin: 0;
   overflow: hidden;
 }
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
 
+.animate-spin-reverse {
+  animation: spin-reverse 1s linear infinite;
+}
 .ql-toolbar.ql-snow {
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important;

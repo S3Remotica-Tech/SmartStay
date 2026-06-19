@@ -256,12 +256,44 @@ function UserListRoomDetail(props) {
     isBillWay,
     isReceiptWay,
     isBookingWay,
+    isTenantWay,
+    isTenantOverview,
+    navigatePg,
+    navigateTenant,
   } = location.state || {};
+
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  // console.log("CustomerOverView?.isJoiningDateEditable",CustomerOverView?.isJoiningDateEditable)
+  const handleNavigateTenant = () => {
+    if (isPgWay || navigatePg) {
+      navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else if (isDashboardWay) {
+      navigate(`/dashboard/${state.login.selectedHostel_Id}`);
+    } else if (isBillWay) {
+      navigate(`/invoice/${state.login.selectedHostel_Id}`);
+    } else if (isReceiptWay) {
+      navigate(`/receipts/${state.login.selectedHostel_Id}`);
+    } else if (isBookingWay) {
+      navigate(`/booking/${state.login.selectedHostel_Id}`);
+    } else if (isTenantWay || navigateTenant) {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`);
+    }
+  };
+
+  const handleCheckoutGenrateNew = (item) => {
+    navigate(`/tenant/final-settlement/${item?.customerId}`, {
+      state: {
+        data: item,
+        isTenantOverview: true,
+        isPgWayTrigger: isPgWay,
+        isTenantWayTrigger: isTenantWay,
+      },
+    });
+  };
 
   useEffect(() => {
     if (isDashboardWay) {
@@ -857,14 +889,6 @@ function UserListRoomDetail(props) {
     setCustomerReAssign(true);
   };
 
-  const handleCheckoutGenrateNew = (item) => {
-    navigate(`/tenant/final-settlement/${item?.customerId}`, {
-      state: {
-        data: item,
-      },
-    });
-  };
-
   const handleBacktoCheckout = (item) => {
     setEditObj(item);
     setBacktoCheckInForm(true);
@@ -1339,6 +1363,15 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.editAdvanceStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList.statusCodeForReassinBed === 200) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+    }
+  }, [state.UsersList.statusCodeForReassinBed]);
 
   const handleSaveUserlist = () => {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
@@ -2328,22 +2361,6 @@ function UserListRoomDetail(props) {
 
   const handleClosePreview = () => {
     setShowPreview(false);
-  };
-
-  const handleNavigateTenant = () => {
-    if (isPgWay) {
-      navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
-    } else if (isDashboardWay) {
-      navigate(`/dashboard/${state.login.selectedHostel_Id}`);
-    } else if (isBillWay) {
-      navigate(`/invoice/${state.login.selectedHostel_Id}`);
-    } else if (isReceiptWay) {
-      navigate(`/receipts/${state.login.selectedHostel_Id}`);
-    } else if (isBookingWay) {
-      navigate(`/booking/${state.login.selectedHostel_Id}`);
-    } else {
-      navigate(`/tenant/${state.login.selectedHostel_Id}`);
-    }
   };
 
   const handleShowWalletHistory = () => {

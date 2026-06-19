@@ -5,8 +5,8 @@ import blueArrow from "../../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../../Assets/Images/New_images/arrow-leftblack.png";
 // import "../Settings/Settings.css";
 // import '../Settings/SettingAll.css';
-import { useSelector } from 'react-redux';
-import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
+import { useSelector } from "react-redux";
+import { ArrowRight2, ArrowLeft2 } from "iconsax-react";
 // import SettingsBills from "./SettingsBills";
 import { useNavigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -14,20 +14,16 @@ import PropTypes from "prop-types";
 function SettingAllPages({ isVisibleSidebar }) {
   const navigate = useNavigate();
 
-
-  const state = useSelector(state => state);
+  const state = useSelector((state) => state);
   // const [hostel_Id, setHostel_Id] = useState('')
   const [activePage, setActivePage] = useState("general");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
-
-
-
   // useEffect(() => {
   //   const path = location.pathname;
 
-  //   const lastSegment = path.split("/").pop(); 
+  //   const lastSegment = path.split("/").pop();
   // console.log("lastSegment",lastSegment)
   //   if (lastSegment) {
   //     setActivePage(
@@ -35,8 +31,6 @@ function SettingAllPages({ isVisibleSidebar }) {
   //     );
   //   }
   // }, [location.pathname]);
-
-
 
   useEffect(() => {
     const path = location.pathname;
@@ -58,16 +52,12 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   useEffect(() => {
     if (state.PgList?.isManageEnable) {
-      setActivePage('Manage PG');
-      navigate(`/settings/${'manage-pg'}`);
-
+      setActivePage("Manage PG");
+      navigate(`/settings/${"manage-pg"}`);
     }
-
   }, [state.PgList?.isManageEnable]);
 
-
   const handleTabClick = (itemName) => {
-
     setActivePage(itemName);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false);
@@ -93,7 +83,6 @@ function SettingAllPages({ isVisibleSidebar }) {
     }
   };
 
-
   useEffect(() => {
     if (isVisibleSidebar) {
       setIsSidebarOpen(false);
@@ -102,16 +91,10 @@ function SettingAllPages({ isVisibleSidebar }) {
       setIsSidebarOpen(true);
       setIsInvoiceAddMode(false);
     }
-
-  }, [isVisibleSidebar])
-
-
+  }, [isVisibleSidebar]);
 
   return (
     <>
-
-      
-
       <div className="px-1 py-1">
         <div className="relative flex gap-0 h-[calc(100vh-20px)]">
           <div className="block md:hidden p-2.5">
@@ -168,8 +151,10 @@ function SettingAllPages({ isVisibleSidebar }) {
                 ))}
               </div>
 
-              <div className="font-gilroy font-semibold mt-3 mb-2
-                text-[13px] md:text-[13px] lg:text-[15px] xl:text-[16px] 2xl:text-[17px]">
+              <div
+                className="font-gilroy font-semibold mt-3 mb-2
+                text-[13px] md:text-[13px] lg:text-[15px] xl:text-[16px] 2xl:text-[17px]"
+              >
                 PG Based Setting
               </div>
 
@@ -180,6 +165,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                   ["Notifications", "notifications", "SettingsNotifications"],
                   ["Bill Templates", "invoice", "Invoice"],
                   ["Expenses", "expenses"],
+                  ["Vendor", "vendor-category"],
                   ["Complaints", "complaints"],
                   ["Amenities", "amenities"],
                   ["Staff", "user", "User"],
@@ -227,8 +213,6 @@ function SettingAllPages({ isVisibleSidebar }) {
           </main>
         </div>
       </div>
-
-
     </>
   );
 }

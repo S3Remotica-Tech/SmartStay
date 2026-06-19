@@ -24,7 +24,7 @@ function CreateBill() {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  const { id, billData } = location.state || {};
+  const { id, billData, isDisabledOverview } = location.state || {};
 
   const [formLoading, setFormLoading] = useState(false);
 
@@ -813,7 +813,7 @@ function CreateBill() {
                 customerOptions.find((opt) => opt.value === customername) ||
                 null
               }
-              isDisabled={billData}
+              isDisabled={billData || isDisabledOverview}
               placeholder="Select Customer"
               classNamePrefix="custom"
               menuPlacement="auto"

@@ -23,6 +23,8 @@ import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DeleteExpense from "./DeleteExpense";
+import ApiPagination from "../../Components/ApiPagination";
+import { IoMdMenu } from "react-icons/io";
 import {
   CloseCircle,
   SearchNormal1,
@@ -31,6 +33,9 @@ import {
   Setting3,
   ArrowDown2,
   Chart21,
+  Edit,
+  Trash,
+  Document,
 } from "iconsax-react";
 import ExpenseOverview from "./ExpenseOverview";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -46,6 +51,7 @@ import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import SettlementPayment from "../VendorFIle/SettlementPayment";
+import ExpenseSettlement from "./ExpenseSettlement";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -136,27 +142,6 @@ const CustomStyles = {
   }),
 };
 
-const stats = [
-  {
-    label: "Total Expense Amount",
-    value: "0",
-    icon: true,
-    highlight: true,
-  },
-  {
-    label: "Paid",
-    value: "0",
-  },
-  {
-    label: "Unpaid(Credit)",
-    value: "0",
-  },
-  {
-    label: "Partially paid ",
-    value: "0",
-  },
-];
-
 function Expenses() {
   const location = useLocation();
   const state = useSelector((state) => state);
@@ -168,6 +153,8 @@ function Expenses() {
   const selectedPriceRange = "All";
   const [showModal, setShowModal] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
+  const [showTagAsset, setshowTagAsset] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [categoryValue, setCategoryValue] = useState("");
   const [assetValue, setAssetValue] = useState("");
   const [vendorValue, setVendorValue] = useState("");
@@ -181,14 +168,16 @@ function Expenses() {
   const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  const [dates, setDates] = useState([]);
+  // const [dates, setDates] = useState([]);
   const [pickerKey, setPickerKey] = useState(0);
   const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const tableContainerRef = useRef(null);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
@@ -208,13 +197,51 @@ function Expenses() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [statusfilter, setStatusFilter] = useState("ALL");
-
+  const popupRef = useRef(null);
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
+  const [selectedExpenseId, setSelectedExpenseId] = useState("");
   const [selectedMonth, setSelectedMonth] = useState();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
+  const [showDots, setShowDots] = useState(null);
+  const [showCategory, setShowCategory] = useState(false);
+  const [showPaymentMode, setShowPaymentMode] = useState(false);
+  const [showAmount, setShowAmount] = useState(false);
+  const [showFilterExpense, setShowFilterExpense] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [chips, setChips] = useState([]);
+  const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const stats = [
+    {
+      label: "Total Expense Amount",
+      value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
+      icon: true,
+      highlight: true,
+    },
+    {
+      label: "Paid",
+      value: getData?.expenseSummary?.totalPaidAmount ?? 0,
+    },
+    {
+      label: "Unpaid (Credit)",
+      value: getData?.expenseSummary?.totalUnPaidAmount ?? 0,
+    },
+    {
+      label: "Partially Paid",
+      value: getData?.expenseSummary?.totalPartialPaidAmount ?? 0,
+    },
+  ];
+
+  const categoryOptions =
+    getData?.filterOptions?.category?.map((item) => ({
+      value: item.type,
+      label: item.name,
+    })) || [];
+
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
   };
@@ -225,7 +252,7 @@ function Expenses() {
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
-    setShowOverview(false);
+    // setShowOverview(false);
   };
 
   const handleCloseSettlement = () => {
@@ -235,8 +262,8 @@ function Expenses() {
   const {
     canWriteModule: canWriteExpense,
     canReadModule: canReadExpense,
-    // canUpdateModule: canUpdateElectricity,
-    // canDeleteModule: canDeleteElectricity,
+    canUpdateModule: canUpdateExpense,
+    canDeleteModule: canDeleteExpense,
   } = useHasPermission("Expense");
 
   useEffect(() => {
@@ -247,11 +274,38 @@ function Expenses() {
 
   const isExpenseForm = location.state?.isExpenseForm || false;
 
-  const handleShowDots = (id, event) => {
-    setActiveRow((prev) => (prev === id ? null : id));
-    setSearch(false);
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      setPage(1);
+      setSearchQuery("");
+    }
+  }, [state.login.selectedHostel_Id]);
 
-    const rect = event.currentTarget.getBoundingClientRect();
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  const handleShowDots = (event, id) => {
+    setShowDots((prev) => (prev === id ? null : id));
+    // console.log(id);
+    const rect = event.currentTarget?.getBoundingClientRect();
 
     const popupHeight = 120;
     const spaceBelow = window.innerHeight - rect.bottom;
@@ -267,7 +321,7 @@ function Expenses() {
       left: rect.left,
     });
   };
-
+  // console.log(showDots, "showDots");
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
@@ -280,23 +334,42 @@ function Expenses() {
       setError("Please select at least one column");
       return;
     }
-    // const payload = customizeItems.map((item, index) => ({
-    //   fieldName: item.key,
-    //   isSelected: item.selected,
-    //   order: index + 1,
-    // }));
+    const payload = customizeItems.map((item, index) => ({
+      fieldName: item.key,
+      isSelected: item.selected,
+      order: index + 1,
+    }));
 
-    // if (payload) {
-    //   dispatch({
-    //     type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-    //     payload: {
-    //       hostelId: state.login.selectedHostel_Id,
-    //       customize: payload,
-    //     },
-    //   });
-    //   setCustomizeLoading(true);
-    // }
+    if (payload) {
+      dispatch({
+        type: "EXPENSE_CUSTOMIZE_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
+      setCustomizeLoading(true);
+    }
   };
+
+  useEffect(() => {
+    if (state.ExpenseList?.customizeExpenseSuccessCode === 200) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_EXPENSE_CUSTOMIZE_REDUCER" });
+      }, 100);
+    }
+  }, [state.ExpenseList?.customizeExpenseSuccessCode]);
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -342,21 +415,6 @@ function Expenses() {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
-  const handleClickOutside = (event) => {
-    if (filterRef.current && !filterRef.current.contains(event.target)) {
-      setShowFilter(false);
-    }
-  };
-
-  useEffect(() => {
-    if (showFilter) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showFilter]);
-
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
       setTimeout(() => {
@@ -364,6 +422,34 @@ function Expenses() {
       }, 200);
     }
   }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
+
+  const handleClickOutside = (event) => {
+    if (
+      showFilter &&
+      filterRef.current &&
+      !filterRef.current.contains(event.target)
+    ) {
+      setShowFilter(false);
+    }
+
+    if (
+      showDots &&
+      popupRef.current &&
+      !popupRef.current.contains(event.target) &&
+      !showTagAsset &&
+      !showDeletePopup
+    ) {
+      setShowDots(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showFilter, showDots, showTagAsset, showDeletePopup]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -382,6 +468,17 @@ function Expenses() {
     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
         currentItem: currentItem,
+      },
+    });
+  };
+
+  const handleCategoryFilter = (selected) => {
+    setCategoryFilter(selected?.value || "");
+
+    dispatch({
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
+        categoryName: selected.label,
       },
     });
   };
@@ -417,12 +514,85 @@ function Expenses() {
         type: "VENDORLIST",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
     }
   }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+          categoryId: categoryFilter,
+          name: debouncedSearch,
+        },
+      });
+      dispatch({
+        type: "SET_EXPENSE_FILTERS",
+        payload: {
+          search: searchQuery,
+          categoryId: categoryFilter,
+        },
+      });
+    }
+  }, [
+    state.login.selectedHostel_Id,
+    page,
+    size,
+    categoryFilter,
+    debouncedSearch,
+  ]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
+        search: "",
+        categoryName: "",
+        categoryId: "",
+      },
+    });
+    dispatch({
+      type: "EXPENSELIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+
+    setChips([]);
+    setSearchQuery("");
+    setCategoryFilter("");
+  };
+
+  useEffect(() => {
+    const expenseFilters = state.ExpenseList?.expenseFilters;
+
+    const filterData = [];
+
+    if (expenseFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Vendor",
+        type: "search",
+        value: expenseFilters.search,
+      });
+    }
+
+    if (expenseFilters?.categoryName) {
+      filterData.push({
+        key: "category",
+        label: "Category",
+        type: "category",
+        value: expenseFilters.categoryName,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.ExpenseList?.expenseFilters]);
 
   const { getExpenseStatusCode } = state.ExpenseList;
 
@@ -449,7 +619,11 @@ function Expenses() {
     ) {
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setShowModal(false);
       setShowExpenseDelete(false);
@@ -467,51 +641,11 @@ function Expenses() {
     state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
   ]);
 
-  const filterByPriceRange = (data) => {
-    switch (selectedPriceRange) {
-      case "0-100":
-        return data.filter((item) => item.price <= 100);
-      case "100-500":
-        return data.filter((item) => item.price > 100 && item.price <= 500);
-      case "500-1000":
-        return data.filter((item) => item.price > 500 && item.price <= 1000);
-      case "1000+":
-        return data.filter((item) => item.price > 1000);
-      case "All":
-        return data;
-      default:
-        return data;
-    }
-  };
-
-  const handleFilterByPrice = () => {
-    setShowFilter(!showFilter);
-  };
-
   useEffect(() => {
-    if (getData.length === 0) {
+    if (getData?.expenses?.length === 0) {
       setLoading(false);
     }
   }, [getData]);
-
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(10);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // const filteredData = React.useMemo(
-  //   () => filterByPriceRange(getData) || [],
-  //   [getData],
-  // );
-
-  // const sortedData = React.useMemo(() => {
-  //   return Array.isArray(filteredData) ? filteredData : [];
-  // }, [filteredData]);
-
-  const handleEditExpen = (item) => {
-    setShowModal(true);
-    setCurrentItem(item);
-  };
 
   const handleDeleteExpense = (id) => {
     if (!id) return;
@@ -536,10 +670,6 @@ function Expenses() {
     }
   };
 
-  const [showCategory, setShowCategory] = useState(false);
-  const [showPaymentMode, setShowPaymentMode] = useState(false);
-  const [showAmount, setShowAmount] = useState(false);
-
   const handleCatogoryChange = (e) => {
     setSelectedValue(null);
     setCategoryValue(e.target.getAttribute("value"));
@@ -561,8 +691,6 @@ function Expenses() {
     setShowFilter(false);
   };
 
-  const [showFilterExpense, setShowFilterExpense] = useState(false);
-
   const handleShowSearch = () => {
     setShowFilterExpense(!showFilterExpense);
   };
@@ -573,29 +701,26 @@ function Expenses() {
     setSearchQuery("");
   };
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [showDropDown, setShowDropDown] = useState(false);
-
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ExpenseList.expenseList &&
-        state.ExpenseList.expenseList.filter(
-          (user) =>
-            user.category_Name &&
-            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
-
-      setGetData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setGetData(state.ExpenseList.expenseList);
-    }
-    // setCurrentPage(1);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleDropDown = (value) => {
     const searchItem = value;
@@ -617,80 +742,6 @@ function Expenses() {
     // setCurrentPage(1);
     setShowDropDown(false);
   };
-
-  const handleDateChange = (selectedDates) => {
-    if (!selectedDates || selectedDates.length !== 2) {
-      setDates([]);
-      setExcelFilterDates([]);
-      setSelectedValue("All");
-      setCategoryValue("");
-      setModeValue("");
-      setAmountValue("");
-      // setMinAmount("");
-      // setMaxAmount("");
-      setAssetValue("");
-      setVendorValue("");
-      setPickerKey((prevKey) => prevKey + 1);
-      // setCurrentPage(1);
-
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      return;
-    }
-
-    const newStartDate = dayjs(selectedDates[0]).startOf("day");
-    const newEndDate = dayjs(selectedDates[1]).endOf("day");
-    setDates([newStartDate, newEndDate]);
-    setExcelFilterDates([newStartDate, newEndDate]);
-    // setCurrentPage(1);
-  };
-
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-
-    const payload = { hostelId: state.login.selectedHostel_Id };
-    if (dates.length === 2) {
-      payload.start_date = dates[0].format("YYYY-MM-DD");
-      payload.end_date = dates[1].format("YYYY-MM-DD");
-    }
-    dispatch({ type: "EXPENSELIST", payload });
-  }, [dates, state.login.selectedHostel_Id]);
-
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-
-    const payload = { hostelId: state.login.selectedHostel_Id };
-
-    if (selectedValue === "All") {
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (categoryValue) {
-      payload.category = categoryValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (modeValue) {
-      payload.payment_mode = modeValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (amountValue) {
-      const [minAmount, maxAmount] = amountValue.split("-").map(Number);
-      payload.min_amount = minAmount;
-      payload.max_amount = maxAmount;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (assetValue) {
-      payload.asset_id = assetValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (vendorValue) {
-      payload.vendor_id = vendorValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    }
-  }, [
-    selectedValue,
-    categoryValue,
-    modeValue,
-    amountValue,
-    assetValue,
-    vendorValue,
-  ]);
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -729,8 +780,6 @@ function Expenses() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = getData?.slice(startIndex, endIndex);
-
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
   };
@@ -739,7 +788,7 @@ function Expenses() {
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  //   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
@@ -762,79 +811,54 @@ function Expenses() {
     },
   };
 
-  const selectedColumns = [
-    { key: "expenseId", fieldName: "Expense No" },
-    { key: "title", fieldName: "TITLE" },
-    { key: "date", fieldName: "date & Time" },
-    { key: "category", fieldName: "Category" },
-    { key: "subcategory", fieldName: "SUB Category" },
-    { key: "vendor", fieldName: "Vendor" },
-    { key: "status", fieldName: "Status" },
-    { key: "paymentMode", fieldName: "Payment Mode" },
-    { key: "totalAmount", fieldName: "Total amount" },
-    { key: "paidAmount", fieldName: "Paid amount" },
-    { key: "balanceAmount", fieldName: "Balance amount" },
-  ];
-
   const headerKeyMap = {
-    "Expense No": "expenseId",
-    TITLE: "title",
-    "date & Time": "date",
-    Category: "category",
-    "SUB Category": "subcategory",
+    "Expense No": "referenceNumber",
+    Title: "title",
+    Date: "transactionDate",
+    Category: "categoryName",
+    "Sub Category": "subCategoryName",
     Vendor: "vendor",
-    Status: "status",
-    "Payment Mode": "paymentMode",
-    "Total amount": "totalAmount",
-    "Paid amount": "paidAmount",
-    "Balance amount": "balanceAmount",
+    Status: "paymentStatus",
+    "Payment Mode": "bankName",
+    "Total Amount": "totalAmount",
+    "Paid Amount": "paidAmount",
+    "Balance Amount": "balanceAmount",
   };
 
-  //   const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //     const obj = {};
+  const formattedData = (getData?.expenses || []).map((row) => {
+    const obj = {};
 
-  //     (userListDetail?.tableHeaders || []).forEach((header, index) => {
-  //       const key = headerKeyMap[header];
-  //       const value = row[index];
+    (getData?.tableHeaders || []).forEach((header, index) => {
+      const key = headerKeyMap[header];
+      const value = row[index];
 
-  //       if (key) {
-  //         obj[key] = value ?? "-";
-  //       }
-  //     });
-
-  //     const apiData = row[row.length - 1];
-
-  //     obj.apiCall = {
-  //       customerId: apiData?.customerId || null,
-  //       status: apiData?.status || null,
-  //     };
-
-  //     return obj;
-  //   });
-
-  //   useEffect(() => {
-  //     const cols = state?.UsersList?.Users?.columnList || [];
-
-  //     const formatted = cols.map((col) => ({
-  //       ...col,
-  //       key: col.fieldName,
-  //       selected: col.selected,
-  //     }));
-
-  //     setCustomizeItems(formatted);
-  //     setInitialCustomizeItems(formatted);
-  //   }, [state?.UsersList?.Users?.columnList]);
-
-  const formattedData = state?.ComplianceList?.VendorList?.map((item) => {
-    const row = {};
-
-    selectedColumns.forEach((column) => {
-      const key = headerKeyMap[column];
-      row[column] = item[key] ?? "-";
+      if (key) {
+        obj[key] = value ?? "-";
+      }
     });
 
-    return row;
+    const apiData = row[row.length - 1];
+
+    obj.apiCall = {
+      expenseId: apiData?.expenseId || null,
+      status: apiData?.status || null,
+    };
+
+    return obj;
   });
+
+  useEffect(() => {
+    const cols = getData?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected: col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
+  }, [getData?.columnList]);
 
   const columnStyles = {
     "Vendor ID": "px-4 whitespace-nowrap",
@@ -888,6 +912,35 @@ function Expenses() {
     );
   };
 
+  const handleEditExpense = (item) => {
+    if (item) {
+      navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+        state: {
+          currentItem: item,
+        },
+      });
+    }
+  };
+
+  const currentPage = getData?.currentPage ?? 1;
+
+  const totalPages = getData?.totalPages ?? 1;
+
+  const totalRecords = getData?.totalExpenses ?? 0;
+
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.ComplianceList?.vendorFilters]);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    // console.log("setPage", page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -911,9 +964,9 @@ function Expenses() {
                 type="text"
                 className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
                 placeholder="Search"
-                value={filterInput}
-                onChange={(e) => handlefilterInput(e)}
-                disabled={canReadExpense}
+                value={searchQuery}
+                onChange={handleInputChange}
+                disabled={!canReadExpense}
               />
 
               <SearchNormal1
@@ -951,15 +1004,16 @@ function Expenses() {
                   }`}
                 >
                   <Select
-                    options={selectOptions}
+                    options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadExpense}
                     menuPlacement="auto"
                     classNamePrefix="custom"
-                    onChange={(e) => handleStatusFilter(e)}
+                    onChange={handleCategoryFilter}
                     value={
-                      selectOptions.find((opt) => opt.value === statusfilter) ||
-                      null
+                      categoryOptions.find(
+                        (opt) => opt.value === categoryFilter,
+                      ) || null
                     }
                     id="statusselect"
                   />
@@ -967,7 +1021,7 @@ function Expenses() {
 
                 <div className="flex items-center gap-3">
                   <Select
-                    isDisabled={!canReadExpense}
+                    isDisabled={canReadExpense}
                     options={monthOptions}
                     value={selectedMonth}
                     onChange={handleMonthChange}
@@ -995,13 +1049,6 @@ function Expenses() {
                     }`}
                   />
                 </div>
-
-                <button
-                  onClick={() => setShowOverview(true)}
-                  className="cursor-pointer"
-                >
-                  <PiDotsThreeOutlineVerticalFill size={20} />
-                </button>
               </div>
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -1014,7 +1061,7 @@ function Expenses() {
                   />
                 </div>
 
-                {/* {filteredData?.length > 0 && (
+                {formattedData?.length > 0 && (
                   <ApiPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -1024,7 +1071,7 @@ function Expenses() {
                     isTenantPagination={true}
                     size={size}
                   />
-                )} */}
+                )}
               </div>
             </div>
 
@@ -1054,14 +1101,6 @@ function Expenses() {
                       {item.label}
 
                       <div className="relative group w-fit">
-                        {item.label !== "Notice Period" && (
-                          <Filter
-                            size="14"
-                            color="#9CA3AF"
-                            className="cursor-pointer"
-                          />
-                        )}
-
                         <div
                           className="absolute left-1/2 -translate-x-1/2 mt-2 
                           hidden group-hover:flex
@@ -1082,303 +1121,390 @@ function Expenses() {
               ))}
             </div>
 
-            {/* {getData?.length > 0 ? ( */}
-            <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-              <div
-                id="tableContainer"
-                ref={tableContainerRef}
-                className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-              >
-                <table className=" w-full font-gilroy ">
-                  <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                    <tr className="h-9">
-                      {selectedColumns?.map((col, index) => {
-                        let stickyClass = "";
+            {chips?.length > 0 && (
+              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip.key}
+                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                    >
+                      {chip.label} :
+                      <span className="text-gray-900">{chip.value}</span>
+                    </span>
+                  ))}
+                </div>
+                <span
+                  className="text-blue-600 text-sm font-medium cursor-pointer"
+                  onClick={handleReset}
+                >
+                  Reset
+                </span>
+              </div>
+            )}
 
-                        if (index === 0) {
-                          stickyClass =
-                            "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                        }
-                        //  else if (index === 1) {
-                        //   stickyClass =
-                        //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                        // }
+            {formattedData?.length > 0 ? (
+              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  ref={tableContainerRef}
+                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy ">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                      <tr className="h-9">
+                        {selectedColumns?.map((col, index) => {
+                          let stickyClass = "";
 
-                        return (
-                          <th
-                            key={col.key}
-                            className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                          >
-                            {col.fieldName}
-                          </th>
-                        );
-                      })}
+                          if (index === 0) {
+                            stickyClass =
+                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                          }
 
-                      <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.isArray(formattedData) &&
-                      formattedData?.length > 0 &&
-                      formattedData?.map((user, index) => {
-                        return (
-                          <tr
-                            onClick={() => handleRoomDetailsPage(user?.apiCall)}
-                            key={user?.apiCall?.customerId || index}
-                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                          return (
+                            <th
+                              key={col.key}
+                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                            >
+                              {col.fieldName}
+                            </th>
+                          );
+                        })}
+
+                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(formattedData) &&
+                        formattedData?.length > 0 &&
+                        formattedData?.map((user, index) => {
+                          return (
+                            <tr
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowOverview(true);
+                                setSelectedExpenseId(user.apiCall.expenseId);
+                              }}
+                              key={index}
+                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
-                          >
-                            {selectedColumns?.map((col, index) => {
-                              const baseClass = `
+                            >
+                              {selectedColumns?.map((col, index) => {
+                                const baseClass = `
   ${columnStyles[col.fieldName] || "px-4"}
   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
 `;
 
-                              let stickyClass = "";
+                                let stickyClass = "";
 
-                              if (index === 0) {
-                                stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                  isScrolling ? "!bg-white" : "!bg-white"
-                                }`;
-                              }
-                              // else if (index === 1) {
-                              //   stickyClass = `sticky left-[85px] z-30 ${
-                              //     isScrolling
-                              //       ? "!bg-white"
-                              //       : "!bg-transparent"
-                              //   }`;
-                              // }
+                                if (index === 0) {
+                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${
+                                    isScrolling ? "!bg-white" : "!bg-white"
+                                  }`;
+                                }
 
-                              const finalClass = `${baseClass} ${stickyClass}`;
+                                const finalClass = `${baseClass} ${stickyClass}`;
 
-                              switch (col.fieldName) {
-                                case "Profile Pic":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`px-4 ${finalClass}`}
-                                    >
-                                      {typeof user?.profilePic === "string" &&
-                                      user.profilePic.startsWith("http") ? (
-                                        <img
-                                          src={user.profilePic}
-                                          className="w-8 h-8 rounded-full"
-                                          alt="profile"
-                                        />
-                                      ) : (
-                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                          {typeof user?.profilePic === "string"
-                                            ? user.profilePic
-                                            : "NA"}
-                                        </div>
-                                      )}
-                                    </td>
-                                  );
+                                switch (col.fieldName) {
+                                  case "Expense No":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        <div className="relative group w-[100px] ">
+                                          <span className="block w-full truncate text-sm text-[#111928] ">
+                                            {user.referenceNumber}
+                                          </span>
 
-                                case "Full Name":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div className="relative group w-[100px] ">
-                                        <span className="block w-full truncate text-sm text-[#111928] ">
-                                          {user.fullName}
-                                        </span>
-
-                                        <div
-                                          className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                          <div
+                                            className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
-                                        >
-                                          {user?.fullName}
+                                          >
+                                            {user?.referenceNumber}
+                                          </div>
                                         </div>
-                                      </div>
-                                    </td>
-                                  );
+                                      </td>
+                                    );
 
-                                case "Status":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <span
-                                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                        style={{
-                                          backgroundColor:
-                                            statusStyles[user.status]?.bg ||
-                                            "#EEE",
-                                        }}
-                                      >
+                                  case "Status":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
                                         <span
-                                          className="h-2 w-2 rounded-full"
+                                          className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs"
                                           style={{
                                             backgroundColor:
-                                              statusStyles[user.status]?.text ||
-                                              "#333",
+                                              statusStyles[user.paymentStatus]
+                                                ?.bg || "#EEE",
                                           }}
-                                        ></span>
+                                        >
+                                          <span
+                                            className="h-2 w-2 rounded-full"
+                                            style={{
+                                              backgroundColor:
+                                                statusStyles[user.paymentStatus]
+                                                  ?.text || "#333",
+                                            }}
+                                          />
+                                          {user.paymentStatus}
+                                        </span>
+                                      </td>
+                                    );
 
-                                        {user.status}
-                                      </span>
-                                    </td>
-                                  );
+                                  case "Date":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                      >
+                                        {user.transactionDate}
+                                      </td>
+                                    );
 
-                                case "Joining Date":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} truncate text-[#6B7280] font-medium`}
-                                    >
-                                      {user.joiningDate}
-                                    </td>
-                                  );
+                                  case "Title":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.title}
+                                      </td>
+                                    );
 
-                                case "Mobile No":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {user.mobile}
-                                    </td>
-                                  );
+                                  case "Category":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.categoryName}
+                                      </td>
+                                    );
+                                  case "Sub Category'":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.subCategoryName}
+                                      </td>
+                                    );
 
-                                case "Floor":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {user.floorName}
-                                    </td>
-                                  );
+                                  case "Vendor":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.vendor}
+                                      </td>
+                                    );
 
-                                case "Room":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.roomName}
-                                    </td>
-                                  );
+                                  case "Payment Mode":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.bankName}
+                                      </td>
+                                    );
+                                  case "Total Amount":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.totalAmount}
+                                      </td>
+                                    );
+                                  case "Paid Amount":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.paidAmount}
+                                      </td>
+                                    );
+                                  case "Balance Amount":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.balanceAmount}
+                                      </td>
+                                    );
 
-                                case "Bed":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bedName}
-                                    </td>
-                                  );
-                                case "Email ID":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.emailId}
-                                    </td>
-                                  );
-                                case "Booking Date":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bookingDate}
-                                    </td>
-                                  );
-                                case "Monthly Rent":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.monthlyRent}
-                                    </td>
-                                  );
-                                case "Advance":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.advanceAmount}
-                                    </td>
-                                  );
-                                case "Booking Amount":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bookingAmount}
-                                    </td>
-                                  );
-                                default:
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {typeof user[
-                                        headerKeyMap[col.fieldName]
-                                      ] === "object"
-                                        ? "-"
-                                        : (user[headerKeyMap[col.fieldName]] ??
-                                          "-")}
-                                    </td>
-                                  );
-                              }
-                            })}
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.bookingAmount}
+                                      </td>
+                                    );
+                                  default:
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {typeof user[
+                                          headerKeyMap[col.fieldName]
+                                        ] === "object"
+                                          ? "-"
+                                          : (user[
+                                              headerKeyMap[col.fieldName]
+                                            ] ?? "-")}
+                                      </td>
+                                    );
+                                }
+                              })}
 
-                            <td
-                              className={`${
-                                isScrolling ? "!bg-white" : "bg-white"
-                              } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                            >
-                              {" "}
-                              <div
-                                className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleShowDots(user.apiCall.customerId, e);
-                                }}
+                              <td
+                                className={`${
+                                  isScrolling ? "!bg-white" : "bg-white"
+                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
-                                <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${
-                                    activeRow === user?.apiCall?.customerId
-                                      ? "text-[#1E45E1]"
-                                      : "text-gray-500"
-                                  }`}
-                                />
-                                {/* 
-                                  {activeRow === user?.apiCall?.customerId && (
-                                    <div
-                                      ref={popupRef}
-                                      className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                      style={{
-                                        top: showAbove
-                                          ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight ||
-                                              120) -
-                                            10
-                                          : popupPosition.top + 5,
-                                        left: popupPosition.left - 250,
-                                        position: "fixed",
-                                        zIndex: 1000,
-                                      }}
-                                    ></div>
-                                  )} */}
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                                {" "}
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleShowDots(e, user.apiCall?.expenseId);
+                                  }}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    className={`h-5 w-5 rotate-90
+                                         ${String(showDots) === String(user.apiCall?.expenseId) ? "text-blue-600" : "text-gray-500"}`}
+                                  />
 
-                {open && (
-                  <>
-                    <div
-                      className="fixed inset-0 bg-black/20 z-50 "
-                      onClick={() => setOpen(false)}
-                    />
+                                  {String(showDots) ===
+                                    String(user.apiCall?.expenseId) && (
+                                    <>
+                                      <div
+                                        ref={popupRef}
+                                        className={`fixed flex flex-col items-start cursor-pointer
+                                   bg-gray-50 w-40 border border-gray-200 rounded-lg translate-x-10
+                                   
+                                 `}
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                100) -
+                                              5
+                                            : popupPosition.top - 9,
+                                          left: popupPosition.left - 250,
+                                        }}
+                                      >
+                                        <div
+                                          onClick={() => {
+                                            if (canWriteExpense) {
+                                              // handleShowTagAsset();
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#EDF2FF";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9";
+                                          }}
+                                          className={`flex justify-start items-center gap-2 w-full py-2 px-2 rounded-t-lg
+                                 ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
+                               `}
+                                        >
+                                          <Document
+                                            size="16"
+                                            color={"#1E45E1"}
+                                          />
+                                          <label
+                                            className={`text-sm font-semibold font-gilroy text-gray-800
+                                 ${!canWriteExpense ? "cursor-not-allowed" : "cursor-pointer"}
+                               `}
+                                          >
+                                            Tag Asset
+                                          </label>
+                                        </div>
 
-                    <div
-                      className={`
+                                        <div className="h-px bg-gray-100 m-0" />
+                                        <div
+                                          className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${
+                                            !canUpdateExpense
+                                              ? "cursor-not-allowed opacity-50"
+                                              : "cursor-pointer opacity-100"
+                                          }`}
+                                          onClick={() => {
+                                            if (canUpdateExpense) {
+                                              handleEditExpense(user);
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#EDF2FF";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9";
+                                          }}
+                                        >
+                                          <Edit size="16" color={"#1E45E1"} />
+                                          <label
+                                            className={`text-sm font-semibold font-gilroy text-gray-800 ${
+                                              !canUpdateExpense
+                                                ? "cursor-not-allowed"
+                                                : "cursor-pointer"
+                                            }`}
+                                          >
+                                            Edit
+                                          </label>
+                                        </div>
+
+                                        <div className="h-px bg-gray-100 m-0" />
+
+                                        <div
+                                          className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
+                                 ${!canDeleteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
+                               `}
+                                          onClick={() => {
+                                            if (canDeleteExpense) {
+                                              handleDeleteExpense(
+                                                user.expenseId,
+                                              );
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#FFF0F0";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9";
+                                          }}
+                                        >
+                                          <Trash size="16" color={"red"} />
+                                          <label
+                                            className={`text-sm font-semibold font-gilroy  ${
+                                              !canUpdateExpense
+                                                ? "cursor-not-allowed text-gray-800"
+                                                : "cursor-pointer text-red-600"
+                                            }`}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+
+                  {open && (
+                    <>
+                      <div
+                        className="fixed inset-0 bg-black/20 z-50 "
+                        onClick={() => setOpen(false)}
+                      />
+
+                      <div
+                        className={`
         fixed top-[180px] right-10 h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -1386,120 +1512,129 @@ function Expenses() {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-                    >
-                      <div className="relative font-gilroy">
-                        <div className="p-3 border-b ">
-                          <div className="flex items-center gap-2 justify-between mb-2">
-                            <div className="text-[16px] text-[#333333] font-semibold ">
-                              Customize Tabs{" "}
+                      >
+                        <div className="relative font-gilroy">
+                          <div className="p-3 border-b ">
+                            <div className="flex items-center gap-2 justify-between mb-2">
+                              <div className="text-[16px] text-[#333333] font-semibold ">
+                                Customize Tabs{" "}
+                              </div>
+                              <div
+                                onClick={() => {
+                                  setCustomizeItems((prev) =>
+                                    prev.map((i) => ({
+                                      ...i,
+                                      selected: !allSelected,
+                                    })),
+                                  );
+
+                                  setError("");
+                                }}
+                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                {" "}
+                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                <span>
+                                  {allSelected ? "Unselect all" : "Select all"}
+                                </span>
+                              </div>
                             </div>
-                            <div
-                              onClick={() => {
-                                setCustomizeItems((prev) =>
-                                  prev.map((i) => ({
-                                    ...i,
-                                    selected: !allSelected,
-                                  })),
+
+                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                              <SearchNormal1 size={16} color="#98A2B3" />
+                              <input
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                placeholder="Search"
+                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                              />
+                            </div>
+                          </div>
+
+                          <DndContext
+                            collisionDetection={closestCenter}
+                            onDragEnd={(event) => {
+                              const { active, over } = event;
+                              if (!over) return;
+                              if (active.id !== over?.id) {
+                                const oldIndex = customizeItems.findIndex(
+                                  (i) => i.key === active.id,
+                                );
+                                const newIndex = customizeItems.findIndex(
+                                  (i) => i.key === over.id,
                                 );
 
-                                setError("");
-                              }}
-                              className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                            >
-                              {" "}
-                              <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                              <span>
-                                {allSelected ? "Unselect all" : "Select all"}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                            <SearchNormal1 size={16} color="#98A2B3" />
-                            <input
-                              value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
-                              placeholder="Search"
-                              className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                            />
-                          </div>
-                        </div>
-
-                        <DndContext
-                          collisionDetection={closestCenter}
-                          onDragEnd={(event) => {
-                            const { active, over } = event;
-                            if (!over) return;
-                            if (active.id !== over?.id) {
-                              const oldIndex = customizeItems.findIndex(
-                                (i) => i.key === active.id,
-                              );
-                              const newIndex = customizeItems.findIndex(
-                                (i) => i.key === over.id,
-                              );
-
-                              setCustomizeItems(
-                                arrayMove(customizeItems, oldIndex, newIndex),
-                              );
-                            }
-                          }}
-                        >
-                          <SortableContext
-                            items={customizeItems.map((i) => i.key)}
-                            strategy={verticalListSortingStrategy}
+                                setCustomizeItems(
+                                  arrayMove(customizeItems, oldIndex, newIndex),
+                                );
+                              }
+                            }}
                           >
-                            <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                              {filteredCustomizeItems.length === 0 ? (
-                                <div className="text-sm text-gray-400 text-center py-3">
-                                  No results found
-                                </div>
-                              ) : (
-                                filteredCustomizeItems.map((item) => (
-                                  <SortableItem key={item.key} item={item} />
-                                ))
-                              )}
-                            </div>
-                          </SortableContext>
-                        </DndContext>
-                      </div>
-                      {error && (
-                        <div className="flex justify-center my-2">
-                          <ErrorMessage message={error} type="warning" />
+                            <SortableContext
+                              items={customizeItems.map((i) => i.key)}
+                              strategy={verticalListSortingStrategy}
+                            >
+                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                {filteredCustomizeItems.length === 0 ? (
+                                  <div className="text-sm text-gray-400 text-center py-3">
+                                    No results found
+                                  </div>
+                                ) : (
+                                  filteredCustomizeItems.map((item) => (
+                                    <SortableItem key={item.key} item={item} />
+                                  ))
+                                )}
+                              </div>
+                            </SortableContext>
+                          </DndContext>
                         </div>
-                      )}
+                        {error && (
+                          <div className="flex justify-center my-2">
+                            <ErrorMessage message={error} type="warning" />
+                          </div>
+                        )}
 
-                      <div className="p-3 border-t flex gap-2">
-                        <button
-                          onClick={handleResetCustomize}
-                          className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          onClick={handleSave}
-                          disabled={customizeLoading}
-                          className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
-                        >
-                          {customizeLoading ? (
-                            <div className="flex items-center justify-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              Saving...
-                            </div>
-                          ) : (
-                            "Save"
-                          )}
-                        </button>
+                        <div className="p-3 border-t flex gap-2">
+                          <button
+                            onClick={handleResetCustomize}
+                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
+                          >
+                            Reset
+                          </button>
+                          <button
+                            onClick={handleSave}
+                            disabled={customizeLoading}
+                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
+                          >
+                            {customizeLoading ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Saving...
+                              </div>
+                            ) : (
+                              "Save"
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            {/* ) : (
+            ) : (
               <div className="my-2">
-                <NoDataMessage label="Expense" />
+                <NoDataMessage
+                  label="Expense"
+                  isSearching={isSearching}
+                  isClearSearch={true}
+                  handleClear={() => {
+                    setSearchQuery("");
+                    setCategoryFilter("");
+                    handleReset();
+                  }}
+                />
               </div>
-            )} */}
+            )}
           </div>
         )}
       </div>
@@ -1535,7 +1670,7 @@ function Expenses() {
         />
       )}
       {showSettlementForm && (
-        <SettlementPayment
+        <ExpenseSettlement
           show={showSettlementForm}
           handleClose={handleCloseSettlement}
         />

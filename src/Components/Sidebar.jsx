@@ -114,6 +114,7 @@ import VendorOverView from "../Pages/VendorFIle/VendorOverView";
 import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
 import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
 import BankingNew from "../Pages/Banking/BankingNew";
+import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -156,13 +157,13 @@ function Sidebar() {
     "/receipts/:hostelId": "receipts",
 
     "/vendor/:hostelId": "vendor",
-    "/vendor/new/:hostelId": "vendor-new",
+    // "/vendor/new/:hostelId": "vendor-new",
     "/compliance/:hostelId": "compliance",
     "/asset/:hostelId": "asset",
     "/reports/:hostelId": "reports",
     "/electricity/:hostelId": "eb",
     "/expense/:hostelId": "expenses",
-    "/expense/new/:hostelId": "expenses-new",
+    // "/expense/new/:hostelId": "expenses-new",
     "/banking/:hostelId": "banking",
     "/banking/new/:hostelId": "banking-new",
     "/settings/:hostelId": "settingNewDesign",
@@ -1046,27 +1047,27 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
-                        {isDevelopment && (
-                          <li className="list-none">
-                            <NavLink
-                              to={withHostel("/vendor/new")}
-                              className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${
-                                  isActive || currentPage === "vendor-new"
-                                    ? "active"
-                                    : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("vendor-new")}
-                            >
-                              <Shop size="20" variant="Bold" />
+                        {/* {isDevelopment && (
+                          // <li className="list-none">
+                          //   <NavLink
+                          //     to={withHostel("/vendor/new")}
+                          //     className={({ isActive }) =>
+                          //       `align-items-center list-sub-Item no-underline d-flex ${
+                          //         isActive || currentPage === "vendor-new"
+                          //           ? "active"
+                          //           : ""
+                          //       }`
+                          //     }
+                          //     onClick={() => handlePageClick("vendor-new")}
+                          //   >
+                          //     <Shop size="20" variant="Bold" />
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Vendor New
-                              </span>
-                            </NavLink>
-                          </li>
-                        )}
+                          //     <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          //       Vendor New
+                          //     </span>
+                          //   </NavLink>
+                          // </li>
+                        )} */}
                       </ul>
                     </div>
                   )}
@@ -1422,7 +1423,7 @@ function Sidebar() {
                     </OverlayTrigger>
                   </li>
 
-                  {isDevelopment && (
+                  {/* {isDevelopment && (
                     <li
                       className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
@@ -1454,7 +1455,7 @@ function Sidebar() {
                         </NavLink>
                       </OverlayTrigger>
                     </li>
-                  )}
+                  )} */}
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <OverlayTrigger
                       trigger={tooltipTrigger}
@@ -1601,7 +1602,7 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
+              {/* <Route
                 path="/vendor/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
@@ -1611,43 +1612,53 @@ function Sidebar() {
                     />
                   </div>
                 }
+              /> */}
+
+              <Route
+                path="/vendor/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <VendorNew />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/add-expense/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <AddExpenseNew />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/add-vendor/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <AddVendorNew />
+                  </div>
+                }
               />
               {isDevelopment && (
                 <>
-                  <Route
+                  {/* <Route
                     path="/vendor/new/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <VendorNew />
                       </div>
                     }
-                  />
+                  /> */}
 
-                  <Route
-                    path="/add-vendor/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <AddVendorNew />
-                      </div>
-                    }
-                  />
-                  <Route
+                  {/* <Route
                     path="/expense/new/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <ExpenseNew />
                       </div>
                     }
-                  />
-
-                  <Route
-                    path="/add-expense/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <AddExpenseNew />
-                      </div>
-                    }
-                  />
+                  /> */}
 
                   <Route
                     path="/banking/new/:hostelId?"
@@ -1705,10 +1716,7 @@ function Sidebar() {
                 path="/expense/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
-                    <Expenses
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
+                    <ExpenseNew />
                   </div>
                 }
               />
@@ -1945,6 +1953,7 @@ function Sidebar() {
                   element={<SettingInvoice handleFormPage={handleFormPage} />}
                 />
                 <Route path="expenses" element={<SettingExpenses />} />
+                <Route path="vendor-category" element={<VendorCategory />} />
                 <Route path="complaints" element={<SettingCompliance />} />
                 <Route path="amenities" element={<SettingAmenities />} />
                 <Route path="user" element={<SettingNewUser />} />

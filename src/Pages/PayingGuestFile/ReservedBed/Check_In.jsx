@@ -56,6 +56,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   }, [state.UsersList?.bookedDetails]);
 
   const handleRoomRent = (e) => {
+     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
       return;
@@ -65,6 +66,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   };
 
   const handleAdvanceAmount = (e) => {
+     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const advanceAmount = e.target.value;
     if (!/^\d*$/.test(advanceAmount)) {
       return;
@@ -84,6 +86,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
 
   const handleStayTypeChange = (selectedOption) => {
+     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     setStayTypeName(selectedOption?.value || "");
     if (!selectedOption) {
       setStayTypeNameErrMsg("Please Select Staytype");
@@ -111,12 +114,14 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   ];
 
   const handleAddField = () => {
+     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
 
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
   const handleInputChange = (index, field, value) => {
+     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const updatedFields = [...fields];
     const updatedErrors = [...errors];
 
@@ -160,6 +165,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   };
 
   const handleRemoveField = (index) => {
+    
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
     setFields(updatedFields);
@@ -170,7 +176,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   };
 
   const handleCheckin = async () => {
-     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
     let hasReasonAmountError = false;
     let newErrors = [];
@@ -562,6 +568,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                     onChange={(date) => {
                       setJoiningDate(date);
                       setJoingDateErrmsg("");
+                       dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
                     }}
                     getPopupContainer={() => document.body}
                     disabledDate={(current) => {

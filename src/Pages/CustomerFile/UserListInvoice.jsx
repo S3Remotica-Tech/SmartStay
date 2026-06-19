@@ -85,7 +85,9 @@ function UserListInvoice(props) {
   }, []);
 
   const handleAddBill = () => {
-    navigate("/create-bill", { state: { id: CustomerOverView?.customerId } });
+    navigate("/create-bill", {
+      state: { id: CustomerOverView?.customerId, isDisabledOverview: true },
+    });
     dispatch({ type: "USERROOMAVAILABLETRUE" });
   };
 

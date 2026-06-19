@@ -525,7 +525,7 @@ function CustomerReAssign(props) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_REASSIGN_BED" });
-      }, 200);
+      }, 500);
     }
   }, [state.UsersList.statusCodeForReassinBed]);
 

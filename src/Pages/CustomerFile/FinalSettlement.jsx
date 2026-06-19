@@ -167,7 +167,15 @@ function FinalSettlement() {
   const [isEditingDate, setIsEditingDate] = useState(false);
   const [checkoutDate, setCheckoutDate] = useState(dayjs());
   const [selectedRowDetails, setSelectedRowDetails] = useState("");
-  const { data, pgDetails, isPGWay, customer } = location.state || {};
+  const {
+    data,
+    pgDetails,
+    isPGWay,
+    customer,
+    isTenantOverview,
+    isPgWayTrigger,
+    isTenantWayTrigger,
+  } = location.state || {};
 
   const [isEditing, setIsEditing] = useState(false);
   const [finalAmountSetClicked, setFinalAmountSetClicked] = useState(false);
@@ -214,7 +222,7 @@ function FinalSettlement() {
 
     dispatch({ type: "GETFINALSETTLEMENT", payload });
     setFormLoading(true);
-  }, [data, checkoutDate]);
+  }, [customerId, checkoutDate]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -350,7 +358,7 @@ function FinalSettlement() {
     setCollectFullRent(checked);
     setIsEditingRent(checked);
     if (!checked) {
-      setCustomRent(finalSettlementList?.customerInfo?.rentAmount || 0);
+      setCustomRent(finalSettlementList?.currentMonthRentInfo?.fullRent || 0);
       setFinalAmountSetClicked(false);
     }
   };
@@ -361,6 +369,7 @@ function FinalSettlement() {
       setFormLoading(false);
     }
   }, [state.UsersList.conformChekoutError]);
+
   const quillRef = useRef(null);
 
   useEffect(() => {
@@ -378,6 +387,14 @@ function FinalSettlement() {
   const handleClose = () => {
     if (pgDetails || isPGWay) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else if (isTenantOverview) {
+      navigate(`/tenant/details/${state.login.selectedHostel_Id}`, {
+        state: {
+          isTenantOverview: true,
+          navigatePg: isPgWayTrigger,
+          navigateTenant: isTenantWayTrigger,
+        },
+      });
     } else {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     }
@@ -482,7 +499,7 @@ function FinalSettlement() {
 
       const currentMonthOtherItems =
         finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems;
-      const totalOtherItemsAmount = currentMonthOtherItems.reduce(
+      const totalOtherItemsAmount = currentMonthOtherItems?.reduce(
         (sum, item) => sum + Number(item.amount || 0),
         0,
       );
@@ -494,7 +511,7 @@ function FinalSettlement() {
             finalSettlementList?.currentMonthRentInfo?.rentDifference;
         } else {
           const customRentDiff =
-            customRent - finalSettlementList?.customerInfo?.rentAmount;
+            customRent - finalSettlementList?.currentMonthRentInfo?.fullRent;
 
           updatedAmountToBePaid =
             amountTobePaid +
@@ -567,9 +584,12 @@ function FinalSettlement() {
 
   useEffect(() => {
     if (!finalAmountSetClicked) {
-      setAmount(finalSettlementList?.customerInfo?.rentAmount || 0);
+      setAmount(finalSettlementList?.currentMonthRentInfo?.fullRent || 0);
     }
-  }, [finalAmountSetClicked, finalSettlementList?.customerInfo?.rentAmount]);
+  }, [
+    finalAmountSetClicked,
+    finalSettlementList?.currentMonthRentInfo?.fullRent,
+  ]);
 
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];
@@ -727,6 +747,10 @@ function FinalSettlement() {
     if (state.InvoiceList.finalSettlementError) {
       setFormLoading(false);
       setGenerateLoading(false);
+      const date = finalSettlementList?.stayInfo?.actualCheckoutDate;
+      if (date) {
+        setCheckoutDate(dayjs(date, "DD/MM/YYYY"));
+      }
       setTimeout(() => {
         dispatch({ type: "REMOVE_FINAL_SETTLMENT_ERROR" });
       }, 100);

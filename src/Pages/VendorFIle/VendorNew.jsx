@@ -20,6 +20,8 @@ import {
   Setting3,
   ArrowDown2,
   Chart21,
+  Edit2,
+  Trash,
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -42,6 +44,7 @@ import { CSS } from "@dnd-kit/utilities";
 import AddVendorNew from "./AddVendorNew";
 import { useNavigate } from "react-router-dom";
 import VendorOverView from "./VendorOverView";
+import ApiPagination from "../../Components/ApiPagination";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -132,33 +135,13 @@ const CustomStyles = {
   }),
 };
 
-const stats = [
-  {
-    label: "Total Vendors",
-    value: "0",
-    icon: true,
-    highlight: true,
-  },
-  {
-    label: "Total Purchase",
-    value: "0",
-  },
-  {
-    label: "Total Paid",
-    value: "0",
-  },
-  {
-    label: "Outstanding (Payable) ",
-    value: "0",
-  },
-];
-
 function Vendor() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([]);
   const [show, setShow] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [chips, setChips] = useState([]);
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
@@ -178,6 +161,7 @@ function Vendor() {
   const listRef = useRef(null);
   const tableRef = useRef(null);
   const [showOverview, setShowOverview] = useState(false);
+  const [selectedVendorId, setSelectedVendorId] = useState("");
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
   const [error, setError] = useState("");
@@ -185,11 +169,54 @@ function Vendor() {
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  // const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
-  const { canWriteModule: canWriteVendor, canReadModule: canReadVendor } =
-    useHasPermission("Vendor");
+  const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
+  const popupRef = useRef(null);
+  const {
+    canWriteModule: canWriteVendor,
+    canReadModule: canReadVendor,
+    canDeleteModule: canDeleteVendor,
+    canUpdateModule: canUpdateVendor,
+  } = useHasPermission("Vendor");
+
+  const isVendorForm = location.state?.isVendorForm || false;
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const monthOptions = [];
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const [paymentStatus, setPaymentStatus] = useState("");
+
+  const handlePaymentStatusFilter = (selected) => {
+    setPaymentStatus(selected?.value || "");
+
+    dispatch({
+      type: "SET_VENDOR_FILTERS",
+      payload: {
+        paymentStatusLabel: selected.label,
+      },
+    });
+  };
+  const [categoryFilter, setCategoryFilter] = useState("");
+
+  const handleCategoryFilter = (selected) => {
+    setCategoryFilter(selected?.value || "");
+
+    dispatch({
+      type: "SET_VENDOR_FILTERS",
+      payload: {
+        categoryName: selected.label,
+      },
+    });
+  };
+
+  const getAddress = (user) =>
+    [user.houseNo, user.area, user.landMark, user.city, user.state]
+      .filter(Boolean)
+      .join(", ");
 
   useEffect(() => {
     if (!canReadVendor) {
@@ -197,24 +224,9 @@ function Vendor() {
     }
   }, [canReadVendor]);
 
-  const isVendorForm = location.state?.isVendorForm || false;
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const monthOptions = [];
-  const selectOptions = [{ value: "ALL", label: "All" }];
-
-  const [selectedMonth, setSelectedMonth] = useState();
-
-  const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
-  };
-
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
-
   const handleShowDots = (id, event) => {
     setActiveRow((prev) => (prev === id ? null : id));
-    setSearch(false);
+    // setSearch(false);
 
     const rect = event.currentTarget.getBoundingClientRect();
 
@@ -234,6 +246,107 @@ function Vendor() {
   };
 
   useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
+
+  const categoryOptions =
+    filteredData?.filterOptions?.category?.map((item) => ({
+      value: item.type,
+      label: item.name,
+    })) || [];
+
+  const paymentStatusOptions =
+    filteredData?.filterOptions?.paymentStatus?.map((status) => ({
+      value: status,
+      label: status,
+    })) || [];
+  const [selectedMonth, setSelectedMonth] = useState();
+
+  const stats = [
+    {
+      label: "Total Vendors",
+      value: filteredData?.vendorSummary?.totalVendors ?? 0,
+      highlight: true,
+      icon: true,
+    },
+    {
+      label: "Total Purchase",
+      value: filteredData?.vendorSummary?.totalPurchase ?? 0,
+    },
+    {
+      label: "Total Paid",
+      value: filteredData?.vendorSummary?.totalPaid ?? 0,
+    },
+    {
+      label: "Outstanding (Payable)",
+      value: filteredData?.vendorSummary?.outstandingAmount ?? 0,
+    },
+  ];
+
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      setPage(1);
+      setSearchQuery("");
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected?.value || "");
+  };
+
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+  };
+
+  useEffect(() => {
     setShow(isVendorForm);
   }, [isVendorForm]);
 
@@ -249,23 +362,42 @@ function Vendor() {
       setError("Please select at least one column");
       return;
     }
-    // const payload = customizeItems.map((item, index) => ({
-    //   fieldName: item.key,
-    //   isSelected: item.selected,
-    //   order: index + 1,
-    // }));
+    const payload = customizeItems.map((item, index) => ({
+      fieldName: item.key,
+      isSelected: item.selected,
+      order: index + 1,
+    }));
 
-    // if (payload) {
-    //   dispatch({
-    //     type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-    //     payload: {
-    //       hostelId: state.login.selectedHostel_Id,
-    //       customize: payload,
-    //     },
-    //   });
-    //   setCustomizeLoading(true);
-    // }
+    if (payload) {
+      dispatch({
+        type: "CUSTOMIZE_VENDOR_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
+      setCustomizeLoading(true);
+    }
   };
+
+  useEffect(() => {
+    if (state.ComplianceList?.updateCustomizationSuccess === 200) {
+      dispatch({
+        type: "VENDORLIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CUSTOMIZE_VENDOR_REDUCER" });
+      }, 100);
+    }
+  }, [state.ComplianceList?.updateCustomizationSuccess]);
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -306,19 +438,113 @@ function Vendor() {
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true);
       dispatch({
         type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+          categoryId: categoryFilter,
+          paymentStatus: String(paymentStatus),
+          name: debouncedSearch,
+        },
+      });
+      dispatch({
+        type: "SET_VENDOR_FILTERS",
+        payload: {
+          paymentStatus: paymentStatus,
+          search: searchQuery,
+          categoryId: categoryFilter,
+        },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [
+    state.login.selectedHostel_Id,
+    page,
+    size,
+    categoryFilter,
+    paymentStatus,
+    debouncedSearch,
+  ]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_VENDOR_FILTERS",
+      payload: {
+        paymentStatus: "",
+        paymentStatusLabel: "",
+        search: "",
+        categoryName: "",
+        categoryId: "",
+      },
+    });
+    dispatch({
+      type: "VENDORLIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+
+    setChips([]);
+    setSearchQuery("");
+    setPaymentStatus("");
+    setCategoryFilter("");
+  };
+
+  useEffect(() => {
+    const vendorFilters = state.ComplianceList?.vendorFilters;
+
+    // console.log("vendorFilters", vendorFilters);
+
+    const filterData = [];
+
+    if (vendorFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Vendor",
+        type: "search",
+        value: vendorFilters.search,
+      });
+    }
+
+    if (vendorFilters?.paymentStatusLabel) {
+      filterData.push({
+        key: "paymentStatus",
+        label: "Payment Status",
+        type: "paymentStatus",
+        value: vendorFilters.paymentStatusLabel,
+      });
+    }
+
+    if (vendorFilters?.categoryName) {
+      filterData.push({
+        key: "category",
+        label: "Category",
+        type: "category",
+        value: vendorFilters.categoryName,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.ComplianceList?.vendorFilters]);
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (state.ComplianceList.getVendorStatusCode === 200) {
-      setFilteredData(state.ComplianceList.VendorList);
+      setFilteredData(state?.ComplianceList?.VendorList);
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_VENDOR_STATUS_CODE" });
@@ -342,14 +568,18 @@ function Vendor() {
       setTimeout(() => {
         dispatch({
           type: "VENDORLIST",
-          payload: { hostelId: state.login.selectedHostel_Id },
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+            page: page,
+            size: size,
+          },
         });
       }, 100);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_VENDOR_STATUS_CODE" });
         dispatch({ type: "CLEAR_UPDATE_VENDOR_STATUS_CODE" });
         dispatch({ type: "CLEAR_DELETE_VENDOR_STATUS_CODE" });
-      }, 5000);
+      }, 100);
     }
   }, [
     state.ComplianceList.addVendorSuccessStatusCode,
@@ -357,38 +587,8 @@ function Vendor() {
     state.ComplianceList.updateVendorSuccessStatusCode,
   ]);
 
-  const handleShowSearch = () => {
-    setShowFilterData(!showFilterData);
-  };
-
-  const handleCloseSearch = () => {
-    setShowFilterData(false);
-    setFilteredData(state.ComplianceList.VendorList);
-    setSearchQuery("");
-  };
-
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ComplianceList.VendorList &&
-        state.ComplianceList.VendorList.filter(
-          (user) =>
-            user.Vendor_Name &&
-            user.Vendor_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.ComplianceList.VendorList);
-    }
-    // setCurrentPage(1);
-  };
-
-  const handleDropDown = (value) => {
-    const searchItem = value;
     setSearchQuery(searchItem);
   };
 
@@ -408,16 +608,19 @@ function Vendor() {
     // setShow(true);
     // setCurrentItem("");
 
-    navigate(`/add-vendor/${state.login.selectedHostel_Id}`, {
-      state: {
-        currentItem: currentItem,
-      },
-    });
+    navigate(`/add-vendor/${state.login.selectedHostel_Id}`);
   };
 
   const handleEditVendor = (vendorData) => {
     setCurrentItem(vendorData);
-    setShow(true);
+    // setShow(true);
+
+    navigate(`/add-vendor/${state.login.selectedHostel_Id}`, {
+      state: {
+        currentItem: vendorData,
+        check: "EDIT",
+      },
+    });
   };
 
   const handleDeleteVendor = (item) => {
@@ -466,107 +669,109 @@ function Vendor() {
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  //   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
   const [isScrolling, setIsScrolling] = useState(false);
+
   const statusStyles = {
-    "Checked In": {
+    "Fully Settled": {
       bg: "#EFFFF2",
       text: "#038C3D",
     },
-    Booked: {
-      bg: "#E7F1FFB2",
-      text: "#1E45E1",
-    },
-    "Notice Period": {
+    "Partially Paid": {
       bg: "#FFF4E5",
       text: "#F79009",
     },
-    "Settlement Generated": {
+    "Not Paid": {
       bg: "#FEE4E2",
       text: "#D92D20",
     },
+    "No Transaction": {
+      bg: "#F2F4F7",
+      text: "#667085",
+    },
   };
-
-  const selectedColumns = [
-    { key: "vendorId", fieldName: "Vendor ID" },
-    { key: "vendorName", fieldName: "Vendor Name" },
-    { key: "category", fieldName: "Category" },
-    { key: "mobileNo", fieldName: "Mobile No" },
-    { key: "address", fieldName: "Address" },
-    { key: "status", fieldName: "Status" },
-    { key: "outstanding", fieldName: "Outstanding" },
-    { key: "lastTransaction", fieldName: "Last Transaction" },
-  ];
-
   const headerKeyMap = {
-    "Vendor ID": "vendorId",
-    "Vendor Name": "vendorName",
-    Category: "category",
-    "Mobile No": "mobileNo",
-    Address: "address",
-    Status: "status",
+    "Profile Pic": "profilePic",
+    "Full Name": "fullName",
+    "Joining Date": "joiningDate",
+    "Mobile No": "mobile",
+    "Email ID": "email",
+    "Vendor Code": "vendorCode",
+    "Vendor Category": "vendorCategoryName",
+    "Credit Limit": "creditLimit",
+    "Credit Period": "creditPeriod",
     Outstanding: "outstanding",
     "Last Transaction": "lastTransaction",
+    "Payment Status": "paymentStatus",
   };
 
-  //   const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //     const obj = {};
+  const formattedData = (filteredData?.vendors || []).map((row) => {
+    const obj = {};
 
-  //     (userListDetail?.tableHeaders || []).forEach((header, index) => {
-  //       const key = headerKeyMap[header];
-  //       const value = row[index];
+    (filteredData?.tableHeaders || []).forEach((header, index) => {
+      const key = headerKeyMap[header];
+      const value = row[index];
 
-  //       if (key) {
-  //         obj[key] = value ?? "-";
-  //       }
-  //     });
-
-  //     const apiData = row[row.length - 1];
-
-  //     obj.apiCall = {
-  //       customerId: apiData?.customerId || null,
-  //       status: apiData?.status || null,
-  //     };
-
-  //     return obj;
-  //   });
-
-  //   useEffect(() => {
-  //     const cols = state?.UsersList?.Users?.columnList || [];
-
-  //     const formatted = cols.map((col) => ({
-  //       ...col,
-  //       key: col.fieldName,
-  //       selected: col.selected,
-  //     }));
-
-  //     setCustomizeItems(formatted);
-  //     setInitialCustomizeItems(formatted);
-  //   }, [state?.UsersList?.Users?.columnList]);
-
-  const formattedData = state?.ComplianceList?.VendorList?.map((item) => {
-    const row = {};
-
-    selectedColumns.forEach((column) => {
-      const key = headerKeyMap[column];
-      row[column] = item[key] ?? "-";
+      if (key) {
+        obj[key] = value ?? "-";
+      }
     });
 
-    return row;
+    const apiData = row[row.length - 1];
+
+    obj.apiCall = {
+      vendorId: apiData?.vendorId || null,
+      status: apiData?.status || null,
+    };
+
+    return obj;
   });
 
+  // console.log("formattedData", formattedData);
+
   const columnStyles = {
-    "Vendor ID": "px-4 whitespace-nowrap",
-    "Vendor Name": "px-4 whitespace-nowrap",
-    Category: "px-4 whitespace-nowrap",
+    "Profile Pic": "px-4 whitespace-nowrap",
+    "Full Name": "px-4 whitespace-nowrap",
+    "Joining Date": "px-4 whitespace-nowrap",
     "Mobile No": "px-4 whitespace-nowrap",
-    Address: "px-4 whitespace-nowrap",
-    Status: "px-4 whitespace-nowrap",
+    "Email ID": "px-4 whitespace-nowrap",
+    "Vendor Code": "px-4 whitespace-nowrap",
+    "Vendor Category": "px-4 whitespace-nowrap",
+    "Credit Limit": "px-4 whitespace-nowrap",
+    "Credit Period": "px-4 whitespace-nowrap",
     Outstanding: "px-4 whitespace-nowrap",
     "Last Transaction": "px-4 whitespace-nowrap",
+    "Payment Status": "px-4 whitespace-nowrap",
   };
+
+  useEffect(() => {
+    const cols = filteredData?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected: col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
+  }, [filteredData?.columnList]);
+
+  useEffect(() => {
+    const handleClickOutsideAccount = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideAccount);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
+    };
+  }, []);
 
   const SortableItem = ({ item }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
@@ -611,11 +816,30 @@ function Vendor() {
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
-    setShowOverview(false);
+    // setShowOverview();
   };
 
   const handleCloseSettlement = () => {
     setShowSettlementForm(false);
+  };
+
+  const currentPage = filteredData?.currentPage ?? 1;
+
+  const totalPages = filteredData?.totalPages ?? 1;
+
+  const totalRecords = filteredData?.totalVendors ?? 0;
+
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.ComplianceList?.vendorFilters]);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log("setPage", page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
   };
 
   return (
@@ -676,14 +900,8 @@ function Vendor() {
           // <div className="relative flex flex-col h-[calc(100vh-80px)]">
           <div className="relative flex flex-col flex-1 min-h-0">
             {loading && (
-              <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
-                <div className="w-[60px] h-[60px] rounded-full border-t-[2px] border-b-[2px] border-r-[2px] border-r-transparent border-[#1E45E1] animate-spin relative flex items-center justify-center">
-                  <img
-                    src={SmarstayLogo}
-                    alt="logo"
-                    className="w-[35px] h-[35px] rounded-full absolute animate-spin-reverse"
-                  />
-                </div>
+              <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
               </div>
             )}
 
@@ -710,14 +928,6 @@ function Vendor() {
                       {item.label}
 
                       <div className="relative group w-fit">
-                        {item.label !== "Notice Period" && (
-                          <Filter
-                            size="14"
-                            color="#9CA3AF"
-                            className="cursor-pointer"
-                          />
-                        )}
-
                         <div
                           className="absolute left-1/2 -translate-x-1/2 mt-2 
                           hidden group-hover:flex
@@ -746,15 +956,16 @@ function Vendor() {
                   }`}
                 >
                   <Select
-                    options={selectOptions}
+                    options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadVendor}
                     menuPlacement="auto"
                     classNamePrefix="custom"
-                    onChange={(e) => handleStatusFilter(e)}
+                    onChange={handleCategoryFilter}
                     value={
-                      selectOptions.find((opt) => opt.value === statusfilter) ||
-                      null
+                      categoryOptions.find(
+                        (opt) => opt.value === categoryFilter,
+                      ) || null
                     }
                     id="statusselect"
                   />
@@ -762,14 +973,19 @@ function Vendor() {
 
                 <div className="flex items-center gap-3">
                   <Select
+                    options={paymentStatusOptions}
                     isDisabled={!canReadVendor}
-                    options={monthOptions}
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
                     classNamePrefix="custom"
                     menuPlacement="auto"
                     noOptionsMessage={() => "No options"}
                     styles={CustomStyles}
+                    id="statusselect"
+                    onChange={handlePaymentStatusFilter}
+                    value={
+                      paymentStatusOptions.find(
+                        (opt) => opt.value === paymentStatus,
+                      ) || null
+                    }
                   />
                 </div>
 
@@ -790,13 +1006,6 @@ function Vendor() {
                     }`}
                   />
                 </div>
-
-                <button
-                  onClick={() => setShowOverview(true)}
-                  className="cursor-pointer"
-                >
-                  <PiDotsThreeOutlineVerticalFill size={20} />
-                </button>
               </div>
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -809,7 +1018,7 @@ function Vendor() {
                   />
                 </div>
 
-                {/* {filteredData?.length > 0 && (
+                {formattedData?.length > 0 && (
                   <ApiPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -819,458 +1028,378 @@ function Vendor() {
                     isTenantPagination={true}
                     size={size}
                   />
-                )} */}
+                )}
               </div>
             </div>
 
-            {/* <div className="flex-1 max-h-[700px] overflow-y-auto pr-5 ">
-              {filteredData?.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {filteredData.map((vendor) => (
-                    <VendorListMap
-                      key={vendor.id}
-                      vendor={vendor}
-                      onEditVendor={handleEditVendor}
-                      onDeleteVendor={handleDeleteVendor}
-                    />
+            {chips?.length > 0 && (
+              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip.key}
+                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                    >
+                      {chip.label} :
+                      <span className="text-gray-900">{chip.value}</span>
+                    </span>
                   ))}
                 </div>
-              )}
-            </div> */}
-            {/* {filteredData?.length > 0 ? ( */}
-            <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-              <div
-                id="tableContainer"
-                ref={tableContainerRef}
-                className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-              >
-                <table className=" w-full font-gilroy ">
-                  <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                    <tr className="h-9">
-                      {selectedColumns?.map((col, index) => {
-                        let stickyClass = "";
+                <span
+                  className="text-blue-600 text-sm font-medium cursor-pointer"
+                  onClick={handleReset}
+                >
+                  Reset
+                </span>
+              </div>
+            )}
 
-                        if (index === 0) {
-                          stickyClass =
-                            "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                        }
-                        //  else if (index === 1) {
-                        //   stickyClass =
-                        //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                        // }
+            {formattedData?.length > 0 ? (
+              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                <div
+                  id="tableContainer"
+                  ref={tableContainerRef}
+                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                >
+                  <table className=" w-full font-gilroy ">
+                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                      <tr className="h-9">
+                        {selectedColumns?.map((col, index) => {
+                          let stickyClass = "";
 
-                        return (
-                          <th
-                            key={col.key}
-                            className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                          >
-                            {col.fieldName}
-                          </th>
-                        );
-                      })}
+                          if (index === 0) {
+                            stickyClass =
+                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                          }
+                          //  else if (index === 1) {
+                          //   stickyClass =
+                          //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
+                          // }
 
-                      <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.isArray(formattedData) &&
-                      formattedData?.length > 0 &&
-                      formattedData?.map((user, index) => {
-                        return (
-                          <tr
-                            onClick={() => handleRoomDetailsPage(user?.apiCall)}
-                            key={user?.apiCall?.customerId || index}
-                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                          return (
+                            <th
+                              key={col.key}
+                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                            >
+                              {col.fieldName}
+                            </th>
+                          );
+                        })}
+
+                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(formattedData) &&
+                        formattedData?.length > 0 &&
+                        formattedData?.map((user, index) => {
+                          return (
+                            <tr
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowOverview(true);
+                                setSelectedVendorId(user.apiCall.vendorId);
+                              }}
+                              key={index}
+                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                     cursor-pointer group  hover:!bg-gray-50"
-                          >
-                            {selectedColumns?.map((col, index) => {
-                              const baseClass = `
+                            >
+                              {selectedColumns?.map((col, index) => {
+                                const baseClass = `
   ${columnStyles[col.fieldName] || "px-4"}
   hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
 `;
 
-                              let stickyClass = "";
+                                let stickyClass = "";
 
-                              if (index === 0) {
-                                stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                  isScrolling ? "!bg-white" : "!bg-white"
-                                }`;
-                              }
-                              // else if (index === 1) {
-                              //   stickyClass = `sticky left-[85px] z-30 ${
-                              //     isScrolling
-                              //       ? "!bg-white"
-                              //       : "!bg-transparent"
-                              //   }`;
-                              // }
+                                if (index === 0) {
+                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${
+                                    isScrolling ? "!bg-white" : "!bg-white"
+                                  }`;
+                                }
 
-                              const finalClass = `${baseClass} ${stickyClass}`;
+                                const finalClass = `${baseClass} ${stickyClass}`;
 
-                              switch (col.fieldName) {
-                                case "Profile Pic":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`px-4 ${finalClass}`}
-                                    >
-                                      {typeof user?.profilePic === "string" &&
-                                      user.profilePic.startsWith("http") ? (
-                                        <img
-                                          src={user.profilePic}
-                                          className="w-8 h-8 rounded-full"
-                                          alt="profile"
-                                        />
-                                      ) : (
-                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                          {typeof user?.profilePic === "string"
-                                            ? user.profilePic
-                                            : "NA"}
-                                        </div>
-                                      )}
-                                    </td>
-                                  );
+                                switch (col.fieldName) {
+                                  case "Profile Pic":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`px-4 ${finalClass}`}
+                                      >
+                                        {typeof user?.profilePic === "string" &&
+                                        user.profilePic.startsWith("http") ? (
+                                          <img
+                                            src={user.profilePic}
+                                            className="w-8 h-8 rounded-full"
+                                            alt="profile"
+                                          />
+                                        ) : (
+                                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                            {typeof user?.profilePic ===
+                                            "string"
+                                              ? user.profilePic
+                                              : "NA"}
+                                          </div>
+                                        )}
+                                      </td>
+                                    );
 
-                                case "Full Name":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <div className="relative group w-[100px] ">
-                                        <span className="block w-full truncate text-sm text-[#111928] ">
-                                          {user.fullName}
-                                        </span>
+                                  case "Full Name":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        <div className="relative group w-[100px] ">
+                                          <span className="block w-full truncate text-sm text-[#111928] ">
+                                            {user.fullName}
+                                          </span>
 
-                                        <div
-                                          className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                          <div
+                                            className="absolute left-full ml-2 top-1/2 -translate-y-1/2
         hidden group-hover:!block
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
-                                        >
-                                          {user?.fullName}
+                                          >
+                                            {user?.fullName}
+                                          </div>
                                         </div>
-                                      </div>
-                                    </td>
-                                  );
+                                      </td>
+                                    );
 
-                                case "Status":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      <span
-                                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                        style={{
-                                          backgroundColor:
-                                            statusStyles[user.status]?.bg ||
-                                            "#EEE",
-                                        }}
-                                      >
+                                  case "Payment Status":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
                                         <span
-                                          className="h-2 w-2 rounded-full"
+                                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
                                           style={{
                                             backgroundColor:
-                                              statusStyles[user.status]?.text ||
-                                              "#333",
+                                              statusStyles[user.paymentStatus]
+                                                ?.bg || "#EEE",
                                           }}
-                                        ></span>
-
-                                        {user.status}
-                                      </span>
-                                    </td>
-                                  );
-
-                                case "Joining Date":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} truncate text-[#6B7280] font-medium`}
-                                    >
-                                      {user.joiningDate}
-                                    </td>
-                                  );
-
-                                case "Mobile No":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {user.mobile}
-                                    </td>
-                                  );
-
-                                case "Floor":
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {user.floorName}
-                                    </td>
-                                  );
-
-                                case "Room":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.roomName}
-                                    </td>
-                                  );
-
-                                case "Bed":
-                                  return (
-                                    <td
-                                      key={col.key}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bedName}
-                                    </td>
-                                  );
-                                case "Email ID":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.emailId}
-                                    </td>
-                                  );
-                                case "Booking Date":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bookingDate}
-                                    </td>
-                                  );
-                                case "Monthly Rent":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.monthlyRent}
-                                    </td>
-                                  );
-                                case "Advance":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.advanceAmount}
-                                    </td>
-                                  );
-                                case "Booking Amount":
-                                  return (
-                                    <td
-                                      key={col.fieldName}
-                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                    >
-                                      {user.bookingAmount}
-                                    </td>
-                                  );
-                                default:
-                                  return (
-                                    <td key={col.key} className={finalClass}>
-                                      {typeof user[
-                                        headerKeyMap[col.fieldName]
-                                      ] === "object"
-                                        ? "-"
-                                        : (user[headerKeyMap[col.fieldName]] ??
-                                          "-")}
-                                    </td>
-                                  );
-                              }
-                            })}
-
-                            <td
-                              className={`${
-                                isScrolling ? "!bg-white" : "bg-white"
-                              } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                            >
-                              {" "}
-                              <div
-                                className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleShowDots(user.apiCall.customerId, e);
-                                }}
-                              >
-                                <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${
-                                    activeRow === user?.apiCall?.customerId
-                                      ? "text-[#1E45E1]"
-                                      : "text-gray-500"
-                                  }`}
-                                />
-
-                                {activeRow === user?.apiCall?.customerId && (
-                                  <div
-                                    ref={popupRef}
-                                    className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                    style={{
-                                      top: showAbove
-                                        ? popupPosition.top -
-                                          (popupRef.current?.offsetHeight ||
-                                            120) -
-                                          10
-                                        : popupPosition.top + 5,
-                                      left: popupPosition.left - 250,
-                                      position: "fixed",
-                                      zIndex: 1000,
-                                    }}
-                                  >
-                                    <div className="flex flex-col py-2 ">
-                                      {user.status === "Checked In" && (
-                                        <>
-                                          <div
-                                            onClick={() =>
-                                              canWriteCheckout &&
-                                              handleCustomerCheckout(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          >
-                                            <img
-                                              src={addcircle}
-                                              className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                              Move to Notice Period
-                                            </span>
-                                          </div>
-
-                                          <div
-                                            onClick={() =>
-                                              canWriteTenant &&
-                                              handleCustomerReAssign(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          >
-                                            <img
-                                              src={Addbook}
-                                              className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                              Change Bed
-                                            </span>
-                                          </div>
-                                        </>
-                                      )}
-
-                                      {user.status === "Notice Period" && (
-                                        <>
-                                          <div
-                                            onClick={() =>
-                                              canWriteTenant &&
-                                              handleBacktoCheckout(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          >
-                                            <img
-                                              src={Addbook}
-                                              className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                              Cancel Check-Out
-                                            </span>
-                                          </div>
-
-                                          <div
-                                            onClick={() =>
-                                              canWriteCheckout &&
-                                              handleCheckoutGenrateNew(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          >
-                                            <img
-                                              src={logout}
-                                              className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy">
-                                              Generate
-                                            </span>
-                                          </div>
-                                        </>
-                                      )}
-
-                                      {user.status ===
-                                        "Settlement Generated" && (
-                                        <div
-                                          onClick={() =>
-                                            canWriteCheckout &&
-                                            handleConformCheckout(user)
-                                          }
-                                          className={`flex items-center gap-2  px-3 py-2 transition rounded-md min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          style={{ marginLeft: 12 }}
                                         >
-                                          <img
-                                            src={logout}
-                                            className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                          />
-                                          <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                            Check-Out
-                                          </span>
-                                        </div>
-                                      )}
+                                          <span
+                                            className="h-2 w-2 rounded-full"
+                                            style={{
+                                              backgroundColor:
+                                                statusStyles[user.paymentStatus]
+                                                  ?.text || "#333",
+                                            }}
+                                          ></span>
 
-                                      {user.status === "Booked" && (
-                                        <>
-                                          <div
-                                            onClick={() =>
-                                              canWriteTenant &&
-                                              handleBookingAssign(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          >
-                                            <img
-                                              src={addcircle}
-                                              className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                              Check-In
-                                            </span>
-                                          </div>
+                                          {user.paymentStatus}
+                                        </span>
+                                      </td>
+                                    );
 
-                                          <div
-                                            onClick={() =>
-                                              canWriteBooking &&
-                                              handleInActive(user)
-                                            }
-                                            className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                          >
-                                            <img
-                                              src={Addbook}
-                                              className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                            />
-                                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                              Make as Inactive
-                                            </span>
-                                          </div>
-                                        </>
-                                      )}
+                                  case "Joining Date":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
+                                      >
+                                        {user.joiningDate}
+                                      </td>
+                                    );
+
+                                  case "Mobile No":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.mobile}
+                                      </td>
+                                    );
+
+                                  case "Email ID":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.email}
+                                      </td>
+                                    );
+
+                                  case "Vendor Code":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.vendorCode}
+                                      </td>
+                                    );
+
+                                  case "Vendor Category":
+                                    return (
+                                      <td
+                                        key={col.key}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.vendorCategoryName}
+                                      </td>
+                                    );
+                                  case "Credit Limit":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.creditLimit}
+                                      </td>
+                                    );
+                                  case "Credit Period":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.creditPeriod}
+                                      </td>
+                                    );
+                                  case "Outstanding":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.outstanding}
+                                      </td>
+                                    );
+                                  case "Last Transaction":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        {user.lastTransaction}
+                                      </td>
+                                    );
+                                  case "Address":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {getAddress(user)}
+                                      </td>
+                                    );
+                                  default:
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {typeof user[
+                                          headerKeyMap[col.fieldName]
+                                        ] === "object"
+                                          ? "-"
+                                          : (user[
+                                              headerKeyMap[col.fieldName]
+                                            ] ?? "-")}
+                                      </td>
+                                    );
+                                }
+                              })}
+
+                              <td
+                                className={`${
+                                  isScrolling ? "!bg-white" : "bg-white"
+                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                              >
+                                {" "}
+                                <div
+                                  className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleShowDots(user.apiCall.vendorId, e);
+                                  }}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    className={`h-5 w-5 rotate-90 ${
+                                      activeRow === user.apiCall.vendorId
+                                        ? "text-[#1E45E1]"
+                                        : "text-gray-500"
+                                    }`}
+                                  />
+
+                                  {activeRow === user.apiCall.vendorId && (
+                                    <div
+                                      ref={popupRef}
+                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
+                                      style={{
+                                        top: showAbove
+                                          ? popupPosition.top -
+                                            (popupRef.current?.offsetHeight ||
+                                              120) -
+                                            10
+                                          : popupPosition.top + 5,
+                                        left: popupPosition.left - 150,
+                                        position: "fixed",
+                                      }}
+                                    >
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setActiveRow(null);
+                                          if (canUpdateVendor) {
+                                            handleEditVendor(user);
+                                          }
+                                        }}
+                                        disabled={!canUpdateVendor}
+                                        className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+      ${
+        canUpdateVendor
+          ? "text-[#1E45E1] hover:bg-blue-100"
+          : "text-gray-400 cursor-not-allowed"
+      }`}
+                                      >
+                                        <Edit2
+                                          size="16"
+                                          color={
+                                            canUpdateVendor
+                                              ? "#1E45E1"
+                                              : "#9CA3AF"
+                                          }
+                                        />
+                                        Edit
+                                      </button>
+
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setActiveRow(null);
+                                          if (canDeleteVendor) {
+                                            handleDeleteVendor(user);
+                                          }
+                                        }}
+                                        disabled={!canDeleteVendor}
+                                        className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+      ${
+        canDeleteVendor
+          ? "text-red-600 hover:bg-red-100"
+          : "text-gray-400 cursor-not-allowed"
+      }`}
+                                      >
+                                        <Trash
+                                          size="16"
+                                          color={
+                                            canDeleteVendor
+                                              ? "#FF0000"
+                                              : "#9CA3AF"
+                                          }
+                                        />
+                                        Delete
+                                      </button>
                                     </div>
-                                  </div>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
 
-                {open && (
-                  <>
-                    <div
-                      className="fixed inset-0 bg-black/20 z-50 "
-                      onClick={() => setOpen(false)}
-                    />
+                  {open && (
+                    <>
+                      <div
+                        className="fixed inset-0 bg-black/20 z-50 "
+                        onClick={() => setOpen(false)}
+                      />
 
-                    <div
-                      className={`
+                      <div
+                        className={`
         fixed top-[180px] right-10 h-fit w-[350px]
         bg-white z-50
         border-r border-[#E5E7EB]
@@ -1278,125 +1407,128 @@ function Vendor() {
         transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
-                    >
-                      <div className="relative font-gilroy">
-                        <div className="p-3 border-b ">
-                          <div className="flex items-center gap-2 justify-between mb-2">
-                            <div className="text-[16px] text-[#333333] font-semibold ">
-                              Customize Tabs{" "}
+                      >
+                        <div className="relative font-gilroy">
+                          <div className="p-3 border-b ">
+                            <div className="flex items-center gap-2 justify-between mb-2">
+                              <div className="text-[16px] text-[#333333] font-semibold ">
+                                Customize Tabs{" "}
+                              </div>
+                              <div
+                                onClick={() => {
+                                  setCustomizeItems((prev) =>
+                                    prev.map((i) => ({
+                                      ...i,
+                                      selected: !allSelected,
+                                    })),
+                                  );
+
+                                  setError("");
+                                }}
+                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                {" "}
+                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                <span>
+                                  {allSelected ? "Unselect all" : "Select all"}
+                                </span>
+                              </div>
                             </div>
-                            <div
-                              onClick={() => {
-                                setCustomizeItems((prev) =>
-                                  prev.map((i) => ({
-                                    ...i,
-                                    selected: !allSelected,
-                                  })),
+
+                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                              <SearchNormal1 size={16} color="#98A2B3" />
+                              <input
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                placeholder="Search"
+                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                              />
+                            </div>
+                          </div>
+
+                          <DndContext
+                            collisionDetection={closestCenter}
+                            onDragEnd={(event) => {
+                              const { active, over } = event;
+                              if (!over) return;
+                              if (active.id !== over?.id) {
+                                const oldIndex = customizeItems.findIndex(
+                                  (i) => i.key === active.id,
+                                );
+                                const newIndex = customizeItems.findIndex(
+                                  (i) => i.key === over.id,
                                 );
 
-                                setError("");
-                              }}
-                              className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                            >
-                              {" "}
-                              <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                              <span>
-                                {allSelected ? "Unselect all" : "Select all"}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                            <SearchNormal1 size={16} color="#98A2B3" />
-                            <input
-                              value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
-                              placeholder="Search"
-                              className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                            />
-                          </div>
-                        </div>
-
-                        <DndContext
-                          collisionDetection={closestCenter}
-                          onDragEnd={(event) => {
-                            const { active, over } = event;
-                            if (!over) return;
-                            if (active.id !== over?.id) {
-                              const oldIndex = customizeItems.findIndex(
-                                (i) => i.key === active.id,
-                              );
-                              const newIndex = customizeItems.findIndex(
-                                (i) => i.key === over.id,
-                              );
-
-                              setCustomizeItems(
-                                arrayMove(customizeItems, oldIndex, newIndex),
-                              );
-                            }
-                          }}
-                        >
-                          <SortableContext
-                            items={customizeItems.map((i) => i.key)}
-                            strategy={verticalListSortingStrategy}
+                                setCustomizeItems(
+                                  arrayMove(customizeItems, oldIndex, newIndex),
+                                );
+                              }
+                            }}
                           >
-                            <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                              {filteredCustomizeItems.length === 0 ? (
-                                <div className="text-sm text-gray-400 text-center py-3">
-                                  No results found
-                                </div>
-                              ) : (
-                                filteredCustomizeItems.map((item) => (
-                                  <SortableItem key={item.key} item={item} />
-                                ))
-                              )}
-                            </div>
-                          </SortableContext>
-                        </DndContext>
-                      </div>
-                      {error && (
-                        <div className="flex justify-center my-2">
-                          <ErrorMessage message={error} type="warning" />
+                            <SortableContext
+                              items={customizeItems.map((i) => i.key)}
+                              strategy={verticalListSortingStrategy}
+                            >
+                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                {filteredCustomizeItems.length === 0 ? (
+                                  <div className="text-sm text-gray-400 text-center py-3">
+                                    No results found
+                                  </div>
+                                ) : (
+                                  filteredCustomizeItems.map((item) => (
+                                    <SortableItem key={item.key} item={item} />
+                                  ))
+                                )}
+                              </div>
+                            </SortableContext>
+                          </DndContext>
                         </div>
-                      )}
+                        {error && (
+                          <div className="flex justify-center my-2">
+                            <ErrorMessage message={error} type="warning" />
+                          </div>
+                        )}
 
-                      <div className="p-3 border-t flex gap-2">
-                        <button
-                          onClick={handleResetCustomize}
-                          className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          onClick={handleSave}
-                          disabled={customizeLoading}
-                          className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
-                        >
-                          {customizeLoading ? (
-                            <div className="flex items-center justify-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              Saving...
-                            </div>
-                          ) : (
-                            "Save"
-                          )}
-                        </button>
+                        <div className="p-3 border-t flex gap-2">
+                          <button
+                            onClick={handleResetCustomize}
+                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
+                          >
+                            Reset
+                          </button>
+                          <button
+                            onClick={handleSave}
+                            disabled={customizeLoading}
+                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
+                          >
+                            {customizeLoading ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Saving...
+                              </div>
+                            ) : (
+                              "Save"
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            {/* ) : (
+            ) : (
               <NoDataMessage
                 label="Vendor"
-                //   isSearching={isSearching}
-                //   isClearSearch={true}
-                //   handleClear={() => {
-                //     setFilterInput("");
-                //   }}
+                isSearching={isSearching}
+                isClearSearch={true}
+                handleClear={() => {
+                  setSearchQuery("");
+                  setCategoryFilter("");
+                  setPaymentStatus("");
+                  handleReset();
+                }}
               />
-            )} */}
+            )}
           </div>
         )}
 
@@ -1413,14 +1545,17 @@ function Vendor() {
             show={showOverview}
             onClose={() => setShowOverview(false)}
             handleShowSettlement={handleShowSettlement}
+            selectedVendorId={selectedVendorId}
           />
         )}
+
         {showSettlementForm && (
           <SettlementPayment
             show={showSettlementForm}
             handleClose={handleCloseSettlement}
           />
         )}
+
         <Modal
           show={showDeleteVendor}
           onHide={handleCloseForDeleteVendor}

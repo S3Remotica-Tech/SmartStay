@@ -15,12 +15,73 @@ import VendorExpenseHistory from "./VendorExpenseHistory";
 import VendorComments from "./VendorComments";
 import VendorPaymentHistory from "./VendorPaymentHistory";
 import VendorDetailsOverview from "./VendorDetailsOverview";
+import { useHasPermission } from "../../Utils/Permission";
+import { useNavigate } from "react-router-dom";
 
-function VendorOverView({ show, onClose, handleShowSettlement }) {
+function VendorOverView({
+  show,
+  onClose,
+  handleShowSettlement,
+  selectedVendorId,
+}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
+  const [selectedMonth, setSelectedMonth] = useState("overview");
+
+  const VendorOverView = state.ComplianceList?.vendorOverview;
+
+  const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
+
+  const handleShow = () => {
+    navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+      state: {
+        isVendorWay: true,
+      },
+    });
+  };
+  const handleSelected = (selectedPeriod) => {
+    setSelectedMonth(selectedPeriod?.type);
+  };
+
+  useEffect(() => {
+    if (selectedVendorId) {
+      dispatch({
+        type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+          period: selectedMonth,
+        },
+      });
+
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
+
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
+    }
+  }, [selectedVendorId, selectedMonth]);
+
+  useEffect(() => {
+    if (state.UsersList.settlementPaymentSuccessCode === 200) {
+      dispatch({
+        type: "VENDORLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
+      }, 1000);
+    }
+  }, [state.UsersList.settlementPaymentSuccessCode]);
 
   return (
     <div className="font-gilroy">
@@ -35,13 +96,13 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
         <div className="px-6 py-1">
           <div className="flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-2">
                 <h2 className="text-[24px] font-semibold text-[#222]">
-                  Vinayaka Electricals
+                  {VendorOverView?.businessName || "-"}
                 </h2>
 
                 <span className="px-2 py-1 rounded text-[10px] bg-[#E8F0FF] text-[#338BFF] font-medium">
-                  VEN 001
+                  {VendorOverView?.vendorCode}
                 </span>
 
                 <span className="px-2 py-1 rounded text-[10px] bg-[#038C3D] text-[#FFFFFF] font-medium">
@@ -51,13 +112,24 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
 
               <div className="flex items-center gap-6 mt-3 text-[13px]">
                 <span className="flex items-center gap-1 text-[#4B4B4B]">
-                  <Flash size="16" /> Electrical
+                  <Flash size="16" />{" "}
+                  {VendorOverView?.vendorCategoryName || "-"}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
-                  <Call size="16" /> +91 9876543210
+                  <Call size="16" /> +{VendorOverView?.countryCode}{" "}
+                  {VendorOverView?.mobile}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
-                  <Location size="16" /> Fairlands, Salem
+                  <Location size="16" />{" "}
+                  {[
+                    VendorOverView?.houseNo,
+                    VendorOverView?.landMark,
+                    VendorOverView?.city,
+                    VendorOverView?.state,
+                    VendorOverView?.pinCode,
+                  ]
+                    .filter(Boolean)
+                    .join(", ") || "-"}
                 </span>
               </div>
             </div>
@@ -88,18 +160,23 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <p className="text-[12px] text-[#888] mb-1">Total Expenses</p>
-                  <p className="mt-1 font-semibold mb-1">₹ 85,000</p>
+                  <p className="mt-1 font-semibold mb-1">
+                    ₹ {VendorOverView?.summary?.totalExpense || "0.00"}
+                  </p>
                 </div>
 
                 <div>
                   <p className="text-[12px] text-[#888] mb-1 ">Total Paid</p>
-                  <p className="mt-1 font-semibold mb-1">₹ 80,500</p>
+                  <p className="mt-1 font-semibold mb-1">
+                    {" "}
+                    ₹ {VendorOverView?.summary?.totalPaid || "0.00"}
+                  </p>
                 </div>
 
                 <div>
                   <p className="text-[12px] text-[#888] mb-1">Outstanding</p>
                   <p className="mt-1 font-semibold text-[#F97316] mb-1">
-                    ₹ 4,500
+                    ₹ {VendorOverView?.summary?.outstanding || "0.00"}
                   </p>
                 </div>
               </div>
@@ -113,13 +190,20 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
               <div>
                 <p className="text-[12px] text-[#888]">Credit limit</p>
 
-                <p className="font-semibold mt-1">₹ 15,000 / month</p>
+                <p className="font-semibold mt-1">
+                  {" "}
+                  ₹{VendorOverView?.creditLimit || "0.00"}
+                </p>
               </div>
 
               <div>
                 <p className="text-[12px] text-[#888]">Due date</p>
 
-                <p className="font-semibold mt-1">10th of month</p>
+                <p className="font-semibold mt-1">
+                  {VendorOverView?.allowCredit
+                    ? `${VendorOverView?.creditPeriod} Days`
+                    : "-"}
+                </p>
               </div>
             </div>
           </div>
@@ -180,7 +264,8 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
 
               {activeTab === "expenses" && (
                 <button
-                  onClick={() => {}}
+                  disabled={!canWriteExpense}
+                  onClick={handleShow}
                   className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1"
                 >
                   <AddCircle size="14" /> Add Expense
@@ -190,7 +275,9 @@ function VendorOverView({ show, onClose, handleShowSettlement }) {
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {activeTab === "overview" && <VendorDetailsOverview />}
+          {activeTab === "overview" && (
+            <VendorDetailsOverview handleSelected={handleSelected} />
+          )}
 
           {activeTab === "payments" && <VendorPaymentHistory />}
 

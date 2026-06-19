@@ -14,6 +14,7 @@ import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import VendorOverView from "./VendorOverView";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -272,47 +273,58 @@ function AddVendorNew() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
-  const [first_Name, setFirst_Name] = useState("");
+  // const [first_Name, setFirst_Name] = useState("");
+  const [vendorName, setVendorName] = useState("");
+  const [vendorNameError, setVendorNameError] = useState("");
+  const vendorNameRef = useRef(null);
   const [last_Name, setLast_Name] = useState("");
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [vendorCategory, setVendorCategory] = useState(null);
+  // console.log("vendorCategory", vendorCategory);
   // const [address, setAddress] = useState("");
   const [house_no, setHouseNo] = useState("");
-  const [street, setStreet] = useState("");
+  // const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
-  const [business_Name, setBusiness_Name] = useState("");
+  const [businessName, setBusinessName] = useState("");
   // const [id, setId] = useState("");
-  const [country, setCountry] = useState("");
+  // const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
   const location = useLocation();
+  const [initialVendorData, setInitialVendorData] = useState(null);
   const [check, setCheck] = useState(null);
   const [generalError, setGeneralError] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [businessNameError, setBusinessNameError] = useState("");
+  const [gstError, setGstError] = useState("");
+  const [panError, setPanError] = useState("");
+  const countryCodeOptions = [{ value: "91", label: "+91" }];
+
+  const [countryCode, setCountryCode] = useState(countryCodeOptions[0]);
+  const [businessCountryCode, setBusinessCountryCode] = useState(
+    countryCodeOptions[0],
+  );
+
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
-  const [businessCountryCode, setBusinessCountryCode] = useState("91");
-  const [businessMobileNo, setBusinessMobileNo] = useState("");
-  const [vendorPhoneError, setVendorPhoneError] = useState("");
+
+  const [businessMobile, setBusinessMobile] = useState("");
+  // const [vendorPhoneError, setVendorPhoneError] = useState("");
   const [vendorEmailError, setVendorEmailError] = useState("");
-  const [house_noError, setHouse_NoError] = useState("");
-  const [streetError, setStreetError] = useState("");
-  const [landmarkError, setLandmarkError] = useState("");
+
+  // const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [contactPersonName, setContactPersonName] = useState("");
   const [contactPersonNameError, setContactPersonNameError] = useState("");
   const contactPersonNameRef = useRef(null);
-  const firstNameRef = useRef(null);
+  // const firstNameRef = useRef(null);
   const mobileRef = useRef(null);
   const businessNameRef = useRef(null);
   const cityRef = useRef(null);
@@ -321,26 +333,111 @@ function AddVendorNew() {
   const countryRef = useRef(null);
   const [gstNumber, setGstNumber] = useState("");
   const [panNumber, setPanNumber] = useState("");
-  const [vendorCode, setVendorCode] = useState("VEN 006");
+  // const [vendorCode, setVendorCode] = useState("");
   const [allowCreditPurchase, setAllowCreditPurchase] = useState(true);
   const [creditLimit, setCreditLimit] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const countryCodeRef = useRef(null);
+  const emailRef = useRef(null);
+  const houseNoRef = useRef(null);
+  const landmarkRef = useRef(null);
+  const streetRef = useRef(null);
+  const vendorCategoryRef = useRef(null);
+  const businessCountryCodeRef = useRef(null);
+  const businessMobileRef = useRef(null);
+  const contactPersonRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const [noChanges, setNochanges] = useState("");
+  const [vendorCategoryError, setVendorCategoryError] = useState("");
 
-  const currentItem = location.state?.currentItem || "";
+  const [businessNameError, setBusinessNameError] = useState("");
+  const [businessCountryCodeError, setBusinessCountryCodeError] = useState("");
+  const [businessMobileError, setBusinessMobileError] = useState("");
 
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-  useEffect(() => {
-    if (firstNameRef.current) {
-      firstNameRef.current.focus();
+  const [houseNoError, setHouseNoError] = useState("");
+  // const [landmarkError, setLandmarkError] = useState("");
+
+  const vendorCategoryOptions =
+    state?.Settings?.vendorCategoryList?.map((item) => ({
+      value: item.id,
+      label: item.categoryName,
+    })) || [];
+
+  const handleVendorNameChange = (e) => {
+    setNochanges("");
+    const value = e.target.value;
+
+    if (value.length <= 50) {
+      setVendorName(value);
+      setVendorNameError("");
     }
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: "VENDOR_CATEGORY_LIST_SAGA",
+      payload: state.login.selectedHostel_Id,
+    });
   }, []);
 
-  const countryList = [{ value: 1, label: "India" }];
-  const countryCodeOptions = [{ value: "91", label: "+91" }];
+  const focusFirstError = (() => {
+    let focused = false;
+
+    return (ref) => {
+      if (!focused && ref?.current) {
+        ref.current.focus();
+        focused = true;
+      }
+    };
+  })();
+
+  const currentItem = location.state?.currentItem || {};
+  const checkMode = location.state?.check;
+
+  useEffect(() => {
+    return () => {
+      setGeneralError("");
+
+      setFirstNameError("");
+      // setLastNameError("");
+
+      setVendorCategoryError("");
+
+      setBusinessNameError("");
+      setBusinessCountryCodeError("");
+      setBusinessMobileError("");
+
+      setContactPersonNameError("");
+
+      setCountryCodeError("");
+      setMobileError("");
+      setEmailError("");
+
+      setHouseNoError("");
+
+      // setStreetError("");
+
+      setCityError("");
+      setStateNameError("");
+      setCountryError("");
+      setPinCodeError("");
+
+      setDescriptionError("");
+    };
+  }, []);
+
+  const handleDescriptionChange = (e) => {
+    setNochanges("");
+    setDescription(e.target.value);
+  };
+
+  useEffect(() => {
+    if (businessNameRef.current) {
+      businessNameRef.current.focus();
+    }
+  }, []);
 
   // const handleCountryChange = (e) => {
   //   const value = e.target.value
@@ -353,48 +450,96 @@ function AddVendorNew() {
   // };
 
   const handleGstNumberChange = (e) => {
-    setGstNumber(e.target.value);
+    setNochanges("");
+    let value = e.target.value.toUpperCase();
+
+    value = value.replace(/[^A-Z0-9]/g, "");
+
+    if (value.length > 15) {
+      value = value.slice(0, 15);
+    }
+
+    setGstNumber(value);
+
+    const gstRegex =
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+
+    if (!value) {
+      setGstError("");
+    } else if (value.length < 15) {
+      setGstError("GST Number must be 15 characters.");
+    } else if (!gstRegex.test(value)) {
+      setGstError("Enter a valid GST Number.");
+    } else {
+      setGstError("");
+    }
   };
 
   const handlePanNumberChange = (e) => {
-    setPanNumber(e.target.value);
-  };
+    setNochanges("");
+    let value = e.target.value.toUpperCase();
 
+    value = value.replace(/[^A-Z0-9]/g, "");
+
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+
+    setPanNumber(value);
+
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+    if (!value) {
+      setPanError("");
+    } else if (value.length < 10) {
+      setPanError("PAN Number must be 10 characters.");
+    } else if (!panRegex.test(value)) {
+      setPanError("Enter a valid PAN Number.");
+    } else {
+      setPanError("");
+    }
+  };
   const handleStateChange = (selectedOption) => {
+    setNochanges("");
     setStateName(selectedOption);
   };
 
   const handleCreditLimitChange = (e) => {
+    setNochanges("");
     setCreditLimit(e.target.value);
   };
 
   const handleCreditPeriodChange = (e) => {
+    setNochanges("");
     setCreditPeriod(e.target.value);
   };
 
   const handleCreditPurchaseToggle = () => {
+    setNochanges("");
     setAllowCreditPurchase((prev) => !prev);
   };
 
   const handleVendorCategoryChange = (selectedOption) => {
-    setVendorCategory(selectedOption);
+    setNochanges("");
+    setVendorCategory(selectedOption?.value);
+    setVendorCategoryError("");
   };
 
   const handleContactPersonNameChange = (e) => {
+    setNochanges("");
     setContactPersonName(e.target.value);
     setContactPersonNameError("");
   };
 
   const handleBusinessMobileChange = (e) => {
+    setNochanges("");
     const value = e.target.value.replace(/\D/g, "");
-    setBusinessMobileNo(value);
-  };
-
-  const handleBusinessCountryCodeChange = (e) => {
-    setBusinessCountryCode(e.target.value);
+    setBusinessMobile(value);
+    setBusinessMobileError("");
   };
 
   const handlePinCodeChange = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (!/^\d{0,6}$/.test(value)) {
@@ -418,6 +563,7 @@ function AddVendorNew() {
   const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
   const handleHouseNo = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (!regex.test(value)) {
@@ -425,36 +571,26 @@ function AddVendorNew() {
     }
 
     setHouseNo(value);
-    setHouse_NoError("");
-    setGeneralError("");
-    setIsChangedError("");
-  };
-
-  const handleStreetName = (e) => {
-    const value = e.target.value;
-
-    if (!regex.test(value)) {
-      return;
-    }
-    setStreet(value);
-    setStreetError("");
+    setHouseNoError("");
     setGeneralError("");
     setIsChangedError("");
   };
 
   const handleLandmark = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (!regex.test(value)) {
       return;
     }
     setLandmark(value);
-    setLandmarkError("");
+
     setGeneralError("");
     setIsChangedError("");
   };
 
   const handleCity = (e) => {
+    setNochanges("");
     const value = e.target.value;
     const regex = /^[a-zA-Z\s]*$/;
     if (regex.test(value)) {
@@ -466,92 +602,29 @@ function AddVendorNew() {
   };
 
   const handleClose = () => {
+    setNochanges("");
     // setShow(false);
-    navigate(`/vendor/new/${state.login.selectedHostel_Id}`);
+    navigate(`/vendor/${state.login.selectedHostel_Id}`);
 
-    setVendorPhoneError("");
+    // setVendorPhoneError("");
     setVendorEmailError("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
   };
 
   const handleBusinessChange = (e) => {
+    setNochanges("");
     const value = e.target.value;
-
     setGeneralError("");
     setIsChangedError("");
     setBusinessNameError("");
-
-    setBusiness_Name(value);
-  };
-
-  // const handleBusinessChange = (e) => {
-  //   const value = e.target.value;
-  //   const pattern = /^[a-zA-Z\s]*$/;
-  //   if (!pattern.test(value)) {
-  //     return;
-  //   }
-  //   setGeneralError("");
-  //   setIsChangedError("");
-  //   setBusinessNameError("");
-  //   if (value === "") {
-  //     setBusiness_Name(value);
-
-  //     return;
-  //   }
-
-  //   if (value.trim() !== "") {
-  //     setBusiness_Name(value);
-  //   }
-  // };
-
-  const handleImageChange = async (event) => {
-    const fileImage = event.target.files[0];
-
-    if (fileImage) {
-      setFile(fileImage);
-    }
-  };
-
-  const handleFirstNameChange = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setFirstNameError("");
-    setGeneralError("");
-    setIsChangedError("");
-
-    if (value === "") {
-      setFirst_Name(value);
-
-      return;
-    }
-
-    if (value.trim() !== "") {
-      setFirst_Name(value);
-    }
-  };
-
-  const handleLastNameChange = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    if (value === "") {
-      setLast_Name(value);
-
-      return;
-    }
-    if (value.trim() !== "") {
-      setLast_Name(value);
-    }
-    setIsChangedError("");
+    setBusinessName(value);
   };
 
   const handleMobileChange = (e) => {
+    setNochanges("");
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
     const input = e.target.value;
     const numericInput = input.replace(/\D/g, "");
     setVendor_Mobile(numericInput);
@@ -564,7 +637,7 @@ function AddVendorNew() {
       setMobileError("");
     }
 
-    setVendorPhoneError("");
+    // setVendorPhoneError("");
     setGeneralError("");
     setCountryCodeError("");
     setIsChangedError("");
@@ -572,6 +645,7 @@ function AddVendorNew() {
   };
 
   const handleEmailChange = (e) => {
+    setNochanges("");
     const email = e.target.value.toLowerCase();
     setEmail_Id(email);
     setGeneralError("");
@@ -592,39 +666,47 @@ function AddVendorNew() {
   };
 
   const handleAddVendor = () => {
+    setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+    setFirstNameError("");
+    setVendorCategoryError("");
+    setBusinessMobileError("");
+    setBusinessCountryCodeError("");
+    setContactPersonNameError("");
+    setMobileError("");
+    setCountryCodeError("");
+    setEmailError("");
+    setHouseNoError("");
+    setCityError("");
+    setStateNameError("");
+    setPinCodeError("");
+    setDescriptionError("");
+    setBusinessNameError("");
+    setVendorNameError("");
+    setCountryError("");
+    setGeneralError("");
 
     let isValid = true;
     const focusedRef = { current: false };
-
-    const emailInvalid = emailError !== "";
-    // const mobileInvalid = mobileError !== "";
-
-    if (
-      !first_Name &&
-      !vendor_Mobile &&
-      !business_Name &&
-      !countryCode &&
-      !city &&
-      !state_name &&
-      !country &&
-      !pinCode
-    ) {
-      setGeneralError("Please fill in all the Required Fields");
+    if (!vendorName?.trim()) {
+      setVendorNameError("Please Enter Vendor Name");
+      if (!focusedRef.current && vendorNameRef.current) {
+        vendorNameRef.current.focus();
+        focusedRef.current = true;
+      }
       isValid = false;
     }
-
-    if (!first_Name) {
-      setFirstNameError("Please Enter First Name");
-      if (!focusedRef.current && firstNameRef.current) {
-        firstNameRef.current.focus();
+    if (!businessName) {
+      setBusinessNameError("Please Enter  Business Name");
+      if (!focusedRef.current && businessNameRef.current) {
+        businessNameRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
     }
 
-    if (!countryCode) {
+    if (!countryCode?.value) {
       setCountryCodeError("Please Select Country Code");
       if (!focusedRef.current) {
         focusedRef.current = true;
@@ -634,40 +716,49 @@ function AddVendorNew() {
 
     const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
 
-    if (!vendor_Mobile) {
-      setMobileError("Please Enter Mobile Number");
-      if (!focusedRef.current && mobileRef.current) {
-        mobileRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else if (!phonePattern.test(vendor_Mobile)) {
-      setMobileError("Enter Valid Mobile Number");
-      if (!focusedRef.current && mobileRef.current) {
-        mobileRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else {
-      setMobileError("");
-    }
-
-    if (!business_Name) {
-      setBusinessNameError("Please Enter Business Name");
-      if (!focusedRef.current && businessNameRef.current) {
-        businessNameRef.current.focus();
+    if (!vendorCategory) {
+      setVendorCategoryError("Please Select Vendor Category");
+      if (!focusedRef.current && vendorCategoryRef.current) {
+        vendorCategoryRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
     }
 
-    if (emailInvalid) {
-      setEmailError("Please Enter valid Email Id");
-      if (!focusedRef.current) {
+    if (!businessCountryCode.value) {
+      setBusinessCountryCodeError("Please Select Business Country Code");
+      if (!focusedRef.current && businessCountryCodeRef.current) {
+        businessCountryCodeRef.current.focus();
         focusedRef.current = true;
       }
       isValid = false;
     }
+
+    if (!businessMobile) {
+      setBusinessMobileError("Please Enter Business Mobile Number");
+      if (!focusedRef.current && businessMobileRef.current) {
+        businessMobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else if (!phonePattern.test(businessMobile)) {
+      setBusinessMobileError("Enter Valid Business Mobile Number");
+      if (!focusedRef.current && businessMobileRef.current) {
+        businessMobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
+    if (!house_no?.trim()) {
+      setHouseNoError("Please Enter House No/Area/Street, Sector");
+      if (!focusedRef.current && houseNoRef.current) {
+        houseNoRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
     if (!city) {
       setCityError("Please Enter City");
       if (!focusedRef.current && cityRef.current) {
@@ -732,114 +823,119 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    if (!country) {
-      setCountryError("Please Enter Country");
-      if (!focusedRef.current && countryRef.current) {
-        countryRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
+    if (!isValid) {
+      return;
     }
 
-    const normalize = (value) => {
-      const val = (value ?? "").toString().trim().toLowerCase();
-      return val === "null" || val === "undefined" ? "" : val;
-    };
+    if (checkMode === "EDIT") {
+      const currentData = {
+        vendorName: vendorName || "",
+        businessName: businessName || "",
+        businessMobile: businessMobile || "",
+        email: email_Id || "",
+        houseNo: house_no || "",
+        landmark: landmark || "",
+        city: city || "",
+        state: state_name || "",
+        pinCode: pinCode || "",
+        contactPerson: contactPersonName || "",
+        contactPersonMobile: vendor_Mobile || "",
+        description: description || "",
+        gst: gstNumber || "",
+        pan: panNumber || "",
+        allowCredit: allowCreditPurchase,
+        creditLimit: creditLimit || "",
+        creditPeriod: creditPeriod || "",
+        countryCode:
+          typeof countryCode === "object"
+            ? countryCode.value
+            : countryCode || "91",
+        vendorCategory: vendorCategory?.value || null,
+      };
 
-    const isChanged =
-      first_Name.trim() !== (initialState.first_Name || "").trim() ||
-      last_Name.trim() !== (initialState.last_Name || "").trim() ||
-      Number(vendor_Mobile) !== Number(initialState.vendor_Mobile || 0) ||
-      email_Id.trim() !== (initialState.email_Id || "").trim() ||
-      business_Name.trim() !== (initialState.business_Name || "").trim() ||
-      file !== initialState.file ||
-      countryCode !== (initialState.countryCode || "") ||
-      country !== (initialState.country || "") ||
-      String(pinCode).trim() !== String(initialState.pinCode || "").trim() ||
-      normalize(house_no) !== normalize(initialState.house_no) ||
-      normalize(street) !== normalize(initialState.street) ||
-      normalize(landmark) !== normalize(initialState.landmark) ||
-      city !== initialState.city ||
-      state_name?.trim() !== (initialState.state || "").trim();
+      const hasChanges =
+        JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
 
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
-      isValid = false;
-    }
+      // if (!hasChanges) {
+      //   setNochanges("No changes detected");
+      //   return;
+      // }
 
-    const MobileNumber = `${countryCode}${vendor_Mobile}`;
-
-    if (isValid) {
-      if (check === "EDIT") {
-        dispatch({
-          type: "UPDATEVENDOR",
-          payload: {
-            profilePic: file,
-            updateVendor: {
-              // hostelId: state.login.selectedHostel_Id,
-              firstName: first_Name,
-              lastName: last_Name,
-              mobile: MobileNumber,
-              mailId: email_Id,
-              businessName: business_Name,
-              country: country,
-              houseNo: house_no,
-              pinCode: pinCode,
-              area: street,
-              landmark: landmark,
-              city: city,
-              state: state_name,
-              vendorId: Number(currentItem.id),
-            },
+      dispatch({
+        type: "UPDATEVENDOR",
+        payload: {
+          profilePic: file,
+          updateVendor: {
+            vendorId: currentItem?.apiCall?.vendorId,
+            firstName: vendorName,
+            lastName: last_Name,
+            countryCode:
+              typeof countryCode === "object" ? countryCode.value : countryCode,
+            mobile: businessMobile,
+            contactPersonMobile: vendor_Mobile,
+            mailId: email_Id,
+            houseNo: house_no,
+            landmark: landmark,
+            pinCode: Number(pinCode),
+            city: city,
+            state: state_name,
+            businessName: businessName,
+            hostelId: state.login.selectedHostel_Id,
+            vendorCategory: vendorCategory?.value ?? null,
+            contactPerson: contactPersonName,
+            description: description,
+            // vendorCode: vendorCode,
+            gst: gstNumber,
+            pan: panNumber,
+            allowCredit: allowCreditPurchase,
+            creditLimit: Number(creditLimit || 0),
+            creditPeriod: Number(creditPeriod || 0),
           },
-        });
-        setFormLoading(true);
-      } else {
-        dispatch({
-          type: "ADDVENDOR",
-          payload: {
-            profilePic: file,
-            payLoads: {
-              hostelId: state.login.selectedHostel_Id,
-              firstName: first_Name,
-              lastName: last_Name,
-              mobile: MobileNumber,
-              mailId: email_Id,
-              businessName: business_Name,
-              country: country,
-              houseNo: house_no,
-              pinCode: pinCode,
-              area: street,
-              landmark: landmark,
-              city: city,
-              state: state_name,
-            },
+        },
+      });
+    } else {
+      dispatch({
+        type: "ADDVENDOR",
+        payload: {
+          profilePic: file,
+          payLoads: {
+            firstName: vendorName,
+            lastName: last_Name,
+            countryCode:
+              typeof countryCode === "object" ? countryCode.value : countryCode,
+            mobile: businessMobile,
+            contactPersonMobile: vendor_Mobile,
+            mailId: email_Id,
+            houseNo: house_no,
+            landmark: landmark,
+            pinCode: Number(pinCode),
+            city: city,
+            state: state_name,
+            businessName: businessName,
+            hostelId: state.login.selectedHostel_Id,
+            vendorCategory: vendorCategory?.value ?? null,
+            contactPerson: contactPersonName,
+            description: description,
+            // vendorCode: vendorCode,
+            gst: gstNumber,
+            pan: panNumber,
+            allowCredit: allowCreditPurchase,
+            creditLimit: Number(creditLimit || 0),
+            creditPeriod: Number(creditPeriod || 0),
           },
-        });
-
-        setFormLoading(true);
-      }
+        },
+      });
     }
+    setFormLoading(true);
   };
 
   useEffect(() => {
     if (
       state.ComplianceList.addVendorSuccessStatusCode === 201 ||
-      state.ComplianceList.updateVendorSuccessStatusCode === 201
+      state.ComplianceList.updateVendorSuccessStatusCode === 200
     ) {
       setFormLoading(false);
-      setFile("");
-      setFirst_Name("");
-      setLast_Name("");
-      setVendor_Mobile("");
-      setEmail_Id("");
-      setBusiness_Name("");
-      setHouseNo("");
-      setStreet("");
-      setLandmark("");
-      setCity("");
-      setPinCode("");
-      setStateName("");
+      navigate(`/vendor/${state.login.selectedHostel_Id}`);
     }
   }, [
     state.ComplianceList.addVendorSuccessStatusCode,
@@ -861,74 +957,101 @@ function AddVendorNew() {
   }, []);
 
   useEffect(() => {
-    if (currentItem) {
-      // const phoneNumber = String(currentItem.mobile || "");
-      // const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+    if (checkMode === "EDIT") {
+      const vendorOverView = state.ComplianceList?.vendorOverview;
 
-      // const mobileNumber = phoneNumber.slice(-10);
+      if (!vendorOverView) return;
 
-      const emailValue = currentItem.emailId;
-      const normalizedEmail =
-        emailValue === "undefined" ||
-        emailValue === null ||
-        emailValue === undefined
-          ? ""
-          : emailValue;
+      setVendorName(vendorOverView.fullName || "");
+      setBusinessMobile(vendorOverView.mobile || "");
+      setBusinessName(vendorOverView.businessName || "");
+      setEmail_Id(vendorOverView.emailId || "");
 
-      const sanitize = (value) => {
-        return value === null ||
-          value === undefined ||
-          value === "null" ||
-          value === "undefined"
-          ? ""
-          : value;
+      setHouseNo(vendorOverView.houseNo || "");
+      setLandmark(vendorOverView.landMark || "");
+      setCity(vendorOverView.city || "");
+      setStateName(vendorOverView.state || "");
+      setPinCode(vendorOverView.pinCode ? String(vendorOverView.pinCode) : "");
+
+      setContactPersonName(vendorOverView.contactPerson || "");
+      setVendor_Mobile(vendorOverView.contactPersonMobile);
+      setDescription(vendorOverView.description || "");
+      setGstNumber(vendorOverView.gst || "");
+      setPanNumber(vendorOverView.pan || "");
+
+      setAllowCreditPurchase(vendorOverView.allowCredit ?? false);
+
+      setCreditLimit(
+        vendorOverView.creditLimit != null
+          ? String(vendorOverView.creditLimit)
+          : "",
+      );
+
+      setCreditPeriod(
+        vendorOverView.creditPeriod != null
+          ? String(vendorOverView.creditPeriod)
+          : "",
+      );
+
+      setCountryCode({
+        value: vendorOverView.countryCode || "91",
+        label: `+${vendorOverView.countryCode || "91"}`,
+      });
+
+      setBusinessCountryCode({
+        value: vendorOverView.countryCode || "91",
+        label: `+${vendorOverView.countryCode || "91"}`,
+      });
+
+      if (vendorOverView.vendorCategoryId) {
+        setVendorCategory({
+          value: vendorOverView.vendorCategoryId,
+          label: vendorOverView.vendorCategoryName,
+        });
+      } else {
+        setVendorCategory(null);
+      }
+
+      const initialData = {
+        vendorName: vendorOverView.fullName || "",
+        businessName: vendorOverView.businessName || "",
+        businessMobile: vendorOverView.mobile || "",
+        email: vendorOverView.emailId || "",
+        houseNo: vendorOverView.houseNo || "",
+        landmark: vendorOverView.landMark || "",
+        city: vendorOverView.city || "",
+        state: vendorOverView.state || "",
+        pinCode: vendorOverView.pinCode ? String(vendorOverView.pinCode) : "",
+        contactPerson: vendorOverView.contactPerson || "",
+        contactPersonMobile: vendorOverView.contactPersonMobile || "",
+        description: vendorOverView.description || "",
+        gst: vendorOverView.gst || "",
+        pan: vendorOverView.pan || "",
+        allowCredit: vendorOverView.allowCredit ?? false,
+        creditLimit:
+          vendorOverView.creditLimit != null
+            ? String(vendorOverView.creditLimit)
+            : "",
+        creditPeriod:
+          vendorOverView.creditPeriod != null
+            ? String(vendorOverView.creditPeriod)
+            : "",
+        countryCode: vendorOverView.countryCode || "91",
+        vendorCategory: vendorOverView.vendorCategoryId || null,
       };
 
-      setCheck("EDIT");
-      setFirst_Name(currentItem.firstName);
-      setLast_Name(currentItem.lastName);
-      const mobile = currentItem?.mobile || "";
-      const countryCode =
-        currentItem?.countryCode ||
-        (mobile.length > 10 ? `${mobile.slice(0, -10)}` : "+91");
+      setInitialVendorData(initialData);
+    }
+  }, [checkMode, state.ComplianceList?.vendorOverview]);
 
-      const phoneNumber = mobile.length > 10 ? mobile.slice(-10) : mobile;
-
-      setCountryCode(countryCode);
-      setVendor_Mobile(phoneNumber);
-
-      setEmail_Id(normalizedEmail);
-
-      setBusiness_Name(currentItem.businessName);
-
-      setFile(currentItem.profilePic ? currentItem.profilePic : null);
-      setCountry(currentItem.countryId);
-      setPinCode(currentItem.pinCode);
-
-      setHouseNo(sanitize(currentItem.houseNo));
-      setStreet(sanitize(currentItem.area));
-      setLandmark(sanitize(currentItem.landMark));
-      setCity(currentItem.city);
-      setStateName(currentItem.state);
-
-      setInitialState({
-        first_Name: currentItem.firstName || "",
-        last_Name: currentItem.lastName || "",
-        vendor_Mobile: currentItem?.mobile || "",
-        countryCode: currentItem?.countryCode || "",
-
-        house_no: sanitize(currentItem.houseNo),
-        street: sanitize(currentItem.area),
-        city: sanitize(currentItem.city),
-        landmark: sanitize(currentItem.landMark),
-        state: sanitize(currentItem.state),
-
-        email_Id: normalizedEmail,
-        business_Name: sanitize(currentItem.businessName),
-
-        file: currentItem.profilePic ? currentItem.profilePic : null,
-        country: currentItem.countryId || "",
-        pinCode: currentItem.pinCode || "",
+  useEffect(() => {
+    if (checkMode === "EDIT" && currentItem) {
+      dispatch({
+        type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+        payload: {
+          vendorId: currentItem?.apiCall?.vendorId,
+          period: "",
+        },
       });
     }
   }, [currentItem]);
@@ -936,33 +1059,10 @@ function AddVendorNew() {
   useEffect(() => {
     if (state.ComplianceList?.alreadyVendorHere) {
       setFormLoading(false);
-      setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
+      businessCountryCodeRef.current?.focus();
+      // setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
     }
   }, [state.ComplianceList?.alreadyVendorHere]);
-
-  useEffect(() => {
-    if (state.ComplianceList.alreadyVendorEmailError) {
-      setFormLoading(false);
-      setVendorEmailError(state.ComplianceList.alreadyVendorEmailError);
-    }
-  }, [state.ComplianceList.alreadyVendorEmailError]);
-
-  const [initialState, setInitialState] = useState({
-    first_Name: "",
-    last_Name: "",
-    vendor_Mobile: "",
-    address: "",
-    house_no: "",
-    street: "",
-    city: "",
-    landmark: "",
-    state: "",
-    email_Id: "",
-    business_Name: "",
-    file: null,
-    country: "",
-    pinCode: "",
-  });
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -975,15 +1075,16 @@ function AddVendorNew() {
 
   return (
     <div className="block relative font-gilroy ">
-      <div className="relative w-full  bg-white ">
-        <div className="flex items-center justify-between  p-2">
+      <div className="relative w-full  bg-white  ">
+        <div className="flex items-center justify-between  p-2 sticky top-0  bg-white">
           <h2 className="text-[18px] text-[#222222] font-gilroy font-semibold">
-            {check === "EDIT" ? "Edit a vendor" : "Add new Vendor"}
+            {checkMode === "EDIT" ? "Edit Vendor" : " Add new Vendor"}
           </h2>
 
           <button
             onClick={handleClose}
-            className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 items-center px-2 py-1 font-gilroy "
+            className="bg-[#F1F1F1] text-[#222222] text-sm rounded-md flex gap-1 
+            items-center px-2 py-1 font-gilroy "
           >
             <Add
               size="24"
@@ -993,28 +1094,51 @@ function AddVendorNew() {
             Close
           </button>
         </div>
-        <div className="max-h-[600px] overflow-y-scroll pt-2 mt-2 mr-3 show-scrolls">
+        <div className="max-h-[570px] overflow-y-scroll pt-2 mt-2 mr-3 show-scrolls">
           <h5 className="flex items-center text-[18px] font-semibold text-[#222222]">
             <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
             Vendor Information
           </h5>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-4">
-            <div className=" lg:col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-                  Vendor / Business Name{" "}
+                  Vendor Name{" "}
                   <span className="text-red-600 text-[20px]">*</span>
                 </label>
 
                 <input
-                  onChange={handleFirstNameChange}
-                  value={first_Name}
-                  ref={firstNameRef}
+                  value={vendorName}
+                  onChange={handleVendorNameChange}
+                  ref={vendorNameRef}
                   type="text"
                   placeholder="Enter First Name"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    first_Name ? "font-semibold" : "font-medium"
+                    vendorName ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                />
+              </div>
+
+              {vendorNameError && (
+                <ErrorMessage message={vendorNameError} type="error" />
+              )}
+            </div>
+            <div className=" col-span-1 xl:col-span-8">
+              <div>
+                <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+                  Business Name{" "}
+                  <span className="text-red-600 text-[20px]">*</span>
+                </label>
+
+                <input
+                  onChange={handleBusinessChange}
+                  value={businessName}
+                  ref={businessNameRef}
+                  type="text"
+                  placeholder="Enter Business Name"
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                    businessName ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
                 <span className="text-xs py-2 text-[#64748B]">
@@ -1022,28 +1146,34 @@ function AddVendorNew() {
                 </span>
               </div>
 
-              {firstNameError && (
-                <ErrorMessage message={firstNameError} type="error" />
+              {businessNameError && (
+                <ErrorMessage message={businessNameError} type="error" />
               )}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Vendor Category{" "}
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
 
               <Select
-                // options={vendorCategoryOptions}
-                value={vendorCategory}
+                ref={vendorCategoryRef}
+                options={vendorCategoryOptions}
+                value={vendorCategoryOptions.find(
+                  (option) => option.value === vendorCategory,
+                )}
                 onChange={handleVendorCategoryChange}
-                placeholder="Select"
+                placeholder="Select Category"
                 classNamePrefix="custom"
                 styles={CustomStyles}
               />
+              {vendorCategoryError && (
+                <ErrorMessage message={vendorCategoryError} type="error" />
+              )}
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Business Mobile No
@@ -1052,48 +1182,57 @@ function AddVendorNew() {
 
                 <div className="flex mt-1">
                   <Select
+                    ref={businessCountryCodeRef}
                     options={countryCodeOptions}
                     value={businessCountryCode}
-                    onChange={(selectedOption) =>
-                      setBusinessCountryCode(selectedOption)
-                    }
+                    onChange={(selectedOption) => {
+                      setBusinessCountryCode(selectedOption);
+                      setBusinessCountryCodeError("");
+                    }}
                     isSearchable={false}
                     styles={CustomStylesCode}
                   />
 
                   <input
-                    value={businessMobileNo}
+                    value={businessMobile}
                     onChange={handleBusinessMobileChange}
                     type="text"
-                    placeholder="9876543210"
+                    ref={businessMobileRef}
+                    placeholder="Enter Mobile Number"
                     maxLength={10}
                     className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
-                      businessMobileNo ? "font-semibold" : "font-medium"
+                      businessMobile ? "font-semibold" : "font-medium"
                     } focus:outline-none focus:ring-0`}
                   />
                 </div>
 
-                {/* {mobileError && (
-                  <ErrorMessage message={mobileError} type="error" />
+                {businessMobileError && (
+                  <ErrorMessage message={businessMobileError} type="error" />
                 )}
 
-                {countryCodeError && (
-                  <ErrorMessage message={countryCodeError} type="error" />
-                )} */}
-              </div>
+                {businessCountryCodeError && (
+                  <ErrorMessage
+                    message={businessCountryCodeError}
+                    type="error"
+                  />
+                )}
 
-              {vendorPhoneError && (
-                <ErrorMessage message={vendorPhoneError} type="error" />
-              )}
+                {state.ComplianceList?.alreadyVendorHere && (
+                  <ErrorMessage
+                    message={state.ComplianceList?.alreadyVendorHere}
+                    type="error"
+                  />
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Proprietor / Contact Person Name
-                  <span className="text-red-600 text-[20px]">*</span>
+                  Contact Person Name
+                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
 
                 <input
@@ -1107,25 +1246,27 @@ function AddVendorNew() {
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
 
-                {contactPersonNameError && (
+                {/* {contactPersonNameError && (
                   <ErrorMessage message={contactPersonNameError} type="error" />
-                )}
+                )} */}
               </div>
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Mobile Number{" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+                  Contact Person Mobile Number{" "}
+                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
 
                 <div className="flex mt-1">
                   <Select
+                    ref={countryCodeRef}
                     options={countryCodeOptions}
                     value={countryCode}
-                    onChange={(selectedOption) =>
-                      setCountryCode(selectedOption)
-                    }
+                    onChange={(selectedOption) => {
+                      setCountryCode(selectedOption);
+                      setCountryCodeError("");
+                    }}
                     isSearchable={false}
                     styles={CustomStylesCode}
                   />
@@ -1135,7 +1276,7 @@ function AddVendorNew() {
                     ref={mobileRef}
                     onChange={handleMobileChange}
                     type="text"
-                    placeholder="9876543210"
+                    placeholder="Enter Mobile Number"
                     maxLength={10}
                     className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
                       vendor_Mobile ? "font-semibold" : "font-medium"
@@ -1143,29 +1284,27 @@ function AddVendorNew() {
                   />
                 </div>
 
-                {mobileError && (
+                {/* {mobileError && (
                   <ErrorMessage message={mobileError} type="error" />
                 )}
 
                 {countryCodeError && (
                   <ErrorMessage message={countryCodeError} type="error" />
-                )}
+                )} */}
               </div>
-
-              {vendorPhoneError && (
-                <ErrorMessage message={vendorPhoneError} type="error" />
-              )}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mb-3">
-            <div className="lg:col-span-8">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Email Address{" "}
-                  <span className="text-red-600 text-[20px]">*</span>
+                  {/* <span className="text-red-600 text-[20px]">*</span> */}
                 </label>
 
                 <input
+                  ref={emailRef}
                   value={email_Id}
                   onChange={handleEmailChange}
                   type="email"
@@ -1179,15 +1318,11 @@ function AddVendorNew() {
                   <ErrorMessage message={emailError} type="error" />
                 )}
               </div>
-
-              {vendorEmailError && (
-                <ErrorMessage message={vendorEmailError} type="error" />
-              )}
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Commercial Address (No, Area/Street, Sector){" "}
@@ -1195,6 +1330,7 @@ function AddVendorNew() {
                 </label>
 
                 <textarea
+                  ref={houseNoRef}
                   value={house_no}
                   onChange={handleHouseNo}
                   placeholder="Enter Commercial Address"
@@ -1205,13 +1341,13 @@ function AddVendorNew() {
                 />
               </div>
 
-              {house_noError && (
-                <ErrorMessage message={house_noError} type="error" />
+              {houseNoError && (
+                <ErrorMessage message={houseNoError} type="error" />
               )}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 ">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Landmark{" "}
@@ -1221,6 +1357,7 @@ function AddVendorNew() {
                 </label>
 
                 <input
+                  ref={landmarkRef}
                   type="text"
                   placeholder="E.g, near Apollo Hospital"
                   value={landmark}
@@ -1230,13 +1367,9 @@ function AddVendorNew() {
                   } focus:outline-none focus:ring-0`}
                 />
               </div>
-
-              {landmarkError && (
-                <ErrorMessage message={landmarkError} type="error" />
-              )}
             </div>
 
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Town/City <span className="text-red-600 text-[20px]">*</span>
@@ -1257,8 +1390,8 @@ function AddVendorNew() {
               {cityError && <ErrorMessage message={cityError} type="error" />}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 ">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   State
@@ -1284,7 +1417,7 @@ function AddVendorNew() {
                 <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Pincode
@@ -1310,98 +1443,10 @@ function AddVendorNew() {
                 )}
               </div>
             </div>
-
-            {/* <div className="col-span-12 lg:col-span-6">
-              <Form.Group
-                className="mb-0"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label className="text-[14px] text-[#222222] font-gilroy font-medium">
-                  Country <span className="text-red-600 text-[20px]">*</span>
-                </Form.Label>
-
-                <Select
-                  options={countryList}
-                  ref={countryRef}
-                  onChange={(selectedOption) => {
-                    setCountry(selectedOption?.value);
-                    setGeneralError("");
-                    setIsChangedError("");
-                    setCountryError("");
-                  }}
-                  onInputChange={(inputValue, { action }) => {
-                    if (action === "input-change") {
-                      const lettersOnly = inputValue.replace(
-                        /[^a-zA-Z\s]/g,
-                        "",
-                      );
-                      return lettersOnly;
-                    }
-                    return inputValue;
-                  }}
-                  value={countryList.find((c) => c.value === country) || null}
-                  placeholder="Select Country"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No country available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: country ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#9aa0a6",
-                      fontSize: 16,
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
-                />
-
-                {countryError && (
-                  <ErrorMessage message={countryError} type="error" />
-                )}
-              </Form.Group>
-            </div> */}
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
-            <div className="lg:col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Description
               </label>
@@ -1428,8 +1473,8 @@ function AddVendorNew() {
               Business Details
             </h5>
 
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3 ">
-              <div className="lg:col-span-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+              <div className="col-span-1 xl:col-span-4">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   GST Number (Optional)
                 </label>
@@ -1437,10 +1482,12 @@ function AddVendorNew() {
                 <input
                   type="text"
                   value={gstNumber}
+                  maxLength={15}
                   onChange={handleGstNumberChange}
                   placeholder="Enter GST Number"
                   className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
                 />
+                {gstError && <ErrorMessage message={gstError} type="error" />}
               </div>
 
               <div className="lg:col-span-4">
@@ -1451,15 +1498,17 @@ function AddVendorNew() {
                 <input
                   type="text"
                   value={panNumber}
+                  maxLength={10}
                   onChange={handlePanNumberChange}
                   placeholder="Enter PAN Number"
                   className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3  text-[15px] focus:outline-none"
                 />
+                {panError && <ErrorMessage message={panError} type="error" />}
               </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
-              <div className="lg:col-span-8">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+              <div className="col-span-1 xl:col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Vendor Code
                 </label>
@@ -1470,9 +1519,9 @@ function AddVendorNew() {
                   className="w-full h-[44px] border border-[#D9D9D9] rounded-[8px] px-3 bg-[#F8F8F8]  text-[15px]"
                 />
               </div>
-            </div>
+            </div> */}
 
-            <div className="mt-3">
+            <div className="my-3">
               <label className="flex items-start gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -1497,8 +1546,8 @@ function AddVendorNew() {
 
             {allowCreditPurchase && (
               <>
-                <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-3">
-                  <div className="lg:col-span-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+                  <div className="col-span-1 xl:col-span-4">
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                       Credit Limit ₹ INR (Optional)
                     </label>
@@ -1512,7 +1561,7 @@ function AddVendorNew() {
                     />
                   </div>
 
-                  <div className="lg:col-span-4">
+                  <div className="col-span-1 xl:col-span-4">
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                       Credit Period (Optional)
                     </label>
@@ -1533,40 +1582,42 @@ function AddVendorNew() {
                 </p>
               </>
             )}
-
-            <div className="flex justify-end gap-4 my-10 mr-4">
-              <button
-                onClick={handleClose}
-                type="button"
-                className="text-[#4B4B4B] text-sm font-medium"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handleAddVendor}
-                type="submit"
-                className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium"
-              >
-                {check === "EDIT" ? "Save Changes" : "Save vendor"}
-              </button>
-            </div>
           </div>
         </div>
 
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-[40px] h-[40px] rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
-          </div>
-        )}
+        {noChanges && <ErrorMessage message={noChanges} type="error" />}
 
-        {generalError && <ErrorMessage message={generalError} type="error" />}
+        <div className="flex justify-end gap-4 my-2 mr-4">
+          <button
+            onClick={handleClose}
+            type="button"
+            className="text-[#4B4B4B] text-sm font-medium"
+          >
+            Cancel
+          </button>
 
-        {isChangedError && (
-          <div className="d-flex align-items-center justify-content-center">
-            <ErrorMessage message={isChangedError} />
-          </div>
-        )}
+          <button
+            type="submit"
+            disabled={formLoading}
+            onClick={handleAddVendor}
+            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+              formLoading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {formLoading ? (
+              <>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </div>
+              </>
+            ) : (
+              <span>
+                {checkMode === "EDIT" ? "Save Changes" : "Save Vendor"}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
