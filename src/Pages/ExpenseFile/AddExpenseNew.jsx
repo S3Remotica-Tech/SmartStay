@@ -879,8 +879,8 @@ function AddExpenseNew() {
             Expense Details
           </h5>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-4">
-            <div className="col-span-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+            <div className="col-span-1 xl:col-span-8">
               <label className="block mb-2 text-[13px] font-medium text-[#222]">
                 Expense Title{" "}
                 <span className="text-red-500 text-[20px]">*</span>
@@ -902,8 +902,8 @@ function AddExpenseNew() {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-            <div className="col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <label className="block mb-2 text-[13px] font-medium">
                 Category <span className="text-red-500 text-[20px]">*</span>
               </label>
@@ -927,7 +927,7 @@ function AddExpenseNew() {
                 <ErrorMessage message={categoryError} type="error" />
               )}
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Sub Category{" "}
                 {subCategoryList.length > 0 ? (
@@ -957,8 +957,8 @@ function AddExpenseNew() {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
+            <div className="col-span-1 xl:col-span-4">
               <div>
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Total Amount (INR)
@@ -980,7 +980,7 @@ function AddExpenseNew() {
                 )}
               </div>
             </div>
-            <div className="lg:col-span-4">
+            <div className="col-span-1 xl:col-span-4">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Purchase Date
                 <span className="text-red-600 text-[20px]">*</span>
@@ -1013,8 +1013,8 @@ function AddExpenseNew() {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-4">
-            <div className="col-span-8 flex items-center justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+            <div className="col-span-1 xl:col-span-8 flex items-center justify-between">
               <div className="">
                 <label className="block mb-2 text-[13px] text-[#222222] font-medium">
                   Link this Expense to a Vendor?
@@ -1053,8 +1053,8 @@ function AddExpenseNew() {
 
           {linkVendor && (
             <div className="mb-2">
-              <div className="grid grid-cols-12 gap-x-4 gap-y-3 mb-2">
-                <div className="lg:col-span-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                <div className="col-span-1 xl:col-span-8 ">
                   <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                     Vendor
                     <span className="text-red-600 text-[20px]">*</span>
@@ -1074,45 +1074,47 @@ function AddExpenseNew() {
                 </div>
               </div>
 
-              <div className="mb-2">
-                <label className="text-[13px] font-medium text-[#1A1C21]">
-                  Payment Status{" "}
-                  <span className="text-red-500 text-[20px]">*</span>
-                </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
+                <div className="col-span-1 xl:col-span-8">
+                  <label className="text-[13px] font-medium text-[#1A1C21]">
+                    Payment Status{" "}
+                    <span className="text-red-500 text-[20px]">*</span>
+                  </label>
 
-                <div className="flex gap-6 mt-3">
-                  {[
-                    "Fully Paid",
-                    "Partially Paid",
-                    "Credit/Pending",
-                    "Overdue",
-                  ].map((item) => (
-                    <label
-                      key={item}
-                      className="flex items-center gap-2 text-[13px] text-[#4B5563]"
-                    >
-                      <input
-                        type="radio"
-                        name="paymentType"
-                        value={item}
-                        checked={paymentStatus === item}
-                        onChange={(e) => {
-                          setPaymentStatus(e.target.value);
-                          setPaymentStatusError("");
-                        }}
-                        className="accent-blue-600"
-                      />
-                      {item}
-                    </label>
-                  ))}
+                  <div className="flex gap-6 mt-3">
+                    {[
+                      "Fully Paid",
+                      "Partially Paid",
+                      "Credit/Pending",
+                      "Overdue",
+                    ].map((item) => (
+                      <label
+                        key={item}
+                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                      >
+                        <input
+                          type="radio"
+                          name="paymentType"
+                          value={item}
+                          checked={paymentStatus === item}
+                          onChange={(e) => {
+                            setPaymentStatus(e.target.value);
+                            setPaymentStatusError("");
+                          }}
+                          className="accent-blue-600"
+                        />
+                        {item}
+                      </label>
+                    ))}
+                  </div>
+
+                  {paymentStatusError && (
+                    <ErrorMessage message={paymentStatusError} type="error" />
+                  )}
                 </div>
-
-                {paymentStatusError && (
-                  <ErrorMessage message={paymentStatusError} type="error" />
-                )}
               </div>
-              <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-                <div className="lg:col-span-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                <div className="col-span-1 xl:col-span-4">
                   <div>
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                       Paid Amount (INR){" "}
@@ -1138,7 +1140,7 @@ function AddExpenseNew() {
                     )}
                   </div>
                 </div>
-                <div className="lg:col-span-4">
+                <div className="col-span-1 xl:col-span-4">
                   <div>
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                       Balance Amount (Outstanding){" "}
@@ -1172,8 +1174,8 @@ function AddExpenseNew() {
             </div>
           )}
           <div>
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-              <div className="col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+              <div className="col-span-1 xl:col-span-8  ">
                 <label className="block mb-2 text-[13px] text-[#222222] font-medium">
                   Payment Method
                   <span className="text-red-500 ml-1">*</span>
@@ -1195,8 +1197,8 @@ function AddExpenseNew() {
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-              <div className="col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+              <div className="col-span-1 xl:col-span-8 ">
                 <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                   Transaction ID
                 </label>
@@ -1212,8 +1214,8 @@ function AddExpenseNew() {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-4 mt-2">
-              <div className="col-span-12 lg:col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+              <div className="col-span-1 xl:col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                   Credit Period (for this expense only)
                 </label>
@@ -1231,8 +1233,8 @@ function AddExpenseNew() {
             </div>
 
             {/* Attachments */}
-            <div className="grid grid-cols-12 gap-4 mt-2">
-              <div className="col-span-12 lg:col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+              <div className="col-span-1 xl:col-span-8">
                 <div className="mb-2">
                   <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                     Attachments/Proofs (If any)
@@ -1346,8 +1348,8 @@ function AddExpenseNew() {
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-12 gap-x-4 gap-y-3 mt-2">
-              <div className="col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+              <div className="col-span-1 xl:col-span-8">
                 <label className="block mb-2 text-[13px] text-[#222222] font-medium">
                   Description
                 </label>
