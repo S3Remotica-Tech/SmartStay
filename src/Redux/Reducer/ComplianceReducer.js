@@ -40,6 +40,7 @@ export const initialState = {
   vendorOverviewExpenseListStatus: 0,
   vendorOverviewExpensePaymentList: "",
   vendorOverviewExpensePaymentListStatus: 0,
+  withoutCustomVendorList: [],
   vendorFilters: {
     paymentStatus: "",
     paymentStatusLabel: "",
@@ -166,6 +167,12 @@ const ComplianceReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorOverviewExpenseListStatus: 0,
+      };
+
+    case "WITHOUT_CUSTOM_VENDOR_LIST_REDUCER":
+      return {
+        ...state,
+        withoutCustomVendorList: action.payload.response,
       };
 
     case "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_REDUCER":

@@ -1364,6 +1364,15 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.editAdvanceStatusCode]);
 
+  useEffect(() => {
+    if (state.UsersList.statusCodeForReassinBed === 200) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+    }
+  }, [state.UsersList.statusCodeForReassinBed]);
+
   const handleSaveUserlist = () => {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     dispatch({ type: "CLEAR_PHONE_ERROR" });

@@ -19,6 +19,7 @@ import {
   particularVendorOverview,
   VendorOverViewExpenseList,
   VendorOverViewExpensePaymentList,
+  withoutCustomizationVendorList,
 } from "../Action/ComplianceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -42,6 +43,29 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleWithoutCustomizationVendorList(action) {
+  try {
+    const response = yield call(withoutCustomizationVendorList, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "WITHOUT_CUSTOM_VENDOR_LIST_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -760,6 +784,11 @@ function* handleCompliantsUpdatesView(action) {
 }
 
 function* ComplianceSaga() {
+  yield takeEvery(
+    "WITHOUT_CUSTOM_VENDOR_LIST_SAGA",
+    handleWithoutCustomizationVendorList,
+  );
+
   yield takeEvery(
     "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
     handleVendorOverViewExpensePayemntList,

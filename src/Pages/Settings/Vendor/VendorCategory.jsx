@@ -204,7 +204,7 @@ function VendorCategory() {
 
                           <div
                             className="absolute left-0 top-full mt-2 hidden group-hover:block
-                 whitespace-nowrap rounded-md bg-[#222222] px-3 py-2 font-gilroy 
+                 whitespace-nowrap rounded-md bg-blue-700  px-3 py-2 font-gilroy 
                  text-sm text-white shadow-lg z-50"
                           >
                             {u.categoryName}
