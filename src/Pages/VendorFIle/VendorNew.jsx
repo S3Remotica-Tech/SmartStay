@@ -169,7 +169,7 @@ function Vendor() {
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  // const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -244,6 +244,27 @@ function Vendor() {
       left: rect.left,
     });
   };
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
 
   useEffect(() => {
     if (popupRef.current) {
@@ -420,7 +441,6 @@ function Vendor() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true);
       dispatch({
         type: "VENDORLIST",
         payload: {
@@ -514,6 +534,7 @@ function Vendor() {
   }, [state.ComplianceList?.vendorFilters]);
 
   useEffect(() => {
+    setLoading(true);
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
     }, 1500);
@@ -808,9 +829,9 @@ function Vendor() {
 
   const totalRecords = filteredData?.totalVendors ?? 0;
 
-  // useEffect(() => {
-  //   setPage(1);
-  // }, [state.reports?.tenantFilters]);
+  useEffect(() => {
+    setPage(1);
+  }, [state.ComplianceList?.vendorFilters]);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -1502,6 +1523,9 @@ function Vendor() {
                 isClearSearch={true}
                 handleClear={() => {
                   setSearchQuery("");
+                  setCategoryFilter("");
+                  setPaymentStatus("");
+                  handleReset();
                 }}
               />
             )}

@@ -114,7 +114,9 @@ const CustomStyles = {
 function VendorExpenseHistory() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+
   const [openExpense, setOpenExpense] = useState(null);
+
   const monthOptions = [
     { value: "this_month", label: "This Month" },
     { value: "last_month", label: "Last Month" },
@@ -127,6 +129,7 @@ function VendorExpenseHistory() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedMonth, setSelectedMonth] = useState();
+
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
   };
@@ -189,6 +192,7 @@ function VendorExpenseHistory() {
       items: [],
     },
   ];
+
   return (
     <div className="px-4">
       <div className="flex flex-wrap items-center justify-between  bg-white ">

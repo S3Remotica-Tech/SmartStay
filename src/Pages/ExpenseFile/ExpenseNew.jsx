@@ -23,6 +23,8 @@ import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DeleteExpense from "./DeleteExpense";
+import ApiPagination from "../../Components/ApiPagination";
+import { IoMdMenu } from "react-icons/io";
 import {
   CloseCircle,
   SearchNormal1,
@@ -140,27 +142,6 @@ const CustomStyles = {
   }),
 };
 
-const stats = [
-  {
-    label: "Total Expense Amount",
-    value: "0",
-    icon: true,
-    highlight: true,
-  },
-  {
-    label: "Paid",
-    value: "0",
-  },
-  {
-    label: "Unpaid(Credit)",
-    value: "0",
-  },
-  {
-    label: "Partially paid ",
-    value: "0",
-  },
-];
-
 function Expenses() {
   const location = useLocation();
   const state = useSelector((state) => state);
@@ -187,14 +168,16 @@ function Expenses() {
   const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  const [dates, setDates] = useState([]);
+  // const [dates, setDates] = useState([]);
   const [pickerKey, setPickerKey] = useState(0);
   const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const tableContainerRef = useRef(null);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
   const tableRef = useRef(null);
@@ -219,9 +202,45 @@ function Expenses() {
   const selectOptions = [{ value: "ALL", label: "All" }];
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
+  const [selectedExpenseId, setSelectedExpenseId] = useState("");
   const [selectedMonth, setSelectedMonth] = useState();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [showDots, setShowDots] = useState(null);
+  const [showCategory, setShowCategory] = useState(false);
+  const [showPaymentMode, setShowPaymentMode] = useState(false);
+  const [showAmount, setShowAmount] = useState(false);
+  const [showFilterExpense, setShowFilterExpense] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [chips, setChips] = useState([]);
+  const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const stats = [
+    {
+      label: "Total Expense Amount",
+      value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
+      icon: true,
+      highlight: true,
+    },
+    {
+      label: "Paid",
+      value: getData?.expenseSummary?.totalPaidAmount ?? 0,
+    },
+    {
+      label: "Unpaid (Credit)",
+      value: getData?.expenseSummary?.totalUnPaidAmount ?? 0,
+    },
+    {
+      label: "Partially Paid",
+      value: getData?.expenseSummary?.totalPartialPaidAmount ?? 0,
+    },
+  ];
+
+  const categoryOptions =
+    getData?.filterOptions?.category?.map((item) => ({
+      value: item.type,
+      label: item.name,
+    })) || [];
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
@@ -255,6 +274,34 @@ function Expenses() {
 
   const isExpenseForm = location.state?.isExpenseForm || false;
 
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      setPage(1);
+      setSearchQuery("");
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+
   const handleShowDots = (event, id) => {
     setShowDots((prev) => (prev === id ? null : id));
     // console.log(id);
@@ -287,23 +334,42 @@ function Expenses() {
       setError("Please select at least one column");
       return;
     }
-    // const payload = customizeItems.map((item, index) => ({
-    //   fieldName: item.key,
-    //   isSelected: item.selected,
-    //   order: index + 1,
-    // }));
+    const payload = customizeItems.map((item, index) => ({
+      fieldName: item.key,
+      isSelected: item.selected,
+      order: index + 1,
+    }));
 
-    // if (payload) {
-    //   dispatch({
-    //     type: "CUSTOMIZE_TENANT_COLUMNS_SAGA",
-    //     payload: {
-    //       hostelId: state.login.selectedHostel_Id,
-    //       customize: payload,
-    //     },
-    //   });
-    //   setCustomizeLoading(true);
-    // }
+    if (payload) {
+      dispatch({
+        type: "EXPENSE_CUSTOMIZE_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customize: payload,
+        },
+      });
+      setCustomizeLoading(true);
+    }
   };
+
+  useEffect(() => {
+    if (state.ExpenseList?.customizeExpenseSuccessCode === 200) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+      setOpen(false);
+      setCustomizeLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_EXPENSE_CUSTOMIZE_REDUCER" });
+      }, 100);
+    }
+  }, [state.ExpenseList?.customizeExpenseSuccessCode]);
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -406,6 +472,17 @@ function Expenses() {
     });
   };
 
+  const handleCategoryFilter = (selected) => {
+    setCategoryFilter(selected?.value || "");
+
+    dispatch({
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
+        categoryName: selected.label,
+      },
+    });
+  };
+
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
     const value = e.target.getAttribute("value");
@@ -437,12 +514,85 @@ function Expenses() {
         type: "VENDORLIST",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
     }
   }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+          categoryId: categoryFilter,
+          name: debouncedSearch,
+        },
+      });
+      dispatch({
+        type: "SET_EXPENSE_FILTERS",
+        payload: {
+          search: searchQuery,
+          categoryId: categoryFilter,
+        },
+      });
+    }
+  }, [
+    state.login.selectedHostel_Id,
+    page,
+    size,
+    categoryFilter,
+    debouncedSearch,
+  ]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
+        search: "",
+        categoryName: "",
+        categoryId: "",
+      },
+    });
+    dispatch({
+      type: "EXPENSELIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: page,
+        size: size,
+      },
+    });
+
+    setChips([]);
+    setSearchQuery("");
+    setCategoryFilter("");
+  };
+
+  useEffect(() => {
+    const expenseFilters = state.ExpenseList?.expenseFilters;
+
+    const filterData = [];
+
+    if (expenseFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Vendor",
+        type: "search",
+        value: expenseFilters.search,
+      });
+    }
+
+    if (expenseFilters?.categoryName) {
+      filterData.push({
+        key: "category",
+        label: "Category",
+        type: "category",
+        value: expenseFilters.categoryName,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.ExpenseList?.expenseFilters]);
 
   const { getExpenseStatusCode } = state.ExpenseList;
 
@@ -469,7 +619,11 @@ function Expenses() {
     ) {
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
       });
       setShowModal(false);
       setShowExpenseDelete(false);
@@ -487,46 +641,11 @@ function Expenses() {
     state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
   ]);
 
-  const filterByPriceRange = (data) => {
-    switch (selectedPriceRange) {
-      case "0-100":
-        return data.filter((item) => item.price <= 100);
-      case "100-500":
-        return data.filter((item) => item.price > 100 && item.price <= 500);
-      case "500-1000":
-        return data.filter((item) => item.price > 500 && item.price <= 1000);
-      case "1000+":
-        return data.filter((item) => item.price > 1000);
-      case "All":
-        return data;
-      default:
-        return data;
-    }
-  };
-
-  const handleFilterByPrice = () => {
-    setShowFilter(!showFilter);
-  };
-
   useEffect(() => {
-    if (getData.length === 0) {
+    if (getData?.expenses?.length === 0) {
       setLoading(false);
     }
   }, [getData]);
-
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(10);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // const filteredData = React.useMemo(
-  //   () => filterByPriceRange(getData) || [],
-  //   [getData],
-  // );
-
-  // const sortedData = React.useMemo(() => {
-  //   return Array.isArray(filteredData) ? filteredData : [];
-  // }, [filteredData]);
 
   const handleDeleteExpense = (id) => {
     if (!id) return;
@@ -551,10 +670,6 @@ function Expenses() {
     }
   };
 
-  const [showCategory, setShowCategory] = useState(false);
-  const [showPaymentMode, setShowPaymentMode] = useState(false);
-  const [showAmount, setShowAmount] = useState(false);
-
   const handleCatogoryChange = (e) => {
     setSelectedValue(null);
     setCategoryValue(e.target.getAttribute("value"));
@@ -576,8 +691,6 @@ function Expenses() {
     setShowFilter(false);
   };
 
-  const [showFilterExpense, setShowFilterExpense] = useState(false);
-
   const handleShowSearch = () => {
     setShowFilterExpense(!showFilterExpense);
   };
@@ -588,29 +701,26 @@ function Expenses() {
     setSearchQuery("");
   };
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [showDropDown, setShowDropDown] = useState(false);
-
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ExpenseList.expenseList &&
-        state.ExpenseList.expenseList.filter(
-          (user) =>
-            user.category_Name &&
-            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
-
-      setGetData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setGetData(state.ExpenseList.expenseList);
-    }
-    // setCurrentPage(1);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleDropDown = (value) => {
     const searchItem = value;
@@ -632,80 +742,6 @@ function Expenses() {
     // setCurrentPage(1);
     setShowDropDown(false);
   };
-
-  const handleDateChange = (selectedDates) => {
-    if (!selectedDates || selectedDates.length !== 2) {
-      setDates([]);
-      setExcelFilterDates([]);
-      setSelectedValue("All");
-      setCategoryValue("");
-      setModeValue("");
-      setAmountValue("");
-      // setMinAmount("");
-      // setMaxAmount("");
-      setAssetValue("");
-      setVendorValue("");
-      setPickerKey((prevKey) => prevKey + 1);
-      // setCurrentPage(1);
-
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      return;
-    }
-
-    const newStartDate = dayjs(selectedDates[0]).startOf("day");
-    const newEndDate = dayjs(selectedDates[1]).endOf("day");
-    setDates([newStartDate, newEndDate]);
-    setExcelFilterDates([newStartDate, newEndDate]);
-    // setCurrentPage(1);
-  };
-
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-
-    const payload = { hostelId: state.login.selectedHostel_Id };
-    if (dates.length === 2) {
-      payload.start_date = dates[0].format("YYYY-MM-DD");
-      payload.end_date = dates[1].format("YYYY-MM-DD");
-    }
-    dispatch({ type: "EXPENSELIST", payload });
-  }, [dates, state.login.selectedHostel_Id]);
-
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-
-    const payload = { hostelId: state.login.selectedHostel_Id };
-
-    if (selectedValue === "All") {
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (categoryValue) {
-      payload.category = categoryValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (modeValue) {
-      payload.payment_mode = modeValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (amountValue) {
-      const [minAmount, maxAmount] = amountValue.split("-").map(Number);
-      payload.min_amount = minAmount;
-      payload.max_amount = maxAmount;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (assetValue) {
-      payload.asset_id = assetValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    } else if (vendorValue) {
-      payload.vendor_id = vendorValue;
-      dispatch({ type: "EXPENSELIST", payload });
-    }
-  }, [
-    selectedValue,
-    categoryValue,
-    modeValue,
-    amountValue,
-    assetValue,
-    vendorValue,
-  ]);
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -744,8 +780,6 @@ function Expenses() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = getData?.slice(startIndex, endIndex);
-
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
   };
@@ -754,7 +788,7 @@ function Expenses() {
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  //   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
@@ -777,79 +811,54 @@ function Expenses() {
     },
   };
 
-  const selectedColumns = [
-    { key: "expenseId", fieldName: "Expense No" },
-    { key: "title", fieldName: "TITLE" },
-    { key: "date", fieldName: "date & Time" },
-    { key: "category", fieldName: "Category" },
-    { key: "subcategory", fieldName: "SUB Category" },
-    { key: "vendor", fieldName: "Vendor" },
-    { key: "status", fieldName: "Status" },
-    { key: "paymentMode", fieldName: "Payment Mode" },
-    { key: "totalAmount", fieldName: "Total amount" },
-    { key: "paidAmount", fieldName: "Paid amount" },
-    { key: "balanceAmount", fieldName: "Balance amount" },
-  ];
-
   const headerKeyMap = {
     "Expense No": "referenceNumber",
-    TITLE: "title",
-    "date & Time": "transactionDate",
+    Title: "title",
+    Date: "transactionDate",
     Category: "categoryName",
-    "SUB Category": "subCategoryName",
+    "Sub Category": "subCategoryName",
     Vendor: "vendor",
     Status: "paymentStatus",
     "Payment Mode": "bankName",
-    "Total amount": "totalAmount",
-    "Paid amount": "paidAmount",
-    "Balance amount": "balanceAmount",
+    "Total Amount": "totalAmount",
+    "Paid Amount": "paidAmount",
+    "Balance Amount": "balanceAmount",
   };
 
-  //   const formattedData = (userListDetail?.tenants || []).map((row) => {
-  //     const obj = {};
+  const formattedData = (getData?.expenses || []).map((row) => {
+    const obj = {};
 
-  //     (userListDetail?.tableHeaders || []).forEach((header, index) => {
-  //       const key = headerKeyMap[header];
-  //       const value = row[index];
+    (getData?.tableHeaders || []).forEach((header, index) => {
+      const key = headerKeyMap[header];
+      const value = row[index];
 
-  //       if (key) {
-  //         obj[key] = value ?? "-";
-  //       }
-  //     });
-
-  //     const apiData = row[row.length - 1];
-
-  //     obj.apiCall = {
-  //       customerId: apiData?.customerId || null,
-  //       status: apiData?.status || null,
-  //     };
-
-  //     return obj;
-  //   });
-
-  //   useEffect(() => {
-  //     const cols = state?.UsersList?.Users?.columnList || [];
-
-  //     const formatted = cols.map((col) => ({
-  //       ...col,
-  //       key: col.fieldName,
-  //       selected: col.selected,
-  //     }));
-
-  //     setCustomizeItems(formatted);
-  //     setInitialCustomizeItems(formatted);
-  //   }, [state?.UsersList?.Users?.columnList]);
-
-  const formattedData = getData?.map((item) => {
-    const row = {};
-
-    selectedColumns.forEach((column) => {
-      const key = headerKeyMap[column];
-      row[column] = item[key] ?? "-";
+      if (key) {
+        obj[key] = value ?? "-";
+      }
     });
 
-    return row;
+    const apiData = row[row.length - 1];
+
+    obj.apiCall = {
+      expenseId: apiData?.expenseId || null,
+      status: apiData?.status || null,
+    };
+
+    return obj;
   });
+
+  useEffect(() => {
+    const cols = getData?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected: col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
+  }, [getData?.columnList]);
 
   const columnStyles = {
     "Vendor ID": "px-4 whitespace-nowrap",
@@ -913,6 +922,25 @@ function Expenses() {
     }
   };
 
+  const currentPage = getData?.currentPage ?? 1;
+
+  const totalPages = getData?.totalPages ?? 1;
+
+  const totalRecords = getData?.totalExpenses ?? 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [state.ComplianceList?.vendorFilters]);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    // console.log("setPage", page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -936,9 +964,9 @@ function Expenses() {
                 type="text"
                 className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
                 placeholder="Search"
-                value={filterInput}
-                onChange={(e) => handlefilterInput(e)}
-                disabled={canReadExpense}
+                value={searchQuery}
+                onChange={handleInputChange}
+                disabled={!canReadExpense}
               />
 
               <SearchNormal1
@@ -976,15 +1004,16 @@ function Expenses() {
                   }`}
                 >
                   <Select
-                    options={selectOptions}
+                    options={categoryOptions}
                     styles={CustomStyles}
                     isDisabled={!canReadExpense}
                     menuPlacement="auto"
                     classNamePrefix="custom"
-                    onChange={(e) => handleStatusFilter(e)}
+                    onChange={handleCategoryFilter}
                     value={
-                      selectOptions.find((opt) => opt.value === statusfilter) ||
-                      null
+                      categoryOptions.find(
+                        (opt) => opt.value === categoryFilter,
+                      ) || null
                     }
                     id="statusselect"
                   />
@@ -992,7 +1021,7 @@ function Expenses() {
 
                 <div className="flex items-center gap-3">
                   <Select
-                    isDisabled={!canReadExpense}
+                    isDisabled={canReadExpense}
                     options={monthOptions}
                     value={selectedMonth}
                     onChange={handleMonthChange}
@@ -1020,13 +1049,6 @@ function Expenses() {
                     }`}
                   />
                 </div>
-
-                <button
-                  onClick={() => setShowOverview(true)}
-                  className="cursor-pointer"
-                >
-                  <PiDotsThreeOutlineVerticalFill size={20} />
-                </button>
               </div>
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -1039,7 +1061,7 @@ function Expenses() {
                   />
                 </div>
 
-                {/* {filteredData?.length > 0 && (
+                {formattedData?.length > 0 && (
                   <ApiPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -1049,7 +1071,7 @@ function Expenses() {
                     isTenantPagination={true}
                     size={size}
                   />
-                )} */}
+                )}
               </div>
             </div>
 
@@ -1079,14 +1101,6 @@ function Expenses() {
                       {item.label}
 
                       <div className="relative group w-fit">
-                        {item.label !== "Notice Period" && (
-                          <Filter
-                            size="14"
-                            color="#9CA3AF"
-                            className="cursor-pointer"
-                          />
-                        )}
-
                         <div
                           className="absolute left-1/2 -translate-x-1/2 mt-2 
                           hidden group-hover:flex
@@ -1107,7 +1121,29 @@ function Expenses() {
               ))}
             </div>
 
-            {getData?.length > 0 ? (
+            {chips?.length > 0 && (
+              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+                <div className="flex flex-wrap gap-2 flex-1">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip.key}
+                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                    >
+                      {chip.label} :
+                      <span className="text-gray-900">{chip.value}</span>
+                    </span>
+                  ))}
+                </div>
+                <span
+                  className="text-blue-600 text-sm font-medium cursor-pointer"
+                  onClick={handleReset}
+                >
+                  Reset
+                </span>
+              </div>
+            )}
+
+            {formattedData?.length > 0 ? (
               <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                 <div
                   id="tableContainer"
@@ -1124,10 +1160,6 @@ function Expenses() {
                             stickyClass =
                               "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
                           }
-                          //  else if (index === 1) {
-                          //   stickyClass =
-                          //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                          // }
 
                           return (
                             <th
@@ -1145,14 +1177,15 @@ function Expenses() {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(getData) &&
-                        getData?.length > 0 &&
-                        getData?.map((user, index) => {
+                      {Array.isArray(formattedData) &&
+                        formattedData?.length > 0 &&
+                        formattedData?.map((user, index) => {
                           return (
                             <tr
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowOverview(true);
+                                setSelectedExpenseId(user.apiCall.expenseId);
                               }}
                               key={index}
                               className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
@@ -1175,36 +1208,12 @@ function Expenses() {
                                 const finalClass = `${baseClass} ${stickyClass}`;
 
                                 switch (col.fieldName) {
-                                  case "Profile Pic":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`px-4 ${finalClass}`}
-                                      >
-                                        {typeof user?.profilePic === "string" &&
-                                        user.profilePic.startsWith("http") ? (
-                                          <img
-                                            src={user.profilePic}
-                                            className="w-8 h-8 rounded-full"
-                                            alt="profile"
-                                          />
-                                        ) : (
-                                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                            {typeof user?.profilePic ===
-                                            "string"
-                                              ? user.profilePic
-                                              : "NA"}
-                                          </div>
-                                        )}
-                                      </td>
-                                    );
-
-                                  case "Full Name":
+                                  case "Expense No":
                                     return (
                                       <td key={col.key} className={finalClass}>
                                         <div className="relative group w-[100px] ">
                                           <span className="block w-full truncate text-sm text-[#111928] ">
-                                            {user.fullName}
+                                            {user.referenceNumber}
                                           </span>
 
                                           <div
@@ -1213,7 +1222,7 @@ function Expenses() {
        bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
         z-[9999] pointer-events-none"
                                           >
-                                            {user?.fullName}
+                                            {user?.referenceNumber}
                                           </div>
                                         </div>
                                       </td>
@@ -1242,110 +1251,84 @@ function Expenses() {
                                         </span>
                                       </td>
                                     );
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        <span
-                                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                                          style={{
-                                            backgroundColor:
-                                              statusStyles[user.status]?.bg ||
-                                              "#EEE",
-                                          }}
-                                        >
-                                          <span
-                                            className="h-2 w-2 rounded-full"
-                                            style={{
-                                              backgroundColor:
-                                                statusStyles[user.status]
-                                                  ?.text || "#333",
-                                            }}
-                                          ></span>
 
-                                          {user.status}
-                                        </span>
-                                      </td>
-                                    );
-
-                                  case "Joining Date":
+                                  case "Date":
                                     return (
                                       <td
                                         key={col.key}
                                         className={`${finalClass} truncate text-[#6B7280] font-medium`}
                                       >
-                                        {user.joiningDate}
+                                        {user.transactionDate}
                                       </td>
                                     );
 
-                                  case "Mobile No":
+                                  case "Title":
                                     return (
                                       <td key={col.key} className={finalClass}>
-                                        {user.mobile}
+                                        {user.title}
                                       </td>
                                     );
 
-                                  case "Floor":
+                                  case "Category":
                                     return (
                                       <td key={col.key} className={finalClass}>
-                                        {user.floorName}
+                                        {user.categoryName}
+                                      </td>
+                                    );
+                                  case "Sub Category'":
+                                    return (
+                                      <td key={col.key} className={finalClass}>
+                                        {user.subCategoryName}
                                       </td>
                                     );
 
-                                  case "Room":
+                                  case "Vendor":
                                     return (
                                       <td
                                         key={col.key}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.roomName}
+                                        {user.vendor}
                                       </td>
                                     );
 
-                                  case "Bed":
+                                  case "Payment Mode":
                                     return (
                                       <td
                                         key={col.key}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.bedName}
+                                        {user.bankName}
                                       </td>
                                     );
-                                  case "Email ID":
+                                  case "Total Amount":
                                     return (
                                       <td
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.emailId}
+                                        {user.totalAmount}
                                       </td>
                                     );
-                                  case "Booking Date":
+                                  case "Paid Amount":
                                     return (
                                       <td
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.bookingDate}
+                                        {user.paidAmount}
                                       </td>
                                     );
-                                  case "Monthly Rent":
+                                  case "Balance Amount":
                                     return (
                                       <td
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.monthlyRent}
+                                        {user.balanceAmount}
                                       </td>
                                     );
-                                  case "Advance":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.advanceAmount}
-                                      </td>
-                                    );
-                                  case "Booking Amount":
+
                                     return (
                                       <td
                                         key={col.fieldName}
@@ -1378,16 +1361,16 @@ function Expenses() {
                                 <div
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleShowDots(e, user.expenseId);
+                                    handleShowDots(e, user.apiCall?.expenseId);
                                   }}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90
-                                         ${String(showDots) === String(user.expenseId) ? "text-blue-600" : "text-gray-500"}`}
+                                         ${String(showDots) === String(user.apiCall?.expenseId) ? "text-blue-600" : "text-gray-500"}`}
                                   />
 
                                   {String(showDots) ===
-                                    String(user.expenseId) && (
+                                    String(user.apiCall?.expenseId) && (
                                     <>
                                       <div
                                         ref={popupRef}
@@ -1640,7 +1623,16 @@ function Expenses() {
               </div>
             ) : (
               <div className="my-2">
-                <NoDataMessage label="Expense" />
+                <NoDataMessage
+                  label="Expense"
+                  isSearching={isSearching}
+                  isClearSearch={true}
+                  handleClear={() => {
+                    setSearchQuery("");
+                    setCategoryFilter("");
+                    handleReset();
+                  }}
+                />
               </div>
             )}
           </div>

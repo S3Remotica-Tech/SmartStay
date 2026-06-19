@@ -19,12 +19,27 @@ export const initialState = {
   unitList: [],
   expenseOverview: "",
   customizeExpenseSuccessCode: 0,
+  expenseFilters: {
+    search: "",
+    categoryName: "",
+    categoryId: "",
+  },
 };
 
 const ExpenseReducer = (state = initialState, action) => {
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
+
+    case "SET_EXPENSE_FILTERS":
+      return {
+        ...state,
+        expenseFilters: {
+          ...state.expenseFilters,
+          ...action.payload,
+        },
+      };
+
     case "INITIALIZE_EXPENSES_LIST":
       return {
         ...state,
@@ -46,9 +61,11 @@ const ExpenseReducer = (state = initialState, action) => {
       return { ...state, expenseOverview: action.payload.response };
 
     case "EXPENSE_CUSTOMIZE_REDUCER":
-      return { ...state, customizeExpenseSuccessCode: action.payload.response };
+      return {
+        ...state,
+        customizeExpenseSuccessCode: action.payload.statusCode,
+      };
 
-      
     case "REMOVE_EXPENSE_CUSTOMIZE_REDUCER":
       return { ...state, customizeExpenseSuccessCode: 0 };
 

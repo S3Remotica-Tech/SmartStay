@@ -13,8 +13,21 @@ export function AddExpenseTag() {
   });
 }
 
-export async function GetExpense(datum) {
-  return await AxiosConfigV2.get(`/v2/expense/${datum.hostelId}`);
+// export async function GetExpense(datum) {
+//   return await AxiosConfigV2.get(`/v2/expense/${datum.hostelId}`);
+// }
+
+export async function GetExpense(exp) {
+  const params = {};
+
+  if (exp.name) params.name = exp.name;
+  if (exp.categoryId) params.categoryId = exp.categoryId;
+  if (exp.page) params.page = exp.page;
+  if (exp.size) params.size = exp.size;
+
+  return await AxiosConfigV2.get(`/v2/expense/${exp.hostelId}`, {
+    params,
+  });
 }
 
 export async function GetUnits(datum) {
@@ -46,8 +59,11 @@ export async function particularExpenseverview() {
 
 //  customization PUT Api
 
-export async function expenseCustomizeData(vendor) {
-  return await AxiosConfigV2.put(``, vendor.customize);
+export async function expenseCustomizeData(expense) {
+  return await AxiosConfigV2.put(
+    `/v2/table-config/expense/${expense.hostelId}`,
+    expense.customize,
+  );
 }
 
 export async function DeleteExpense(expense) {

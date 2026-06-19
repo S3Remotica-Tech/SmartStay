@@ -293,6 +293,7 @@ function AddVendorNew() {
   // const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
   const location = useLocation();
+  const [initialVendorData, setInitialVendorData] = useState(null);
   const [check, setCheck] = useState(null);
   const [generalError, setGeneralError] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
@@ -348,7 +349,7 @@ function AddVendorNew() {
   const businessMobileRef = useRef(null);
   const contactPersonRef = useRef(null);
   const descriptionRef = useRef(null);
-
+  const [noChanges, setNochanges] = useState("");
   const [vendorCategoryError, setVendorCategoryError] = useState("");
 
   const [businessNameError, setBusinessNameError] = useState("");
@@ -365,6 +366,7 @@ function AddVendorNew() {
     })) || [];
 
   const handleVendorNameChange = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (value.length <= 50) {
@@ -427,6 +429,7 @@ function AddVendorNew() {
   }, []);
 
   const handleDescriptionChange = (e) => {
+    setNochanges("");
     setDescription(e.target.value);
   };
 
@@ -447,6 +450,7 @@ function AddVendorNew() {
   // };
 
   const handleGstNumberChange = (e) => {
+    setNochanges("");
     let value = e.target.value.toUpperCase();
 
     value = value.replace(/[^A-Z0-9]/g, "");
@@ -472,6 +476,7 @@ function AddVendorNew() {
   };
 
   const handlePanNumberChange = (e) => {
+    setNochanges("");
     let value = e.target.value.toUpperCase();
 
     value = value.replace(/[^A-Z0-9]/g, "");
@@ -495,38 +500,46 @@ function AddVendorNew() {
     }
   };
   const handleStateChange = (selectedOption) => {
+    setNochanges("");
     setStateName(selectedOption);
   };
 
   const handleCreditLimitChange = (e) => {
+    setNochanges("");
     setCreditLimit(e.target.value);
   };
 
   const handleCreditPeriodChange = (e) => {
+    setNochanges("");
     setCreditPeriod(e.target.value);
   };
 
   const handleCreditPurchaseToggle = () => {
+    setNochanges("");
     setAllowCreditPurchase((prev) => !prev);
   };
 
   const handleVendorCategoryChange = (selectedOption) => {
+    setNochanges("");
     setVendorCategory(selectedOption?.value);
     setVendorCategoryError("");
   };
 
   const handleContactPersonNameChange = (e) => {
+    setNochanges("");
     setContactPersonName(e.target.value);
     setContactPersonNameError("");
   };
 
   const handleBusinessMobileChange = (e) => {
+    setNochanges("");
     const value = e.target.value.replace(/\D/g, "");
     setBusinessMobile(value);
     setBusinessMobileError("");
   };
 
   const handlePinCodeChange = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (!/^\d{0,6}$/.test(value)) {
@@ -550,6 +563,7 @@ function AddVendorNew() {
   const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
   const handleHouseNo = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (!regex.test(value)) {
@@ -563,6 +577,7 @@ function AddVendorNew() {
   };
 
   const handleLandmark = (e) => {
+    setNochanges("");
     const value = e.target.value;
 
     if (!regex.test(value)) {
@@ -575,6 +590,7 @@ function AddVendorNew() {
   };
 
   const handleCity = (e) => {
+    setNochanges("");
     const value = e.target.value;
     const regex = /^[a-zA-Z\s]*$/;
     if (regex.test(value)) {
@@ -586,6 +602,7 @@ function AddVendorNew() {
   };
 
   const handleClose = () => {
+    setNochanges("");
     // setShow(false);
     navigate(`/vendor/${state.login.selectedHostel_Id}`);
 
@@ -596,6 +613,7 @@ function AddVendorNew() {
   };
 
   const handleBusinessChange = (e) => {
+    setNochanges("");
     const value = e.target.value;
     setGeneralError("");
     setIsChangedError("");
@@ -603,15 +621,8 @@ function AddVendorNew() {
     setBusinessName(value);
   };
 
-  const handleImageChange = async (event) => {
-    const fileImage = event.target.files[0];
-
-    if (fileImage) {
-      setFile(fileImage);
-    }
-  };
-
   const handleMobileChange = (e) => {
+    setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
     const input = e.target.value;
@@ -634,6 +645,7 @@ function AddVendorNew() {
   };
 
   const handleEmailChange = (e) => {
+    setNochanges("");
     const email = e.target.value.toLowerCase();
     setEmail_Id(email);
     setGeneralError("");
@@ -654,6 +666,7 @@ function AddVendorNew() {
   };
 
   const handleAddVendor = () => {
+    setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
     setFirstNameError("");
@@ -813,7 +826,41 @@ function AddVendorNew() {
     if (!isValid) {
       return;
     }
+
     if (checkMode === "EDIT") {
+      const currentData = {
+        vendorName: vendorName || "",
+        businessName: businessName || "",
+        businessMobile: businessMobile || "",
+        email: email_Id || "",
+        houseNo: house_no || "",
+        landmark: landmark || "",
+        city: city || "",
+        state: state_name || "",
+        pinCode: pinCode || "",
+        contactPerson: contactPersonName || "",
+        contactPersonMobile: vendor_Mobile || "",
+        description: description || "",
+        gst: gstNumber || "",
+        pan: panNumber || "",
+        allowCredit: allowCreditPurchase,
+        creditLimit: creditLimit || "",
+        creditPeriod: creditPeriod || "",
+        countryCode:
+          typeof countryCode === "object"
+            ? countryCode.value
+            : countryCode || "91",
+        vendorCategory: vendorCategory?.value || null,
+      };
+
+      const hasChanges =
+        JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
+
+      if (!hasChanges) {
+        setNochanges("No changes detected");
+        return;
+      }
+
       dispatch({
         type: "UPDATEVENDOR",
         payload: {
@@ -964,6 +1011,36 @@ function AddVendorNew() {
       } else {
         setVendorCategory(null);
       }
+
+      const initialData = {
+        vendorName: vendorOverView.fullName || "",
+        businessName: vendorOverView.businessName || "",
+        businessMobile: vendorOverView.mobile || "",
+        email: vendorOverView.emailId || "",
+        houseNo: vendorOverView.houseNo || "",
+        landmark: vendorOverView.landMark || "",
+        city: vendorOverView.city || "",
+        state: vendorOverView.state || "",
+        pinCode: vendorOverView.pinCode ? String(vendorOverView.pinCode) : "",
+        contactPerson: vendorOverView.contactPerson || "",
+        contactPersonMobile: vendorOverView.contactPersonMobile || "",
+        description: vendorOverView.description || "",
+        gst: vendorOverView.gst || "",
+        pan: vendorOverView.pan || "",
+        allowCredit: vendorOverView.allowCredit ?? false,
+        creditLimit:
+          vendorOverView.creditLimit != null
+            ? String(vendorOverView.creditLimit)
+            : "",
+        creditPeriod:
+          vendorOverView.creditPeriod != null
+            ? String(vendorOverView.creditPeriod)
+            : "",
+        countryCode: vendorOverView.countryCode || "91",
+        vendorCategory: vendorOverView.vendorCategoryId || null,
+      };
+
+      setInitialVendorData(initialData);
     }
   }, [checkMode, state.ComplianceList?.vendorOverview]);
 
@@ -1508,7 +1585,9 @@ function AddVendorNew() {
           </div>
         </div>
 
-        <div className="flex justify-end gap-4 my-10 mr-4">
+        {noChanges && <ErrorMessage message={noChanges} type="error" />}
+
+        <div className="flex justify-end gap-4 my-2 mr-4">
           <button
             onClick={handleClose}
             type="button"

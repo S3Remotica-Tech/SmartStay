@@ -43,6 +43,13 @@ function VendorOverView({
           period: selectedMonth,
         },
       });
+
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
     }
   }, [selectedVendorId, selectedMonth]);
 

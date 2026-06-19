@@ -273,12 +273,6 @@ const paidThroughOptions = [
   },
 ];
 
-const unitOptions = [
-  { value: "Nos", label: "Nos" },
-  { value: "Packet", label: "Packet" },
-  { value: "Kg", label: "Kg" },
-  { value: "Litre", label: "Litre" },
-];
 function AddExpenseNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -329,9 +323,9 @@ function AddExpenseNew() {
   //
 
   const vendorOptions =
-    state?.ComplianceList?.VendorList?.vendors?.map((vendor) => ({
-      value: vendor[11]?.vendorId,
-      label: vendor[1]?.trim(),
+    state.ExpenseList.getInitializeExpenseList?.vendor?.map((vendor) => ({
+      value: vendor.id,
+      label: vendor?.id,
     })) || [];
 
   // console.log("vendorOptions", vendorOptions.length);
@@ -652,6 +646,19 @@ function AddExpenseNew() {
     return isValid;
   };
 
+
+
+console.log({
+  value: linkVendor,
+  type: typeof linkVendor,
+});
+
+
+
+
+
+
+
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
@@ -724,7 +731,7 @@ function AddExpenseNew() {
         balanceAmount: Number(balanceAmount || 0),
         paymentMethod: paymentMethod?.value || "",
         note: "",
-        expenseItems: expenseItems.map((item) => ({
+        expenseItems: expenseItems?.map((item) => ({
           item: item.itemName.trim(),
           quantity: Number(item.quantity || 0),
           unitId: item.unit?.unitId || item.unit?.id || item.unit?.value || 0,
@@ -994,6 +1001,7 @@ function AddExpenseNew() {
                     setPurchaseDateError("");
                   }}
                   dateFormat="dd/MM/yyyy"
+                  maxDate={new Date()}
                   placeholderText="Select Date"
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
       ${
