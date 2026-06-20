@@ -10,6 +10,8 @@ import {
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
+import ErrorMessage from "../../Components/ErrorMessage";
+import ApiPagination from "../../Components/ApiPagination";
 const quillStyle = {
   height: "50px",
   borderRadius: "22px",
@@ -20,25 +22,13 @@ function VendorComments({ selectedVendorId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const VendorOverView = state.ComplianceList?.vendorOverview;
+
   const [formLoading, setFormLoading] = useState(false);
-
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
   const [comment, setComment] = useState("");
-
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      comment: "Need a Query Support for Client",
-      createdAt: "25 Dec 2025, 1:00 PM",
-      createdBy: "Priya",
-    },
-    {
-      id: 2,
-      comment: "Need a Query Support for Client",
-      createdAt: "25 Dec 2025, 1:00 PM",
-      createdBy: "Priya",
-    },
-  ]);
-
+  const [commentError, setCommentError] = useState("");
   const textareaRef = useRef(null);
 
   const applyFormat = (type) => {
@@ -79,37 +69,63 @@ function VendorComments({ selectedVendorId }) {
   };
 
   const handleAddComment = () => {
-    if (!comment.trim()) return;
+    const plainText = comment.replace(/<[^>]+>/g, "").trim();
 
+    if (!plainText) {
+      setCommentError("Please enter comments");
+      return;
+    }
+
+    setCommentError("");
     dispatch({
       type: "ADD_VENDOR_COMMENTS_SAGA",
-      payload: { comments: comment },
+      payload: {
+        comment: plainText,
+        vendorId: VendorOverView?.id,
+      },
     });
+
     setFormLoading(true);
   };
 
   useEffect(() => {
-    if (selectedVendorId) {
+    if (VendorOverView?.id) {
       dispatch({
         type: "VENDOR_COMMENTS_SAGA",
-        payload: { vendorId: selectedVendorId },
+        payload: { vendorId: VendorOverView?.id, page: page, size: size },
       });
     }
-  }, [selectedVendorId]);
+  }, [VendorOverView?.id, page, size]);
 
   useEffect(() => {
-    if (state.ComplianceList?.addCommentsVendorstatusCode) {
+    if (state.ComplianceList?.addCommentsVendorstatusCode === 201) {
       setComment("");
       setFormLoading(false);
       dispatch({
         type: "VENDOR_COMMENTS_SAGA",
-        payload: { vendorId: selectedVendorId },
+        payload: { vendorId: VendorOverView?.id, page: page, size: size },
       });
       dispatch({ type: "REMOVE_ADD_VENDOR_COMMENTS_REDUCER" });
     }
   }, [state.ComplianceList?.addCommentsVendorstatusCode]);
 
   const vendorComments = state.ComplianceList?.getVendorCommentsList;
+
+  console.log("vendorComments", vendorComments);
+  const currentPage = vendorComments?.currentPage ?? 1;
+
+  const totalPages = vendorComments?.totalPages ?? 1;
+
+  const totalRecords = vendorComments?.totalComments ?? 0;
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log("clicked ddddddd", page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
 
   return (
     <div className="px-4">
@@ -123,11 +139,19 @@ function VendorComments({ selectedVendorId }) {
           <ReactQuill
             theme="snow"
             value={comment}
-            onChange={setComment}
+            onChange={(value) => {
+              setComment(value);
+              const plainText = value.replace(/<[^>]+>/g, "").trim();
+              if (plainText) {
+                setCommentError("");
+              }
+            }}
             placeholder="Comment here"
             style={quillStyle}
           />
         </div>
+
+        {commentError && <ErrorMessage message={commentError} type="error" />}
 
         <div className="flex justify-end mt-3">
           <button
@@ -152,37 +176,52 @@ function VendorComments({ selectedVendorId }) {
         </div>
 
         <div className="mt-2">
-          <p className="text-[11px] font-semibold text-[#6B7280] uppercase mb-4">
-            All Comments
-          </p>
+          <div className="flex justify-between items-center mb-4">
+            <p className="text-[11px] font-semibold text-[#6B7280] uppercase">
+              All Comments
+            </p>
 
-          {comments.map((item, index) => (
-            <div key={item.id} className="flex gap-3 relative">
-              <div className="flex flex-col items-center flex-shrink-0">
-                <div className="h-10 w-10 rounded-full bg-[#EEF2FF] flex items-center justify-center z-10">
-                  <MessageText size={18} color="#6B7280" variant="Linear" />
+            {vendorComments?.comments?.length > 0 && (
+              <ApiPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalRecords={totalRecords}
+                onPageChange={handlePageChange}
+                onSizeChange={handleSizeChange}
+                isTenantPagination={true}
+                size={size}
+              />
+            )}
+          </div>
+          <div className="max-h-[400px] overflow-y-auto pr-2">
+            {vendorComments?.comments?.map((item, index) => (
+              <div key={item.id} className="flex gap-3 relative">
+                <div className="flex flex-col items-center flex-shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-[#EEF2FF] flex items-center justify-center z-10">
+                    <MessageText size={18} color="#6B7280" variant="Linear" />
+                  </div>
+
+                  {index !== vendorComments.comments.length - 1 && (
+                    <div className="w-[2px] flex-1 min-h-[60px] bg-[#E5E7EB]" />
+                  )}
                 </div>
 
-                {index !== comments.length - 1 && (
-                  <div className="w-[2px] flex-1 min-h-[60px] bg-[#E5E7EB]" />
-                )}
+                <div className="flex-1 pb-8">
+                  <h4 className="text-[14px] font-medium text-[#222222]">
+                    {item.comment}
+                  </h4>
+
+                  <p className="text-[12px] text-[#6B7280] mt-1">
+                    {item.createdAt}
+                  </p>
+
+                  <p className="text-[12px] text-[#9CA3AF] mt-2">
+                    Added by {item.createdBy}
+                  </p>
+                </div>
               </div>
-
-              <div className="flex-1 pb-8">
-                <h4 className="text-[14px] font-medium text-[#222222]">
-                  {item.comment}
-                </h4>
-
-                <p className="text-[12px] text-[#6B7280] mt-1">
-                  {item.createdAt}
-                </p>
-
-                <p className="text-[12px] text-[#9CA3AF] mt-2">
-                  Added by {item.createdBy}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

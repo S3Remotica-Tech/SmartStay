@@ -179,6 +179,7 @@ export const initialState = {
   statuscodeForSearchTenant: 0,
   settlementPaymentSuccessCode: 0,
   ettlementExpensePaymentSuccessCode: 0,
+  vendorSettleError: "",
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -212,6 +213,11 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
       return { ...state, accessRestrictionError: "" };
+
+    case "VENDOR_SETTLEMENT_ERROR":
+      return { ...state, vendorSettleError: action.payload };
+    case "REMOVE_VENDOR_SETTLEMENT_ERROR":
+      return { ...state, vendorSettleError: "" };
 
     case "SAVE_DRAFT_REDUCER":
       return {

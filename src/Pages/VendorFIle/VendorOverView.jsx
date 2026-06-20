@@ -54,34 +54,35 @@ function VendorOverView({
           period: selectedMonth,
         },
       });
-
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
-
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
+      if (activeTab === "expenses") {
+        dispatch({
+          type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+          payload: {
+            vendorId: selectedVendorId,
+          },
+        });
+      } else if (activeTab === "payments") {
+        dispatch({
+          type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+          payload: {
+            vendorId: selectedVendorId,
+          },
+        });
+      }
     }
-  }, [selectedVendorId, selectedMonth]);
+  }, [selectedVendorId, selectedMonth, activeTab]);
 
   useEffect(() => {
-    if (state.UsersList.settlementPaymentSuccessCode === 200) {
-      dispatch({
-        type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
-      }, 1000);
-    }
-  }, [state.UsersList.settlementPaymentSuccessCode]);
+    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+    console.log("executed ", selectedVendorId);
+    dispatch({
+      type: "VENDOR_SETTLE_INITIALIZE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        vendorId: Number(selectedVendorId),
+      },
+    });
+  }, [state.login.selectedHostel_Id, selectedVendorId]);
 
   return (
     <div className="font-gilroy">

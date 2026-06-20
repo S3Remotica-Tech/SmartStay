@@ -30,6 +30,19 @@ function VendorPaymentHistory() {
   const vendorPaymentMadeHistory =
     state.ComplianceList?.vendorOverviewExpensePaymentList?.payments || [];
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
   return (
     <>
       {vendorPaymentMadeHistory.length > 0 ? (
@@ -37,7 +50,7 @@ function VendorPaymentHistory() {
           <div
             id="tableContainer"
             //   ref={tableContainerRef}
-            className="overflow-auto relative h-[calc(50vh-250px)]  show-scrolls"
+            className="overflow-auto relative h-[calc(100vh-250px)]  show-scrolls"
           >
             <table className=" w-full font-gilroy ">
               <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">

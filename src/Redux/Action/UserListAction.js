@@ -834,24 +834,28 @@ export async function tenantCustomizeData(customer) {
 export async function settlePayment(params) {
   const formData = new FormData();
 
-  if (params.transactionImage) {
-    formData.append("transactionImage", params.transactionImage);
+  if (params.images) {
+    formData.append("images", params.images);
   }
 
-  if (params.payloads) {
-    const payloadBlob = new Blob([JSON.stringify(params.payloads)], {
+  if (params.payLoads) {
+    const payloadBlob = new Blob([JSON.stringify(params.payLoads)], {
       type: "application/json",
     });
-    formData.append("payloads", payloadBlob);
+    formData.append("payLoads", payloadBlob);
   }
 
   try {
-    const response = await AxiosConfigV2.put(`/v2/expense/payment`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
+    const response = await AxiosConfigV2.post(
+      `/v2/vendors/settle/${params.vendorId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
       },
-      timeout: 100000000,
-    });
+    );
     return response;
   } catch (error) {
     console.error("Axios Error", error);
@@ -876,7 +880,7 @@ export async function settlePaymentExpense(params) {
   }
 
   try {
-    const response = await AxiosConfigV2.put(`/v2/expense/payment`, formData, {
+    const response = await AxiosConfigV2.put(``, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

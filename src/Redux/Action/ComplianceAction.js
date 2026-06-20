@@ -84,12 +84,19 @@ export async function vendorSettlementInitialize(vendor) {
   );
 }
 
-export async function getCommentVendor() {
-  return await AxiosConfigV2.get(``);
+export async function getCommentVendor(vendor) {
+  const params = {};
+
+  if (vendor.page) params.page = vendor.page;
+  if (vendor.size) params.size = vendor.size;
+
+  return await AxiosConfigV2.get(`/v2/vendors/comments/${vendor.vendorId}`, {
+    params,
+  });
 }
 
-export async function addCommentVendor() {
-  return await AxiosConfigV2.put(``);
+export async function addCommentVendor(payload) {
+  return await AxiosConfigV2.post("/v2/vendors/comments", payload);
 }
 
 export async function VendorList(vendor) {

@@ -153,9 +153,10 @@ function* handleSettlementPayemntExpense(settle) {
 
 function* handleSettlementPayemnt(settle) {
   try {
+    console.log("Saga Payload:", settle.payload);
     const response = yield call(settlePayment, settle.payload);
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "SETTLEMENT_PAYMENT_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
@@ -192,6 +193,20 @@ function* handleSettlementPayemnt(settle) {
     yield* handleApiError(error);
 
     if (error) {
+      yield put({
+        type: "VENDOR_SETTLEMENT_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 }
