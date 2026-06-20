@@ -76,8 +76,10 @@ export async function UpdateExpense(datum) {
 
 // EXPENSE OVERVIEW
 
-export async function particularExpenseverview() {
-  return await AxiosConfigV2.get(``);
+export async function particularExpenseverview(expense) {
+  return await AxiosConfigV2.get(
+    `/v2/expense/${expense.hostelId}/${expense.expenseId}`,
+  );
 }
 
 //  customization PUT Api

@@ -1458,7 +1458,7 @@ function Expenses() {
                                           onClick={() => {
                                             if (canDeleteExpense) {
                                               handleDeleteExpense(
-                                                user.expenseId,
+                                                user.apiCall.expenseId,
                                               );
                                             }
                                           }}
@@ -1664,6 +1664,7 @@ function Expenses() {
           show={showOverview}
           onClose={() => setShowOverview(false)}
           handleShowSettlement={handleShowSettlement}
+        selectedExpenseId={selectedExpenseId}
         />
       )}
       {showSettlementForm && (
