@@ -316,6 +316,14 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     setPaidAmountError("");
   };
 
+const handleSetAmount = () => {
+  const dueAmount = VendorOverView?.summary?.outstanding || 0;
+
+  setPaidAmount(dueAmount);
+  setPaidAmountError("");
+};
+
+
   const handleDateChange = (date) => {
     setPaidDate(date);
     setPaidDateError("");
@@ -468,7 +476,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                     paidAmount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
-                <button className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
+                <button   onClick={handleSetAmount} className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
                   Set
                 </button>
               </div>

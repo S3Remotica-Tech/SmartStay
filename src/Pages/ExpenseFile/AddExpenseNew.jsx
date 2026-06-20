@@ -677,11 +677,6 @@ function AddExpenseNew() {
     return isValid;
   };
 
-  console.log({
-    value: linkVendor,
-    type: typeof linkVendor,
-  });
-
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
