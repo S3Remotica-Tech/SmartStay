@@ -151,6 +151,8 @@ function* handleGetInitializeExpense(action) {
   }
 }
 
+
+
 function* handleAddExpense(action) {
   try {
     const response = yield call(AddExpense, action.payload);
@@ -173,7 +175,7 @@ function* handleAddExpense(action) {
     if (response?.status === 201) {
       yield put({
         type: "ADD_EXPENSE",
-        payload: { response: response.data.data, statusCode: response?.status },
+        payload: { response: response.data, statusCode: response?.status },
       });
       toast.success(`${response.data}`, {
         position: "bottom-center",

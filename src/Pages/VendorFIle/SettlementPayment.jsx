@@ -19,12 +19,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
-const vendorOptions = [
-  { value: "grow-aqua-services", label: "Grow Aqua Services" },
-  { value: "vinayaka-electricals", label: "Vinayaka Electricals" },
-  { value: "abc-traders", label: "ABC Traders" },
-];
-
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -208,13 +202,16 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function SettlementPayment({ show, handleClose, isBanking }) {
+function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
   if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-const VendorOverView = state.ComplianceList?.vendorOverview;
+  const VendorOverView = state.ComplianceList?.vendorOverview;
 
+  const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
+
+  console.log("vendorInitialize", vendorInitialize);
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -236,9 +233,6 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   });
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
-
-
-  
 
   const [invoiceDetails, setInvoiceDetails] = useState([
     {
@@ -267,13 +261,20 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
     setInvoiceDetails(updatedList);
   };
 
+  console.log("selectedVendorId", selectedVendorId);
+
   useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
+    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+    console.log("selectedVendorId", selectedVendorId);
+
     dispatch({
-      type: "VENDORLIST",
-      payload: { hostelId: state.login.selectedHostel_Id },
+      type: "VENDOR_SETTLE_INITIALIZE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        vendorId: selectedVendorId,
+      },
     });
-  }, []);
+  }, [selectedVendorId, state.login.selectedHostel_Id]);
 
   // const vendorOptions =
   //   state.ComplianceList?.VendorList?.map((vendor) => ({
@@ -304,6 +305,11 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
     setSelectedVendor(selected);
     setVendorError("");
   };
+
+  console.log("VendorOverView", VendorOverView);
+  useEffect(() => {
+    setSelectedVendor(VendorOverView?.fullName);
+  }, [VendorOverView?.fullName]);
 
   const handlePaidAmountChange = (e) => {
     setPaidAmount(e.target.value);
@@ -411,7 +417,17 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                 Vendor <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select
+                <input
+                  disabled
+                  type="text"
+                  value={selectedVendor}
+                  // placeholder="Enter "
+                  readOnly
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${
+                    selectedVendor ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                />
+                {/* <Select
                   isDisabled
                   options={vendorOptions}
                   value={selectedVendor}
@@ -420,7 +436,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                   placeholder="Select Vendor"
                   className="text-sm"
                   styles={CustomStyles}
-                />
+                /> */}
               </div>
 
               {vendorError && (
@@ -438,7 +454,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                 <p className="mt-1 text-right text-xs text-gray-600 mb-0">
                   Due Amount{" "}
                   <span className="font-semibold  text-base text-[#E27625]">
-                    ₹ 2,000.00
+                    ₹ {VendorOverView?.summary?.outstanding}
                   </span>
                 </p>
               </label>

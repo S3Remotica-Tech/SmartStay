@@ -38,9 +38,32 @@ export async function GetInitializeExpense(hostelId) {
   return await AxiosConfigV2.get(`/v2/expense/initialize/${hostelId}`);
 }
 
+// export async function AddExpense(datum) {
+//   return await AxiosConfigV2.post(`/v2/expense/${datum.hostelId}`, datum, {
+//     data: datum,
+//   });
+// }
+
 export async function AddExpense(datum) {
-  return await AxiosConfigV2.post(`/v2/expense/${datum.hostelId}`, datum, {
-    data: datum,
+  const formData = new FormData();
+
+  if (datum.images?.length) {
+    datum.images.forEach((file) => {
+      formData.append("images", file);
+    });
+  }
+
+  formData.append(
+    "expense",
+    new Blob([JSON.stringify(datum.expense)], {
+      type: "application/json",
+    }),
+  );
+
+  return await AxiosConfigV2.post(`/v2/expense/${datum.hostelId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 }
 

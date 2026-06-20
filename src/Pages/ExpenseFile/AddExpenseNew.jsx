@@ -309,11 +309,14 @@ function AddExpenseNew() {
     name: "",
     index: "",
   });
+
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
   const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
+
+  console.log("attachments", attachments);
 
   useEffect(() => {
     const balance = Number(amount || 0) - Number(paidAmount || 0);
@@ -570,7 +573,7 @@ function AddExpenseNew() {
   const validate = () => {
     setPaymentMethodError("");
     setPaidAmountError("");
-
+    setSubCategoryError("");
     let isValid = true;
 
     if (!expenseTitle.trim()) {
@@ -583,11 +586,20 @@ function AddExpenseNew() {
       isValid = false;
     }
 
-    if (!subCategory) {
-      setSubCategoryError("Please Select Sub Category ");
-      isValid = false;
-    }
+    const selectedCat =
+      state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+        (cat) => cat.categoryId === category,
+      );
 
+    const categoryHasSubCategory =
+      (selectedCat?.subCategories?.length || 0) > 0;
+
+    if (categoryHasSubCategory && !subCategory) {
+      setSubCategoryError("Please Select Sub Category");
+      isValid = false;
+    } else {
+      setSubCategoryError("");
+    }
     if (!amount) {
       setAmountError("Please Enter Amount ");
       isValid = false;
@@ -713,34 +725,79 @@ function AddExpenseNew() {
 
     const formattedDate = moment(purchaseDate).format("DD-MM-YYYY");
 
+    // dispatch({
+    //   type: "ADDEXPENSE",
+    //   payload: {
+    //     hostelId: state.login.selectedHostel_Id,
+    //     categoryId: category || 0,
+    //     subCategory: subCategory || "",
+    //     purchaseDate: formattedDate,
+    //     count: expenseItems.length,
+    //     totalAmount: Number(totalAmount),
+    //     bankId: paymentMethod?.value || "",
+    //     description: description.trim(),
+
+    //     title: expenseTitle.trim(),
+    //     isVendorExpense: linkVendor,
+    //     vendorId: linkVendor ? vendor?.value || vendor?.vendorId || 0 : 0,
+    //     paymentStatus: paymentStatus,
+    //     paidAmount: Number(paidAmount || 0),
+    //     balanceAmount: Number(balanceAmount || 0),
+    //     paymentMethod: paymentMethod?.value || "",
+    //     note: "",
+    //     expenseItems: expenseItems?.map((item) => ({
+    //       item: item.itemName.trim(),
+    //       quantity: Number(item.quantity || 0),
+    //       unitId: item.unit?.unitId || item.unit?.id || item.unit?.value || 0,
+    //       unit: item.unit?.label || "",
+    //       unitPrice: Number(item.price || 0),
+    //       totalAmount: Number(item.amount || 0),
+    //     })),
+    //   },
+    // });
+
     dispatch({
       type: "ADDEXPENSE",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        categoryId: category || 0,
-        subCategory: subCategory || "",
-        purchaseDate: formattedDate,
-        count: expenseItems.length,
-        totalAmount: Number(totalAmount),
-        bankId: paymentMethod?.value || "",
-        description: description.trim(),
 
-        title: expenseTitle.trim(),
-        isVendorExpense: linkVendor,
-        vendorId: linkVendor ? vendor?.value || vendor?.vendorId || 0 : 0,
-        paymentStatus: paymentStatus,
-        paidAmount: Number(paidAmount || 0),
-        balanceAmount: Number(balanceAmount || 0),
-        paymentMethod: paymentMethod?.value || "",
-        note: "",
-        expenseItems: expenseItems?.map((item) => ({
-          item: item.itemName.trim(),
-          quantity: Number(item.quantity || 0),
-          unitId: item.unit?.unitId || item.unit?.id || item.unit?.value || 0,
-          unit: item.unit?.label || "",
-          unitPrice: Number(item.price || 0),
-          totalAmount: Number(item.amount || 0),
-        })),
+        images: attachments?.map((item) => item.file),
+
+        expense: {
+          categoryId: Number(category || 0),
+          subCategory: Number(subCategory || 0),
+          purchaseDate: formattedDate,
+          count: expenseItems?.length,
+          totalAmount: Number(totalAmount),
+          bankId: paymentMethod?.value,
+          // || "dfb65626-1335-4c8f-ae61-8f2826259379",
+          description: description.trim(),
+          title: expenseTitle.trim(),
+
+          isVendorExpense: linkVendor,
+          vendorId: linkVendor
+            ? Number(vendor?.value || vendor?.vendorId || 0)
+            : 0,
+
+          paymentStatus,
+          paidAmount: Number(paidAmount || 0),
+          balanceAmount: Number(balanceAmount || 0),
+
+          paymentMethod: paymentMethod?.value || "",
+          note: "",
+          transactionId: transactionId || "",
+
+          tax: Number(tax || 0),
+          discount: Number(discount || 0),
+
+          expenseItems: expenseItems?.map((item) => ({
+            item: item.itemName.trim(),
+            quantity: Number(item.quantity || 0),
+            unit: item.unit?.label || "",
+            unitPrice: Number(item.price || 0),
+            totalAmount: Number(item.amount || 0),
+          })),
+        },
       },
     });
 
@@ -813,30 +870,55 @@ function AddExpenseNew() {
     state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
   ]);
 
+  // useEffect(() => {
+  //   if (category) {
+  //     const selectedCat =
+  //       state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+  //         (cat) => cat.categoryId === category,
+  //       );
+
+  //     setSubCategoryList(
+  //       selectedCat?.subCategories?.map((sub) => ({
+  //         value: sub.subCategoryId,
+  //         label: sub.subCategoryName,
+  //       })) || [],
+  //     );
+  //     const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
+  //     console.log("categoryHasSubCategory", categoryHasSubCategory);
+
+  //     if (categoryHasSubCategory && !subCategory) {
+  //       setSubCategoryError("Please Select SubCategory");
+  //     } else {
+  //       setSubCategoryError("");
+  //     }
+
+  //     // setSubCategory("");
+  //   }
+  // }, [category]);
+
   useEffect(() => {
-    if (category) {
-      const selectedCat =
-        state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
-          (cat) => cat.categoryId === category,
-        );
+    if (!category) return;
 
-      setSubCategoryList(
-        selectedCat?.subCategories?.map((sub) => ({
-          value: sub.subCategoryId,
-          label: sub.subCategoryName,
-        })) || [],
+    const selectedCat =
+      state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+        (cat) => cat.categoryId === category,
       );
-      const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
 
-      if (categoryHasSubCategory && !subCategory) {
-        setSubCategoryError("Please Select SubCategory");
-      } else {
-        setSubCategoryError("");
-      }
+    const list =
+      selectedCat?.subCategories?.map((sub) => ({
+        value: sub.subCategoryId,
+        label: sub.subCategoryName,
+      })) || [];
 
-      // setSubCategory("");
+    setSubCategoryList(list);
+    setSubCategory("");
+
+    if (list.length > 0) {
+      setSubCategoryError("Please Select Sub Category");
+    } else {
+      setSubCategoryError("");
     }
-  }, [category]);
+  }, [category, state.ExpenseList?.getInitializeExpenseList?.listExpenses]);
 
   const expenseOptions =
     state.ExpenseList?.getInitializeExpenseList?.listExpenses?.map((item) => ({

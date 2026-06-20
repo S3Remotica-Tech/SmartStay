@@ -78,7 +78,10 @@ export async function complaintsViewUpdates(complaint) {
 }
 
 export async function vendorSettlementInitialize(vendor) {
-  return await AxiosConfigV2.get(`/v2/vendors/${vendor}`);
+  console.log("vendor", vendor);
+  return await AxiosConfigV2.get(
+    `/v2/vendors/initialize/${vendor.hostelId}/${vendor.vendorId}`,
+  );
 }
 
 export async function getCommentVendor() {
@@ -88,8 +91,6 @@ export async function getCommentVendor() {
 export async function addCommentVendor() {
   return await AxiosConfigV2.put(``);
 }
-
-
 
 export async function VendorList(vendor) {
   const params = {};

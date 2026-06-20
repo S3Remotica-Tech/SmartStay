@@ -1553,6 +1553,7 @@ function Vendor() {
           <SettlementPayment
             show={showSettlementForm}
             handleClose={handleCloseSettlement}
+            selectedVendorId={selectedVendorId}
           />
         )}
 

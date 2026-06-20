@@ -120,6 +120,8 @@ function VendorExpenseHistory() {
 
   const [openExpense, setOpenExpense] = useState(null);
 
+  console.log("vendorExpenseList", vendorExpenseList);
+
   const monthOptions = [
     { value: "this_month", label: "This Month" },
     { value: "last_month", label: "Last Month" },
@@ -158,11 +160,14 @@ function VendorExpenseHistory() {
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
-  const currentPage = vendorExpenseList?.currentPage ?? 1;
+  const currentPage =
+    state.ComplianceList?.vendorOverviewExpenseList?.currentPage ?? 1;
 
-  const totalPages = vendorExpenseList?.totalPages ?? 1;
+  const totalPages =
+    state.ComplianceList?.vendorOverviewExpenseList?.totalPages ?? 1;
 
-  const totalRecords = vendorExpenseList?.totalExpenses ?? 0;
+  const totalRecords =
+    state.ComplianceList?.vendorOverviewExpenseList?.totalExpenses ?? 0;
 
   useEffect(() => {
     let timeout;
@@ -309,7 +314,7 @@ function VendorExpenseHistory() {
               />
             </div>
           </div>
-          {vendorExpenseList?.expenses?.length > 0 && (
+          {vendorExpenseList?.length > 0 && (
             <ApiPagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -323,7 +328,7 @@ function VendorExpenseHistory() {
         </div>
       </div>
 
-      {vendorExpenseList?.expenses?.length > 0 ? (
+      {vendorExpenseList?.length > 0 ? (
         <div className="bg-white    rounded-xl  mx-1 my-3 ">
           <div
             id="tableContainer"

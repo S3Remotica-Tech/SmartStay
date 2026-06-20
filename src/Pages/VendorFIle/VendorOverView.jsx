@@ -253,14 +253,17 @@ function VendorOverView({
                   Comments
                 </button>
               </div>
-              {activeTab === "payments" && (
-                <button
-                  onClick={() => handleShowSettlement(true)}
-                  className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
-                >
-                  + Settle Payment
-                </button>
-              )}
+           <button
+  disabled={VendorOverView?.summary?.outstanding <= 0}
+  onClick={() => handleShowSettlement(true)}
+  className={`px-4 py-2 rounded-lg text-sm ${
+    VendorOverView?.summary?.outstanding <= 0
+      ? "bg-gray-400 cursor-not-allowed text-white"
+      : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
+  }`}
+>
+  + Settle Payment
+</button>
 
               {activeTab === "expenses" && (
                 <button
