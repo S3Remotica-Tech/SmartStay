@@ -176,7 +176,7 @@ function VendorComments({ selectedVendorId }) {
         </div>
 
         <div className="mt-2">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4 sticky top-0">
             <p className="text-[11px] font-semibold text-[#6B7280] uppercase">
               All Comments
             </p>
@@ -193,7 +193,7 @@ function VendorComments({ selectedVendorId }) {
               />
             )}
           </div>
-          <div className="max-h-[400px] overflow-y-auto pr-2">
+          <div className="max-h-[350px] overflow-y-auto pr-2 show-scrolls">
             {vendorComments?.comments?.map((item, index) => (
               <div key={item.id} className="flex gap-3 relative">
                 <div className="flex flex-col items-center flex-shrink-0">

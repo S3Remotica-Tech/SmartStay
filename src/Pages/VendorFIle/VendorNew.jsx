@@ -632,12 +632,14 @@ function Vendor() {
     setShowDeleteVendor(false);
   };
 
+// console.log("showDeleteVendorDetails", showDeleteVendorDetails)
+
   const ConfirmDeleteVendor = () => {
     if (showDeleteVendorDetails) {
       dispatch({
         type: "DELETEVENDOR",
         payload: {
-          vendorId: showDeleteVendorDetails.id,
+          vendorId: showDeleteVendorDetails.apiCall?.vendorId,
           // Status: 0,
         },
       });

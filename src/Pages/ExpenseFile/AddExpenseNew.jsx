@@ -297,7 +297,7 @@ function AddExpenseNew() {
   const [vendor, setVendor] = useState(null);
   const [vendorError, setVendorError] = useState("");
   const [subCategoryList, setSubCategoryList] = useState([]);
-  const [paymentStatus, setPaymentStatus] = useState("Fully Paid");
+  const [paymentStatus, setPaymentStatus] = useState("Full");
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -324,7 +324,7 @@ function AddExpenseNew() {
   }, [amount, paidAmount]);
 
   const isAvailablePaid =
-    paymentStatus === "Fully Paid" || paymentStatus === "Partially Paid";
+    paymentStatus === "Full" || paymentStatus === "Partial";
 
   // const vendorOptions =
   //   state.ComplianceList?.VendorList?.map((vendor) => ({
@@ -567,8 +567,6 @@ function AddExpenseNew() {
   //   const discountAmount = (subTotal * Number(discount || 0)) / 100;
 
   const totalAmount = subTotal + taxAmount - discountAmount;
-  console.log("isAvailablePaid", isAvailablePaid);
-  console.log("paymentMethod?.value", paymentMethod?.value);
 
   const validate = () => {
     setPaymentMethodError("");
@@ -764,8 +762,8 @@ function AddExpenseNew() {
           purchaseDate: formattedDate,
           count: expenseItems?.length,
           totalAmount: Number(totalAmount),
-          bankId: paymentMethod?.value,
-          // || "dfb65626-1335-4c8f-ae61-8f2826259379",
+          bankId:
+            paymentMethod?.value || "dfb65626-1335-4c8f-ae61-8f2826259379",
           description: description.trim(),
           title: expenseTitle.trim(),
 
@@ -857,7 +855,7 @@ function AddExpenseNew() {
       state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
     ) {
       setFormLoading(false);
-      navigate(`/add-expense/${state.login.selectedHostel_Id}`);
+      navigate(`/expense/${state.login.selectedHostel_Id}`);
     }
   }, [
     state.ExpenseList.StatusCodeForAddExpenseSuccess,
@@ -1169,27 +1167,25 @@ function AddExpenseNew() {
                   </label>
 
                   <div className="flex gap-6 mt-3">
-                    {["Fully Paid", "Partially Paid", "Credit/Pending"].map(
-                      (item) => (
-                        <label
-                          key={item}
-                          className="flex items-center gap-2 text-[13px] text-[#4B5563]"
-                        >
-                          <input
-                            type="radio"
-                            name="paymentType"
-                            value={item}
-                            checked={paymentStatus === item}
-                            onChange={(e) => {
-                              setPaymentStatus(e.target.value);
-                              setPaymentStatusError("");
-                            }}
-                            className="accent-blue-600"
-                          />
-                          {item}
-                        </label>
-                      ),
-                    )}
+                    {["Full", "Partial", "Pending"].map((item) => (
+                      <label
+                        key={item}
+                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                      >
+                        <input
+                          type="radio"
+                          name="paymentType"
+                          value={item}
+                          checked={paymentStatus === item}
+                          onChange={(e) => {
+                            setPaymentStatus(e.target.value);
+                            setPaymentStatusError("");
+                          }}
+                          className="accent-blue-600"
+                        />
+                        {item}
+                      </label>
+                    ))}
                   </div>
 
                   {paymentStatusError && (

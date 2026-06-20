@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Building,
   Category,
@@ -29,24 +29,31 @@ function VendorDetailsOverview({ handleSelected }) {
   const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
 
   const [selectedPeriod, setSelectedPeriod] = useState(
-    VendorOverView?.filterOptions?.periods?.[0] || {
-      name: "Last 6 Months",
-      type: "LAST_6_MONTHS",
-    },
+    VendorOverView?.filterOptions?.periods?.[0],
   );
 
   const [showVendorInfo, setShowVendorInfo] = useState(true);
   const [showAddressInfo, setShowAddressInfo] = useState(false);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
 
-  const chartData = [
-    { month: "Aug", paid: 12, unPaid: 1 },
-    { month: "Sep", paid: 13, unPaid: 0.8 },
-    { month: "Oct", paid: 14, unPaid: 1.2 },
-    { month: "Nov", paid: 13.5, unPaid: 1 },
-    { month: "Dec", paid: 15, unPaid: 0.9 },
-    { month: "Jan", paid: 3, unPaid: 12 },
-  ];
+  useEffect(() => {
+    const firstPeriod = VendorOverView?.filterOptions?.periods?.[0];
+
+    if (firstPeriod) {
+      setSelectedPeriod(firstPeriod);
+      handleSelected(firstPeriod);
+    }
+  }, []);
+
+  const chartData =
+    VendorOverView?.monthSummary?.map((item) => ({
+      month: item.month,
+      paid: item.totalPaidAmount + item.totalPartialAmount,
+      unPaid: item.totalUnpaidAmount,
+    })) || [];
+
+  console.log("chartData", chartData);
+  console.log("VendorOverView", VendorOverView);
 
   const vendorInfoFields = [
     {

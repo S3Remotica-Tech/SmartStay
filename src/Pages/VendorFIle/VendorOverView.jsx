@@ -45,6 +45,8 @@ function VendorOverView({
     setSelectedMonth(selectedPeriod?.type);
   };
 
+  console.log("selectedMonth", selectedMonth);
+
   useEffect(() => {
     if (selectedVendorId) {
       dispatch({
@@ -74,7 +76,7 @@ function VendorOverView({
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;
-    console.log("executed ", selectedVendorId);
+    // console.log("executed ", selectedVendorId);
     dispatch({
       type: "VENDOR_SETTLE_INITIALIZE_SAGA",
       payload: {

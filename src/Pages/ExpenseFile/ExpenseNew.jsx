@@ -793,19 +793,16 @@ function Expenses() {
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
   const statusStyles = {
-    "Checked In": {
+    Full: {
       bg: "#EFFFF2",
       text: "#038C3D",
     },
-    Booked: {
-      bg: "#E7F1FFB2",
-      text: "#1E45E1",
-    },
-    "Notice Period": {
+
+    Partial: {
       bg: "#FFF4E5",
       text: "#F79009",
     },
-    "Settlement Generated": {
+    Pending: {
       bg: "#FEE4E2",
       text: "#D92D20",
     },

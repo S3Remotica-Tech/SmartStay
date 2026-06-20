@@ -333,7 +333,7 @@ function VendorExpenseHistory() {
           <div
             id="tableContainer"
             ref={tableContainerRef}
-            className="overflow-auto relative h-[calc(50vh-60px)]  show-scrolls"
+            className="overflow-auto relative h-[300px]   show-scrolls"
           >
             <table className=" w-full font-gilroy ">
               <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
@@ -426,19 +426,19 @@ function VendorExpenseHistory() {
                           <table className="w-full">
                             <thead className="bg-[#F5F5F5]">
                               <tr>
-                                <th className="px-4 py-3 text-left text-[11px]">
+                                <th className="px-4 py-2 text-left text-[11px]">
                                   ITEM DETAILS
                                 </th>
-                                <th className="px-4 py-3 text-left text-[11px]">
+                                <th className="px-4 py-2 text-left text-[11px]">
                                   QUANTITY
                                 </th>
-                                <th className="px-4 py-3 text-left text-[11px]">
+                                <th className="px-4 py-2 text-left text-[11px]">
                                   UNIT
                                 </th>
-                                <th className="px-4 py-3 text-left text-[11px]">
+                                <th className="px-4 py-2 text-left text-[11px]">
                                   PER UNIT PRICE
                                 </th>
-                                <th className="px-4 py-3 text-right text-[11px]">
+                                <th className="px-4 py-2 text-right text-[11px]">
                                   AMOUNT
                                 </th>
                               </tr>
@@ -447,17 +447,23 @@ function VendorExpenseHistory() {
                             <tbody>
                               {expense.expenseItems.map((item) => (
                                 <tr key={item.id} className="border-t">
-                                  <td className="px-4 py-3">{item.item}</td>
+                                  <td className="px-4 py-2  text-[11px]">
+                                    {item.item}
+                                  </td>
 
-                                  <td className="px-4 py-3">{item.quantity}</td>
+                                  <td className="px-4 py-2  text-[11px]">
+                                    {item.quantity}
+                                  </td>
 
-                                  <td className="px-4 py-3">{item.unit}</td>
+                                  <td className="px-4 py-2  text-[11px]">
+                                    {item.unit}
+                                  </td>
 
-                                  <td className="px-4 py-3">
+                                  <td className="px-4 py-2  text-[11px]">
                                     ₹ {item.unitPrice.toFixed(2)}
                                   </td>
 
-                                  <td className="px-4 py-3 text-right">
+                                  <td className="px-4 py-2  text-[11px] text-right">
                                     ₹ {item.totalAmount.toFixed(2)}
                                   </td>
                                 </tr>
