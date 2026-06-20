@@ -312,6 +312,16 @@ function AddExpenseNew() {
     index: "",
   });
 
+  const expenseTitleRef = useRef(null);
+  const categoryRef = useRef(null);
+  const subCategoryRef = useRef(null);
+  const amountRef = useRef(null);
+  const purchaseDateRef = useRef(null);
+  const vendorRef = useRef(null);
+  const paymentStatusRef = useRef(null);
+  const paidAmountRef = useRef(null);
+  const paymentMethodRef = useRef(null);
+
   // console.log("amount", amount);
 
   const [hoveredImage, setHoveredImage] = useState(null);
@@ -428,15 +438,9 @@ function AddExpenseNew() {
     totalAmount: "",
     paidAmount: "",
     balanceAmount: "",
+    tax: "",
+    discount: "",
   });
-
-  const expenseTitleRef = useRef(null);
-  const categoryRef = useRef(null);
-  const subCategoryRef = useRef(null);
-  const amountRef = useRef(null);
-  const expenseDateRef = useRef(null);
-  const paidThroughRef = useRef(null);
-  const paymentMethodRef = useRef(null);
 
   const handleVendorChange = (selected) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -576,16 +580,23 @@ function AddExpenseNew() {
     setPaymentMethodError("");
     setPaidAmountError("");
     setSubCategoryError("");
+
     let isValid = true;
+    let firstErrorRef = null;
+
+    const setFirstError = (ref) => {
+      if (!firstErrorRef) firstErrorRef = ref;
+      isValid = false;
+    };
 
     if (!expenseTitle.trim()) {
-      setExpenseTitleError("Please Enter Expense Title ");
-      isValid = false;
+      setExpenseTitleError("Please Enter Expense Title");
+      setFirstError(expenseTitleRef);
     }
 
     if (!category) {
       setCategoryError("Please Select Category");
-      isValid = false;
+      setFirstError(categoryRef);
     }
 
     const selectedCat =
@@ -598,84 +609,60 @@ function AddExpenseNew() {
 
     if (categoryHasSubCategory && !subCategory) {
       setSubCategoryError("Please Select Sub Category");
-      isValid = false;
-    } else {
-      setSubCategoryError("");
+      setFirstError(subCategoryRef);
     }
+
     if (!amount) {
-      setAmountError("Please Enter Amount ");
-      isValid = false;
+      setAmountError("Please Enter Amount");
+      setFirstError(amountRef);
     }
 
     if (!purchaseDate) {
-      setPurchaseDateError("Please Select Purchase Date ");
-      isValid = false;
+      setPurchaseDateError("Please Select Purchase Date");
+      setFirstError(purchaseDateRef);
     }
 
     if (linkVendor && !vendor) {
-      setVendorError("Please Select  Vendor");
-      isValid = false;
+      setVendorError("Please Select Vendor");
+      setFirstError(vendorRef);
     }
 
     if (linkVendor && !paymentStatus) {
       setPaymentStatusError("Please Select Payment Status");
-      isValid = false;
+      setFirstError(paymentStatusRef);
     }
 
     if (isAvailablePaid && !paidAmount) {
-      setPaidAmountError("Please Enter  Paid amount");
-      isValid = false;
+      setPaidAmountError("Please Enter Paid Amount");
+      setFirstError(paidAmountRef);
     }
-
-    // if (!balanceAmount.trim()) {
-    //   setBalanceAmountError("Please Enter Balance amount ");
-    //   isValid = false;
-    // }
 
     if (isAvailablePaid && !paymentMethod?.value) {
       setPaymentMethodError("Please Select Payment Method");
-      isValid = false;
+      setFirstError(paymentMethodRef);
     }
 
+    // Expense Items Validation
     if (expenseItems.length === 0) {
       setExpenseItemErrors([
         {
           itemName: "Enter item details",
           quantity: "Enter quantity",
           unit: "Select unit",
-          price: "Enter per unit price",
+          price: "Enter amount",
         },
       ]);
       isValid = false;
-    } else {
-      const rowErrors = expenseItems.map((item) => {
-        const error = {};
-
-        if (!item.itemName.trim()) {
-          error.itemName = "Enter item details";
-          isValid = false;
-        }
-
-        if (!item.quantity || Number(item.quantity) <= 0) {
-          error.quantity = "Enter quantity";
-          isValid = false;
-        }
-
-        if (!item.unit) {
-          error.unit = "Select unit";
-          isValid = false;
-        }
-
-        if (!item.price || Number(item.price) <= 0) {
-          error.price = "Enter amount";
-          isValid = false;
-        }
-
-        return error;
-      });
-
-      setExpenseItemErrors(rowErrors);
     }
+
+    if (firstErrorRef?.current) {
+      firstErrorRef.current.focus();
+      firstErrorRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+
     return isValid;
   };
 
@@ -686,6 +673,8 @@ function AddExpenseNew() {
       totalAmount: "",
       paidAmount: "",
       balanceAmount: "",
+      tax: "",
+      discount: "",
     });
     const total = Number(amount || 0);
     const paid = Number(paidAmount || 0);
@@ -695,11 +684,41 @@ function AddExpenseNew() {
       (sum, item) => sum + Number(item.amount || 0),
       0,
     );
+    if (taxAmount && taxAmount < 0) {
+      setErrors((prev) => ({
+        ...prev,
+        tax: "Tax cannot be negative.",
+      }));
+      return;
+    }
 
+    if (discountAmount && discountAmount < 0) {
+      setErrors((prev) => ({
+        ...prev,
+        discount: "Discount cannot be negative.",
+      }));
+      return;
+    }
+
+    if (discountAmount > total) {
+      setErrors((prev) => ({
+        ...prev,
+        discount: "Discount cannot exceed total amount.",
+      }));
+      return;
+    }
     if (itemsTotal > total) {
       setErrors((prev) => ({
         ...prev,
         totalAmount: "Expense items total cannot exceed Total Amount.",
+      }));
+      return;
+    }
+
+    if (itemsTotal !== total) {
+      setErrors((prev) => ({
+        ...prev,
+        totalAmount: "Expense items total must equal the Total Amount.",
       }));
       return;
     }
@@ -722,42 +741,10 @@ function AddExpenseNew() {
 
     const formattedDate = moment(purchaseDate).format("DD-MM-YYYY");
 
-    // dispatch({
-    //   type: "ADDEXPENSE",
-    //   payload: {
-    //     hostelId: state.login.selectedHostel_Id,
-    //     categoryId: category || 0,
-    //     subCategory: subCategory || "",
-    //     purchaseDate: formattedDate,
-    //     count: expenseItems.length,
-    //     totalAmount: Number(totalAmount),
-    //     bankId: paymentMethod?.value || "",
-    //     description: description.trim(),
-
-    //     title: expenseTitle.trim(),
-    //     isVendorExpense: linkVendor,
-    //     vendorId: linkVendor ? vendor?.value || vendor?.vendorId || 0 : 0,
-    //     paymentStatus: paymentStatus,
-    //     paidAmount: Number(paidAmount || 0),
-    //     balanceAmount: Number(balanceAmount || 0),
-    //     paymentMethod: paymentMethod?.value || "",
-    //     note: "",
-    //     expenseItems: expenseItems?.map((item) => ({
-    //       item: item.itemName.trim(),
-    //       quantity: Number(item.quantity || 0),
-    //       unitId: item.unit?.unitId || item.unit?.id || item.unit?.value || 0,
-    //       unit: item.unit?.label || "",
-    //       unitPrice: Number(item.price || 0),
-    //       totalAmount: Number(item.amount || 0),
-    //     })),
-    //   },
-    // });
-
     dispatch({
       type: "ADDEXPENSE",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-
         images: attachments?.map((item) => item.file),
 
         expense: {
@@ -766,8 +753,7 @@ function AddExpenseNew() {
           purchaseDate: formattedDate,
           count: expenseItems?.length,
           totalAmount: Number(amount),
-          bankId:
-            paymentMethod?.value || "dfb65626-1335-4c8f-ae61-8f2826259379",
+          bankId: paymentMethod?.value,
           description: description.trim(),
           title: expenseTitle.trim(),
 
@@ -976,6 +962,7 @@ function AddExpenseNew() {
 
               <input
                 type="text"
+                ref={expenseTitleRef}
                 value={expenseTitle}
                 onChange={handleExpenseTitle}
                 placeholder="Enter Expense Name"
@@ -1054,6 +1041,7 @@ function AddExpenseNew() {
                 </label>
 
                 <input
+                  ref={amountRef}
                   value={amount}
                   onChange={handleAmount}
                   type="number"
@@ -1076,6 +1064,7 @@ function AddExpenseNew() {
 
               <div className="relative">
                 <DatePicker
+                  ref={purchaseDateRef}
                   selected={purchaseDate}
                   onChange={(date) => {
                     setPurchaseDate(date);
@@ -1153,6 +1142,7 @@ function AddExpenseNew() {
                     <Select
                       options={vendorOptions}
                       value={vendor}
+                      ref={vendorRef}
                       onChange={handleVendorChange}
                       placeholder="Select"
                       classNamePrefix="custom"
@@ -1178,6 +1168,7 @@ function AddExpenseNew() {
                           className="flex items-center gap-2 text-[13px] text-[#4B5563]"
                         >
                           <input
+                            ref={paymentStatusRef}
                             type="radio"
                             name="paymentType"
                             value={item}
@@ -1302,6 +1293,7 @@ function AddExpenseNew() {
                     </label>
 
                     <Select
+                      ref={paymentMethodRef}
                       value={paymentMethod}
                       onChange={(selected) => {
                         setPaymentMethod(selected);
@@ -1684,17 +1676,31 @@ function AddExpenseNew() {
                       <span>₹ {subTotal.toLocaleString("en-IN")}</span>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Tax Optional</span>
+                    <div className="flex justify-between items-start">
+                      <div className="w-full">
+                        <span className="text-sm">Tax (Optional)</span>
+                      </div>
 
-                      <input
-                        type="number"
-                        value={tax}
-                        onChange={(e) => setTax(e.target.value)}
-                        className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
-                      />
+                      <div className="w-full flex flex-col items-end">
+                        <input
+                          type="number"
+                          value={tax}
+                          onChange={(e) => {
+                            setErrors((prev) => ({
+                              ...prev,
+                              tax: "",
+                            }));
+                            setTax(e.target.value);
+                          }}
+                          className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                        />
+                      </div>
                     </div>
-
+                    {errors.tax && (
+                      <div className="w-full mt-1">
+                        <ErrorMessage message={errors.tax} type="error" />
+                      </div>
+                    )}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <span className="text-sm font-medium text-[#222222]">
@@ -1704,7 +1710,9 @@ function AddExpenseNew() {
                         <div className="flex border border-[#D9D9D9] rounded-md overflow-hidden">
                           <button
                             type="button"
-                            onClick={() => setDiscountType("amount")}
+                            onClick={() => {
+                              setDiscountType("amount");
+                            }}
                             className={`px-3 py-1 text-sm font-medium transition-all ${
                               discountType === "amount"
                                 ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
@@ -1727,16 +1735,26 @@ function AddExpenseNew() {
                           </button>
                         </div>
                       </div>
-
-                      <input
-                        type="number"
-                        value={discount}
-                        onChange={(e) => setDiscount(e.target.value)}
-                        placeholder={
-                          discountType === "amount" ? "Amount" : "Percentage"
-                        }
-                        className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
-                      />
+                      <div className="flex flex-col items-end">
+                        <input
+                          type="number"
+                          value={discount}
+                          onChange={(e) => {
+                            setErrors((prev) => ({
+                              ...prev,
+                              discount: "",
+                            }));
+                            setDiscount(e.target.value);
+                          }}
+                          placeholder={
+                            discountType === "amount" ? "Amount" : "Percentage"
+                          }
+                          className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                        />
+                      </div>
+                      {errors.discount && (
+                        <ErrorMessage message={errors.discount} type="error" />
+                      )}
                     </div>
 
                     <div className="border-t pt-3 flex justify-between font-semibold">
