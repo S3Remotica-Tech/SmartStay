@@ -27,7 +27,7 @@ function ExpenseOverview({
   const [activeTab, setActiveTab] = useState("payments");
   const expenseOverView = state.ExpenseList?.expenseOverview;
 
-  console.log("expenseOverView", expenseOverView);
+  // console.log("expenseOverView", expenseOverView);
 
   useEffect(() => {
     if (selectedExpenseId) {
@@ -136,6 +136,7 @@ function ExpenseOverview({
           <div className="flex items-center justify-between mt-8 border-b  ">
             <div className="flex gap-8">
               <button
+                disabled={expenseOverView?.balanceAmount <= 0}
                 onClick={() => setActiveTab("payments")}
                 className={`pb-3 font-semibold ${
                   activeTab === "payments"

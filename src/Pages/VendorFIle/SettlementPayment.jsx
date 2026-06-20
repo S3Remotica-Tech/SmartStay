@@ -167,9 +167,9 @@ const Option = (props) => {
             )}
           </div>
         </div>
-        <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+        {/* <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
           {data.type}
-        </span>
+        </span> */}
       </div>
     </components.Option>
   );

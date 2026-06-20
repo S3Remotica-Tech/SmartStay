@@ -12,6 +12,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import moment from "moment";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -297,7 +299,7 @@ function AddExpenseNew() {
   const [vendor, setVendor] = useState(null);
   const [vendorError, setVendorError] = useState("");
   const [subCategoryList, setSubCategoryList] = useState([]);
-  const [paymentStatus, setPaymentStatus] = useState("Full");
+  const [paymentStatus, setPaymentStatus] = useState("");
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -310,13 +312,15 @@ function AddExpenseNew() {
     index: "",
   });
 
+  // console.log("amount", amount);
+
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
   const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
 
-  console.log("attachments", attachments);
+  // console.log("attachments", attachments);
 
   useEffect(() => {
     const balance = Number(amount || 0) - Number(paidAmount || 0);
@@ -608,12 +612,12 @@ function AddExpenseNew() {
       isValid = false;
     }
 
-    if (!vendor) {
+    if (linkVendor && !vendor) {
       setVendorError("Please Select  Vendor");
       isValid = false;
     }
 
-    if (!paymentStatus) {
+    if (linkVendor && !paymentStatus) {
       setPaymentStatusError("Please Select Payment Status");
       isValid = false;
     }
@@ -761,7 +765,7 @@ function AddExpenseNew() {
           subCategory: Number(subCategory || 0),
           purchaseDate: formattedDate,
           count: expenseItems?.length,
-          totalAmount: Number(totalAmount),
+          totalAmount: Number(amount),
           bankId:
             paymentMethod?.value || "dfb65626-1335-4c8f-ae61-8f2826259379",
           description: description.trim(),
@@ -1137,115 +1141,119 @@ function AddExpenseNew() {
           </div>
 
           {linkVendor && (
-            <div className="mb-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-                <div className="col-span-1 xl:col-span-8 ">
-                  <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                    Vendor
-                    <span className="text-red-600 text-[20px]">*</span>
-                  </label>
-
-                  <Select
-                    options={vendorOptions}
-                    value={vendor}
-                    onChange={handleVendorChange}
-                    placeholder="Select"
-                    classNamePrefix="custom"
-                    styles={CustomStyles}
-                  />
-                  {vendorError && (
-                    <ErrorMessage message={vendorError} type="error" />
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-4 ">
-                <div className="col-span-1 xl:col-span-8">
-                  <label className="text-[13px] font-medium text-[#1A1C21]">
-                    Payment Status{" "}
-                    <span className="text-red-500 text-[20px]">*</span>
-                  </label>
-
-                  <div className="flex gap-6 mt-3">
-                    {["Full", "Partial", "Pending"].map((item) => (
-                      <label
-                        key={item}
-                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
-                      >
-                        <input
-                          type="radio"
-                          name="paymentType"
-                          value={item}
-                          checked={paymentStatus === item}
-                          onChange={(e) => {
-                            setPaymentStatus(e.target.value);
-                            setPaymentStatusError("");
-                          }}
-                          className="accent-blue-600"
-                        />
-                        {item}
-                      </label>
-                    ))}
-                  </div>
-
-                  {paymentStatusError && (
-                    <ErrorMessage message={paymentStatusError} type="error" />
-                  )}
-                </div>
-              </div>
-              {isAvailablePaid && (
+            <>
+              <div className="mb-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-                  <div className="col-span-1 xl:col-span-4">
-                    <div>
-                      <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                        Paid Amount (INR){" "}
-                        <span className="text-red-500 text-[20px]">*</span>
-                      </label>
+                  <div className="col-span-1 xl:col-span-8 ">
+                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                      Vendor
+                      <span className="text-red-600 text-[20px]">*</span>
+                    </label>
 
-                      <input
-                        type="number"
-                        value={paidAmount}
-                        onChange={handlePaidAmountChange}
-                        placeholder="Enter Paid Amount"
-                        className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                          paidAmount ? "font-semibold" : "font-medium"
-                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                      />
-
-                      {paidAmountError && (
-                        <ErrorMessage message={paidAmountError} type="error" />
-                      )}
-
-                      {errors.paidAmount && (
-                        <ErrorMessage
-                          message={errors.paidAmount}
-                          type="error"
-                        />
-                      )}
-                    </div>
+                    <Select
+                      options={vendorOptions}
+                      value={vendor}
+                      onChange={handleVendorChange}
+                      placeholder="Select"
+                      classNamePrefix="custom"
+                      styles={CustomStyles}
+                    />
+                    {vendorError && (
+                      <ErrorMessage message={vendorError} type="error" />
+                    )}
                   </div>
-                  <div className="col-span-1 xl:col-span-4">
-                    <div>
-                      <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                        Balance Amount (Outstanding){" "}
-                        <span className="text-transparent select-none text-[20px]">
-                          *
-                        </span>
-                      </label>
+                </div>
 
-                      <input
-                        disabled
-                        type="number"
-                        value={balanceAmount}
-                        readOnly
-                        // onChange={handleBalanceAmountChange}
-                        placeholder="Enter Balance Amount"
-                        className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                          balanceAmount ? "font-semibold" : "font-medium"
-                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
-                      />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-4 ">
+                  <div className="col-span-1 xl:col-span-8">
+                    <label className="text-[13px] font-medium text-[#1A1C21]">
+                      Payment Status{" "}
+                      <span className="text-red-500 text-[20px]">*</span>
+                    </label>
 
-                      {/* {balanceAmountError && (
+                    <div className="flex gap-6 mt-3">
+                      {["Full", "Partial", "Pending"].map((item) => (
+                        <label
+                          key={item}
+                          className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                        >
+                          <input
+                            type="radio"
+                            name="paymentType"
+                            value={item}
+                            checked={paymentStatus === item}
+                            onChange={(e) => {
+                              setPaymentStatus(e.target.value);
+                              setPaymentStatusError("");
+                            }}
+                            className="accent-blue-600"
+                          />
+                          {item}
+                        </label>
+                      ))}
+                    </div>
+
+                    {paymentStatusError && (
+                      <ErrorMessage message={paymentStatusError} type="error" />
+                    )}
+                  </div>
+                </div>
+                {isAvailablePaid && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                    <div className="col-span-1 xl:col-span-4">
+                      <div>
+                        <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                          Paid Amount (INR){" "}
+                          <span className="text-red-500 text-[20px]">*</span>
+                        </label>
+
+                        <input
+                          type="number"
+                          value={paidAmount}
+                          onChange={handlePaidAmountChange}
+                          placeholder="Enter Paid Amount"
+                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                            paidAmount ? "font-semibold" : "font-medium"
+                          } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                        />
+
+                        {paidAmountError && (
+                          <ErrorMessage
+                            message={paidAmountError}
+                            type="error"
+                          />
+                        )}
+
+                        {errors.paidAmount && (
+                          <ErrorMessage
+                            message={errors.paidAmount}
+                            type="error"
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-span-1 xl:col-span-4">
+                      <div>
+                        <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                          Balance Amount (Outstanding){" "}
+                          <span className="text-transparent select-none text-[20px]">
+                            *
+                          </span>
+                        </label>
+
+                        <input
+                          disabled
+                          type="number"
+                          value={balanceAmount}
+                          readOnly
+                          // onChange={handleBalanceAmountChange}
+                          placeholder="Enter Balance Amount"
+                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                            balanceAmount ? "font-semibold" : "font-medium"
+                          } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
+                        />
+
+                        {/* {balanceAmountError && (
                         <ErrorMessage
                           message={balanceAmountError}
                           type="error"
@@ -1257,11 +1265,31 @@ function AddExpenseNew() {
                           type="error"
                         />
                       )} */}
+                      </div>
                     </div>
+                  </div>
+                )}
+              </div>
+              {paymentStatus === "Pending" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                  <div className="col-span-1 xl:col-span-8">
+                    <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                      Credit Period (for this expense only)
+                    </label>
+
+                    <input
+                      type="number"
+                      value={creditPeriod}
+                      onChange={handleCreditPeriodChange}
+                      placeholder="Enter Credit Period"
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                        creditPeriod ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                    />
                   </div>
                 </div>
               )}
-            </div>
+            </>
           )}
           <div className="">
             {isAvailablePaid && (
@@ -1307,23 +1335,6 @@ function AddExpenseNew() {
                 </div>
               </>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8">
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Credit Period (for this expense only)
-                </label>
-
-                <input
-                  type="number"
-                  value={creditPeriod}
-                  onChange={handleCreditPeriodChange}
-                  placeholder="Enter Credit Period"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    creditPeriod ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                />
-              </div>
-            </div>
 
             {/* Attachments */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">

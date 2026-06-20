@@ -180,6 +180,7 @@ export const initialState = {
   settlementPaymentSuccessCode: 0,
   ettlementExpensePaymentSuccessCode: 0,
   vendorSettleError: "",
+  expenseSettleError: "",
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -218,6 +219,13 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, vendorSettleError: action.payload };
     case "REMOVE_VENDOR_SETTLEMENT_ERROR":
       return { ...state, vendorSettleError: "" };
+
+ case "EXPENSE_SETTLEMENT_ERROR":
+      return { ...state, expenseSettleError: action.payload };
+    case "REMOVE_EXPENSE_SETTLEMENT_ERROR":
+      return { ...state, expenseSettleError: "" };
+
+
 
     case "SAVE_DRAFT_REDUCER":
       return {

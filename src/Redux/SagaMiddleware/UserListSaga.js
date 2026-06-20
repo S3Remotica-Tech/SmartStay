@@ -109,8 +109,9 @@ function* handleApiError(error) {
 function* handleSettlementPayemntExpense(settle) {
   try {
     const response = yield call(settlePaymentExpense, settle.payload);
+    console.log("response", response)
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "EXPENSE_SETTLEMENT_PAYMENT_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
@@ -145,8 +146,14 @@ function* handleSettlementPayemntExpense(settle) {
     }
   } catch (error) {
     yield* handleApiError(error);
+console.log("errorrrrrr", error)
+     if (error) {
 
-    if (error) {
+      yield put({
+        type: "EXPENSE_SETTLEMENT_ERROR",
+        payload: error.response.data,
+      });
+    
     }
   }
 }

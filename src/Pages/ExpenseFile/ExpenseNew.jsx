@@ -1664,13 +1664,14 @@ function Expenses() {
           show={showOverview}
           onClose={() => setShowOverview(false)}
           handleShowSettlement={handleShowSettlement}
-        selectedExpenseId={selectedExpenseId}
+          selectedExpenseId={selectedExpenseId}
         />
       )}
       {showSettlementForm && (
         <ExpenseSettlement
           show={showSettlementForm}
           handleClose={handleCloseSettlement}
+          selectedExpenseId={selectedExpenseId}
         />
       )}
     </>

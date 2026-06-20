@@ -267,7 +267,7 @@ function VendorDetailsOverview({ handleSelected }) {
                 className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]"
               >
                 <Calendar size="16" />
-                {selectedPeriod.name}
+                {selectedPeriod?.name}
                 <ArrowDown2 size="16" />
               </button>
 
