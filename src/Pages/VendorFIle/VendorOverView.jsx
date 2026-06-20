@@ -45,7 +45,7 @@ function VendorOverView({
     setSelectedMonth(selectedPeriod?.type);
   };
 
-  console.log("selectedMonth", selectedMonth);
+  // console.log("selectedMonth", selectedMonth);
 
   useEffect(() => {
     if (selectedVendorId) {
@@ -73,6 +73,8 @@ function VendorOverView({
       }
     }
   }, [selectedVendorId, selectedMonth, activeTab]);
+
+ 
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;

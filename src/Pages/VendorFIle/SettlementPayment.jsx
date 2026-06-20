@@ -433,6 +433,14 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
         },
       });
 
+      dispatch({
+        type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+          period: "THIS_MONTH",
+        },
+      });
+
       setFormLoading(false);
 
       setPaidAmountError("");
@@ -442,7 +450,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
       handleClose();
       setTimeout(() => {
         dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
-      }, 1000);
+      }, 2000);
     }
   }, [state.UsersList.settlementPaymentSuccessCode]);
 

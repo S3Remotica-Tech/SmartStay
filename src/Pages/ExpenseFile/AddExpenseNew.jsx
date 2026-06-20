@@ -524,6 +524,10 @@ function AddExpenseNew() {
   };
 
   const handleItemChange = (index, field, value) => {
+     setErrors((prev) => ({
+                              ...prev,
+                              totalAmount: "",  
+                            }));
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const updated = [...expenseItems];
 
@@ -680,10 +684,11 @@ function AddExpenseNew() {
     const paid = Number(paidAmount || 0);
     const balance = total - paid;
 
-    const itemsTotal = expenseItems.reduce(
+    const itemsTotal = expenseItems?.reduce(
       (sum, item) => sum + Number(item.amount || 0),
       0,
     );
+
     if (taxAmount && taxAmount < 0) {
       setErrors((prev) => ({
         ...prev,
@@ -710,15 +715,15 @@ function AddExpenseNew() {
     if (itemsTotal > total) {
       setErrors((prev) => ({
         ...prev,
-        totalAmount: "Expense items total cannot exceed Total Amount.",
+        totalAmount: "Expense items total cannot exceed Total Amount",
       }));
       return;
     }
 
-    if (itemsTotal !== total) {
+    if (Number(totalAmount.toFixed(2)) !== Number(total.toFixed(2))) {
       setErrors((prev) => ({
         ...prev,
-        totalAmount: "Expense items total must equal the Total Amount.",
+        totalAmount: "Total Retainer Amount must be equal to the total Amount",
       }));
       return;
     }
@@ -726,7 +731,7 @@ function AddExpenseNew() {
     if (paid > total) {
       setErrors((prev) => ({
         ...prev,
-        paidAmount: "Paid amount cannot exceed total amount.",
+        paidAmount: "Paid amount cannot exceed total amount",
       }));
       return;
     }
@@ -734,7 +739,7 @@ function AddExpenseNew() {
     if (balance < 0) {
       setErrors((prev) => ({
         ...prev,
-        balanceAmount: "Balance amount cannot be negative.",
+        balanceAmount: "Balance amount cannot be negative",
       }));
       return;
     }
@@ -1328,7 +1333,6 @@ function AddExpenseNew() {
               </>
             )}
 
-            {/* Attachments */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
               <div className="col-span-1 xl:col-span-8">
                 <div className="mb-2">
@@ -1644,7 +1648,7 @@ function AddExpenseNew() {
                               No Data Found!
                             </h3>
                             <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
-                              No expense items added yet.
+                              No expense items added yet
                             </p>
                           </div>
                         </td>
@@ -1769,10 +1773,10 @@ function AddExpenseNew() {
               </div>
             </div>
           </div>
-          {state.ExpenseList.insufficiantFundError && (
+          {state.ExpenseList?.insufficiantFundError && (
             <div className="flex items-center justify-center  mb-2 mt-2">
               <ErrorMessage
-                message={state.ExpenseList.insufficiantFundError}
+                message={state.ExpenseList?.insufficiantFundError}
                 type="error"
               />
             </div>

@@ -48,12 +48,9 @@ function VendorDetailsOverview({ handleSelected }) {
   const chartData =
     VendorOverView?.monthSummary?.map((item) => ({
       month: item.month,
-      paid: item.totalPaidAmount + item.totalPartialAmount,
-      unPaid: item.totalUnpaidAmount,
+      paid: item.totalPaidAmount,
+      unPaid: item.totalUnpaidAmount + item.totalPartialAmount,
     })) || [];
-
-  console.log("chartData", chartData);
-  console.log("VendorOverView", VendorOverView);
 
   const vendorInfoFields = [
     {
