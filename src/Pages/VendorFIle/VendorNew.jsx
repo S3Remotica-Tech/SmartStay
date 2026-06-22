@@ -708,6 +708,8 @@ function Vendor() {
     Outstanding: "outstanding",
     "Last Transaction": "lastTransaction",
     "Payment Status": "paymentStatus",
+    businessName: "businessName",
+    vendorAddress: "vendorAddress"
   };
 
   const formattedData = (filteredData?.vendors || []).map((row) => {

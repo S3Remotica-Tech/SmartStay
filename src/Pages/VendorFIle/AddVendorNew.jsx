@@ -309,6 +309,13 @@ function AddVendorNew() {
     countryCodeOptions[0],
   );
 
+  console.log(
+    "countryCode",
+    countryCode,
+    "businessCountryCode",
+    businessCountryCode,
+  );
+
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
   const [pinCodeError, setPinCodeError] = useState("");
@@ -334,7 +341,7 @@ function AddVendorNew() {
   const [gstNumber, setGstNumber] = useState("");
   const [panNumber, setPanNumber] = useState("");
   // const [vendorCode, setVendorCode] = useState("");
-  const [allowCreditPurchase, setAllowCreditPurchase] = useState(true);
+  const [allowCreditPurchase, setAllowCreditPurchase] = useState(false);
   const [creditLimit, setCreditLimit] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
   const [description, setDescription] = useState("");
@@ -532,6 +539,8 @@ function AddVendorNew() {
   };
 
   const handleBusinessMobileChange = (e) => {
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+
     setNochanges("");
     const value = e.target.value.replace(/\D/g, "");
     setBusinessMobile(value);
@@ -622,9 +631,10 @@ function AddVendorNew() {
   };
 
   const handleMobileChange = (e) => {
-    setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+    setNochanges("");
+
     const input = e.target.value;
     const numericInput = input.replace(/\D/g, "");
     setVendor_Mobile(numericInput);
@@ -664,6 +674,8 @@ function AddVendorNew() {
       }
     }
   };
+
+  console.log("vendorCategory", vendorCategory);
 
   const handleAddVendor = () => {
     setNochanges("");
@@ -841,6 +853,7 @@ function AddVendorNew() {
         vendorName: vendorName || "",
         businessName: businessName || "",
         businessMobile: businessMobile || "",
+        businessMobileCode: businessCountryCode?.value || "",
         email: email_Id || "",
         houseNo: house_no || "",
         landmark: landmark || "",
@@ -849,17 +862,18 @@ function AddVendorNew() {
         pinCode: pinCode || "",
         contactPerson: contactPersonName || "",
         contactPersonMobile: vendor_Mobile || "",
+        contactPersonMobileCode: countryCode.value || "",
         description: description || "",
         gst: gstNumber || "",
         pan: panNumber || "",
         allowCredit: allowCreditPurchase,
         creditLimit: creditLimit || "",
         creditPeriod: creditPeriod || "",
-        countryCode:
-          typeof countryCode === "object"
-            ? countryCode.value
-            : countryCode || "91",
-        vendorCategory: vendorCategory?.value || null,
+        // countryCode:
+        //   typeof countryCode === "object"
+        //     ? countryCode.value
+        //     : countryCode || "91",
+        vendorCategory: vendorCategory || null,
       };
 
       const hasChanges =
@@ -878,10 +892,10 @@ function AddVendorNew() {
             vendorId: currentItem?.apiCall?.vendorId,
             firstName: vendorName,
             lastName: last_Name,
-            countryCode:
-              typeof countryCode === "object" ? countryCode.value : countryCode,
             mobile: businessMobile,
+            businessMobileCode: businessCountryCode?.value || "",
             contactPersonMobile: vendor_Mobile,
+            contactPersonMobileCode: countryCode.value || "",
             mailId: email_Id,
             houseNo: house_no,
             landmark: landmark,
@@ -890,7 +904,7 @@ function AddVendorNew() {
             state: state_name,
             businessName: businessName,
             hostelId: state.login.selectedHostel_Id,
-            vendorCategory: vendorCategory?.value ?? null,
+            vendorCategory: vendorCategory ?? null,
             contactPerson: contactPersonName,
             description: description,
             // vendorCode: vendorCode,
@@ -910,10 +924,9 @@ function AddVendorNew() {
           payLoads: {
             firstName: vendorName,
             lastName: last_Name,
-            countryCode:
-              typeof countryCode === "object" ? countryCode.value : countryCode,
             mobile: businessMobile,
-            contactPersonMobile: vendor_Mobile,
+            businessMobileCode: businessCountryCode?.value || "",
+            contactPersonMobileCode: countryCode.value || "",
             mailId: email_Id,
             houseNo: house_no,
             landmark: landmark,
@@ -922,7 +935,7 @@ function AddVendorNew() {
             state: state_name,
             businessName: businessName,
             hostelId: state.login.selectedHostel_Id,
-            vendorCategory: vendorCategory?.value ?? null,
+            vendorCategory: vendorCategory ?? null,
             contactPerson: contactPersonName,
             description: description,
             // vendorCode: vendorCode,
@@ -1013,10 +1026,7 @@ function AddVendorNew() {
       });
 
       if (vendorOverView.vendorCategoryId) {
-        setVendorCategory({
-          value: vendorOverView.vendorCategoryId,
-          label: vendorOverView.vendorCategoryName,
-        });
+        setVendorCategory(vendorOverView.vendorCategoryId);
       } else {
         setVendorCategory(null);
       }

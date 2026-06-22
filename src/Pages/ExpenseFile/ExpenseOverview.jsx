@@ -68,8 +68,9 @@ function ExpenseOverview({
                 <span className="flex items-center gap-1 text-[#4B4B4B] capitalize">
                   <span>{expenseOverView?.categoryName}</span>
                 </span>
-                <span className="flex items-center gap-1 text-[#222222] font-semibold capitalize" >
-                  <Location size="16" color="#1E45E1" /> address
+                <span className="flex items-center gap-1 text-[#222222] font-semibold capitalize">
+                  <Location size="16" color="#1E45E1" />{" "}
+                  {expenseOverView?.vendorAddress}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
                   <ExportSquare size="14" color="#1E45E1" />

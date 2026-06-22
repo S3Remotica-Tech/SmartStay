@@ -351,7 +351,7 @@ function AddExpenseNew() {
   const vendorOptions =
     state.ExpenseList.getInitializeExpenseList?.vendor?.map((vendor) => ({
       value: vendor.id,
-      label: vendor?.id,
+      label: vendor?.vendorName,
     })) || [];
 
   // console.log("vendorOptions", vendorOptions.length);
@@ -394,10 +394,6 @@ function AddExpenseNew() {
   const [discount, setDiscount] = useState(0);
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
-
-  useEffect(() => {
-    console.log("paymentMethodError", paymentMethodError);
-  }, [paymentMethodError]);
 
   const handleFileChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -792,6 +788,7 @@ function AddExpenseNew() {
 
           tax: Number(tax || 0),
           discount: Number(discount || 0),
+          creditPeriod: creditPeriod || 0,
 
           expenseItems: expenseItems?.map((item) => ({
             item: item.itemName.trim(),
