@@ -10,6 +10,7 @@ import {
   VendorList,
   addVendor,
   DeleteVendorList,
+  DeleteVendorComments,
   ComplianceAssign,
   complianceDelete,
   getComplianceComment,
@@ -19,7 +20,10 @@ import {
   particularVendorOverview,
   VendorOverViewExpenseList,
   VendorOverViewExpensePaymentList,
-  withoutCustomizationVendorList,
+  vendorSettlementInitialize,
+  getCommentVendor,
+  addCommentVendor,
+  UpdateVendorComments,
 } from "../Action/ComplianceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -46,9 +50,9 @@ function* handleApiError(error) {
   }
 }
 
-function* handleWithoutCustomizationVendorList(action) {
+function* handleGetCommentVendor(action) {
   try {
-    const response = yield call(withoutCustomizationVendorList, action.payload);
+    const response = yield call(getCommentVendor, action.payload);
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
@@ -57,7 +61,118 @@ function* handleWithoutCustomizationVendorList(action) {
 
     if (response?.status === 200) {
       yield put({
-        type: "WITHOUT_CUSTOM_VENDOR_LIST_REDUCER",
+        type: "VENDOR_COMMENTS_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleUpdateVendorComments(action) {
+  try {
+    const response = yield call(UpdateVendorComments, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 200) {
+      yield put({
+        type: "UPDATE_VENDOR_COMMENTS_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleAddCommentVendor(action) {
+  try {
+    const response = yield call(addCommentVendor, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+    if (response?.status === 201) {
+      yield put({
+        type: "ADD_VENDOR_COMMENTS_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleVendorSettlementInitialize(action) {
+  try {
+    const response = yield call(vendorSettlementInitialize, action.payload);
+    console.log("Saga triggered", action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "VENDOR_SETTLE_INITIALIZE_REDUCER",
         payload: {
           response: response.data,
           statusCode: response?.status,
@@ -337,6 +452,47 @@ function* handleEditComplaint(action) {
 
     if (response) {
       refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleDeleteVendorComments(action) {
+  try {
+    const response = yield call(DeleteVendorComments, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 200) {
+      yield put({
+        type: "DELETE_VENDOR_COMMENTS_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success("Comments has been successfully deleted!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
     }
   } catch (error) {
     yield* handleApiError(error);
@@ -784,9 +940,13 @@ function* handleCompliantsUpdatesView(action) {
 }
 
 function* ComplianceSaga() {
+  yield takeEvery("UPDATE_VENDOR_COMMENTS_SAGA", handleUpdateVendorComments);
+  yield takeEvery("DELETE_VENDOR_COMMENTS_SAGA", handleDeleteVendorComments);
+  yield takeEvery("ADD_VENDOR_COMMENTS_SAGA", handleAddCommentVendor);
+  yield takeEvery("VENDOR_COMMENTS_SAGA", handleGetCommentVendor);
   yield takeEvery(
-    "WITHOUT_CUSTOM_VENDOR_LIST_SAGA",
-    handleWithoutCustomizationVendorList,
+    "VENDOR_SETTLE_INITIALIZE_SAGA",
+    handleVendorSettlementInitialize,
   );
 
   yield takeEvery(

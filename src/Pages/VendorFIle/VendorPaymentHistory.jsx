@@ -37,7 +37,7 @@ function VendorPaymentHistory() {
           <div
             id="tableContainer"
             //   ref={tableContainerRef}
-            className="overflow-auto relative h-[calc(50vh-250px)]  show-scrolls"
+            className="overflow-auto relative h-[300px] show-scrolls"
           >
             <table className=" w-full font-gilroy ">
               <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs uppercase">
@@ -73,7 +73,7 @@ function VendorPaymentHistory() {
                       </td>
 
                       <td className="px-4 py-2.5 text-sm">
-                        {payment.paymentMethod}
+                        {`${payment.paymentMethod}${payment.bankName ? ` - ${payment.bankName}` : ""}`}
                       </td>
 
                       <td className="px-4 py-2.5">

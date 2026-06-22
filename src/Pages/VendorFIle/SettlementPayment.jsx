@@ -19,12 +19,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
-const vendorOptions = [
-  { value: "grow-aqua-services", label: "Grow Aqua Services" },
-  { value: "vinayaka-electricals", label: "Vinayaka Electricals" },
-  { value: "abc-traders", label: "ABC Traders" },
-];
-
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -126,36 +120,36 @@ const CustomStyles = {
   }),
 };
 
-const paymentOptions = [
-  {
-    label: "Bank Accounts",
-    options: [
-      {
-        value: "sbi",
-        label: "SBI Bank",
-        type: "Bank",
-        icon: <Bank size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-  {
-    label: "Linked Payment Methods",
-    options: [
-      {
-        value: "gpay",
-        label: "Google Pay",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-      {
-        value: "phonepe",
-        label: "PhonePe",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-];
+// const paymentOptions = [
+//   {
+//     label: "Bank Accounts",
+//     options: [
+//       {
+//         value: "sbi",
+//         label: "SBI Bank",
+//         type: "Bank",
+//         icon: <Bank size={18} color="#1E45E1" />,
+//       },
+//     ],
+//   },
+//   {
+//     label: "Linked Payment Methods",
+//     options: [
+//       {
+//         value: "gpay",
+//         label: "Google Pay",
+//         type: "UPI",
+//         icon: <Wallet2 size={18} color="#1E45E1" />,
+//       },
+//       {
+//         value: "phonepe",
+//         label: "PhonePe",
+//         type: "UPI",
+//         icon: <Wallet2 size={18} color="#1E45E1" />,
+//       },
+//     ],
+//   },
+// ];
 const Option = (props) => {
   const { data } = props;
 
@@ -173,9 +167,9 @@ const Option = (props) => {
             )}
           </div>
         </div>
-        <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+        {/* <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
           {data.type}
-        </span>
+        </span> */}
       </div>
     </components.Option>
   );
@@ -208,13 +202,16 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function SettlementPayment({ show, handleClose, isBanking }) {
+function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
   if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-const VendorOverView = state.ComplianceList?.vendorOverview;
+  const VendorOverView = state.ComplianceList?.vendorOverview;
 
+  const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
+  const expenses = vendorInitialize?.expenses || [];
+  console.log("vendorInitialize", vendorInitialize);
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -227,7 +224,10 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   const [paidAmountError, setPaidAmountError] = useState("");
   const [paidDateError, setPaidDateError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
-
+  const [error, setError] = useState("");
+  const paidAmountRef = useRef(null);
+  const paidDateRef = useRef(null);
+  const paymentMethodRef = useRef(null);
   const [attachments, setAttachments] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedImageName, setSelectedImageName] = useState({
@@ -237,51 +237,50 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  const [expenseList, setExpenseList] = useState([]);
 
-  
-
-  const [invoiceDetails, setInvoiceDetails] = useState([
-    {
-      id: 1,
-      type: "Table",
-      invoiceNo: "#RF-987",
-      amount: 5000,
-      invoiceDue: 2500,
-      amountToApply: "",
-    },
-    {
-      id: 1,
-      type: "chair",
-      invoiceNo: "#RF-987",
-      amount: 5000,
-      invoiceDue: 2000,
-      amountToApply: "",
-    },
-  ]);
-
-  const handleAmountApplyChange = (index, value) => {
-    const updatedList = [...invoiceDetails];
-
-    updatedList[index].amountToApply = value;
-
-    setInvoiceDetails(updatedList);
-  };
+  // console.log("expenseList", expenseList);
 
   useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-    dispatch({
-      type: "VENDORLIST",
-      payload: { hostelId: state.login.selectedHostel_Id },
-    });
-  }, []);
+    setExpenseList(vendorInitialize?.expenses || []);
+  }, [vendorInitialize]);
 
-  // const vendorOptions =
-  //   state.ComplianceList?.VendorList?.map((vendor) => ({
-  //     value: vendor.id,
-  //     label: vendor.fullName,
-  //     vendor,
-  //   })) || [];
-  const vendorOptions = [];
+  const handleAmountApplyChange = (index, value) => {
+    setError("");
+    setExpenseList((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              amountToApply: value,
+            }
+          : item,
+      ),
+    );
+  };
+
+  const totalApplied = expenseList.reduce(
+    (sum, item) => sum + (Number(item.amountToApply) || 0),
+    0,
+  );
+
+  // const balanceAmount = Number(paidAmount || 0) - totalApplied;
+
+  const finalOutstanding = VendorOverView?.summary?.outstanding - paidAmount;
+
+  const paymentOptions = [
+    {
+      label: "Bank Accounts",
+      options:
+        vendorInitialize?.banks?.map((bank) => ({
+          value: bank.bankId,
+          label: bank.bankName,
+          holderName: bank.holderName,
+          type: "Bank",
+          icon: <Bank size={18} color="#1E45E1" />,
+        })) || [],
+    },
+  ];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -305,8 +304,20 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
     setVendorError("");
   };
 
+  console.log("VendorOverView", VendorOverView);
+  useEffect(() => {
+    setSelectedVendor(VendorOverView?.fullName);
+  }, [VendorOverView?.fullName]);
+
   const handlePaidAmountChange = (e) => {
     setPaidAmount(e.target.value);
+    setPaidAmountError("");
+  };
+
+  const handleSetAmount = () => {
+    const dueAmount = VendorOverView?.summary?.outstanding || 0;
+
+    setPaidAmount(dueAmount);
     setPaidAmountError("");
   };
 
@@ -330,24 +341,30 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
 
   const validateForm = () => {
     let isValid = true;
+    setPaidAmountError("");
+    setPaidDateError("");
+    setPaymentMethodError("");
+    setError("");
 
-    if (!selectedVendor) {
-      setVendorError("Vendor is required");
+    if (!paidAmount || Number(paidAmount) <= 0) {
+      setPaidAmountError("Please enter Paid Amount");
+      paidAmountRef.current?.focus();
       isValid = false;
     }
-
-    if (!paidAmount) {
-      setPaidAmountError("Paid amount is required");
+    if (Number(paidAmount) > Number(VendorOverView?.summary?.outstanding)) {
+      setPaidAmountError("Paid Amount cannot exceed Outstanding Amount.");
       isValid = false;
     }
 
     if (!paidDate) {
-      setPaidDateError("Paid date is required");
+      setPaidDateError("Please select Paid Date");
+      paidDateRef.current?.setFocus?.();
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Payment method is required");
+      setPaymentMethodError("Please select Payment Method");
+      paymentMethodRef.current?.focus();
       isValid = false;
     }
 
@@ -355,32 +372,102 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
   };
 
   const handleSubmit = () => {
+    dispatch({ type: "REMOVE_VENDOR_SETTLEMENT_ERROR" });
     if (!validateForm()) return;
+    setError("");
     const formattedDate = paidDate ? moment(paidDate).format("DD-MM-YYYY") : "";
+
+    const expensesPayload = expenseList
+      .filter((item) => Number(item.amountToApply) > 0)
+      .map((item) => ({
+        expenseId: item.expenseId,
+        paidAmount: Number(item.amountToApply),
+      }));
+
+    const totalApplied = expensesPayload.reduce(
+      (sum, item) => sum + item.paidAmount,
+      0,
+    );
+    if (totalApplied === 0) {
+      setError("Please apply amount to at least one expense.");
+      return;
+    }
+    if (totalApplied !== Number(paidAmount)) {
+      setError("Applied amount must equal the Paid Amount.");
+      return;
+    }
+
     dispatch({
       type: "SETTLEMENT_PAYMENT_SAGA",
       payload: {
-        transactionImage: attachments?.[0]?.file || null,
-        payloads: {
-          expenseId,
-          amount: Number(paidAmount),
+        vendorId: vendorInitialize?.vendorId,
+
+        images: attachments.map((item) => item.file),
+        payLoads: {
           paymentDate: formattedDate,
-          bankId: paymentMethod?.value,
-          paymentMethod: paymentMethod?.type || paymentMethod?.label,
+          bankId: paymentMethod?.value || "",
+          paymentMethod: paymentMethod?.type || paymentMethod?.label || "",
           transactionId: transactionId,
           notes: description,
+          expenses: expensesPayload,
         },
       },
     });
+
     setFormLoading(true);
   };
 
   useEffect(() => {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
+
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
+
+      dispatch({
+        type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+          period: "THIS_MONTH",
+        },
+      });
+
       setFormLoading(false);
+
+      setPaidAmountError("");
+      setPaidDateError("");
+      setPaymentMethodError("");
+      setError("");
       handleClose();
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
+      }, 2000);
     }
   }, [state.UsersList.settlementPaymentSuccessCode]);
+
+  useEffect(() => {
+    return () => {
+      setPaidAmountError("");
+      setPaidDateError("");
+      setPaymentMethodError("");
+      setError("");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.UsersList.vendorSettleError) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList.vendorSettleError]);
 
   return (
     <>
@@ -411,15 +498,15 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                 Vendor <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select
-                  isDisabled
-                  options={vendorOptions}
+                <input
+                  disabled
+                  type="text"
                   value={selectedVendor}
-                  onChange={handleVendorChange}
-                  // options={vendorOptions}
-                  placeholder="Select Vendor"
-                  className="text-sm"
-                  styles={CustomStyles}
+                  // placeholder="Enter "
+                  readOnly
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${
+                    selectedVendor ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
               </div>
 
@@ -438,13 +525,14 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                 <p className="mt-1 text-right text-xs text-gray-600 mb-0">
                   Due Amount{" "}
                   <span className="font-semibold  text-base text-[#E27625]">
-                    ₹ 2,000.00
+                    ₹ {VendorOverView?.summary?.outstanding}
                   </span>
                 </p>
               </label>
               <div className="relative">
                 <input
                   type="number"
+                  ref={paidAmountRef}
                   value={paidAmount}
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
@@ -452,7 +540,10 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                     paidAmount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
-                <button className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
+                <button
+                  onClick={handleSetAmount}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                >
                   Set
                 </button>
               </div>
@@ -469,7 +560,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               </label>
               <input
                 type="text"
-                value="₹0.00"
+                value={finalOutstanding}
                 readOnly
                 className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700"
               />
@@ -481,10 +572,13 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               </label>
               <div className="relative">
                 <DatePicker
+                  // ref={paidDateRef}
                   selected={paidDate}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
+                  customInput={<input ref={paidDateRef} />}
+                  maxDate={new Date()}
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
                   ${
                     paidDateError ? "border-red-500" : "border-[#D9D9D9]"
@@ -497,6 +591,9 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
+              {paidDateError && (
+                <ErrorMessage message={paidDateError} type="error" />
+              )}
             </div>
 
             <div className="mb-2">
@@ -506,6 +603,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               </label>
               <Select
                 value={paymentMethod}
+                ref={paymentMethodRef}
                 onChange={(selected) => {
                   setPaymentMethod(selected);
                   setPaymentMethodError("");
@@ -524,9 +622,7 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               />
 
               {paymentMethodError && (
-                <p className="mt-1 text-xs text-red-500">
-                  {paymentMethodError}
-                </p>
+                <ErrorMessage message={paymentMethodError} type="error" />
               )}
             </div>
 
@@ -544,94 +640,87 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                 } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
               />
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/jpeg,image/jpg,image/png"
+              className="hidden"
+              onChange={handleFileChange}
+            />
 
-            <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Attachments/Proofs (If any)
-              </label>
+            {attachments?.length === 0 && (
+              <div className="mb-2">
+                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                  Attachments/Proofs (If any)
+                </label>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept="image/jpeg,image/jpg,image/png"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+                >
+                  <div className="rounded-md bg-blue-100 px-1 py-1">
+                    <DocumentUpload size={20} color="#1E45E1" />
+                  </div>
 
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-              >
-                <div className="rounded-md bg-blue-100 px-1 py-1">
-                  <DocumentUpload size={20} color="#1E45E1" />
+                  <div>
+                    <p className="text-sm font-medium text-[#222222] mb-1">
+                      <span className="text-[#1E45E1]">Choose Image to</span>{" "}
+                      Upload
+                    </p>
+
+                    <p className="text-xs text-gray-500">
+                      JPG / JPEG / PNG Format
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium text-[#222222] mb-1">
-                    <span className="text-[#1E45E1]">Choose Image to</span>{" "}
-                    Upload
-                  </p>
-
-                  <p className="text-xs text-gray-500">
-                    JPG / JPEG / PNG Format
-                  </p>
-                </div>
-              </div>
-
-              {previewImage && (
-                <div className="flex items-center justify-center">
-                  <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-                    <div
-                      className="relative px-4 py-2 group"
-                      onMouseEnter={() => setHoveredImage(previewImage)}
-                      onMouseLeave={() => setHoveredImage(null)}
-                    >
-                      <img
-                        src={previewImage}
-                        alt="preview"
-                        className="w-[350px] h-auto rounded-md object-fit"
-                      />
-
+                {previewImage && (
+                  <div className="flex items-center justify-center">
+                    <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
                       <div
-                        className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                          hoveredImage === previewImage ? "h-[50px]" : "h-0"
-                        }`}
+                        className="relative px-4 py-2 group"
+                        onMouseEnter={() => setHoveredImage(previewImage)}
+                        onMouseLeave={() => setHoveredImage(null)}
                       >
-                        <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
-                          <p className="text-white text-sm truncate max-w-[170px]">
-                            {selectedImageName?.name}
-                          </p>
+                        <img
+                          src={previewImage}
+                          alt="preview"
+                          className="w-[350px] h-auto rounded-md object-fit"
+                        />
 
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setPreviewImage(null);
-                              handleRemoveFile(selectedImageName?.index);
-                            }}
-                            className="bg-white rounded-md p-1"
-                          >
-                            <Add
-                              size={20}
-                              color="#FF0000"
-                              className="rotate-45"
-                            />
-                          </button>
+                        <div
+                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
+                            hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                          }`}
+                        >
+                          <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
+                            <p className="text-white text-sm truncate max-w-[170px]">
+                              {selectedImageName?.name}
+                            </p>
+
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPreviewImage(null);
+                                handleRemoveFile(selectedImageName?.index);
+                              }}
+                              className="bg-white rounded-md p-1"
+                            >
+                              <Add
+                                size={20}
+                                color="#FF0000"
+                                className="rotate-45"
+                              />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div
-                className="flex justify-end my-2"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
-                  + Add more Files
-                </label>
+                )}
               </div>
-            </div>
+            )}
 
             {attachments?.length > 0 && (
               <div className="grid grid-cols-3 gap-3 mt-3">
@@ -669,6 +758,17 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
               </div>
             )}
 
+            {attachments?.length > 0 && (
+              <div
+                className="flex justify-end my-2"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
+                  + Add more Files
+                </label>
+              </div>
+            )}
+
             <div className="mb-2 mt-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Description
@@ -695,73 +795,108 @@ const VendorOverView = state.ComplianceList?.vendorOverview;
                       <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
                         Expense No
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
+                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
                         Ref No
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
-                        AMOUNT
+                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                        Amount
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px]  font-semibold  text-[#6B7280] whitespace-nowrap">
-                        DUE
+                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                        Due
                       </th>
-                      <th className="text-left px-4 py-2 text-[9px] font-semibold  text-[#6B7280] whitespace-nowrap">
-                        AMOUNT TO APPLY
+                      <th className="text-left px-4 py-2 text-[9px] font-semibold text-[#6B7280] whitespace-nowrap">
+                        Amount To Apply
                       </th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {invoiceDetails.map((item, index) => (
-                      <tr key={item.id} className="border-b border-[#E5E7EB]">
-                        <td className="px-4 py-2.5 text-[11px]  font-medium text-[#222222]">
-                          {item.type}
-                        </td>
+                    {expenseList.length > 0 ? (
+                      expenseList.map((item, index) => (
+                        <tr
+                          key={item.expenseId}
+                          className="border-b border-[#E5E7EB]"
+                        >
+                          <td className="px-4 py-2.5 text-[11px] font-medium text-[#222222]">
+                            {item.expenseNo}
+                          </td>
 
-                        <td className="px-4 py-2.5">
-                          <span className="text-[#1E45E1] text-[11px]  font-medium whitespace-nowrap">
-                            {item.invoiceNo}
-                          </span>
-                        </td>
+                          <td className="px-4 py-2.5">
+                            <span className="text-[#1E45E1] text-[11px] font-medium whitespace-nowrap">
+                              {item.referenceNo}
+                            </span>
+                          </td>
 
-                        <td className="px-4 py-2.5 text-[11px]  text-[#6B7280] whitespace-nowrap">
-                          {item.amount}
-                        </td>
+                          <td className="px-4 py-2.5 text-[11px] text-[#6B7280] whitespace-nowrap">
+                            ₹ {item.totalAmount}
+                          </td>
 
-                        <td className="px-4 py-2.5 text-[11px]  font-semibold text-[#222222] whitespace-nowrap">
-                          ₹ {item.invoiceDue}
-                        </td>
+                          <td className="px-4 py-2.5 text-[11px] font-semibold text-[#222222] whitespace-nowrap">
+                            ₹ {item.totalBalance}
+                          </td>
 
-                        <td className="px-4 py-2.5">
-                          <input
-                            type="number"
-                            value={item.amountToApply}
-                            onChange={(e) =>
-                              handleAmountApplyChange(index, e.target.value)
-                            }
-                            className="w-[140px] h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px]  font-medium focus:outline-none focus:border-[#1E45E1]"
-                            placeholder="₹ 0.00"
-                          />
+                          <td className="px-4 py-2.5">
+                            <input
+                              type="number"
+                              value={item.amountToApply || ""}
+                              onChange={(e) =>
+                                handleAmountApplyChange(index, e.target.value)
+                              }
+                              max={item.totalBalance}
+                              className="w-28 h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px] font-medium focus:outline-none focus:border-[#1E45E1]"
+                              placeholder="₹ 0.00"
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="py-6 text-center text-sm text-gray-500"
+                        >
+                          No expenses found.
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
 
+            {error && (
+              <div className="my-2">
+                {" "}
+                <ErrorMessage message={error} type="error" />{" "}
+              </div>
+            )}
+
             <div className="rounded-xl bg-[#2633A0] p-4 text-white">
               <p className="text-xs font-medium opacity-70">SUMMARY</p>
-              <p className="mt-1 text-2xl font-bold">₹ 2,000.00</p>
+
+              <p className="mt-1 text-2xl font-bold">
+                ₹ {Number(paidAmount || 0).toFixed(2)}
+              </p>
+
               <div className="mt-3 space-y-1 text-sm">
                 <div className="flex justify-between">
-                  <span className="opacity-80">Paid Amount</span>
-                  <span>₹ {paidAmount}</span>
+                  <span className="opacity-80">Applied Amount</span>
+                  <span>₹ {totalApplied.toFixed(2)}</span>
                 </div>
+
                 <div className="flex justify-between">
                   <span className="opacity-80">
                     Balance Amount (Outstanding)
                   </span>
-                  <span>- ₹ 0.00</span>
+                  <span
+                    className={
+                      finalOutstanding > 0
+                        ? "text-yellow-300"
+                        : "text-green-300"
+                    }
+                  >
+                    ₹ {finalOutstanding.toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>

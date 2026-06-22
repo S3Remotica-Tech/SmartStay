@@ -12,6 +12,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import moment from "moment";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -297,7 +299,7 @@ function AddExpenseNew() {
   const [vendor, setVendor] = useState(null);
   const [vendorError, setVendorError] = useState("");
   const [subCategoryList, setSubCategoryList] = useState([]);
-  const [paymentStatus, setPaymentStatus] = useState("Fully Paid");
+  const [paymentStatus, setPaymentStatus] = useState("");
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -309,10 +311,34 @@ function AddExpenseNew() {
     name: "",
     index: "",
   });
+
+  const expenseTitleRef = useRef(null);
+  const categoryRef = useRef(null);
+  const subCategoryRef = useRef(null);
+  const amountRef = useRef(null);
+  const purchaseDateRef = useRef(null);
+  const vendorRef = useRef(null);
+  const paymentStatusRef = useRef(null);
+  const paidAmountRef = useRef(null);
+  const paymentMethodRef = useRef(null);
+
+  // console.log("amount", amount);
+
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
   const [balanceAmountError, setBalanceAmountError] = useState("");
+  const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
+
+  // console.log("attachments", attachments);
+
+  useEffect(() => {
+    const balance = Number(amount || 0) - Number(paidAmount || 0);
+    setBalanceAmount(balance);
+  }, [amount, paidAmount]);
+
+  const isAvailablePaid =
+    paymentStatus === "Full" || paymentStatus === "Partial";
 
   // const vendorOptions =
   //   state.ComplianceList?.VendorList?.map((vendor) => ({
@@ -369,6 +395,10 @@ function AddExpenseNew() {
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
+  useEffect(() => {
+    console.log("paymentMethodError", paymentMethodError);
+  }, [paymentMethodError]);
+
   const handleFileChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const files = Array.from(e.target.files);
@@ -402,21 +432,15 @@ function AddExpenseNew() {
 
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
-  const isVendorWay = location.state?.isVendorWay;
+  // const isVendorWay = location.state?.isVendorWay;
 
   const [errors, setErrors] = useState({
     totalAmount: "",
     paidAmount: "",
     balanceAmount: "",
+    tax: "",
+    discount: "",
   });
-
-  const expenseTitleRef = useRef(null);
-  const categoryRef = useRef(null);
-  const subCategoryRef = useRef(null);
-  const amountRef = useRef(null);
-  const expenseDateRef = useRef(null);
-  const paidThroughRef = useRef(null);
-  const paymentMethodRef = useRef(null);
 
   const handleVendorChange = (selected) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -465,9 +489,7 @@ function AddExpenseNew() {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (isBankingWayTrigger) {
       navigate(`/banking/new/${state.login.selectedHostel_Id}`);
-    }
- 
-    else {
+    } else {
       navigate(`/expense/${state.login.selectedHostel_Id}`);
     }
   };
@@ -502,6 +524,10 @@ function AddExpenseNew() {
   };
 
   const handleItemChange = (index, field, value) => {
+    setErrors((prev) => ({
+      ...prev,
+      totalAmount: "",
+    }));
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const updated = [...expenseItems];
 
@@ -533,6 +559,14 @@ function AddExpenseNew() {
         amount: 0,
       },
     ]);
+
+    setErrors({
+      totalAmount: "",
+      paidAmount: "",
+      balanceAmount: "",
+      tax: "",
+      discount: "",
+    });
   };
 
   const removeRow = (index) => {
@@ -555,104 +589,94 @@ function AddExpenseNew() {
   const totalAmount = subTotal + taxAmount - discountAmount;
 
   const validate = () => {
+    setPaymentMethodError("");
+    setPaidAmountError("");
+    setSubCategoryError("");
+
     let isValid = true;
+    let firstErrorRef = null;
+
+    const setFirstError = (ref) => {
+      if (!firstErrorRef) firstErrorRef = ref;
+      isValid = false;
+    };
 
     if (!expenseTitle.trim()) {
-      setExpenseTitleError("Please Enter Expense Title ");
-      isValid = false;
+      setExpenseTitleError("Please Enter Expense Title");
+      setFirstError(expenseTitleRef);
     }
 
     if (!category) {
       setCategoryError("Please Select Category");
-      isValid = false;
+      setFirstError(categoryRef);
     }
 
-    if (!subCategory) {
-      setSubCategoryError("Please Select Sub Category ");
-      isValid = false;
+    const selectedCat =
+      state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+        (cat) => cat.categoryId === category,
+      );
+
+    const categoryHasSubCategory =
+      (selectedCat?.subCategories?.length || 0) > 0;
+
+    if (categoryHasSubCategory && !subCategory) {
+      setSubCategoryError("Please Select Sub Category");
+      setFirstError(subCategoryRef);
     }
 
     if (!amount) {
-      setAmountError("Please Enter Amount ");
-      isValid = false;
+      setAmountError("Please Enter Amount");
+      setFirstError(amountRef);
     }
 
     if (!purchaseDate) {
-      setPurchaseDateError("Please Select Purchase Date ");
-      isValid = false;
+      setPurchaseDateError("Please Select Purchase Date");
+      setFirstError(purchaseDateRef);
     }
 
-    if (!vendor) {
-      setVendorError("Please Select  Vendor");
-      isValid = false;
+    if (linkVendor && !vendor) {
+      setVendorError("Please Select Vendor");
+      setFirstError(vendorRef);
     }
 
-    if (!paymentStatus) {
+    if (linkVendor && !paymentStatus) {
       setPaymentStatusError("Please Select Payment Status");
-      isValid = false;
+      setFirstError(paymentStatusRef);
     }
 
-    if (!paidAmount.trim()) {
-      setPaidAmountError("Please Enter  Paid amount");
-      isValid = false;
+    if (isAvailablePaid && !paidAmount) {
+      setPaidAmountError("Please Enter Paid Amount");
+      setFirstError(paidAmountRef);
     }
 
-    if (!balanceAmount.trim()) {
-      setBalanceAmountError("Please Enter Balance amount ");
-      isValid = false;
-    }
-
-    if (!paymentMethod) {
+    if (isAvailablePaid && !paymentMethod?.value) {
       setPaymentMethodError("Please Select Payment Method");
-      isValid = false;
+      setFirstError(paymentMethodRef);
     }
 
+    // Expense Items Validation
     if (expenseItems.length === 0) {
       setExpenseItemErrors([
         {
           itemName: "Enter item details",
           quantity: "Enter quantity",
           unit: "Select unit",
-          price: "Enter per unit price",
+          price: "Enter amount",
         },
       ]);
       isValid = false;
-    } else {
-      const rowErrors = expenseItems.map((item) => {
-        const error = {};
-
-        if (!item.itemName.trim()) {
-          error.itemName = "Enter item details";
-          isValid = false;
-        }
-
-        if (!item.quantity || Number(item.quantity) <= 0) {
-          error.quantity = "Enter quantity";
-          isValid = false;
-        }
-
-        if (!item.unit) {
-          error.unit = "Select unit";
-          isValid = false;
-        }
-
-        if (!item.price || Number(item.price) <= 0) {
-          error.price = "Enter amount";
-          isValid = false;
-        }
-
-        return error;
-      });
-
-      setExpenseItemErrors(rowErrors);
     }
+
+    if (firstErrorRef?.current) {
+      firstErrorRef.current.focus();
+      firstErrorRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+
     return isValid;
   };
-
-  console.log({
-    value: linkVendor,
-    type: typeof linkVendor,
-  });
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -661,20 +685,53 @@ function AddExpenseNew() {
       totalAmount: "",
       paidAmount: "",
       balanceAmount: "",
+      tax: "",
+      discount: "",
     });
     const total = Number(amount || 0);
     const paid = Number(paidAmount || 0);
-    const balance = Number(balanceAmount || 0);
+    const balance = total - paid;
 
-    const itemsTotal = expenseItems.reduce(
+    const itemsTotal = expenseItems?.reduce(
       (sum, item) => sum + Number(item.amount || 0),
       0,
     );
 
+    if (taxAmount && taxAmount < 0) {
+      setErrors((prev) => ({
+        ...prev,
+        tax: "Tax cannot be negative.",
+      }));
+      return;
+    }
+
+    if (discountAmount && discountAmount < 0) {
+      setErrors((prev) => ({
+        ...prev,
+        discount: "Discount cannot be negative.",
+      }));
+      return;
+    }
+
+    if (discountAmount > total) {
+      setErrors((prev) => ({
+        ...prev,
+        discount: "Discount cannot exceed total amount.",
+      }));
+      return;
+    }
     if (itemsTotal > total) {
       setErrors((prev) => ({
         ...prev,
-        totalAmount: "Expense items total cannot exceed Total Amount.",
+        totalAmount: "Expense items total cannot exceed Total Amount",
+      }));
+      return;
+    }
+
+    if (Number(totalAmount.toFixed(2)) !== Number(total.toFixed(2))) {
+      setErrors((prev) => ({
+        ...prev,
+        totalAmount: "Total Retainer Amount must be equal to the total Amount",
       }));
       return;
     }
@@ -682,24 +739,15 @@ function AddExpenseNew() {
     if (paid > total) {
       setErrors((prev) => ({
         ...prev,
-        paidAmount: "Paid amount cannot exceed total amount.",
+        paidAmount: "Paid amount cannot exceed total amount",
       }));
       return;
     }
 
-    if (balance > total) {
+    if (balance < 0) {
       setErrors((prev) => ({
         ...prev,
-        balanceAmount: "Balance amount cannot exceed total amount.",
-      }));
-      return;
-    }
-
-    if (paid + balance !== total) {
-      setErrors((prev) => ({
-        ...prev,
-        paidAmount: "Amount doesn't match Total.",
-        balanceAmount: "Amount doesn't match Total.",
+        balanceAmount: "Balance amount cannot be negative",
       }));
       return;
     }
@@ -710,30 +758,42 @@ function AddExpenseNew() {
       type: "ADDEXPENSE",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        categoryId: category || 0,
-        subCategory: subCategory || "",
-        purchaseDate: formattedDate,
-        count: expenseItems.length,
-        totalAmount: Number(totalAmount),
-        bankId: paymentMethod?.value || "",
-        description: description.trim(),
+        images: attachments?.map((item) => item.file),
 
-        title: expenseTitle.trim(),
-        isVendorExpense: linkVendor,
-        vendorId: linkVendor ? vendor?.value || vendor?.vendorId || 0 : 0,
-        paymentStatus: paymentStatus,
-        paidAmount: Number(paidAmount || 0),
-        balanceAmount: Number(balanceAmount || 0),
-        paymentMethod: paymentMethod?.value || "",
-        note: "",
-        expenseItems: expenseItems?.map((item) => ({
-          item: item.itemName.trim(),
-          quantity: Number(item.quantity || 0),
-          unitId: item.unit?.unitId || item.unit?.id || item.unit?.value || 0,
-          unit: item.unit?.label || "",
-          unitPrice: Number(item.price || 0),
-          totalAmount: Number(item.amount || 0),
-        })),
+        expense: {
+          categoryId: Number(category || 0),
+          subCategory: Number(subCategory || 0),
+          purchaseDate: formattedDate,
+          count: expenseItems?.length,
+          totalAmount: Number(amount),
+          bankId: paymentMethod?.value,
+          description: description.trim(),
+          title: expenseTitle.trim(),
+
+          isVendorExpense: linkVendor,
+          vendorId: linkVendor
+            ? Number(vendor?.value || vendor?.vendorId || 0)
+            : 0,
+
+          paymentStatus,
+          paidAmount: Number(paidAmount || 0),
+          balanceAmount: Number(balanceAmount || 0),
+
+          paymentMethod: paymentMethod?.value || "",
+          note: "",
+          transactionId: transactionId || "",
+
+          tax: Number(tax || 0),
+          discount: Number(discount || 0),
+
+          expenseItems: expenseItems?.map((item) => ({
+            item: item.itemName.trim(),
+            quantity: Number(item.quantity || 0),
+            unit: item.unit?.label || "",
+            unitPrice: Number(item.price || 0),
+            totalAmount: Number(item.amount || 0),
+          })),
+        },
       },
     });
 
@@ -798,7 +858,7 @@ function AddExpenseNew() {
       state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
     ) {
       setFormLoading(false);
-      navigate(`/add-expense/${state.login.selectedHostel_Id}`);
+      navigate(`/expense/${state.login.selectedHostel_Id}`);
     }
   }, [
     state.ExpenseList.StatusCodeForAddExpenseSuccess,
@@ -806,30 +866,55 @@ function AddExpenseNew() {
     state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
   ]);
 
+  // useEffect(() => {
+  //   if (category) {
+  //     const selectedCat =
+  //       state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+  //         (cat) => cat.categoryId === category,
+  //       );
+
+  //     setSubCategoryList(
+  //       selectedCat?.subCategories?.map((sub) => ({
+  //         value: sub.subCategoryId,
+  //         label: sub.subCategoryName,
+  //       })) || [],
+  //     );
+  //     const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
+  //     console.log("categoryHasSubCategory", categoryHasSubCategory);
+
+  //     if (categoryHasSubCategory && !subCategory) {
+  //       setSubCategoryError("Please Select SubCategory");
+  //     } else {
+  //       setSubCategoryError("");
+  //     }
+
+  //     // setSubCategory("");
+  //   }
+  // }, [category]);
+
   useEffect(() => {
-    if (category) {
-      const selectedCat =
-        state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
-          (cat) => cat.categoryId === category,
-        );
+    if (!category) return;
 
-      setSubCategoryList(
-        selectedCat?.subCategories?.map((sub) => ({
-          value: sub.subCategoryId,
-          label: sub.subCategoryName,
-        })) || [],
+    const selectedCat =
+      state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
+        (cat) => cat.categoryId === category,
       );
-      const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
 
-      if (categoryHasSubCategory && !subCategory) {
-        setSubCategoryError("Please Select SubCategory");
-      } else {
-        setSubCategoryError("");
-      }
+    const list =
+      selectedCat?.subCategories?.map((sub) => ({
+        value: sub.subCategoryId,
+        label: sub.subCategoryName,
+      })) || [];
 
-      // setSubCategory("");
+    setSubCategoryList(list);
+    setSubCategory("");
+
+    if (list.length > 0) {
+      setSubCategoryError("Please Select Sub Category");
+    } else {
+      setSubCategoryError("");
     }
-  }, [category]);
+  }, [category, state.ExpenseList?.getInitializeExpenseList?.listExpenses]);
 
   const expenseOptions =
     state.ExpenseList?.getInitializeExpenseList?.listExpenses?.map((item) => ({
@@ -890,6 +975,7 @@ function AddExpenseNew() {
 
               <input
                 type="text"
+                ref={expenseTitleRef}
                 value={expenseTitle}
                 onChange={handleExpenseTitle}
                 placeholder="Enter Expense Name"
@@ -968,6 +1054,7 @@ function AddExpenseNew() {
                 </label>
 
                 <input
+                  ref={amountRef}
                   value={amount}
                   onChange={handleAmount}
                   type="number"
@@ -990,6 +1077,7 @@ function AddExpenseNew() {
 
               <div className="relative">
                 <DatePicker
+                  ref={purchaseDateRef}
                   selected={purchaseDate}
                   onChange={(date) => {
                     setPurchaseDate(date);
@@ -1055,276 +1143,290 @@ function AddExpenseNew() {
           </div>
 
           {linkVendor && (
-            <div className="mb-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-                <div className="col-span-1 xl:col-span-8 ">
-                  <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                    Vendor
-                    <span className="text-red-600 text-[20px]">*</span>
-                  </label>
-
-                  <Select
-                    options={vendorOptions}
-                    value={vendor}
-                    onChange={handleVendorChange}
-                    placeholder="Select"
-                    classNamePrefix="custom"
-                    styles={CustomStyles}
-                  />
-                  {vendorError && (
-                    <ErrorMessage message={vendorError} type="error" />
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
-                <div className="col-span-1 xl:col-span-8">
-                  <label className="text-[13px] font-medium text-[#1A1C21]">
-                    Payment Status{" "}
-                    <span className="text-red-500 text-[20px]">*</span>
-                  </label>
-
-                  <div className="flex gap-6 mt-3">
-                    {[
-                      "Fully Paid",
-                      "Partially Paid",
-                      "Credit/Pending",
-                      "Overdue",
-                    ].map((item) => (
-                      <label
-                        key={item}
-                        className="flex items-center gap-2 text-[13px] text-[#4B5563]"
-                      >
-                        <input
-                          type="radio"
-                          name="paymentType"
-                          value={item}
-                          checked={paymentStatus === item}
-                          onChange={(e) => {
-                            setPaymentStatus(e.target.value);
-                            setPaymentStatusError("");
-                          }}
-                          className="accent-blue-600"
-                        />
-                        {item}
-                      </label>
-                    ))}
-                  </div>
-
-                  {paymentStatusError && (
-                    <ErrorMessage message={paymentStatusError} type="error" />
-                  )}
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-                <div className="col-span-1 xl:col-span-4">
-                  <div>
+            <>
+              <div className="mb-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                  <div className="col-span-1 xl:col-span-8 ">
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                      Paid Amount (INR){" "}
+                      Vendor
+                      <span className="text-red-600 text-[20px]">*</span>
+                    </label>
+
+                    <Select
+                      options={vendorOptions}
+                      value={vendor}
+                      ref={vendorRef}
+                      onChange={handleVendorChange}
+                      placeholder="Select"
+                      classNamePrefix="custom"
+                      styles={CustomStyles}
+                    />
+                    {vendorError && (
+                      <ErrorMessage message={vendorError} type="error" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-4 ">
+                  <div className="col-span-1 xl:col-span-8">
+                    <label className="text-[13px] font-medium text-[#1A1C21]">
+                      Payment Status{" "}
                       <span className="text-red-500 text-[20px]">*</span>
                     </label>
 
-                    <input
-                      type="number"
-                      value={paidAmount}
-                      onChange={handlePaidAmountChange}
-                      placeholder="Enter Paid Amount"
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                        paidAmount ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                    />
+                    <div className="flex gap-6 mt-3">
+                      {["Full", "Partial", "Pending"].map((item) => (
+                        <label
+                          key={item}
+                          className="flex items-center gap-2 text-[13px] text-[#4B5563]"
+                        >
+                          <input
+                            ref={paymentStatusRef}
+                            type="radio"
+                            name="paymentType"
+                            value={item}
+                            checked={paymentStatus === item}
+                            onChange={(e) => {
+                              setPaymentStatus(e.target.value);
+                              setPaymentStatusError("");
+                            }}
+                            className="accent-blue-600"
+                          />
+                          {item}
+                        </label>
+                      ))}
+                    </div>
 
-                    {paidAmountError && (
-                      <ErrorMessage message={paidAmountError} type="error" />
-                    )}
-
-                    {errors.paidAmount && (
-                      <ErrorMessage message={errors.paidAmount} type="error" />
+                    {paymentStatusError && (
+                      <ErrorMessage message={paymentStatusError} type="error" />
                     )}
                   </div>
                 </div>
-                <div className="col-span-1 xl:col-span-4">
-                  <div>
+                {isAvailablePaid && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                    <div className="col-span-1 xl:col-span-4">
+                      <div>
+                        <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                          Paid Amount (INR){" "}
+                          <span className="text-red-500 text-[20px]">*</span>
+                        </label>
+
+                        <input
+                          type="number"
+                          value={paidAmount}
+                          onChange={handlePaidAmountChange}
+                          placeholder="Enter Paid Amount"
+                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                            paidAmount ? "font-semibold" : "font-medium"
+                          } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                        />
+
+                        {paidAmountError && (
+                          <ErrorMessage
+                            message={paidAmountError}
+                            type="error"
+                          />
+                        )}
+
+                        {errors.paidAmount && (
+                          <ErrorMessage
+                            message={errors.paidAmount}
+                            type="error"
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-span-1 xl:col-span-4">
+                      <div>
+                        <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+                          Balance Amount (Outstanding){" "}
+                          <span className="text-transparent select-none text-[20px]">
+                            *
+                          </span>
+                        </label>
+
+                        <input
+                          disabled
+                          type="number"
+                          value={balanceAmount}
+                          readOnly
+                          // onChange={handleBalanceAmountChange}
+                          placeholder="Enter Balance Amount"
+                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                            balanceAmount ? "font-semibold" : "font-medium"
+                          } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
+                        />
+
+                        {/* {balanceAmountError && (
+                        <ErrorMessage
+                          message={balanceAmountError}
+                          type="error"
+                        />
+                      )}
+                      {errors.balanceAmount && (
+                        <ErrorMessage
+                          message={errors.balanceAmount}
+                          type="error"
+                        />
+                      )} */}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {paymentStatus === "Pending" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                  <div className="col-span-1 xl:col-span-8">
                     <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                      Balance Amount (Outstanding){" "}
-                      <span className="text-transparent select-none text-[20px]">
-                        *
-                      </span>
+                      Credit Period (for this expense only)
                     </label>
 
                     <input
                       type="number"
-                      value={balanceAmount}
-                      onChange={handleBalanceAmountChange}
-                      placeholder="Enter Balance Amount"
+                      value={creditPeriod}
+                      onChange={handleCreditPeriodChange}
+                      placeholder="Enter Credit Period"
                       className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                        balanceAmount ? "font-semibold" : "font-medium"
+                        creditPeriod ? "font-semibold" : "font-medium"
                       } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                     />
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+          <div className="">
+            {isAvailablePaid && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
+                  <div className="col-span-1 xl:col-span-8  ">
+                    <label className="block mb-2 text-[13px] text-[#222222] font-medium">
+                      Payment Method
+                      <span className="text-red-500 ml-1 text-[20px] ">*</span>
+                    </label>
 
-                    {balanceAmountError && (
-                      <ErrorMessage message={balanceAmountError} type="error" />
-                    )}
-                    {errors.balanceAmount && (
-                      <ErrorMessage
-                        message={errors.balanceAmount}
-                        type="error"
-                      />
+                    <Select
+                      ref={paymentMethodRef}
+                      value={paymentMethod}
+                      onChange={(selected) => {
+                        setPaymentMethod(selected);
+                        setPaymentMethodError("");
+                      }}
+                      options={paymentOptions}
+                      placeholder="Select Payment Method"
+                      styles={CustomStyles}
+                    />
+
+                    {paymentMethodError && (
+                      <ErrorMessage message={paymentMethodError} type="error" />
                     )}
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-          <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8  ">
-                <label className="block mb-2 text-[13px] text-[#222222] font-medium">
-                  Payment Method
-                  <span className="text-red-500 ml-1">*</span>
-                </label>
-
-                <Select
-                  value={paymentMethod}
-                  onChange={(selected) => {
-                    setPaymentMethod(selected);
-                    setPaymentMethodError("");
-                  }}
-                  options={paymentOptions}
-                  placeholder="Select Payment Method"
-                  styles={CustomStyles}
-                />
-
-                {paymentMethodError && (
-                  <ErrorMessage message={paymentMethodError} type="error" />
-                )}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8 ">
-                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                  Transaction ID
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter Transaction ID"
-                  value={transactionId}
-                  onChange={handleTransactionIdChange}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    transactionId ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8">
-                <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-                  Credit Period (for this expense only)
-                </label>
-
-                <input
-                  type="number"
-                  value={creditPeriod}
-                  onChange={handleCreditPeriodChange}
-                  placeholder="Enter Credit Period"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    creditPeriod ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
-                />
-              </div>
-            </div>
-
-            {/* Attachments */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
-              <div className="col-span-1 xl:col-span-8">
-                <div className="mb-2">
-                  <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                    Attachments/Proofs (If any)
-                  </label>
-
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    accept="image/jpeg,image/jpg,image/png"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-
-                  <div
-                    onClick={() => fileInputRef.current?.click()}
-                    className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-                  >
-                    <div className="rounded-md bg-blue-100 px-1 py-1">
-                      <DocumentUpload size={20} color="#1E45E1" />
-                    </div>
-
-                    <div>
-                      <p className="text-sm font-medium text-[#222222] mb-1">
-                        <span className="text-[#1E45E1]">Choose Image to</span>{" "}
-                        Upload
-                      </p>
-
-                      <p className="text-xs text-gray-500">
-                        JPG / JPEG / PNG Format
-                      </p>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+                  <div className="col-span-1 xl:col-span-8 ">
+                    <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                      Transaction ID
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter Transaction ID"
+                      value={transactionId}
+                      onChange={handleTransactionIdChange}
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                        transactionId ? "font-semibold" : "font-medium"
+                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                    />
                   </div>
+                </div>
+              </>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/jpeg,image/jpg,image/png"
+              className="hidden"
+              onChange={handleFileChange}
+            />
 
-                  {previewImage && (
-                    <div className="flex items-center justify-center">
-                      <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-                        <div
-                          className="relative px-4 py-2 group"
-                          onMouseEnter={() => setHoveredImage(previewImage)}
-                          onMouseLeave={() => setHoveredImage(null)}
-                        >
-                          <img
-                            src={previewImage}
-                            alt="preview"
-                            className="w-[350px] h-auto rounded-md object-fit"
-                          />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2">
+              <div className="col-span-1 xl:col-span-8">
+                {attachments?.length === 0 && (
+                  <div className="mb-2">
+                    <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                      Attachments/Proofs (If any)
+                    </label>
 
+                    <div
+                      onClick={() => fileInputRef.current?.click()}
+                      className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+                    >
+                      <div className="rounded-md bg-blue-100 px-1 py-1">
+                        <DocumentUpload size={20} color="#1E45E1" />
+                      </div>
+
+                      <div>
+                        <p className="text-sm font-medium text-[#222222] mb-1">
+                          <span className="text-[#1E45E1]">
+                            Choose Image to
+                          </span>{" "}
+                          Upload
+                        </p>
+
+                        <p className="text-xs text-gray-500">
+                          JPG / JPEG / PNG Format
+                        </p>
+                      </div>
+                    </div>
+
+                    {previewImage && (
+                      <div className="flex items-center justify-center">
+                        <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
                           <div
-                            className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                              hoveredImage === previewImage ? "h-[50px]" : "h-0"
-                            }`}
+                            className="relative px-4 py-2 group"
+                            onMouseEnter={() => setHoveredImage(previewImage)}
+                            onMouseLeave={() => setHoveredImage(null)}
                           >
-                            <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
-                              <p className="text-white text-sm truncate max-w-[170px]">
-                                {selectedImageName?.name}
-                              </p>
+                            <img
+                              src={previewImage}
+                              alt="preview"
+                              className="w-[350px] h-auto rounded-md object-fit"
+                            />
 
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setPreviewImage(null);
-                                  handleRemoveFile(selectedImageName?.index);
-                                }}
-                                className="bg-white rounded-md p-1"
-                              >
-                                <Add
-                                  size={20}
-                                  color="#FF0000"
-                                  className="rotate-45"
-                                />
-                              </button>
+                            <div
+                              className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
+                                hoveredImage === previewImage
+                                  ? "h-[50px]"
+                                  : "h-0"
+                              }`}
+                            >
+                              <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
+                                <p className="text-white text-sm truncate max-w-[170px]">
+                                  {selectedImageName?.name}
+                                </p>
+
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setPreviewImage(null);
+                                    handleRemoveFile(selectedImageName?.index);
+                                  }}
+                                  className="bg-white rounded-md p-1"
+                                >
+                                  <Add
+                                    size={20}
+                                    color="#FF0000"
+                                    className="rotate-45"
+                                  />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  <div
-                    className="flex justify-end my-2"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
-                      + Add more Files
-                    </label>
+                    )}
                   </div>
-                </div>
+                )}
 
                 {attachments?.length > 0 && (
                   <div className="grid grid-cols-3 gap-3 mt-3">
@@ -1347,6 +1449,17 @@ function AddExpenseNew() {
                         />
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {attachments?.length > 0 && (
+                  <div
+                    className="flex justify-end my-2"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
+                      + Add more Files
+                    </label>
                   </div>
                 )}
               </div>
@@ -1551,7 +1664,7 @@ function AddExpenseNew() {
                               No Data Found!
                             </h3>
                             <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
-                              No expense items added yet.
+                              No expense items added yet
                             </p>
                           </div>
                         </td>
@@ -1583,17 +1696,31 @@ function AddExpenseNew() {
                       <span>₹ {subTotal.toLocaleString("en-IN")}</span>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Tax Optional</span>
+                    <div className="flex justify-between items-start">
+                      <div className="w-full">
+                        <span className="text-sm">Tax (Optional)</span>
+                      </div>
 
-                      <input
-                        type="number"
-                        value={tax}
-                        onChange={(e) => setTax(e.target.value)}
-                        className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
-                      />
+                      <div className="w-full flex flex-col items-end">
+                        <input
+                          type="number"
+                          value={tax}
+                          onChange={(e) => {
+                            setErrors((prev) => ({
+                              ...prev,
+                              tax: "",
+                            }));
+                            setTax(e.target.value);
+                          }}
+                          className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                        />
+                      </div>
                     </div>
-
+                    {errors.tax && (
+                      <div className="w-full mt-1">
+                        <ErrorMessage message={errors.tax} type="error" />
+                      </div>
+                    )}
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <span className="text-sm font-medium text-[#222222]">
@@ -1603,7 +1730,9 @@ function AddExpenseNew() {
                         <div className="flex border border-[#D9D9D9] rounded-md overflow-hidden">
                           <button
                             type="button"
-                            onClick={() => setDiscountType("amount")}
+                            onClick={() => {
+                              setDiscountType("amount");
+                            }}
                             className={`px-3 py-1 text-sm font-medium transition-all ${
                               discountType === "amount"
                                 ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
@@ -1626,16 +1755,26 @@ function AddExpenseNew() {
                           </button>
                         </div>
                       </div>
-
-                      <input
-                        type="number"
-                        value={discount}
-                        onChange={(e) => setDiscount(e.target.value)}
-                        placeholder={
-                          discountType === "amount" ? "Amount" : "Percentage"
-                        }
-                        className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
-                      />
+                      <div className="flex flex-col items-end">
+                        <input
+                          type="number"
+                          value={discount}
+                          onChange={(e) => {
+                            setErrors((prev) => ({
+                              ...prev,
+                              discount: "",
+                            }));
+                            setDiscount(e.target.value);
+                          }}
+                          placeholder={
+                            discountType === "amount" ? "Amount" : "Percentage"
+                          }
+                          className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
+                        />
+                      </div>
+                      {errors.discount && (
+                        <ErrorMessage message={errors.discount} type="error" />
+                      )}
                     </div>
 
                     <div className="border-t pt-3 flex justify-between font-semibold">
@@ -1650,10 +1789,10 @@ function AddExpenseNew() {
               </div>
             </div>
           </div>
-          {state.ExpenseList.insufficiantFundError && (
+          {state.ExpenseList?.insufficiantFundError && (
             <div className="flex items-center justify-center  mb-2 mt-2">
               <ErrorMessage
-                message={state.ExpenseList.insufficiantFundError}
+                message={state.ExpenseList?.insufficiantFundError}
                 type="error"
               />
             </div>

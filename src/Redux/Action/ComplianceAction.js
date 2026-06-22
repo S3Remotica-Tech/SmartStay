@@ -77,8 +77,26 @@ export async function complaintsViewUpdates(complaint) {
   );
 }
 
-export async function withoutCustomizationVendorList(vendor) {
-  return await AxiosConfigV2.get(`/v2/vendors/${vendor.hostelId}`);
+export async function vendorSettlementInitialize(vendor) {
+  console.log("vendor", vendor);
+  return await AxiosConfigV2.get(
+    `/v2/vendors/initialize/${vendor.hostelId}/${vendor.vendorId}`,
+  );
+}
+
+export async function getCommentVendor(vendor) {
+  const params = {};
+
+  if (vendor.page) params.page = vendor.page;
+  if (vendor.size) params.size = vendor.size;
+
+  return await AxiosConfigV2.get(`/v2/vendors/comments/${vendor.vendorId}`, {
+    params,
+  });
+}
+
+export async function addCommentVendor(payload) {
+  return await AxiosConfigV2.post("/v2/vendors/comments", payload);
 }
 
 export async function VendorList(vendor) {
@@ -207,6 +225,21 @@ export async function ComplianceAssign({ complaintId, userId }) {
   return await AxiosConfigV2.put(`/v2/complaint/assign-user/${complaintId}`, {
     userId,
   });
+}
+
+export async function DeleteVendorComments(vendor) {
+  console.log("vendor88888888", vendor);
+  return await AxiosConfigV2.delete(`/v2/vendors/comments/${vendor.commentId}`);
+}
+
+export async function UpdateVendorComments(comment) {
+  return await AxiosConfigV2.put(
+    `/v2/vendors/comments/${comment.commentId}`,
+    comment,
+    {
+      data: comment,
+    },
+  );
 }
 
 // v1

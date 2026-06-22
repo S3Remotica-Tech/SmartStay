@@ -28,7 +28,7 @@ function VendorOverView({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedMonth, setSelectedMonth] = useState("overview");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const VendorOverView = state.ComplianceList?.vendorOverview;
 
@@ -45,6 +45,8 @@ function VendorOverView({
     setSelectedMonth(selectedPeriod?.type);
   };
 
+  // console.log("selectedMonth", selectedMonth);
+
   useEffect(() => {
     if (selectedVendorId) {
       dispatch({
@@ -54,34 +56,37 @@ function VendorOverView({
           period: selectedMonth,
         },
       });
-
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
-
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
+      if (activeTab === "expenses") {
+        dispatch({
+          type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+          payload: {
+            vendorId: selectedVendorId,
+          },
+        });
+      } else if (activeTab === "payments") {
+        dispatch({
+          type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+          payload: {
+            vendorId: selectedVendorId,
+          },
+        });
+      }
     }
-  }, [selectedVendorId, selectedMonth]);
+  }, [selectedVendorId, selectedMonth, activeTab]);
+
+ 
 
   useEffect(() => {
-    if (state.UsersList.settlementPaymentSuccessCode === 200) {
-      dispatch({
-        type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
-      }, 1000);
-    }
-  }, [state.UsersList.settlementPaymentSuccessCode]);
+    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+    // console.log("executed ", selectedVendorId);
+    dispatch({
+      type: "VENDOR_SETTLE_INITIALIZE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        vendorId: Number(selectedVendorId),
+      },
+    });
+  }, [state.login.selectedHostel_Id, selectedVendorId]);
 
   return (
     <div className="font-gilroy">
@@ -97,7 +102,7 @@ function VendorOverView({
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-2 mt-2">
-                <h2 className="text-[24px] font-semibold text-[#222]">
+                <h2 className="text-[24px] font-semibold text-[#222] capitalize">
                   {VendorOverView?.businessName || "-"}
                 </h2>
 
@@ -253,10 +258,16 @@ function VendorOverView({
                   Comments
                 </button>
               </div>
+
               {activeTab === "payments" && (
                 <button
+                  disabled={VendorOverView?.summary?.outstanding <= 0}
                   onClick={() => handleShowSettlement(true)}
-                  className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
+                  className={`px-4 py-2 rounded-lg text-sm ${
+                    VendorOverView?.summary?.outstanding <= 0
+                      ? "bg-gray-400 cursor-not-allowed text-white"
+                      : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
+                  }`}
                 >
                   + Settle Payment
                 </button>
@@ -283,7 +294,9 @@ function VendorOverView({
 
           {activeTab === "expenses" && <VendorExpenseHistory />}
 
-          {activeTab === "comments" && <VendorComments />}
+          {activeTab === "comments" && (
+            <VendorComments selectedVendorId={selectedVendorId} />
+          )}
         </div>
       </div>
     </div>

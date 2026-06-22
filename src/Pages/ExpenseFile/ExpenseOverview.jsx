@@ -15,11 +15,31 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpensePaymentHistory from "./ExpensePaymentHistory";
 import ExpenseItems from "./ExpenseItems";
 
-function ExpenseOverview({ show, onClose, handleShowSettlement }) {
+function ExpenseOverview({
+  show,
+  onClose,
+  handleShowSettlement,
+  selectedExpenseId,
+}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("payments");
+  const expenseOverView = state.ExpenseList?.expenseOverview;
+
+  // console.log("expenseOverView", expenseOverView);
+
+  useEffect(() => {
+    if (selectedExpenseId) {
+      dispatch({
+        type: "EXPENSE_OVERVIEW_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          expenseId: selectedExpenseId,
+        },
+      });
+    }
+  }, [selectedExpenseId, activeTab]);
 
   return (
     <div className="font-gilroy">
@@ -36,21 +56,20 @@ function ExpenseOverview({ show, onClose, handleShowSettlement }) {
             <div className="mt-3">
               <div className="flex items-center gap-2">
                 <h2 className="text-[24px] font-semibold text-[#222] flex items-center gap-2">
-                  <span>EXP 001</span>
+                  <span>{expenseOverView?.referenceNumber}</span>
 
                   <span className="w-0.5 h-[28px] bg-[#D9D9D9] rounded"></span>
 
-                  <span>Vegetables 50 KG</span>
+                  <span className="capitalize">{expenseOverView?.title}</span>
                 </h2>
               </div>
 
               <div className="flex items-center gap-6 mt-3 text-[13px]">
-                <span className="flex items-center gap-1 text-[#4B4B4B]">
-                  Daily Operations
+                <span className="flex items-center gap-1 text-[#4B4B4B] capitalize">
+                  <span>{expenseOverView?.categoryName}</span>
                 </span>
-                <span className="flex items-center gap-1 text-[#222222] font-semibold">
-                  <Location size="16" color="#1E45E1" /> Kural kaikani Angadi-
-                  Salem
+                <span className="flex items-center gap-1 text-[#222222] font-semibold capitalize" >
+                  <Location size="16" color="#1E45E1" /> address
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
                   <ExportSquare size="14" color="#1E45E1" />
@@ -64,14 +83,18 @@ function ExpenseOverview({ show, onClose, handleShowSettlement }) {
                   Expense Amount
                 </div>
                 <div className="flex items-center gap-4">
-                  <div>
-                    {" "}
-                    <span className="px-2 py-1 rounded text-[10px] bg-[#FFEDCA99] text-[#FF9900] font-medium">
-                      <span className="h-2 w-2 bg-[#FF9900] rounded-full"></span>{" "}
-                      Paritally Paid
-                    </span>
-                  </div>
-                  <div>₹00.00</div>
+                  <span
+                    className={`px-2 py-1 rounded text-[10px] font-medium ${
+                      expenseOverView?.paymentStatus === "Paid"
+                        ? "bg-green-100 text-green-700"
+                        : expenseOverView?.paymentStatus === "Partial"
+                          ? "bg-[#FFEDCA99] text-[#FF9900]"
+                          : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {expenseOverView?.paymentStatus}
+                  </span>
+                  <div>₹{expenseOverView?.totalAmount}</div>
                 </div>
               </div>
               <PiDotsThreeOutlineVerticalFill
@@ -94,24 +117,26 @@ function ExpenseOverview({ show, onClose, handleShowSettlement }) {
         </div>
 
         <div className="p-6 overflow-y-auto h-[calc(100vh-80px)]">
-          <div className="grid grid-cols-1 gap-4">
-            <div className="bg-[#F9F9F9] border-1 border-[#F9F9F9] rounded-md py-2 px-4">
-              <div className="">
-                <div>
-                  <p className="text-[12px] text-[#1A1D1F] mb-1">
-                    Description/Notes
-                  </p>
-                  <p className="mt-1 font-semibold text-[#222222] text-md mb-1">
-                    Vegetables purchased from Kural kaikani Angadi
-                  </p>
+          {expenseOverView?.description && (
+            <div className="grid grid-cols-1 gap-4">
+              <div className="bg-[#F9F9F9] border-1 border-[#F9F9F9] rounded-md py-2 px-4">
+                <div className="">
+                  <div>
+                    <p className="text-[12px] text-[#1A1D1F] mb-1">
+                      Description/Notes
+                    </p>
+                    <p className="mt-1 font-semibold text-[#222222] text-md mb-1">
+                      {expenseOverView?.description || ""}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
+          )}
           <div className="flex items-center justify-between mt-8 border-b  ">
             <div className="flex gap-8">
               <button
+                disabled={expenseOverView?.balanceAmount <= 0}
                 onClick={() => setActiveTab("payments")}
                 className={`pb-3 font-semibold ${
                   activeTab === "payments"

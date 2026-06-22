@@ -40,7 +40,13 @@ export const initialState = {
   vendorOverviewExpenseListStatus: 0,
   vendorOverviewExpensePaymentList: "",
   vendorOverviewExpensePaymentListStatus: 0,
-  withoutCustomVendorList: [],
+  vendorSettlementInitialize: "",
+  addCommentsVendorstatusCode: 0,
+  deleteCommentsVendorstatusCode: 0,
+  updateCommentsVendorstatusCode: 0,
+  getVendorCommentsList: "",
+  getVendorCommentsListSuccess: 0,
+
   vendorFilters: {
     paymentStatus: "",
     paymentStatusLabel: "",
@@ -169,10 +175,58 @@ const ComplianceReducer = (state = initialState, action) => {
         vendorOverviewExpenseListStatus: 0,
       };
 
-    case "WITHOUT_CUSTOM_VENDOR_LIST_REDUCER":
+    case "VENDOR_SETTLE_INITIALIZE_REDUCER":
       return {
         ...state,
-        withoutCustomVendorList: action.payload.response,
+        vendorSettlementInitialize: action.payload.response,
+      };
+
+    case "ADD_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        addCommentsVendorstatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_ADD_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        addCommentsVendorstatusCode: 0,
+      };
+
+    case "DELETE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        deleteCommentsVendorstatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        deleteCommentsVendorstatusCode: 0,
+      };
+
+    case "UPDATE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        updateCommentsVendorstatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_UPDATE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        updateCommentsVendorstatusCode: 0,
+      };
+
+    case "VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        getVendorCommentsList: action.payload.response,
+        getVendorCommentsListSuccess: action.payload.statusCode,
+      };
+
+    case "REMOVE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        getVendorCommentsListSuccess: 0,
       };
 
     case "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_REDUCER":

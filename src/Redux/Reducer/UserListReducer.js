@@ -177,7 +177,10 @@ export const initialState = {
   bedInitiaLizeError: "",
   searchTenant: [],
   statuscodeForSearchTenant: 0,
-settlementPaymentSuccessCode: 0,
+  settlementPaymentSuccessCode: 0,
+  ettlementExpensePaymentSuccessCode: 0,
+  vendorSettleError: "",
+  expenseSettleError: "",
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -211,6 +214,18 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
       return { ...state, accessRestrictionError: "" };
+
+    case "VENDOR_SETTLEMENT_ERROR":
+      return { ...state, vendorSettleError: action.payload };
+    case "REMOVE_VENDOR_SETTLEMENT_ERROR":
+      return { ...state, vendorSettleError: "" };
+
+ case "EXPENSE_SETTLEMENT_ERROR":
+      return { ...state, expenseSettleError: action.payload };
+    case "REMOVE_EXPENSE_SETTLEMENT_ERROR":
+      return { ...state, expenseSettleError: "" };
+
+
 
     case "SAVE_DRAFT_REDUCER":
       return {
@@ -423,8 +438,14 @@ const UserListReducer = (state = initialState, action) => {
     case "REMOVE_SETTLEMENT_PAYMENT_REDUCER":
       return { ...state, settlementPaymentSuccessCode: 0 };
 
+    case "EXPENSE_SETTLEMENT_PAYMENT_REDUCER":
+      return {
+        ...state,
+        settlementExpensePaymentSuccessCode: action.payload.statusCode,
+      };
+    case "REMOVE_EXPENSE_SETTLEMENT_PAYMENT_REDUCER":
+      return { ...state, settlementExpensePaymentSuccessCode: 0 };
 
-      
     case "ERROR_INITIALIZE_BED":
       return { ...state, bedInitiaLizeError: action.payload };
     case "REMOVE_ERROR_INITIALIZE_BED":

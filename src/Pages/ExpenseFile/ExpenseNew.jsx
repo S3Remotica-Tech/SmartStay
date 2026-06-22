@@ -793,19 +793,16 @@ function Expenses() {
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
   const statusStyles = {
-    "Checked In": {
+    Full: {
       bg: "#EFFFF2",
       text: "#038C3D",
     },
-    Booked: {
-      bg: "#E7F1FFB2",
-      text: "#1E45E1",
-    },
-    "Notice Period": {
+
+    Partial: {
       bg: "#FFF4E5",
       text: "#F79009",
     },
-    "Settlement Generated": {
+    Pending: {
       bg: "#FEE4E2",
       text: "#D92D20",
     },
@@ -1019,7 +1016,7 @@ function Expenses() {
                   />
                 </div>
 
-                <div className="flex items-center gap-3">
+                {/* <div className="flex items-center gap-3">
                   <Select
                     isDisabled={canReadExpense}
                     options={monthOptions}
@@ -1030,7 +1027,7 @@ function Expenses() {
                     noOptionsMessage={() => "No options"}
                     styles={CustomStyles}
                   />
-                </div>
+                </div> */}
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
@@ -1461,7 +1458,7 @@ function Expenses() {
                                           onClick={() => {
                                             if (canDeleteExpense) {
                                               handleDeleteExpense(
-                                                user.expenseId,
+                                                user.apiCall.expenseId,
                                               );
                                             }
                                           }}
@@ -1667,12 +1664,14 @@ function Expenses() {
           show={showOverview}
           onClose={() => setShowOverview(false)}
           handleShowSettlement={handleShowSettlement}
+          selectedExpenseId={selectedExpenseId}
         />
       )}
       {showSettlementForm && (
         <ExpenseSettlement
           show={showSettlementForm}
           handleClose={handleCloseSettlement}
+          selectedExpenseId={selectedExpenseId}
         />
       )}
     </>

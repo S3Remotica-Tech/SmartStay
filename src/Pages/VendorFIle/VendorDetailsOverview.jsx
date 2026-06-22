@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Building,
   Category,
@@ -20,34 +20,37 @@ import {
   Tooltip,
 } from "recharts";
 
-function VendorDetailsOverview({handleSelected}) {
+function VendorDetailsOverview({ handleSelected }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const VendorOverView = state.ComplianceList?.vendorOverview || {};
 
-
   const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
 
   const [selectedPeriod, setSelectedPeriod] = useState(
-    VendorOverView?.filterOptions?.periods?.[0] || {
-      name: "Last 6 Months",
-      type: "LAST_6_MONTHS",
-    },
+    VendorOverView?.filterOptions?.periods?.[0],
   );
 
   const [showVendorInfo, setShowVendorInfo] = useState(true);
   const [showAddressInfo, setShowAddressInfo] = useState(false);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
 
-  const chartData = [
-    { month: "Aug", paid: 12, unPaid: 1 },
-    { month: "Sep", paid: 13, unPaid: 0.8 },
-    { month: "Oct", paid: 14, unPaid: 1.2 },
-    { month: "Nov", paid: 13.5, unPaid: 1 },
-    { month: "Dec", paid: 15, unPaid: 0.9 },
-    { month: "Jan", paid: 3, unPaid: 12 },
-  ];
+  useEffect(() => {
+    const firstPeriod = VendorOverView?.filterOptions?.periods?.[0];
+
+    if (firstPeriod) {
+      setSelectedPeriod(firstPeriod);
+      handleSelected(firstPeriod);
+    }
+  }, []);
+
+  const chartData =
+    VendorOverView?.monthSummary?.map((item) => ({
+      month: item.month,
+      paid: item.totalPaidAmount,
+      unPaid: item.totalUnpaidAmount + item.totalPartialAmount,
+    })) || [];
 
   const vendorInfoFields = [
     {
@@ -130,9 +133,9 @@ function VendorDetailsOverview({handleSelected}) {
     },
   ];
   return (
-    <div className="bg-white rounded-xl px-4 h-full">
+    <div className="bg-white rounded-xl px-4 h-full my-3">
       <div className="grid grid-cols-[300px_1fr] gap-4 h-full">
-        <div className="pr-1 overflow-y-auto show-scrolls h-[500px] mb-10 ">
+        <div className="pr-1 overflow-y-auto show-scrolls h-[500px] mb-[50px] ">
           <div
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setShowVendorInfo(!showVendorInfo)}
@@ -261,7 +264,7 @@ function VendorDetailsOverview({handleSelected}) {
                 className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]"
               >
                 <Calendar size="16" />
-                {selectedPeriod.name}
+                {selectedPeriod?.name}
                 <ArrowDown2 size="16" />
               </button>
 
@@ -273,7 +276,7 @@ function VendorDetailsOverview({handleSelected}) {
                       onClick={() => {
                         setSelectedPeriod(period);
                         setShowPeriodDropdown(false);
-                        handleSelected(period)
+                        handleSelected(period);
                       }}
                       className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
                         selectedPeriod.type === period.type

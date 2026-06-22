@@ -19,12 +19,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
-const vendorOptions = [
-  { value: "grow-aqua-services", label: "Grow Aqua Services" },
-  { value: "vinayaka-electricals", label: "Vinayaka Electricals" },
-  { value: "abc-traders", label: "ABC Traders" },
-];
-
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -126,36 +120,6 @@ const CustomStyles = {
   }),
 };
 
-const paymentOptions = [
-  {
-    label: "Bank Accounts",
-    options: [
-      {
-        value: "sbi",
-        label: "SBI Bank",
-        type: "Bank",
-        icon: <Bank size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-  {
-    label: "Linked Payment Methods",
-    options: [
-      {
-        value: "gpay",
-        label: "Google Pay",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-      {
-        value: "phonepe",
-        label: "PhonePe",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-];
 const Option = (props) => {
   const { data } = props;
 
@@ -173,9 +137,9 @@ const Option = (props) => {
             )}
           </div>
         </div>
-        <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+        {/* <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
           {data.type}
-        </span>
+        </span> */}
       </div>
     </components.Option>
   );
@@ -208,11 +172,16 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function ExpenseSettlement({ show, handleClose, isBanking }) {
+function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
   if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [selectedVendor, setSelectedVendor] = useState(null);
+
+  const expenseOverView = state.ExpenseList?.expenseOverview;
+
+  // console.log("expenseOverView", expenseOverView);
+
+  // const [selected, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
   const [paidDate, setPaidDate] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -223,7 +192,10 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
   const [paidAmountError, setPaidAmountError] = useState("");
   const [paidDateError, setPaidDateError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
-
+  const [error, setError] = useState("");
+  const paidAmountRef = useRef(null);
+  const paidDateRef = useRef(null);
+  const paymentMethodRef = useRef(null);
   const [attachments, setAttachments] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedImageName, setSelectedImageName] = useState({
@@ -233,23 +205,34 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  const initializaExpense = state.ExpenseList.getInitializeExpenseList;
+
+  // console.log("initializaExpense", initializaExpense);
+
   useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-    dispatch({
-      type: "VENDORLIST",
-      payload: { hostelId: state.login.selectedHostel_Id },
-    });
-  }, []);
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "INITIALIZEEXPENSESLIST",
+        payload: state.login.selectedHostel_Id,
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
-  // const vendorOptions =
-  //   state.ComplianceList?.VendorList?.map((vendor) => ({
-  //     value: vendor.id,
-  //     label: vendor.fullName,
-  //     vendor,
-  //   })) || [];
-   const vendorOptions =
-    [];
+  const finalOutstanding = expenseOverView?.balanceAmount - paidAmount;
 
+  const paymentOptions = [
+    {
+      label: "Bank Accounts",
+      options:
+        initializaExpense?.banks?.map((bank) => ({
+          value: bank.bankId,
+          label: bank.bankName,
+          holderName: bank.holderName,
+          type: "Bank",
+          icon: <Bank size={18} color="#1E45E1" />,
+        })) || [],
+    },
+  ];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -268,13 +251,15 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleVendorChange = (selected) => {
-    setSelectedVendor(selected);
-    setVendorError("");
-  };
-
   const handlePaidAmountChange = (e) => {
     setPaidAmount(e.target.value);
+    setPaidAmountError("");
+  };
+
+  const handleSetAmount = () => {
+    const dueAmount = expenseOverView?.balanceAmount || 0;
+
+    setPaidAmount(dueAmount);
     setPaidAmountError("");
   };
 
@@ -298,24 +283,30 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
 
   const validateForm = () => {
     let isValid = true;
+    setPaidAmountError("");
+    setPaidDateError("");
+    setPaymentMethodError("");
+    setError("");
 
-    if (!selectedVendor) {
-      setVendorError("Please Select Vendor");
+    if (!paidAmount || Number(paidAmount) <= 0) {
+      setPaidAmountError("Please enter Paid Amount");
+      paidAmountRef.current?.focus();
       isValid = false;
     }
-
-    if (!paidAmount) {
-      setPaidAmountError("Please Enter Paid amount");
+    if (Number(paidAmount) > Number(expenseOverView?.balanceAmount)) {
+      setPaidAmountError("Paid Amount cannot exceed Outstanding Amount.");
       isValid = false;
     }
 
     if (!paidDate) {
-      setPaidDateError("Please Select Paid date");
+      setPaidDateError("Please select Paid Date");
+      paidDateRef.current?.setFocus?.();
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Please Select Payment method");
+      setPaymentMethodError("Please select Payment Method");
+      paymentMethodRef.current?.focus();
       isValid = false;
     }
 
@@ -323,32 +314,68 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
   };
 
   const handleSubmit = () => {
+    dispatch({ type: "REMOVE_EXPENSE_SETTLEMENT_ERROR" });
     if (!validateForm()) return;
+    // setError("");
     const formattedDate = paidDate ? moment(paidDate).format("DD-MM-YYYY") : "";
+
     dispatch({
-      type: "SETTLEMENT_PAYMENT_SAGA",
+      type: "EXPENSE_SETTLEMENT_PAYMENT_SAGA",
       payload: {
-        transactionImage: attachments?.[0]?.file || null,
-        payloads: {
-          expenseId,
-          amount: Number(paidAmount),
+        expenseId: selectedExpenseId,
+        images: attachments.map((item) => item.file),
+        payLoads: {
           paymentDate: formattedDate,
-          bankId: paymentMethod?.value,
-          paymentMethod: paymentMethod?.type || paymentMethod?.label,
+          bankId: paymentMethod?.value || "",
+          paymentMethod: paymentMethod?.type || paymentMethod?.label || "",
           transactionId: transactionId,
           notes: description,
+          paidAmount: paidAmount,
         },
       },
     });
+
     setFormLoading(true);
   };
 
   useEffect(() => {
-    if (state.UsersList.settlementPaymentSuccessCode === 200) {
+    if (state.UsersList.settlementExpensePaymentSuccessCode === 200) {
+      dispatch({
+        type: "EXPENSE_OVERVIEW_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          expenseId: selectedExpenseId,
+        },
+      });
+
       setFormLoading(false);
+
+      setPaidAmountError("");
+      setPaidDateError("");
+      setPaymentMethodError("");
+      setError("");
       handleClose();
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_EXPENSE_SETTLEMENT_PAYMENT_REDUCER" });
+      }, 100);
     }
-  }, [state.UsersList.settlementPaymentSuccessCode]);
+  }, [state.UsersList.settlementExpensePaymentSuccessCode]);
+
+  useEffect(() => {
+    return () => {
+      setPaidAmountError("");
+      setPaidDateError("");
+      setPaymentMethodError("");
+      // setError("");
+      dispatch({ type: "REMOVE_EXPENSE_SETTLEMENT_ERROR" });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.UsersList.expenseSettleError) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList.expenseSettleError]);
 
   return (
     <>
@@ -356,14 +383,14 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-[500px] bg-white rounded-lg shadow-md border border-gray-50 z-50 flex flex-col font-gilroy"
+        className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy border border-gray-50"
       >
         <div
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
           rounded-xl  bg-white px-4 py-3"
         >
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
-            {isBanking ? "Vendor Payment" : "Expense Settle Payment"}
+            Expense Settle Payment
           </h1>
           <Add
             size={24}
@@ -372,27 +399,24 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
             className="cursor-pointer rotate-45"
           />
         </div>
-        <div className="flex-1 show-scrolls overflow-y-auto">
+        <div className="flex-1 show-scrolls overflow-y-auto ">
           <div className="grid grid-cols-1  mt-1 px-4 py-2">
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Vendor <span className="text-red-600 text-[20px]">*</span>
+                Title <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select
-                  options={vendorOptions}
-                  value={selectedVendor}
-                  onChange={handleVendorChange}
-                  //   options={vendorOptions}
-                  placeholder="Select Vendor"
-                  className="text-sm"
-                  styles={CustomStyles}
+                <input
+                  disabled
+                  type="text"
+                  value={expenseOverView?.title}
+                  // placeholder="Enter "
+                  readOnly
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${
+                    expenseOverView?.title ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
               </div>
-
-              {vendorError && (
-                <ErrorMessage message={vendorError} type="error" />
-              )}
             </div>
 
             <div className="mb-2">
@@ -405,13 +429,14 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
                 <p className="mt-1 text-right text-xs text-gray-600 mb-0">
                   Due Amount{" "}
                   <span className="font-semibold  text-base text-[#E27625]">
-                    ₹ 2,000.00
+                    ₹ {expenseOverView?.balanceAmount}
                   </span>
                 </p>
               </label>
               <div className="relative">
                 <input
                   type="number"
+                  ref={paidAmountRef}
                   value={paidAmount}
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
@@ -419,7 +444,10 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
                     paidAmount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
-                <button className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
+                <button
+                  onClick={handleSetAmount}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                >
                   Set
                 </button>
               </div>
@@ -436,7 +464,7 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
               </label>
               <input
                 type="text"
-                value="₹0.00"
+                value={finalOutstanding}
                 readOnly
                 className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700"
               />
@@ -448,10 +476,13 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
               </label>
               <div className="relative">
                 <DatePicker
+                  // ref={paidDateRef}
                   selected={paidDate}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
+                  customInput={<input ref={paidDateRef} />}
+                  maxDate={new Date()}
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
                   ${
                     paidDateError ? "border-red-500" : "border-[#D9D9D9]"
@@ -464,6 +495,9 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
+              {paidDateError && (
+                <ErrorMessage message={paidDateError} type="error" />
+              )}
             </div>
 
             <div className="mb-2">
@@ -473,6 +507,7 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
               </label>
               <Select
                 value={paymentMethod}
+                ref={paymentMethodRef}
                 onChange={(selected) => {
                   setPaymentMethod(selected);
                   setPaymentMethodError("");
@@ -510,93 +545,86 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
               />
             </div>
 
-            <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Attachments/Proofs (If any)
-              </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/jpeg,image/jpg,image/png"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            {attachments?.length === 0 && (
+              <div className="mb-2">
+                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                  Attachments/Proofs (If any)
+                </label>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept="image/jpeg,image/jpg,image/png"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+                >
+                  <div className="rounded-md bg-blue-100 px-1 py-1">
+                    <DocumentUpload size={20} color="#1E45E1" />
+                  </div>
 
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-              >
-                <div className="rounded-md bg-blue-100 px-1 py-1">
-                  <DocumentUpload size={20} color="#1E45E1" />
+                  <div>
+                    <p className="text-sm font-medium text-[#222222] mb-1">
+                      <span className="text-[#1E45E1]">Choose Image to</span>{" "}
+                      Upload
+                    </p>
+
+                    <p className="text-xs text-gray-500">
+                      JPG / JPEG / PNG Format
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium text-[#222222] mb-1">
-                    <span className="text-[#1E45E1]">Choose Image to</span>{" "}
-                    Upload
-                  </p>
-
-                  <p className="text-xs text-gray-500">
-                    JPG / JPEG / PNG Format
-                  </p>
-                </div>
-              </div>
-
-              {previewImage && (
-                <div className="flex items-center justify-center">
-                  <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-                    <div
-                      className="relative px-4 py-2 group"
-                      onMouseEnter={() => setHoveredImage(previewImage)}
-                      onMouseLeave={() => setHoveredImage(null)}
-                    >
-                      <img
-                        src={previewImage}
-                        alt="preview"
-                        className="w-[350px] h-auto rounded-md object-fit"
-                      />
-
+                {previewImage && (
+                  <div className="flex items-center justify-center">
+                    <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
                       <div
-                        className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                          hoveredImage === previewImage ? "h-[50px]" : "h-0"
-                        }`}
+                        className="relative px-4 py-2 group"
+                        onMouseEnter={() => setHoveredImage(previewImage)}
+                        onMouseLeave={() => setHoveredImage(null)}
                       >
-                        <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
-                          <p className="text-white text-sm truncate max-w-[170px]">
-                            {selectedImageName?.name}
-                          </p>
+                        <img
+                          src={previewImage}
+                          alt="preview"
+                          className="w-[350px] h-auto rounded-md object-fit"
+                        />
 
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setPreviewImage(null);
-                              handleRemoveFile(selectedImageName?.index);
-                            }}
-                            className="bg-white rounded-md p-1"
-                          >
-                            <Add
-                              size={20}
-                              color="#FF0000"
-                              className="rotate-45"
-                            />
-                          </button>
+                        <div
+                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
+                            hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                          }`}
+                        >
+                          <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
+                            <p className="text-white text-sm truncate max-w-[170px]">
+                              {selectedImageName?.name}
+                            </p>
+
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPreviewImage(null);
+                                handleRemoveFile(selectedImageName?.index);
+                              }}
+                              className="bg-white rounded-md p-1"
+                            >
+                              <Add
+                                size={20}
+                                color="#FF0000"
+                                className="rotate-45"
+                              />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div
-                className="flex justify-end my-2"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
-                  + Add more Files
-                </label>
+                )}
               </div>
-            </div>
+            )}
 
             {attachments?.length > 0 && (
               <div className="grid grid-cols-3 gap-3 mt-3">
@@ -633,7 +661,16 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
                 ))}
               </div>
             )}
-
+            {attachments?.length > 0 && (
+              <div
+                className="flex justify-end my-2"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
+                  + Add more Files
+                </label>
+              </div>
+            )}
             <div className="mb-2 mt-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Description
@@ -651,17 +688,30 @@ function ExpenseSettlement({ show, handleClose, isBanking }) {
 
             <div className="rounded-xl bg-[#2633A0] p-4 text-white">
               <p className="text-xs font-medium opacity-70">SUMMARY</p>
-              <p className="mt-1 text-2xl font-bold">₹ 2,000.00</p>
+
+              <p className="mt-1 text-2xl font-bold">
+                ₹ {Number(paidAmount || 0)}
+              </p>
+
               <div className="mt-3 space-y-1 text-sm">
                 <div className="flex justify-between">
-                  <span className="opacity-80">Paid Amount</span>
+                  <span className="opacity-80">Applied Amount</span>
                   <span>₹ {paidAmount}</span>
                 </div>
+
                 <div className="flex justify-between">
                   <span className="opacity-80">
                     Balance Amount (Outstanding)
                   </span>
-                  <span>- ₹ 0.00</span>
+                  <span
+                    className={
+                      finalOutstanding > 0
+                        ? "text-yellow-300"
+                        : "text-green-300"
+                    }
+                  >
+                    ₹ {finalOutstanding}
+                  </span>
                 </div>
               </div>
             </div>
