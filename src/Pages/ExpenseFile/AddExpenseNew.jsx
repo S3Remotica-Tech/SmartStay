@@ -432,7 +432,7 @@ function AddExpenseNew() {
 
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
-  // const isVendorWay = location.state?.isVendorWay;
+  const isVendorOverViewWay = location.state?.isVendorOverViewWay;
 
   const [errors, setErrors] = useState({
     totalAmount: "",
@@ -485,13 +485,20 @@ function AddExpenseNew() {
     }));
   };
 
+  // const handleClose = () => {
+  //   dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
+  //   if (isBankingWayTrigger) {
+  //     navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+  //   } else if (isVendorOverViewWay) {
+  //     navigate(-1);
+  //   } else {
+  //     navigate(`/expense/${state.login.selectedHostel_Id}`);
+  //   }
+  // };
+
   const handleClose = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
-    if (isBankingWayTrigger) {
-      navigate(`/banking/new/${state.login.selectedHostel_Id}`);
-    } else {
-      navigate(`/expense/${state.login.selectedHostel_Id}`);
-    }
+    window.history.back();
   };
 
   const handleExpenseTitle = (e) => {
