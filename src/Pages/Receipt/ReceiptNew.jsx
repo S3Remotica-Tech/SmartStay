@@ -673,14 +673,14 @@ function ReceiptNew() {
   };
 
   const selectedColumns = [
-    "Receipt No",
-    "Full Name",
-    "Reference Id",
-    "Invoice Number",
-    " Payment Date",
-    "Type",
-    "Payment Mode",
-    "Amount",
+    { key: "receiptNo", fieldName: "Receipt No" },
+    { key: "name", fieldName: "Full Name" },
+    { key: "referenceId", fieldName: "Reference Id" },
+    { key: "invoiceNo", fieldName: "Invoice Number" },
+    { key: "date", fieldName: "Payment Date" },
+    { key: "type", fieldName: "Type" },
+    { key: "paymentMode", fieldName: "Payment Mode" },
+    { key: "amount", fieldName: "Amount" },
   ];
 
   const handleClickFilter = () => {
@@ -852,352 +852,350 @@ function ReceiptNew() {
               </div>
             )}
 
-            {formattedData?.length > 0 ? (
-              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                <div
-                  id="tableContainer"
-                  ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-                >
-                  <table className=" w-full font-gilroy ">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                      <tr className="h-9">
-                        {selectedColumns?.map((col, index) => {
-                          let stickyClass = "";
+            {/* {formattedData?.length > 0 ? ( */}
+            <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+              <div
+                id="tableContainer"
+                ref={tableContainerRef}
+                className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+              >
+                <table className=" w-full font-gilroy ">
+                  <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                    <tr className="h-9">
+                      {selectedColumns?.map((col, index) => {
+                        let stickyClass = "";
 
-                          if (index === 0) {
-                            stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                          }
-                          //  else if (index === 1) {
-                          //   stickyClass =
-                          //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
-                          // }
+                        if (index === 0) {
+                          stickyClass =
+                            "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                        }
+                        //  else if (index === 1) {
+                        //   stickyClass =
+                        //     "sticky left-[80px] z-40 bg-[#F9FAFB]";
+                        // }
 
-                          return (
-                            <th
-                              key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                            >
-                              {col.fieldName}
-                            </th>
-                          );
-                        })}
+                        return (
+                          <th
+                            key={col.key}
+                            className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                          >
+                            {col.fieldName}
+                          </th>
+                        );
+                      })}
 
-                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Array.isArray(formattedData) &&
-                        formattedData?.length > 0 &&
-                        formattedData?.map((user, index) => {
-                          return (
-                            <tr
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setShowOverview(true);
-                                setSelectedVendorId(user.apiCall.vendorId);
-                              }}
-                              key={index}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
+                      <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(formattedData) &&
+                      formattedData?.length > 0 &&
+                      formattedData?.map((user, index) => {
+                        return (
+                          <tr
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowOverview(true);
+                              setSelectedVendorId(user.apiCall.vendorId);
+                            }}
+                            key={index}
+                            className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
                                         cursor-pointer group  hover:!bg-gray-50"
-                            >
-                              {selectedColumns?.map((col, index) => {
-                                const baseClass = `
+                          >
+                            {selectedColumns?.map((col, index) => {
+                              const baseClass = `
       ${columnStyles[col.fieldName] || "px-4"}
       hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
     `;
 
-                                let stickyClass = "";
+                              let stickyClass = "";
 
-                                if (index === 0) {
-                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                    isScrolling ? "!bg-white" : "!bg-white"
-                                  }`;
-                                }
+                              if (index === 0) {
+                                stickyClass = `sticky left-[0px] z-20  w-[80px] ${
+                                  isScrolling ? "!bg-white" : "!bg-white"
+                                }`;
+                              }
 
-                                const finalClass = `${baseClass} ${stickyClass}`;
+                              const finalClass = `${baseClass} ${stickyClass}`;
 
-                                switch (col.fieldName) {
-                                  case "Profile Pic":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`px-4 ${finalClass}`}
-                                      >
-                                        {typeof user?.profilePic === "string" &&
-                                        user.profilePic.startsWith("http") ? (
-                                          <img
-                                            src={user.profilePic}
-                                            className="w-8 h-8 rounded-full"
-                                            alt="profile"
-                                          />
-                                        ) : (
-                                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                                            {typeof user?.profilePic ===
-                                            "string"
-                                              ? user.profilePic
-                                              : "NA"}
-                                          </div>
-                                        )}
-                                      </td>
-                                    );
+                              switch (col.fieldName) {
+                                case "Profile Pic":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`px-4 ${finalClass}`}
+                                    >
+                                      {typeof user?.profilePic === "string" &&
+                                      user.profilePic.startsWith("http") ? (
+                                        <img
+                                          src={user.profilePic}
+                                          className="w-8 h-8 rounded-full"
+                                          alt="profile"
+                                        />
+                                      ) : (
+                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
+                                          {typeof user?.profilePic === "string"
+                                            ? user.profilePic
+                                            : "NA"}
+                                        </div>
+                                      )}
+                                    </td>
+                                  );
 
-                                  case "Full Name":
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        <div className="relative group w-[100px] ">
-                                          <span className="block w-full truncate text-sm text-[#111928] ">
-                                            {user.fullName}
-                                          </span>
+                                case "Full Name":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <div className="relative group w-[100px] ">
+                                        <span className="block w-full truncate text-sm text-[#111928] ">
+                                          {user.fullName}
+                                        </span>
 
-                                          <div
-                                            className="absolute left-full ml-2 top-1/2 -translate-y-1/2
+                                        <div
+                                          className="absolute left-full ml-2 top-1/2 -translate-y-1/2
             hidden group-hover:!block
            bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap
             z-[9999] pointer-events-none"
-                                          >
-                                            {user?.fullName}
-                                          </div>
+                                        >
+                                          {user?.fullName}
                                         </div>
-                                      </td>
-                                    );
+                                      </div>
+                                    </td>
+                                  );
 
-                                  case "Payment Status":
-                                    return (
-                                      <td key={col.key} className={finalClass}>
+                                case "Payment Status":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      <span
+                                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                        style={{
+                                          backgroundColor:
+                                            statusStyles[user.paymentStatus]
+                                              ?.bg || "#EEE",
+                                        }}
+                                      >
                                         <span
-                                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
+                                          className="h-2 w-2 rounded-full"
                                           style={{
                                             backgroundColor:
                                               statusStyles[user.paymentStatus]
-                                                ?.bg || "#EEE",
+                                                ?.text || "#333",
                                           }}
-                                        >
-                                          <span
-                                            className="h-2 w-2 rounded-full"
-                                            style={{
-                                              backgroundColor:
-                                                statusStyles[user.paymentStatus]
-                                                  ?.text || "#333",
-                                            }}
-                                          ></span>
+                                        ></span>
 
-                                          {user.paymentStatus}
-                                        </span>
-                                      </td>
-                                    );
+                                        {user.paymentStatus}
+                                      </span>
+                                    </td>
+                                  );
 
-                                  case "Joining Date":
-                                    return (
-                                      <td
-                                        key={col.key}
-                                        className={`${finalClass} truncate text-[#6B7280] font-medium`}
-                                      >
-                                        {user.joiningDate}
-                                      </td>
-                                    );
-
-                                  case "Mobile No":
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        {user.mobile}
-                                      </td>
-                                    );
-
-                                  case "Email ID":
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        {user.email}
-                                      </td>
-                                    );
-
-                                  case "Vendor Code":
-                                    return (
-                                      <td
-                                        key={col.key}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.vendorCode}
-                                      </td>
-                                    );
-
-                                  case "Vendor Category":
-                                    return (
-                                      <td
-                                        key={col.key}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.vendorCategoryName}
-                                      </td>
-                                    );
-                                  case "Credit Limit":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.creditLimit}
-                                      </td>
-                                    );
-                                  case "Credit Period":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.creditPeriod}
-                                      </td>
-                                    );
-                                  case "Outstanding":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.outstanding}
-                                      </td>
-                                    );
-                                  case "Last Transaction":
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.lastTransaction}
-                                      </td>
-                                    );
-                                  case "Address":
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        {getAddress(user)}
-                                      </td>
-                                    );
-                                  default:
-                                    return (
-                                      <td key={col.key} className={finalClass}>
-                                        {typeof user[
-                                          headerKeyMap[col.fieldName]
-                                        ] === "object"
-                                          ? "-"
-                                          : (user[
-                                              headerKeyMap[col.fieldName]
-                                            ] ?? "-")}
-                                      </td>
-                                    );
-                                }
-                              })}
-
-                              <td
-                                className={`${
-                                  isScrolling ? "!bg-white" : "bg-white"
-                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                              >
-                                {" "}
-                                <div
-                                  className="relative mt-1 flex cursor-pointer items-center justify-center"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleShowDots(user.apiCall.vendorId, e);
-                                  }}
-                                >
-                                  <PiDotsThreeOutlineVerticalFill
-                                    className={`h-5 w-5 rotate-90 ${
-                                      activeRow === user.apiCall.vendorId
-                                        ? "text-[#1E45E1]"
-                                        : "text-gray-500"
-                                    }`}
-                                  />
-
-                                  {activeRow === user.apiCall.vendorId && (
-                                    <div
-                                      ref={popupRef}
-                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
-                                      style={{
-                                        top: showAbove
-                                          ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight ||
-                                              120) -
-                                            10
-                                          : popupPosition.top + 5,
-                                        left: popupPosition.left - 150,
-                                        position: "fixed",
-                                      }}
+                                case "Joining Date":
+                                  return (
+                                    <td
+                                      key={col.key}
+                                      className={`${finalClass} truncate text-[#6B7280] font-medium`}
                                     >
-                                      <button
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setActiveRow(null);
-                                          if (canUpdateVendor) {
-                                            handleEditVendor(user);
-                                          }
-                                        }}
-                                        disabled={!canUpdateVendor}
-                                        className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+                                      {user.joiningDate}
+                                    </td>
+                                  );
+
+                                case "Mobile No":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {user.mobile}
+                                    </td>
+                                  );
+
+                                case "Email ID":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {user.email}
+                                    </td>
+                                  );
+
+                                case "Vendor Code":
+                                  return (
+                                    <td
+                                      key={col.key}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {user.vendorCode}
+                                    </td>
+                                  );
+
+                                case "Vendor Category":
+                                  return (
+                                    <td
+                                      key={col.key}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {user.vendorCategoryName}
+                                    </td>
+                                  );
+                                case "Credit Limit":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {user.creditLimit}
+                                    </td>
+                                  );
+                                case "Credit Period":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {user.creditPeriod}
+                                    </td>
+                                  );
+                                case "Outstanding":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {user.outstanding}
+                                    </td>
+                                  );
+                                case "Last Transaction":
+                                  return (
+                                    <td
+                                      key={col.fieldName}
+                                      className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                    >
+                                      {user.lastTransaction}
+                                    </td>
+                                  );
+                                case "Address":
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {getAddress(user)}
+                                    </td>
+                                  );
+                                default:
+                                  return (
+                                    <td key={col.key} className={finalClass}>
+                                      {typeof user[
+                                        headerKeyMap[col.fieldName]
+                                      ] === "object"
+                                        ? "-"
+                                        : (user[headerKeyMap[col.fieldName]] ??
+                                          "-")}
+                                    </td>
+                                  );
+                              }
+                            })}
+
+                            <td
+                              className={`${
+                                isScrolling ? "!bg-white" : "bg-white"
+                              } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                            >
+                              {" "}
+                              <div
+                                className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleShowDots(user.apiCall.vendorId, e);
+                                }}
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  className={`h-5 w-5 rotate-90 ${
+                                    activeRow === user.apiCall.vendorId
+                                      ? "text-[#1E45E1]"
+                                      : "text-gray-500"
+                                  }`}
+                                />
+
+                                {activeRow === user.apiCall.vendorId && (
+                                  <div
+                                    ref={popupRef}
+                                    className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999]"
+                                    style={{
+                                      top: showAbove
+                                        ? popupPosition.top -
+                                          (popupRef.current?.offsetHeight ||
+                                            120) -
+                                          10
+                                        : popupPosition.top + 5,
+                                      left: popupPosition.left - 150,
+                                      position: "fixed",
+                                    }}
+                                  >
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setActiveRow(null);
+                                        if (canUpdateVendor) {
+                                          handleEditVendor(user);
+                                        }
+                                      }}
+                                      disabled={!canUpdateVendor}
+                                      className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
           ${
             canUpdateVendor
               ? "text-[#1E45E1] hover:bg-blue-100"
               : "text-gray-400 cursor-not-allowed"
           }`}
-                                      >
-                                        <Edit2
-                                          size="16"
-                                          color={
-                                            canUpdateVendor
-                                              ? "#1E45E1"
-                                              : "#9CA3AF"
-                                          }
-                                        />
-                                        Edit
-                                      </button>
+                                    >
+                                      <Edit2
+                                        size="16"
+                                        color={
+                                          canUpdateVendor
+                                            ? "#1E45E1"
+                                            : "#9CA3AF"
+                                        }
+                                      />
+                                      Edit
+                                    </button>
 
-                                      <button
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setActiveRow(null);
-                                          if (canDeleteVendor) {
-                                            handleDeleteVendor(user);
-                                          }
-                                        }}
-                                        disabled={!canDeleteVendor}
-                                        className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setActiveRow(null);
+                                        if (canDeleteVendor) {
+                                          handleDeleteVendor(user);
+                                        }
+                                      }}
+                                      disabled={!canDeleteVendor}
+                                      className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
           ${
             canDeleteVendor
               ? "text-red-600 hover:bg-red-100"
               : "text-gray-400 cursor-not-allowed"
           }`}
-                                      >
-                                        <Trash
-                                          size="16"
-                                          color={
-                                            canDeleteVendor
-                                              ? "#FF0000"
-                                              : "#9CA3AF"
-                                          }
-                                        />
-                                        Delete
-                                      </button>
-                                    </div>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </div>
-                {open && (
-                  <>
-                    <div
-                      className="fixed inset-0 bg-black/20 z-50 "
-                      onClick={() => setOpen(false)}
-                    />
+                                    >
+                                      <Trash
+                                        size="16"
+                                        color={
+                                          canDeleteVendor
+                                            ? "#FF0000"
+                                            : "#9CA3AF"
+                                        }
+                                      />
+                                      Delete
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+              {open && (
+                <>
+                  <div
+                    className="fixed inset-0 bg-black/20 z-50 "
+                    onClick={() => setOpen(false)}
+                  />
 
-                    <div
-                      className={`
+                  <div
+                    className={`
             fixed top-[180px] right-10 h-fit w-[350px]
             bg-white z-50
             border-r border-[#E5E7EB]
@@ -1205,115 +1203,115 @@ function ReceiptNew() {
             transform transition-transform duration-300 ease-in-out
             ${open ? "translate-x-0" : "-translate-x-full"}
           `}
-                    >
-                      <div className="relative font-gilroy">
-                        <div className="p-3 border-b ">
-                          <div className="flex items-center gap-2 justify-between mb-2">
-                            <div className="text-[16px] text-[#333333] font-semibold ">
-                              Customize Tabs{" "}
-                            </div>
-                            <div
-                              onClick={() => {
-                                setCustomizeItems((prev) =>
-                                  prev.map((i) => ({
-                                    ...i,
-                                    selected: !allSelected,
-                                  })),
-                                );
-
-                                setError("");
-                              }}
-                              className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                            >
-                              {" "}
-                              <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                              <span>
-                                {allSelected ? "Unselect all" : "Select all"}
-                              </span>
-                            </div>
+                  >
+                    <div className="relative font-gilroy">
+                      <div className="p-3 border-b ">
+                        <div className="flex items-center gap-2 justify-between mb-2">
+                          <div className="text-[16px] text-[#333333] font-semibold ">
+                            Customize Tabs{" "}
                           </div>
-
-                          <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                            <SearchNormal1 size={16} color="#98A2B3" />
-                            <input
-                              value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
-                              placeholder="Search"
-                              className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                            />
-                          </div>
-                        </div>
-
-                        <DndContext
-                          collisionDetection={closestCenter}
-                          onDragEnd={(event) => {
-                            const { active, over } = event;
-                            if (!over) return;
-                            if (active.id !== over?.id) {
-                              const oldIndex = customizeItems.findIndex(
-                                (i) => i.key === active.id,
-                              );
-                              const newIndex = customizeItems.findIndex(
-                                (i) => i.key === over.id,
+                          <div
+                            onClick={() => {
+                              setCustomizeItems((prev) =>
+                                prev.map((i) => ({
+                                  ...i,
+                                  selected: !allSelected,
+                                })),
                               );
 
-                              setCustomizeItems(
-                                arrayMove(customizeItems, oldIndex, newIndex),
-                              );
-                            }
-                          }}
-                        >
-                          <SortableContext
-                            items={customizeItems.map((i) => i.key)}
-                            strategy={verticalListSortingStrategy}
+                              setError("");
+                            }}
+                            className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
                           >
-                            <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                              {filteredCustomizeItems.length === 0 ? (
-                                <div className="text-sm text-gray-400 text-center py-3">
-                                  No results found
-                                </div>
-                              ) : (
-                                filteredCustomizeItems.map((item) => (
-                                  <SortableItem key={item.key} item={item} />
-                                ))
-                              )}
-                            </div>
-                          </SortableContext>
-                        </DndContext>
-                      </div>
-                      {error && (
-                        <div className="flex justify-center my-2">
-                          <ErrorMessage message={error} type="warning" />
+                            {" "}
+                            <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                            <span>
+                              {allSelected ? "Unselect all" : "Select all"}
+                            </span>
+                          </div>
                         </div>
-                      )}
 
-                      <div className="p-3 border-t flex gap-2">
-                        <button
-                          onClick={handleResetCustomize}
-                          className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          onClick={handleSave}
-                          disabled={customizeLoading}
-                          className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
-                        >
-                          {customizeLoading ? (
-                            <div className="flex items-center justify-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              Saving...
-                            </div>
-                          ) : (
-                            "Save"
-                          )}
-                        </button>
+                        <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                          <SearchNormal1 size={16} color="#98A2B3" />
+                          <input
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            placeholder="Search"
+                            className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                          />
+                        </div>
                       </div>
+
+                      <DndContext
+                        collisionDetection={closestCenter}
+                        onDragEnd={(event) => {
+                          const { active, over } = event;
+                          if (!over) return;
+                          if (active.id !== over?.id) {
+                            const oldIndex = customizeItems.findIndex(
+                              (i) => i.key === active.id,
+                            );
+                            const newIndex = customizeItems.findIndex(
+                              (i) => i.key === over.id,
+                            );
+
+                            setCustomizeItems(
+                              arrayMove(customizeItems, oldIndex, newIndex),
+                            );
+                          }
+                        }}
+                      >
+                        <SortableContext
+                          items={customizeItems.map((i) => i.key)}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                            {filteredCustomizeItems.length === 0 ? (
+                              <div className="text-sm text-gray-400 text-center py-3">
+                                No results found
+                              </div>
+                            ) : (
+                              filteredCustomizeItems.map((item) => (
+                                <SortableItem key={item.key} item={item} />
+                              ))
+                            )}
+                          </div>
+                        </SortableContext>
+                      </DndContext>
                     </div>
-                  </>
-                )}
-              </div>
-            ) : (
+                    {error && (
+                      <div className="flex justify-center my-2">
+                        <ErrorMessage message={error} type="warning" />
+                      </div>
+                    )}
+
+                    <div className="p-3 border-t flex gap-2">
+                      <button
+                        onClick={handleResetCustomize}
+                        className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
+                      >
+                        Reset
+                      </button>
+                      <button
+                        onClick={handleSave}
+                        disabled={customizeLoading}
+                        className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
+                      >
+                        {customizeLoading ? (
+                          <div className="flex items-center justify-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Saving...
+                          </div>
+                        ) : (
+                          "Save"
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            {/* ) : (
               <NoDataMessage
                 label="Receipt"
                 isSearching={isSearching}
@@ -1325,7 +1323,7 @@ function ReceiptNew() {
                   handleReset();
                 }}
               />
-            )}
+            )} */}
           </div>
         )}
       </div>
