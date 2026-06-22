@@ -823,6 +823,15 @@ function AddVendorNew() {
       isValid = false;
     }
 
+    if (gstNumber && panNumber) {
+      const gstPan = gstNumber.substring(2, 12);
+
+      if (gstPan !== panNumber) {
+        setGstError("GST PAN does not match the entered PAN Number.");
+        isValid = false;
+      }
+    }
+
     if (!isValid) {
       return;
     }

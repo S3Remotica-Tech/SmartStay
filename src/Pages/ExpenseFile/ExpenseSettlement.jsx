@@ -377,11 +377,6 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
     }
   }, [state.UsersList.expenseSettleError]);
 
-  console.log(
-    "state.UsersList.expenseSettleError",
-    state.UsersList.expenseSettleError,
-  );
-
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
@@ -550,93 +545,86 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
               />
             </div>
 
-            <div className="mb-2">
-              <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Attachments/Proofs (If any)
-              </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/jpeg,image/jpg,image/png"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            {attachments?.length === 0 && (
+              <div className="mb-2">
+                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                  Attachments/Proofs (If any)
+                </label>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept="image/jpeg,image/jpg,image/png"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+                >
+                  <div className="rounded-md bg-blue-100 px-1 py-1">
+                    <DocumentUpload size={20} color="#1E45E1" />
+                  </div>
 
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-              >
-                <div className="rounded-md bg-blue-100 px-1 py-1">
-                  <DocumentUpload size={20} color="#1E45E1" />
+                  <div>
+                    <p className="text-sm font-medium text-[#222222] mb-1">
+                      <span className="text-[#1E45E1]">Choose Image to</span>{" "}
+                      Upload
+                    </p>
+
+                    <p className="text-xs text-gray-500">
+                      JPG / JPEG / PNG Format
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium text-[#222222] mb-1">
-                    <span className="text-[#1E45E1]">Choose Image to</span>{" "}
-                    Upload
-                  </p>
-
-                  <p className="text-xs text-gray-500">
-                    JPG / JPEG / PNG Format
-                  </p>
-                </div>
-              </div>
-
-              {previewImage && (
-                <div className="flex items-center justify-center">
-                  <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-                    <div
-                      className="relative px-4 py-2 group"
-                      onMouseEnter={() => setHoveredImage(previewImage)}
-                      onMouseLeave={() => setHoveredImage(null)}
-                    >
-                      <img
-                        src={previewImage}
-                        alt="preview"
-                        className="w-[350px] h-auto rounded-md object-fit"
-                      />
-
+                {previewImage && (
+                  <div className="flex items-center justify-center">
+                    <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
                       <div
-                        className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                          hoveredImage === previewImage ? "h-[50px]" : "h-0"
-                        }`}
+                        className="relative px-4 py-2 group"
+                        onMouseEnter={() => setHoveredImage(previewImage)}
+                        onMouseLeave={() => setHoveredImage(null)}
                       >
-                        <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
-                          <p className="text-white text-sm truncate max-w-[170px]">
-                            {selectedImageName?.name}
-                          </p>
+                        <img
+                          src={previewImage}
+                          alt="preview"
+                          className="w-[350px] h-auto rounded-md object-fit"
+                        />
 
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setPreviewImage(null);
-                              handleRemoveFile(selectedImageName?.index);
-                            }}
-                            className="bg-white rounded-md p-1"
-                          >
-                            <Add
-                              size={20}
-                              color="#FF0000"
-                              className="rotate-45"
-                            />
-                          </button>
+                        <div
+                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
+                            hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                          }`}
+                        >
+                          <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
+                            <p className="text-white text-sm truncate max-w-[170px]">
+                              {selectedImageName?.name}
+                            </p>
+
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPreviewImage(null);
+                                handleRemoveFile(selectedImageName?.index);
+                              }}
+                              className="bg-white rounded-md p-1"
+                            >
+                              <Add
+                                size={20}
+                                color="#FF0000"
+                                className="rotate-45"
+                              />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div
-                className="flex justify-end my-2"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
-                  + Add more Files
-                </label>
+                )}
               </div>
-            </div>
+            )}
 
             {attachments?.length > 0 && (
               <div className="grid grid-cols-3 gap-3 mt-3">
@@ -673,7 +661,16 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                 ))}
               </div>
             )}
-
+            {attachments?.length > 0 && (
+              <div
+                className="flex justify-end my-2"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <label className="text-sm text-[#007AFF] cursor-pointer font-semibold">
+                  + Add more Files
+                </label>
+              </div>
+            )}
             <div className="mb-2 mt-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Description
