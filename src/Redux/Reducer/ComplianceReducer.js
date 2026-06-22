@@ -42,7 +42,8 @@ export const initialState = {
   vendorOverviewExpensePaymentListStatus: 0,
   vendorSettlementInitialize: "",
   addCommentsVendorstatusCode: 0,
-
+  deleteCommentsVendorstatusCode: 0,
+  updateCommentsVendorstatusCode: 0,
   getVendorCommentsList: "",
   getVendorCommentsListSuccess: 0,
 
@@ -190,6 +191,29 @@ const ComplianceReducer = (state = initialState, action) => {
       return {
         ...state,
         addCommentsVendorstatusCode: 0,
+      };
+
+    case "DELETE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        deleteCommentsVendorstatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        deleteCommentsVendorstatusCode: 0,
+      };
+
+    case "UPDATE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        updateCommentsVendorstatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_UPDATE_VENDOR_COMMENTS_REDUCER":
+      return {
+        ...state,
+        updateCommentsVendorstatusCode: 0,
       };
 
     case "VENDOR_COMMENTS_REDUCER":

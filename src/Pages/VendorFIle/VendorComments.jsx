@@ -12,8 +12,11 @@ import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import ApiPagination from "../../Components/ApiPagination";
+import { Edit2, Trash } from "iconsax-react";
+import DeleteComments from "./DeleteComments";
+
 const quillStyle = {
-  height: "50px",
+  height: "100px",
   borderRadius: "22px",
   marginBottom: "42px",
 };
@@ -23,6 +26,9 @@ function VendorComments({ selectedVendorId }) {
   const dispatch = useDispatch();
 
   const VendorOverView = state.ComplianceList?.vendorOverview;
+  const [showDelete, setShowDelete] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
 
   const [formLoading, setFormLoading] = useState(false);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
@@ -77,15 +83,25 @@ function VendorComments({ selectedVendorId }) {
     }
 
     setCommentError("");
-    dispatch({
-      type: "ADD_VENDOR_COMMENTS_SAGA",
-      payload: {
-        comment: plainText,
-        vendorId: VendorOverView?.id,
-      },
-    });
-
-    setFormLoading(true);
+    if (edit && selectedCommentId) {
+      dispatch({
+        type: "UPDATE_VENDOR_COMMENTS_SAGA",
+        payload: {
+          comment: plainText,
+          commentId: selectedCommentId,
+        },
+      });
+      setFormLoading(true);
+    } else {
+      dispatch({
+        type: "ADD_VENDOR_COMMENTS_SAGA",
+        payload: {
+          comment: plainText,
+          vendorId: VendorOverView?.id,
+        },
+      });
+      setFormLoading(true);
+    }
   };
 
   useEffect(() => {
@@ -105,13 +121,39 @@ function VendorComments({ selectedVendorId }) {
         type: "VENDOR_COMMENTS_SAGA",
         payload: { vendorId: VendorOverView?.id, page: page, size: size },
       });
+
       dispatch({ type: "REMOVE_ADD_VENDOR_COMMENTS_REDUCER" });
     }
   }, [state.ComplianceList?.addCommentsVendorstatusCode]);
 
+  useEffect(() => {
+    if (state.ComplianceList?.updateCommentsVendorstatusCode === 200) {
+      setComment("");
+      setFormLoading(false);
+      dispatch({
+        type: "VENDOR_COMMENTS_SAGA",
+        payload: { vendorId: VendorOverView?.id, page: page, size: size },
+      });
+      setEdit(false);
+
+      dispatch({ type: "REMOVE_UPDATE_VENDOR_COMMENTS_REDUCER" });
+    }
+  }, [state.ComplianceList?.updateCommentsVendorstatusCode]);
+
+  useEffect(() => {
+    if (state.ComplianceList?.deleteCommentsVendorstatusCode === 200) {
+      setShowDelete(false);
+      dispatch({
+        type: "VENDOR_COMMENTS_SAGA",
+        payload: { vendorId: VendorOverView?.id, page: page, size: size },
+      });
+      dispatch({ type: "REMOVE_DELETE_VENDOR_COMMENTS_REDUCER" });
+    }
+  }, [state.ComplianceList?.deleteCommentsVendorstatusCode]);
+
   const vendorComments = state.ComplianceList?.getVendorCommentsList;
 
-  console.log("vendorComments", vendorComments);
+  // console.log("vendorComments", vendorComments);
   const currentPage = vendorComments?.currentPage ?? 1;
 
   const totalPages = vendorComments?.totalPages ?? 1;
@@ -120,11 +162,27 @@ function VendorComments({ selectedVendorId }) {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log("clicked ddddddd", page);
+    // console.log("clicked ddddddd", page);
   };
 
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
+  };
+
+  const handleEdit = (item) => {
+    console.log("Edit", item);
+    setComment(item.comment);
+    setSelectedCommentId(item.id);
+    setEdit(true);
+  };
+
+  const handleDelete = (id) => {
+    setSelectedCommentId(id);
+    setShowDelete(true);
+  };
+  const handleCloseDelete = () => {
+    setShowDelete(false);
+    setSelectedCommentId(null);
   };
 
   return (
@@ -164,12 +222,12 @@ function VendorComments({ selectedVendorId }) {
             {formLoading ? (
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Adding...
+                {edit ? "Saving....." : " Adding..."}
               </div>
             ) : (
               <>
                 <Send2 size={16} color="#fff" />
-                Add
+                {edit ? "Save" : " Add"}
               </>
             )}
           </button>
@@ -193,12 +251,15 @@ function VendorComments({ selectedVendorId }) {
               />
             )}
           </div>
-          <div className="max-h-[350px] overflow-y-auto pr-2 show-scrolls">
+          <div className="max-h-[350px] overflow-y-auto pr-2 show-scrolls w-full">
             {vendorComments?.comments?.map((item, index) => (
-              <div key={item.id} className="flex gap-3 relative">
+              <div
+                key={item.id}
+                className="group flex gap-3 relative hover:bg-[#F9FAFB] rounded-lg p-2 transition"
+              >
                 <div className="flex flex-col items-center flex-shrink-0">
                   <div className="h-10 w-10 rounded-full bg-[#EEF2FF] flex items-center justify-center z-10">
-                    <MessageText size={18} color="#6B7280" variant="Linear" />
+                    <MessageText size={18} color="#6B7280" />
                   </div>
 
                   {index !== vendorComments.comments.length - 1 && (
@@ -206,10 +267,26 @@ function VendorComments({ selectedVendorId }) {
                   )}
                 </div>
 
-                <div className="flex-1 pb-8">
-                  <h4 className="text-[14px] font-medium text-[#222222]">
-                    {item.comment}
-                  </h4>
+                <div className="flex-1 min-w-0 pb-8 relative">
+                  <div className="absolute right-0 top-0 hidden group-hover:flex items-center gap-2">
+                    <button
+                      onClick={() => handleEdit(item)}
+                      className="p-1 rounded hover:bg-blue-100"
+                    >
+                      <Edit2 size={18} color="#2563EB" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="p-1 rounded hover:bg-red-100"
+                    >
+                      <Trash size={18} color="#EF4444" />
+                    </button>
+                  </div>
+
+                   <h4 className="text-[14px] font-medium text-[#222222] pr-16 break-words whitespace-pre-wrap">
+    {item.comment}
+  </h4>
 
                   <p className="text-[12px] text-[#6B7280] mt-1">
                     {item.createdAt}
@@ -224,6 +301,11 @@ function VendorComments({ selectedVendorId }) {
           </div>
         </div>
       </div>
+      <DeleteComments
+        open={showDelete}
+        onClose={handleCloseDelete}
+        selectedCommentId={selectedCommentId}
+      />
     </div>
   );
 }

@@ -227,6 +227,21 @@ export async function ComplianceAssign({ complaintId, userId }) {
   });
 }
 
+export async function DeleteVendorComments(vendor) {
+  console.log("vendor88888888", vendor);
+  return await AxiosConfigV2.delete(`/v2/vendors/comments/${vendor.commentId}`);
+}
+
+export async function UpdateVendorComments(comment) {
+  return await AxiosConfigV2.put(
+    `/v2/vendors/comments/${comment.commentId}`,
+    comment,
+    {
+      data: comment,
+    },
+  );
+}
+
 // v1
 // export async function ComplianceChangeStatus(compliance) {
 //   return await AxiosConfig.post('/compliance/change_details', compliance, {
