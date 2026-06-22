@@ -472,18 +472,25 @@ function FinalSettlementInvoicePDF() {
 
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
-              <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
-                <span>Total Refundable</span>
-
-                <span className="font-semibold flex items-center gap-1 text-right ml-auto shrink-0">
-                  <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block shrink-0"></span>
+              {Number(pdfDetails?.invoiceInfo?.totalPayable) !== 0 && (
+                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                  <span>Payable Rent </span>
 
                   <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                    ₹ {pdfDetails?.invoiceInfo?.subTotal}
+                    ₹ {pdfDetails?.invoiceInfo?.totalPayable}
                   </span>
-                </span>
-              </div>
+                </div>
+              )}
 
+              {Number(pdfDetails?.invoiceInfo?.totalRefundable) !== 0 && (
+                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                  <span>Total Refundable</span>
+
+                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                    ₹ {pdfDetails?.invoiceInfo?.totalRefundable}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Tax-GST (0%)</span>
 
@@ -499,6 +506,7 @@ function FinalSettlementInvoicePDF() {
                   ₹ {pdfDetails?.deductionsInfo?.pendingAmount || 0}
                 </span>
               </div>
+
               {Number(pdfDetails?.invoiceInfo?.unpaidInvoiceAmount) !== 0 && (
                 <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                   <span>Unpaid Invoices</span>
@@ -509,13 +517,6 @@ function FinalSettlementInvoicePDF() {
                 </div>
               )}
 
-              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                <span>Payable Rent</span>
-
-                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 0
-                </span>
-              </div>
               {pdfDetails?.walletInfo?.totalWalletAmount !== 0 && (
                 <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                   <span>Wallet</span>
@@ -525,6 +526,7 @@ function FinalSettlementInvoicePDF() {
                   </span>
                 </div>
               )}
+
               <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                 <span>Discount</span>
 
@@ -665,9 +667,6 @@ function FinalSettlementInvoicePDF() {
             </div>
             <div className="text-[12px] flex items-center font-semibold gap-2 text-gray-900 ">
               Thanks for the business.
-            </div>
-            <div className="text-[10px] flex font-medium items-center gap-2 text-gray-900 ">
-              download date & time
             </div>
           </div>
         </div>

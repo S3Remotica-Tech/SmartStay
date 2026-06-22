@@ -338,7 +338,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
     // setInvoiceValue(pdfDetails)
     setInvoiceList({
-      balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
+      balanceDue: pdfDetails?.invoiceInfo?.finalAmount,
       invoiceId: pdfDetails?.invoiceId,
       invoiceDate: pdfDetails?.invoiceDate,
     });
@@ -895,7 +895,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             )} */}
 
             <div className="flex items-center gap-2">
-              {Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 && (
+              {Number(pdfDetails?.invoiceInfo?.finalAmount) > 0 && (
                 <div className="relative inline-flex">
                   <button
                     disabled={!canWriteInvoice}
@@ -1092,16 +1092,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   </button>
                 ))}
 
-              {pdfDetails?.invoiceInfo?.totalAmount < 0 &&
-                Number(pdfDetails?.invoiceInfo?.balanceAmount) !== 0 && (
-                  <button
-                    disabled={!canWriteInvoice}
-                    onClick={() => handleNavigateRefund(pdfDetails)}
-                    className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
-                  >
-                    + Refund Amount
-                  </button>
-                )}
+              {pdfDetails?.invoiceInfo?.finalAmount < 0 && (
+                <button
+                  disabled={!canWriteInvoice}
+                  onClick={() => handleNavigateRefund(pdfDetails)}
+                  className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
+                >
+                  + Refund Amount
+                </button>
+              )}
 
               {isOpenPayment ? (
                 <ArrowUp2
@@ -1307,7 +1306,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   Balance Due
                 </span>
                 <span className="text-sm text-red-500 font-medium">
-                  ₹{pdfDetails?.invoiceInfo?.balanceAmount}
+                  ₹{pdfDetails?.invoiceInfo?.finalAmount}
                 </span>
               </div>
             </div>
