@@ -102,7 +102,7 @@ function VendorOverView({
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-2 mt-2">
-                <h2 className="text-[24px] font-semibold text-[#222]">
+                <h2 className="text-[24px] font-semibold text-[#222] capitalize">
                   {VendorOverView?.businessName || "-"}
                 </h2>
 

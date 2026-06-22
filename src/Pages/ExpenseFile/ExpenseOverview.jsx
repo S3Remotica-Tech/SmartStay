@@ -65,10 +65,10 @@ function ExpenseOverview({
               </div>
 
               <div className="flex items-center gap-6 mt-3 text-[13px]">
-                <span className="flex items-center gap-1 text-[#4B4B4B]">
+                <span className="flex items-center gap-1 text-[#4B4B4B] capitalize">
                   <span>{expenseOverView?.categoryName}</span>
                 </span>
-                <span className="flex items-center gap-1 text-[#222222] font-semibold">
+                <span className="flex items-center gap-1 text-[#222222] font-semibold capitalize" >
                   <Location size="16" color="#1E45E1" /> address
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
