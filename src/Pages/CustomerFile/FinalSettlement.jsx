@@ -471,7 +471,7 @@ function FinalSettlement() {
       const apiMap = new Map(
         apiDeductions.map((item) => [
           item.item?.toLowerCase(),
-          Number(item.amount) || 0,
+          Number(item.pendingAmount) || 0,
         ]),
       );
 
@@ -594,7 +594,7 @@ function FinalSettlement() {
   const apiDeductions =
     finalSettlementList?.deductionsInfo?.listDeductions || [];
   const totalApiDeductions = apiDeductions.reduce(
-    (sum, item) => sum + (Number(item.amount) || 0),
+    (sum, item) => sum + (Number(item.pendingAmount) || 0),
     0,
   );
 
@@ -603,7 +603,7 @@ function FinalSettlement() {
       const mappedFields =
         finalSettlementList.deductionsInfo.listDeductions.map((item) => ({
           reason_name: item.item,
-          amount: item.amount || "",
+          amount: item.pendingAmount || "",
           showInput: true,
           customReason: item.item,
           isSystemGenerated: true,
@@ -672,7 +672,7 @@ function FinalSettlement() {
     const apiMap = new Map(
       apiDeductions.map((item) => [
         item.item?.toLowerCase(),
-        Number(item.amount) || 0,
+        Number(item.pendingAmount) || 0,
       ]),
     );
 

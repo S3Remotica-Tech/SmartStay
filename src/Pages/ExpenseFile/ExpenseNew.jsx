@@ -960,7 +960,7 @@ function Expenses() {
               <input
                 type="text"
                 className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
-                placeholder="Search"
+                placeholder="Search by Title"
                 value={searchQuery}
                 onChange={handleInputChange}
                 disabled={!canReadExpense}
