@@ -211,7 +211,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
   const expenses = vendorInitialize?.expenses || [];
-  console.log("vendorInitialize", vendorInitialize);
+  // console.log("vendorInitialize", vendorInitialize);
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -304,7 +304,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     setVendorError("");
   };
 
-  console.log("VendorOverView", VendorOverView);
+  // console.log("VendorOverView", VendorOverView);
   useEffect(() => {
     setSelectedVendor(VendorOverView?.fullName);
   }, [VendorOverView?.fullName]);

@@ -164,7 +164,7 @@ function* handleAddCommentVendor(action) {
 function* handleVendorSettlementInitialize(action) {
   try {
     const response = yield call(vendorSettlementInitialize, action.payload);
-    console.log("Saga triggered", action.payload);
+    // console.log("Saga triggered", action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });

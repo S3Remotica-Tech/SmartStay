@@ -120,7 +120,7 @@ function VendorExpenseHistory() {
 
   const [openExpense, setOpenExpense] = useState(null);
 
-  console.log("vendorExpenseList", vendorExpenseList);
+  // console.log("vendorExpenseList", vendorExpenseList);
 
   const monthOptions = [
     { value: "this_month", label: "This Month" },

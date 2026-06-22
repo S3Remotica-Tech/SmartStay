@@ -632,7 +632,7 @@ function Vendor() {
     setShowDeleteVendor(false);
   };
 
-// console.log("showDeleteVendorDetails", showDeleteVendorDetails)
+  // console.log("showDeleteVendorDetails", showDeleteVendorDetails)
 
   const ConfirmDeleteVendor = () => {
     if (showDeleteVendorDetails) {
@@ -762,19 +762,6 @@ function Vendor() {
     setInitialCustomizeItems(formatted);
   }, [filteredData?.columnList]);
 
-  useEffect(() => {
-    const handleClickOutsideAccount = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveRow(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutsideAccount);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideAccount);
-    };
-  }, []);
-
   const SortableItem = ({ item }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: item.key });
@@ -816,6 +803,19 @@ function Vendor() {
     );
   };
 
+  useEffect(() => {
+    const handleClickOutsideAccount = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideAccount);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
+    };
+  }, []);
+
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
     // setShowOverview();
@@ -837,7 +837,7 @@ function Vendor() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log("setPage", page);
+    // console.log("setPage", page);
   };
 
   const handleSizeChange = (sizeValue) => {

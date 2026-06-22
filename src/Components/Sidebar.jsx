@@ -115,6 +115,7 @@ import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
 import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
 import BankingNew from "../Pages/Banking/BankingNew";
 import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
+import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -155,6 +156,7 @@ function Sidebar() {
 
     "/recurring/:hostelId": "recurring",
     "/receipts/:hostelId": "receipts",
+    "/receipts/new/:hostelId": "receipts-new",
 
     "/vendor/:hostelId": "vendor",
     // "/vendor/new/:hostelId": "vendor-new",
@@ -227,11 +229,7 @@ function Sidebar() {
       }
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
-
-  // console.log("state.login", state.login);
   const lastPage = localStorage.getItem("lastPage");
-
-  // console.log("lastPagelastPage", lastPage);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -1329,6 +1327,44 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
+
+                        {isDevelopment && (
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/receipts/new/")}
+                              className={({ isActive }) =>
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
+                                  isActive || currentPage === "receipts-new"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("receipts")}
+                            >
+                              <OverlayTrigger
+                                trigger={tooltipTrigger}
+                                placement="right"
+                                container={document.body}
+                                delay={{ show: 200, hide: 0 }}
+                                overlay={
+                                  <Tooltip className="custom-tooltip">
+                                    Receipts
+                                  </Tooltip>
+                                }
+                              >
+                                <DocumentText
+                                  variant="Bold"
+                                  size="22"
+                                  className="-mt-1"
+                                />
+                              </OverlayTrigger>
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Receipts New
+                              </span>
+                            </NavLink>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   )}
@@ -1665,6 +1701,15 @@ function Sidebar() {
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <BankingNew />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/receipts/new/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <ReceiptNew />
                       </div>
                     }
                   />

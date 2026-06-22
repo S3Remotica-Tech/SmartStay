@@ -495,7 +495,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   //   }
   // }, [state.login.selectedHostel_Id]);
 
-  console.log("currentItem0,", currentItem);
+  // console.log("currentItem0,", currentItem);
 
   const handleSaveCheckin = () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });

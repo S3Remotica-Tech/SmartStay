@@ -113,6 +113,7 @@ export const initialState = {
   // REFUSE
   refuseDiscountStatus: 0,
   refuseDiscountError: "",
+  receiptCustomizeSuccessCode: 0,
 
   invoiceFilters: {
     startDate: undefined,
@@ -123,6 +124,17 @@ export const initialState = {
     modes: [],
     paymentStatus: [],
     search: "",
+  },
+  receiptFilters: {
+    startDate: undefined,
+    endDate: undefined,
+    type: [],
+    collectedBY: [],
+    collectedBYLabels: [],
+    modes: [],
+    period: [],
+    search: "",
+    amountrange: "",
   },
 
   whatsappSettings: JSON.parse(localStorage.getItem("whatsappSettings")) || {
@@ -145,6 +157,9 @@ const InvoiceReducer = (state = initialState, action) => {
           ...action.payload,
         },
       };
+
+    case "SET_RECEIPT_FILTERS":
+
     case "ERROR_AMENITIES":
       return { ...state, errorAmenities: action.payload.statusCode };
 
@@ -171,6 +186,17 @@ const InvoiceReducer = (state = initialState, action) => {
 
     case "REMOVE_TENANT_ASSIGN_AMENITIES":
       return { ...state, tenantAssignStatus: 0 };
+
+    case "CUSTOMIZE_RECEIPT_COLUMNS_REDUCER":
+      return {
+        ...state,
+        receiptCustomizeSuccessCode: action.payload.statusCode,
+      };
+    case "REMOVE_CUSTOMIZE_RECEIPT_COLUMNS_REDUCER":
+      return {
+        ...state,
+        receiptCustomizeSuccessCode: 0,
+      };
 
     case "TENANT_UNASSIGN_AMENITIES":
       return { ...state, tenantUnAssignStatus: action.payload.statusCode };

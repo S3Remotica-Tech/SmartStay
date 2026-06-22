@@ -343,7 +343,7 @@ function Booking() {
 
     const apiData = row[row.length - 1];
 
-    console.log("apiData", apiData);
+    // console.log("apiData", apiData);
 
     obj.apiCall = {
       invoiceId: apiData?.invoiceId || null,
@@ -370,10 +370,6 @@ function Booking() {
     status: "px-4",
     "Available Amount": "px-4 whitespace-nowrap",
   };
-
-  useEffect(() => {
-    console.log("formattedData", formattedData);
-  }, [formattedData]);
 
   const handleStatusFilter = (selectedOption) => {
     setStatusfilter(selectedOption);

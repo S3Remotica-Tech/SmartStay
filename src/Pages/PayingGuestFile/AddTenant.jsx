@@ -730,9 +730,6 @@ function AddTenant({ showMenu, handleClose }) {
     setFormLoading(true);
   };
 
-  console.log(aadhaarFile); // File {...}
-  console.log(panFile);
-
   const handleSaveStep3 = () => {
     dispatch({
       type: "SAVE_DRAFT_SAGA",

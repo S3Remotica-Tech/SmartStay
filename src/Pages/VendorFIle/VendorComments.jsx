@@ -170,7 +170,7 @@ function VendorComments({ selectedVendorId }) {
   };
 
   const handleEdit = (item) => {
-    console.log("Edit", item);
+    // console.log("Edit", item);
     setComment(item.comment);
     setSelectedCommentId(item.id);
     setEdit(true);

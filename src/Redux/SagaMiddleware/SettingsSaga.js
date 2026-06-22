@@ -524,7 +524,7 @@ function* handleDeleteExpencescategory(action) {
 function* handleDeleteVendorCategory(action) {
   try {
     const response = yield call(DeleteVendorCategoryList, action.payload);
-    console.log("responseeeee", response);
+    // console.log("responseeeee", response);
     if (response?.status === 200 || response?.statusCode === 200) {
       yield put({
         type: "DELETE_VENDOR_CATEGORY_REDUCER",
