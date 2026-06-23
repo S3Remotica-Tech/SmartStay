@@ -351,7 +351,7 @@ function AddExpenseNew() {
   const vendorOptions =
     state.ExpenseList.getInitializeExpenseList?.vendor?.map((vendor) => ({
       value: vendor.id,
-      label: vendor?.id,
+      label: vendor?.vendorName,
     })) || [];
 
   // console.log("vendorOptions", vendorOptions.length);
@@ -395,10 +395,6 @@ function AddExpenseNew() {
   const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
-  useEffect(() => {
-    console.log("paymentMethodError", paymentMethodError);
-  }, [paymentMethodError]);
-
   const handleFileChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const files = Array.from(e.target.files);
@@ -432,7 +428,7 @@ function AddExpenseNew() {
 
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
-  // const isVendorWay = location.state?.isVendorWay;
+  const isVendorOverViewWay = location.state?.isVendorOverViewWay;
 
   const [errors, setErrors] = useState({
     totalAmount: "",
@@ -485,13 +481,20 @@ function AddExpenseNew() {
     }));
   };
 
+  // const handleClose = () => {
+  //   dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
+  //   if (isBankingWayTrigger) {
+  //     navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+  //   } else if (isVendorOverViewWay) {
+  //     navigate(-1);
+  //   } else {
+  //     navigate(`/expense/${state.login.selectedHostel_Id}`);
+  //   }
+  // };
+
   const handleClose = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
-    if (isBankingWayTrigger) {
-      navigate(`/banking/new/${state.login.selectedHostel_Id}`);
-    } else {
-      navigate(`/expense/${state.login.selectedHostel_Id}`);
-    }
+    window.history.back();
   };
 
   const handleExpenseTitle = (e) => {
@@ -785,6 +788,7 @@ function AddExpenseNew() {
 
           tax: Number(tax || 0),
           discount: Number(discount || 0),
+          creditPeriod: creditPeriod || 0,
 
           expenseItems: expenseItems?.map((item) => ({
             item: item.itemName.trim(),

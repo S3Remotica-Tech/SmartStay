@@ -27,7 +27,7 @@ function EditRentalAmount({ show, handleClose }) {
   const [typeError, setTypeError] = useState("");
 
   const CustomerOverView = state.UsersList.customerdetails;
-  console.log("CustomerOverView", CustomerOverView?.effectiveFromMonth);
+  // console.log("CustomerOverView", CustomerOverView?.effectiveFromMonth);
 
   const type = [
     { value: "Edit-Rent", label: "Edit Rent" },

@@ -202,7 +202,7 @@ const RentalReceiptPdfTemplate = ({
   const [logoPreview, setLogoPreview] = useState(null);
   const [hostel_logo, setHostelLogo] = useState(null);
 
-  console.log("logoPreview", logoPreview);
+  // console.log("logoPreview", logoPreview);
 
   useEffect(() => {
     const appearOptions = {

@@ -2102,6 +2102,25 @@ function UserListRoomDetail(props) {
     }
   }, [state.Booking.StatusCodeInactiveCode]);
 
+
+useEffect(() => {
+    if (state.UsersList.statusCodeForFinalSettlement === 201) {
+        
+     dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      
+    }
+  }, [state.UsersList.statusCodeForFinalSettlement]);
+
+
+
+
+
+
+
+
   // useEffect(() => {
   //   if (
   //     state.UsersList.statusCodeForDueCustomer === 200 ||

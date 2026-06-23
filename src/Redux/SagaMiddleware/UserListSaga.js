@@ -109,7 +109,7 @@ function* handleApiError(error) {
 function* handleSettlementPayemntExpense(settle) {
   try {
     const response = yield call(settlePaymentExpense, settle.payload);
-    console.log("response", response)
+    // console.log("response", response)
 
     if (response?.status === 200) {
       yield put({
@@ -146,7 +146,7 @@ function* handleSettlementPayemntExpense(settle) {
     }
   } catch (error) {
     yield* handleApiError(error);
-console.log("errorrrrrr", error)
+// console.log("errorrrrrr", error)
      if (error) {
 
       yield put({
@@ -160,7 +160,7 @@ console.log("errorrrrrr", error)
 
 function* handleSettlementPayemnt(settle) {
   try {
-    console.log("Saga Payload:", settle.payload);
+    // console.log("Saga Payload:", settle.payload);
     const response = yield call(settlePayment, settle.payload);
 
     if (response?.status === 200) {
@@ -222,7 +222,7 @@ function* handleSaveDraft(draft) {
   try {
     const response = yield call(SaveDraftTenant, draft.payload);
 
-    console.log("response", response);
+    // console.log("response", response);
 
     if (response?.status === 201) {
       yield put({

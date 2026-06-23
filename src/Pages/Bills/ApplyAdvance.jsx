@@ -71,7 +71,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
     );
   };
 
-  console.log("label", label);
+  // console.log("label", label);
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -148,11 +148,6 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
       dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
-
-  console.log(
-    "state?.Booking?.applyRedeemError",
-    state?.Booking?.applyRedeemError,
-  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">

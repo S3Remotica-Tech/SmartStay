@@ -37,7 +37,7 @@ function VendorOverView({
   const handleShow = () => {
     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
-        isVendorWay: true,
+        isVendorOverViewWay: true,
       },
     });
   };

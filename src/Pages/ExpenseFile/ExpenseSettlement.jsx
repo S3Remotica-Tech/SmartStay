@@ -204,7 +204,15 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
   });
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
+  const parseDate = (dateString) => {
+    if (!dateString) return null;
 
+    const [day, month, year] = dateString.split("/");
+
+    return new Date(year, month - 1, day);
+  };
+
+  const transactionDate = parseDate(expenseOverView?.transactionDate);
   const initializaExpense = state.ExpenseList.getInitializeExpenseList;
 
   // console.log("initializaExpense", initializaExpense);
@@ -482,6 +490,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   customInput={<input ref={paidDateRef} />}
+                  minDate={transactionDate}
                   maxDate={new Date()}
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
                   ${
@@ -717,6 +726,13 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
             </div>
           </div>
         </div>
+
+        {state.UsersList.expenseSettleError && (
+          <ErrorMessage
+            message={state.UsersList.expenseSettleError}
+            type="error"
+          />
+        )}
         <div className="flex justify-end gap-4 my-4 mr-4">
           <button
             onClick={handleClose}

@@ -1,20 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import ReceiptList from "../../Pages/Receipt/ReceiptList";
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  Table,
-  Button,
-  FormControl,
-} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
-import "../Bills/Invoices.css";
 import "flatpickr/dist/themes/material_blue.css";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";

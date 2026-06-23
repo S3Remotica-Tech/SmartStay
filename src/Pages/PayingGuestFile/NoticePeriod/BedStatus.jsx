@@ -199,7 +199,7 @@ function NoticeBedStatusDetails({
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
   const handleReAssignBed = (currentItem) => {
-    console.log("currentItem", currentItem);
+    // console.log("currentItem", currentItem);
     handleShowReassignBed(true, currentItem);
   };
 
@@ -259,7 +259,7 @@ function NoticeBedStatusDetails({
     ) &&
     currentItem?.currentTenantInfo?.some((t) => t.currentStatus === "NOTICE");
 
-  console.log("hasCheckinAndNotice", hasCheckinAndNotice);
+  // console.log("hasCheckinAndNotice", hasCheckinAndNotice);
   return (
     <>
       <div className="modal show block static font-gilroy">

@@ -68,7 +68,7 @@ function RecurringBills() {
   }, [state.UsersList?.accessRestrictionError]);
 
   const handleClick = (stayType) => {
-    console.log("stayType", stayType);
+    // console.log("stayType", stayType);
     setActiveStay(stayType);
   };
 

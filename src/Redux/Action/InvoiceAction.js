@@ -29,6 +29,13 @@ export async function RecordPayment(hostelId, invoiceId, data) {
   );
 }
 
+export async function ReceiptCustomizeData(receipt) {
+  return await AxiosConfigV2.put(
+    `/v2/table-config/receipt/${receipt.hostelId}`,
+    receipt.customize,
+  );
+}
+
 export function ManualInvoice() {
   new Promise((resolve) => {
     resolve({ status: 200 });

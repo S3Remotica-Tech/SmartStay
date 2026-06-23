@@ -71,7 +71,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     }
   };
 
-  console.log("CustomerOverView", CustomerOverView);
+  // console.log("CustomerOverView", CustomerOverView);
 
   // useEffect(() => {
   //   if (isPreviousBed?.currentTenantInfo?.[0]?.tenetId) {

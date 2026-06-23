@@ -26,6 +26,7 @@ import {
   Chart2,
   DocumentText,
   Buildings,
+  Calendar,
 } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
@@ -115,6 +116,9 @@ import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
 import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
 import BankingNew from "../Pages/Banking/BankingNew";
 import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
+import ReceiptNew from "../Pages/Receipt/ReceiptNew";
+import RetainerInvoice from "../Pages/RetainerInvoice/RetainerInvoice";
+import AddRetainerInvoice from "../Pages/RetainerInvoice/AddRetainerInvoice";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -155,6 +159,8 @@ function Sidebar() {
 
     "/recurring/:hostelId": "recurring",
     "/receipts/:hostelId": "receipts",
+    "/receipts/new/:hostelId": "receipts-new",
+    "/retainer-invoice/:hostelId": "retainer-invoice",
 
     "/vendor/:hostelId": "vendor",
     // "/vendor/new/:hostelId": "vendor-new",
@@ -192,7 +198,9 @@ function Sidebar() {
       currentPage === "invoice" ||
       currentPage === "booking" ||
       currentPage === "recurring" ||
-      currentPage === "receipts"
+      currentPage === "receipts" ||
+      currentPage === "receipts-new" ||
+      currentPage === "retainer-invoice"
     ) {
       setBillingOpen(true);
     } else {
@@ -227,11 +235,7 @@ function Sidebar() {
       }
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
-
-  // console.log("state.login", state.login);
   const lastPage = localStorage.getItem("lastPage");
-
-  // console.log("lastPagelastPage", lastPage);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -1329,6 +1333,84 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
+
+                        {isDevelopment && (
+                          <>
+                            <li className="list-none">
+                              <NavLink
+                                to={withHostel("/receipts/new/")}
+                                className={({ isActive }) =>
+                                  `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
+                                    isActive || currentPage === "receipts-new"
+                                      ? "active"
+                                      : ""
+                                  }`
+                                }
+                                onClick={() => handlePageClick("receipts")}
+                              >
+                                <OverlayTrigger
+                                  trigger={tooltipTrigger}
+                                  placement="right"
+                                  container={document.body}
+                                  delay={{ show: 200, hide: 0 }}
+                                  overlay={
+                                    <Tooltip className="custom-tooltip">
+                                      Receipts
+                                    </Tooltip>
+                                  }
+                                >
+                                  <DocumentText
+                                    variant="Bold"
+                                    size="22"
+                                    className="-mt-1"
+                                  />
+                                </OverlayTrigger>
+
+                                <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                  Receipts New
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="list-none">
+                              <NavLink
+                                to={withHostel("/retainer-invoice")}
+                                className={({ isActive }) =>
+                                  `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
+                                    isActive ||
+                                    currentPage === "retainer-invoice"
+                                      ? "active"
+                                      : ""
+                                  }`
+                                }
+                                onClick={() =>
+                                  handlePageClick("retainer-invoice")
+                                }
+                              >
+                                <OverlayTrigger
+                                  trigger={tooltipTrigger}
+                                  placement="right"
+                                  container={document.body}
+                                  delay={{ show: 200, hide: 0 }}
+                                  overlay={
+                                    <Tooltip className="custom-tooltip">
+                                      Retainer Invoice
+                                    </Tooltip>
+                                  }
+                                >
+                                  <Calendar
+                                    variant="Bold"
+                                    size="22"
+                                    className="-mt-1"
+                                  />
+                                </OverlayTrigger>
+
+                                <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                  Retainer Invoice
+                                </span>
+                              </NavLink>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </div>
                   )}
@@ -1665,6 +1747,33 @@ function Sidebar() {
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <BankingNew />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/add-retainer/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <AddRetainerInvoice />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/retainer-invoice/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <RetainerInvoice />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/receipts/new/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <ReceiptNew />
                       </div>
                     }
                   />

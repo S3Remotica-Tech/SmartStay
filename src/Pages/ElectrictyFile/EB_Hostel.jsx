@@ -142,12 +142,14 @@ const RoomReadingTable = () => {
     setSelectedRow(row);
     setShowModal(true);
     setEditRoomReading("");
+    setShowDotsRoom("");
   };
 
   const handleReadingDelete = (row) => {
     // console.log("delete", row)
     setShowDelete(true);
     setDeleteDetails(row);
+    setShowDotsRoom("");
   };
 
   const handleCloseDelete = () => {
@@ -311,6 +313,7 @@ const RoomReadingTable = () => {
     // console.log("rowData", rowData)
     setShowModal(true);
     setEditRoomReading(rowData);
+    setShowDotsRoom("");
   };
 
   const formattedReadings = customerReadingList?.map((item) => {
