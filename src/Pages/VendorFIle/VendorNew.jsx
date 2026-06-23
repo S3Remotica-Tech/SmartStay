@@ -969,7 +969,7 @@ function Vendor() {
                     </div>
 
                     <div className="text-lg font-semibold text-[#111827]">
-                      {item.value}
+                      ₹ {item.value}
                     </div>
                   </div>
                 </div>
