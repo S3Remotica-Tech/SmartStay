@@ -48,8 +48,8 @@ function VendorDetailsOverview({ handleSelected }) {
   const chartData =
     VendorOverView?.monthSummary?.map((item) => ({
       month: item.month,
-      paid: item.totalPaidAmount,
-      unPaid: item.totalUnpaidAmount + item.totalPartialAmount,
+      paid: item.paidAmount,
+      unPaid: item.balanceAmount,
     })) || [];
 
   const vendorInfoFields = [
@@ -65,7 +65,9 @@ function VendorDetailsOverview({ handleSelected }) {
     },
     {
       label: "Business Mobile No",
-      value: VendorOverView.mobile || "---",
+      value:
+        `+ ${VendorOverView.businessMobileCode} ${VendorOverView.mobile}` ||
+        "---",
       icon: <Call size={16} />,
     },
     {
@@ -75,7 +77,11 @@ function VendorDetailsOverview({ handleSelected }) {
     },
     {
       label: "Contact Person Mobile",
-      value: VendorOverView.contactPersonMobile || "---",
+      value:
+        VendorOverView.contactPersonMobileCode &&
+        VendorOverView.contactPersonMobile
+          ? `+${VendorOverView.contactPersonMobileCode} ${VendorOverView.contactPersonMobile}`
+          : "---",
       icon: <Call size={16} />,
     },
     {

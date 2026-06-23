@@ -275,13 +275,11 @@ function* handleUpdateVendor(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({
-          type: "ALREADY_VENDOR_ERROR",
-          payload: error.response.data,
-        });
-      }
+    if (error) {
+      yield put({
+        type: "ALREADY_VENDOR_ERROR",
+        payload: error.response.data,
+      });
     }
   }
 }
@@ -570,13 +568,12 @@ function* handleAddVendor(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({
-          type: "ALREADY_VENDOR_ERROR",
-          payload: error.response.data,
-        });
-      }
+    console.log("error", error);
+    if (error) {
+      yield put({
+        type: "ALREADY_VENDOR_ERROR",
+        payload: error.response.data,
+      });
     }
   }
 }

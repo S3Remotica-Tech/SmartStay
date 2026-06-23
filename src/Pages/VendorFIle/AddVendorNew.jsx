@@ -539,8 +539,7 @@ function AddVendorNew() {
   };
 
   const handleBusinessMobileChange = (e) => {
-    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-
+    dispatch({ type: "CLEAR_VENDOR_MOBILE_ERROR" });
     setNochanges("");
     const value = e.target.value.replace(/\D/g, "");
     setBusinessMobile(value);
@@ -617,6 +616,7 @@ function AddVendorNew() {
 
     // setVendorPhoneError("");
     setVendorEmailError("");
+    dispatch({ type: "CLEAR_VENDOR_EMAIL_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
   };
@@ -631,7 +631,6 @@ function AddVendorNew() {
   };
 
   const handleMobileChange = (e) => {
-    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
     setNochanges("");
 
@@ -651,7 +650,6 @@ function AddVendorNew() {
     setGeneralError("");
     setCountryCodeError("");
     setIsChangedError("");
-    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
   };
 
   const handleEmailChange = (e) => {
@@ -662,7 +660,7 @@ function AddVendorNew() {
     setIsChangedError("");
     setEmailError("");
     setVendorEmailError("");
-    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+    dispatch({ type: "CLEAR_VENDOR_EMAIL_ERROR" });
 
     if (email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -675,12 +673,12 @@ function AddVendorNew() {
     }
   };
 
-  console.log("vendorCategory", vendorCategory);
+  // console.log("vendorCategory", vendorCategory);
 
   const handleAddVendor = () => {
     setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+
     setFirstNameError("");
     setVendorCategoryError("");
     setBusinessMobileError("");
@@ -927,6 +925,7 @@ function AddVendorNew() {
             mobile: businessMobile,
             businessMobileCode: businessCountryCode?.value || "",
             contactPersonMobileCode: countryCode.value || "",
+            contactPersonMobile: vendor_Mobile,
             mailId: email_Id,
             houseNo: house_no,
             landmark: landmark,
@@ -996,7 +995,9 @@ function AddVendorNew() {
       setPinCode(vendorOverView.pinCode ? String(vendorOverView.pinCode) : "");
 
       setContactPersonName(vendorOverView.contactPerson || "");
+      setCountryCode();
       setVendor_Mobile(vendorOverView.contactPersonMobile);
+
       setDescription(vendorOverView.description || "");
       setGstNumber(vendorOverView.gst || "");
       setPanNumber(vendorOverView.pan || "");
@@ -1016,13 +1017,13 @@ function AddVendorNew() {
       );
 
       setCountryCode({
-        value: vendorOverView.countryCode || "91",
-        label: `+${vendorOverView.countryCode || "91"}`,
+        value: vendorOverView.contactPersonMobileCode || "91",
+        label: `+${vendorOverView.contactPersonMobileCode || "91"}`,
       });
 
       setBusinessCountryCode({
-        value: vendorOverView.countryCode || "91",
-        label: `+${vendorOverView.countryCode || "91"}`,
+        value: vendorOverView.businessMobileCode || "91",
+        label: `+${vendorOverView.businessMobileCode || "91"}`,
       });
 
       if (vendorOverView.vendorCategoryId) {
@@ -1076,12 +1077,24 @@ function AddVendorNew() {
   }, [currentItem]);
 
   useEffect(() => {
-    if (state.ComplianceList?.alreadyVendorHere) {
+    if (
+      state.ComplianceList.vendorEmailError ||
+      state.ComplianceList.vendorMobileError
+    ) {
       setFormLoading(false);
-      businessCountryCodeRef.current?.focus();
-      // setVendorPhoneError(state.ComplianceList?.alreadyVendorHere);
+
+      if (state.ComplianceList.vendorMobileError) {
+        businessMobileRef.current?.focus();
+      } else if (state.ComplianceList.vendorEmailError) {
+        emailRef.current?.focus();
+      }
     }
-  }, [state.ComplianceList?.alreadyVendorHere]);
+  }, [
+    state.ComplianceList.vendorEmailError,
+    state.ComplianceList.vendorMobileError,
+  ]);
+
+  // console.log("alreadyVendorHere", state.ComplianceList?.alreadyVendorHere);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -1235,10 +1248,9 @@ function AddVendorNew() {
                     type="error"
                   />
                 )}
-
-                {state.ComplianceList?.alreadyVendorHere && (
+                {state.ComplianceList?.vendorMobileError && (
                   <ErrorMessage
-                    message={state.ComplianceList?.alreadyVendorHere}
+                    message={state.ComplianceList.vendorMobileError}
                     type="error"
                   />
                 )}
@@ -1335,6 +1347,13 @@ function AddVendorNew() {
 
                 {emailError && (
                   <ErrorMessage message={emailError} type="error" />
+                )}
+
+                {state.ComplianceList?.vendorEmailError && (
+                  <ErrorMessage
+                    message={state.ComplianceList.vendorEmailError}
+                    type="error"
+                  />
                 )}
               </div>
             </div>

@@ -1425,7 +1425,7 @@ function Expenses() {
                                           }`}
                                           onClick={() => {
                                             if (canUpdateExpense) {
-                                              handleEditExpense(user);
+                                              // handleEditExpense(user);
                                             }
                                           }}
                                           onMouseEnter={(e) => {
