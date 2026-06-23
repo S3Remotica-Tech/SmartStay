@@ -679,7 +679,6 @@ function FinalSettlement() {
     const Finalsettelmenntdata = fields
       .filter((f) => f.reason_name && f.amount)
       .map((f) => {
-        const reason = f.reason_name.toLowerCase();
         const userAmount = Number(f.amount) || 0;
 
         if (f.isSystemGenerated === true) {
@@ -696,15 +695,10 @@ function FinalSettlement() {
           };
         }
 
-        if (!apiMap.has(reason)) {
-          return { item: f.reason_name, amount: userAmount };
-        }
-
-        if (f.isSystemGenerated === false) {
-          return { item: f.reason_name, amount: userAmount };
-        }
-
-        return null;
+        return {
+          item: f.reason_name,
+          amount: userAmount,
+        };
       })
       .filter(Boolean);
 
