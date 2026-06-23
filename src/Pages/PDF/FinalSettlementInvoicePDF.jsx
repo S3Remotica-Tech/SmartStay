@@ -38,6 +38,13 @@ import { TiTick } from "react-icons/ti";
 function FinalSettlementInvoicePDF() {
   const state = useSelector((state) => state);
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
+
+  const finalAmount = Number(pdfDetails?.invoiceInfo?.finalAmount || 0);
+
+  const originalAmount = Number(pdfDetails?.invoiceInfo?.finalAmount || 0);
+  const roundedAmount = Math.round(originalAmount);
+  const isRefundable = finalAmount < 0;
+
   const templateColor = pdfDetails?.configInfo?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
   const showRentalPeriod =
@@ -465,32 +472,37 @@ function FinalSettlementInvoicePDF() {
 
               <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
                 ₹0
-                {/* {pdfDetails?.walletInfo?.totalWalletAmount || 0} */}
               </p>
             </div>
           </div>
 
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
-              {Number(pdfDetails?.invoiceInfo?.totalPayable) !== 0 && (
-                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                  <span>Payable Rent </span>
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                <span>Total Refundable</span>
 
-                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                    ₹ {pdfDetails?.invoiceInfo?.totalPayable}
-                  </span>
-                </div>
-              )}
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                  ₹ {pdfDetails?.invoiceInfo?.totalRefundable}
+                </span>
+              </div>
+              <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
+                <span>Total Recoverable </span>
 
-              {Number(pdfDetails?.invoiceInfo?.totalRefundable) !== 0 && (
-                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                  <span>Total Refundable</span>
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                  ₹ {pdfDetails?.invoiceInfo?.totalPayable}
+                </span>
+              </div>
 
-                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                    ₹ {pdfDetails?.invoiceInfo?.totalRefundable}
-                  </span>
-                </div>
-              )}
+              <div className="w-full h-[1px] bg-gray-100" />
+
+              <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
+                <span>Sub Total</span>
+
+                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                  ₹ {pdfDetails?.invoiceInfo?.subTotal}
+                </span>
+              </div>
+
               <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Tax-GST (0%)</span>
 
@@ -507,17 +519,7 @@ function FinalSettlementInvoicePDF() {
                 </span>
               </div>
 
-              {Number(pdfDetails?.invoiceInfo?.unpaidInvoiceAmount) !== 0 && (
-                <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                  <span>Unpaid Invoices</span>
-
-                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                    ₹ {pdfDetails?.invoiceInfo?.unpaidInvoiceAmount}
-                  </span>
-                </div>
-              )}
-
-              {pdfDetails?.walletInfo?.totalWalletAmount !== 0 && (
+              {/* {pdfDetails?.walletInfo?.totalWalletAmount !== 0 && (
                 <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                   <span>Wallet</span>
 
@@ -525,17 +527,19 @@ function FinalSettlementInvoicePDF() {
                     ₹ {pdfDetails?.walletInfo?.totalWalletAmount}
                   </span>
                 </div>
-              )}
+              )} */}
 
               <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
-                <span>Discount</span>
+                <span>Discount Applied</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
                   ₹ 0
                 </span>
               </div>
 
-              {Number(pdfDetails?.invoiceInfo?.electricityAmount) !== 0 && (
+              {/* <div className="w-full h-[1px] bg-gray-100" /> */}
+
+              {/* {Number(pdfDetails?.invoiceInfo?.electricityAmount) !== 0 && (
                 <div className="flex justify-between items-start whitespace-nowrap gap-3 text-[10px] text-[#1A1C21]">
                   <span>Electricity Bill</span>
 
@@ -543,13 +547,33 @@ function FinalSettlementInvoicePDF() {
                     ₹ {pdfDetails?.invoiceInfo?.electricityAmount}
                   </span>
                 </div>
-              )}
+              )} */}
               <div className="flex justify-between items-start pt-3 border-t border-[#E5E7EB] text-[10px] font-semibold text-[#1A1C21] gap-3">
-                <span>Total</span>
+                <div className="flex flex-col">
+                  <span className="text-[#1A1C21] font-semibold">
+                    {isRefundable
+                      ? "Total Refund Amount"
+                      : "Total Outstanding Payable"}
+                  </span>
 
-                <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ {pdfDetails?.invoiceInfo?.finalAmount}
-                </span>
+                  <span className="text-[#64748B] font-semibold text-[8px]">
+                    {isRefundable ? "Admin → Tenant" : "Tenant → Admin"}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
+                    ₹ {roundedAmount.toLocaleString("en-IN")}
+                  </span>
+                  {originalAmount !== roundedAmount && (
+                    <span className="text-[#64748B] font-semibold text-[8px]">
+                      (Rounded off) ₹{" "}
+                      {originalAmount.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>

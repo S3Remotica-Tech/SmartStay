@@ -723,13 +723,13 @@ function AddExpenseNew() {
       }));
       return;
     }
-    if (itemsTotal > total) {
-      setErrors((prev) => ({
-        ...prev,
-        totalAmount: "Expense items total cannot exceed Total Amount",
-      }));
-      return;
-    }
+    // if (itemsTotal > total) {
+    //   setErrors((prev) => ({
+    //     ...prev,
+    //     totalAmount: "Expense items total cannot exceed Total Amount",
+    //   }));
+    //   return;
+    // }
 
     if (Number(totalAmount.toFixed(2)) !== Number(total.toFixed(2))) {
       setErrors((prev) => ({
@@ -1498,7 +1498,7 @@ function AddExpenseNew() {
             <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
               <div
                 id="tableContainer"
-                className="overflow-auto relative h-[200px]  rounded-xl show-scrolls"
+                className="overflow-auto relative h-auto rounded-xl show-scrolls"
               >
                 <table className=" w-full font-gilroy ">
                   <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">

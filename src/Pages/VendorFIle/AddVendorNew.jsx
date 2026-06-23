@@ -366,6 +366,28 @@ function AddVendorNew() {
   const [houseNoError, setHouseNoError] = useState("");
   // const [landmarkError, setLandmarkError] = useState("");
 
+  const hasShownToast = useRef(false);
+
+  useEffect(() => {
+    if (state?.Settings?.vendorCategoryList) {
+      const category = state?.Settings?.vendorCategoryList || [];
+      if (category?.length === 0 && !hasShownToast.current) {
+        toast.error(
+          "Please add a Category option in Settings, accessible after adding an vendor",
+          {
+            style: {
+              fontFamily: "Gilroy, sans-serif",
+            },
+          },
+        );
+        hasShownToast.current = true;
+      }
+      setTimeout(() => {
+       dispatch({ type: "REMOVE_VENDOR_CATEGORY_LIST_REDUCER" });
+      }, 100);
+    }
+  }, [state?.Settings?.vendorCategoryList]);
+
   const vendorCategoryOptions =
     state?.Settings?.vendorCategoryList?.map((item) => ({
       value: item.id,
@@ -867,12 +889,15 @@ function AddVendorNew() {
         allowCredit: allowCreditPurchase,
         creditLimit: creditLimit || "",
         creditPeriod: creditPeriod || "",
-        // countryCode:
-        //   typeof countryCode === "object"
-        //     ? countryCode.value
-        //     : countryCode || "91",
         vendorCategory: vendorCategory || null,
       };
+      const normalize = (obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([key, value]) => [
+            key,
+            value === null || value === undefined ? "" : String(value).trim(),
+          ]),
+        );
 
       const hasChanges =
         JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
@@ -1036,28 +1061,37 @@ function AddVendorNew() {
         vendorName: vendorOverView.fullName || "",
         businessName: vendorOverView.businessName || "",
         businessMobile: vendorOverView.mobile || "",
+        businessMobileCode: vendorOverView.businessMobileCode || "91",
+
         email: vendorOverView.emailId || "",
+
         houseNo: vendorOverView.houseNo || "",
         landmark: vendorOverView.landMark || "",
         city: vendorOverView.city || "",
         state: vendorOverView.state || "",
         pinCode: vendorOverView.pinCode ? String(vendorOverView.pinCode) : "",
+
         contactPerson: vendorOverView.contactPerson || "",
         contactPersonMobile: vendorOverView.contactPersonMobile || "",
+        contactPersonMobileCode: vendorOverView.contactPersonMobileCode || "91",
+
         description: vendorOverView.description || "",
         gst: vendorOverView.gst || "",
         pan: vendorOverView.pan || "",
+
         allowCredit: vendorOverView.allowCredit ?? false,
+
         creditLimit:
           vendorOverView.creditLimit != null
             ? String(vendorOverView.creditLimit)
             : "",
+
         creditPeriod:
           vendorOverView.creditPeriod != null
             ? String(vendorOverView.creditPeriod)
             : "",
-        countryCode: vendorOverView.countryCode || "91",
-        vendorCategory: vendorOverView.vendorCategoryId || null,
+
+        vendorCategory: vendorOverView.vendorCategoryId ?? null,
       };
 
       setInitialVendorData(initialData);

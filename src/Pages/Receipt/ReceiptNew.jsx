@@ -12,7 +12,13 @@ import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import AddReceiptForm from "../Receipt/AddReceipt";
 import { toast } from "react-toastify";
-import { CloseCircle, SearchNormal1, Setting3, Filter } from "iconsax-react";
+import {
+  CloseCircle,
+  SearchNormal1,
+  Setting3,
+  Filter,
+  ArrowDown,
+} from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -552,7 +558,28 @@ function ReceiptNew() {
     });
   };
 
-  console.log("state", state);
+  // console.log("state", state);
+
+  const stats = [
+    {
+      title: "Total Receipts",
+      value: state.InvoiceList?.getCustomizeReceiptList?.totalReceipt,
+      icon: true,
+      highlight: true,
+    },
+    {
+      title: "Total Amount",
+      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.totalAmount}`,
+    },
+    {
+      title: "Collected Amount",
+      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.paidAmount}`,
+    },
+    {
+      title: "Refunded Amount",
+      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.refundAmount}`,
+    },
+  ];
 
   useEffect(() => {
     if (state.InvoiceList.getReceiptSucessStatus === 200) {
@@ -930,354 +957,383 @@ function ReceiptNew() {
             <PermissionDeniedMessage />
           </>
         ) : (
-          // <div className="relative flex flex-col h-[calc(100vh-80px)]">
-          <div className="relative flex flex-col flex-1 min-h-0">
-            {receiptLoader && (
-              <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
-                <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
-              </div>
-            )}
+          <div>
+            <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-4 flex items-center gap-24 font-gilroy ">
+              {stats?.map((item, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  {item.highlight && (
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                      {item.icon && (
+                        <ArrowDown
+                          color="#16A34A"
+                          size={18}
+                          className="rotate-[310deg]"
+                        />
+                      )}
+                    </div>
+                  )}
 
-            {pdfLoading && (
-              <div className="fixed inset-0 flex items-center justify-center  bg-transparent opacity-75 z-10">
-                <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-              </div>
-            )}
+                  <div>
+                    <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                      {item.title}
+                    </div>
 
-            <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
-              <div className="flex flex-wrap items-center gap-3">
-                <div
-                  className={`border border-gray-300 rounded-lg w-36 ${
-                    receiptType ? "bg-gray-100 text-gray-700" : "bg-white"
-                  }`}
-                >
-                  <Select
-                    styles={CustomStyles}
-                    isDisabled={!canReadReceipt}
-                    menuPlacement="auto"
-                    classNamePrefix="custom"
-                    id="statusselect"
-                    options={typeOptions}
-                    value={
-                      typeOptions.find(
-                        (option) => option.value === receiptType,
-                      ) || null
-                    }
-                    placeholder="Select  Type"
-                    onChange={(option) => setReceiptType(option?.value || "")}
-                  />
+                    <div className="text-lg font-semibold text-[#111827]">
+                      {item.value}
+                    </div>
+                  </div>
                 </div>
-
-                <div
-                  className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                >
-                  <Filter
-                    size={16}
-                    onClick={(e) => {
-                      if (canReadReceipt) {
-                        e.stopPropagation();
-                        handleClickFilter();
-                      }
-                    }}
-                    className={`transition-opacity duration-300 ${
-                      canReadReceipt
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
-                  />
-                </div>
-              </div>
-
-              <div className={` flex items-center justify-end gap-2 mr-2 `}>
-                <div>
-                  <Setting3
-                    // onClick={() => {
-                    //   setOpen(!open);
-                    // }}
-                    className="cursor-pointer"
-                    size="22"
-                    color="#4B4B4B"
-                  />
-                </div>
-
-                {formattedData?.length > 0 && (
-                  <ApiPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    totalRecords={totalRecords}
-                    onPageChange={handlePageChange}
-                    onSizeChange={handleSizeChange}
-                    isTenantPagination={true}
-                    size={size}
-                  />
-                )}
-              </div>
+              ))}
             </div>
-
-            {chips?.length > 0 && (
-              <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
-                <div className="flex flex-wrap gap-2 flex-1">
-                  {chips.map((chip) => (
-                    <span
-                      key={chip.key}
-                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
-                    >
-                      {chip.label} :
-                      <span className="text-gray-900">{chip.value}</span>
-                    </span>
-                  ))}
+            <div className="relative flex flex-col flex-1 min-h-0">
+              {receiptLoader && (
+                <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                  <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
                 </div>
-                <span
-                  className="text-blue-600 text-sm font-medium cursor-pointer"
-                  onClick={handleReset}
-                >
-                  Reset
-                </span>
+              )}
+
+              {pdfLoading && (
+                <div className="fixed inset-0 flex items-center justify-center  bg-transparent opacity-75 z-10">
+                  <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+
+              <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div
+                    className={`border border-gray-300 rounded-lg w-36 ${
+                      receiptType ? "bg-gray-100 text-gray-700" : "bg-white"
+                    }`}
+                  >
+                    <Select
+                      styles={CustomStyles}
+                      isDisabled={!canReadReceipt}
+                      menuPlacement="auto"
+                      classNamePrefix="custom"
+                      id="statusselect"
+                      options={typeOptions}
+                      value={
+                        typeOptions.find(
+                          (option) => option.value === receiptType,
+                        ) || null
+                      }
+                      placeholder="Select  Type"
+                      onChange={(option) => setReceiptType(option?.value || "")}
+                    />
+                  </div>
+
+                  <div
+                    className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                  >
+                    <Filter
+                      size={16}
+                      onClick={(e) => {
+                        if (canReadReceipt) {
+                          e.stopPropagation();
+                          handleClickFilter();
+                        }
+                      }}
+                      className={`transition-opacity duration-300 ${
+                        canReadReceipt
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className={` flex items-center justify-end gap-2 mr-2 `}>
+                  <div>
+                    <Setting3
+                      // onClick={() => {
+                      //   setOpen(!open);
+                      // }}
+                      className="cursor-pointer"
+                      size="22"
+                      color="#4B4B4B"
+                    />
+                  </div>
+
+                  {formattedData?.length > 0 && (
+                    <ApiPagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      totalRecords={totalRecords}
+                      onPageChange={handlePageChange}
+                      onSizeChange={handleSizeChange}
+                      isTenantPagination={true}
+                      size={size}
+                    />
+                  )}
+                </div>
               </div>
-            )}
 
-            {formattedData?.length > 0 ? (
-              <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                <div
-                  id="tableContainer"
-                  ref={tableContainerRef}
-                  className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
-                >
-                  <table className=" w-full font-gilroy ">
-                    <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
-                      <tr className="h-9">
-                        {selectedColumns?.map((col, index) => {
-                          let stickyClass = "";
+              {chips?.length > 0 && (
+                <div className="flex flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+                  <div className="flex flex-wrap gap-2 flex-1">
+                    {chips.map((chip) => (
+                      <span
+                        key={chip.key}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                      >
+                        {chip.label} :
+                        <span className="text-gray-900">{chip.value}</span>
+                      </span>
+                    ))}
+                  </div>
+                  <span
+                    className="text-blue-600 text-sm font-medium cursor-pointer"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </span>
+                </div>
+              )}
 
-                          if (index === 0) {
-                            stickyClass =
-                              "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
-                          }
+              {formattedData?.length > 0 ? (
+                <div className="bg-white    rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                  <div
+                    id="tableContainer"
+                    ref={tableContainerRef}
+                    className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                  >
+                    <table className=" w-full font-gilroy ">
+                      <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                        <tr className="h-9">
+                          {selectedColumns?.map((col, index) => {
+                            let stickyClass = "";
 
-                          return (
-                            <th
-                              key={col.key}
-                              className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
-                            >
-                              {col.fieldName}
-                            </th>
-                          );
-                        })}
+                            if (index === 0) {
+                              stickyClass =
+                                "sticky left-[0px] z-40 bg-[#F9FAFB] w-[80px]";
+                            }
 
-                        <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Array.isArray(formattedData) &&
-                        formattedData?.length > 0 &&
-                        formattedData?.map((user, index) => {
-                          return (
-                            <tr
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                              key={index}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8]  
+                            return (
+                              <th
+                                key={col.key}
+                                className={`px-4 py-2.5 uppercase whitespace-nowrap text-start ${stickyClass}`}
+                              >
+                                {col.fieldName}
+                              </th>
+                            );
+                          })}
+
+                          <th className="px-4 py-2.5 uppercase sticky right-0 z-20 bg-[#F9FAFB] text-center">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.isArray(formattedData) &&
+                          formattedData?.length > 0 &&
+                          formattedData?.map((user, index) => {
+                            return (
+                              <tr
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                                key={index}
+                                className="text-sm font-gilroy border-b border-[#E8E8E8]  
                                         cursor-pointer group  hover:!bg-gray-50 !h-10"
-                            >
-                              {selectedColumns?.map((col, index) => {
-                                const baseClass = ` 
+                              >
+                                {selectedColumns?.map((col, index) => {
+                                  const baseClass = ` 
     ${columnStyles[col.fieldName] || "px-4"}
     hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
   `;
 
-                                let stickyClass = "";
+                                  let stickyClass = "";
 
-                                if (index === 0) {
-                                  stickyClass = `sticky left-[0px] z-20 w-[80px] ${
-                                    isScrolling ? "!bg-white" : "!bg-white"
-                                  }`;
-                                }
+                                  if (index === 0) {
+                                    stickyClass = `sticky left-[0px] z-20 w-[80px] ${
+                                      isScrolling ? "!bg-white" : "!bg-white"
+                                    }`;
+                                  }
 
-                                const finalClass = `${baseClass} ${stickyClass}`;
+                                  const finalClass = `${baseClass} ${stickyClass}`;
 
-                                let value;
+                                  let value;
 
-                                switch (col.key) {
-                                  case "receiptNo":
-                                    value = (
-                                      <span
-                                        className="text-[#1E45E1] cursor-pointer font-semibold hover:underline"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleReceiptClick(user);
-                                        }}
-                                      >
-                                        {user.receiptNo || "-"}
-                                      </span>
-                                    );
-                                    break;
-
-                                  case "name":
-                                    value = (
-                                      <div
-                                        className="flex items-center gap-2 cursor-pointer py-1"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleNavigateTenantProfile(user);
-                                        }}
-                                      >
-                                        {user?.profilePic ? (
-                                          <img
-                                            src={user.profilePic}
-                                            alt="profile"
-                                            className="w-6 h-6 rounded-full object-cover flex-shrink-0"
-                                          />
-                                        ) : (
-                                          <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] flex-shrink-0">
-                                            {user?.initials || "-"}
-                                          </div>
-                                        )}
-
-                                        <span className="truncate max-w-[120px] leading-5 text-[#1E45E1] cursor-pointer font-semibold hover:underline">
-                                          {user.name || "-"}
+                                  switch (col.key) {
+                                    case "receiptNo":
+                                      value = (
+                                        <span
+                                          className="text-[#1E45E1] cursor-pointer font-semibold hover:underline"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleReceiptClick(user);
+                                          }}
+                                        >
+                                          {user.receiptNo || "-"}
                                         </span>
-                                      </div>
-                                    );
-                                    break;
+                                      );
+                                      break;
 
-                                  case "referenceId":
-                                    value = user.referenceId || "-";
-                                    break;
+                                    case "name":
+                                      value = (
+                                        <div
+                                          className="flex items-center gap-2 cursor-pointer py-1"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleNavigateTenantProfile(user);
+                                          }}
+                                        >
+                                          {user?.profilePic ? (
+                                            <img
+                                              src={user.profilePic}
+                                              alt="profile"
+                                              className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                                            />
+                                          ) : (
+                                            <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] flex-shrink-0">
+                                              {user?.initials || "-"}
+                                            </div>
+                                          )}
 
-                                  case "invoiceNo":
-                                    value = user.invoiceNo || "-";
-                                    break;
+                                          <span className="truncate max-w-[120px] leading-5 text-[#1E45E1] cursor-pointer font-semibold hover:underline">
+                                            {user.name || "-"}
+                                          </span>
+                                        </div>
+                                      );
+                                      break;
 
-                                  case "date":
-                                    value = user.date || "-";
-                                    break;
+                                    case "referenceId":
+                                      value = user.referenceId || "-";
+                                      break;
 
-                                  case "type":
-                                    value = user.type || "-";
-                                    break;
+                                    case "invoiceNo":
+                                      value = user.invoiceNo || "-";
+                                      break;
 
-                                  case "paymentMode":
-                                    value = user.paymentMode || "-";
-                                    break;
+                                    case "date":
+                                      value = user.date || "-";
+                                      break;
 
-                                  case "amount":
-                                    value = user.amount || 0;
-                                    break;
+                                    case "type":
+                                      value = user.type || "-";
+                                      break;
 
-                                  default:
-                                    value = user[col.key] ?? "-";
-                                }
+                                    case "paymentMode":
+                                      value = user.paymentMode || "-";
+                                      break;
 
-                                return (
-                                  <td
-                                    key={col.key}
-                                    className={`${finalClass} align-middle py-1`}
-                                  >
-                                    {value}
-                                  </td>
-                                );
-                              })}
+                                    case "amount":
+                                      value = user.amount || 0;
+                                      break;
 
-                              <td
-                                className={`${
-                                  isScrolling ? "!bg-white" : "bg-white"
-                                } px-4  sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
-                              >
-                                {" "}
-                                <div
-                                  className="relative flex cursor-pointer items-center justify-center"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleShowDots(user.transactionId, e);
-                                  }}
-                                >
-                                  <PiDotsThreeOutlineVerticalFill
-                                    className={`h-5 w-5 rotate-90 ${
-                                      activeRow === user.transactionId
-                                        ? "text-[#1E45E1]"
-                                        : "text-gray-500"
-                                    }`}
-                                  />
+                                    default:
+                                      value = user[col.key] ?? "-";
+                                  }
 
-                                  {activeRow === user.transactionId && (
-                                    <div
-                                      ref={popupRef}
-                                      className="fixed z-[9999] w-fit rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 shadow-md"
-                                      style={{
-                                        top: showAbove
-                                          ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight ||
-                                              120) -
-                                            10
-                                          : popupPosition.top + 5,
-                                        left: popupPosition.left - 180,
-                                      }}
+                                  return (
+                                    <td
+                                      key={col.key}
+                                      className={`${finalClass} align-middle py-1`}
                                     >
-                                      <div className="flex flex-col gap-1">
-                                        <button
-                                          type="button"
-                                          disabled={!canDeleteReceipt}
-                                          onClick={() => handleDeleteForm(user)}
-                                          className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${
-                                            canDeleteReceipt
-                                              ? "cursor-pointer hover:bg-[#FFF0F0]"
-                                              : "cursor-not-allowed opacity-50"
-                                          }`}
-                                        >
-                                          <img
-                                            src={Delete}
-                                            alt="Delete"
-                                            className="h-4 w-4"
-                                          />
-                                          <span className="font-gilroy text-[14px] font-medium text-[#FF0000]">
-                                            Delete
-                                          </span>
-                                        </button>
+                                      {value}
+                                    </td>
+                                  );
+                                })}
 
-                                        <button
-                                          type="button"
-                                          disabled={!isExportAllow}
-                                          onClick={() =>
-                                            handleReceiptDetail(user)
-                                          }
-                                          className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${
-                                            isExportAllow
-                                              ? "cursor-pointer hover:bg-[#EDF2FF]"
-                                              : "cursor-not-allowed opacity-50"
-                                          }`}
-                                        >
-                                          <img
-                                            src={Download}
-                                            alt="Download"
-                                            className="h-4 w-4"
-                                          />
-                                          <span className="font-gilroy text-[14px] font-medium text-[#222222]">
-                                            Download
-                                          </span>
-                                        </button>
+                                <td
+                                  className={`${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4  sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                >
+                                  {" "}
+                                  <div
+                                    className="relative flex cursor-pointer items-center justify-center"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleShowDots(user.transactionId, e);
+                                    }}
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill
+                                      className={`h-5 w-5 rotate-90 ${
+                                        activeRow === user.transactionId
+                                          ? "text-[#1E45E1]"
+                                          : "text-gray-500"
+                                      }`}
+                                    />
+
+                                    {activeRow === user.transactionId && (
+                                      <div
+                                        ref={popupRef}
+                                        className="fixed z-[9999] w-fit rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 shadow-md"
+                                        style={{
+                                          top: showAbove
+                                            ? popupPosition.top -
+                                              (popupRef.current?.offsetHeight ||
+                                                120) -
+                                              10
+                                            : popupPosition.top + 5,
+                                          left: popupPosition.left - 180,
+                                        }}
+                                      >
+                                        <div className="flex flex-col gap-1">
+                                          <button
+                                            type="button"
+                                            disabled={!canDeleteReceipt}
+                                            onClick={() =>
+                                              handleDeleteForm(user)
+                                            }
+                                            className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${
+                                              canDeleteReceipt
+                                                ? "cursor-pointer hover:bg-[#FFF0F0]"
+                                                : "cursor-not-allowed opacity-50"
+                                            }`}
+                                          >
+                                            <img
+                                              src={Delete}
+                                              alt="Delete"
+                                              className="h-4 w-4"
+                                            />
+                                            <span className="font-gilroy text-[14px] font-medium text-[#FF0000]">
+                                              Delete
+                                            </span>
+                                          </button>
+
+                                          <button
+                                            type="button"
+                                            disabled={!isExportAllow}
+                                            onClick={() =>
+                                              handleReceiptDetail(user)
+                                            }
+                                            className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${
+                                              isExportAllow
+                                                ? "cursor-pointer hover:bg-[#EDF2FF]"
+                                                : "cursor-not-allowed opacity-50"
+                                            }`}
+                                          >
+                                            <img
+                                              src={Download}
+                                              alt="Download"
+                                              className="h-4 w-4"
+                                            />
+                                            <span className="font-gilroy text-[14px] font-medium text-[#222222]">
+                                              Download
+                                            </span>
+                                          </button>
+                                        </div>
                                       </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </div>
-                {open && (
-                  <>
-                    <div
-                      className="fixed inset-0 bg-black/20 z-50 "
-                      onClick={() => setOpen(false)}
-                    />
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                  {open && (
+                    <>
+                      <div
+                        className="fixed inset-0 bg-black/20 z-50 "
+                        onClick={() => setOpen(false)}
+                      />
 
-                    <div
-                      className={`
+                      <div
+                        className={`
             fixed top-[180px] right-10 h-fit w-[350px]
             bg-white z-50
             border-r border-[#E5E7EB]
@@ -1285,126 +1341,127 @@ function ReceiptNew() {
             transform transition-transform duration-300 ease-in-out
             ${open ? "translate-x-0" : "-translate-x-full"}
           `}
-                    >
-                      <div className="relative font-gilroy">
-                        <div className="p-3 border-b ">
-                          <div className="flex items-center gap-2 justify-between mb-2">
-                            <div className="text-[16px] text-[#333333] font-semibold ">
-                              Customize Tabs{" "}
+                      >
+                        <div className="relative font-gilroy">
+                          <div className="p-3 border-b ">
+                            <div className="flex items-center gap-2 justify-between mb-2">
+                              <div className="text-[16px] text-[#333333] font-semibold ">
+                                Customize Tabs{" "}
+                              </div>
+                              <div
+                                onClick={() => {
+                                  setCustomizeItems((prev) =>
+                                    prev.map((i) => ({
+                                      ...i,
+                                      selected: !allSelected,
+                                    })),
+                                  );
+
+                                  setError("");
+                                }}
+                                className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                {" "}
+                                <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
+                                <span>
+                                  {allSelected ? "Unselect all" : "Select all"}
+                                </span>
+                              </div>
                             </div>
-                            <div
-                              onClick={() => {
-                                setCustomizeItems((prev) =>
-                                  prev.map((i) => ({
-                                    ...i,
-                                    selected: !allSelected,
-                                  })),
+
+                            <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                              <SearchNormal1 size={16} color="#98A2B3" />
+                              <input
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                placeholder="Search"
+                                className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
+                              />
+                            </div>
+                          </div>
+
+                          <DndContext
+                            collisionDetection={closestCenter}
+                            onDragEnd={(event) => {
+                              const { active, over } = event;
+                              if (!over) return;
+                              if (active.id !== over?.id) {
+                                const oldIndex = customizeItems.findIndex(
+                                  (i) => i.key === active.id,
+                                );
+                                const newIndex = customizeItems.findIndex(
+                                  (i) => i.key === over.id,
                                 );
 
-                                setError("");
-                              }}
-                              className="text-[#338BFF] text-[13px] font-semibold flex items-center gap-1 cursor-pointer"
-                            >
-                              {" "}
-                              <TiTick className="text-[#338BFF] text-[13px] font-semibold cursor-pointer" />{" "}
-                              <span>
-                                {allSelected ? "Unselect all" : "Select all"}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                            <SearchNormal1 size={16} color="#98A2B3" />
-                            <input
-                              value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
-                              placeholder="Search"
-                              className="w-full text-sm outline-none placeholder:text-[#98A2B3]"
-                            />
-                          </div>
-                        </div>
-
-                        <DndContext
-                          collisionDetection={closestCenter}
-                          onDragEnd={(event) => {
-                            const { active, over } = event;
-                            if (!over) return;
-                            if (active.id !== over?.id) {
-                              const oldIndex = customizeItems.findIndex(
-                                (i) => i.key === active.id,
-                              );
-                              const newIndex = customizeItems.findIndex(
-                                (i) => i.key === over.id,
-                              );
-
-                              setCustomizeItems(
-                                arrayMove(customizeItems, oldIndex, newIndex),
-                              );
-                            }
-                          }}
-                        >
-                          <SortableContext
-                            items={customizeItems.map((i) => i.key)}
-                            strategy={verticalListSortingStrategy}
+                                setCustomizeItems(
+                                  arrayMove(customizeItems, oldIndex, newIndex),
+                                );
+                              }
+                            }}
                           >
-                            <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
-                              {filteredCustomizeItems.length === 0 ? (
-                                <div className="text-sm text-gray-400 text-center py-3">
-                                  No results found
-                                </div>
-                              ) : (
-                                filteredCustomizeItems.map((item) => (
-                                  <SortableItem key={item.key} item={item} />
-                                ))
-                              )}
-                            </div>
-                          </SortableContext>
-                        </DndContext>
-                      </div>
-                      {error && (
-                        <div className="flex justify-center my-2">
-                          <ErrorMessage message={error} type="warning" />
+                            <SortableContext
+                              items={customizeItems.map((i) => i.key)}
+                              strategy={verticalListSortingStrategy}
+                            >
+                              <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
+                                {filteredCustomizeItems.length === 0 ? (
+                                  <div className="text-sm text-gray-400 text-center py-3">
+                                    No results found
+                                  </div>
+                                ) : (
+                                  filteredCustomizeItems.map((item) => (
+                                    <SortableItem key={item.key} item={item} />
+                                  ))
+                                )}
+                              </div>
+                            </SortableContext>
+                          </DndContext>
                         </div>
-                      )}
+                        {error && (
+                          <div className="flex justify-center my-2">
+                            <ErrorMessage message={error} type="warning" />
+                          </div>
+                        )}
 
-                      <div className="p-3 border-t flex gap-2">
-                        <button
-                          onClick={handleResetCustomize}
-                          className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          onClick={handleSave}
-                          disabled={customizeLoading}
-                          className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
-                        >
-                          {customizeLoading ? (
-                            <div className="flex items-center justify-center gap-2">
-                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              Saving...
-                            </div>
-                          ) : (
-                            "Save"
-                          )}
-                        </button>
+                        <div className="p-3 border-t flex gap-2">
+                          <button
+                            onClick={handleResetCustomize}
+                            className="flex-1 py-2 text-sm border rounded-lg text-[#344054]  font-gilroy"
+                          >
+                            Reset
+                          </button>
+                          <button
+                            onClick={handleSave}
+                            disabled={customizeLoading}
+                            className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg disabled:opacity-70  font-gilroy"
+                          >
+                            {customizeLoading ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Saving...
+                              </div>
+                            ) : (
+                              "Save"
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <NoDataMessage
-                label="Receipt"
-                isSearching={isSearching}
-                isClearSearch={true}
-                handleClear={() => {
-                  setSearchQuery("");
-                  setDebouncedSearch("");
-                  handleReset();
-                }}
-              />
-            )}
+                    </>
+                  )}
+                </div>
+              ) : (
+                <NoDataMessage
+                  label="Receipt"
+                  isSearching={isSearching}
+                  isClearSearch={true}
+                  handleClear={() => {
+                    setSearchQuery("");
+                    setDebouncedSearch("");
+                    handleReset();
+                  }}
+                />
+              )}
+            </div>
           </div>
         )}
       </div>
