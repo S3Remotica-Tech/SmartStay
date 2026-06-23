@@ -776,6 +776,9 @@ function ReceiptNew() {
   const formattedData =
     receiptData?.listReceipts?.map((item) => ({
       transactionId: item.transactionId,
+      customerId: item.customerId,
+      profilePic: item.profilePic,
+      initials: item.initials,
       receiptNo: item.transactionNumber || "-",
       name: item.fullName || "-",
       referenceId: item.referenceNumber || "-",
@@ -848,6 +851,41 @@ function ReceiptNew() {
   //     setCustomizeItems(formatted);
   //     setInitialCustomizeItems(formatted);
   //   }, [filteredData?.columnList]);
+
+  const handleReceiptClick = (item) => {
+    console.log("callledffffffffff");
+    if (item?.transactionId && state.login.selectedHostel_Id) {
+      dispatch({
+        type: "RECEIPTPDF_NEWCHANGES",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          transactionId: item.transactionId,
+        },
+      });
+      navigate(`/receipts/details/${item.transactionId}`, {
+        state: {
+          rowData: item,
+        },
+      });
+    }
+  };
+
+  const handleNavigateTenantProfile = (view) => {
+    if (view) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: view.customerId },
+      });
+      navigate(`/tenant/details/${view.customerId}`, {
+        state: {
+          customerId: view.customerId,
+          IsOverView: true,
+          totriggerBillTap: false,
+          isReceiptWay: true,
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -1039,14 +1077,13 @@ function ReceiptNew() {
                             <tr
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setShowOverview(true);
                               }}
                               key={index}
-                              className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 
-                                        cursor-pointer group  hover:!bg-gray-50"
+                              className="text-sm font-gilroy border-b border-[#E8E8E8]  
+                                        cursor-pointer group  hover:!bg-gray-50 !h-10"
                             >
                               {selectedColumns?.map((col, index) => {
-                                const baseClass = `
+                                const baseClass = ` 
     ${columnStyles[col.fieldName] || "px-4"}
     hover:!bg-gray-50 group-hover:!bg-gray-50 whitespace-nowrap text-[14px]
   `;
@@ -1065,12 +1102,45 @@ function ReceiptNew() {
 
                                 switch (col.key) {
                                   case "receiptNo":
-                                    value = user.receiptNo || "-";
+                                    value = (
+                                      <span
+                                        className="text-[#1E45E1] cursor-pointer font-semibold hover:underline"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleReceiptClick(user);
+                                        }}
+                                      >
+                                        {user.receiptNo || "-"}
+                                      </span>
+                                    );
                                     break;
 
                                   case "name":
-                                    value = user.fullName;
+                                    value = (
+                                      <div
+                                        className="flex items-center gap-2 cursor-pointer py-1"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleNavigateTenantProfile(user);
+                                        }}
+                                      >
+                                        {user?.profilePic ? (
+                                          <img
+                                            src={user.profilePic}
+                                            alt="profile"
+                                            className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                                          />
+                                        ) : (
+                                          <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-[10px] flex-shrink-0">
+                                            {user?.initials || "-"}
+                                          </div>
+                                        )}
 
+                                        <span className="truncate max-w-[120px] leading-5 text-[#1E45E1] cursor-pointer font-semibold hover:underline">
+                                          {user.name || "-"}
+                                        </span>
+                                      </div>
+                                    );
                                     break;
 
                                   case "referenceId":
@@ -1098,12 +1168,15 @@ function ReceiptNew() {
                                     break;
 
                                   default:
-                                    value = "-";
+                                    value = user[col.key] ?? "-";
                                 }
 
                                 return (
-                                  <td key={col.key} className={finalClass}>
-                                    {user[col.key] ?? "-"}
+                                  <td
+                                    key={col.key}
+                                    className={`${finalClass} align-middle py-1`}
+                                  >
+                                    {value}
                                   </td>
                                 );
                               })}
@@ -1111,11 +1184,11 @@ function ReceiptNew() {
                               <td
                                 className={`${
                                   isScrolling ? "!bg-white" : "bg-white"
-                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                } px-4  sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
                                 <div
-                                  className="relative mt-1 flex cursor-pointer items-center justify-center"
+                                  className="relative flex cursor-pointer items-center justify-center"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     handleShowDots(user.transactionId, e);
@@ -1140,7 +1213,7 @@ function ReceiptNew() {
                                               120) -
                                             10
                                           : popupPosition.top + 5,
-                                        left: popupPosition.left - 150,
+                                        left: popupPosition.left - 180,
                                       }}
                                     >
                                       <div className="flex flex-col gap-1">

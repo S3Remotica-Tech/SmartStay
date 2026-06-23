@@ -159,7 +159,7 @@ function Sidebar() {
 
     "/recurring/:hostelId": "recurring",
     "/receipts/:hostelId": "receipts",
-    "/receipts/new/:hostelId": "receipts-new",
+    // "/receipts/new/:hostelId": "receipts-new",
     "/retainer-invoice/:hostelId": "retainer-invoice",
 
     "/vendor/:hostelId": "vendor",
@@ -1336,7 +1336,7 @@ function Sidebar() {
 
                         {isDevelopment && (
                           <>
-                            <li className="list-none">
+                            {/* <li className="list-none">
                               <NavLink
                                 to={withHostel("/receipts/new/")}
                                 className={({ isActive }) =>
@@ -1370,7 +1370,7 @@ function Sidebar() {
                                   Receipts New
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                             <li className="list-none">
                               <NavLink
                                 to={withHostel("/retainer-invoice")}
@@ -1664,7 +1664,7 @@ function Sidebar() {
                 path="/receipts/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
-                    <Receipts />
+                    <ReceiptNew />
                   </div>
                 }
               />
@@ -1769,14 +1769,14 @@ function Sidebar() {
                     }
                   />
 
-                  <Route
+                  {/* <Route
                     path="/receipts/new/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <ReceiptNew />
                       </div>
                     }
-                  />
+                  /> */}
                 </>
               )}
               <Route
