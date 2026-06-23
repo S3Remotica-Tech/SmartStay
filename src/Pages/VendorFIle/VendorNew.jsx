@@ -52,19 +52,23 @@ const CustomStyles = {
     minHeight: "32px",
     height: "32px",
     width: "100%",
-    border: "1px solid #D9D9D9",
+    border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
     borderRadius: "8px",
     fontSize: "12px",
     fontFamily: "Gilroy, sans-serif",
     fontWeight: 500,
     boxShadow: "none",
     cursor: "pointer",
-    backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
+    backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
+
+    "&:hover": {
+      borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
+    },
   }),
 
   singleValue: (base) => ({
     ...base,
-    color: "#333",
+    color: "#FFF",
     fontWeight: 500,
   }),
 
@@ -470,6 +474,26 @@ function Vendor() {
     debouncedSearch,
   ]);
 
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_VENDOR_FILTERS",
+        payload: {
+          paymentStatus: "",
+          paymentStatusLabel: "",
+          search: "",
+          categoryName: "",
+          categoryId: "",
+        },
+      });
+
+      setChips([]);
+      setSearchQuery("");
+      setPaymentStatus("");
+      setCategoryFilter("");
+    };
+  }, []);
+
   const handleReset = () => {
     dispatch({
       type: "SET_VENDOR_FILTERS",
@@ -709,7 +733,7 @@ function Vendor() {
     "Last Transaction": "lastTransaction",
     "Payment Status": "paymentStatus",
     businessName: "businessName",
-    vendorAddress: "vendorAddress"
+    vendorAddress: "vendorAddress",
   };
 
   const formattedData = (filteredData?.vendors || []).map((row) => {
