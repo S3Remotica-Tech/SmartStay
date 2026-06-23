@@ -48,9 +48,15 @@ export async function AddVendorCategory(vendor) {
   });
 }
 
-export async function DeleteVendorCategoryList(categoryId) {
+export async function DeleteVendorCategoryList(category) {
   return await AxiosConfigV2.post(
-    `/v2/vendors/categories/${categoryId}/delete`,
+    `/v2/vendors/categories/${category.categoryId}/delete`,
+    null,
+    {
+      params: {
+        hostelId: category.hostelId,
+      },
+    },
   );
 }
 

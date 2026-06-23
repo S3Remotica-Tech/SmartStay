@@ -13,7 +13,10 @@ function DeleteVendorCategory({ show, handleClose, deleteId }) {
     if (deleteId) {
       dispatch({
         type: "DELETE_VENDOR_CATEGORY_SAGA",
-        payload: deleteId,
+        payload: {
+          categoryId: deleteId,
+          hostelId: state.login.selectedHostel_Id,
+        },
       });
     }
     setDeleteLoading(true);
@@ -25,10 +28,6 @@ function DeleteVendorCategory({ show, handleClose, deleteId }) {
     }
   }, [state.Settings?.deleteVendorCategorySuccessStatus]);
 
-
-
-
-  
   return (
     <Modal
       show={show}
