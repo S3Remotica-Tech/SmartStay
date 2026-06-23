@@ -74,8 +74,6 @@ function VendorOverView({
     }
   }, [selectedVendorId, selectedMonth, activeTab]);
 
- 
-
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;
     // console.log("executed ", selectedVendorId);
@@ -121,7 +119,7 @@ function VendorOverView({
                   {VendorOverView?.vendorCategoryName || "-"}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
-                  <Call size="16" /> +{VendorOverView?.countryCode}{" "}
+                  <Call size="16" /> +{VendorOverView?.businessMobileCode}{" "}
                   {VendorOverView?.mobile}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">

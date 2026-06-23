@@ -153,7 +153,7 @@ function ReceiptNew() {
   const [page, setPage] = useState(1);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
-  const [receiptType, setReceiptType] = useState(null);
+  const [receiptType, setReceiptType] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);

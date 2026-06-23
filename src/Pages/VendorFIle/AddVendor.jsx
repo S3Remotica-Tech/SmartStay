@@ -517,6 +517,7 @@ function AddVendor({ show, setShow, currentItem }) {
               landmark: landmark,
               city: city,
               state: state_name,
+            
               vendorId: Number(currentItem.id),
             },
           },
