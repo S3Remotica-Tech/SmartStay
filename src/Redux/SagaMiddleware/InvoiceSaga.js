@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  getReceiptList,
   InvoiceDiscount,
   EditInvoiceDiscount,
   RefuseInvoiceDiscount,
@@ -50,7 +51,8 @@ import {
   EditReceipt,
   ReceiptPDf,
   AddRecurrBillsUsers,
-  GetBillsPdfDetails,ReceiptCustomizeData
+  GetBillsPdfDetails,
+  ReceiptCustomizeData,
 } from "../Action/InvoiceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -76,7 +78,6 @@ function* handleApiError(error) {
     });
   }
 }
-
 
 function* handleReceiptCustomizeData(action) {
   try {
@@ -123,11 +124,6 @@ function* handleReceiptCustomizeData(action) {
     yield* handleApiError(error);
   }
 }
-
-
-
-
-
 
 function* handleInvoiceDiscount(action) {
   try {
@@ -1986,6 +1982,29 @@ function* handleGetReceipts(action) {
   }
 }
 
+function* handleGetReceiptsListNew(action) {
+  try {
+    const response = yield call(getReceiptList, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "CUSTOMIZE_RECEIPTS_LIST_REDUCER",
+        payload: {
+          response: response?.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
 function* handleAddReceipt(action) {
   try {
     const response = yield call(AddReceipt, action.payload);
@@ -2387,7 +2406,7 @@ function refreshToken(response) {
 }
 
 function* InvoiceSaga() {
-  yield takeEvery("CUSTOMIZE_RECEIPT_COLUMNS_SAGA", handleReceiptCustomizeData)
+  yield takeEvery("CUSTOMIZE_RECEIPT_COLUMNS_SAGA", handleReceiptCustomizeData);
   yield takeEvery("SUBSCRIPTION_PDF_SAGA", handleSubscriptionPDF);
   yield takeEvery("INVOICE_DISCOUNT_SAGA", handleInvoiceDiscount);
   yield takeEvery("MANUAL_BILL_UPDATE_UNPAID_SAGA", handleUpdatemanualUnPaid);
@@ -2435,6 +2454,7 @@ function* InvoiceSaga() {
   yield takeEvery("UNASSIGNAMENITIES", handleUnAssignAmenities);
   yield takeEvery("GET_PARTICULAR_AMENITIES", handleGetParticularAmentityList);
   yield takeEvery("RECEIPTSLIST", handleGetReceipts);
+ yield takeEvery("CUSTOMIZE_RECEIPTS_LIST_SAGA",handleGetReceiptsListNew)
   yield takeEvery("ADD_RECEIPT", handleAddReceipt);
   yield takeEvery("EDIT_RECEIPTS", handleEditReceipt);
   yield takeEvery("DELETE_RECEIPT", handleDeleteReceipt);

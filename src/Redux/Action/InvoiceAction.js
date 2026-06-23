@@ -189,6 +189,26 @@ export async function GetReceiptData(hostelId) {
   return await AxiosConfigV2.get(`/v2/bills/receipts/${hostelId}`, {});
 }
 
+export async function getReceiptList(receipt) {
+  const params = {};
+
+  if (receipt.keyword) params.keyword = receipt.keyword;
+  if (receipt.page) params.page = receipt.page;
+  if (receipt.size) params.size = receipt.size;
+  if (receipt.period) params.period = receipt.period;
+  if (receipt.bankIds?.length) params.bankIds = receipt.bankIds;
+  if (receipt.invoiceType) params.invoiceType = receipt.invoiceType;
+  if (receipt.collectedBy?.length) params.collectedBy = receipt.collectedBy;
+  if (receipt.minAmount !== "" && receipt.minAmount != null)
+    params.minAmount = receipt.minAmount;
+  if (receipt.maxAmount !== "" && receipt.maxAmount != null)
+    params.maxAmount = receipt.maxAmount;
+
+  return await AxiosConfigV2.get(`/v2/transaction/${receipt.hostelId}`, {
+    params,
+  });
+}
+
 export function AddReceipt() {
   new Promise((resolve) => {
     resolve({ status: 200 });
