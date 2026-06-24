@@ -583,6 +583,7 @@ function AddExpenseNew() {
   );
 
   const taxAmount = (subTotal * Number(tax || 0)) / 100;
+  // console.log("taxAmount", taxAmount);
   const discountAmount =
     discountType === "percent"
       ? (subTotal * Number(discount || 0)) / 100
@@ -825,10 +826,10 @@ function AddExpenseNew() {
         type: "INITIALIZEEXPENSESLIST",
         payload: state.login.selectedHostel_Id,
       });
-      dispatch({
-        type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "VENDORLIST",
+      //   payload: { hostelId: state.login.selectedHostel_Id },
+      // });
       // dispatch({ type: "UNITS_LIST_SAGA" });
     }
   }, [state.login.selectedHostel_Id]);

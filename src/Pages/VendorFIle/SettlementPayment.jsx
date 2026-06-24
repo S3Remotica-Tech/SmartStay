@@ -823,7 +823,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
                           <td className="px-4 py-2.5">
                             <span className="text-[#1E45E1] text-[11px] font-medium whitespace-nowrap">
-                              {item.referenceNo}
+                              {item.referenceNo || "-"}
                             </span>
                           </td>
 

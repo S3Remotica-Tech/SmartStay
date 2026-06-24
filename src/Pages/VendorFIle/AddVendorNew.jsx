@@ -367,12 +367,13 @@ function AddVendorNew() {
   const [houseNoError, setHouseNoError] = useState("");
   // const [landmarkError, setLandmarkError] = useState("");
 
-  const hasShownToast = useRef(false);
-
   useEffect(() => {
-    if (state?.Settings?.vendorCategoryList) {
-      const category = state?.Settings?.vendorCategoryList || [];
-      if (category?.length === 0 && !hasShownToast.current) {
+    if (state?.Settings?.vendorCategorySuccessCode === 200) {
+      const category = state?.Settings?.vendorCategoryList;
+
+      if (!category) return;
+
+      if (category.length === 0) {
         toast.error(
           "Please add a Category option in Settings, accessible after adding an vendor",
           {
@@ -381,13 +382,12 @@ function AddVendorNew() {
             },
           },
         );
-        hasShownToast.current = true;
       }
       setTimeout(() => {
         dispatch({ type: "REMOVE_VENDOR_CATEGORY_LIST_REDUCER" });
       }, 100);
     }
-  }, [state?.Settings?.vendorCategoryList]);
+  }, [state?.Settings?.vendorCategorySuccessCode]);
 
   const vendorCategoryOptions =
     state?.Settings?.vendorCategoryList?.map((item) => ({
@@ -406,11 +406,13 @@ function AddVendorNew() {
   };
 
   useEffect(() => {
-    dispatch({
-      type: "VENDOR_CATEGORY_LIST_SAGA",
-      payload: state.login.selectedHostel_Id,
-    });
-  }, []);
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "VENDOR_CATEGORY_LIST_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
   const focusFirstError = (() => {
     let focused = false;
