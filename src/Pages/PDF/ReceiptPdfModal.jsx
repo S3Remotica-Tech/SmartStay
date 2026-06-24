@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useHasPermission } from "../../Utils/Permission";
 import Book from "../../Assets/v2Images/Maskgroup.svg";
 import Refund from "../../Assets/v2Images/Refund.svg";
+import BookingCancelled from "../../Assets/v2Images/BookingCancelled.png";
 import Payment from "../../Assets/v2Images/PaymentReceived.svg";
 
 const InvoiceCard = ({ rowData }) => {
@@ -69,6 +70,7 @@ const InvoiceCard = ({ rowData }) => {
     booking: {
       label: "Booking Receipt",
       image: Book,
+      image2: BookingCancelled,
     },
     advance: {
       label: "Security Deposit Receipt",
@@ -973,10 +975,15 @@ const InvoiceCard = ({ rowData }) => {
 
                 <div className="w-full md:w-4/12 flex flex-col h-fit  ">
                   <img
-                    src={currentConfig.image}
-                    alt={currentConfig.label}
-                    className="w-full h-fit"
-                  />
+    src={
+      currentConfig?.label === "Booking Receipt" &&
+      pdfDetails?.paymentStatus === "Refunded"
+        ? currentConfig?.image2
+        : currentConfig?.image
+    }
+    alt={currentConfig?.label}
+    className="w-full h-fit"
+  />
                 </div>
               </div>
 
