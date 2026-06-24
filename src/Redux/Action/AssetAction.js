@@ -13,8 +13,8 @@ export async function GetAsset(hostelId) {
   return await AxiosConfigV2.get(`/v2/assets/${hostelId}`);
 }
 
-export async function GetAllVendorList(hostelId) {
-  return await AxiosConfigV2.get(`/v2//${hostelId}`);
+export async function GetAllVendorList(vendor) {
+  return await AxiosConfigV2.get(`/v2/vendors/hostel/${vendor.hostelId}/vendors`);
 }
 
 // /v2/assets/all-assets/{hostelId}  ==> v2/assets/{hostelId}

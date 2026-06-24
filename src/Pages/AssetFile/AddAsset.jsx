@@ -55,7 +55,6 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
       dispatch({
         type: "ALL_VENDOR_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
@@ -561,30 +560,30 @@ function StaticExample({ show, setShow, currentItem }) {
                     </Form.Label>
 
                     <Select
-                      // options={
-                      //   state.ComplianceList?.VendorList?.length > 0
-                      //     ? state.ComplianceList.VendorList.map((view) => ({
-                      //         value: view.id,
-                      //         label: view.fullName,
-                      //       }))
-                      //     : []
-                      // }
+                      options={
+                        state.AssetList?.allVendorList?.length > 0
+                          ? state.AssetList?.allVendorList?.map((view) => ({
+                              value: view.vendorId,
+                              label: view.vendorName,
+                            }))
+                          : []
+                      }
                       onChange={handleVendorNameChange}
-                      // value={
-                      //   state.ComplianceList?.VendorList?.find(
-                      //     (vendor) => vendor.id === vendorName,
-                      //   )
-                      //     ? {
-                      //         value: vendorName,
-                      //         label: state.ComplianceList.VendorList.find(
-                      //           (vendor) => vendor.id === vendorName,
-                      //         )?.fullName,
-                      //       }
-                      //     : null
-                      // }
+                      value={
+                        state.AssetList?.allVendorList?.find(
+                          (vendor) => vendor.vendorId === vendorName,
+                        )
+                          ? {
+                              value: vendorName,
+                              label: state.AssetList?.allVendorList?.find(
+                                (vendor) => vendor.vendorId === vendorName,
+                              )?.vendorName,
+                            }
+                          : null
+                      }
                       placeholder="Select a Vendor"
                       classNamePrefix="custom"
-                      menuPlacement="auto"
+                      menuPlacement="bottom"
                       noOptionsMessage={() => "No vendors available"}
                       styles={{
                         control: (base) => ({
