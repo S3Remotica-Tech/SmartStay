@@ -763,6 +763,19 @@ function NoticeBedStatusDetails({
                           </label>
                         </div>
                       </div>
+
+                      <div className="flex justify-between mb-1">
+                        <div>
+                          <label className="font-gilroy text-sm text-gray-900">
+                            Checkout Date
+                          </label>
+                        </div>
+                        <div>
+                          <label className="font-gilroy text-sm text-black font-semibold">
+                            {tenant?.leavingDate || "N/A"}
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

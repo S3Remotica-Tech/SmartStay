@@ -137,7 +137,6 @@ function ExpenseOverview({
           <div className="flex items-center justify-between mt-8 border-b  ">
             <div className="flex gap-8">
               <button
-                disabled={expenseOverView?.balanceAmount <= 0}
                 onClick={() => setActiveTab("payments")}
                 className={`pb-3 font-semibold ${
                   activeTab === "payments"
@@ -161,8 +160,13 @@ function ExpenseOverview({
             </div>
             {activeTab === "payments" && (
               <button
+                disabled={expenseOverView?.balanceAmount <= 0}
                 onClick={() => handleShowSettlement(true)}
-                className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm"
+                className={`px-4 py-2 rounded-lg text-sm ${
+                  expenseOverView?.balanceAmount <= 0
+                    ? "bg-gray-400 cursor-not-allowed text-white"
+                    : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
+                }`}
               >
                 + Settle Payment
               </button>

@@ -55,9 +55,8 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
       dispatch({
-        type: "VENDORLIST",
+        type: "ALL_VENDOR_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
     }
@@ -261,19 +260,19 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   const handlePriceChange = (e) => {
-  let value = e.target.value;
-   if (!/^\d*\.?\d*$/.test(value)) return;
-   if ((value.match(/\./g) || []).length > 1) return;
-   if (/^0\d+/.test(value)) {
-    value = value.replace(/^0+/, "");
-  }
-  setPrice(value);
-  setPriceError("");
-  setIsChangedError("");
-  setBankingError("");
+    let value = e.target.value;
+    if (!/^\d*\.?\d*$/.test(value)) return;
+    if ((value.match(/\./g) || []).length > 1) return;
+    if (/^0\d+/.test(value)) {
+      value = value.replace(/^0+/, "");
+    }
+    setPrice(value);
+    setPriceError("");
+    setIsChangedError("");
+    setBankingError("");
 
-  dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
-};
+    dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+  };
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
@@ -295,6 +294,8 @@ function StaticExample({ show, setShow, currentItem }) {
   // };
 
   const nochangeRef = useRef(null);
+
+  const formattedDate = selectedDate ? selectedDate?.format("DD-MM-YYYY") : "";
 
   const handleAddAsset = () => {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
@@ -385,7 +386,9 @@ function StaticExample({ show, setShow, currentItem }) {
     }
 
     if (productName && selectedDate && price && assetName) {
-      const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
+      const formattedDate = selectedDate
+        ? selectedDate.format("DD-MM-YYYY")
+        : "";
       if (currentItem?.assetId) {
         let payload = {
           hostelId: state.login.selectedHostel_Id,
@@ -558,29 +561,29 @@ function StaticExample({ show, setShow, currentItem }) {
 
                     <Select
                       options={
-                        state.ComplianceList?.VendorList?.length > 0
-                          ? state.ComplianceList.VendorList.map((view) => ({
-                              value: view.id,
-                              label: view.fullName,
+                        state.AssetList?.allVendorList?.length > 0
+                          ? state.AssetList?.allVendorList?.map((view) => ({
+                              value: view.vendorId,
+                              label: view.vendorName,
                             }))
                           : []
                       }
                       onChange={handleVendorNameChange}
                       value={
-                        state.ComplianceList?.VendorList?.find(
-                          (vendor) => vendor.id === vendorName,
+                        state.AssetList?.allVendorList?.find(
+                          (vendor) => vendor.vendorId === vendorName,
                         )
                           ? {
                               value: vendorName,
-                              label: state.ComplianceList.VendorList.find(
-                                (vendor) => vendor.id === vendorName,
-                              )?.fullName,
+                              label: state.AssetList?.allVendorList?.find(
+                                (vendor) => vendor.vendorId === vendorName,
+                              )?.vendorName,
                             }
                           : null
                       }
                       placeholder="Select a Vendor"
                       classNamePrefix="custom"
-                      menuPlacement="auto"
+                      menuPlacement="bottom"
                       noOptionsMessage={() => "No vendors available"}
                       styles={{
                         control: (base) => ({

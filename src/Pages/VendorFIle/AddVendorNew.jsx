@@ -15,6 +15,9 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import VendorOverView from "./VendorOverView";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -383,7 +386,7 @@ function AddVendorNew() {
         hasShownToast.current = true;
       }
       setTimeout(() => {
-       dispatch({ type: "REMOVE_VENDOR_CATEGORY_LIST_REDUCER" });
+        dispatch({ type: "REMOVE_VENDOR_CATEGORY_LIST_REDUCER" });
       }, 100);
     }
   }, [state?.Settings?.vendorCategoryList]);
