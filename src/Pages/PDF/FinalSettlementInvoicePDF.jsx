@@ -495,13 +495,13 @@ function FinalSettlementInvoicePDF() {
 
               <div className="w-full h-[1px] bg-gray-100" />
 
-              <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
+              {/* <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Sub Total</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
                   ₹ {pdfDetails?.invoiceInfo?.subTotal}
                 </span>
-              </div>
+              </div> */}
 
               <div className="flex justify-between items-start gap-3 text-[10px] text-[#1A1C21]">
                 <span>Tax-GST (0%)</span>
@@ -533,7 +533,7 @@ function FinalSettlementInvoicePDF() {
                 <span>Discount Applied</span>
 
                 <span className="text-[10px] font-semibold text-right ml-auto shrink-0">
-                  ₹ 0
+                  ₹ {pdfDetails?.invoiceInfo?.discountAmount}
                 </span>
               </div>
 

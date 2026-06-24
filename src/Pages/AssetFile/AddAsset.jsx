@@ -56,10 +56,10 @@ function StaticExample({ show, setShow, currentItem }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
-      dispatch({
-        type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "VENDORLIST",
+      //   payload: { hostelId: state.login.selectedHostel_Id },
+      // });
     }
   }, []);
 
@@ -261,19 +261,19 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
   const handlePriceChange = (e) => {
-  let value = e.target.value;
-   if (!/^\d*\.?\d*$/.test(value)) return;
-   if ((value.match(/\./g) || []).length > 1) return;
-   if (/^0\d+/.test(value)) {
-    value = value.replace(/^0+/, "");
-  }
-  setPrice(value);
-  setPriceError("");
-  setIsChangedError("");
-  setBankingError("");
+    let value = e.target.value;
+    if (!/^\d*\.?\d*$/.test(value)) return;
+    if ((value.match(/\./g) || []).length > 1) return;
+    if (/^0\d+/.test(value)) {
+      value = value.replace(/^0+/, "");
+    }
+    setPrice(value);
+    setPriceError("");
+    setIsChangedError("");
+    setBankingError("");
 
-  dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
-};
+    dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+  };
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
@@ -295,6 +295,8 @@ function StaticExample({ show, setShow, currentItem }) {
   // };
 
   const nochangeRef = useRef(null);
+
+  const formattedDate = selectedDate ? selectedDate?.format("DD-MM-YYYY") : "";
 
   const handleAddAsset = () => {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
@@ -385,7 +387,9 @@ function StaticExample({ show, setShow, currentItem }) {
     }
 
     if (productName && selectedDate && price && assetName) {
-      const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
+      const formattedDate = selectedDate
+        ? selectedDate.format("DD-MM-YYYY")
+        : "";
       if (currentItem?.assetId) {
         let payload = {
           hostelId: state.login.selectedHostel_Id,
@@ -557,27 +561,27 @@ function StaticExample({ show, setShow, currentItem }) {
                     </Form.Label>
 
                     <Select
-                      options={
-                        state.ComplianceList?.VendorList?.length > 0
-                          ? state.ComplianceList.VendorList.map((view) => ({
-                              value: view.id,
-                              label: view.fullName,
-                            }))
-                          : []
-                      }
+                      // options={
+                      //   state.ComplianceList?.VendorList?.length > 0
+                      //     ? state.ComplianceList.VendorList.map((view) => ({
+                      //         value: view.id,
+                      //         label: view.fullName,
+                      //       }))
+                      //     : []
+                      // }
                       onChange={handleVendorNameChange}
-                      value={
-                        state.ComplianceList?.VendorList?.find(
-                          (vendor) => vendor.id === vendorName,
-                        )
-                          ? {
-                              value: vendorName,
-                              label: state.ComplianceList.VendorList.find(
-                                (vendor) => vendor.id === vendorName,
-                              )?.fullName,
-                            }
-                          : null
-                      }
+                      // value={
+                      //   state.ComplianceList?.VendorList?.find(
+                      //     (vendor) => vendor.id === vendorName,
+                      //   )
+                      //     ? {
+                      //         value: vendorName,
+                      //         label: state.ComplianceList.VendorList.find(
+                      //           (vendor) => vendor.id === vendorName,
+                      //         )?.fullName,
+                      //       }
+                      //     : null
+                      // }
                       placeholder="Select a Vendor"
                       classNamePrefix="custom"
                       menuPlacement="auto"
