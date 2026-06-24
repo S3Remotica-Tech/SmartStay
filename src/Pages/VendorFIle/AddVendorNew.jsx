@@ -307,10 +307,8 @@ function AddVendorNew() {
   const [panError, setPanError] = useState("");
   const countryCodeOptions = [{ value: "91", label: "+91" }];
 
-  const [countryCode, setCountryCode] = useState(countryCodeOptions[0]);
-  const [businessCountryCode, setBusinessCountryCode] = useState(
-    countryCodeOptions[0],
-  );
+  const [countryCode, setCountryCode] = useState();
+  const [businessCountryCode, setBusinessCountryCode] = useState();
 
   console.log(
     "countryCode",
@@ -741,13 +739,13 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    if (!countryCode?.value) {
-      setCountryCodeError("Please Select Country Code");
-      if (!focusedRef.current) {
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
+    // if (!countryCode?.value) {
+    //   setCountryCodeError("Please Select Country Code");
+    //   if (!focusedRef.current) {
+    //     focusedRef.current = true;
+    //   }
+    //   isValid = false;
+    // }
 
     const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
 
@@ -760,7 +758,7 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    if (!businessCountryCode.value) {
+    if (!businessCountryCode?.value) {
       setBusinessCountryCodeError("Please Select Business Country Code");
       if (!focusedRef.current && businessCountryCodeRef.current) {
         businessCountryCodeRef.current.focus();
@@ -885,7 +883,7 @@ function AddVendorNew() {
         pinCode: pinCode || "",
         contactPerson: contactPersonName || "",
         contactPersonMobile: vendor_Mobile || "",
-        contactPersonMobileCode: countryCode.value || "",
+        contactPersonMobileCode: countryCode?.value || "",
         description: description || "",
         gst: gstNumber || "",
         pan: panNumber || "",
@@ -952,7 +950,7 @@ function AddVendorNew() {
             lastName: last_Name,
             mobile: businessMobile,
             businessMobileCode: businessCountryCode?.value || "",
-            contactPersonMobileCode: countryCode.value || "",
+            contactPersonMobileCode: countryCode?.value || "",
             contactPersonMobile: vendor_Mobile,
             mailId: email_Id,
             houseNo: house_no,
@@ -1260,6 +1258,7 @@ function AddVendorNew() {
                     }}
                     isSearchable={false}
                     styles={CustomStylesCode}
+                    placeholder="Select"
                   />
 
                   <input
@@ -1337,6 +1336,7 @@ function AddVendorNew() {
                     }}
                     isSearchable={false}
                     styles={CustomStylesCode}
+                    placeholder="Select"
                   />
 
                   <input
