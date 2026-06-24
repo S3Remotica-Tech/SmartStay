@@ -1,89 +1,108 @@
-
 export const initialState = {
-    assetList: [],
-    getAssetStatusCode: 0,
-    addAssetStatusCode: 0,
-    deleteAssetStatusCode: 0,
-    GetRoomList: [],
-    addAssignAssetStatusCode: 0,
-    alreadySerialNumberHere: '',
-    alreadyAssetNameHere: '',
-    NoDataAssetStatusCode: 0,
-    getRoomStatusCode: 0,
-    bankAmountError: '',
-    assetError: '',
-    updateAssetStatusCode: 0,
-    getPermissionRoleList: [],
-    accessRestricted: "",
-    unAuthorized:""
-}
+  assetList: [],
+  getAssetStatusCode: 0,
+  addAssetStatusCode: 0,
+  deleteAssetStatusCode: 0,
+  GetRoomList: [],
+  addAssignAssetStatusCode: 0,
+  alreadySerialNumberHere: "",
+  alreadyAssetNameHere: "",
+  NoDataAssetStatusCode: 0,
+  getRoomStatusCode: 0,
+  bankAmountError: "",
+  assetError: "",
+  updateAssetStatusCode: 0,
+  getPermissionRoleList: [],
+  accessRestricted: "",
+  unAuthorized: "",
+  allVendorList: [],
+  getAllVendorListStatusCode: 0,
+};
 
 const AssetReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "RESET_ALL":
+      return initialState;
+    case "ACCESS_RESTRICTED":
+      return { ...state, accessRestricted: action.payload };
+    case "UN-AUTHORIZED":
+      return { ...state, unAuthorized: action.payload };
+    case "ASSET_ERROR":
+      return { ...state, assetError: action.payload };
+    case "CLEAR_ASSET_ERROR":
+      return { ...state, assetError: "" };
+    case "ASSET_LIST":
+      return {
+        ...state,
+        assetList: action.payload.response,
+        getAssetStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_GET_ASSET_STATUS_CODE":
+      return { ...state, getAssetStatusCode: 0 };
+    case "ALL_VENDOR_LIST_REDUCER":
+      return {
+        ...state,
+        allVendorList: action.payload.response,
+        getAllVendorListStatusCode: action.payload.statusCode,
+      };
 
-    switch (action.type) {
-        case 'RESET_ALL':
-            return initialState;
-        case 'ACCESS_RESTRICTED':
-            return { ...state, accessRestricted: action.payload }
-            case 'UN-AUTHORIZED':
-                return { ...state, unAuthorized: action.payload }
-        case 'ASSET_ERROR':
-            return { ...state, assetError: action.payload }
-        case 'CLEAR_ASSET_ERROR':
-            return { ...state, assetError: '' }
-        case 'ASSET_LIST':
-            return { ...state, assetList: action.payload.response, getAssetStatusCode: action.payload.statusCode }
-        case 'CLEAR_GET_ASSET_STATUS_CODE':
-            return { ...state, getAssetStatusCode: 0 }
-        case 'PERMISSION_ROLE_LIST':
-            return { ...state, getPermissionRoleList: action.payload.response }
+    case "REMOVE_ALL_VENDOR_LIST_REDUCER":
+      return {
+        ...state,
 
+        getAllVendorListStatusCode: 0,
+      };
 
-        case 'NO_ASSET_LIST':
-            return { ...state, NoDataAssetStatusCode: action.payload.statusCode }
-        case 'CLEAR_NO_ASSET_LIST':
-            return { ...state, NoDataAssetStatusCode: 0 }
-        case 'ADD_ASSET':
-            return { ...state, addAssetStatusCode: action.payload.statusCode }
-        case 'CLEAR_ADD_ASSET_STATUS_CODE':
-            return { ...state, addAssetStatusCode: 0 }
-        case 'UPDATE_ASSET':
-            return { ...state, updateAssetStatusCode: action.payload.statusCode }
-        case 'CLEAR_UPDATE_ASSET_STATUS_CODE':
-            return { ...state, updateAssetStatusCode: 0 }
-        case 'BANK_AMOUNT_ERROR':
-            return { ...state, bankAmountError: action.payload }
-        case 'CLEAR_BANK_AMOUNT_ERROR':
-            return { ...state, bankAmountError: '' }
-        case 'DELETE_ASSET':
-            return { ...state, deleteAssetStatusCode: action.payload.statusCode }
-        case 'CLEAR_DELETE_ASSET_STATUS_CODE':
-            return { ...state, deleteAssetStatusCode: 0 }
+    case "PERMISSION_ROLE_LIST":
+      return { ...state, getPermissionRoleList: action.payload.response };
 
-        case 'GET_ROOMS':
-            return { ...state, GetRoomList: action.payload.response, getRoomStatusCode: action.payload.statusCode }
-        case 'REMOVE_GET_ROOMS':
-            return { ...state, getRoomStatusCode: 0 }
+    case "NO_ASSET_LIST":
+      return { ...state, NoDataAssetStatusCode: action.payload.statusCode };
+    case "CLEAR_NO_ASSET_LIST":
+      return { ...state, NoDataAssetStatusCode: 0 };
+    case "ADD_ASSET":
+      return { ...state, addAssetStatusCode: action.payload.statusCode };
+    case "CLEAR_ADD_ASSET_STATUS_CODE":
+      return { ...state, addAssetStatusCode: 0 };
+    case "UPDATE_ASSET":
+      return { ...state, updateAssetStatusCode: action.payload.statusCode };
+    case "CLEAR_UPDATE_ASSET_STATUS_CODE":
+      return { ...state, updateAssetStatusCode: 0 };
+    case "BANK_AMOUNT_ERROR":
+      return { ...state, bankAmountError: action.payload };
+    case "CLEAR_BANK_AMOUNT_ERROR":
+      return { ...state, bankAmountError: "" };
+    case "DELETE_ASSET":
+      return { ...state, deleteAssetStatusCode: action.payload.statusCode };
+    case "CLEAR_DELETE_ASSET_STATUS_CODE":
+      return { ...state, deleteAssetStatusCode: 0 };
 
+    case "GET_ROOMS":
+      return {
+        ...state,
+        GetRoomList: action.payload.response,
+        getRoomStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_GET_ROOMS":
+      return { ...state, getRoomStatusCode: 0 };
 
-        case 'ASSIGN_ASSET':
-            return { ...state, addAssignAssetStatusCode: action.payload.statusCode }
-        case 'CLEAR_ASSIGN_STATUS_CODE':
-            return { ...state, addAssignAssetStatusCode: 0 }
+    case "ASSIGN_ASSET":
+      return { ...state, addAssignAssetStatusCode: action.payload.statusCode };
+    case "CLEAR_ASSIGN_STATUS_CODE":
+      return { ...state, addAssignAssetStatusCode: 0 };
 
-        case 'SERIAL_NUMBER_ERROR':
-            return { ...state, alreadySerialNumberHere: action.payload }
-        case 'CLEAR_SERIAL_NUMBER_ERROR':
-            return { ...state, alreadySerialNumberHere: '' }
+    case "SERIAL_NUMBER_ERROR":
+      return { ...state, alreadySerialNumberHere: action.payload };
+    case "CLEAR_SERIAL_NUMBER_ERROR":
+      return { ...state, alreadySerialNumberHere: "" };
 
-        case 'ASSET_NAME_ERROR':
-            return { ...state, alreadyAssetNameHere: action.payload }
-        case 'CLEAR_ASSET_NAME_ERROR':
-            return { ...state, alreadyAssetNameHere: '' }
+    case "ASSET_NAME_ERROR":
+      return { ...state, alreadyAssetNameHere: action.payload };
+    case "CLEAR_ASSET_NAME_ERROR":
+      return { ...state, alreadyAssetNameHere: "" };
 
-        default:
-            return state;
-    }
-
-}
+    default:
+      return state;
+  }
+};
 export default AssetReducer;
