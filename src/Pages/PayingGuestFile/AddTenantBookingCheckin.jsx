@@ -820,6 +820,50 @@ function AddTenantBookingCheckin({
   const [oneTimePayments, setOneTimePayments] = useState([]);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  const [errorsOneTime, setErrorsOneTime] = useState([]);
+
+  const handleInputChangeOneTime = (index, field, value) => {
+    const updatedFields = [...oneTimePayments];
+    const updatedErrors = [...errors];
+
+    if (field === "reason" || field === "customReason") {
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
+        }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      let numericValue = value.replace(/[^0-9.]/g, "");
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setOneTimePayments(updatedFields);
+    setErrors(updatedErrors);
+  };
 
   const handleCustomRentChange = (e) => {
     setCustomRent(e.target.value);
@@ -848,6 +892,16 @@ function AddTenantBookingCheckin({
         showInput: false,
       },
     ]);
+  };
+
+  const handleRemoveFieldOneTime = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setOneTimePayments(updatedFields);
+
+    const updatedErrors = [...errors];
+    updatedErrors.splice(index, 1);
+    setErrorsOneTime(updatedErrors);
   };
 
   // console.log(
@@ -1898,8 +1952,8 @@ function AddTenantBookingCheckin({
                   </div>
 
                   <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                    {oneTimePayments.map((item, index) => {
-                      const isMaintenanceSelected = fields.some(
+                    {oneTimePayments?.map((item, index) => {
+                      const isMaintenanceSelected = oneTimePayments.some(
                         (field) => field.reason === "maintenance",
                       );
 
@@ -1920,7 +1974,7 @@ function AddTenantBookingCheckin({
                           <div className="col-md-6">
                             {!item.showInput ? (
                               <Select
-                                menuPlacement="top"
+                                menuPlacement="bottom"
                                 // menuPosition="fixed"
                                 options={filteredOptions}
                                 value={
@@ -1988,11 +2042,6 @@ function AddTenantBookingCheckin({
                               type="text"
                               placeholder="Enter amount"
                               value={item.amount}
-                              //                                  onKeyDown={(e) => {
-                              // if (e.key === "." || e.key === "e" || e.key === "-") {
-                              //   e.preventDefault();
-                              // }
-                              // }}
                               onChange={(e) =>
                                 handleInputChangeOneTime(
                                   index,
