@@ -18,6 +18,7 @@ import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
 import Tick from "../../Assets/v2Images/Tick.svg";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
   const dispatch = useDispatch();
@@ -85,6 +86,11 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
     handleClose();
   };
 
+  console.log(
+    "state?.UsersList?.floorList?.length === 0",
+    state?.UsersList?.floorList?.length === 0,
+  );
+
   return (
     <div
       className={`fixed inset-0 z-50 transition-all duration-300 ${
@@ -99,8 +105,8 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
     ${show ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="w-full h-full rounded-[20px]">
-          <div className="flex justify-between items-start px-3 py-4 sticky top-0 z-10 bg-white w-full border-[#eee] rounded-[20px]">
-            <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
+          <div className="flex justify-between items-start gap-3 px-3 py-4 sticky top-0 z-10 bg-white w-full border-[#eee] rounded-[20px]">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar show-scrolls py-2">
               {state?.UsersList?.floorList?.map((floor) => (
                 <div
                   key={floor.id}
@@ -154,16 +160,21 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
               Close
             </button>
           </div>
+          <div className="mx-4">
+            {state?.UsersList?.floorList?.length === 0 && (
+              <NoDataMessage label="Floor" />
+            )}
+          </div>
 
-          <div className="grid gap-3 mt-1 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[350px] overflow-y-auto px-3 show-scrolls">
-            {roomList.length > 0 ? (
-              roomList?.map((room) => {
-                const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
+          {roomList.length > 0 ? (
+            roomList?.map((room) => {
+              const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-                const filteredBeds = !isWay
-                  ? bedsForRoom.filter((bed) => !bed.isOccupied)
-                  : bedsForRoom;
-                return (
+              const filteredBeds = !isWay
+                ? bedsForRoom.filter((bed) => !bed.isOccupied)
+                : bedsForRoom;
+              return (
+                <div className="grid gap-3 mt-1 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[350px] overflow-y-auto px-3 show-scrolls">
                   <div
                     key={room.id}
                     className="border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white  overflow-y-auto "
@@ -302,26 +313,14 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                       )}
                     </div>
                   </div>
-                );
-              })
-            ) : (
-              <div
-                className="flex items-center justify-center text-center w-full font-gilroy px-3 fade-in bg-white overflow-hidden"
-                style={{ height: "calc(100vh - 120px)" }}
-              >
-                <div className="flex flex-col items-center">
-                  <div className="mt-2 text-[20px] font-semibold text-[#4B4B4B]">
-                    {" "}
-                    No rooms available{" "}
-                  </div>
-                  <div className="mt-1 text-[16px] font-medium text-[#4B4B4B]">
-                    {" "}
-                    There is no room added in this floor.{" "}
-                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              );
+            })
+          ) : (
+            <div className="mx-4">
+              <NoDataMessage label="Room" />
+            </div>
+          )}
 
           {selectedBed?.id && (
             <div className=" flex flex-wrap items-center justify-center border-t bg-white p-2 rounded-b-[20px]">
