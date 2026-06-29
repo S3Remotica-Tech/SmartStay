@@ -977,28 +977,37 @@ function AddTenantBookingCheckin({
 
   return (
     <div className="bg-white w-full">
-      <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
-        <button
-          onClick={() => setActiveTab("booking")}
-          className={`px-4 py-1.5 text-sm rounded-md ${
-            activeTab === "booking"
-              ? "bg-white shadow text-[#1E45E1]"
-              : "text-gray-500"
-          }`}
-        >
-          Booking
-        </button>
+      <div className="flex justify-between">
+        <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
+          <button
+            onClick={() => setActiveTab("booking")}
+            className={`px-4 py-1.5 text-sm rounded-md ${
+              activeTab === "booking"
+                ? "bg-white shadow text-[#1E45E1]"
+                : "text-gray-500"
+            }`}
+          >
+            Booking
+          </button>
 
-        <button
-          onClick={() => setActiveTab("checkin")}
-          className={`px-4 py-1.5 text-sm rounded-md ${
-            activeTab === "checkin"
-              ? "bg-white shadow text-[#1E45E1]"
-              : "text-gray-500"
-          }`}
-        >
-          Check-In
-        </button>
+          <button
+            onClick={() => setActiveTab("checkin")}
+            className={`px-4 py-1.5 text-sm rounded-md ${
+              activeTab === "checkin"
+                ? "bg-white shadow text-[#1E45E1]"
+                : "text-gray-500"
+            }`}
+          >
+            Check-In
+          </button>
+        </div>
+
+        <Add
+          size="24"
+          color="#FF0000"
+          onClick={handleClose}
+          className="cursor-pointer rotate-45"
+        />
       </div>
 
       {activeTab === "booking" ? (
