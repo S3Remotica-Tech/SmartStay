@@ -600,6 +600,9 @@ function AddExpenseNew() {
     let isValid = true;
     let firstErrorRef = null;
 
+    const totalAmount = Number(amount || 0);
+    const paid = Number(paidAmount || 0);
+
     const setFirstError = (ref) => {
       if (!firstErrorRef) firstErrorRef = ref;
       isValid = false;
@@ -648,9 +651,30 @@ function AddExpenseNew() {
       setFirstError(paymentStatusRef);
     }
 
-    if (isAvailablePaid && !paidAmount) {
-      setPaidAmountError("Please Enter Paid Amount");
-      setFirstError(paidAmountRef);
+    if (isAvailablePaid) {
+      if (!paidAmount) {
+        setPaidAmountError("Please Enter Paid Amount");
+        setFirstError(paidAmountRef);
+      } else {
+        if (paymentStatus === "Full" && paid !== totalAmount) {
+          setPaidAmountError("Paid Amount must be equal to Total Amount");
+          setFirstError(paidAmountRef);
+        }
+
+        if (paymentStatus === "Partial") {
+          if (paid >= totalAmount) {
+            setPaidAmountError(
+              "Paid Amount must be less than Total Amount for Partial payment",
+            );
+            setFirstError(paidAmountRef);
+          }
+        }
+
+        if (paid > totalAmount) {
+          setPaidAmountError("Paid Amount cannot be greater than Total Amount");
+          setFirstError(paidAmountRef);
+        }
+      }
     }
 
     if (isAvailablePaid && !paymentMethod?.value) {
@@ -658,7 +682,6 @@ function AddExpenseNew() {
       setFirstError(paymentMethodRef);
     }
 
-    // Expense Items Validation
     if (expenseItems.length === 0) {
       setExpenseItemErrors([
         {
@@ -1195,7 +1218,7 @@ function AddExpenseNew() {
                               setPaymentStatus(e.target.value);
                               setPaymentStatusError("");
                             }}
-                            className="accent-blue-600"
+                            className="accent-blue-600 cursor-pointer"
                           />
                           {item}
                         </label>
