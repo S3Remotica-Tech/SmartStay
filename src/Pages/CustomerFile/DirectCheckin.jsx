@@ -1398,7 +1398,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                             <div className="col-md-6">
                               {!item.showInput ? (
                                 <Select
-                                  menuPlacement="top"
+                                  menuPlacement="bottom"
                                   // menuPosition="fixed"
                                   options={filteredOptions}
                                   value={

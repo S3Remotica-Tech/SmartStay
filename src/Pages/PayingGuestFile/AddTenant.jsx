@@ -1604,10 +1604,19 @@ function AddTenant({ showMenu, handleClose }) {
                   {step === 3 && (
                     <div className="space-y-6" ref={scrollRef}>
                       <div>
-                        <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
-                          <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
-                          Upload Document
-                        </h5>
+                        <div className="flex justify-between">
+                          <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
+                            <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
+                            Upload Document
+                          </h5>
+
+                          <Add
+                            size="24"
+                            color="#FF0000"
+                            onClick={handleClose}
+                            className="cursor-pointer rotate-45"
+                          />
+                        </div>
 
                         <div className="grid grid-cols-2 gap-4">
                           <div

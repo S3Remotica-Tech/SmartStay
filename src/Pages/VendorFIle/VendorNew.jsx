@@ -188,11 +188,24 @@ function Vendor() {
   } = useHasPermission("Vendor");
 
   const isVendorForm = location.state?.isVendorForm || false;
+
+  const NavigateTOselectedVendorId =
+    location.state?.navigateToVendorOverviewSelectedVendorId;
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   // const monthOptions = [];
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [paymentStatus, setPaymentStatus] = useState("");
+  const [trigger, setTrigger] = useState(false);
+
+  useEffect(() => {
+    if (NavigateTOselectedVendorId) {
+      setShowOverview(true);
+      setSelectedVendorId(NavigateTOselectedVendorId);
+      setTrigger(true);
+    }
+  }, [NavigateTOselectedVendorId]);
 
   const handlePaymentStatusFilter = (selected) => {
     setPaymentStatus(selected?.value || "");
@@ -302,15 +315,15 @@ function Vendor() {
     },
     {
       label: "Total Purchase",
-      value: filteredData?.vendorSummary?.totalPurchase ?? 0,
+      value: `₹ ${filteredData?.vendorSummary?.totalPurchase ?? 0}`,
     },
     {
       label: "Total Paid",
-      value: filteredData?.vendorSummary?.totalPaid ?? 0,
+      value: `₹ ${filteredData?.vendorSummary?.totalPaid ?? 0}`,
     },
     {
       label: "Outstanding (Payable)",
-      value: filteredData?.vendorSummary?.outstandingAmount ?? 0,
+      value: `₹ ${filteredData?.vendorSummary?.outstandingAmount ?? 0}`,
     },
   ];
 
@@ -969,7 +982,7 @@ function Vendor() {
                     </div>
 
                     <div className="text-lg font-semibold text-[#111827]">
-                      ₹ {item.value}
+                      {item.value}
                     </div>
                   </div>
                 </div>
@@ -1574,6 +1587,7 @@ function Vendor() {
             onClose={() => setShowOverview(false)}
             handleShowSettlement={handleShowSettlement}
             selectedVendorId={selectedVendorId}
+            trigger={trigger}
           />
         )}
 

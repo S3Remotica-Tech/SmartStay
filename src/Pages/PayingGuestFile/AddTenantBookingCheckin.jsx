@@ -21,6 +21,7 @@ import {
 import ErrorMessage from "../../Components/ErrorMessage";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "./PgLayoutView";
+import FormComingSoon from "../../Utils/FormComingSoon";
 
 const reasonOptions = [
   { value: "maintenance", label: "Maintenance" },
@@ -144,10 +145,12 @@ function AddTenantBookingCheckin({
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("booking");
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [bookingDate, setBookingDate] = useState("");
   const [isConfirmChecked, setIsConfirmChecked] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [checkInLoading, setCheckInLoading] = useState(false);
   const [bookingJoiningDate, setBookingJoiningDate] = useState(null);
   const [bookingAmount, setBookingAmount] = useState("");
   const [bookingFloor, setBookingFloor] = useState(null);
@@ -189,6 +192,16 @@ function AddTenantBookingCheckin({
   const [paymentError, setPaymentError] = useState("");
   const [transactionError, setTransactionError] = useState("");
 
+  //  check in
+
+  const [checkInJoiningDateError, setCheckInJoiningDateError] = useState("");
+  const [checkInFloorError, setCheckInFloorError] = useState("");
+  const [checkInRoomError, setCheckInRoomError] = useState("");
+  const [checkInBedError, setCheckInBedError] = useState("");
+  const [checkInAdvanceAmountError, setCheckInAdvanceAmountError] =
+    useState("");
+  const [checkInRentAmountError, setCheckInRentAmountError] = useState("");
+
   const joiningDateRef = useRef(null);
   const bookingDateRef = useRef(null);
   const bookingAmountRef = useRef(null);
@@ -198,6 +211,14 @@ function AddTenantBookingCheckin({
   const rentRef = useRef(null);
   const paymentRef = useRef(null);
   const transactionRef = useRef(null);
+
+  const [collectFullRent, setCollectFullRent] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [customRentEnable, setCustomRentEnable] = useState(false);
+  const [oneTimePayments, setOneTimePayments] = useState([]);
+  const [customRent, setCustomRent] = useState("");
+  const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  const [errorsOneTime, setErrorsOneTime] = useState([]);
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -231,66 +252,68 @@ function AddTenantBookingCheckin({
 
     if (value === "" || /^(0|[1-9]\d*)$/.test(value)) {
       setAdvanceAmount(value);
-      setAdvanceAmountError("");
+      setCheckInAdvanceAmountError("");
     }
   };
 
   const handleJoiningDateChange = (date) => {
     setJoiningDate(date ? date.toDate() : null);
+    setCheckInJoiningDateError("");
   };
 
-  const handleAdvanceAmountChange = (e) => {
-    setAdvanceAmount(e.target.value);
-  };
+  // const handleAdvanceAmountChange = (e) => {
+  //   setAdvanceAmount(e.target.value);
+  //   setCheckInAdvanceAmountError("");
+  // };
 
   const handleRentAmountChange = (e) => {
     setRentAmount(e.target.value);
+    setCheckInRentAmountError("");
   };
 
   const validateCheckInDraft = () => {
     let isValid = true;
     let firstInvalidRef = null;
 
-    // Clear errors
-    setJoiningDateError("");
-    setFloorError("");
-    setRoomError("");
-    setBedError("");
-    setAdvanceAmountError("");
-    setRentAmountError("");
+    setCheckInJoiningDateError("");
+    setCheckInFloorError("");
+    setCheckInRoomError("");
+    setCheckInBedError("");
+    setCheckInAdvanceAmountError("");
+    setCheckInRentAmountError("");
 
     if (!joiningDate) {
-      setJoiningDateError("Please Select Joining Date");
+      setCheckInJoiningDateError("Please Select Joining Date");
       firstInvalidRef ??= joiningDateRef;
       isValid = false;
     }
 
     if (!checkinFloor) {
-      setFloorError("Please Select Floor");
+      setCheckInFloorError("Please Select Floor");
       firstInvalidRef ??= floorRef;
       isValid = false;
     }
 
     if (!checkinRoom) {
-      setRoomError("Please Select Room");
+      setCheckInRoomError("Please Select Room");
       firstInvalidRef ??= roomRef;
       isValid = false;
     }
 
     if (!checkinBed) {
-      setBedError("Please Select Bed");
+      setCheckInBedError("Please Select Bed");
       firstInvalidRef ??= bedRef;
       isValid = false;
     }
 
     if (!isAdvanceRefused && !advanceAmount) {
-      setAdvanceAmountError("Please Enter Advance Amount");
+      setCheckInAdvanceAmountError("Please Enter Advance Amount");
       firstInvalidRef ??= advanceAmountRef;
       isValid = false;
     }
 
     if (!rentAmount) {
-      setRentAmountError("Please Enter Rental Amount");
+      setCheckInRentAmountError("Please Enter Rental Amount");
       firstInvalidRef ??= rentAmountRef;
       isValid = false;
     }
@@ -700,10 +723,17 @@ function AddTenantBookingCheckin({
 
   // Checkin
 
-  const handleCheckinFloorChange = (val) => setCheckinFloor(val.value);
-  const handleCheckinRoomChange = (val) => setCheckinRoom(val.value);
+  const handleCheckinFloorChange = (val) => {
+    setCheckinFloor(val.value);
+    setCheckInFloorError("");
+  };
+  const handleCheckinRoomChange = (val) => {
+    setCheckinRoom(val.value);
+    setCheckInRoomError("");
+  };
 
   const handleCheckinBedChange = (val) => {
+    setCheckInBedError("");
     const selectedBedId = val?.value || "";
     setCheckinBed(selectedBedId);
     const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
@@ -802,12 +832,48 @@ function AddTenantBookingCheckin({
       }))
     : [];
 
-  const [collectFullRent, setCollectFullRent] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
-  const [customRentEnable, setCustomRentEnable] = useState(false);
-  const [oneTimePayments, setOneTimePayments] = useState([]);
-  const [customRent, setCustomRent] = useState("");
-  const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  const handleInputChangeOneTime = (index, field, value) => {
+    const updatedFields = [...oneTimePayments];
+    const updatedErrors = [...errors];
+
+    if (field === "reason" || field === "customReason") {
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
+        }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      let numericValue = value.replace(/[^0-9.]/g, "");
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setOneTimePayments(updatedFields);
+    setErrors(updatedErrors);
+  };
 
   const handleCustomRentChange = (e) => {
     setCustomRent(e.target.value);
@@ -836,6 +902,16 @@ function AddTenantBookingCheckin({
         showInput: false,
       },
     ]);
+  };
+
+  const handleRemoveFieldOneTime = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setOneTimePayments(updatedFields);
+
+    const updatedErrors = [...errors];
+    updatedErrors.splice(index, 1);
+    setErrorsOneTime(updatedErrors);
   };
 
   // console.log(
@@ -965,28 +1041,37 @@ function AddTenantBookingCheckin({
 
   return (
     <div className="bg-white w-full">
-      <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
-        <button
-          onClick={() => setActiveTab("booking")}
-          className={`px-4 py-1.5 text-sm rounded-md ${
-            activeTab === "booking"
-              ? "bg-white shadow text-[#1E45E1]"
-              : "text-gray-500"
-          }`}
-        >
-          Booking
-        </button>
+      <div className="flex justify-between">
+        <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
+          <button
+            onClick={() => setActiveTab("booking")}
+            className={`px-4 py-1.5 text-sm rounded-md ${
+              activeTab === "booking"
+                ? "bg-white shadow text-[#1E45E1]"
+                : "text-gray-500"
+            }`}
+          >
+            Booking
+          </button>
 
-        <button
-          onClick={() => setActiveTab("checkin")}
-          className={`px-4 py-1.5 text-sm rounded-md ${
-            activeTab === "checkin"
-              ? "bg-white shadow text-[#1E45E1]"
-              : "text-gray-500"
-          }`}
-        >
-          Check-In
-        </button>
+          <button
+            onClick={() => setActiveTab("checkin")}
+            className={`px-4 py-1.5 text-sm rounded-md ${
+              activeTab === "checkin"
+                ? "bg-white shadow text-[#1E45E1]"
+                : "text-gray-500"
+            }`}
+          >
+            Check-In
+          </button>
+        </div>
+
+        <Add
+          size="24"
+          color="#FF0000"
+          onClick={handleClose}
+          className="cursor-pointer rotate-45"
+        />
       </div>
 
       {activeTab === "booking" ? (
@@ -1347,7 +1432,7 @@ function AddTenantBookingCheckin({
         </div>
       ) : (
         <div>
-          <div className="w-full rounded-lg bg-[#F5F7FA] p-1 flex items-center">
+          <div className="w-full rounded-lg bg-[#F5F7FA] p-1 flex items-center mb-2">
             <button
               type="button"
               onClick={() => setStayType("long")}
@@ -1372,265 +1457,326 @@ function AddTenantBookingCheckin({
               Short Stay
             </button>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="mb-2">
-              <label className="text-sm font-medium text-[#222222] mb-2 block">
-                Joining Date <span className="text-red-500 text-xl">*</span>
-              </label>
-              <div className="datepicker-wrapper relative w-full">
-                <DatePicker
-                  className={`w-full h-[42px] cursor-pointer font-gilroy ${
-                    joiningDate ? "font-semibold" : "font-medium"
-                  }`}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={joiningDate ? dayjs(joiningDate) : null}
-                  onChange={handleJoiningDateChange}
-                  getPopupContainer={() => document.body}
-                  style={{ fontSize: 10 }}
-                  disabledDate={(current) =>
-                    current && current > dayjs().endOf("day")
-                  }
-                />
-              </div>
-            </div>
-          </div>
 
-          <div className="mb-2">
-            <div className="flex justify-between mb-2 ">
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Select Stay Details
-                </label>
-              </div>
-              <button
-                onClick={() => handleBedLayoutPreview("checkin-way")}
-                className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
-              >
-                <IoBedOutline className="text-[12px]" /> Bed Layout View
-              </button>
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Floor <span className="text-red-500 text-xl">*</span>
-                </label>
-                <Select
-                  disabled={!joiningDate}
-                  options={
-                    state.UsersList.floorList?.map((u) => ({
-                      value: u.id,
-                      label: u.name,
-                    })) || []
-                  }
-                  value={
-                    state.UsersList.floorList?.find(
-                      (option) => option.id === checkinFloor,
-                    )
-                      ? {
-                          value: checkinFloor,
-                          label: state.UsersList.floorList.find(
-                            (option) => option.id === checkinFloor,
-                          )?.name,
-                        }
-                      : null
-                  }
-                  onChange={handleCheckinFloorChange}
-                  styles={CustomStyles}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Room <span className="text-red-500 text-xl">*</span>
-                </label>
-                <Select
-                  isDisabled={!joiningDate || !checkinFloor}
-                  options={roomOptions}
-                  value={
-                    state.PgList?.roomsList?.find(
-                      (option) => option.id === checkinRoom,
-                    )
-                      ? {
-                          value: checkinRoom,
-                          label: state.PgList?.roomsList.find(
-                            (option) => option.id === checkinRoom,
-                          )?.name,
-                        }
-                      : null
-                  }
-                  onChange={handleCheckinRoomChange}
-                  styles={CustomStyles}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-[#222222] mb-2 block">
-                  Bed <span className="text-red-500 text-xl">*</span>
-                </label>
-                <Select
-                  disabled={!joiningDate}
-                  options={
-                    availableCheckinBed
-                      ? availableCheckinBed
-                          .filter(
-                            (item) =>
-                              item &&
-                              item?.bedName !== "0" &&
-                              item?.bedName !== "undefined" &&
-                              item?.bedName !== "" &&
-                              item?.bedName !== "null",
-                          )
-                          .map((item) => ({
-                            value: item?.bedId,
-                            label: item?.bedName,
-                          }))
-                      : []
-                  }
-                  value={
-                    availableCheckinBed
-                      ? (() => {
-                          const selected = availableCheckinBed?.find(
-                            (option) => option?.bedId === checkinBed,
-                          );
-                          return selected
-                            ? {
-                                value: selected.bedId,
-                                label: selected.bedName,
-                              }
-                            : null;
-                        })()
-                      : null
-                  }
-                  onChange={handleCheckinBedChange}
-                  styles={CustomStyles}
-                />
-              </div>
-              {bedWarning ? (
-                <div className="">
-                  <ErrorMessage message={bedWarning} type="error" />
-                </div>
-              ) : null}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-12 gap-x-4">
-            <div className="col-span-12">
-              <div className="flex items-center justify-between">
-                <label className="text-sm text-gray-800 font-gilroy font-medium">
-                  Advance amount ₹ (INR)
-                  {!isAdvanceRefused && (
-                    <span className="text-red-500 text-xl">*</span>
-                  )}
-                </label>
-
-                <div className="flex items-center justify-between mt-1 gap-2 mb-2">
-                  <span className="text-xs text-gray-700 font-medium">
-                    Do you want to refuse advance amount?
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsAdvanceRefused(!isAdvanceRefused);
-                      if (!isAdvanceRefused) setAdvanceAmount("");
-                    }}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                      isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                        isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+          {stayType === "long" ? (
+            <div>
+              <div className="grid grid-cols-1 gap-4 mb-2">
+                <div className="mb-2">
+                  <label className="text-sm font-medium text-[#222222] mb-2 block">
+                    Joining Date <span className="text-red-500 text-xl">*</span>
+                  </label>
+                  <div className="datepicker-wrapper relative w-full">
+                    <DatePicker
+                      className={`w-full h-[42px] cursor-pointer font-gilroy ${
+                        joiningDate ? "font-semibold" : "font-medium"
                       }`}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={joiningDate ? dayjs(joiningDate) : null}
+                      onChange={handleJoiningDateChange}
+                      getPopupContainer={() => document.body}
+                      style={{ fontSize: 10 }}
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf("day")
+                      }
                     />
+                    {checkInJoiningDateError && (
+                      <ErrorMessage
+                        message={checkInJoiningDateError}
+                        type="error"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-2">
+                <div className="flex justify-between mb-2 ">
+                  <div>
+                    <label className="text-sm font-medium text-[#222222] mb-2 block">
+                      Select Stay Details
+                    </label>
+                  </div>
+                  <button
+                    onClick={() => handleBedLayoutPreview("checkin-way")}
+                    className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
+                  >
+                    <IoBedOutline className="text-[12px]" /> Bed Layout View
                   </button>
                 </div>
+
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="text-sm font-medium text-[#222222] mb-2 block">
+                      Floor <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <Select
+                      disabled={!joiningDate}
+                      options={
+                        state.UsersList.floorList?.map((u) => ({
+                          value: u.id,
+                          label: u.name,
+                        })) || []
+                      }
+                      value={
+                        state.UsersList.floorList?.find(
+                          (option) => option.id === checkinFloor,
+                        )
+                          ? {
+                              value: checkinFloor,
+                              label: state.UsersList.floorList.find(
+                                (option) => option.id === checkinFloor,
+                              )?.name,
+                            }
+                          : null
+                      }
+                      onChange={handleCheckinFloorChange}
+                      styles={CustomStyles}
+                    />
+                    {checkInFloorError && (
+                      <ErrorMessage message={checkInFloorError} type="error" />
+                    )}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-[#222222] mb-2 block">
+                      Room <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <Select
+                      isDisabled={!joiningDate || !checkinFloor}
+                      options={roomOptions}
+                      value={
+                        state.PgList?.roomsList?.find(
+                          (option) => option.id === checkinRoom,
+                        )
+                          ? {
+                              value: checkinRoom,
+                              label: state.PgList?.roomsList.find(
+                                (option) => option.id === checkinRoom,
+                              )?.name,
+                            }
+                          : null
+                      }
+                      onChange={handleCheckinRoomChange}
+                      styles={CustomStyles}
+                    />
+                    {checkInRoomError && (
+                      <ErrorMessage message={checkInRoomError} type="error" />
+                    )}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-[#222222] mb-2 block">
+                      Bed <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <Select
+                      disabled={!joiningDate}
+                      options={
+                        availableCheckinBed
+                          ? availableCheckinBed
+                              .filter(
+                                (item) =>
+                                  item &&
+                                  item?.bedName !== "0" &&
+                                  item?.bedName !== "undefined" &&
+                                  item?.bedName !== "" &&
+                                  item?.bedName !== "null",
+                              )
+                              .map((item) => ({
+                                value: item?.bedId,
+                                label: item?.bedName,
+                              }))
+                          : []
+                      }
+                      value={
+                        availableCheckinBed
+                          ? (() => {
+                              const selected = availableCheckinBed?.find(
+                                (option) => option?.bedId === checkinBed,
+                              );
+                              return selected
+                                ? {
+                                    value: selected.bedId,
+                                    label: selected.bedName,
+                                  }
+                                : null;
+                            })()
+                          : null
+                      }
+                      onChange={handleCheckinBedChange}
+                      styles={CustomStyles}
+                    />
+                    {checkInBedError && (
+                      <ErrorMessage message={checkInBedError} type="error" />
+                    )}
+                  </div>
+                  {bedWarning ? (
+                    <div className="">
+                      <ErrorMessage message={bedWarning} type="error" />
+                    </div>
+                  ) : null}
+                </div>
               </div>
 
-              <input
-                type="text"
-                placeholder="Enter Amount"
-                value={advanceAmount}
-                onChange={handleAdvanceAmount}
-                disabled={isAdvanceRefused}
-                className={`w-full text-[14px] text-gray-700 font-gilroy ${
-                  advanceAmount ? "font-semibold" : "font-medium"
-                } shadow-none border h-12 rounded-md px-3 outline-none ${
-                  isAdvanceRefused
-                    ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                    : "border-gray-300"
-                }`}
-              />
+              <div className="grid grid-cols-12 gap-x-4">
+                <div className="col-span-12">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm text-gray-800 font-gilroy font-medium">
+                      Advance amount ₹ (INR)
+                      {!isAdvanceRefused && (
+                        <span className="text-red-500 text-xl">*</span>
+                      )}
+                    </label>
 
-              {!isAdvanceRefused && advanceAmountError && (
-                <ErrorMessage message={advanceAmountError} type="error" />
-              )}
-            </div>
-          </div>
+                    <div className="flex items-center justify-between mt-1 gap-2 mb-2">
+                      <span className="text-xs text-gray-700 font-medium">
+                        Do you want to refuse advance amount?
+                      </span>
 
-          <div className="border-1 rounded-lg border-[#F2F4F6]  bg-[#F7FAFF] my-3">
-            <div className="p-2">
-              <label className="text-sm font-gilroy font-medium  text-[#222222]">
-                Non Refundable Amount
-              </label>
-            </div>
-
-            <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-              {fields.map((item, index) => {
-                const isMaintenanceSelected = fields.some(
-                  (field) => field.reason === "maintenance",
-                );
-
-                const filteredOptions = reasonOptions.map((opt) => {
-                  if (opt.value === "maintenance") {
-                    return {
-                      ...opt,
-                      isDisabled:
-                        isMaintenanceSelected && item.reason !== "maintenance",
-                    };
-                  }
-                  return opt;
-                });
-
-                return (
-                  <div className="row px-4 mb-3" key={index}>
-                    <div className="col-md-6">
-                      {!item.showInput ? (
-                        <Select
-                          menuPlacement="top"
-                          // menuPosition="fixed"
-                          options={filteredOptions}
-                          value={
-                            filteredOptions.find(
-                              (opt) => opt.value === item.reason_name,
-                            ) || null
-                          }
-                          onChange={(selectedOption) => {
-                            const selectedValue = selectedOption.value;
-
-                            if (selectedValue === "others") {
-                              handleInputChange(index, "reason", "others");
-                            } else {
-                              handleInputChange(index, "reason", selectedValue);
-                            }
-                          }}
-                          isDisabled={item.reason === "maintenance"}
-                          styles={CustomStyles}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsAdvanceRefused(!isAdvanceRefused);
+                          if (!isAdvanceRefused) setAdvanceAmount("");
+                        }}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                          isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                            isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                          }`}
                         />
-                      ) : (
-                        <>
+                      </button>
+                    </div>
+                  </div>
+
+                  <input
+                    type="text"
+                    placeholder="Enter Amount"
+                    value={advanceAmount}
+                    onChange={handleAdvanceAmount}
+                    disabled={isAdvanceRefused}
+                    className={`w-full text-[14px] text-gray-700 font-gilroy ${
+                      advanceAmount ? "font-semibold" : "font-medium"
+                    } shadow-none border h-12 rounded-md px-3 outline-none ${
+                      isAdvanceRefused
+                        ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                        : "border-gray-300"
+                    }`}
+                  />
+
+                  {!isAdvanceRefused && checkInAdvanceAmountError && (
+                    <ErrorMessage
+                      message={checkInAdvanceAmountError}
+                      type="error"
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="border-1 rounded-lg border-[#F2F4F6]  bg-[#F7FAFF] my-3">
+                <div className="p-2">
+                  <label className="text-sm font-gilroy font-medium  text-[#222222]">
+                    Non Refundable Amount
+                  </label>
+                </div>
+
+                <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
+                  {fields.map((item, index) => {
+                    const isMaintenanceSelected = fields.some(
+                      (field) => field.reason === "maintenance",
+                    );
+
+                    const filteredOptions = reasonOptions.map((opt) => {
+                      if (opt.value === "maintenance") {
+                        return {
+                          ...opt,
+                          isDisabled:
+                            isMaintenanceSelected &&
+                            item.reason !== "maintenance",
+                        };
+                      }
+                      return opt;
+                    });
+
+                    return (
+                      <div className="row px-4 mb-3" key={index}>
+                        <div className="col-md-6">
+                          {!item.showInput ? (
+                            <Select
+                              menuPlacement="top"
+                              // menuPosition="fixed"
+                              options={filteredOptions}
+                              value={
+                                filteredOptions.find(
+                                  (opt) => opt.value === item.reason_name,
+                                ) || null
+                              }
+                              onChange={(selectedOption) => {
+                                const selectedValue = selectedOption.value;
+
+                                if (selectedValue === "others") {
+                                  handleInputChange(index, "reason", "others");
+                                } else {
+                                  handleInputChange(
+                                    index,
+                                    "reason",
+                                    selectedValue,
+                                  );
+                                }
+                              }}
+                              isDisabled={item.reason === "maintenance"}
+                              styles={CustomStyles}
+                            />
+                          ) : (
+                            <>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter custom reason"
+                                value={item.customReason}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    index,
+                                    "customReason",
+                                    e.target.value,
+                                  )
+                                }
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 45,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </>
+                          )}
+                          {errors[index]?.reason && (
+                            <ErrorMessage
+                              message={errors[index]?.reason}
+                              type="error"
+                            />
+                          )}
+                        </div>
+
+                        <div className="col-md-5 relative">
                           <input
                             type="text"
-                            className="form-control"
-                            placeholder="Enter custom reason"
-                            value={item.customReason}
+                            placeholder="Enter amount"
+                            value={item.amount}
+                            //                                  onKeyDown={(e) => {
+                            // if (e.key === "." || e.key === "e" || e.key === "-") {
+                            //   e.preventDefault();
+                            // }
+                            // }}
                             onChange={(e) =>
-                              handleInputChange(
-                                index,
-                                "customReason",
-                                e.target.value,
-                              )
+                              handleInputChange(index, "amount", e.target.value)
                             }
+                            className="form-control"
                             style={{
                               fontSize: 16,
                               color: "#4B4B4B",
@@ -1642,70 +1788,35 @@ function AddTenantBookingCheckin({
                               borderRadius: 8,
                             }}
                           />
-                        </>
-                      )}
-                      {errors[index]?.reason && (
-                        <ErrorMessage
-                          message={errors[index]?.reason}
-                          type="error"
-                        />
-                      )}
-                    </div>
-
-                    <div className="col-md-5 relative">
-                      <input
-                        type="text"
-                        placeholder="Enter amount"
-                        value={item.amount}
-                        //                                  onKeyDown={(e) => {
-                        // if (e.key === "." || e.key === "e" || e.key === "-") {
-                        //   e.preventDefault();
-                        // }
-                        // }}
-                        onChange={(e) =>
-                          handleInputChange(index, "amount", e.target.value)
-                        }
-                        className="form-control"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 45,
-                          borderRadius: 8,
-                        }}
-                      />
-                      {errors[index]?.amount && (
-                        <ErrorMessage
-                          message={errors[index]?.amount}
-                          type="error"
-                        />
-                      )}
-                      <CloseCircle
-                        variant="Bold"
-                        size="20"
-                        className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                        onClick={() => handleRemoveField(index)}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex w-full px-4">
-              <button
-                disabled={isAdvanceRefused}
-                onClick={handleAddField}
-                className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1]   disabled:bg-gray-100 disabled:text-gray-500
+                          {errors[index]?.amount && (
+                            <ErrorMessage
+                              message={errors[index]?.amount}
+                              type="error"
+                            />
+                          )}
+                          <CloseCircle
+                            variant="Bold"
+                            size="20"
+                            className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                            onClick={() => handleRemoveField(index)}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex w-full px-4">
+                  <button
+                    disabled={isAdvanceRefused}
+                    onClick={handleAddField}
+                    className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1]   disabled:bg-gray-100 disabled:text-gray-500
                         disabled:cursor-not-allowed  !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
-              >
-                <AddCircle color="#1E45E1" size="16" />
-                Add
-              </button>
-            </div>
-            {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
+                  >
+                    <AddCircle color="#1E45E1" size="16" />
+                    Add
+                  </button>
+                </div>
+                {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
               <span className="text-[#505F76] text-xs ">
                 TOTAL FIXED CHARGES
               </span>
@@ -1713,201 +1824,242 @@ function AddTenantBookingCheckin({
                 ₹ {total.toLocaleString()}
               </span>
             </div> */}
-          </div>
-
-          <div className="text-[#505F76] text-xs font-medium text-justify flex flex-wrap my-2 pe-16">
-            Note: These charges are deducted from the initial security deposit
-            or collected at the time of check-in and are non-adjustable.
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 mb-2">
-            <div className="mb-2">
-              <label className="text-sm font-medium text-[#222222] mb-2 block">
-                Rental amount-Base ₹(INR){" "}
-                <span className="text-red-500 text-xl">*</span>
-              </label>
-              <input
-                placeholder="Enter Rental Amount"
-                value={rentAmount}
-                onChange={handleRentAmountChange}
-                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-              />
-            </div>
-          </div>
-
-          <div className="w-full max-w-[680px] bg-white">
-            <div className="flex items-center  justify-between px-1 py-3">
-              <div className="flex items-center gap-2 ">
-                <input
-                  type="checkbox"
-                  checked={collectFullRent}
-                  onChange={handleCheckboxChange}
-                  className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
-                />
-
-                <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2">
-                  Do you want to collect Full Rent for current month?
-                  <InfoCircle
-                    size="16"
-                    color="#9CA3AF"
-                    variant="Linear"
-                    className="cursor-pointer"
-                  />
-                </label>
               </div>
-              {collectFullRent && (
-                <div>
-                  <button
-                    onClick={() => setCustomRentEnable(!customRentEnable)}
-                    className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
-                      customRentEnable
-                        ? "bg-[#0D1B8E] text-white"
-                        : "bg-[#EAEEFF] text-[#1E45E1]"
-                    }`}
-                  >
-                    {customRentEnable ? (
-                      <>
-                        Remove Custom Rent
-                        <CloseCircle size="18" variant="Bold" />
-                      </>
-                    ) : (
-                      <>
-                        Add Custom Rent
-                        <ArrowRight2 size="16" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
 
-            {customRentEnable && (
-              <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
-                <div>
-                  <div className="text-sm font-medium text-[#222222] mb-1">
-                    Custom Rent Amount
-                  </div>
-                  <div className="text-[#64748B] text-[12px] font-medium">
-                    This amount is reflects to First month Rent only.
-                  </div>
+              <div className="text-[#505F76] text-xs font-medium text-justify flex flex-wrap my-2 pe-16">
+                Note: These charges are deducted from the initial security
+                deposit or collected at the time of check-in and are
+                non-adjustable.
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 mb-2">
+                <div className="mb-2">
+                  <label className="text-sm font-medium text-[#222222] mb-2 block">
+                    Rental amount-Base ₹(INR){" "}
+                    <span className="text-red-500 text-xl">*</span>
+                  </label>
+                  <input
+                    placeholder="Enter Rental Amount"
+                    value={rentAmount}
+                    onChange={handleRentAmountChange}
+                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                  />
+                  {checkInRentAmountError && (
+                    <ErrorMessage
+                      message={checkInRentAmountError}
+                      type="error"
+                    />
+                  )}
                 </div>
-                <div className="relative min-w-[220px]">
-                  {customRentEditMode ? (
-                    <>
-                      <input
-                        type="number"
-                        value={customRent}
-                        onChange={handleCustomRentChange}
-                        className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                          customRent ? "font-semibold" : "font-medium"
-                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+              </div>
+
+              <div className="w-full max-w-[680px] bg-white">
+                <div className="flex items-center  justify-between px-1 py-3">
+                  <div className="flex items-center gap-2 ">
+                    <input
+                      type="checkbox"
+                      checked={collectFullRent}
+                      onChange={handleCheckboxChange}
+                      className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+                    />
+
+                    <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2">
+                      Do you want to collect Full Rent for current month?
+                      <InfoCircle
+                        size="16"
+                        color="#9CA3AF"
+                        variant="Linear"
+                        className="cursor-pointer"
                       />
-
+                    </label>
+                  </div>
+                  {collectFullRent && (
+                    <div>
                       <button
-                        onClick={() => setCustomRentEditMode(false)}
-                        className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                        onClick={() => setCustomRentEnable(!customRentEnable)}
+                        className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
+                          customRentEnable
+                            ? "bg-[#0D1B8E] text-white"
+                            : "bg-[#EAEEFF] text-[#1E45E1]"
+                        }`}
                       >
-                        Set
-                      </button>
-                    </>
-                  ) : (
-                    <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
-                      <span className="font-semibold text-[#222222] text-base">
-                        ₹ {customRent || 0}
-                      </span>
-
-                      <button
-                        onClick={() => setCustomRentEditMode(true)}
-                        className="text-[#1E45E1]"
-                      >
-                        <Edit2 size="18" color="#64748B" />
+                        {customRentEnable ? (
+                          <>
+                            Remove Custom Rent
+                            <CloseCircle size="18" variant="Bold" />
+                          </>
+                        ) : (
+                          <>
+                            Add Custom Rent
+                            <ArrowRight2 size="16" />
+                          </>
+                        )}
                       </button>
                     </div>
                   )}
                 </div>
-              </div>
-            )}
-            <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
-              <div
-                onClick={handleAccordionToggle}
-                className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
-              >
-                <h3 className="text-[14px] font-medium text-[#222222]">
-                  Add Onetime Payment
-                </h3>
 
-                {isOpen ? (
-                  <ArrowUp2 size="20" color="#4B5563" variant="Linear" />
-                ) : (
-                  <ArrowDown2 size="20" color="#4B5563" variant="Linear" />
-                )}
-              </div>
-
-              <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                {oneTimePayments.map((item, index) => {
-                  const isMaintenanceSelected = fields.some(
-                    (field) => field.reason === "maintenance",
-                  );
-
-                  const filteredOptions = reasonOptions.map((opt) => {
-                    if (opt.value === "maintenance") {
-                      return {
-                        ...opt,
-                        isDisabled:
-                          isMaintenanceSelected &&
-                          item.reason !== "maintenance",
-                      };
-                    }
-                    return opt;
-                  });
-
-                  return (
-                    <div className="row px-4 mb-3" key={index}>
-                      <div className="col-md-6">
-                        {!item.showInput ? (
-                          <Select
-                            menuPlacement="top"
-                            // menuPosition="fixed"
-                            options={filteredOptions}
-                            value={
-                              filteredOptions.find(
-                                (opt) => opt.value === item.reason_name,
-                              ) || null
-                            }
-                            onChange={(selectedOption) => {
-                              const selectedValue = selectedOption.value;
-
-                              if (selectedValue === "others") {
-                                handleInputChangeOneTime(
-                                  index,
-                                  "reason",
-                                  "others",
-                                );
-                              } else {
-                                handleInputChangeOneTime(
-                                  index,
-                                  "reason",
-                                  selectedValue,
-                                );
-                              }
-                            }}
-                            isDisabled={item.reason === "maintenance"}
-                            styles={CustomStyles}
+                {customRentEnable && (
+                  <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
+                    <div>
+                      <div className="text-sm font-medium text-[#222222] mb-1">
+                        Custom Rent Amount
+                      </div>
+                      <div className="text-[#64748B] text-[12px] font-medium">
+                        This amount is reflects to First month Rent only.
+                      </div>
+                    </div>
+                    <div className="relative min-w-[220px]">
+                      {customRentEditMode ? (
+                        <>
+                          <input
+                            type="number"
+                            value={customRent}
+                            onChange={handleCustomRentChange}
+                            className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                              customRent ? "font-semibold" : "font-medium"
+                            } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
                           />
-                        ) : (
-                          <>
+
+                          <button
+                            onClick={() => setCustomRentEditMode(false)}
+                            className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                          >
+                            Set
+                          </button>
+                        </>
+                      ) : (
+                        <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
+                          <span className="font-semibold text-[#222222] text-base">
+                            ₹ {customRent || 0}
+                          </span>
+
+                          <button
+                            onClick={() => setCustomRentEditMode(true)}
+                            className="text-[#1E45E1]"
+                          >
+                            <Edit2 size="18" color="#64748B" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
+                  <div
+                    onClick={handleAccordionToggle}
+                    className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
+                  >
+                    <h3 className="text-[14px] font-medium text-[#222222]">
+                      Add Onetime Payment
+                    </h3>
+
+                    {isOpen ? (
+                      <ArrowUp2 size="20" color="#4B5563" variant="Linear" />
+                    ) : (
+                      <ArrowDown2 size="20" color="#4B5563" variant="Linear" />
+                    )}
+                  </div>
+
+                  <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
+                    {oneTimePayments?.map((item, index) => {
+                      const isMaintenanceSelected = oneTimePayments.some(
+                        (field) => field.reason === "maintenance",
+                      );
+
+                      const filteredOptions = reasonOptions.map((opt) => {
+                        if (opt.value === "maintenance") {
+                          return {
+                            ...opt,
+                            isDisabled:
+                              isMaintenanceSelected &&
+                              item.reason !== "maintenance",
+                          };
+                        }
+                        return opt;
+                      });
+
+                      return (
+                        <div className="row px-4 mb-3" key={index}>
+                          <div className="col-md-6">
+                            {!item.showInput ? (
+                              <Select
+                                menuPlacement="bottom"
+                                // menuPosition="fixed"
+                                options={filteredOptions}
+                                value={
+                                  filteredOptions.find(
+                                    (opt) => opt.value === item.reason_name,
+                                  ) || null
+                                }
+                                onChange={(selectedOption) => {
+                                  const selectedValue = selectedOption.value;
+
+                                  if (selectedValue === "others") {
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "reason",
+                                      "others",
+                                    );
+                                  } else {
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "reason",
+                                      selectedValue,
+                                    );
+                                  }
+                                }}
+                                isDisabled={item.reason === "maintenance"}
+                                styles={CustomStyles}
+                              />
+                            ) : (
+                              <>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter custom reason"
+                                  value={item.customReason}
+                                  onChange={(e) =>
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "customReason",
+                                      e.target.value,
+                                    )
+                                  }
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                    border: "1px solid #D9D9D9",
+                                    height: 45,
+                                    borderRadius: 8,
+                                  }}
+                                />
+                              </>
+                            )}
+                            {errors[index]?.reason && (
+                              <ErrorMessage
+                                message={errors[index]?.reason}
+                                type="error"
+                              />
+                            )}
+                          </div>
+
+                          <div className="col-md-5 relative">
                             <input
                               type="text"
-                              className="form-control"
-                              placeholder="Enter custom reason"
-                              value={item.customReason}
+                              placeholder="Enter amount"
+                              value={item.amount}
                               onChange={(e) =>
                                 handleInputChangeOneTime(
                                   index,
-                                  "customReason",
+                                  "amount",
                                   e.target.value,
                                 )
                               }
+                              className="form-control"
                               style={{
                                 fontSize: 16,
                                 color: "#4B4B4B",
@@ -1919,109 +2071,87 @@ function AddTenantBookingCheckin({
                                 borderRadius: 8,
                               }}
                             />
-                          </>
-                        )}
-                        {errors[index]?.reason && (
-                          <ErrorMessage
-                            message={errors[index]?.reason}
-                            type="error"
-                          />
-                        )}
-                      </div>
+                            {errors[index]?.amount && (
+                              <ErrorMessage
+                                message={errors[index]?.amount}
+                                type="error"
+                              />
+                            )}
+                            <CloseCircle
+                              variant="Bold"
+                              size="20"
+                              className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                              onClick={() => handleRemoveFieldOneTime(index)}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
 
-                      <div className="col-md-5 relative">
-                        <input
-                          type="text"
-                          placeholder="Enter amount"
-                          value={item.amount}
-                          //                                  onKeyDown={(e) => {
-                          // if (e.key === "." || e.key === "e" || e.key === "-") {
-                          //   e.preventDefault();
-                          // }
-                          // }}
-                          onChange={(e) =>
-                            handleInputChangeOneTime(
-                              index,
-                              "amount",
-                              e.target.value,
-                            )
-                          }
-                          className="form-control"
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 45,
-                            borderRadius: 8,
-                          }}
-                        />
-                        {errors[index]?.amount && (
-                          <ErrorMessage
-                            message={errors[index]?.amount}
-                            type="error"
-                          />
-                        )}
-                        <CloseCircle
-                          variant="Bold"
-                          size="20"
-                          className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                          onClick={() => handleRemoveFieldOneTime(index)}
-                        />
-                      </div>
+                  {isOpen && (
+                    <div className="p-4 bg-[#F7FAFF]">
+                      <button
+                        onClick={handleAddOneTimePayment}
+                        className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                      >
+                        <Add size="16" color="#4F46E5" variant="Linear" />
+                        Add
+                      </button>
                     </div>
-                  );
-                })}
+                  )}
+                </div>
               </div>
 
-              {isOpen && (
-                <div className="p-4 bg-[#F7FAFF]">
+              <div className="flex items-center gap-2 my-4">
+                <input
+                  type="checkbox"
+                  checked={isConfirmed}
+                  onChange={(e) => setIsConfirmed(e.target.checked)}
+                  className="cursor-pointer accent-green-600 w-4 h-4 "
+                />
+                <span className="text-[#0A090B] text-sm ">
+                  Everything is Correct – Proceed to Check-in
+                </span>
+              </div>
+
+              <div className="flex justify-between mt-3">
+                <button
+                  className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
+                  onClick={handleCheckInDraft}
+                >
+                  Save Draft
+                </button>
+                <div className="flex gap-2">
                   <button
-                    onClick={handleAddOneTimePayment}
-                    className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                    disabled={!isConfirmed}
+                    onClick={handleCheckin}
+                    className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
                   >
-                    <Add size="16" color="#4F46E5" variant="Linear" />
-                    Add
+                    {checkInLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Saving ....{" "}
+                      </>
+                    ) : (
+                      "Check in"
+                    )}
+                  </button>
+
+                  <button
+                    className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                    onClick={handleNextStep}
+                  >
+                    Next <ArrowRight color="#FFFFFF" size="18" />
                   </button>
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2 my-4">
-            <input
-              type="checkbox"
-              className="cursor-pointer accent-green-600 w-4 h-4 "
-            />
-            <span className="text-[#0A090B] text-sm ">
-              Everything is Correct – Proceed to Check-in
-            </span>
-          </div>
-
-          <div className="flex justify-between mt-3">
-            <button
-              className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-              onClick={handleCheckInDraft}
-            >
-              Save Draft
-            </button>
-            <div className="flex gap-2">
-              <button
-                onClick={handleCheckin}
-                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-              >
-                Check in
-              </button>
-              <button
-                className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-                onClick={handleNextStep}
-              >
-                Next <ArrowRight color="#FFFFFF" size="18" />
-              </button>
-            </div>
-          </div>
+          ) : (
+            <FormComingSoon />
+          )}
         </div>
       )}
 
