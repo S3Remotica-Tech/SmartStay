@@ -596,6 +596,13 @@ function AddExpenseNew() {
     setPaymentMethodError("");
     setPaidAmountError("");
     setSubCategoryError("");
+    setPaymentStatusError("");
+    setVendorError("");
+    setExpenseTitleError("");
+    setCategoryError("");
+    setAmountError("");
+    setPurchaseDateError("");
+    setExpenseItemErrors("");
 
     let isValid = true;
     let firstErrorRef = null;
@@ -605,6 +612,7 @@ function AddExpenseNew() {
 
     const setFirstError = (ref) => {
       if (!firstErrorRef) firstErrorRef = ref;
+
       isValid = false;
     };
 
@@ -677,7 +685,7 @@ function AddExpenseNew() {
       }
     }
 
-    if (isAvailablePaid && !paymentMethod?.value) {
+    if (paymentStatus !== "Pending" && !paymentMethod?.value) {
       setPaymentMethodError("Please Select Payment Method");
       setFirstError(paymentMethodRef);
     }
@@ -708,6 +716,17 @@ function AddExpenseNew() {
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
+    console.log("executed");
+    setPaymentMethodError("");
+    setPaidAmountError("");
+    setSubCategoryError("");
+    setPaymentStatusError("");
+    setVendorError("");
+    setExpenseTitleError("");
+    setCategoryError("");
+    setAmountError("");
+    setPurchaseDateError("");
+    setExpenseItemErrors("");
     setErrors({
       totalAmount: "",
       paidAmount: "",
@@ -1087,6 +1106,7 @@ function AddExpenseNew() {
                   onChange={handleAmount}
                   type="number"
                   placeholder="Enter Amount"
+                  onWheel={(e) => e.target.blur()}
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     amount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
@@ -1243,6 +1263,7 @@ function AddExpenseNew() {
                           type="number"
                           value={paidAmount}
                           onChange={handlePaidAmountChange}
+                          onWheel={(e) => e.target.blur()}
                           placeholder="Enter Paid Amount"
                           className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                             paidAmount ? "font-semibold" : "font-medium"
@@ -1278,6 +1299,7 @@ function AddExpenseNew() {
                           type="number"
                           value={balanceAmount}
                           readOnly
+                          onWheel={(e) => e.target.blur()}
                           // onChange={handleBalanceAmountChange}
                           placeholder="Enter Balance Amount"
                           className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
@@ -1314,6 +1336,7 @@ function AddExpenseNew() {
                       value={creditPeriod}
                       onChange={handleCreditPeriodChange}
                       placeholder="Enter Credit Period"
+                      onWheel={(e) => e.target.blur()}
                       className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                         creditPeriod ? "font-semibold" : "font-medium"
                       } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
@@ -1324,7 +1347,7 @@ function AddExpenseNew() {
             </>
           )}
           <div className="">
-            {isAvailablePaid && (
+            {paymentStatus !== "Pending" && (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-2 mb-2 ">
                   <div className="col-span-1 xl:col-span-8  ">
@@ -1582,6 +1605,7 @@ function AddExpenseNew() {
                                     e.target.value,
                                   )
                                 }
+                                onWheel={(e) => e.target.blur()}
                                 className="w-full  outline-none text-sm rounded-md"
                               />
                             </td>
@@ -1619,7 +1643,8 @@ function AddExpenseNew() {
                                     e.target.value,
                                   )
                                 }
-                                className="w-full  outline-none text-sm rounded-md"
+                                onWheel={(e) => e.target.blur()}
+                                className="w-full  outline-none text-sm rounded-md bg-gray-100"
                               />
                             </td>
 
@@ -1731,6 +1756,7 @@ function AddExpenseNew() {
 
                       <div className="w-full flex flex-col items-end">
                         <input
+                          onWheel={(e) => e.target.blur()}
                           type="number"
                           value={tax}
                           onChange={(e) => {
@@ -1785,6 +1811,7 @@ function AddExpenseNew() {
                       </div>
                       <div className="flex flex-col items-end">
                         <input
+                          onWheel={(e) => e.target.blur()}
                           type="number"
                           value={discount}
                           onChange={(e) => {

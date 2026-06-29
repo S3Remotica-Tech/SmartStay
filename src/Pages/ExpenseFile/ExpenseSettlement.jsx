@@ -448,6 +448,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
                   value={paidAmount}
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
+                  onWheel={(e) => e.target.blur()}
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     paidAmount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}

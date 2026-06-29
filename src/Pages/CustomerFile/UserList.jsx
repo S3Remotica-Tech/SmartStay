@@ -880,14 +880,14 @@ function UserList(props) {
   //   }
   // }, [state.UsersList?.UserListStatusCode]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "CHECKOUTCUSTOMERLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "CHECKOUTCUSTOMERLIST",
+  //       payload: { hostelId: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
