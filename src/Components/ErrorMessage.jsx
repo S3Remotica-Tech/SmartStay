@@ -3,65 +3,41 @@ import { PiWarningCircle } from "react-icons/pi";
 import { IoIosCheckmark } from "react-icons/io";
 import { MdWarningAmber } from "react-icons/md";
 import PropTypes from "prop-types";
+
 const Message = ({ message, type = "error" }) => {
   if (!message || (Array.isArray(message) && message.length === 0)) return null;
 
   const messages = Array.isArray(message) ? message : [message];
 
+  const variants = {
+    success: {
+      icon: <IoIosCheckmark className="text-[#03A000] text-[18px]" />,
+      text: "text-[#03A000]",
+      bg: "bg-[rgba(230,255,230,0.7)]",
+    },
+    warning: {
+      icon: <MdWarningAmber className="text-[#FF8C00] text-[18px]" />,
+      text: "text-[#FF8C00]",
+      bg: "bg-[rgba(255,140,0,0.15)]",
+    },
+    error: {
+      icon: <PiWarningCircle className="text-[#FF0000] text-[16px]" />,
+      text: "text-[#FF0000]",
+      bg: "bg-[rgba(255,243,243,0.64)]",
+    },
+  };
 
-  let icon, textColor, bgColor;
-
-  switch (type) {
-    case "success":
-      icon = <IoIosCheckmark style={{ color: "#03A000", fontSize: 18 }} />;
-      textColor = "#03A000";
-      bgColor = "rgba(230, 255, 230, 0.7)";
-      break;
-    case "warning":
-      icon = <MdWarningAmber style={{ color: "#FF8C00", fontSize: 18 }} />; 
-      textColor = "#FF8C00"; 
-      bgColor = "rgba(255, 140, 0, 0.15)"; 
-      break;
-
-    default:
-      icon = <PiWarningCircle style={{ color: "#FF0000", fontSize: 16 }} />;
-      textColor = "#FF0000";
-      bgColor = "rgba(255, 243, 243, 0.64)";
-  }
+  const { icon, text, bg } = variants[type] || variants.error;
 
   return (
-    <div className=""
-      style={{
-        backgroundColor: bgColor,
-        marginTop: 4,
-        padding: "6px 10px",
-        borderRadius: 4,
-        display: "flex",
-        flexDirection: "column",
-        gap: 4,
-        width: "fit-content",
-        textWrap: "wrap"
-      }}
+    <div
+      className={`${bg} mt-1 px-[10px] py-[6px] rounded w-fit flex flex-col gap-1 whitespace-nowrap`}
     >
       {messages.map((msg, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-          }}
-        >
+        <div key={index} className="flex items-center gap-[6px]">
           {icon}
           <span
-            style={{
-              fontSize: 12,
-              lineHeight: "16px",
-              color: textColor,
-              fontFamily: "Gilroy",
-              fontWeight: 500,
-              whiteSpace: "wrap",
-            }}
+            className={`${text} text-[12px] leading-4 font-gilroy font-medium whitespace-nowrap`}
           >
             {msg}
           </span>
@@ -70,13 +46,14 @@ const Message = ({ message, type = "error" }) => {
     </div>
   );
 };
+
 Message.propTypes = {
   message: PropTypes.oneOfType([
-  PropTypes.string,
-  PropTypes.array,
-  PropTypes.node,
-]),
-
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
   type: PropTypes.string,
 };
+
 export default Message;

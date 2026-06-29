@@ -536,6 +536,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   value={paidAmount}
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
+                  onWheel={(e) => e.target.blur()}
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     paidAmount ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
@@ -843,6 +844,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                                 handleAmountApplyChange(index, e.target.value)
                               }
                               max={item.totalBalance}
+                              onWheel={(e) => e.target.blur()}
                               className="w-28 h-[38px] border border-[#D9D9D9] rounded-md px-3 text-[11px] font-medium focus:outline-none focus:border-[#1E45E1]"
                               placeholder="₹ 0.00"
                             />
