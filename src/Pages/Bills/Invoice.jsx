@@ -276,10 +276,10 @@ const InvoicePage = () => {
     if (state.login.selectedHostel_Id) {
       setPage(1);
       setFilterInput("");
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id]);
@@ -287,12 +287,24 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+    };
+
+    if (statusfilter && statusfilter.value !== "ALL") {
+      payload.filters = {
+        paymentStatus: [statusfilter.value],
+        search: filterInput,
+      };
+    }
+
     dispatch({
       type: "INVOICESLISTFILTER",
-      payload: { hostelId: state.login.selectedHostel_Id },
+      payload,
     });
+
     setLoading(false);
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id, statusfilter, filterInput]);
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
@@ -496,31 +508,24 @@ const InvoicePage = () => {
       minHeight: "32px",
       height: "32px",
       width: "100%",
-      border: "1px solid #D9D9D9",
+      border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
       borderRadius: "8px",
       fontSize: "12px",
       fontFamily: "Gilroy, sans-serif",
       fontWeight: 500,
       boxShadow: "none",
+      cursor: "pointer",
+      backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
 
-      cursor: state.isDisabled ? "not-allowed" : "pointer",
-      backgroundColor: state.isDisabled
-        ? "#F3F4F6"
-        : state.hasValue
-          ? "#F4F4F4"
-          : "#fff",
-      opacity: state.isDisabled ? 0.7 : 1,
+      "&:hover": {
+        borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
+      },
     }),
 
-    singleValue: (base, state) => ({
+    singleValue: (base) => ({
       ...base,
-      color: state.isDisabled ? "#9CA3AF" : "#333",
+      color: "#FFF",
       fontWeight: 500,
-    }),
-
-    placeholder: (base, state) => ({
-      ...base,
-      color: state.isDisabled ? "#9CA3AF" : "#6B7280",
     }),
 
     option: (base, state) => {
@@ -531,6 +536,7 @@ const InvoicePage = () => {
         position: "relative",
         fontSize: 13,
         padding: "6px 12px",
+        // margin: "2px 10px",
         backgroundColor: isSelected
           ? "#EEF2FF"
           : state.isFocused
@@ -579,11 +585,9 @@ const InvoicePage = () => {
       height: "32px",
     }),
 
-    dropdownIndicator: (base, state) => ({
+    dropdownIndicator: (base) => ({
       ...base,
       padding: "4px",
-      color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-      cursor: state.isDisabled ? "not-allowed" : "pointer",
     }),
 
     indicatorSeparator: () => ({
@@ -605,44 +609,8 @@ const InvoicePage = () => {
         search: "",
       },
     });
-    if (!selectedOption) {
-      setStatusfilter(null);
-
-      if (state.login?.selectedHostel_Id) {
-        dispatch({
-          type: "INVOICESLISTFILTER",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-          },
-        });
-      }
-      return;
-    }
 
     setStatusfilter(selectedOption);
-    // console.log("selectedOption", selectedOption);
-
-    if (!state.login?.selectedHostel_Id) return;
-
-    if (selectedOption.value === "ALL") {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    } else {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            paymentStatus: [selectedOption.value],
-            search: filterInput,
-          },
-        },
-      });
-    }
   };
 
   const [editvalue, setEditvalue] = useState("");

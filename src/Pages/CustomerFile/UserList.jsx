@@ -381,20 +381,20 @@ function UserList(props) {
 
   useEffect(() => {
     const statusValue = statusfilter === "ALL" ? "" : statusfilter;
-    if (!state.login.selectedHostel_Id) return;
-    dispatch({
-      type: "USERLIST",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        name: debouncedInput || "",
-        type: statusValue,
-        page: page,
-        size: size,
-        period: selectedMonth?.value,
-      },
-    });
-
-    setLoading(true);
+    if (state.login.selectedHostel_Id && value === "1") {
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          name: debouncedInput || "",
+          type: statusValue,
+          page: page,
+          size: size,
+          period: selectedMonth?.value,
+        },
+      });
+      setLoading(true);
+    }
 
     const filters = {
       status: statusfilter ? [statusfilter] : [],
