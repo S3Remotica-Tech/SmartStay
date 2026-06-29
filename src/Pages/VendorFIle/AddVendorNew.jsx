@@ -397,14 +397,15 @@ function AddVendorNew() {
 
   const handleVendorNameChange = (e) => {
     setNochanges("");
-    const value = e.target.value;
 
-    if (value.length <= 50) {
-      setVendorName(value);
+    const value = e.target.value.replace(/[^A-Za-z ]/g, "");
+
+    setVendorName(value);
+
+    if (value.trim()) {
       setVendorNameError("");
     }
   };
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -538,12 +539,17 @@ function AddVendorNew() {
 
   const handleCreditLimitChange = (e) => {
     setNochanges("");
-    setCreditLimit(e.target.value);
+    let value = e.target.value.replace(/\D/g, "");
+    value = value.replace(/^0+/, "");
+    setCreditLimit(value);
   };
 
   const handleCreditPeriodChange = (e) => {
     setNochanges("");
-    setCreditPeriod(e.target.value);
+    let value = e.target.value.replace(/\D/g, "");
+
+    value = value.replace(/^0+/, "");
+    setCreditPeriod(value);
   };
 
   const handleCreditPurchaseToggle = () => {
@@ -559,10 +565,12 @@ function AddVendorNew() {
 
   const handleContactPersonNameChange = (e) => {
     setNochanges("");
-    setContactPersonName(e.target.value);
+
+    const value = e.target.value.replace(/[^A-Za-z ]/g, "");
+
+    setContactPersonName(value);
     setContactPersonNameError("");
   };
-
   const handleBusinessMobileChange = (e) => {
     dispatch({ type: "CLEAR_VENDOR_MOBILE_ERROR" });
     setNochanges("");
@@ -659,19 +667,18 @@ function AddVendorNew() {
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
     setNochanges("");
 
-    const input = e.target.value;
-    const numericInput = input.replace(/\D/g, "");
+    const numericInput = e.target.value.replace(/\D/g, "").slice(0, 10);
     setVendor_Mobile(numericInput);
 
-    if (input.length === 0) {
+    if (numericInput.length === 0) {
       setMobileError("");
+    } else if (/^0+$/.test(numericInput)) {
+      setMobileError("Mobile Number cannot contain all zeros");
     } else if (!/^\d{10}$/.test(numericInput)) {
       setMobileError("Please Enter valid Mobile No");
     } else {
       setMobileError("");
     }
-
-    // setVendorPhoneError("");
     setGeneralError("");
     setCountryCodeError("");
     setIsChangedError("");
@@ -741,13 +748,28 @@ function AddVendorNew() {
       isValid = false;
     }
 
-    // if (!countryCode?.value) {
-    //   setCountryCodeError("Please Select Country Code");
-    //   if (!focusedRef.current) {
-    //     focusedRef.current = true;
-    //   }
-    //   isValid = false;
-    // }
+    if (vendor_Mobile) {
+      if (/^0+$/.test(vendor_Mobile)) {
+        setMobileError("Please Enter valid Mobile No");
+        isValid = false;
+      } else if (!/^\d{10}$/.test(vendor_Mobile)) {
+        setMobileError("Please Enter valid Mobile No");
+        isValid = false;
+      } else {
+        setMobileError("");
+      }
+    }
+
+    if (email_Id) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email_Id.trim())) {
+        setEmailError("Please Enter  Valid Email Id");
+        isValid = false;
+      } else {
+        setEmailError("");
+      }
+    }
 
     const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
 
@@ -937,8 +959,8 @@ function AddVendorNew() {
             gst: gstNumber,
             pan: panNumber,
             allowCredit: allowCreditPurchase,
-            creditLimit: Number(creditLimit || 0),
-            creditPeriod: Number(creditPeriod || 0),
+            creditLimit: allowCreditPurchase ? Number(creditLimit) : 0,
+            creditPeriod: allowCreditPurchase ? Number(creditPeriod) : 0,
           },
         },
       });
@@ -969,8 +991,8 @@ function AddVendorNew() {
             gst: gstNumber,
             pan: panNumber,
             allowCredit: allowCreditPurchase,
-            creditLimit: Number(creditLimit || 0),
-            creditPeriod: Number(creditPeriod || 0),
+            creditLimit: allowCreditPurchase ? Number(creditLimit) : 0,
+            creditPeriod: allowCreditPurchase ? Number(creditPeriod) : 0,
           },
         },
       });
@@ -1354,13 +1376,9 @@ function AddVendorNew() {
                   />
                 </div>
 
-                {/* {mobileError && (
+                {mobileError && (
                   <ErrorMessage message={mobileError} type="error" />
                 )}
-
-                {countryCodeError && (
-                  <ErrorMessage message={countryCodeError} type="error" />
-                )} */}
               </div>
             </div>
           </div>

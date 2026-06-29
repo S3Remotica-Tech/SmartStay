@@ -1287,6 +1287,7 @@ function AddExpenseNew() {
 
                         <input
                           type="number"
+                          ref={paidAmountRef}
                           value={paidAmount}
                           onChange={handlePaidAmountChange}
                           onWheel={(e) => e.target.blur()}
@@ -1853,11 +1854,11 @@ function AddExpenseNew() {
                           className="w-[100px] h-[36px] border border-[#D9D9D9] outline-none text-sm rounded-md px-2"
                         />
                       </div>
-                      {errors.discount && (
-                        <ErrorMessage message={errors.discount} type="error" />
-                      )}
                     </div>
 
+                    {errors.discount && (
+                      <ErrorMessage message={errors.discount} type="error" />
+                    )}
                     <div className="border-t pt-3 flex justify-between font-semibold">
                       <span className="text-sm">TOTAL RETAINER AMOUNT</span>
 

@@ -315,15 +315,15 @@ function Vendor() {
     },
     {
       label: "Total Purchase",
-      value: filteredData?.vendorSummary?.totalPurchase ?? 0,
+      value: `₹ ${filteredData?.vendorSummary?.totalPurchase ?? 0}`,
     },
     {
       label: "Total Paid",
-      value: filteredData?.vendorSummary?.totalPaid ?? 0,
+      value: `₹ ${filteredData?.vendorSummary?.totalPaid ?? 0}`,
     },
     {
       label: "Outstanding (Payable)",
-      value: filteredData?.vendorSummary?.outstandingAmount ?? 0,
+      value: `₹ ${filteredData?.vendorSummary?.outstandingAmount ?? 0}`,
     },
   ];
 
@@ -982,7 +982,7 @@ function Vendor() {
                     </div>
 
                     <div className="text-lg font-semibold text-[#111827]">
-                      ₹ {item.value}
+                      {item.value}
                     </div>
                   </div>
                 </div>
