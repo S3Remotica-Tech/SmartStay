@@ -212,6 +212,14 @@ function AddTenantBookingCheckin({
   const paymentRef = useRef(null);
   const transactionRef = useRef(null);
 
+  const [collectFullRent, setCollectFullRent] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [customRentEnable, setCustomRentEnable] = useState(false);
+  const [oneTimePayments, setOneTimePayments] = useState([]);
+  const [customRent, setCustomRent] = useState("");
+  const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  const [errorsOneTime, setErrorsOneTime] = useState([]);
+
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
     { value: "LONG", label: "Long Stay" },
@@ -244,20 +252,23 @@ function AddTenantBookingCheckin({
 
     if (value === "" || /^(0|[1-9]\d*)$/.test(value)) {
       setAdvanceAmount(value);
-      setAdvanceAmountError("");
+      setCheckInAdvanceAmountError("");
     }
   };
 
   const handleJoiningDateChange = (date) => {
     setJoiningDate(date ? date.toDate() : null);
+    setCheckInJoiningDateError("");
   };
 
-  const handleAdvanceAmountChange = (e) => {
-    setAdvanceAmount(e.target.value);
-  };
+  // const handleAdvanceAmountChange = (e) => {
+  //   setAdvanceAmount(e.target.value);
+  //   setCheckInAdvanceAmountError("");
+  // };
 
   const handleRentAmountChange = (e) => {
     setRentAmount(e.target.value);
+    setCheckInRentAmountError("");
   };
 
   const validateCheckInDraft = () => {
@@ -712,10 +723,17 @@ function AddTenantBookingCheckin({
 
   // Checkin
 
-  const handleCheckinFloorChange = (val) => setCheckinFloor(val.value);
-  const handleCheckinRoomChange = (val) => setCheckinRoom(val.value);
+  const handleCheckinFloorChange = (val) => {
+    setCheckinFloor(val.value);
+    setCheckInFloorError("");
+  };
+  const handleCheckinRoomChange = (val) => {
+    setCheckinRoom(val.value);
+    setCheckInRoomError("");
+  };
 
   const handleCheckinBedChange = (val) => {
+    setCheckInBedError("");
     const selectedBedId = val?.value || "";
     setCheckinBed(selectedBedId);
     const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
@@ -813,14 +831,6 @@ function AddTenantBookingCheckin({
         label: `${item.holderName} - ${labelMap[item.type] || ""}`,
       }))
     : [];
-
-  const [collectFullRent, setCollectFullRent] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
-  const [customRentEnable, setCustomRentEnable] = useState(false);
-  const [oneTimePayments, setOneTimePayments] = useState([]);
-  const [customRent, setCustomRent] = useState("");
-  const [customRentEditMode, setCustomRentEditMode] = useState(true);
-  const [errorsOneTime, setErrorsOneTime] = useState([]);
 
   const handleInputChangeOneTime = (index, field, value) => {
     const updatedFields = [...oneTimePayments];

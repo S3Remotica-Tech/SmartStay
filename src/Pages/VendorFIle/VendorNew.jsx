@@ -188,11 +188,24 @@ function Vendor() {
   } = useHasPermission("Vendor");
 
   const isVendorForm = location.state?.isVendorForm || false;
+
+  const NavigateTOselectedVendorId =
+    location.state?.navigateToVendorOverviewSelectedVendorId;
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   // const monthOptions = [];
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [paymentStatus, setPaymentStatus] = useState("");
+  const [trigger, setTrigger] = useState(false);
+
+  useEffect(() => {
+    if (NavigateTOselectedVendorId) {
+      setShowOverview(true);
+      setSelectedVendorId(NavigateTOselectedVendorId);
+      setTrigger(true);
+    }
+  }, [NavigateTOselectedVendorId]);
 
   const handlePaymentStatusFilter = (selected) => {
     setPaymentStatus(selected?.value || "");
@@ -1574,6 +1587,7 @@ function Vendor() {
             onClose={() => setShowOverview(false)}
             handleShowSettlement={handleShowSettlement}
             selectedVendorId={selectedVendorId}
+            trigger={trigger}
           />
         )}
 

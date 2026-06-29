@@ -280,6 +280,24 @@ function AddExpenseNew() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
+  const currentItem = location?.state?.currentItem;
+  const isVendorOverViewWay = location.state?.isVendorOverViewWay;
+  const selectedVendorId = location.state?.selectedVendorId;
+
+  const [errors, setErrors] = useState({
+    totalAmount: "",
+    paidAmount: "",
+    balanceAmount: "",
+    tax: "",
+    discount: "",
+  });
+  const [expenseItemErrors, setExpenseItemErrors] = useState([]);
+  const [tax, setTax] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [paidThroughError, setPaidThroughError] = useState("");
+  const [paymentMethodError, setPaymentMethodError] = useState("");
   const [expenseTitle, setExpenseTitle] = useState("");
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
@@ -296,7 +314,7 @@ function AddExpenseNew() {
   const [subCategoryError, setSubCategoryError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [discountType, setDiscountType] = useState("amount");
-  const [vendor, setVendor] = useState(null);
+  const [vendor, setVendor] = useState("");
   const [vendorError, setVendorError] = useState("");
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("");
@@ -354,6 +372,11 @@ function AddExpenseNew() {
       label: vendor?.vendorName,
     })) || [];
 
+  const disabledVendorOptions = vendorOptions?.map((option) => ({
+    ...option,
+    isDisabled: selectedVendorId && option.value !== Number(selectedVendorId),
+  }));
+
   // console.log("vendorOptions", vendorOptions.length);
 
   // const unitOptions =
@@ -386,15 +409,7 @@ function AddExpenseNew() {
     price: "",
     amount: 0,
   };
-
   const [expenseItems, setExpenseItems] = useState([defaultExpenseItem]);
-
-  const [expenseItemErrors, setExpenseItemErrors] = useState([]);
-  const [tax, setTax] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [paidThroughError, setPaidThroughError] = useState("");
-  const [paymentMethodError, setPaymentMethodError] = useState("");
-
   const handleFileChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const files = Array.from(e.target.files);
@@ -426,18 +441,6 @@ function AddExpenseNew() {
     setCreditPeriod(value);
   };
 
-  const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
-  const currentItem = location?.state?.currentItem;
-  const isVendorOverViewWay = location.state?.isVendorOverViewWay;
-
-  const [errors, setErrors] = useState({
-    totalAmount: "",
-    paidAmount: "",
-    balanceAmount: "",
-    tax: "",
-    discount: "",
-  });
-
   const handleVendorChange = (selected) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setVendor(selected);
@@ -446,6 +449,16 @@ function AddExpenseNew() {
       setVendorError("");
     }
   };
+
+  useEffect(() => {
+    if (selectedVendorId && vendorOptions?.length) {
+      const selectedVendor = vendorOptions.find(
+        (option) => option.value === Number(selectedVendorId),
+      );
+
+      setVendor(selectedVendor || null);
+    }
+  }, [selectedVendorId]);
 
   const handlePaidAmountChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -481,21 +494,25 @@ function AddExpenseNew() {
     }));
   };
 
-  // const handleClose = () => {
-  //   dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
-  //   if (isBankingWayTrigger) {
-  //     navigate(`/banking/new/${state.login.selectedHostel_Id}`);
-  //   } else if (isVendorOverViewWay) {
-  //     navigate(-1);
-  //   } else {
-  //     navigate(`/expense/${state.login.selectedHostel_Id}`);
-  //   }
-  // };
-
   const handleClose = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
-    window.history.back();
+    if (isBankingWayTrigger) {
+      navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+    } else if (isVendorOverViewWay) {
+      navigate(`/vendor/${state.login.selectedHostel_Id}`, {
+        state: {
+          navigateToVendorOverviewSelectedVendorId: selectedVendorId,
+        },
+      });
+    } else {
+      navigate(`/expense/${state.login.selectedHostel_Id}`);
+    }
   };
+
+  // const handleClose = () => {
+  //   dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
+  //   window.history.back();
+  // };
 
   const handleExpenseTitle = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -905,7 +922,16 @@ function AddExpenseNew() {
       state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
     ) {
       setFormLoading(false);
-      navigate(`/expense/${state.login.selectedHostel_Id}`);
+
+      if (isVendorOverViewWay) {
+        navigate(`/vendor/${state.login.selectedHostel_Id}`, {
+          state: {
+            navigateToVendorOverviewSelectedVendorId: selectedVendorId,
+          },
+        });
+      } else {
+        navigate(`/expense/${state.login.selectedHostel_Id}`);
+      }
     }
   }, [
     state.ExpenseList.StatusCodeForAddExpenseSuccess,
@@ -1201,7 +1227,7 @@ function AddExpenseNew() {
                     </label>
 
                     <Select
-                      options={vendorOptions}
+                      options={disabledVendorOptions}
                       value={vendor}
                       ref={vendorRef}
                       onChange={handleVendorChange}
@@ -1894,8 +1920,6 @@ function AddExpenseNew() {
 
 AddExpenseNew.propTypes = {
   show: PropTypes.func.isRequired,
-  setShow: PropTypes.func.isRequired,
-  currentItem: PropTypes.func.isRequired,
 };
 
 export default AddExpenseNew;

@@ -23,10 +23,12 @@ function VendorOverView({
   onClose,
   handleShowSettlement,
   selectedVendorId,
+  trigger,
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const location = useLocation();
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedMonth, setSelectedMonth] = useState("");
 
@@ -38,6 +40,7 @@ function VendorOverView({
     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
         isVendorOverViewWay: true,
+        selectedVendorId: selectedVendorId,
       },
     });
   };
@@ -84,7 +87,15 @@ function VendorOverView({
         vendorId: Number(selectedVendorId),
       },
     });
-  }, [state.login.selectedHostel_Id, selectedVendorId]);
+  }, [state.login.selectedHostel_Id, selectedVendorId, trigger]);
+
+  useEffect(() => {
+    if (trigger) {
+      setActiveTab("expenses");
+    } else {
+      setActiveTab("overview");
+    }
+  }, [trigger]);
 
   return (
     <div className="font-gilroy">
