@@ -144,10 +144,12 @@ function AddTenantBookingCheckin({
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("booking");
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [bookingDate, setBookingDate] = useState("");
   const [isConfirmChecked, setIsConfirmChecked] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [checkInLoading, setCheckInLoading] = useState(false);
   const [bookingJoiningDate, setBookingJoiningDate] = useState(null);
   const [bookingAmount, setBookingAmount] = useState("");
   const [bookingFloor, setBookingFloor] = useState(null);
@@ -1347,7 +1349,7 @@ function AddTenantBookingCheckin({
         </div>
       ) : (
         <div>
-          <div className="w-full rounded-lg bg-[#F5F7FA] p-1 flex items-center">
+          <div className="w-full rounded-lg bg-[#F5F7FA] p-1 flex items-center mb-2">
             <button
               type="button"
               onClick={() => setStayType("long")}
@@ -1372,7 +1374,8 @@ function AddTenantBookingCheckin({
               Short Stay
             </button>
           </div>
-          <div className="grid grid-cols-1 gap-4">
+
+          <div className="grid grid-cols-1 gap-4 mb-2">
             <div className="mb-2">
               <label className="text-sm font-medium text-[#222222] mb-2 block">
                 Joining Date <span className="text-red-500 text-xl">*</span>
@@ -1993,6 +1996,8 @@ function AddTenantBookingCheckin({
           <div className="flex items-center gap-2 my-4">
             <input
               type="checkbox"
+              checked={isConfirmed}
+              onChange={(e) => setIsConfirmed(e.target.checked)}
               className="cursor-pointer accent-green-600 w-4 h-4 "
             />
             <span className="text-[#0A090B] text-sm ">
@@ -2009,11 +2014,22 @@ function AddTenantBookingCheckin({
             </button>
             <div className="flex gap-2">
               <button
+                disabled={!isConfirmed}
                 onClick={handleCheckin}
-                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
               >
-                Check in
+                {checkInLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Saving ....{" "}
+                  </>
+                ) : (
+                  "Check in"
+                )}
               </button>
+
               <button
                 className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                 onClick={handleNextStep}

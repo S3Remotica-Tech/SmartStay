@@ -1644,7 +1644,7 @@ function AddExpenseNew() {
                                   )
                                 }
                                 onWheel={(e) => e.target.blur()}
-                                className="w-full  outline-none text-sm rounded-md bg-gray-100"
+                                className="w-full  outline-none text-sm rounded-md "
                               />
                             </td>
 
