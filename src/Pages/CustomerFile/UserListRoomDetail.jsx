@@ -209,7 +209,7 @@ function UserListRoomDetail(props) {
   //  const menuRef = useRef(null);
 
   const handleShowActions = () => {
-    console.log("clickeddddddddd");
+    // console.log("clickeddddddddd");
     setShowAction(true);
   };
 
@@ -640,6 +640,17 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.editBasicSuccessStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList.kycRemindeSuccess === 200) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      setShowAction(false);
+      dispatch({ type: "REMOVE_KYC_REMINDER_REDUCER" });
+    }
+  }, [state.UsersList.kycRemindeSuccess]);
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {

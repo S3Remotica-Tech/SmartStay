@@ -28,12 +28,12 @@ function TenantActions({ show, handleClose }) {
   useEffect(() => {
     if (state.UsersList.kycRemindeSuccess === 200) {
       setFormLoading(false);
-      dispatch({
-        type: "CUSTOMERDETAILS",
-        payload: { customerId: CustomerOverView?.customerId },
-      });
-      handleClose();
-      dispatch({ type: "REMOVE_KYC_REMINDER_REDUCER" });
+      //   dispatch({
+      //     type: "CUSTOMERDETAILS",
+      //     payload: { customerId: CustomerOverView?.customerId },
+      //   });
+      //   //   handleClose();
+      //   //   dispatch({ type: "REMOVE_KYC_REMINDER_REDUCER" });
     }
   }, [state.UsersList.kycRemindeSuccess]);
 
@@ -69,9 +69,7 @@ function TenantActions({ show, handleClose }) {
               <div className="h-full w-[70%] rounded-full bg-[#FF9800]" />
             </div>
           </div>
-          {/* {
-    CustomerOverView?.kycInfo?.keyStatus === "NOT_AVAILABLE"
-} */}
+
           <div className="mt-3 rounded-xl border border-[#ECECEC] p-4">
             <div className="flex items-center gap-2">
               <h3 className="text-[16px] font-semibold text-[#222222]">
