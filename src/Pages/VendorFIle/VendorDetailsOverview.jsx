@@ -66,7 +66,7 @@ function VendorDetailsOverview({ handleSelected }) {
     {
       label: "Business Mobile No",
       value:
-        `+ ${VendorOverView.businessMobileCode} ${VendorOverView.mobile}` ||
+        ` ${VendorOverView.businessMobileCode} ${VendorOverView.mobile}` ||
         "---",
       icon: <Call size={16} />,
     },
@@ -80,7 +80,7 @@ function VendorDetailsOverview({ handleSelected }) {
       value:
         VendorOverView.contactPersonMobileCode &&
         VendorOverView.contactPersonMobile
-          ? `+${VendorOverView.contactPersonMobileCode} ${VendorOverView.contactPersonMobile}`
+          ? `${VendorOverView.contactPersonMobileCode} ${VendorOverView.contactPersonMobile}`
           : "---",
       icon: <Call size={16} />,
     },

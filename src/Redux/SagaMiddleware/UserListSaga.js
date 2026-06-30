@@ -20,6 +20,7 @@ import {
   getCustomerReading,
   cancelBookingGet,
   bookingToCheckIn,
+  KYCReminder,
   addRoomReading,
   getRoomReading,
   editHostelReading,
@@ -146,15 +147,55 @@ function* handleSettlementPayemntExpense(settle) {
     }
   } catch (error) {
     yield* handleApiError(error);
-// console.log("errorrrrrr", error)
-     if (error) {
-
+    // console.log("errorrrrrr", error)
+    if (error) {
       yield put({
         type: "EXPENSE_SETTLEMENT_ERROR",
         payload: error.response.data,
       });
-    
     }
+  }
+}
+
+function* handleKYCReminder(kyc) {
+  try {
+    const response = yield call(KYCReminder, kyc.payload);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "KYC_REMINDER_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Send Successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -3461,6 +3502,7 @@ function* UserListSaga() {
     "EXPENSE_SETTLEMENT_PAYMENT_SAGA",
     handleSettlementPayemntExpense,
   );
+  yield takeEvery("KYC_REMINDER_SAGA", handleKYCReminder);
   yield takeEvery("SETTLEMENT_PAYMENT_SAGA", handleSettlementPayemnt);
   yield takeEvery("DRAFT_TENANT_LIST_SAGA", handleDraftTenantSearch);
   yield takeEvery("SAVE_DRAFT_SAGA", handleSaveDraft);

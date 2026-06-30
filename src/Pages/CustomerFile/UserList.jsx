@@ -172,10 +172,9 @@ function UserList(props) {
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   // console.log("pageeeeeeeeeeeeeee", page);
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+
   const [isScrolling, setIsScrolling] = useState(false);
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+
   const [view, setView] = useState("List");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -210,13 +209,13 @@ function UserList(props) {
   const isCheckoutWay = location.state?.isCheckoutWay || false;
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
-  useEffect(() => {
-    const pageParam = Number(searchParams.get("page")) || 1;
-    const sizeParam = Number(searchParams.get("size")) || 20;
+  // useEffect(() => {
+  //   const pageParam = Number(searchParams.get("page")) || 1;
+  //   const sizeParam = Number(searchParams.get("size")) || 20;
 
-    setPage(pageParam);
-    setSize(sizeParam);
-  }, [searchParams]);
+  //   setPage(pageParam);
+  //   setSize(sizeParam);
+  // }, [searchParams]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -381,6 +380,8 @@ function UserList(props) {
 
   useEffect(() => {
     const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    const shouldResetPage =
+      !!debouncedInput || !!statusValue || !!selectedMonth?.value;
     if (state.login.selectedHostel_Id && value === "1") {
       dispatch({
         type: "USERLIST",
@@ -388,7 +389,7 @@ function UserList(props) {
           hostel_id: state.login.selectedHostel_Id,
           name: debouncedInput || "",
           type: statusValue,
-          page: page,
+          page: shouldResetPage ? 1 : page,
           size: size,
           period: selectedMonth?.value,
         },
@@ -1825,23 +1826,10 @@ function UserList(props) {
     setView(e.target.value);
   };
 
-  const paginatedData = state.UsersList?.Users?.tenants?.slice(
-    startIndex,
-    endIndex,
-  );
-
   const handleRowSelect = (id) => {
     setSelectedRows((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
-  };
-
-  const handleSelectAll = () => {
-    if (selectedRows.length === paginatedData.length) {
-      setSelectedRows([]);
-    } else {
-      setSelectedRows(paginatedData.map((item) => item.customerId));
-    }
   };
 
   useEffect(() => {
@@ -2286,13 +2274,12 @@ function UserList(props) {
 
   const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
 
-  useEffect(() => {
-    setPage(1);
-  }, [state.UsersList?.tenantFilters]);
-
   const handlePageChange = (page) => {
+    console.log("pageeeeeeeeee", page);
     setPage(page);
   };
+
+  console.log("page", page);
 
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);

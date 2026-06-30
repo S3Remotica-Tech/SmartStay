@@ -525,9 +525,9 @@ function Booking() {
 
   const totalRecords = bookingList?.totalBookings ?? 0;
 
-  useEffect(() => {
-    setPage(1);
-  }, [state.reports?.tenantFilters]);
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.reports?.tenantFilters]);
 
   const handlePageChange = (page) => {
     setPage(page);

@@ -1068,12 +1068,12 @@ function AddVendorNew() {
 
       setCountryCode({
         value: vendorOverView.contactPersonMobileCode || "91",
-        label: `+${vendorOverView.contactPersonMobileCode || "91"}`,
+        label: `${vendorOverView.contactPersonMobileCode || "91"}`,
       });
 
       setBusinessCountryCode({
         value: vendorOverView.businessMobileCode || "91",
-        label: `+${vendorOverView.businessMobileCode || "91"}`,
+        label: `${vendorOverView.businessMobileCode || "91"}`,
       });
 
       if (vendorOverView.vendorCategoryId) {

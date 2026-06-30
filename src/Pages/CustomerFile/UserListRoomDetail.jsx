@@ -17,6 +17,7 @@ import {
   AddCircle,
   Notification1,
   Edit,
+  DocumentText,
   ArrowUp,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
@@ -88,6 +89,7 @@ import CustomerCheckout from "./CustomerCheckout";
 import CustomerReAssign from "./CustomerReAssign";
 import MakeAsInactive from "./MakeAsInactive";
 import icon from "../../Assets/Images/New_images/Icon (1).svg";
+import TenantActions from "./TenantActions";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -194,6 +196,7 @@ function UserListRoomDetail(props) {
   const [customerReassign, setCustomerReAssign] = useState(false);
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
   const [DueCustomerShow, setDueCustomerShow] = useState(false);
+  const [showAction, setShowAction] = useState(false);
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
   const menuRef = useRef(null);
@@ -204,6 +207,15 @@ function UserListRoomDetail(props) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   //  const menuRef = useRef(null);
+
+  const handleShowActions = () => {
+    // console.log("clickeddddddddd");
+    setShowAction(true);
+  };
+
+  const handleCloseActions = () => {
+    setShowAction(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -264,7 +276,7 @@ function UserListRoomDetail(props) {
 
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
-  const CustomerOverView = state.UsersList.customerdetails;
+  const CustomerOverView = state?.UsersList?.customerdetails;
 
   const handleNavigateTenant = () => {
     if (isPgWay || navigatePg) {
@@ -352,72 +364,6 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList?.CustomerdetailsgetStatuscode]);
 
-  // const handleFileOpen = (url) => {
-  //   if (!url) return;
-
-  //   const lowerUrl = url.toLowerCase();
-
-  //   if (
-  //     lowerUrl.endsWith(".pdf") ||
-  //     lowerUrl.endsWith(".jpg") ||
-  //     lowerUrl.endsWith(".jpeg") ||
-  //     lowerUrl.endsWith(".png")
-  //   ) {
-
-  //     setPreviewUrl(url);
-  //     setShowDocModal(true);
-  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-  //     window.open(viewerUrl, "_blank");
-  //   } else {
-  //     window.open(url, "_blank");
-  //   }
-  // };
-
-  // const handleFileOpen2 = (url) => {
-  //   if (!url) return;
-
-  //   const lowerUrl = url.toLowerCase();
-
-  //   if (
-  //     lowerUrl.endsWith(".pdf") ||
-  //     lowerUrl.endsWith(".jpg") ||
-  //     lowerUrl.endsWith(".jpeg") ||
-  //     lowerUrl.endsWith(".png")
-  //   ) {
-
-  //     setPreviewUrl2(url);
-  //     setShowDocModaldoc2(true);
-  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-  //     window.open(viewerUrl, "_blank");
-  //   } else {
-  //     window.open(url, "_blank");
-  //   }
-  // };
-
-  // const cleanFileName = (url) => {
-  //   const fullName = getFileName(url);
-  //   const parts = fullName.split("_");
-  //   const ext = fullName.split(".").pop();
-  //   const short = parts[0].substring(0, 6);
-  //   return `${short}.${ext}`;
-  // };
-  // const cleanFileName = (url) => {
-  //   if (!url) return "";
-
-  //   const fullName = decodeURIComponent(url.split("/").pop());
-  //   const ext = fullName.split(".").pop();
-  //   const baseName = fullName.replace(/\.[^/.]+$/, "");
-
-  //   const parts = baseName.split("_");
-  //   const lastPart = parts[parts.length - 1];
-
-  //   const short = lastPart.substring(0, 15);
-
-  //   return `${short}.${ext}`;
-  // };
-
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
@@ -482,12 +428,12 @@ function UserListRoomDetail(props) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-  useEffect(() => {
-    dispatch({
-      type: "KYCCUSTOMERDETAILS",
-      payload: { customer_id: props?.id },
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "KYCCUSTOMERDETAILS",
+  //     payload: { customer_id: props?.id },
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (!Array.isArray(props?.userData) || props.userData.length === 0) return;
@@ -694,6 +640,17 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.editBasicSuccessStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList.kycRemindeSuccess === 200) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      setShowAction(false);
+      dispatch({ type: "REMOVE_KYC_REMINDER_REDUCER" });
+    }
+  }, [state.UsersList.kycRemindeSuccess]);
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
@@ -2102,24 +2059,14 @@ function UserListRoomDetail(props) {
     }
   }, [state.Booking.StatusCodeInactiveCode]);
 
-
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
-        
-     dispatch({
+      dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
       });
-      
     }
   }, [state.UsersList.statusCodeForFinalSettlement]);
-
-
-
-
-
-
-
 
   // useEffect(() => {
   //   if (
@@ -2441,31 +2388,8 @@ useEffect(() => {
         key={CustomerOverView?.customerId}
         className="h-[97vh] mt-2 w-full max-w-full overflow-y-auto"
       >
-        {/* <div className="flex items-center justify-between sticky top-0 z-[1000] bg-white py-3 px-6 h-14 w-full">
-          <div className="flex items-center">
-            <img
-              src={leftarrow}
-              alt="leftarrow"
-              width={20}
-              height={20}
-              onClick={() => handleNavigateTenant()}
-              className="cursor-pointer"
-            />
-            <span className="font-semibold text-lg pl-2.5 font-gilroy">
-              Tenant Profile
-            </span>
-          </div>
-
-          <img
-            src={icon}
-            alt="icon"
-            width={20}
-            height={20}
-            className="cursor-pointer mr-3"
-          />
-        </div> */}
         <>
-          <div className="flex items-center justify-between sticky top-0 z-[1000] bg-white py-3 px-4 h-14 w-full">
+          <div className="flex items-center justify-between sticky top-0 z-50 bg-white py-3 px-4 h-14 w-full">
             <div className="flex items-center">
               <img
                 src={leftarrow}
@@ -2631,68 +2555,40 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className=" rounded-xl border-1 border-[#FFF7E8] bg-[#FFF7E8] p-4  font-gilroy">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#D9D9D9] bg-white">
+                    <DocumentText size={18} color="#222222" variant="Linear" />
+                  </div>
 
-              {state.UsersList?.KycCustomerDetails?.message ===
-                "KYC Completed" && (
-                <>
-                  <Button
-                    disabled={!canWriteTenant}
-                    type="primary"
-                    className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm"
-                  >
-                    KYC Verified
-                  </Button>
-                </>
-              )}
+                  <div className="flex items-center gap-1 text-[13px] font-medium text-[#222222]">
+                    <span>Verify KYC, Address,</span>
 
-              {state.UsersList?.KycCustomerDetails?.retry_completed ===
-                false && (
-                <>
-                  <Button className="rounded-2xl bg-amber-500 border-0 px-4 h-8 flex items-center text-sm text-white">
-                    <img src={timehalf} alt="time" className="w-4 mr-2" />
-                    Pending
-                  </Button>
-                  <p className="text-sm font-normal font-gilroy mt-1">
-                    Last Attempt:{" "}
-                    {state.UsersList?.KycCustomerDetails?.updated_at}
-                  </p>
-                </>
-              )}
+                    <button className="font-semibold text-[#1E45E1] hover:underline">
+                      +2 More
+                    </button>
+                  </div>
+                </div>
 
-              {state.UsersList?.KycCustomerDetails?.retry_completed ===
-                true && (
-                <>
-                  <Button
-                    onClick={handleKYCSubmit}
-                    className="rounded-xl bg-blue-600 border-0 px-4 h-8 flex items-center text-sm text-white"
-                  >
-                    <img src={Retry} alt="time" className="w-4 mr-2" />
-                    Retry KYC
-                  </Button>
-                  <p className="text-sm font-normal font-gilroy mt-1">
-                    Last Attempt:{" "}
-                    {state.UsersList?.KycCustomerDetails?.updated_at}
-                  </p>
-                </>
-              )}
+                <div className="rounded-full bg-[#ECFDF3] px-2 py-1 text-[11px] font-semibold text-[#16A34A]">
+                  ↑ 30%
+                </div>
+              </div>
 
-              {state.UsersList?.KycCustomerDetails?.message ===
-                "KYC ID not found for this customer" && (
-                <>
-                  <Button
-                    disabled={!canWriteTenant}
-                    type="primary"
-                    className="rounded-2xl bg-[#1E45E1] border-0 px-4 h-8 flex items-center text-sm font-gilroy"
-                    onClick={handleKYCSubmit}
-                  >
-                    Verify KYC{" "}
-                    <RightOutlined className="text-xs ml-1.5 font-gilroy" />
-                  </Button>
-                  <p className="text-sm font-normal font-gilroy mt-1">
-                    Verify your Customer KYC Details via DigiLocker.
-                  </p>
-                </>
-              )}
+              <button
+                onClick={handleShowActions}
+                className="mt-4 h-10 w-full rounded-full border-1 border-[#FF9500]
+        bg-[#FF9500]
+        text-[14px]
+        font-medium
+        text-white
+        transition-all
+        hover:bg-[#F57C00]"
+              >
+                Add Pending Actions
+              </button>
             </div>
 
             <div className="flex gap-4 items-center">
@@ -2903,111 +2799,6 @@ useEffect(() => {
             </div>
           </div>
         </div>
-
-        {/* <div className="bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 mx-4">
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-
-              <div
-                className="relative w-20 h-20 shrink-0 flex items-center justify-center"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <div className="absolute inset-0 rounded-full p-[5px] bg-[conic-gradient(#22c55e_0deg_140deg,transparent_155deg_200deg,#22c55e_220deg_360deg)]">
-                  <div className="w-full h-full bg-white rounded-full p-[3px]">
-                    {imageUrl ? (
-                      <img
-                        src={imageUrl}
-                        alt={CustomerOverView.fullName || "profile"}
-                        className="w-full h-full rounded-full object-cover"
-                        onError={(e) => { e.currentTarget.src = Profiles; }}
-                      />
-                    ) : (
-                      <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center font-semibold text-xl">
-                        {CustomerOverView?.initials || "NA"}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <span className="absolute -bottom-[4px] text-[12px] text-green-600 font-semibold">
-                  100%
-                </span>
-
-                {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
-                  <div
-                    className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
-              ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
-                    onClick={() => {
-                      if (canUpdateTenant) document.getElementById("fileInput").click();
-                    }}
-                  >
-                    <img src={EditImage} className="w-5 h-5 bg-white p-1 rounded-full" />
-                  </div>
-                )}
-
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    if (canUpdateTenant) handleImageUpload(e);
-                  }}
-                />
-              </div>
-
-              <div className="min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-[17px] font-semibold truncate max-w-[180px]">
-                    {CustomerOverView.fullName}
-                  </h2>
-                  <div className="inline-flex items-center mb-1">
-                    <Verify size={18} variant="Bold" color="#038c3d" />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
-                  <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
-                    Ground Floor
-                  </span>
-                  <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
-                    G005 - B03
-                  </span>
-                </div>
-                <hr className="w-full my-1 pb-1 text-gray-600" />
-
-                <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
-                  <div className="flex items-center gap-1 text-xs text-blue-600">
-                    <Call size={16} color="#1E45E1" variant="Bold" /> +91 98765 43210
-                  </div>
-
-                  <span className="flex items-center gap-1">
-                    <MoneyTick size={16} color="#1E45E1" />
-                    ₹7,000<span className="text-[10px]">/pm</span>
-                  </span>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="mb-1.5">
-                <ExportCurve size="20" color="black" variant="Outline"/>
-              </div>
-
-              <div className="relative">
-                <button
-                  onClick={() => setOpenMenu(!openMenu)}
-                  className="text-gray-700 hover:text-black"
-                >
-                  <PiDotsThreeOutlineVerticalFill />
-                </button>
-
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         <TabContext value={value}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full max-h-[80px]">
@@ -3879,12 +3670,12 @@ useEffect(() => {
                 </div>
               </div>
 
-              {kycdetailsForm === true ? (
+              {/* {kycdetailsForm === true ? (
                 <UserListKyc
                   kycdetailsForm={kycdetailsForm}
                   setKycDetailForm={setKycDetailForm}
                 />
-              ) : null}
+              ) : null} */}
               {additionalForm && (
                 <UserAdditionalContact
                   show={additionalForm}
@@ -5348,6 +5139,10 @@ useEffect(() => {
           </div>
         </Modal.Body>
       </Modal>
+
+      {showAction && (
+        <TenantActions show={showAction} handleClose={handleCloseActions} />
+      )}
 
       {addamenityShow && (
         <TenantAmenities

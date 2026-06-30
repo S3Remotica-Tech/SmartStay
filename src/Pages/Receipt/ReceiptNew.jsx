@@ -358,7 +358,7 @@ function ReceiptNew() {
           hostelId: state.login.selectedHostel_Id,
           keyword: debouncedSearch,
           size: size,
-          page: page,
+          page: debouncedSearch || receiptType ? 1 : page,
           period: "",
           bankIds: [],
           invoiceType: receiptType,
@@ -907,7 +907,7 @@ function ReceiptNew() {
   //   }, [filteredData?.columnList]);
 
   const handleReceiptClick = (item) => {
-    console.log("callledffffffffff");
+    // console.log("callledffffffffff");
     if (item?.transactionId && state.login.selectedHostel_Id) {
       dispatch({
         type: "RECEIPTPDF_NEWCHANGES",

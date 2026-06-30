@@ -132,6 +132,12 @@ export async function cancelBookingGet(customerId) {
   );
 }
 
+export async function KYCReminder(customerId) {
+  console.log("customerId", customerId);
+
+  return await AxiosConfigV2.post(`/v2/kyc/request/${customerId}`);
+}
+
 export async function cancelCheckoutInitialize(customer) {
   return await AxiosConfigV2.get(
     `/v2/customers/cancel-checkout/initialize/${customer.hostelId}/${customer.customerId}`,
