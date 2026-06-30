@@ -35,6 +35,7 @@ import SettlementPayment from "../VendorFIle/SettlementPayment";
 import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";
+import AddNewAccount from "./AddNewAccount";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -169,6 +170,7 @@ function BankingNew() {
   const [showTenantPaymentForm, setShowTenantPaymentForm] = useState(false);
   const [showCreditCardForm, seShowCreditCardForm] = useState(false);
   const [showInvestmentForm, seShowInvestmentForm] = useState(false);
+  const [addNewAccount, setAddNewAccount] = useState(false);
 
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const dropdownRef = useRef(null);
@@ -184,7 +186,7 @@ function BankingNew() {
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
 
-  const [selectedMonth, setSelectedMonth] = useState();
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
@@ -192,6 +194,14 @@ function BankingNew() {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
+  };
+
+  const handleAddAccount = () => {
+    setAddNewAccount(true);
+  };
+
+  const handleCloseAccount = () => {
+    setAddNewAccount(false);
   };
 
   useEffect(() => {
@@ -991,7 +1001,10 @@ function BankingNew() {
                       })
                     : null}
                 </div>
-                <div className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors">
+                <div
+                  onClick={handleAddAccount}
+                  className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors"
+                >
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
                       <Bank size="20" color="#1E45E1" />
@@ -1333,6 +1346,10 @@ function BankingNew() {
           ) : null}
         </div>
       </div>
+
+      {addNewAccount && (
+        <AddNewAccount show={addNewAccount} handleClose={handleCloseAccount} />
+      )}
     </>
   );
 }
