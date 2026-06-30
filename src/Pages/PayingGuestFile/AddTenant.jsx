@@ -702,31 +702,104 @@ function AddTenant({ showMenu, handleClose }) {
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
 
+    // dispatch({
+    //   type: "SAVE_DRAFT_SAGA",
+    //   payload: {
+    //     hostelId: state?.login?.selectedHostel_Id,
+    //     profilePic: file,
+    //     request: {
+    //       firstName: capitalizedFirstname,
+    //       lastName: capitalizedLastname,
+    //       mobile: MobileNumber,
+    //       emailId: Email,
+    //       idProof: {
+    //         type: idProofType,
+    //         number: idProofNo,
+    //       },
+    //       address: {
+    //         house: house_no,
+    //         area: street,
+    //         landmark: landmark,
+    //         pincode: pincode,
+    //         city: city,
+    //         state: state_name,
+    //       },
+    //     },
+    //   },
+    // });
+
     dispatch({
       type: "SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        profilePic: file,
+        profilePic: file || "",
+        aadharPic: "",
+        panPic: panFile || "",
+
         request: {
-          firstName: capitalizedFirstname,
-          lastName: capitalizedLastname,
-          mobile: MobileNumber,
-          emailId: Email,
+          firstName: capitalizedFirstname || "",
+          lastName: capitalizedLastname || "",
+          mobile: MobileNumber || "",
+          emailId: Email || "",
+
+          joiningDate: "",
+          bookingDate: "",
+          bookingAmount: 0,
+          floorId: 0,
+          roomId: 0,
+          bedId: 0,
+          bankId: "",
+          referenceNumber: "",
+          advanceAmount: 0,
+          rentalAmount: 0,
+          stayType: "",
+
+          deductions: [],
+
+          proRate: true,
+
           idProof: {
-            type: idProofType,
-            number: idProofNo,
+            type: idProofType || "",
+            number: idProofNo || "",
           },
+
           address: {
-            house: house_no,
-            area: street,
-            landmark: landmark,
-            pincode: pincode,
-            city: city,
-            state: state_name,
+            flat: "",
+            house: house_no || "",
+            building: "",
+            company: "",
+            apartment: "",
+            area: "",
+            street: street || "",
+            sector: "",
+            village: "",
+            landmark: landmark || "",
+            pincode: pincode || "",
+            city: city || "",
+            state: state_name || "",
           },
+
+          booking: {
+            joiningDateTentative: "",
+            refuseAdvanceAmount: false,
+          },
+
+          jobDetails: {
+            employmentStatus: employmentStatus || "",
+            companyName: companyName || "",
+            collegeName: "",
+            jobRole: jobRole || "",
+            workLocation: workLocation || "",
+            shiftType: shiftType || "",
+            shiftFrom: fromTime || "",
+            shiftTo: toTime || "",
+          },
+
+          guardians: guardians || [],
         },
       },
     });
+
     setFormLoading(true);
   };
 

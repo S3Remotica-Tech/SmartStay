@@ -194,6 +194,7 @@ export const initialState = {
   draftTenantGetStatusCode: 0,
   alreadyAvailableDraftTenantGetList: "",
   kycRemindeSuccess: 0,
+  kycReminderError: "",
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -232,6 +233,11 @@ const UserListReducer = (state = initialState, action) => {
         ...state,
         kycRemindeSuccess: 0,
       };
+
+    case "KEY_REMAINDER_ERROR":
+      return { ...state, kycReminderError: action.payload };
+    case "REMOVE_KEY_REMAINDER_ERROR":
+      return { ...state, kycReminderError: "" };
 
     case "EXPENSE_SETTLEMENT_ERROR":
       return { ...state, expenseSettleError: action.payload };
