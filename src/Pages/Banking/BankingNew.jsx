@@ -155,7 +155,6 @@ function BankingNew() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
   const [originalBills, setOriginalBills] = useState([]);
-  const [statusfilter, setStatusfilter] = useState("");
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [banking, setBanking] = useState("");
@@ -185,7 +184,7 @@ function BankingNew() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
-
+  const [statusfilter, setStatusFilter] = useState("ALL");
   const [selectedMonth, setSelectedMonth] = useState("");
 
   const handleStatusFilter = (selected) => {
@@ -393,6 +392,22 @@ function BankingNew() {
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
 
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForAddBanking === 201) {
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+
+      dispatch({ type: "CLEAR_ADD_USER_BANKING" });
+    }
+  }, [state.bankingDetails.statusCodeForAddBanking]);
+
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForEditBanking === 200) {
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+
+      dispatch({ type: "CLEAR_EDITBANKING" });
+    }
+  }, [state.bankingDetails.statusCodeForEditBanking]);
+
   const handleOpenSelfTransfer = (item) => {
     setOpenMenuId(null);
     setSelfTransfer(true);
@@ -404,7 +419,7 @@ function BankingNew() {
 
   const handleEditAddBank = (item) => {
     setEdit(true);
-    setShowForm(true);
+    setAddNewAccount(true);
     setEditAddBank(item);
     setOpenMenuId(false);
   };
@@ -569,7 +584,7 @@ function BankingNew() {
 
     if (!dates || dates.length !== 2) {
       settransactionFilterddata(originalBillsFilter);
-      setStatusfilter("All");
+      setStatusFilter("All");
       return;
     }
 
@@ -588,7 +603,7 @@ function BankingNew() {
 
   useEffect(() => {
     if (!filterStatus) {
-      setStatusfilter("All");
+      setStatusFilter("All");
       setDateRange(null);
     }
   }, [filterStatus]);
@@ -684,6 +699,7 @@ function BankingNew() {
   const handleCloseInvestment = () => {
     seShowInvestmentForm(false);
   };
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -878,9 +894,10 @@ function BankingNew() {
                                       disabled={
                                         !(canWriteBanking && !item.isDeleted)
                                       }
-                                      onClick={() =>
-                                        handleOpenSelfTransfer(item)
-                                      }
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleOpenSelfTransfer(item);
+                                      }}
                                       className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-blue-100"
@@ -902,7 +919,10 @@ function BankingNew() {
                                       disabled={
                                         !(canUpdateBanking && !item.isDeleted)
                                       }
-                                      onClick={() => handleEditAddBank(item)}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleEditAddBank(item);
+                                      }}
                                       className="flex w-full items-center gap-2 px-3 py-2
       disabled:cursor-not-allowed disabled:opacity-50
       enabled:hover:bg-blue-100"
@@ -921,7 +941,10 @@ function BankingNew() {
                                     <button
                                       disabled
                                       // disabled={!(canDeleteBanking && !item.isDeleted)}
-                                      onClick={() => handleDeleteForm(item)}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDeleteForm(item);
+                                      }}
                                       className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-red-50"
