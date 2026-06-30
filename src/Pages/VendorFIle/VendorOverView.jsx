@@ -130,7 +130,7 @@ function VendorOverView({
                   {VendorOverView?.vendorCategoryName || "-"}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
-                  <Call size="16" /> +{VendorOverView?.businessMobileCode}{" "}
+                  <Call size="16" /> {VendorOverView?.businessMobileCode}{" "}
                   {VendorOverView?.mobile}
                 </span>
                 <span className="flex items-center gap-1 text-[#222222]">
