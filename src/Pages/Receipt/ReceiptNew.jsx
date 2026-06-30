@@ -397,6 +397,7 @@ function ReceiptNew() {
 
       setChips([]);
       setSearchQuery("");
+      setReceiptType("");
     };
   }, []);
 
@@ -427,6 +428,7 @@ function ReceiptNew() {
 
     setChips([]);
     setSearchQuery("");
+    setReceiptType("");
   };
 
   useEffect(() => {
@@ -696,6 +698,7 @@ function ReceiptNew() {
     if (state.login?.selectedHostel_Id) {
       setPage(1);
       setSearchQuery("");
+      setReceiptType("");
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -1485,6 +1488,7 @@ function ReceiptNew() {
                     setSearchQuery("");
                     setDebouncedSearch("");
                     handleReset();
+                    setReceiptType("");
                   }}
                 />
               )}

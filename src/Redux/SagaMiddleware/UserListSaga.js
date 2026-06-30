@@ -196,6 +196,23 @@ function* handleKYCReminder(kyc) {
     }
   } catch (error) {
     yield* handleApiError(error);
+    if(error){
+       yield put({
+        type: "KEY_REMAINDER_ERROR",
+        payload: error.response.data,
+      });
+
+       toast.error(`${error.response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 }
 

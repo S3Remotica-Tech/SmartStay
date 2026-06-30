@@ -15,6 +15,7 @@ function TenantActions({ show, handleClose }) {
   const CustomerOverView = state?.UsersList?.customerdetails;
 
   const handleSendReminder = () => {
+    dispatch({ type: "REMOVE_KEY_REMAINDER_ERROR" });
     if (CustomerOverView?.customerId) {
       dispatch({
         type: "KYC_REMINDER_SAGA",
@@ -36,6 +37,12 @@ function TenantActions({ show, handleClose }) {
       //   //   dispatch({ type: "REMOVE_KYC_REMINDER_REDUCER" });
     }
   }, [state.UsersList.kycRemindeSuccess]);
+
+  useEffect(() => {
+    if (state.UsersList.kycReminderError) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList.kycReminderError]);
 
   return (
     <>

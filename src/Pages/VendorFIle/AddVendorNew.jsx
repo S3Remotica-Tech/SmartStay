@@ -310,13 +310,6 @@ function AddVendorNew() {
   const [countryCode, setCountryCode] = useState();
   const [businessCountryCode, setBusinessCountryCode] = useState();
 
-  console.log(
-    "countryCode",
-    countryCode,
-    "businessCountryCode",
-    businessCountryCode,
-  );
-
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
   const [pinCodeError, setPinCodeError] = useState("");
@@ -749,11 +742,11 @@ function AddVendorNew() {
     }
 
     if (vendor_Mobile) {
-      if (/^0+$/.test(vendor_Mobile)) {
-        setMobileError("Please Enter valid Mobile No");
+      if (/^0{10}$/.test(vendor_Mobile)) {
+        setMobileError("Mobile Number cannot be all zeros");
         isValid = false;
-      } else if (!/^\d{10}$/.test(vendor_Mobile)) {
-        setMobileError("Please Enter valid Mobile No");
+      } else if (!/^[1-9]\d{9}$/.test(vendor_Mobile)) {
+        setMobileError("Please Enter a valid 10-digit Mobile Number");
         isValid = false;
       } else {
         setMobileError("");
@@ -771,7 +764,7 @@ function AddVendorNew() {
       }
     }
 
-    const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
+    const phonePattern = /^(?!0{10})[1-9]\d{9}$/;
 
     if (!vendorCategory) {
       setVendorCategoryError("Please Select Vendor Category");
@@ -799,7 +792,7 @@ function AddVendorNew() {
       }
       isValid = false;
     } else if (!phonePattern.test(businessMobile)) {
-      setBusinessMobileError("Enter Valid Business Mobile Number");
+      setBusinessMobileError("Please enter  valid 10-digit mobile number");
       if (!focusedRef.current && businessMobileRef.current) {
         businessMobileRef.current.focus();
         focusedRef.current = true;
