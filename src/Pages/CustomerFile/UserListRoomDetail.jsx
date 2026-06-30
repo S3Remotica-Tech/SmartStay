@@ -2265,13 +2265,25 @@ function UserListRoomDetail(props) {
               <button
                 disabled={isKYCDisabledButton}
                 onClick={handleShowActions}
-                className="mt-4 h-10 w-full rounded-full border-1 border-[#FF9500]
-        bg-[#FF9500]
-        text-[14px]
-        font-medium
-        text-white
-        transition-all
-        hover:bg-[#F57C00]"
+                className="
+    mt-4
+    h-10
+    w-full
+    rounded-full
+    border
+    border-[#FF9500]
+    bg-[#FF9500]
+    text-[14px]
+    font-medium
+    text-white
+    transition-all
+    hover:bg-[#F57C00]
+    disabled:bg-gray-300
+    disabled:border-gray-300
+    disabled:text-gray-500
+    disabled:cursor-not-allowed
+    disabled:hover:bg-gray-300
+  "
               >
                 Add Pending Actions
               </button>
