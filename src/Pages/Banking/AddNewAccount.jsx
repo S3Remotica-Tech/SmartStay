@@ -115,7 +115,7 @@ function AddNewAccount({ show, handleClose }) {
   const [formLoading, setFormLoading] = useState(false);
   const [accountMode, setAccountMode] = useState("bank");
 
-  // Bank Fields
+
   const [displayName, setDisplayName] = useState("");
   const [bankName, setBankName] = useState("");
   const [holderName, setHolderName] = useState("");
@@ -124,11 +124,10 @@ function AddNewAccount({ show, handleClose }) {
   const [ifscCode, setIfscCode] = useState("");
   const [accountType, setAccountType] = useState(null);
 
-  // Cash Fields
   const [cashType, setCashType] = useState(null);
   const [responsiblePerson, setResponsiblePerson] = useState(null);
 
-  // Common
+  
   const [openingBalance, setOpeningBalance] = useState("");
   const [description, setDescription] = useState("");
 
@@ -149,9 +148,7 @@ function AddNewAccount({ show, handleClose }) {
     { label: "Manager", value: 2 },
   ];
 
-  // ===========================
-  // Handle Functions
-  // ===========================
+ 
 
   const handleDisplayName = (e) => {
     const value = e.target.value;
