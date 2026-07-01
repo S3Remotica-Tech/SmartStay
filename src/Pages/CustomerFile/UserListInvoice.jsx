@@ -511,22 +511,20 @@ function UserListInvoice(props) {
                                           )}
                                         {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
-                                        {view.invoiceMode === "MANUAL" &&
-                                          view?.paymentStatus === "Paid" &&
-                                          view.invoiceType === "Rent" && (
-                                            <button
-                                              disabled={!canWriteInvoice}
-                                              onClick={() =>
-                                                canWriteInvoice &&
-                                                handleUnpaid(view)
-                                              }
-                                              className={`flex items-center gap-2 w-full px-3 py-2 text-left 
+                                        {view.canUnpaid && (
+                                          <button
+                                            disabled={!canWriteInvoice}
+                                            onClick={() =>
+                                              canWriteInvoice &&
+                                              handleUnpaid(view)
+                                            }
+                                            className={`flex items-center gap-2 w-full px-3 py-2 text-left 
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
-                                            >
-                                              <Edit size="16" color="#1E45E1" />
-                                              Unpaid
-                                            </button>
-                                          )}
+                                          >
+                                            <Edit size="16" color="#1E45E1" />
+                                            Unpaid
+                                          </button>
+                                        )}
                                         {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
                                         {view?.totalAmount > 0 &&
