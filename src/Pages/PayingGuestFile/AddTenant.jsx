@@ -213,10 +213,10 @@ function AddTenant({ showMenu, handleClose }) {
   const [formLoading, setFormLoading] = useState(false);
   const [guardians, setGuardians] = useState([
     {
-      guardianName: "",
-      relationship: null,
-      occupation: null,
-      mobile: "",
+      guardianFullName: "",
+      relationshipToTenant: null,
+      guardianOccupation: null,
+      mobileNo: "",
     },
   ]);
   const [relationship, setRelationship] = useState(null);
@@ -259,10 +259,10 @@ function AddTenant({ showMenu, handleClose }) {
     setGuardians([
       ...guardians,
       {
-        guardianName: "",
-        relationship: null,
-        occupation: null,
-        mobile: "",
+        guardianFullName: "",
+        relationshipToTenant: null,
+        guardianOccupation: null,
+        mobileNo: "",
       },
     ]);
   };
@@ -702,38 +702,12 @@ function AddTenant({ showMenu, handleClose }) {
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
 
-    // dispatch({
-    //   type: "SAVE_DRAFT_SAGA",
-    //   payload: {
-    //     hostelId: state?.login?.selectedHostel_Id,
-    //     profilePic: file,
-    //     request: {
-    //       firstName: capitalizedFirstname,
-    //       lastName: capitalizedLastname,
-    //       mobile: MobileNumber,
-    //       emailId: Email,
-    //       idProof: {
-    //         type: idProofType,
-    //         number: idProofNo,
-    //       },
-    //       address: {
-    //         house: house_no,
-    //         area: street,
-    //         landmark: landmark,
-    //         pincode: pincode,
-    //         city: city,
-    //         state: state_name,
-    //       },
-    //     },
-    //   },
-    // });
-
     dispatch({
       type: "SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
         profilePic: file || "",
-        aadharPic: "",
+        aadharPic: aadhaarFile || "",
         panPic: panFile || "",
 
         request: {
@@ -759,7 +733,7 @@ function AddTenant({ showMenu, handleClose }) {
           proRate: true,
 
           idProof: {
-            type: idProofType || "",
+            type: idProofType?.value || idProofType || "",
             number: idProofNo || "",
           },
 
@@ -781,7 +755,7 @@ function AddTenant({ showMenu, handleClose }) {
 
           booking: {
             joiningDateTentative: "",
-            refuseAdvanceAmount: false,
+            refuseAdvanceAmount: true,
           },
 
           jobDetails: {
@@ -795,7 +769,14 @@ function AddTenant({ showMenu, handleClose }) {
             shiftTo: toTime || "",
           },
 
-          guardians: guardians || [],
+          guardians: (guardians || []).map((g) => ({
+            guardianFullName: g.guardianFullName || "",
+            relationshipToTenant:
+              g.relationshipToTenant?.value || g.relationshipToTenant || "",
+            guardianOccupation:
+              g.guardianOccupation?.value || g.guardianOccupation || "",
+            mobileNo: g.mobileNo || "",
+          })),
         },
       },
     });
@@ -813,19 +794,12 @@ function AddTenant({ showMenu, handleClose }) {
         panPic: panFile || null,
 
         request: {
-          guardians: [
-            {
-              guardianFullName: guardianName || "",
-              relationshipToTenant: relationship?.value || "",
-              guardianOccupation: occupation?.value || "",
-              mobileNo: mobile || "",
-            },
-          ],
+          guardians: guardians || [],
 
           jobDetails: {
             employmentStatus: employmentStatus?.value || "",
             companyName: companyName || "",
-            collegeName: companyName || "",
+            collegeName: "",
             jobRole: jobRole?.value || "",
             workLocation: workLocation || "",
             shiftType: shiftType?.value || "",
@@ -1800,17 +1774,17 @@ function AddTenant({ showMenu, handleClose }) {
                           <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                           Guardian Details
                         </h5>
-                        {guardians.map((guardian, index) => (
+                        {guardians?.map((guardian, index) => (
                           <div
                             key={index}
-                            className=" border border-gray-200 rounded-lg p-2 mb-4 "
+                            className="border border-gray-200 rounded-lg p-2 mb-4"
                           >
                             <div className="flex justify-between items-center mb-3">
                               <h6 className="font-semibold">
                                 Guardian {index + 1}
                               </h6>
 
-                              {guardians.length > 1 && (
+                              {guardians?.length > 1 && (
                                 <button
                                   type="button"
                                   onClick={() => handleRemoveGuardian(index)}
@@ -1828,11 +1802,11 @@ function AddTenant({ showMenu, handleClose }) {
                                 </label>
 
                                 <input
-                                  value={guardian.guardianName}
+                                  value={guardian.guardianFullName}
                                   onChange={(e) =>
                                     handleGuardianChange(
                                       index,
-                                      "guardianName",
+                                      "guardianFullName",
                                       e.target.value,
                                     )
                                   }
@@ -1848,11 +1822,11 @@ function AddTenant({ showMenu, handleClose }) {
 
                                 <Select
                                   options={relationOptions}
-                                  value={guardian.relationship}
+                                  value={guardian.relationshipToTenant}
                                   onChange={(value) =>
                                     handleGuardianChange(
                                       index,
-                                      "relationship",
+                                      "relationshipToTenant",
                                       value,
                                     )
                                   }
@@ -1868,11 +1842,11 @@ function AddTenant({ showMenu, handleClose }) {
 
                                 <Select
                                   options={jobOptions}
-                                  value={guardian.occupation}
+                                  value={guardian.guardianOccupation}
                                   onChange={(value) =>
                                     handleGuardianChange(
                                       index,
-                                      "occupation",
+                                      "guardianOccupation",
                                       value,
                                     )
                                   }
@@ -1887,11 +1861,11 @@ function AddTenant({ showMenu, handleClose }) {
                                 </label>
 
                                 <input
-                                  value={guardian.mobile}
+                                  value={guardian.mobileNo}
                                   onChange={(e) =>
                                     handleGuardianChange(
                                       index,
-                                      "mobile",
+                                      "mobileNo",
                                       e.target.value,
                                     )
                                   }

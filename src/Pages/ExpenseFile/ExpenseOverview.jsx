@@ -95,7 +95,7 @@ function ExpenseOverview({
                   >
                     {expenseOverView?.paymentStatus}
                   </span>
-                  <div>₹{expenseOverView?.totalAmount}</div>
+                  <div>₹{expenseOverView?.actualTotalPrice}</div>
                 </div>
               </div>
               <PiDotsThreeOutlineVerticalFill
