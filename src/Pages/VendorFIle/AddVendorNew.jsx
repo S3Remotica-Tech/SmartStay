@@ -753,6 +753,15 @@ function AddVendorNew() {
       }
     }
 
+    if (vendor_Mobile && !countryCode) {
+      setCountryCodeError("Please Select  Country Code");
+      if (!focusedRef.current && countryCodeRef.current) {
+        countryCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+
     if (email_Id) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -1371,6 +1380,10 @@ function AddVendorNew() {
 
                 {mobileError && (
                   <ErrorMessage message={mobileError} type="error" />
+                )}
+
+                {countryCodeError && (
+                  <ErrorMessage message={countryCodeError} type="error" />
                 )}
               </div>
             </div>

@@ -101,7 +101,7 @@ function ExpenseItems() {
               <div className=" flex items-center justify-between w-[300px]">
                 <p className="text-[12px] text-[#4B4B4B] mb-2">Total Amount</p>
                 <p className="mt-1 font-semibold text-[#222222] text-[14px] mb-2">
-                  ₹ {expenseOverView?.totalAmount || "0.00"}
+                  ₹ {expenseOverView?.actualTotalPrice || "0.00"}
                 </p>
               </div>
             </div>

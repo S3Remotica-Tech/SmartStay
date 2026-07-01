@@ -97,6 +97,21 @@ function VendorOverView({
     }
   }, [trigger]);
 
+  useEffect(() => {
+    if (
+      state.ExpenseList.StatusCodeForAddExpenseSuccess === 201 ||
+      state.ExpenseList.StatusCodeForUpdateExpenseSuccess === 200
+    ) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
+        dispatch({ type: "REMOVE_UPDATE_EXPENSE_REDUCER" });
+      }, 2000);
+    }
+  }, [
+    state.ExpenseList.StatusCodeForAddExpenseSuccess,
+    state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
+  ]);
+
   return (
     <div className="font-gilroy">
       <div

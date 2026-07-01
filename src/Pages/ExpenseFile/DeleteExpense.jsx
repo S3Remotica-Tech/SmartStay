@@ -9,6 +9,7 @@ function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const ConfirmDeleteExpense = () => {
+    dispatch({ type: "REMOVE_DELETE_EXPENSE_ERROR" });
     if (deleteExpenseRowData) {
       dispatch({
         type: "DELETEEXPENSE",
@@ -26,6 +27,12 @@ function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
       setDeleteLoading(false);
     }
   }, [state.ExpenseList.deleteExpenseStatusCode]);
+
+  useEffect(() => {
+    if (state.ExpenseList?.expenseRemoveError) {
+      setDeleteLoading(false);
+    }
+  }, [state.ExpenseList?.expenseRemoveError]);
 
   return (
     <div

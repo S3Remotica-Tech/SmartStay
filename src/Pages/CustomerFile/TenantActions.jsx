@@ -76,54 +76,82 @@ function TenantActions({ show, handleClose }) {
               <div className="h-full w-[70%] rounded-full bg-[#FF9800]" />
             </div>
           </div>
+          {CustomerOverView?.kycInfo?.keyStatus !== "VERIFIED" && (
+            <div className="mt-3 rounded-xl border border-[#ECECEC] p-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-[16px] font-semibold text-[#222222]">
+                  KYC Verification
+                </h3>
 
-          <div className="mt-3 rounded-xl border border-[#ECECEC] p-4">
-            <div className="flex items-center gap-2">
-              <h3 className="text-[16px] font-semibold text-[#222222]">
-                KYC Verification
-              </h3>
+                <span className="text-[12px] font-medium text-[#00A32E]">
+                  Add 20%
+                </span>
+              </div>
 
-              <span className="text-[12px] font-medium text-[#00A32E]">
-                Add 20%
-              </span>
+              <p className="mt-1 text-[13px] leading-5 text-[#4B4B4B]">
+                Verify the tenant's KYC through the Smartstay Tenant App.
+              </p>
+
+              <div className="mt-5 flex justify-end">
+                {CustomerOverView?.kycInfo?.keyStatus === "PENDING" && (
+                  <button
+                    type="button"
+                    disabled={formLoading}
+                    onClick={handleSendReminder}
+                    className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+                      formLoading
+                        ? "opacity-70 cursor-not-allowed"
+                        : "hover:bg-[#2342C0]"
+                    }`}
+                  >
+                    {formLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Reminder</span>
+                        <Send2 size={15} color="#fff" />
+                      </>
+                    )}
+                  </button>
+                )}
+
+                {CustomerOverView?.kycInfo?.keyStatus === "REQUESTED" && (
+                  <div className="flex items-center gap-2">
+                    <TiTick className="text-[#34C759] text-sm" />
+                    <div className="text-[#64748B] text-sm">Reminder Sent</div>
+                  </div>
+                )}
+
+                {CustomerOverView?.kycInfo?.keyStatus === "EXPIRED" && (
+                  <button
+                    type="button"
+                    disabled={formLoading}
+                    onClick={handleSendReminder}
+                    className={`bg-[#0D1B8E] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+                      formLoading
+                        ? "opacity-70 cursor-not-allowed"
+                        : "hover:bg-[#2342C0]"
+                    }`}
+                  >
+                    {formLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Reminder Again</span>
+                        <Send2 size={15} color="#fff" />
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
-
-            <p className="mt-1 text-[13px] leading-5 text-[#4B4B4B]">
-              Verify the tenant's KYC through the Smartstay Tenant App.
-            </p>
-
-            <div className="mt-5 flex justify-end">
-              {CustomerOverView?.kycInfo?.keyStatus === "NOT_AVAILABLE" ? (
-                <button
-                  type="button"
-                  disabled={formLoading}
-                  onClick={handleSendReminder}
-                  className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-                    formLoading
-                      ? "opacity-70 cursor-not-allowed"
-                      : "hover:bg-[#2342C0]"
-                  }`}
-                >
-                  {formLoading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Send Reminder</span>
-                      <Send2 size={15} color="#fff" />
-                    </>
-                  )}
-                </button>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <TiTick className="text-[#34C759] text-sm" />
-                  <div className="text-[#64748B] text-sm">Remainder Sent</div>
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </>

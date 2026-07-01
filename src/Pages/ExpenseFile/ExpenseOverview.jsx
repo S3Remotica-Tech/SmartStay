@@ -41,6 +41,8 @@ function ExpenseOverview({
     }
   }, [selectedExpenseId, activeTab]);
 
+  
+
   return (
     <div className="font-gilroy">
       <div
@@ -95,7 +97,7 @@ function ExpenseOverview({
                   >
                     {expenseOverView?.paymentStatus}
                   </span>
-                  <div>₹{expenseOverView?.totalAmount}</div>
+                  <div>₹{expenseOverView?.actualTotalPrice}</div>
                 </div>
               </div>
               <PiDotsThreeOutlineVerticalFill

@@ -286,6 +286,8 @@ function AddExpenseNew() {
   const isVendorOverViewWay = location.state?.isVendorOverViewWay;
   const selectedVendorId = location.state?.selectedVendorId;
 
+  console.log("selectedVendorId", selectedVendorId);
+
   const [errors, setErrors] = useState({
     totalAmount: "",
     paidAmount: "",
@@ -329,6 +331,8 @@ function AddExpenseNew() {
     name: "",
     index: "",
   });
+
+  console.log("vendor", vendor);
 
   const expenseTitleRef = useRef(null);
   const categoryRef = useRef(null);
@@ -458,7 +462,7 @@ function AddExpenseNew() {
 
       setVendor(selectedVendor || null);
     }
-  }, [selectedVendorId]);
+  }, []);
 
   const handlePaidAmountChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -729,6 +733,8 @@ function AddExpenseNew() {
 
     return isValid;
   };
+
+  console.log("paymentMethod", paymentMethod);
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -1860,7 +1866,7 @@ function AddExpenseNew() {
                       <ErrorMessage message={errors.discount} type="error" />
                     )}
                     <div className="border-t pt-3 flex justify-between font-semibold">
-                      <span className="text-sm">TOTAL RETAINER AMOUNT</span>
+                      <span className="text-sm">TOTAL AMOUNT</span>
 
                       <span className="text-sm">
                         ₹ {totalAmount.toLocaleString("en-IN")}

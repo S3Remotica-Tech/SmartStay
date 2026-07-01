@@ -455,12 +455,12 @@ function ReceiptNew() {
       });
     }
 
-    if (receiptFilters?.modes?.length) {
+    if (receiptFilters?.paymentLabels?.length) {
       filterData.push({
         key: "paymentMode",
         label: "Payment Mode",
         type: "paymentMode",
-        value: receiptFilters.modes,
+        value: receiptFilters.paymentLabels,
       });
     }
 

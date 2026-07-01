@@ -266,10 +266,12 @@ function ReceiptFilter({ show, handleClose, size }) {
       paymentMode: selectedPaymentMode,
       collectedBy: selectedCollectedBy,
       period: selectedPeriod?.value || "",
-      createdByLabels: selectedCollectedBylabels,
+      // createdByLabels: selectedCollectedBylabels,
       minAmount: minAmount || "",
       maxAmount: maxAmount || "",
     };
+
+    
 
     dispatch({
       type: "SET_RECEIPT_FILTERS",

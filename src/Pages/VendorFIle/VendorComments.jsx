@@ -234,7 +234,7 @@ function VendorComments({ selectedVendorId }) {
         </div>
 
         <div className="mt-2">
-          <div className="flex justify-between items-center mb-4 sticky top-0">
+          <div className="flex justify-between items-center mb-4 ">
             <p className="text-[11px] font-semibold text-[#6B7280] uppercase">
               All Comments
             </p>
@@ -284,9 +284,9 @@ function VendorComments({ selectedVendorId }) {
                     </button>
                   </div>
 
-                   <h4 className="text-[14px] font-medium text-[#222222] pr-16 break-words whitespace-pre-wrap">
-    {item.comment}
-  </h4>
+                  <h4 className="text-[14px] font-medium text-[#222222] pr-16 break-words whitespace-pre-wrap">
+                    {item.comment}
+                  </h4>
 
                   <p className="text-[12px] text-[#6B7280] mt-1">
                     {item.createdAt}
