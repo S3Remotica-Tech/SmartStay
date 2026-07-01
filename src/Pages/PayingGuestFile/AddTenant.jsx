@@ -838,6 +838,8 @@ function AddTenant({ showMenu, handleClose }) {
   }, [state.createAccount?.networkError]);
 
   const handleNext = () => {
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     let hasError = false;
     const focusedRef = { current: false };
     if (
@@ -884,6 +886,34 @@ function AddTenant({ showMenu, handleClose }) {
     if (hasError) {
       return;
     }
+    const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+    const basicAndAddressPayload = {
+      profilePic: file,
+      hostelId: state.login.selectedHostel_Id,
+      customerInfo: {
+        firstName: capitalizedFirstname,
+        lastName: capitalizedLastname,
+        mobileNumber: MobileNumber,
+        emailId: Email,
+        type: 1,
+        address: {
+          houseNo: house_no,
+          street: street,
+          landmark: landmark,
+          city: city,
+          pincode: pincode,
+          state: state_name,
+        },
+      },
+    };
+    dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
+
     setStep(2);
 
     scrollRef.current?.scrollTo({
@@ -964,6 +994,25 @@ function AddTenant({ showMenu, handleClose }) {
       dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
     };
   }, []);
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 201) {
+      dispatch({
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_STATUS_CODES" });
+      }, 200);
+    }
+  }, [
+    state.UsersList?.statusCodeForAddUser,
+    state.UsersList?.statusCodeForAddCustomerSaveInfo,
+  ]);
 
   return (
     <>
