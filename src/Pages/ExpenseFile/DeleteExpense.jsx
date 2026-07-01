@@ -9,6 +9,7 @@ function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const ConfirmDeleteExpense = () => {
+    dispatch({ type: "REMOVE_DELETE_EXPENSE_ERROR" });
     if (deleteExpenseRowData) {
       dispatch({
         type: "DELETEEXPENSE",

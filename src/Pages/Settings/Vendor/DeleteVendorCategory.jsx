@@ -10,6 +10,8 @@ function DeleteVendorCategory({ show, handleClose, deleteId }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const handleDelete = () => {
+    dispatch({ type: "REMOVE_DELETE_VENDOR_CATEGORY_ERROR" });
+    
     if (deleteId) {
       dispatch({
         type: "DELETE_VENDOR_CATEGORY_SAGA",
@@ -27,6 +29,12 @@ function DeleteVendorCategory({ show, handleClose, deleteId }) {
       setDeleteLoading(false);
     }
   }, [state.Settings?.deleteVendorCategorySuccessStatus]);
+
+  useEffect(() => {
+    if (state.Settings?.deleteCategoryError) {
+      setDeleteLoading(false);
+    }
+  }, [state.Settings?.deleteCategoryError]);
 
   return (
     <Modal

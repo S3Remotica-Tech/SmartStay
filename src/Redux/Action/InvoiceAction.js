@@ -198,14 +198,23 @@ export async function getReceiptList(receipt) {
   if (receipt.period) params.period = receipt.period;
   if (receipt.bankIds?.length) params.bankIds = receipt.bankIds;
   if (receipt.invoiceType) params.invoiceType = receipt.invoiceType;
+  if (receipt.paymentMode?.length) params.paymentMode = receipt.paymentMode;
   if (receipt.collectedBy?.length) params.collectedBy = receipt.collectedBy;
-  if (receipt.minAmount !== "" && receipt.minAmount != null)
-    params.minAmount = receipt.minAmount;
-  if (receipt.maxAmount !== "" && receipt.maxAmount != null)
-    params.maxAmount = receipt.maxAmount;
 
-  return await AxiosConfigV2.get(`/v2/transaction/${receipt.hostelId}`, {
+  if (receipt.minAmount !== "" && receipt.minAmount != null) {
+    params.minAmount = receipt.minAmount;
+  }
+
+  if (receipt.maxAmount !== "" && receipt.maxAmount != null) {
+    params.maxAmount = receipt.maxAmount;
+  }
+
+  return AxiosConfigV2.get(`/v2/transaction/${receipt.hostelId}`, {
     params,
+    paramsSerializer: (params) =>
+      qs.stringify(params, {
+        arrayFormat: "repeat",
+      }),
   });
 }
 
