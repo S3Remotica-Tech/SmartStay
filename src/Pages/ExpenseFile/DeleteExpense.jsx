@@ -27,6 +27,12 @@ function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
     }
   }, [state.ExpenseList.deleteExpenseStatusCode]);
 
+  useEffect(() => {
+    if (state.ExpenseList?.expenseRemoveError) {
+      setDeleteLoading(false);
+    }
+  }, [state.ExpenseList?.expenseRemoveError]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"

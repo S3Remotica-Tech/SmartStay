@@ -661,6 +661,7 @@ function Vendor() {
   };
 
   const handleDeleteVendor = (item) => {
+    dispatch({ type: "REMOVE_DELETE_VENDOR_ERROR" });
     setShowDeleteVendor(true);
     setShowDeleteVendorDetails(item);
   };
@@ -672,6 +673,7 @@ function Vendor() {
   // console.log("showDeleteVendorDetails", showDeleteVendorDetails)
 
   const ConfirmDeleteVendor = () => {
+    dispatch({ type: "REMOVE_DELETE_VENDOR_ERROR" });
     if (showDeleteVendorDetails) {
       dispatch({
         type: "DELETEVENDOR",
@@ -683,6 +685,12 @@ function Vendor() {
       setDeleteLoading(true);
     }
   };
+
+  useEffect(() => {
+    if (state.ComplianceList?.vendorRemoveError) {
+      setDeleteLoading(false);
+    }
+  }, [state.ComplianceList?.vendorRemoveError]);
 
   useEffect(() => {
     const appearOptions = {

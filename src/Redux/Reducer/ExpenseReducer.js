@@ -18,6 +18,8 @@ export const initialState = {
   StatusCodeForUpdateExpenseSuccess: 0,
   unitList: [],
   expenseOverview: "",
+  expenseRemoveError: "",
+
   customizeExpenseSuccessCode: 0,
   expenseFilters: {
     search: "",
@@ -38,6 +40,18 @@ const ExpenseReducer = (state = initialState, action) => {
           ...state.expenseFilters,
           ...action.payload,
         },
+      };
+
+    case "DELETE_EXPENSE_ERROR":
+      return {
+        ...state,
+        expenseRemoveError: action.payload,
+      };
+
+    case "REMOVE_DELETE_EXPENSE_ERROR":
+      return {
+        ...state,
+        expenseRemoveError: "",
       };
 
     case "INITIALIZE_EXPENSES_LIST":

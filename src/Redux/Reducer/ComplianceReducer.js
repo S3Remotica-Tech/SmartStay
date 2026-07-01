@@ -46,6 +46,7 @@ export const initialState = {
   updateCommentsVendorstatusCode: 0,
   getVendorCommentsList: "",
   getVendorCommentsListSuccess: 0,
+   vendorRemoveError: "",
   vendorEmailError: "",
   vendorMobileError: "",
 
@@ -162,6 +163,18 @@ const ComplianceReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorMobileError: "",
+      };
+
+    case "DELETE_VENDOR_ERROR":
+      return {
+        ...state,
+        vendorRemoveError: action.payload,
+      };
+
+    case "REMOVE_DELETE_VENDOR_ERROR":
+      return {
+        ...state,
+        vendorRemoveError: "",
       };
 
     case "CLEAR_ALREADY_VENDOR_ERROR":
