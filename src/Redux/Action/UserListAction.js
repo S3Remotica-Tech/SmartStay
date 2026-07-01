@@ -189,6 +189,90 @@ export async function SaveDraftTenant(tenant) {
   });
 }
 
+// export async function SaveDraftTenant(tenant) {
+//   const formData = new FormData();
+
+//   formData.append("profilePic", tenant.profilePic || "");
+//   formData.append("aadharPic", tenant.aadharPic || "");
+//   formData.append("panPic", tenant.panPic || "");
+
+//   formData.append(
+//     "request",
+//     JSON.stringify({
+//       firstName: tenant.request?.firstName || "",
+//       lastName: tenant.request?.lastName || "",
+//       mobile: tenant.request?.mobile || "",
+//       emailId: tenant.request?.emailId || "",
+
+//       joiningDate: tenant.request?.joiningDate || "",
+//       bookingDate: tenant.request?.bookingDate || "",
+//       bookingAmount: tenant.request?.bookingAmount || 0,
+//       floorId: tenant.request?.floorId || 0,
+//       roomId: tenant.request?.roomId || 0,
+//       bedId: tenant.request?.bedId || 0,
+//       bankId: tenant.request?.bankId || "",
+//       referenceNumber: tenant.request?.referenceNumber || "",
+//       advanceAmount: tenant.request?.advanceAmount || 0,
+//       rentalAmount: tenant.request?.rentalAmount || 0,
+//       stayType: tenant.request?.stayType || "",
+//       deductions: tenant.request?.deductions || [],
+//       proRate: tenant.request?.proRate ?? true,
+
+//       idProof: {
+//         type:
+//           tenant.request?.idProof?.type?.value ||
+//           tenant.request?.idProof?.type ||
+//           "",
+//         number: tenant.request?.idProof?.number || "",
+//       },
+
+//       address: tenant.request?.address || {
+//         flat: "",
+//         house: "",
+//         building: "",
+//         company: "",
+//         apartment: "",
+//         area: "",
+//         street: "",
+//         sector: "",
+//         village: "",
+//         landmark: "",
+//         pincode: "",
+//         city: "",
+//         state: "",
+//       },
+
+//       booking: tenant.request?.booking || {
+//         joiningDateTentative: "",
+//         refuseAdvanceAmount: false,
+//       },
+
+//       jobDetails: tenant.request?.jobDetails || {
+//         employmentStatus: "",
+//         companyName: "",
+//         collegeName: "",
+//         jobRole: "",
+//         workLocation: "",
+//         shiftType: "",
+//         shiftFrom: "",
+//         shiftTo: "",
+//       },
+
+//       guardians: tenant.request?.guardians || [],
+//     }),
+//   );
+
+//   return AxiosConfigV2.post(
+//     `/v3/customers/saveDraft/${tenant.hostelId}`,
+//     formData,
+//     {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     },
+//   );
+// }
+
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
     params: {
@@ -204,7 +288,7 @@ export async function cancelBookingGet(customerId) {
 }
 
 export async function KYCReminder(customerId) {
-  console.log("customerId", customerId);
+  // console.log("customerId", customerId);
 
   return await AxiosConfigV2.post(`/v2/kyc/request/${customerId}`);
 }

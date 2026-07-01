@@ -726,7 +726,7 @@ function AddTenant({ showMenu, handleClose }) {
           referenceNumber: "",
           advanceAmount: 0,
           rentalAmount: 0,
-          stayType: "",
+          stayType: "LONG",
 
           deductions: [],
 

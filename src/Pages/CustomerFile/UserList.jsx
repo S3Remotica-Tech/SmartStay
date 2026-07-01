@@ -2275,11 +2275,8 @@ function UserList(props) {
   const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
 
   const handlePageChange = (page) => {
-    console.log("pageeeeeeeeee", page);
     setPage(page);
   };
-
-  console.log("page", page);
 
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);

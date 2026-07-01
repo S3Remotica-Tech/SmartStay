@@ -1860,7 +1860,7 @@ function AddExpenseNew() {
                       <ErrorMessage message={errors.discount} type="error" />
                     )}
                     <div className="border-t pt-3 flex justify-between font-semibold">
-                      <span className="text-sm">TOTAL RETAINER AMOUNT</span>
+                      <span className="text-sm">TOTAL AMOUNT</span>
 
                       <span className="text-sm">
                         ₹ {totalAmount.toLocaleString("en-IN")}
