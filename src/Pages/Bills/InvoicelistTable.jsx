@@ -657,27 +657,25 @@ const InvoiceTable = (props) => {
                     </span>
                   </button> */}
 
-                  {props.item.invoiceMode === "Manual" &&
-                    props.item?.paymentStatus === "Paid" &&
-                    props.item.invoiceType === "Rent" && (
-                      <button
-                        disabled={!canWriteInvoice}
-                        onClick={() =>
-                          canWriteInvoice && handleUnpaid(props.item)
-                        }
-                        className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
+                  {props.item.canUnpaid && (
+                    <button
+                      disabled={!canWriteInvoice}
+                      onClick={() =>
+                        canWriteInvoice && handleUnpaid(props.item)
+                      }
+                      className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
         ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
-                      >
-                        <Edit
-                          size="16"
-                          color={canWriteInvoice ? "#1E45E1" : "#A9A9A9"}
-                          variant="Linear"
-                        />
-                        <span className="text-sm font-medium text-[#222]">
-                          Unpaid
-                        </span>
-                      </button>
-                    )}
+                    >
+                      <Edit
+                        size="16"
+                        color={canWriteInvoice ? "#1E45E1" : "#A9A9A9"}
+                        variant="Linear"
+                      />
+                      <span className="text-sm font-medium text-[#222]">
+                        Unpaid
+                      </span>
+                    </button>
+                  )}
 
                   {props.item?.invoiceAmount > 0 &&
                     props.item?.paymentStatus === "Pending" &&
