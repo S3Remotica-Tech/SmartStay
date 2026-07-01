@@ -469,6 +469,18 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     }
   }, [state.UsersList.vendorSettleError]);
 
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+
+    dispatch({
+      type: "VENDOR_SETTLE_INITIALIZE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        vendorId: Number(selectedVendorId),
+      },
+    });
+  }, [state.login.selectedHostel_Id, selectedVendorId]);
+
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />

@@ -28,9 +28,7 @@ function VendorDetailsOverview({ handleSelected }) {
 
   const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
 
-  const [selectedPeriod, setSelectedPeriod] = useState(
-    VendorOverView?.filterOptions?.periods?.[0],
-  );
+  const [selectedPeriod, setSelectedPeriod] = useState();
 
   const [showVendorInfo, setShowVendorInfo] = useState(true);
   const [showAddressInfo, setShowAddressInfo] = useState(false);
