@@ -28,20 +28,23 @@ function VendorDetailsOverview({ handleSelected }) {
 
   const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
 
-  const [selectedPeriod, setSelectedPeriod] = useState("");
+  const [selectedPeriod, setSelectedPeriod] = useState({
+    type: "",
+    name: "All",
+  });
 
   const [showVendorInfo, setShowVendorInfo] = useState(true);
   const [showAddressInfo, setShowAddressInfo] = useState(false);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
 
-  useEffect(() => {
-    const firstPeriod = VendorOverView?.filterOptions?.periods?.[0];
+  // useEffect(() => {
+  //   const firstPeriod = VendorOverView?.filterOptions?.periods?.[0];
 
-    if (firstPeriod) {
-      setSelectedPeriod(firstPeriod);
-      handleSelected(firstPeriod);
-    }
-  }, []);
+  //   if (firstPeriod) {
+  //     setSelectedPeriod(firstPeriod);
+  //     handleSelected(firstPeriod);
+  //   }
+  // }, []);
 
   const chartData =
     VendorOverView?.monthSummary?.map((item) => ({
@@ -268,13 +271,16 @@ function VendorDetailsOverview({ handleSelected }) {
                 className="flex items-center gap-2 px-3 py-2 border border-[#E5E7EB] rounded-lg text-[12px] text-[#374151]"
               >
                 <Calendar size="16" />
-                {selectedPeriod?.name}
+                {selectedPeriod?.name || ""}
                 <ArrowDown2 size="16" />
               </button>
 
               {showPeriodDropdown && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-20">
-                  {VendorOverView?.filterOptions?.periods?.map((period) => (
+                  {[
+                    { type: "", name: "All" },
+                    ...(VendorOverView?.filterOptions?.periods || []),
+                  ].map((period) => (
                     <button
                       key={period.type}
                       onClick={() => {
@@ -283,7 +289,7 @@ function VendorDetailsOverview({ handleSelected }) {
                         handleSelected(period);
                       }}
                       className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                        selectedPeriod.type === period.type
+                        selectedPeriod?.type === period.type
                           ? "bg-blue-50 text-blue-600 font-medium"
                           : ""
                       }`}

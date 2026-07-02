@@ -437,7 +437,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
         type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
         payload: {
           vendorId: selectedVendorId,
-          period: "THIS_MONTH",
+          period: "",
         },
       });
 
