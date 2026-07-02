@@ -36,7 +36,7 @@ function ReceiptRegister() {
   const tableRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   // const skipApiRef = useRef(false);
   const [customerTooltip, setCustomerTooltip] = useState(null);
   const [bankTooltip, setBankTooltip] = useState(null);
@@ -410,9 +410,9 @@ function ReceiptRegister() {
     ? dayjs(selectedRange.to).format("DD-MM-YYYY")
     : undefined;
 
-  useEffect(() => {
-    setPage(0);
-  }, [state.reports?.receiptRegisterFilters]);
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [state.reports?.receiptRegisterFilters]);
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
@@ -630,7 +630,7 @@ function ReceiptRegister() {
               onPageChange={handlePageChange}
               onSizeChange={handleSizeChange}
               size={size}
-              isTenantPagination={false}
+              isTenantPagination={true}
             />
           )}
 

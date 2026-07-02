@@ -19,6 +19,7 @@ import {
   Edit,
   DocumentText,
   ArrowUp,
+  InfoCircle,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,6 +91,7 @@ import CustomerReAssign from "./CustomerReAssign";
 import MakeAsInactive from "./MakeAsInactive";
 import icon from "../../Assets/Images/New_images/Icon (1).svg";
 import TenantActions from "./TenantActions";
+import KYCTenantDetails from "./KYCTenantDetails";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -150,7 +152,7 @@ function UserListRoomDetail(props) {
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [activeTab, setActiveTab] = useState("kyc");
-
+  const [showKYCModal, setShowKYCModal] = useState(false);
   const [inactiveForm, setInActiveForm] = useState(false);
   const [inActiveDetails, setInactiveDetails] = useState("");
   const [kycdetailsForm, setKycDetailForm] = useState(false);
@@ -2059,6 +2061,10 @@ function UserListRoomDetail(props) {
     setInActiveForm(false);
   };
 
+  const handleCloseKYC = () => {
+    setShowKYCModal(false);
+  };
+
   return (
     <>
       {BookingAssignForm && (
@@ -2067,6 +2073,10 @@ function UserListRoomDetail(props) {
           handleClose={handleCloseBooking}
           bookingDetails={CustomerOverView}
         />
+      )}
+
+      {showKYCModal && (
+        <KYCTenantDetails show={showKYCModal} handleClose={handleCloseKYC} />
       )}
 
       <div
@@ -2206,12 +2216,28 @@ function UserListRoomDetail(props) {
 
                 <div className="min-w-0 font-gilroy">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-[15px] font-semibold truncate max-w-[180px] ">
+                    <h2 className="text-[24px] font-semibold truncate max-w-[180px] ">
                       {CustomerOverView.fullName}
                     </h2>
-                    <div className="inline-flex items-center mb-1">
-                      <Verify size={18} variant="Bold" color="#038c3d" />
-                    </div>
+                    {CustomerOverView?.kycInfo?.keyStatus !== "VERIFIED" && (
+                      <div className="flex items-center gap-2 ">
+                        <div className="inline-flex items-center mb-1 ">
+                          <Verify size={18} variant="Bold" color="#038c3d" />
+                        </div>
+                        <div
+                          onClick={() => setShowKYCModal(true)}
+                          className="inline-flex items-center gap-1 mb-1 text-[11px] text-[#1E45E1] cursor-pointer"
+                        >
+                          {" "}
+                          KYC Info{" "}
+                          <InfoCircle
+                            size={14}
+                            color="#1E45E1"
+                            className="cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
