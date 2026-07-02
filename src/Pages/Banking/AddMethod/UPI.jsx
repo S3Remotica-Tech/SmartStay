@@ -146,12 +146,16 @@ function UPI() {
   };
 
   const handleUpiIdChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value.trim();
 
     setUpiId(value);
 
-    if (!value.trim()) {
-      setUpiIdError("UPI ID is required");
+    const upiRegex = /^[a-zA-Z0-9._-]{2,}@[a-zA-Z]{2,}$/;
+
+    if (!value) {
+      setUpiIdError("Please Enter UPI ID");
+    } else if (!upiRegex.test(value)) {
+      setUpiIdError("Enter a valid UPI ID");
     } else {
       setUpiIdError("");
     }
@@ -160,10 +164,14 @@ function UPI() {
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
 
+    if (!/^[A-Za-z\s]*$/.test(value)) {
+      return;
+    }
+
     setDisplayName(value);
 
     if (!value.trim()) {
-      setDisplayNameError("Display name is required");
+      setDisplayNameError("Please Enter Display Name");
     } else {
       setDisplayNameError("");
     }
@@ -175,7 +183,7 @@ function UPI() {
     setDescription(value);
 
     if (!value.trim()) {
-      setDescriptionError("Description is required");
+      setDescriptionError("");
     } else {
       setDescriptionError("");
     }
@@ -194,20 +202,34 @@ function UPI() {
       isValid = false;
     }
 
+    const upiRegex = /^[a-zA-Z0-9._-]{2,}@[a-zA-Z0-9]{2,}$/;
+
     if (!upiId.trim()) {
-      setUpiIdError("UPI ID is required");
+      setUpiIdError("Please Enter UPI ID");
       isValid = false;
+    } else if (!upiRegex.test(upiId.trim())) {
+      setUpiIdError("Please Enter a Valid UPI ID");
+      isValid = false;
+    } else {
+      setUpiIdError("");
     }
+
+    const displayNameRegex = /^[A-Za-z\s]+$/;
 
     if (!displayName.trim()) {
-      setDisplayNameError("Display name is required");
+      setDisplayNameError("Please Enter Display Name");
       isValid = false;
+    } else if (!displayNameRegex.test(displayName.trim())) {
+      setDisplayNameError("Display Name should contain only letters");
+      isValid = false;
+    } else {
+      setDisplayNameError("");
     }
 
-    if (!description.trim()) {
-      setDescriptionError("Description is required");
-      isValid = false;
-    }
+    // if (!description.trim()) {
+    //   setDescriptionError("Please Enter Description");
+    //   isValid = false;
+    // }
 
     if (!isValid) return;
   };
@@ -285,7 +307,7 @@ function UPI() {
 
         <div className="mt-3">
           <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-            Description <span className="text-red-500">*</span>
+            Description
           </label>
 
           <textarea
@@ -295,9 +317,9 @@ function UPI() {
             placeholder="Describe the notes..."
             className="w-full mt-2 p-4 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
           />
-          {descriptionError && (
+          {/* {descriptionError && (
             <ErrorMessage message={descriptionError} type="error" />
-          )}
+          )} */}
         </div>
       </div>
       <div className="flex justify-end gap-4 px-6 py-2 ">

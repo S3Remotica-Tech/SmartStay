@@ -147,10 +147,13 @@ function Credit() {
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
 
+    if (!/^[A-Za-z\s]*$/.test(value)) {
+      return;
+    }
     setDisplayName(value);
 
     if (!value.trim()) {
-      setDisplayNameError("Display name is required");
+      setDisplayNameError("Please Enter Display name");
     } else {
       setDisplayNameError("");
     }
@@ -162,7 +165,7 @@ function Credit() {
     setDescription(value);
 
     if (!value.trim()) {
-      setDescriptionError("Description is required");
+      setDescriptionError("");
     } else {
       setDescriptionError("");
     }
@@ -175,7 +178,9 @@ function Credit() {
 
   const handleCardHolderNameChange = (e) => {
     const value = e.target.value;
-
+    if (!/^[A-Za-z\s]*$/.test(value)) {
+      return;
+    }
     setCardHolderName(value);
 
     if (!value.trim()) {
@@ -190,9 +195,9 @@ function Credit() {
 
     setCardNumber(value);
 
-    if (!value) {
-      setCardNumberError("Last 4 digits is required");
-    } else if (value.length !== 4) {
+    if (!value.trim()) {
+      setCardNumberError("Please Enter Last 4 digits");
+    } else if (!/^\d{4}$/.test(value)) {
       setCardNumberError("Enter exactly 4 digits");
     } else {
       setCardNumberError("");
@@ -200,10 +205,17 @@ function Credit() {
   };
 
   const handleCreditLimitChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value.replace(/\D/g, "");
 
     setCreditLimit(value);
-    setCreditLimitError("");
+
+    if (!value) {
+      setCreditLimitError("Please Enter Credit limit");
+    } else if (Number(value) <= 0) {
+      setCreditLimitError("Credit limit must be greater than 0");
+    } else {
+      setCreditLimitError("");
+    }
   };
 
   const handleBillingCycleChange = (date) => {
@@ -214,42 +226,64 @@ function Credit() {
   const handleSaveCredit = () => {
     let isValid = true;
 
+    const nameRegex = /^[A-Za-z\s]+$/;
+
     if (!linkedBank) {
       setLinkedBankError("Please select linked bank");
       isValid = false;
+    } else {
+      setLinkedBankError("");
     }
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
       isValid = false;
+    } else {
+      setCardNetworkError("");
     }
 
     if (!cardHolderName.trim()) {
-      setCardHolderNameError("Card holder name is required");
+      setCardHolderNameError("Please enter card holder name");
       isValid = false;
+    } else if (!nameRegex.test(cardHolderName.trim())) {
+      setCardHolderNameError("Card holder name should contain only letters");
+      isValid = false;
+    } else {
+      setCardHolderNameError("");
     }
 
     if (!cardNumber.trim()) {
-      setCardNumberError("Last 4 digits is required");
+      setCardNumberError("Please enter last 4 digits");
       isValid = false;
-    } else if (cardNumber.length !== 4) {
-      setCardNumberError("Enter exactly 4 digits");
+    } else if (!/^\d{4}$/.test(cardNumber)) {
+      setCardNumberError("Last 4 digits must contain exactly 4 numbers");
       isValid = false;
+    } else {
+      setCardNumberError("");
     }
 
     if (!displayName.trim()) {
-      setDisplayNameError("Display name is required");
+      setDisplayNameError("Please enter display name");
       isValid = false;
+    } else if (!nameRegex.test(displayName.trim())) {
+      setDisplayNameError("Display name should contain only letters");
+      isValid = false;
+    } else {
+      setDisplayNameError("");
     }
 
     if (!billingCycle) {
-      setBillingCycleError("Billing cycle is required");
+      setBillingCycleError("Please select billing cycle");
       isValid = false;
+    } else {
+      setBillingCycleError("");
     }
 
-    if (!description.trim()) {
-      setDescriptionError("Description is required");
+    if (creditLimit && Number(creditLimit) <= 0) {
+      setCreditLimitError("Credit limit must be greater than 0");
       isValid = false;
+    } else {
+      setCreditLimitError("");
     }
 
     if (!isValid) return;
@@ -377,7 +411,7 @@ function Credit() {
                 onChange={handleBillingCycleChange}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Select Date"
-                className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
+                className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[14px]
                   focus:outline-none`}
               />
 
@@ -392,7 +426,7 @@ function Credit() {
 
         <div className="mt-3">
           <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-            Description <span className="text-red-500">*</span>
+            Description
           </label>
 
           <textarea
@@ -402,9 +436,9 @@ function Credit() {
             placeholder="Describe the notes..."
             className="w-full mt-2 p-4 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
           />
-          {descriptionError && (
+          {/* {descriptionError && (
             <ErrorMessage message={descriptionError} type="error" />
-          )}
+          )} */}
         </div>
       </div>
       <div className="flex justify-end gap-4 px-6 py-2 ">
