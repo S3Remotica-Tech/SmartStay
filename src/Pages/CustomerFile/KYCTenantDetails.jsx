@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal } from "antd";
+import { Add } from "iconsax-react";
 
 function KYCTenantDetails({ show, handleClose }) {
   const kycDetails = [
@@ -38,38 +39,28 @@ function KYCTenantDetails({ show, handleClose }) {
   ];
 
   return (
-    <Modal
-      open={show}
-      footer={null}
-      onCancel={handleClose}
-      centered
-      width={460}
-      closable={false}
-    >
-      <div className="font-gilroy">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b pb-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4 py-4">
+      <div className="w-full max-w-[460px] rounded-xl bg-white shadow-2xl font-gilroy">
+        <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-[18px] font-semibold text-[#222]">KYC Info</h2>
 
           <button
             onClick={handleClose}
             className="text-xl text-red-500 hover:text-red-600"
           >
-            ✕
+            <Add className="rotate-45" />
           </button>
         </div>
 
-        {/* Profile */}
-        <div className="flex justify-center py-5">
+        <div className="flex justify-center py-4">
           <img
             src="/images/profile.png"
             alt="Profile"
-            className="h-28 w-28 rounded-full object-cover"
+            className="h-28 w-28 rounded-full object-cover bg-gray-50"
           />
         </div>
 
-        {/* Details */}
-        <div className="space-y-3">
+        <div className="space-y-3 p-4">
           {kycDetails.map(({ label, value, valueClass = "" }) => (
             <div
               key={label}
@@ -88,7 +79,7 @@ function KYCTenantDetails({ show, handleClose }) {
           ))}
         </div>
       </div>
-    </Modal>
+    </div>
   );
 }
 
