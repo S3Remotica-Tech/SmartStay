@@ -828,12 +828,14 @@ function AddTenant({ showMenu, handleClose }) {
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenant === 201) {
       setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
+      setStep(2);
+
       setFormLoading(false);
       setFirstname("");
       setLastname("");
       setEmail("");
       setMobile("");
-handleClose()
+      // handleClose();
       dispatch({
         type: "USERLIST",
         payload: {
@@ -1665,12 +1667,12 @@ handleClose()
                               />
                             </Form.Group>
                           </div>
-                          <div className="d-flex justify-content-between mt-3">
+                          <div className="d-flex justify-content-end mt-3">
                             <button
                               disabled={formLoading}
                               className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1]
                                  border-1 border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
-                                   formLoading 
+                                   formLoading
                                      ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
                                      : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
                                  }`}
@@ -1682,15 +1684,15 @@ handleClose()
                                   Saving...
                                 </>
                               ) : (
-                                "Save Draft"
+                                "Save &  Next"
                               )}
                             </button>
-                            <button
+                            {/* <button
                               className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                               onClick={handleNext}
                             >
                               Next <ArrowRight color="#FFFFFF" size="18" />
-                            </button>
+                            </button> */}
                           </div>
 
                           {/* <div className="flex justify-end mt-3">
