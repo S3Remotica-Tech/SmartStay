@@ -46,7 +46,10 @@ function TenantActions({ show, handleClose }) {
 
   return (
     <>
-      <div className="fixed inset-0  z-50 bg-black/40" onClick={handleClose} />
+      <div
+        className="fixed inset-0  z-[9999] bg-black/40"
+        onClick={handleClose}
+      />
 
       <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2">
         <div

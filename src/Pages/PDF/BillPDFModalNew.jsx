@@ -400,6 +400,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const isPending = pdfDetails?.invoiceInfo?.paymentStatus === "Pending";
 
+  const finalAmount = Number(pdfDetails?.invoiceInfo?.finalAmount);
+  const totalAmount = Number(pdfDetails?.invoiceInfo?.totalAmount);
+  const status = String(pdfDetails?.invoiceInfo?.status);
+  const paymentStatus = String(pdfDetails?.invoiceInfo?.paymentStatus);
+
+  const canShowRecordPayment =
+    (finalAmount > 0 && status !== "PAID") ||
+    (totalAmount > 0 && paymentStatus === "Pending");
+
   const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
   const isRent =
     pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
@@ -407,6 +416,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
 
   const showSplitButton = true;
+
   const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
   const isAdvanceRedeemAvailable =
@@ -895,7 +905,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             )} */}
 
             <div className="flex items-center gap-2">
-              {Number(pdfDetails?.invoiceInfo?.finalAmount) > 0 && (
+              {canShowRecordPayment && (
                 <div className="relative inline-flex">
                   <button
                     disabled={!canWriteInvoice}

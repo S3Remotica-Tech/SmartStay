@@ -320,17 +320,19 @@ function* handleSaveDraft(draft) {
 
     if (error) {
       console.log("errorrr", error);
-      // if (error.response.data.emailStatus !== "") {
-      //   yield put({
-      //     type: "EMAIL_ERROR",
-      //     payload: error.response.data.emailStatus,
-      //   });
-      // } else if (error.response.data.mobileStatus !== "") {
-      //   yield put({
-      //     type: "PHONE_ERROR",
-      //     payload: error.response.data.mobileStatus,
-      //   });
-      // }
+       if (error.code === "ERR_BAD_REQUEST") {
+      if (error.response.data.emailStatus !== "") {
+        yield put({
+          type: "EMAIL_ERROR",
+          payload: error.response.data.emailStatus,
+        });
+      } else if (error.response.data.mobileStatus !== "") {
+        yield put({
+          type: "PHONE_ERROR",
+          payload: error.response.data.mobileStatus,
+        });
+      }
+    }
     }
   }
 }
@@ -1628,7 +1630,7 @@ function* handleAddUser(datum) {
   try {
     const response = yield call(addUser, datum.payload);
 
-    console.log("response88888", response);
+    // console.log("response88888", response);
 
     if (response?.status === 201) {
       yield put({

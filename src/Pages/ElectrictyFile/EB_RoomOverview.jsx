@@ -363,8 +363,14 @@ const EBRoomOverview = ({ onBack, room }) => {
                               </div>
                             )}
 
-                            <div className="min-w-0 truncate whitespace-nowrap overflow-hidden">
-                              {row.fullName}
+                            <div className="relative group min-w-0">
+                              <div className="truncate whitespace-nowrap overflow-hidden cursor-default">
+                                {row.fullName}
+                              </div>
+
+                              <div className="absolute left-0 top-full  z-50 hidden group-hover:block max-w-xs rounded-md bg-gray-500 px-3 py-2 text-xs text-white shadow-lg break-words whitespace-normal">
+                                {row.fullName}
+                              </div>
                             </div>
                           </td>
 

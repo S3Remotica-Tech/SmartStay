@@ -1473,10 +1473,11 @@ function AddTenant({ showMenu, handleClose }) {
                               </label>
 
                               <input
-                                type="text"
+                                type="number"
                                 value={idProofNo}
                                 onChange={handleInputChange}
                                 placeholder="Enter no"
+                                onWheel={(e) => e.target.blur()}
                                 className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
                               />
                             </div>
