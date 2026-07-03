@@ -1891,10 +1891,8 @@ function UserListRoomDetail(props) {
 
   // console.log("CustomerOverView", CustomerOverView)
 
-  const imageUrl = kycPic
-    ? kycPic.startsWith("data:image")
-      ? kycPic
-      : `data:image/jpeg;base64,${kycPic}`
+  const imageUrl = CustomerOverView.kycInfo?.aadhaarImage
+    ? CustomerOverView.kycInfo?.aadhaarImage
     : CustomerOverView?.profilePic
       ? CustomerOverView?.profilePic
       : null;
@@ -2187,7 +2185,7 @@ function UserListRoomDetail(props) {
                     100%
                   </span>
 
-                  {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
+                  {!CustomerOverView.kycInfo?.aadhaarImage && isHovered && (
                     <div
                       className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
               ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
@@ -2828,7 +2826,7 @@ function UserListRoomDetail(props) {
                               <div className="flex items-center gap-2 -mt-3">
                                 <House size="18" color="#1E45E1" />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.address?.houseNo} */}
+                                  {/* {CustomerOverView.kycInfo?.houseNo} */}
                                 </span>
                               </div>
                             </div>

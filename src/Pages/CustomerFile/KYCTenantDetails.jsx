@@ -14,7 +14,7 @@ function KYCTenantDetails({ show, handleClose }) {
   const kycDetails = [
     {
       label: "Full Name",
-      value: kycInfo?.fullName || "-",
+      value: kycInfo?.nameInAadhaar || "-",
       valueClass: "font-medium text-[#222222]",
     },
     {
