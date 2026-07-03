@@ -38,7 +38,7 @@ function ExpenseRegister() {
   const tableRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [categoryTooltip, setCategoryTooltip] = useState(null);
   const [descriptionTooltip, setDescriptionTooltip] = useState(null);
   const [collectedTooltip, setCollectedTooltip] = useState(null);
@@ -58,9 +58,8 @@ function ExpenseRegister() {
       setLoading(false);
       setExpenseRegister(state?.reports?.getExpenseRegister);
       setInvoiceFilter(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER" });
-      }, 100);
+
+      dispatch({ type: "REMOVE_GET_REPORTS_EXPENSE_REGISTER_REDUCER" });
     }
   }, [state.reports.getExpenseRegisterSuccess]);
 
@@ -404,9 +403,9 @@ function ExpenseRegister() {
     setSize(sizeValue);
   };
 
-  useEffect(() => {
-    setPage(0);
-  }, [state.reports?.expenseRegisterFilters]);
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [state.reports?.expenseRegisterFilters]);
 
   useEffect(() => {
     const invoiceFilters = state.reports.expenseRegisterFilters;
@@ -621,7 +620,7 @@ function ExpenseRegister() {
               onPageChange={handlePageChange}
               onSizeChange={handleSizeChange}
               size={size}
-              isTenantPagination={false}
+              isTenantPagination={true}
             />
           )}
           <button

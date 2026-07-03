@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function StaticExample({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -27,10 +27,11 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [floorError, setFloorError] = useState("");
   const [noChangeError, setNoChangeError] = useState("");
   const [generalError, setGeneralError] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
 
+  // console.log("currentItem", currentItem?.assignmentStatus === "Assigned");
 
   const [initialState, setInitialState] = useState({
     pglist: "",
@@ -40,9 +41,11 @@ function StaticExample({ show, handleClose, currentItem }) {
   });
 
   useEffect(() => {
-    dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, [])
-
+    dispatch({
+      type: "ALLFLOORLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, []);
 
   useEffect(() => {
     setPgList(state.login.selectedHostel_Id);
@@ -59,7 +62,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       setSelectedDate(
         currentItem.assignedAt
           ? dayjs(currentItem.assignedAt, "DD-MM-YYYY").toDate()
-          : null
+          : null,
       );
 
       setFloor(currentItem.floorId);
@@ -74,11 +77,9 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [currentItem]);
 
-
-
   useEffect(() => {
     const closeButton = document.querySelector(
-      'button[aria-label="close-button"]'
+      'button[aria-label="close-button"]',
     );
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
@@ -88,8 +89,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       closeButton.style.border = "1.5px solid #222222";
       closeButton.style.padding = "9px";
     }
-  }, [])
-
+  }, []);
 
   const options = {
     dateFormat: "d/m/Y",
@@ -115,9 +115,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             width: "100%",
           }}
         >
-          <span style={{ fontWeight: 600 }}>
-            {item.name}
-          </span>
+          <span style={{ fontWeight: 600 }}>{item.name}</span>
 
           <span
             style={{
@@ -130,7 +128,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               whiteSpace: "nowrap",
             }}
           >
-            {item?.sharingType || 0} 
+            {item?.sharingType || 0}
           </span>
         </div>
       ),
@@ -143,8 +141,6 @@ function StaticExample({ show, handleClose, currentItem }) {
     setNoChangeError("");
   };
 
-
-
   const handleFloor = (selectedOption) => {
     setFloor(selectedOption?.value || "");
     setGeneralError("");
@@ -152,20 +148,15 @@ function StaticExample({ show, handleClose, currentItem }) {
     setNoChangeError("");
   };
 
-
-
   useEffect(() => {
     if (Floor) {
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: Floor } })
-
+      dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: Floor } });
     }
   }, [Floor]);
 
-
   const handleAddAssignAsset = () => {
-
-    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-    dispatch({ type: 'CLEAR_ASSET_ERROR' })
+    dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    dispatch({ type: "CLEAR_ASSET_ERROR" });
     setRoomError("");
     setDateError("");
     setFloorError("");
@@ -176,20 +167,16 @@ function StaticExample({ show, handleClose, currentItem }) {
       return;
     }
 
-
     if (!Floor) {
       setFloorError("Please Select a Floor");
-
     }
 
     if (!room) {
       setRoomError("Please Select a Room");
-
     }
 
     if (!selectedDate) {
       setDateError("Please Select a Date");
-
     }
 
     let formattedSelectedDate;
@@ -205,7 +192,6 @@ function StaticExample({ show, handleClose, currentItem }) {
       return;
     }
 
-
     if (currentItem?.purchaseDate) {
       const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
       const assignDate = dayjs(selectedDate);
@@ -215,10 +201,6 @@ function StaticExample({ show, handleClose, currentItem }) {
         return;
       }
     }
-
-
-
-
 
     if (
       initialState.selectedDate instanceof Date &&
@@ -248,9 +230,6 @@ function StaticExample({ show, handleClose, currentItem }) {
       normalize(formattedInitialDate) !== normalize(formattedSelectedDate) ||
       normalize(initialState.floor_id) !== normalize(Floor);
 
-
-
-
     if (!isChanged && currentItem?.assignmentStatus === "Assigned") {
       setNoChangeError("No Changes Detected");
       return;
@@ -267,13 +246,13 @@ function StaticExample({ show, handleClose, currentItem }) {
           floorId: Floor,
         },
       });
-      setFormLoading(true)
+      setFormLoading(true);
     }
   };
 
   useEffect(() => {
     if (state.AssetList.addAssignAssetStatusCode === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       setPgList("");
       setRoom("");
       setSelectedDate("");
@@ -282,34 +261,25 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [state.AssetList.addAssignAssetStatusCode]);
 
-
   useEffect(() => {
     if (state.createAccount?.networkError || state.AssetList.assetError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'CLEAR_ASSET_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+        dispatch({ type: "CLEAR_ASSET_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError, state.AssetList.assetError])
-
-
-
-
+  }, [state.createAccount?.networkError, state.AssetList.assetError]);
 
   return (
-    <div className="modal show block static font-gilroy" >
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        centered
-      >
-        <Modal.Dialog className="w-full max-w-full m-0 p-0" >
+    <div className="modal show block static font-gilroy">
+      <Modal show={show} onHide={handleClose} backdrop="static" centered>
+        <Modal.Dialog className="w-full max-w-full m-0 p-0">
           <Modal.Header>
             <Modal.Title className="!text-lg text-neutral-800 !font-gilroy !font-semibold">
-              {currentItem?.assignmentStatus === "Assigned" ? "Reassign asset " : "Assign asset"}
+              {currentItem?.assignmentStatus === "Assigned"
+                ? "Reassign asset "
+                : "Assign asset"}
             </Modal.Title>
 
             <CloseCircle
@@ -320,23 +290,15 @@ function StaticExample({ show, handleClose, currentItem }) {
             />
           </Modal.Header>
           <Modal.Body className="py-2.5 px-4 mb-3">
-
             {generalError && (
               <ErrorMessage message={generalError} type="error" />
             )}
 
-
-
-
-            {state.AssetList.assetError ?
+            {state.AssetList.assetError ? (
               <ErrorMessage message={state.AssetList.assetError} type="error" />
-
-              : null}
-
+            ) : null}
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-3">
-
-
               <div className="col-span-12">
                 <Form.Label className="text-sm font-medium font-gilroy">
                   Floor <span className="text-red-500 text-xl">*</span>
@@ -351,13 +313,15 @@ function StaticExample({ show, handleClose, currentItem }) {
                   }
                   onChange={handleFloor}
                   value={
-                    state.UsersList.floorList?.find((option) => option.id === Floor)
+                    state.UsersList.floorList?.find(
+                      (option) => option.id === Floor,
+                    )
                       ? {
-                        value: Floor,
-                        label: state.UsersList.floorList.find(
-                          (option) => option.id === Floor
-                        )?.name,
-                      }
+                          value: Floor,
+                          label: state.UsersList.floorList.find(
+                            (option) => option.id === Floor,
+                          )?.name,
+                        }
                       : null
                   }
                   placeholder="Select a Floor"
@@ -405,9 +369,10 @@ function StaticExample({ show, handleClose, currentItem }) {
                   }}
                 />
 
-                {floorError && <ErrorMessage message={floorError} type="error" />}
+                {floorError && (
+                  <ErrorMessage message={floorError} type="error" />
+                )}
               </div>
-
 
               <div className="col-span-12 lg:col-span-6 mt-1">
                 <Form.Label className="text-sm font-medium text-[#222] font-gilroy">
@@ -420,13 +385,15 @@ function StaticExample({ show, handleClose, currentItem }) {
                     handleRooms(selectedOption?.value)
                   }
                   value={
-                    state.PgList?.roomsList?.find((option) => option.id === room)
+                    state.PgList?.roomsList?.find(
+                      (option) => option.id === room,
+                    )
                       ? {
-                        value: room,
-                        label: state.PgList.roomsList.find(
-                          (option) => option.id === room
-                        )?.name,
-                      }
+                          value: room,
+                          label: state.PgList.roomsList.find(
+                            (option) => option.id === room,
+                          )?.name,
+                        }
                       : null
                   }
                   placeholder="Select a Room"
@@ -455,7 +422,6 @@ function StaticExample({ show, handleClose, currentItem }) {
                       maxHeight: "130px",
                       overflowY: "auto",
                       scrollBehavior: "smooth",
-                                        
                     }),
                     option: (base, state) => ({
                       ...base,
@@ -472,12 +438,10 @@ function StaticExample({ show, handleClose, currentItem }) {
                     }),
                     indicatorSeparator: () => ({ display: "none" }),
                   }}
-
                 />
 
                 {roomError && <ErrorMessage message={roomError} type="error" />}
               </div>
-
 
               <div className="col-span-12 lg:col-span-6 mt-1">
                 <Form.Label className="text-sm font-medium text-[#222] font-gilroy">
@@ -501,58 +465,58 @@ function StaticExample({ show, handleClose, currentItem }) {
                       setSelectedDate(date ? date.toDate() : null);
                     }}
                     disabledDate={(current) => {
-                      if (!currentItem?.purchaseDate)
-                        return current && current > dayjs().endOf("day");
-
-                      const purchaseDate = dayjs(
-                        currentItem.purchaseDate,
-                        "DD/MM/YYYY"
-                      );
                       const today = dayjs().endOf("day");
+
+                      const minDate =
+                        currentItem?.assignmentStatus === "Assigned"
+                          ? dayjs(currentItem?.assignedAt, "DD/MM/YYYY")
+                          : dayjs(currentItem?.purchaseDate, "DD/MM/YYYY");
+
+                      if (!minDate.isValid()) {
+                        return current && current > today;
+                      }
 
                       return (
                         current &&
-                        (current < purchaseDate.startOf("day") || current > today)
+                        (current < minDate.startOf("day") || current > today)
                       );
                     }}
-                    getPopupContainer={(node) =>
-                      node.closest(".relative")
-                    }
+                    getPopupContainer={(node) => node.closest(".relative")}
                   />
                 </div>
 
                 {dateError && <ErrorMessage message={dateError} type="error" />}
               </div>
-
-
             </div>
           </Modal.Body>
-          {formLoading &&
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+          {formLoading && (
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
            flex items-center justify-center 
            bg-transparent opacity-75 z-10"
-
             >
-              <div className="w-10 h-10 rounded-full 
+              <div
+                className="w-10 h-10 rounded-full 
            border-t-4 border-r-4 border-r-transparent 
            border-t-[#1E45E1] 
            animate-spin"
-
               ></div>
-            </div>}
+            </div>
+          )}
 
           {noChangeError && (
-            <div
-              className="flex justify-center mt-1 mb-1"
-            >
+            <div className="flex justify-center mt-1 mb-1">
               <ErrorMessage message={noChangeError} type="error" />
             </div>
           )}
           <Modal.Footer className="mt-1 pt-1 border-0">
             <Button
               onClick={handleAddAssignAsset}
-              className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy p-3" >
-              {currentItem?.assignmentStatus === "Assigned" ? "Save Changes " : "Assign asset"}
+              className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[16px] !font-gilroy p-3"
+            >
+              {currentItem?.assignmentStatus === "Assigned"
+                ? "Save Changes "
+                : "Assign asset"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

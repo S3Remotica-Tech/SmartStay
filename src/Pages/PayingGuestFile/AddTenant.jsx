@@ -244,6 +244,8 @@ function AddTenant({ showMenu, handleClose }) {
   const dropdownRef = useRef(null);
   const aadhaarRef = useRef(null);
   const panRef = useRef(null);
+  const [draftTenantId, setDraftTenantId] = useState("");
+
   const isImage = (file) => file && file.type.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
@@ -595,6 +597,8 @@ function AddTenant({ showMenu, handleClose }) {
   //   setNewTenant(true);
   // };
 
+  console.log("state", state?.UsersList?.draftTenantDetails);
+
   const handleSaveStepOne = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
@@ -718,14 +722,14 @@ function AddTenant({ showMenu, handleClose }) {
 
           joiningDate: "",
           bookingDate: "",
-          bookingAmount: 0,
-          floorId: 0,
-          roomId: 0,
-          bedId: 0,
+          bookingAmount: "",
+          floorId: "",
+          roomId: "",
+          bedId: "",
           bankId: "",
           referenceNumber: "",
-          advanceAmount: 0,
-          rentalAmount: 0,
+          advanceAmount: "",
+          rentalAmount: "",
           stayType: "LONG",
 
           deductions: [],
@@ -819,11 +823,22 @@ function AddTenant({ showMenu, handleClose }) {
 
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenant === 201) {
+      setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
       setFormLoading(false);
       setFirstname("");
       setLastname("");
       setEmail("");
       setMobile("");
+
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: 1,
+          size: 10,
+        },
+      });
+
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.saveDreaftTenant]);

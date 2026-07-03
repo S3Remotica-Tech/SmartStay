@@ -36,12 +36,11 @@ function InvoiceRegister() {
   const tableRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const isSearching = chips.length > 0;
 
-  
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
   };
@@ -529,9 +528,9 @@ function InvoiceRegister() {
     };
   }, []);
 
-  useEffect(() => {
-    setPage(0);
-  }, [state.reports?.invoiceRegisterFilters]);
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [state.reports?.invoiceRegisterFilters]);
 
   const startDate = useMemo(() => {
     return selectedRange?.from
@@ -763,7 +762,7 @@ function InvoiceRegister() {
               onPageChange={handlePageChange}
               onSizeChange={handleSizeChange}
               size={size}
-              isTenantPagination={false}
+              isTenantPagination={true}
             />
           )}
           <button

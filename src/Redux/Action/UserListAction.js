@@ -118,87 +118,13 @@ export async function draftTenantSearch(customerId) {
 //   });
 // }
 
-export async function SaveDraftTenant(tenant) {
-  return AxiosConfigV2.post(`/v3/customers/saveDraft/${tenant.hostelId}`, {
-    profilePic: tenant.profilePic || "",
-    aadharPic: tenant.aadharPic || "",
-    panPic: tenant.panPic || "",
-
-    request: {
-      firstName: tenant.request?.firstName || "",
-      lastName: tenant.request?.lastName || "",
-      mobile: tenant.request?.mobile || "",
-      emailId: tenant.request?.emailId || "",
-
-      joiningDate: tenant.request?.joiningDate || "",
-      bookingDate: tenant.request?.bookingDate || "",
-      bookingAmount: tenant.request?.bookingAmount || 0,
-      floorId: tenant.request?.floorId || 0,
-      roomId: tenant.request?.roomId || 0,
-      bedId: tenant.request?.bedId || 0,
-      bankId: tenant.request?.bankId || "",
-      referenceNumber: tenant.request?.referenceNumber || "",
-      advanceAmount: tenant.request?.advanceAmount || 0,
-      rentalAmount: tenant.request?.rentalAmount || 0,
-      stayType: tenant.request?.stayType || "",
-      deductions: tenant.request?.deductions || [],
-      proRate: tenant.request?.proRate ?? true,
-
-      idProof: {
-        type:
-          tenant.request?.idProof?.type?.value ||
-          tenant.request?.idProof?.type ||
-          "",
-        number: tenant.request?.idProof?.number || "",
-      },
-
-      address: tenant.request?.address || {
-        flat: "",
-        house: "",
-        building: "",
-        company: "",
-        apartment: "",
-        area: "",
-        street: "",
-        sector: "",
-        village: "",
-        landmark: "",
-        pincode: "",
-        city: "",
-        state: "",
-      },
-
-      booking: tenant.request?.booking || {
-        joiningDateTentative: "",
-        refuseAdvanceAmount: false,
-      },
-
-      jobDetails: tenant.request?.jobDetails || {
-        employmentStatus: "",
-        companyName: "",
-        collegeName: "",
-        jobRole: "",
-        workLocation: "",
-        shiftType: "",
-        shiftFrom: "",
-        shiftTo: "",
-      },
-
-      guardians: tenant.request?.guardians || [],
-    },
-  });
-}
-
 // export async function SaveDraftTenant(tenant) {
-//   const formData = new FormData();
+//   return AxiosConfigV2.post(`/v3/customers/saveDraft/${tenant.hostelId}`, {
+//     profilePic: tenant.profilePic || "",
+//     aadharPic: tenant.aadharPic || "",
+//     panPic: tenant.panPic || "",
 
-//   formData.append("profilePic", tenant.profilePic || "");
-//   formData.append("aadharPic", tenant.aadharPic || "");
-//   formData.append("panPic", tenant.panPic || "");
-
-//   formData.append(
-//     "request",
-//     JSON.stringify({
+//     request: {
 //       firstName: tenant.request?.firstName || "",
 //       lastName: tenant.request?.lastName || "",
 //       mobile: tenant.request?.mobile || "",
@@ -259,19 +185,51 @@ export async function SaveDraftTenant(tenant) {
 //       },
 
 //       guardians: tenant.request?.guardians || [],
-//     }),
-//   );
-
-//   return AxiosConfigV2.post(
-//     `/v3/customers/saveDraft/${tenant.hostelId}`,
-//     formData,
-//     {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
 //     },
-//   );
+//   });
 // }
+
+export async function SaveDraftTenant(tenant) {
+  const formData = new FormData();
+
+  if (tenant.profilePic) {
+    formData.append("profilePic", tenant.profilePic);
+  }
+
+  if (tenant.aadharPic) {
+    formData.append("aadharPic", tenant.aadharPic);
+  }
+
+  if (tenant.panPic) {
+    formData.append("panPic", tenant.panPic);
+  }
+
+  if (tenant.request) {
+    const requestBlob = new Blob([JSON.stringify(tenant.request)], {
+      type: "application/json",
+    });
+
+    formData.append("request", requestBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.post(
+      `/v3/customers/saveDraft/${tenant.hostelId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+      },
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Save Draft Error:", error);
+    throw error;
+  }
+}
 
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
@@ -298,59 +256,6 @@ export async function cancelCheckoutInitialize(customer) {
     `/v2/customers/cancel-checkout/initialize/${customer.hostelId}/${customer.customerId}`,
   );
 }
-// v1
-
-// export async function addUser(params) {
-
-//   const formData = new FormData();
-//   if (params.profile) formData.append("profile", params.profile);
-//   if (params.lastname) formData.append("lastname", params.lastname)
-//   if (params.firstname) formData.append("firstname", params.firstname)
-//   if (params.Address) formData.append("Address", params.Address)
-//   if (params.area) formData.append("area", params.area)
-//   if (params.landmark) formData.append("landmark", params.landmark)
-//   if (params.city) formData.append("city", params.city)
-//   if (params.pincode) formData.append("pincode", params.pincode)
-//   if (params.state) formData.append("state", params.state)
-//   if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id)
-//   if (params.Email) formData.append("Email", params.Email)
-//   if (params.Phone) formData.append("Phone", params.Phone)
-//   if (params.HostelName) formData.append("HostelName", params.HostelName)
-//   if (params.joining_date) formData.append("joining_date", params.joining_date)
-//   if (params.Floor) formData.append("Floor", params.Floor)
-//   if (params.Rooms) formData.append("Rooms", params.Rooms)
-//   if (params.Bed) formData.append("Bed", params.Bed)
-//   if (params.AdvanceAmount) formData.append("AdvanceAmount", params.AdvanceAmount)
-//   if (params.RoomRent) formData.append("RoomRent", params.RoomRent)
-//   if (params.isadvance) formData.append("isadvance", params.isadvance)
-//   if (params.due_date) formData.append("due_date", params.due_date)
-//   if (params.invoice_date) formData.append("invoice_date", params.invoice_date)
-//   if (params.ID) formData.append("ID", params.ID)
-//      if (params.stay_type) formData.append("stay_type", params.stay_type)
-
-//  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
-//  if (params.booking_id) formData.append("booking_id",params.booking_id)
-//    if (params.booking_date) formData.append("booking_date",params.booking_date)
-
-//      if (params.booking_amount) formData.append("booking_amount",params.booking_amount)
-
-//   try {
-//     const response = await AxiosConfig.post('/add/adduser-list', formData, {
-//       headers: {
-//         "Content-type": "multipart/form-data",
-//       },
-//       timeout: 100000000,
-//       onUploadProgress: (event) => {
-
-//       }
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Axios Error", error);
-//   }
-// }
-
-// v2
 
 export async function addUser(params) {
   const formData = new FormData();

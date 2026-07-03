@@ -154,11 +154,12 @@ function QRCode() {
 
   const handleQrNameChange = (e) => {
     const value = e.target.value;
+    if (!/^[A-Za-z\s]*$/.test(value)) return;
 
     setQrName(value);
 
     if (!value.trim()) {
-      setQrNameError("QR Name is required");
+      setQrNameError("Please Enter QR Name");
     } else {
       setQrNameError("");
     }
@@ -171,7 +172,7 @@ function QRCode() {
 
     if (!value) {
       setCardLast4Error("Last 4 digits required");
-    } else if (value.length !== 4) {
+    } else if (!/^\d{4}$/.test(value)) {
       setCardLast4Error("Enter exactly 4 digits");
     } else {
       setCardLast4Error("");
@@ -195,7 +196,7 @@ function QRCode() {
     setDescription(value);
 
     if (!value.trim()) {
-      setDescriptionError("Description is required");
+      setDescriptionError("");
     } else {
       setDescriptionError("");
     }
@@ -209,44 +210,51 @@ function QRCode() {
   const handleSaveQRCode = () => {
     let isValid = true;
 
+    const nameRegex = /^[A-Za-z\s]+$/;
+
     if (!linkedUpi) {
       setLinkedUpiError("Please select UPI ID");
       isValid = false;
+    } else {
+      setLinkedUpiError("");
     }
 
     if (!provider) {
       setProviderError("Please select provider");
       isValid = false;
+    } else {
+      setProviderError("");
     }
 
     if (!qrName.trim()) {
-      setQrNameError("QR name is required");
+      setQrNameError("Please Enter QR name");
       isValid = false;
+    } else if (!nameRegex.test(qrName.trim())) {
+      setQrNameError("QR name should contain only letters");
+      isValid = false;
+    } else {
+      setQrNameError("");
     }
 
-    if (!cardLast4) {
-      setCardLast4Error("Last 4 digits required");
+    if (!cardLast4.trim()) {
+      setCardLast4Error("Please Enter Last 4 digits");
       isValid = false;
-    }
-
-    if (cardLast4.length !== 4) {
+    } else if (!/^\d{4}$/.test(cardLast4)) {
       setCardLast4Error("Enter exactly 4 digits");
       isValid = false;
+    } else {
+      setCardLast4Error("");
     }
 
     if (!qrImage) {
       setQrImageError("Please upload QR image");
       isValid = false;
-    }
-
-    if (!description.trim()) {
-      setDescriptionError("Description is required");
-      isValid = false;
+    } else {
+      setQrImageError("");
     }
 
     if (!isValid) return;
   };
-
   return (
     <div className="">
       <div className="h-[500px] overflow-y-auto  show-scrolls">
@@ -297,7 +305,7 @@ function QRCode() {
             value={qrName}
             onChange={handleQrNameChange}
             placeholder="Ex : Owner Debit Card"
-            className="w-full h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm"
+            className="w-full h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm  outline-none focus:border-[#2952CC]"
           />
 
           {qrNameError && <ErrorMessage message={qrNameError} type="error" />}
@@ -314,7 +322,8 @@ function QRCode() {
             onChange={handleCardLast4Change}
             maxLength={4}
             placeholder="1234"
-            className="w-full h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm"
+            inputMode="numeric"
+            className="w-full h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
           />
 
           {cardLast4Error && (
@@ -406,12 +415,12 @@ function QRCode() {
             value={description}
             onChange={handleDescriptionChange}
             placeholder="Describe the notes..."
-            className="w-full p-4 border border-[#E5E7EB] rounded-lg resize-none text-sm"
+            className="w-full p-4 border border-[#E5E7EB] rounded-lg resize-none text-sm outline-none focus:border-[#2952CC]"
           />
 
-          {descriptionError && (
+          {/* {descriptionError && (
             <ErrorMessage message={descriptionError} type="error" />
-          )}
+          )} */}
         </div>
       </div>
       <div className="flex justify-end gap-4 mt-6">

@@ -549,7 +549,7 @@ function* handleDeleteVendorCategory(action) {
         padding: "10px",
       };
 
-      toast.success(response.data.message, {
+      toast.success(response.data, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,

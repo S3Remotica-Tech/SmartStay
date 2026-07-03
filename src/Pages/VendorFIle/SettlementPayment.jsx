@@ -437,7 +437,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
         type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
         payload: {
           vendorId: selectedVendorId,
-          period: "THIS_MONTH",
+          period: "",
         },
       });
 
@@ -468,6 +468,18 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
       setFormLoading(false);
     }
   }, [state.UsersList.vendorSettleError]);
+
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+
+    dispatch({
+      type: "VENDOR_SETTLE_INITIALIZE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        vendorId: Number(selectedVendorId),
+      },
+    });
+  }, [state.login.selectedHostel_Id, selectedVendorId]);
 
   return (
     <>

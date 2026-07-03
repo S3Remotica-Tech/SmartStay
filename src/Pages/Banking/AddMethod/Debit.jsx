@@ -140,11 +140,14 @@ function Debit() {
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
+    if (!/^[A-Za-z\s]*$/.test(value)) {
+      return;
+    }
 
     setDisplayName(value);
 
     if (!value.trim()) {
-      setDisplayNameError("Display name is required");
+      setDisplayNameError("Please Enter Display name");
     } else {
       setDisplayNameError("");
     }
@@ -156,7 +159,7 @@ function Debit() {
     setDescription(value);
 
     if (!value.trim()) {
-      setDescriptionError("Description is required");
+      setDescriptionError("");
     } else {
       setDescriptionError("");
     }
@@ -168,12 +171,18 @@ function Debit() {
   };
 
   const handleCardHolderNameChange = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
+
+    if (!/^[A-Za-z\s]*$/.test(value)) {
+      return;
+    }
+
+    value = value.replace(/^\s+/, "").replace(/\s{2,}/g, " ");
 
     setCardHolderName(value);
 
     if (!value.trim()) {
-      setCardHolderNameError("Card holder name is required");
+      setCardHolderNameError("Please Enter Card holder name ");
     } else {
       setCardHolderNameError("");
     }
@@ -185,7 +194,7 @@ function Debit() {
     setCardNumber(value);
 
     if (!value) {
-      setCardNumberError("Last 4 digits is required");
+      setCardNumberError("Please Enter Last 4 digits");
     } else if (value.length !== 4) {
       setCardNumberError("Enter exactly 4 digits");
     } else {
@@ -196,37 +205,50 @@ function Debit() {
   const handleSaveDebit = () => {
     let isValid = true;
 
+    const nameRegex = /^[A-Za-z\s]+$/;
+
     if (!linkedBank) {
       setLinkedBankError("Please select linked bank");
       isValid = false;
+    } else {
+      setLinkedBankError("");
     }
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
       isValid = false;
+    } else {
+      setCardNetworkError("");
     }
 
     if (!cardHolderName.trim()) {
-      setCardHolderNameError("Card holder name is required");
+      setCardHolderNameError("Please Enter Card Holder Name");
       isValid = false;
+    } else if (!nameRegex.test(cardHolderName.trim())) {
+      setCardHolderNameError("Card holder name should contain only letters");
+      isValid = false;
+    } else {
+      setCardHolderNameError("");
     }
 
     if (!cardNumber.trim()) {
-      setCardNumberError("Last 4 digits is required");
+      setCardNumberError("Please Enter Last 4 Digits");
       isValid = false;
-    } else if (cardNumber.length !== 4) {
+    } else if (!/^\d{4}$/.test(cardNumber)) {
       setCardNumberError("Enter exactly 4 digits");
       isValid = false;
+    } else {
+      setCardNumberError("");
     }
 
     if (!displayName.trim()) {
-      setDisplayNameError("Display name is required");
+      setDisplayNameError("Please Enter Display Name");
       isValid = false;
-    }
-
-    if (!description.trim()) {
-      setDescriptionError("Description is required");
+    } else if (!nameRegex.test(displayName.trim())) {
+      setDisplayNameError("Display name should contain only letters");
       isValid = false;
+    } else {
+      setDisplayNameError("");
     }
 
     if (!isValid) return;
@@ -329,7 +351,7 @@ function Debit() {
 
         <div className="mt-3">
           <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-            Description <span className="text-red-500">*</span>
+            Description
           </label>
 
           <textarea

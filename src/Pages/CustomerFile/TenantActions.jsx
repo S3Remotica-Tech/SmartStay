@@ -76,7 +76,7 @@ function TenantActions({ show, handleClose }) {
               <div className="h-full w-[70%] rounded-full bg-[#FF9800]" />
             </div>
           </div>
-          {CustomerOverView?.kycInfo?.keyStatus !== "VERIFIED" && (
+          {CustomerOverView?.kycInfo?.status !== "VERIFIED" && (
             <div className="mt-3 rounded-xl border border-[#ECECEC] p-4">
               <div className="flex items-center gap-2">
                 <h3 className="text-[16px] font-semibold text-[#222222]">
@@ -93,7 +93,7 @@ function TenantActions({ show, handleClose }) {
               </p>
 
               <div className="mt-5 flex justify-end">
-                {CustomerOverView?.kycInfo?.keyStatus === "PENDING" && (
+                {CustomerOverView?.kycInfo?.status === "PENDING" && (
                   <button
                     type="button"
                     disabled={formLoading}
@@ -118,14 +118,14 @@ function TenantActions({ show, handleClose }) {
                   </button>
                 )}
 
-                {CustomerOverView?.kycInfo?.keyStatus === "REQUESTED" && (
+                {CustomerOverView?.kycInfo?.status === "REQUESTED" && (
                   <div className="flex items-center gap-2">
                     <TiTick className="text-[#34C759] text-sm" />
                     <div className="text-[#64748B] text-sm">Reminder Sent</div>
                   </div>
                 )}
 
-                {CustomerOverView?.kycInfo?.keyStatus === "EXPIRED" && (
+                {CustomerOverView?.kycInfo?.status === "EXPIRED" && (
                   <button
                     type="button"
                     disabled={formLoading}
