@@ -139,6 +139,7 @@ function AddTenantBookingCheckin({
   handleNextStep,
   mobile,
   firstname,
+  draftTenantId,
 }) {
   const state = useSelector((state) => state);
 
@@ -226,10 +227,6 @@ function AddTenantBookingCheckin({
     { value: "DAY", label: "Day Stay" },
   ];
   const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
-
-  const customerId =
-    state?.UsersList?.draftTenantDetails.customerId ||
-    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId;
 
   const [selectedStayType, setSelectedStayType] = useState(null);
   const [stay_typenameErrmsg, setStay_typenameErrmsg] = useState("");
@@ -391,7 +388,7 @@ function AddTenantBookingCheckin({
     dispatch({
       type: "CHECKIN",
       payload: {
-        // customerId: id,
+        customerId: draftTenantId,
         floorId: checkinFloor,
         bedId: checkinBed,
         roomId: checkinRoom,
@@ -449,6 +446,7 @@ function AddTenantBookingCheckin({
     setBookingDate(date ? date.toDate() : null);
     setBookingDateError("");
   };
+
   const handleBookingJoiningDateChange = (date) => {
     setBookingJoiningDate(date ? date.toDate() : null);
     setJoiningDateError("");
@@ -675,7 +673,7 @@ function AddTenantBookingCheckin({
         floorId: bookingFloor,
         roomId: bookingRoom,
         bedId: bookingBed,
-        customerId: customerId,
+        customerId: draftTenantId,
         bankId: modeOfPayment,
         referenceNumber: transactionId,
       },
@@ -686,15 +684,38 @@ function AddTenantBookingCheckin({
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setBookingLoading(false);
-
+      dispatch({ type: "ERROR_BOOKING_REMOVE" });
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
+      resetBookingForm();
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
+
+  const resetBookingForm = () => {
+    setBookingDate(null);
+    setBookingAmount("");
+    setBookingJoiningDate(null);
+    setBookingFloor("");
+    setBookingRoom("");
+    setBookingBed("");
+    setTotalRent("");
+    setModeOfPayment("");
+    setTransactionId("");
+    setIsConfirmChecked(false);
+    setBookingDateError("");
+    setBookingAmountError("");
+    setJoiningDateError("");
+    setFloorError("");
+    setRoomError("");
+    setBedError("");
+    setRentError("");
+    setPaymentError("");
+    setBedWarning("");
+  };
 
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenant === 201) {
@@ -1032,11 +1053,11 @@ function AddTenantBookingCheckin({
 
   const handleSelectedBedDetails = (details) => {
     setCheckinRoom(details?.roomId);
-    setCheckinBed(details?.id);
+    setCheckinBed(details?.bedId);
     setCheckinFloor(details?.floorId);
     setBookingFloor(details?.floorId);
     setBookingRoom(details?.roomId);
-    setBookingBed(details?.id);
+    setBookingBed(details?.bedId);
   };
 
   return (
@@ -1055,7 +1076,11 @@ function AddTenantBookingCheckin({
           </button>
 
           <button
-            onClick={() => setActiveTab("checkin")}
+            onClick={() => {
+              setActiveTab("checkin");
+              resetBookingForm();
+              dispatch({ type: "ERROR_BOOKING_REMOVE" });
+            }}
             className={`px-4 py-1.5 text-sm rounded-md ${
               activeTab === "checkin"
                 ? "bg-white shadow text-[#1E45E1]"

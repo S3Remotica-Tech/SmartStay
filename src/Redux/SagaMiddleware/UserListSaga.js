@@ -319,7 +319,7 @@ function* handleSaveDraft(draft) {
     yield* handleApiError(error);
 
     if (error) {
-      console.log("errorrr",error)
+      console.log("errorrr", error);
       // if (error.response.data.emailStatus !== "") {
       //   yield put({
       //     type: "EMAIL_ERROR",
@@ -1628,10 +1628,15 @@ function* handleAddUser(datum) {
   try {
     const response = yield call(addUser, datum.payload);
 
+    console.log("response88888", response);
+
     if (response?.status === 201) {
       yield put({
         type: "ADD_USER",
-        payload: { response: response.message, statusCode: response?.status },
+        payload: {
+          response: response.data.customerId,
+          statusCode: response?.status,
+        },
       });
 
       var toastStyle = {

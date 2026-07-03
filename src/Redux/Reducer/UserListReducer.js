@@ -2,7 +2,7 @@
 
 export const initialState = {
   Users: [],
-  addUser: [],
+  addUserResponse: "",
   errorMessage: {},
   hostelList: [],
   roomCount: [],
@@ -269,6 +269,21 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, saveDreaftTenantError: action.payload };
     case "REMOVE_DRAFT_ERROR":
       return { ...state, saveDreaftTenantError: "" };
+
+    case "TENANT_SEARCH_LIST_REDUCER":
+      return {
+        ...state,
+        searchTenant: action.payload.response,
+        statuscodeForSearchTenant: action.payload.statusCode,
+        isTenantSearching: true,
+      };
+
+    case "REMOVE_TENANT_SEARCH_LIST_REDUCER":
+      return {
+        ...state,
+        statuscodeForSearchTenant: 0,
+        isTenantSearching: false,
+      };
 
     case "TENANT_LIST_REDUCER":
       return {
@@ -588,7 +603,7 @@ const UserListReducer = (state = initialState, action) => {
     case "ADD_USER":
       return {
         ...state,
-        addUser: action.payload.message,
+        addUserResponse: action.payload.response,
         statusCodeForAddUser: action.payload.statusCode,
       };
     case "CLEAR_STATUS_CODES":
@@ -1000,21 +1015,6 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADHAR_UPLOAD_ERROR":
       return { ...state, adharuploadfileError: "" };
-
-    case "TENANT_SEARCH_LIST_REDUCER":
-      return {
-        ...state,
-        searchTenant: action.payload.response,
-        statuscodeForSearchTenant: action.payload.statusCode,
-        isTenantSearching: true,
-      };
-
-    case "REMOVE_TENANT_SEARCH_LIST_REDUCER":
-      return {
-        ...state,
-        statuscodeForSearchTenant: 0,
-        isTenantSearching: false,
-      };
 
     case "MOBILENUMBER_ERROR":
       return { ...state, minimumFourDigitError: action.payload };

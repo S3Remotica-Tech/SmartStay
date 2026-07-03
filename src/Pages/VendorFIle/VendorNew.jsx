@@ -192,6 +192,8 @@ function Vendor() {
   const NavigateTOselectedVendorId =
     location.state?.navigateToVendorOverviewSelectedVendorId;
 
+  console.log("NavigateTOselectedVendorId", NavigateTOselectedVendorId);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   // const monthOptions = [];
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -1592,7 +1594,10 @@ function Vendor() {
         {showOverview && (
           <VendorOverView
             show={showOverview}
-            onClose={() => setShowOverview(false)}
+            onClose={() => {
+              setShowOverview(false);
+              setTrigger(false);
+            }}
             handleShowSettlement={handleShowSettlement}
             selectedVendorId={selectedVendorId}
             trigger={trigger}

@@ -112,8 +112,11 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, bookingEmailError: action.payload };
     case "CLEAR_EMAIL_ERROR":
       return { ...state, bookingEmailError: "" };
+      
     case "CLEAR_ERROR_BOOKING":
       return { ...state, bookingError: "" };
+
+
     case "CLEAR_ADD_USER_BOOKING":
       return { ...state, statusCodeForAddBooking: 0 };
     case "BOOKING_LIST":

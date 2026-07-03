@@ -246,6 +246,8 @@ function AddTenant({ showMenu, handleClose }) {
   const panRef = useRef(null);
   const [draftTenantId, setDraftTenantId] = useState("");
 
+  console.log("draftTenantId", draftTenantId);
+
   const isImage = (file) => file && file.type.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
@@ -325,6 +327,7 @@ function AddTenant({ showMenu, handleClose }) {
   };
 
   const handleFirstName = (e) => {
+    setNewTenant(true);
     const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
@@ -598,6 +601,7 @@ function AddTenant({ showMenu, handleClose }) {
   // };
 
   console.log("state", state?.UsersList?.draftTenantDetails);
+  console.log("state", state?.UsersList);
 
   const handleSaveStepOne = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
@@ -829,7 +833,7 @@ function AddTenant({ showMenu, handleClose }) {
       setLastname("");
       setEmail("");
       setMobile("");
-
+handleClose()
       dispatch({
         type: "USERLIST",
         payload: {
@@ -916,6 +920,8 @@ function AddTenant({ showMenu, handleClose }) {
         lastName: capitalizedLastname,
         mobileNumber: MobileNumber,
         emailId: Email,
+        idProofType: idProofType?.value || idProofType || "",
+        idProofNo: idProofNo,
         type: 1,
         address: {
           houseNo: house_no,
@@ -950,6 +956,14 @@ function AddTenant({ showMenu, handleClose }) {
       setNewTenant(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
+      dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
+      dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
+    };
+  }, []);
 
   useEffect(() => {
     if (state.UsersList?.draftTenantGetStatusCode === 200) {
@@ -1005,13 +1019,8 @@ function AddTenant({ showMenu, handleClose }) {
   }, [state.UsersList?.isTenantSearching]);
 
   useEffect(() => {
-    return () => {
-      dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
-    };
-  }, []);
-
-  useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201) {
+      setDraftTenantId(state.UsersList?.addUserResponse);
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
@@ -1659,11 +1668,12 @@ function AddTenant({ showMenu, handleClose }) {
                           <div className="d-flex justify-content-between mt-3">
                             <button
                               disabled={formLoading}
-                              className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1] border border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
-                                formLoading
-                                  ? "cursor-not-allowed opacity-70"
-                                  : "cursor-pointer"
-                              }`}
+                              className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1]
+                                 border-1 border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
+                                   formLoading 
+                                     ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
+                                     : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
+                                 }`}
                               onClick={handleSaveStepOne}
                             >
                               {formLoading ? (
@@ -1709,6 +1719,7 @@ function AddTenant({ showMenu, handleClose }) {
                       handleNextStep={handleNextStep}
                       mobile={Phone}
                       firstname={firstname}
+                      draftTenantId={draftTenantId}
                     />
                   )}
 
