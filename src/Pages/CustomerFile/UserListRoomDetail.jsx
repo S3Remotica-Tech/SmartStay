@@ -2219,7 +2219,7 @@ function UserListRoomDetail(props) {
                     <h2 className="text-[24px] font-semibold truncate max-w-[180px] ">
                       {CustomerOverView.fullName}
                     </h2>
-                    {CustomerOverView?.kycInfo?.keyStatus !== "VERIFIED" && (
+                    {CustomerOverView?.kycInfo?.status === "VERIFIED" && (
                       <div className="flex items-center gap-2 ">
                         <div className="inline-flex items-center mb-1 ">
                           <Verify size={18} variant="Bold" color="#038c3d" />
