@@ -196,13 +196,13 @@ function* handleKYCReminder(kyc) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if(error){
-       yield put({
+    if (error) {
+      yield put({
         type: "KEY_REMAINDER_ERROR",
         payload: error.response.data,
       });
 
-       toast.error(`${error.response.data}`, {
+      toast.error(`${error.response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -319,17 +319,18 @@ function* handleSaveDraft(draft) {
     yield* handleApiError(error);
 
     if (error) {
-      if (error.response.data.emailStatus !== "") {
-        yield put({
-          type: "EMAIL_ERROR",
-          payload: error.response.data.emailStatus,
-        });
-      } else if (error.response.data.mobileStatus !== "") {
-        yield put({
-          type: "PHONE_ERROR",
-          payload: error.response.data.mobileStatus,
-        });
-      }
+      console.log("errorrr",error)
+      // if (error.response.data.emailStatus !== "") {
+      //   yield put({
+      //     type: "EMAIL_ERROR",
+      //     payload: error.response.data.emailStatus,
+      //   });
+      // } else if (error.response.data.mobileStatus !== "") {
+      //   yield put({
+      //     type: "PHONE_ERROR",
+      //     payload: error.response.data.mobileStatus,
+      //   });
+      // }
     }
   }
 }
