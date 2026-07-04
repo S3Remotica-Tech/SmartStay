@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import {
+import {UpdateSaveDraftTenant,
   deleteGloblTemplatesImages,
   tenantCustomizeData,
   finalAddRoomReading,
@@ -320,19 +320,78 @@ function* handleSaveDraft(draft) {
 
     if (error) {
       console.log("errorrr", error);
-       if (error.code === "ERR_BAD_REQUEST") {
-      if (error.response.data.emailStatus !== "") {
-        yield put({
-          type: "EMAIL_ERROR",
-          payload: error.response.data.emailStatus,
-        });
-      } else if (error.response.data.mobileStatus !== "") {
-        yield put({
-          type: "PHONE_ERROR",
-          payload: error.response.data.mobileStatus,
-        });
+      if (error.code === "ERR_BAD_REQUEST") {
+        if (error.response.data.emailStatus !== "") {
+          yield put({
+            type: "EMAIL_ERROR",
+            payload: error.response.data.emailStatus,
+          });
+        } else if (error.response.data.mobileStatus !== "") {
+          yield put({
+            type: "PHONE_ERROR",
+            payload: error.response.data.mobileStatus,
+          });
+        }
       }
     }
+  }
+}
+
+function* handleUpdateSaveDraft(draft) {
+  try {
+    const response = yield call(UpdateSaveDraftTenant, draft.payload);
+
+    if (response?.status === 201) {
+      yield put({
+        type: "UPDATE_SAVE_DRAFT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Updated Successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      console.log("errorrr", error);
+      if (error.code === "ERR_BAD_REQUEST") {
+        if (error.response.data.emailStatus !== "") {
+          yield put({
+            type: "EMAIL_ERROR",
+            payload: error.response.data.emailStatus,
+          });
+        } else if (error.response.data.mobileStatus !== "") {
+          yield put({
+            type: "PHONE_ERROR",
+            payload: error.response.data.mobileStatus,
+          });
+        }
+      }
     }
   }
 }
@@ -3531,6 +3590,8 @@ function* UserListSaga() {
   yield takeEvery("SETTLEMENT_PAYMENT_SAGA", handleSettlementPayemnt);
   yield takeEvery("DRAFT_TENANT_LIST_SAGA", handleDraftTenantSearch);
   yield takeEvery("SAVE_DRAFT_SAGA", handleSaveDraft);
+  yield takeEvery("UPDATE_SAVE_DRAFT_SAGA", handleUpdateSaveDraft);
+
   yield takeEvery("TENANT_SEARCH_LIST_SAGA", handleSearchTenant);
 
   yield takeEvery(

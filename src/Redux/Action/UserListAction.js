@@ -231,6 +231,48 @@ export async function SaveDraftTenant(tenant) {
   }
 }
 
+export async function UpdateSaveDraftTenant(tenant) {
+  const formData = new FormData();
+
+  if (tenant.profilePic) {
+    formData.append("profilePic", tenant.profilePic);
+  }
+
+  if (tenant.aadharPic) {
+    formData.append("aadharPic", tenant.aadharPic);
+  }
+
+  if (tenant.panPic) {
+    formData.append("panPic", tenant.panPic);
+  }
+
+  if (tenant.request) {
+    const requestBlob = new Blob([JSON.stringify(tenant.request)], {
+      type: "application/json",
+    });
+
+    formData.append("request", requestBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.post(
+      `/v3/customers/saveDraft/${tenant.hostelId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+      },
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Save Draft Error:", error);
+    throw error;
+  }
+}
+
 export async function TenantListGet({ hostelId, purpose }) {
   return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
     params: {

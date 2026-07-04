@@ -211,6 +211,7 @@ function AddTenant({ showMenu, handleClose }) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false);
+  const [hasVehicle, setHasVehicle] = useState(true);
   const [guardians, setGuardians] = useState([
     {
       guardianFullName: "",
@@ -245,6 +246,28 @@ function AddTenant({ showMenu, handleClose }) {
   const aadhaarRef = useRef(null);
   const panRef = useRef(null);
   const [draftTenantId, setDraftTenantId] = useState("");
+  const [vehicleType, setVehicleType] = useState(null);
+  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [parkingSpace, setParkingSpace] = useState("");
+
+  const [vehicleTypeError, setVehicleTypeError] = useState("");
+  const [vehicleNumberError, setVehicleNumberError] = useState("");
+  const [parkingSpaceError, setParkingSpaceError] = useState("");
+
+  const vehicleTypeRef = useRef(null);
+  const vehicleNumberRef = useRef(null);
+  const parkingSpaceRef = useRef(null);
+
+  const vehicleTypeOptions = [
+    {
+      value: "2_WHEELER",
+      label: "2-Wheeler",
+    },
+    {
+      value: "4_WHEELER",
+      label: "4-Wheeler",
+    },
+  ];
 
   console.log("draftTenantId", draftTenantId);
 
@@ -269,6 +292,35 @@ function AddTenant({ showMenu, handleClose }) {
         mobileNo: "",
       },
     ]);
+  };
+
+  const handleVehicleNumberChange = (e) => {
+    const value = e.target.value.toUpperCase();
+    setVehicleNumberError("");
+    if (/^[A-Z0-9]*$/.test(value)) {
+      setVehicleNumber(value);
+
+      if (value.trim()) {
+        setVehicleNumberError("");
+      }
+    }
+  };
+
+  const handleParkingSpaceChange = (e) => {
+    const value = e.target.value;
+
+    if (/^[A-Za-z0-9 ]*$/.test(value)) {
+      setParkingSpace(value);
+      setParkingSpaceError("");
+    }
+  };
+
+  const handleVehicleTypeChange = (value) => {
+    setVehicleType(value);
+
+    if (value) {
+      setVehicleTypeError("");
+    }
   };
 
   const handleRemoveGuardian = (index) => {
@@ -600,8 +652,12 @@ function AddTenant({ showMenu, handleClose }) {
   //   setNewTenant(true);
   // };
 
-  console.log("state", state?.UsersList?.draftTenantDetails);
-  console.log("state", state?.UsersList);
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  const capitalizedLastname = capitalizeFirstLetter(lastname);
 
   const handleSaveStepOne = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
@@ -703,13 +759,6 @@ function AddTenant({ showMenu, handleClose }) {
 
     if (hasError) return;
 
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-
     dispatch({
       type: "SAVE_DRAFT_SAGA",
       payload: {
@@ -792,28 +841,114 @@ function AddTenant({ showMenu, handleClose }) {
     setFormLoading(true);
   };
 
+  const validateVehicle = () => {
+    setVehicleTypeError("");
+    setVehicleNumberError("");
+    let isValid = true;
+
+    if (!hasVehicle) {
+      return true;
+    }
+
+    if (!vehicleType) {
+      setVehicleTypeError("Please Select Vehicle type");
+
+      if (vehicleTypeRef.current) {
+        vehicleTypeRef.current.focus();
+      }
+
+      return false;
+    }
+
+    const vehicleRegex = /^[A-Z]{2}[0-9]{1,2}[A-Z]{1,3}[0-9]{1,4}$/;
+
+    if (vehicleNumber && !vehicleRegex.test(vehicleNumber.replace(/\s/g, ""))) {
+      setVehicleNumberError("Enter a valid vehicle number.");
+      vehicleNumberRef.current?.focus();
+      return false;
+    }
+
+    return isValid;
+  };
+
   const handleSaveStep3 = () => {
+    if (!validateVehicle()) return;
+
     dispatch({
       type: "SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-
-        aadharPic: aadhaarFile || null,
-        panPic: panFile || null,
+        profilePic: file || "",
+        aadharPic: aadhaarFile || "",
+        panPic: panFile || "",
 
         request: {
-          guardians: guardians || [],
+          firstName: capitalizedFirstname || "",
+          lastName: capitalizedLastname || "",
+          mobile: MobileNumber || "",
+          emailId: Email || "",
+
+          joiningDate: "",
+          bookingDate: "",
+          bookingAmount: "",
+          floorId: "",
+          roomId: "",
+          bedId: "",
+          bankId: "",
+          referenceNumber: "",
+          advanceAmount: "",
+          rentalAmount: "",
+          stayType: "LONG",
+
+          deductions: [],
+
+          proRate: true,
+
+          idProof: {
+            type: idProofType?.value || idProofType || "",
+            number: idProofNo || "",
+          },
+
+          address: {
+            flat: "",
+            house: house_no || "",
+            building: "",
+            company: "",
+            apartment: "",
+            area: "",
+            street: street || "",
+            sector: "",
+            village: "",
+            landmark: landmark || "",
+            pincode: pincode || "",
+            city: city || "",
+            state: state_name || "",
+          },
+
+          booking: {
+            joiningDateTentative: "",
+            refuseAdvanceAmount: true,
+          },
 
           jobDetails: {
-            employmentStatus: employmentStatus?.value || "",
+            employmentStatus: employmentStatus || "",
             companyName: companyName || "",
             collegeName: "",
-            jobRole: jobRole?.value || "",
+            jobRole: jobRole || "",
             workLocation: workLocation || "",
-            shiftType: shiftType?.value || "",
+            shiftType: shiftType || "",
             shiftFrom: fromTime || "",
             shiftTo: toTime || "",
           },
+
+          guardians: (guardians || []).map((g) => ({
+            guardianFullName: g.guardianFullName || "",
+            relationshipToTenant:
+              g.relationshipToTenant?.value || g.relationshipToTenant || "",
+            guardianOccupation:
+              g.guardianOccupation?.value || g.guardianOccupation || "",
+            mobileNo: g.mobileNo || "",
+          })),
         },
       },
     });
@@ -826,7 +961,7 @@ function AddTenant({ showMenu, handleClose }) {
   }, [state.UsersList?.phoneError]);
 
   useEffect(() => {
-    if (state.UsersList?.saveDreaftTenant === 201) {
+    if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
       setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
       setStep(2);
 
@@ -847,7 +982,7 @@ function AddTenant({ showMenu, handleClose }) {
 
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
-  }, [state.UsersList?.saveDreaftTenant]);
+  }, [state.UsersList?.saveDreaftTenantSuccessCode]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -2059,6 +2194,98 @@ function AddTenant({ showMenu, handleClose }) {
                             />
                           </div>
                         </div>
+                      </div>
+
+                      <div>
+                        <h5 className="flex items-center text-[18px] font-semibold text-gray-800 my-4">
+                          <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
+                          Vehicle Details
+                        </h5>
+
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h2 className="text-[14px] font-semibold text-gray-800">
+                              Have a Vehicle ?
+                            </h2>
+                            <p className="mt-1 text-xs text-[#8B8B8B]">
+                              For a Parking Allocation Purpose
+                            </p>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setHasVehicle(!hasVehicle)}
+                            className={`relative h-7 w-12 rounded-full transition ${
+                              hasVehicle ? "bg-[#4C5EFF]" : "bg-gray-300"
+                            }`}
+                          >
+                            <span
+                              className={`absolute top-1 h-5 w-5 rounded-full bg-white transition ${
+                                hasVehicle ? "right-1" : "left-1"
+                              }`}
+                            />
+                          </button>
+                        </div>
+                        {hasVehicle && (
+                          <div className="grid grid-cols-12 gap-3">
+                            <div className="col-span-12">
+                              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                Vehicle Type{" "}
+                                <span className="text-red-500 text-[20px]">
+                                  *
+                                </span>
+                              </label>
+                              <Select
+                                ref={vehicleTypeRef}
+                                value={vehicleType}
+                                onChange={handleVehicleTypeChange}
+                                options={vehicleTypeOptions}
+                                placeholder="Vehicle Type"
+                                styles={CustomStyles}
+                              />
+
+                              {vehicleTypeError && (
+                                <ErrorMessage
+                                  message={vehicleTypeError}
+                                  type="error"
+                                />
+                              )}
+                            </div>
+
+                            <div className="col-span-6">
+                              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                Vehicle Number
+                              </label>
+                              <input
+                                type="text"
+                                ref={vehicleNumberRef}
+                                value={vehicleNumber}
+                                onChange={handleVehicleNumberChange}
+                                placeholder="Help us to Identify on the parking..."
+                                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                              />
+                              {vehicleNumberError && (
+                                <ErrorMessage
+                                  message={vehicleNumberError}
+                                  type="error"
+                                />
+                              )}
+                            </div>
+
+                            <div className="col-span-6">
+                              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                Parking Space if
+                              </label>
+                              <input
+                                ref={parkingSpaceRef}
+                                value={parkingSpace}
+                                onChange={handleParkingSpaceChange}
+                                placeholder="Enter the Block or Space No"
+                                className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
+                              />
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       <div className="flex justify-end mt-4">

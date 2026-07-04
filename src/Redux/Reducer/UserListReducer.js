@@ -174,6 +174,9 @@ export const initialState = {
   templatesGlobalImagesDeleteStatusCode: 0,
   tenantListGetSuccessCode: 0,
   draftTenantDetails: "",
+  saveDreaftTenantSuccessCode: 0,
+  updateSaveDreaftTenantStatus: 0,
+  UpdateDraftTenantDetails: "",
   bedInitiaLizeError: "",
   searchTenant: [],
   statuscodeForSearchTenant: 0,
@@ -247,11 +250,24 @@ const UserListReducer = (state = initialState, action) => {
     case "SAVE_DRAFT_REDUCER":
       return {
         ...state,
-        saveDreaftTenant: action.payload.statusCode,
+        saveDreaftTenantSuccessCode: action.payload.statusCode,
         draftTenantDetails: action.payload.response,
       };
     case "REMOVE_SAVE_DRAFT_REDUCER":
-      return { ...state, saveDreaftTenant: 0 };
+      return { ...state, saveDreaftTenantSuccessCode: 0 };
+
+    case "UPDATE_SAVE_DRAFT_REDUCER":
+      return {
+        ...state,
+        updateSaveDreaftTenantStatus: action.payload.statusCode,
+        UpdateDraftTenantDetails: action.payload.response,
+      };
+
+    case "REMOVE_UPDATE_SAVE_DRAFT_REDUCER":
+      return {
+        ...state,
+        updateSaveDreaftTenantStatus: 0,
+      };
 
     case "DRAFT_TENANT_LIST_REDUCER":
       return {

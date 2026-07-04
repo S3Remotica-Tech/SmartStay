@@ -718,12 +718,12 @@ function AddTenantBookingCheckin({
   };
 
   useEffect(() => {
-    if (state.UsersList?.saveDreaftTenant === 201) {
+    if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
       setFormLoading(false);
 
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
-  }, [state.UsersList?.saveDreaftTenant]);
+  }, [state.UsersList?.saveDreaftTenantSuccessCode]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
