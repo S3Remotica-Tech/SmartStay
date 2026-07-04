@@ -183,6 +183,7 @@ function UserList(props) {
   const listRef = useRef(null);
   const tableRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [DraftTenantDetails, setDraftTenantDetails] = useState("");
 
   const dropdownRef = useRef(null);
   // console.log("isScrolling", isScrolling);
@@ -1096,6 +1097,13 @@ function UserList(props) {
   const handleShowAddTenant = () => {
     setShowMenuNewTenant(true);
     setShowDropdown(false);
+    setDraftTenantDetails("");
+  };
+
+  const handleShowDraftTenant = (user) => {
+    setShowMenuNewTenant(true);
+    setShowDropdown(false);
+    setDraftTenantDetails(user);
   };
 
   const handleChange = (key) => {
@@ -3080,6 +3088,25 @@ function UserList(props) {
                                                   </div>
                                                 </>
                                               )}
+
+                                              {user.status === "Draft" && (
+                                                <div
+                                                  onClick={() =>
+                                                    canWriteTenant &&
+                                                    handleShowDraftTenant(user)
+                                                  }
+                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                >
+                                                  <img
+                                                    src={Addbook}
+                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                  />
+                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                    Draft Continue
+                                                  </span>
+                                                </div>
+                                              )}
                                             </div>
                                           </div>
                                         )}
@@ -3499,6 +3526,7 @@ function UserList(props) {
         <AddTenant
           showMenu={showMenuNewTenant}
           handleClose={handleCloseAddTenant}
+          alreadySaveDraftTenantDetails={DraftTenantDetails}
         />
       )}
 

@@ -180,7 +180,7 @@ const CustomStyles = {
     display: "none",
   }),
 };
-function AddTenant({ showMenu, handleClose }) {
+function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
@@ -269,7 +269,7 @@ function AddTenant({ showMenu, handleClose }) {
     },
   ];
 
-  console.log("draftTenantId", draftTenantId);
+  console.log("alreadySaveDraftTenantDetails", alreadySaveDraftTenantDetails);
 
   const isImage = (file) => file && file.type.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
@@ -356,6 +356,18 @@ function AddTenant({ showMenu, handleClose }) {
     });
     setSearchLoading(true);
   };
+
+  useEffect(() => {
+    if (alreadySaveDraftTenantDetails) {
+      if (alreadySaveDraftTenantDetails?.apiCall?.customerId) {
+        dispatch({
+          type: "DRAFT_TENANT_LIST_SAGA",
+          payload: alreadySaveDraftTenantDetails?.apiCall?.customerId,
+        });
+        setNewTenant(false);
+      }
+    }
+  }, [alreadySaveDraftTenantDetails]);
 
   const highlightText = (text, search) => {
     if (!search) return text;
@@ -872,7 +884,7 @@ function AddTenant({ showMenu, handleClose }) {
   };
 
   const handleSaveStep3 = () => {
-    if (!validateVehicle()) return;
+    // if (!validateVehicle()) return;
 
     dispatch({
       type: "SAVE_DRAFT_SAGA",
@@ -1465,8 +1477,8 @@ function AddTenant({ showMenu, handleClose }) {
                                 ref={firstnameRef}
                                 value={firstname}
                                 onChange={(e) => handleFirstName(e)}
-                                className={`text-base text-[#4B4B4B] font-gilroy ${
-                                  firstname ? "font-semibold" : "font-medium"
+                                className={`text-base text-black  font-gilroy ${
+                                  firstname ? "font-extrabold" : "font-medium"
                                 } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                               />
                               {firstnameError && (
@@ -1487,8 +1499,8 @@ function AddTenant({ showMenu, handleClose }) {
                                 placeholder="Enter Last Name"
                                 value={lastname}
                                 onChange={(e) => handleLastName(e)}
-                                className={`text-base text-[#4B4B4B] font-gilroy ${
-                                  lastname ? "font-semibold" : "font-medium"
+                                className={`text-base text-black font-gilroy ${
+                                  lastname ? "font-extrabold" : "font-medium"
                                 } shadow-none border border-[#D9D9D9] h-11 rounded-lg`}
                               />
                             </Form.Group>
@@ -2196,7 +2208,7 @@ function AddTenant({ showMenu, handleClose }) {
                         </div>
                       </div>
 
-                      <div>
+                      {/* <div>
                         <h5 className="flex items-center text-[18px] font-semibold text-gray-800 my-4">
                           <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                           Vehicle Details
@@ -2286,7 +2298,7 @@ function AddTenant({ showMenu, handleClose }) {
                             </div>
                           </div>
                         )}
-                      </div>
+                      </div> */}
 
                       <div className="flex justify-end mt-4">
                         <button
