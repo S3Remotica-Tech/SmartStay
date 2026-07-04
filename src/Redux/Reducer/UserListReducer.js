@@ -2,7 +2,7 @@
 
 export const initialState = {
   Users: [],
-  addUser: [],
+  addUserResponse: "",
   errorMessage: {},
   hostelList: [],
   roomCount: [],
@@ -174,6 +174,9 @@ export const initialState = {
   templatesGlobalImagesDeleteStatusCode: 0,
   tenantListGetSuccessCode: 0,
   draftTenantDetails: "",
+  saveDreaftTenantSuccessCode: 0,
+  updateSaveDreaftTenantStatus: 0,
+  UpdateDraftTenantDetails: "",
   bedInitiaLizeError: "",
   searchTenant: [],
   statuscodeForSearchTenant: 0,
@@ -247,11 +250,24 @@ const UserListReducer = (state = initialState, action) => {
     case "SAVE_DRAFT_REDUCER":
       return {
         ...state,
-        saveDreaftTenant: action.payload.statusCode,
+        saveDreaftTenantSuccessCode: action.payload.statusCode,
         draftTenantDetails: action.payload.response,
       };
     case "REMOVE_SAVE_DRAFT_REDUCER":
-      return { ...state, saveDreaftTenant: 0 };
+      return { ...state, saveDreaftTenantSuccessCode: 0 };
+
+    case "UPDATE_SAVE_DRAFT_REDUCER":
+      return {
+        ...state,
+        updateSaveDreaftTenantStatus: action.payload.statusCode,
+        UpdateDraftTenantDetails: action.payload.response,
+      };
+
+    case "REMOVE_UPDATE_SAVE_DRAFT_REDUCER":
+      return {
+        ...state,
+        updateSaveDreaftTenantStatus: 0,
+      };
 
     case "DRAFT_TENANT_LIST_REDUCER":
       return {
@@ -269,6 +285,21 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, saveDreaftTenantError: action.payload };
     case "REMOVE_DRAFT_ERROR":
       return { ...state, saveDreaftTenantError: "" };
+
+    case "TENANT_SEARCH_LIST_REDUCER":
+      return {
+        ...state,
+        searchTenant: action.payload.response,
+        statuscodeForSearchTenant: action.payload.statusCode,
+        isTenantSearching: true,
+      };
+
+    case "REMOVE_TENANT_SEARCH_LIST_REDUCER":
+      return {
+        ...state,
+        statuscodeForSearchTenant: 0,
+        isTenantSearching: false,
+      };
 
     case "TENANT_LIST_REDUCER":
       return {
@@ -588,7 +619,7 @@ const UserListReducer = (state = initialState, action) => {
     case "ADD_USER":
       return {
         ...state,
-        addUser: action.payload.message,
+        addUserResponse: action.payload.response,
         statusCodeForAddUser: action.payload.statusCode,
       };
     case "CLEAR_STATUS_CODES":
@@ -1000,21 +1031,6 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADHAR_UPLOAD_ERROR":
       return { ...state, adharuploadfileError: "" };
-
-    case "TENANT_SEARCH_LIST_REDUCER":
-      return {
-        ...state,
-        searchTenant: action.payload.response,
-        statuscodeForSearchTenant: action.payload.statusCode,
-        isTenantSearching: true,
-      };
-
-    case "REMOVE_TENANT_SEARCH_LIST_REDUCER":
-      return {
-        ...state,
-        statuscodeForSearchTenant: 0,
-        isTenantSearching: false,
-      };
 
     case "MOBILENUMBER_ERROR":
       return { ...state, minimumFourDigitError: action.payload };

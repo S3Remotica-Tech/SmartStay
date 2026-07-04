@@ -414,6 +414,7 @@ function AddExpenseNew() {
     amount: 0,
   };
   const [expenseItems, setExpenseItems] = useState([defaultExpenseItem]);
+
   const handleFileChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     const files = Array.from(e.target.files);
@@ -453,16 +454,6 @@ function AddExpenseNew() {
       setVendorError("");
     }
   };
-
-  useEffect(() => {
-    if (selectedVendorId && vendorOptions?.length) {
-      const selectedVendor = vendorOptions.find(
-        (option) => option.value === Number(selectedVendorId),
-      );
-
-      setVendor(selectedVendor || null);
-    }
-  }, []);
 
   const handlePaidAmountChange = (e) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -734,7 +725,7 @@ function AddExpenseNew() {
     return isValid;
   };
 
-  console.log("paymentMethod", paymentMethod);
+  // console.log("paymentMethod", paymentMethod);
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -916,9 +907,31 @@ function AddExpenseNew() {
         );
         hasShownToast.current = true;
       }
+
+      if (selectedVendorId) {
+        const selectedVendor =
+          state.ExpenseList.getInitializeExpenseList?.vendor?.find(
+            (option) => option.value === Number(selectedVendorId),
+          );
+
+        setVendor(selectedVendor || null);
+      }
+
       setTimeout(() => {
         dispatch({ type: "REMOVE_INITIALIZE_EXPENSES_LIST" });
-      }, 100);
+      }, 2000);
+    }
+  }, [state.ExpenseList?.getInitializeExpenseStatusCode]);
+
+  useEffect(() => {
+    if (state.ExpenseList?.getInitializeExpenseStatusCode === 200) {
+      if (selectedVendorId) {
+        const selectedVendor = vendorOptions?.find(
+          (option) => option.value === Number(selectedVendorId),
+        );
+
+        setVendor(selectedVendor || null);
+      }
     }
   }, [state.ExpenseList?.getInitializeExpenseStatusCode]);
 
@@ -1195,6 +1208,7 @@ function AddExpenseNew() {
               <div className="flex justify-center">
                 <div className="flex bg-[#F3F4F6] rounded-lg p-1">
                   <button
+                    disabled={selectedVendorId}
                     type="button"
                     onClick={() => setLinkVendor(false)}
                     className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${

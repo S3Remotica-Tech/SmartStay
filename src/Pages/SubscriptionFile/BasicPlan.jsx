@@ -238,21 +238,10 @@ function SubscriptionCard() {
 
                       <td className="py-2">
                         <div className="flex items-center gap-2">
-                          {item.orderStatus === "PAID" ? (
-                            <>
-                              <span className="text-black text-[11px] font-medium rounded-xl bg-green-50 flex items-center gap-1 px-2 py-1">
-                                <TiTick className="text-green-600 text-[14px] font-medium" />{" "}
-                                PAID
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <span className="text-black text-[11px] font-medium rounded-xl bg-yellow-50 flex items-center gap-1 px-2 py-1">
-                                <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-                                CREATED
-                              </span>
-                            </>
-                          )}
+                          <span className="text-black text-[11px] font-medium rounded-xl bg-green-50 flex items-center gap-1 px-2 py-1">
+                            <TiTick className="text-green-600 text-[14px] font-medium" />{" "}
+                            {item.orderStatus}
+                          </span>
                         </div>
                       </td>
 

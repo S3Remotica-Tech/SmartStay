@@ -185,6 +185,12 @@ function CustomerProfile(props) {
     state.UsersList.customerdetails?.customerCurrentStatus ===
       "SETTLEMENT_GENERATED";
 
+  const imageUrl = CustomerOverView.kycInfo?.aadhaarImage
+    ? CustomerOverView.kycInfo?.aadhaarImage
+    : CustomerOverView?.profilePic
+      ? CustomerOverView?.profilePic
+      : null;
+
   return (
     <>
       <nav className="sticky top-0 z-[1000] bg-white h-[60px] flex items-center ">
@@ -205,18 +211,25 @@ function CustomerProfile(props) {
         <div className="p-4 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-start gap-3">
             <div className="w-14 h-14 rounded-full overflow-hidden bg-[#C6D1FF] flex items-center justify-center">
-              {CustomerOverView?.profilePic ? (
+              {imageUrl ? (
                 <img
-                  src={CustomerOverView.profilePic}
+                  src={imageUrl}
                   alt="Avatar"
                   className="w-full h-full object-cover"
-                  onError={(e) => (e.currentTarget.style.display = "none")}
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextSibling.style.display = "flex";
+                  }}
                 />
-              ) : (
-                <span className="text-[#1E45E1] font-semibold text-lg font-gilroy">
-                  {CustomerOverView?.initials || "NA"}
-                </span>
-              )}
+              ) : null}
+
+              <span
+                className={`w-full h-full flex items-center justify-center text-[#1E45E1] font-semibold text-lg font-gilroy ${
+                  imageUrl ? "hidden" : "flex"
+                }`}
+              >
+                {CustomerOverView?.initials || "NA"}
+              </span>
             </div>
 
             <div>
@@ -547,112 +560,115 @@ function CustomerProfile(props) {
                         </div>
                       ) : (
                         <div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="flex flex-col items-start">
-                              <p className="text-[12px] font-medium font-[Gilroy]">
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
                                 House No / Apartment
                               </p>
-
-                              <div className="flex items-center gap-2">
-                                <House size={18} color="#1E45E1" />
-
-                                <span className="text-[14px] font-semibold font-[Gilroy]">
-                                  {/* {CustomerOverView.address?.houseNo} */}
+                              <div className="flex items-center gap-2 -mt-3">
+                                <House size="18" color="#1E45E1" />
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.houseNo
+                                  }
                                 </span>
                               </div>
                             </div>
 
-                            <div className="flex flex-col items-start">
-                              <p className="text-[12px] font-medium font-[Gilroy]">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
                                 Street / Area
                               </p>
-
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 -mt-3">
                                 <img
                                   src={Areaimage}
                                   alt="area"
                                   className="w-4 h-4"
                                 />
-
-                                <span className="text-[14px] font-semibold font-[Gilroy] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
-                                  {/* {CustomerOverView.address?.streetName} */}
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.streetName
+                                  }
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          {/* Row 2 */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                            <div className="flex flex-col items-start">
-                              <p className="text-[12px] font-medium font-[Gilroy]">
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
                                 Landmark
                               </p>
-
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 -mt-3">
                                 <img
                                   src={Landamrkimage}
                                   alt="landmark"
                                   className="w-4 h-4"
                                 />
-
-                                <span className="text-[14px] font-semibold font-[Gilroy]">
-                                  {/* {CustomerOverView.address?.landmark} */}
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {CustomerOverView.kycInfo?.permanentAddress
+                                    ?.landMark || "N/A"}
                                 </span>
                               </div>
                             </div>
 
-                            <div className="flex flex-col items-start">
-                              <p className="text-[12px] font-medium font-[Gilroy]">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
                                 Pincode
                               </p>
-
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 -mt-3">
                                 <img
                                   src={PincodeImage}
                                   alt="pincode"
                                   className="w-4 h-4"
                                 />
-
-                                <span className="text-[14px] font-semibold font-[Gilroy]">
-                                  {/* {CustomerOverView.address?.pincode} */}
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.pinCode
+                                  }
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                            <div className="flex flex-col items-start">
-                              <p className="text-[12px] font-medium font-[Gilroy]">
+                          <div className="flex flex-wrap mt-3">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
                                 City
                               </p>
-
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 -mt-3">
                                 <img
                                   src={CityImage}
                                   alt="city"
                                   className="w-4 h-4"
                                 />
-
-                                <span className="text-[14px] font-semibold font-[Gilroy]">
-                                  {/* {CustomerOverView.address?.city} */}
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.city
+                                  }
                                 </span>
                               </div>
                             </div>
 
-                            <div className="flex flex-col items-start">
-                              <p className="text-[12px] font-medium font-[Gilroy]">
+                            <div className="w-full sm:w-1/2 flex flex-col items-start">
+                              <p className="text-xs font-medium font-gilroy">
                                 State
                               </p>
-
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 -mt-3">
                                 <img
                                   src={CityImage}
                                   alt="state"
                                   className="w-4 h-4"
                                 />
-
-                                <span className="text-[14px] font-semibold font-[Gilroy] whitespace-nowrap overflow-hidden text-ellipsis max-w-[200px]">
-                                  {/* {CustomerOverView.address?.state} */}
+                                <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.state
+                                  }
                                 </span>
                               </div>
                             </div>

@@ -3,44 +3,38 @@ import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import Documents from "../../Assets/v2Images/doc.png";
 import { Eye, DocumentDownload, Trash } from "iconsax-react";
 import DeleteTenantDocument from "./DeleteTenantDocument";
-import {  useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
 
 function KYCDocuments({ documents }) {
- const state = useSelector((state) => state);
+  const state = useSelector((state) => state);
   const [previewImg, setPreviewImg] = useState(null);
   const [showDeleteDoc, setShowDeleteDoc] = useState(false);
-  const [showDocumentId, setDocumentId] = useState('');
+  const [showDocumentId, setDocumentId] = useState("");
 
   const handleDeleteDocument = (documentId) => {
-    setShowDeleteDoc(true)
-    setDocumentId(documentId)
-  }
+    setShowDeleteDoc(true);
+    setDocumentId(documentId);
+  };
   const handleDeleteDocumentClose = () => {
-    setShowDeleteDoc(false)
-  }
-
+    setShowDeleteDoc(false);
+  };
 
   const isDisabledButton =
-
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED";
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED";
 
   return (
     <div className="w-full max-h-[200px] overflow-y-auto pr-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-
-        {documents?.length > 0 && (
+        {documents?.length > 0 &&
           documents.map((doc, index) => (
             <div key={index} className="mt-2">
               <div className="flex items-center justify-between gap-3 border border-gray-300 rounded-lg p-2 w-full">
-
-
                 <div className="flex items-center gap-3 w-full">
-
-
                   <div className="flex items-center justify-center rounded-lg shadow-md border border-gray-300 bg-gray-50 p-2 w-full h-20 overflow-hidden">
                     {doc.type === "IMAGE" ? (
                       <img
@@ -64,7 +58,6 @@ function KYCDocuments({ documents }) {
                     )}
                   </div>
 
-
                   {/* <div className="min-w-[120px]">
                     <p
                       className="text-sm font-semibold truncate"
@@ -78,10 +71,7 @@ function KYCDocuments({ documents }) {
                   </div> */}
                 </div>
 
-
                 <div className="flex gap-2 shrink-0">
-
-
                   {doc.type === "IMAGE" ? (
                     <Eye
                       size="20"
@@ -102,26 +92,30 @@ function KYCDocuments({ documents }) {
                   <Trash
                     size="22"
                     onClick={() => {
-                      if (!isDisabledButton) {
-                        handleDeleteDocument(doc?.documentId);
+                      if (!isDisabledButton && doc?.canDelete) {
+                        handleDeleteDocument(doc.documentId);
                       }
                     }}
-                    className={`cursor-pointer ${isDisabledButton ? "opacity-40 cursor-not-allowed" : ""
-                      }`}
-                    color={isDisabledButton ? "#BDBDBD" : "#FF0000"}
+                    className={`${
+                      isDisabledButton || !doc?.canDelete
+                        ? "cursor-not-allowed opacity-40"
+                        : "cursor-pointer"
+                    }`}
+                    color={
+                      isDisabledButton || !doc?.canDelete
+                        ? "#BDBDBD"
+                        : "#FF0000"
+                    }
                   />
                 </div>
               </div>
             </div>
-          ))
-        )}
+          ))}
       </div>
-
 
       {previewImg && (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-[9999]">
           <div className="relative bg-white rounded-lg p-3 max-w-[90%] max-h-[90%]">
-
             <button
               className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center"
               onClick={() => setPreviewImg(null)}
@@ -138,9 +132,13 @@ function KYCDocuments({ documents }) {
         </div>
       )}
 
-      {
-        showDeleteDoc && <DeleteTenantDocument showDeleteDoc={showDeleteDoc} handleDeleteDocumentClose={handleDeleteDocumentClose} showDocumentId={showDocumentId} />
-      }
+      {showDeleteDoc && (
+        <DeleteTenantDocument
+          showDeleteDoc={showDeleteDoc}
+          handleDeleteDocumentClose={handleDeleteDocumentClose}
+          showDocumentId={showDocumentId}
+        />
+      )}
     </div>
   );
 }

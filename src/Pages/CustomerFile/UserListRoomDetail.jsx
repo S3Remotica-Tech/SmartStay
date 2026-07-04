@@ -1332,146 +1332,6 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.statusCodeForReassinBed]);
 
-  const handleSaveUserlist = () => {
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    const focusedRef = { current: false };
-    const normalize = (value) =>
-      value === null ||
-      value === undefined ||
-      value === "null" ||
-      value === "undefined"
-        ? ""
-        : String(value).trim();
-
-    const isChanged =
-      firstname !== initialState.firstname ||
-      lastname !== initialState.lastname ||
-      Number(countryCode + Phone) !== Number(initialState.Phone) ||
-      Email !== initialState.Email ||
-      String(hostel_Id) !== String(initialState.hostel_Id) ||
-      file !== initialState.file ||
-      normalize(house_no) !== normalize(initialState.house_no ?? "") ||
-      normalize(street) !== normalize(initialState.street ?? "") ||
-      normalize(landmark) !== normalize(initialState.landmark ?? "") ||
-      city !== initialState.city ||
-      String(pincode || "").trim() !==
-        String(initialState.pincode || "").trim() ||
-      state_name !== initialState.state;
-
-    let hasError = false;
-
-    if (!validateField(firstname, "First Name", focusedRef, firstnameRef))
-      return;
-    if (!validateField(Phone, "Phone Number", focusedRef, phoneRef)) return;
-    if (!validateField(hostel_Id, "Hostel ID", focusedRef, hostelRef)) return;
-
-    if (hostel_Id === "Select a PG" || hostelIdError) {
-      setHostelIdError("Please select a valid PG");
-      return;
-    }
-    if (Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      hasError = true;
-    } else {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
-
-    const cleanedPincode = String(pincode || "").trim();
-
-    if (
-      cleanedPincode &&
-      cleanedPincode !== "0" &&
-      !/^\d{6}$/.test(cleanedPincode)
-    ) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
-
-      hasError = true;
-    } else {
-      setPincodeError("");
-    }
-    if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        hasError = true;
-      } else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-
-    if (hasError) return;
-
-    if (!isChanged) {
-      setFormError("No Changes Detected");
-
-      setTimeout(() => {
-        if (nochangeRef.current) {
-          nochangeRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-          nochangeRef.current.focus();
-        }
-      }, 100);
-
-      return;
-    } else {
-      setFormError("");
-    }
-
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-    const payload = {
-      profile: file,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: normalizedPhoneNumber,
-      Email: Email,
-      Address: house_no,
-      area: street,
-      landmark: landmark,
-      city: city,
-      pincode: pincode,
-      state: state_name,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: RoomId,
-      Bed: BedId,
-      joining_date: selectedDate,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      ID: id,
-    };
-    dispatch({
-      type: "ADDUSER",
-      payload: payload,
-    });
-    setFormLoading(true);
-  };
-
   // const [generateForm, seGenerateForm] = useState(false);
 
   // const handlegenerateForm = () => {
@@ -2826,7 +2686,10 @@ function UserListRoomDetail(props) {
                               <div className="flex items-center gap-2 -mt-3">
                                 <House size="18" color="#1E45E1" />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.kycInfo?.houseNo} */}
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.houseNo
+                                  }
                                 </span>
                               </div>
                             </div>
@@ -2842,7 +2705,10 @@ function UserListRoomDetail(props) {
                                   className="w-4 h-4"
                                 />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.address?.streetName} */}
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.streetName
+                                  }
                                 </span>
                               </div>
                             </div>
@@ -2860,7 +2726,8 @@ function UserListRoomDetail(props) {
                                   className="w-4 h-4"
                                 />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.address?.landmark} */}
+                                  {CustomerOverView.kycInfo?.permanentAddress
+                                    ?.landMark || "N/A"}
                                 </span>
                               </div>
                             </div>
@@ -2876,7 +2743,10 @@ function UserListRoomDetail(props) {
                                   className="w-4 h-4"
                                 />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.address?.pincode} */}
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.pinCode
+                                  }
                                 </span>
                               </div>
                             </div>
@@ -2894,7 +2764,10 @@ function UserListRoomDetail(props) {
                                   className="w-4 h-4"
                                 />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.address?.city} */}
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.city
+                                  }
                                 </span>
                               </div>
                             </div>
@@ -2910,7 +2783,10 @@ function UserListRoomDetail(props) {
                                   className="w-4 h-4"
                                 />
                                 <span className="text-sm font-semibold font-gilroy truncate max-w-xs">
-                                  {/* {CustomerOverView.address?.state} */}
+                                  {
+                                    CustomerOverView.kycInfo?.permanentAddress
+                                      ?.state
+                                  }
                                 </span>
                               </div>
                             </div>
@@ -3570,109 +3446,6 @@ function UserListRoomDetail(props) {
           />
         )}
       </div>
-
-      <Modal show={showModal} onHide={handleClose} size="md" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>KYC Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div
-            style={{
-              borderRadius: 10,
-              padding: 20,
-              textAlign: "center",
-              fontFamily: "Gilroy",
-            }}
-          >
-            <div style={{ marginBottom: 15 }}>
-              <img
-                src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                alt="KYC"
-                style={{
-                  height: 120,
-                  width: 120,
-                  borderRadius: "25%",
-                  border: "3px solid #f0f0f0",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
-
-            <h5
-              style={{
-                fontWeight: "bold",
-                fontSize: 18,
-                marginBottom: 20,
-                color: "#222",
-              }}
-            >
-              {state.UsersList?.KycCustomerDetails?.name || "****"}
-            </h5>
-
-            <div
-              className="d-flex align-items-start"
-              style={{ justifyContent: "center", marginBottom: 15 }}
-            >
-              <i
-                className="bi bi-geo-alt"
-                style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
-              ></i>
-              <p
-                style={{
-                  fontSize: 14,
-                  color: "#4B4B4B",
-                  maxWidth: 220,
-                  textAlign: "left",
-                  margin: 0,
-                }}
-              >
-                Address
-                <br />
-                {/* <span>
-            {state.UsersList?.KycCustomerDetails?.address ||
-              "No address provided"}
-          </span> */}
-                <div
-                  style={{
-                    maxWidth: "400px",
-                    wordBreak: "break-word",
-                    whiteSpace: "pre-wrap",
-                  }}
-                >
-                  {state.UsersList?.KycCustomerDetails?.address ||
-                    "No address provided"}
-                </div>
-              </p>
-            </div>
-
-            <div
-              className="d-flex align-items-start"
-              style={{ justifyContent: "center", marginBottom: 5 }}
-            >
-              <img
-                src={adhar}
-                alt="Aadhaar"
-                style={{ width: 20, height: 20, marginRight: 10 }}
-              />
-              <p
-                style={{
-                  fontSize: 14,
-                  color: "#4B4B4B",
-                  maxWidth: 220,
-                  textAlign: "left",
-                  margin: 0,
-                }}
-              >
-                Aadhaar Number
-                <br />
-                <span>
-                  {state.UsersList?.KycCustomerDetails?.aadhaarNumber}
-                </span>
-              </p>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
 
       {showAction && (
         <TenantActions show={showAction} handleClose={handleCloseActions} />

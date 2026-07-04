@@ -27,7 +27,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
   const [hoveredBedId, setHoveredBedId] = useState("");
 
   if (!show) return null;
-
+  console.log("selectedBed", selectedBed);
   const [floorClick, setFloorClick] = useState("");
 
   useEffect(() => {
@@ -55,6 +55,8 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
   const roomList = Array.isArray(state?.PgList?.roomsList)
     ? state.PgList.roomsList
     : [];
+
+  const availableBeds = state.UsersList?.availableBedList?.listBeds || [];
 
   useEffect(() => {
     if (roomList.length > 0) {
@@ -168,11 +170,19 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
 
           {roomList.length > 0 ? (
             roomList?.map((room) => {
-              const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
+              // const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-              const filteredBeds = !isWay
-                ? bedsForRoom.filter((bed) => !bed.isOccupied)
-                : bedsForRoom;
+              // const filteredBeds = !isWay
+              //   ? bedsForRoom.filter((bed) => !bed.isOccupied)
+              //   : bedsForRoom;
+
+              const filteredBeds = availableBeds.filter(
+                (bed) => Number(bed.roomId) === Number(room.id),
+              );
+              {
+                console.log("filteredBeds", filteredBeds);
+              }
+
               return (
                 <div className="grid gap-3 mt-1 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[350px] overflow-y-auto px-3 show-scrolls">
                   <div
@@ -193,14 +203,15 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                       filteredBeds.length > 0 ? (
                         filteredBeds.map((bed) => (
                           <div
-                            key={`${bed.roomId}-${bed.id}`}
+                            key={`${bed.roomId}-${bed.bedId}`}
                             className={`w-full flex justify-center px-1 `}
                           >
                             <div
                               className={`flex flex-col items-center justify-start w-20 `}
                             >
                               <div className="relative w-9 h-10">
-                                {Number(selectedBed?.id) === Number(bed.id) &&
+                                {Number(selectedBed?.bedId) ===
+                                  Number(bed.bedId) &&
                                   Number(selectedBed?.roomId) ===
                                     Number(bed.roomId) && (
                                     <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
@@ -253,15 +264,15 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                                       <div
                                         className={`absolute -top-[2px] -right-[10px] w-[22px] h-[22px]  ${hoveredBedId !== bed.id && count ? "border-2  bg-white border-green-600 rounded-full " : " bg-transparent"} text-[12px] font-bold text-green-600 flex items-center justify-center cursor-pointer`}
                                         onMouseEnter={() =>
-                                          setHoveredBedId(bed.id)
+                                          setHoveredBedId(bed.bedId)
                                         }
                                         onMouseLeave={() =>
                                           setHoveredBedId(null)
                                         }
                                       >
-                                        {hoveredBedId !== bed.id && count}
+                                        {hoveredBedId !== bed.bedId && count}
 
-                                        {hoveredBedId === bed.id && (
+                                        {hoveredBedId === bed.bedId && (
                                           <div
                                             className="absolute top-0 left-0 -translate-x-1/2 bg-white rounded-full px-[6px] py-[3px]
                              flex items-center gap-[4px] shadow-md w-fit"
@@ -322,7 +333,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
             </div>
           )}
 
-          {selectedBed?.id && (
+          {selectedBed?.bedId && (
             <div className=" flex flex-wrap items-center justify-center border-t bg-white p-2 rounded-b-[20px]">
               <div>
                 <div>

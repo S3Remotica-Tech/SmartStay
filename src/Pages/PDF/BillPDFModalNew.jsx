@@ -334,13 +334,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
+    // console.log("pdfDetails", pdfDetails);
     setShowform(true);
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
     // setInvoiceValue(pdfDetails)
     setInvoiceList({
       balanceDue: pdfDetails?.invoiceInfo?.finalAmount,
-      invoiceId: pdfDetails?.invoiceId,
-      invoiceDate: pdfDetails?.invoiceDate,
+      invoiceId: pdfDetails?.invoiceId  || pdfDetails?.invoiceInfo?.invoiceId,
+      invoiceDate: pdfDetails?.invoiceDate || pdfDetails?.invoiceInfo?.invoiceDate,
     });
   };
 
@@ -400,6 +401,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const isPending = pdfDetails?.invoiceInfo?.paymentStatus === "Pending";
 
+  const finalAmount = Number(pdfDetails?.invoiceInfo?.finalAmount);
+  const totalAmount = Number(pdfDetails?.invoiceInfo?.totalAmount);
+  const status = String(pdfDetails?.invoiceInfo?.status);
+  const paymentStatus = String(pdfDetails?.invoiceInfo?.paymentStatus);
+
+  const canShowRecordPayment =
+    (finalAmount > 0 && status !== "PAID") ||
+    (totalAmount > 0 && paymentStatus === "Pending");
+
   const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
   const isRent =
     pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
@@ -407,6 +417,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
 
   const showSplitButton = true;
+
   const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
   const isAdvanceRedeemAvailable =
@@ -857,7 +868,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     : "text-black "
                 }`}
               >
-                {pdfDetails?.invoiceInfo?.totalAmount < 0
+                {totalAmount < 0 || finalAmount < 0
                   ? "Refund Made"
                   : "Payments Made"}
               </div>
@@ -895,7 +906,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             )} */}
 
             <div className="flex items-center gap-2">
-              {Number(pdfDetails?.invoiceInfo?.finalAmount) > 0 && (
+              {canShowRecordPayment && (
                 <div className="relative inline-flex">
                   <button
                     disabled={!canWriteInvoice}

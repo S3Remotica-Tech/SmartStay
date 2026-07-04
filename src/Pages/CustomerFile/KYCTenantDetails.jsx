@@ -32,7 +32,9 @@ function KYCTenantDetails({ show, handleClose }) {
     },
     {
       label: "Mobile",
-      value: kycInfo?.mobile || "-",
+      value:
+        `+ ${state?.UsersList?.customerdetails?.countryCode} ${state?.UsersList?.customerdetails?.mobileNo}` ||
+        "-",
     },
 
     {
