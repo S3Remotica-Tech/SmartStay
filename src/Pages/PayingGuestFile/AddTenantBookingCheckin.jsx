@@ -687,8 +687,9 @@ function AddTenantBookingCheckin({
       dispatch({ type: "ERROR_BOOKING_REMOVE" });
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
-      resetBookingForm();
 
+      resetBookingForm();
+      handleClose();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
@@ -1408,10 +1409,11 @@ function AddTenantBookingCheckin({
           </div>
 
           <div className="flex justify-between mt-3">
-            <button
-              disabled={formLoading}
-              onClick={handleBookingSaveDraft}
-              className={`!font-gilroy text-sm border-1 !font-semibold !rounded-md 
+            {!modeOfPayment && (
+              <button
+                disabled={formLoading}
+                onClick={handleBookingSaveDraft}
+                className={`!font-gilroy text-sm border-1 !font-semibold !rounded-md 
   !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap 
   flex items-center justify-center gap-2
   ${
@@ -1419,16 +1421,17 @@ function AddTenantBookingCheckin({
       ? "!bg-[#EBEFFF] text-[#A0A0A0] border-[#D6DEFF] cursor-not-allowed opacity-70"
       : "!bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] cursor-pointer"
   }`}
-            >
-              {formLoading ? (
-                <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
-                  Saving...
-                </>
-              ) : (
-                "Save Draft"
-              )}
-            </button>
+              >
+                {formLoading ? (
+                  <>
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Draft"
+                )}
+              </button>
+            )}
             <div className="flex gap-2">
               <button
                 disabled={!isConfirmChecked || bookingLoading}
@@ -1446,12 +1449,12 @@ function AddTenantBookingCheckin({
                   "Book"
                 )}
               </button>
-              <button
+              {/* <button
                 className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                 onClick={handleNextStep}
               >
                 Next <ArrowRight color="#FFFFFF" size="18" />
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

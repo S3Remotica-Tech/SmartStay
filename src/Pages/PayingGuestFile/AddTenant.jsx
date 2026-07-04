@@ -872,7 +872,7 @@ function AddTenant({ showMenu, handleClose }) {
   };
 
   const handleSaveStep3 = () => {
-    if (!validateVehicle()) return;
+    // if (!validateVehicle()) return;
 
     dispatch({
       type: "SAVE_DRAFT_SAGA",
@@ -2196,7 +2196,7 @@ function AddTenant({ showMenu, handleClose }) {
                         </div>
                       </div>
 
-                      <div>
+                      {/* <div>
                         <h5 className="flex items-center text-[18px] font-semibold text-gray-800 my-4">
                           <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                           Vehicle Details
@@ -2286,7 +2286,7 @@ function AddTenant({ showMenu, handleClose }) {
                             </div>
                           </div>
                         )}
-                      </div>
+                      </div> */}
 
                       <div className="flex justify-end mt-4">
                         <button
