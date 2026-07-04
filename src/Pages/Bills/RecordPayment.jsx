@@ -19,6 +19,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const [initials, setInitials] = useState("");
   const [formRecordLoading, setFormRecordLoading] = useState(false);
 
+  console.log("invoiceList", invoiceList);
+
   const calendarRef = useRef(null);
   const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
   const [amounterrormsg, setAmountErrmsg] = useState("");

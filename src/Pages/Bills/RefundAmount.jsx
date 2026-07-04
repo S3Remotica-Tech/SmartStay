@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 function RefundAmount({ show, handleClose, refundDetails }) {
+  // console.log("refundDetails", refundDetails)
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -25,13 +27,16 @@ function RefundAmount({ show, handleClose, refundDetails }) {
   const [refundFromError, setRefundFromError] = useState("");
   const [formRecordLoading, setFormRecordLoading] = useState(false);
 
+  const InvoiceId =
+    refundDetails?.invoiceId || refundDetails?.invoiceInfo?.invoiceId;
+
   useEffect(() => {
-    if (refundDetails?.invoiceId && state?.login?.selectedHostel_Id) {
+    if (InvoiceId && state?.login?.selectedHostel_Id) {
       dispatch({
         type: "GETINITIALIZEREFUNDDETAILS",
         payload: {
           hostelId: state?.login?.selectedHostel_Id,
-          invoiceId: refundDetails?.invoiceId,
+          invoiceId: InvoiceId,
         },
       });
     }
@@ -110,7 +115,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
       refundDate: dayjs(refundDate).format("DD-MM-YYYY"),
       bankId: refundFrom.value,
       referenceNumber: transactionId,
-      invoiceId: refundDetails?.invoiceId,
+      invoiceId: InvoiceId,
       hostelId: state?.login?.selectedHostel_Id,
     };
 
@@ -125,7 +130,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          invoiceId: refundDetails?.invoiceId,
+          invoiceId: InvoiceId,
         },
       });
     }
@@ -144,7 +149,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }
   }, [state.createAccount?.networkError, state.InvoiceList.refundableError]);
 
-  console.log("refundDetails", refundDetails);
+  // console.log("refundDetails", refundDetails);
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" centered>

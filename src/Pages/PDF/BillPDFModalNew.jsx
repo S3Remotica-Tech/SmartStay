@@ -334,13 +334,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
+    // console.log("pdfDetails", pdfDetails);
     setShowform(true);
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
     // setInvoiceValue(pdfDetails)
     setInvoiceList({
       balanceDue: pdfDetails?.invoiceInfo?.finalAmount,
-      invoiceId: pdfDetails?.invoiceId,
-      invoiceDate: pdfDetails?.invoiceDate,
+      invoiceId: pdfDetails?.invoiceId  || pdfDetails?.invoiceInfo?.invoiceId,
+      invoiceDate: pdfDetails?.invoiceDate || pdfDetails?.invoiceInfo?.invoiceDate,
     });
   };
 
@@ -867,7 +868,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     : "text-black "
                 }`}
               >
-                {pdfDetails?.invoiceInfo?.totalAmount < 0
+                {totalAmount < 0 || finalAmount < 0
                   ? "Refund Made"
                   : "Payments Made"}
               </div>
