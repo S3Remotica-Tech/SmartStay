@@ -140,6 +140,7 @@ function AddTenantBookingCheckin({
   mobile,
   firstname,
   draftTenantId,
+  newTenant,
 }) {
   const state = useSelector((state) => state);
 
@@ -221,6 +222,12 @@ function AddTenantBookingCheckin({
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
   const [errorsOneTime, setErrorsOneTime] = useState([]);
 
+  const DarftCustomerId =
+    state?.UsersList?.draftTenantDetails?.customerId ||
+    state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
+  // console.log("DarftCustomerId", DarftCustomerId);
+
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
     { value: "LONG", label: "Long Stay" },
@@ -242,7 +249,10 @@ function AddTenantBookingCheckin({
     setStay_typenameErrmsg("");
   };
 
-  const total = fields.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const total = fields?.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
 
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
@@ -388,7 +398,7 @@ function AddTenantBookingCheckin({
     dispatch({
       type: "CHECKIN",
       payload: {
-        customerId: draftTenantId,
+        customerId: DarftCustomerId,
         floorId: checkinFloor,
         bedId: checkinBed,
         roomId: checkinRoom,
@@ -402,25 +412,47 @@ function AddTenantBookingCheckin({
   };
 
   const handleCheckInDraft = () => {
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const year = newDate.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    };
+
+    const formattedDate = joiningDate
+      ? incrementDateAndFormat(joiningDate)
+      : "";
+
     dispatch({
-      type: "SAVE_DRAFT_SAGA",
+      type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
+        customerId: DarftCustomerId,
+        profilePic: DraftTenantDetails?.profilePic || "",
+        aadharPic: DraftTenantDetails?.aadharPic || "",
+        panPic: DraftTenantDetails?.panPic || "",
 
         request: {
-          joiningDate: joiningDate
-            ? dayjs(joiningDate).format("YYYY-MM-DD")
-            : "",
+          firstName: DraftTenantDetails?.firstName,
+          lastName: DraftTenantDetails?.lastName || "",
+          mobile: DraftTenantDetails?.mobileNo || "",
+          emailId: DraftTenantDetails?.emailId || "",
 
-          floorId: Number(checkinFloor || 0),
-          roomId: Number(checkinRoom || 0),
-          bedId: Number(checkinBed || 0),
+          joiningDate: formattedDate,
+          bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate,
+          bookingAmount: DraftTenantDetails?.bookingInfo?.bookingAmount || "",
 
+          bedId: checkinBed ? Number(checkinBed) : "",
+          roomId: checkinRoom ? Number(checkinRoom) : "",
+          floorId: checkinFloor ? Number(checkinFloor) : "",
+          bankId: DraftTenantDetails?.bankId || "",
+          referenceNumber: DraftTenantDetails?.referenceNumber || "",
           advanceAmount: Number(isAdvanceRefused ? 0 : advanceAmount || 0),
-
           rentalAmount: Number(rentAmount || 0),
-
-          stayType: stayType,
+          stayType: activeTab,
 
           deductions: fields
             ?.filter(
@@ -433,9 +465,50 @@ function AddTenantBookingCheckin({
 
           proRate: true,
 
+          idProof: {
+            type: DraftTenantDetails?.idProof?.type,
+            number: DraftTenantDetails?.idProof?.number || "",
+          },
+
+          address: {
+            flat: DraftTenantDetails?.address?.flat || "",
+            house: DraftTenantDetails?.address?.house || "",
+            building: DraftTenantDetails?.address?.building || "",
+            company: DraftTenantDetails?.address?.company || "",
+            apartment: DraftTenantDetails?.address?.apartment || "",
+            area: DraftTenantDetails?.address?.area || "",
+            street: DraftTenantDetails?.address?.street || "",
+            sector: DraftTenantDetails?.address?.sector || "",
+            village: DraftTenantDetails?.address?.village || "",
+            landmark: DraftTenantDetails?.address?.landmark || "",
+            pincode: DraftTenantDetails?.address?.pincode || "",
+            city: DraftTenantDetails?.address?.city || "",
+            state: DraftTenantDetails?.address?.state || "",
+          },
           booking: {
+            joiningDateTentative:
+              DraftTenantDetails?.booking?.joiningDateTentative || "",
             refuseAdvanceAmount: isAdvanceRefused,
           },
+
+          jobDetails: {
+            employmentStatus:
+              DraftTenantDetails?.jobDetails?.employmentStatus || "",
+            companyName: DraftTenantDetails?.jobDetails?.companyName || "",
+            collegeName: DraftTenantDetails?.jobDetails?.collegeName || "",
+            jobRole: DraftTenantDetails?.jobDetails?.jobRole || "",
+            workLocation: DraftTenantDetails?.jobDetails?.workLocation || "",
+            shiftType: DraftTenantDetails?.jobDetails?.shiftType || "",
+            shiftFrom: DraftTenantDetails?.jobDetails?.shiftFrom || "",
+            shiftTo: DraftTenantDetails?.jobDetails?.shiftTo || "",
+          },
+
+          guardians: (DraftTenantDetails?.guardians || []).map((g) => ({
+            guardianFullName: g?.guardianFullName || "",
+            relationshipToTenant: g?.relationshipToTenant || "",
+            guardianOccupation: g?.guardianOccupation || "",
+            mobileNo: g?.mobileNo || "",
+          })),
         },
       },
     });
@@ -611,38 +684,202 @@ function AddTenantBookingCheckin({
     return isValid;
   };
 
-  const handleBookingSaveDraft = () => {
-    // const isValid = validateBookingDraft();
+  useEffect(() => {
+    if (DarftCustomerId) {
+      if (DarftCustomerId) {
+        dispatch({
+          type: "DRAFT_TENANT_LIST_SAGA",
+          payload: DarftCustomerId,
+        });
+      }
+    }
+  }, [DarftCustomerId]);
 
-    // if (!isValid) return;
+  const DraftTenantDetails =
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
+
+  // console.log("DraftTenantDetails", DraftTenantDetails);
+
+  useEffect(() => {
+    if (DraftTenantDetails && !newTenant) {
+      setBookingDate(
+        DraftTenantDetails?.bookingInfo?.bookingDate
+          ? dayjs(DraftTenantDetails.bookingInfo.bookingDate, "DD/MM/YYYY")
+          : null,
+      );
+      setBookingAmount(DraftTenantDetails?.bookingInfo?.bookingAmount || "");
+
+      setBookingJoiningDate(
+        DraftTenantDetails?.booking?.joiningDateTentative
+          ? dayjs(DraftTenantDetails.booking.joiningDateTentative, "DD-MM-YYYY")
+          : null,
+      );
+
+      setBookingFloor(DraftTenantDetails?.hostelInfo?.floorId || "");
+      setBookingRoom(DraftTenantDetails?.hostelInfo?.roomId || "");
+      setBookingBed(DraftTenantDetails?.hostelInfo?.bedId || "");
+
+      setTotalRent(DraftTenantDetails?.hostelInfo?.monthlyRent || "");
+      setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount || "");
+
+      setModeOfPayment(DraftTenantDetails?.bankId || "");
+      setTransactionId(DraftTenantDetails?.referenceNumber || "");
+
+      setIsConfirmChecked(
+        DraftTenantDetails?.booking?.refuseAdvanceAmount || false,
+      );
+
+      setCheckinFloor(DraftTenantDetails?.hostelInfo?.floorId);
+      setCheckinRoom(DraftTenantDetails?.hostelInfo?.roomId);
+      setCheckinBed(DraftTenantDetails?.hostelInfo?.bedId);
+      setJoiningDate(
+        DraftTenantDetails?.hostelInfo?.joiningDate
+          ? dayjs(DraftTenantDetails?.hostelInfo?.joiningDate, "DD-MM-YYYY")
+          : null,
+      );
+
+      setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
+      setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
+      setFields(
+        DraftTenantDetails?.deductions?.map((item) => ({
+          reason_name: item.type || "",
+          reason: item.type || "",
+          amount: item.amount || "",
+          paidAmount: item.paidAmount || 0,
+          showInput: false,
+          customReason: "",
+        })),
+      );
+    } else {
+      setBookingDate(null);
+      setBookingAmount("");
+      setBookingJoiningDate(null);
+      setBookingFloor("");
+      setBookingRoom("");
+      setBookingBed("");
+      setTotalRent("");
+      setAdvanceAmount("");
+      setModeOfPayment("");
+      setTransactionId("");
+      setIsConfirmChecked(false);
+      setCheckinFloor("");
+      setCheckinRoom("");
+      setCheckinBed("");
+      setJoiningDate("");
+
+      setAdvanceAmount("");
+      setRentAmount("");
+
+      setFields([
+        {
+          reason_name: "",
+          reason: "",
+          amount: "",
+          paidAmount: 0,
+          showInput: false,
+          customReason: "",
+        },
+      ]);
+    }
+  }, [DraftTenantDetails, newTenant]);
+
+  const handleBookingSaveDraft = () => {
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const joiningDateForFormatted = formatDate(bookingJoiningDate);
+    const bookingDateForFormatted = formatDate(bookingDate);
 
     dispatch({
-      type: "SAVE_DRAFT_SAGA",
+      type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
+        customerId: DarftCustomerId,
+        profilePic: DraftTenantDetails?.profilePic || "",
+        aadharPic: DraftTenantDetails?.aadharPic || "",
+        panPic: DraftTenantDetails?.panPic || "",
+
         request: {
-          mobile,
-          firstName: firstname,
-          bookingDate: bookingDate
-            ? dayjs(bookingDate).format("YYYY-MM-DD")
-            : "",
-          bookingAmount: Number(bookingAmount || 0),
-          floorId: Number(bookingFloor || 0),
-          roomId: Number(bookingRoom || 0),
-          bedId: Number(bookingBed || 0),
+          firstName: DraftTenantDetails?.firstName,
+          lastName: DraftTenantDetails?.lastName || "",
+          mobile: DraftTenantDetails?.mobileNo || "",
+          emailId: DraftTenantDetails?.emailId || "",
+
+          joiningDate: "",
+          bookingDate: bookingDateForFormatted,
+          bookingAmount: bookingAmount ? Number(bookingAmount) : "",
+          bedId: bookingBed ? Number(bookingBed) : "",
+          roomId: bookingRoom ? Number(bookingRoom) : "",
+          floorId: bookingFloor ? Number(bookingFloor) : "",
           bankId: modeOfPayment || "",
           referenceNumber: transactionId || "",
-          advanceAmount: Number(bookingAmount || 0),
-          rentalAmount: Number(totalRent || 0),
-          booking: {
-            joiningDateTentative: bookingJoiningDate
-              ? dayjs(bookingJoiningDate).format("YYYY-MM-DD")
-              : "",
+          advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount
+            ? Number(DraftTenantDetails.hostelInfo.advanceAmount)
+            : "",
+          rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent
+            ? Number(DraftTenantDetails.hostelInfo.monthlyRent)
+            : "",
+          stayType: "long",
+
+          deductions: DraftTenantDetails?.deductions || [],
+
+          proRate: true,
+
+          idProof: {
+            type: DraftTenantDetails?.idProof?.type,
+            number: DraftTenantDetails?.idProof?.number || "",
           },
+
+          address: {
+            flat: DraftTenantDetails?.address?.flat || "",
+            house: DraftTenantDetails?.address?.house || "",
+            building: DraftTenantDetails?.address?.building || "",
+            company: DraftTenantDetails?.address?.company || "",
+            apartment: DraftTenantDetails?.address?.apartment || "",
+            area: DraftTenantDetails?.address?.area || "",
+            street: DraftTenantDetails?.address?.street || "",
+            sector: DraftTenantDetails?.address?.sector || "",
+            village: DraftTenantDetails?.address?.village || "",
+            landmark: DraftTenantDetails?.address?.landmark || "",
+            pincode: DraftTenantDetails?.address?.pincode || "",
+            city: DraftTenantDetails?.address?.city || "",
+            state: DraftTenantDetails?.address?.state || "",
+          },
+          booking: {
+            joiningDateTentative: joiningDateForFormatted || "",
+            refuseAdvanceAmount:
+              DraftTenantDetails?.booking?.refuseAdvanceAmount ?? true,
+          },
+
+          jobDetails: {
+            employmentStatus:
+              DraftTenantDetails?.jobDetails?.employmentStatus || "",
+            companyName: DraftTenantDetails?.jobDetails?.companyName || "",
+            collegeName: DraftTenantDetails?.jobDetails?.collegeName || "",
+            jobRole: DraftTenantDetails?.jobDetails?.jobRole || "",
+            workLocation: DraftTenantDetails?.jobDetails?.workLocation || "",
+            shiftType: DraftTenantDetails?.jobDetails?.shiftType || "",
+            shiftFrom: DraftTenantDetails?.jobDetails?.shiftFrom || "",
+            shiftTo: DraftTenantDetails?.jobDetails?.shiftTo || "",
+          },
+
+          guardians: (DraftTenantDetails?.guardians || []).map((g) => ({
+            guardianFullName: g?.guardianFullName || "",
+            relationshipToTenant: g?.relationshipToTenant || "",
+            guardianOccupation: g?.guardianOccupation || "",
+            mobileNo: g?.mobileNo || "",
+          })),
         },
       },
     });
-    setFormLoading(true);
+
+    // setFormLoading(true);
   };
 
   const handleAddBooking = () => {
@@ -673,7 +910,7 @@ function AddTenantBookingCheckin({
         floorId: bookingFloor,
         roomId: bookingRoom,
         bedId: bookingBed,
-        customerId: draftTenantId,
+        customerId: DarftCustomerId,
         bankId: modeOfPayment,
         referenceNumber: transactionId,
       },
@@ -688,7 +925,7 @@ function AddTenantBookingCheckin({
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
 
-      resetBookingForm();
+      // resetBookingForm();
       handleClose();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -719,12 +956,14 @@ function AddTenantBookingCheckin({
   };
 
   useEffect(() => {
-    if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
+    if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       setFormLoading(false);
+      resetBookingForm();
+      handleClose();
 
-      dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
+      dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
     }
-  }, [state.UsersList?.saveDreaftTenantSuccessCode]);
+  }, [state.UsersList?.updateSaveDreaftTenantStatus]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -936,26 +1175,14 @@ function AddTenantBookingCheckin({
     setErrorsOneTime(updatedErrors);
   };
 
-  // console.log(
-  //   "state?.UsersList?.draftTenantDetails",
-  //   state?.UsersList?.draftTenantDetails,
-  // );
-
   useEffect(() => {
-    dispatch({
-      type: "ALLFLOORLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, []);
-
-  useEffect(() => {
-    if (bookingFloor) {
+    if (bookingFloor || checkinFloor) {
       dispatch({
         type: "GETALLROOMSLIST",
-        payload: { floor_Id: bookingFloor },
+        payload: { floor_Id: bookingFloor || checkinFloor },
       });
     }
-  }, [bookingFloor]);
+  }, [bookingFloor, checkinFloor]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -964,6 +1191,18 @@ function AddTenantBookingCheckin({
       }, 500);
     }
   }, [state.UsersList.floorListStatusCode]);
+
+  const floorOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || []).map((item) => [
+        item.floorId,
+        {
+          value: item.floorId,
+          label: item.floorName,
+        },
+      ]),
+    ).values(),
+  ];
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
@@ -1053,12 +1292,12 @@ function AddTenantBookingCheckin({
   };
 
   const handleSelectedBedDetails = (details) => {
-    setCheckinRoom(details?.roomId);
-    setCheckinBed(details?.bedId);
-    setCheckinFloor(details?.floorId);
-    setBookingFloor(details?.floorId);
-    setBookingRoom(details?.roomId);
-    setBookingBed(details?.bedId);
+    setCheckinRoom(details?.roomId || "");
+    setCheckinBed(details?.bedId || "");
+    setCheckinFloor(details?.floorId || "");
+    setBookingFloor(details?.floorId || "");
+    setBookingRoom(details?.roomId || "");
+    setBookingBed(details?.bedId || "");
   };
 
   return (
@@ -1079,7 +1318,6 @@ function AddTenantBookingCheckin({
           <button
             onClick={() => {
               setActiveTab("checkin");
-              resetBookingForm();
               dispatch({ type: "ERROR_BOOKING_REMOVE" });
             }}
             className={`px-4 py-1.5 text-sm rounded-md ${
@@ -1137,6 +1375,8 @@ function AddTenantBookingCheckin({
               <input
                 ref={bookingAmountRef}
                 value={bookingAmount}
+                type="number"
+                onWheel={(e) => e.target.blur()}
                 onChange={handleBookingAmountChange}
                 placeholder="Enter Booking Amount"
                 className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
@@ -1169,11 +1409,6 @@ function AddTenantBookingCheckin({
                     );
                   }}
                   getPopupContainer={() => document.body}
-                  popupStyle={{
-                    zIndex: 2000,
-                    top: "10px",
-                    left: "435px",
-                  }}
                   placement="top"
                 />
               </div>
@@ -1203,23 +1438,11 @@ function AddTenantBookingCheckin({
                   Floor <span className="text-red-500 text-xl">*</span>
                 </label>
                 <Select
-                  options={
-                    state.UsersList.floorList?.map((u) => ({
-                      value: u.id,
-                      label: u.name,
-                    })) || []
-                  }
+                  options={floorOptions}
                   value={
-                    state.UsersList.floorList?.find(
-                      (option) => option.id === bookingFloor,
-                    )
-                      ? {
-                          value: bookingFloor,
-                          label: state.UsersList.floorList.find(
-                            (option) => option.id === bookingFloor,
-                          )?.name,
-                        }
-                      : null
+                    floorOptions.find(
+                      (option) => option.value === bookingFloor,
+                    ) || null
                   }
                   onChange={handleBookingFloorChange}
                   styles={CustomStyles}
@@ -1314,8 +1537,10 @@ function AddTenantBookingCheckin({
               Total Rent <span className="text-red-500 text-xl">*</span>
             </label>
             <input
+              type="number"
               ref={rentRef}
               value={totalRent}
+              onWheel={(e) => e.target.blur()}
               onChange={handleTotalRentChange}
               placeholder="Enter  Total Rent"
               className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
@@ -1540,23 +1765,11 @@ function AddTenantBookingCheckin({
                     </label>
                     <Select
                       disabled={!joiningDate}
-                      options={
-                        state.UsersList.floorList?.map((u) => ({
-                          value: u.id,
-                          label: u.name,
-                        })) || []
-                      }
+                      options={floorOptions}
                       value={
-                        state.UsersList.floorList?.find(
-                          (option) => option.id === checkinFloor,
-                        )
-                          ? {
-                              value: checkinFloor,
-                              label: state.UsersList.floorList.find(
-                                (option) => option.id === checkinFloor,
-                              )?.name,
-                            }
-                          : null
+                        floorOptions.find(
+                          (option) => option.value === checkinFloor,
+                        ) || null
                       }
                       onChange={handleCheckinFloorChange}
                       styles={CustomStyles}
@@ -1679,11 +1892,12 @@ function AddTenantBookingCheckin({
                   </div>
 
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Enter Amount"
                     value={advanceAmount}
                     onChange={handleAdvanceAmount}
                     disabled={isAdvanceRefused}
+                    onWheel={(e) => e.target.blur()}
                     className={`w-full text-[14px] text-gray-700 font-gilroy ${
                       advanceAmount ? "font-semibold" : "font-medium"
                     } shadow-none border h-12 rounded-md px-3 outline-none ${
@@ -1710,7 +1924,7 @@ function AddTenantBookingCheckin({
                 </div>
 
                 <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                  {fields.map((item, index) => {
+                  {fields?.map((item, index) => {
                     const isMaintenanceSelected = fields.some(
                       (field) => field.reason === "maintenance",
                     );
@@ -1867,8 +2081,10 @@ function AddTenantBookingCheckin({
                     <span className="text-red-500 text-xl">*</span>
                   </label>
                   <input
+                    type="number"
                     placeholder="Enter Rental Amount"
                     value={rentAmount}
+                    onWheel={(e) => e.target.blur()}
                     onChange={handleRentAmountChange}
                     className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
                   />

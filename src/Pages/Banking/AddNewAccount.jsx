@@ -719,7 +719,6 @@ function AddNewAccount({ show, handleClose }) {
                       onChange={handleBankOpeningBalance}
                       onWheel={(e) => e.target.blur()}
                       placeholder="0.00"
-                      onWheel={(e) => e.target.blur()}
                       className="w-full h-11 rounded-lg border border-[#D9D9D9] pl-9 pr-4 text-[14px] focus:border-blue-500 outline-none"
                     />
                   </div>

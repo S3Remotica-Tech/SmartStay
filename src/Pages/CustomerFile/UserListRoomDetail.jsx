@@ -20,6 +20,7 @@ import {
   DocumentText,
   ArrowUp,
   InfoCircle,
+  ArrowLeft,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -1751,11 +1752,10 @@ function UserListRoomDetail(props) {
 
   // console.log("CustomerOverView", CustomerOverView)
 
-  const imageUrl = CustomerOverView.kycInfo?.aadhaarImage
-    ? CustomerOverView.kycInfo?.aadhaarImage
-    : CustomerOverView?.profilePic
-      ? CustomerOverView?.profilePic
-      : null;
+  const imageUrl =
+    CustomerOverView?.profilePic ||
+    CustomerOverView?.kycInfo?.aadhaarImage ||
+    null;
 
   // console.log("CustomerOverView", CustomerOverView)
 
@@ -1806,7 +1806,8 @@ function UserListRoomDetail(props) {
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED";
+      "SETTLEMENT_GENERATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   const isDisabledButton =
     !canWriteTenant ||
@@ -1816,7 +1817,8 @@ function UserListRoomDetail(props) {
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED";
+      "SETTLEMENT_GENERATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   const isKYCDisabledButton =
     !canWriteTenant ||
@@ -1824,11 +1826,14 @@ function UserListRoomDetail(props) {
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
       "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   const isEditDisabled =
     !canUpdateTenant ||
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "CANCELLED";
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   useEffect(() => {
     if (
@@ -1944,11 +1949,7 @@ function UserListRoomDetail(props) {
         <>
           <div className="flex items-center justify-between sticky top-0 z-50 bg-white py-3 px-4 h-14 w-full">
             <div className="flex items-center">
-              <img
-                src={leftarrow}
-                alt="leftarrow"
-                width={20}
-                height={20}
+              <ArrowLeft
                 onClick={() => handleNavigateTenant()}
                 className="cursor-pointer"
               />
@@ -2898,7 +2899,7 @@ function UserListRoomDetail(props) {
                               Joined Date
                               {canUpdateTenant &&
                                 CustomerOverView.hostelInfo?.joiningDate &&
-                                CustomerOverView.hostelInfo.currentStatus !==
+                                CustomerOverView.hostelInfo?.currentStatus !==
                                   "NOTICE" &&
                                 CustomerOverView?.isJoiningDateEditable && (
                                   <img
@@ -2949,7 +2950,7 @@ function UserListRoomDetail(props) {
                                 Monthly Rent
                                 {canUpdateTenant &&
                                   CustomerOverView.hostelInfo?.monthlyRent &&
-                                  CustomerOverView.hostelInfo.currentStatus !==
+                                  CustomerOverView.hostelInfo?.currentStatus !==
                                     "NOTICE" && (
                                     <img
                                       onClick={handleUpdateChange}
@@ -2993,7 +2994,7 @@ function UserListRoomDetail(props) {
                                 {canUpdateTenant &&
                                   advanceList?.advanceAmount !== null &&
                                   advanceList?.advanceAmount !== undefined &&
-                                  CustomerOverView.hostelInfo.currentStatus !==
+                                  CustomerOverView.hostelInfo?.currentStatus !==
                                     "NOTICE" &&
                                   CustomerOverView.advanceInfo
                                     ?.canEditAdvance && (

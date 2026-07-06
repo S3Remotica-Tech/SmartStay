@@ -253,7 +253,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [vehicleTypeError, setVehicleTypeError] = useState("");
   const [vehicleNumberError, setVehicleNumberError] = useState("");
   const [parkingSpaceError, setParkingSpaceError] = useState("");
-
+  // console.log("draftTenantId", draftTenantId);
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
@@ -269,12 +269,27 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     },
   ];
 
-  console.log("alreadySaveDraftTenantDetails", alreadySaveDraftTenantDetails);
+  useEffect(() => {
+    const customerId =
+      state?.UsersList?.draftTenantDetails?.customerId ||
+      state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
+      state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId ||
+      "";
+
+    setDraftTenantId(customerId);
+  }, [
+    state?.UsersList?.draftTenantDetails?.customerId,
+    state?.UsersList?.UpdateDraftTenantDetails?.customerId,
+    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId,
+  ]);
 
   const isImage = (file) => file && file.type.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
   const handleDeletePan = () => setPanFile(null);
+  const [guardianErrors, setGuardianErrors] = useState([]);
+  const guardianNameRefs = useRef([]);
+  const guardianMobileRefs = useRef([]);
 
   const handleGuardianChange = (index, field, value) => {
     const updated = [...guardians];
@@ -402,10 +417,10 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   };
 
   const idProofOptions = [
-    { value: "aadhar", label: "Aadhar Card" },
-    { value: "pan", label: "PAN Card" },
-    { value: "passport", label: "Passport" },
-    { value: "driving", label: "Driving License" },
+    { value: "Aadhar Card", label: "Aadhar Card" },
+    { value: "PAN Card", label: "PAN Card" },
+    { value: "Passport", label: "Passport" },
+    { value: "Driving License", label: "Driving License" },
   ];
 
   const relationOptions = [
@@ -626,8 +641,6 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     }
   };
 
-  const MobileNumber = `${Phone}`;
-
   const validateField = (value, fieldName, ref, setError, focusedRef) => {
     const trimmedValue = String(value).trim();
     if (!trimmedValue) {
@@ -782,22 +795,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
         request: {
           firstName: capitalizedFirstname || "",
           lastName: capitalizedLastname || "",
-          mobile: MobileNumber || "",
+          mobile: Phone || "",
           emailId: Email || "",
-
-          joiningDate: "",
-          bookingDate: "",
-          bookingAmount: "",
-          floorId: "",
-          roomId: "",
-          bedId: "",
-          bankId: "",
-          referenceNumber: "",
-          advanceAmount: "",
-          rentalAmount: "",
-          stayType: "LONG",
-
-          deductions: [],
 
           proRate: true,
 
@@ -821,36 +820,176 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             city: city || "",
             state: state_name || "",
           },
-
-          booking: {
-            joiningDateTentative: "",
-            refuseAdvanceAmount: true,
-          },
-
-          jobDetails: {
-            employmentStatus: employmentStatus || "",
-            companyName: companyName || "",
-            collegeName: "",
-            jobRole: jobRole || "",
-            workLocation: workLocation || "",
-            shiftType: shiftType || "",
-            shiftFrom: fromTime || "",
-            shiftTo: toTime || "",
-          },
-
-          guardians: (guardians || []).map((g) => ({
-            guardianFullName: g.guardianFullName || "",
-            relationshipToTenant:
-              g.relationshipToTenant?.value || g.relationshipToTenant || "",
-            guardianOccupation:
-              g.guardianOccupation?.value || g.guardianOccupation || "",
-            mobileNo: g.mobileNo || "",
-          })),
         },
       },
     });
 
     setFormLoading(true);
+  };
+
+  const handleSaveUpdateStepOne = () => {
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+
+    let hasError = false;
+    const focusedRef = { current: false };
+
+    if (
+      !validateField(
+        firstname,
+        "First Name",
+        firstnameRef,
+        setFirstnameError,
+        focusedRef,
+      )
+    )
+      hasError = true;
+    if (
+      !validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)
+    )
+      hasError = true;
+
+    if (!Phone || Phone.length !== 10) {
+      setPhoneError("Please enter a valid mobile number");
+      if (!focusedRef.current && phoneRef?.current) {
+        phoneRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else if (Phone === "0000000000") {
+      setPhoneError("All digits cannot be zero");
+      if (!focusedRef.current && phoneRef?.current) {
+        phoneRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else if (Phone[0] === "0") {
+      setPhoneError("Mobile number cannot start with 0");
+      if (!focusedRef.current && phoneRef?.current) {
+        phoneRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else {
+      setPhoneError("");
+      setPhoneErrorMessage("");
+    }
+
+    if (pincode) {
+      if (pincode.length !== 6) {
+        setPincodeError("Pin Code must be exactly 6 digits");
+        if (!focusedRef.current && pincodeRef?.current) {
+          pincodeRef.current.focus();
+          focusedRef.current = true;
+        }
+        hasError = true;
+      } else if (pincode === "000000") {
+        setPincodeError("Pin Code cannot be all zeros");
+        if (!focusedRef.current && pincodeRef?.current) {
+          pincodeRef.current.focus();
+          focusedRef.current = true;
+        }
+        hasError = true;
+      } else if (pincode[0] === "0") {
+        setPincodeError("Pin Code cannot start with 0");
+        if (!focusedRef.current && pincodeRef?.current) {
+          pincodeRef.current.focus();
+          focusedRef.current = true;
+        }
+        hasError = true;
+      } else if (pincode.slice(-3) === "000") {
+        setPincodeError("Last 3 digits cannot be 000");
+        if (!focusedRef.current && pincodeRef?.current) {
+          pincodeRef.current.focus();
+          focusedRef.current = true;
+        }
+        hasError = true;
+      } else {
+        setPincodeError("");
+      }
+    }
+
+    if (Email) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmail = emailRegex.test(Email.toLowerCase());
+      if (!isValidEmail) {
+        setEmailError("Please Enter Valid Email ID");
+        if (!focusedRef.current) {
+          focusedRef.current = true;
+        }
+        hasError = true;
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError("");
+    }
+
+    if (hasError) return;
+
+    const isChanged =
+      capitalizedFirstname !== (DraftTenantDetails?.firstName || "") ||
+      capitalizedLastname !== (DraftTenantDetails?.lastName || "") ||
+      Phone !== (DraftTenantDetails?.mobileNo || "") ||
+      Email !== (DraftTenantDetails?.emailId || "") ||
+      (idProofType?.value || idProofType || "") !==
+        (DraftTenantDetails?.idProof?.type || "") ||
+      idProofNo !== (DraftTenantDetails?.idProof?.number || "") ||
+      house_no !== (DraftTenantDetails?.address?.house || "") ||
+      street !== (DraftTenantDetails?.address?.street || "") ||
+      landmark !== (DraftTenantDetails?.address?.landmark || "") ||
+      pincode !== (DraftTenantDetails?.address?.pincode || "") ||
+      city !== (DraftTenantDetails?.address?.city || "") ||
+      state_name !== (DraftTenantDetails?.address?.state || "") ||
+      file !== (DraftTenantDetails?.profilePic || "") ||
+      aadhaarFile !== (DraftTenantDetails?.aadharPic || "") ||
+      panFile !== (DraftTenantDetails?.panPic || "");
+
+    if (!isChanged) {
+      setStep(2);
+    } else {
+      dispatch({
+        type: "UPDATE_SAVE_DRAFT_SAGA",
+        payload: {
+          hostelId: state?.login?.selectedHostel_Id,
+          customerId: draftTenantId,
+          profilePic: file || "",
+          aadharPic: aadhaarFile || "",
+          panPic: panFile || "",
+
+          request: {
+            firstName: capitalizedFirstname || "",
+            lastName: capitalizedLastname || "",
+            mobile: Phone || "",
+            emailId: Email || "",
+
+            proRate: true,
+
+            idProof: {
+              type: idProofType?.value || idProofType || "",
+              number: idProofNo || "",
+            },
+
+            address: {
+              flat: "",
+              house: house_no || "",
+              building: "",
+              company: "",
+              apartment: "",
+              area: "",
+              street: street || "",
+              sector: "",
+              village: "",
+              landmark: landmark || "",
+              pincode: pincode || "",
+              city: city || "",
+              state: state_name || "",
+            },
+          },
+        },
+      });
+      setFormLoading(true);
+    }
   };
 
   const validateVehicle = () => {
@@ -883,77 +1022,89 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     return isValid;
   };
 
+  const validateGuardianMobile = (mobile) => {
+    if (!mobile) return "";
+
+    if (!/^\d+$/.test(mobile)) return "Mobile number must contain only digits";
+
+    if (mobile.length !== 10) return "Mobile number must be 10 digits";
+
+    if (mobile[0] === "0") return "Mobile number cannot start with 0";
+
+    if (/^0+$/.test(mobile)) return "Mobile number cannot be all zeros";
+
+    return "";
+  };
+
+  const validateGuardianName = (name) => {
+    if (!name) return "";
+
+    if (!/^[A-Za-z\s]+$/.test(name))
+      return "Name can contain only letters and spaces";
+
+    return "";
+  };
+
   const handleSaveStep3 = () => {
-    // if (!validateVehicle()) return;
+    const errors = [];
+    let hasError = false;
+    let firstInvalidRef = null;
+    guardians.forEach((guardian, index) => {
+      const guardianError = {
+        guardianFullName: validateGuardianName(guardian.guardianFullName),
+        mobileNo: validateGuardianMobile(guardian.mobileNo),
+      };
+
+      if (guardianError.guardianFullName && !firstInvalidRef) {
+        firstInvalidRef = guardianNameRefs.current[index];
+      }
+
+      if (guardianError.mobileNo && !firstInvalidRef) {
+        firstInvalidRef = guardianMobileRefs.current[index];
+      }
+
+      if (guardianError.guardianFullName || guardianError.mobileNo) {
+        hasError = true;
+      }
+
+      errors.push(guardianError);
+    });
+
+    setGuardianErrors(errors);
+
+    if (hasError) {
+      firstInvalidRef?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      setTimeout(() => {
+        firstInvalidRef?.focus();
+      }, 300);
+
+      return;
+    }
 
     dispatch({
-      type: "SAVE_DRAFT_SAGA",
+      type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        profilePic: file || "",
-        aadharPic: aadhaarFile || "",
-        panPic: panFile || "",
-
+        customerId: draftTenantId,
+        profilePic: DraftTenantDetails?.profilePic || "",
+        aadharPic: DraftTenantDetails?.aadharPic || "",
+        panPic: DraftTenantDetails?.panPic || "",
         request: {
-          firstName: capitalizedFirstname || "",
-          lastName: capitalizedLastname || "",
-          mobile: MobileNumber || "",
-          emailId: Email || "",
-
-          joiningDate: "",
-          bookingDate: "",
-          bookingAmount: "",
-          floorId: "",
-          roomId: "",
-          bedId: "",
-          bankId: "",
-          referenceNumber: "",
-          advanceAmount: "",
-          rentalAmount: "",
-          stayType: "LONG",
-
-          deductions: [],
-
-          proRate: true,
-
-          idProof: {
-            type: idProofType?.value || idProofType || "",
-            number: idProofNo || "",
-          },
-
-          address: {
-            flat: "",
-            house: house_no || "",
-            building: "",
-            company: "",
-            apartment: "",
-            area: "",
-            street: street || "",
-            sector: "",
-            village: "",
-            landmark: landmark || "",
-            pincode: pincode || "",
-            city: city || "",
-            state: state_name || "",
-          },
-
-          booking: {
-            joiningDateTentative: "",
-            refuseAdvanceAmount: true,
-          },
-
           jobDetails: {
-            employmentStatus: employmentStatus || "",
+            employmentStatus: employmentStatus?.value || "",
             companyName: companyName || "",
             collegeName: "",
-            jobRole: jobRole || "",
+            jobRole: jobRole?.value || "",
             workLocation: workLocation || "",
-            shiftType: shiftType || "",
+            shiftType: shiftType?.value || "",
             shiftFrom: fromTime || "",
             shiftTo: toTime || "",
           },
-
-          guardians: (guardians || []).map((g) => ({
+          guardians: guardians.map((g) => ({
             guardianFullName: g.guardianFullName || "",
             relationshipToTenant:
               g.relationshipToTenant?.value || g.relationshipToTenant || "",
@@ -974,27 +1125,40 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
-      setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
+      // setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
       setStep(2);
-
-      setFormLoading(false);
-      setFirstname("");
-      setLastname("");
-      setEmail("");
-      setMobile("");
-      // handleClose();
       dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: 1,
-          size: 10,
-        },
+        type: "DRAFT_TENANT_LIST_SAGA",
+        payload: state?.UsersList?.draftTenantDetails?.customerId,
       });
+      setNewTenant(false);
+      setFormLoading(false);
+      // setFirstname("");
+      // setLastname("");
+      // setEmail("");
+      // setMobile("");
+      // handleClose();
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     page: 1,
+      //     size: 10,
+      //   },
+      // });
 
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.saveDreaftTenantSuccessCode]);
+
+  useEffect(() => {
+    if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
+      setFormLoading(false);
+      setStep(2);
+
+      dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
+    }
+  }, [state.UsersList?.updateSaveDreaftTenantStatus]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -1067,7 +1231,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       customerInfo: {
         firstName: capitalizedFirstname,
         lastName: capitalizedLastname,
-        mobileNumber: MobileNumber,
+        mobileNumber: Phone,
         emailId: Email,
         idProofType: idProofType?.value || idProofType || "",
         idProofNo: idProofNo,
@@ -1111,6 +1275,15 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
       dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
       dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
+      dispatch({ type: "CLEAR_PHONE_ERROR" });
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: 1,
+          size: 10,
+        },
+      });
     };
   }, []);
 
@@ -1128,17 +1301,108 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   useEffect(() => {
     if (DraftTenantDetails && !newTenant) {
-      setFirstname(DraftTenantDetails?.firstName);
-      setLastname(DraftTenantDetails?.lastName);
-      setPhone(DraftTenantDetails?.mobileNo);
-      setEmail(DraftTenantDetails?.emailId);
-      setFile(DraftTenantDetails?.profilePic);
-    } else {
-      setFirstname("");
-      setLastname("");
-      setPhone("");
-      setEmail("");
+      setFirstname(DraftTenantDetails?.firstName || "");
+      setLastname(DraftTenantDetails?.lastName || "");
+      setPhone(DraftTenantDetails?.mobileNo || "");
+      setEmail(DraftTenantDetails?.emailId || "");
+      setFile(DraftTenantDetails?.profilePic || "");
+      // setDraftTenantId(DraftTenantDetails?.customerId || "");
+
+      setIdProofType(
+        DraftTenantDetails?.idProof?.type
+          ? {
+              value: DraftTenantDetails.idProof.type,
+              label:
+                DraftTenantDetails.idProof.type.charAt(0).toUpperCase() +
+                DraftTenantDetails.idProof.type.slice(1),
+            }
+          : null,
+      );
+      setIdProofNo(DraftTenantDetails?.idProof?.number || "");
+
+      setHouseNo(DraftTenantDetails?.address?.house || "");
+      setStreet(DraftTenantDetails?.address?.street || "");
+      setLandmark(DraftTenantDetails?.address?.landmark || "");
+      setPincode(DraftTenantDetails?.address?.pincode || "");
+      setCity(DraftTenantDetails?.address?.city || "");
+      setStateName(DraftTenantDetails?.address?.state || "");
+
+      setAadhaarFile(DraftTenantDetails?.aadharPic || "");
+      setPanFile(DraftTenantDetails?.panPic || "");
+
+      setEmploymentStatus(
+        DraftTenantDetails?.jobDetails?.employmentStatus
+          ? jobOptions.find(
+              (item) =>
+                item.value === DraftTenantDetails.jobDetails.employmentStatus,
+            ) || null
+          : null,
+      );
+
+      setCompanyName(DraftTenantDetails?.jobDetails?.companyName || "");
+      // setCollegeName(DraftTenantDetails?.jobDetails?.collegeName || "");
+
+      setJobRole(
+        DraftTenantDetails?.jobDetails?.jobRole
+          ? jobRoleOptions.find(
+              (item) => item.value === DraftTenantDetails.jobDetails.jobRole,
+            ) || null
+          : null,
+      );
+
+      setWorkLocation(DraftTenantDetails?.jobDetails?.workLocation || "");
+
+      setShiftType(
+        DraftTenantDetails?.jobDetails?.shiftType
+          ? shiftTypeOptions.find(
+              (item) => item.value === DraftTenantDetails.jobDetails.shiftType,
+            ) || null
+          : null,
+      );
+
+      setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
+      setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
     }
+    //  else {
+    //   setFirstname("");
+    //   setLastname("");
+    //   setPhone("");
+    //   setEmail("");
+    //   setFile("");
+    //   // setDraftTenantId("");
+
+    //   setIdProofType("");
+    //   setIdProofNo("");
+
+    //   setHouseNo("");
+    //   setStreet("");
+    //   setLandmark("");
+    //   setPincode("");
+    //   setCity("");
+    //   setStateName("");
+
+    //   setAadhaarFile("");
+    //   setPanFile("");
+    //   setEmploymentStatus(null);
+    //   setCompanyName("");
+    //   // setCollegeName("");
+    //   setJobRole(null);
+    //   setWorkLocation("");
+    //   setShiftType(null);
+    //   setFromTime("");
+    //   setToTime("");
+
+    //   setGuardians([
+    //     {
+    //       guardianFullName: "",
+    //       relationshipToTenant: null,
+    //       guardianOccupation: null,
+    //       mobileNo: "",
+    //     },
+    //   ]);
+
+    //   setGuardianErrors([]);
+    // }
   }, [DraftTenantDetails, newTenant]);
 
   useEffect(() => {
@@ -1169,7 +1433,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201) {
-      setDraftTenantId(state.UsersList?.addUserResponse);
+      // setDraftTenantId(state.UsersList?.addUserResponse);
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
@@ -1215,7 +1479,11 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                 </span>
               </div>
               <div
-                onClick={() => setStep(2)}
+                onClick={() => {
+                  if (newTenant && !handleSaveStepOne()) return;
+
+                  setStep(2);
+                }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -1236,7 +1504,10 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                 </span>
               </div>
               <div
-                onClick={() => setStep(3)}
+                onClick={() => {
+                  if (newTenant && !handleSaveStepOne()) return;
+                  setStep(3);
+                }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -1620,7 +1891,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                               </label>
 
                               <input
-                                type="number"
+                                type="text"
                                 value={idProofNo}
                                 onChange={handleInputChange}
                                 placeholder="Enter no"
@@ -1824,15 +2095,21 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                      ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
                                      : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
                                  }`}
-                              onClick={handleSaveStepOne}
+                              onClick={
+                                newTenant
+                                  ? handleSaveStepOne
+                                  : handleSaveUpdateStepOne
+                              }
                             >
                               {formLoading ? (
                                 <>
                                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
                                   Saving...
                                 </>
-                              ) : (
+                              ) : newTenant ? (
                                 "Save &  Next"
+                              ) : (
+                                "Update &  Next"
                               )}
                             </button>
                             {/* <button
@@ -1870,6 +2147,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                       mobile={Phone}
                       firstname={firstname}
                       draftTenantId={draftTenantId}
+                      newTenant={newTenant}
                     />
                   )}
 
@@ -2027,14 +2305,21 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                 </label>
 
                                 <input
-                                  value={guardian.guardianFullName}
-                                  onChange={(e) =>
-                                    handleGuardianChange(
-                                      index,
-                                      "guardianFullName",
-                                      e.target.value,
-                                    )
+                                  ref={(el) =>
+                                    (guardianNameRefs.current[index] = el)
                                   }
+                                  value={guardian.guardianFullName}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+
+                                    if (/^[A-Za-z\s]*$/.test(value)) {
+                                      handleGuardianChange(
+                                        index,
+                                        "guardianFullName",
+                                        value,
+                                      );
+                                    }
+                                  }}
                                   placeholder="Guardian Full Name"
                                   className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
                                 />
@@ -2086,17 +2371,36 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                 </label>
 
                                 <input
-                                  value={guardian.mobileNo}
-                                  onChange={(e) =>
-                                    handleGuardianChange(
-                                      index,
-                                      "mobileNo",
-                                      e.target.value,
-                                    )
+                                  ref={(el) =>
+                                    (guardianMobileRefs.current[index] = el)
                                   }
+                                  type="number"
+                                  value={guardian.mobileNo}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(
+                                      /\D/g,
+                                      "",
+                                    );
+
+                                    if (value.length <= 10) {
+                                      handleGuardianChange(
+                                        index,
+                                        "mobileNo",
+                                        value,
+                                      );
+                                    }
+                                  }}
+                                  onWheel={(e) => e.target.blur()}
+                                  maxLength={10}
                                   placeholder="Mobile No"
                                   className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
                                 />
+                                {guardianErrors[index]?.mobileNo && (
+                                  <ErrorMessage
+                                    message={guardianErrors[index]?.mobileNo}
+                                    type="error"
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>

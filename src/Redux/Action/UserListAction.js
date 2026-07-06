@@ -232,6 +232,8 @@ export async function SaveDraftTenant(tenant) {
 }
 
 export async function UpdateSaveDraftTenant(tenant) {
+  console.log("tenant", tenant);
+
   const formData = new FormData();
 
   if (tenant.profilePic) {
@@ -255,8 +257,8 @@ export async function UpdateSaveDraftTenant(tenant) {
   }
 
   try {
-    const response = await AxiosConfigV2.post(
-      `/v3/customers/saveDraft/${tenant.hostelId}`,
+    const response = await AxiosConfigV2.put(
+      `/v3/customers/saveDraft/${tenant.hostelId}/${tenant.customerId}`,
       formData,
       {
         headers: {
