@@ -925,7 +925,7 @@ function AddTenantBookingCheckin({
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
 
-      resetBookingForm();
+      // resetBookingForm();
       handleClose();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -1175,26 +1175,14 @@ function AddTenantBookingCheckin({
     setErrorsOneTime(updatedErrors);
   };
 
-  // console.log(
-  //   "state?.UsersList?.draftTenantDetails",
-  //   state?.UsersList?.draftTenantDetails,
-  // );
-
   useEffect(() => {
-    dispatch({
-      type: "ALLFLOORLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, []);
-
-  useEffect(() => {
-    if (bookingFloor) {
+    if (bookingFloor || checkinFloor) {
       dispatch({
         type: "GETALLROOMSLIST",
-        payload: { floor_Id: bookingFloor },
+        payload: { floor_Id: bookingFloor || checkinFloor },
       });
     }
-  }, [bookingFloor]);
+  }, [bookingFloor, checkinFloor]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -1203,6 +1191,18 @@ function AddTenantBookingCheckin({
       }, 500);
     }
   }, [state.UsersList.floorListStatusCode]);
+
+  const floorOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || []).map((item) => [
+        item.floorId,
+        {
+          value: item.floorId,
+          label: item.floorName,
+        },
+      ]),
+    ).values(),
+  ];
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
@@ -1318,7 +1318,6 @@ function AddTenantBookingCheckin({
           <button
             onClick={() => {
               setActiveTab("checkin");
-              resetBookingForm();
               dispatch({ type: "ERROR_BOOKING_REMOVE" });
             }}
             className={`px-4 py-1.5 text-sm rounded-md ${
@@ -1376,6 +1375,8 @@ function AddTenantBookingCheckin({
               <input
                 ref={bookingAmountRef}
                 value={bookingAmount}
+                type="number"
+                onWheel={(e) => e.target.blur()}
                 onChange={handleBookingAmountChange}
                 placeholder="Enter Booking Amount"
                 className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
@@ -1437,23 +1438,11 @@ function AddTenantBookingCheckin({
                   Floor <span className="text-red-500 text-xl">*</span>
                 </label>
                 <Select
-                  options={
-                    state.UsersList.floorList?.map((u) => ({
-                      value: u.id,
-                      label: u.name,
-                    })) || []
-                  }
+                  options={floorOptions}
                   value={
-                    state.UsersList.floorList?.find(
-                      (option) => option.id === bookingFloor,
-                    )
-                      ? {
-                          value: bookingFloor,
-                          label: state.UsersList.floorList.find(
-                            (option) => option.id === bookingFloor,
-                          )?.name,
-                        }
-                      : null
+                    floorOptions.find(
+                      (option) => option.value === bookingFloor,
+                    ) || null
                   }
                   onChange={handleBookingFloorChange}
                   styles={CustomStyles}
@@ -1548,8 +1537,10 @@ function AddTenantBookingCheckin({
               Total Rent <span className="text-red-500 text-xl">*</span>
             </label>
             <input
+              type="number"
               ref={rentRef}
               value={totalRent}
+              onWheel={(e) => e.target.blur()}
               onChange={handleTotalRentChange}
               placeholder="Enter  Total Rent"
               className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
@@ -1774,23 +1765,11 @@ function AddTenantBookingCheckin({
                     </label>
                     <Select
                       disabled={!joiningDate}
-                      options={
-                        state.UsersList.floorList?.map((u) => ({
-                          value: u.id,
-                          label: u.name,
-                        })) || []
-                      }
+                      options={floorOptions}
                       value={
-                        state.UsersList.floorList?.find(
-                          (option) => option.id === checkinFloor,
-                        )
-                          ? {
-                              value: checkinFloor,
-                              label: state.UsersList.floorList.find(
-                                (option) => option.id === checkinFloor,
-                              )?.name,
-                            }
-                          : null
+                        floorOptions.find(
+                          (option) => option.value === checkinFloor,
+                        ) || null
                       }
                       onChange={handleCheckinFloorChange}
                       styles={CustomStyles}
@@ -1913,11 +1892,12 @@ function AddTenantBookingCheckin({
                   </div>
 
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Enter Amount"
                     value={advanceAmount}
                     onChange={handleAdvanceAmount}
                     disabled={isAdvanceRefused}
+                    onWheel={(e) => e.target.blur()}
                     className={`w-full text-[14px] text-gray-700 font-gilroy ${
                       advanceAmount ? "font-semibold" : "font-medium"
                     } shadow-none border h-12 rounded-md px-3 outline-none ${
@@ -2101,8 +2081,10 @@ function AddTenantBookingCheckin({
                     <span className="text-red-500 text-xl">*</span>
                   </label>
                   <input
+                    type="number"
                     placeholder="Enter Rental Amount"
                     value={rentAmount}
+                    onWheel={(e) => e.target.blur()}
                     onChange={handleRentAmountChange}
                     className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
                   />

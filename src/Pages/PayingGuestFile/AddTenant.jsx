@@ -641,8 +641,6 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     }
   };
 
-  const MobileNumber = `${Phone}`;
-
   const validateField = (value, fieldName, ref, setError, focusedRef) => {
     const trimmedValue = String(value).trim();
     if (!trimmedValue) {
@@ -672,21 +670,6 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     }
 
     setError("");
-    return true;
-  };
-
-  const canNavigateToStep = (targetStep) => {
-    // Step 2 requires Step 1 completion
-    if (targetStep >= 2 && !draftTenantId) {
-      handleSaveStepOne();
-      return false;
-    }
-
-    // Step 3 requires Step 2 completion
-    if (targetStep >= 3 && step < 2) {
-      return false;
-    }
-
     return true;
   };
 
@@ -812,7 +795,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
         request: {
           firstName: capitalizedFirstname || "",
           lastName: capitalizedLastname || "",
-          mobile: MobileNumber || "",
+          mobile: Phone || "",
           emailId: Email || "",
 
           proRate: true,
@@ -944,48 +927,69 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
     if (hasError) return;
 
-    dispatch({
-      type: "UPDATE_SAVE_DRAFT_SAGA",
-      payload: {
-        hostelId: state?.login?.selectedHostel_Id,
-        customerId: draftTenantId,
-        profilePic: file || "",
-        aadharPic: aadhaarFile || "",
-        panPic: panFile || "",
+    const isChanged =
+      capitalizedFirstname !== (DraftTenantDetails?.firstName || "") ||
+      capitalizedLastname !== (DraftTenantDetails?.lastName || "") ||
+      Phone !== (DraftTenantDetails?.mobileNo || "") ||
+      Email !== (DraftTenantDetails?.emailId || "") ||
+      (idProofType?.value || idProofType || "") !==
+        (DraftTenantDetails?.idProof?.type || "") ||
+      idProofNo !== (DraftTenantDetails?.idProof?.number || "") ||
+      house_no !== (DraftTenantDetails?.address?.house || "") ||
+      street !== (DraftTenantDetails?.address?.street || "") ||
+      landmark !== (DraftTenantDetails?.address?.landmark || "") ||
+      pincode !== (DraftTenantDetails?.address?.pincode || "") ||
+      city !== (DraftTenantDetails?.address?.city || "") ||
+      state_name !== (DraftTenantDetails?.address?.state || "") ||
+      file !== (DraftTenantDetails?.profilePic || "") ||
+      aadhaarFile !== (DraftTenantDetails?.aadharPic || "") ||
+      panFile !== (DraftTenantDetails?.panPic || "");
 
-        request: {
-          firstName: capitalizedFirstname || "",
-          lastName: capitalizedLastname || "",
-          mobile: MobileNumber || "",
-          emailId: Email || "",
+    if (!isChanged) {
+      setStep(2);
+    } else {
+      dispatch({
+        type: "UPDATE_SAVE_DRAFT_SAGA",
+        payload: {
+          hostelId: state?.login?.selectedHostel_Id,
+          customerId: draftTenantId,
+          profilePic: file || "",
+          aadharPic: aadhaarFile || "",
+          panPic: panFile || "",
 
-          proRate: true,
+          request: {
+            firstName: capitalizedFirstname || "",
+            lastName: capitalizedLastname || "",
+            mobile: Phone || "",
+            emailId: Email || "",
 
-          idProof: {
-            type: idProofType?.value || idProofType || "",
-            number: idProofNo || "",
-          },
+            proRate: true,
 
-          address: {
-            flat: "",
-            house: house_no || "",
-            building: "",
-            company: "",
-            apartment: "",
-            area: "",
-            street: street || "",
-            sector: "",
-            village: "",
-            landmark: landmark || "",
-            pincode: pincode || "",
-            city: city || "",
-            state: state_name || "",
+            idProof: {
+              type: idProofType?.value || idProofType || "",
+              number: idProofNo || "",
+            },
+
+            address: {
+              flat: "",
+              house: house_no || "",
+              building: "",
+              company: "",
+              apartment: "",
+              area: "",
+              street: street || "",
+              sector: "",
+              village: "",
+              landmark: landmark || "",
+              pincode: pincode || "",
+              city: city || "",
+              state: state_name || "",
+            },
           },
         },
-      },
-    });
-
-    setFormLoading(true);
+      });
+      setFormLoading(true);
+    }
   };
 
   const validateVehicle = () => {
@@ -1123,21 +1127,25 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
       // setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
       setStep(2);
-
-      setFormLoading(false);
-      setFirstname("");
-      setLastname("");
-      setEmail("");
-      setMobile("");
-      // handleClose();
       dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: 1,
-          size: 10,
-        },
+        type: "DRAFT_TENANT_LIST_SAGA",
+        payload: state?.UsersList?.draftTenantDetails?.customerId,
       });
+      setNewTenant(false);
+      setFormLoading(false);
+      // setFirstname("");
+      // setLastname("");
+      // setEmail("");
+      // setMobile("");
+      // handleClose();
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     page: 1,
+      //     size: 10,
+      //   },
+      // });
 
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
@@ -1147,14 +1155,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       setFormLoading(false);
       setStep(2);
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: 1,
-          size: 10,
-        },
-      });
+
       dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.updateSaveDreaftTenantStatus]);
@@ -1230,7 +1231,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       customerInfo: {
         firstName: capitalizedFirstname,
         lastName: capitalizedLastname,
-        mobileNumber: MobileNumber,
+        mobileNumber: Phone,
         emailId: Email,
         idProofType: idProofType?.value || idProofType || "",
         idProofNo: idProofNo,
@@ -1274,6 +1275,15 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
       dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
       dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
+      dispatch({ type: "CLEAR_PHONE_ERROR" });
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: 1,
+          size: 10,
+        },
+      });
     };
   }, []);
 
@@ -1352,46 +1362,47 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
       setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
       setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
-    } else {
-      setFirstname("");
-      setLastname("");
-      setPhone("");
-      setEmail("");
-      setFile("");
-      // setDraftTenantId("");
-
-      setIdProofType("");
-      setIdProofNo("");
-
-      setHouseNo("");
-      setStreet("");
-      setLandmark("");
-      setPincode("");
-      setCity("");
-      setStateName("");
-
-      setAadhaarFile("");
-      setPanFile("");
-      setEmploymentStatus(null);
-      setCompanyName("");
-      // setCollegeName("");
-      setJobRole(null);
-      setWorkLocation("");
-      setShiftType(null);
-      setFromTime("");
-      setToTime("");
-
-      setGuardians([
-        {
-          guardianFullName: "",
-          relationshipToTenant: null,
-          guardianOccupation: null,
-          mobileNo: "",
-        },
-      ]);
-
-      setGuardianErrors([]);
     }
+    //  else {
+    //   setFirstname("");
+    //   setLastname("");
+    //   setPhone("");
+    //   setEmail("");
+    //   setFile("");
+    //   // setDraftTenantId("");
+
+    //   setIdProofType("");
+    //   setIdProofNo("");
+
+    //   setHouseNo("");
+    //   setStreet("");
+    //   setLandmark("");
+    //   setPincode("");
+    //   setCity("");
+    //   setStateName("");
+
+    //   setAadhaarFile("");
+    //   setPanFile("");
+    //   setEmploymentStatus(null);
+    //   setCompanyName("");
+    //   // setCollegeName("");
+    //   setJobRole(null);
+    //   setWorkLocation("");
+    //   setShiftType(null);
+    //   setFromTime("");
+    //   setToTime("");
+
+    //   setGuardians([
+    //     {
+    //       guardianFullName: "",
+    //       relationshipToTenant: null,
+    //       guardianOccupation: null,
+    //       mobileNo: "",
+    //     },
+    //   ]);
+
+    //   setGuardianErrors([]);
+    // }
   }, [DraftTenantDetails, newTenant]);
 
   useEffect(() => {
@@ -1469,6 +1480,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               </div>
               <div
                 onClick={() => {
+                  if (newTenant && !handleSaveStepOne()) return;
+
                   setStep(2);
                 }}
                 className="flex items-start  mb-4 cursor-pointer"
@@ -1492,6 +1505,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               </div>
               <div
                 onClick={() => {
+                  if (newTenant && !handleSaveStepOne()) return;
                   setStep(3);
                 }}
                 className="flex items-start  mb-4 cursor-pointer"
