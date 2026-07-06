@@ -1210,7 +1210,10 @@ function AddExpenseNew() {
                   <button
                     disabled={selectedVendorId}
                     type="button"
-                    onClick={() => setLinkVendor(false)}
+                    onClick={() => {
+                      setLinkVendor(false);
+                      setPaymentStatus(""); 
+                    }}
                     className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${
                       !linkVendor
                         ? "bg-[#1E45E1] text-white shadow-sm"

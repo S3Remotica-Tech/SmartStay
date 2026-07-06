@@ -226,7 +226,7 @@ function AddTenantBookingCheckin({
     state?.UsersList?.draftTenantDetails?.customerId ||
     state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
-  console.log("DarftCustomerId", DarftCustomerId);
+  // console.log("DarftCustomerId", DarftCustomerId);
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },

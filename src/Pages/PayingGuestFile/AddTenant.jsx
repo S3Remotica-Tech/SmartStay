@@ -253,7 +253,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [vehicleTypeError, setVehicleTypeError] = useState("");
   const [vehicleNumberError, setVehicleNumberError] = useState("");
   const [parkingSpaceError, setParkingSpaceError] = useState("");
-  console.log("draftTenantId", draftTenantId);
+  // console.log("draftTenantId", draftTenantId);
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
