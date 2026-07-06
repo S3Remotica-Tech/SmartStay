@@ -253,7 +253,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [vehicleTypeError, setVehicleTypeError] = useState("");
   const [vehicleNumberError, setVehicleNumberError] = useState("");
   const [parkingSpaceError, setParkingSpaceError] = useState("");
-  // console.log("draftTenantId", draftTenantId);
+  console.log("draftTenantId", draftTenantId);
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
@@ -270,10 +270,18 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   ];
 
   useEffect(() => {
-    if (state?.UsersList?.draftTenantDetails?.customerId) {
-      setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
-    }
-  }, [state?.UsersList?.draftTenantDetails?.customerId]);
+    const customerId =
+      state?.UsersList?.draftTenantDetails?.customerId ||
+      state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
+      state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId ||
+      "";
+
+    setDraftTenantId(customerId);
+  }, [
+    state?.UsersList?.draftTenantDetails?.customerId,
+    state?.UsersList?.UpdateDraftTenantDetails?.customerId,
+    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId,
+  ]);
 
   const isImage = (file) => file && file.type.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
@@ -664,6 +672,21 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     }
 
     setError("");
+    return true;
+  };
+
+  const canNavigateToStep = (targetStep) => {
+    // Step 2 requires Step 1 completion
+    if (targetStep >= 2 && !draftTenantId) {
+      handleSaveStepOne();
+      return false;
+    }
+
+    // Step 3 requires Step 2 completion
+    if (targetStep >= 3 && step < 2) {
+      return false;
+    }
+
     return true;
   };
 
@@ -1098,7 +1121,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   useEffect(() => {
     if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
-      setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
+      // setDraftTenantId(state?.UsersList?.draftTenantDetails?.customerId);
       setStep(2);
 
       setFormLoading(false);
@@ -1273,7 +1296,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setPhone(DraftTenantDetails?.mobileNo || "");
       setEmail(DraftTenantDetails?.emailId || "");
       setFile(DraftTenantDetails?.profilePic || "");
-      setDraftTenantId(DraftTenantDetails?.customerId || "");
+      // setDraftTenantId(DraftTenantDetails?.customerId || "");
 
       setIdProofType(
         DraftTenantDetails?.idProof?.type
@@ -1307,7 +1330,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       );
 
       setCompanyName(DraftTenantDetails?.jobDetails?.companyName || "");
-      setCollegeName(DraftTenantDetails?.jobDetails?.collegeName || "");
+      // setCollegeName(DraftTenantDetails?.jobDetails?.collegeName || "");
 
       setJobRole(
         DraftTenantDetails?.jobDetails?.jobRole
@@ -1335,7 +1358,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setPhone("");
       setEmail("");
       setFile("");
-      setDraftTenantId("");
+      // setDraftTenantId("");
 
       setIdProofType("");
       setIdProofNo("");
@@ -1351,7 +1374,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setPanFile("");
       setEmploymentStatus(null);
       setCompanyName("");
-      setCollegeName("");
+      // setCollegeName("");
       setJobRole(null);
       setWorkLocation("");
       setShiftType(null);
@@ -1399,7 +1422,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201) {
-      setDraftTenantId(state.UsersList?.addUserResponse);
+      // setDraftTenantId(state.UsersList?.addUserResponse);
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
@@ -1445,7 +1468,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                 </span>
               </div>
               <div
-                onClick={() => setStep(2)}
+                onClick={() => {
+                  setStep(2);
+                }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -1466,7 +1491,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                 </span>
               </div>
               <div
-                onClick={() => setStep(3)}
+                onClick={() => {
+                  setStep(3);
+                }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -2065,8 +2092,10 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#1E45E1] border-t-transparent" />
                                   Saving...
                                 </>
-                              ) : (
+                              ) : newTenant ? (
                                 "Save &  Next"
+                              ) : (
+                                "Update &  Next"
                               )}
                             </button>
                             {/* <button

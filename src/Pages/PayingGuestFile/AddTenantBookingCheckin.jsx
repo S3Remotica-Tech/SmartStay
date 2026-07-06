@@ -222,7 +222,10 @@ function AddTenantBookingCheckin({
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
   const [errorsOneTime, setErrorsOneTime] = useState([]);
 
-  const DarftCustomerId = state?.UsersList?.draftTenantDetails?.customerId;
+  const DarftCustomerId =
+    state?.UsersList?.draftTenantDetails?.customerId ||
+    state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
   console.log("DarftCustomerId", DarftCustomerId);
 
   const stayTypes = [
@@ -246,7 +249,10 @@ function AddTenantBookingCheckin({
     setStay_typenameErrmsg("");
   };
 
-  const total = fields.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const total = fields?.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
 
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
@@ -735,7 +741,7 @@ function AddTenantBookingCheckin({
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
       setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
       setFields(
-        DraftTenantDetails.deductions.map((item) => ({
+        DraftTenantDetails?.deductions?.map((item) => ({
           reason_name: item.type || "",
           reason: item.type || "",
           amount: item.amount || "",
@@ -1402,11 +1408,6 @@ function AddTenantBookingCheckin({
                     );
                   }}
                   getPopupContainer={() => document.body}
-                  popupStyle={{
-                    zIndex: 2000,
-                    top: "10px",
-                    left: "435px",
-                  }}
                   placement="top"
                 />
               </div>
@@ -1943,7 +1944,7 @@ function AddTenantBookingCheckin({
                 </div>
 
                 <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                  {fields.map((item, index) => {
+                  {fields?.map((item, index) => {
                     const isMaintenanceSelected = fields.some(
                       (field) => field.reason === "maintenance",
                     );
