@@ -221,6 +221,8 @@ function AddTenantBookingCheckin({
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
   const [errorsOneTime, setErrorsOneTime] = useState([]);
 
+  console.log("bookingFloor", bookingFloor);
+
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
     { value: "LONG", label: "Long Stay" },
@@ -402,25 +404,47 @@ function AddTenantBookingCheckin({
   };
 
   const handleCheckInDraft = () => {
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const year = newDate.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    };
+
+    const formattedDate = joiningDate
+      ? incrementDateAndFormat(joiningDate)
+      : "";
+
     dispatch({
-      type: "SAVE_DRAFT_SAGA",
+      type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
+        customerId: draftTenantId,
+        profilePic: DraftTenantDetails?.profilePic || "",
+        aadharPic: DraftTenantDetails?.aadharPic || "",
+        panPic: DraftTenantDetails?.panPic || "",
 
         request: {
-          joiningDate: joiningDate
-            ? dayjs(joiningDate).format("YYYY-MM-DD")
-            : "",
+          firstName: DraftTenantDetails?.firstName,
+          lastName: DraftTenantDetails?.lastName || "",
+          mobile: DraftTenantDetails?.mobileNo || "",
+          emailId: DraftTenantDetails?.emailId || "",
 
-          floorId: Number(checkinFloor || 0),
-          roomId: Number(checkinRoom || 0),
-          bedId: Number(checkinBed || 0),
+          joiningDate: formattedDate,
+          bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate,
+          bookingAmount: DraftTenantDetails?.bookingInfo?.bookingAmount || "",
 
+          bedId: checkinBed ? Number(checkinBed) : "",
+          roomId: checkinRoom ? Number(checkinRoom) : "",
+          floorId: checkinFloor ? Number(checkinFloor) : "",
+          bankId: DraftTenantDetails?.bankId || "",
+          referenceNumber: DraftTenantDetails?.referenceNumber || "",
           advanceAmount: Number(isAdvanceRefused ? 0 : advanceAmount || 0),
-
           rentalAmount: Number(rentAmount || 0),
-
-          stayType: stayType,
+          stayType: activeTab,
 
           deductions: fields
             ?.filter(
@@ -433,9 +457,50 @@ function AddTenantBookingCheckin({
 
           proRate: true,
 
+          idProof: {
+            type: DraftTenantDetails?.idProof?.type,
+            number: DraftTenantDetails?.idProof?.number || "",
+          },
+
+          address: {
+            flat: DraftTenantDetails?.address?.flat || "",
+            house: DraftTenantDetails?.address?.house || "",
+            building: DraftTenantDetails?.address?.building || "",
+            company: DraftTenantDetails?.address?.company || "",
+            apartment: DraftTenantDetails?.address?.apartment || "",
+            area: DraftTenantDetails?.address?.area || "",
+            street: DraftTenantDetails?.address?.street || "",
+            sector: DraftTenantDetails?.address?.sector || "",
+            village: DraftTenantDetails?.address?.village || "",
+            landmark: DraftTenantDetails?.address?.landmark || "",
+            pincode: DraftTenantDetails?.address?.pincode || "",
+            city: DraftTenantDetails?.address?.city || "",
+            state: DraftTenantDetails?.address?.state || "",
+          },
           booking: {
+            joiningDateTentative:
+              DraftTenantDetails?.booking?.joiningDateTentative || "",
             refuseAdvanceAmount: isAdvanceRefused,
           },
+
+          jobDetails: {
+            employmentStatus:
+              DraftTenantDetails?.jobDetails?.employmentStatus || "",
+            companyName: DraftTenantDetails?.jobDetails?.companyName || "",
+            collegeName: DraftTenantDetails?.jobDetails?.collegeName || "",
+            jobRole: DraftTenantDetails?.jobDetails?.jobRole || "",
+            workLocation: DraftTenantDetails?.jobDetails?.workLocation || "",
+            shiftType: DraftTenantDetails?.jobDetails?.shiftType || "",
+            shiftFrom: DraftTenantDetails?.jobDetails?.shiftFrom || "",
+            shiftTo: DraftTenantDetails?.jobDetails?.shiftTo || "",
+          },
+
+          guardians: (DraftTenantDetails?.guardians || []).map((g) => ({
+            guardianFullName: g?.guardianFullName || "",
+            relationshipToTenant: g?.relationshipToTenant || "",
+            guardianOccupation: g?.guardianOccupation || "",
+            mobileNo: g?.mobileNo || "",
+          })),
         },
       },
     });
@@ -611,38 +676,119 @@ function AddTenantBookingCheckin({
     return isValid;
   };
 
-  const handleBookingSaveDraft = () => {
-    // const isValid = validateBookingDraft();
+  useEffect(() => {
+    if (draftTenantId) {
+      if (draftTenantId) {
+        dispatch({
+          type: "DRAFT_TENANT_LIST_SAGA",
+          payload: draftTenantId,
+        });
+      }
+    }
+  }, [draftTenantId]);
 
-    // if (!isValid) return;
+  const DraftTenantDetails =
+    state?.UsersList?.alreadyAvailableDraftTenantGetList;
+
+  console.log("DraftTenantDetails", DraftTenantDetails);
+
+  const handleBookingSaveDraft = () => {
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const joiningDateForFormatted = formatDate(bookingJoiningDate);
+    const bookingDateForFormatted = formatDate(bookingDate);
 
     dispatch({
-      type: "SAVE_DRAFT_SAGA",
+      type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
+        customerId: draftTenantId,
+        profilePic: DraftTenantDetails?.profilePic || "",
+        aadharPic: DraftTenantDetails?.aadharPic || "",
+        panPic: DraftTenantDetails?.panPic || "",
+
         request: {
-          mobile,
-          firstName: firstname,
-          bookingDate: bookingDate
-            ? dayjs(bookingDate).format("YYYY-MM-DD")
-            : "",
-          bookingAmount: Number(bookingAmount || 0),
-          floorId: Number(bookingFloor || 0),
-          roomId: Number(bookingRoom || 0),
-          bedId: Number(bookingBed || 0),
+          firstName: DraftTenantDetails?.firstName,
+          lastName: DraftTenantDetails?.lastName || "",
+          mobile: DraftTenantDetails?.mobileNo || "",
+          emailId: DraftTenantDetails?.emailId || "",
+
+          joiningDate: "",
+          bookingDate: bookingDateForFormatted,
+          bookingAmount: bookingAmount ? Number(bookingAmount) : "",
+          bedId: bookingBed ? Number(bookingBed) : "",
+          roomId: bookingRoom ? Number(bookingRoom) : "",
+          floorId: bookingFloor ? Number(bookingFloor) : "",
           bankId: modeOfPayment || "",
           referenceNumber: transactionId || "",
-          advanceAmount: Number(bookingAmount || 0),
-          rentalAmount: Number(totalRent || 0),
-          booking: {
-            joiningDateTentative: bookingJoiningDate
-              ? dayjs(bookingJoiningDate).format("YYYY-MM-DD")
-              : "",
+          advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount
+            ? Number(DraftTenantDetails.hostelInfo.advanceAmount)
+            : "",
+          rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent
+            ? Number(DraftTenantDetails.hostelInfo.monthlyRent)
+            : "",
+          stayType: "long",
+
+          deductions: DraftTenantDetails?.deductions || [],
+
+          proRate: true,
+
+          idProof: {
+            type: DraftTenantDetails?.idProof?.type,
+            number: DraftTenantDetails?.idProof?.number || "",
           },
+
+          address: {
+            flat: DraftTenantDetails?.address?.flat || "",
+            house: DraftTenantDetails?.address?.house || "",
+            building: DraftTenantDetails?.address?.building || "",
+            company: DraftTenantDetails?.address?.company || "",
+            apartment: DraftTenantDetails?.address?.apartment || "",
+            area: DraftTenantDetails?.address?.area || "",
+            street: DraftTenantDetails?.address?.street || "",
+            sector: DraftTenantDetails?.address?.sector || "",
+            village: DraftTenantDetails?.address?.village || "",
+            landmark: DraftTenantDetails?.address?.landmark || "",
+            pincode: DraftTenantDetails?.address?.pincode || "",
+            city: DraftTenantDetails?.address?.city || "",
+            state: DraftTenantDetails?.address?.state || "",
+          },
+          booking: {
+            joiningDateTentative: joiningDateForFormatted || "",
+            refuseAdvanceAmount:
+              DraftTenantDetails?.booking?.refuseAdvanceAmount ?? true,
+          },
+
+          jobDetails: {
+            employmentStatus:
+              DraftTenantDetails?.jobDetails?.employmentStatus || "",
+            companyName: DraftTenantDetails?.jobDetails?.companyName || "",
+            collegeName: DraftTenantDetails?.jobDetails?.collegeName || "",
+            jobRole: DraftTenantDetails?.jobDetails?.jobRole || "",
+            workLocation: DraftTenantDetails?.jobDetails?.workLocation || "",
+            shiftType: DraftTenantDetails?.jobDetails?.shiftType || "",
+            shiftFrom: DraftTenantDetails?.jobDetails?.shiftFrom || "",
+            shiftTo: DraftTenantDetails?.jobDetails?.shiftTo || "",
+          },
+
+          guardians: (DraftTenantDetails?.guardians || []).map((g) => ({
+            guardianFullName: g?.guardianFullName || "",
+            relationshipToTenant: g?.relationshipToTenant || "",
+            guardianOccupation: g?.guardianOccupation || "",
+            mobileNo: g?.mobileNo || "",
+          })),
         },
       },
     });
-    setFormLoading(true);
+
+    // setFormLoading(true);
   };
 
   const handleAddBooking = () => {
@@ -719,12 +865,14 @@ function AddTenantBookingCheckin({
   };
 
   useEffect(() => {
-    if (state.UsersList?.saveDreaftTenantSuccessCode === 201) {
+    if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       setFormLoading(false);
+      resetBookingForm();
+      // handleClose();
 
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
-  }, [state.UsersList?.saveDreaftTenantSuccessCode]);
+  }, [state.UsersList?.updateSaveDreaftTenantStatus]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -1053,12 +1201,12 @@ function AddTenantBookingCheckin({
   };
 
   const handleSelectedBedDetails = (details) => {
-    setCheckinRoom(details?.roomId);
-    setCheckinBed(details?.bedId);
-    setCheckinFloor(details?.floorId);
-    setBookingFloor(details?.floorId);
-    setBookingRoom(details?.roomId);
-    setBookingBed(details?.bedId);
+    setCheckinRoom(details?.roomId || "");
+    setCheckinBed(details?.bedId || "");
+    setCheckinFloor(details?.floorId || "");
+    setBookingFloor(details?.floorId || "");
+    setBookingRoom(details?.roomId || "");
+    setBookingBed(details?.bedId || "");
   };
 
   return (

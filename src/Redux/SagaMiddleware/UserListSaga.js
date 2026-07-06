@@ -1,7 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import {UpdateSaveDraftTenant,
+import {
+  UpdateSaveDraftTenant,
   deleteGloblTemplatesImages,
   tenantCustomizeData,
   finalAddRoomReading,
@@ -341,7 +342,7 @@ function* handleUpdateSaveDraft(draft) {
   try {
     const response = yield call(UpdateSaveDraftTenant, draft.payload);
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "UPDATE_SAVE_DRAFT_REDUCER",
         payload: { response: response.data, statusCode: response?.status },

@@ -887,32 +887,41 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     // if (!validateVehicle()) return;
 
     dispatch({
-      type: "SAVE_DRAFT_SAGA",
+      type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        profilePic: file || "",
-        aadharPic: aadhaarFile || "",
-        panPic: panFile || "",
+        customerId: draftTenantId,
+        profilePic: DraftTenantDetails?.profilePic || "",
+        aadharPic: DraftTenantDetails?.aadharPic || "",
+        panPic: DraftTenantDetails?.panPic || "",
 
         request: {
-          firstName: capitalizedFirstname || "",
-          lastName: capitalizedLastname || "",
-          mobile: MobileNumber || "",
-          emailId: Email || "",
+          firstName: DraftTenantDetails?.firstName,
+          lastName: DraftTenantDetails?.lastName || "",
+          mobile: DraftTenantDetails?.mobileNo || "",
+          emailId: DraftTenantDetails?.emailId || "",
 
           joiningDate: "",
-          bookingDate: "",
-          bookingAmount: "",
-          floorId: "",
-          roomId: "",
-          bedId: "",
-          bankId: "",
-          referenceNumber: "",
-          advanceAmount: "",
-          rentalAmount: "",
-          stayType: "LONG",
+          bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate,
+          bookingAmount: DraftTenantDetails?.bookingInfo?.bookingAmount || "",
 
-          deductions: [],
+          bedId: DraftTenantDetails?.hostelInfo?.bedId || "",
+          roomId: DraftTenantDetails?.hostelInfo?.roomId || "",
+          floorId: DraftTenantDetails?.hostelInfo?.floorId || "",
+          bankId: DraftTenantDetails?.bankId || "",
+          referenceNumber: DraftTenantDetails?.referenceNumber || "",
+          advanceAmount: Number(isAdvanceRefused ? 0 : advanceAmount || 0),
+          rentalAmount: Number(rentAmount || 0),
+          stayType: activeTab,
+
+          deductions: fields
+            ?.filter(
+              (item) => (item.reason || item.customReason) && item.amount,
+            )
+            .map((item) => ({
+              type: item.reason === "others" ? item.customReason : item.reason,
+              amount: Number(item.amount),
+            })),
 
           proRate: true,
 
@@ -936,10 +945,10 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             city: city || "",
             state: state_name || "",
           },
-
           booking: {
-            joiningDateTentative: "",
-            refuseAdvanceAmount: true,
+            joiningDateTentative:
+              DraftTenantDetails?.booking?.joiningDateTentative || "",
+            refuseAdvanceAmount: isAdvanceRefused,
           },
 
           jobDetails: {
