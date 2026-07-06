@@ -140,6 +140,7 @@ function AddTenantBookingCheckin({
   mobile,
   firstname,
   draftTenantId,
+  newTenant,
 }) {
   const state = useSelector((state) => state);
 
@@ -221,7 +222,8 @@ function AddTenantBookingCheckin({
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
   const [errorsOneTime, setErrorsOneTime] = useState([]);
 
-  console.log("bookingFloor", bookingFloor);
+  const DarftCustomerId = state?.UsersList?.draftTenantDetails?.customerId;
+  console.log("DarftCustomerId", DarftCustomerId);
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -390,7 +392,7 @@ function AddTenantBookingCheckin({
     dispatch({
       type: "CHECKIN",
       payload: {
-        customerId: draftTenantId,
+        customerId: DarftCustomerId,
         floorId: checkinFloor,
         bedId: checkinBed,
         roomId: checkinRoom,
@@ -422,7 +424,7 @@ function AddTenantBookingCheckin({
       type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        customerId: draftTenantId,
+        customerId: DarftCustomerId,
         profilePic: DraftTenantDetails?.profilePic || "",
         aadharPic: DraftTenantDetails?.aadharPic || "",
         panPic: DraftTenantDetails?.panPic || "",
@@ -677,20 +679,103 @@ function AddTenantBookingCheckin({
   };
 
   useEffect(() => {
-    if (draftTenantId) {
-      if (draftTenantId) {
+    if (DarftCustomerId) {
+      if (DarftCustomerId) {
         dispatch({
           type: "DRAFT_TENANT_LIST_SAGA",
-          payload: draftTenantId,
+          payload: DarftCustomerId,
         });
       }
     }
-  }, [draftTenantId]);
+  }, [DarftCustomerId]);
 
   const DraftTenantDetails =
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
-  console.log("DraftTenantDetails", DraftTenantDetails);
+  // console.log("DraftTenantDetails", DraftTenantDetails);
+
+  useEffect(() => {
+    if (DraftTenantDetails && !newTenant) {
+      setBookingDate(
+        DraftTenantDetails?.bookingInfo?.bookingDate
+          ? dayjs(DraftTenantDetails.bookingInfo.bookingDate, "DD/MM/YYYY")
+          : null,
+      );
+      setBookingAmount(DraftTenantDetails?.bookingInfo?.bookingAmount || "");
+
+      setBookingJoiningDate(
+        DraftTenantDetails?.booking?.joiningDateTentative
+          ? dayjs(DraftTenantDetails.booking.joiningDateTentative, "DD-MM-YYYY")
+          : null,
+      );
+
+      setBookingFloor(DraftTenantDetails?.hostelInfo?.floorId || "");
+      setBookingRoom(DraftTenantDetails?.hostelInfo?.roomId || "");
+      setBookingBed(DraftTenantDetails?.hostelInfo?.bedId || "");
+
+      setTotalRent(DraftTenantDetails?.hostelInfo?.monthlyRent || "");
+      setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount || "");
+
+      setModeOfPayment(DraftTenantDetails?.bankId || "");
+      setTransactionId(DraftTenantDetails?.referenceNumber || "");
+
+      setIsConfirmChecked(
+        DraftTenantDetails?.booking?.refuseAdvanceAmount || false,
+      );
+
+      setCheckinFloor(DraftTenantDetails?.hostelInfo?.floorId);
+      setCheckinRoom(DraftTenantDetails?.hostelInfo?.roomId);
+      setCheckinBed(DraftTenantDetails?.hostelInfo?.bedId);
+      setJoiningDate(
+        DraftTenantDetails?.hostelInfo?.joiningDate
+          ? dayjs(DraftTenantDetails?.hostelInfo?.joiningDate, "DD-MM-YYYY")
+          : null,
+      );
+
+      setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
+      setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
+      setFields(
+        DraftTenantDetails.deductions.map((item) => ({
+          reason_name: item.type || "",
+          reason: item.type || "",
+          amount: item.amount || "",
+          paidAmount: item.paidAmount || 0,
+          showInput: false,
+          customReason: "",
+        })),
+      );
+    } else {
+      setBookingDate(null);
+      setBookingAmount("");
+      setBookingJoiningDate(null);
+      setBookingFloor("");
+      setBookingRoom("");
+      setBookingBed("");
+      setTotalRent("");
+      setAdvanceAmount("");
+      setModeOfPayment("");
+      setTransactionId("");
+      setIsConfirmChecked(false);
+      setCheckinFloor("");
+      setCheckinRoom("");
+      setCheckinBed("");
+      setJoiningDate("");
+
+      setAdvanceAmount("");
+      setRentAmount("");
+
+      setFields([
+        {
+          reason_name: "",
+          reason: "",
+          amount: "",
+          paidAmount: 0,
+          showInput: false,
+          customReason: "",
+        },
+      ]);
+    }
+  }, [DraftTenantDetails, newTenant]);
 
   const handleBookingSaveDraft = () => {
     const formatDate = (date) => {
@@ -709,7 +794,7 @@ function AddTenantBookingCheckin({
       type: "UPDATE_SAVE_DRAFT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
-        customerId: draftTenantId,
+        customerId: DarftCustomerId,
         profilePic: DraftTenantDetails?.profilePic || "",
         aadharPic: DraftTenantDetails?.aadharPic || "",
         panPic: DraftTenantDetails?.panPic || "",
@@ -819,7 +904,7 @@ function AddTenantBookingCheckin({
         floorId: bookingFloor,
         roomId: bookingRoom,
         bedId: bookingBed,
-        customerId: draftTenantId,
+        customerId: DarftCustomerId,
         bankId: modeOfPayment,
         referenceNumber: transactionId,
       },
@@ -868,9 +953,9 @@ function AddTenantBookingCheckin({
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       setFormLoading(false);
       resetBookingForm();
-      // handleClose();
+      handleClose();
 
-      dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
+      dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.updateSaveDreaftTenantStatus]);
 
