@@ -174,6 +174,48 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   const handleAccordionToggle = () => {
     setIsOpen((prev) => !prev);
   };
+  const handleInputChangeOneTime = (index, field, value) => {
+    const updatedFields = [...oneTimePayments];
+    const updatedErrors = [...errors];
+
+    if (field === "reason" || field === "customReason") {
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
+        }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      let numericValue = value.replace(/[^0-9.]/g, "");
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setOneTimePayments(updatedFields);
+    // setErrorsOneTime(updatedErrors);
+  };
 
   const handleRemoveFieldOneTime = (index) => {
     const updatedFields = [...oneTimePayments];
@@ -344,7 +386,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
       hasError = true;
     }
 
-    if (!AdvanceAmount) {
+    if (!isAdvanceRefused && !AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       hasError = true;
     }
@@ -357,19 +399,6 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
       setRoomRentError("Please Enter Valid Rental Amount");
       hasError = true;
     }
-
-    if (
-      AdvanceAmount === "" ||
-      AdvanceAmount === null ||
-      AdvanceAmount === undefined
-    ) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      hasError = true;
-    }
-    // if (Number(AdvanceAmount) <= 0) {
-    //     setAdvanceAmountError("Please Enter Valid Advance Amount");
-    //     hasError = true;
-    // }
 
     setErrors(newErrors);
 
@@ -985,6 +1014,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                             type="number"
                             value={customRent}
                             onChange={handleCustomRentChange}
+                            onWheel={(e) => e.target.blur()}
                             className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                               customRent ? "font-semibold" : "font-medium"
                             } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}

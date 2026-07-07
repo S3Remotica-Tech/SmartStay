@@ -209,7 +209,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
   }, [selectedDate]);
 
   const handleInputChangeOneTime = (index, field, value) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...oneTimePayments];
     const updatedErrors = [...errors];
 
     if (field === "reason" || field === "customReason") {
@@ -357,7 +357,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
       hasError = true;
     }
 
-    if (!AdvanceAmount) {
+    if (!isAdvanceRefused && !AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       hasError = true;
     }
@@ -516,7 +516,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="relative w-full max-h-[100vh] max-w-[650px] rounded-lg bg-white shadow-xl">
+      <div className="relative w-full max-h-[100vh] max-w-[680px] rounded-lg bg-white shadow-xl">
         <div className="flex flex-col ">
           <div className="flex items-center justify-between px-6 pt-6">
             <h2 className="text-xl font-semibold font-gilroy">
@@ -1036,6 +1036,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                 type="number"
                                 value={customRent}
                                 onChange={handleCustomRentChange}
+                                onWheel={(e) => e.target.blur()}
                                 className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                                   customRent ? "font-semibold" : "font-medium"
                                 } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}

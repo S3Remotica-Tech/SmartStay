@@ -19,6 +19,11 @@
 min-width: 690px;
 }
 
+
+.custom-modals-style-PG .modal-content{
+min-width: 650px;
+}
+
  .tenantCheck-style .modal-content {
    min-width: 600px;
  }

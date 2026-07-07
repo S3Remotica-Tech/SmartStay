@@ -394,7 +394,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
   const handleSaveUserlistAddUser = async () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
-
+    setAdvanceAmountError("");
     let newErrors = [];
     let oneTimePaymentErrors = [];
     let isHasError = false;
@@ -415,7 +415,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
       setDateError("Please Select Date");
       isHasError = true;
     }
-    if (!AdvanceAmount) {
+    if (!isAdvanceRefused && !AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       isHasError = true;
     }
@@ -442,19 +442,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
       setRoomRentError("Please Enter  Rental Amount");
       isHasError = true;
     }
-
-    if (
-      AdvanceAmount === "" ||
-      AdvanceAmount === null ||
-      AdvanceAmount === undefined
-    ) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      isHasError = true;
-    }
-    // if (Number(AdvanceAmount) <= 0) {
-    //   setAdvanceAmountError("Please Enter  Advance Amount");
-    //   isHasError = true;
-    // }
 
     const formattedReasonsOneTimePayments = oneTimePayments
       ?.map((item) => {
@@ -561,14 +548,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
         (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0),
     );
 
-    if (
-      Floor &&
-      Rooms &&
-      Bed &&
-      selectedDate &&
-      AdvanceAmount &&
-      Number(RoomRent) > 0
-    ) {
+    if (Floor && Rooms && Bed && selectedDate && Number(RoomRent) > 0) {
       dispatch({
         type: "CHECKIN",
         payload: {
@@ -1410,6 +1390,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                               type="number"
                               value={customRent}
                               onChange={handleCustomRentChange}
+                              onWheel={(e) => e.target.blur()}
                               className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                                 customRent ? "font-semibold" : "font-medium"
                               } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
