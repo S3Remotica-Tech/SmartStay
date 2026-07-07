@@ -174,6 +174,7 @@ function AddTenantBookingCheckin({
   const [checkinBed, setCheckinBed] = useState(null);
   const [bedWarning, setBedWarning] = useState("");
   const [rentAmount, setRentAmount] = useState("");
+  const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
   const [ebReading, setEbReading] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -227,13 +228,13 @@ function AddTenantBookingCheckin({
   const [oneTimePayments, setOneTimePayments] = useState([]);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
-  const [errorsOneTime, setErrorsOneTime] = useState([]);
+  // const [errorsOneTime, setErrorsOneTime] = useState([]);
 
   const DarftCustomerId =
     state?.UsersList?.draftTenantDetails?.customerId ||
     state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
-  console.log("DarftCustomerId", DarftCustomerId);
+  // console.log("DarftCustomerId", DarftCustomerId);
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -284,7 +285,6 @@ function AddTenantBookingCheckin({
     setRentAmount(e.target.value);
     setCheckInRentAmountError("");
   };
-  console.log("rentAmount", rentAmount);
 
   const validateCheckInDraft = () => {
     let isValid = true;
@@ -604,18 +604,22 @@ function AddTenantBookingCheckin({
     setBedError("");
     const selectedBedId = val?.value || "";
     setBookingBed(selectedBedId);
-    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
-      (bed) => String(bed.bedId) === String(selectedBedId),
-    );
+  };
 
-    if (selectedBed) {
-      if (selectedBed.shouldShowError) {
-        setBedWarning(selectedBed.errorMessage);
-      } else {
-        setBedWarning("");
+  useEffect(() => {
+    if (bookingBed) {
+      const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+        (bed) => String(bed.bedId) === String(bookingBed),
+      );
+      if (selectedBed) {
+        if (selectedBed.shouldShowError) {
+          setBedWarning(selectedBed.errorMessage);
+        } else {
+          setBedWarning("");
+        }
       }
     }
-  };
+  }, [bookingBed]);
 
   const handleBookingAmountChange = (e) => {
     setBookingAmount(e.target.value);
@@ -1063,18 +1067,24 @@ function AddTenantBookingCheckin({
     setCheckInBedError("");
     const selectedBedId = val?.value || "";
     setCheckinBed(selectedBedId);
-    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
-      (bed) => String(bed.bedId) === String(selectedBedId),
-    );
+  };
 
-    if (selectedBed) {
-      if (selectedBed.shouldShowError) {
-        setBedWarning(selectedBed.errorMessage);
-      } else {
-        setBedWarning("");
+  useEffect(() => {
+    if (checkinBed) {
+      const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+        (bed) => String(bed.bedId) === String(checkinBed),
+      );
+
+      if (selectedBed) {
+        setPlaceHolderRoomRent(selectedBed.rentAmount);
+        if (selectedBed.shouldShowError) {
+          setBedWarning(selectedBed.errorMessage);
+        } else {
+          setBedWarning("");
+        }
       }
     }
-  };
+  }, [checkinBed]);
 
   useEffect(() => {
     if (checkinRoom) {
@@ -1238,7 +1248,7 @@ function AddTenantBookingCheckin({
 
     const updatedErrors = [...errors];
     updatedErrors.splice(index, 1);
-    setErrorsOneTime(updatedErrors);
+    // setErrorsOneTime(updatedErrors);
   };
 
   useEffect(() => {
@@ -1363,13 +1373,16 @@ function AddTenantBookingCheckin({
     setPgLatyout(false);
   };
 
-  const handleSelectedBedDetails = (details) => {
-    setCheckinRoom(details?.roomId || "");
-    setCheckinBed(details?.bedId || "");
-    setCheckinFloor(details?.floorId || "");
-    setBookingFloor(details?.floorId || "");
-    setBookingRoom(details?.roomId || "");
-    setBookingBed(details?.bedId || "");
+  const handleSelectedBedDetails = (details, isWay) => {
+    if (isWay) {
+      setBookingFloor(details?.floorId || "");
+      setBookingRoom(details?.roomId || "");
+      setBookingBed(details?.bedId || "");
+    } else {
+      setCheckinRoom(details?.roomId || "");
+      setCheckinBed(details?.bedId || "");
+      setCheckinFloor(details?.floorId || "");
+    }
   };
 
   return (
@@ -1630,10 +1643,14 @@ function AddTenantBookingCheckin({
             <input
               type="number"
               ref={rentRef}
+              placeholder={
+                placeHolderRoomRent
+                  ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                  : "Enter Amount"
+              }
               value={totalRent}
               onWheel={(e) => e.target.blur()}
               onChange={handleTotalRentChange}
-              placeholder="Enter  Total Rent"
               className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
             />
             {rentError && <ErrorMessage message={rentError} type="error" />}
@@ -2194,7 +2211,11 @@ function AddTenantBookingCheckin({
                   <input
                     ref={rentAmountRef}
                     type="number"
-                    placeholder="Enter Rental Amount"
+                    placeholder={
+                      placeHolderRoomRent
+                        ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                        : "Enter Amount"
+                    }
                     value={rentAmount}
                     onWheel={(e) => e.target.blur()}
                     onChange={handleRentAmountChange}
@@ -2473,12 +2494,14 @@ function AddTenantBookingCheckin({
               </div>
 
               <div className="flex justify-between mt-3">
-                <button
-                  className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
-                  onClick={handleCheckInDraft}
-                >
-                  Save Draft
-                </button>
+                {!rentAmount && (
+                  <button
+                    className="!font-gilroy text-sm !bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] border-1 !font-semibold !rounded-md !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap"
+                    onClick={handleCheckInDraft}
+                  >
+                    Save Draft
+                  </button>
+                )}
                 <div className="flex gap-2">
                   <button
                     disabled={!isConfirmed}

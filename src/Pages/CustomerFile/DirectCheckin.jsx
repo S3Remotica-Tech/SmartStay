@@ -151,6 +151,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [oneTimePayments, setOneTimePayments] = useState([]);
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
   const [formLoading, setFormLoading] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
@@ -158,7 +159,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
-  const [errorsOneTime, setErrorsOneTime] = useState([]);
+  // const [errorsOneTime, setErrorsOneTime] = useState([]);
 
   const [activeTab, setActiveTab] = useState("LONG");
 
@@ -241,13 +242,13 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   };
 
   const handleRemoveFieldOneTime = (index) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...oneTimePayments];
     updatedFields.splice(index, 1);
     setOneTimePayments(updatedFields);
 
     const updatedErrors = [...errors];
     updatedErrors.splice(index, 1);
-    setErrorsOneTime(updatedErrors);
+    // setErrorsOneTime(updatedErrors);
   };
 
   const options = {
@@ -371,7 +372,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  console.log("tenantDetails", tenantDetails);
+  // console.log("tenantDetails", tenantDetails);
 
   useEffect(() => {
     if (tenantDetails?.customerId) {
@@ -772,6 +773,9 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
   const handleBedLayoutPreview = () => {
+    setfloorError("");
+    setRoomError("");
+    setBedError("");
     setPgLatyout(true);
   };
 
@@ -785,6 +789,21 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
     setFloor(details?.floorId);
   };
+
+  const deductionsTotal = fields.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+
+  const oneTimeDeductionTotal = oneTimePayments.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+
+  const totalSummary =
+    Number(AdvanceAmount || 0) +
+    Number(RoomRent || 0) -
+    Number(deductionsTotal || 0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -1597,14 +1616,16 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       Summary
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-3">₹ 20,000.00</h2>
+                    <h2 className="text-2xl font-semibold mb-3">
+                      ₹ {totalSummary}
+                    </h2>
 
                     <div className="border-t border-white/20 mb-3"></div>
 
                     <div className="text-xs space-y-2">
                       <div className="flex justify-between">
                         <span>1. Advance Amount</span>
-                        <span>₹ 12,500.00</span>
+                        <span>₹ {AdvanceAmount || 0}</span>
                       </div>
 
                       <div className="flex justify-between">
@@ -1615,7 +1636,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                             (Deducted from Advance 1)
                           </span>
                         </span>
-                        <span>- ₹ 2,800.00</span>
+                        <span>- ₹ {deductionsTotal}</span>
                       </div>
 
                       <div className="flex justify-between">
@@ -1623,7 +1644,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           3. Base Rent
                           <span className="opacity-70"> (Pro-rate)</span>
                         </span>
-                        <span>₹ 7,500.00</span>
+                        <span>₹ {RoomRent}</span>
                       </div>
                     </div>
                   </div>
@@ -1636,6 +1657,8 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                   <div className="flex items-center gap-2 my-4">
                     <input
                       type="checkbox"
+                      checked={isConfirmed}
+                      onChange={(e) => setIsConfirmed(e.target.checked)}
                       className="cursor-pointer accent-green-600 w-4 h-4 "
                     />
                     <span className="text-[#0A090B] text-sm ">
@@ -1646,12 +1669,20 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
               </div>
               <div className="flex justify-end">
                 <button
-                  disabled={formLoading}
-                  className="px-4 mt-2 h-[40px] !bg-[#1E45E1] text-white !font-semibold !text-lg !rounded !font-gilroy"
-                  style={{ fontFamily: "Montserrat" }}
+                  disabled={formLoading || !isConfirmed}
                   onClick={handleSaveUserlistAddUser}
+                  className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
                 >
-                  Check-In
+                  {formLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Saving ....{" "}
+                    </>
+                  ) : (
+                    "Check in"
+                  )}
                 </button>
               </div>
             </>

@@ -27,7 +27,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
   const [hoveredBedId, setHoveredBedId] = useState("");
 
   if (!show) return null;
-  console.log("selectedBed", selectedBed);
+
   const [floorClick, setFloorClick] = useState("");
 
   useEffect(() => {
@@ -46,7 +46,6 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
     }
   }, [state.login.selectedHostel_Id]);
 
-  console.log("state.UsersList.floorList", state?.UsersList?.floorList);
   const handleFloorClick = (floorNumber) => {
     setFloorClick(floorNumber);
     dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: floorNumber } });
@@ -84,14 +83,9 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
   });
 
   const handleConfirmSelected = () => {
-    selectedBedDetails(selectedBed);
+    selectedBedDetails(selectedBed, isWay);
     handleClose();
   };
-
-  console.log(
-    "state?.UsersList?.floorList?.length === 0",
-    state?.UsersList?.floorList?.length === 0,
-  );
 
   return (
     <div
@@ -179,9 +173,6 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
               const filteredBeds = availableBeds.filter(
                 (bed) => Number(bed.roomId) === Number(room.id),
               );
-              {
-                console.log("filteredBeds", filteredBeds);
-              }
 
               return (
                 <div className="grid gap-3 mt-1 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[350px] overflow-y-auto px-3 show-scrolls">
