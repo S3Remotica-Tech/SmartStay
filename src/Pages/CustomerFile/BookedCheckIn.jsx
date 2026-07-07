@@ -958,7 +958,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                       )}
                     </div>
                     {/* new changes */}
-                    <div className="w-full w-auto bg-white">
+                    {/* <div className="w-full w-auto bg-white">
                       <div className="flex items-center gap-2 px-1 py-3">
                         <div className="flex items-center gap-2 ">
                           <input
@@ -1226,7 +1226,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                           </div>
                         )}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   {state.UsersList.bedError && (
