@@ -283,7 +283,37 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId,
   ]);
 
-  const isImage = (file) => file && file.type.startsWith("image/");
+  const getFilePreview = (file) => {
+    if (!file) return null;
+
+    if (typeof file === "string") {
+      return file;
+    }
+
+    return URL.createObjectURL(file);
+  };
+
+  const getFileName = (file, defaultName) => {
+    if (!file) return defaultName;
+
+    if (typeof file === "string") {
+      return file.split("/").pop();
+    }
+
+    return file.name;
+  };
+
+  const isImageFile = (file) => {
+    if (!file) return false;
+
+    if (typeof file === "string") {
+      return /\.(jpg|jpeg|png|webp)$/i.test(file);
+    }
+
+    return file.type.startsWith("image/");
+  };
+
+  const isImage = (file) => file && file?.type?.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
   const handleDeletePan = () => setPanFile(null);
@@ -424,62 +454,62 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   ];
 
   const relationOptions = [
-    { value: "father", label: "Father" },
-    { value: "mother", label: "Mother" },
-    { value: "brother", label: "Brother" },
-    { value: "sister", label: "Sister" },
-    { value: "husband", label: "Husband" },
-    { value: "wife", label: "Wife" },
-    { value: "son", label: "Son" },
-    { value: "daughter", label: "Daughter" },
-    { value: "grandfather", label: "Grandfather" },
-    { value: "grandmother", label: "Grandmother" },
-    { value: "uncle", label: "Uncle" },
-    { value: "aunt", label: "Aunt" },
-    { value: "cousin", label: "Cousin" },
-    { value: "guardian", label: "Guardian" },
-    { value: "friend", label: "Friend" },
-    { value: "relative", label: "Relative" },
-    { value: "other", label: "Other" },
+    { value: "Father", label: "Father" },
+    { value: "Mother", label: "Mother" },
+    { value: "Brother", label: "Brother" },
+    { value: "Sister", label: "Sister" },
+    { value: "Husband", label: "Husband" },
+    { value: "Husband", label: "Husband" },
+    { value: "Son", label: "Son" },
+    { value: "Daughter", label: "Daughter" },
+    { value: "Grandfather", label: "Grandfather" },
+    { value: "Grandfather", label: "Grandfather" },
+    { value: "Uncle", label: "Uncle" },
+    { value: "Aunt", label: "Aunt" },
+    { value: "Cousin", label: "Cousin" },
+    { value: "Guardian", label: "Guardian" },
+    { value: "Friend", label: "Friend" },
+    { value: "Relative", label: "Relative" },
+    { value: "Other", label: "Other" },
   ];
 
   const shiftTypeOptions = [
-    { value: "day_shift", label: "Day Shift" },
-    { value: "night_shift", label: "Night Shift" },
-    { value: "rotational_shift", label: "Rotational Shift" },
-    { value: "flexible_shift", label: "Flexible Shift" },
-    { value: "general_shift", label: "General Shift" },
+    { value: "Day Shift", label: "Day Shift" },
+    { value: "Night Shift", label: "Night Shift" },
+    { value: "Rotational Shift", label: "Rotational Shift" },
+    { value: "Flexible Shift", label: "Flexible Shift" },
+    { value: "General Shift", label: "General Shift" },
   ];
 
   const jobRoleOptions = [
-    { value: "software_engineer", label: "Software Engineer" },
-    { value: "developer", label: "Developer" },
-    { value: "tester", label: "Tester" },
-    { value: "designer", label: "Designer" },
-    { value: "manager", label: "Manager" },
-    { value: "accountant", label: "Accountant" },
-    { value: "teacher", label: "Teacher" },
-    { value: "doctor", label: "Doctor" },
-    { value: "nurse", label: "Nurse" },
-    { value: "lawyer", label: "Lawyer" },
-    { value: "sales_executive", label: "Sales Executive" },
-    { value: "marketing_executive", label: "Marketing Executive" },
-    { value: "student", label: "Student" },
-    { value: "other", label: "Other" },
+    { value: "Software Engineer", label: "Software Engineer" },
+    { value: "Developer", label: "Developer" },
+    { value: "Tester", label: "Tester" },
+    { value: "Designer", label: "Designer" },
+    { value: "Manager", label: "Manager" },
+    { value: "Accountant", label: "Accountant" },
+    { value: "Teacher", label: "Teacher" },
+    { value: "Doctor", label: "Doctor" },
+    { value: "Nurse", label: "Nurse" },
+    { value: "Lawyer", label: "Lawyer" },
+    { value: "Sales Executive", label: "Sales Executive" },
+    { value: "Marketing Executive", label: "Marketing Executive" },
+    { value: "Student", label: "Student" },
+    { value: "Other", label: "Other" },
   ];
 
   const jobOptions = [
-    { value: "employed", label: "Employed" },
-    { value: "self_employed", label: "Self Employed" },
-    { value: "student", label: "Student" },
-    { value: "business_owner", label: "Business Owner" },
-    { value: "freelancer", label: "Freelancer" },
-    { value: "government_employee", label: "Government Employee" },
-    { value: "private_employee", label: "Private Employee" },
-    { value: "intern", label: "Intern" },
-    { value: "retired", label: "Retired" },
-    { value: "unemployed", label: "Unemployed" },
-    { value: "other", label: "Other" },
+    { value: "Employed", label: "Employed" },
+    { value: "Self Employed", label: "Self Employed" },
+    { value: "Student", label: "Student" },
+    { value: "Business Owner", label: "Business Owner" },
+    { value: "Freelancer", label: "Freelancer" },
+    { value: "Government Employee", label: "Government Employee" },
+    { value: "Private Employee", label: "Private Employee" },
+    { value: "Intern", label: "Intern" },
+    { value: "Retired", label: "Retired" },
+    { value: "Unemployed", label: "Unemployed" },
+    { value: "Other", label: "Other" },
   ];
 
   const handleSelectChange = (selectedOption) => {
@@ -962,29 +992,71 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             lastName: capitalizedLastname || "",
             mobile: Phone || "",
             emailId: Email || "",
+            joiningDate: DraftTenantDetails?.hostelInfo?.joiningDate || "",
+            bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate || "",
+            bookingAmount: DraftTenantDetails?.bookingAmount ?? "",
+            bedId: DraftTenantDetails?.bedDetails?.bedId ?? "",
+            roomId: DraftTenantDetails?.bedDetails?.roomId ?? "",
+            floorId: DraftTenantDetails?.bedDetails?.floorId ?? "",
+            bankId: DraftTenantDetails?.bankId || "",
+            referenceNumber: DraftTenantDetails?.referenceNumber || "",
 
-            proRate: true,
+            advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount ?? "",
+            rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent ?? "",
+            stayType: DraftTenantDetails?.stayType || "",
+            deductions: DraftTenantDetails?.deductions || [],
+            proRate: DraftTenantDetails?.proRate ?? true,
 
             idProof: {
-              type: idProofType?.value || idProofType || "",
-              number: idProofNo || "",
+              type:
+                idProofType?.value ||
+                idProofType ||
+                DraftTenantDetails?.idProof?.type ||
+                "",
+              number: idProofNo || DraftTenantDetails?.idProof?.number || "",
             },
 
             address: {
-              flat: "",
-              house: house_no || "",
-              building: "",
-              company: "",
-              apartment: "",
-              area: "",
-              street: street || "",
-              sector: "",
-              village: "",
-              landmark: landmark || "",
-              pincode: pincode || "",
-              city: city || "",
-              state: state_name || "",
+              flat: DraftTenantDetails?.address?.flat || "",
+              house: house_no || DraftTenantDetails?.address?.house || "",
+              building: DraftTenantDetails?.address?.building || "",
+              company: DraftTenantDetails?.address?.company || "",
+              apartment: DraftTenantDetails?.address?.apartment || "",
+              area: DraftTenantDetails?.address?.area || "",
+              street: street || DraftTenantDetails?.address?.street || "",
+              sector: DraftTenantDetails?.address?.sector || "",
+              village: DraftTenantDetails?.address?.village || "",
+              landmark: landmark || DraftTenantDetails?.address?.landmark || "",
+              pincode: pincode || DraftTenantDetails?.address?.pincode || "",
+              city: city || DraftTenantDetails?.address?.city || "",
+              state: state_name || DraftTenantDetails?.address?.state || "",
             },
+
+            booking: {
+              joiningDateTentative:
+                DraftTenantDetails?.booking?.joiningDateTentative || "",
+              refuseAdvanceAmount:
+                DraftTenantDetails?.booking?.refuseAdvanceAmount ?? true,
+            },
+
+            jobDetails: {
+              employmentStatus:
+                DraftTenantDetails?.jobDetails?.employmentStatus || "",
+              companyName: DraftTenantDetails?.jobDetails?.companyName || "",
+              collegeName: DraftTenantDetails?.jobDetails?.collegeName || "",
+              jobRole: DraftTenantDetails?.jobDetails?.jobRole || "",
+              workLocation: DraftTenantDetails?.jobDetails?.workLocation || "",
+              shiftType: DraftTenantDetails?.jobDetails?.shiftType || "",
+              shiftFrom: DraftTenantDetails?.jobDetails?.shiftFrom || "",
+              shiftTo: DraftTenantDetails?.jobDetails?.shiftTo || "",
+            },
+
+            guardians: (DraftTenantDetails?.guardians || []).map((g) => ({
+              guardianFullName: g?.guardianFullName || "",
+              relationshipToTenant: g?.relationshipToTenant || "",
+              guardianOccupation: g?.guardianOccupation || "",
+              mobileNo: g?.mobileNo || "",
+            })),
           },
         },
       });
@@ -1091,9 +1163,61 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
         hostelId: state?.login?.selectedHostel_Id,
         customerId: draftTenantId,
         profilePic: DraftTenantDetails?.profilePic || "",
-        aadharPic: DraftTenantDetails?.aadharPic || "",
-        panPic: DraftTenantDetails?.panPic || "",
+        aadharPic: aadhaarFile || "",
+        panPic: panFile || "",
+
         request: {
+          firstName: capitalizedFirstname || "",
+          lastName: capitalizedLastname || "",
+          mobile: Phone || "",
+          emailId: Email || "",
+          joiningDate: DraftTenantDetails?.hostelInfo?.joiningDate || "",
+          bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate || "",
+          bookingAmount: DraftTenantDetails?.bookingAmount ?? "",
+          bedId: DraftTenantDetails?.bedDetails?.bedId ?? "",
+          roomId: DraftTenantDetails?.bedDetails?.roomId ?? "",
+          floorId: DraftTenantDetails?.bedDetails?.floorId ?? "",
+          bankId: DraftTenantDetails?.bankId || "",
+          referenceNumber: DraftTenantDetails?.referenceNumber || "",
+
+          advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount ?? "",
+          rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent ?? "",
+          stayType: DraftTenantDetails?.stayType || "",
+          deductions: DraftTenantDetails?.deductions || [],
+          proRate: DraftTenantDetails?.proRate ?? true,
+
+          idProof: {
+            type:
+              idProofType?.value ||
+              idProofType ||
+              DraftTenantDetails?.idProof?.type ||
+              "",
+            number: idProofNo || DraftTenantDetails?.idProof?.number || "",
+          },
+
+          address: {
+            flat: DraftTenantDetails?.address?.flat || "",
+            house: house_no || DraftTenantDetails?.address?.house || "",
+            building: DraftTenantDetails?.address?.building || "",
+            company: DraftTenantDetails?.address?.company || "",
+            apartment: DraftTenantDetails?.address?.apartment || "",
+            area: DraftTenantDetails?.address?.area || "",
+            street: street || DraftTenantDetails?.address?.street || "",
+            sector: DraftTenantDetails?.address?.sector || "",
+            village: DraftTenantDetails?.address?.village || "",
+            landmark: landmark || DraftTenantDetails?.address?.landmark || "",
+            pincode: pincode || DraftTenantDetails?.address?.pincode || "",
+            city: city || DraftTenantDetails?.address?.city || "",
+            state: state_name || DraftTenantDetails?.address?.state || "",
+          },
+
+          booking: {
+            joiningDateTentative:
+              DraftTenantDetails?.booking?.joiningDateTentative || "",
+            refuseAdvanceAmount:
+              DraftTenantDetails?.booking?.refuseAdvanceAmount ?? true,
+          },
+
           jobDetails: {
             employmentStatus: employmentStatus?.value || "",
             companyName: companyName || "",
@@ -1104,6 +1228,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             shiftFrom: fromTime || "",
             shiftTo: toTime || "",
           },
+
           guardians: guardians.map((g) => ({
             guardianFullName: g.guardianFullName || "",
             relationshipToTenant:
@@ -1154,7 +1279,11 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   useEffect(() => {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       setFormLoading(false);
-      setStep(2);
+      if (step === 1) {
+        setStep(2);
+      } else {
+        handleClose();
+      }
 
       dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
     }
@@ -1362,6 +1491,22 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
       setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
       setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
+
+      const mappedGuardians = DraftTenantDetails?.guardians?.map((g) => ({
+        guardianFullName: g.guardianFullName || "",
+        relationshipToTenant:
+          relationOptions.find(
+            (option) => option.value === g.relationshipToTenant,
+          ) || null,
+        guardianOccupation:
+          jobOptions.find((option) => option.value === g.guardianOccupation) ||
+          null,
+        mobileNo: g.mobileNo || "",
+      }));
+
+      setGuardians(mappedGuardians);
+      setPanFile(DraftTenantDetails?.panPic);
+      setAadhaarFile(DraftTenantDetails?.aadharPic);
     }
     //  else {
     //   setFirstname("");
@@ -2174,10 +2319,11 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                             onMouseLeave={() => setHovered(null)}
                             className="relative   border border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50"
                           >
-                            {aadhaarFile && isImage(aadhaarFile) ? (
+                            {aadhaarFile && isImageFile(aadhaarFile) ? (
                               <img
-                                src={URL.createObjectURL(aadhaarFile)}
+                                src={getFilePreview(aadhaarFile)}
                                 className="h-24 mx-auto rounded object-cover"
+                                alt="Aadhaar"
                               />
                             ) : (
                               <DocumentUpload
@@ -2187,7 +2333,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                             )}
 
                             <p className="text-sm font-medium mt-2 truncate">
-                              {aadhaarFile ? aadhaarFile.name : "Aadhaar Card"}
+                              {getFileName(aadhaarFile, "Aadhaar Card")}
                             </p>
 
                             <p className="text-xs text-gray-400">
@@ -2220,10 +2366,11 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                             onMouseLeave={() => setHovered(null)}
                             className="relative group border border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50"
                           >
-                            {panFile && isImage(panFile) ? (
+                            {panFile && isImageFile(panFile) ? (
                               <img
-                                src={URL.createObjectURL(panFile)}
+                                src={getFilePreview(panFile)}
                                 className="h-24 mx-auto rounded object-cover"
+                                alt="PAN"
                               />
                             ) : (
                               <DocumentUpload
@@ -2233,7 +2380,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                             )}
 
                             <p className="text-sm font-medium mt-2 truncate">
-                              {panFile ? panFile.name : "Pan Card Copy"}
+                              {getFileName(panFile, "Pan Card Copy")}
                             </p>
 
                             <p className="text-xs text-gray-400">

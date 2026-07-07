@@ -162,6 +162,7 @@ function AddTenantBookingCheckin({
   const [bookingBed, setBookingBed] = useState(null);
   const [totalRent, setTotalRent] = useState("");
   const [errors, setErrors] = useState([]);
+  const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
   const [fields, setFields] = useState([]);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [pgLayout, setPgLatyout] = useState(false);
@@ -213,6 +214,12 @@ function AddTenantBookingCheckin({
   const rentRef = useRef(null);
   const paymentRef = useRef(null);
   const transactionRef = useRef(null);
+  const rentAmountRef = useRef(null);
+  const advanceAmountRef = useRef(null);
+  const CheckinJoiningDateRef = useRef(null);
+  const checkinFloorRef = useRef(null);
+  const checkinRoomRef = useRef(null);
+  const checkinBedRef = useRef(null);
 
   const [collectFullRent, setCollectFullRent] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
@@ -226,7 +233,7 @@ function AddTenantBookingCheckin({
     state?.UsersList?.draftTenantDetails?.customerId ||
     state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
-  // console.log("DarftCustomerId", DarftCustomerId);
+  console.log("DarftCustomerId", DarftCustomerId);
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -277,6 +284,7 @@ function AddTenantBookingCheckin({
     setRentAmount(e.target.value);
     setCheckInRentAmountError("");
   };
+  console.log("rentAmount", rentAmount);
 
   const validateCheckInDraft = () => {
     let isValid = true;
@@ -291,25 +299,25 @@ function AddTenantBookingCheckin({
 
     if (!joiningDate) {
       setCheckInJoiningDateError("Please Select Joining Date");
-      firstInvalidRef ??= joiningDateRef;
+      firstInvalidRef ??= CheckinJoiningDateRef;
       isValid = false;
     }
 
     if (!checkinFloor) {
       setCheckInFloorError("Please Select Floor");
-      firstInvalidRef ??= floorRef;
+      firstInvalidRef ??= checkinFloorRef;
       isValid = false;
     }
 
     if (!checkinRoom) {
       setCheckInRoomError("Please Select Room");
-      firstInvalidRef ??= roomRef;
+      firstInvalidRef ??= checkinRoomRef;
       isValid = false;
     }
 
     if (!checkinBed) {
       setCheckInBedError("Please Select Bed");
-      firstInvalidRef ??= bedRef;
+      firstInvalidRef ??= checkinBedRef;
       isValid = false;
     }
 
@@ -343,8 +351,12 @@ function AddTenantBookingCheckin({
     const isValid = validateCheckInDraft();
     if (!isValid) return;
 
+    let isHasError = false;
+    const fieldErrors = [];
+    const oneTimePaymentErrors = [];
+
     const formattedReasons = fields
-      .map((item) => {
+      ?.map((item) => {
         let reason_name = "";
 
         if (
@@ -357,6 +369,7 @@ function AddTenantBookingCheckin({
         }
 
         const error = { reason: "", amount: "" };
+
         if (
           reason_name &&
           (!item.amount || item.amount.toString().trim() === "")
@@ -373,13 +386,61 @@ function AddTenantBookingCheckin({
           isHasError = true;
         }
 
-        newErrors.push(error);
+        fieldErrors.push(error);
+
         return {
           type: reason_name,
-          amount: item.amount || "",
+          amount: Number(item.amount) || "",
         };
       })
       .filter((item) => item.type !== "" || item.amount !== "");
+
+    const formattedReasonsOneTimePayments = oneTimePayments
+      ?.map((item) => {
+        let reason_name = "";
+
+        if (
+          item.reason?.toLowerCase() === "others" ||
+          item.reason_name?.toLowerCase() === "others"
+        ) {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        const error = { reason: "", amount: "" };
+
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
+          error.amount = "Please enter amount";
+          isHasError = true;
+        }
+
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
+          error.reason = "Please enter reason";
+          isHasError = true;
+        }
+
+        oneTimePaymentErrors.push(error);
+
+        return {
+          type: reason_name,
+          amount: Number(item.amount) || "",
+        };
+      })
+      .filter((item) => item.type !== "" || item.amount !== "");
+
+    setErrors(fieldErrors);
+    setOneTimePaymentErrors(oneTimePaymentErrors);
+
+    if (isHasError) {
+      return;
+    }
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
@@ -398,15 +459,19 @@ function AddTenantBookingCheckin({
     dispatch({
       type: "CHECKIN",
       payload: {
+        hostelId: state.login.selectedHostel_Id,
         customerId: DarftCustomerId,
-        floorId: checkinFloor,
-        bedId: checkinBed,
-        roomId: checkinRoom,
+        floorId: Number(checkinFloor),
+        bedId: Number(checkinBed),
+        roomId: Number(checkinRoom),
         joiningDate: formattedDate,
-        advanceAmount: !isAdvanceRefused && advanceAmount,
-        rentalAmount: rentAmount,
-        stayType: activeTab,
+        refundableAmount: Number(!isAdvanceRefused ? advanceAmount : 0),
+        rentalAmount: Number(rentAmount),
+        stayType: stayType,
         deductions: formattedReasons,
+        shouldCollectFullRent: collectFullRent,
+        customRent: Number(customRent),
+        oneTimeDeduction: formattedReasonsOneTimePayments,
       },
     });
   };
@@ -452,7 +517,7 @@ function AddTenantBookingCheckin({
           referenceNumber: DraftTenantDetails?.referenceNumber || "",
           advanceAmount: Number(isAdvanceRefused ? 0 : advanceAmount || 0),
           rentalAmount: Number(rentAmount || 0),
-          stayType: activeTab,
+          stayType: stayType,
 
           deductions: fields
             ?.filter(
@@ -811,7 +876,7 @@ function AddTenantBookingCheckin({
           mobile: DraftTenantDetails?.mobileNo || "",
           emailId: DraftTenantDetails?.emailId || "",
 
-          joiningDate: "",
+          joiningDate: DraftTenantDetails?.hostelInfo?.joiningDate,
           bookingDate: bookingDateForFormatted,
           bookingAmount: bookingAmount ? Number(bookingAmount) : "",
           bedId: bookingBed ? Number(bookingBed) : "",
@@ -822,10 +887,11 @@ function AddTenantBookingCheckin({
           advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount
             ? Number(DraftTenantDetails.hostelInfo.advanceAmount)
             : "",
-          rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent
-            ? Number(DraftTenantDetails.hostelInfo.monthlyRent)
-            : "",
-          stayType: "long",
+          // rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent
+          //   ? Number(DraftTenantDetails.hostelInfo.monthlyRent)
+          //   : "",
+          rentalAmount: totalRent ? Number(totalRent) : "",
+          stayType: stayType,
 
           deductions: DraftTenantDetails?.deductions || [],
 
@@ -1166,7 +1232,7 @@ function AddTenantBookingCheckin({
   };
 
   const handleRemoveFieldOneTime = (index) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...oneTimePayments];
     updatedFields.splice(index, 1);
     setOneTimePayments(updatedFields);
 
@@ -1279,6 +1345,12 @@ function AddTenantBookingCheckin({
   }, [bookingJoiningDate, joiningDate]);
 
   const handleBedLayoutPreview = (way) => {
+    setCheckInFloorError("");
+    setCheckInRoomError("");
+    setCheckInBedError("");
+    setFloorError("");
+    setRoomError("");
+    setBedError("");
     setPgLatyout(true);
     if (way === "booking-way") {
       setIsWay(true);
@@ -1392,9 +1464,10 @@ function AddTenantBookingCheckin({
               <span className="text-red-500 text-xl">*</span>
             </label>
 
-            <div className="datepicker-wrapper relative w-full mt-1">
+            <div className="datepicker-wrapper relative w-full mt-1 ">
               <div className="datepicker-wrapper relative w-full">
                 <DatePicker
+                  // ref={joiningDateRef}
                   className="w-full h-12 cursor-pointer text-[14px] font-gilroy"
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
@@ -1714,7 +1787,7 @@ function AddTenantBookingCheckin({
           {stayType === "long" ? (
             <div>
               <div className="grid grid-cols-1 gap-4 mb-2">
-                <div className="mb-2">
+                <div className="mb-2" ref={CheckinJoiningDateRef}>
                   <label className="text-sm font-medium text-[#222222] mb-2 block">
                     Joining Date <span className="text-red-500 text-xl">*</span>
                   </label>
@@ -1759,7 +1832,7 @@ function AddTenantBookingCheckin({
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">
-                  <div>
+                  <div ref={checkinFloorRef}>
                     <label className="text-sm font-medium text-[#222222] mb-2 block">
                       Floor <span className="text-red-500 text-xl">*</span>
                     </label>
@@ -1778,7 +1851,7 @@ function AddTenantBookingCheckin({
                       <ErrorMessage message={checkInFloorError} type="error" />
                     )}
                   </div>
-                  <div>
+                  <div ref={checkinRoomRef}>
                     <label className="text-sm font-medium text-[#222222] mb-2 block">
                       Room <span className="text-red-500 text-xl">*</span>
                     </label>
@@ -1804,7 +1877,7 @@ function AddTenantBookingCheckin({
                       <ErrorMessage message={checkInRoomError} type="error" />
                     )}
                   </div>
-                  <div>
+                  <div ref={checkinBedRef}>
                     <label className="text-sm font-medium text-[#222222] mb-2 block">
                       Bed <span className="text-red-500 text-xl">*</span>
                     </label>
@@ -1893,6 +1966,7 @@ function AddTenantBookingCheckin({
 
                   <input
                     type="number"
+                    ref={advanceAmountRef}
                     placeholder="Enter Amount"
                     value={advanceAmount}
                     onChange={handleAdvanceAmount}
@@ -2081,6 +2155,7 @@ function AddTenantBookingCheckin({
                     <span className="text-red-500 text-xl">*</span>
                   </label>
                   <input
+                    ref={rentAmountRef}
                     type="number"
                     placeholder="Enter Rental Amount"
                     value={rentAmount}
@@ -2160,6 +2235,7 @@ function AddTenantBookingCheckin({
                             type="number"
                             value={customRent}
                             onChange={handleCustomRentChange}
+                            onWheel={(e) => e.target.blur()}
                             className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                               customRent ? "font-semibold" : "font-medium"
                             } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
@@ -2283,9 +2359,9 @@ function AddTenantBookingCheckin({
                                 />
                               </>
                             )}
-                            {errors[index]?.reason && (
+                            {oneTimePaymentErrors[index]?.reason && (
                               <ErrorMessage
-                                message={errors[index]?.reason}
+                                message={oneTimePaymentErrors[index]?.reason}
                                 type="error"
                               />
                             )}
@@ -2315,9 +2391,9 @@ function AddTenantBookingCheckin({
                                 borderRadius: 8,
                               }}
                             />
-                            {errors[index]?.amount && (
+                            {oneTimePaymentErrors[index]?.amount && (
                               <ErrorMessage
-                                message={errors[index]?.amount}
+                                message={oneTimePaymentErrors[index]?.amount}
                                 type="error"
                               />
                             )}

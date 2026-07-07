@@ -15,7 +15,9 @@
  .custom-modals-style .modal-content {
    min-width: 550px;
  }
-
+.custom-modals-style-Book-checkin .modal-content{
+min-width: 690px;
+}
 
  .tenantCheck-style .modal-content {
    min-width: 600px;

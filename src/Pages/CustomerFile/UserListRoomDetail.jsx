@@ -1757,23 +1757,7 @@ function UserListRoomDetail(props) {
     CustomerOverView?.kycInfo?.aadhaarImage ||
     null;
 
-  // console.log("CustomerOverView", CustomerOverView)
-
-  // const handleFileUpload = (index, e) => {
-  //   const file = e.target.files[0];
-
-  //   if (!file) return;
-
-  //   const updatedDoc = {
-  //     name: file.name,
-  //     size: `${Math.round(file.size / 1024)} KB`,
-  //     type: file.name.split(".").pop().toUpperCase(),
-  //   };
-
-  //   const newDocuments = [...documents];
-  //   newDocuments[index] = updatedDoc;
-  //   setDocuments(newDocuments);
-  // };
+  const canShowEdit = !!CustomerOverView?.profilePic || !imageUrl;
 
   const handleCustomerCheckout = (item) => {
     setCustomerCheckoutpage(true);
@@ -2046,7 +2030,7 @@ function UserListRoomDetail(props) {
                     100%
                   </span>
 
-                  {!CustomerOverView.kycInfo?.aadhaarImage && isHovered && (
+                  {canShowEdit && isHovered && (
                     <div
                       className={`absolute inset-0 rounded-full flex items-center justify-center bg-black/30 z-20
               ${canUpdateTenant ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
