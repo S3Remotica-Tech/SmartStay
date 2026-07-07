@@ -805,16 +805,16 @@ function AddTenantBookingCheckin({
 
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
       setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
-      setFields(
-        DraftTenantDetails?.deductions?.map((item) => ({
-          reason_name: item.type || "",
-          reason: item.type || "",
-          amount: item.amount || "",
-          paidAmount: item.paidAmount || 0,
-          showInput: false,
-          customReason: "",
-        })),
-      );
+     setFields(
+  DraftTenantDetails?.deductions?.map((item) => ({
+    reason_name: item.type || "",
+    reason: item.type || "",
+    amount: item.amount || "",
+    paidAmount: item.paidAmount || 0,
+    showInput: false,
+    customReason: "",
+  })) || []
+);
     } else {
       setBookingDate(null);
       setBookingAmount("");
@@ -1497,12 +1497,30 @@ function AddTenantBookingCheckin({
                   Select Stay Details
                 </label>
               </div>
-              <button
-                onClick={() => handleBedLayoutPreview("booking-way")}
-                className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
-              >
-                <IoBedOutline className="text-[12px]" /> Bed Layout View
-              </button>
+              <div className="relative inline-block group">
+                <button
+                  onClick={() => {
+                    if (bookingJoiningDate) {
+                      handleBedLayoutPreview("booking-way");
+                    }
+                  }}
+                  className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
+                    bookingJoiningDate
+                      ? "bg-[#EDF3FF] text-[#1E45E1]"
+                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }`}
+                >
+                  <IoBedOutline className="text-[12px]" />
+                  Bed Layout View
+                </button>
+
+                {!bookingJoiningDate && (
+                  <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
+                    Please select the joining date first.
+                    <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
