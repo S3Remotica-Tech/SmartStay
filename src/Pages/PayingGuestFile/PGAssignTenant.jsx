@@ -693,7 +693,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   //   }
   // }, [state.login.selectedHostel_Id]);
 
-  // console.log("currentItem0,", currentItem);
+  console.log("isAdvanceRefused,", isAdvanceRefused);
 
   const handleSaveCheckin = () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
@@ -707,7 +707,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     if (!validateField(stay_typename, "stay_typename")) hasError = true;
     if (!validateField(checkin_joiningDate, "checkin_joiningDate"))
       hasError = true;
-    if (!isAdvanceRefused && !validateField(AdvanceAmount, "Advance Amount")) {
+    if (!isAdvanceRefused && !validateField(AdvanceAmount, "AdvanceAmount")) {
       hasError = true;
     }
     if (!validateField(RoomRent, "RoomRent")) hasError = true;
@@ -1370,7 +1370,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                 type="button"
                                 onClick={() => {
                                   setIsAdvanceRefused(!isAdvanceRefused);
-                                  if (!isAdvanceRefused) setAdvanceAmount("");
+
+                                  if (!isAdvanceRefused) {
+                                    setAdvanceAmount("");
+                                  }
+
+                                  setAdvanceAmountError("");
                                 }}
                                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
                                   isAdvanceRefused

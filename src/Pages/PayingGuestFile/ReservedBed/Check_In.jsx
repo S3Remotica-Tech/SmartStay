@@ -746,9 +746,12 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                       type="button"
                       onClick={() => {
                         setIsAdvanceRefused(!isAdvanceRefused);
+
                         if (!isAdvanceRefused) {
                           setAdvanceAmount("");
                         }
+
+                        setAdvanceAmountError("");
                       }}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
                         isAdvanceRefused ? "bg-[#1E45E1]" : "bg-gray-300"

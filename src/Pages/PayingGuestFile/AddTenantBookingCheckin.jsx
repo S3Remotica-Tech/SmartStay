@@ -2003,7 +2003,12 @@ function AddTenantBookingCheckin({
                         type="button"
                         onClick={() => {
                           setIsAdvanceRefused(!isAdvanceRefused);
-                          if (!isAdvanceRefused) setAdvanceAmount("");
+
+                          if (!isAdvanceRefused) {
+                            setAdvanceAmount("");
+                          }
+
+                          setAdvanceAmountError("");
                         }}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
                           isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
