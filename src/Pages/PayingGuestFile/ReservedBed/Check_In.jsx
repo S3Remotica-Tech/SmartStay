@@ -3,14 +3,125 @@ import React, { useState, useEffect } from "react";
 import { Modal, Form, Button, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
-import { CloseCircle, Trash } from "iconsax-react";
+import {
+  Add,
+  ArrowDown2,
+  ArrowUp2,
+  InfoCircle,
+  ArrowRight2,
+  Edit2,
+  CloseCircle,
+  AddCircle,
+  Trash,
+} from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import addcircle from "../../../Assets/Images/New_images/add-circle.png";
 import ErrorMessage from "../../../Components/ErrorMessage";
-// import Profileimage from "../../../Assets/Images/New_images/profile-picture.png";
+
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    width: "100%",
+    minWidth: "100%",
+    minHeight: "45px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "100%",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 
 function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   const state = useSelector((state) => state);
@@ -30,6 +141,90 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   const [roomrentError, setRoomRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
+
+  const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
+
+  const [collectFullRent, setCollectFullRent] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [customRentEnable, setCustomRentEnable] = useState(false);
+  const [customRent, setCustomRent] = useState("");
+  const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  const [oneTimePayments, setOneTimePayments] = useState([]);
+
+  const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
+  const handleCustomRentChange = (e) => {
+    setCustomRent(e.target.value);
+  };
+  const handleAddOneTimePayment = () => {
+    setOneTimePayments([
+      ...oneTimePayments,
+      {
+        reason: "",
+        reason_name: "",
+        customReason: "",
+        amount: "",
+        showInput: false,
+      },
+    ]);
+  };
+  const handleCheckboxChange = (e) => {
+    setCollectFullRent(e.target.checked);
+  };
+
+  const handleAccordionToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+  const handleInputChangeOneTime = (index, field, value) => {
+    const updatedFields = [...oneTimePayments];
+    const updatedErrors = [...errors];
+
+    if (field === "reason" || field === "customReason") {
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
+        }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      let numericValue = value.replace(/[^0-9.]/g, "");
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setOneTimePayments(updatedFields);
+    // setErrorsOneTime(updatedErrors);
+  };
+
+  const handleRemoveFieldOneTime = (index) => {
+    const updatedFields = [...oneTimePayments];
+    updatedFields.splice(index, 1);
+    setOneTimePayments(updatedFields);
+
+    const updatedErrors = [...errors];
+    updatedErrors.splice(index, 1);
+  };
 
   useEffect(() => {
     if (currentItem?.tenetId) {
@@ -56,7 +251,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   }, [state.UsersList?.bookedDetails]);
 
   const handleRoomRent = (e) => {
-     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
       return;
@@ -66,7 +261,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   };
 
   const handleAdvanceAmount = (e) => {
-     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const advanceAmount = e.target.value;
     if (!/^\d*$/.test(advanceAmount)) {
       return;
@@ -86,7 +281,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
 
   const handleStayTypeChange = (selectedOption) => {
-     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     setStayTypeName(selectedOption?.value || "");
     if (!selectedOption) {
       setStayTypeNameErrMsg("Please Select Staytype");
@@ -114,14 +309,14 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   ];
 
   const handleAddField = () => {
-     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
 
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
   const handleInputChange = (index, field, value) => {
-     dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
     const updatedFields = [...fields];
     const updatedErrors = [...errors];
 
@@ -165,7 +360,6 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
   };
 
   const handleRemoveField = (index) => {
-    
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
     setFields(updatedFields);
@@ -192,7 +386,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
       hasError = true;
     }
 
-    if (!AdvanceAmount) {
+    if (!isAdvanceRefused && !AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       hasError = true;
     }
@@ -205,19 +399,6 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
       setRoomRentError("Please Enter Valid Rental Amount");
       hasError = true;
     }
-
-    if (
-      AdvanceAmount === "" ||
-      AdvanceAmount === null ||
-      AdvanceAmount === undefined
-    ) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      hasError = true;
-    }
-    // if (Number(AdvanceAmount) <= 0) {
-    //     setAdvanceAmountError("Please Enter Valid Advance Amount");
-    //     hasError = true;
-    // }
 
     setErrors(newErrors);
 
@@ -389,7 +570,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
               </div>
             </Modal.Header>
 
-            <Modal.Body className="show-scrolls pt-0 mt-1 mr-3 max-h-96 overflow-y-scroll p-6">
+            <Modal.Body className="show-scrolls pt-0 mt-1 mr-3 max-h-96 overflow-y-scroll p-6 font-gilroy">
               <div className="flex items-center gap-3 mb-3 mt-1">
                 {currentItem?.profilePic && currentItem?.profilePic !== "0" ? (
                   <Image
@@ -511,50 +692,6 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                 )}
               </div>
 
-              <div className="flex flex-wrap gap-4">
-                <div className="flex-1 min-w-[200px]">
-                  <label className="block text-sm font-medium text-gray-900 font-gilroy mb-1">
-                    Rental Amount{" "}
-                    <span className="text-red-500 text-xl">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={RoomRent}
-                    onChange={handleRoomRent}
-                    placeholder={
-                      placeHolderRoomRent
-                        ? `Selected Bed Rent is ${placeHolderRoomRent}`
-                        : "Enter Amount"
-                    }
-                    className={`w-full h-12 px-3 text-base text-gray-700 font-gilroy 
-              rounded-lg border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 
-              ${RoomRent ? "font-semibold" : "font-medium"}`}
-                  />
-                  {roomrentError && (
-                    <ErrorMessage message={roomrentError} type="error" />
-                  )}
-                </div>
-
-                <div className="flex-1 min-w-[200px]">
-                  <label className="block text-sm font-medium text-gray-900 font-gilroy mb-1">
-                    Advance Amount{" "}
-                    <span className="text-red-500 text-xl">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={AdvanceAmount}
-                    onChange={handleAdvanceAmount}
-                    placeholder="Enter Advance Amount"
-                    className={`w-full h-12 px-3 text-base text-gray-700 font-gilroy 
-              rounded-lg border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 
-              ${AdvanceAmount ? "font-semibold" : "font-medium"}`}
-                  />
-                  {advanceAmountError && (
-                    <ErrorMessage message={advanceAmountError} type="error" />
-                  )}
-                </div>
-              </div>
-
               <div className="w-full mt-2">
                 <label className="block text-sm font-medium text-gray-900 font-gilroy mb-1">
                   Joining Date <span className="text-red-500 text-xl">*</span>
@@ -568,7 +705,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                     onChange={(date) => {
                       setJoiningDate(date);
                       setJoingDateErrmsg("");
-                       dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+                      dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
                     }}
                     getPopupContainer={() => document.body}
                     disabledDate={(current) => {
@@ -589,19 +726,80 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                 )}
               </div>
 
+              <div className="flex-1 min-w-[200px] mt-2">
+                <div className="flex items-start justify-between mb-2">
+                  <label className="flex items-center text-sm font-medium text-gray-900 font-gilroy">
+                    Advance Amount
+                    {!isAdvanceRefused && (
+                      <span className="ml-1 text-red-500 text-xl leading-none">
+                        *
+                      </span>
+                    )}
+                  </label>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-700 whitespace-nowrap">
+                      Do you want to refuse advance amount?
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsAdvanceRefused(!isAdvanceRefused);
+
+                        if (!isAdvanceRefused) {
+                          setAdvanceAmount("");
+                        }
+
+                        setAdvanceAmountError("");
+                      }}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                        isAdvanceRefused ? "bg-[#1E45E1]" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 rounded-full bg-white transition-transform duration-300 ${
+                          isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
+
+                <input
+                  type="text"
+                  value={AdvanceAmount}
+                  onChange={handleAdvanceAmount}
+                  disabled={isAdvanceRefused}
+                  placeholder="Enter Advance Amount"
+                  className={`w-full h-12 rounded-md border px-3 text-sm font-gilroy focus:outline-none focus:ring-0 focus:border-gray-300  ${
+                    isAdvanceRefused
+                      ? "bg-gray-100 border-gray-200 cursor-not-allowed text-gray-500"
+                      : "border-gray-300 text-gray-700"
+                  } ${AdvanceAmount ? "font-semibold" : "font-medium"}`}
+                />
+
+                {advanceAmountError && (
+                  <ErrorMessage message={advanceAmountError} type="error" />
+                )}
+              </div>
+
               <div className="bg-[#F7F9FF] pb-4 rounded-lg mt-3 mb-2 p-2">
                 <div className="flex justify-between items-center pt-3">
-                  <label className="text-sm font-medium text-gray-700 font-gilroy">
+                  <label className="text-sm font-medium text-gray-700 font-gilroy whitespace-nowrap">
                     Non Refundable Amount
                   </label>
                   <button
+                    disabled={isAdvanceRefused}
                     onClick={handleAddField}
-                    className="flex items-center gap-1 bg-blue-700 text-white px-4 py-1.5 rounded-lg text-sm font-semibold"
+                    className="flex items-center  justify-center w-fit gap-1.5 bg-[#EAEEFF]  
+                                         disabled:bg-gray-100 disabled:text-gray-500
+                                         disabled:cursor-not-allowed 
+                                         text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
                   >
-                    <img
-                      src={addcircle}
-                      alt="Add"
-                      className="w-4 h-4 filter brightness-0 invert"
+                    <AddCircle
+                      color={`${isAdvanceRefused ? "#4a4948" : "#1E45E1"}`}
+                      size="14"
                     />
                     Add
                   </button>
@@ -729,6 +927,288 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                     </div>
                   );
                 })}
+              </div>
+
+              <div className="flex flex-wrap gap-4 ">
+                <div className="flex-1 min-w-[200px]">
+                  <label className="block text-sm font-medium text-gray-900 font-gilroy mb-1">
+                    Rental Amount{" "}
+                    <span className="text-red-500 text-xl">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={RoomRent}
+                    onChange={handleRoomRent}
+                    placeholder={
+                      placeHolderRoomRent
+                        ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                        : "Enter Amount"
+                    }
+                    className={`w-full h-12 px-3 text-base text-gray-700 font-gilroy 
+              rounded-lg border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 
+              ${RoomRent ? "font-semibold" : "font-medium"}`}
+                  />
+                  {roomrentError && (
+                    <ErrorMessage message={roomrentError} type="error" />
+                  )}
+                </div>
+              </div>
+
+              <div className="max-w-5xl bg-white">
+                <div className="flex items-center gap-2 px-1 py-3">
+                  <div className="flex items-center gap-2 ">
+                    <input
+                      type="checkbox"
+                      checked={collectFullRent}
+                      onChange={handleCheckboxChange}
+                      className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+                    />
+
+                    <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2 whitespace-nowrap">
+                      Do you want to collect Full Rent for current month?
+                      <InfoCircle
+                        size="16"
+                        color="#9CA3AF"
+                        variant="Linear"
+                        className="cursor-pointer"
+                      />
+                    </label>
+                  </div>
+                  {collectFullRent && (
+                    <div>
+                      <button
+                        onClick={() => setCustomRentEnable(!customRentEnable)}
+                        className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
+                          customRentEnable
+                            ? "bg-[#0D1B8E] text-white"
+                            : "bg-[#EAEEFF] text-[#1E45E1]"
+                        }`}
+                      >
+                        {customRentEnable ? (
+                          <>
+                            Remove Custom Rent
+                            <CloseCircle size="18" variant="Bold" />
+                          </>
+                        ) : (
+                          <>
+                            Add Custom Rent
+                            <ArrowRight2 size="16" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {customRentEnable && (
+                  <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
+                    <div>
+                      <div className="text-sm font-medium text-[#222222] mb-1">
+                        Custom Rent Amount
+                      </div>
+                      <div className="text-[#64748B] text-[12px] font-medium">
+                        This amount is reflects to First month Rent only.
+                      </div>
+                    </div>
+                    <div className="relative min-w-[220px]">
+                      {customRentEditMode ? (
+                        <>
+                          <input
+                            type="number"
+                            value={customRent}
+                            onChange={handleCustomRentChange}
+                            onWheel={(e) => e.target.blur()}
+                            className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                              customRent ? "font-semibold" : "font-medium"
+                            } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                          />
+
+                          <button
+                            onClick={() => setCustomRentEditMode(false)}
+                            className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                          >
+                            Set
+                          </button>
+                        </>
+                      ) : (
+                        <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
+                          <span className="font-semibold text-[#222222] text-base">
+                            ₹ {customRent || 0}
+                          </span>
+
+                          <button
+                            onClick={() => setCustomRentEditMode(true)}
+                            className="text-[#1E45E1]"
+                          >
+                            <Edit2 size="18" color="#64748B" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
+                  <div
+                    onClick={handleAccordionToggle}
+                    className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
+                  >
+                    <h3 className="text-[14px] font-medium text-[#222222]">
+                      Add Onetime Payment
+                    </h3>
+
+                    {isOpen ? (
+                      <ArrowUp2 size="20" color="#4B5563" variant="Linear" />
+                    ) : (
+                      <ArrowDown2 size="20" color="#4B5563" variant="Linear" />
+                    )}
+                  </div>
+
+                  <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
+                    {oneTimePayments.map((item, index) => {
+                      const isMaintenanceSelected = oneTimePayments.some(
+                        (field) => field.reason === "maintenance",
+                      );
+
+                      const filteredOptions = reasonOptions.map((opt) => {
+                        if (opt.value === "maintenance") {
+                          return {
+                            ...opt,
+                            isDisabled:
+                              isMaintenanceSelected &&
+                              item.reason !== "maintenance",
+                          };
+                        }
+                        return opt;
+                      });
+
+                      return (
+                        <div className="row px-4 mb-3" key={index}>
+                          <div className="col-md-6">
+                            {!item.showInput ? (
+                              <Select
+                                menuPlacement="bottom"
+                                // menuPosition="fixed"
+                                options={filteredOptions}
+                                value={
+                                  filteredOptions.find(
+                                    (opt) => opt.value === item.reason_name,
+                                  ) || null
+                                }
+                                onChange={(selectedOption) => {
+                                  const selectedValue = selectedOption.value;
+
+                                  if (selectedValue === "others") {
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "reason",
+                                      "others",
+                                    );
+                                  } else {
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "reason",
+                                      selectedValue,
+                                    );
+                                  }
+                                }}
+                                isDisabled={item.reason === "maintenance"}
+                                styles={CustomStyles}
+                              />
+                            ) : (
+                              <>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter custom reason"
+                                  value={item.customReason}
+                                  onChange={(e) =>
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "customReason",
+                                      e.target.value,
+                                    )
+                                  }
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                    border: "1px solid #D9D9D9",
+                                    height: 45,
+                                    borderRadius: 8,
+                                  }}
+                                />
+                              </>
+                            )}
+                            {oneTimePaymentErrors[index]?.reason && (
+                              <ErrorMessage
+                                message={oneTimePaymentErrors[index]?.reason}
+                                type="error"
+                              />
+                            )}
+                          </div>
+
+                          <div className="col-md-5 relative">
+                            <input
+                              type="text"
+                              placeholder="Enter amount"
+                              value={item.amount}
+                              //                                  onKeyDown={(e) => {
+                              // if (e.key === "." || e.key === "e" || e.key === "-") {
+                              //   e.preventDefault();
+                              // }
+                              // }}
+                              onChange={(e) =>
+                                handleInputChangeOneTime(
+                                  index,
+                                  "amount",
+                                  e.target.value,
+                                )
+                              }
+                              className="form-control"
+                              style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                                border: "1px solid #D9D9D9",
+                                height: 45,
+                                borderRadius: 8,
+                              }}
+                            />
+                            {oneTimePaymentErrors[index]?.amount && (
+                              <ErrorMessage
+                                message={oneTimePaymentErrors[index]?.amount}
+                                type="error"
+                              />
+                            )}
+                            <CloseCircle
+                              variant="Bold"
+                              size="20"
+                              className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                              onClick={() => handleRemoveFieldOneTime(index)}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {isOpen && (
+                    <div className="p-4 bg-[#F7FAFF]">
+                      <button
+                        onClick={handleAddOneTimePayment}
+                        className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                      >
+                        <Add size="16" color="#4F46E5" variant="Linear" />
+                        Add
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </Modal.Body>
 
