@@ -306,7 +306,7 @@ function AddExpenseNew() {
   const [amount, setAmount] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
   const [purchaseDateError, setPurchaseDateError] = useState("");
-  const [linkVendor, setLinkVendor] = useState(true);
+  const [linkVendor, setLinkVendor] = useState(false);
   const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [description, setDescription] = useState("");
@@ -628,10 +628,10 @@ function AddExpenseNew() {
       isValid = false;
     };
 
-    if (!expenseTitle.trim()) {
-      setExpenseTitleError("Please Enter Expense Title");
-      setFirstError(expenseTitleRef);
-    }
+    // if (!expenseTitle.trim()) {
+    //   setExpenseTitleError("Please Enter Expense Title");
+    //   setFirstError(expenseTitleRef);
+    // }
 
     if (!category) {
       setCategoryError("Please Select Category");
@@ -702,17 +702,17 @@ function AddExpenseNew() {
       setFirstError(paymentMethodRef);
     }
 
-    if (expenseItems.length === 0) {
-      setExpenseItemErrors([
-        {
-          itemName: "Enter item details",
-          quantity: "Enter quantity",
-          unit: "Select unit",
-          price: "Enter amount",
-        },
-      ]);
-      isValid = false;
-    }
+    // if (expenseItems.length === 0) {
+    //   setExpenseItemErrors([
+    //     {
+    //       itemName: "Enter item details",
+    //       quantity: "Enter quantity",
+    //       unit: "Select unit",
+    //       price: "Enter amount",
+    //     },
+    //   ]);
+    //   isValid = false;
+    // }
 
     if (firstErrorRef?.current) {
       firstErrorRef.current.focus();
@@ -730,7 +730,6 @@ function AddExpenseNew() {
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
-    console.log("executed");
     setPaymentMethodError("");
     setPaidAmountError("");
     setSubCategoryError("");
@@ -780,21 +779,29 @@ function AddExpenseNew() {
       }));
       return;
     }
-    // if (itemsTotal > total) {
-    //   setErrors((prev) => ({
-    //     ...prev,
-    //     totalAmount: "Expense items total cannot exceed Total Amount",
-    //   }));
-    //   return;
-    // }
 
-    if (Number(totalAmount.toFixed(2)) !== Number(total.toFixed(2))) {
+    if (expenseItems.length > 0) {
+        if (itemsTotal > total) {
+      setErrors((prev) => ({
+        ...prev,
+        totalAmount: "Expense items total cannot exceed Total Amount",
+      }));
+      return;
+    }
+    }
+
+    if (expenseItems.length > 0) {
+      if (Number(amount.toString()) !== Number(total.toFixed(2))) {
       setErrors((prev) => ({
         ...prev,
         totalAmount: "Total Retainer Amount must be equal to the total Amount",
       }));
       return;
     }
+    }
+
+  
+    
 
     if (paid > total) {
       setErrors((prev) => ({
@@ -1062,7 +1069,6 @@ function AddExpenseNew() {
             <div className="col-span-1 xl:col-span-8">
               <label className="block mb-2 text-[13px] font-medium text-[#222]">
                 Expense Title{" "}
-                <span className="text-red-500 text-[20px]">*</span>
               </label>
 
               <input
@@ -1602,17 +1608,19 @@ function AddExpenseNew() {
                     <tr className="bg-[#F9FAFB] text-left text-xs text-[#6B7280] rounded-xl">
                       <th className="p-2 border border-[#F9FAFB] rounded-t-lg">
                         ITEM DETAILS{" "}
-                        <span className="text-red-500 ml-1">*</span>
+                        {/* <span className="text-red-500 ml-1">*</span> */}
                       </th>
                       <th className="p-2 w-[100px] border border-[#F9FAFB]">
-                        QUANTITY <span className="text-red-500 ml-1">*</span>
+                        QUANTITY 
+                        {/* <span className="text-red-500 ml-1">*</span> */}
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
-                        UNIT <span className="text-red-500 ml-1">*</span>
+                        UNIT 
+                        {/* <span className="text-red-500 ml-1">*</span> */}
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
                         PER UNIT PRICE{" "}
-                        <span className="text-red-500 ml-1">*</span>
+                        {/* <span className="text-red-500 ml-1">*</span> */}
                       </th>
                       <th className="p-2 w-[140px] border border-[#F9FAFB]">
                         AMOUNT
@@ -1886,7 +1894,7 @@ function AddExpenseNew() {
                       <span className="text-sm">TOTAL AMOUNT</span>
 
                       <span className="text-sm">
-                        ₹ {totalAmount.toLocaleString("en-IN")}
+                        ₹ {amount.toLocaleString("en-IN")}
                       </span>
                     </div>
                   </div>
