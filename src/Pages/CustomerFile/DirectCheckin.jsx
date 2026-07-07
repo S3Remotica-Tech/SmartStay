@@ -669,7 +669,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   };
 
   const handleInputChangeOneTime = (index, field, value) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...oneTimePayments];
     const updatedErrors = [...errors];
 
     if (field === "reason" || field === "customReason") {
@@ -781,7 +781,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
   const handleSelectedBedDetails = (details) => {
     setRooms(details?.roomId);
-    setBed(details?.id);
+    setBed(details?.bedId);
 
     setFloor(details?.floorId);
   };
@@ -898,12 +898,31 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         Select Stay Details
                       </label>
                     </div>
-                    <button
-                      onClick={handleBedLayoutPreview}
-                      className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
-                    >
-                      <IoBedOutline className="text-[12px]" /> Bed Layout View
-                    </button>
+
+                    <div className="relative inline-block group">
+                      <button
+                        onClick={() => {
+                          if (selectedDate) {
+                            handleBedLayoutPreview();
+                          }
+                        }}
+                        className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
+                          selectedDate
+                            ? "bg-[#EDF3FF] text-[#1E45E1]"
+                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}
+                      >
+                        <IoBedOutline className="text-[12px]" />
+                        Bed Layout View
+                      </button>
+
+                      {!selectedDate && (
+                        <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
+                          Please select the joining date first.
+                          <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3">
