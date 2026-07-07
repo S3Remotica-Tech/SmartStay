@@ -1377,7 +1377,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
                     <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
                       {oneTimePayments.map((item, index) => {
-                        const isMaintenanceSelected = fields.some(
+                        const isMaintenanceSelected = oneTimePayments.some(
                           (field) => field.reason === "maintenance",
                         );
 

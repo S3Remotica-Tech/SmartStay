@@ -1212,7 +1212,7 @@ function AddExpenseNew() {
                     type="button"
                     onClick={() => {
                       setLinkVendor(false);
-                      setPaymentStatus(""); 
+                      setPaymentStatus("");
                     }}
                     className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${
                       !linkVendor
