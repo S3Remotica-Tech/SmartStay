@@ -157,6 +157,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [dateError, setDateError] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
   const [errorsOneTime, setErrorsOneTime] = useState([]);
 
   const [activeTab, setActiveTab] = useState("LONG");
@@ -394,6 +395,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
 
     let newErrors = [];
+    let oneTimePaymentErrors = [];
     let isHasError = false;
 
     if (!Floor) {
@@ -452,6 +454,47 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     //   setAdvanceAmountError("Please Enter  Advance Amount");
     //   isHasError = true;
     // }
+
+    const formattedReasonsOneTimePayments = oneTimePayments
+      ?.map((item) => {
+        let reason_name = "";
+
+        if (
+          item.reason?.toLowerCase() === "others" ||
+          item.reason_name?.toLowerCase() === "others"
+        ) {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        const error = { reason: "", amount: "" };
+
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
+          error.amount = "Please enter amount";
+          isHasError = true;
+        }
+
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
+          error.reason = "Please enter reason";
+          isHasError = true;
+        }
+
+        oneTimePaymentErrors.push(error);
+
+        return {
+          type: reason_name,
+          amount: Number(item.amount) || "",
+        };
+      })
+      .filter((item) => item.type !== "" || item.amount !== "");
+
     const formattedReasons = fields
       .map((item) => {
         let reason_name = "";
@@ -485,12 +528,13 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
         newErrors.push(error);
         return {
           type: reason_name,
-          amount: item.amount || "",
+          amount: Number(item.amount) || "",
         };
       })
       .filter((item) => item.type !== "" || item.amount !== "");
 
     setErrors(newErrors);
+    setOneTimePaymentErrors(oneTimePaymentErrors);
 
     if (isHasError) return;
 
@@ -528,15 +572,18 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
         type: "CHECKIN",
         payload: {
           customerId: id,
-          // hostelId: state.login?.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
           floorId: Floor,
           bedId: Bed,
           roomId: Rooms,
           joiningDate: formattedDate,
-          advanceAmount: AdvanceAmount,
+          refundableAmount: AdvanceAmount,
           rentalAmount: RoomRent,
           stayType: activeTab,
           deductions: formattedReasons,
+          shouldCollectFullRent: collectFullRent,
+          customRent: Number(customRent),
+          oneTimeDeduction: formattedReasonsOneTimePayments,
         },
       });
       setFormLoading(true);
@@ -622,7 +669,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   };
 
   const handleInputChangeOneTime = (index, field, value) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...oneTimePayments];
     const updatedErrors = [...errors];
 
     if (field === "reason" || field === "customReason") {
@@ -734,7 +781,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
   const handleSelectedBedDetails = (details) => {
     setRooms(details?.roomId);
-    setBed(details?.id);
+    setBed(details?.bedId);
 
     setFloor(details?.floorId);
   };
@@ -851,12 +898,31 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         Select Stay Details
                       </label>
                     </div>
-                    <button
-                      onClick={handleBedLayoutPreview}
-                      className="bg-[#EDF3FF] text-[#1E45E1] px-2 py-1 text-[10px] rounded flex gap-2 items-center"
-                    >
-                      <IoBedOutline className="text-[12px]" /> Bed Layout View
-                    </button>
+
+                    <div className="relative inline-block group">
+                      <button
+                        onClick={() => {
+                          if (selectedDate) {
+                            handleBedLayoutPreview();
+                          }
+                        }}
+                        className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
+                          selectedDate
+                            ? "bg-[#EDF3FF] text-[#1E45E1]"
+                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}
+                      >
+                        <IoBedOutline className="text-[12px]" />
+                        Bed Layout View
+                      </button>
+
+                      {!selectedDate && (
+                        <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
+                          Please select the joining date first.
+                          <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3">
@@ -1453,9 +1519,9 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                   />
                                 </>
                               )}
-                              {errors[index]?.reason && (
+                              {oneTimePaymentErrors[index]?.reason && (
                                 <ErrorMessage
-                                  message={errors[index]?.reason}
+                                  message={oneTimePaymentErrors[index]?.reason}
                                   type="error"
                                 />
                               )}
@@ -1490,9 +1556,9 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                                   borderRadius: 8,
                                 }}
                               />
-                              {errors[index]?.amount && (
+                              {oneTimePaymentErrors[index]?.amount && (
                                 <ErrorMessage
-                                  message={errors[index]?.amount}
+                                  message={oneTimePaymentErrors[index]?.amount}
                                   type="error"
                                 />
                               )}
