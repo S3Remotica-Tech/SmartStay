@@ -684,17 +684,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "SETTINGS_GET_RECURRING",
-  //       payload: { hostelId: state.login.selectedHostel_Id },
-  //     });
-  //   }
-  // }, [state.login.selectedHostel_Id]);
-
-  console.log("isAdvanceRefused,", isAdvanceRefused);
-
   const handleSaveCheckin = () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     let hasReasonAmountError = false;
@@ -707,7 +696,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     if (!validateField(stay_typename, "stay_typename")) hasError = true;
     if (!validateField(checkin_joiningDate, "checkin_joiningDate"))
       hasError = true;
-    if (!isAdvanceRefused && !validateField(AdvanceAmount, "AdvanceAmount")) {
+    // if (!isAdvanceRefused && !validateField(AdvanceAmount, "AdvanceAmount")) {
+    //   hasError = true;
+    // }
+
+    if (!validateField(AdvanceAmount, "AdvanceAmount")) {
       hasError = true;
     }
     if (!validateField(RoomRent, "RoomRent")) hasError = true;
@@ -1251,54 +1244,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           classNamePrefix="custom"
                           menuPlacement="auto"
                           noOptionsMessage={() => "No stay types available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              padding: "3px 5px ",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: longStayOnly ? 600 : 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#9aa0a6",
-                              fontWeight: 500,
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused
-                                ? "#f0f0f0"
-                                : "white",
-                              color: "#000",
-                            }),
-                          }}
+                          styles={CustomStyles}
                         />
 
                         {stay_typenameErrmsg.trim() !== "" && (
@@ -1356,12 +1302,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           <div className="flex items-center justify-between ">
                             <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                               Advance amount ₹ (INR)
-                              {!isAdvanceRefused && (
-                                <span className="text-red-500 text-xl">*</span>
-                              )}
+                              {/* {!isAdvanceRefused && ( */}
+                              <span className="text-red-500 text-xl">*</span>
+                              {/* )} */}
                             </Form.Label>
 
-                            <div className="flex items-center justify-between mt-1 gap-2  mb-2">
+                            {/* <div className="flex items-center justify-between mt-1 gap-2  mb-2">
                               <span className="text-xs text-gray-700 font-medium">
                                 Do you want to refuse advance amount?
                               </span>
@@ -1391,7 +1337,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                   }`}
                                 />
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                           <FormControl
                             type="text"
@@ -1665,7 +1611,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       )}
                     </div>
 
-                    <div className="max-w-5xl bg-white">
+                    {/* <div className="max-w-5xl bg-white">
                       <div className="flex items-center gap-2 px-1 py-3">
                         <div className="flex items-center gap-2 ">
                           <input
@@ -1938,7 +1884,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           </div>
                         )}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   {state.UsersList?.bedAvailableError ? (
