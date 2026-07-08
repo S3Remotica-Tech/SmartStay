@@ -47,16 +47,20 @@ function ExpenseItems() {
                   {expenseItems.length > 0 ? (
                     expenseItems.map((item, index) => (
                       <tr key={index} className="border-b last:border-b-0">
-                        <td className="px-4 py-2 text-sm">{item.item}</td>
+                        <td className="px-4 py-2 text-sm">
+                          {item.item || "-"}
+                        </td>
 
                         <td className="px-4 py-2 text-[#1E45E1] text-sm">
                           {item.quantity}
                         </td>
 
-                        <td className="px-4 py-2 text-sm">{item.unit}</td>
+                        <td className="px-4 py-2 text-sm">
+                          {item.unit || "-"}
+                        </td>
 
                         <td className="px-4 py-2 text-[#1E45E1] text-sm">
-                          ₹ {item.unitPrice}
+                          ₹ {item.unitPrice || 0}
                         </td>
 
                         <td className="px-4 py-2 font-medium">

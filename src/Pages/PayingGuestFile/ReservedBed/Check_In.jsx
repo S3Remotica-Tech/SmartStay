@@ -386,6 +386,10 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
       hasError = true;
     }
 
+    // if (!isAdvanceRefused && !AdvanceAmount) {
+    //   setAdvanceAmountError("Please Enter Advance Amount");
+    //   hasError = true;
+    // }
     if (!isAdvanceRefused && !AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       hasError = true;
@@ -730,14 +734,14 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                 <div className="flex items-start justify-between mb-2">
                   <label className="flex items-center text-sm font-medium text-gray-900 font-gilroy">
                     Advance Amount
-                    {!isAdvanceRefused && (
-                      <span className="ml-1 text-red-500 text-xl leading-none">
-                        *
-                      </span>
-                    )}
+                    {/* {!isAdvanceRefused && ( */}
+                    <span className="ml-1 text-red-500 text-xl leading-none">
+                      *
+                    </span>
+                    {/* )} */}
                   </label>
 
-                  <div className="flex items-center gap-2">
+                  {/* <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-700 whitespace-nowrap">
                       Do you want to refuse advance amount?
                     </span>
@@ -763,7 +767,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                         }`}
                       />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
 
                 <input
@@ -790,7 +794,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                     Non Refundable Amount
                   </label>
                   <button
-                    disabled={isAdvanceRefused}
+                    // disabled={isAdvanceRefused}
                     onClick={handleAddField}
                     className="flex items-center  justify-center w-fit gap-1.5 bg-[#EAEEFF]  
                                          disabled:bg-gray-100 disabled:text-gray-500
@@ -954,7 +958,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                 </div>
               </div>
 
-              <div className="max-w-5xl bg-white">
+              {/* <div className="max-w-5xl bg-white">
                 <div className="flex items-center gap-2 px-1 py-3">
                   <div className="flex items-center gap-2 ">
                     <input
@@ -1209,7 +1213,7 @@ function CheckIn({ show, handleClose, currentItem, pgDetails }) {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </Modal.Body>
 
             {formLoading && (

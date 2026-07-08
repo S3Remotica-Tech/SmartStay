@@ -357,7 +357,11 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
       hasError = true;
     }
 
-    if (!isAdvanceRefused && !AdvanceAmount) {
+    // if (!isAdvanceRefused && !AdvanceAmount) {
+    //   setAdvanceAmountError("Please Enter Advance Amount");
+    //   hasError = true;
+    // }
+    if (!AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       hasError = true;
     }
@@ -698,13 +702,13 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                           <div className="flex items-center justify-between ">
                             <Form.Label className="text-sm text-gray-800 font-gilroy font-medium flex-shrink-0">
                               Advance amount ₹ (INR)
-                              {!isAdvanceRefused && (
-                                <span className="text-red-500 text-xl flex-shrink-0">
-                                  *
-                                </span>
-                              )}
+                              {/* {!isAdvanceRefused && ( */}
+                              <span className="text-red-500 text-xl flex-shrink-0">
+                                *
+                              </span>
+                              {/* )} */}
                             </Form.Label>
-                            <div className="flex items-center justify-between mt-1 gap-2  mb-2">
+                            {/* <div className="flex items-center justify-between mt-1 gap-2  mb-2">
                               <span className="text-xs text-gray-700 font-medium">
                                 Do you want to refuse advance amount?
                               </span>
@@ -734,7 +738,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                   }`}
                                 />
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                           <FormControl
                             type="text"
@@ -771,7 +775,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                       </div>
                       <div>
                         <button
-                          disabled={isAdvanceRefused}
+                          // disabled={isAdvanceRefused}
                           onClick={handleAddField}
                           className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
                         disabled:bg-gray-100 disabled:text-gray-500
@@ -976,7 +980,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                     )}
                   </div>
                   {/* new changes */}
-                  <div className="max-w-5xl bg-white">
+                  {/* <div className="max-w-5xl bg-white">
                     <div className="flex items-center gap-2 px-1 py-3">
                       <div className="flex items-center gap-2 ">
                         <input
@@ -1248,7 +1252,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {state.UsersList.bedError && (
