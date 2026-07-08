@@ -684,15 +684,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "SETTINGS_GET_RECURRING",
-  //       payload: { hostelId: state.login.selectedHostel_Id },
-  //     });
-  //   }
-  // }, [state.login.selectedHostel_Id]);
-
   const handleSaveCheckin = () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     let hasReasonAmountError = false;
