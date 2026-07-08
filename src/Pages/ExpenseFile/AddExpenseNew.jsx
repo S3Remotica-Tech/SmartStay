@@ -306,7 +306,7 @@ function AddExpenseNew() {
   const [amount, setAmount] = useState("");
   const [purchaseDate, setPurchaseDate] = useState(null);
   const [purchaseDateError, setPurchaseDateError] = useState("");
-  const [linkVendor, setLinkVendor] = useState(false);
+  const [linkVendor, setLinkVendor] = useState(true);
   const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [description, setDescription] = useState("");
@@ -727,14 +727,14 @@ function AddExpenseNew() {
 
   // console.log("paymentMethod", paymentMethod);
 
-  const finalExpenseAmount =
-    subTotal +
-    (subTotal * Number(tax || 0)) / 100 -
-    (discountType === "percent"
-      ? (subTotal * Number(discount || 0)) / 100
-      : Number(discount || 0));
+  // const finalExpenseAmount =
+  //   subTotal +
+  //   (subTotal * Number(tax || 0)) / 100 -
+  //   (discountType === "percent"
+  //     ? (subTotal * Number(discount || 0)) / 100
+  //     : Number(discount || 0));
 
-  console.log("finalExpenseAmount", finalExpenseAmount);
+  // console.log("finalExpenseAmount", finalExpenseAmount);
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -811,7 +811,15 @@ function AddExpenseNew() {
     if (finalExpenseAmount > total) {
       setErrors((prev) => ({
         ...prev,
-        totalAmount: "Final payable amount cannot exceed the Total  Amount.",
+        totalAmount: "Final  amount cannot exceed the Total  Amount",
+      }));
+      return;
+    }
+
+    if (finalExpenseAmount < total) {
+      setErrors((prev) => ({
+        ...prev,
+        totalAmount: "Final amount cannot be less than the Total Amount",
       }));
       return;
     }
@@ -1254,7 +1262,7 @@ function AddExpenseNew() {
                   </button>
 
                   <button
-                    disabled
+                    // disabled
                     type="button"
                     onClick={() => setLinkVendor(true)}
                     className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${
@@ -1901,6 +1909,7 @@ function AddExpenseNew() {
                             setErrors((prev) => ({
                               ...prev,
                               discount: "",
+                              totalAmount: "",
                             }));
                             setDiscount(e.target.value);
                           }}
@@ -1919,7 +1928,7 @@ function AddExpenseNew() {
                       <span className="text-sm">TOTAL AMOUNT</span>
 
                       <span className="text-sm">
-                        ₹ {amount.toLocaleString("en-IN")}
+                        ₹ {amount.toLocaleString("en-IN") || 0}
                       </span>
                     </div>
                   </div>

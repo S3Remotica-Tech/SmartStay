@@ -299,10 +299,10 @@ function VendorOverView({
 
               {activeTab === "expenses" && (
                 <button
-                  // disabled={!canWriteExpense}
-                  disabled
+                  disabled={!canWriteExpense}
+                  // disabled
                   onClick={handleShow}
-                  className="bg-[#1E45E1]  px-4 py-2 rounded-lg text-sm flex items-center gap-1 disabled:bg-gray-100 disabled:text-gray-500
+                  className="bg-[#1E45E1] text-white  px-4 py-2 rounded-lg text-sm flex items-center gap-1 disabled:bg-gray-100 disabled:text-gray-500
                         disabled:cursor-not-allowed "
                 >
                   <AddCircle size="14" /> Add Expense
