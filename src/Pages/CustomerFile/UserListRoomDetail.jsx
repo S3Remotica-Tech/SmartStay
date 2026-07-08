@@ -2933,7 +2933,7 @@ function UserListRoomDetail(props) {
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Monthly Rent
                                 {canUpdateTenant &&
-                                  CustomerOverView.hostelInfo?.monthlyRent &&
+                                  Number(CustomerOverView.hostelInfo?.monthlyRent ?? 0) > 0 &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
                                     "NOTICE" && (
                                     <img

@@ -309,6 +309,21 @@ function UserlistWalkin() {
     }
   }, [state.UsersList.statusCodeForCheckInCustomer]);
 
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+      setShowFormCheckInNew(false);
+      dispatch({
+        type: "TENANT_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          purpose: "WALK_IN",
+        },
+      });
+
+      dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
 

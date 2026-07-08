@@ -473,6 +473,7 @@ function AddTenantBookingCheckin({
         oneTimeDeduction: formattedReasonsOneTimePayments,
       },
     });
+    setCheckInLoading(true);
   };
 
   const handleCheckInDraft = () => {
