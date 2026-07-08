@@ -156,7 +156,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
-  const [loading, setLoading] = useState(false);
+
   const [errors, setErrors] = useState([]);
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
   // const [errorsOneTime, setErrorsOneTime] = useState([]);
@@ -550,7 +550,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
     if (Floor && Rooms && Bed && selectedDate && Number(RoomRent) > 0) {
       dispatch({
-        type: "CHECKIN",
+        type: "DIRECT_CHECK_IN_SAGA",
         payload: {
           customerId: id,
           hostelId: state.login.selectedHostel_Id,
@@ -577,7 +577,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
       state.UsersList?.statusCodeForAddCustomerSaveInfo === 201
     ) {
       setFormLoading(false);
-      setLoading(false);
     }
   }, [
     state.UsersList?.statusCodeForAddUser,
@@ -585,12 +584,18 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   ]);
 
   useEffect(() => {
+    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
+  useEffect(() => {
     if (
       state.createAccount?.networkError ||
       state.UsersList?.bedAvailableError
     ) {
       setFormLoading(false);
-      setLoading(false);
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
@@ -1677,12 +1682,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
           )}
         </div>
       </div>
-
-      {(formLoading || loading) && (
-        <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
-          <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
 
       {pgLayout && (
         <PgLayoutView

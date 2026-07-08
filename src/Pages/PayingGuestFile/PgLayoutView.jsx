@@ -161,169 +161,169 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
               <NoDataMessage label="Floor" />
             )}
           </div>
+          <div className="max-h-[400px] overflow-y-auto show-scrolls px-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+              {roomList.length > 0 ? (
+                roomList?.map((room) => {
+                  // const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-          {roomList.length > 0 ? (
-            roomList?.map((room) => {
-              // const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
+                  // const filteredBeds = !isWay
+                  //   ? bedsForRoom.filter((bed) => !bed.isOccupied)
+                  //   : bedsForRoom;
 
-              // const filteredBeds = !isWay
-              //   ? bedsForRoom.filter((bed) => !bed.isOccupied)
-              //   : bedsForRoom;
+                  const filteredBeds = availableBeds.filter(
+                    (bed) => Number(bed.roomId) === Number(room.id),
+                  );
 
-              const filteredBeds = availableBeds.filter(
-                (bed) => Number(bed.roomId) === Number(room.id),
-              );
-
-              return (
-                <div className="grid gap-3 mt-1 mb-2 grid-cols-1 md:grid-cols-2 2xl:grid-cols-4  max-h-[350px] overflow-y-auto px-3 show-scrolls">
-                  <div
-                    key={room.id}
-                    className="border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white  overflow-y-auto "
-                  >
-                    <div className="bg-[#E0ECFF] border-b border-[#E6E6E6] rounded-t-xl p-2">
-                      <div className="text-[14px] font-semibold text-[#222222] truncate">
-                        Room no. {room.name}
+                  return (
+                    <div
+                      key={room.id}
+                      className="border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white  overflow-y-auto "
+                    >
+                      <div className="bg-[#E0ECFF] border-b border-[#E6E6E6] rounded-t-xl p-2">
+                        <div className="text-[14px] font-semibold text-[#222222] truncate">
+                          Room no. {room.name}
+                        </div>
+                        <div className="text-xs text-[#7C7C7C]">
+                          {room?.sharingType}{" "}
+                        </div>
                       </div>
-                      <div className="text-xs text-[#7C7C7C]">
-                        {room?.sharingType}{" "}
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
-                      {Array.isArray(filteredBeds) &&
-                      filteredBeds.length > 0 ? (
-                        filteredBeds.map((bed) => (
-                          <div
-                            key={`${bed.roomId}-${bed.bedId}`}
-                            className={`w-full flex justify-center px-1 `}
-                          >
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
+                        {Array.isArray(filteredBeds) &&
+                        filteredBeds.length > 0 ? (
+                          filteredBeds.map((bed) => (
                             <div
-                              className={`flex flex-col items-center justify-start w-20 `}
+                              key={`${bed.roomId}-${bed.bedId}`}
+                              className={`w-full flex justify-center px-1 `}
                             >
-                              <div className="relative w-9 h-10">
-                                {Number(selectedBed?.bedId) ===
-                                  Number(bed.bedId) &&
-                                  Number(selectedBed?.roomId) ===
-                                    Number(bed.roomId) && (
-                                    <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
-                                      <img
-                                        src={Tick}
-                                        alt="alt-image"
-                                        className="h-5 w-5 cursor-pointer"
-                                      />
-                                    </div>
-                                  )}
+                              <div
+                                className={`flex flex-col items-center justify-start w-20 `}
+                              >
+                                <div className="relative w-9 h-10">
+                                  {Number(selectedBed?.bedId) ===
+                                    Number(bed.bedId) &&
+                                    Number(selectedBed?.roomId) ===
+                                      Number(bed.roomId) && (
+                                      <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
+                                        <img
+                                          src={Tick}
+                                          alt="alt-image"
+                                          className="h-5 w-5 cursor-pointer"
+                                        />
+                                      </div>
+                                    )}
 
-                                {(bed.isBooked ||
-                                  bed.onNotice ||
-                                  bed.overDue) &&
-                                  (() => {
-                                    const activeStatuses = [
-                                      bed.isBooked,
-                                      bed.onNotice,
-                                      bed.overDue,
-                                    ].filter(Boolean);
+                                  {(bed.isBooked ||
+                                    bed.onNotice ||
+                                    bed.overDue) &&
+                                    (() => {
+                                      const activeStatuses = [
+                                        bed.isBooked,
+                                        bed.onNotice,
+                                        bed.overDue,
+                                      ].filter(Boolean);
 
-                                    const count = activeStatuses.length;
+                                      const count = activeStatuses.length;
 
-                                    if (count === 1) {
-                                      return (
-                                        <div className="absolute -top-[2px] -right-[10px]">
-                                          {bed.isBooked && (
-                                            <img
-                                              src={recerverimg}
-                                              className="w-[20px] h-[20px] flex-shrink-0"
-                                            />
-                                          )}
-                                          {bed.onNotice && (
-                                            <img
-                                              src={noticeimg}
-                                              className="w-[20px] h-[20px] flex-shrink-0"
-                                            />
-                                          )}
-                                          {bed.overDue && (
-                                            <img
-                                              src={overDude}
-                                              className="w-[20px] h-[20px] flex-shrink-0"
-                                            />
-                                          )}
-                                        </div>
-                                      );
-                                    }
-
-                                    return (
-                                      <div
-                                        className={`absolute -top-[2px] -right-[10px] w-[22px] h-[22px]  ${hoveredBedId !== bed.id && count ? "border-2  bg-white border-green-600 rounded-full " : " bg-transparent"} text-[12px] font-bold text-green-600 flex items-center justify-center cursor-pointer`}
-                                        onMouseEnter={() =>
-                                          setHoveredBedId(bed.bedId)
-                                        }
-                                        onMouseLeave={() =>
-                                          setHoveredBedId(null)
-                                        }
-                                      >
-                                        {hoveredBedId !== bed.bedId && count}
-
-                                        {hoveredBedId === bed.bedId && (
-                                          <div
-                                            className="absolute top-0 left-0 -translate-x-1/2 bg-white rounded-full px-[6px] py-[3px]
-                             flex items-center gap-[4px] shadow-md w-fit"
-                                          >
+                                      if (count === 1) {
+                                        return (
+                                          <div className="absolute -top-[2px] -right-[10px]">
                                             {bed.isBooked && (
                                               <img
                                                 src={recerverimg}
-                                                className="w-[18px] h-[18px] flex-shrink-0"
+                                                className="w-[20px] h-[20px] flex-shrink-0"
                                               />
                                             )}
                                             {bed.onNotice && (
                                               <img
                                                 src={noticeimg}
-                                                className="w-[18px] h-[18px] flex-shrink-0"
+                                                className="w-[20px] h-[20px] flex-shrink-0"
                                               />
                                             )}
                                             {bed.overDue && (
                                               <img
                                                 src={overDude}
-                                                className="w-[18px] h-[18px] flex-shrink-0"
+                                                className="w-[20px] h-[20px] flex-shrink-0"
                                               />
                                             )}
                                           </div>
-                                        )}
-                                      </div>
-                                    );
-                                  })()}
+                                        );
+                                      }
 
-                                <img
-                                  onClick={() => handleSelectBed(bed)}
-                                  className={`mt-1 h-10 w-9 cursor-pointer `}
-                                  src={bed.isOccupied ? Green : White}
-                                  alt="bedd"
-                                />
-                              </div>
+                                      return (
+                                        <div
+                                          className={`absolute -top-[2px] -right-[10px] w-[22px] h-[22px]  ${hoveredBedId !== bed.id && count ? "border-2  bg-white border-green-600 rounded-full " : " bg-transparent"} text-[12px] font-bold text-green-600 flex items-center justify-center cursor-pointer`}
+                                          onMouseEnter={() =>
+                                            setHoveredBedId(bed.bedId)
+                                          }
+                                          onMouseLeave={() =>
+                                            setHoveredBedId(null)
+                                          }
+                                        >
+                                          {hoveredBedId !== bed.bedId && count}
 
-                              <div className="pt-2 text-xs font-semibold font-montserrat">
-                                {bed.bedName}
+                                          {hoveredBedId === bed.bedId && (
+                                            <div
+                                              className="absolute top-0 left-0 -translate-x-1/2 bg-white rounded-full px-[6px] py-[3px]
+                             flex items-center gap-[4px] shadow-md w-fit"
+                                            >
+                                              {bed.isBooked && (
+                                                <img
+                                                  src={recerverimg}
+                                                  className="w-[18px] h-[18px] flex-shrink-0"
+                                                />
+                                              )}
+                                              {bed.onNotice && (
+                                                <img
+                                                  src={noticeimg}
+                                                  className="w-[18px] h-[18px] flex-shrink-0"
+                                                />
+                                              )}
+                                              {bed.overDue && (
+                                                <img
+                                                  src={overDude}
+                                                  className="w-[18px] h-[18px] flex-shrink-0"
+                                                />
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      );
+                                    })()}
+
+                                  <img
+                                    onClick={() => handleSelectBed(bed)}
+                                    className={`mt-1 h-10 w-9 cursor-pointer `}
+                                    src={bed.isOccupied ? Green : White}
+                                    alt="bedd"
+                                  />
+                                </div>
+
+                                <div className="pt-2 text-xs font-semibold font-montserrat">
+                                  {bed.bedName}
+                                </div>
                               </div>
                             </div>
+                          ))
+                        ) : (
+                          <div className="col-span-full flex flex-col items-center justify-center py-2">
+                            <label className="text-xs font-gilroy text-neutral-600 whitespace-nowrap">
+                              No beds available
+                            </label>
                           </div>
-                        ))
-                      ) : (
-                        <div className="col-span-full flex flex-col items-center justify-center py-2">
-                          <label className="text-xs font-gilroy text-neutral-600 whitespace-nowrap">
-                            No beds available
-                          </label>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  );
+                })
+              ) : (
+                <div className="mx-4 col-span-full flex justify-center">
+                  <NoDataMessage label="Room" isHeightChanged={true} />
                 </div>
-              );
-            })
-          ) : (
-            <div className="mx-4">
-              <NoDataMessage label="Room" />
+              )}
             </div>
-          )}
-
+          </div>
           {selectedBed?.bedId && (
             <div className=" flex flex-wrap items-center justify-center border-t bg-white p-2 rounded-b-[20px]">
               <div>

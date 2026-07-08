@@ -253,7 +253,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [vehicleTypeError, setVehicleTypeError] = useState("");
   const [vehicleNumberError, setVehicleNumberError] = useState("");
   const [parkingSpaceError, setParkingSpaceError] = useState("");
-  // console.log("draftTenantId", draftTenantId);
+  console.log("step", step);
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
@@ -971,12 +971,13 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       pincode !== (DraftTenantDetails?.address?.pincode || "") ||
       city !== (DraftTenantDetails?.address?.city || "") ||
       state_name !== (DraftTenantDetails?.address?.state || "") ||
-      file !== (DraftTenantDetails?.profilePic || "") ||
-      aadhaarFile !== (DraftTenantDetails?.aadharPic || "") ||
-      panFile !== (DraftTenantDetails?.panPic || "");
+      !!file ||
+      !!aadhaarFile ||
+      !!panFile;
 
     if (!isChanged) {
       setStep(2);
+      return;
     } else {
       dispatch({
         type: "UPDATE_SAVE_DRAFT_SAGA",
@@ -1060,6 +1061,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
           },
         },
       });
+      setStep(2);
       setFormLoading(true);
     }
   };
@@ -1121,7 +1123,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     const errors = [];
     let hasError = false;
     let firstInvalidRef = null;
-    guardians.forEach((guardian, index) => {
+    guardians?.forEach((guardian, index) => {
       const guardianError = {
         guardianFullName: validateGuardianName(guardian.guardianFullName),
         mobileNo: validateGuardianMobile(guardian.mobileNo),
@@ -1229,7 +1231,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             shiftTo: toTime || "",
           },
 
-          guardians: guardians.map((g) => ({
+          guardians: guardians?.map((g) => ({
             guardianFullName: g.guardianFullName || "",
             relationshipToTenant:
               g.relationshipToTenant?.value || g.relationshipToTenant || "",
@@ -1281,9 +1283,14 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setFormLoading(false);
       if (step === 1) {
         setStep(2);
-      } else {
+      } else if (step === 1) {
         handleClose();
       }
+
+      dispatch({
+        type: "DRAFT_TENANT_LIST_SAGA",
+        payload: draftTenantId,
+      });
 
       dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
     }
@@ -1508,46 +1515,6 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
     }
-    //  else {
-    //   setFirstname("");
-    //   setLastname("");
-    //   setPhone("");
-    //   setEmail("");
-    //   setFile("");
-    //   // setDraftTenantId("");
-
-    //   setIdProofType("");
-    //   setIdProofNo("");
-
-    //   setHouseNo("");
-    //   setStreet("");
-    //   setLandmark("");
-    //   setPincode("");
-    //   setCity("");
-    //   setStateName("");
-
-    //   setAadhaarFile("");
-    //   setPanFile("");
-    //   setEmploymentStatus(null);
-    //   setCompanyName("");
-    //   // setCollegeName("");
-    //   setJobRole(null);
-    //   setWorkLocation("");
-    //   setShiftType(null);
-    //   setFromTime("");
-    //   setToTime("");
-
-    //   setGuardians([
-    //     {
-    //       guardianFullName: "",
-    //       relationshipToTenant: null,
-    //       guardianOccupation: null,
-    //       mobileNo: "",
-    //     },
-    //   ]);
-
-    //   setGuardianErrors([]);
-    // }
   }, [DraftTenantDetails, newTenant]);
 
   useEffect(() => {
@@ -1595,6 +1562,12 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state.UsersList?.statusCodeForAddUser,
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
+
+  console.log("aadhaarFile", aadhaarFile);
+  console.log("api aadhaar", DraftTenantDetails?.aadharPic);
+
+  console.log("panFile", panFile);
+  console.log("api pan", DraftTenantDetails?.panPic);
 
   return (
     <>

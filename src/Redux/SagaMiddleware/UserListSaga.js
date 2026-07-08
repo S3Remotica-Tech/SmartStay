@@ -30,6 +30,7 @@ import {
   checkoutDetailView,
   customerSaveInfo,
   CheckIn,
+  DirectCheckIn,
   GetAllFloor,
   settlePayment,
   getParticularHostelList,
@@ -1204,6 +1205,60 @@ function* handleCheckIn(datum) {
     if (response?.status === 201) {
       yield put({
         type: "CHECK_IN",
+        payload: { response: response.message, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.code === "ERR_BAD_REQUEST") {
+      if (error.status === 400) {
+        yield put({
+          type: "BED_AVAILABLE_ERROR",
+          payload: error.response.data,
+        });
+      }
+    }
+  }
+}
+
+function* handleDirectCheckIn(datum) {
+  try {
+    const response = yield call(DirectCheckIn, datum.payload);
+
+    if (response?.status === 201) {
+      yield put({
+        type: "DIRECT_CHECK_IN_REDUCER",
         payload: { response: response.message, statusCode: response?.status },
       });
 
@@ -3628,6 +3683,7 @@ function* UserListSaga() {
   yield takeEvery("AVAILBALEBEDDETAILS", handleAvailableBedDetailsForDate);
   yield takeEvery("CREATECUSTOMERSAVEINFO", handleCustomerSaveInfo);
   yield takeEvery("CHECKIN", handleCheckIn);
+  yield takeEvery("DIRECT_CHECK_IN_SAGA", handleDirectCheckIn);
   yield takeEvery("ALLFLOORLIST", handleGetAllFloor);
   yield takeEvery("USERLIST", handleuserlist);
   yield takeEvery("TENANT_LIST_SAGA", handleTenantListGet);

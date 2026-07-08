@@ -233,8 +233,7 @@ function AddTenantBookingCheckin({
   const DarftCustomerId =
     state?.UsersList?.draftTenantDetails?.customerId ||
     state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
-    state?.UsersList?.alreadyAvailableDraftTenantGetList;
-  // console.log("DarftCustomerId", DarftCustomerId);
+    state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId;
 
   const stayTypes = [
     { value: "SHORT", label: "Short Stay" },
@@ -457,7 +456,7 @@ function AddTenantBookingCheckin({
       : "";
 
     dispatch({
-      type: "CHECKIN",
+      type: "DIRECT_CHECK_IN_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         customerId: DarftCustomerId,
@@ -474,6 +473,7 @@ function AddTenantBookingCheckin({
         oneTimeDeduction: formattedReasonsOneTimePayments,
       },
     });
+    setCheckInLoading(true);
   };
 
   const handleCheckInDraft = () => {
@@ -719,15 +719,15 @@ function AddTenantBookingCheckin({
       isValid = false;
     }
 
-    if (!totalRent) {
-      setRentError("Please Enter Total Rent");
+    // if (!totalRent) {
+    //   setRentError("Please Enter Total Rent");
 
-      if (!firstInvalidRef) {
-        firstInvalidRef = rentRef;
-      }
+    //   if (!firstInvalidRef) {
+    //     firstInvalidRef = rentRef;
+    //   }
 
-      isValid = false;
-    }
+    //   isValid = false;
+    // }
 
     if (!modeOfPayment) {
       setPaymentError("Please Select Mode Of Transaction");
@@ -891,10 +891,10 @@ function AddTenantBookingCheckin({
           advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount
             ? Number(DraftTenantDetails.hostelInfo.advanceAmount)
             : "",
-          // rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent
-          //   ? Number(DraftTenantDetails.hostelInfo.monthlyRent)
-          //   : "",
-          rentalAmount: totalRent ? Number(totalRent) : "",
+          rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent
+            ? Number(DraftTenantDetails.hostelInfo.monthlyRent)
+            : "",
+          // rentalAmount: totalRent ? Number(totalRent) : "",
           stayType: stayType,
 
           deductions: DraftTenantDetails?.deductions || [],
@@ -1003,6 +1003,23 @@ function AddTenantBookingCheckin({
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+      setCheckInLoading(false);
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: 1,
+          size: 10,
+        },
+      });
+      handleClose();
+
+      dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
   const resetBookingForm = () => {
     setBookingDate(null);
     setBookingAmount("");
@@ -1028,9 +1045,12 @@ function AddTenantBookingCheckin({
   useEffect(() => {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
       setFormLoading(false);
-      resetBookingForm();
-      handleClose();
-
+      // resetBookingForm();
+      // handleClose();
+      dispatch({
+        type: "DRAFT_TENANT_LIST_SAGA",
+        payload: DarftCustomerId,
+      });
       dispatch({ type: "REMOVE_UPDATE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.updateSaveDreaftTenantStatus]);
@@ -1636,7 +1656,7 @@ function AddTenantBookingCheckin({
             </div>
           </div>
 
-          <div className="mb-2">
+          {/* <div className="mb-2">
             <label className="text-sm font-medium text-[#222222] mb-2 block">
               Total Rent <span className="text-red-500 text-xl">*</span>
             </label>
@@ -1654,7 +1674,7 @@ function AddTenantBookingCheckin({
               className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
             />
             {rentError && <ErrorMessage message={rentError} type="error" />}
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-2 gap-4 items-stretch ">
             <div className="mb-2" ref={paymentRef}>
