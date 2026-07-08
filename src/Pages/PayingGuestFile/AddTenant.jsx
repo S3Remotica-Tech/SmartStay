@@ -253,7 +253,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [vehicleTypeError, setVehicleTypeError] = useState("");
   const [vehicleNumberError, setVehicleNumberError] = useState("");
   const [parkingSpaceError, setParkingSpaceError] = useState("");
-  // console.log("draftTenantId", draftTenantId);
+  console.log("step", step);
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
@@ -1060,6 +1060,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
           },
         },
       });
+      setStep(2);
       setFormLoading(true);
     }
   };
@@ -1121,7 +1122,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     const errors = [];
     let hasError = false;
     let firstInvalidRef = null;
-    guardians.forEach((guardian, index) => {
+    guardians?.forEach((guardian, index) => {
       const guardianError = {
         guardianFullName: validateGuardianName(guardian.guardianFullName),
         mobileNo: validateGuardianMobile(guardian.mobileNo),
@@ -1229,7 +1230,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             shiftTo: toTime || "",
           },
 
-          guardians: guardians.map((g) => ({
+          guardians: guardians?.map((g) => ({
             guardianFullName: g.guardianFullName || "",
             relationshipToTenant:
               g.relationshipToTenant?.value || g.relationshipToTenant || "",
@@ -1281,7 +1282,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setFormLoading(false);
       if (step === 1) {
         setStep(2);
-      } else {
+      } else if (step === 1) {
         handleClose();
       }
 

@@ -161,6 +161,8 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
   // const [errorsOneTime, setErrorsOneTime] = useState([]);
 
+  console.log("id", id);
+
   const [activeTab, setActiveTab] = useState("LONG");
 
   const [availableBed, setAvailableBed] = useState("");
@@ -550,7 +552,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
     if (Floor && Rooms && Bed && selectedDate && Number(RoomRent) > 0) {
       dispatch({
-        type: "CHECKIN",
+        type: "DIRECT_CHECK_IN_SAGA",
         payload: {
           customerId: id,
           hostelId: state.login.selectedHostel_Id,

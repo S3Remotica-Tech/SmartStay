@@ -357,17 +357,17 @@ export async function getParticularHostelList(hostel) {
 
 // v2  check in api
 
-// export async function CheckIn(CheckIn) {
-//   return await AxiosConfigV2.post(
-//     `/v2/customers/check-in/${CheckIn.customerId}`,
-//     CheckIn,
-//     {
-//       data: CheckIn,
-//     },
-//   );
-// }
-
 export async function CheckIn(CheckIn) {
+  return await AxiosConfigV2.post(
+    `/v2/customers/check-in/${CheckIn.customerId}`,
+    CheckIn,
+    {
+      data: CheckIn,
+    },
+  );
+}
+
+export async function DirectCheckIn(CheckIn) {
   return await AxiosConfigV2.post(
     `/v3/customers/check-in/${CheckIn.hostelId}/${CheckIn.customerId}`,
     CheckIn,

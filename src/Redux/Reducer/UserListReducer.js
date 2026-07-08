@@ -184,6 +184,7 @@ export const initialState = {
   ettlementExpensePaymentSuccessCode: 0,
   vendorSettleError: "",
   expenseSettleError: "",
+  statusCodeForDirectCheckInCustomer: 0,
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -639,6 +640,18 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "CLEAR_STATUS_CODES_CHECK_IN":
       return { ...state, statusCodeForCheckInCustomer: 0 };
+
+    case "DIRECT_CHECK_IN_REDUCER":
+      return {
+        ...state,
+        statusCodeForDirectCheckInCustomer: action.payload.statusCode,
+      };
+
+    case "REMOVE_DIRECT_CHECK_IN_REDUCER":
+      return {
+        ...state,
+        statusCodeForDirectCheckInCustomer: 0,
+      };
 
     case "BED_AVAILABLE_ERROR":
       return { ...state, bedAvailableError: action.payload };
