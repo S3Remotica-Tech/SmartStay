@@ -727,6 +727,15 @@ function AddExpenseNew() {
 
   // console.log("paymentMethod", paymentMethod);
 
+  const finalExpenseAmount =
+    subTotal +
+    (subTotal * Number(tax || 0)) / 100 -
+    (discountType === "percent"
+      ? (subTotal * Number(discount || 0)) / 100
+      : Number(discount || 0));
+
+  console.log("finalExpenseAmount", finalExpenseAmount);
+
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
@@ -780,26 +789,43 @@ function AddExpenseNew() {
       return;
     }
 
-    if (expenseItems.length > 0) {
-      if (itemsTotal > total) {
-        setErrors((prev) => ({
-          ...prev,
-          totalAmount: "Expense items total cannot exceed Total Amount",
-        }));
-        return;
-      }
+    // if (expenseItems.length > 0) {
+    //   if (itemsTotal > total) {
+    //     setErrors((prev) => ({
+    //       ...prev,
+    //       totalAmount: "Expense items total cannot exceed Total Amount",
+    //     }));
+    //     return;
+    //   }
+    // }
+
+    const finalExpenseAmount =
+      subTotal +
+      (subTotal * Number(tax || 0)) / 100 -
+      (discountType === "percent"
+        ? (subTotal * Number(discount || 0)) / 100
+        : Number(discount || 0));
+
+    console.log("finalExpenseAmount", finalExpenseAmount);
+
+    if (finalExpenseAmount > total) {
+      setErrors((prev) => ({
+        ...prev,
+        totalAmount: "Final payable amount cannot exceed the Total  Amount.",
+      }));
+      return;
     }
 
-    if (expenseItems.length > 0) {
-      if (Number(amount.toString()) !== Number(total.toFixed(2))) {
-        setErrors((prev) => ({
-          ...prev,
-          totalAmount:
-            "Total Retainer Amount must be equal to the total Amount",
-        }));
-        return;
-      }
-    }
+    // if (expenseItems.length > 0) {
+    //   if (Number(amount.toString()) !== Number(total.toFixed(2))) {
+    //     setErrors((prev) => ({
+    //       ...prev,
+    //       totalAmount:
+    //         "Total Retainer Amount must be equal to the total Amount",
+    //     }));
+    //     return;
+    //   }
+    // }
 
     if (paid > total) {
       setErrors((prev) => ({
