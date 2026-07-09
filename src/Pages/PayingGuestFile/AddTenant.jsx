@@ -253,7 +253,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [vehicleTypeError, setVehicleTypeError] = useState("");
   const [vehicleNumberError, setVehicleNumberError] = useState("");
   const [parkingSpaceError, setParkingSpaceError] = useState("");
-  console.log("step", step);
+
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
@@ -328,8 +328,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   };
 
   const handleAddGuardian = () => {
-    setGuardians([
-      ...guardians,
+    setGuardians((prev) => [
+      ...(Array.isArray(prev) ? prev : []),
       {
         guardianFullName: "",
         relationshipToTenant: null,
@@ -1499,19 +1499,40 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
       setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
 
-      const mappedGuardians = DraftTenantDetails?.guardians?.map((g) => ({
-        guardianFullName: g.guardianFullName || "",
-        relationshipToTenant:
-          relationOptions.find(
-            (option) => option.value === g.relationshipToTenant,
-          ) || null,
-        guardianOccupation:
-          jobOptions.find((option) => option.value === g.guardianOccupation) ||
-          null,
-        mobileNo: g.mobileNo || "",
-      }));
+      const mappedGuardians = (DraftTenantDetails?.guardians || [])
+        .filter((g) => {
+          return (
+            g.guardianFullName?.trim() ||
+            g.relationshipToTenant ||
+            g.guardianOccupation ||
+            g.mobileNo?.trim()
+          );
+        })
+        .map((g) => ({
+          guardianFullName: g.guardianFullName || "",
+          relationshipToTenant:
+            relationOptions.find(
+              (option) => option.value === g.relationshipToTenant,
+            ) || null,
+          guardianOccupation:
+            jobOptions.find(
+              (option) => option.value === g.guardianOccupation,
+            ) || null,
+          mobileNo: g.mobileNo || "",
+        }));
 
-      setGuardians(mappedGuardians);
+      setGuardians(
+        mappedGuardians.length
+          ? mappedGuardians
+          : [
+              {
+                guardianFullName: "",
+                relationshipToTenant: null,
+                guardianOccupation: null,
+                mobileNo: "",
+              },
+            ],
+      );
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
     }
@@ -1562,12 +1583,6 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state.UsersList?.statusCodeForAddUser,
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
-
-  console.log("aadhaarFile", aadhaarFile);
-  console.log("api aadhaar", DraftTenantDetails?.aadharPic);
-
-  console.log("panFile", panFile);
-  console.log("api pan", DraftTenantDetails?.panPic);
 
   return (
     <>
