@@ -687,22 +687,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const handleSaveCheckin = () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     let hasReasonAmountError = false;
-    let newErrors = [];
-
+    let isHasError = false;
     let hasError = false;
+
+    let newErrors = [];
+    let oneTimePaymentErrors = [];
 
     if (!validateField(checkin_customername, "checkin_customername"))
       hasError = true;
     if (!validateField(stay_typename, "stay_typename")) hasError = true;
     if (!validateField(checkin_joiningDate, "checkin_joiningDate"))
       hasError = true;
-    // if (!isAdvanceRefused && !validateField(AdvanceAmount, "AdvanceAmount")) {
-    //   hasError = true;
-    // }
-
-    if (!validateField(AdvanceAmount, "AdvanceAmount")) {
+    if (!isAdvanceRefused && !validateField(AdvanceAmount, "AdvanceAmount")) {
       hasError = true;
     }
+
     if (!validateField(RoomRent, "RoomRent")) hasError = true;
 
     if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
@@ -756,7 +755,51 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
     setErrors(newErrors);
 
+    const formattedReasonsOneTimePayments = oneTimePayments
+      ?.map((item) => {
+        let reason_name = "";
+
+        if (
+          item.reason?.toLowerCase() === "others" ||
+          item.reason_name?.toLowerCase() === "others"
+        ) {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        const error = { reason: "", amount: "" };
+
+        if (
+          reason_name &&
+          (!item.amount || item.amount.toString().trim() === "")
+        ) {
+          error.amount = "Please enter amount";
+          isHasError = true;
+        }
+
+        if (
+          (!reason_name || reason_name.toString().trim() === "") &&
+          item.amount
+        ) {
+          error.reason = "Please enter reason";
+          isHasError = true;
+        }
+
+        oneTimePaymentErrors.push(error);
+
+        return {
+          type: reason_name,
+          amount: Number(item.amount) || "",
+        };
+      })
+      .filter((item) => item.type !== "" || item.amount !== "");
+
+    setOneTimePaymentErrors(oneTimePaymentErrors);
+
     if (hasReasonAmountError) return;
+
+    if (isHasError) return;
 
     if (hasError) return;
 
@@ -792,7 +835,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
       RoomRent > 0
     ) {
       dispatch({
-        type: "CHECKIN",
+        type: "DIRECT_CHECK_IN_SAGA",
         payload: {
           customerId: checkin_customername,
           // hostelId: currentItem?.hostelId,
@@ -804,6 +847,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
           rentalAmount: RoomRent,
           stayType: activeTab,
           deductions: formattedReasons,
+          shouldCollectFullRent: collectFullRent,
+          customRent: Number(customRent),
+          oneTimeDeduction: formattedReasonsOneTimePayments,
         },
       });
       setFormLoading(true);
@@ -820,6 +866,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   }, [state.UsersList.statusCodeForCheckInCustomer]);
 
   useEffect(() => {
+    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
+  useEffect(() => {
     if (state.UsersList?.bedAvailableError || state.Booking?.bookingBedError) {
       setFormLoading(false);
     }
@@ -832,6 +884,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     })) || [];
 
   const isComingSoon = false;
+
+  const isPastMonth = checkin_joiningDate
+    ? dayjs(checkin_joiningDate).isBefore(dayjs(), "month")
+    : false;
 
   return (
     <>
@@ -1302,12 +1358,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           <div className="flex items-center justify-between ">
                             <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
                               Advance amount ₹ (INR)
-                              {/* {!isAdvanceRefused && ( */}
-                              <span className="text-red-500 text-xl">*</span>
-                              {/* )} */}
+                              {!isAdvanceRefused && (
+                                <span className="text-red-500 text-xl">*</span>
+                              )}
                             </Form.Label>
 
-                            {/* <div className="flex items-center justify-between mt-1 gap-2  mb-2">
+                            <div className="flex items-center justify-between mt-1 gap-2  mb-2">
                               <span className="text-xs text-gray-700 font-medium">
                                 Do you want to refuse advance amount?
                               </span>
@@ -1337,7 +1393,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                   }`}
                                 />
                               </button>
-                            </div> */}
+                            </div>
                           </div>
                           <FormControl
                             type="text"
@@ -1611,102 +1667,113 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       )}
                     </div>
 
-                    {/* <div className="max-w-5xl bg-white">
-                      <div className="flex items-center gap-2 px-1 py-3">
-                        <div className="flex items-center gap-2 ">
-                          <input
-                            type="checkbox"
-                            checked={collectFullRent}
-                            onChange={handleCheckboxChange}
-                            className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
-                          />
+                    <div className="max-w-5xl bg-white">
+                      {!isPastMonth && (
+                        <div>
+                          <div className="flex items-center gap-2 px-1 py-3">
+                            <div className="flex items-center gap-2 ">
+                              <input
+                                type="checkbox"
+                                checked={collectFullRent}
+                                onChange={handleCheckboxChange}
+                                className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+                              />
 
-                          <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2 whitespace-nowrap">
-                            Do you want to collect Full Rent for current month?
-                            <InfoCircle
-                              size="16"
-                              color="#9CA3AF"
-                              variant="Linear"
-                              className="cursor-pointer"
-                            />
-                          </label>
-                        </div>
-                        {collectFullRent && (
-                          <div>
-                            <button
-                              onClick={() =>
-                                setCustomRentEnable(!customRentEnable)
-                              }
-                              className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
-                                customRentEnable
-                                  ? "bg-[#0D1B8E] text-white"
-                                  : "bg-[#EAEEFF] text-[#1E45E1]"
-                              }`}
-                            >
-                              {customRentEnable ? (
-                                <>
-                                  Remove Custom Rent
-                                  <CloseCircle size="18" variant="Bold" />
-                                </>
-                              ) : (
-                                <>
-                                  Add Custom Rent
-                                  <ArrowRight2 size="16" />
-                                </>
-                              )}
-                            </button>
-                          </div>
-                        )}
-                      </div>
-
-                      {customRentEnable && (
-                        <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
-                          <div>
-                            <div className="text-sm font-medium text-[#222222] mb-1">
-                              Custom Rent Amount
-                            </div>
-                            <div className="text-[#64748B] text-[12px] font-medium">
-                              This amount is reflects to First month Rent only.
-                            </div>
-                          </div>
-                          <div className="relative min-w-[220px]">
-                            {customRentEditMode ? (
-                              <>
-                                <input
-                                  type="number"
-                                  value={customRent}
-                                  onChange={handleCustomRentChange}
-                                  onWheel={(e) => e.target.blur()}
-                                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                                    customRent ? "font-semibold" : "font-medium"
-                                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                              <label className="text-[14px] text-[#222222] font-medium flex items-center gap-2 whitespace-nowrap">
+                                Do you want to collect Full Rent for current
+                                month?
+                                <InfoCircle
+                                  size="16"
+                                  color="#9CA3AF"
+                                  variant="Linear"
+                                  className="cursor-pointer"
                                 />
-
+                              </label>
+                            </div>
+                            {collectFullRent && (
+                              <div>
                                 <button
-                                  onClick={() => setCustomRentEditMode(false)}
-                                  className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                                  onClick={() =>
+                                    setCustomRentEnable(!customRentEnable)
+                                  }
+                                  className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
+                                    customRentEnable
+                                      ? "bg-[#0D1B8E] text-white"
+                                      : "bg-[#EAEEFF] text-[#1E45E1]"
+                                  }`}
                                 >
-                                  Set
-                                </button>
-                              </>
-                            ) : (
-                              <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
-                                <span className="font-semibold text-[#222222] text-base">
-                                  ₹ {customRent || 0}
-                                </span>
-
-                                <button
-                                  onClick={() => setCustomRentEditMode(true)}
-                                  className="text-[#1E45E1]"
-                                >
-                                  <Edit2 size="18" color="#64748B" />
+                                  {customRentEnable ? (
+                                    <>
+                                      Remove Custom Rent
+                                      <CloseCircle size="18" variant="Bold" />
+                                    </>
+                                  ) : (
+                                    <>
+                                      Add Custom Rent
+                                      <ArrowRight2 size="16" />
+                                    </>
+                                  )}
                                 </button>
                               </div>
                             )}
                           </div>
+
+                          {customRentEnable && (
+                            <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
+                              <div>
+                                <div className="text-sm font-medium text-[#222222] mb-1">
+                                  Custom Rent Amount
+                                </div>
+                                <div className="text-[#64748B] text-[12px] font-medium">
+                                  This amount is reflects to First month Rent
+                                  only.
+                                </div>
+                              </div>
+                              <div className="relative min-w-[220px]">
+                                {customRentEditMode ? (
+                                  <>
+                                    <input
+                                      type="number"
+                                      value={customRent}
+                                      onChange={handleCustomRentChange}
+                                      onWheel={(e) => e.target.blur()}
+                                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                                        customRent
+                                          ? "font-semibold"
+                                          : "font-medium"
+                                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                                    />
+
+                                    <button
+                                      onClick={() =>
+                                        setCustomRentEditMode(false)
+                                      }
+                                      className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
+                                    >
+                                      Set
+                                    </button>
+                                  </>
+                                ) : (
+                                  <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
+                                    <span className="font-semibold text-[#222222] text-base">
+                                      ₹ {customRent || 0}
+                                    </span>
+
+                                    <button
+                                      onClick={() =>
+                                        setCustomRentEditMode(true)
+                                      }
+                                      className="text-[#1E45E1]"
+                                    >
+                                      <Edit2 size="18" color="#64748B" />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
-
                       <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
                         <div
                           onClick={handleAccordionToggle}
@@ -1884,7 +1951,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           </div>
                         )}
                       </div>
-                    </div> */}
+                    </div>
                   </div>
 
                   {state.UsersList?.bedAvailableError ? (

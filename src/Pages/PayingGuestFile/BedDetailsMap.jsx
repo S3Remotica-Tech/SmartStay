@@ -420,6 +420,25 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     }
   }, [state.UsersList.statusCodeForCheckInCustomer]);
 
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+      dispatch({
+        type: "GETALLBEDSLIST",
+        payload: { roomId: room.id },
+      });
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
+      });
+      setAssignTenantForm(false);
+      dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
   const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
   const filteredBeds = React.useMemo(() => {

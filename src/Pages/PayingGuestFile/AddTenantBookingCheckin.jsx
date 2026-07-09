@@ -1229,7 +1229,7 @@ function AddTenantBookingCheckin({
     }
 
     setOneTimePayments(updatedFields);
-    setErrors(updatedErrors);
+    setOneTimePaymentErrors(updatedErrors);
   };
 
   const handleCustomRentChange = (e) => {
@@ -1268,7 +1268,7 @@ function AddTenantBookingCheckin({
 
     const updatedErrors = [...errors];
     updatedErrors.splice(index, 1);
-    // setErrorsOneTime(updatedErrors);
+    setOneTimePaymentErrors(updatedErrors);
   };
 
   useEffect(() => {
