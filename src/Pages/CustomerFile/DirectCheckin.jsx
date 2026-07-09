@@ -248,7 +248,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
     const updatedErrors = [...errors];
     updatedErrors.splice(index, 1);
-    // setErrorsOneTime(updatedErrors);
+    setOneTimePaymentErrors(updatedErrors);
   };
 
   const options = {
@@ -694,7 +694,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     }
 
     setOneTimePayments(updatedFields);
-    setErrorsOneTime(updatedErrors);
+    setOneTimePaymentErrors(updatedErrors);
   };
 
   const handleJoiningDateChange = (date) => {

@@ -37,14 +37,11 @@ function VendorDetailsOverview({ handleSelected }) {
   const [showAddressInfo, setShowAddressInfo] = useState(false);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
 
-  // useEffect(() => {
-  //   const firstPeriod = VendorOverView?.filterOptions?.periods?.[0];
-
-  //   if (firstPeriod) {
-  //     setSelectedPeriod(firstPeriod);
-  //     handleSelected(firstPeriod);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (selectedPeriod) {
+      handleSelected(selectedPeriod);
+    }
+  }, [selectedPeriod]);
 
   const chartData =
     VendorOverView?.monthSummary?.map((item) => ({

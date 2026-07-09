@@ -587,6 +587,13 @@ function AddExpenseNew() {
   const removeRow = (index) => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     setExpenseItems(expenseItems.filter((_, i) => i !== index));
+    setErrors({
+      totalAmount: "",
+      paidAmount: "",
+      balanceAmount: "",
+      tax: "",
+      discount: "",
+    });
   };
 
   const subTotal = expenseItems.reduce(
