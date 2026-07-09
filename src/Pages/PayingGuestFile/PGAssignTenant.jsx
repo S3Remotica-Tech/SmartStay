@@ -1643,6 +1643,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         );
                       })}
                     </div>
+                    <p className="text-[11px] text-gray-500 mt-2">
+                      Note: These charges are deducted from the initial security
+                      deposit or collected at the time of check-in and are not
+                      refundable in any cost.
+                    </p>
                     <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
                       <Form.Group>
                         <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
