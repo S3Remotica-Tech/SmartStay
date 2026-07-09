@@ -221,7 +221,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     }
 
     setOneTimePayments(updatedFields);
-    // setErrorsOneTime(updatedErrors);
+    setOneTimePaymentErrors(updatedErrors);
   };
 
   const handleRemoveFieldOneTime = (index) => {
@@ -231,6 +231,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
     const updatedErrors = [...errors];
     updatedErrors.splice(index, 1);
+    setOneTimePaymentErrors(updatedErrors);
   };
 
   const reasonOptions = [
