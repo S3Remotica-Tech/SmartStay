@@ -339,9 +339,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
     // setInvoiceValue(pdfDetails)
     setInvoiceList({
-      balanceDue: pdfDetails?.invoiceInfo?.finalAmount,
-      invoiceId: pdfDetails?.invoiceId  || pdfDetails?.invoiceInfo?.invoiceId,
-      invoiceDate: pdfDetails?.invoiceDate || pdfDetails?.invoiceInfo?.invoiceDate,
+      balanceDue:
+        pdfDetails?.invoiceInfo?.finalAmount ||
+        pdfDetails?.invoiceInfo?.balanceAmount,
+      invoiceId: pdfDetails?.invoiceId || pdfDetails?.invoiceInfo?.invoiceId,
+      invoiceDate:
+        pdfDetails?.invoiceDate || pdfDetails?.invoiceInfo?.invoiceDate,
     });
   };
 
@@ -954,27 +957,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           Waive Off
                         </button>
 
-                        {/* <button
-                          onClick={(e) => {
-                            if (!canUpdateInvoice || !isRedeemAvailable) return;
-
-                            e.stopPropagation();
-                            handleApplyInvoices("Advance");
-                          }}
-                          disabled={!canUpdateInvoice || !isRedeemAvailable}
-                          className={`w-full   disabled:text-gray-400 text-left px-4 py-2 text-sm 
-                            whitespace-nowrap rounded-md  transition-all duration-150
-    ${
-      !canUpdateInvoice || !isRedeemAvailable
-        ? "opacity-50 cursor-not-allowed  text-[#A9A9A9]"
-        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-    }
-  `}
-                        >
-                          {pdfDetails?.configurations?.invoiceType === "Advance"
-                            ? "Apply to Invoice"
-                            : "Adjust with Advance"}
-                        </button> */}
                         {!isAdvanceInvoice ? (
                           <button
                             onClick={(e) => {
@@ -1317,7 +1299,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   Balance Due
                 </span>
                 <span className="text-sm text-red-500 font-medium">
-                  ₹{pdfDetails?.invoiceInfo?.finalAmount}
+                  ₹
+                  {pdfDetails?.invoiceInfo?.finalAmount ||
+                    pdfDetails?.invoiceInfo?.balanceAmount}
                 </span>
               </div>
             </div>

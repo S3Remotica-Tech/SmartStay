@@ -257,24 +257,18 @@ function RentInvoicePDF() {
 
         <div className="font-gilroy">
           <div className="grid grid-cols-12 border border-[#DFDFDF] rounded-lg overflow-hidden">
-            <div
-              className={`${
-                hasTax > 0
-                  ? "col-span-12 md:col-span-6 border-r border-[#DFDFDF]"
-                  : "col-span-12"
-              }`}
-            >
-              <div className="overflow-x-auto">
-                <table className="w-full">
+            <div className="col-span-12 md:col-span-6 border-r border-[#DFDFDF] flex flex-col">
+              <div className="overflow-x-auto flex-1">
+                <table className="w-full table-fixed">
                   <thead>
-                    <tr className="bg-white border-b">
-                      <th className="text-[12px] font-semibold text-[#222222] text-left  px-[14px] py-[10px]">
-                        S.NO
+                    <tr className="bg-white border-b border-[#DFDFDF]">
+                      <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222] capitalize">
+                        {pdfDetails?.invoiceInfo?.totalAmount > 0
+                          ? "Payment"
+                          : "Refund"}
                       </th>
-                      <th className="text-[12px] font-semibold text-[#222222] text-center  px-[14px] py-[10px]">
-                        DESCRIPTION
-                      </th>
-                      <th className="text-[12px] font-semibold text-[#222222] text-right  px-[14px] py-[10px]">
+
+                      <th className="w-[30%] px-3 py-2 text-right text-[12px] font-semibold text-[#222222]">
                         AMOUNT / INR
                       </th>
                     </tr>
@@ -283,94 +277,101 @@ function RentInvoicePDF() {
                   <tbody>
                     {pdfDetails?.invoiceInfo?.invoiceItems?.map(
                       (item, index) => (
-                        <tr key={index}>
-                          <td className="text-[12px] text-[#2D2D2D] font-medium  px-[14px] py-[10px]">
-                            {index + 1}
-                          </td>
-
-                          <td className="text-[12px] text-[#2D2D2D] font-medium text-center  px-[14px] py-[10px]">
+                        <tr key={index} className="">
+                          <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
                             {item.description}
                           </td>
 
-                          <td className="text-[12px] text-[#2D2D2D] font-semibold text-right  px-[14px] py-[10px]">
+                          <td className="px-3 py-2 text-right text-[12px] font-semibold text-[#2D2D2D]">
                             ₹ {Number(item.amount).toLocaleString("en-IN")}
                           </td>
                         </tr>
                       ),
                     )}
 
-                    <tr className="bg-[#F9F9F9] font-semibold border-t border-[#DFDFDF]">
-                      <td
-                        colSpan={2}
-                        className={`text-[14px] text-[#2D2D2D] font-medium  px-[14px] py-[10px] ${
-                          hasTax ? "text-left" : "text-center pl-[150px]"
-                        }`}
-                      >
-                        Total
-                      </td>
-
-                      <td className="text-right text-[14px] font-semibold text-[#2D2D2D]  px-[14px] py-[10px]">
-                        ₹{" "}
-                        {Number(
-                          pdfDetails?.invoiceInfo?.subTotal || 0,
-                        ).toLocaleString("en-IN")}
-                      </td>
-                    </tr>
+                    {Array.from({
+                      length: Math.max(
+                        0,
+                        (pdfDetails?.invoiceInfo?.listDeductions?.length || 0) -
+                          (pdfDetails?.invoiceInfo?.invoiceItems?.length || 0),
+                      ),
+                    }).map((_, index) => (
+                      <tr key={`empty-left-${index}`}>
+                        <td className="px-3 py-2">&nbsp;</td>
+                        <td className="px-3 py-2">&nbsp;</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
+
+              <div className="flex items-center justify-between border-t border-[#DFDFDF] bg-[#FAFBFF] px-3 py-2 text-[14px] font-semibold text-[#2D2D2D]">
+                <span>Total</span>
+
+                <span>
+                  ₹{" "}
+                  {Number(
+                    pdfDetails?.invoiceInfo?.total1 || 0,
+                  ).toLocaleString("en-IN")}
+                </span>
+              </div>
             </div>
 
-            {hasTax && (
-              <div className="col-span-12 md:col-span-6">
-                <div className="overflow-x-auto">
-                  <table className="w-full mb-0">
-                    <thead>
-                      <tr className="bg-white border-b border-[#DFDFDF]">
-                        <th className="w-[70%] px-[14px] py-2 text-left text-[12px] font-semibold text-[#222222]">
-                          OTHERS
-                        </th>
+            <div className="col-span-12 md:col-span-6 flex flex-col">
+              <div className="overflow-x-auto flex-1">
+                <table className="w-full table-fixed">
+                  <thead>
+                    <tr className="bg-white border-b border-[#DFDFDF]">
+                      <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222]">
+                        Deductions
+                      </th>
 
-                        <th className="w-[30%] px-[14px] py-2 text-right text-[12px] font-semibold text-[#222222]">
-                          AMOUNT / INR
-                        </th>
-                      </tr>
-                    </thead>
+                      <th className="w-[30%] px-3 py-2 text-right text-[12px] font-semibold text-[#222222]">
+                        AMOUNT / INR
+                      </th>
+                    </tr>
+                  </thead>
 
-                    <tbody>
+                  <tbody>
+                    {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 ? (
+                      pdfDetails?.invoiceInfo?.listDeductions?.map(
+                        (item, index) => (
+                          <tr key={index} className="">
+                            <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
+                              {item.type}
+                            </td>
+
+                            <td className="px-3 py-2 text-right text-[12px] font-semibold text-[#2D2D2D]">
+                              ₹ {Number(item.amount).toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        ),
+                      )
+                    ) : (
                       <tr>
-                        <td className="text-[12px] text-[#2D2D2D] font-medium  px-[14px] py-[12px]">
-                          GST ({pdfDetails?.invoiceInfo?.taxPercentage}
-                          %)
-                        </td>
-
-                        <td className="text-[12px] text-[#2D2D2D] font-semibold text-right  px-[14px] py-[10px]">
-                          ₹{" "}
-                          {Number(
-                            pdfDetails?.invoiceInfo?.taxAmount,
-                          ).toLocaleString("en-IN", {
-                            minimumFractionDigits: 2,
-                          })}
+                        <td
+                          colSpan={2}
+                          className="px-3 py-2 text-center text-[12px] font-medium text-[#2D2D2D]"
+                        >
+                          No Deductions
                         </td>
                       </tr>
-
-                      <tr className="bg-[#F9F9F9] font-semibold border-t border-[#DFDFDF]">
-                        <td className="text-[14px] text-[#2D2D2D] font-medium  px-[14px] py-[10px]">
-                          Total
-                        </td>
-
-                        <td className="text-right text-[14px] font-semibold text-[#2D2D2D]  px-[14px] py-[10px]">
-                          ₹{" "}
-                          {Number(
-                            pdfDetails?.invoiceInfo?.taxAmount || 0,
-                          ).toLocaleString("en-IN")}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                    )}
+                  </tbody>
+                </table>
               </div>
-            )}
+
+              <div className="flex items-center justify-between border-t border-[#DFDFDF] bg-[#FAFBFF] px-3 py-2 text-[14px] font-semibold">
+                <span className="text-[#FF0000]">Total Deductions</span>
+
+                <span className="text-[#2D2D2D]">
+                  ₹{" "}
+                  {Number(pdfDetails?.invoiceInfo?.total2 || 0).toLocaleString(
+                    "en-IN",
+                  )}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 

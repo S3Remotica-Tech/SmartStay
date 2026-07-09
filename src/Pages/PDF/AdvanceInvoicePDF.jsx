@@ -320,7 +320,7 @@ function AdvanceInvoicePDF() {
                   <span>
                     ₹{" "}
                     {Number(
-                      pdfDetails?.invoiceInfo?.subTotal || 0,
+                      pdfDetails?.invoiceInfo?.total1 || 0,
                     ).toLocaleString("en-IN")}
                   </span>
                 </div>
@@ -374,7 +374,10 @@ function AdvanceInvoicePDF() {
                   <span className="text-[#FF0000]">Total Deductions</span>
 
                   <span className="text-[#2D2D2D]">
-                    ₹ {Number(totalDeductions || 0).toLocaleString("en-IN")}
+                    ₹{" "}
+                    {Number(
+                      pdfDetails?.invoiceInfo?.total2 || 0,
+                    ).toLocaleString("en-IN")}
                   </span>
                 </div>
               </div>
