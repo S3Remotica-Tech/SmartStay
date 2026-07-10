@@ -20,13 +20,20 @@ import overDude from "../../Assets/Images/New_images/overDue.png";
 import Tick from "../../Assets/v2Images/Tick.svg";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
-function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
+function PgLayoutView({
+  show,
+  handleClosePgLayOut,
+  selectedBedDetails,
+  isWay,
+}) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [selectedBed, setSelectedBed] = useState("");
   const [hoveredBedId, setHoveredBedId] = useState("");
 
   if (!show) return null;
+
+  console.log("show", show);
 
   const [floorClick, setFloorClick] = useState("");
 
@@ -84,7 +91,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
 
   const handleConfirmSelected = () => {
     selectedBedDetails(selectedBed, isWay);
-    handleClose();
+    handleClosePgLayOut();
   };
 
   return (
@@ -146,7 +153,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
             </div>
             <button
               className="px-2 py-2 bg-gray-200 rounded flex gap-1 "
-              onClick={handleClose}
+              onClick={handleClosePgLayOut}
             >
               <Add
                 size="24"

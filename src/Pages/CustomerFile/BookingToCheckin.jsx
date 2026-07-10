@@ -156,6 +156,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
+  if (!show) return null;
 
   console.log("tenantDetails", tenantDetails);
 
@@ -625,8 +626,6 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
       setFormLoading(true);
     }
   };
-
-  console.log("Floor && Rooms && Bed", Floor, Rooms, Bed);
 
   useEffect(() => {
     if (
@@ -1855,7 +1854,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
       {pgLayout && (
         <PgLayoutView
           show={pgLayout}
-          handleClose={handleClosePgLayOut}
+          handleClosePgLayOut={handleClosePgLayOut}
           selectedBedDetails={handleSelectedBedDetails}
         />
       )}
