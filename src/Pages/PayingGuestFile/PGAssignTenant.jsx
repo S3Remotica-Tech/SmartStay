@@ -158,9 +158,27 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
   const [oneTimePayments, setOneTimePayments] = useState([]);
 
+  const GracePeriod =
+    state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
+  const isjoiningBased =
+    state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
+    "Joining Date Based";
+
+  const [proRateRent, setProRateRent] = useState(0);
+
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
+
   const handleCustomRentChange = (e) => {
-    setCustomRent(e.target.value);
+    const value = e.target.value;
+
+    if (value === "") {
+      setCustomRent("");
+      return;
+    }
+    const amount = Number(value);
+    if (amount > 0) {
+      setCustomRent(amount);
+    }
   };
   const handleAddOneTimePayment = () => {
     setOneTimePayments([
@@ -839,12 +857,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
         type: "DIRECT_CHECK_IN_SAGA",
         payload: {
           customerId: checkin_customername,
-          // hostelId: currentItem?.hostelId,
+          hostelId: currentItem?.hostelId,
           floorId: currentItem?.floorId,
           bedId: currentItem?.bedId,
           roomId: currentItem?.roomId,
           joiningDate: formattedDate,
-          advanceAmount: AdvanceAmount,
+          refundableAmount: AdvanceAmount,
           rentalAmount: RoomRent,
           stayType: activeTab,
           deductions: formattedReasons,
@@ -889,6 +907,56 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const isPastMonth = checkin_joiningDate
     ? dayjs(checkin_joiningDate).isBefore(dayjs(), "month")
     : false;
+
+  const deductionsTotal = fields.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+
+  const oneTimeDeductionTotal = oneTimePayments.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "SETTINGS_GET_RECURRING",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (!checkin_joiningDate || !RoomRent) {
+      setProRateRent(0);
+      return;
+    }
+    const date = dayjs(checkin_joiningDate);
+    const totalDays = date.daysInMonth();
+    const remainingDays = totalDays - date.date() + 1;
+    const amount = Math.round((Number(RoomRent) / totalDays) * remainingDays);
+    setProRateRent(amount);
+  }, [checkin_joiningDate, RoomRent, customRentEnable]);
+
+  const summaryRent =
+    customRentEnable && customRent > 0
+      ? Number(customRent || 0)
+      : GracePeriod
+        ? Number(RoomRent || 0)
+        : collectFullRent
+          ? Number(RoomRent || 0)
+          : isjoiningBased
+            ? Number(RoomRent || 0)
+            : Number(proRateRent || 0);
+
+  // console.log("summaryRent", summaryRent);
+
+  const totalSummary =
+    Number(AdvanceAmount || 0) +
+    deductionsTotal +
+    oneTimeDeductionTotal +
+    summaryRent;
 
   return (
     <>
@@ -1396,20 +1464,22 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                               </button>
                             </div>
                           </div>
-                          <FormControl
-                            type="text"
-                            placeholder="Enter Amount"
-                            value={AdvanceAmount}
-                            disabled={isAdvanceRefused}
-                            onChange={handleAdvanceAmount}
-                            className={`text-[14px] text-gray-700 font-gilroy ${
-                              AdvanceAmount ? "font-semibold" : "font-medium"
-                            } shadow-none border h-12 rounded-md ${
-                              isAdvanceRefused
-                                ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                                : "border-gray-300"
-                            }`}
-                          />
+                          {!isAdvanceRefused && (
+                            <FormControl
+                              type="text"
+                              placeholder="Enter Amount"
+                              value={AdvanceAmount}
+                              disabled={isAdvanceRefused}
+                              onChange={handleAdvanceAmount}
+                              className={`text-[14px] text-gray-700 font-gilroy ${
+                                AdvanceAmount ? "font-semibold" : "font-medium"
+                              } shadow-none border h-12 rounded-md ${
+                                isAdvanceRefused
+                                  ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                                  : "border-gray-300"
+                              }`}
+                            />
+                          )}
                         </Form.Group>
                         {advanceAmountError && (
                           <ErrorMessage
@@ -1420,158 +1490,197 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       </div>
                     </div>
 
-                    {formLoading && (
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
-                        <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
-                      </div>
-                    )}
-
-                    <div className="bg-[#F7F9FF] rounded-lg pb-1 mt-2 mb-2">
-                      <div className="flex justify-between items-center p-4">
-                        <div>
-                          <label className="text-sm font-gilroy font-semibold">
-                            Non Refundable Amount
-                          </label>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleAddField}
-                            className="!flex !items-center !gap-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
-                          >
-                            <img
-                              src={addcircle}
-                              alt="Assign Bed"
-                              style={{
-                                height: 16,
-                                width: 16,
-                                filter: "brightness(0) invert(1)",
-                              }}
-                            />
-                            Add
-                          </Button>
-                        </div>
-                      </div>
-
-                      {fields.map((item, index) => {
-                        const isMaintenanceSelected = fields.some(
-                          (field) => field.reason === "maintenance",
-                        );
-
-                        const filteredOptions = reasonOptions.map((opt) => {
-                          if (opt.value === "maintenance") {
-                            return {
-                              ...opt,
-                              isDisabled:
-                                isMaintenanceSelected &&
-                                item.reason !== "maintenance",
-                            };
-                          }
-                          return opt;
-                        });
-
-                        return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-6">
-                              {!item.showInput ? (
-                                <Select
-                                  menuPlacement="top"
-                                  // menuPosition="fixed"
-                                  options={filteredOptions}
-                                  value={
-                                    filteredOptions.find(
-                                      (opt) => opt.value === item.reason_name,
-                                    ) || null
-                                  }
-                                  onChange={(selectedOption) => {
-                                    const selectedValue = selectedOption.value;
-
-                                    if (selectedValue === "others") {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        "others",
-                                      );
-                                    } else {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        selectedValue,
-                                      );
-                                    }
-                                  }}
-                                  isDisabled={item.reason === "maintenance"}
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      display: "inline-block",
-                                      fill: "currentColor",
-                                      lineHeight: 1,
-                                      stroke: "currentColor",
-                                      strokeWidth: 0,
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: state.isDisabled
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      backgroundColor: state.isFocused
-                                        ? "#E7F1FF"
-                                        : state.isDisabled
-                                          ? "#f0f0f0"
-                                          : "#fff",
-                                      color: state.isDisabled ? "#aaa" : "#000",
-                                    }),
+                    {!isAdvanceRefused && (
+                      <div>
+                        <div className="bg-[#F7F9FF] rounded-lg pb-1 mt-2 mb-2">
+                          <div className="flex justify-between items-center p-4">
+                            <div>
+                              <label className="text-sm font-gilroy font-semibold">
+                                Non Refundable Amount
+                              </label>
+                            </div>
+                            <div>
+                              <Button
+                                onClick={handleAddField}
+                                className="!flex !items-center !gap-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
+                              >
+                                <img
+                                  src={addcircle}
+                                  alt="Assign Bed"
+                                  style={{
+                                    height: 16,
+                                    width: 16,
+                                    filter: "brightness(0) invert(1)",
                                   }}
                                 />
-                              ) : (
-                                <>
+                                Add
+                              </Button>
+                            </div>
+                          </div>
+
+                          {fields.map((item, index) => {
+                            const isMaintenanceSelected = fields.some(
+                              (field) => field.reason === "maintenance",
+                            );
+
+                            const filteredOptions = reasonOptions.map((opt) => {
+                              if (opt.value === "maintenance") {
+                                return {
+                                  ...opt,
+                                  isDisabled:
+                                    isMaintenanceSelected &&
+                                    item.reason !== "maintenance",
+                                };
+                              }
+                              return opt;
+                            });
+
+                            return (
+                              <div className="row px-4 mb-3" key={index}>
+                                <div className="col-md-6">
+                                  {!item.showInput ? (
+                                    <Select
+                                      menuPlacement="top"
+                                      // menuPosition="fixed"
+                                      options={filteredOptions}
+                                      value={
+                                        filteredOptions.find(
+                                          (opt) =>
+                                            opt.value === item.reason_name,
+                                        ) || null
+                                      }
+                                      onChange={(selectedOption) => {
+                                        const selectedValue =
+                                          selectedOption.value;
+
+                                        if (selectedValue === "others") {
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            "others",
+                                          );
+                                        } else {
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            selectedValue,
+                                          );
+                                        }
+                                      }}
+                                      isDisabled={item.reason === "maintenance"}
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "50px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          display: "inline-block",
+                                          fill: "currentColor",
+                                          lineHeight: 1,
+                                          stroke: "currentColor",
+                                          strokeWidth: 0,
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                        option: (base, state) => ({
+                                          ...base,
+                                          cursor: state.isDisabled
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          backgroundColor: state.isFocused
+                                            ? "#E7F1FF"
+                                            : state.isDisabled
+                                              ? "#f0f0f0"
+                                              : "#fff",
+                                          color: state.isDisabled
+                                            ? "#aaa"
+                                            : "#000",
+                                        }),
+                                      }}
+                                    />
+                                  ) : (
+                                    <>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter custom reason"
+                                        value={item.customReason}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "customReason",
+                                            e.target.value,
+                                          )
+                                        }
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </>
+                                  )}
+                                  {errors[index]?.reason && (
+                                    <ErrorMessage
+                                      message={errors[index]?.reason}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+
+                                <div className="col-md-5">
                                   <input
                                     type="text"
-                                    className="form-control"
-                                    placeholder="Enter custom reason"
-                                    value={item.customReason}
+                                    placeholder="Enter amount"
+                                    value={item.amount}
+                                    //                                  onKeyDown={(e) => {
+                                    // if (e.key === "." || e.key === "e" || e.key === "-") {
+                                    //   e.preventDefault();
+                                    // }
+                                    // }}
                                     onChange={(e) =>
                                       handleInputChange(
                                         index,
-                                        "customReason",
+                                        "amount",
                                         e.target.value,
                                       )
                                     }
+                                    className="form-control"
                                     style={{
                                       fontSize: 16,
                                       color: "#4B4B4B",
@@ -1583,71 +1692,35 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                       borderRadius: 8,
                                     }}
                                   />
-                                </>
-                              )}
-                              {errors[index]?.reason && (
-                                <ErrorMessage
-                                  message={errors[index]?.reason}
-                                  type="error"
-                                />
-                              )}
-                            </div>
+                                  {errors[index]?.amount && (
+                                    <ErrorMessage
+                                      message={errors[index]?.amount}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
 
-                            <div className="col-md-5">
-                              <input
-                                type="text"
-                                placeholder="Enter amount"
-                                value={item.amount}
-                                //                                  onKeyDown={(e) => {
-                                // if (e.key === "." || e.key === "e" || e.key === "-") {
-                                //   e.preventDefault();
-                                // }
-                                // }}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    index,
-                                    "amount",
-                                    e.target.value,
-                                  )
-                                }
-                                className="form-control"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
-                              />
-                              {errors[index]?.amount && (
-                                <ErrorMessage
-                                  message={errors[index]?.amount}
-                                  type="error"
-                                />
-                              )}
-                            </div>
+                                <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+                                  <Trash
+                                    size="20"
+                                    color="red"
+                                    variant="Bold"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleRemoveField(index)}
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <p className="text-[11px] text-gray-500 mt-2">
+                          Note: These charges are deducted from the initial
+                          security deposit or collected at the time of check-in
+                          and are not refundable in any cost.
+                        </p>
+                      </div>
+                    )}
 
-                            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-                              <Trash
-                                size="20"
-                                color="red"
-                                variant="Bold"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleRemoveField(index)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <p className="text-[11px] text-gray-500 mt-2">
-                      Note: These charges are deducted from the initial security
-                      deposit or collected at the time of check-in and are not
-                      refundable in any cost.
-                    </p>
                     <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
                       <Form.Group>
                         <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
@@ -1699,9 +1772,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                             {collectFullRent && (
                               <div>
                                 <button
-                                  onClick={() =>
-                                    setCustomRentEnable(!customRentEnable)
-                                  }
+                                  onClick={() => {
+                                    setCustomRentEnable(!customRentEnable);
+                                    setCustomRent("");
+                                  }}
                                   className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
                                     customRentEnable
                                       ? "bg-[#0D1B8E] text-white"
@@ -1780,186 +1854,270 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           )}
                         </div>
                       )}
-                      <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
-                        <div
-                          onClick={handleAccordionToggle}
-                          className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
-                        >
-                          <h3 className="text-[14px] font-medium text-[#222222]">
-                            Add Onetime Payment
-                          </h3>
 
-                          {isOpen ? (
-                            <ArrowUp2
-                              size="20"
-                              color="#4B5563"
-                              variant="Linear"
-                            />
-                          ) : (
-                            <ArrowDown2
-                              size="20"
-                              color="#4B5563"
-                              variant="Linear"
-                            />
+                      {isAdvanceRefused && (
+                        <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
+                          <div
+                            onClick={handleAccordionToggle}
+                            className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
+                          >
+                            <h3 className="text-[14px] font-medium text-[#222222]">
+                              Add Onetime Payment
+                            </h3>
+
+                            {isOpen ? (
+                              <ArrowUp2
+                                size="20"
+                                color="#4B5563"
+                                variant="Linear"
+                              />
+                            ) : (
+                              <ArrowDown2
+                                size="20"
+                                color="#4B5563"
+                                variant="Linear"
+                              />
+                            )}
+                          </div>
+
+                          <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
+                            {oneTimePayments.map((item, index) => {
+                              const isMaintenanceSelected =
+                                oneTimePayments.some(
+                                  (field) => field.reason === "maintenance",
+                                );
+
+                              const filteredOptions = reasonOptions.map(
+                                (opt) => {
+                                  if (opt.value === "maintenance") {
+                                    return {
+                                      ...opt,
+                                      isDisabled:
+                                        isMaintenanceSelected &&
+                                        item.reason !== "maintenance",
+                                    };
+                                  }
+                                  return opt;
+                                },
+                              );
+
+                              return (
+                                <div className="row px-4 mb-3" key={index}>
+                                  <div className="col-md-6">
+                                    {!item.showInput ? (
+                                      <Select
+                                        menuPlacement="bottom"
+                                        // menuPosition="fixed"
+                                        options={filteredOptions}
+                                        value={
+                                          filteredOptions.find(
+                                            (opt) =>
+                                              opt.value === item.reason_name,
+                                          ) || null
+                                        }
+                                        onChange={(selectedOption) => {
+                                          const selectedValue =
+                                            selectedOption.value;
+
+                                          if (selectedValue === "others") {
+                                            handleInputChangeOneTime(
+                                              index,
+                                              "reason",
+                                              "others",
+                                            );
+                                          } else {
+                                            handleInputChangeOneTime(
+                                              index,
+                                              "reason",
+                                              selectedValue,
+                                            );
+                                          }
+                                        }}
+                                        isDisabled={
+                                          item.reason === "maintenance"
+                                        }
+                                        styles={CustomStyles}
+                                      />
+                                    ) : (
+                                      <>
+                                        <input
+                                          type="text"
+                                          className="form-control"
+                                          placeholder="Enter custom reason"
+                                          value={item.customReason}
+                                          onChange={(e) =>
+                                            handleInputChangeOneTime(
+                                              index,
+                                              "customReason",
+                                              e.target.value,
+                                            )
+                                          }
+                                          style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            border: "1px solid #D9D9D9",
+                                            height: 45,
+                                            borderRadius: 8,
+                                          }}
+                                        />
+                                      </>
+                                    )}
+                                    {oneTimePaymentErrors[index]?.reason && (
+                                      <ErrorMessage
+                                        message={
+                                          oneTimePaymentErrors[index]?.reason
+                                        }
+                                        type="error"
+                                      />
+                                    )}
+                                  </div>
+
+                                  <div className="col-md-5 relative">
+                                    <input
+                                      type="text"
+                                      placeholder="Enter amount"
+                                      value={item.amount}
+                                      //                                  onKeyDown={(e) => {
+                                      // if (e.key === "." || e.key === "e" || e.key === "-") {
+                                      //   e.preventDefault();
+                                      // }
+                                      // }}
+                                      onChange={(e) =>
+                                        handleInputChangeOneTime(
+                                          index,
+                                          "amount",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="form-control"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 45,
+                                        borderRadius: 8,
+                                      }}
+                                    />
+                                    {oneTimePaymentErrors[index]?.amount && (
+                                      <ErrorMessage
+                                        message={
+                                          oneTimePaymentErrors[index]?.amount
+                                        }
+                                        type="error"
+                                      />
+                                    )}
+                                    <CloseCircle
+                                      variant="Bold"
+                                      size="20"
+                                      className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                                      onClick={() =>
+                                        handleRemoveFieldOneTime(index)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          {isOpen && (
+                            <div className="p-4 bg-[#F7FAFF]">
+                              <button
+                                onClick={handleAddOneTimePayment}
+                                className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                              >
+                                <Add
+                                  size="16"
+                                  color="#4F46E5"
+                                  variant="Linear"
+                                />
+                                Add
+                              </button>
+                            </div>
                           )}
                         </div>
+                      )}
 
-                        <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                          {oneTimePayments.map((item, index) => {
-                            const isMaintenanceSelected = oneTimePayments.some(
-                              (field) => field.reason === "maintenance",
-                            );
+                      <div
+                        className="rounded-xl p-4 text-white shadow-md
+       bg-[#132197]"
+                      >
+                        <p className="text-xs uppercase tracking-wide opacity-80 mb-1">
+                          Summary
+                        </p>
 
-                            const filteredOptions = reasonOptions.map((opt) => {
-                              if (opt.value === "maintenance") {
-                                return {
-                                  ...opt,
-                                  isDisabled:
-                                    isMaintenanceSelected &&
-                                    item.reason !== "maintenance",
-                                };
-                              }
-                              return opt;
-                            });
+                        <h2 className="text-2xl font-semibold mb-3">
+                          ₹ {totalSummary}
+                        </h2>
 
-                            return (
-                              <div className="row px-4 mb-3" key={index}>
-                                <div className="col-md-6">
-                                  {!item.showInput ? (
-                                    <Select
-                                      menuPlacement="bottom"
-                                      // menuPosition="fixed"
-                                      options={filteredOptions}
-                                      value={
-                                        filteredOptions.find(
-                                          (opt) =>
-                                            opt.value === item.reason_name,
-                                        ) || null
-                                      }
-                                      onChange={(selectedOption) => {
-                                        const selectedValue =
-                                          selectedOption.value;
+                        <div className="border-t border-white/20 mb-3"></div>
 
-                                        if (selectedValue === "others") {
-                                          handleInputChangeOneTime(
-                                            index,
-                                            "reason",
-                                            "others",
-                                          );
-                                        } else {
-                                          handleInputChangeOneTime(
-                                            index,
-                                            "reason",
-                                            selectedValue,
-                                          );
-                                        }
-                                      }}
-                                      isDisabled={item.reason === "maintenance"}
-                                      styles={CustomStyles}
-                                    />
-                                  ) : (
-                                    <>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Enter custom reason"
-                                        value={item.customReason}
-                                        onChange={(e) =>
-                                          handleInputChangeOneTime(
-                                            index,
-                                            "customReason",
-                                            e.target.value,
-                                          )
-                                        }
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 45,
-                                          borderRadius: 8,
-                                        }}
-                                      />
-                                    </>
-                                  )}
-                                  {oneTimePaymentErrors[index]?.reason && (
-                                    <ErrorMessage
-                                      message={
-                                        oneTimePaymentErrors[index]?.reason
-                                      }
-                                      type="error"
-                                    />
-                                  )}
-                                </div>
-
-                                <div className="col-md-5 relative">
-                                  <input
-                                    type="text"
-                                    placeholder="Enter amount"
-                                    value={item.amount}
-                                    //                                  onKeyDown={(e) => {
-                                    // if (e.key === "." || e.key === "e" || e.key === "-") {
-                                    //   e.preventDefault();
-                                    // }
-                                    // }}
-                                    onChange={(e) =>
-                                      handleInputChangeOneTime(
-                                        index,
-                                        "amount",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="form-control"
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 45,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                  {oneTimePaymentErrors[index]?.amount && (
-                                    <ErrorMessage
-                                      message={
-                                        oneTimePaymentErrors[index]?.amount
-                                      }
-                                      type="error"
-                                    />
-                                  )}
-                                  <CloseCircle
-                                    variant="Bold"
-                                    size="20"
-                                    className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                                    onClick={() =>
-                                      handleRemoveFieldOneTime(index)
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        {isOpen && (
-                          <div className="p-4 bg-[#F7FAFF]">
-                            <button
-                              onClick={handleAddOneTimePayment}
-                              className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
-                            >
-                              <Add size="16" color="#4F46E5" variant="Linear" />
-                              Add
-                            </button>
+                        <div className="text-xs space-y-2">
+                          <div className="flex justify-between">
+                            <span>1. Advance Amount</span>
+                            <span>₹ {AdvanceAmount || 0}</span>
                           </div>
-                        )}
+
+                          <div className="flex justify-between">
+                            <span>
+                              2. Non Refundable Amount
+                              <span className="opacity-70">
+                                {" "}
+                                (Deducted from Advance 1)
+                              </span>
+                            </span>
+                            <span> ₹ {deductionsTotal || 0}</span>
+                          </div>
+
+                          <div className="flex justify-between">
+                            <span>
+                              {collectFullRent
+                                ? customRentEnable
+                                  ? "3. Base Rent (Custom Rent)"
+                                  : "3. Base Rent (Full Rent)"
+                                : "3. Base Rent (Pro-rate for Current Month)"}
+                            </span>
+
+                            <span>₹ {summaryRent}</span>
+                          </div>
+                          {GracePeriod && !customRentEnable && (
+                            <div className="mt-2 flex items-center gap-2 w-fit rounded  px-1  mx-1">
+                              <p className="text-xs text-white mb-0 italic opacity-70">
+                                <span className="font-semibold  ">
+                                  Note: Grace Period:
+                                </span>{" "}
+                                (1-10) Full Rent • 11th onwards: Prorated Rent
+                              </p>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between">
+                            <span>
+                              4. One Time payment
+                              <span className="opacity-70"></span>
+                            </span>
+                            <span>₹ {oneTimeDeductionTotal || 0}</span>
+                          </div>
+                        </div>
                       </div>
+
+                      <p className="text-[11px] text-gray-500 mt-2">
+                        Note: System automatically generates a separate invoices
+                        for Advance & Base Rent
+                      </p>
                     </div>
                   </div>
-
+                  {formLoading && (
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
+                      <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
                   {state.UsersList?.bedAvailableError ? (
                     <div className="flex justify-center">
                       <ErrorMessage

@@ -172,9 +172,24 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+  const [proRateRent, setProRateRent] = useState(0);
+  const GracePeriod =
+    state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
+  const isjoiningBased =
+    state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
+    "Joining Date Based";
 
   const handleCustomRentChange = (e) => {
-    setCustomRent(e.target.value);
+    const value = e.target.value;
+
+    if (value === "") {
+      setCustomRent("");
+      return;
+    }
+    const amount = Number(value);
+    if (amount > 0) {
+      setCustomRent(amount);
+    }
   };
   const handleAddOneTimePayment = () => {
     setOneTimePayments([
@@ -263,14 +278,14 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [selectedDate]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "ALLFLOORLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "ALLFLOORLIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (Floor) {
@@ -736,14 +751,14 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     ? dayjs(selectedDate).isBefore(dayjs(), "month")
     : false;
 
-  console.log("isPastMonth, ", isPastMonth);
-
-  // const handleCloseBacktoCheckin = () => {
-  //   if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
-  //   if (props?.handleCloseBed) props.handleCloseBed();
-  // };
-
-  // const [RequestDate, setRequestDate] = useState(null)
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "SETTINGS_GET_RECURRING",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
@@ -791,14 +806,54 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     0,
   );
 
+  // console.log("selectedDate", selectedDate);
+
+  useEffect(() => {
+    if (!selectedDate || !RoomRent) {
+      setProRateRent(0);
+      return;
+    }
+
+    const date = dayjs(selectedDate);
+    const totalDays = date.daysInMonth();
+    const remainingDays = totalDays - date.date() + 1;
+    const amount = Math.round((Number(RoomRent) / totalDays) * remainingDays);
+    setProRateRent(amount);
+  }, [selectedDate, RoomRent, customRentEnable]);
+
+  const summaryRent =
+    customRentEnable && customRent > 0
+      ? Number(customRent || 0)
+      : GracePeriod
+        ? Number(RoomRent || 0)
+        : collectFullRent
+          ? Number(RoomRent || 0)
+          : isjoiningBased
+            ? Number(RoomRent || 0)
+            : Number(proRateRent || 0);
+  // console.log("summaryRent", summaryRent);
+
   const totalSummary =
     Number(AdvanceAmount || 0) +
-    Number(RoomRent || 0) -
-    Number(deductionsTotal || 0);
+    deductionsTotal +
+    oneTimeDeductionTotal +
+    summaryRent;
+
+  const floorOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || []).map((item) => [
+        item.floorId,
+        {
+          value: item.floorId,
+          label: item.floorName,
+        },
+      ]),
+    ).values(),
+  ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg">
+      <div className="fixed top-2 right-2 bottom-2 w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg">
         <div className="px-4 py-3">
           <div className="pt-0 relative border-0 flex justify-between mb-2">
             <div className="text-xl font-semibold font-gilroy">
@@ -944,23 +999,17 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       <Select
                         isDisabled={!selectedDate}
                         options={
-                          state.UsersList.floorList?.map((u) => ({
-                            value: u.id,
-                            label: u.name,
-                          })) || []
+                          floorOptions
+                          // state.UsersList.floorList?.map((u) => ({
+                          //   value: u.id,
+                          //   label: u.name,
+                          // })) || []
                         }
                         onChange={handleFloor}
                         value={
-                          state.UsersList.floorList?.find(
-                            (option) => option.id === Floor,
-                          )
-                            ? {
-                                value: Floor,
-                                label: state.UsersList.floorList.find(
-                                  (option) => option.id === Floor,
-                                )?.name,
-                              }
-                            : null
+                          floorOptions.find(
+                            (option) => option.value === Floor,
+                          ) || null
                         }
                         placeholder="Select a Floor"
                         classNamePrefix="custom"
@@ -1109,20 +1158,22 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           </button>
                         </div>
                       </div>
-                      <FormControl
-                        type="text"
-                        placeholder="Enter Amount"
-                        value={AdvanceAmount}
-                        onChange={handleAdvanceAmount}
-                        disabled={isAdvanceRefused}
-                        className={`text-[14px] text-gray-700 font-gilroy ${
-                          AdvanceAmount ? "font-semibold" : "font-medium"
-                        } shadow-none border h-12 rounded-md ${
-                          isAdvanceRefused
-                            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                            : "border-gray-300"
-                        }`}
-                      />
+                      {!isAdvanceRefused && (
+                        <FormControl
+                          type="text"
+                          placeholder="Enter Amount"
+                          value={AdvanceAmount}
+                          onChange={handleAdvanceAmount}
+                          disabled={isAdvanceRefused}
+                          className={`text-[14px] text-gray-700 font-gilroy ${
+                            AdvanceAmount ? "font-semibold" : "font-medium"
+                          } shadow-none border h-12 rounded-md ${
+                            isAdvanceRefused
+                              ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                              : "border-gray-300"
+                          }`}
+                        />
+                      )}
                     </Form.Group>
 
                     {!isAdvanceRefused && advanceAmountError && (
@@ -1130,196 +1181,206 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                     )}
                   </div>
                 </div>
-
-                <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
-                  <div className="flex justify-between items-center p-4">
-                    <div>
-                      <label className="text-sm font-medium font-gilroy">
-                        Non Refundable Amount
-                      </label>
-                    </div>
-                    <div className="">
-                      <button
-                        disabled={isAdvanceRefused}
-                        onClick={handleAddField}
-                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
+                {!isAdvanceRefused && (
+                  <>
+                    <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
+                      <div className="flex justify-between items-center p-4">
+                        <div>
+                          <label className="text-sm font-medium font-gilroy">
+                            Non Refundable Amount
+                          </label>
+                        </div>
+                        <div className="">
+                          <button
+                            disabled={isAdvanceRefused}
+                            onClick={handleAddField}
+                            className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
                         disabled:bg-gray-100 disabled:text-gray-500
                         disabled:cursor-not-allowed 
                         text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
-                      >
-                        <AddCircle
-                          color={`${isAdvanceRefused ? "#4a4948" : "#1E45E1"}`}
-                          size="14"
-                        />
-                        Add
-                      </button>
-                    </div>
-                  </div>
-
-                  {fields.map((item, index) => {
-                    const isMaintenanceSelected = fields.some(
-                      (field) => field.reason === "maintenance",
-                    );
-
-                    const filteredOptions = reasonOptions.map((opt) => {
-                      if (opt.value === "maintenance") {
-                        return {
-                          ...opt,
-                          isDisabled:
-                            isMaintenanceSelected &&
-                            item.reason !== "maintenance",
-                        };
-                      }
-                      return opt;
-                    });
-
-                    return (
-                      <div className="flex gap-3 mb-3 px-4" key={index}>
-                        <div className="flex-1">
-                          {!item.showInput ? (
-                            <Select
-                              options={filteredOptions}
-                              value={
-                                filteredOptions.find(
-                                  (opt) => opt.value === item.reason_name,
-                                ) || null
-                              }
-                              onChange={(selectedOption) => {
-                                const selectedValue = selectedOption.value;
-
-                                if (selectedValue === "others") {
-                                  handleInputChange(index, "reason", "others");
-                                } else {
-                                  handleInputChange(
-                                    index,
-                                    "reason",
-                                    selectedValue,
-                                  );
-                                }
-                              }}
-                              isDisabled={item.reason === "maintenance"}
-                              menuPlacement="auto"
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  height: "50px",
-                                  border: "1px solid #D9D9D9",
-                                  borderRadius: "8px",
-                                  fontSize: "16px",
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                }),
-                                menu: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
-                                }),
-                                menuList: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  maxHeight: "120px",
-                                  padding: 0,
-                                  scrollbarWidth: "thin",
-                                  overflowY: "auto",
-                                  fontFamily: "Gilroy",
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  display: "inline-block",
-                                  fill: "currentColor",
-                                  lineHeight: 1,
-                                  stroke: "currentColor",
-                                  strokeWidth: 0,
-                                  cursor: "pointer",
-                                }),
-                                indicatorSeparator: () => ({
-                                  display: "none",
-                                }),
-                                option: (base, state) => ({
-                                  ...base,
-                                  cursor: state.isDisabled
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  backgroundColor: state.isFocused
-                                    ? "#E7F1FF"
-                                    : state.isDisabled
-                                      ? "#f0f0f0"
-                                      : "#fff",
-                                  color: state.isDisabled ? "#aaa" : "#000",
-                                }),
-                              }}
+                          >
+                            <AddCircle
+                              color={`${isAdvanceRefused ? "#4a4948" : "#1E45E1"}`}
+                              size="14"
                             />
-                          ) : (
-                            <>
+                            Add
+                          </button>
+                        </div>
+                      </div>
+
+                      {fields.map((item, index) => {
+                        const isMaintenanceSelected = fields.some(
+                          (field) => field.reason === "maintenance",
+                        );
+
+                        const filteredOptions = reasonOptions.map((opt) => {
+                          if (opt.value === "maintenance") {
+                            return {
+                              ...opt,
+                              isDisabled:
+                                isMaintenanceSelected &&
+                                item.reason !== "maintenance",
+                            };
+                          }
+                          return opt;
+                        });
+
+                        return (
+                          <div className="flex gap-3 mb-3 px-4" key={index}>
+                            <div className="flex-1">
+                              {!item.showInput ? (
+                                <Select
+                                  options={filteredOptions}
+                                  value={
+                                    filteredOptions.find(
+                                      (opt) => opt.value === item.reason_name,
+                                    ) || null
+                                  }
+                                  onChange={(selectedOption) => {
+                                    const selectedValue = selectedOption.value;
+
+                                    if (selectedValue === "others") {
+                                      handleInputChange(
+                                        index,
+                                        "reason",
+                                        "others",
+                                      );
+                                    } else {
+                                      handleInputChange(
+                                        index,
+                                        "reason",
+                                        selectedValue,
+                                      );
+                                    }
+                                  }}
+                                  isDisabled={item.reason === "maintenance"}
+                                  menuPlacement="auto"
+                                  styles={{
+                                    control: (base) => ({
+                                      ...base,
+                                      height: "50px",
+                                      border: "1px solid #D9D9D9",
+                                      borderRadius: "8px",
+                                      fontSize: "16px",
+                                      color: "#4B4B4B",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      boxShadow: "none",
+                                    }),
+                                    menu: (base) => ({
+                                      ...base,
+                                      backgroundColor: "#f8f9fa",
+                                      border: "1px solid #ced4da",
+                                      fontFamily: "Gilroy",
+                                    }),
+                                    menuList: (base) => ({
+                                      ...base,
+                                      backgroundColor: "#f8f9fa",
+                                      maxHeight: "120px",
+                                      padding: 0,
+                                      scrollbarWidth: "thin",
+                                      overflowY: "auto",
+                                      fontFamily: "Gilroy",
+                                    }),
+                                    placeholder: (base) => ({
+                                      ...base,
+                                      color: "#555",
+                                    }),
+                                    dropdownIndicator: (base) => ({
+                                      ...base,
+                                      color: "#555",
+                                      display: "inline-block",
+                                      fill: "currentColor",
+                                      lineHeight: 1,
+                                      stroke: "currentColor",
+                                      strokeWidth: 0,
+                                      cursor: "pointer",
+                                    }),
+                                    indicatorSeparator: () => ({
+                                      display: "none",
+                                    }),
+                                    option: (base, state) => ({
+                                      ...base,
+                                      cursor: state.isDisabled
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      backgroundColor: state.isFocused
+                                        ? "#E7F1FF"
+                                        : state.isDisabled
+                                          ? "#f0f0f0"
+                                          : "#fff",
+                                      color: state.isDisabled ? "#aaa" : "#000",
+                                    }),
+                                  }}
+                                />
+                              ) : (
+                                <>
+                                  <input
+                                    type="text"
+                                    placeholder="Enter custom reason"
+                                    value={item.customReason}
+                                    onChange={(e) =>
+                                      handleInputChange(
+                                        index,
+                                        "customReason",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
+                                  />
+                                </>
+                              )}
+                              {errors[index]?.reason && (
+                                <ErrorMessage
+                                  message={errors[index]?.reason}
+                                  type="error"
+                                />
+                              )}
+                            </div>
+
+                            <div className="flex-1 relative">
                               <input
                                 type="text"
-                                placeholder="Enter custom reason"
-                                value={item.customReason}
+                                placeholder="Enter amount"
+                                value={item.amount}
+                                //                               onKeyDown={(e) => {
+                                //   if (e.key === "." || e.key === "e" || e.key === "-") {
+                                //     e.preventDefault();
+                                //   }
+                                // }}
                                 onChange={(e) =>
                                   handleInputChange(
                                     index,
-                                    "customReason",
+                                    "amount",
                                     e.target.value,
                                   )
                                 }
-                                className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
+                                className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
                               />
-                            </>
-                          )}
-                          {errors[index]?.reason && (
-                            <ErrorMessage
-                              message={errors[index]?.reason}
-                              type="error"
-                            />
-                          )}
-                        </div>
-
-                        <div className="flex-1 relative">
-                          <input
-                            type="text"
-                            placeholder="Enter amount"
-                            value={item.amount}
-                            //                               onKeyDown={(e) => {
-                            //   if (e.key === "." || e.key === "e" || e.key === "-") {
-                            //     e.preventDefault();
-                            //   }
-                            // }}
-                            onChange={(e) =>
-                              handleInputChange(index, "amount", e.target.value)
-                            }
-                            className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
-                          />
-                          {errors[index]?.amount && (
-                            <ErrorMessage
-                              message={errors[index]?.amount}
-                              type="error"
-                            />
-                          )}
-                          <CloseCircle
-                            variant="Bold"
-                            size="20"
-                            className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                            onClick={() => handleRemoveField(index)}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <p className="text-[11px] text-gray-500 mt-2">
-                  Note: These charges are deducted from the initial security
-                  deposit or collected at the time of check-in and are not
-                  refundable in any cost.
-                </p>
-
+                              {errors[index]?.amount && (
+                                <ErrorMessage
+                                  message={errors[index]?.amount}
+                                  type="error"
+                                />
+                              )}
+                              <CloseCircle
+                                variant="Bold"
+                                size="20"
+                                className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                                onClick={() => handleRemoveField(index)}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <p className="text-[11px] text-gray-500 mt-2">
+                      Note: These charges are deducted from the initial security
+                      deposit or collected at the time of check-in and are not
+                      refundable in any cost.
+                    </p>
+                  </>
+                )}
                 <div className="mb-2">
                   <Form.Group>
                     <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
@@ -1368,9 +1429,10 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                         {collectFullRent && (
                           <div>
                             <button
-                              onClick={() =>
-                                setCustomRentEnable(!customRentEnable)
-                              }
+                              onClick={() => {
+                                setCustomRentEnable(!customRentEnable);
+                                setCustomRent("");
+                              }}
                               className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
                                 customRentEnable
                                   ? "bg-[#0D1B8E] text-white"
@@ -1442,171 +1504,184 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       )}
                     </div>
                   )}
-                  <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
-                    <div
-                      onClick={handleAccordionToggle}
-                      className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
-                    >
-                      <h3 className="text-[14px] font-medium text-[#222222]">
-                        Add Onetime Payment
-                      </h3>
+                  {isAdvanceRefused && (
+                    <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
+                      <div
+                        onClick={handleAccordionToggle}
+                        className="flex items-center justify-between px-4 py-3 bg-[#F7FAFF] cursor-pointer"
+                      >
+                        <h3 className="text-[14px] font-medium text-[#222222]">
+                          Add Onetime Payment
+                        </h3>
 
-                      {isOpen ? (
-                        <ArrowUp2 size="20" color="#4B5563" variant="Linear" />
-                      ) : (
-                        <ArrowDown2
-                          size="20"
-                          color="#4B5563"
-                          variant="Linear"
-                        />
+                        {isOpen ? (
+                          <ArrowUp2
+                            size="20"
+                            color="#4B5563"
+                            variant="Linear"
+                          />
+                        ) : (
+                          <ArrowDown2
+                            size="20"
+                            color="#4B5563"
+                            variant="Linear"
+                          />
+                        )}
+                      </div>
+
+                      <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
+                        {oneTimePayments.map((item, index) => {
+                          const isMaintenanceSelected = oneTimePayments.some(
+                            (field) => field.reason === "maintenance",
+                          );
+
+                          const filteredOptions = reasonOptions.map((opt) => {
+                            if (opt.value === "maintenance") {
+                              return {
+                                ...opt,
+                                isDisabled:
+                                  isMaintenanceSelected &&
+                                  item.reason !== "maintenance",
+                              };
+                            }
+                            return opt;
+                          });
+
+                          return (
+                            <div className="row px-4 mb-3" key={index}>
+                              <div className="col-md-6">
+                                {!item.showInput ? (
+                                  <Select
+                                    menuPlacement="bottom"
+                                    // menuPosition="fixed"
+                                    options={filteredOptions}
+                                    value={
+                                      filteredOptions.find(
+                                        (opt) => opt.value === item.reason_name,
+                                      ) || null
+                                    }
+                                    onChange={(selectedOption) => {
+                                      const selectedValue =
+                                        selectedOption.value;
+
+                                      if (selectedValue === "others") {
+                                        handleInputChangeOneTime(
+                                          index,
+                                          "reason",
+                                          "others",
+                                        );
+                                      } else {
+                                        handleInputChangeOneTime(
+                                          index,
+                                          "reason",
+                                          selectedValue,
+                                        );
+                                      }
+                                    }}
+                                    isDisabled={item.reason === "maintenance"}
+                                    styles={CustomStyles}
+                                  />
+                                ) : (
+                                  <>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Enter custom reason"
+                                      value={item.customReason}
+                                      onChange={(e) =>
+                                        handleInputChangeOneTime(
+                                          index,
+                                          "customReason",
+                                          e.target.value,
+                                        )
+                                      }
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 45,
+                                        borderRadius: 8,
+                                      }}
+                                    />
+                                  </>
+                                )}
+                                {oneTimePaymentErrors[index]?.reason && (
+                                  <ErrorMessage
+                                    message={
+                                      oneTimePaymentErrors[index]?.reason
+                                    }
+                                    type="error"
+                                  />
+                                )}
+                              </div>
+
+                              <div className="col-md-5 relative">
+                                <input
+                                  type="text"
+                                  placeholder="Enter amount"
+                                  value={item.amount}
+                                  //                                  onKeyDown={(e) => {
+                                  // if (e.key === "." || e.key === "e" || e.key === "-") {
+                                  //   e.preventDefault();
+                                  // }
+                                  // }}
+                                  onChange={(e) =>
+                                    handleInputChangeOneTime(
+                                      index,
+                                      "amount",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="form-control"
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                    border: "1px solid #D9D9D9",
+                                    height: 45,
+                                    borderRadius: 8,
+                                  }}
+                                />
+                                {oneTimePaymentErrors[index]?.amount && (
+                                  <ErrorMessage
+                                    message={
+                                      oneTimePaymentErrors[index]?.amount
+                                    }
+                                    type="error"
+                                  />
+                                )}
+                                <CloseCircle
+                                  variant="Bold"
+                                  size="20"
+                                  className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                                  onClick={() =>
+                                    handleRemoveFieldOneTime(index)
+                                  }
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {isOpen && (
+                        <div className="p-4 bg-[#F7FAFF]">
+                          <button
+                            onClick={handleAddOneTimePayment}
+                            className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
+                          >
+                            <Add size="16" color="#4F46E5" variant="Linear" />
+                            Add
+                          </button>
+                        </div>
                       )}
                     </div>
-
-                    <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                      {oneTimePayments.map((item, index) => {
-                        const isMaintenanceSelected = oneTimePayments.some(
-                          (field) => field.reason === "maintenance",
-                        );
-
-                        const filteredOptions = reasonOptions.map((opt) => {
-                          if (opt.value === "maintenance") {
-                            return {
-                              ...opt,
-                              isDisabled:
-                                isMaintenanceSelected &&
-                                item.reason !== "maintenance",
-                            };
-                          }
-                          return opt;
-                        });
-
-                        return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-6">
-                              {!item.showInput ? (
-                                <Select
-                                  menuPlacement="bottom"
-                                  // menuPosition="fixed"
-                                  options={filteredOptions}
-                                  value={
-                                    filteredOptions.find(
-                                      (opt) => opt.value === item.reason_name,
-                                    ) || null
-                                  }
-                                  onChange={(selectedOption) => {
-                                    const selectedValue = selectedOption.value;
-
-                                    if (selectedValue === "others") {
-                                      handleInputChangeOneTime(
-                                        index,
-                                        "reason",
-                                        "others",
-                                      );
-                                    } else {
-                                      handleInputChangeOneTime(
-                                        index,
-                                        "reason",
-                                        selectedValue,
-                                      );
-                                    }
-                                  }}
-                                  isDisabled={item.reason === "maintenance"}
-                                  styles={CustomStyles}
-                                />
-                              ) : (
-                                <>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter custom reason"
-                                    value={item.customReason}
-                                    onChange={(e) =>
-                                      handleInputChangeOneTime(
-                                        index,
-                                        "customReason",
-                                        e.target.value,
-                                      )
-                                    }
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 45,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </>
-                              )}
-                              {oneTimePaymentErrors[index]?.reason && (
-                                <ErrorMessage
-                                  message={oneTimePaymentErrors[index]?.reason}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-
-                            <div className="col-md-5 relative">
-                              <input
-                                type="text"
-                                placeholder="Enter amount"
-                                value={item.amount}
-                                //                                  onKeyDown={(e) => {
-                                // if (e.key === "." || e.key === "e" || e.key === "-") {
-                                //   e.preventDefault();
-                                // }
-                                // }}
-                                onChange={(e) =>
-                                  handleInputChangeOneTime(
-                                    index,
-                                    "amount",
-                                    e.target.value,
-                                  )
-                                }
-                                className="form-control"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 45,
-                                  borderRadius: 8,
-                                }}
-                              />
-                              {oneTimePaymentErrors[index]?.amount && (
-                                <ErrorMessage
-                                  message={oneTimePaymentErrors[index]?.amount}
-                                  type="error"
-                                />
-                              )}
-                              <CloseCircle
-                                variant="Bold"
-                                size="20"
-                                className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                                onClick={() => handleRemoveFieldOneTime(index)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {isOpen && (
-                      <div className="p-4 bg-[#F7FAFF]">
-                        <button
-                          onClick={handleAddOneTimePayment}
-                          className="w-full h-[32px] rounded-md bg-[#EAEEFF] hover:bg-[#E0E7FF] transition-all duration-200 flex items-center justify-center gap-2 text-[#4F46E5] text-[15px] font-medium"
-                        >
-                          <Add size="16" color="#4F46E5" variant="Linear" />
-                          Add
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
 
                 <div className="">
@@ -1638,15 +1713,37 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                             (Deducted from Advance 1)
                           </span>
                         </span>
-                        <span>- ₹ {deductionsTotal}</span>
+                        <span> ₹ {deductionsTotal || 0}</span>
                       </div>
 
                       <div className="flex justify-between">
                         <span>
-                          3. Base Rent
-                          <span className="opacity-70"> (Pro-rate)</span>
+                          {collectFullRent
+                            ? customRentEnable
+                              ? "3. Base Rent (Custom Rent)"
+                              : "3. Base Rent (Full Rent)"
+                            : "3. Base Rent (Pro-rate for Current Month)"}
                         </span>
-                        <span>₹ {RoomRent}</span>
+
+                        <span>₹ {summaryRent}</span>
+                      </div>
+                      {GracePeriod && !customRentEnable && (
+                        <div className="mt-2 flex items-center gap-2 w-fit rounded  px-1  mx-1">
+                          <p className="text-xs text-white mb-0 italic opacity-70">
+                            <span className="font-semibold  ">
+                              Note: Grace Period:
+                            </span>{" "}
+                            (1-10) Full Rent • 11th onwards: Prorated Rent
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="flex justify-between">
+                        <span>
+                          4. One Time payment
+                          <span className="opacity-70"></span>
+                        </span>
+                        <span>₹ {oneTimeDeductionTotal || 0}</span>
                       </div>
                     </div>
                   </div>
