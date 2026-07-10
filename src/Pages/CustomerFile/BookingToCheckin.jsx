@@ -159,6 +159,8 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
 
   console.log("tenantDetails", tenantDetails);
 
+  console.log("pgLayout", pgLayout);
+
   const [errors, setErrors] = useState([]);
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
   // const [errorsOneTime, setErrorsOneTime] = useState([]);
@@ -1024,8 +1026,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
 
                     <div className="relative inline-block group">
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
                           if (selectedDate) {
+                            e.stopPropagation();
                             handleBedLayoutPreview();
                           }
                         }}

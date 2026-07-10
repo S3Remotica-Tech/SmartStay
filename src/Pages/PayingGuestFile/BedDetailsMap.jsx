@@ -88,7 +88,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     });
   };
 
-  // console.log("customer",customer)
+  console.log("showCheckIn", showCheckIn);
 
   const handleClosefinalsettelment = () => {
     setFinalSettlePage(false);
@@ -161,9 +161,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const handleCloseCheck_In = () => {
     setShowCheckIn(false);
   };
-
-
-
 
   const handleShowMakeAsInActive = () => {
     setShowInActive(true);
@@ -439,7 +436,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         },
       });
       setAssignTenantForm(false);
-      setShowCheckIn(false);
+      // setShowCheckIn(false);
       dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
     }
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
@@ -485,29 +482,29 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
 
-  useEffect(() => {
-    if (
-      state.UsersList?.bookingToCheckinStatusCode === 200 ||
-      state.UsersList?.bookingToCheckinStatusCode === 201
-    ) {
-      setShowCheckIn(false);
-      dispatch({
-        type: "GETALLBEDSLIST",
-        payload: { roomId: room.id },
-      });
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
-      }, 100);
-    }
-  }, [state.UsersList?.bookingToCheckinStatusCode]);
+  // useEffect(() => {
+  //   if (
+  //     state.UsersList?.bookingToCheckinStatusCode === 200 ||
+  //     state.UsersList?.bookingToCheckinStatusCode === 201
+  //   ) {
+  //     setShowCheckIn(false);
+  //     dispatch({
+  //       type: "GETALLBEDSLIST",
+  //       payload: { roomId: room.id },
+  //     });
+  //     dispatch({
+  //       type: "USERLIST",
+  //       payload: {
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         size: 10,
+  //         page: 1,
+  //       },
+  //     });
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
+  //     }, 100);
+  //   }
+  // }, [state.UsersList?.bookingToCheckinStatusCode]);
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
