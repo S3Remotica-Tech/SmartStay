@@ -1638,7 +1638,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                             (Deducted from Advance 1)
                           </span>
                         </span>
-                        <span>- ₹ {deductionsTotal}</span>
+                        <span>- ₹ {deductionsTotal || 0}</span>
                       </div>
 
                       <div className="flex justify-between">
@@ -1646,7 +1646,14 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           3. Base Rent
                           <span className="opacity-70"> (Pro-rate)</span>
                         </span>
-                        <span>₹ {RoomRent}</span>
+                        <span>₹ {RoomRent || 0}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>
+                          4. One Time payment
+                          <span className="opacity-70"></span>
+                        </span>
+                        <span>₹ {oneTimeDeductionTotal || 0}</span>
                       </div>
                     </div>
                   </div>
