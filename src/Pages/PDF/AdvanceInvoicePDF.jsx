@@ -264,7 +264,9 @@ function AdvanceInvoicePDF() {
         <div className="mt-0 mb-2 p-0 font-gilroy">
           <div className="font-gilroy">
             <div className="grid grid-cols-12 border border-[#DFDFDF] rounded-lg overflow-hidden">
-              <div className="col-span-12 md:col-span-6 border-r border-[#DFDFDF] flex flex-col">
+              <div
+                className={`${pdfDetails?.invoiceInfo?.listDeductions?.length > 0 ? "col-span-12 md:col-span-6" : "col-span-12 md:col-span-12"} border-r border-[#DFDFDF] flex flex-col`}
+              >
                 <div className="overflow-x-auto flex-1">
                   <table className="w-full table-fixed">
                     <thead>
@@ -325,62 +327,64 @@ function AdvanceInvoicePDF() {
                   </span>
                 </div>
               </div>
+              {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 && (
+                <div className="col-span-12 md:col-span-6 flex flex-col">
+                  <div className="overflow-x-auto flex-1">
+                    <table className="w-full table-fixed">
+                      <thead>
+                        <tr className="bg-white border-b border-[#DFDFDF]">
+                          <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222]">
+                            Deductions
+                          </th>
 
-              <div className="col-span-12 md:col-span-6 flex flex-col">
-                <div className="overflow-x-auto flex-1">
-                  <table className="w-full table-fixed">
-                    <thead>
-                      <tr className="bg-white border-b border-[#DFDFDF]">
-                        <th className="w-[70%] px-3 py-2 text-left text-[12px] font-semibold text-[#222222]">
-                          Deductions
-                        </th>
-
-                        <th className="w-[30%] px-3 py-2 text-right text-[12px] font-semibold text-[#222222]">
-                          AMOUNT / INR
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 ? (
-                        pdfDetails?.invoiceInfo?.listDeductions?.map(
-                          (item, index) => (
-                            <tr key={index} className="">
-                              <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
-                                {item.type}
-                              </td>
-
-                              <td className="px-3 py-2 text-right text-[12px] font-semibold text-[#2D2D2D]">
-                                ₹ {Number(item.amount).toLocaleString("en-IN")}
-                              </td>
-                            </tr>
-                          ),
-                        )
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={2}
-                            className="px-3 py-2 text-center text-[12px] font-medium text-[#2D2D2D]"
-                          >
-                            No Deductions
-                          </td>
+                          <th className="w-[30%] px-3 py-2 text-right text-[12px] font-semibold text-[#222222]">
+                            AMOUNT / INR
+                          </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
 
-                <div className="flex items-center justify-between border-t border-[#DFDFDF] bg-[#FAFBFF] px-3 py-2 text-[14px] font-semibold">
-                  <span className="text-[#FF0000]">Total Deductions</span>
+                      <tbody>
+                        {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 ? (
+                          pdfDetails?.invoiceInfo?.listDeductions?.map(
+                            (item, index) => (
+                              <tr key={index} className="">
+                                <td className="px-3 py-2 text-[12px] font-medium text-[#2D2D2D]">
+                                  {item.type}
+                                </td>
 
-                  <span className="text-[#2D2D2D]">
-                    ₹{" "}
-                    {Number(
-                      pdfDetails?.invoiceInfo?.total2 || 0,
-                    ).toLocaleString("en-IN")}
-                  </span>
+                                <td className="px-3 py-2 text-right text-[12px] font-semibold text-[#2D2D2D]">
+                                  ₹{" "}
+                                  {Number(item.amount).toLocaleString("en-IN")}
+                                </td>
+                              </tr>
+                            ),
+                          )
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={2}
+                              className="px-3 py-2 text-center text-[12px] font-medium text-[#2D2D2D]"
+                            >
+                              No Deductions
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-[#DFDFDF] bg-[#FAFBFF] px-3 py-2 text-[14px] font-semibold">
+                    <span className="text-[#FF0000]">Total Deductions</span>
+
+                    <span className="text-[#2D2D2D]">
+                      ₹{" "}
+                      {Number(
+                        pdfDetails?.invoiceInfo?.total2 || 0,
+                      ).toLocaleString("en-IN")}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
