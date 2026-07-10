@@ -1350,6 +1350,13 @@ function* handleDraftTenantSearch(user) {
     }
   } catch (err) {
     const error = err || {};
+    if (error) {
+      yield put({
+        type: "NO_TENANT_DRAFT",
+        payload: error.response.data,
+      });
+    }
+
     yield* handleApiError(error);
   }
 }

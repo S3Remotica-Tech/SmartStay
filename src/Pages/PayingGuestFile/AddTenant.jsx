@@ -386,6 +386,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     setSearch(e.target.value);
     dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
+    dispatch({ type: "REMOVE_NO_TENANT_DRAFT" });
   };
 
   const handleSearch = () => {
@@ -1412,6 +1413,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
       dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
+      dispatch({type: 'REMOVE_NO_TENANT_DRAFT'})
       dispatch({
         type: "USERLIST",
         payload: {
@@ -1583,6 +1585,13 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state.UsersList?.statusCodeForAddUser,
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
+
+  useEffect(()=>{
+    if(state.UsersList?.draftClickError){
+      dispatch({type: 'REMOVE_TENANT_SEARCH_LIST_REDUCER'})
+    }
+
+  },[state.UsersList?.draftClickError])
 
   return (
     <>
@@ -1812,6 +1821,14 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                 type="error"
                               />
                             )}
+
+                            {state.UsersList?.draftClickError && (
+                              <ErrorMessage
+                                message={state.UsersList?.draftClickError}
+                                type="error"
+                              />
+                            )}
+
                             <span className="text-xs text-[#747686] mb-1 font-medium whitespace-nowrap">
                               Search existing tenants in the Property flow
                               ecosystem to auto-fill details.

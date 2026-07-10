@@ -32,6 +32,7 @@ import { clickedBedForChange } from "../../Redux/Action/LoginAction";
 import FinalOld from "../CustomerFile/FinalOld";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
+import BookingToCheckin from "../CustomerFile/BookingToCheckin";
 function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -160,6 +161,9 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const handleCloseCheck_In = () => {
     setShowCheckIn(false);
   };
+
+
+
 
   const handleShowMakeAsInActive = () => {
     setShowInActive(true);
@@ -435,6 +439,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         },
       });
       setAssignTenantForm(false);
+      setShowCheckIn(false);
       dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
     }
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
@@ -626,12 +631,20 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {showCheckIn && (
+      {/* {showCheckIn && (
         <Check_In
           show={showCheckIn}
           handleClose={handleCloseCheck_In}
           currentItem={selectedTenant}
           pgDetails={customer}
+        />
+      )} */}
+
+      {showCheckIn && (
+        <BookingToCheckin
+          show={showCheckIn}
+          handleClose={handleCloseCheck_In}
+          tenantDetails={selectedTenant}
         />
       )}
 

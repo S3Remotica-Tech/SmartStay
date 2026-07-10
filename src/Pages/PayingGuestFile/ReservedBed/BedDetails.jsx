@@ -223,7 +223,7 @@ function BedDetails({
                                   }
                                 />
                                 <label
-                                  className={`text-sm font-medium font-gilroy ${canWriteCustomers ? "text-gray-800" : "text-gray-300"}`}
+                                  className={`text-sm font-medium font-gilroy cursor-pointer ${canWriteCustomers ? "text-gray-800" : "text-gray-300"}`}
                                 >
                                   Check-In
                                 </label>
@@ -249,7 +249,7 @@ function BedDetails({
                                   }
                                 />
                                 <label
-                                  className={`text-sm font-medium font-gilroy 
+                                  className={`text-sm font-medium font-gilroy  cursor-pointer
       ${canWriteBooking ? "text-gray-800" : "text-gray-300"}`}
                                 >
                                   Make as Inactive
