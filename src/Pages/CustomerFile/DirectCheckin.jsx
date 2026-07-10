@@ -172,7 +172,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
-
+  const [proRateRent, setProRateRent] = useState(0);
   const GracePeriod =
     state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
   const isjoiningBased =
@@ -808,8 +808,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
   // console.log("selectedDate", selectedDate);
 
-  const [proRateRent, setProRateRent] = useState(0);
-
   useEffect(() => {
     if (!selectedDate || !RoomRent) {
       setProRateRent(0);
@@ -833,7 +831,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
           : isjoiningBased
             ? Number(RoomRent || 0)
             : Number(proRateRent || 0);
-  console.log("summaryRent", summaryRent);
+  // console.log("summaryRent", summaryRent);
 
   const totalSummary =
     Number(AdvanceAmount || 0) +

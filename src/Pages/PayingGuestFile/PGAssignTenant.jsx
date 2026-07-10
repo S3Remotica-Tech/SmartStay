@@ -950,7 +950,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
             ? Number(RoomRent || 0)
             : Number(proRateRent || 0);
 
-  console.log("summaryRent", summaryRent);
+  // console.log("summaryRent", summaryRent);
 
   const totalSummary =
     Number(AdvanceAmount || 0) +
