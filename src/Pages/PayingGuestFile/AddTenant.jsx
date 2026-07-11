@@ -1395,6 +1395,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   const handleNextStep = () => {
     setStep(3);
+
+    
   };
   const handlePrevious = () => {
     setStep(1);

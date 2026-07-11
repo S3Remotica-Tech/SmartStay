@@ -185,7 +185,7 @@ export const initialState = {
   vendorSettleError: "",
   expenseSettleError: "",
   statusCodeForDirectCheckInCustomer: 0,
-   draftClickError: "" ,
+  draftClickError: "",
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -200,6 +200,8 @@ export const initialState = {
   alreadyAvailableDraftTenantGetList: "",
   kycRemindeSuccess: 0,
   kycReminderError: "",
+  bookingToCheckinSuccessCode: 0,
+  bookToCheckinError: ""
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -492,6 +494,24 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "REMOVE_SETTLEMENT_PAYMENT_REDUCER":
       return { ...state, settlementPaymentSuccessCode: 0 };
+
+    case "BOOKING_TO_CHECK_IN_REDUCER":
+      return {
+        ...state,
+        bookingToCheckinSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_BOOKING_TO_CHECK_IN_REDUCER":
+      return {
+        ...state,
+        bookingToCheckinSuccessCode: 0,
+      };
+
+    case "BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR":
+      return { ...state, bookToCheckinError: action.payload };
+
+    case "REMOVE_BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR":
+      return { ...state, bookToCheckinError: "" };
 
     case "EXPENSE_SETTLEMENT_PAYMENT_REDUCER":
       return {
