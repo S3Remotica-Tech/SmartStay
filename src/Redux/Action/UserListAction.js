@@ -377,6 +377,16 @@ export async function DirectCheckIn(CheckIn) {
   );
 }
 
+export async function BookingToCheckInV3(CheckIn) {
+  return await AxiosConfigV2.post(
+    `/v3/customers/booked/check-in/${CheckIn.hostelId}/${CheckIn.customerId}`,
+    CheckIn,
+    {
+      data: CheckIn,
+    },
+  );
+}
+
 // export async function CheckIn(params) {
 
 //   const formData = new FormData();

@@ -91,6 +91,8 @@ import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import AddTenant from "../PayingGuestFile/AddTenant";
+
+import BookingToCheckin from "./BookingToCheckin";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -1691,6 +1693,23 @@ function UserList(props) {
     setBookingAssignForm(false);
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR_BOOKED" });
   };
+
+  useEffect(() => {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
+      setBookingAssignForm(false);
+
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+
+      dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.bookingToCheckinSuccessCode]);
 
   const handleBookingAssign = (book) => {
     setEdit("Edit");
@@ -3530,11 +3549,19 @@ function UserList(props) {
         />
       )}
 
-      {BookingAssignForm && (
+      {/* {BookingAssignForm && (
         <BookedCheckIn
           BookingAssignForm={BookingAssignForm}
           handleClose={handleCloseBooking}
           bookingDetails={EditObj}
+        />
+      )} */}
+
+      {BookingAssignForm && (
+        <BookingToCheckin
+          show={BookingAssignForm}
+          handleClose={handleCloseBooking}
+          tenantDetails={EditObj}
         />
       )}
 

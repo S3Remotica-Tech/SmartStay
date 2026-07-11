@@ -83,6 +83,7 @@ import {
   SaveDraftTenant,
   draftTenantSearch,
   settlePaymentExpense,
+  BookingToCheckInV3,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -1306,6 +1307,56 @@ function* handleDirectCheckIn(datum) {
   }
 }
 
+function* handleBookingToCheckInVThree(datum) {
+  try {
+    const response = yield call(BookingToCheckInV3, datum.payload);
+
+    if (response?.status === 201) {
+      yield put({
+        type: "BOOKING_TO_CHECK_IN_REDUCER",
+        payload: { statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error.code === "ERR_BAD_REQUEST") {
+      if (error.status === 400) {
+        yield put({
+          type: "BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR",
+          payload: error.response.data,
+        });
+      }
+    }
+  }
+}
+
 function* handleSearchTenant(user) {
   try {
     const response = yield call(tenantSearch, user.payload);
@@ -1350,6 +1401,13 @@ function* handleDraftTenantSearch(user) {
     }
   } catch (err) {
     const error = err || {};
+    if (error) {
+      yield put({
+        type: "NO_TENANT_DRAFT",
+        payload: error.response.data,
+      });
+    }
+
     yield* handleApiError(error);
   }
 }
@@ -3684,6 +3742,7 @@ function* UserListSaga() {
   yield takeEvery("CREATECUSTOMERSAVEINFO", handleCustomerSaveInfo);
   yield takeEvery("CHECKIN", handleCheckIn);
   yield takeEvery("DIRECT_CHECK_IN_SAGA", handleDirectCheckIn);
+  yield takeEvery("BOOKING_TO_CHECK_IN_SAGA", handleBookingToCheckInVThree);
   yield takeEvery("ALLFLOORLIST", handleGetAllFloor);
   yield takeEvery("USERLIST", handleuserlist);
   yield takeEvery("TENANT_LIST_SAGA", handleTenantListGet);

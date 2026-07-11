@@ -325,6 +325,17 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     const updated = [...guardians];
     updated[index][field] = value;
     setGuardians(updated);
+
+    setGuardianErrors((prev) => {
+      const errors = [...prev];
+      if (errors[index]) {
+        errors[index] = {
+          ...errors[index],
+          mobileNo: "",
+        };
+      }
+      return errors;
+    });
   };
 
   const handleAddGuardian = () => {
@@ -386,6 +397,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     setSearch(e.target.value);
     dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
+    dispatch({ type: "REMOVE_NO_TENANT_DRAFT" });
   };
 
   const handleSearch = () => {
@@ -1412,6 +1424,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
       dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
+      dispatch({ type: "REMOVE_NO_TENANT_DRAFT" });
       dispatch({
         type: "USERLIST",
         payload: {
@@ -1436,7 +1449,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
   useEffect(() => {
-    if (DraftTenantDetails && !newTenant) {
+    if (DraftTenantDetails && !newTenant && !state.UsersList?.draftClickError) {
       setFirstname(DraftTenantDetails?.firstName || "");
       setLastname(DraftTenantDetails?.lastName || "");
       setPhone(DraftTenantDetails?.mobileNo || "");
@@ -1536,7 +1549,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
     }
-  }, [DraftTenantDetails, newTenant]);
+  }, [DraftTenantDetails, newTenant, state.UsersList?.draftClickError]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -1583,6 +1596,12 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state.UsersList?.statusCodeForAddUser,
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
+
+  useEffect(() => {
+    if (state.UsersList?.draftClickError) {
+      dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
+    }
+  }, [state.UsersList?.draftClickError]);
 
   return (
     <>
@@ -1697,11 +1716,12 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                 </span>
 
                                 <input
-                                  type="text"
+                                  type="number"
                                   maxLength={10}
                                   value={search}
                                   onChange={handleChange}
                                   placeholder="Search"
+                                   onWheel={(e) => e.target.blur()}
                                   className="bg-transparent outline-none w-full"
                                 />
 
@@ -1812,6 +1832,14 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                 type="error"
                               />
                             )}
+
+                            {state.UsersList?.draftClickError && (
+                              <ErrorMessage
+                                message={state.UsersList?.draftClickError}
+                                type="error"
+                              />
+                            )}
+
                             <span className="text-xs text-[#747686] mb-1 font-medium whitespace-nowrap">
                               Search existing tenants in the Property flow
                               ecosystem to auto-fill details.

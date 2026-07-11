@@ -185,6 +185,7 @@ export const initialState = {
   vendorSettleError: "",
   expenseSettleError: "",
   statusCodeForDirectCheckInCustomer: 0,
+  draftClickError: "",
   TenantList: [],
   tenantFilters: {
     status: [],
@@ -199,6 +200,8 @@ export const initialState = {
   alreadyAvailableDraftTenantGetList: "",
   kycRemindeSuccess: 0,
   kycReminderError: "",
+  bookingToCheckinSuccessCode: 0,
+  bookToCheckinError: ""
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -283,7 +286,7 @@ const UserListReducer = (state = initialState, action) => {
       };
 
     case "DRAFT_ERROR":
-      return { ...state, saveDreaftTenantError: action.payload };
+      return { ...state, saveDreaftTenantError: action.payload ,alreadyAvailableDraftTenantGetList : "" };
     case "REMOVE_DRAFT_ERROR":
       return { ...state, saveDreaftTenantError: "" };
 
@@ -479,6 +482,11 @@ const UserListReducer = (state = initialState, action) => {
     case "REMOVE_BED_AVAILABLE_ERROR_BOOKED":
       return { ...state, bedError: "" };
 
+    case "NO_TENANT_DRAFT":
+      return { ...state, draftClickError: action.payload };
+    case "REMOVE_NO_TENANT_DRAFT":
+      return { ...state, draftClickError: "" };
+
     case "SETTLEMENT_PAYMENT_REDUCER":
       return {
         ...state,
@@ -486,6 +494,24 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "REMOVE_SETTLEMENT_PAYMENT_REDUCER":
       return { ...state, settlementPaymentSuccessCode: 0 };
+
+    case "BOOKING_TO_CHECK_IN_REDUCER":
+      return {
+        ...state,
+        bookingToCheckinSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_BOOKING_TO_CHECK_IN_REDUCER":
+      return {
+        ...state,
+        bookingToCheckinSuccessCode: 0,
+      };
+
+    case "BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR":
+      return { ...state, bookToCheckinError: action.payload };
+
+    case "REMOVE_BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR":
+      return { ...state, bookToCheckinError: "" };
 
     case "EXPENSE_SETTLEMENT_PAYMENT_REDUCER":
       return {

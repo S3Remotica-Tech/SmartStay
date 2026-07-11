@@ -56,6 +56,7 @@ import NoData from "../../Assets/v2Images/NoData.svg";
 import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import ApiPagination from "../../Components/ApiPagination";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -68,6 +69,8 @@ const InvoicePage = () => {
     invoiceId: "",
     invoiceDate: "",
   });
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("ALL");
   const [selectedUserId, setSelectedUserId] = useState("");
@@ -284,27 +287,30 @@ const InvoicePage = () => {
     }
   }, [state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
+  // useEffect(() => {
+  //   if (!state.login.selectedHostel_Id) return;
 
-    const payload = {
-      hostelId: state.login.selectedHostel_Id,
-    };
+  //   const payload = {
+  //     hostelId: state.login.selectedHostel_Id,
+  //     size: size,
+  //     page: page,
+  //   };
 
-    if (statusfilter && statusfilter.value !== "ALL") {
-      payload.filters = {
-        paymentStatus: [statusfilter.value],
-        search: filterInput,
-      };
-    }
+  //   if (statusfilter && statusfilter.value !== "ALL") {
+  //     payload.filters = {
+  //       paymentStatus: [statusfilter.value],
+  //       search: filterInput,
 
-    dispatch({
-      type: "INVOICESLISTFILTER",
-      payload,
-    });
+  //     };
+  //   }
 
-    setLoading(false);
-  }, [state.login.selectedHostel_Id, statusfilter, filterInput]);
+  //   dispatch({
+  //     type: "INVOICESLISTFILTER",
+  //     payload,
+  //   });
+
+  //   setLoading(false);
+  // }, [state.login.selectedHostel_Id, statusfilter, filterInput]);
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
@@ -337,7 +343,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.billsListStatusCode === 200) {
-      setShowBillsFilter(false);
+      // setShowBillsFilter(false);
       setLoading(false);
       setBills(state.InvoiceList.billsList?.listInvoices);
       // setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
@@ -357,10 +363,6 @@ const InvoicePage = () => {
     state.InvoiceList.billsList?.listInvoices,
     state.InvoiceList.RecurringBills,
   ]);
-
-  const sortedData = React.useMemo(() => {
-    return Array.isArray(bills) ? bills : [];
-  }, [bills]);
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -724,14 +726,14 @@ const InvoicePage = () => {
     // setNewRows([]);
   };
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      const allIds = paginatedData.map((item) => item.invoiceId);
-      setSelectedRows(allIds);
-    } else {
-      setSelectedRows([]);
-    }
-  };
+  // const handleSelectAll = (e) => {
+  //   if (e.target.checked) {
+  //     const allIds = paginatedData.map((item) => item.invoiceId);
+  //     setSelectedRows(allIds);
+  //   } else {
+  //     setSelectedRows([]);
+  //   }
+  // };
 
   const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
@@ -849,6 +851,10 @@ const InvoicePage = () => {
         type: "INVOICESLISTFILTER",
         payload: {
           hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
         },
       });
 
@@ -895,7 +901,13 @@ const InvoicePage = () => {
       setShowform(false);
       dispatch({
         type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
       });
       // dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
@@ -967,7 +979,13 @@ const InvoicePage = () => {
       // setNewRows([]);
       dispatch({
         type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
       });
 
       setLoading(false);
@@ -991,7 +1009,13 @@ const InvoicePage = () => {
       setShowAllBill(true);
       dispatch({
         type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
       });
 
       setLoading(false);
@@ -1010,7 +1034,13 @@ const InvoicePage = () => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
       dispatch({
         type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
       });
 
       setLoading(false);
@@ -1030,7 +1060,13 @@ const InvoicePage = () => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       dispatch({
         type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
       });
 
       dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
@@ -1073,33 +1109,70 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
   };
 
+  // useEffect(() => {
+  //   if (!state.login?.selectedHostel_Id) return;
+
+  //   const delay = setTimeout(() => {
+  //     const filters = {
+  //       size,
+  //       page: 1,
+  //     };
+
+  //     if (filterInput?.trim()) {
+  //       filters.search = filterInput.trim();
+  //     }
+
+  //     if (statusfilter && statusfilter.value !== "ALL") {
+  //       filters.paymentStatus = [statusfilter.value];
+  //     }
+
+  //     dispatch({
+  //       type: "INVOICESLISTFILTER",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters,
+  //       },
+  //     });
+  //   }, 500);
+
+  //   return () => clearTimeout(delay);
+  // }, [filterInput, statusfilter, page, size, state.login?.selectedHostel_Id]);
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
-    const delay = setTimeout(() => {
-      const filters = {};
-      if (filterInput && filterInput.trim().length > 0) {
-        filters.search = filterInput.trim();
-      }
+    const previousFilters = state.InvoiceList.invoiceFilters || {};
 
-      if (statusfilter && statusfilter.value !== "ALL") {
-        filters.paymentStatus = [statusfilter.value];
-      }
+    const filters = {
+      startDate: previousFilters.startDate,
+      endDate: previousFilters.endDate,
+      type: previousFilters.type,
+      createdBy: previousFilters.createdBy,
+      createdByLabels: previousFilters.createdByLabels,
+      modes: previousFilters.modes,
+      paymentStatus:
+        statusfilter && statusfilter.value !== "ALL"
+          ? [statusfilter.value]
+          : previousFilters.paymentStatus,
+      search: filterInput?.trim() ? filterInput.trim() : previousFilters.search,
+      size: size,
+      page: page,
+    };
 
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: Object.keys(filters).length ? filters : undefined,
-        },
-      });
-    }, 500);
-
-    return () => clearTimeout(delay);
+    dispatch({
+      type: "INVOICESLISTFILTER",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters,
+      },
+    });
   }, [
     filterInput,
-    // statusfilter,
+    statusfilter,
+    size,
+    page,
     state.login?.selectedHostel_Id,
+    state.InvoiceList.invoiceFilters,
   ]);
 
   const handleCloseSearch = () => {
@@ -1108,7 +1181,13 @@ const InvoicePage = () => {
 
     dispatch({
       type: "INVOICESLISTFILTER",
-      payload: { hostelId: state.login.selectedHostel_Id },
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          size,
+          page,
+        },
+      },
     });
   };
 
@@ -1243,31 +1322,36 @@ const InvoicePage = () => {
 
     dispatch({
       type: "INVOICESLISTFILTER",
-      payload: { hostelId: state.login.selectedHostel_Id },
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          size,
+          page,
+        },
+      },
     });
   };
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-
   useEffect(() => {
+    let timeout;
+
     const handleResize = () => {
-      if (window.innerWidth >= 1440) {
-        setPageSize(20);
-      } else {
-        setPageSize(10);
-      }
-      setPage(1);
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
     };
-
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
   }, []);
-
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-
-  const paginatedData = sortedData.slice(startIndex, endIndex);
 
   const handleRowSelect = (id) => {
     setSelectedRows((prev) =>
@@ -1278,27 +1362,44 @@ const InvoicePage = () => {
   const stats = [
     {
       label: "Total Outstanding Receivables",
-      value: "0",
+      value: `${state.InvoiceList.billsList?.invoiceSummary?.outstandingAmount}`,
       icon: true,
       highlight: true,
     },
     {
       label: "Total Invoices",
-      value: "0",
+      value: `${state.InvoiceList.billsList?.invoiceSummary?.totalInvoices}`,
     },
     {
       label: "Collected This Month",
-      value: "0",
+      value: `${state.InvoiceList.billsList?.invoiceSummary?.collectedThisMonth}`,
     },
     {
       label: "Due Today",
-      value: "0",
+      value: `${state.InvoiceList.billsList?.invoiceSummary?.todaysDue}`,
     },
     {
       label: "Overdue Amount",
-      value: "0",
+      value: `${state.InvoiceList.billsList?.invoiceSummary?.overDueAmount}`,
     },
   ];
+
+  const currentPage =
+    state.InvoiceList.billsList?.paginationSummary?.currentPage ?? 1;
+
+  const totalPages =
+    state.InvoiceList.billsList?.paginationSummary?.totalPages ?? 1;
+
+  const totalRecords =
+    state.InvoiceList.billsList?.paginationSummary?.totalItems ?? 0;
+
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
 
   return (
     <div className="bg-white font-gilroy">
@@ -1567,13 +1668,17 @@ const InvoicePage = () => {
                   </div>
 
                   <div className="mr-2">
-                    <PaginationList
-                      totalItems={sortedData.length}
-                      itemsPerPage={pageSize}
-                      currentPage={page}
-                      onPageChange={(p) => setPage(p)}
-                      onPageSizeChange={(size) => setPageSize(size)}
-                    />
+                    {bills?.length > 0 && (
+                      <ApiPagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        totalRecords={totalRecords}
+                        onPageChange={handlePageChange}
+                        onSizeChange={handleSizeChange}
+                        isTenantPagination={true}
+                        size={size}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -1603,7 +1708,7 @@ const InvoicePage = () => {
                 )}
 
                 <div className="relative">
-                  {sortedData && sortedData.length > 0 ? (
+                  {bills && bills.length > 0 ? (
                     <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
                       <div
                         id="tableContainer"
@@ -1614,7 +1719,7 @@ const InvoicePage = () => {
                           <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                             <tr className="h-9">
                               <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
-                                <div className="flex items-center gap-2">
+                                {/* <div className="flex items-center gap-2">
                                   <input
                                     type="checkbox"
                                     className="rounded cursor-pointer"
@@ -1625,7 +1730,7 @@ const InvoicePage = () => {
                                     }
                                     onChange={handleSelectAll}
                                   />
-                                </div>
+                                </div> */}
                               </th>
                               <th className="w-[230px] px-2 whitespace-nowrap ">
                                 Invoice No
@@ -1680,7 +1785,7 @@ const InvoicePage = () => {
                             </tr>
                           </thead>
                           <tbody className="relative">
-                            {paginatedData.map((item, index) => (
+                            {bills?.map((item, index) => (
                               <InvoiceTable
                                 // key={item.id}
                                 isScrolling={isScrolling}
@@ -1807,8 +1912,8 @@ const InvoicePage = () => {
                     </div>
                   ) : (
                     !loading &&
-                    sortedData &&
-                    sortedData.length === 0 && (
+                    bills &&
+                    bills.length === 0 && (
                       <NoDataMessage
                         label="Invoices"
                         isSearching={isSearching}
@@ -1830,6 +1935,7 @@ const InvoicePage = () => {
         <BillsFilter
           show={showBillsFilter}
           handleClose={handleCloseFilterBills}
+          size={size}
         />
       )}
       {(showLoader || loading) && <LoaderComponent />}
