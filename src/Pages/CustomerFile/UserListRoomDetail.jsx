@@ -1889,6 +1889,18 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList?.bookingToCheckinStatusCode]);
 
+  useEffect(() => {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
+      setBookingAssignForm(false);
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+
+      dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.bookingToCheckinSuccessCode]);
+
   // console.log("MODE:", import.meta.env.MODE);
 
   const handleShowBookingToCheckin = () => {

@@ -1716,11 +1716,12 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                 </span>
 
                                 <input
-                                  type="text"
+                                  type="number"
                                   maxLength={10}
                                   value={search}
                                   onChange={handleChange}
                                   placeholder="Search"
+                                   onWheel={(e) => e.target.blur()}
                                   className="bg-transparent outline-none w-full"
                                 />
 

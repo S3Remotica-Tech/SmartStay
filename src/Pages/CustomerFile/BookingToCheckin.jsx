@@ -447,14 +447,16 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [canCheckIn, CustomerOverView]);
 
-  console.log("canCheckIn", canCheckIn);
+  // console.log("canCheckIn", canCheckIn);
+
+  // console.log("rooms", Rooms, "Floor", Floor, "Bed", Bed);
 
   const tenantId =
     tenantDetails?.customerId ||
     tenantDetails?.apiCall?.customerId ||
     tenantDetails?.tenetId;
 
-  console.log("tenantDetails", tenantDetails);
+  // console.log("tenantDetails", tenantDetails);
 
   useEffect(() => {
     if (tenantId) {
