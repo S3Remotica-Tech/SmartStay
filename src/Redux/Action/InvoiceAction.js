@@ -111,6 +111,8 @@ export async function GetFilterInvoices(hostelId, filters = {}) {
       modes: filters.modes,
       paymentStatus: filters.paymentStatus,
       search: filters.search,
+      size: filters.size, 
+      page: filters.page
     },
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
