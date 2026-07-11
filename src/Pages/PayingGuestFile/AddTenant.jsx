@@ -325,6 +325,17 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     const updated = [...guardians];
     updated[index][field] = value;
     setGuardians(updated);
+
+    setGuardianErrors((prev) => {
+      const errors = [...prev];
+      if (errors[index]) {
+        errors[index] = {
+          ...errors[index],
+          mobileNo: "",
+        };
+      }
+      return errors;
+    });
   };
 
   const handleAddGuardian = () => {
@@ -1395,8 +1406,6 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
 
   const handleNextStep = () => {
     setStep(3);
-
-    
   };
   const handlePrevious = () => {
     setStep(1);
@@ -1415,7 +1424,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
       dispatch({ type: "REMOVE_DRAFT_TENANT_LIST_REDUCER" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
-      dispatch({type: 'REMOVE_NO_TENANT_DRAFT'})
+      dispatch({ type: "REMOVE_NO_TENANT_DRAFT" });
       dispatch({
         type: "USERLIST",
         payload: {
@@ -1440,7 +1449,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
   useEffect(() => {
-    if (DraftTenantDetails && !newTenant) {
+    if (DraftTenantDetails && !newTenant && !state.UsersList?.draftClickError) {
       setFirstname(DraftTenantDetails?.firstName || "");
       setLastname(DraftTenantDetails?.lastName || "");
       setPhone(DraftTenantDetails?.mobileNo || "");
@@ -1540,7 +1549,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
     }
-  }, [DraftTenantDetails, newTenant]);
+  }, [DraftTenantDetails, newTenant, state.UsersList?.draftClickError]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -1588,12 +1597,11 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
 
-  useEffect(()=>{
-    if(state.UsersList?.draftClickError){
-      dispatch({type: 'REMOVE_TENANT_SEARCH_LIST_REDUCER'})
+  useEffect(() => {
+    if (state.UsersList?.draftClickError) {
+      dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     }
-
-  },[state.UsersList?.draftClickError])
+  }, [state.UsersList?.draftClickError]);
 
   return (
     <>

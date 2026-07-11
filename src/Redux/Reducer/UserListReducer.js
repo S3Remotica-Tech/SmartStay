@@ -286,7 +286,7 @@ const UserListReducer = (state = initialState, action) => {
       };
 
     case "DRAFT_ERROR":
-      return { ...state, saveDreaftTenantError: action.payload };
+      return { ...state, saveDreaftTenantError: action.payload , };
     case "REMOVE_DRAFT_ERROR":
       return { ...state, saveDreaftTenantError: "" };
 
