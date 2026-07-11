@@ -129,7 +129,7 @@ const CustomStyles = {
     display: "none",
   }),
 };
-function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
+function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -158,9 +158,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
   const [dateError, setDateError] = useState("");
 
   const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn ?? false;
-  console.log("tenantDetails", tenantDetails);
+  // console.log("tenantDetails", tenantDetails);
 
-  console.log("canCheckIn", canCheckIn);
+  // console.log("canCheckIn", canCheckIn);
 
   const [errors, setErrors] = useState([]);
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
@@ -296,6 +296,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
   useEffect(() => {
     return () => {
       dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+      dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR" });
     };
   }, []);
 
@@ -344,9 +345,14 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
           return view.roomId === Rooms;
         },
       );
+
+      console.log("filteredBed", filteredBed);
+
       setAvailableBed(filteredBed);
     }
   }, [Rooms, selectedDate, state.UsersList?.availableBedList?.listBeds]);
+
+  console.log("bed &&&&&&&&", Bed);
 
   useEffect(() => {
     if (state.UsersList.bedInitiaLizeError) {
@@ -439,14 +445,16 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
       setFloor(CustomerOverView.hostelInfo?.floorId);
       setBed("");
     }
-  }, [canCheckIn]);
+  }, [canCheckIn, CustomerOverView]);
 
-  console.log("CustomerOverView", CustomerOverView);
+  console.log("canCheckIn", canCheckIn);
 
   const tenantId =
     tenantDetails?.customerId ||
     tenantDetails?.apiCall?.customerId ||
     tenantDetails?.tenetId;
+
+  console.log("tenantDetails", tenantDetails);
 
   useEffect(() => {
     if (tenantId) {
@@ -461,10 +469,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: {
-          customerId:
-            tenantDetails?.customerId ||
-            tenantDetails?.apiCall?.customerId ||
-            tenantDetails?.tenetId,
+          customerId: tenantId,
         },
       });
     }
@@ -472,6 +477,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
 
   const handleBookToCheckin = async () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
+    dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR" });
     setAdvanceAmountError("");
     let newErrors = [];
     let oneTimePaymentErrors = [];
@@ -642,7 +648,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
           deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
+          oneTimeDeduction: isAdvanceRefused
+            ? formattedReasonsOneTimePayments
+            : null,
         },
       });
       setFormLoading(true);
@@ -668,9 +676,16 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
 
   useEffect(() => {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList?.bookingToCheckinSuccessCode]);
+
+  useEffect(() => {
     if (
       state.createAccount?.networkError ||
-      state.UsersList?.bedAvailableError
+      state.UsersList?.bedAvailableError ||
+      state.UsersList?.bookToCheckinError
     ) {
       setFormLoading(false);
 
@@ -678,7 +693,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
-  }, [state.createAccount?.networkError, state.UsersList?.bedAvailableError]);
+  }, [
+    state.createAccount?.networkError,
+    state.UsersList?.bedAvailableError,
+    state.UsersList?.bookToCheckinError,
+  ]);
 
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -848,7 +867,6 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
     setRoomError("");
     setBedError("");
     setPgLatyout(true);
-    handleTrigger(true);
   };
 
   const handleClosePgLayOut = () => {
@@ -931,9 +949,10 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
         ]),
     ).values(),
   ];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="fixed top-2 right-2 bottom-2 w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg">
+      <div className="fixed top-2 right-2 bottom-2  w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg font-gilroy">
         <div className="px-4 py-3">
           <div className="pt-0 relative border-0 flex justify-between mb-2">
             <div className="text-xl font-semibold font-gilroy">
@@ -1233,6 +1252,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
 
                               if (!isAdvanceRefused) {
                                 setAdvanceAmount("");
+                                setFields([]);
                               }
 
                               setAdvanceAmountError("");
@@ -1875,6 +1895,14 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
                   </div>
                 </div>
               </div>
+
+              {state.UsersList?.bookToCheckinError && (
+                <ErrorMessage
+                  message={state.UsersList?.bookToCheckinError}
+                  type="error"
+                />
+              )}
+
               <div className="flex justify-end">
                 <button
                   disabled={formLoading || !isConfirmed}
@@ -1903,7 +1931,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
       {pgLayout && (
         <PgLayoutView
           show={pgLayout}
-          handleClosePgLayOut={handleClosePgLayOut}
+          handleClose={handleClosePgLayOut}
           selectedBedDetails={handleSelectedBedDetails}
         />
       )}

@@ -159,7 +159,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setOccubiedBed(false);
   };
 
-  console.log("showCheckIn", showbookingToCheckIn);
+  // console.log("showCheckIn", showbookingToCheckIn);
   const handleCloseCheck_In = () => {
     setShowbookingToCheckIn(false);
   };
@@ -445,7 +445,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
   useEffect(() => {
     if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
-      setShowCheckIn(false);
+      setShowbookingToCheckIn(false);
 
       dispatch({
         type: "GETALLBEDSLIST",
@@ -475,7 +475,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
       setFilteredBeds(bedsForRoom.filter((bed) => !bed.isOccupied));
     }
   }, [bedsForRoom, state.login.isTrigger]);
-  console.log("filteredBeds", filteredBeds);
+  // console.log("filteredBeds", filteredBeds);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -646,7 +646,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           show={showbookingToCheckIn}
           handleClose={handleCloseCheck_In}
           tenantDetails={selectedTenant}
-          handleTrigger={() => setShowbookingToCheckIn(true)}
         />
       )}
 

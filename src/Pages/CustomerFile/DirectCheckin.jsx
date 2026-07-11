@@ -591,7 +591,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
           deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
+          oneTimeDeduction: isAdvanceRefused ? formattedReasonsOneTimePayments : null,
         },
       });
       setFormLoading(true);
@@ -1153,6 +1153,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
                               if (!isAdvanceRefused) {
                                 setAdvanceAmount("");
+                                 setFields([]);
                               }
 
                               setAdvanceAmountError("");

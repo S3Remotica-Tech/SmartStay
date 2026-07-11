@@ -877,7 +877,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
           deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
+          oneTimeDeduction: isAdvanceRefused
+            ? formattedReasonsOneTimePayments
+            : null,
         },
       });
       setFormLoading(true);
@@ -1453,6 +1455,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                                   if (!isAdvanceRefused) {
                                     setAdvanceAmount("");
+                                    setFields([]);
                                   }
 
                                   setAdvanceAmountError("");

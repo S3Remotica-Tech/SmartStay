@@ -494,7 +494,7 @@ function AddTenantBookingCheckin({
         deductions: !isAdvanceRefused ? formattedReasons : null,
         shouldCollectFullRent: collectFullRent,
         customRent: Number(customRent),
-        oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
+         oneTimeDeduction: isAdvanceRefused ? formattedReasonsOneTimePayments : null,
       },
     });
     setCheckInLoading(true);
@@ -2111,6 +2111,7 @@ function AddTenantBookingCheckin({
 
                           if (!isAdvanceRefused) {
                             setAdvanceAmount("");
+                             setFields([]);
                           }
 
                           setAdvanceAmountError("");

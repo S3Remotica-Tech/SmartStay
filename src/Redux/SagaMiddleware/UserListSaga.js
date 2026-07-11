@@ -1314,7 +1314,7 @@ function* handleBookingToCheckInVThree(datum) {
     if (response?.status === 201) {
       yield put({
         type: "BOOKING_TO_CHECK_IN_REDUCER",
-        payload: { response: response.message, statusCode: response?.status },
+        payload: { statusCode: response?.status },
       });
 
       var toastStyle = {
@@ -1343,10 +1343,6 @@ function* handleBookingToCheckInVThree(datum) {
         progress: undefined,
         style: toastStyle,
       });
-    }
-
-    if (response) {
-      refreshToken(response);
     }
   } catch (error) {
     yield* handleApiError(error);

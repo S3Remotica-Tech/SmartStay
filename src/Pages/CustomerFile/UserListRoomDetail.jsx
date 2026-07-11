@@ -46,6 +46,7 @@ import { Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
+import BookingToCheckin from "../CustomerFile/BookingToCheckin";
 import dayjs from "dayjs";
 import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
 import { Verify } from "iconsax-react";
@@ -1914,11 +1915,19 @@ function UserListRoomDetail(props) {
 
   return (
     <>
-      {BookingAssignForm && (
+      {/* {BookingAssignForm && (
         <BookedCheckIn
           BookingAssignForm={BookingAssignForm}
           handleClose={handleCloseBooking}
           bookingDetails={CustomerOverView}
+        />
+      )} */}
+
+      {BookingAssignForm && (
+        <BookingToCheckin
+          show={BookingAssignForm}
+          handleClose={handleCloseBooking}
+          tenantDetails={CustomerOverView}
         />
       )}
 
@@ -1931,7 +1940,7 @@ function UserListRoomDetail(props) {
         className="h-[97vh] mt-2 w-full max-w-full overflow-y-auto"
       >
         <>
-          <div className="flex items-center justify-between sticky top-0 z-50 bg-white py-3 px-4 h-14 w-full">
+          <div className="flex items-center justify-between sticky top-0 z-40 bg-white py-3 px-4 h-14 w-full">
             <div className="flex items-center">
               <ArrowLeft
                 onClick={() => handleNavigateTenant()}
@@ -2427,7 +2436,7 @@ function UserListRoomDetail(props) {
                               handleEditBasicDetails(CustomerOverView);
                             }
                           }}
-                          className={`h-10 w-10 flex items-center justify-center relative z-[1000] 
+                          className={`h-10 w-10 flex items-center justify-center relative 
       ${isEditDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
                         >
                           <img
@@ -2933,7 +2942,10 @@ function UserListRoomDetail(props) {
                               <div className="flex items-center text-xs font-medium font-gilroy gap-1.5">
                                 Monthly Rent
                                 {canUpdateTenant &&
-                                  Number(CustomerOverView.hostelInfo?.monthlyRent ?? 0) > 0 &&
+                                  Number(
+                                    CustomerOverView.hostelInfo?.monthlyRent ??
+                                      0,
+                                  ) > 0 &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
                                     "NOTICE" && (
                                     <img
