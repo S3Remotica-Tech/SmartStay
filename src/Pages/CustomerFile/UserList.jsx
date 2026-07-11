@@ -92,7 +92,8 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import AddTenant from "../PayingGuestFile/AddTenant";
 
-import BookingToCheckin from "./BookingToCheckin";function UserList(props) {
+import BookingToCheckin from "./BookingToCheckin";
+function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
@@ -1694,7 +1695,7 @@ import BookingToCheckin from "./BookingToCheckin";function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
       setBookingAssignForm(false);
 
       dispatch({
@@ -1706,9 +1707,9 @@ import BookingToCheckin from "./BookingToCheckin";function UserList(props) {
         },
       });
 
-      dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
+      dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
     }
-  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+  }, [state.UsersList?.bookingToCheckinSuccessCode]);
 
   const handleBookingAssign = (book) => {
     setEdit("Edit");

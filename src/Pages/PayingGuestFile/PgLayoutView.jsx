@@ -31,9 +31,7 @@ function PgLayoutView({
   const [selectedBed, setSelectedBed] = useState("");
   const [hoveredBedId, setHoveredBedId] = useState("");
 
-  if (!show) return null;
-
-  console.log("show", show);
+  // console.log("show", show);
 
   const [floorClick, setFloorClick] = useState("");
 

@@ -50,6 +50,9 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [customerDetails, setCustomerDetails] = useState("");
   const [Occubied_bed, setOccubiedBed] = useState(false);
   const [Noticeperiod_bed, setNoticePeriodBed] = useState(false);
+
+  const [showbookingToCheckIn, setShowbookingToCheckIn] = useState(false);
+
   const [deleteBedDetails, setDeleteBedDetails] = useState({
     bed: null,
     room: null,
@@ -87,8 +90,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
       },
     });
   };
-
-  console.log("showCheckIn", showCheckIn);
 
   const handleClosefinalsettelment = () => {
     setFinalSettlePage(false);
@@ -152,14 +153,15 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   };
 
   const handleShowCheck_In = (isVisible, reservedTenant) => {
-    setShowCheckIn(isVisible);
+    setShowbookingToCheckIn(true);
     setShowReservedBed(false);
     setSelectedTenant(reservedTenant);
     setOccubiedBed(false);
   };
 
+  console.log("showCheckIn", showbookingToCheckIn);
   const handleCloseCheck_In = () => {
-    setShowCheckIn(false);
+    setShowbookingToCheckIn(false);
   };
 
   const handleShowMakeAsInActive = () => {
@@ -436,10 +438,31 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         },
       });
       setAssignTenantForm(false);
-      // setShowCheckIn(false);
+
       dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
     }
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
+  useEffect(() => {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
+      setShowCheckIn(false);
+
+      dispatch({
+        type: "GETALLBEDSLIST",
+        payload: { roomId: room.id },
+      });
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          size: 10,
+          page: 1,
+        },
+      });
+
+      dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.bookingToCheckinSuccessCode]);
 
   const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
@@ -448,6 +471,8 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
     return bedsForRoom.filter((bed) => !bed.isOccupied);
   }, [bedsForRoom, state.login.isTrigger]);
+
+  console.log("filteredBeds", filteredBeds);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -505,6 +530,17 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   //     }, 100);
   //   }
   // }, [state.UsersList?.bookingToCheckinStatusCode]);
+
+  useEffect(() => {
+    console.log("BedDetailsMap Mounted");
+    return () => {
+      console.log("BedDetailsMap Unmounted");
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("showbookingToCheckIn =", showbookingToCheckIn);
+  }, [showbookingToCheckIn]);
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
@@ -637,11 +673,12 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )} */}
 
-      {showCheckIn && (
+      {showbookingToCheckIn && selectedTenant && (
         <BookingToCheckin
-          show={showCheckIn}
+          show={showbookingToCheckIn}
           handleClose={handleCloseCheck_In}
           tenantDetails={selectedTenant}
+          handleTrigger={() => setShowbookingToCheckIn(true)}
         />
       )}
 

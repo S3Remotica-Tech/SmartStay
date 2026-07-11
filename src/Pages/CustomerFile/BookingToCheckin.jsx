@@ -129,7 +129,7 @@ const CustomStyles = {
     display: "none",
   }),
 };
-function BookingToCheckin({ tenantDetails, show, handleClose }) {
+function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -156,12 +156,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
-  if (!show) return null;
 
-  const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn || false;
+  const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn ?? false;
   console.log("tenantDetails", tenantDetails);
 
-  console.log("pgLayout", pgLayout);
+  console.log("canCheckIn", canCheckIn);
 
   const [errors, setErrors] = useState([]);
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
@@ -294,14 +293,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [selectedDate]);
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "ALLFLOORLIST",
-  //       payload: { hostel_id: state.login.selectedHostel_Id },
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ERROR_INITIALIZE_BED" });
+    };
+  }, []);
 
   useEffect(() => {
     if (Floor) {
@@ -349,13 +345,6 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
         },
       );
       setAvailableBed(filteredBed);
-
-      const isBedAvailable = filteredBed?.some((bed) => bed.bedId === Bed);
-
-      if (!isBedAvailable) {
-        setBedWarning("booked bed is unavailable");
-      } else {
-      }
     }
   }, [Rooms, selectedDate, state.UsersList?.availableBedList?.listBeds]);
 
@@ -363,7 +352,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     if (state.UsersList.bedInitiaLizeError) {
       setBedWarning(state.UsersList.bedInitiaLizeError);
     }
-  }, [state.UsersList.bedInitiaLizeError]);
+  }, [state.UsersList.bedInitiaLizeError, canCheckIn]);
 
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
@@ -437,13 +426,22 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
       }
 
       setFirstname(CustomerOverView?.fullName);
-      if (canCheckIn) {
-        setRooms(CustomerOverView.hostelInfo?.roomId);
-        setFloor(CustomerOverView.hostelInfo?.floorId);
-        setBed(CustomerOverView?.hostelInfo?.bedId);
-      }
     }
   }, [CustomerOverView]);
+
+  useEffect(() => {
+    if (canCheckIn) {
+      setRooms(CustomerOverView.hostelInfo?.roomId);
+      setFloor(CustomerOverView.hostelInfo?.floorId);
+      setBed(CustomerOverView?.hostelInfo?.bedId);
+    } else {
+      setRooms(CustomerOverView.hostelInfo?.roomId);
+      setFloor(CustomerOverView.hostelInfo?.floorId);
+      setBed("");
+    }
+  }, [canCheckIn]);
+
+  console.log("CustomerOverView", CustomerOverView);
 
   const tenantId =
     tenantDetails?.customerId ||
@@ -472,7 +470,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [tenantId]);
 
-  const handleSaveUserlistAddUser = async () => {
+  const handleBookToCheckin = async () => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
     setAdvanceAmountError("");
     let newErrors = [];
@@ -850,6 +848,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     setRoomError("");
     setBedError("");
     setPgLatyout(true);
+    handleTrigger(true);
   };
 
   const handleClosePgLayOut = () => {
@@ -1055,6 +1054,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                         onClick={(e) => {
                           if (selectedDate && !canCheckIn) {
                             e.stopPropagation();
+                            e.preventDefault();
                             handleBedLayoutPreview();
                           }
                         }}
@@ -1872,7 +1872,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
               <div className="flex justify-end">
                 <button
                   disabled={formLoading || !isConfirmed}
-                  onClick={handleSaveUserlistAddUser}
+                  onClick={handleBookToCheckin}
                   className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
   flex items-center justify-center gap-2 disabled:opacity-70"

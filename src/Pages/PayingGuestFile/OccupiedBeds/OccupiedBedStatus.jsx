@@ -21,8 +21,8 @@ function OccupiedBedStatus({
   handleShowReassignBed,
   handleShowNoticePeriod,
   showEditBed,
-  // handleShowCheck_In,
   handleShowInActiveForm,
+  handleShowCheck_In,
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -74,11 +74,9 @@ function OccupiedBedStatus({
     setActiveRoomIdReserved(activeRoomIdReserved === roomId ? null : roomId);
   };
 
-  //  const handleCheckin = (tenant) => {
-
-  //         handleShowCheck_In(true, tenant)
-
-  //     }
+  const handleCheckin = (tenant) => {
+    handleShowCheck_In(true, tenant);
+  };
 
   const handleMakeInActive = (tenant) => {
     handleShowInActiveForm(true, tenant);
@@ -403,21 +401,22 @@ function OccupiedBedStatus({
                             className="absolute right-12 top-[25px] w-[220px] border border-[#EBEBEB] rounded-[10px] bg-[#f9f9f9] flex flex-col z-[1000] shadow-md"
                           >
                             <div
+                              onClick={() => handleCheckin(tenant)}
                               className={`flex gap-2 items-center p-2 rounded-t-lg ${
                                 canWriteCustomers
-                                  ? "cursor-not-allowed opacity-100 hover:bg-[#F0F4FF]"
-                                  : "cursor-not-allowed opacity-50"
+                                  ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]"
+                                  : " cursor-not-allowed opacity-50"
                               }`}
                             >
                               <AddCircle
                                 size={18}
                                 color={
-                                  canWriteCustomers ? "#A0A0A0" : "#A0A0A0"
+                                  canWriteCustomers ? "#1E45E1" : "#A0A0A0"
                                 }
                                 className="ml-1"
                               />
                               <label
-                                className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-gray-500 cursor-not-allowed" : "text-gray-300"}`}
+                                className={`text-[14px] font-gilroy font-medium mb-0 ${canWriteCustomers ? "text-[#222222] cursor-pointer" : "text-gray-300"}`}
                               >
                                 Check-In
                               </label>
