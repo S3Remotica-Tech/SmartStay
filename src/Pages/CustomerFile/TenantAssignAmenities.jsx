@@ -12,6 +12,107 @@ import { useHasPermission } from "../../Utils/Permission";
 import ErrorMessage from "../../Components/ErrorMessage";
 import Image from "react-bootstrap/Image";
 
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "50px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 600,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
 function TenantAmenities({ show, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -19,32 +120,14 @@ function TenantAmenities({ show, handleClose }) {
 
   const [selectAmneties, setselectAmneties] = useState("");
 
-  // const [addamenityShow, setaddamenityShow] = useState(false);
   const [createby, setcreateby] = useState("");
   const [amnityError, setamnityError] = useState("");
+  const CustomerOverView = state?.UsersList?.customerdetails;
+  const { canWriteModule: canWriteAmenities } = useHasPermission("Amenities");
 
-  // const canReadAmenities = useHasPermission("Amenities", "canRead")
-  //     const canWriteAmenities = useHasPermission("Amenities", "canWrite");
-  //     const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
-  //     const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
+  console.log("CustomerOverView", CustomerOverView);
 
-  const {
-    canWriteModule: canWriteAmenities,
-    // canReadModule: canReadAmenities,
-    // canUpdateModule: canUpdateAmenities,
-    // canDeleteModule: canDeleteAmenities,
-  } = useHasPermission("Amenities");
-
-  // const [CustomerOverView, setCustomerOverView] = useState([]);
   const [isTrigger, setIsTrigger] = useState(false);
-
-  // useEffect(() => {
-  //   if (state.UsersList?.customerdetails?.amenities) {
-  //     setCustomerOverView(state.UsersList.customerdetails.amenities);
-  //   } else {
-  //     setCustomerOverView([]);
-  //   }
-  // }, [state.UsersList?.customerdetails?.amenities]);
 
   const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";
@@ -53,21 +136,14 @@ function TenantAmenities({ show, handleClose }) {
 
     if (value === "") {
       setamnityError("Please select a valid amenity");
-      // setaddamenityShow(false);
+
       return;
     } else {
       setamnityError("");
     }
-    // setaddamenityShow(true);
+
     setstatusShow(false);
   };
-
-  // const handleShowAssignAmenities = () => {
-
-  //   setaddamenityShow(true);
-  //   setstatusShow(false);
-
-  // };
 
   var toastStyle = {
     fontFamily: "Gilroy",
@@ -89,11 +165,8 @@ function TenantAmenities({ show, handleClose }) {
   }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
-    if (state.InvoiceList.AmenitiesList?.amenities) {
-      if (
-        state.InvoiceList.AmenitiesList?.amenities?.length === 0 &&
-        isTrigger
-      ) {
+    if (CustomerOverView?.availableAmenitiesList) {
+      if (CustomerOverView?.availableAmenitiesList?.length === 0 && isTrigger) {
         toast.error("Please Create Amenities before assign amenities", {
           hideProgressBar: true,
           closeButton: false,
@@ -106,24 +179,25 @@ function TenantAmenities({ show, handleClose }) {
         setIsTrigger(false);
       }
     }
-  }, [state.InvoiceList.AmenitiesList?.amenities]);
+  }, [CustomerOverView?.availableAmenitiesList]);
 
   useEffect(() => {
     if (
-      state.InvoiceList.AmenitiesList?.amenities &&
-      state.InvoiceList.AmenitiesList?.amenities?.length > 0 &&
+      CustomerOverView?.availableAmenitiesList &&
+      CustomerOverView?.availableAmenitiesList?.length > 0 &&
       selectAmneties
     ) {
-      const AmnitiesNamelist =
-        state.InvoiceList.AmenitiesList?.amenities?.filter((item) => {
+      const AmnitiesNamelist = CustomerOverView?.availableAmenitiesList?.filter(
+        (item) => {
           return String(item.amenityId) === String(selectAmneties);
-        });
+        },
+      );
       setcreateby(AmnitiesNamelist);
     } else {
       setcreateby("");
     }
   }, [
-    state.InvoiceList.AmenitiesList?.amenities,
+    CustomerOverView?.availableAmenitiesList,
     selectAmneties,
     state.InvoiceList.tenantAssignStatus,
   ]);
@@ -266,71 +340,6 @@ function TenantAmenities({ show, handleClose }) {
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
-  // const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(2);
-  // const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
-  // const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
-  // const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
-  // const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  // const currentRowAmnities = amnitiesFilterddata?.slice(
-  //   indexOfFirstRowamnities,
-  //   indexOfLastRowamneties
-  // );
-
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return currentRowAmnities;
-
-  //   const sorted = [...currentRowAmnities].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA - valueB
-  //         : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [currentRowAmnities, sortConfig]);
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
-  // const handleAmnitiesPageChange = (amnitiespageNumber) => {
-  //   setAmnitycurrentPage(amnitiespageNumber);
-
-  // };
-
-  // const amenitiesOptions = [
-  //   { value: 2, label: "2" },
-  //   { value: 5, label: "5" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ]
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setAmentiesrowsPerPage(selectedOption.value);
-  //   setAmnitycurrentPage(1);
-  // // };
-  // const totalPagesAmnities = Math.ceil(
-  //   amnitiesFilterddata?.length / amentiesrowsPerPage
-  // );
-
-  // useEffect(() => {
-  //   setamnitiesFilterddata(state.UsersList?.amnetieshistory);
-  // }, [state.UsersList?.amnetieshistory]);
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false);
@@ -342,13 +351,21 @@ function TenantAmenities({ show, handleClose }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "AMENITIESLIST",
-        payload: state.login.selectedHostel_Id,
-      });
+      // dispatch({
+      //   type: "AMENITIESLIST",
+      //   payload: state.login.selectedHostel_Id,
+      // });
       setIsTrigger(true);
     }
   }, [state.login.selectedHostel_Id]);
+
+  const amenityOptions =
+    CustomerOverView?.availableAmenitiesList
+      ?.filter((item) => !item.isRequested)
+      ?.map((item) => ({
+        value: item.amenityId,
+        label: item.amenityName,
+      })) || [];
 
   return (
     <>
@@ -366,7 +383,7 @@ function TenantAmenities({ show, handleClose }) {
           />
         </Modal.Header>
 
-        <Modal.Body className="pt-2 pb-1">
+        <Modal.Body className="pt-2 pb-1 font-gilroy">
           <div className="flex flex-wrap -mx-0">
             <div className="flex items-center mb-3 -ml-2">
               <div>
@@ -426,132 +443,22 @@ function TenantAmenities({ show, handleClose }) {
                 }
                 placeholder="Select an Amenities"
                 value={
-                  state.InvoiceList.AmenitiesList?.amenities?.find(
-                    (item) => item.amenityId === selectAmneties,
-                  )
-                    ? {
-                        value: selectAmneties,
-                        label: state.InvoiceList.AmenitiesList?.amenities?.find(
-                          (item) => item.amenityId === selectAmneties,
-                        )?.amenityName,
-                      }
-                    : null
+                  amenityOptions.find(
+                    (option) => option.value === selectAmneties,
+                  ) || null
                 }
                 onChange={(e) => {
                   handleselect(e);
                 }}
-                options={state.InvoiceList.AmenitiesList?.amenities
-                  ?.filter(
-                    (item) =>
-                      !state.UsersList.customerdetails?.assignedAmenities?.some(
-                        (a) => a.amenityId === item.amenityId,
-                      ),
-                  )
-                  ?.map((item) => ({
-                    value: item.amenityId,
-                    label: item.amenityName,
-                  }))}
+                options={amenityOptions}
                 classNamePrefix="custom"
                 menuPlacement="auto"
-                styles={{
-                  menu: (base) => ({
-                    ...base,
-                    maxHeight: "170px",
-                    overflowY: "auto",
-                    zIndex: 9999,
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    maxHeight: "170px",
-                    overflowY: "auto",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    cursor: "pointer",
-                    fontFamily: "Gilroy",
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    fontSize: 16,
-                    borderRadius: 8,
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy, sans-serif",
-                    boxShadow: "none",
-                    boxShadowColor: "none",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    cursor: "pointer",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                    opacity: 1,
-                    color: "#000",
-                    fontFamily: "Gilroy",
-                  }),
-                }}
+                styles={CustomStyles}
               />
               {amnityError && (
                 <ErrorMessage message={amnityError} type="error" />
               )}
             </div>
-            {/* <div className="mb-3 ps-2 pe-2">
-            <label
-              className="mb-1"
-              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
-            >
-              Amenities Name
-            </label>
-            <Form.Control
-              placeholder="Amnities Name"
-              aria-label="Recipient's username"
-              className="border custom-input"
-              aria-describedby="basic-addon2"
-              value={createby[0]?.amenityName}
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-                opacity: 1,
-                borderRadius: "8px",
-                height: 45,
-                fontFamily: "Gilroy",
-                color: "gray",
-                "::placeholder": { color: "gray", fontSize: 12 },
-              }}
-              disabled
-            />
-          </div> */}
-
-            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 ps-2 pe-2">
-            <label
-              className="mb-1"
-              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
-            >
-              Hostel Name
-            </label>
-            <Form.Control
-              placeholder="HostelName"
-              aria-label="Recipient's username"
-              className="border custom-input"
-              aria-describedby="basic-addon2"
-              value={state.UsersList.hotelDetailsinPg?.name}
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-                height: 45,
-                opacity: 1,
-                fontFamily: "Gilroy",
-                borderRadius: "8px",
-                color: "gray",
-                "::placeholder": { color: "gray", fontSize: 12 },
-              }}
-              disabled
-            />
-          </div> */}
 
             <div className="w-full mb-3 px-2">
               <label className="mb-1 text-[14px] font-medium font-gilroy">
@@ -562,7 +469,7 @@ function TenantAmenities({ show, handleClose }) {
                 aria-label="Recipient's username"
                 className="border rounded-[8px] h-[45px] text-gray-500 text-[16px] font-medium font-gilroy placeholder:text-gray-400 placeholder:text-[12px] opacity-100"
                 aria-describedby="basic-addon2"
-                value={createby[0]?.amenityAmount}
+                value={createby[0]?.price}
                 disabled
               />
             </div>

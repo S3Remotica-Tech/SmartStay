@@ -494,10 +494,17 @@ function AddTenantBookingCheckin({
         deductions: !isAdvanceRefused ? formattedReasons : null,
         shouldCollectFullRent: collectFullRent,
         customRent: Number(customRent),
-         oneTimeDeduction: isAdvanceRefused ? formattedReasonsOneTimePayments : null,
+        oneTimeDeduction: isAdvanceRefused
+          ? formattedReasonsOneTimePayments
+          : null,
       },
     });
     setCheckInLoading(true);
+  };
+
+  const handleNextStepCheckinDraft = () => {
+    handleCheckInDraft();
+    handleNextStep();
   };
 
   const handleCheckInDraft = () => {
@@ -1304,14 +1311,14 @@ function AddTenantBookingCheckin({
     setOneTimePaymentErrors(updatedErrors);
   };
 
-  useEffect(() => {
-    if (bookingFloor || checkinFloor) {
-      dispatch({
-        type: "GETALLROOMSLIST",
-        payload: { floor_Id: bookingFloor || checkinFloor },
-      });
-    }
-  }, [bookingFloor, checkinFloor]);
+  // useEffect(() => {
+  //   if (bookingFloor || checkinFloor) {
+  //     dispatch({
+  //       type: "GETALLROOMSLIST",
+  //       payload: { floor_Id: bookingFloor || checkinFloor },
+  //     });
+  //   }
+  // }, [bookingFloor, checkinFloor]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -1341,36 +1348,64 @@ function AddTenantBookingCheckin({
     }
   }, [state?.PgList?.getAllRoomSuccessStatus]);
 
-  const roomOptions =
-    state.PgList?.roomsList?.map((item) => ({
-      value: item.id,
-      label: (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <span style={{ fontWeight: 600 }}>{item.name}</span>
+  // const roomOptions =
+  //   state.PgList?.roomsList?.map((item) => ({
+  //     value: item.id,
+  //     label: (
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "space-between",
+  //           width: "100%",
+  //         }}
+  //       >
+  //         <span style={{ fontWeight: 600 }}>{item.name}</span>
 
-          <span
-            style={{
-              backgroundColor: "#E9F2FF",
-              color: "#2563EB",
-              padding: "2px 8px",
-              borderRadius: "12px",
-              fontSize: "12px",
-              fontWeight: 600,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {item?.sharingType || 0}
-          </span>
-        </div>
-      ),
-    })) || [];
+  //         <span
+  //           style={{
+  //             backgroundColor: "#E9F2FF",
+  //             color: "#2563EB",
+  //             padding: "2px 8px",
+  //             borderRadius: "12px",
+  //             fontSize: "12px",
+  //             fontWeight: 600,
+  //             whiteSpace: "nowrap",
+  //           }}
+  //         >
+  //           {item?.sharingType || 0}
+  //         </span>
+  //       </div>
+  //     ),
+  //   })) || [];
+
+  const bookingRoomOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || [])
+        .filter((item) => String(item.floorId) === String(bookingFloor))
+        .map((item) => [
+          item.roomId,
+          {
+            value: item.roomId,
+            label: item.roomName,
+          },
+        ]),
+    ).values(),
+  ];
+
+  const checkinRoomOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || [])
+        .filter((item) => String(item.floorId) === String(checkinFloor))
+        .map((item) => [
+          item.roomId,
+          {
+            value: item.roomId,
+            label: item.roomName,
+          },
+        ]),
+    ).values(),
+  ];
 
   useEffect(() => {
     if (bookingRoom) {
@@ -1666,18 +1701,11 @@ function AddTenantBookingCheckin({
                 </label>
                 <Select
                   isDisabled={!bookingJoiningDate || !bookingFloor}
-                  options={roomOptions}
+                  options={bookingRoomOptions}
                   value={
-                    state.PgList?.roomsList?.find(
-                      (option) => option.id === bookingRoom,
-                    )
-                      ? {
-                          value: bookingRoom,
-                          label: state.PgList?.roomsList.find(
-                            (option) => option.id === bookingRoom,
-                          )?.name,
-                        }
-                      : null
+                    bookingRoomOptions.find(
+                      (option) => String(option.value) === String(bookingRoom),
+                    ) || null
                   }
                   onChange={handleBookingRoomChange}
                   styles={CustomStyles}
@@ -2016,18 +2044,12 @@ function AddTenantBookingCheckin({
                     </label>
                     <Select
                       isDisabled={!joiningDate || !checkinFloor}
-                      options={roomOptions}
+                      options={checkinRoomOptions}
                       value={
-                        state.PgList?.roomsList?.find(
-                          (option) => option.id === checkinRoom,
-                        )
-                          ? {
-                              value: checkinRoom,
-                              label: state.PgList?.roomsList.find(
-                                (option) => option.id === checkinRoom,
-                              )?.name,
-                            }
-                          : null
+                        checkinRoomOptions.find(
+                          (option) =>
+                            String(option.value) === String(checkinRoom),
+                        ) || null
                       }
                       onChange={handleCheckinRoomChange}
                       styles={CustomStyles}
@@ -2111,7 +2133,7 @@ function AddTenantBookingCheckin({
 
                           if (!isAdvanceRefused) {
                             setAdvanceAmount("");
-                             setFields([]);
+                            setFields([]);
                           }
 
                           setAdvanceAmountError("");
@@ -2749,7 +2771,7 @@ function AddTenantBookingCheckin({
 
                   <button
                     className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
-                    onClick={handleNextStep}
+                    onClick={handleNextStepCheckinDraft}
                   >
                     Next <ArrowRight color="#FFFFFF" size="18" />
                   </button>

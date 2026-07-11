@@ -227,36 +227,19 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     console.log("Add clicked");
   };
 
-  const roomOptions =
-    state.PgList?.roomsList?.map((item) => ({
-      value: item.id,
-      label: (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <span style={{ fontWeight: 600 }}>{item.name}</span>
-
-          <span
-            style={{
-              backgroundColor: "#E9F2FF",
-              color: "#2563EB",
-              padding: "2px 8px",
-              borderRadius: "12px",
-              fontSize: "12px",
-              fontWeight: 600,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {item?.sharingType || 0}
-          </span>
-        </div>
-      ),
-    })) || [];
+  const roomOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || [])
+        .filter((item) => String(item.floorId) === String(Floor))
+        .map((item) => [
+          item.roomId,
+          {
+            value: item.roomId,
+            label: item.roomName,
+          },
+        ]),
+    ).values(),
+  ];
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -299,11 +282,11 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   //   }
   // }, []);
 
-  useEffect(() => {
-    if (Floor) {
-      dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: Floor } });
-    }
-  }, [Floor]);
+  // useEffect(() => {
+  //   if (Floor) {
+  //     dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: Floor } });
+  //   }
+  // }, [Floor]);
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
@@ -591,7 +574,9 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
           deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: isAdvanceRefused ? formattedReasonsOneTimePayments : null,
+          oneTimeDeduction: isAdvanceRefused
+            ? formattedReasonsOneTimePayments
+            : null,
         },
       });
       setFormLoading(true);
@@ -1046,16 +1031,9 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                           handleRooms(selectedOption?.value)
                         }
                         value={
-                          state.PgList?.roomsList?.find(
-                            (option) => option.id === Rooms,
-                          )
-                            ? {
-                                value: Rooms,
-                                label: state.PgList?.roomsList.find(
-                                  (option) => option.id === Rooms,
-                                )?.name,
-                              }
-                            : null
+                          roomOptions?.find(
+                            (option) => String(option.value) === String(Rooms),
+                          ) || null
                         }
                         placeholder="Select a Room"
                         classNamePrefix="custom"
@@ -1153,7 +1131,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
                               if (!isAdvanceRefused) {
                                 setAdvanceAmount("");
-                                 setFields([]);
+                                setFields([]);
                               }
 
                               setAdvanceAmountError("");
