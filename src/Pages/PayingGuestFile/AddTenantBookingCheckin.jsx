@@ -491,10 +491,10 @@ function AddTenantBookingCheckin({
         refundableAmount: Number(!isAdvanceRefused ? advanceAmount : 0),
         rentalAmount: Number(rentAmount),
         stayType: stayType,
-        deductions: formattedReasons,
+        deductions: !isAdvanceRefused ? formattedReasons : null,
         shouldCollectFullRent: collectFullRent,
         customRent: Number(customRent),
-        oneTimeDeduction: formattedReasonsOneTimePayments,
+        oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
       },
     });
     setCheckInLoading(true);

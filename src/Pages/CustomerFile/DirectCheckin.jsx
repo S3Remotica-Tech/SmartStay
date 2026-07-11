@@ -585,13 +585,13 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
           bedId: Bed,
           roomId: Rooms,
           joiningDate: formattedDate,
-          refundableAmount: AdvanceAmount,
+          refundableAmount: Number(!isAdvanceRefused ? AdvanceAmount : 0),
           rentalAmount: RoomRent,
           stayType: activeTab,
-          deductions: formattedReasons,
+          deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: formattedReasonsOneTimePayments,
+          oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
         },
       });
       setFormLoading(true);

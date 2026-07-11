@@ -230,36 +230,36 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
     console.log("Add clicked");
   };
 
-  const roomOptions =
-    state.PgList?.roomsList?.map((item) => ({
-      value: item.id,
-      label: (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <span style={{ fontWeight: 600 }}>{item.name}</span>
+  // const roomOptions =
+  //   state.PgList?.roomsList?.map((item) => ({
+  //     value: item.id,
+  //     label: (
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "space-between",
+  //           width: "100%",
+  //         }}
+  //       >
+  //         <span style={{ fontWeight: 600 }}>{item.name}</span>
 
-          <span
-            style={{
-              backgroundColor: "#E9F2FF",
-              color: "#2563EB",
-              padding: "2px 8px",
-              borderRadius: "12px",
-              fontSize: "12px",
-              fontWeight: 600,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {item?.sharingType || 0}
-          </span>
-        </div>
-      ),
-    })) || [];
+  //         <span
+  //           style={{
+  //             backgroundColor: "#E9F2FF",
+  //             color: "#2563EB",
+  //             padding: "2px 8px",
+  //             borderRadius: "12px",
+  //             fontSize: "12px",
+  //             fontWeight: 600,
+  //             whiteSpace: "nowrap",
+  //           }}
+  //         >
+  //           {item?.sharingType || 0}
+  //         </span>
+  //       </div>
+  //     ),
+  //   })) || [];
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -299,11 +299,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (Floor) {
-      dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: Floor } });
-    }
-  }, [Floor]);
+  // useEffect(() => {
+  //   if (Floor) {
+  //     dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: Floor } });
+  //   }
+  // }, [Floor]);
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
@@ -324,14 +324,14 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
   const handleFloor = (selectedOption) => {
     setFloor(selectedOption?.value || "");
     setRooms("");
-    setBed("");
+    // setBed("");
     setRoomRent("");
     setfloorError("");
   };
 
   const handleRooms = (selectedValue) => {
     setRooms(selectedValue);
-    setBed("");
+    // setBed("");
 
     setRoomRent("");
     setRoomError("");
@@ -636,13 +636,13 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
           bedId: Bed,
           roomId: Rooms,
           joiningDate: formattedDate,
-          refundableAmount: AdvanceAmount,
+          refundableAmount: Number(!isAdvanceRefused ? AdvanceAmount : 0),
           rentalAmount: RoomRent,
           stayType: activeTab,
-          deductions: formattedReasons,
+          deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: formattedReasonsOneTimePayments,
+          oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
         },
       });
       setFormLoading(true);
@@ -918,6 +918,19 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
     ).values(),
   ];
 
+  const roomOptions = [
+    ...new Map(
+      (state.UsersList?.availableBedList?.listBeds || [])
+        .filter((item) => String(item.floorId) === String(Floor))
+        .map((item) => [
+          item.roomId,
+          {
+            value: item.roomId,
+            label: item.roomName,
+          },
+        ]),
+    ).values(),
+  ];
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="fixed top-2 right-2 bottom-2 w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg">
@@ -1120,16 +1133,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose, handleTrigger }) {
                           handleRooms(selectedOption?.value)
                         }
                         value={
-                          state.PgList?.roomsList?.find(
-                            (option) => option.id === Rooms,
-                          )
-                            ? {
-                                value: Rooms,
-                                label: state.PgList?.roomsList.find(
-                                  (option) => option.id === Rooms,
-                                )?.name,
-                              }
-                            : null
+                          roomOptions.find(
+                            (option) => option.value === Rooms,
+                          ) || null
                         }
                         placeholder="Select a Room"
                         classNamePrefix="custom"

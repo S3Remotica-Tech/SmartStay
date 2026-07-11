@@ -871,13 +871,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
           bedId: currentItem?.bedId,
           roomId: currentItem?.roomId,
           joiningDate: formattedDate,
-          refundableAmount: AdvanceAmount,
+          refundableAmount: Number(!isAdvanceRefused ? AdvanceAmount : 0),
           rentalAmount: RoomRent,
           stayType: activeTab,
-          deductions: formattedReasons,
+          deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
-          oneTimeDeduction: formattedReasonsOneTimePayments,
+          oneTimeDeduction: isAdvanceRefused && formattedReasonsOneTimePayments,
         },
       });
       setFormLoading(true);
@@ -2088,13 +2088,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                         <div className="flex justify-between">
                           <span>
-                              {customRentEnable
-                            ? "3. Base Rent (Custom Rent)"
-                            : isGracePeriodApplicable ||
-                                collectFullRent ||
-                                isjoiningBased
-                              ? "3. Base Rent (Full Rent)"
-                              : "3. Base Rent (Pro-rate for Current Month)"}
+                            {customRentEnable
+                              ? "3. Base Rent (Custom Rent)"
+                              : isGracePeriodApplicable ||
+                                  collectFullRent ||
+                                  isjoiningBased
+                                ? "3. Base Rent (Full Rent)"
+                                : "3. Base Rent (Pro-rate for Current Month)"}
                           </span>
 
                           <span>₹ {summaryRent}</span>
