@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  getAllBills,
   getReceiptList,
   InvoiceDiscount,
   EditInvoiceDiscount,
@@ -702,6 +703,26 @@ function* handleGetParticularBillsDetails(action) {
 
     if (response) {
       refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetAllBills(action) {
+  try {
+    const response = yield call(getAllBills, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "ALL_BILLS_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
     }
   } catch (error) {
     yield* handleApiError(error);
@@ -2427,6 +2448,7 @@ function* InvoiceSaga() {
     handleGetParticularReceiptDetails,
   );
   yield takeEvery("GETPARTICULARBILLSDETAILS", handleGetParticularBillsDetails);
+  yield takeEvery("ALL_BILLS_LIST_SAGA",handleGetAllBills)
   yield takeEvery("GETFINALSETTLEMENT", handleGetFinalSettlementList);
   yield takeEvery("INVOICEITEM", handleinvoicelist);
   yield takeEvery("INVOICELIST", handleInvoiceList);
@@ -2454,7 +2476,7 @@ function* InvoiceSaga() {
   yield takeEvery("UNASSIGNAMENITIES", handleUnAssignAmenities);
   yield takeEvery("GET_PARTICULAR_AMENITIES", handleGetParticularAmentityList);
   yield takeEvery("RECEIPTSLIST", handleGetReceipts);
- yield takeEvery("CUSTOMIZE_RECEIPTS_LIST_SAGA",handleGetReceiptsListNew)
+  yield takeEvery("CUSTOMIZE_RECEIPTS_LIST_SAGA", handleGetReceiptsListNew);
   yield takeEvery("ADD_RECEIPT", handleAddReceipt);
   yield takeEvery("EDIT_RECEIPTS", handleEditReceipt);
   yield takeEvery("DELETE_RECEIPT", handleDeleteReceipt);

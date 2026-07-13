@@ -111,8 +111,8 @@ export async function GetFilterInvoices(hostelId, filters = {}) {
       modes: filters.modes,
       paymentStatus: filters.paymentStatus,
       search: filters.search,
-      size: filters.size, 
-      page: filters.page
+      size: filters.size,
+      page: filters.page,
     },
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
@@ -132,6 +132,10 @@ export async function getParticularBillsDetails(bill) {
   return await AxiosConfigV2.get(
     `/v2/bills/${bill.hostelId}/${bill.invoiceId}`,
   );
+}
+
+export async function getAllBills(bill) {
+  return await AxiosConfigV2.get(`/v2/${bill.hostelId}`);
 }
 
 export async function getParticularReceiptDetails(bill) {
