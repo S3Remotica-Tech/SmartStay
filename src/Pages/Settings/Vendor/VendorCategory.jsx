@@ -2,7 +2,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AddCircle, Edit2, Message, Messages3, Trash } from "iconsax-react";
+import {
+  AddCircle,
+  Edit,
+  Edit2,
+  Message,
+  Messages3,
+  Trash,
+} from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import { useHasPermission } from "../../../Utils/Permission";
 import { toast } from "react-toastify";
@@ -32,6 +39,7 @@ function VendorCategory() {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
     canDeleteModule: canDeleteVendor,
+    canUpdateModule: canUpdateVendor,
   } = useHasPermission("Vendor");
 
   const handleShowDots = (index, item, e) => {
@@ -53,6 +61,8 @@ function VendorCategory() {
     setDeleteId(deleteId);
     setShowDelete(true);
   };
+
+  const handleUpdate = (update) => {};
 
   const handleCloseDelete = () => {
     setShowDelete(false);
@@ -229,6 +239,25 @@ function VendorCategory() {
                               left: menuPos.left,
                             }}
                           >
+                            <button
+                              onClick={() => {
+                                if (!canUpdateVendor) return;
+                                handleUpdate(u);
+                              }}
+                              disabled={!canUpdateVendor}
+                              className={`w-full font-gilroy text-left rounded-lg px-4 py-2 text-base flex items-center gap-1 
+    ${
+      canUpdateVendor
+        ? "text-[#1E45E1] hover:bg-gray-100 cursor-pointer"
+        : "text-gray-400 cursor-not-allowed opacity-50"
+    }`}
+                            >
+                              <Edit
+                                size="16"
+                                color={canUpdateVendor ? "#1E45E1" : "#9CA3AF"}
+                              />
+                              Edit
+                            </button>
                             <button
                               onClick={() => {
                                 if (!canDeleteVendor) return;
