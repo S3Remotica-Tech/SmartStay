@@ -972,7 +972,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40">
-        <div className="h-[calc(100vh-16px)] w-full max-w-[700px] bg-white rounded-[20px] shadow-lg flex flex-col m-2">
+        <div className="relative h-[calc(100vh-16px)] w-full max-w-[700px] bg-white rounded-[20px] shadow-lg flex flex-col m-2">
           <div className="px-4 py-3 shrink-0 font-gilroy">
             <div className="pt-0 relative border-0 mb-0 flex items-center justify-between">
               <div className="text-xl font-semibold font-gilroy">
@@ -1278,12 +1278,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   </div>
                 </div>
 
-                {formLoading && (
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-                    <div className="w-10 h-10 rounded-full border-t-4 border-[#1E45E1] border-r-4 border-r-transparent animate-spin"></div>
-                  </div>
-                )}
-
                 <div className="flex justify-end p-4 ">
                   <Button
                     className="bg-white !font-normal !px-10 !py-1.5 !rounded-lg !text-base !font-gilroy !text-gray-700 border border-white"
@@ -1297,7 +1291,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                     className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
                     onClick={handleSubmitBooking}
                   >
-                    Book
+                    <div className="flex items-center justify-center gap-2">
+                      {formLoading ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Booking...</span>
+                        </>
+                      ) : (
+                        "Book"
+                      )}
+                    </div>
                   </Button>
                 </div>
               </>
@@ -2111,11 +2114,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       </p>
                     </div> */}
               </div>
-              {formLoading && (
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
-                  <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
-                </div>
-              )}
+
               {state.UsersList?.bedAvailableError ? (
                 <div className="flex justify-center">
                   <ErrorMessage
@@ -2138,7 +2137,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   className="!bg-blue-700 !font-medium !rounded-lg !text-base !px-10 !py-1.5 !font-gilroy !text-white"
                   onClick={handleSaveCheckin}
                 >
-                  Check-In
+                  <div className="flex items-center justify-center gap-2">
+                    {formLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Checking In...</span>
+                      </>
+                    ) : (
+                      "Check-In"
+                    )}
+                  </div>
                 </Button>
               </div>
             </>

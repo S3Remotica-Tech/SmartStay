@@ -420,8 +420,8 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
 
   const CustomerOverView = state.UsersList?.bookedDetails;
   const bookingDate = CustomerOverView?.bookedDate
-  ? dayjs(CustomerOverView.bookedDate, "DD/MM/YYYY")
-  : null;
+    ? dayjs(CustomerOverView.bookedDate, "DD/MM/YYYY")
+    : null;
 
   useEffect(() => {
     if (CustomerOverView) {
@@ -1036,7 +1036,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                 Booking Date
               </label>
               <label className="text-sm font-semibold text-gray-900 font-gilroy">
-                {CustomerOverView?.bookingDate}
+                {CustomerOverView?.bookedDate}
               </label>
             </div>
 
@@ -1045,7 +1045,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                 Booking Amount
               </label>
               <label className="text-sm font-semibold text-gray-900 font-gilroy">
-                {CustomerOverView?.bookingInfo?.bookingAmount}
+                {CustomerOverView?.bookingAmount}
               </label>
             </div>
 
@@ -1067,13 +1067,13 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                         triggerNode.closest(".show-scroll") || document.body
                       }
                       disabledDate={(current) => {
-    if (!current) return false;
+                        if (!current) return false;
 
-    return (
-      current.isBefore(bookingDate, "day") ||
-      current.isAfter(dayjs(), "day")
-    );
-  }}
+                        return (
+                          current.isBefore(bookingDate, "day") ||
+                          current.isAfter(dayjs(), "day")
+                        );
+                      }}
                     />
                   </div>
                 </Form.Group>
