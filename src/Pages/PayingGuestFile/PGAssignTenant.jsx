@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl, Offcanvas } from "react-bootstrap";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Modal from "react-bootstrap/Modal";
@@ -971,17 +971,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
   return (
     <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        centered
-        dialogClassName="custom-modals-style-PG"
-      >
-        <Modal.Dialog className="m-0 p-0 w-full max-w-full rounded-lg">
-          <Modal.Body>
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/50" />
+        <div
+          className="absolute right-2 top-2 bottom-4 rounded-[20px] px-3  py-3  
+          w-full max-w-2xl bg-white shadow-2xl transform transition-transform
+         duration-300 ease-in-out overflow-y-auto"
+        >
+          <div>
             <div className="font-gilroy">
-              <Modal.Header className="pt-0 relative border-0 mb-0">
+              <div className="pt-0 relative border-0 mb-0 flex items-center justify-between">
                 <div className="text-xl font-semibold font-gilroy">
                   Assign Tenant
                   <div>
@@ -1005,9 +1004,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                   onClick={handleClose}
                   className="cursor-pointer -mt-6"
                 />
-              </Modal.Header>
+              </div>
 
-              <div className="bg-blue-50 rounded-md w-full p-1">
+              <div className="bg-blue-50 rounded-[20px] w-full p-1 mt-2">
                 <div className="flex justify-between gap-2 w-full">
                   <button
                     onClick={() => setActiveTab("SHORT")}
@@ -1036,7 +1035,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
               {activeTab === "LONG" ? (
                 !isComingSoon ? (
                   <>
-                    <div className="max-h-[350px] overflow-y-auto p-2 me-1 show-scroll">
+                    <div className="max-h-[500px] overflow-y-auto p-2 me-1 show-scrolls">
                       <div className="grid grid-cols-12 gap-x-4 gap-y-2 items-stretch">
                         <div className="col-span-12">
                           <Form.Group
@@ -1316,7 +1315,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 )
               ) : activeTab === "SHORT" ? (
                 <>
-                  <div className="max-h-[370px] overflow-y-auto p-2 me-1 show-scroll">
+                  <div className="max-h-[500px] overflow-y-auto p-2 me-1 show-scrolls">
                     <div className="grid grid-cols-12 gap-x-4 gap-y-2 items-stretch">
                       <div className="col-span-12">
                         <Form.Group controlId="exampleForm.ControlInput5">
@@ -2171,9 +2170,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 </>
               ) : null}
             </div>
-          </Modal.Body>
-        </Modal.Dialog>
-      </Modal>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

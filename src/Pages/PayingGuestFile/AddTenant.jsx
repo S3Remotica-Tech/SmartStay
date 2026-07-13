@@ -394,7 +394,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   };
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
+    const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setSearch(value);
     dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
     dispatch({ type: "REMOVE_NO_TENANT_DRAFT" });
@@ -1070,6 +1071,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               guardianOccupation: g?.guardianOccupation || "",
               mobileNo: g?.mobileNo || "",
             })),
+            shouldCollectFullRent: DraftTenantDetails?.shouldCollectFullRent,
+            customRent: DraftTenantDetails?.customRent,
+            oneTimeDeduction: DraftTenantDetails?.oneTimeDeduction || [],
           },
         },
       });
@@ -1251,6 +1255,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               g.guardianOccupation?.value || g.guardianOccupation || "",
             mobileNo: g.mobileNo || "",
           })),
+          shouldCollectFullRent: DraftTenantDetails?.shouldCollectFullRent,
+          customRent: DraftTenantDetails?.customRent,
+          oneTimeDeduction: DraftTenantDetails?.oneTimeDeduction || [],
         },
       },
     });
@@ -1721,7 +1728,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                   value={search}
                                   onChange={handleChange}
                                   placeholder="Search"
-                                   onWheel={(e) => e.target.blur()}
+                                  onWheel={(e) => e.target.blur()}
                                   className="bg-transparent outline-none w-full"
                                 />
 

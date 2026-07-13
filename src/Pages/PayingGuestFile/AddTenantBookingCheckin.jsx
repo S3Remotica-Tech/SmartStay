@@ -605,6 +605,16 @@ function AddTenantBookingCheckin({
             guardianOccupation: g?.guardianOccupation || "",
             mobileNo: g?.mobileNo || "",
           })),
+          shouldCollectFullRent: collectFullRent,
+          customRent: Number(customRent),
+          oneTimeDeduction: oneTimePayments
+            ?.filter(
+              (item) => (item.reason || item.customReason) && item.amount,
+            )
+            .map((item) => ({
+              type: item.reason === "others" ? item.customReason : item.reason,
+              amount: Number(item.amount),
+            })),
         },
       },
     });
@@ -837,11 +847,25 @@ function AddTenantBookingCheckin({
           ? dayjs(DraftTenantDetails?.hostelInfo?.joiningDate, "DD-MM-YYYY")
           : null,
       );
+      setActiveTab(DraftTenantDetails?.stayType);
 
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
       setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
       setFields(
         DraftTenantDetails?.deductions?.map((item) => ({
+          reason_name: item.type || "",
+          reason: item.type || "",
+          amount: item.amount || "",
+          paidAmount: item.paidAmount || 0,
+          showInput: false,
+          customReason: "",
+        })) || [],
+      );
+
+      setCollectFullRent(DraftTenantDetails?.shouldCollectFullRent);
+      setCustomRent(DraftTenantDetails?.customRent);
+      setOneTimePayments(
+        DraftTenantDetails?.oneTimeDeduction?.map((item) => ({
           reason_name: item.type || "",
           reason: item.type || "",
           amount: item.amount || "",
@@ -976,6 +1000,16 @@ function AddTenantBookingCheckin({
             guardianOccupation: g?.guardianOccupation || "",
             mobileNo: g?.mobileNo || "",
           })),
+          shouldCollectFullRent: collectFullRent,
+          customRent: Number(customRent),
+          oneTimeDeduction: oneTimePayments
+            ?.filter(
+              (item) => (item.reason || item.customReason) && item.amount,
+            )
+            .map((item) => ({
+              type: item.reason === "others" ? item.customReason : item.reason,
+              amount: Number(item.amount),
+            })),
         },
       },
     });
@@ -1278,6 +1312,13 @@ function AddTenantBookingCheckin({
 
   const handleCheckboxChange = (e) => {
     setCollectFullRent(e.target.checked);
+  };
+
+  const handleAddCustomRent = () => {
+    setCustomRentEnable(!customRentEnable);
+    if (!customRentEnable) {
+      setCustomRent("");
+    }
   };
 
   const handleAccordionToggle = () => {
@@ -2400,8 +2441,7 @@ function AddTenantBookingCheckin({
                           <div>
                             <button
                               onClick={() => {
-                                setCustomRentEnable(!customRentEnable);
-                                setCustomRent("");
+                                handleAddCustomRent();
                               }}
                               className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
                                 customRentEnable
