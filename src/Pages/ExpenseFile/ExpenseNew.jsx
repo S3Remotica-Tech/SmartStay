@@ -596,7 +596,7 @@ function Expenses() {
     if (expenseFilters?.search) {
       filterData.push({
         key: "search",
-        label: "Vendor",
+        label: "Expense Title",
         type: "search",
         value: expenseFilters.search,
       });

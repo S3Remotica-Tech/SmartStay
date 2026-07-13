@@ -2,7 +2,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AddCircle, Edit2, Message, Messages3, Trash } from "iconsax-react";
+import {
+  AddCircle,
+  Edit,
+  Edit2,
+  Message,
+  Messages3,
+  Trash,
+} from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import { useHasPermission } from "../../../Utils/Permission";
 import { toast } from "react-toastify";
@@ -22,6 +29,7 @@ function VendorCategory() {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+  const [updateDetails, setUpdateDetails] = useState(null);
   const [showDelete, setShowDelete] = useState(false);
   const menuRef = useRef(null);
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
@@ -32,6 +40,7 @@ function VendorCategory() {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
     canDeleteModule: canDeleteVendor,
+    canUpdateModule: canUpdateVendor,
   } = useHasPermission("Vendor");
 
   const handleShowDots = (index, item, e) => {
@@ -49,9 +58,14 @@ function VendorCategory() {
   };
 
   const handleDelete = (deleteId) => {
-    console.log("deleteId", deleteId);
     setDeleteId(deleteId);
     setShowDelete(true);
+  };
+
+  const handleUpdate = (update) => {
+    setOpen(true);
+    setUpdateDetails(update);
+    setActiveIndex(null);
   };
 
   const handleCloseDelete = () => {
@@ -105,15 +119,22 @@ function VendorCategory() {
   }, [state.Settings?.vendorCategorySuccessCode]);
 
   useEffect(() => {
-    if (state.Settings?.createVendorCategorySuccessStatus === 201) {
+    if (
+      state.Settings?.createVendorCategorySuccessStatus === 201 ||
+      state.Settings?.updateVendorCategorySuccessStatus === 200
+    ) {
       setOpen(false);
       dispatch({
         type: "VENDOR_CATEGORY_LIST_SAGA",
         payload: state.login.selectedHostel_Id,
       });
       dispatch({ type: "REMOVE_VENDOR_CATEGORY_REDUCER" });
+      dispatch({ type: "REMOVE_UPDATE_VENDOR_CATEGORY_REDUCER" });
     }
-  }, [state.Settings?.createVendorCategorySuccessStatus]);
+  }, [
+    state.Settings?.createVendorCategorySuccessStatus,
+    state.Settings?.updateVendorCategorySuccessStatus,
+  ]);
 
   useEffect(() => {
     if (state.Settings?.deleteVendorCategorySuccessStatus === 200) {
@@ -140,11 +161,18 @@ function VendorCategory() {
       return;
     }
     setOpen(true);
+    setUpdateDetails("");
   };
 
   return (
     <div>
-      {open && <AddCategory show={open} onClose={() => setOpen(false)} />}
+      {open && (
+        <AddCategory
+          show={open}
+          onClose={() => setOpen(false)}
+          updateDetails={updateDetails}
+        />
+      )}
       {showDelete && (
         <DeleteVendorCategory
           show={showDelete}
@@ -229,6 +257,25 @@ function VendorCategory() {
                               left: menuPos.left,
                             }}
                           >
+                            <button
+                              onClick={() => {
+                                if (!canUpdateVendor) return;
+                                handleUpdate(u);
+                              }}
+                              disabled={!canUpdateVendor}
+                              className={`w-full font-gilroy text-left rounded-lg px-4 py-2 text-base flex items-center gap-1 
+    ${
+      canUpdateVendor
+        ? "text-[#1E45E1] hover:bg-gray-100 cursor-pointer"
+        : "text-gray-400 cursor-not-allowed opacity-50"
+    }`}
+                            >
+                              <Edit
+                                size="16"
+                                color={canUpdateVendor ? "#1E45E1" : "#9CA3AF"}
+                              />
+                              Edit
+                            </button>
                             <button
                               onClick={() => {
                                 if (!canDeleteVendor) return;

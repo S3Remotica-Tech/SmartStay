@@ -642,7 +642,6 @@ function ReceiptNew() {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode === 204 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       handleBackBill();
@@ -664,16 +663,29 @@ function ReceiptNew() {
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
       }, 1000);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
-      }, 1000);
     }
   }, [
     state.InvoiceList.ReceiptAddsuccessStatuscode,
-    state.InvoiceList.ReceiptDeletesuccessStatuscode,
+
     state.InvoiceList.ReceiptEditsuccessStatuscode,
   ]);
+
+  useEffect(() => {
+    if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 204) {
+      setDeleteLoading(false);
+      setDeleteShow(false);
+      dispatch({
+        type: "CUSTOMIZE_RECEIPTS_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          size: size,
+          page: page,
+        },
+      });
+
+      dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
+    }
+  }, [state.InvoiceList.ReceiptDeletesuccessStatuscode]);
 
   useEffect(() => {
     return () => {

@@ -5,14 +5,22 @@ import { Add } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 
-function AddCategory({ show, onClose }) {
+function AddCategory({ show, onClose, updateDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [categoryName, setCategoryName] = useState("");
   const [categoryError, setCategoryError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  console.log("updateDetails", updateDetails);
+
   const categoryRef = useRef(null);
+
+  useEffect(() => {
+    if (updateDetails) {
+      setCategoryName(updateDetails?.categoryName);
+    }
+  }, [updateDetails]);
 
   const handleChange = (e) => {
     dispatch({
@@ -40,20 +48,38 @@ function AddCategory({ show, onClose }) {
   };
 
   const handleSubmit = async () => {
+    setCategoryError("");
     if (!validate()) return;
     dispatch({
       type: "REMOVE_ALREADY_VENDOR_CATEGORY_ERROR",
     });
+    if (updateDetails) {
+      if (categoryName.trim() === updateDetails?.categoryName?.trim()) {
+        setCategoryError("No changes detected.");
+        return;
+      }
 
-    dispatch({
-      type: "VENDOR_CATEGORY_SAGA",
-      payload: {
-        categoryName: categoryName,
-        hostelId: state.login.selectedHostel_Id,
-      },
-    });
+      dispatch({
+        type: "UPDATE_VENDOR_CATEGORY_SAGA",
+        payload: {
+          categoryName: categoryName,
+          categoryId: updateDetails?.id,
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
 
-    setLoading(true);
+      setLoading(true);
+    } else {
+      dispatch({
+        type: "VENDOR_CATEGORY_SAGA",
+        payload: {
+          categoryName: categoryName,
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+
+      setLoading(true);
+    }
   };
 
   if (!open) return null;
@@ -61,13 +87,15 @@ function AddCategory({ show, onClose }) {
   useEffect(() => {
     if (
       state.Settings?.createVendorCategorySuccessStatus === 201 ||
-      state.Settings?.vendorCategoryError
+      state.Settings?.vendorCategoryError ||
+      state.Settings?.updateVendorCategorySuccessStatus === 200
     ) {
       setLoading(false);
     }
   }, [
     state.Settings?.createVendorCategorySuccessStatus,
     state.Settings?.vendorCategoryError,
+    state.Settings?.updateVendorCategorySuccessStatus,
   ]);
 
   useEffect(() => {

@@ -394,7 +394,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   };
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
+    const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setSearch(value);
     dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     dispatch({ type: "REMOVE_MOBILENUMBER_ERROR" });
     dispatch({ type: "REMOVE_NO_TENANT_DRAFT" });
@@ -1070,6 +1071,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               guardianOccupation: g?.guardianOccupation || "",
               mobileNo: g?.mobileNo || "",
             })),
+            shouldCollectFullRent: DraftTenantDetails?.shouldCollectFullRent,
+            customRent: DraftTenantDetails?.customRent,
+            oneTimeDeduction: DraftTenantDetails?.oneTimeDeduction || [],
           },
         },
       });
@@ -1251,6 +1255,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               g.guardianOccupation?.value || g.guardianOccupation || "",
             mobileNo: g.mobileNo || "",
           })),
+          shouldCollectFullRent: DraftTenantDetails?.shouldCollectFullRent,
+          customRent: DraftTenantDetails?.customRent,
+          oneTimeDeduction: DraftTenantDetails?.oneTimeDeduction || [],
         },
       },
     });
@@ -1606,7 +1613,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="w-full h-full flex items-center justify-center p-2 ">
+        <div className="w-full h-full flex items-center justify-end p-2 ">
           <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
               <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
@@ -1721,7 +1728,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                                   value={search}
                                   onChange={handleChange}
                                   placeholder="Search"
-                                   onWheel={(e) => e.target.blur()}
+                                  onWheel={(e) => e.target.blur()}
                                   className="bg-transparent outline-none w-full"
                                 />
 
