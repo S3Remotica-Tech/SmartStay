@@ -110,6 +110,9 @@ export const initialState = {
   // EDIT DISCOUNT
   editInvoiceDiscountStatus: 0,
   editDiscountError: "",
+  getAllBillsList: [],
+  getAllBillsListStatusCode: 0,
+
   // REFUSE
   refuseDiscountStatus: 0,
   refuseDiscountError: "",
@@ -208,6 +211,20 @@ const InvoiceReducer = (state = initialState, action) => {
         ...state,
 
         getReceiptSucessStatus: 0,
+      };
+
+    case "ALL_BILLS_LIST_REDUCER":
+      return {
+        ...state,
+        getAllBillsList: action.payload.response,
+        getAllBillsListStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_ALL_BILLS_LIST_REDUCER":
+      return {
+        ...state,
+        getAllBillsList: action.payload.response,
+        getAllBillsListStatusCode: 0,
       };
 
     case "CUSTOMIZE_RECEIPT_COLUMNS_REDUCER":

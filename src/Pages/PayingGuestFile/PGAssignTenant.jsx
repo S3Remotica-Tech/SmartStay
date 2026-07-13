@@ -1867,7 +1867,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           </div>
                         )}
 
-                        {isAdvanceRefused && (
+                        {/* {isAdvanceRefused && (
                           <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
                             <div
                               onClick={handleAccordionToggle}
@@ -2054,87 +2054,89 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                               </div>
                             )}
                           </div>
-                        )}
+                        )} */}
                       </div>
                     )}
 
-                    <div
-                      className="rounded-xl p-4 text-white shadow-md
+                    {/* <div>
+                      <div
+                        className="rounded-xl p-4 text-white shadow-md
        bg-[#132197]"
-                    >
-                      <p className="text-xs uppercase tracking-wide opacity-80 mb-1">
-                        Summary
-                      </p>
+                      >
+                        <p className="text-xs uppercase tracking-wide opacity-80 mb-1">
+                          Summary
+                        </p>
 
-                      <h2 className="text-2xl font-semibold mb-3">
-                        ₹ {totalSummary}
-                      </h2>
+                        <h2 className="text-2xl font-semibold mb-3">
+                          ₹ {totalSummary}
+                        </h2>
 
-                      <div className="border-t border-white/20 mb-3"></div>
+                        <div className="border-t border-white/20 mb-3"></div>
 
-                      <div className="text-xs space-y-2">
-                        <div className="flex justify-between">
-                          <span>1. Advance Amount</span>
-                          <span>₹ {AdvanceAmount || 0}</span>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <span>
-                            2. Non Refundable Amount
-                            <span className="opacity-70">
-                              {" "}
-                              (Deducted from Advance 1)
-                            </span>
-                          </span>
-                          <span> ₹ {deductionsTotal || 0}</span>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <span>
-                            {customRentEnable
-                              ? "3. Base Rent (Custom Rent)"
-                              : isGracePeriodApplicable ||
-                                  collectFullRent ||
-                                  isjoiningBased
-                                ? "3. Base Rent (Full Rent)"
-                                : "3. Base Rent (Pro-rate for Current Month)"}
-                          </span>
-
-                          <span>₹ {summaryRent}</span>
-                        </div>
-                        {hasGracePeriod && !customRentEnable && (
-                          <div className="mt-2 mx-1 w-fit rounded px-1">
-                            <p className="mb-0 text-xs italic text-white opacity-70">
-                              <span className="font-semibold">Note:</span> 1–
-                              {
-                                state?.Settings?.SettingsBillsGetRecurring
-                                  ?.gracePeriod
-                              }
-                              : Full Rent •{" "}
-                              {Number(
-                                state?.Settings?.SettingsBillsGetRecurring
-                                  ?.gracePeriod,
-                              ) + 1}{" "}
-                              {""}
-                              onwards: Prorated Rent
-                            </p>
+                        <div className="text-xs space-y-2">
+                          <div className="flex justify-between">
+                            <span>1. Advance Amount</span>
+                            <span>₹ {AdvanceAmount || 0}</span>
                           </div>
-                        )}
 
-                        <div className="flex justify-between">
-                          <span>
-                            4. One Time payment
-                            <span className="opacity-70"></span>
-                          </span>
-                          <span>₹ {oneTimeDeductionTotal || 0}</span>
+                          <div className="flex justify-between">
+                            <span>
+                              2. Non Refundable Amount
+                              <span className="opacity-70">
+                                {" "}
+                                (Deducted from Advance 1)
+                              </span>
+                            </span>
+                            <span> ₹ {deductionsTotal || 0}</span>
+                          </div>
+
+                          <div className="flex justify-between">
+                            <span>
+                              {customRentEnable
+                                ? "3. Base Rent (Custom Rent)"
+                                : isGracePeriodApplicable ||
+                                    collectFullRent ||
+                                    isjoiningBased
+                                  ? "3. Base Rent (Full Rent)"
+                                  : "3. Base Rent (Pro-rate for Current Month)"}
+                            </span>
+
+                            <span>₹ {summaryRent}</span>
+                          </div>
+                          {hasGracePeriod && !customRentEnable && (
+                            <div className="mt-2 mx-1 w-fit rounded px-1">
+                              <p className="mb-0 text-xs italic text-white opacity-70">
+                                <span className="font-semibold">Note:</span> 1–
+                                {
+                                  state?.Settings?.SettingsBillsGetRecurring
+                                    ?.gracePeriod
+                                }
+                                : Full Rent •{" "}
+                                {Number(
+                                  state?.Settings?.SettingsBillsGetRecurring
+                                    ?.gracePeriod,
+                                ) + 1}{" "}
+                                {""}
+                                onwards: Prorated Rent
+                              </p>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between">
+                            <span>
+                              4. One Time payment
+                              <span className="opacity-70"></span>
+                            </span>
+                            <span>₹ {oneTimeDeductionTotal || 0}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <p className="text-[11px] text-gray-500 mt-2">
-                      Note: System automatically generates a separate invoices
-                      for Advance & Base Rent
-                    </p>
+                      <p className="text-[11px] text-gray-500 mt-2">
+                        Note: System automatically generates a separate invoices
+                        for Advance & Base Rent
+                      </p>
+                    </div> */}
                   </div>
                   {formLoading && (
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
