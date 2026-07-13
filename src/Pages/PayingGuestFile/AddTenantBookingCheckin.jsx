@@ -184,6 +184,8 @@ function AddTenantBookingCheckin({
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
   const [stayType, setStayType] = useState("long");
 
+  // console.log("activeTab", activeTab);
+
   // booking
 
   const [joiningDateError, setJoiningDateError] = useState("");
@@ -847,7 +849,7 @@ function AddTenantBookingCheckin({
           ? dayjs(DraftTenantDetails?.hostelInfo?.joiningDate, "DD-MM-YYYY")
           : null,
       );
-      setActiveTab(DraftTenantDetails?.stayType);
+      setStayType(DraftTenantDetails?.stayType);
 
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
       setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
