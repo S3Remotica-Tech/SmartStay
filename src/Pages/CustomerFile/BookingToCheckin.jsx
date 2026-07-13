@@ -157,10 +157,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
 
-  const canCheckIn =
-    !state.UsersList?.bookedDetails?.responseCode === 400 ??
-    state.UsersList?.bookedDetails?.canCheckIn ??
-    false;
+  const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn ?? false;
   // console.log("tenantDetails", tenantDetails);
 
   // console.log("canCheckIn", canCheckIn);
@@ -422,6 +419,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   // console.log("tenantDetails", tenantDetails);
 
   const CustomerOverView = state.UsersList?.bookedDetails;
+  const bookingDate = CustomerOverView?.bookedDate
+  ? dayjs(CustomerOverView.bookedDate, "DD/MM/YYYY")
+  : null;
 
   useEffect(() => {
     if (CustomerOverView) {
@@ -1066,9 +1066,14 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                       getPopupContainer={(triggerNode) =>
                         triggerNode.closest(".show-scroll") || document.body
                       }
-                      disabledDate={(current) =>
-                        current && current > dayjs().endOf("day")
-                      }
+                      disabledDate={(current) => {
+    if (!current) return false;
+
+    return (
+      current.isBefore(bookingDate, "day") ||
+      current.isAfter(dayjs(), "day")
+    );
+  }}
                     />
                   </div>
                 </Form.Group>
