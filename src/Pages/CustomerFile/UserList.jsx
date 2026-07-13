@@ -2377,7 +2377,7 @@ function UserList(props) {
                 </>
               )}
 
-              {isDev && value === "1" && (
+              {value === "1" && (
                 <div className="relative flex" ref={dropdownRef}>
                   <button
                     disabled={!canWriteWalkin}
