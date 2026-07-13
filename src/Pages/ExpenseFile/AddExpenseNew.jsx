@@ -286,8 +286,6 @@ function AddExpenseNew() {
   const isVendorOverViewWay = location.state?.isVendorOverViewWay;
   const selectedVendorId = location.state?.selectedVendorId;
 
-  console.log("selectedVendorId", selectedVendorId);
-
   const [errors, setErrors] = useState({
     totalAmount: "",
     paidAmount: "",
@@ -331,8 +329,6 @@ function AddExpenseNew() {
     name: "",
     index: "",
   });
-
-  console.log("vendor", vendor);
 
   const expenseTitleRef = useRef(null);
   const categoryRef = useRef(null);
@@ -732,18 +728,14 @@ function AddExpenseNew() {
     return isValid;
   };
 
-  // console.log("paymentMethod", paymentMethod);
-
-  // const finalExpenseAmount =
-  //   subTotal +
-  //   (subTotal * Number(tax || 0)) / 100 -
-  //   (discountType === "percent"
-  //     ? (subTotal * Number(discount || 0)) / 100
-  //     : Number(discount || 0));
-
-  // console.log("finalExpenseAmount", finalExpenseAmount);
-
   const handleSubmit = () => {
+    setErrors({
+      totalAmount: "",
+      paidAmount: "",
+      balanceAmount: "",
+      tax: "",
+      discount: "",
+    });
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
     if (!validate()) return;
     setPaymentMethodError("");
@@ -756,13 +748,7 @@ function AddExpenseNew() {
     setAmountError("");
     setPurchaseDateError("");
     setExpenseItemErrors("");
-    setErrors({
-      totalAmount: "",
-      paidAmount: "",
-      balanceAmount: "",
-      tax: "",
-      discount: "",
-    });
+
     const total = Number(amount || 0);
     const paid = Number(paidAmount || 0);
     const balance = total - paid;
@@ -796,16 +782,6 @@ function AddExpenseNew() {
       return;
     }
 
-    // if (expenseItems.length > 0) {
-    //   if (itemsTotal > total) {
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       totalAmount: "Expense items total cannot exceed Total Amount",
-    //     }));
-    //     return;
-    //   }
-    // }
-
     const finalExpenseAmount =
       subTotal +
       (subTotal * Number(tax || 0)) / 100 -
@@ -813,36 +789,27 @@ function AddExpenseNew() {
         ? (subTotal * Number(discount || 0)) / 100
         : Number(discount || 0));
 
-    console.log("finalExpenseAmount", finalExpenseAmount);
+    const validExpenseItems = expenseItems.filter((item) => item.amount > 0);
 
-    if (finalExpenseAmount > total) {
-      setErrors((prev) => ({
-        ...prev,
-        totalAmount: "Final  amount cannot exceed the Total  Amount",
-      }));
-      return;
+    if (validExpenseItems.length > 0) {
+      if (finalExpenseAmount > total) {
+        setErrors((prev) => ({
+          ...prev,
+          totalAmount: "Expense Items cannot exceed the Total Amount",
+        }));
+        return;
+      }
+
+      if (finalExpenseAmount < total) {
+        setErrors((prev) => ({
+          ...prev,
+          totalAmount: "Expense Items cannot be less than the Total Amount",
+        }));
+        return;
+      }
     }
 
-    if (finalExpenseAmount < total) {
-      setErrors((prev) => ({
-        ...prev,
-        totalAmount: "Final amount cannot be less than the Total Amount",
-      }));
-      return;
-    }
-
-    // if (expenseItems.length > 0) {
-    //   if (Number(amount.toString()) !== Number(total.toFixed(2))) {
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       totalAmount:
-    //         "Total Retainer Amount must be equal to the total Amount",
-    //     }));
-    //     return;
-    //   }
-    // }
-
-    if (paid > total) {
+    if (paid && paid > total) {
       setErrors((prev) => ({
         ...prev,
         paidAmount: "Paid amount cannot exceed total amount",
@@ -850,7 +817,7 @@ function AddExpenseNew() {
       return;
     }
 
-    if (balance < 0) {
+    if (balance && balance < 0) {
       setErrors((prev) => ({
         ...prev,
         balanceAmount: "Balance amount cannot be negative",
@@ -872,7 +839,7 @@ function AddExpenseNew() {
           purchaseDate: formattedDate,
           count: expenseItems?.length,
           totalAmount: Number(amount),
-          bankId: paymentMethod?.value,
+          bankId: paymentStatus !== "Pending" ? paymentMethod?.value : "",
           description: description.trim(),
           title: expenseTitle.trim(),
 
@@ -881,13 +848,15 @@ function AddExpenseNew() {
             ? Number(vendor?.value || vendor?.vendorId || 0)
             : 0,
 
-          paymentStatus,
-          paidAmount: Number(paidAmount || 0),
-          balanceAmount: Number(balanceAmount || 0),
+          paymentStatus: paymentStatus,
+          paidAmount: paymentStatus !== "Pending" ? Number(paidAmount || 0) : 0,
+          balanceAmount:
+            paymentStatus !== "Pending" ? Number(balanceAmount || 0) : 0,
 
-          paymentMethod: paymentMethod?.value || "",
+          paymentMethod:
+            paymentStatus !== "Pending" ? paymentMethod?.value : "",
           note: "",
-          transactionId: transactionId || "",
+          transactionId: paymentStatus !== "Pending" ? transactionId || "" : "",
 
           tax: Number(tax || 0),
           discount: Number(discount || 0),
@@ -1332,6 +1301,10 @@ function AddExpenseNew() {
                             onChange={(e) => {
                               setPaymentStatus(e.target.value);
                               setPaymentStatusError("");
+                              if (paymentStatus === "Pending") {
+                                setPaidAmount("");
+                                setBalanceAmount("");
+                              }
                             }}
                             className="accent-blue-600 cursor-pointer"
                           />
