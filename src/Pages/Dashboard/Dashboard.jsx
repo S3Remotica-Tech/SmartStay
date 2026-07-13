@@ -367,7 +367,8 @@ function Dashboard() {
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
             <div
-              className={` mb-[10px] flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
+              className={` mb-[10px] flex flex-col sm:flex-row justify-between items-center gap-2 
+                px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
 
   ${
     daysLeft > 0
@@ -408,7 +409,7 @@ function Dashboard() {
           )}
         </Marquee>
 
-        <div className="w-full px-3 sticky top-0 z-[1000] bg-white py-2.5 border border-[#E5E7EB] rounded-xl">
+        <div className="w-full px-3 sticky top-0 z-[50] bg-white py-2.5 border border-[#E5E7EB] rounded-xl">
           <div
             className={`flex ${
               isSmallScreen ? "flex-col items-center" : "items-center"

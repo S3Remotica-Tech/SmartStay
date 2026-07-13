@@ -146,7 +146,7 @@ function AddTenantBookingCheckin({
 
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("booking");
+  const [activeTab, setActiveTab] = useState("checkin");
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [bookingDate, setBookingDate] = useState("");
   const [isConfirmChecked, setIsConfirmChecked] = useState(false);
@@ -1530,17 +1530,6 @@ function AddTenantBookingCheckin({
       <div className="flex justify-between">
         <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
           <button
-            onClick={() => setActiveTab("booking")}
-            className={`px-4 py-1.5 text-sm rounded-md ${
-              activeTab === "booking"
-                ? "bg-white shadow text-[#1E45E1]"
-                : "text-gray-500"
-            }`}
-          >
-            Booking
-          </button>
-
-          <button
             onClick={() => {
               setActiveTab("checkin");
               dispatch({ type: "ERROR_BOOKING_REMOVE" });
@@ -1552,6 +1541,16 @@ function AddTenantBookingCheckin({
             }`}
           >
             Check-In
+          </button>
+          <button
+            onClick={() => setActiveTab("booking")}
+            className={`px-4 py-1.5 text-sm rounded-md ${
+              activeTab === "booking"
+                ? "bg-white shadow text-[#1E45E1]"
+                : "text-gray-500"
+            }`}
+          >
+            Booking
           </button>
         </div>
 
@@ -2475,7 +2474,7 @@ function AddTenantBookingCheckin({
                       )}
                     </div>
                   )}
-                  {isAdvanceRefused && (
+                  {/* {isAdvanceRefused && (
                     <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
                       <div
                         onClick={handleAccordionToggle}
@@ -2647,11 +2646,11 @@ function AddTenantBookingCheckin({
                         </div>
                       )}
                     </div>
-                  )}
+                  )} */}
                 </div>
               )}
 
-              <div className="">
+              {/* <div className="">
                 <div
                   className="rounded-xl p-4 text-white shadow-md
        bg-[#132197]"
@@ -2729,7 +2728,8 @@ function AddTenantBookingCheckin({
                   Note: System automatically generates a separate invoices for
                   Advance & Base Rent
                 </p>
-              </div>
+              </div> */}
+
               <div className="flex items-center gap-2 my-4">
                 <input
                   type="checkbox"

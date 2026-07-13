@@ -2,42 +2,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import BookedCheckIn from "../CustomerFile/BookedCheckIn";
-import RecordPayment from "../Bills/RecordPayment"
+import BookingToCheckin from "../CustomerFile/BookingToCheckin";
+import RecordPayment from "../Bills/RecordPayment";
 import {
-
   ArrowUp2,
   ArrowDown2,
   ArrowUp,
   DocumentText,
   Calendar,
-  ExportSquare, TrendDown, TrendUp
-
+  ExportSquare,
+  TrendDown,
+  TrendUp,
 } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
-import { useHasPermission } from '../../Utils/Permission';
+import { useHasPermission } from "../../Utils/Permission";
 
-
-function DashQuickAccess(
-  { handleTriggerFilter }
-) {
-
+function DashQuickAccess({ handleTriggerFilter }) {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const [selected, setSelected] = useState("This Month");
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
   const [loading, setLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState("");
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [showform, setShowform] = useState(false);
-  const QuickAccess = state.PgList?.dashboardList
+  const QuickAccess = state.PgList?.dashboardList;
   // const [invoiceValue, setInvoiceValue] = useState("");
-  const [invoiceList, setInvoiceList] = useState('')
-  const [selectedUserId, setSelectedUserId] = useState("")
-  const [BookingAssignForm, setBookingAssignForm] = useState(false)
+  const [invoiceList, setInvoiceList] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [BookingAssignForm, setBookingAssignForm] = useState(false);
 
   const billingSummary = {
     title: "Billing Summary",
@@ -53,16 +49,21 @@ function DashQuickAccess(
   const dateOptions =
     QuickAccess?.filters?.map((item) => ({
       label: item,
-      value: item
+      value: item,
     })) || [];
 
-
   const tabs = [
-    { id: "checkin", label: "Upcoming Check-ins", count: `${QuickAccess?.checkins?.length || "0"}` },
-    { id: "overdue", label: "Overdue Invoices", count: `${QuickAccess?.overdueInvoices?.length || "0"}` },
+    {
+      id: "checkin",
+      label: "Upcoming Check-ins",
+      count: `${QuickAccess?.checkins?.length || "0"}`,
+    },
+    {
+      id: "overdue",
+      label: "Overdue Invoices",
+      count: `${QuickAccess?.overdueInvoices?.length || "0"}`,
+    },
   ];
-
-
 
   const checkinList =
     QuickAccess?.checkins?.map((item) => ({
@@ -73,9 +74,8 @@ function DashQuickAccess(
       bed: item.bedName,
       date: item.joiningDate,
       profilePic: item.profilePic,
-      initials: item.initials
+      initials: item.initials,
     })) || [];
-
 
   const payments =
     QuickAccess?.overdueInvoices?.map((item) => ({
@@ -90,27 +90,11 @@ function DashQuickAccess(
       customerId: item.customerId,
       dueAmount: item.dueAmount,
       invoiceDate: item.invoiceDate,
-
-
     })) || [];
 
+  const { canWriteModule: canWriteTenant } = useHasPermission("Customers");
 
-
-  const {
-    canWriteModule: canWriteTenant,
-
-  } = useHasPermission("Customers");
-
-
-
-  const {
-    canWriteModule: canWriteInvoice,
-
-  } = useHasPermission("Bills");
-
-
-
-
+  const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -122,18 +106,16 @@ function DashQuickAccess(
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-
       dispatch({
         type: "GET_DASHBOARD_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: {
-            billingFilter: selected
-          }
-        }
+            billingFilter: selected,
+          },
+        },
       });
 
       // setLoading(true);
@@ -142,11 +124,9 @@ function DashQuickAccess(
 
   useEffect(() => {
     if (state.PgList?.dashboardList) {
-      setLoading(false)
-
+      setLoading(false);
     }
   }, [state.PgList?.dashboardList]);
-
 
   useState(() => {
     if (state.PgList.getDashboardSuccessStatus === 200) {
@@ -159,66 +139,76 @@ function DashQuickAccess(
 
   const handleNavigateTenant = (tenantId) => {
     if (tenantId) {
-
-
       navigate(`/tenant/details/${tenantId}`, {
         state: {
           customerId: tenantId,
           hostelId: state.login.selectedHostel_Id,
           isDashboardWay: true,
           IsOverView: true,
-
-
         },
       });
-
     }
-  }
-
-
+  };
 
   const handleBookingAssign = (book) => {
-    setBookingAssignForm(true)
-    setTenantDetails(book)
-
-  }
+    setBookingAssignForm(true);
+    setTenantDetails(book);
+  };
 
   const handleCloseBooking = () => {
-    setBookingAssignForm(false)
-  }
+    setBookingAssignForm(false);
+  };
 
   const handleRecordPayment = (item) => {
-
-    setShowform(true)
-    setSelectedUserId(item.customerId)
+    setShowform(true);
+    setSelectedUserId(item.customerId);
     setInvoiceList({
       balanceDue: item?.dueAmount,
       invoiceId: item?.invoiceId,
-      invoiceDate: item?.invoiceDate
-    })
-
-
-  }
+      invoiceDate: item?.invoiceDate,
+    });
+  };
 
   useEffect(() => {
-    if (state.UsersList?.bookingToCheckinStatusCode === 200 ||  state.UsersList?.bookingToCheckinStatusCode === 201) {
-      setBookingAssignForm(false)
+    if (
+      state.UsersList?.bookingToCheckinStatusCode === 200 ||
+      state.UsersList?.bookingToCheckinStatusCode === 201
+    ) {
+      setBookingAssignForm(false);
       dispatch({
         type: "GET_DASHBOARD_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: {
-            billingFilter: selected
-          }
-        }
+            billingFilter: selected,
+          },
+        },
       });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
-      }, 100)
+        dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
+      }, 100);
     }
+  }, [state.UsersList?.bookingToCheckinStatusCode]);
 
-  }, [state.UsersList?.bookingToCheckinStatusCode])
+
+ useEffect(() => {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
+       setBookingAssignForm(false);
+   dispatch({
+        type: "GET_DASHBOARD_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            billingFilter: selected,
+          },
+        },
+      });
+
+      dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.bookingToCheckinSuccessCode]);
+
 
 
 
@@ -230,45 +220,46 @@ function DashQuickAccess(
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: {
-            billingFilter: selected
-          }
-        }
+            billingFilter: selected,
+          },
+        },
       });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_RECORD_PAYMENT" });
       }, 300);
     }
-  }, [state.InvoiceList.RecordPaymentUpdateStatusCode])
+  }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
   const handleCloseForm = () => {
-    setShowform(false)
-  }
+    setShowform(false);
+  };
 
   const handlefilterbyDates = (option) => {
     setSelected(option.value);
     setOpen(false);
     // handleTriggerFilter(option)
-  }
+  };
 
   return (
     <div className="mt-6 font-[Gilroy]">
-
-      {
-        BookingAssignForm && <BookedCheckIn BookingAssignForm={BookingAssignForm}
-          handleClose={handleCloseBooking} bookingDetails={tenantDetails} />
-      }
+      {BookingAssignForm && (
+        <BookingToCheckin
+          show={BookingAssignForm}
+          handleClose={handleCloseBooking}
+          tenantDetails={tenantDetails}
+        />
+      )}
 
       {showform && (
-        <RecordPayment show={showform} handleClose={handleCloseForm}
+        <RecordPayment
+          show={showform}
+          handleClose={handleCloseForm}
           selectedUserId={selectedUserId}
           // invoiceValue={invoiceValue}
           invoiceList={invoiceList}
         />
-
       )}
-
-
 
       <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">
         Quick Access & Follow-ups
@@ -280,8 +271,6 @@ function DashQuickAccess(
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-
-
         <div className="bg-white rounded-xl border border-[#E5E7EB] lg:col-span-5 p-4 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -294,8 +283,8 @@ function DashQuickAccess(
             </div>
 
             <div className="relative" ref={dropdownRef}>
-
-              <button disabled
+              <button
+                disabled
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
    text-black border-gray-300
@@ -311,18 +300,19 @@ function DashQuickAccess(
                 )}
               </button>
 
-
               {open && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
                   {dateOptions?.map((option) => (
                     <button
                       key={option.value}
                       onClick={() => {
-
-                        handlefilterbyDates(option)
+                        handlefilterbyDates(option);
                       }}
-                      className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${selected === option.label ? "text-blue-600 font-medium " : "text-gray-600"
-                        }`}
+                      className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${
+                        selected === option.label
+                          ? "text-blue-600 font-medium "
+                          : "text-gray-600"
+                      }`}
                     >
                       {option.label}
                     </button>
@@ -333,12 +323,18 @@ function DashQuickAccess(
           </div>
 
           <div className="flex justify-between ">
-            <span className="text-[#4A5565 font-medium text-xs">Invoices Generated</span>
-            <span className="font-semibold text-[#222222] ">{billingSummary.invoices}</span>
+            <span className="text-[#4A5565 font-medium text-xs">
+              Invoices Generated
+            </span>
+            <span className="font-semibold text-[#222222] ">
+              {billingSummary.invoices}
+            </span>
           </div>
 
           <div className="flex justify-between text-sm">
-            <span className="text-[#4A5565 font-medium text-xs">Total Amount</span>
+            <span className="text-[#4A5565 font-medium text-xs">
+              Total Amount
+            </span>
             <span className="font-semibold text-green-600 text-base">
               ₹ {billingSummary.totalAmount}
             </span>
@@ -351,7 +347,7 @@ function DashQuickAccess(
             </span>
           </div>
 
- {/* <div className="flex justify-between text-sm">
+          {/* <div className="flex justify-between text-sm">
             <span className="text-[#4A5565 font-medium text-xs">Refunded</span>
             <span className="font-semibold text-red-600 text-base">
               ₹{billingSummary.refunded}
@@ -360,19 +356,19 @@ function DashQuickAccess(
 
           <div className="flex justify-between text-sm">
             <span className="flex items-center gap-1 text-[#4A5565 font-medium text-xs">
-              Outstanding  <ExportSquare
-                size="14"
-                color="#1E45E1"
-              />
+              Outstanding <ExportSquare size="14" color="#1E45E1" />
             </span>
             <span className="font-semibold text-green-600 text-base ">
-              ₹  {billingSummary.outstanding}
+              ₹ {billingSummary.outstanding}
             </span>
           </div>
           <hr className="border border-[#F3F4F5] mx-0" />
           <div className="">
             <div className="flex justify-between text-sm mb-1">
-              <span className="text-[#4A5565 font-medium text-xs"> Collection Rate</span>
+              <span className="text-[#4A5565 font-medium text-xs">
+                {" "}
+                Collection Rate
+              </span>
               <span className="font-semibold">
                 {billingSummary.collectionRate}
               </span>
@@ -382,7 +378,7 @@ function DashQuickAccess(
                 <div
                   className="h-full bg-[#F54900] transition-all duration-300"
                   style={{
-                    width: `${Math.min(Math.max(parseFloat(billingSummary.collectionRate) || 0, 0), 100)}%`
+                    width: `${Math.min(Math.max(parseFloat(billingSummary.collectionRate) || 0, 0), 100)}%`,
                   }}
                 />
               </div>
@@ -399,27 +395,24 @@ function DashQuickAccess(
           </div>
         </div>
 
-
         <div className="bg-white rounded-xl border border-[#E5E7EB]  p-4 lg:col-span-7">
-
-
           <div className="flex border-b border-[#F3F3F3] justify-around mb-3 w-full">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTabDashboard(tab.id)}
-                className={`px-4 py-2 text-sm font-medium ${activeTabDashboard === tab.id
-                  ? "border-b-2 border-[#1E45E1] text-[#1E45E1]"
-                  : "text-gray-500"
-                  }`}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTabDashboard === tab.id
+                    ? "border-b-2 border-[#1E45E1] text-[#1E45E1]"
+                    : "text-gray-500"
+                }`}
               >
                 {tab.label} ({tab.count})
               </button>
             ))}
           </div>
 
-          {
-            activeTabDashboard === "checkin" &&
+          {activeTabDashboard === "checkin" && (
             <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls">
               {checkinList.length === 0 ? (
                 <div className="text-center py-6 text-sm text-gray-500">
@@ -445,7 +438,10 @@ function DashQuickAccess(
                     </div>
 
                     <div className="flex gap-2">
-                      <button className="border rounded-md px-3 py-1 text-sm" onClick={() => handleNavigateTenant(item.customerId)}>
+                      <button
+                        className="border rounded-md px-3 py-1 text-sm"
+                        onClick={() => handleNavigateTenant(item.customerId)}
+                      >
                         View
                       </button>
 
@@ -466,28 +462,21 @@ function DashQuickAccess(
                 ))
               )}
             </div>
-          }
+          )}
 
-
-
-          {
-            activeTabDashboard === "overdue" &&
+          {activeTabDashboard === "overdue" && (
             <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls  font-[Gilroy] ">
-
               {payments.length === 0 ? (
                 <div className="text-center py-6 text-sm text-gray-500">
                   No overdue records found
                 </div>
               ) : (
-
                 payments.map((item) => (
                   <div
                     key={item.invoiceId}
                     className="flex justify-between items-center border-b pb-3"
                   >
-
                     <div className="flex items-center gap-3">
-
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-600 overflow-hidden">
                         {item.profilePic ? (
                           <img
@@ -515,9 +504,7 @@ function DashQuickAccess(
                       </div>
                     </div>
 
-
                     <div className="flex items-center gap-6">
-
                       <div className="text-right">
                         <div className="text-sm font-semibold text-gray-900">
                           ₹ {item.amount}
@@ -537,31 +524,16 @@ function DashQuickAccess(
                       >
                         Record Payment
                       </button>
-
                     </div>
                   </div>
-                )))}
-
+                ))
+              )}
             </div>
-          }
-
-
-
-
-
-
-
-
-
-
-
-
-
+          )}
         </div>
-
       </div>
     </div>
-  )
+  );
 }
 
-export default DashQuickAccess
+export default DashQuickAccess;
