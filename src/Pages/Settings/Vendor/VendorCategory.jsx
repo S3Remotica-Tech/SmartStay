@@ -29,6 +29,7 @@ function VendorCategory() {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+  const [updateDetails, setUpdateDetails] = useState(null);
   const [showDelete, setShowDelete] = useState(false);
   const menuRef = useRef(null);
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
@@ -57,12 +58,15 @@ function VendorCategory() {
   };
 
   const handleDelete = (deleteId) => {
-    console.log("deleteId", deleteId);
     setDeleteId(deleteId);
     setShowDelete(true);
   };
 
-  const handleUpdate = (update) => {};
+  const handleUpdate = (update) => {
+    setOpen(true);
+    setUpdateDetails(update);
+    setActiveIndex(null);
+  };
 
   const handleCloseDelete = () => {
     setShowDelete(false);
@@ -115,15 +119,22 @@ function VendorCategory() {
   }, [state.Settings?.vendorCategorySuccessCode]);
 
   useEffect(() => {
-    if (state.Settings?.createVendorCategorySuccessStatus === 201) {
+    if (
+      state.Settings?.createVendorCategorySuccessStatus === 201 ||
+      state.Settings?.updateVendorCategorySuccessStatus === 200
+    ) {
       setOpen(false);
       dispatch({
         type: "VENDOR_CATEGORY_LIST_SAGA",
         payload: state.login.selectedHostel_Id,
       });
       dispatch({ type: "REMOVE_VENDOR_CATEGORY_REDUCER" });
+      dispatch({ type: "REMOVE_UPDATE_VENDOR_CATEGORY_REDUCER" });
     }
-  }, [state.Settings?.createVendorCategorySuccessStatus]);
+  }, [
+    state.Settings?.createVendorCategorySuccessStatus,
+    state.Settings?.updateVendorCategorySuccessStatus,
+  ]);
 
   useEffect(() => {
     if (state.Settings?.deleteVendorCategorySuccessStatus === 200) {
@@ -150,11 +161,18 @@ function VendorCategory() {
       return;
     }
     setOpen(true);
+    setUpdateDetails("");
   };
 
   return (
     <div>
-      {open && <AddCategory show={open} onClose={() => setOpen(false)} />}
+      {open && (
+        <AddCategory
+          show={open}
+          onClose={() => setOpen(false)}
+          updateDetails={updateDetails}
+        />
+      )}
       {showDelete && (
         <DeleteVendorCategory
           show={showDelete}

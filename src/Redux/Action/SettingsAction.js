@@ -53,8 +53,10 @@ export async function UpdateVendorCategory(vendor) {
     `/v2/vendors/categories/${vendor.categoryId}`,
     vendor,
     {
-      data: vendor,
-    },
+      params: {
+        hostelId: vendor.hostelId,
+      },
+    }
   );
 }
 

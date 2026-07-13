@@ -375,7 +375,7 @@ function* handleUpdateVendorCategory(params) {
   try {
     const response = yield call(UpdateVendorCategory, params.payload);
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "UPDATE_VENDOR_CATEGORY_REDUCER",
         payload: {
