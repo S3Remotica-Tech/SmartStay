@@ -1613,7 +1613,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="w-full h-full flex items-center justify-center p-2 ">
+        <div className="w-full h-full flex items-center justify-end p-2 ">
           <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
               <h5 className="mb-4 font-gilroy">Add New Tenant</h5>

@@ -157,7 +157,10 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
 
-  const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn ?? false;
+  const canCheckIn =
+    !state.UsersList?.bookedDetails?.responseCode === 400 ??
+    state.UsersList?.bookedDetails?.canCheckIn ??
+    false;
   // console.log("tenantDetails", tenantDetails);
 
   // console.log("canCheckIn", canCheckIn);
@@ -352,13 +355,18 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [Rooms, selectedDate, state.UsersList?.availableBedList?.listBeds]);
 
-  console.log("bed &&&&&&&&", Bed);
-
   useEffect(() => {
-    if (state.UsersList.bedInitiaLizeError) {
-      setBedWarning(state.UsersList.bedInitiaLizeError);
+    if (
+      state.UsersList.bedInitiaLizeError ||
+      state.UsersList?.bookedDetails?.responseCode === 400
+    ) {
+      setBedWarning(state.UsersList.bedInitiaLizeError || "Bed is unavailable");
     }
-  }, [state.UsersList.bedInitiaLizeError, canCheckIn]);
+  }, [
+    state.UsersList.bedInitiaLizeError,
+    canCheckIn,
+    state.UsersList?.bookedDetails?.responseCode,
+  ]);
 
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
@@ -413,13 +421,13 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
 
   // console.log("tenantDetails", tenantDetails);
 
-  const CustomerOverView = state?.UsersList?.customerdetails;
+  const CustomerOverView = state.UsersList?.bookedDetails;
 
   useEffect(() => {
     if (CustomerOverView) {
-      setId(CustomerOverView?.customerId);
+      setId(CustomerOverView?.customerInfo?.customerId);
 
-      const profilePic = CustomerOverView?.profilePic;
+      const profilePic = CustomerOverView?.customerInfo?.profilePic;
 
       if (
         !profilePic ||
@@ -431,18 +439,18 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
         setFile(profilePic);
       }
 
-      setFirstname(CustomerOverView?.fullName);
+      setFirstname(CustomerOverView?.customerInfo?.fullName);
     }
   }, [CustomerOverView]);
 
   useEffect(() => {
     if (canCheckIn) {
-      setRooms(CustomerOverView.hostelInfo?.roomId);
-      setFloor(CustomerOverView.hostelInfo?.floorId);
-      setBed(CustomerOverView?.hostelInfo?.bedId);
+      setRooms(CustomerOverView?.roomId);
+      setFloor(CustomerOverView?.floorId);
+      setBed(CustomerOverView?.bedId);
     } else {
-      setRooms(CustomerOverView.hostelInfo?.roomId);
-      setFloor(CustomerOverView.hostelInfo?.floorId);
+      setRooms(CustomerOverView?.roomId);
+      setFloor(CustomerOverView?.floorId);
       setBed("");
     }
   }, [canCheckIn, CustomerOverView]);
@@ -468,12 +476,12 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
         },
       });
 
-      dispatch({
-        type: "CUSTOMERDETAILS",
-        payload: {
-          customerId: tenantId,
-        },
-      });
+      // dispatch({
+      //   type: "CUSTOMERDETAILS",
+      //   payload: {
+      //     customerId: tenantId,
+      //   },
+      // });
     }
   }, [tenantId]);
 
@@ -953,9 +961,9 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="fixed top-2 right-2 bottom-2  w-full max-w-[700px]  bg-white rounded-[20px]  shadow-lg font-gilroy">
-        <div className="px-4 py-3">
+    <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40">
+      <div className="h-[calc(100vh-16px)] w-full max-w-[700px] bg-white rounded-[20px] shadow-lg flex flex-col m-2">
+        <div className=" px-4 py-3 shrink-0">
           <div className="pt-0 relative border-0 flex justify-between mb-2">
             <div className="text-xl font-semibold font-gilroy">
               Tenant Check-In
@@ -979,7 +987,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
               />
             ) : (
               <div className="h-14 w-14 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center text-xl font-semibold font-gilroy">
-                {CustomerOverView?.initials || "-"}
+                {CustomerOverView?.customerInfo?.initials || "-"}
               </div>
             )}
             <div className="">
@@ -1019,611 +1027,590 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
               </button>
             </div>
           </div>
+        </div>
 
-          {activeTab === "LONG" ? (
-            <>
-              <div className="show-scroll p-2 mt-2 me-1 max-h-[400px] overflow-y-scroll">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium font-gilroy">
-                    Booking Date
-                  </label>
-                  <label className="text-sm font-semibold text-gray-900 font-gilroy">
-                    {CustomerOverView?.bookingInfo?.bookingDate}
-                  </label>
-                </div>
+        {activeTab === "LONG" ? (
+          <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px]">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-medium font-gilroy">
+                Booking Date
+              </label>
+              <label className="text-sm font-semibold text-gray-900 font-gilroy">
+                {CustomerOverView?.bookingDate}
+              </label>
+            </div>
 
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium font-gilroy">
-                    Booking Amount
-                  </label>
-                  <label className="text-sm font-semibold text-gray-900 font-gilroy">
-                    {CustomerOverView?.bookingInfo?.bookingAmount}
-                  </label>
-                </div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-medium font-gilroy">
+                Booking Amount
+              </label>
+              <label className="text-sm font-semibold text-gray-900 font-gilroy">
+                {CustomerOverView?.bookingInfo?.bookingAmount}
+              </label>
+            </div>
 
-                <div className="grid grid-cols-12 gap-x-4 mb-2">
-                  <div className="col-span-12 mb-2">
-                    <Form.Group controlId="purchaseDate">
-                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                        Joining Date{" "}
-                        <span className="text-red-500 text-xl">*</span>
-                      </Form.Label>
+            <div className="grid grid-cols-12 gap-x-4 mb-2">
+              <div className="col-span-12 mb-2">
+                <Form.Group controlId="purchaseDate">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Joining Date <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
 
-                      <div className="datepicker-wrapper relative w-full">
-                        <DatePicker
-                          className="w-full h-12 cursor-pointer font-gilroy"
-                          format="DD/MM/YYYY"
-                          placeholder="DD/MM/YYYY"
-                          value={selectedDate ? dayjs(selectedDate) : null}
-                          onChange={(date) => handleJoiningDateChange(date)}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
-                          disabledDate={(current) =>
-                            current && current > dayjs().endOf("day")
-                          }
-                        />
-                      </div>
-                    </Form.Group>
-
-                    {dateError && (
-                      <ErrorMessage message={dateError} type="error" />
-                    )}
-
-                    {joiningDateErrmsg.trim() !== "" && (
-                      <ErrorMessage message={joiningDateErrmsg} type="error" />
-                    )}
+                  <div className="datepicker-wrapper relative w-full">
+                    <DatePicker
+                      className="w-full h-12 cursor-pointer font-gilroy"
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={selectedDate ? dayjs(selectedDate) : null}
+                      onChange={(date) => handleJoiningDateChange(date)}
+                      getPopupContainer={(triggerNode) =>
+                        triggerNode.closest(".show-scroll") || document.body
+                      }
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf("day")
+                      }
+                    />
                   </div>
-                </div>
-                <div className="mb-2">
-                  <div className="flex justify-between mb-2 ">
-                    <div>
-                      <label className="text-sm font-medium text-[#222222] mb-2 block">
-                        Select Stay Details
-                      </label>
-                    </div>
+                </Form.Group>
 
-                    <div className="relative inline-block group">
+                {dateError && <ErrorMessage message={dateError} type="error" />}
+
+                {joiningDateErrmsg.trim() !== "" && (
+                  <ErrorMessage message={joiningDateErrmsg} type="error" />
+                )}
+              </div>
+            </div>
+            <div className="mb-2">
+              <div className="flex justify-between mb-2 ">
+                <div>
+                  <label className="text-sm font-medium text-[#222222] mb-2 block">
+                    Select Stay Details
+                  </label>
+                </div>
+
+                <div className="relative inline-block group">
+                  <button
+                    onClick={(e) => {
+                      if (selectedDate && !canCheckIn) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleBedLayoutPreview();
+                      }
+                    }}
+                    className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
+                      selectedDate
+                        ? "bg-[#EDF3FF] text-[#1E45E1]"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    }`}
+                  >
+                    <IoBedOutline className="text-[12px]" />
+                    Bed Layout View
+                  </button>
+
+                  {!selectedDate && (
+                    <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
+                      Please select the joining date first.
+                      <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div className="mb-2 w-full ">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Floor <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
+
+                  <Select
+                    isDisabled={!selectedDate || canCheckIn}
+                    options={
+                      floorOptions
+                      // state.UsersList.floorList?.map((u) => ({
+                      //   value: u.id,
+                      //   label: u.name,
+                      // })) || []
+                    }
+                    onChange={handleFloor}
+                    value={
+                      floorOptions.find((option) => option.value === Floor) ||
+                      null
+                    }
+                    placeholder="Select a Floor"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    styles={CustomStyles}
+                  />
+
+                  {floorError && (
+                    <ErrorMessage message={floorError} type="error" />
+                  )}
+                </div>
+                <div className="mb-2  w-full ">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Room <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
+
+                  <Select
+                    isDisabled={!selectedDate || !Floor || canCheckIn}
+                    options={roomOptions}
+                    onChange={(selectedOption) =>
+                      handleRooms(selectedOption?.value)
+                    }
+                    value={
+                      roomOptions.find((option) => option.value === Rooms) ||
+                      null
+                    }
+                    placeholder="Select a Room"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    styles={CustomStyles}
+                  />
+
+                  {roomError && (
+                    <ErrorMessage message={roomError} type="error" />
+                  )}
+                </div>
+                <div className="mb-2  w-full ">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Bed <span className="text-red-500 text-xl">*</span>
+                  </Form.Label>
+
+                  <Select
+                    isDisabled={!selectedDate || canCheckIn}
+                    options={
+                      availableBed
+                        ? availableBed
+                            .filter(
+                              (item) =>
+                                item &&
+                                item?.bedName !== "0" &&
+                                item?.bedName !== "undefined" &&
+                                item?.bedName !== "" &&
+                                item?.bedName !== "null",
+                            )
+                            .map((item) => ({
+                              value: item?.bedId,
+                              label: item?.bedName,
+                            }))
+                        : []
+                    }
+                    onChange={handleBed}
+                    value={
+                      availableBed
+                        ? (() => {
+                            const selected = availableBed?.find(
+                              (option) => option?.bedId === Bed,
+                            );
+                            return selected
+                              ? {
+                                  value: selected.bedId,
+                                  label: selected.bedName,
+                                }
+                              : null;
+                          })()
+                        : null
+                    }
+                    placeholder="Select a Bed"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    styles={CustomStyles}
+                  />
+
+                  {state.UsersList?.bedAvailableError ? (
+                    <ErrorMessage
+                      message={state.UsersList?.bedAvailableError}
+                      type="error"
+                    />
+                  ) : null}
+                  {bedWarning ? (
+                    <ErrorMessage message={bedWarning} type="error" />
+                  ) : null}
+
+                  {bedError && <ErrorMessage message={bedError} type="error" />}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-12 gap-x-4">
+              <div className="col-span-12">
+                <Form.Group>
+                  <div className="flex items-center justify-between ">
+                    <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                      Advance amount ₹ (INR)
+                      {!isAdvanceRefused && (
+                        <span className="text-red-500 text-xl">*</span>
+                      )}
+                    </Form.Label>
+
+                    <div className="flex items-center justify-between mt-1 gap-2  mb-2">
+                      <span className="text-xs text-gray-700 font-medium">
+                        Do you want to refuse advance amount?
+                      </span>
+
                       <button
-                        onClick={(e) => {
-                          if (selectedDate && !canCheckIn) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            handleBedLayoutPreview();
+                        type="button"
+                        onClick={() => {
+                          setIsAdvanceRefused(!isAdvanceRefused);
+
+                          if (!isAdvanceRefused) {
+                            setAdvanceAmount("");
+                            setFields([]);
                           }
+
+                          setAdvanceAmountError("");
                         }}
-                        className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
-                          selectedDate
-                            ? "bg-[#EDF3FF] text-[#1E45E1]"
-                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                          isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
                         }`}
                       >
-                        <IoBedOutline className="text-[12px]" />
-                        Bed Layout View
-                      </button>
-
-                      {!selectedDate && (
-                        <div className="absolute right-full top-1/2 z-20 mr-2 hidden -translate-y-1/2 whitespace-nowrap rounded bg-gray-500 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
-                          Please select the joining date first.
-                          <div className="absolute right-0 top-1/2 h-2 w-2 translate-x-1/2 -translate-y-1/2 rotate-45 bg-gray-500"></div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="mb-2 w-full ">
-                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                        Floor <span className="text-red-500 text-xl">*</span>
-                      </Form.Label>
-
-                      <Select
-                        isDisabled={!selectedDate || canCheckIn}
-                        options={
-                          floorOptions
-                          // state.UsersList.floorList?.map((u) => ({
-                          //   value: u.id,
-                          //   label: u.name,
-                          // })) || []
-                        }
-                        onChange={handleFloor}
-                        value={
-                          floorOptions.find(
-                            (option) => option.value === Floor,
-                          ) || null
-                        }
-                        placeholder="Select a Floor"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={CustomStyles}
-                      />
-
-                      {floorError && (
-                        <ErrorMessage message={floorError} type="error" />
-                      )}
-                    </div>
-                    <div className="mb-2  w-full ">
-                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                        Room <span className="text-red-500 text-xl">*</span>
-                      </Form.Label>
-
-                      <Select
-                        isDisabled={!selectedDate || !Floor || canCheckIn}
-                        options={roomOptions}
-                        onChange={(selectedOption) =>
-                          handleRooms(selectedOption?.value)
-                        }
-                        value={
-                          roomOptions.find(
-                            (option) => option.value === Rooms,
-                          ) || null
-                        }
-                        placeholder="Select a Room"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={CustomStyles}
-                      />
-
-                      {roomError && (
-                        <ErrorMessage message={roomError} type="error" />
-                      )}
-                    </div>
-                    <div className="mb-2  w-full ">
-                      <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                        Bed <span className="text-red-500 text-xl">*</span>
-                      </Form.Label>
-
-                      <Select
-                        isDisabled={!selectedDate || canCheckIn}
-                        options={
-                          availableBed
-                            ? availableBed
-                                .filter(
-                                  (item) =>
-                                    item &&
-                                    item?.bedName !== "0" &&
-                                    item?.bedName !== "undefined" &&
-                                    item?.bedName !== "" &&
-                                    item?.bedName !== "null",
-                                )
-                                .map((item) => ({
-                                  value: item?.bedId,
-                                  label: item?.bedName,
-                                }))
-                            : []
-                        }
-                        onChange={handleBed}
-                        value={
-                          availableBed
-                            ? (() => {
-                                const selected = availableBed?.find(
-                                  (option) => option?.bedId === Bed,
-                                );
-                                return selected
-                                  ? {
-                                      value: selected.bedId,
-                                      label: selected.bedName,
-                                    }
-                                  : null;
-                              })()
-                            : null
-                        }
-                        placeholder="Select a Bed"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={CustomStyles}
-                      />
-
-                      {state.UsersList?.bedAvailableError ? (
-                        <ErrorMessage
-                          message={state.UsersList?.bedAvailableError}
-                          type="error"
-                        />
-                      ) : null}
-                      {bedWarning ? (
-                        <ErrorMessage message={bedWarning} type="error" />
-                      ) : null}
-
-                      {bedError && (
-                        <ErrorMessage message={bedError} type="error" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-12 gap-x-4">
-                  <div className="col-span-12">
-                    <Form.Group>
-                      <div className="flex items-center justify-between ">
-                        <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                          Advance amount ₹ (INR)
-                          {!isAdvanceRefused && (
-                            <span className="text-red-500 text-xl">*</span>
-                          )}
-                        </Form.Label>
-
-                        <div className="flex items-center justify-between mt-1 gap-2  mb-2">
-                          <span className="text-xs text-gray-700 font-medium">
-                            Do you want to refuse advance amount?
-                          </span>
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsAdvanceRefused(!isAdvanceRefused);
-
-                              if (!isAdvanceRefused) {
-                                setAdvanceAmount("");
-                                setFields([]);
-                              }
-
-                              setAdvanceAmountError("");
-                            }}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                              isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                                isAdvanceRefused
-                                  ? "translate-x-6"
-                                  : "translate-x-1"
-                              }`}
-                            />
-                          </button>
-                        </div>
-                      </div>
-                      {!isAdvanceRefused && (
-                        <FormControl
-                          type="text"
-                          placeholder="Enter Amount"
-                          value={AdvanceAmount}
-                          onChange={handleAdvanceAmount}
-                          disabled={isAdvanceRefused}
-                          className={`text-[14px] text-gray-700 font-gilroy ${
-                            AdvanceAmount ? "font-semibold" : "font-medium"
-                          } shadow-none border h-12 rounded-md ${
-                            isAdvanceRefused
-                              ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                              : "border-gray-300"
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                            isAdvanceRefused ? "translate-x-6" : "translate-x-1"
                           }`}
                         />
-                      )}
-                    </Form.Group>
-
-                    {!isAdvanceRefused && advanceAmountError && (
-                      <ErrorMessage message={advanceAmountError} type="error" />
-                    )}
+                      </button>
+                    </div>
                   </div>
-                </div>
-                {!isAdvanceRefused && (
-                  <>
-                    <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
-                      <div className="flex justify-between items-center p-4">
-                        <div>
-                          <label className="text-sm font-medium font-gilroy">
-                            Non Refundable Amount
-                          </label>
-                        </div>
-                        <div className="">
-                          <button
-                            disabled={isAdvanceRefused}
-                            onClick={handleAddField}
-                            className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
+                  {!isAdvanceRefused && (
+                    <FormControl
+                      type="text"
+                      placeholder="Enter Amount"
+                      value={AdvanceAmount}
+                      onChange={handleAdvanceAmount}
+                      disabled={isAdvanceRefused}
+                      className={`text-[14px] text-gray-700 font-gilroy ${
+                        AdvanceAmount ? "font-semibold" : "font-medium"
+                      } shadow-none border h-12 rounded-md ${
+                        isAdvanceRefused
+                          ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                          : "border-gray-300"
+                      }`}
+                    />
+                  )}
+                </Form.Group>
+
+                {!isAdvanceRefused && advanceAmountError && (
+                  <ErrorMessage message={advanceAmountError} type="error" />
+                )}
+              </div>
+            </div>
+            {!isAdvanceRefused && (
+              <>
+                <div className="mt-3 mb-3 bg-[#F7F9FF] rounded pb-1">
+                  <div className="flex justify-between items-center p-4">
+                    <div>
+                      <label className="text-sm font-medium font-gilroy">
+                        Non Refundable Amount
+                      </label>
+                    </div>
+                    <div className="">
+                      <button
+                        disabled={isAdvanceRefused}
+                        onClick={handleAddField}
+                        className="flex items-center justify-center w-full gap-1.5 bg-[#EAEEFF]  
                         disabled:bg-gray-100 disabled:text-gray-500
                         disabled:cursor-not-allowed 
                         text-[#1E45E1] font-gilroy font-semibold text-sm rounded-lg px-4 py-1.5 mb-2.5"
-                          >
-                            <AddCircle
-                              color={`${isAdvanceRefused ? "#4a4948" : "#1E45E1"}`}
-                              size="14"
+                      >
+                        <AddCircle
+                          color={`${isAdvanceRefused ? "#4a4948" : "#1E45E1"}`}
+                          size="14"
+                        />
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  {fields.map((item, index) => {
+                    const isMaintenanceSelected = fields.some(
+                      (field) => field.reason === "maintenance",
+                    );
+
+                    const filteredOptions = reasonOptions.map((opt) => {
+                      if (opt.value === "maintenance") {
+                        return {
+                          ...opt,
+                          isDisabled:
+                            isMaintenanceSelected &&
+                            item.reason !== "maintenance",
+                        };
+                      }
+                      return opt;
+                    });
+
+                    return (
+                      <div className="flex gap-3 mb-3 px-4" key={index}>
+                        <div className="flex-1">
+                          {!item.showInput ? (
+                            <Select
+                              options={filteredOptions}
+                              value={
+                                filteredOptions.find(
+                                  (opt) => opt.value === item.reason_name,
+                                ) || null
+                              }
+                              onChange={(selectedOption) => {
+                                const selectedValue = selectedOption.value;
+
+                                if (selectedValue === "others") {
+                                  handleInputChange(index, "reason", "others");
+                                } else {
+                                  handleInputChange(
+                                    index,
+                                    "reason",
+                                    selectedValue,
+                                  );
+                                }
+                              }}
+                              isDisabled={item.reason === "maintenance"}
+                              menuPlacement="auto"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  display: "inline-block",
+                                  fill: "currentColor",
+                                  lineHeight: 1,
+                                  stroke: "currentColor",
+                                  strokeWidth: 0,
+                                  cursor: "pointer",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: state.isDisabled
+                                    ? "not-allowed"
+                                    : "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#E7F1FF"
+                                    : state.isDisabled
+                                      ? "#f0f0f0"
+                                      : "#fff",
+                                  color: state.isDisabled ? "#aaa" : "#000",
+                                }),
+                              }}
                             />
-                            Add
-                          </button>
-                        </div>
-                      </div>
-
-                      {fields.map((item, index) => {
-                        const isMaintenanceSelected = fields.some(
-                          (field) => field.reason === "maintenance",
-                        );
-
-                        const filteredOptions = reasonOptions.map((opt) => {
-                          if (opt.value === "maintenance") {
-                            return {
-                              ...opt,
-                              isDisabled:
-                                isMaintenanceSelected &&
-                                item.reason !== "maintenance",
-                            };
-                          }
-                          return opt;
-                        });
-
-                        return (
-                          <div className="flex gap-3 mb-3 px-4" key={index}>
-                            <div className="flex-1">
-                              {!item.showInput ? (
-                                <Select
-                                  options={filteredOptions}
-                                  value={
-                                    filteredOptions.find(
-                                      (opt) => opt.value === item.reason_name,
-                                    ) || null
-                                  }
-                                  onChange={(selectedOption) => {
-                                    const selectedValue = selectedOption.value;
-
-                                    if (selectedValue === "others") {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        "others",
-                                      );
-                                    } else {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        selectedValue,
-                                      );
-                                    }
-                                  }}
-                                  isDisabled={item.reason === "maintenance"}
-                                  menuPlacement="auto"
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      display: "inline-block",
-                                      fill: "currentColor",
-                                      lineHeight: 1,
-                                      stroke: "currentColor",
-                                      strokeWidth: 0,
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: state.isDisabled
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      backgroundColor: state.isFocused
-                                        ? "#E7F1FF"
-                                        : state.isDisabled
-                                          ? "#f0f0f0"
-                                          : "#fff",
-                                      color: state.isDisabled ? "#aaa" : "#000",
-                                    }),
-                                  }}
-                                />
-                              ) : (
-                                <>
-                                  <input
-                                    type="text"
-                                    placeholder="Enter custom reason"
-                                    value={item.customReason}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        index,
-                                        "customReason",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
-                                  />
-                                </>
-                              )}
-                              {errors[index]?.reason && (
-                                <ErrorMessage
-                                  message={errors[index]?.reason}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-
-                            <div className="flex-1 relative">
+                          ) : (
+                            <>
                               <input
                                 type="text"
-                                placeholder="Enter amount"
-                                value={item.amount}
-                                //                               onKeyDown={(e) => {
-                                //   if (e.key === "." || e.key === "e" || e.key === "-") {
-                                //     e.preventDefault();
-                                //   }
-                                // }}
+                                placeholder="Enter custom reason"
+                                value={item.customReason}
                                 onChange={(e) =>
                                   handleInputChange(
                                     index,
-                                    "amount",
+                                    "customReason",
                                     e.target.value,
                                   )
                                 }
-                                className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+                                className="form-control text-base text-gray-700 font-gilroy font-medium shadow-none border border-gray-300 h-12 rounded"
                               />
-                              {errors[index]?.amount && (
-                                <ErrorMessage
-                                  message={errors[index]?.amount}
-                                  type="error"
-                                />
-                              )}
-                              <CloseCircle
-                                variant="Bold"
-                                size="20"
-                                className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                                onClick={() => handleRemoveField(index)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <p className="text-[11px] text-gray-500 mt-2">
-                      Note: These charges are deducted from the initial security
-                      deposit or collected at the time of check-in and are not
-                      refundable in any cost.
-                    </p>
-                  </>
-                )}
-                <div className="mb-2">
-                  <Form.Group>
-                    <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                      Rental amount-Base ₹(INR){" "}
-                      <span className="text-red-500 text-xl">*</span>
-                    </Form.Label>
-                    <FormControl
-                      type="text"
-                      value={RoomRent}
-                      placeholder={
-                        placeHolderRoomRent
-                          ? `Selected Bed Rent is ${placeHolderRoomRent}`
-                          : "Enter Amount"
-                      }
-                      onChange={handleRoomRent}
-                      className={`text-base text-gray-700 font-gilroy ${RoomRent ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
-                    />
-                  </Form.Group>
-                  {roomrentError && (
-                    <ErrorMessage message={roomrentError} type="error" />
-                  )}
-                </div>
-                {!isjoiningBased && (
-                  <div className="w-full max-w-[680px] bg-white">
-                    {!isPastMonth && (
-                      <div>
-                        <div className="flex items-center gap-2 px-1 py-3">
-                          <div className="flex items-center gap-2 ">
-                            <input
-                              type="checkbox"
-                              checked={collectFullRent}
-                              onChange={handleCheckboxChange}
-                              className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+                            </>
+                          )}
+                          {errors[index]?.reason && (
+                            <ErrorMessage
+                              message={errors[index]?.reason}
+                              type="error"
                             />
+                          )}
+                        </div>
 
-                            <label className="text-[15px] text-[#222222] font-medium flex items-center gap-2 whitespace-nowrap">
-                              Do you want to collect Full Rent for current
-                              month?
-                              <InfoCircle
-                                size="16"
-                                color="#9CA3AF"
-                                variant="Linear"
-                                className="cursor-pointer"
-                              />
-                            </label>
+                        <div className="flex-1 relative">
+                          <input
+                            type="text"
+                            placeholder="Enter amount"
+                            value={item.amount}
+                            //                               onKeyDown={(e) => {
+                            //   if (e.key === "." || e.key === "e" || e.key === "-") {
+                            //     e.preventDefault();
+                            //   }
+                            // }}
+                            onChange={(e) =>
+                              handleInputChange(index, "amount", e.target.value)
+                            }
+                            className="form-control text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
+                          />
+                          {errors[index]?.amount && (
+                            <ErrorMessage
+                              message={errors[index]?.amount}
+                              type="error"
+                            />
+                          )}
+                          <CloseCircle
+                            variant="Bold"
+                            size="20"
+                            className="absolute right-0 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                            onClick={() => handleRemoveField(index)}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="text-[11px] text-gray-500 mt-2">
+                  Note: These charges are deducted from the initial security
+                  deposit or collected at the time of check-in and are not
+                  refundable in any cost.
+                </p>
+              </>
+            )}
+            <div className="mb-2">
+              <Form.Group>
+                <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                  Rental amount-Base ₹(INR){" "}
+                  <span className="text-red-500 text-xl">*</span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  value={RoomRent}
+                  placeholder={
+                    placeHolderRoomRent
+                      ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                      : "Enter Amount"
+                  }
+                  onChange={handleRoomRent}
+                  className={`text-base text-gray-700 font-gilroy ${RoomRent ? "font-semibold" : "font-medium"} shadow-none border border-gray-300 h-12 rounded-md`}
+                />
+              </Form.Group>
+              {roomrentError && (
+                <ErrorMessage message={roomrentError} type="error" />
+              )}
+            </div>
+            {!isjoiningBased && (
+              <div className="w-full max-w-[680px] bg-white">
+                {!isPastMonth && (
+                  <div>
+                    <div className="flex items-center gap-2 px-1 py-3">
+                      <div className="flex items-center gap-2 ">
+                        <input
+                          type="checkbox"
+                          checked={collectFullRent}
+                          onChange={handleCheckboxChange}
+                          className="w-4 h-4 rounded border border-[#D1D5DB] accent-[#4F46E5] cursor-pointer"
+                        />
+
+                        <label className="text-[15px] text-[#222222] font-medium flex items-center gap-2 whitespace-nowrap">
+                          Do you want to collect Full Rent for current month?
+                          <InfoCircle
+                            size="16"
+                            color="#9CA3AF"
+                            variant="Linear"
+                            className="cursor-pointer"
+                          />
+                        </label>
+                      </div>
+                      {collectFullRent && (
+                        <div>
+                          <button
+                            onClick={() => {
+                              setCustomRentEnable(!customRentEnable);
+                              setCustomRent("");
+                            }}
+                            className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
+                              customRentEnable
+                                ? "bg-[#0D1B8E] text-white"
+                                : "bg-[#EAEEFF] text-[#1E45E1]"
+                            }`}
+                          >
+                            {customRentEnable ? (
+                              <>
+                                Remove Custom Rent
+                                <CloseCircle size="18" variant="Bold" />
+                              </>
+                            ) : (
+                              <>
+                                Add Custom Rent
+                                <ArrowRight2 size="16" />
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {customRentEnable && (
+                      <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
+                        <div>
+                          <div className="text-sm font-medium text-[#222222] mb-1">
+                            Custom Rent Amount
                           </div>
-                          {collectFullRent && (
-                            <div>
+                          <div className="text-[#64748B] text-[12px] font-medium">
+                            This amount is reflects to First month Rent only.
+                          </div>
+                        </div>
+                        <div className="relative min-w-[220px]">
+                          {customRentEditMode ? (
+                            <>
+                              <input
+                                type="number"
+                                value={customRent}
+                                onChange={handleCustomRentChange}
+                                onWheel={(e) => e.target.blur()}
+                                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
+                                  customRent ? "font-semibold" : "font-medium"
+                                } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                              />
+
                               <button
-                                onClick={() => {
-                                  setCustomRentEnable(!customRentEnable);
-                                  setCustomRent("");
-                                }}
-                                className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
-                                  customRentEnable
-                                    ? "bg-[#0D1B8E] text-white"
-                                    : "bg-[#EAEEFF] text-[#1E45E1]"
-                                }`}
+                                onClick={() => setCustomRentEditMode(false)}
+                                className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
                               >
-                                {customRentEnable ? (
-                                  <>
-                                    Remove Custom Rent
-                                    <CloseCircle size="18" variant="Bold" />
-                                  </>
-                                ) : (
-                                  <>
-                                    Add Custom Rent
-                                    <ArrowRight2 size="16" />
-                                  </>
-                                )}
+                                Set
+                              </button>
+                            </>
+                          ) : (
+                            <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
+                              <span className="font-semibold text-[#222222] text-base">
+                                ₹ {customRent || 0}
+                              </span>
+
+                              <button
+                                onClick={() => setCustomRentEditMode(true)}
+                                className="text-[#1E45E1]"
+                              >
+                                <Edit2 size="18" color="#64748B" />
                               </button>
                             </div>
                           )}
                         </div>
-
-                        {customRentEnable && (
-                          <div className="flex justify-between mt-2 mb-4 border-y border-[#C6D1FF] px-2 py-2">
-                            <div>
-                              <div className="text-sm font-medium text-[#222222] mb-1">
-                                Custom Rent Amount
-                              </div>
-                              <div className="text-[#64748B] text-[12px] font-medium">
-                                This amount is reflects to First month Rent
-                                only.
-                              </div>
-                            </div>
-                            <div className="relative min-w-[220px]">
-                              {customRentEditMode ? (
-                                <>
-                                  <input
-                                    type="number"
-                                    value={customRent}
-                                    onChange={handleCustomRentChange}
-                                    onWheel={(e) => e.target.blur()}
-                                    className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                                      customRent
-                                        ? "font-semibold"
-                                        : "font-medium"
-                                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
-                                  />
-
-                                  <button
-                                    onClick={() => setCustomRentEditMode(false)}
-                                    className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600"
-                                  >
-                                    Set
-                                  </button>
-                                </>
-                              ) : (
-                                <div className="flex items-center justify-end gap-2 min-w-[220px]  rounded-[8px] h-[50px] px-4">
-                                  <span className="font-semibold text-[#222222] text-base">
-                                    ₹ {customRent || 0}
-                                  </span>
-
-                                  <button
-                                    onClick={() => setCustomRentEditMode(true)}
-                                    className="text-[#1E45E1]"
-                                  >
-                                    <Edit2 size="18" color="#64748B" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     )}
-                    {/* {isAdvanceRefused && (
+                  </div>
+                )}
+                {/* {isAdvanceRefused && (
                       <div className="border-1 border-[#F7FAFF] rounded-xl overflow-hidden mb-2">
                         <div
                           onClick={handleAccordionToggle}
@@ -1802,11 +1789,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                         )}
                       </div>
                     )} */}
-                  </div>
-                )}
+              </div>
+            )}
 
-                <div className="">
-                  {/* <div>
+            <div className="">
+              {/* <div>
                     <div
                       className="rounded-xl p-4 text-white shadow-md
        bg-[#132197]"
@@ -1885,52 +1872,53 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                       for Advance & Base Rent
                     </p>
                   </div> */}
-                  <div className="flex items-center gap-2 my-4">
-                    <input
-                      type="checkbox"
-                      checked={isConfirmed}
-                      onChange={(e) => setIsConfirmed(e.target.checked)}
-                      className="cursor-pointer accent-green-600 w-4 h-4 "
-                    />
-                    <span className="text-[#0A090B] text-sm ">
-                      Everything is Correct – Proceed to Check-in
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {state.UsersList?.bookToCheckinError && (
-                <ErrorMessage
-                  message={state.UsersList?.bookToCheckinError}
-                  type="error"
+              <div className="flex items-center gap-2 my-4">
+                <input
+                  type="checkbox"
+                  checked={isConfirmed}
+                  onChange={(e) => setIsConfirmed(e.target.checked)}
+                  className="cursor-pointer accent-green-600 w-4 h-4 "
                 />
-              )}
+                <span className="text-[#0A090B] text-sm ">
+                  Everything is Correct – Proceed to Check-in
+                </span>
+              </div>
+            </div>
 
-              <div className="flex justify-end">
-                <button
-                  disabled={formLoading || !isConfirmed}
-                  onClick={handleBookToCheckin}
-                  className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+            {state.UsersList?.bookToCheckinError && (
+              <ErrorMessage
+                message={state.UsersList?.bookToCheckinError}
+                type="error"
+              />
+            )}
+
+            <div className=" flex justify-end ">
+              <button
+                disabled={formLoading || !isConfirmed}
+                onClick={handleBookToCheckin}
+                className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
   flex items-center justify-center gap-2 disabled:opacity-70"
-                >
-                  {formLoading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Saving ....{" "}
-                    </>
-                  ) : (
-                    "Check in"
-                  )}
-                </button>
-              </div>
-            </>
-          ) : (
-            activeTab === "SHORT" && <FormComingSoon />
-          )}
-        </div>
+              >
+                {formLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Saving ....{" "}
+                  </>
+                ) : (
+                  "Check in"
+                )}
+              </button>
+            </div>
+          </div>
+        ) : (
+          activeTab === "SHORT" && (
+            <div className="show-scrolls px-4 py-3 max-h-[400px] overflow-y-scroll ">
+              <FormComingSoon />
+            </div>
+          )
+        )}
       </div>
-
       {pgLayout && (
         <PgLayoutView
           show={pgLayout}
