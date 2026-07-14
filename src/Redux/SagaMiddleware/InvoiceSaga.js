@@ -711,12 +711,8 @@ function* handleGetParticularBillsDetails(action) {
 
 function* handleGetAllBills(action) {
   try {
-    const response = yield call(getAllBills, action.payload);
-
-    const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
-    }
+    const { hostelId, filters } = action.payload;
+    const response = yield call(getAllBills, hostelId, filters);
 
     if (response?.status === 200) {
       yield put({
@@ -2448,7 +2444,7 @@ function* InvoiceSaga() {
     handleGetParticularReceiptDetails,
   );
   yield takeEvery("GETPARTICULARBILLSDETAILS", handleGetParticularBillsDetails);
-  yield takeEvery("ALL_BILLS_LIST_SAGA",handleGetAllBills)
+  yield takeEvery("ALL_BILLS_LIST_SAGA", handleGetAllBills);
   yield takeEvery("GETFINALSETTLEMENT", handleGetFinalSettlementList);
   yield takeEvery("INVOICEITEM", handleinvoicelist);
   yield takeEvery("INVOICELIST", handleInvoiceList);

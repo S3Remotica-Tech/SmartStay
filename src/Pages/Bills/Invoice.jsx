@@ -73,6 +73,7 @@ const InvoicePage = () => {
   const [page, setPage] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("ALL");
+  console.log("statusfilter", statusfilter);
   const [selectedUserId, setSelectedUserId] = useState("");
   const [customername, setCustomerName] = useState("");
   const [startdate, setStartDate] = useState(null);
@@ -133,11 +134,15 @@ const InvoicePage = () => {
 
   const [customizeItems, setCustomizeItems] = useState(Options);
   const allSelected = customizeItems.every((i) => i.checked);
+  const invoiceFilters = state.InvoiceList.invoiceFilters;
 
   const ListOptions = [
     { key: "List View", label: "List", img: Setting3 },
     { key: "Room View", label: "Room", img: Buildings },
   ];
+
+  console.log("statusfilter after reset:", statusfilter);
+  console.log("invoiceFilters:", invoiceFilters);
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -279,38 +284,9 @@ const InvoicePage = () => {
     if (state.login.selectedHostel_Id) {
       setPage(1);
       setFilterInput("");
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id]);
-
-  // useEffect(() => {
-  //   if (!state.login.selectedHostel_Id) return;
-
-  //   const payload = {
-  //     hostelId: state.login.selectedHostel_Id,
-  //     size: size,
-  //     page: page,
-  //   };
-
-  //   if (statusfilter && statusfilter.value !== "ALL") {
-  //     payload.filters = {
-  //       paymentStatus: [statusfilter.value],
-  //       search: filterInput,
-
-  //     };
-  //   }
-
-  //   dispatch({
-  //     type: "INVOICESLISTFILTER",
-  //     payload,
-  //   });
-
-  //   setLoading(false);
-  // }, [state.login.selectedHostel_Id, statusfilter, filterInput]);
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
@@ -598,21 +574,16 @@ const InvoicePage = () => {
   };
 
   const handleStatusFilter = (selectedOption) => {
+    console.log("selectedOption", selectedOption);
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
+        ...invoiceFilters,
+        paymentStatus: selectedOption ? [selectedOption.value] : [],
       },
     });
 
-    setStatusfilter(selectedOption);
+    setStatusfilter(selectedOption?.value || "");
   };
 
   const [editvalue, setEditvalue] = useState("");
@@ -832,8 +803,8 @@ const InvoicePage = () => {
 
   const handleDisplayInvoiceDownload = (isVisible) => {
     setDownloadInvoice(isVisible);
-    setStatusfilter(false);
-    setSearch(false);
+    setStatusfilter("");
+    setSearch("");
     // setSelectedInvoiceId(rowData.invoiceId);
   };
 
@@ -1109,35 +1080,6 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
   };
 
-  // useEffect(() => {
-  //   if (!state.login?.selectedHostel_Id) return;
-
-  //   const delay = setTimeout(() => {
-  //     const filters = {
-  //       size,
-  //       page: 1,
-  //     };
-
-  //     if (filterInput?.trim()) {
-  //       filters.search = filterInput.trim();
-  //     }
-
-  //     if (statusfilter && statusfilter.value !== "ALL") {
-  //       filters.paymentStatus = [statusfilter.value];
-  //     }
-
-  //     dispatch({
-  //       type: "INVOICESLISTFILTER",
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         filters,
-  //       },
-  //     });
-  //   }, 500);
-
-  //   return () => clearTimeout(delay);
-  // }, [filterInput, statusfilter, page, size, state.login?.selectedHostel_Id]);
-
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -1151,13 +1093,20 @@ const InvoicePage = () => {
       createdByLabels: previousFilters.createdByLabels,
       modes: previousFilters.modes,
       paymentStatus:
-        statusfilter && statusfilter.value !== "ALL"
-          ? [statusfilter.value]
-          : previousFilters.paymentStatus,
+        statusfilter && statusfilter !== "ALL" ? [statusfilter] : "",
       search: filterInput?.trim() ? filterInput.trim() : previousFilters.search,
       size: size,
       page: page,
     };
+
+    dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        ...invoiceFilters,
+        size: size,
+        page: page,
+      },
+    });
 
     dispatch({
       type: "INVOICESLISTFILTER",
@@ -1166,14 +1115,7 @@ const InvoicePage = () => {
         filters,
       },
     });
-  }, [
-    filterInput,
-    statusfilter,
-    size,
-    page,
-    state.login?.selectedHostel_Id,
-    state.InvoiceList.invoiceFilters,
-  ]);
+  }, [filterInput, statusfilter, size, page, state.login?.selectedHostel_Id]);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1224,7 +1166,8 @@ const InvoicePage = () => {
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    const invoiceFilters = state.InvoiceList.invoiceFilters;
+    console.log("invoiceFilters", invoiceFilters);
+
     const filterData = [];
 
     if (invoiceFilters?.paymentStatus?.length) {
@@ -1330,6 +1273,7 @@ const InvoicePage = () => {
         },
       },
     });
+    setStatusfilter("ALL");
   };
 
   useEffect(() => {
@@ -1511,9 +1455,11 @@ const InvoicePage = () => {
                       styles={CustomStyles}
                       disabled={!canReadInvoice}
                       onChange={(e) => handleStatusFilter(e)}
-                      value={selectOptions.find(
-                        (opt) => opt.value === statusfilter,
-                      )}
+                      value={
+                        selectOptions.find(
+                          (opt) => opt.value === statusfilter,
+                        ) || null
+                      }
                       id="statusselect"
                       menuPlacement="auto"
                       classNamePrefix="custom"

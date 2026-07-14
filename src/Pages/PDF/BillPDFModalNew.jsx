@@ -234,7 +234,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     if (state.InvoiceList.createRefundStatusCode === 200) {
       setPayableForm(false);
       dispatch({
-        type: "INVOICESLISTFILTER",
+        type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
 
@@ -412,6 +412,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const canShowRecordPayment =
     (finalAmount > 0 && status !== "PAID") ||
     (totalAmount > 0 && paymentStatus === "Pending");
+
+  const canShowRefund =
+    (finalAmount < 0 && status !== "REFUNDED") ||
+    (totalAmount < 0 && paymentStatus === "Pending");
 
   const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
   const isRent =
@@ -1085,7 +1089,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   </button>
                 ))}
 
-              {pdfDetails?.invoiceInfo?.finalAmount < 0 && (
+              {canShowRefund && (
                 <button
                   disabled={!canWriteInvoice}
                   onClick={() => handleNavigateRefund(pdfDetails)}

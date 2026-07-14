@@ -129,6 +129,8 @@ export const initialState = {
     modes: [],
     paymentStatus: [],
     search: "",
+    size: "",
+    page : ""
   },
   receiptFilters: {
     type: "",
