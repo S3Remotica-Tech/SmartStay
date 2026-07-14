@@ -62,10 +62,12 @@ function VendorCategory() {
     setShowDelete(true);
   };
 
-  const handleUpdate = (update) => {
+  const handleUpdate = (e, update) => {
+    e.stopPropagation();
     setOpen(true);
     setUpdateDetails(update);
     setActiveIndex(null);
+    setActiveItem("");
   };
 
   const handleCloseDelete = () => {
@@ -258,12 +260,12 @@ function VendorCategory() {
                             }}
                           >
                             <button
-                              onClick={() => {
+                              onClick={(e) => {
                                 if (!canUpdateVendor) return;
-                                handleUpdate(u);
+                                handleUpdate(e, u);
                               }}
                               disabled={!canUpdateVendor}
-                              className={`w-full font-gilroy text-left rounded-lg px-4 py-2 text-base flex items-center gap-1 
+                              className={`w-full font-gilroy text-left  px-4 py-2 text-base flex items-center gap-1 
     ${
       canUpdateVendor
         ? "text-[#1E45E1] hover:bg-gray-100 cursor-pointer"
@@ -282,7 +284,7 @@ function VendorCategory() {
                                 handleDelete(u?.id);
                               }}
                               disabled={!canDeleteVendor}
-                              className={`w-full font-gilroy text-left rounded-lg px-4 py-2 text-base flex items-center gap-1 
+                              className={`w-full font-gilroy text-left  px-4 py-2 text-base flex items-center gap-1 
     ${
       canDeleteVendor
         ? "text-red-600 hover:bg-gray-100 cursor-pointer"
