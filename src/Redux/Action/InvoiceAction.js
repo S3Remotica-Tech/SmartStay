@@ -119,6 +119,26 @@ export async function GetFilterInvoices(hostelId, filters = {}) {
   });
 }
 
+export async function getAllBills(hostelId, filters = {}) {
+
+  console.log("hostelId", hostelId, "filters", filters)
+  return AxiosConfigV2.get(`/v2/bills/basic-list/${hostelId}`, {
+    params: {
+      startDate: filters.startDate,
+      endDate: filters.endDate,
+      type: filters.type,
+      createdBy: filters.createdBy,
+      modes: filters.modes,
+      paymentStatus: filters.paymentStatus,
+      search: filters.search,
+      size: filters.size,
+      page: filters.page,
+    },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+}
+
 export async function getFinalSettlementList(customer) {
   return await AxiosConfigV2.get(
     `/v2/customers/settlement/${customer.customerId}`,
@@ -132,10 +152,6 @@ export async function getParticularBillsDetails(bill) {
   return await AxiosConfigV2.get(
     `/v2/bills/${bill.hostelId}/${bill.invoiceId}`,
   );
-}
-
-export async function getAllBills(bill) {
-  return await AxiosConfigV2.get(`/v2/${bill.hostelId}`);
 }
 
 export async function getParticularReceiptDetails(bill) {

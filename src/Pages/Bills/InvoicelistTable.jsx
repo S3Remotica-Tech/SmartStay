@@ -39,6 +39,9 @@ const InvoiceTable = (props) => {
   const [discountDetails, setDiscountDetails] = useState("");
   const [showAbove, setShowAbove] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
+
+  const invoiceFilters = state.InvoiceList.invoiceFilters;
+
   const [label, setLabel] = useState("");
   const {
     canWriteModule: canWriteInvoice,
@@ -139,6 +142,30 @@ const InvoiceTable = (props) => {
         type: "GETPARTICULARBILLSDETAILS",
         payload: { hostelId: item.hostelId, invoiceId: item.invoiceId },
       });
+
+      const previousFilters = state.InvoiceList.invoiceFilters || {};
+
+      const filters = {
+        startDate: previousFilters.startDate,
+        endDate: previousFilters.endDate,
+        type: previousFilters.type,
+        createdBy: previousFilters.createdBy,
+        createdByLabels: previousFilters.createdByLabels,
+        modes: previousFilters.modes,
+        paymentStatus: previousFilters.paymentStatus || [],
+        search: previousFilters.search,
+        size: previousFilters?.size,
+        page: previousFilters?.page,
+      };
+
+      dispatch({
+        type: "ALL_BILLS_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+
       navigate(`/invoice/details/${item.invoiceId}`, {
         replace: false,
         state: {

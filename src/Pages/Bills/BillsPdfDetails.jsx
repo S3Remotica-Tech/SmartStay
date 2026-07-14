@@ -30,21 +30,13 @@ function BillsPdfDetails() {
   const [rowDatas, setRowDatas] = useState("");
   const invoiceRefs = useRef({});
 
+  const searchTimeout = useRef();
+
   const { canWriteModule: canWriteInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Bills");
 
   const { rowData, isReportsInvoiceRegisterWay, isTenantWay } =
     location.state || {};
-
-  const selectOptions = [
-    { label: "All", value: "ALL" },
-    ...(state.InvoiceList?.billsList?.filterOptions?.paymentStatus?.map(
-      (item) => ({
-        label: item.name,
-        value: item.type,
-      }),
-    ) || []),
-  ];
 
   const handleShowStatusFilter = () => {
     setStatusShowfilter(!statusShowfilter);
@@ -69,7 +61,7 @@ function BillsPdfDetails() {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
-          hostelId: item.hostelId,
+          hostelId: state.login.selectedHostel_Id,
           invoiceId: item.invoiceId,
         },
       });
@@ -202,83 +194,54 @@ function BillsPdfDetails() {
     dispatch({ type: "USERROOMAVAILABLEFALSE" });
   };
 
-  const handleStatusFilter = (selectedOption) => {
-    dispatch({
-      type: "SET_INVOICE_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
-      },
-    });
-    if (!selectedOption) {
-      setStatusfilter(null);
+  // useEffect(() => {
+  //   if (!state.login?.selectedHostel_Id) return;
 
-      if (state.login?.selectedHostel_Id) {
-        dispatch({
-          type: "INVOICESLISTFILTER",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-          },
-        });
-      }
-      return;
-    }
+  //   const delay = setTimeout(() => {
+  //     const filters = {};
+  //     if (search && search.trim().length > 0) {
+  //       filters.search = search.trim();
+  //     }
 
-    setStatusfilter(selectedOption);
+  //     if (statusfilter && statusfilter.value !== "ALL") {
+  //       filters.paymentStatus = [statusfilter.value];
+  //     }
 
-    if (!state.login?.selectedHostel_Id) return;
+  //     dispatch({
+  //       type: "ALL_BILLS_LIST_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: Object.keys(filters).length ? filters : undefined,
+  //       },
+  //     });
+  //   }, 500);
 
-    if (selectedOption.value === "ALL") {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    } else {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            paymentStatus: [selectedOption.value],
-            search: search,
-          },
-        },
-      });
-    }
-  };
+  //   return () => clearTimeout(delay);
+  // }, [search, state.login?.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (!state.login?.selectedHostel_Id) return;
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
 
-    const delay = setTimeout(() => {
-      const filters = {};
-      if (search && search.trim().length > 0) {
-        filters.search = search.trim();
-      }
+    clearTimeout(searchTimeout.current);
 
-      if (statusfilter && statusfilter.value !== "ALL") {
-        filters.paymentStatus = [statusfilter.value];
-      }
+    searchTimeout.current = setTimeout(() => {
+      const previousFilters = state.InvoiceList.invoiceFilters || {};
+
+      const filters = {
+        ...previousFilters,
+        search: value.trim() || undefined,
+      };
 
       dispatch({
-        type: "INVOICESLISTFILTER",
+        type: "ALL_BILLS_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          filters: Object.keys(filters).length ? filters : undefined,
+          filters,
         },
       });
     }, 500);
-
-    return () => clearTimeout(delay);
-  }, [search, state.login?.selectedHostel_Id]);
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen overflow-hidden">
@@ -320,7 +283,7 @@ function BillsPdfDetails() {
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search..."
                 className="w-full pl-4 py-2 font-gilroy border border-[#D9D9D9] rounded-xl text-sm  outline-none"
               />
@@ -329,8 +292,8 @@ function BillsPdfDetails() {
         </div>
 
         <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto  overflow-x-visible">
-          {state.InvoiceList?.billsList?.listInvoices?.length > 0 ? (
-            state.InvoiceList?.billsList?.listInvoices?.map((item) => (
+          {state.InvoiceList?.getAllBillsList?.length > 0 ? (
+            state.InvoiceList?.getAllBillsList?.map((item) => (
               <div
                 onClick={() => {
                   setSelectedInvoiceId(item.invoiceId);
@@ -367,10 +330,10 @@ ${
                         className="font-gilroy text-sm text-[#1E45E1] font-semibold 
                                             max-w-[100px] truncate overflow-hidden whitespace-nowrap"
                       >
-                        {item.fullName}
+                        {item.customerName}
                       </div>
                       <div className="font-gilroy text-base text-[#222] font-semibold">
-                        ₹ {item.baseAmount}
+                        ₹ {item.invoiceAmount}
                       </div>
 
                       <span
@@ -378,7 +341,7 @@ ${
                                                  font-gilroy 
       bg-gray-300 text-black text-xs rounded px-2 py-1 whitespace-nowrap z-[9999] "
                       >
-                        {item.fullName}
+                        {item.customerName}
                       </span>
                     </div>
 
@@ -393,33 +356,33 @@ ${
                   </div>
                 </div>
                 <div className="my-1.5">
-                  {(item?.paymentStatus === "Pending" ||
-                    item?.paymentStatus === "Partial Payment") && (
+                  {(item?.status === "PENDING" ||
+                    item?.status === "PARTIAL_PAYMENT") && (
                     <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
-                      {item?.paymentStatus}
+                      {item?.status}
                     </span>
                   )}
 
-                  {item?.paymentStatus === "Paid" && (
+                  {item?.status === "PAID" && (
                     <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#10B981]"></span>
-                      {item?.paymentStatus}
+                      {item?.status}
                     </span>
                   )}
 
-                  {(item?.paymentStatus === "Refunded" ||
-                    item?.paymentStatus === "Partially Refunded") && (
+                  {(item?.status === "REFUNDED" ||
+                    item?.status === "PARTIAL_REFUND") && (
                     <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
-                      {item?.paymentStatus}
+                      {item?.status}
                     </span>
                   )}
 
-                  {item?.paymentStatus === "Pending Refund" && (
+                  {item?.status === "PENDING_REFUND" && (
                     <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#FB923C]"></span>
-                      {item?.paymentStatus}
+                      {item?.status}
                     </span>
                   )}
 
