@@ -665,7 +665,9 @@ function UserListInvoice(props) {
             </div>
           </>
         ) : (
-          <NoDataMessage label="Invoice" isHeightChanged={true} />
+          <div className="mt-5">
+            <NoDataMessage label="Invoice" isHeightChanged={true} />
+          </div>
         )}
       </div>
     </>
