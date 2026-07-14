@@ -188,6 +188,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const [lastname, setLastname] = useState("");
   const [Phone, setPhone] = useState("");
   const [step, setStep] = useState(1);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [Email, setEmail] = useState("");
   const [house_no, setHouseNo] = useState("");
@@ -1412,6 +1413,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   };
 
   const handleNextStep = () => {
+    // console.log("handleNextStep", action);
+    // setIsDisabled(action);
     setStep(3);
   };
   const handlePrevious = () => {
@@ -1618,7 +1621,10 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
               <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
               <div
-                onClick={() => setStep(1)}
+                onClick={() => {
+                  // if (isDisabled) return;
+                  setStep(1);
+                }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -1639,6 +1645,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
               </div>
               <div
                 onClick={() => {
+                  // if (isDisabled) return;
                   if (newTenant && !handleSaveStepOne()) return;
 
                   setStep(2);

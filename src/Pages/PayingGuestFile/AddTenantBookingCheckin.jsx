@@ -223,6 +223,7 @@ function AddTenantBookingCheckin({
   const checkinFloorRef = useRef(null);
   const checkinRoomRef = useRef(null);
   const checkinBedRef = useRef(null);
+  const [checkinAction, setCheckinAction] = useState("");
 
   const [collectFullRent, setCollectFullRent] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
@@ -374,6 +375,7 @@ function AddTenantBookingCheckin({
 
   const handleCheckin = () => {
     const isValid = validateCheckInDraft();
+
     if (!isValid) return;
 
     let isHasError = false;
@@ -480,7 +482,7 @@ function AddTenantBookingCheckin({
     const formattedDate = joiningDate
       ? incrementDateAndFormat(joiningDate)
       : "";
-
+    setCheckinAction("checkin");
     dispatch({
       type: "DIRECT_CHECK_IN_SAGA",
       payload: {
@@ -505,7 +507,9 @@ function AddTenantBookingCheckin({
   };
 
   const handleNextStepCheckinDraft = () => {
+    // handleCheckin();
     handleCheckInDraft();
+    setCheckinAction("next");
     handleNextStep();
   };
 
@@ -1073,6 +1077,7 @@ function AddTenantBookingCheckin({
   useEffect(() => {
     if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
       setCheckInLoading(false);
+
       dispatch({
         type: "USERLIST",
         payload: {
@@ -1081,11 +1086,24 @@ function AddTenantBookingCheckin({
           size: 10,
         },
       });
+
+      // if (checkinAction === "checkin") {
       handleClose();
+      // } else if (checkinAction === "next") {
+      //   handleNextStep();
+      // }
+
+      setCheckinAction("");
 
       dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
     }
   }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
+
+  useEffect(() => {
+    if (state.UsersList?.bedError) {
+      setCheckInLoading(false);
+    }
+  }, [state.UsersList?.bedError]);
 
   const resetBookingForm = () => {
     setBookingDate(null);
@@ -2801,7 +2819,7 @@ function AddTenantBookingCheckin({
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
   flex items-center justify-center gap-2 disabled:opacity-70"
                   >
-                    {checkInLoading ? (
+                    {checkInLoading && checkinAction === "checkin" ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         Saving ....{" "}
@@ -2812,10 +2830,20 @@ function AddTenantBookingCheckin({
                   </button>
 
                   <button
+                    disabled={checkInLoading}
                     className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                     onClick={handleNextStepCheckinDraft}
                   >
-                    Next <ArrowRight color="#FFFFFF" size="18" />
+                    {checkInLoading && checkinAction === "next" ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        Next <ArrowRight color="#FFFFFF" size="18" />
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
