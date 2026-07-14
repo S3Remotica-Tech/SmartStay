@@ -849,7 +849,7 @@ function AddTenantBookingCheckin({
           ? dayjs(DraftTenantDetails?.hostelInfo?.joiningDate, "DD-MM-YYYY")
           : null,
       );
-      setStayType(DraftTenantDetails?.stayType);
+      setStayType(DraftTenantDetails?.stayType || "long");
 
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
       setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
@@ -2145,12 +2145,12 @@ function AddTenantBookingCheckin({
                       <ErrorMessage message={checkInBedError} type="error" />
                     )}
                   </div>
-                  {bedWarning ? (
-                    <div className="">
-                      <ErrorMessage message={bedWarning} type="error" />
-                    </div>
-                  ) : null}
                 </div>
+                {bedWarning ? (
+                  <div className="flex justify-end">
+                    <ErrorMessage message={bedWarning} type="error" />
+                  </div>
+                ) : null}
               </div>
 
               <div className="grid grid-cols-12 gap-x-4">
