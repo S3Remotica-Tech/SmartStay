@@ -180,7 +180,12 @@ const CustomStyles = {
     display: "none",
   }),
 };
-function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
+function AddTenant({
+  showMenu,
+  handleClose,
+  alreadySaveDraftTenantDetails,
+  bookingOnly,
+}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
@@ -258,6 +263,8 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
   const vehicleTypeRef = useRef(null);
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
+
+  console.log("bookingOnly", bookingOnly);
 
   const vehicleTypeOptions = [
     {
@@ -1619,7 +1626,9 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
         <div className="w-full h-full flex items-center justify-end p-2 ">
           <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
-              <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
+              <h5 className="mb-4 font-gilroy">
+                {bookingOnly ? "Booking Tenant" : "Add New Tenant "}
+              </h5>
               <div
                 onClick={() => {
                   // if (isDisabled) return;
@@ -1665,34 +1674,36 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                   Step 2
                   <br />
                   <label className=" font-gilroy text-base cursor-pointer">
-                    Finalize
+                    {bookingOnly ? "Booking " : "On-board Process "}
                   </label>
                 </span>
               </div>
-              <div
-                onClick={() => {
-                  if (newTenant && !handleSaveStepOne()) return;
-                  setStep(3);
-                }}
-                className="flex items-start  mb-4 cursor-pointer"
-              >
+              {!bookingOnly && (
                 <div
-                  className={`rounded-full flex items-center  justify-center w-8 h-8 min-w-[32px] border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
+                  onClick={() => {
+                    if (newTenant && !handleSaveStepOne()) return;
+                    setStep(3);
+                  }}
+                  className="flex items-start  mb-4 cursor-pointer"
                 >
-                  <DocumentText
-                    size="16"
-                    color={step === 3 ? "#FFFFFF" : "#1E45E1"}
-                    className=" flex-shrink-0"
-                  />
+                  <div
+                    className={`rounded-full flex items-center  justify-center w-8 h-8 min-w-[32px] border border-[#1E45E1] ${step === 3 ? "bg-[#1E45E1]" : "bg-white"}`}
+                  >
+                    <DocumentText
+                      size="16"
+                      color={step === 3 ? "#FFFFFF" : "#1E45E1"}
+                      className=" flex-shrink-0"
+                    />
+                  </div>
+                  <span className="ml-2 font-gilroy text-sm cursor-pointer">
+                    Step 3
+                    <br />
+                    <label className=" font-gilroy text-base cursor-pointer break-words">
+                      Documents & Job Details
+                    </label>
+                  </span>
                 </div>
-                <span className="ml-2 font-gilroy text-sm cursor-pointer">
-                  Step 3
-                  <br />
-                  <label className=" font-gilroy text-base cursor-pointer break-words">
-                    Documents & Job Details
-                  </label>
-                </span>
-              </div>
+              )}
             </div>
 
             <div className="flex-1 relative bg-white rounded-tr-[20px] rounded-br-[20px] overflow-y-auto my-2 mx-1">
@@ -1724,30 +1735,45 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                               Search or Add by Mobile Number
                             </p>
                             <div className="relative w-full">
-                              <div className="flex items-center border rounded-lg bg-white mb-2">
+                              <div
+                                className={`flex items-center border rounded-lg mb-2 ${
+                                  bookingOnly
+                                    ? "bg-gray-100 opacity-60 cursor-not-allowed"
+                                    : "bg-white"
+                                }`}
+                              >
                                 <span className="text-gray-600 mr-4 px-2">
                                   +91
                                 </span>
 
                                 <input
-                                  type="number"
+                                  disabled={bookingOnly}
+                                  type="text"
+                                  inputMode="numeric"
                                   maxLength={10}
                                   value={search}
                                   onChange={handleChange}
                                   placeholder="Search"
                                   onWheel={(e) => e.target.blur()}
-                                  className="bg-transparent outline-none w-full"
+                                  className="bg-transparent outline-none w-full disabled:cursor-not-allowed"
                                 />
 
                                 <div
-                                  onClick={!searchLoading && handleSearch}
-                                  className={`bg-[#1E45E1] px-3 py-2 rounded-r-lg flex items-center justify-center min-w-[90px]
-    ${searchLoading ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                                  onClick={
+                                    !bookingOnly && !searchLoading
+                                      ? handleSearch
+                                      : undefined
+                                  }
+                                  className={`px-3 py-2 rounded-r-lg flex items-center justify-center min-w-[90px] ${
+                                    bookingOnly
+                                      ? "bg-gray-400 cursor-not-allowed"
+                                      : searchLoading
+                                        ? "bg-[#1E45E1] opacity-80 cursor-not-allowed"
+                                        : "bg-[#1E45E1] cursor-pointer"
+                                  }`}
                                 >
                                   {searchLoading ? (
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                    </div>
+                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                                   ) : (
                                     <SearchNormal color="#FFF" />
                                   )}
@@ -2323,6 +2349,7 @@ function AddTenant({ showMenu, handleClose, alreadySaveDraftTenantDetails }) {
                       firstname={firstname}
                       draftTenantId={draftTenantId}
                       newTenant={newTenant}
+                      bookingOnly={bookingOnly}
                     />
                   )}
 
