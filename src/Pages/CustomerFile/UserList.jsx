@@ -1098,7 +1098,7 @@ function UserList(props) {
   };
 
   const handleShowAddTenant = (isWhat) => {
-    console.log("isWhat", isWhat);
+    // console.log("isWhat", isWhat);
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails("");
