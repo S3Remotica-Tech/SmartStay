@@ -283,7 +283,7 @@ const InvoiceTable = (props) => {
    `}
       >
         <td
-          className={`px-4 py-1   w-[80px]    ${
+          className={`px-2 py-1   w-[80px]    ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
               : "align-middle"

@@ -495,7 +495,7 @@ const Compliance = () => {
         setBeds(CustomerOverview.bedId || "");
         setBedName(CustomerOverview.bedName || "");
         setRooms(CustomerOverview.roomId || "");
-        setUser_Id(state.UsersList?.customerdetails.customerId || "");
+        setUser_Id(state.UsersList?.customerdetails?.customerId || "");
         setRoomName(CustomerOverview.roomName || "");
         setFloorname(CustomerOverview.floorName || "");
       } else {
@@ -637,6 +637,7 @@ const Compliance = () => {
     const formattedDate = selectedDate
       ? selectedDate.format("DD-MM-YYYY")
       : null;
+
     const payload = {
       customerId: userid,
       complaintTypeId: Complainttype,
@@ -647,6 +648,7 @@ const Compliance = () => {
       description: description || "",
       hostelId: state.login.selectedHostel_Id,
     };
+    console.log("payload", payload);
     if (edit) {
       dispatch({
         type: "EDIT_COMPLAINT",
