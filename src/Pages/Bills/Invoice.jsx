@@ -1664,7 +1664,7 @@ const InvoicePage = () => {
                         <table className=" w-full font-gilroy">
                           <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                             <tr className="h-9">
-                              <th className="px-4 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
+                              <th className="px-2 py-2.5 sticky left-0 z-50 bg-[#F9FAFB] w-[80px]">
                                 {/* <div className="flex items-center gap-2">
                                   <input
                                     type="checkbox"

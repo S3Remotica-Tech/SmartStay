@@ -283,13 +283,13 @@ const InvoiceTable = (props) => {
    `}
       >
         <td
-          className={`px-4 py-1   w-[80px]    ${
+          className={`px-2 py-1   w-[80px]    ${
             props.item.isDiscounted || props.item.isInvoicesApplied
               ? ""
               : "align-middle"
           }`}
         >
-          <div className="flex items-center justify-end">
+          {/* <div className="flex items-center justify-end">
             <input
               type="checkbox"
               className="rounded cursor-pointer"
@@ -297,7 +297,7 @@ const InvoiceTable = (props) => {
               onClick={(e) => e.stopPropagation()}
               onChange={() => handleRowSelect(item.invoiceId)}
             />
-          </div>
+          </div> */}
           {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
             <div className="h-4"></div>
           )}

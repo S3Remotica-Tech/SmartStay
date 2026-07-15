@@ -974,6 +974,7 @@ function UserList(props) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
+  const [bookingOnly, setBookingOnly] = useState(false);
   const [showAssignMenu, setShowAssignMenu] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -1096,16 +1097,19 @@ function UserList(props) {
     setEditObj(u);
   };
 
-  const handleShowAddTenant = () => {
+  const handleShowAddTenant = (isWhat) => {
+    // console.log("isWhat", isWhat);
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails("");
+    setBookingOnly(isWhat ? true : false);
   };
 
   const handleShowDraftTenant = (user) => {
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails(user);
+    setBookingOnly(false);
   };
 
   const handleChange = (key) => {
@@ -2381,7 +2385,7 @@ function UserList(props) {
                 <div className="relative flex" ref={dropdownRef}>
                   <button
                     disabled={!canWriteWalkin}
-                    onClick={handleShowAddTenant}
+                    onClick={() => handleShowAddTenant(false)}
                     className="bg-[#1E45E1] text-white flex items-center gap-1 text-sm font-semibold rounded-l-lg px-4 py-2 whitespace-nowrap disabled:opacity-50"
                   >
                     <AddCircle size="16" />
@@ -2408,7 +2412,7 @@ function UserList(props) {
                       <button
                         onClick={() => {
                           setShowDropdown(false);
-                          handleShowAddTenant();
+                          handleShowAddTenant(false);
                         }}
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF]  rounded-t-lg"
                       >
@@ -2428,14 +2432,14 @@ function UserList(props) {
                       <button
                         onClick={() => {
                           setShowDropdown(false);
-                          // handleBooking?.();
+                          handleShowAddTenant(true);
                         }}
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF]"
                       >
                         Booking
                       </button>
 
-                      <button
+                      {/* <button
                         onClick={() => {
                           setShowDropdown(false);
                           // handleEnquiry?.();
@@ -2443,7 +2447,7 @@ function UserList(props) {
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF] rounded-b-lg"
                       >
                         Enquiry
-                      </button>
+                      </button> */}
                     </div>
                   )}
                 </div>
@@ -3491,7 +3495,7 @@ function UserList(props) {
         />
       )}
 
-      {roomDetail === true ? (
+      {/* {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
           // userData={userDatafull}
@@ -3535,7 +3539,7 @@ function UserList(props) {
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
         />
-      ) : null}
+      ) : null} */}
 
       {showMenu && (
         <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
@@ -3546,6 +3550,7 @@ function UserList(props) {
           showMenu={showMenuNewTenant}
           handleClose={handleCloseAddTenant}
           alreadySaveDraftTenantDetails={DraftTenantDetails}
+          bookingOnly={bookingOnly}
         />
       )}
 

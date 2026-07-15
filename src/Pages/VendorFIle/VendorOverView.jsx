@@ -121,7 +121,7 @@ function VendorOverView({
         // onClick={onClose}
       />
 
-      <div className="fixed top-2 right-2 bottom-2 w-[1100px]   bg-white z-50 rounded-md flex flex-col">
+      <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
         <div className="px-6 py-1">
           <div className="flex items-start justify-between">
             <div>
@@ -311,7 +311,7 @@ function VendorOverView({
             </div>
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto rounded-md">
           {activeTab === "overview" && (
             <VendorDetailsOverview handleSelected={handleSelected} />
           )}

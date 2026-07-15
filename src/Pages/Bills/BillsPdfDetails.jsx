@@ -356,37 +356,37 @@ ${
                   </div>
                 </div>
                 <div className="my-1.5">
-                  {(item?.status === "PENDING" ||
-                    item?.status === "PARTIAL_PAYMENT") && (
+                  {(item?.status === "Pending" ||
+                    item?.status === "Partial Payment") && (
                     <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
                       {item?.status}
                     </span>
                   )}
 
-                  {item?.status === "PAID" && (
+                  {item?.status === "Paid" && (
                     <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#10B981]"></span>
                       {item?.status}
                     </span>
                   )}
 
-                  {(item?.status === "REFUNDED" ||
-                    item?.status === "PARTIAL_REFUND") && (
+                  {(item?.status === "Refunded" ||
+                    item?.status === "Partially Refunded") && (
                     <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
                       {item?.status}
                     </span>
                   )}
 
-                  {item?.status === "PENDING_REFUND" && (
+                  {item?.status === "Pending Refund" && (
                     <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#FB923C]"></span>
                       {item?.status}
                     </span>
                   )}
 
-                  {item?.isCancelled && (
+                  {item?.status === "Cancelled" && (
                     <span className="flex items-center gap-2 bg-[#F3F4F6] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
                       <span className="h-2 w-2 rounded-full bg-[#6B7280]"></span>
                       Cancelled

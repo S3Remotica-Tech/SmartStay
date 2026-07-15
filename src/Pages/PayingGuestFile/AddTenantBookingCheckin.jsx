@@ -141,6 +141,7 @@ function AddTenantBookingCheckin({
   firstname,
   draftTenantId,
   newTenant,
+  bookingOnly,
 }) {
   const state = useSelector((state) => state);
 
@@ -1469,6 +1470,14 @@ function AddTenantBookingCheckin({
   ];
 
   useEffect(() => {
+    if (bookingOnly) {
+      setActiveTab("booking");
+    } else {
+      setActiveTab("checkin");
+    }
+  }, [bookingOnly]);
+
+  useEffect(() => {
     if (bookingRoom) {
       const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter(
         (view) => {
@@ -1590,19 +1599,21 @@ function AddTenantBookingCheckin({
     <div className="bg-white w-full">
       <div className="flex justify-between">
         <div className="flex bg-[#ECEEF0] p-1 rounded-lg w-fit mb-6">
-          <button
-            onClick={() => {
-              setActiveTab("checkin");
-              dispatch({ type: "ERROR_BOOKING_REMOVE" });
-            }}
-            className={`px-4 py-1.5 text-sm rounded-md ${
-              activeTab === "checkin"
-                ? "bg-white shadow text-[#1E45E1]"
-                : "text-gray-500"
-            }`}
-          >
-            Check-In
-          </button>
+          {!bookingOnly && (
+            <button
+              onClick={() => {
+                setActiveTab("checkin");
+                dispatch({ type: "ERROR_BOOKING_REMOVE" });
+              }}
+              className={`px-4 py-1.5 text-sm rounded-md ${
+                activeTab === "checkin"
+                  ? "bg-white shadow text-[#1E45E1]"
+                  : "text-gray-500"
+              }`}
+            >
+              Check-In
+            </button>
+          )}
           <button
             onClick={() => setActiveTab("booking")}
             className={`px-4 py-1.5 text-sm rounded-md ${

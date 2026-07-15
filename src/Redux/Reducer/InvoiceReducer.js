@@ -130,7 +130,7 @@ export const initialState = {
     paymentStatus: [],
     search: "",
     size: "",
-    page : ""
+    page : "",
   },
   receiptFilters: {
     type: "",
