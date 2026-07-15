@@ -974,6 +974,7 @@ function UserList(props) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
+  const [bookingOnly, setBookingOnly] = useState("");
   const [showAssignMenu, setShowAssignMenu] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -1096,10 +1097,11 @@ function UserList(props) {
     setEditObj(u);
   };
 
-  const handleShowAddTenant = () => {
+  const handleShowAddTenant = (isWhat) => {
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails("");
+    setBookingOnly(isWhat);
   };
 
   const handleShowDraftTenant = (user) => {
@@ -2428,14 +2430,14 @@ function UserList(props) {
                       <button
                         onClick={() => {
                           setShowDropdown(false);
-                          // handleBooking?.();
+                          handleShowAddTenant("isBookingOnly");
                         }}
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF]"
                       >
                         Booking
                       </button>
 
-                      <button
+                      {/* <button
                         onClick={() => {
                           setShowDropdown(false);
                           // handleEnquiry?.();
@@ -2443,7 +2445,7 @@ function UserList(props) {
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-[#F5F7FF] rounded-b-lg"
                       >
                         Enquiry
-                      </button>
+                      </button> */}
                     </div>
                   )}
                 </div>
@@ -3491,7 +3493,7 @@ function UserList(props) {
         />
       )}
 
-      {roomDetail === true ? (
+      {/* {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
           // userData={userDatafull}
@@ -3535,7 +3537,7 @@ function UserList(props) {
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
         />
-      ) : null}
+      ) : null} */}
 
       {showMenu && (
         <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
@@ -3546,6 +3548,7 @@ function UserList(props) {
           showMenu={showMenuNewTenant}
           handleClose={handleCloseAddTenant}
           alreadySaveDraftTenantDetails={DraftTenantDetails}
+          bookingOnly={bookingOnly}
         />
       )}
 

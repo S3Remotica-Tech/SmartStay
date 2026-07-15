@@ -648,7 +648,7 @@ const Compliance = () => {
       description: description || "",
       hostelId: state.login.selectedHostel_Id,
     };
-    console.log("payload", payload);
+    // console.log("payload", payload);
     if (edit) {
       dispatch({
         type: "EDIT_COMPLAINT",

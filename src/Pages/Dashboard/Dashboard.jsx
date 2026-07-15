@@ -531,7 +531,7 @@ function Dashboard() {
                                 </span>
 
                                 {/* Dropdown */}
-                                {!isDisabled && openCards[card.id] && (
+                                {/* {!isDisabled && openCards[card.id] && (
                                   <div
                                     ref={dropdownRef}
                                     className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
@@ -570,7 +570,7 @@ function Dashboard() {
                                       );
                                     })}
                                   </div>
-                                )}
+                                )} */}
                               </div>
                             )}
                         </div>
