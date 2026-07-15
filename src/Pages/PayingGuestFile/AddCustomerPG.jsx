@@ -557,7 +557,7 @@ function AddCustomer({ showMenu, handleClose }) {
         // onClick={onClose}
       />
 
-      <div className="fixed top-2 right-2 bottom-2 w-[800px]   bg-white z-50 rounded-md flex flex-col">
+      <div className="fixed top-2 right-2 bottom-2 w-[800px]   bg-white z-50 rounded-md flex flex-col p-2.5">
         <div className="flex justify-center h-full p-2 rounded-md ">
           <div className="p-4 w-[250px] min-w-[240px] bg-[#f4f8ff] rounded-tl-[20px] rounded-bl-[20px]">
             <h5 className="mb-4 font-gilroy">Add New Tenant</h5>
@@ -583,7 +583,6 @@ function AddCustomer({ showMenu, handleClose }) {
               </span>
             </div>
 
-            {/* Step 2 */}
             <div className="flex items-center mb-4">
               <div
                 className={`rounded-full flex items-center justify-center w-8 h-8 border border-[#1E45E1] ${step === 2 ? "bg-[#1E45E1]" : "bg-white"}`}
@@ -603,9 +602,9 @@ function AddCustomer({ showMenu, handleClose }) {
             </div>
           </div>
 
-          <div className="flex-1 relative bg-white rounded-tr-[20px] rounded-br-[20px] overflow-y-auto max-h-[800px]    p-2.5">
-            <div className="flex justify-between items-start px-2 py-1 sticky top-0 z-10 bg-white border-b border-[#eee]">
-              <h5 className="font-giroy font-semibold">
+          <div className="flex-1 relative bg-white rounded-tr-[20px] rounded-br-[20px]  overflow-y-auto max-h-[800px]">
+            <div className="flex justify-between items-start px-2   bg-white sticky top-0 z-10 bg-white border-b border-[#eee]">
+              <h5 className="font-giroy font-semibold  bg-white">
                 {step === 1 ? "Basic Details" : "Address Details"}
               </h5>
               <CloseCircle

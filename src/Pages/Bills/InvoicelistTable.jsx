@@ -289,7 +289,7 @@ const InvoiceTable = (props) => {
               : "align-middle"
           }`}
         >
-          <div className="flex items-center justify-end">
+          {/* <div className="flex items-center justify-end">
             <input
               type="checkbox"
               className="rounded cursor-pointer"
@@ -297,7 +297,7 @@ const InvoiceTable = (props) => {
               onClick={(e) => e.stopPropagation()}
               onChange={() => handleRowSelect(item.invoiceId)}
             />
-          </div>
+          </div> */}
           {(props.item.isDiscounted || props.item.isInvoicesApplied) && (
             <div className="h-4"></div>
           )}

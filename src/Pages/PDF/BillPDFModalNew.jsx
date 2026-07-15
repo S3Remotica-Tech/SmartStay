@@ -449,8 +449,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           invoiceId: pdfDetails?.invoiceId,
         },
       });
-      dispatch({
-        type: "INVOICESLISTFILTER",
+     dispatch({
+        type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
       setTimeout(() => {
@@ -467,8 +467,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   useEffect(() => {
     if (state.InvoiceList?.editInvoiceDiscountStatus === 200) {
-      dispatch({
-        type: "INVOICESLISTFILTER",
+    dispatch({
+        type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
 
@@ -491,7 +491,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       });
 
       dispatch({
-        type: "INVOICESLISTFILTER",
+        type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
       setTimeout(() => {
@@ -524,7 +524,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         },
       });
       dispatch({
-        type: "INVOICESLISTFILTER",
+        type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
 
@@ -535,7 +535,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       dispatch({
-        type: "INVOICESLISTFILTER",
+        type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
     }
