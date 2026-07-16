@@ -88,14 +88,14 @@ import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import WalletHistory from "./WalletHistory";
 import BookedCheckIn from "./BookedCheckIn";
-import CustomerCheckout from "./CustomerCheckout";
-import CustomerReAssign from "./CustomerReAssign";
+import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
+import ChangeBedTenantWay from "./ChangeBedTenantWay";
 import MakeAsInactive from "./MakeAsInactive";
 import icon from "../../Assets/Images/New_images/Icon (1).svg";
 import TenantActions from "./TenantActions";
 import KYCTenantDetails from "./KYCTenantDetails";
 
-function UserListRoomDetail(props) {
+function TenantOverview(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -2210,7 +2210,7 @@ function UserListRoomDetail(props) {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-900 hover:bg-gray-100
+    text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2231,7 +2231,7 @@ function UserListRoomDetail(props) {
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
                           <ArrowSwapHorizontal
                             size={16}
@@ -2253,7 +2253,7 @@ function UserListRoomDetail(props) {
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
                           <LogoutCurve
                             size="18"
@@ -2272,7 +2272,7 @@ function UserListRoomDetail(props) {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-900 hover:bg-gray-100
+    text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2301,7 +2301,7 @@ function UserListRoomDetail(props) {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-900 hover:bg-gray-100
+    text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2326,7 +2326,7 @@ function UserListRoomDetail(props) {
                             handleShowWalletHistory();
                             setOpenMenu(null);
                           }}
-                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
+                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-blue-100 flex items-center gap-2"
                         >
                           <WalletCheck
                             size="18"
@@ -2347,7 +2347,7 @@ function UserListRoomDetail(props) {
                             setOpenMenu(null);
                           }}
                           type="button"
-                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
+                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-blue-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
         disabled:cursor-not-allowed"
                         >
                           <AddCircle
@@ -2367,7 +2367,7 @@ function UserListRoomDetail(props) {
                           }}
                           className="
         w-full px-3 py-2 text-left text-sm flex items-center gap-2
-        text-gray-900 hover:bg-gray-100
+        text-gray-900 hover:bg-blue-100
         disabled:text-gray-400
         disabled:cursor-not-allowed
         disabled:hover:bg-transparent
@@ -3483,7 +3483,7 @@ function UserListRoomDetail(props) {
       )}
 
       {customerCheckoutpage && (
-        <CustomerCheckout
+        <MoveToNoticePGAndTenant
           customerCheckoutpage={customerCheckoutpage}
           setCustomerCheckoutpage={setCustomerCheckoutpage}
           bedData={customercheckoutdata}
@@ -3491,7 +3491,7 @@ function UserListRoomDetail(props) {
       )}
 
       {customerReassign && (
-        <CustomerReAssign
+        <ChangeBedTenantWay
           customerReassign={customerReassign}
           setCustomerReAssign={setCustomerReAssign}
           reAssignDetail={reAssignDetail}
@@ -3525,7 +3525,7 @@ function UserListRoomDetail(props) {
   );
 }
 
-UserListRoomDetail.propTypes = {
+TenantOverview.propTypes = {
   onEditItem: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onClick: PropTypes.func,
@@ -3556,4 +3556,4 @@ UserListRoomDetail.propTypes = {
   onDeleteRoomItem: PropTypes.func,
 };
 
-export default withErrorBoundary(UserListRoomDetail);
+export default withErrorBoundary(TenantOverview);

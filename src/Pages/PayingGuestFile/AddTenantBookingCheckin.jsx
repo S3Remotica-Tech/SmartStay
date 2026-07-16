@@ -854,7 +854,7 @@ function AddTenantBookingCheckin({
           ? dayjs(DraftTenantDetails?.hostelInfo?.joiningDate, "DD-MM-YYYY")
           : null,
       );
-      setStayType(DraftTenantDetails?.stayType || "long");
+      setStayType(DraftTenantDetails?.stayType || "LONG");
 
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount);
       setRentAmount(DraftTenantDetails?.hostelInfo?.monthlyRent);
@@ -913,6 +913,8 @@ function AddTenantBookingCheckin({
       ]);
     }
   }, [DraftTenantDetails, newTenant]);
+
+  console.log("DraftTenantDetails", DraftTenantDetails);
 
   const handleBookingSaveDraft = () => {
     const formatDate = (date) => {
@@ -2000,9 +2002,9 @@ function AddTenantBookingCheckin({
           <div className="w-full rounded-lg bg-[#F5F7FA] p-1 flex items-center mb-2">
             <button
               type="button"
-              onClick={() => setStayType("long")}
+              onClick={() => setStayType("LONG")}
               className={`px-6 py-2 text-sm font-medium rounded-md transition-all w-full ${
-                stayType === "long"
+                stayType === "LONG"
                   ? "bg-[#1E45E1] text-white shadow-sm"
                   : "text-[#222222]"
               }`}
@@ -2012,9 +2014,9 @@ function AddTenantBookingCheckin({
 
             <button
               type="button"
-              onClick={() => setStayType("short")}
+              onClick={() => setStayType("SHORT")}
               className={`px-6 py-2 text-sm font-medium rounded-md transition-all  w-full  ${
-                stayType === "short"
+                stayType === "SHORT"
                   ? "bg-[#1E45E1] text-white shadow-sm"
                   : "text-[#222222]"
               }`}
@@ -2023,7 +2025,7 @@ function AddTenantBookingCheckin({
             </button>
           </div>
 
-          {stayType === "long" ? (
+          {stayType === "LONG" ? (
             <div>
               <div className="grid grid-cols-1 gap-4 mb-2">
                 <div className="mb-2" ref={CheckinJoiningDateRef}>

@@ -106,21 +106,21 @@ function DashQuickAccess({ handleTriggerFilter }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            billingFilter: selected,
-          },
-        },
-      });
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "GET_DASHBOARD_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           billingFilter: selected,
+  //         },
+  //       },
+  //     });
 
-      // setLoading(true);
-    }
-  }, [selected]);
+  //     // setLoading(true);
+  //   }
+  // }, [selected]);
 
   useEffect(() => {
     if (state.PgList?.dashboardList) {
@@ -169,33 +169,32 @@ function DashQuickAccess({ handleTriggerFilter }) {
     });
   };
 
+  // useEffect(() => {
+  //   if (
+  //     state.UsersList?.bookingToCheckinStatusCode === 200 ||
+  //     state.UsersList?.bookingToCheckinStatusCode === 201
+  //   ) {
+  //     setBookingAssignForm(false);
+  //     dispatch({
+  //       type: "GET_DASHBOARD_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           billingFilter: selected,
+  //         },
+  //       },
+  //     });
+
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
+  //     }, 100);
+  //   }
+  // }, [state.UsersList?.bookingToCheckinStatusCode]);
+
   useEffect(() => {
-    if (
-      state.UsersList?.bookingToCheckinStatusCode === 200 ||
-      state.UsersList?.bookingToCheckinStatusCode === 201
-    ) {
+    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
       setBookingAssignForm(false);
       dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            billingFilter: selected,
-          },
-        },
-      });
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_BOOKING_TO_CHECKIN" });
-      }, 100);
-    }
-  }, [state.UsersList?.bookingToCheckinStatusCode]);
-
-
- useEffect(() => {
-    if (state.UsersList?.bookingToCheckinSuccessCode === 201) {
-       setBookingAssignForm(false);
-   dispatch({
         type: "GET_DASHBOARD_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
@@ -208,10 +207,6 @@ function DashQuickAccess({ handleTriggerFilter }) {
       dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
     }
   }, [state.UsersList?.bookingToCheckinSuccessCode]);
-
-
-
-
 
   useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {

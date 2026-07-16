@@ -304,7 +304,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     setVendorError("");
   };
 
-  console.log("VendorOverView", VendorOverView);
+  // console.log("VendorOverView", VendorOverView);
   useEffect(() => {
     setSelectedVendor(VendorOverView?.fullName);
   }, [VendorOverView?.fullName]);

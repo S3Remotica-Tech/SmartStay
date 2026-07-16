@@ -141,63 +141,64 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     : null;
 
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" centered>
-      <Modal.Dialog className="m-0 p-0 max-w-5xl pr-3 rounded-3xl ">
-        <Modal.Body className="p-">
-          <Modal.Header className="-mx-4 px-4 pt-0 pb-2 mb-3 border-b border-gray-300 relative flex items-start justify-between">
-            <div className="text-xl font-semibold font-gilroy">
-              Cancel Check-Out
-            </div>
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
 
-            <CloseCircle
-              size="23"
-              color="#000"
-              onClick={handleClose}
-              className="cursor-pointer"
-            />
-          </Modal.Header>
-
-          <div className="flex items-center gap-3 mb-3 ml-2">
-            {imgsrc ? (
-              <img
-                src={imgsrc}
-                alt="Profile"
-                className="w-9 h-9 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-14 h-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base font-gilroy">
-                {checkInDetails?.initials ||
-                  checkInDetails?.tenantInitials ||
-                  checkInDetails?.profilePic}
-              </div>
-            )}
-
-            <div>
-              <p className="font-semibold text-sm mb-1 font-gilroy">
-                {checkInDetails?.fullName || checkInDetails?.tenantFullName}
-              </p>
-
-              <div className="flex gap-2 -ml-1">
-                <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                  {pgDetails?.floorName ||
-                    checkInDetails?.floorName ||
-                    checkInDetails?.hostelInfo?.floorName}
-                </span>
-
-                <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                  {pgDetails?.roomName ||
-                    checkInDetails?.roomName ||
-                    checkInDetails?.hostelInfo?.roomName}
-                  {" - "}
-                  {pgDetails?.bedName ||
-                    checkInDetails?.bedName ||
-                    checkInDetails?.hostelInfo?.bedName}
-                </span>
-              </div>
-            </div>
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col ">
+        <div className="px-4 py-3 shrink-0 relative flex items-start justify-between">
+          <div className="text-xl font-semibold font-gilroy">
+            Cancel Check-Out
           </div>
 
-          <div className="mt-1 p-1 py-1.5 w-full bg-indigo-50 rounded-lg">
+          <CloseCircle
+            size="23"
+            color="#000"
+            onClick={handleClose}
+            className="cursor-pointer"
+          />
+        </div>
+
+        <div className="flex items-center gap-3 px-4 py-3 shrink-0">
+          {imgsrc ? (
+            <img
+              src={imgsrc}
+              alt="Profile"
+              className="w-9 h-9 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-14 h-14 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base font-gilroy">
+              {checkInDetails?.initials ||
+                checkInDetails?.tenantInitials ||
+                checkInDetails?.profilePic}
+            </div>
+          )}
+
+          <div>
+            <p className="font-semibold text-sm mb-1 font-gilroy">
+              {checkInDetails?.fullName || checkInDetails?.tenantFullName}
+            </p>
+
+            <div className="flex gap-2 -ml-1">
+              <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
+                {pgDetails?.floorName ||
+                  checkInDetails?.floorName ||
+                  checkInDetails?.hostelInfo?.floorName}
+              </span>
+
+              <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
+                {pgDetails?.roomName ||
+                  checkInDetails?.roomName ||
+                  checkInDetails?.hostelInfo?.roomName}
+                {" - "}
+                {pgDetails?.bedName ||
+                  checkInDetails?.bedName ||
+                  checkInDetails?.hostelInfo?.bedName}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="px-4">
+          <div className="   px-1 py-1.5 w-full bg-indigo-50 rounded-lg">
             <div className="flex gap-2 w-full">
               <button
                 onClick={() => setActiveTab("LONG")}
@@ -224,117 +225,116 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               </button>
             </div>
           </div>
+        </div>
 
-          {activeTab === "LONG" ? (
-            <>
-              <div className="max-h-80 overflow-y-scroll p-2 mt-2 mr-1 show-scroll">
-                <div className="mb-2">
-                  <Form.Group>
-                    <Form.Label className="text-sm font-medium font-gilroy">
-                      Reason (Comments){" "}
-                      <span className="text-red-500 text-xl">*</span>
-                    </Form.Label>
+        {activeTab === "LONG" ? (
+          <div className="relative px-4 py-1  flex-1 overflow-y-auto show-scrolls">
+            <div className="mb-2">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy">
+                  Reason (Comments){" "}
+                  <span className="text-red-500 text-xl">*</span>
+                </Form.Label>
 
-                    <FormControl
-                      ref={reasonRef}
-                      type="text"
-                      placeholder="Enter Comments"
-                      value={reason}
-                      onChange={handleRecheckin}
-                      className="h-12 text-base text-gray-600 font-medium font-gilroy border border-gray-300 rounded-lg shadow-none focus:outline-none"
-                    />
-                  </Form.Group>
+                <FormControl
+                  ref={reasonRef}
+                  type="text"
+                  placeholder="Enter Comments"
+                  value={reason}
+                  onChange={handleRecheckin}
+                  className="h-12 text-base text-gray-600 font-medium font-gilroy border border-gray-300 rounded-lg shadow-none focus:outline-none"
+                />
+              </Form.Group>
 
-                  {reasonError && (
-                    <ErrorMessage message={reasonError} type="error" />
-                  )}
-                </div>
-
-                <div className="relative z-10">
-                  <Form.Label className="text-sm font-medium font-gilroy pt-1.5 block">
-                    Re Check-In Date{" "}
-                    <span className="text-red-500 text-xl">*</span>
-                  </Form.Label>
-
-                  <DatePicker
-                    ref={dateRef}
-                    className="w-full h-12 cursor-pointer font-gilroy"
-                    disabledDate={(current) => {
-                      if (!current) return false;
-
-                      const today = dayjs().endOf("day");
-
-                      if (
-                        noticeDayjs &&
-                        current.isBefore(noticeDayjs.startOf("day"))
-                      ) {
-                        return true;
-                      }
-                      if (current.isAfter(today)) {
-                        return true;
-                      }
-                      return false;
-                    }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={recheckInDate ? dayjs(recheckInDate) : null}
-                    onChange={handleJoiningDateChange}
-                  />
-
-                  {recheckinDateError && (
-                    <ErrorMessage message={recheckinDateError} type="error" />
-                  )}
-                </div>
-              </div>
-
-              {state.UsersList?.cancelCheckoutError && (
-                <div className="d-flex justify-content-center">
-                  <ErrorMessage
-                    message={state.UsersList?.cancelCheckoutError}
-                    type="error"
-                  />
-                </div>
+              {reasonError && (
+                <ErrorMessage message={reasonError} type="error" />
               )}
+            </div>
 
-              {formLoading && (
-                <div className="absolute inset-x-0 bottom-0 top-24 flex items-center justify-center opacity-75 z-10">
-                  <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
-                </div>
-              )}
+            <div className="relative z-10">
+              <Form.Label className="text-sm font-medium font-gilroy pt-1.5 block">
+                Re Check-In Date <span className="text-red-500 text-xl">*</span>
+              </Form.Label>
 
-              <div className="flex items-center justify-end gap-4 mt-2">
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="bg-transparent border-0 text-gray-700 text-sm font-medium font-montserrat cursor-pointer"
-                >
-                  Cancel
-                </button>
+              <DatePicker
+                ref={dateRef}
+                className="w-full h-12 cursor-pointer font-gilroy"
+                disabledDate={(current) => {
+                  if (!current) return false;
 
-                <button
-                  type="button"
-                  disabled={
-                    !state.UsersList?.initializeCancelCheckout
-                      ?.canRecheckinSameBed
+                  const today = dayjs().endOf("day");
+
+                  if (
+                    noticeDayjs &&
+                    current.isBefore(noticeDayjs.startOf("day"))
+                  ) {
+                    return true;
                   }
-                  onClick={handleSaveBacktoCheckin}
-                  className={`h-10 px-6 rounded-lg text-sm font-semibold font-montserrat text-white
+                  if (current.isAfter(today)) {
+                    return true;
+                  }
+                  return false;
+                }}
+                format="DD/MM/YYYY"
+                placeholder="DD/MM/YYYY"
+                value={recheckInDate ? dayjs(recheckInDate) : null}
+                onChange={handleJoiningDateChange}
+              />
+
+              {recheckinDateError && (
+                <ErrorMessage message={recheckinDateError} type="error" />
+              )}
+            </div>
+
+            {formLoading && (
+              <div className="absolute inset-x-0 bottom-0 top-24 flex items-center justify-center opacity-75 z-10">
+                <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-r-transparent animate-spin"></div>
+              </div>
+            )}
+
+            {state.UsersList?.cancelCheckoutError && (
+              <div className="d-flex justify-content-center">
+                <ErrorMessage
+                  message={state.UsersList?.cancelCheckoutError}
+                  type="error"
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto show-scrolls">
+            <FormComingSoon />
+          </div>
+        )}
+        {activeTab === "LONG" && (
+          <div className="flex items-center justify-end gap-4 m-4">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="bg-transparent border-0 text-gray-700 text-sm font-medium font-montserrat cursor-pointer"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              disabled={
+                !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed
+              }
+              onClick={handleSaveBacktoCheckin}
+              className={`h-10 px-6 rounded-lg text-sm font-semibold font-montserrat text-white
       ${
         state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed
           ? "bg-blue-700 cursor-pointer"
           : "bg-indigo-300 cursor-not-allowed"
       }`}
-                >
-                  Check-In
-                </button>
-              </div>
-            </>
-          ) : (
-            <FormComingSoon />
-          )}
-        </Modal.Body>
-      </Modal.Dialog>
-    </Modal>
+            >
+              Check-In
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 BackToCheckIn.propTypes = {

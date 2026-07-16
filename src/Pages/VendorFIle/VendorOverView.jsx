@@ -51,35 +51,39 @@ function VendorOverView({
   // console.log("selectedMonth", selectedMonth);
 
   useEffect(() => {
-    if (selectedVendorId) {
+    if (!selectedVendorId) return;
+
+    dispatch({
+      type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+      payload: {
+        vendorId: selectedVendorId,
+        period: selectedMonth,
+      },
+    });
+  }, [selectedVendorId, selectedMonth]);
+
+  useEffect(() => {
+    if (!selectedVendorId) return;
+
+    if (activeTab === "expenses") {
       dispatch({
-        type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
+        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
         payload: {
           vendorId: selectedVendorId,
-          period: selectedMonth,
         },
       });
-      if (activeTab === "expenses") {
-        dispatch({
-          type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-          payload: {
-            vendorId: selectedVendorId,
-          },
-        });
-      } else if (activeTab === "payments") {
-        dispatch({
-          type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
-          payload: {
-            vendorId: selectedVendorId,
-          },
-        });
-      }
+    } else if (activeTab === "payments") {
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+        },
+      });
     }
-  }, [selectedVendorId, selectedMonth, activeTab]);
+  }, [selectedVendorId, activeTab]);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;
-    // console.log("executed ", selectedVendorId);
     dispatch({
       type: "VENDOR_SETTLE_INITIALIZE_SAGA",
       payload: {

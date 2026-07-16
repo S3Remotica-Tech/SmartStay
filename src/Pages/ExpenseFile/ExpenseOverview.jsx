@@ -41,8 +41,6 @@ function ExpenseOverview({
     }
   }, [selectedExpenseId, activeTab]);
 
-  
-
   return (
     <div className="font-gilroy">
       <div
@@ -52,7 +50,7 @@ function ExpenseOverview({
         // onClick={onClose}
       />
 
-      <div className="fixed top-2 right-2 bottom-2 w-[1100px]  bg-white z-50 rounded-md flex flex-col">
+      <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
         <div className="px-6 py-2">
           <div className="flex items-start justify-between">
             <div className="mt-3">
