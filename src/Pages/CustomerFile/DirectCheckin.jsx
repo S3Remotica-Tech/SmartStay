@@ -850,8 +850,10 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40">
-      <div className="h-[calc(100vh-16px)] w-full max-w-[700px] bg-white rounded-[20px] shadow-lg flex flex-col m-2">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
         <div className="px-4 py-3">
           <div className="pt-0 relative border-0 flex justify-between mb-2">
             <div className="text-xl font-semibold font-gilroy">
@@ -1757,20 +1759,20 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                       for Advance & Base Rent
                     </p>
                   </div> */}
-                <div className="flex items-center gap-2 my-4">
-                  <input
-                    type="checkbox"
-                    checked={isConfirmed}
-                    onChange={(e) => setIsConfirmed(e.target.checked)}
-                    className="cursor-pointer accent-green-600 w-4 h-4 "
-                  />
-                  <span className="text-[#0A090B] text-sm ">
-                    Everything is Correct – Proceed to Check-in
-                  </span>
-                </div>
               </div>
             </div>
-            <div className="flex justify-end">
+            <div className="flex items-center gap-2 my-1 px-4">
+              <input
+                type="checkbox"
+                checked={isConfirmed}
+                onChange={(e) => setIsConfirmed(e.target.checked)}
+                className="cursor-pointer accent-green-600 w-4 h-4 "
+              />
+              <span className="text-[#0A090B] text-sm ">
+                Everything is Correct – Proceed to Check-in
+              </span>
+            </div>
+            <div className="border-0 p-2 flex justify-end">
               <button
                 disabled={formLoading || !isConfirmed}
                 onClick={handleSaveUserlistAddUser}
