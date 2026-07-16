@@ -201,9 +201,11 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
   // console.log("data", data);
 
   return (
-    <div>
-      <Modal show={show} onHide={handleClosecheck} centered>
-        <Modal.Header className="flex items-start justify-between mb-3 relative border-b-0 pb-1">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col ">
+        <div className="px-4 py-3 shrink-0 relative flex items-start justify-between">
           <h2 className="text-xl font-semibold font-gilroy">
             Check-out Tenant
           </h2>
@@ -211,57 +213,55 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
           <button onClick={handleClosecheck} className="cursor-pointer">
             <CloseCircle size={24} color="#000" />
           </button>
-        </Modal.Header>
-
-        <Modal.Body>
-          <div className="flex items-center gap-3 -mt-6">
-            {getProfileImage() ? (
-              <img
-                src={getProfileImage()}
-                className="h-14 w-14 cursor-pointer rounded-circle mr-3"
-                alt="profile"
-              />
-            ) : (
-              <div className="w-16 h-16 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-base font-gilroy cursor-pointer">
-                {data?.initials ||
-                  data?.tenantInitials ||
-                  data?.profilePic ||
-                  "--"}
-              </div>
-            )}
-
-            <div>
-              <p className="text-lg mt-2 font-gilroy font-semibold mb-0">
-                {data?.fullName || data?.tenantFullName}
-              </p>
-              <div className="flex mb-2">
-                <span className="rounded-full bg-yellow-400 text-gray-900 me-2 text-xs font-gilroy font-normal px-2.5 py-1">
-                  {data?.floorName ||
-                    pgDetails?.floorName ||
-                    data?.hostelInfo?.floorName}
-                </span>
-                <span className="rounded-full bg-red-100 text-gray-900 text-xs font-gilroy font-normal px-2.5 py-1">
-                  {data?.roomName ||
-                    pgDetails?.roomName ||
-                    data?.hostelInfo?.roomName}{" "}
-                  -{" "}
-                  {data?.bedName ||
-                    pgDetails?.bedName ||
-                    data?.hostelInfo?.bedName}
-                </span>
-              </div>
+        </div>
+        <div className="flex items-center gap-3 -mt-6 px-4 py-3">
+          {getProfileImage() ? (
+            <img
+              src={getProfileImage()}
+              className="h-14 w-14 cursor-pointer rounded-circle mr-3"
+              alt="profile"
+            />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-base font-gilroy cursor-pointer">
+              {data?.initials ||
+                data?.tenantInitials ||
+                data?.profilePic ||
+                "--"}
             </div>
+          )}
 
-            <div className="ml-auto text-right mt-2">
-              <p className="text-sm font-gilroy font-normal text-gray-700 m-0 p-0 mb-1">
-                Check-out Date
-              </p>
-              <p className="text-sm font-gilroy font-semibold m-0">
-                {state.UsersList?.initializeCheckout?.checkoutDate}
-              </p>
+          <div>
+            <p className="text-lg mt-2 font-gilroy font-semibold mb-0">
+              {data?.fullName || data?.tenantFullName}
+            </p>
+            <div className="flex mb-2">
+              <span className="rounded-full bg-yellow-400 text-gray-900 me-2 text-xs font-gilroy font-normal px-2.5 py-1">
+                {data?.floorName ||
+                  pgDetails?.floorName ||
+                  data?.hostelInfo?.floorName}
+              </span>
+              <span className="rounded-full bg-red-100 text-gray-900 text-xs font-gilroy font-normal px-2.5 py-1">
+                {data?.roomName ||
+                  pgDetails?.roomName ||
+                  data?.hostelInfo?.roomName}{" "}
+                -{" "}
+                {data?.bedName ||
+                  pgDetails?.bedName ||
+                  data?.hostelInfo?.bedName}
+              </span>
             </div>
           </div>
 
+          <div className="ml-auto text-right mt-2">
+            <p className="text-sm font-gilroy font-normal text-gray-700 m-0 p-0 mb-1">
+              Check-out Date
+            </p>
+            <p className="text-sm font-gilroy font-semibold m-0">
+              {state.UsersList?.initializeCheckout?.checkoutDate}
+            </p>
+          </div>
+        </div>
+        <div className="px-4 py-1  flex-1 overflow-y-auto show-scrolls relative ">
           <div className="flex justify-between items-center">
             <span className="text-sm font-gilroy font-normal">Status</span>
             <div className="flex justify-between items-center mb-3">
@@ -283,7 +283,12 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
               onChange={handleCommentsChange}
             />
           </div>
-        </Modal.Body>
+          {formLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
+              <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
+        </div>
         {state.UsersList?.chrckoutError && (
           <div className="d-flex justify-content-center">
             <ErrorMessage
@@ -293,13 +298,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
           </div>
         )}
 
-        {formLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
-            <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
-
-        <Modal.Footer className="!border-t-0">
+        <div className="flex items-center justify-end gap-4 m-4">
           <Button
             className="!text-base !font-gilroy !font-normal !bg-transparent !text-gray-800 px-4 py-2 rounded"
             onClick={handleClosecheck}
@@ -313,8 +312,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
           >
             Check-out
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      </div>
     </div>
   );
 }
