@@ -901,7 +901,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         {state.login.isTrigger &&
           changeBedClicked?.roomId &&
           selectedBed?.bedId && (
-            <div className="fixed bottom-0 left-[19%] right-0 z-50 flex flex-wrap items-center justify-center border-t bg-white p-2">
+            <div className="fixed bottom-0 left-[19%] right-0 z-40 flex flex-wrap items-center justify-center border-t bg-white p-2">
               <div>
                 <p className="m-0 text-sm font-semibold font-gilroy text-neutral-600">
                   Bed |{" "}
