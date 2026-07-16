@@ -352,7 +352,7 @@ function MoveToNoticePGAndTenant(props) {
             )}
           </div>
         </div>
-        <div className=" sticky bottom flex justify-end gap-3 mt-3 p-4">
+        <div className=" flex justify-end gap-3 mt-3 p-4">
           <button
             onClick={handleCloseCheckout}
             className="h-10 px-4 rounded-lg bg-white text-gray-700 font-gilroy font-medium border border-white"

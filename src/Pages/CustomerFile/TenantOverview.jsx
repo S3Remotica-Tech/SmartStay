@@ -2210,7 +2210,7 @@ function TenantOverview(props) {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-900 hover:bg-gray-100
+    text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2231,7 +2231,7 @@ function TenantOverview(props) {
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
                           <ArrowSwapHorizontal
                             size={16}
@@ -2253,7 +2253,7 @@ function TenantOverview(props) {
                               setOpenMenu(false);
                             }
                           }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                         >
                           <LogoutCurve
                             size="18"
@@ -2272,7 +2272,7 @@ function TenantOverview(props) {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-900 hover:bg-gray-100
+    text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2301,7 +2301,7 @@ function TenantOverview(props) {
                           }}
                           className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
-    text-gray-900 hover:bg-gray-100
+    text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
@@ -2326,7 +2326,7 @@ function TenantOverview(props) {
                             handleShowWalletHistory();
                             setOpenMenu(null);
                           }}
-                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
+                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-blue-100 flex items-center gap-2"
                         >
                           <WalletCheck
                             size="18"
@@ -2347,7 +2347,7 @@ function TenantOverview(props) {
                             setOpenMenu(null);
                           }}
                           type="button"
-                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
+                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-blue-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
         disabled:cursor-not-allowed"
                         >
                           <AddCircle
@@ -2367,7 +2367,7 @@ function TenantOverview(props) {
                           }}
                           className="
         w-full px-3 py-2 text-left text-sm flex items-center gap-2
-        text-gray-900 hover:bg-gray-100
+        text-gray-900 hover:bg-blue-100
         disabled:text-gray-400
         disabled:cursor-not-allowed
         disabled:hover:bg-transparent

@@ -24,11 +24,9 @@ function ChangeBedTenantWay(props) {
   const [currentFloor, setCurrentFloor] = useState("");
   const [currentRoom, setCurrentRoom] = useState("");
   const [currentBed, setCurrentBed] = useState("");
-  // const [currentRoomId, setCurrentRoomId] = useState("");
-  // const [currentBedId, setCurrentBedId] = useState("");
+
   const [currentRoomRent, setCurrentRoomRent] = useState("");
   const [newRoomRent, setNewRoomRent] = useState("");
-  // const [currentHostel_id, setCurrentHostel_Id] = useState("");
   const [newFloor, setNewFloor] = useState("");
   const [newRoom, setNewRoom] = useState("");
   const [newBed, setNewBed] = useState("");
@@ -41,7 +39,6 @@ function ChangeBedTenantWay(props) {
   const [availableBed, setAvailableBed] = useState("");
   const [bedWarning, setBedWarning] = useState("");
 
-  // console.log("props", props);
   const rentRef = useRef(null);
   const floorRef = useRef(null);
   const roomRef = useRef(null);
@@ -66,15 +63,6 @@ function ChangeBedTenantWay(props) {
     setUserId("");
     dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
   };
-
-  // const handleFloor = (selectedOption) => {
-  //   setNewFloor(selectedOption?.value || "");
-
-  //   setfloorError("");
-  //   setNewRoom("")
-  //   setNewBed("")
-  //   setNewRoomRent("")
-  // };
 
   const handleFloor = (selectedOption) => {
     setNewFloor(selectedOption?.value || "");
@@ -101,7 +89,6 @@ function ChangeBedTenantWay(props) {
     }
   }, [newFloor, newRoom, state.UsersList?.availableBedList]);
 
-  // view.floorId === newFloor &&
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -164,32 +151,6 @@ function ChangeBedTenantWay(props) {
       ),
     })) || [];
 
-  // const handleRooms = (selectedOption) => {
-  //   const value = selectedOption?.value || "";
-  //   setNewRoom(value);
-  //   if (value) {
-
-  //  const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
-  //           return view.floorId === newFloor && view.roomId === value
-  //         });
-  //         setAvailableBed(filteredBed)
-  //   }
-
-  //   setRoomError("");
-  //   setNewBed("");
-  //   setNewRoomRent("");
-  // };
-
-  //  useEffect(() => {
-  //       if (Rooms) {
-  //         const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
-  //           return view.floorId === Floor && view.roomId === Rooms
-  //         });
-  //         setAvailableBed(filteredBed)
-  //       }
-
-  //     }, [Rooms, selectedDate,  state.UsersList?.availableBedList?.listBeds])
-
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     dispatch({ type: "REMOVE_BED_AVAILABLE_ERROR" });
@@ -213,31 +174,6 @@ function ChangeBedTenantWay(props) {
     setBedError("");
     setRentError("");
   };
-
-  // const handleBed = (selectedOption) => {
-  //   const selectedBedId = selectedOption?.value || "";
-  //   setNewBed(selectedBedId);
-
-  //   const Bedfilter = state?.UsersList?.roomdetails?.filter(
-  //     (u) =>
-  //       String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
-  //       String(u.Floor_Id) === String(newFloor) &&
-  //       String(u.Room_Id) === String(newRoom)
-  //   );
-
-  //   const Roomamountfilter =
-  //     Bedfilter?.[0]?.bed_details?.filter(
-  //       (amount) => String(amount.id) === String(selectedBedId)
-  //     ) ?? [];
-
-  //   if (Roomamountfilter.length > 0) {
-  //     setNewRoomRent(Roomamountfilter[0]?.bed_amount);
-  //   }
-
-  //   setBedError("");
-  //   setRentError("");
-
-  // };
 
   const handleNewRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -432,8 +368,6 @@ function ChangeBedTenantWay(props) {
     }
   }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
-  // const [currentFloorId, setCurrentFloorId] = useState("")
-
   const [customerName, setCustomerName] = useState("");
   const [customerProfile, setCustomerProfile] = useState("");
 
@@ -445,8 +379,6 @@ function ChangeBedTenantWay(props) {
       });
     }
   }, [props.reAssignDetail?.apiCall?.customerId]);
-
-  // console.log("props", props);
 
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
@@ -463,9 +395,6 @@ function ChangeBedTenantWay(props) {
       setCurrentBed(hostelInfo.bedName || "");
       setCurrentRoomRent(hostelInfo.monthlyRent || "");
       setUserId(customerData.customerId || "");
-      // setCurrentBedId(hostelInfo.bedId || "");
-      // setCurrentRoomId(hostelInfo.roomId || "");
-      // setCurrentFloorId(hostelInfo.floorId || "");
       setCustomerProfile(customerData.profilePic || null);
 
       if (hostelInfo.joiningDate) {
@@ -538,517 +467,497 @@ function ChangeBedTenantWay(props) {
   const tenant = state.UsersList?.customerdetails;
   const imageSrc = tenant?.profilePic;
 
-  // console.log("tenant", tenant);
-
   return (
     <>
-      <div>
-        <Modal
-          show={true}
-          onHide={handleCloseReAssign}
-          backdrop="static"
-          centered
-          dialogClassName="tenantCheck-style font-gilroy"
-        >
-          <Modal.Dialog className="m-0 p-0 max-w-[666px] pr-2.5 rounded-[30px] bg-white">
-            <Modal.Header className="relative flex items-center justify-between px-4 py-3 border-b mb-2">
-              <div className="text-xl font-semibold font-gilroy">
-                Change Bed
-              </div>
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/50" />
 
-              <CloseCircle
-                size="24"
-                color="#000"
-                onClick={handleCloseReAssign}
-                className="cursor-pointer"
-              />
-            </Modal.Header>
+        <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+          <div className="relative flex items-center justify-between p-3 border-b">
+            <div className="text-xl font-semibold font-gilroy">Change Bed</div>
 
-            <Modal.Body className="mt-2 mr-3 pt-1 overflow-hidden">
-              <div className="flex items-center">
-                <div>
-                  <div className="w-full">
-                    <div className="flex justify-between items-center mb-2 mt-1 ml-2">
-                      <div className="flex items-center gap-3">
-                        {imageSrc ? (
-                          <img
-                            src={imageSrc}
-                            alt="Profile"
-                            className="w-10 h-10 rounded-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.src = Profileimage;
-                            }}
-                          />
-                        ) : (
-                          <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-semibold text-base font-gilroy">
-                            {tenant?.initials}
-                          </div>
-                        )}
-                        <div>
-                          <p
-                            className="mb-1 font-semibold text-[15px] font-gilroy truncate max-w-[160px]"
-                            title={customerName}
-                          >
-                            {customerName}
-                          </p>
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handleCloseReAssign}
+              className="cursor-pointer"
+            />
+          </div>
 
-                          <div className="flex gap-2">
-                            <span className="bg-yellow-100 text-yellow-800 text-[12px] px-2 py-0.5 rounded-[12px] font-medium font-gilroy">
-                              {currentFloor}
-                            </span>
-
-                            <span className="bg-red-100 text-red-800 text-[12px] px-2 py-0.5 rounded-[12px] font-medium font-gilroy">
-                              {currentRoom} - {currentBed}
-                            </span>
-                          </div>
-                        </div>
+          <div className="relative px-4 py-1  flex-1 overflow-y-auto show-scrolls">
+            <div className="flex flex-col gap-4">
+              <div className="w-full">
+                <div className="flex justify-between items-center mb-2 mt-1 ml-2">
+                  <div className="flex items-center gap-3">
+                    {imageSrc ? (
+                      <img
+                        src={imageSrc}
+                        alt="Profile"
+                        className="w-10 h-10 rounded-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = Profileimage;
+                        }}
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-semibold text-base font-gilroy">
+                        {tenant?.initials}
                       </div>
+                    )}
+                    <div>
+                      <p
+                        className="mb-1 font-semibold text-[15px] font-gilroy truncate max-w-[160px]"
+                        title={customerName}
+                      >
+                        {customerName}
+                      </p>
 
-                      <div className="mr-4 text-right">
-                        <p className="mb-1 text-[14px] font-normal text-gray-700 font-gilroy">
-                          Rental Amount
-                        </p>
-                        <p className="mb-0 font-semibold text-base font-gilroy">
-                          ₹ {currentRoomRent}
-                        </p>
+                      <div className="flex gap-2">
+                        <span className="bg-yellow-100 text-yellow-800 text-[12px] px-2 py-0.5 rounded-[12px] font-medium font-gilroy">
+                          {currentFloor}
+                        </span>
+
+                        <span className="bg-red-100 text-red-800 text-[12px] px-2 py-0.5 rounded-[12px] font-medium font-gilroy">
+                          {currentRoom} - {currentBed}
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="overflow-y-auto max-h-[330px]   mt-1 pt-1 show-scroll p-2">
-                    <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
-                      <div className="mb-2">
-                        <Form.Group controlId="purchaseDate">
-                          <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
-                            Date{" "}
-                            <span className="text-red-500 text-[20px]">*</span>
-                          </Form.Label>
-                          <div className="relative w-full datepicker-wrapper">
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                border: "1px solid lightgrey",
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              ref={selectedDateRef}
-                              onChange={(date) => {
-                                setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                              }}
-                              getPopupContainer={() => document.body}
-                              disabledDate={(current) => {
-                                if (!current) return false;
-                                const today = dayjs().endOf("day");
-
-                                let joining = null;
-                                if (
-                                  joiningdate &&
-                                  /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)
-                                ) {
-                                  const [dd, mm, yyyy] = joiningdate.split("-");
-                                  joining = dayjs(
-                                    `${yyyy}-${mm}-${dd}`,
-                                  ).startOf("day");
-                                }
-
-                                let lastBillDate = null;
-                                if (
-                                  lastDate &&
-                                  /^\d{2}-\d{2}-\d{4}$/.test(lastDate)
-                                ) {
-                                  const [dd, mm, yyyy] = lastDate.split("-");
-                                  lastBillDate = dayjs(
-                                    `${yyyy}-${mm}-${dd}`,
-                                  ).startOf("day");
-                                }
-
-                                let reAssign = null;
-                                if (
-                                  reAssignDate &&
-                                  /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)
-                                ) {
-                                  const [dd, mm, yyyy] =
-                                    reAssignDate.split("-");
-                                  reAssign = dayjs(
-                                    `${yyyy}-${mm}-${dd}`,
-                                  ).startOf("day");
-                                }
-
-                                let minAllowedDate = null;
-
-                                if (reAssign) {
-                                  minAllowedDate = reAssign;
-                                } else if (joining) {
-                                  const sameMonth =
-                                    joining.month() === today.month() &&
-                                    joining.year() === today.year();
-
-                                  if (sameMonth) {
-                                    minAllowedDate = joining;
-                                  } else if (lastBillDate) {
-                                    minAllowedDate = lastBillDate;
-                                  }
-                                }
-
-                                if (current.isAfter(today)) {
-                                  return true;
-                                }
-
-                                if (
-                                  minAllowedDate &&
-                                  current.isBefore(minAllowedDate)
-                                ) {
-                                  return true;
-                                }
-
-                                return false;
-                              }}
-                            />
-                          </div>
-                          {dateError && (
-                            <ErrorMessage message={dateError} type="error" />
-                          )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="mb-2">
-                        <Form.Group>
-                          <Form.Label className="text-[14px] font-medium font-gilroy">
-                            New Floor{" "}
-                            <span className="text-red-500 text-[20px]">*</span>
-                          </Form.Label>
-                          <Select
-                            isDisabled={!selectedDate}
-                            options={
-                              state.UsersList.floorList?.map((u) => ({
-                                value: u.id,
-                                label: u.name,
-                              })) || []
-                            }
-                            onChange={handleFloor}
-                            ref={floorRef}
-                            value={
-                              state.UsersList.floorList?.find(
-                                (option) => option.id === newFloor,
-                              )
-                                ? {
-                                    value: newFloor,
-                                    label: state.UsersList.floorList.find(
-                                      (option) => option.id === newFloor,
-                                    )?.name,
-                                  }
-                                : null
-                            }
-                            placeholder="Selected Floor"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No floors available"}
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "50px",
-                                borderRadius: "0.5rem",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: newFloor ? 600 : 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                overflowY: "auto",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({ display: "none" }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                                fontFamily: "Gilroy",
-                              }),
-                            }}
-                          />
-                          {floorError && (
-                            <ErrorMessage message={floorError} type="error" />
-                          )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="mb-3">
-                        <Form.Group>
-                          <Form.Label className="text-[14px] font-medium font-gilroy">
-                            New Room{" "}
-                            <span className="text-red-500 text-[20px]">*</span>
-                          </Form.Label>
-                          <Select
-                            options={roomOptions}
-                            onChange={(selectedOption) =>
-                              handleRooms(selectedOption?.value)
-                            }
-                            ref={roomRef}
-                            isDisabled={!newFloor}
-                            value={
-                              state.PgList?.roomsList?.find(
-                                (option) => option.id === newRoom,
-                              )
-                                ? {
-                                    value: newRoom,
-                                    label: state.PgList?.roomsList.find(
-                                      (option) => option.id === newRoom,
-                                    )?.name,
-                                  }
-                                : null
-                            }
-                            placeholder="Selected Room"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No rooms available"}
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "50px",
-                                borderRadius: "0.5rem",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: newRoom ? 600 : 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                overflowY: "auto",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({ display: "none" }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                                fontFamily: "Gilroy",
-                              }),
-                            }}
-                          />
-                          {roomError && (
-                            <ErrorMessage message={roomError} type="error" />
-                          )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="mb-3">
-                        <Form.Group>
-                          <Form.Label className="text-[14px] font-medium font-gilroy">
-                            New Bed{" "}
-                            <span className="text-red-500 text-[20px]">*</span>
-                          </Form.Label>
-                          <Select
-                            options={
-                              availableBed
-                                ? availableBed
-                                    .filter(
-                                      (item) =>
-                                        item &&
-                                        item?.bedName !== "0" &&
-                                        item?.bedName !== "undefined" &&
-                                        item?.bedName !== "" &&
-                                        item?.bedName !== "null",
-                                    )
-                                    .map((item) => ({
-                                      value: item?.bedId,
-                                      label: item?.bedName,
-                                    }))
-                                : []
-                            }
-                            onChange={handleBed}
-                            ref={BedRef}
-                            value={
-                              availableBed
-                                ? (() => {
-                                    const selected = availableBed?.find(
-                                      (option) => option?.bedId === newBed,
-                                    );
-                                    return selected
-                                      ? {
-                                          value: selected.bedId,
-                                          label: selected.bedName,
-                                        }
-                                      : null;
-                                  })()
-                                : null
-                            }
-                            placeholder="Select Bed"
-                            isDisabled={!newRoom}
-                            classNamePrefix="custom"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "50px",
-                                borderRadius: "0.5rem",
-                                fontSize: "16px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: newBed ? 600 : 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                overflowY: "auto",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({ display: "none" }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused
-                                  ? "#f0f0f0"
-                                  : "white",
-                                color: "#000",
-                                fontFamily: "Gilroy",
-                              }),
-                            }}
-                          />
-                          {bedError && (
-                            <ErrorMessage message={bedError} type="error" />
-                          )}
-                          {bedWarning ? (
-                            <div className="flex justify-center">
-                              <ErrorMessage message={bedWarning} type="error" />
-                            </div>
-                          ) : null}
-                        </Form.Group>
-                      </div>
-
-                      <div>
-                        <Form.Group>
-                          <div className="flex items-center">
-                            <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
-                              New Rent Amount
-                              <span className="text-red-500 text-[20px] ml-1">
-                                *
-                              </span>
-                            </Form.Label>
-
-                            <Form.Check
-                              type="checkbox"
-                              label={
-                                <span className="text-[#1E45E1] font-medium text-[12px] font-gilroy whitespace-nowrap">
-                                  Same as Current
-                                </span>
-                              }
-                              className="ml-3 mb-0 cursor-pointer flex items-center"
-                              ref={rentRef}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setNewRoomRent(currentRoomRent);
-                                  setRentError("");
-                                } else {
-                                  setNewRoomRent("");
-                                  setRentError("");
-                                }
-                              }}
-                            />
-                          </div>
-
-                          <FormControl
-                            onChange={(e) => handleNewRoomRent(e)}
-                            value={newRoomRent}
-                            type="text"
-                            placeholder="Enter Amount"
-                            className="mt-2 h-[48px] rounded-lg border border-[#D9D9D9] text-[15px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
-                          />
-
-                          {rentError && (
-                            <ErrorMessage message={rentError} type="error" />
-                          )}
-                        </Form.Group>
-                      </div>
-                    </div>
+                  <div className="mr-4 text-right">
+                    <p className="mb-1 text-[14px] font-normal text-gray-700 font-gilroy">
+                      Rental Amount
+                    </p>
+                    <p className="mb-0 font-semibold text-base font-gilroy">
+                      ₹ {currentRoomRent}
+                    </p>
                   </div>
                 </div>
               </div>
-            </Modal.Body>
 
-            {state.UsersList?.changeBedError && (
-              <div className="flex justify-center mb-3">
-                <ErrorMessage
-                  message={state.UsersList?.changeBedError}
-                  type="error"
-                />
+              <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-x-4 items-stretch">
+                <div className="mb-2">
+                  <Form.Group controlId="purchaseDate">
+                    <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                      Date <span className="text-red-500 text-[20px]">*</span>
+                    </Form.Label>
+                    <div className="relative w-full datepicker-wrapper">
+                      <DatePicker
+                        style={{
+                          width: "100%",
+                          height: 48,
+                          border: "1px solid lightgrey",
+                          cursor: "pointer",
+                          fontFamily: "Gilroy",
+                        }}
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                        value={selectedDate ? dayjs(selectedDate) : null}
+                        ref={selectedDateRef}
+                        onChange={(date) => {
+                          setDateError("");
+                          setSelectedDate(date ? date.toDate() : null);
+                        }}
+                        getPopupContainer={() => document.body}
+                        disabledDate={(current) => {
+                          if (!current) return false;
+                          const today = dayjs().endOf("day");
+
+                          let joining = null;
+                          if (
+                            joiningdate &&
+                            /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)
+                          ) {
+                            const [dd, mm, yyyy] = joiningdate.split("-");
+                            joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf(
+                              "day",
+                            );
+                          }
+
+                          let lastBillDate = null;
+                          if (
+                            lastDate &&
+                            /^\d{2}-\d{2}-\d{4}$/.test(lastDate)
+                          ) {
+                            const [dd, mm, yyyy] = lastDate.split("-");
+                            lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf(
+                              "day",
+                            );
+                          }
+
+                          let reAssign = null;
+                          if (
+                            reAssignDate &&
+                            /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)
+                          ) {
+                            const [dd, mm, yyyy] = reAssignDate.split("-");
+                            reAssign = dayjs(`${yyyy}-${mm}-${dd}`).startOf(
+                              "day",
+                            );
+                          }
+
+                          let minAllowedDate = null;
+
+                          if (reAssign) {
+                            minAllowedDate = reAssign;
+                          } else if (joining) {
+                            const sameMonth =
+                              joining.month() === today.month() &&
+                              joining.year() === today.year();
+
+                            if (sameMonth) {
+                              minAllowedDate = joining;
+                            } else if (lastBillDate) {
+                              minAllowedDate = lastBillDate;
+                            }
+                          }
+
+                          if (current.isAfter(today)) {
+                            return true;
+                          }
+
+                          if (
+                            minAllowedDate &&
+                            current.isBefore(minAllowedDate)
+                          ) {
+                            return true;
+                          }
+
+                          return false;
+                        }}
+                      />
+                    </div>
+                    {dateError && (
+                      <ErrorMessage message={dateError} type="error" />
+                    )}
+                  </Form.Group>
+                </div>
+
+                <div className="mb-2">
+                  <Form.Group>
+                    <Form.Label className="text-[14px] font-medium font-gilroy">
+                      New Floor{" "}
+                      <span className="text-red-500 text-[20px]">*</span>
+                    </Form.Label>
+                    <Select
+                      isDisabled={!selectedDate}
+                      options={
+                        state.UsersList.floorList?.map((u) => ({
+                          value: u.id,
+                          label: u.name,
+                        })) || []
+                      }
+                      onChange={handleFloor}
+                      ref={floorRef}
+                      value={
+                        state.UsersList.floorList?.find(
+                          (option) => option.id === newFloor,
+                        )
+                          ? {
+                              value: newFloor,
+                              label: state.UsersList.floorList.find(
+                                (option) => option.id === newFloor,
+                              )?.name,
+                            }
+                          : null
+                      }
+                      placeholder="Selected Floor"
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No floors available"}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          height: "50px",
+                          borderRadius: "0.5rem",
+                          fontSize: "16px",
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: newFloor ? 600 : 500,
+                          boxShadow: "none",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "120px",
+                          padding: 0,
+                          overflowY: "auto",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({ display: "none" }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused
+                            ? "#f0f0f0"
+                            : "white",
+                          color: "#000",
+                          fontFamily: "Gilroy",
+                        }),
+                      }}
+                    />
+                    {floorError && (
+                      <ErrorMessage message={floorError} type="error" />
+                    )}
+                  </Form.Group>
+                </div>
+
+                <div className="mb-3">
+                  <Form.Group>
+                    <Form.Label className="text-[14px] font-medium font-gilroy">
+                      New Room{" "}
+                      <span className="text-red-500 text-[20px]">*</span>
+                    </Form.Label>
+                    <Select
+                      options={roomOptions}
+                      onChange={(selectedOption) =>
+                        handleRooms(selectedOption?.value)
+                      }
+                      ref={roomRef}
+                      isDisabled={!newFloor}
+                      value={
+                        state.PgList?.roomsList?.find(
+                          (option) => option.id === newRoom,
+                        )
+                          ? {
+                              value: newRoom,
+                              label: state.PgList?.roomsList.find(
+                                (option) => option.id === newRoom,
+                              )?.name,
+                            }
+                          : null
+                      }
+                      placeholder="Selected Room"
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No rooms available"}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          height: "50px",
+                          borderRadius: "0.5rem",
+                          fontSize: "16px",
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: newRoom ? 600 : 500,
+                          boxShadow: "none",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "120px",
+                          padding: 0,
+                          overflowY: "auto",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({ display: "none" }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused
+                            ? "#f0f0f0"
+                            : "white",
+                          color: "#000",
+                          fontFamily: "Gilroy",
+                        }),
+                      }}
+                    />
+                    {roomError && (
+                      <ErrorMessage message={roomError} type="error" />
+                    )}
+                  </Form.Group>
+                </div>
+
+                <div className="mb-3">
+                  <Form.Group>
+                    <Form.Label className="text-[14px] font-medium font-gilroy">
+                      New Bed{" "}
+                      <span className="text-red-500 text-[20px]">*</span>
+                    </Form.Label>
+                    <Select
+                      options={
+                        availableBed
+                          ? availableBed
+                              .filter(
+                                (item) =>
+                                  item &&
+                                  item?.bedName !== "0" &&
+                                  item?.bedName !== "undefined" &&
+                                  item?.bedName !== "" &&
+                                  item?.bedName !== "null",
+                              )
+                              .map((item) => ({
+                                value: item?.bedId,
+                                label: item?.bedName,
+                              }))
+                          : []
+                      }
+                      onChange={handleBed}
+                      ref={BedRef}
+                      value={
+                        availableBed
+                          ? (() => {
+                              const selected = availableBed?.find(
+                                (option) => option?.bedId === newBed,
+                              );
+                              return selected
+                                ? {
+                                    value: selected.bedId,
+                                    label: selected.bedName,
+                                  }
+                                : null;
+                            })()
+                          : null
+                      }
+                      placeholder="Select Bed"
+                      isDisabled={!newRoom}
+                      classNamePrefix="custom"
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          height: "50px",
+                          borderRadius: "0.5rem",
+                          fontSize: "16px",
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: newBed ? 600 : 500,
+                          boxShadow: "none",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "120px",
+                          padding: 0,
+                          overflowY: "auto",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({ display: "none" }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused
+                            ? "#f0f0f0"
+                            : "white",
+                          color: "#000",
+                          fontFamily: "Gilroy",
+                        }),
+                      }}
+                    />
+                    {bedError && (
+                      <ErrorMessage message={bedError} type="error" />
+                    )}
+                    {bedWarning ? (
+                      <div className="flex justify-center">
+                        <ErrorMessage message={bedWarning} type="error" />
+                      </div>
+                    ) : null}
+                  </Form.Group>
+                </div>
+
+                <div>
+                  <Form.Group>
+                    <div className="flex items-center">
+                      <Form.Label className="mb-0 flex items-center whitespace-nowrap text-[14px] font-medium font-gilroy">
+                        New Rent Amount
+                        <span className="text-red-500 text-[20px] ml-1">*</span>
+                      </Form.Label>
+
+                      <Form.Check
+                        type="checkbox"
+                        label={
+                          <span className="text-[#1E45E1] font-medium text-[12px] font-gilroy whitespace-nowrap">
+                            Same as Current
+                          </span>
+                        }
+                        className="ml-3 mb-0 cursor-pointer flex items-center"
+                        ref={rentRef}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setNewRoomRent(currentRoomRent);
+                            setRentError("");
+                          } else {
+                            setNewRoomRent("");
+                            setRentError("");
+                          }
+                        }}
+                      />
+                    </div>
+
+                    <FormControl
+                      onChange={(e) => handleNewRoomRent(e)}
+                      value={newRoomRent}
+                      type="text"
+                      placeholder="Enter Amount"
+                      className="mt-2 h-[48px] rounded-lg border border-[#D9D9D9] text-[15px] font-medium text-[#4B4B4B] font-gilroy shadow-none"
+                    />
+
+                    {rentError && (
+                      <ErrorMessage message={rentError} type="error" />
+                    )}
+                  </Form.Group>
+                </div>
               </div>
-            )}
-
+            </div>
             {formLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
                 <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
               </div>
             )}
+          </div>
 
-            <Modal.Footer className="-mt-2 border-top-0 mb-2">
-              <Button
-                disabled={formLoading}
-                className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
-                onClick={handleSaveReassignBed}
-              >
-                Change Bed
-              </Button>
-            </Modal.Footer>
-          </Modal.Dialog>
-        </Modal>
+          {state.UsersList?.changeBedError && (
+            <div className="flex justify-center mb-3">
+              <ErrorMessage
+                message={state.UsersList?.changeBedError}
+                type="error"
+              />
+            </div>
+          )}
+          <div className="flex justify-end gap-3 mt-3 p-4">
+            <Button
+              disabled={formLoading}
+              className="w-full h-12 !bg-blue-700 rounded-lg !font-semibold text-base !font-gilroy"
+              onClick={handleSaveReassignBed}
+            >
+              Change Bed
+            </Button>
+          </div>
+        </div>
       </div>
     </>
   );
