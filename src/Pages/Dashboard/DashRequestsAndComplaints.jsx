@@ -111,22 +111,22 @@ function DashRequestAndComplaints() {
             value: item
         })) || [];
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
+    // useEffect(() => {
+    //     if (state.login.selectedHostel_Id) {
 
-            dispatch({
-                type: "GET_DASHBOARD_SAGA",
-                payload: {
-                    hostelId: state.login.selectedHostel_Id,
-                    filters: {
-                        complaintRequestFilter: requestDate
-                    }
-                }
-            });
+    //         dispatch({
+    //             type: "GET_DASHBOARD_SAGA",
+    //             payload: {
+    //                 hostelId: state.login.selectedHostel_Id,
+    //                 filters: {
+    //                     complaintRequestFilter: requestDate
+    //                 }
+    //             }
+    //         });
 
-            //   setLoading(true);
-        }
-    }, [requestDate]);
+    //         //   setLoading(true);
+    //     }
+    // }, [requestDate]);
 
     useEffect(() => {
         if (state.PgList?.dashboardList) {

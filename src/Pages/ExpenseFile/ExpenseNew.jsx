@@ -505,24 +505,6 @@ function Expenses() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true);
-      dispatch({
-        type: "ASSETLIST",
-        payload: state.login.selectedHostel_Id,
-      });
-      // dispatch({
-      //   type: "EXPENCES-CATEGORY-LIST",
-      //   payload: state.login.selectedHostel_Id
-      // });
-      dispatch({
-        type: "VENDORLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
-
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
       dispatch({
         type: "EXPENSELIST",
         payload: {
@@ -1441,7 +1423,7 @@ function Expenses() {
                                           className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${
                                             !canUpdateExpense
                                               ? "cursor-not-allowed opacity-50"
-                                              : "cursor-pointer opacity-100"
+                                              : "cursor-not-allowed opacity-100"
                                           }`}
                                           onClick={() => {
                                             if (canUpdateExpense) {
@@ -1462,7 +1444,7 @@ function Expenses() {
                                             className={`text-sm font-semibold font-gilroy text-gray-800 ${
                                               !canUpdateExpense
                                                 ? "cursor-not-allowed"
-                                                : "cursor-pointer"
+                                                : "cursor-not-allowed"
                                             }`}
                                           >
                                             Edit

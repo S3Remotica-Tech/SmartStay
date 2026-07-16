@@ -263,31 +263,23 @@ function Dashboard() {
     }
   }, [state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          page: 1,
-          size: 10,
-        },
-      });
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            occupancyFilter: selectedFilters.occupancy,
-            tenantsFilter: selectedFilters.tenants,
-            advanceFilter: selectedFilters.advance,
-          },
-        },
-      });
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "GET_DASHBOARD_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           occupancyFilter: selectedFilters.occupancy,
+  //           tenantsFilter: selectedFilters.tenants,
+  //           advanceFilter: selectedFilters.advance,
+  //         },
+  //       },
+  //     });
 
-      setLoading(true);
-    }
-  }, [selectedFilters]);
+  //     setLoading(true);
+  //   }
+  // }, [selectedFilters]);
 
   // console.log("selectedFilters", selectedFilters)
 
