@@ -207,7 +207,7 @@ function AddTenant({
   const [emailError, setEmailError] = useState("");
 
   const [newTenant, setNewTenant] = useState(true);
-  const scrollRef = useRef(null);
+
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
@@ -1412,11 +1412,6 @@ function AddTenant({
     dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
 
     setStep(2);
-
-    scrollRef.current?.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
   };
 
   const handleNextStep = () => {
@@ -1619,6 +1614,17 @@ function AddTenant({
       dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     }
   }, [state.UsersList?.draftClickError]);
+
+  const step2Ref = useRef(null);
+
+  useEffect(() => {
+    if (step) {
+      step2Ref.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [step]);
 
   return (
     <>
@@ -2342,19 +2348,21 @@ function AddTenant({
                   )}
 
                   {step === 2 && (
-                    <AddTenantBookingCheckin
-                      handleClose={handleClose}
-                      handleNextStep={handleNextStep}
-                      mobile={Phone}
-                      firstname={firstname}
-                      draftTenantId={draftTenantId}
-                      newTenant={newTenant}
-                      bookingOnly={bookingOnly}
-                    />
+                    <div ref={step2Ref}>
+                      <AddTenantBookingCheckin
+                        handleClose={handleClose}
+                        handleNextStep={handleNextStep}
+                        mobile={Phone}
+                        firstname={firstname}
+                        draftTenantId={draftTenantId}
+                        newTenant={newTenant}
+                        bookingOnly={bookingOnly}
+                      />
+                    </div>
                   )}
 
                   {step === 3 && (
-                    <div className="space-y-6" ref={scrollRef}>
+                    <div className="space-y-6" ref={step2Ref}>
                       <div>
                         <div className="flex justify-between">
                           <h5 className="flex items-center text-[18px] font-semibold text-gray-800">
