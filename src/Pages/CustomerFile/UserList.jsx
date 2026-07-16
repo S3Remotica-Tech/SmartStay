@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import Image from "react-bootstrap/Image";
 import UserlistForm from "./UserlistForm";
-import UserListRoomDetail from "./UserListRoomDetail";
+
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import CustomerReAssign from "./CustomerReAssign";
+import ChangeBedTenantWay from "./ChangeBedTenantWay";
 import { AddCircle, Trash, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -30,7 +30,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import CustomerCheckout from "./CustomerCheckout";
+import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import Closebtn from "../../Assets/Images/CloseCircle.png";
@@ -3294,7 +3294,7 @@ function UserList(props) {
               )}
 
               {customerReassign === true ? (
-                <CustomerReAssign
+                <ChangeBedTenantWay
                   customerReassign={customerReassign}
                   setCustomerReAssign={setCustomerReAssign}
                   reAssignDetail={reAssignDetail}
@@ -3302,7 +3302,7 @@ function UserList(props) {
               ) : null}
 
               {customerCheckoutpage === true ? (
-                <CustomerCheckout
+                <MoveToNoticePGAndTenant
                   customerCheckoutpage={customerCheckoutpage}
                   setCustomerCheckoutpage={setCustomerCheckoutpage}
                   // uniqueostel_Id={uniqueostel_Id}
@@ -3494,52 +3494,6 @@ function UserList(props) {
           inActiveDetails={inActiveDetails}
         />
       )}
-
-      {/* {roomDetail === true ? (
-        <UserListRoomDetail
-          onEditItem={handleEditItem}
-          // userData={userDatafull}
-          onAddItem={handleAddItems}
-          onDeleteItem={handleDeleteItem}
-          onEditRoomItem={handleEditRoomReading}
-          onEditHostelItem={handleEditHostelReading}
-          showMenu={showMenu}
-          displayDetail={addBasicDetail}
-          setShowMenu={setShowMenu}
-          handleShow={handleShow}
-          edit={edit}
-          setEdit={setEdit}
-          EditObj={EditObj}
-          setEditObj={setEditObj}
-          handleMenuClick={handleMenuClick}
-          setShowForm={setShowForm}
-          showForm={showForm}
-          handleShowAddBed={handleShowAddBed}
-          roomDetail={roomDetail}
-          setRoomDetail={setRoomDetail}
-          userList={userList}
-          setUserList={setUserList}
-          OnShowTable={OnShowTableForCustomer}
-          userDetails={userDetails}
-          handleBack={handleBack}
-          id={id}
-          aadhaarNo={aadhaarNo}
-          handleValidateAadhaar={handleValidateAadhaar}
-          showOtpValidation={showOtpValidation}
-          kycOtpValue={kycOtpValue}
-          handleKycOtpChange={handleKycOtpChange}
-          showValidate={showValidate}
-          hostelName={hostelName}
-          // customerUser_Id={customerUser_Id}
-          hostelIds={hostelIds}
-          handleAdhaarChange={handleAdhaarChange}
-          // customerEditPermission={customerEditPermission}
-          // customerAddPermission={customerAddPermission}
-          // customerDeletePermission={customerDeletePermission}
-          uniqueostel_Id={uniqueostel_Id}
-          setUniqostel_Id={setUniqostel_Id}
-        />
-      ) : null} */}
 
       {showMenu && (
         <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />

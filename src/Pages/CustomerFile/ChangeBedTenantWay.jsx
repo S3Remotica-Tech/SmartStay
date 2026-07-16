@@ -15,7 +15,7 @@ import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 dayjs.extend(customParseFormat);
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function CustomerReAssign(props) {
+function ChangeBedTenantWay(props) {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -1054,7 +1054,7 @@ function CustomerReAssign(props) {
   );
 }
 
-CustomerReAssign.propTypes = {
+ChangeBedTenantWay.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   customerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
@@ -1091,4 +1091,4 @@ CustomerReAssign.propTypes = {
   }),
 };
 
-export default CustomerReAssign;
+export default ChangeBedTenantWay;

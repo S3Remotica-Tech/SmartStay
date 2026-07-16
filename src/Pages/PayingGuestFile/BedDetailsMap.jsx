@@ -14,8 +14,8 @@ import BedDetails from "./ReservedBed/BedDetails";
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In";
 import MakeAsInactive from "../CustomerFile/MakeAsInactive";
 import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
-import CustomerReAssign from "../CustomerFile/CustomerReAssign";
-import CustomerCheckout from "../CustomerFile/CustomerCheckout";
+import ChangeBedTenantWay from "../CustomerFile/ChangeBedTenantWay";
+import MoveToNoticePGAndTenant from "../CustomerFile/MoveToNoticePGAndTenant";
 import NoticeBedStatusDetails from "./NoticePeriod/BedStatus";
 import BookingBed from "./NoticePeriod/BookingBed";
 import PGAssignTenant from "./PGAssignTenant";
@@ -707,7 +707,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
       )}
 
       {showReAssignBedForm && (
-        <CustomerReAssign
+        <ChangeBedTenantWay
           show={showReAssignBedForm}
           setCustomerReAssign={handleCloseReassignForm}
         />
@@ -734,7 +734,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
       {moveToNoticePeriodForm &&
         (() => {
           return (
-            <CustomerCheckout
+            <MoveToNoticePGAndTenant
               bedData={customer}
               data={customerDetails}
               customerCheckoutpage={moveToNoticePeriodForm}

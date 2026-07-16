@@ -88,14 +88,14 @@ import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import WalletHistory from "./WalletHistory";
 import BookedCheckIn from "./BookedCheckIn";
-import CustomerCheckout from "./CustomerCheckout";
-import CustomerReAssign from "./CustomerReAssign";
+import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
+import ChangeBedTenantWay from "./ChangeBedTenantWay";
 import MakeAsInactive from "./MakeAsInactive";
 import icon from "../../Assets/Images/New_images/Icon (1).svg";
 import TenantActions from "./TenantActions";
 import KYCTenantDetails from "./KYCTenantDetails";
 
-function UserListRoomDetail(props) {
+function TenantOverview(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -3483,7 +3483,7 @@ function UserListRoomDetail(props) {
       )}
 
       {customerCheckoutpage && (
-        <CustomerCheckout
+        <MoveToNoticePGAndTenant
           customerCheckoutpage={customerCheckoutpage}
           setCustomerCheckoutpage={setCustomerCheckoutpage}
           bedData={customercheckoutdata}
@@ -3491,7 +3491,7 @@ function UserListRoomDetail(props) {
       )}
 
       {customerReassign && (
-        <CustomerReAssign
+        <ChangeBedTenantWay
           customerReassign={customerReassign}
           setCustomerReAssign={setCustomerReAssign}
           reAssignDetail={reAssignDetail}
@@ -3525,7 +3525,7 @@ function UserListRoomDetail(props) {
   );
 }
 
-UserListRoomDetail.propTypes = {
+TenantOverview.propTypes = {
   onEditItem: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onClick: PropTypes.func,
@@ -3556,4 +3556,4 @@ UserListRoomDetail.propTypes = {
   onDeleteRoomItem: PropTypes.func,
 };
 
-export default withErrorBoundary(UserListRoomDetail);
+export default withErrorBoundary(TenantOverview);

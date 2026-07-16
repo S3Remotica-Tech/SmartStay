@@ -38,7 +38,7 @@ import { checkoutCustomerProfile } from "../Redux/Action/LoginAction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import CreateBill from "../Pages/Bills/CreateBill";
-import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
+import TenantOverview from "../Pages/CustomerFile/TenantOverview";
 import CheckoutProfile from "../Pages/CustomerFile/CheckoutProfile";
 import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
 import SettingIntergration from "../Pages/Settings/SettingIntergration";
@@ -1854,7 +1854,7 @@ function Sidebar() {
                 path="/tenant/details/:tenantId"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
-                    <UserListRoomDetail />
+                    <TenantOverview />
                   </div>
                 }
               />
