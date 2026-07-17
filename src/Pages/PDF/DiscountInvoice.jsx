@@ -292,335 +292,340 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
   ]);
 
   return (
-    <Modal
-      show={show}
-      onHide={handleClose}
-      centered
-      size="lg"
-      className="font-gilroy"
-    >
-      {formLoading && (
-        <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
-          <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-4xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
+        <div className="flex justify-between items-center px-4 pt-4 py-2 ">
+          <h2 className="text-lg font-semibold text-gray-800">
+            {pdfDetails?.invoiceInfo?.isDiscounted
+              ? "Edit Discount Invoice"
+              : "Discount Invoice"}
+          </h2>
+
+          <button onClick={handleClose} className="text-red-500 text-xl">
+            <CloseCircle />
+          </button>
         </div>
-      )}
-      <div className="flex justify-between items-center px-4 pt-4 py-2 ">
-        <h2 className="text-lg font-semibold text-gray-800">
-          {pdfDetails?.invoiceInfo?.isDiscounted
-            ? "Edit Discount Invoice"
-            : "Discount Invoice"}
-        </h2>
 
-        <button onClick={handleClose} className="text-red-500 text-xl">
-          <CloseCircle />
-        </button>
-      </div>
+        <div className="flex justify-between items-center bg-[#F7F8FCA8] mx-4 px-2 py-2.5 rounded mb-2">
+          <div className="flex gap-3">
+            {pdfDetails?.customerInfo?.profilePic ? (
+              <img
+                src={pdfDetails?.customerInfo?.profilePic}
+                alt="image"
+                className="h-14 w-14 rounded-full"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
+                {pdfDetails?.customerInfo?.initials}
+              </div>
+            )}
 
-      <div className="flex justify-between items-center bg-[#F7F8FCA8] mx-4 px-2 py-2.5 rounded mb-2">
-        <div className="flex gap-3">
-          {pdfDetails?.customerInfo?.profilePic ? (
-            <img
-              src={pdfDetails?.customerInfo?.profilePic}
-              alt="image"
-              className="h-14 w-14 rounded-full"
-            />
-          ) : (
-            <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
-              {pdfDetails?.customerInfo?.initials}
+            <div>
+              <div className="font-medium text-lg text-gray-800 mb-1">
+                {pdfDetails?.customerInfo?.fullName}
+              </div>
+              <div className="text-xs">
+                <span className="bg-yellow-100 text-[10px] text-gray-900 px-3 py-1.5 rounded-md">
+                  {pdfDetails?.stayInfo?.floorName}
+                </span>
+                &nbsp; | &nbsp;
+                <span className="bg-[#FFE0D9] text-[10px] text-[#222222] px-[14px] py-[6px] rounded-[10px]">
+                  {pdfDetails?.stayInfo?.roomName}-{" "}
+                  {pdfDetails?.stayInfo?.bedName}
+                </span>
+              </div>
             </div>
-          )}
+          </div>
 
           <div>
-            <div className="font-medium text-lg text-gray-800 mb-1">
-              {pdfDetails?.customerInfo?.fullName}
+            <div className="text-[14px] text-[#4B4B4B] font-semibold mb-1 ">
+              Amount
             </div>
-            <div className="text-xs">
-              <span className="bg-yellow-100 text-[10px] text-gray-900 px-3 py-1.5 rounded-md">
-                {pdfDetails?.stayInfo?.floorName}
-              </span>
-              &nbsp; | &nbsp;
-              <span className="bg-[#FFE0D9] text-[10px] text-[#222222] px-[14px] py-[6px] rounded-[10px]">
-                {pdfDetails?.stayInfo?.roomName}-{" "}
-                {pdfDetails?.stayInfo?.bedName}
-              </span>
+            <div className="flex items-center gap-2 font-semibold">
+              <div>
+                <label className="text-[#222222] text-[18px] font-semibold">
+                  ₹ {Amount}
+                </label>
+              </div>
             </div>
           </div>
         </div>
 
-        <div>
-          <div className="text-[14px] text-[#4B4B4B] font-semibold mb-1 ">
-            Amount
-          </div>
-          <div className="flex items-center gap-2 font-semibold">
-            <div>
-              <label className="text-[#222222] text-[18px] font-semibold">
-                ₹ {Amount}
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
+        <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
+          <div className="px-4 py-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
+              <div className="mb-2 col-span-1 sm:col-span-2 md:col-span-4">
+                <label className="block mb-1 text-sm font-medium text-[#4B4B4B]">
+                  Reason for Discount <span className="text-red-500">*</span>
+                </label>
 
-      <div className="max-h-[350px] overflow-y-auto show-scrolls">
-        <div className="px-4 py-2">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-8 gap-4">
-            <div className="mb-2 col-span-1 sm:col-span-2 md:col-span-4">
-              <label className="block mb-1 text-sm font-medium text-[#4B4B4B]">
-                Reason for Discount <span className="text-red-500">*</span>
-              </label>
+                {selectedReason?.value === "other" ? (
+                  <div className="relative w-full">
+                    <input
+                      type="text"
+                      value={customReason}
+                      onChange={(e) => {
+                        const value = e.target.value;
 
-              {selectedReason?.value === "other" ? (
-                <div className="relative w-full">
-                  <input
-                    type="text"
-                    value={customReason}
-                    onChange={(e) => {
-                      const value = e.target.value;
+                        if (/^[A-Za-z\s]*$/.test(value)) {
+                          setCustomReason(value);
+                          setReasonError("");
+                          setNoChangesError("");
+                        }
+                      }}
+                      placeholder="Enter custom reason"
+                      className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
+                    />
 
-                      if (/^[A-Za-z\s]*$/.test(value)) {
-                        setCustomReason(value);
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedReason(null);
+                        setCustomReason("");
                         setReasonError("");
-                        setNoChangesError("");
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
+                    >
+                      <Add size={18} className="rotate-45 " />
+                    </button>
+                  </div>
+                ) : (
+                  <Select
+                    options={reasonOptions}
+                    value={selectedReason}
+                    onChange={(option) => {
+                      setSelectedReason(option);
+                      setReasonError("");
+                      setNoChangesError("");
+                      if (option?.value !== "other") {
+                        setCustomReason("");
                       }
                     }}
-                    placeholder="Enter custom reason"
-                    className="w-full border border-[#D9D9D9] rounded-md px-3 py-2.5 pr-10 text-sm outline-none"
-                  />
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "45px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        boxShadow: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                        backgroundColor:
+                          state.data.value === "other"
+                            ? "#E7F1FF"
+                            : state.isFocused
+                              ? "#f0f0f0"
+                              : "white",
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedReason(null);
-                      setCustomReason("");
-                      setReasonError("");
+                        fontWeight: state.data.value === "other" ? 600 : 400,
+                        color:
+                          state.data.value === "other" ? "#1E45E1" : "#000",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                        fontWeight: 400,
+                      }),
+                      singleValue: (base) => ({
+                        ...base,
+                        fontWeight: 600,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                      }),
+                      indicatorSeparator: () => ({ display: "none" }),
+                      menuList: (base) => ({
+                        ...base,
+                        maxHeight: "150px",
+                        overflowY: "auto",
+                        scrollbarWidth: "thin",
+                        msOverflowStyle: "auto",
+                      }),
                     }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-600"
-                  >
-                    <Add size={18} className="rotate-45 " />
-                  </button>
-                </div>
-              ) : (
-                <Select
-                  options={reasonOptions}
-                  value={selectedReason}
-                  onChange={(option) => {
-                    setSelectedReason(option);
-                    setReasonError("");
-                    setNoChangesError("");
-                    if (option?.value !== "other") {
-                      setCustomReason("");
-                    }
-                  }}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "45px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "14px",
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      boxShadow: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                      backgroundColor:
-                        state.data.value === "other"
-                          ? "#E7F1FF"
-                          : state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-
-                      fontWeight: state.data.value === "other" ? 600 : 400,
-                      color: state.data.value === "other" ? "#1E45E1" : "#000",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                      fontWeight: 400,
-                    }),
-                    singleValue: (base) => ({
-                      ...base,
-                      fontWeight: 600,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                    }),
-                    indicatorSeparator: () => ({ display: "none" }),
-                    menuList: (base) => ({
-                      ...base,
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                      scrollbarWidth: "thin",
-                      msOverflowStyle: "auto",
-                    }),
-                  }}
-                  placeholder="Select Reason"
-                  className="text-sm  rounded-md"
-                />
-              )}
+                    placeholder="Select Reason"
+                    className="text-sm  rounded-md"
+                  />
+                )}
+              </div>
             </div>
-          </div>
-          {reasonError && (
-            <div className="mb-2">
-              <ErrorMessage message={reasonError} type="error" />
-            </div>
-          )}
-          <p className="text-sm font-semibold mb-2 text-[#222222]">
-            For Invoice
-          </p>
+            {reasonError && (
+              <div className="mb-2">
+                <ErrorMessage message={reasonError} type="error" />
+              </div>
+            )}
+            <p className="text-sm font-semibold mb-2 text-[#222222]">
+              For Invoice
+            </p>
 
-          <div className="border rounded-lg overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-xs font-medium">
-                <tr>
-                  <th className="text-left px-3 py-2">INVOICE OF</th>
-                  <th className="text-left px-3 py-2"> INVOICE DATE</th>
-                  <th className="text-left px-3 py-2">AMOUNT</th>
-                  <th className="text-left px-3 py-2 ">OVERDUE ON</th>
-                  <th className="text-left px-3 py-2 captitialize">
-                    {discountType === "amount"
-                      ? "AMOUNT TO APPLY (DISCOUNT)"
-                      : "PERCENTAGE TO APPLY (DISCOUNT)"}
-                  </th>
-                </tr>
-              </thead>
+            <div className="border rounded-lg overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 text-gray-500 text-xs font-medium">
+                  <tr>
+                    <th className="text-left px-3 py-2">INVOICE OF</th>
+                    <th className="text-left px-3 py-2"> INVOICE DATE</th>
+                    <th className="text-left px-3 py-2">AMOUNT</th>
+                    <th className="text-left px-3 py-2 ">OVERDUE ON</th>
+                    <th className="text-left px-3 py-2 captitialize">
+                      {discountType === "amount"
+                        ? "AMOUNT TO APPLY (DISCOUNT)"
+                        : "PERCENTAGE TO APPLY (DISCOUNT)"}
+                    </th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                <tr className="border-t">
-                  <td className="px-3 py-2 text-blue-600 font-semibold">
-                    {pdfDetails?.invoiceNumber}
-                  </td>
-                  <td className="px-3 py-2 text-gray-500">
-                    {pdfDetails?.invoiceDate}
-                  </td>
+                <tbody>
+                  <tr className="border-t">
+                    <td className="px-3 py-2 text-blue-600 font-semibold">
+                      {pdfDetails?.invoiceNumber}
+                    </td>
+                    <td className="px-3 py-2 text-gray-500">
+                      {pdfDetails?.invoiceDate}
+                    </td>
 
-                  <td className="px-3 py-2 font-semibold">₹ {Amount}</td>
-                  <td className="px-3 py-2 text-gray-500">
-                    <div>{pdfDetails?.dueDate}</div>
-                    {overdueDays > 0 && (
-                      <span className="text-[#FF9500] text-xs">
-                        Overdue by {overdueDays} day{overdueDays > 1 ? "s" : ""}
-                      </span>
-                    )}
-                  </td>
+                    <td className="px-3 py-2 font-semibold">₹ {Amount}</td>
+                    <td className="px-3 py-2 text-gray-500">
+                      <div>{pdfDetails?.dueDate}</div>
+                      {overdueDays > 0 && (
+                        <span className="text-[#FF9500] text-xs">
+                          Overdue by {overdueDays} day
+                          {overdueDays > 1 ? "s" : ""}
+                        </span>
+                      )}
+                    </td>
 
-                  <td className="px-3 py-2">
-                    <div className="flex items-center border rounded-md overflow-hidden w-full">
-                      <input
-                        type="number"
-                        value={discountInput}
-                        onChange={handleDiscountChange}
-                        placeholder={
-                          discountType === "percent" ? "Enter %" : "₹ 0.00"
-                        }
-                        className="w-full px-2 py-2.5 text-sm outline-none"
-                      />
+                    <td className="px-3 py-2">
+                      <div className="flex items-center border rounded-md overflow-hidden w-full">
+                        <input
+                          type="number"
+                          value={discountInput}
+                          onChange={handleDiscountChange}
+                          placeholder={
+                            discountType === "percent" ? "Enter %" : "₹ 0.00"
+                          }
+                          className="w-full px-2 py-2.5 text-sm outline-none"
+                        />
 
-                      <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
-                        <button
-                          type="button"
-                          onClick={() => handleTypeChange("amount")}
-                          className={`px-3 py-1 text-sm rounded ${
-                            discountType === "amount"
-                              ? "bg-[#1E45E1] text-white"
-                              : "bg-[#E7F1FF]"
-                          }`}
-                        >
-                          ₹
-                        </button>
+                        <div className="flex border-r rounded bg-[#E7F1FF] py-1 px-2">
+                          <button
+                            type="button"
+                            onClick={() => handleTypeChange("amount")}
+                            className={`px-3 py-1 text-sm rounded ${
+                              discountType === "amount"
+                                ? "bg-[#1E45E1] text-white"
+                                : "bg-[#E7F1FF]"
+                            }`}
+                          >
+                            ₹
+                          </button>
 
-                        <button
-                          type="button"
-                          onClick={() => handleTypeChange("percent")}
-                          className={`px-3 text-sm rounded ${
-                            discountType === "percent"
-                              ? "bg-[#1E45E1] text-white"
-                              : "bg-[#E7F1FF]"
-                          }`}
-                        >
-                          %
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() => handleTypeChange("percent")}
+                            className={`px-3 text-sm rounded ${
+                              discountType === "percent"
+                                ? "bg-[#1E45E1] text-white"
+                                : "bg-[#E7F1FF]"
+                            }`}
+                          >
+                            %
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {discountInputError && (
+              <ErrorMessage message={discountInputError} type="error" />
+            )}
+
+            {(editData
+              ? state.InvoiceList?.editDiscountError
+              : state.InvoiceList?.makeDiscountError) && (
+              <ErrorMessage
+                message={
+                  editData
+                    ? state.InvoiceList?.editDiscountError
+                    : state.InvoiceList?.makeDiscountError
+                }
+                type="error"
+              />
+            )}
           </div>
 
-          {discountInputError && (
-            <ErrorMessage message={discountInputError} type="error" />
-          )}
+          <div className="flex justify-end h-fit w-full  px-10 whitespace-nowrap">
+            <div className="bg-gray-50 p-4 rounded-lg w-full max-w-sm text-sm grid grid-cols-2 gap-y-2">
+              <span className="text-[#4B4B4B] break-words">
+                Invoice Amount ({pdfDetails?.invoiceNumber})
+              </span>
 
-          {(editData
-            ? state.InvoiceList?.editDiscountError
-            : state.InvoiceList?.makeDiscountError) && (
-            <ErrorMessage
-              message={
-                editData
-                  ? state.InvoiceList?.editDiscountError
-                  : state.InvoiceList?.makeDiscountError
-              }
-              type="error"
-            />
-          )}
+              <span className="font-semibold text-right whitespace-nowrap">
+                ₹ {Amount}
+              </span>
+
+              <span className="text-[#4B4B4B] break-words">
+                Discount Applied
+              </span>
+              <span className="font-semibold text-right whitespace-nowrap">
+                {discountType === "amount" ? "₹ " : ""}
+                {calculatedDiscount ? Math.round(calculatedDiscount) : 0}
+                {discountType === "percent" && `(${displayPercent}%)`}
+              </span>
+
+              <span className="text-[#4B4B4B] break-words font-medium">
+                Total Payable
+              </span>
+
+              <span className="font-semibold text-right whitespace-nowrap">
+                ₹ {Math.round(payableAmount)}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="flex justify-end h-fit w-full  px-10 whitespace-nowrap">
-          <div className="bg-gray-50 p-4 rounded-lg w-full max-w-sm text-sm grid grid-cols-2 gap-y-2">
-            <span className="text-[#4B4B4B] break-words">
-              Invoice Amount ({pdfDetails?.invoiceNumber})
-            </span>
+        <div className="flex justify-between items-center px-5 py-3 border-t">
+          <div>
+            {noChangesError && (
+              <ErrorMessage message={noChangesError} type="error" />
+            )}
+          </div>
 
-            <span className="font-semibold text-right whitespace-nowrap">
-              ₹ {Amount}
-            </span>
+          <div className="flex gap-3">
+            <button
+              onClick={handleClose}
+              className="px-4 py-2 text-sm border rounded-md bg-gray-100 hover:bg-gray-200"
+            >
+              Cancel
+            </button>
 
-            <span className="text-[#4B4B4B] break-words">Discount Applied</span>
-            <span className="font-semibold text-right whitespace-nowrap">
-              {discountType === "amount" ? "₹ " : ""}
-              {calculatedDiscount ? Math.round(calculatedDiscount) : 0}
-              {discountType === "percent" && `(${displayPercent}%)`}
-            </span>
-
-            <span className="text-[#4B4B4B] break-words font-medium">
-              Total Payable
-            </span>
-
-            <span className="font-semibold text-right whitespace-nowrap">
-              ₹ {Math.round(payableAmount)}
-            </span>
+            <button
+              type="button"
+              disabled={formLoading}
+              onClick={handleApplyInvoices}
+              className="flex min-w-[120px] items-center justify-center rounded-lg bg-[#1E45E1] px-4 py-2 font-gilroy text-[16px] font-normal text-white transition hover:bg-[#1838c4] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {formLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                "Save Changes"
+              )}
+            </button>
           </div>
         </div>
       </div>
-
-      <div className="flex justify-between items-center px-5 py-3 border-t">
-        <div>
-          {noChangesError && (
-            <ErrorMessage message={noChangesError} type="error" />
-          )}
-        </div>
-
-        <div className="flex gap-3">
-          <button
-            onClick={handleClose}
-            className="px-4 py-2 text-sm border rounded-md bg-gray-100 hover:bg-gray-200"
-          >
-            Cancel
-          </button>
-
-          <button
-            disabled={formLoading}
-            onClick={handleApplyInvoices}
-            className="px-4 py-2 text-sm bg-[#1E45E1] text-white rounded-md hover:bg-blue-700 flex items-center gap-2"
-          >
-            Save Changes
-          </button>
-        </div>
-      </div>
-    </Modal>
+    </div>
   );
 }
 
