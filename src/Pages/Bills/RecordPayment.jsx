@@ -574,12 +574,6 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
           {totalErrormsg.trim() !== "" && (
             <ErrorMessage message={totalErrormsg} type="error" />
           )}
-
-          {formRecordLoading && (
-            <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 opacity-75">
-              <div className="w-10 h-10 border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
         </div>
 
         {state.InvoiceList.payapleAmountError ? (
