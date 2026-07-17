@@ -205,21 +205,21 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     state.InvoiceList?.sharePdfError,
   ]);
 
-  useEffect(() => {
-    if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
-      setShowDiscountInvoice(false);
-      dispatch({
-        type: "GETPARTICULARBILLSDETAILS",
-        payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
-        },
-      });
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
-      });
-    }
-  }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
+  // useEffect(() => {
+  //   if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
+
+  //     dispatch({
+  //       type: "GETPARTICULARBILLSDETAILS",
+  //       payload: {
+  //         hostelId: pdfDetails?.hostelId,
+  //         invoiceId: pdfDetails?.invoiceId,
+  //       },
+  //     });
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
+  //     });
+  //   }
+  // }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
 
   useEffect(() => {
     if (state.InvoiceList.sharePdfSuccess) {
@@ -442,6 +442,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
       setShowDiscountInvoice(false);
+
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
@@ -449,7 +450,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           invoiceId: pdfDetails?.invoiceId,
         },
       });
-     dispatch({
+      dispatch({
         type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
@@ -467,7 +468,15 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   useEffect(() => {
     if (state.InvoiceList?.editInvoiceDiscountStatus === 200) {
-    dispatch({
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: pdfDetails?.hostelId,
+          invoiceId: pdfDetails?.invoiceId,
+        },
+      });
+
+      dispatch({
         type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });

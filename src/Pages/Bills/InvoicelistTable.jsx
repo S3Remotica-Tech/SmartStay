@@ -265,10 +265,7 @@ const InvoiceTable = (props) => {
   useEffect(() => {
     if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
       setShowDiscountInvoice(false);
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
+
       setTimeout(() => {
         dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
       });
