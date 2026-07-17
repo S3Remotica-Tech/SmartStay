@@ -150,8 +150,10 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute inset-y-2 right-2 w-full max-w-4xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="flex justify-between items-center p-3 border-b">
           <h5 className="font-semibold text-lg text-black capitalize">
             Apply {label} to Invoice
@@ -215,7 +217,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
               </div>
             </div>
           </div>
-          <div className="overflow-y-auto show-scrolls max-h-[400px]">
+          <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
             <div className="bg-white rounded-xl border border-[#E8E8E8]">
               <div className="overflow-auto h-fit">
                 <table className="w-full text-sm">
@@ -329,28 +331,28 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
               </div>
             </div>
           </div>
-          <div className="mt-6 flex justify-end gap-3">
-            <button
-              onClick={handleClose}
-              className="px-4 py-2 bg-gray-100 rounded-md text-sm"
-            >
-              Cancel
-            </button>
-
-            <button
-              disabled={formLoading}
-              onClick={handleApplySubmit}
-              className="bg-[#1E45E1] flex gap-2  items-center text-white px-4 py-2 rounded-md text-sm"
-            >
-              Apply <ArrowRight size="14" />
-            </button>
-          </div>
         </div>
         {formLoading && (
           <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
             <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
           </div>
         )}
+        <div className="m-6 flex justify-end gap-3">
+          <button
+            onClick={handleClose}
+            className="px-4 py-2 bg-gray-100 rounded-md text-sm"
+          >
+            Cancel
+          </button>
+
+          <button
+            disabled={formLoading}
+            onClick={handleApplySubmit}
+            className="bg-[#1E45E1] flex gap-2  items-center text-white px-4 py-2 rounded-md text-sm"
+          >
+            Apply <ArrowRight size="14" />
+          </button>
+        </div>
       </div>
     </div>
   );

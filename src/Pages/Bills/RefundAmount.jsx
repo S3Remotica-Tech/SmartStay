@@ -252,7 +252,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="relative flex justify-between mb-2 pt-0 border-0 m-4">
           <div
             style={{

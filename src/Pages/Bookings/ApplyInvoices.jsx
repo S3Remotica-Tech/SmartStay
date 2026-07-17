@@ -144,8 +144,10 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute inset-y-2 right-2 w-full max-w-4xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="flex justify-between items-center p-3 border-b">
           <h5 className="font-semibold text-lg text-black">
             {label === "Advance"
@@ -161,7 +163,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
           </button>
         </div>
 
-        <div className="p-3">
+        <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
           <div className="flex justify-between items-center bg-[#F7F8FCA8] p-3 rounded mb-4">
             <div className="flex gap-3">
               <div className="w-14 h-14 rounded-full overflow-hidden bg-[#E2E8F0]  flex items-center justify-center text-gray-700 font-semibold">
@@ -206,7 +208,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
               </div>
             </div>
           </div>
-          <div className="overflow-y-auto show-scrolls max-h-[400px]">
+          <div className="">
             <div className="bg-white rounded-xl border border-[#E8E8E8]">
               <div className="overflow-auto h-fit">
                 <table className="w-full text-sm">
@@ -315,28 +317,35 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
               </div>
             </div>
           </div>
-          <div className="mt-6 flex justify-end gap-3">
-            <button
-              onClick={handleClose}
-              className="px-4 py-2 bg-gray-100 rounded-md text-sm"
-            >
-              Cancel
-            </button>
-
-            <button
-              disabled={formLoading}
-              onClick={handleApplySubmit}
-              className="bg-[#1E45E1] flex gap-2  items-center text-white px-4 py-2 rounded-md text-sm"
-            >
-              Apply <ArrowRight size="14" />
-            </button>
-          </div>
         </div>
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
-            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
-          </div>
-        )}
+
+        <div className="m-6 flex justify-end gap-3">
+          <button
+            onClick={handleClose}
+            className="px-4 py-2 bg-gray-100 rounded-md text-sm"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            disabled={formLoading}
+            onClick={handleApplySubmit}
+            className="flex min-w-[110px] items-center justify-center gap-2 rounded-lg bg-[#1E45E1] px-4 py-2 font-gilroy text-[16px] font-normal text-white transition hover:bg-[#1838c4] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {formLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Applying...
+              </>
+            ) : (
+              <>
+                Apply
+                <ArrowRight size={14} />
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
