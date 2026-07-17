@@ -306,7 +306,7 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
 
       <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col ">
         <div className="px-4 py-3 shrink-0 relative ">
-          <div className="w-100 d-flex justify-content-between align-items-start">
+          <div className="w-100 flex justify-between items-center">
             <div className="!text-lg !font-semibold !font-gilroy">Booking</div>
 
             <CloseCircle

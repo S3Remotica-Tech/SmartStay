@@ -207,190 +207,190 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
   };
 
   return (
-    <div>
-      <Modal show={show} backdrop="static" className="mt-7">
-        <Modal.Dialog className="m-0 p-0 rounded-[30px] border-0 shadow-none">
-          <Modal.Header className="relative">
-            <div className="text-[20px] font-semibold font-gilroy">
-              Confirm Change Bed
-            </div>
-            <CloseCircle
-              size={24}
-              color="#000"
-              onClick={handleClose}
-              className="cursor-pointer"
-            />
-          </Modal.Header>
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
 
-          <Modal.Body className="mt-1 me-3 max-h-[380px] overflow-y-scroll show-scroll">
-            <div className="flex justify-between items-start mb-1">
-              <div>
-                <p className="mb-2 font-gilroy">Current Bed</p>
-
-                <p className="mb-3 flex items-center font-gilroy text-base">
-                  <img
-                    src={building}
-                    alt="building"
-                    className="me-2 w-5 h-5 align-middle"
-                  />
-                  <span className="relative top-1 left-1">
-                    {isPreviousBed?.floorName || "N/A"}
-                  </span>
-                </p>
-
-                <p className="mb-3 flex items-center font-gilroy text-base">
-                  <img
-                    src={Frame}
-                    alt="Frame"
-                    className="me-2 w-6 h-6 align-middle"
-                  />
-                  <span className="relative top-0.5">
-                    {isPreviousBed?.roomName || "N/A"}
-                  </span>
-                </p>
-
-                <p className="mb-3 flex items-center font-gilroy text-base">
-                  <LiaBedSolid className="w-5 h-5 text-[#1E45E1] align-middle" />
-                  <span className="ms-2 relative top-1 left-1">
-                    {isPreviousBed?.bedName || "N/A"}
-                  </span>
-                </p>
-              </div>
-
-              <div className="flex items-center justify-center w-8 h-8 rounded-[10px] p-1.5 bg-[#EEF1FF] gap-2 mt-[80px]">
-                <FiRepeat size={20} color="#1E45E1" />
-              </div>
-
-              <div>
-                <h6 className="mb-3 font-gilroy">New Bed</h6>
-
-                <p className="mb-3 flex items-center font-gilroy text-base">
-                  <img
-                    src={building}
-                    alt="building"
-                    className="me-2 w-5 h-5 align-middle"
-                  />
-                  <span className="relative top-1 left-1">
-                    {currentBed?.floorName || "N/A"}
-                  </span>
-                </p>
-
-                <p className="mb-3 flex items-center font-gilroy text-base">
-                  <img
-                    src={Frame}
-                    alt="Frame"
-                    className="me-2 w-6 h-6 align-middle"
-                  />
-                  <span className="relative top-0.5">
-                    {currentBed?.roomName || "N/A"}
-                  </span>
-                </p>
-
-                <p className="mb-3 flex items-center font-gilroy text-base">
-                  <LiaBedSolid className="w-5 h-5 text-[#1E45E1] align-middle" />
-                  <span className="ms-2 relative top-1 left-1">
-                    {currentBed?.bedName || "N/A"}
-                  </span>
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 text-sm">
-              <div>
-                <Form.Group className="mb-1">
-                  <Form.Label className="mb-1 text-sm font-gilroy flex items-center">
-                    Date <span className="text-red-500 text-xl ml-1">*</span>
-                  </Form.Label>
-                  <DatePicker
-                    className="w-full h-12 border border-gray-300 cursor-pointer font-gilroy px-2"
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={selectedDate ? dayjs(selectedDate) : null}
-                    onChange={handleDateChange}
-                    disabledDate={disabledDate}
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                  />
-                </Form.Group>
-                {errors.date && (
-                  <ErrorMessage message={errors.date} type="error" />
-                )}
-              </div>
-
-              <div>
-                <Form.Group className="mb-3">
-                  <div className="flex items-center">
-                    <Form.Label className="flex items-center font-gilroy font-medium text-sm whitespace-nowrap mb-0">
-                      New Rent Amount{" "}
-                      <span className="text-red-500 text-xl ml-1">*</span>
-                    </Form.Label>
-                    <div className="flex items-center ms-3">
-                      <Form.Check.Input
-                        type="checkbox"
-                        checked={sameAsCurrent}
-                        onChange={handleSameAsCurrent}
-                        className="cursor-pointer"
-                      />
-                      <span className="mt-1 ml-1 text-[#1E45E1] font-medium text-xs font-gilroy whitespace-nowrap">
-                        Same as Current
-                      </span>
-                    </div>
-                  </div>
-
-                  <FormControl
-                    value={newRoomRent}
-                    onChange={handleRentChange}
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Amount"
-                    className="w-full h-12 mt-2 px-3 border border-gray-300 rounded-md shadow-none font-gilroy font-medium text-base text-gray-700"
-                  />
-                  {errors.rent && (
-                    <ErrorMessage message={errors.rent} type="error" />
-                  )}
-                </Form.Group>
-              </div>
-            </div>
-
-            {state.UsersList?.changeBedError && (
-              <div ref={errorRef} tabIndex={-1} className="flex justify-center">
-                <ErrorMessage
-                  message={state.UsersList?.changeBedError}
-                  type="error"
-                />
-              </div>
-            )}
-          </Modal.Body>
-
-          <div className="flex gap-3 mt-1 mx-3 mb-3">
-            <button
-              onClick={handleClose}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-base font-gilroy"
-            >
-              Cancel
-            </button>
-
-            <button
-              onClick={handleSubmit}
-              disabled={formLoading}
-              // className={`w-full px-4 py-2 flex items-center gap-2 rounded-md text-base font-gilroy
-              //   ${formLoading ? 'bg-blue-300 cursor-not-allowed' : 'bg-[#1E45E1] text-white'}`}
-              className={`w-full h-12 flex justify-center items-center gap-2 rounded-md text-base font-gilroy
-    ${formLoading ? "bg-blue-300 cursor-not-allowed" : "bg-[#1E45E1] text-white"}`}
-            >
-              <img src={repeatOne} alt="icon" />
-              Assign
-            </button>
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col ">
+        <div className="relative px-4 py-3  flex justify-between items-center">
+          <div className="text-[20px] font-semibold font-gilroy">
+            Confirm Change Bed
           </div>
+          <CloseCircle
+            size={24}
+            color="#000"
+            onClick={handleClose}
+            className="cursor-pointer"
+          />
+        </div>
+
+        <div className="px-4 py-1  flex-1 overflow-y-auto show-scrolls relative ">
+          <div className="flex justify-between items-start mb-1">
+            <div>
+              <p className="mb-2 font-gilroy">Current Bed</p>
+
+              <p className="mb-3 flex items-center font-gilroy text-base">
+                <img
+                  src={building}
+                  alt="building"
+                  className="me-2 w-5 h-5 align-middle"
+                />
+                <span className="relative top-1 left-1">
+                  {isPreviousBed?.floorName || "N/A"}
+                </span>
+              </p>
+
+              <p className="mb-3 flex items-center font-gilroy text-base">
+                <img
+                  src={Frame}
+                  alt="Frame"
+                  className="me-2 w-6 h-6 align-middle"
+                />
+                <span className="relative top-0.5">
+                  {isPreviousBed?.roomName || "N/A"}
+                </span>
+              </p>
+
+              <p className="mb-3 flex items-center font-gilroy text-base">
+                <LiaBedSolid className="w-5 h-5 text-[#1E45E1] align-middle" />
+                <span className="ms-2 relative top-1 left-1">
+                  {isPreviousBed?.bedName || "N/A"}
+                </span>
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center w-8 h-8 rounded-[10px] p-1.5 bg-[#EEF1FF] gap-2 mt-[80px]">
+              <FiRepeat size={20} color="#1E45E1" />
+            </div>
+
+            <div>
+              <h6 className="mb-3 font-gilroy">New Bed</h6>
+
+              <p className="mb-3 flex items-center font-gilroy text-base">
+                <img
+                  src={building}
+                  alt="building"
+                  className="me-2 w-5 h-5 align-middle"
+                />
+                <span className="relative top-1 left-1">
+                  {currentBed?.floorName || "N/A"}
+                </span>
+              </p>
+
+              <p className="mb-3 flex items-center font-gilroy text-base">
+                <img
+                  src={Frame}
+                  alt="Frame"
+                  className="me-2 w-6 h-6 align-middle"
+                />
+                <span className="relative top-0.5">
+                  {currentBed?.roomName || "N/A"}
+                </span>
+              </p>
+
+              <p className="mb-3 flex items-center font-gilroy text-base">
+                <LiaBedSolid className="w-5 h-5 text-[#1E45E1] align-middle" />
+                <span className="ms-2 relative top-1 left-1">
+                  {currentBed?.bedName || "N/A"}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 text-sm">
+            <div>
+              <Form.Group className="mb-1">
+                <Form.Label className="mb-1 text-sm font-gilroy flex items-center">
+                  Date <span className="text-red-500 text-xl ml-1">*</span>
+                </Form.Label>
+                <DatePicker
+                  className="w-full h-12 border border-gray-300 cursor-pointer font-gilroy px-2"
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={selectedDate ? dayjs(selectedDate) : null}
+                  onChange={handleDateChange}
+                  disabledDate={disabledDate}
+                  getPopupContainer={(triggerNode) =>
+                    triggerNode.closest(".datepicker-wrapper")
+                  }
+                />
+              </Form.Group>
+              {errors.date && (
+                <ErrorMessage message={errors.date} type="error" />
+              )}
+            </div>
+
+            <div>
+              <Form.Group className="mb-3">
+                <div className="flex items-center">
+                  <Form.Label className="flex items-center font-gilroy font-medium text-sm whitespace-nowrap mb-0">
+                    New Rent Amount{" "}
+                    <span className="text-red-500 text-xl ml-1">*</span>
+                  </Form.Label>
+                  <div className="flex items-center ms-3">
+                    <Form.Check.Input
+                      type="checkbox"
+                      checked={sameAsCurrent}
+                      onChange={handleSameAsCurrent}
+                      className="cursor-pointer"
+                    />
+                    <span className="mt-1 ml-1 text-[#1E45E1] font-medium text-xs font-gilroy whitespace-nowrap">
+                      Same as Current
+                    </span>
+                  </div>
+                </div>
+
+                <FormControl
+                  value={newRoomRent}
+                  onChange={handleRentChange}
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Amount"
+                  className="w-full h-12 mt-2 px-3 border border-gray-300 rounded-md shadow-none font-gilroy font-medium text-base text-gray-700"
+                />
+                {errors.rent && (
+                  <ErrorMessage message={errors.rent} type="error" />
+                )}
+              </Form.Group>
+            </div>
+          </div>
+
+          {state.UsersList?.changeBedError && (
+            <div ref={errorRef} tabIndex={-1} className="flex justify-center">
+              <ErrorMessage
+                message={state.UsersList?.changeBedError}
+                type="error"
+              />
+            </div>
+          )}
 
           {formLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
               <div className="w-10 h-10 border-t-4 border-[#1E45E1] border-r-4 border-transparent rounded-full animate-spin"></div>
             </div>
           )}
-        </Modal.Dialog>
-      </Modal>
+        </div>
+
+        <div className="flex gap-3 mt-1 mx-3 mb-3">
+          <button
+            onClick={handleClose}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-base font-gilroy"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleSubmit}
+            disabled={formLoading}
+            // className={`w-full px-4 py-2 flex items-center gap-2 rounded-md text-base font-gilroy
+            //   ${formLoading ? 'bg-blue-300 cursor-not-allowed' : 'bg-[#1E45E1] text-white'}`}
+            className={`w-full h-12 flex justify-center items-center gap-2 rounded-md text-base font-gilroy
+    ${formLoading ? "bg-blue-300 cursor-not-allowed" : "bg-[#1E45E1] text-white"}`}
+          >
+            <img src={repeatOne} alt="icon" />
+            Assign
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

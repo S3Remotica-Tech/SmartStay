@@ -229,7 +229,7 @@ function OccupiedBedStatus({
                                 />
                                 <label
                                   className={`text-[13px] font-medium font-gilroy mb-0
-            ${canWriteCustomers ? "text-[#222222]" : "text-[#A9A9A9]"}
+            ${canWriteCustomers ? "text-[#222222] cursor-pointer" : "text-[#A9A9A9]"}
           `}
                                 >
                                   Change Bed
@@ -256,7 +256,7 @@ function OccupiedBedStatus({
                                 />
                                 <label
                                   className={`text-[13px] font-medium font-gilroy mb-0
-            ${canWriteCheckout ? "text-[#222222]" : "text-[#A9A9A9]"}
+            ${canWriteCheckout ? "text-[#222222] cursor-pointer" : "text-[#A9A9A9]"}
           `}
                                 >
                                   Move To Notice Period
