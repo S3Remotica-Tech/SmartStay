@@ -57,6 +57,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showWaiveModal, setShowWaiveModal] = useState(false);
   const [activeTab, setActiveTab] = useState("payments");
+  const pdfDetails = state.InvoiceList?.particularBillsDetails;
+
+  const InvoiceId = pdfDetails?.invoiceId || pdfDetails?.invoiceInfo?.invoiceId;
 
   const bookingCreditDetails = state?.Booking?.advanceInitialize;
 
@@ -117,11 +120,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const handleDownload = (rowData) => {
     if (rowData) {
+      // console.log("rowData", rowData);
       dispatch({
         type: "INVOICEPDF",
         payload: {
-          hostelId: rowData?.hostelId || pdfDetails?.hostelId,
-          invoiceId: rowData?.invoiceId,
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
         },
       });
       setPdfLoading(true);
@@ -234,6 +238,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     if (state.InvoiceList.createRefundStatusCode === 200) {
       setPayableForm(false);
       dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
+        },
+      });
+
+      dispatch({
         type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
       });
@@ -266,8 +278,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       dispatch({
         type: "GETSHAREPDF",
         payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
         },
       });
 
@@ -285,10 +297,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
   const isExportAllow = isValidSubscription && canReadInvoice;
-
-  const pdfDetails = state.InvoiceList?.particularBillsDetails;
-
-  // console.log("pdfDetails", pdfDetails);
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
@@ -334,7 +342,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
-    // console.log("pdfDetails", pdfDetails);
+    console.log("pdfDetails", pdfDetails);
     setShowform(true);
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
     // setInvoiceValue(pdfDetails)
@@ -446,8 +454,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
         },
       });
       dispatch({
@@ -471,8 +479,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
         },
       });
 
@@ -494,8 +502,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
         },
       });
 
@@ -511,10 +519,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const handleRefuse = () => {
     const payload = {
-      hostelId: pdfDetails?.hostelId,
-      invoiceId: pdfDetails?.invoiceId,
+      hostelId: state.login.selectedHostel_Id,
+      invoiceId: InvoiceId,
     };
-    if (pdfDetails?.hostelId && pdfDetails?.invoiceId) {
+    if (pdfDetails?.hostelId && InvoiceId) {
       dispatch({
         type: "REFUSE_DISCOUNT",
         payload,
@@ -528,8 +536,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
         },
       });
       dispatch({
@@ -543,6 +551,13 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
+        },
+      });
       dispatch({
         type: "ALL_BILLS_LIST_SAGA",
         payload: { hostelId: state.login.selectedHostel_Id },
