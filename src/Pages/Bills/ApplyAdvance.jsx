@@ -332,11 +332,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
             </div>
           </div>
         </div>
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
-            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
-          </div>
-        )}
+
         <div className="m-6 flex justify-end gap-3">
           <button
             onClick={handleClose}
@@ -346,11 +342,22 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
           </button>
 
           <button
+            type="button"
             disabled={formLoading}
             onClick={handleApplySubmit}
-            className="bg-[#1E45E1] flex gap-2  items-center text-white px-4 py-2 rounded-md text-sm"
+            className="flex min-w-[110px] items-center justify-center gap-2 rounded-lg bg-[#1E45E1] px-4 py-2 font-gilroy text-[16px] font-normal text-white transition hover:bg-[#1838c4] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Apply <ArrowRight size="14" />
+            {formLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Applying...
+              </>
+            ) : (
+              <>
+                Apply
+                <ArrowRight size={14} />
+              </>
+            )}
           </button>
         </div>
       </div>
