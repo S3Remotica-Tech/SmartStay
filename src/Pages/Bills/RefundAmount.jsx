@@ -127,11 +127,8 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     if (state.InvoiceList?.createRefundStatusCode === 200) {
       setFormRecordLoading(false);
       dispatch({
-        type: "GETPARTICULARBILLSDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          invoiceId: InvoiceId,
-        },
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
     }
   }, [state.InvoiceList?.createRefundStatusCode]);

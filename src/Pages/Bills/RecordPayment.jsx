@@ -178,15 +178,15 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
       setBalance("");
       setTransactionId("");
       setSelectedDate(null);
-      if (invoiceList?.invoiceId) {
-        dispatch({
-          type: "GETPARTICULARBILLSDETAILS",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-            invoiceId: invoiceList?.invoiceId,
-          },
-        });
-      }
+      // if (invoiceList?.invoiceId) {
+      //   dispatch({
+      //     type: "GETPARTICULARBILLSDETAILS",
+      //     payload: {
+      //       hostelId: state.login.selectedHostel_Id,
+      //       invoiceId: invoiceList?.invoiceId,
+      //     },
+      //   });
+      // }
       setFormRecordLoading(false);
       handleClose();
 

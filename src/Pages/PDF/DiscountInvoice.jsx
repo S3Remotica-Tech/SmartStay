@@ -42,7 +42,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
     const numValue = parseFloat(value);
 
-  
     setDiscountInput(numValue);
 
     if (baseAmount === 0) return;
@@ -93,7 +92,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
 
-
   // const Amount =
   // pdfDetails?.invoiceInfo?.subTotal ||
   // pdfDetails?.invoiceInfo?.totalAmount
@@ -117,7 +115,6 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     discountPercent < 1
       ? discountPercent.toFixed(2)
       : Math.round(discountPercent);
-
 
   const reasonOptions = [
     { value: "loyalty", label: "Loyalty Discount" },
@@ -279,21 +276,15 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
     if (status === 200) {
       setFormLoading(false);
-
       dispatch({
-        type: "GETPARTICULARBILLSDETAILS",
-        payload: {
-          hostelId: pdfDetails?.hostelId,
-          invoiceId: pdfDetails?.invoiceId,
-        },
+        type: "INVOICESLISTFILTER",
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
 
-      setTimeout(() => {
-        handleClose();
+      handleClose();
 
-        dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
-        dispatch({ type: "REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER" });
-      }, 100);
+      dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
+      dispatch({ type: "REMOVE_EDIT_INVOICE_DISCOUNT_REDUCER" });
     }
   }, [
     state.InvoiceList?.makeInvoiceDiscountStatus,

@@ -243,6 +243,17 @@ function BillsPdfDetails() {
     }, 500);
   };
 
+
+
+
+
+
+
+
+
+
+  
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen overflow-hidden">
       <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto ">
