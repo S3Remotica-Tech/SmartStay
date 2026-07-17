@@ -419,7 +419,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const canShowRecordPayment =
     (finalAmount > 0 && status !== "PAID") ||
-    (totalAmount > 0 && paymentStatus === "Pending");
+    (totalAmount > 0 &&
+      paymentStatus !== "Paid" &&
+      paymentStatus !== "Cancelled");
 
   const canShowRefund =
     (finalAmount < 0 && status !== "REFUNDED") ||
