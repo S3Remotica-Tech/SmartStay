@@ -941,14 +941,14 @@ function UserList(props) {
   }, [state.UsersList.cancelCheckoutStatusCode]);
 
   const handlefilterInput = (e) => {
-    const searchValue = e.target.value.toLowerCase().trim();
+    const searchValue = e.target.value;
     setFilterInput(searchValue);
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedInput(filterInput);
-    }, 2000);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [filterInput]);

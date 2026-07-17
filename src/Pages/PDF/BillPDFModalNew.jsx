@@ -410,7 +410,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     },
   };
 
-  const isPending = pdfDetails?.invoiceInfo?.paymentStatus === "Pending";
+  const isPending =
+    pdfDetails?.invoiceInfo?.paymentStatus === "Pending" ||
+    pdfDetails?.invoiceInfo?.status === "PENDING";
 
   const finalAmount = Number(pdfDetails?.invoiceInfo?.finalAmount);
   const totalAmount = Number(pdfDetails?.invoiceInfo?.totalAmount);
@@ -419,21 +421,23 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const canShowRecordPayment =
     (finalAmount > 0 && status !== "PAID") ||
-    (totalAmount > 0 && paymentStatus === "Pending");
+    (totalAmount > 0 &&
+      paymentStatus !== "Paid" &&
+      paymentStatus !== "Cancelled");
 
   const canShowRefund =
     (finalAmount < 0 && status !== "REFUNDED") ||
     (totalAmount < 0 && paymentStatus === "Pending");
 
-  const isSettlement = pdfDetails?.invoiceType === "SETTLEMENT";
-  const isRent =
-    pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
+  const isSettlement = pdfDetails?.configInfo?.invoiceType === "Rent";
+  // const isRent =
+  //   pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
 
   const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
 
   const showSplitButton = true;
 
-  const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
+  // const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
   const isAdvanceRedeemAvailable =
     pdfDetails?.invoiceInfo?.isAvanceAvailableForRedeem;
@@ -443,6 +447,18 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const isAdvanceInvoice =
     pdfDetails?.configurations?.invoiceType === "Advance";
+
+  const isRentInvoice = pdfDetails?.configurations?.invoiceType === "Rent";
+
+  const isPayableTenant = finalAmount > 0 || totalAmount > 0;
+
+  const ShowMakeDiscount =
+    isPayableTenant &&
+    isPending &&
+    (isAdvanceInvoice || isRentInvoice || isSettlement) &&
+    isNotDiscounted;
+
+  // console.log("isPayableTenant", isPayableTenant);
 
   const hasPayments = pdfDetails?.paymentHistory?.length > 0;
   const hasRefunds = pdfDetails?.refundHistory?.length > 0;
@@ -1039,7 +1055,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             Apply to Invoice
                           </button>
                         )}
-                        {isDiscount && (
+                        {ShowMakeDiscount && (
                           <button
                             onClick={handleMakeDiscount}
                             disabled={!canWriteInvoice}

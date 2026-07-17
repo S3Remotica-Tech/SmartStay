@@ -10,6 +10,106 @@ import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
 
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "50px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 600,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -19,7 +119,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const [initials, setInitials] = useState("");
   const [formRecordLoading, setFormRecordLoading] = useState(false);
 
-  console.log("invoiceList", invoiceList);
+  // console.log("invoiceList", invoiceList);
 
   const calendarRef = useRef(null);
   const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
@@ -283,577 +383,234 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   };
 
   return (
-    <div
-      className="modal show"
-      style={{
-        display: "block",
-        position: "initial",
-        fontFamily: "Gilroy,sans-serif",
-      }}
-    >
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        centered
-        // dialogClassName="custom-modals-record-payment-style"
-      >
-        <Modal.Dialog className="m-0 p-0">
-          <Modal.Header style={{ paddingTop: 10, position: "relative" }}>
-            <div
-              style={{
-                fontSize: 18,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                textAlign: "start",
-              }}
-            >
-              {`Record Payment `}
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className="relative flex justify-between mb-2 pt-0 border-0 m-4">
+          <div className="text-[18px] font-semibold font-gilroy text-left">
+            Record Payment
+          </div>
+
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleClose}
+            className="cursor-pointer"
+          />
+        </div>
+
+        <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
+          <div className="mx-2">
+            <div className="flex items-center gap-2  rounded-md bg-[#F7F9FF] px-4 py-2">
+              {profile_pic ? (
+                <img
+                  src={profile_pic !== "0" ? profile_pic : ""}
+                  alt="profile"
+                  className="h-[55px] w-[55px] rounded-full cursor-pointer"
+                />
+              ) : (
+                <div className="flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#E2E8F0] font-gilroy text-[20px] font-semibold text-[#44536A]">
+                  {initials || "-"}
+                </div>
+              )}
+
+              <div>
+                <p className="mb-0 font-gilroy text-xl font-semibold">{name}</p>
+
+                <div className="mb-2 flex gap-2">
+                  <span className="rounded-full bg-yellow-400 px-3 py-1 font-gilroy text-xs font-normal text-gray-900">
+                    {floor_name}
+                  </span>
+
+                  <span className="rounded-full bg-red-100 px-3 py-1 font-gilroy text-xs font-normal text-gray-900">
+                    {room_name} - {bed_name}
+                  </span>
+                </div>
+              </div>
+
+              <div className="ml-auto mt-2 text-right">
+                <p className="m-0 p-0 font-gilroy text-[14px] font-normal text-[#4B4B4B]">
+                  Due Pending
+                </p>
+
+                <p className="font-gilroy text-[16px] font-semibold">
+                  {invoiceList?.balanceDue}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-2 my-2">
+            <div>
+              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+                Paid Amount <span className="text-[20px] text-red-500">*</span>
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                step="1"
+                placeholder="Enter Amount"
+                className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
+                value={payableAmount}
+                onChange={handleAmount}
+                // onKeyDown={(e) => {
+                //   if (e.key === "-" || e.key === "e") {
+                //     e.preventDefault();
+                //   }
+                // }}
+              />
+
+              {amounterrormsg && (
+                <ErrorMessage message={amounterrormsg} type="error" />
+              )}
             </div>
 
-            <CloseCircle
-              size="24"
-              color="#000"
-              onClick={handleClose}
-              style={{ cursor: "pointer" }}
-            />
-          </Modal.Header>
+            <div>
+              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+                Balance Amount{" "}
+                <span className="text-[20px] text-red-500">*</span>
+              </label>
 
-          <Modal.Body>
-            <>
-              <div className="flex items-center gap-2  bg-[#F7F9FF] px-4 py-2 rounded">
-                {profile_pic ? (
-                  <img
-                    src={profile_pic && profile_pic !== "0" && profile_pic}
-                    style={{ height: 55, width: 55, cursor: "pointer" }}
-                    alt="profile"
-                    className="rounded-circle me-3"
-                  />
-                ) : (
-                  <div
-                    style={{
-                      height: 50,
-                      width: 50,
-                      borderRadius: "50%",
-                      backgroundColor: "#E2E8F0",
-                      color: "#44536A",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontSize: 20,
-                      fontWeight: "600",
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {initials || "-"}
-                  </div>
-                )}
-
-                <div>
-                  <p
-                    style={{
-                      fontSize: "1.25rem",
-                      fontFamily: "Gilroy",
-                      fontWeight: 600,
-                    }}
-                    className="mb-0"
-                  >
-                    {name}
-                  </p>
-                  <div className="d-flex mb-2">
-                    <span
-                      className="badge rounded-pill bg-warning text-dark me-2"
-                      style={{
-                        fontSize: "0.75rem",
-                        fontFamily: "Gilroy",
-                        fontWeight: 400,
-                      }}
-                    >
-                      {floor_name}
-                    </span>
-                    <span
-                      className="badge rounded-pill bg-danger-subtle text-dark"
-                      style={{
-                        fontSize: "0.75rem",
-                        fontFamily: "Gilroy",
-                        fontWeight: 400,
-                      }}
-                    >
-                      {room_name} -{bed_name}
-                    </span>
-                  </div>
-                </div>
-                <div className="ms-auto text-end mt-2">
-                  <p
-                    style={{
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 400,
-                      color: "#4B4B4B",
-                      padding: 0,
-                      margin: 0,
-                    }}
-                  >
-                    Due Pending
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {invoiceList?.balanceDue}
-                  </p>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group controlId="exampleForm.ControlInput3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        marginBottom: 2,
-                      }}
-                    >
-                      Paid Amount{" "}
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "20px",
-                        }}
-                      >
-                        *
-                      </span>
-                    </Form.Label>
-
-                    <Form.Control
-                      type="number"
-                      min="0"
-                      step="1"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                      placeholder="Enter Amount"
-                      className="no-spinner"
-                      value={payableAmount}
-                      onChange={handleAmount}
-                      //   onKeyDown={(e) => {
-                      //       if (e.key === "-" || e.key === "e") {
-                      //           e.preventDefault();
-                      //       }
-                      //   }}
-                    />
-
-                    {amounterrormsg && (
-                      <ErrorMessage message={amounterrormsg} type="error" />
-                    )}
-                  </Form.Group>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group controlId="exampleForm.ControlInput3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        marginBottom: 2,
-                      }}
-                    >
-                      Balance Amount{" "}
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "20px",
-                        }}
-                      >
-                        *
-                      </span>
-                    </Form.Label>
-
-                    <Form.Control
-                      disabled
-                      type="number"
-                      min="0"
-                      step="1"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                      placeholder="Enter Amount"
-                      className="no-spinner"
-                      value={balance}
-                    />
-                  </Form.Group>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group controlId="purchaseDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Paid Date{" "}
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "20px",
-                        }}
-                      >
-                        *
-                      </span>
-                    </Form.Label>
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                      }}
-                    >
-                      <div
-                        className="datepicker-wrapper"
-                        style={{ position: "relative", width: "100%" }}
-                      >
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                            height: 48,
-                            cursor: "pointer",
-                            fontFamily: "Gilroy",
-                          }}
-                          format="DD/MM/YYYY"
-                          placeholder="DD/MM/YYYY"
-                          value={selectedDate ? dayjs(selectedDate) : null}
-                          onChange={(date) => {
-                            setDateErrmsg("");
-                            setAccountError("");
-                            setSelectedDate(date ? date.toDate() : null);
-                          }}
-                          disabledDate={(current) => {
-                            const invoiceDate = invoiceList?.invoiceDate
-                              ? dayjs(
-                                  invoiceList?.invoiceDate,
-                                  "DD/MM/YYYY",
-                                ).startOf("day")
-                              : null;
-
-                            return (
-                              (invoiceDate &&
-                                current.isBefore(invoiceDate, "day")) ||
-                              current.isAfter(dayjs().endOf("day"))
-                            );
-                          }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
-                        />
-                      </div>
-                    </div>
-                    {dateerrmsg.trim() !== "" && (
-                      <ErrorMessage message={dateerrmsg} type="error" />
-                    )}
-                  </Form.Group>
-                </div>
-
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group
-                    className=""
-                    controlId="exampleForm.ControlInput2"
-                  >
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "'Gilroy', sans-serif",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Mode of Transaction{" "}
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "20px",
-                        }}
-                      >
-                        *
-                      </span>
-                    </Form.Label>
-
-                    <Select
-                      options={combinedOptions}
-                      onChange={(selectedOption) =>
-                        handleTransaction(selectedOption?.value)
-                      }
-                      value={
-                        modeOfPayment
-                          ? combinedOptions.find(
-                              (option) => option.value === modeOfPayment,
-                            )
-                          : null
-                      }
-                      placeholder="Please Select"
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      noOptionsMessage={() => "No options available"}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "49px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy, sans-serif",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy, sans-serif",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy, sans-serif",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "lightblue"
-                            : "white",
-                          color: "#000",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                      }}
-                    />
-
-                    {paymodeerrormsg.trim() !== "" && (
-                      <ErrorMessage message={paymodeerrormsg} type="error" />
-                    )}
-                  </Form.Group>
-                </div>
-
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Transaction ID
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                      }}
-                      placeholder="Enter Transaction ID"
-                      value={transactionId}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                </div>
-
-                {modeOfPayment === "Net Banking" && (
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Account{" "}
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "20px",
-                        }}
-                      >
-                        {" "}
-                        *{" "}
-                      </span>
-                    </Form.Label>
-                    <Select
-                      placeholder="Select Account"
-                      options={
-                        bankking?.length > 0
-                          ? bankking.map((u) => ({
-                              value: u.id,
-                              label: u.bank_name,
-                            }))
-                          : []
-                      }
-                      value={
-                        bankking
-                          .map((u) => ({
-                            value: u.id,
-                            label: u.bank_name,
-                          }))
-                          .find((opt) => opt.value === account) || null
-                      }
-                      onChange={handleAccount}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "48px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isFocused
-                            ? "#f0f0f0"
-                            : "white",
-                          color: "#000",
-                        }),
-                      }}
-                      noOptionsMessage={() =>
-                        bankking?.length === 0
-                          ? "No accounts available"
-                          : "No match found"
-                      }
-                    />
-
-                    {accountError.trim() !== "" && (
-                      <ErrorMessage message={accountError} type="error" />
-                    )}
-                  </div>
-                )}
-              </div>
-            </>
-            {totalErrormsg.trim() !== "" && (
-              <ErrorMessage message={totalErrormsg} type="error" />
-            )}
-          </Modal.Body>
-
-          {state.InvoiceList.payapleAmountError ? (
-            <div className="d-flex justify-content-center">
-              <ErrorMessage
-                message={state.InvoiceList.payapleAmountError}
-                type="error"
+              <input
+                disabled
+                type="number"
+                min="0"
+                step="1"
+                placeholder="Enter Amount"
+                value={balance}
+                className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] bg-gray-100 px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
-          ) : null}
 
-          {formRecordLoading && (
-            <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 opacity-75">
-              <div className="w-10 h-10 border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
+            <div>
+              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+                Paid Date <span className="text-[20px] text-red-500">*</span>
+              </label>
+
+              <div className="relative w-full">
+                <div className="datepicker-wrapper relative w-full">
+                  <DatePicker
+                    className="h-12 w-full font-gilroy"
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    onChange={(date) => {
+                      setDateErrmsg("");
+                      setAccountError("");
+                      setSelectedDate(date ? date.toDate() : null);
+                    }}
+                    disabledDate={(current) => {
+                      const invoiceDate = invoiceList?.invoiceDate
+                        ? dayjs(invoiceList.invoiceDate, "DD/MM/YYYY").startOf(
+                            "day",
+                          )
+                        : null;
+
+                      return (
+                        (invoiceDate && current.isBefore(invoiceDate, "day")) ||
+                        current.isAfter(dayjs().endOf("day"))
+                      );
+                    }}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".show-scroll") || document.body
+                    }
+                  />
+                </div>
+              </div>
+
+              {dateerrmsg.trim() !== "" && (
+                <ErrorMessage message={dateerrmsg} type="error" />
+              )}
             </div>
+
+            <div>
+              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+                Mode of Transaction{" "}
+                <span className="text-[20px] text-red-500">*</span>
+              </label>
+
+              <Select
+                options={combinedOptions}
+                onChange={(selectedOption) =>
+                  handleTransaction(selectedOption?.value)
+                }
+                value={
+                  modeOfPayment
+                    ? combinedOptions.find(
+                        (option) => option.value === modeOfPayment,
+                      )
+                    : null
+                }
+                placeholder="Please Select"
+                className="w-full"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No options available"}
+                styles={CustomStyles}
+              />
+
+              {paymodeerrormsg.trim() !== "" && (
+                <ErrorMessage message={paymodeerrormsg} type="error" />
+              )}
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+              <label className="mb-[2px] block font-gilroy text-[14px] font-medium text-[#222222]">
+                Transaction ID
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter Transaction ID"
+                value={transactionId}
+                onChange={handleChange}
+                className="h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
+              />
+            </div>
+          </div>
+
+          {totalErrormsg.trim() !== "" && (
+            <ErrorMessage message={totalErrormsg} type="error" />
           )}
+        </div>
 
-          <Modal.Footer style={{ border: "none" }}>
-            <div className="text-end mt-4">
-              <Button
-                variant=""
-                className="me-2"
-                onClick={handleClose}
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: "1rem",
-                  fontWeight: 400,
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                disabled={formRecordLoading}
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: "1rem",
-                  fontWeight: 400,
-                  backgroundColor: "#1E45E1",
-                }}
-                onClick={handleSaveInvoiceList}
-              >
-                Record
-              </Button>
-            </div>
-          </Modal.Footer>
-        </Modal.Dialog>
-      </Modal>
+        {state.InvoiceList.payapleAmountError ? (
+          <div className="d-flex justify-content-center">
+            <ErrorMessage
+              message={state.InvoiceList.payapleAmountError}
+              type="error"
+            />
+          </div>
+        ) : null}
+
+        <div className="flex justify-end gap-2 m-4">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="rounded-lg border border-gray-300 bg-white px-4 py-2 font-gilroy text-[16px] font-normal text-gray-700 transition hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            disabled={formRecordLoading}
+            onClick={handleSaveInvoiceList}
+            className="flex min-w-[100px] items-center justify-center rounded-lg bg-[#1E45E1] px-4 py-2 font-gilroy text-[16px] font-normal text-white transition hover:bg-[#1838c4] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {formRecordLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Recording...
+              </>
+            ) : (
+              "Record"
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -866,15 +623,6 @@ RecordPayment.propTypes = {
     balanceDue: PropTypes.number,
     InvoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }),
-
-  // invoiceValue: PropTypes.shape({
-  //     invoiceId: PropTypes.oneOfType([
-  //         PropTypes.string,
-  //         PropTypes.number
-  //     ]),
-  //     invoiceDate: PropTypes.string,
-  //     Date: PropTypes.string
-  // })
 };
 
 export default RecordPayment;

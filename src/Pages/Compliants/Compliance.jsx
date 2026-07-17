@@ -33,6 +33,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import AddCompliants from "./AddCompliants";
 
 const Compliance = () => {
   const state = useSelector((state) => state);
@@ -40,23 +41,10 @@ const Compliance = () => {
   const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
   const [formLoading, setFormLoading] = useState(false);
-  const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
-  const [complaintId, setComplaintId] = useState("");
-  const [Complainttype, setComplainttype] = useState("");
-  const [description, setDescription] = useState("");
   const [Assign, setAssign] = useState("");
   const [Status, setStatus] = useState("");
-  // const [hostel_Id, setHostel_Id] = useState('')
-  const [Floor, setFloor] = useState("");
-  const [Rooms, setRooms] = useState("");
-  const [room_name, setRoomName] = useState("");
-  const [beds, setBeds] = useState("");
-  const [bed_name, setBedName] = useState("");
-  const [userid, setUser_Id] = useState("");
   const [hosId, setHosId] = useState("");
-  const [floorname, setFloorname] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -65,39 +53,22 @@ const Compliance = () => {
   const [filterStatus, setFilterStatus] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
   const location = useLocation();
-  // const [compliancerolePermission, setComplianceRolePermission] = useState("");
-
-  // const [compliancepermissionError, setCompliancePermissionError] = useState("");
-  // const [complianceAddPermission, setComplianceAddPermission] = useState("")
-  // const [complianceDeletePermission, setComplianceDeletePermission] = useState("")
-  // const [complianceEditPermission, setComplianceEditPermission] = useState("")
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const customerSelectRef = useRef(null);
+  const [show, setShow] = useState(false);
+  const [Assignpopupshow, setAssignpopupshow] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [ComplaintData, setComplaintdata] = useState("");
 
   const {
     canWriteModule: canWriteComplaints,
     canReadModule: canReadComplaints,
-    // canUpdateModule: canUpdateBanking,
-    // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Complaints");
-
-  useEffect(() => {
-    if (customerSelectRef.current) {
-      customerSelectRef.current.focus();
-    }
-  }, []);
-  // console.log(state,"state")
-
-  // const canReadComplaints = useHasPermission("Complaints", "canRead");
-  // const canWriteComplaints = useHasPermission("Complaints", "canWrite");
 
   const complaintList = useSelector(
     (state) => state.Settings.Complainttypelist,
   );
-
-  // const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
 
   useEffect(() => {
     if (!canReadComplaints) {
@@ -280,51 +251,7 @@ const Compliance = () => {
     }
   }, [state.ComplianceList.statusCodeForEditCompliant]);
 
-  const [selectedDate, setSelectedDate] = useState(null);
-  const calendarRef = useRef(null);
-
-  const options = {
-    dateFormat: "d/m/Y",
-    defaultDate: null,
-    maxDate: new Date(),
-    minDate: null,
-  };
-
-  useEffect(() => {
-    if (calendarRef.current) {
-      calendarRef.current.flatpickr.set(options);
-      setDateErrmsg("");
-    }
-  }, [selectedDate]);
-
-  // const [itemsPerPage, setItemsPerPage] = useState(6);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // const filteredUsers =
-  //   filterInput.length > 0
-  //     ? filteredUsers
-  //     : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   if (selectedOption) {
-  //     setItemsPerPage(Number(selectedOption.value));
-  //     setCurrentPage(1);
-  //   }
-  // };
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
-  const [hostelname, setHostelName] = useState("");
-
-  const [dateerrmsg, setDateErrmsg] = useState("");
-  const [usererrmsg, setUserErrmsg] = useState("");
-  const [complaint_typeerrmsg, setComplaintTypeErrmsg] = useState("");
-  const [totalErrormsg, setTotalErrmsg] = useState("");
+  // const [hostelname, setHostelName] = useState("");
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -476,46 +403,6 @@ const Compliance = () => {
     }
   }, [state.UsersList.UserListStatusCode]);
 
-  const [selectedUsername, setSelectedUserName] = useState("");
-
-  useEffect(() => {
-    if (!selectedUsername) return;
-    dispatch({
-      type: "CUSTOMERDETAILS",
-      payload: { customerId: selectedUsername },
-    });
-  }, [selectedUsername]);
-
-  const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo;
-  useEffect(() => {
-    if (selectedUsername) {
-      if (CustomerOverview) {
-        //  setHostelName(firstFilteredDetail.HostelName || "");
-        setFloor(CustomerOverview.floorId || "");
-        setBeds(CustomerOverview.bedId || "");
-        setBedName(CustomerOverview.bedName || "");
-        setRooms(CustomerOverview.roomId || "");
-        setUser_Id(state.UsersList?.customerdetails?.customerId || "");
-        setRoomName(CustomerOverview.roomName || "");
-        setFloorname(CustomerOverview.floorName || "");
-      } else {
-        setHostelName("");
-        setBeds("");
-        setBedName("");
-        setFloor("");
-        setRooms("");
-        setFloorname("");
-      }
-    } else {
-      setHostelName("");
-      setBeds("");
-      setBedName("");
-      setFloor("");
-      setRooms("");
-      setFloorname("");
-    }
-  }, [selectedUsername]);
-
   const handleCheckoutChange = (selectedOption) => {
     setSelectedUserName(selectedOption?.value || "");
     if (!selectedOption) {
@@ -524,7 +411,6 @@ const Compliance = () => {
       setUserErrmsg("");
     }
   };
-  const [show, setShow] = useState(false);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -534,7 +420,7 @@ const Compliance = () => {
         style: {
           color: "#000",
           borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
+          fontFamily: "Gilroy",                 
         },
       });
       return;
@@ -549,33 +435,13 @@ const Compliance = () => {
 
     setEdit(false);
     setShow(true);
+    setComplaintdata("");
   };
 
   const handleClose = () => {
-    setJoingDateErrmsg("");
     setShow(false);
-    setFormLoading(false);
-    setSelectedUserName("");
-    setComplaintId("");
-    setComplainttype("");
-    setAssign("");
-    setDescription("");
-    setSelectedDate("");
-    setBeds("");
-    setBedName("");
-    setFloor("");
-    setRooms("");
-    setHostelName("");
-    setStatus("");
-    setFloorname("");
-    setRoomName("");
-    setUserErrmsg("");
-    setDateErrmsg("");
-    setComplaintTypeErrmsg("");
     setEdit(false);
   };
-
-  const [Assignpopupshow, setAssignpopupshow] = useState(false);
 
   const handleAssignShow = () => {
     setAssignpopupshow(true);
@@ -584,107 +450,8 @@ const Compliance = () => {
     setAssignpopupshow(false);
   };
 
-  const [edit, setEdit] = useState(false);
-
-  const handleComplaintType = (selectedOption) => {
-    setComplainttype(selectedOption?.value || "");
-    if (!selectedOption) {
-      setComplaintTypeErrmsg("Please Select ComplaintType");
-    } else {
-      setComplaintTypeErrmsg("");
-    }
-  };
-
-  const current = selectedDate ? dayjs(selectedDate) : null;
-  const initial = initialValuesRef.current.selectedDate
-    ? dayjs(initialValuesRef.current.selectedDate)
-    : null;
-
-  const hasChanges =
-    description !== initialValuesRef.current.description ||
-    !current?.isSame(initial, "day");
-
-  const handleAddcomplaint = () => {
-    if (edit && !hasChanges) {
-      setTotalErrmsg("No changes detected");
-      setTimeout(() => {
-        setTotalErrmsg("");
-      }, 10000);
-      return;
-    }
-    let isValid = true;
-
-    if (!selectedUsername) {
-      setUserErrmsg("Please Select Tenant");
-      isValid = false;
-    }
-
-    if (!Complainttype) {
-      setComplaintTypeErrmsg("Please Select  Complaint Type");
-      isValid = false;
-    }
-
-    if (!selectedDate) {
-      setDateErrmsg("Please Select date");
-      isValid = false;
-    }
-
-    if (!isValid) return;
-
-    // setEdit(false)
-
-    // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
-    const formattedDate = selectedDate
-      ? selectedDate.format("DD-MM-YYYY")
-      : null;
-
-    const payload = {
-      customerId: userid,
-      complaintTypeId: Complainttype,
-      floorId: Floor,
-      roomId: Rooms,
-      bedId: beds,
-      complaintDate: formattedDate,
-      description: description || "",
-      hostelId: state.login.selectedHostel_Id,
-    };
-    // console.log("payload", payload);
-    if (edit) {
-      dispatch({
-        type: "EDIT_COMPLAINT",
-        payload: {
-          complaintId: complaintId,
-          complaintDate: formattedDate,
-          description: description,
-        },
-      });
-      setFormLoading(true);
-    } else {
-      dispatch({ type: "COMPLIANCE-ADD", payload });
-      setFormLoading(true);
-    }
-  };
-
-  useEffect(() => {
-    if (hasChanges) {
-      setTotalErrmsg("");
-    }
-  }, [
-    selectedUsername,
-    Complainttype,
-    Assign,
-    description,
-    selectedDate,
-    beds,
-    Rooms,
-    hostelname,
-    Floor,
-    Status,
-  ]);
-
-  const [editcomplainttype, setEditcomplainttype] = useState("");
-
   const handleEditcomplaint = (Complaintdata) => {
+    setComplaintdata(Complaintdata);
     setEdit(true);
 
     dispatch({
@@ -701,34 +468,6 @@ const Compliance = () => {
       });
 
       setShow(true);
-
-      setComplaintId(Complaintdata.complaintId);
-      setSelectedUserName(Complaintdata?.customerId);
-      setComplainttype(Complaintdata.complaintTypeId);
-      setEditcomplainttype(Complaintdata.complaintTypeId);
-      setAssign(Complaintdata.Assign);
-      setDescription(Complaintdata.description);
-      // setSelectedDate(Complaintdata.complaintDate);
-      setSelectedDate(
-        Complaintdata.complaintDate
-          ? dayjs(Complaintdata.complaintDate, "DD/MM/YYYY")
-          : null,
-      );
-
-      // setHostel_Id(Complaintdata?.Hostel_id)
-      setBeds(Complaintdata.bedId);
-      setBedName(Complaintdata.bedName);
-      setFloor(Complaintdata.Floor_id);
-      setRooms(Complaintdata.Room);
-      setHostelName(Complaintdata.hostelname);
-      setStatus(Complaintdata.Status);
-
-      initialValuesRef.current = {
-        description: Complaintdata.description,
-        selectedDate: Complaintdata.complaintDate
-          ? dayjs(Complaintdata.complaintDate, "DD/MM/YYYY")
-          : null,
-      };
     }
   };
 
@@ -757,8 +496,6 @@ const Compliance = () => {
     }
   }, []);
 
-  const [complainttypelist, setComplainttypelist] = useState([]);
-
   // useEffect(() => {
   //   if (hosId) {
   //     dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
@@ -772,10 +509,6 @@ const Compliance = () => {
       }, 500);
     }
   }, [state.Settings.StatusForaddSettingStaffList]);
-
-  useEffect(() => {
-    setComplainttypelist(state.Settings.Complainttypelist);
-  }, [state.Settings.Complainttypelist]);
 
   useEffect(() => {
     const appearOptions = {
@@ -833,7 +566,7 @@ const Compliance = () => {
           </div>
         )}
 
-        <div className="sticky top-1 bg-white z-[1000] m-1 h-auto font-gilroy">
+        <div className="sticky top-1 bg-white z-40 m-1 h-auto font-gilroy">
           <div className="flex justify-between items-center flex-wrap">
             <div>
               <label className="text-lg text-black font-semibold font-gilroy">
@@ -1029,412 +762,12 @@ const Compliance = () => {
       </div>
 
       {show && (
-        <div className="modal show block static font-gilroy">
-          <Modal show={show} onHide={handleClose} centered backdrop="static">
-            <Modal.Dialog className="m-0 p-0 pr-2 rounded-full">
-              <Modal.Header>
-                <div className="text-xl font-semibold font-gilroy">
-                  {edit ? "Edit Compliant" : "Add an complaint"}
-                </div>
-
-                <CloseCircle
-                  size="24"
-                  color="#000"
-                  onClick={handleClose}
-                  className="cursor-pointer"
-                />
-              </Modal.Header>
-
-              <Modal.Body className="show-scroll max-h-96 overflow-y-scroll pt-1 mt-2 mr-3">
-                {Array.isArray(complaintList) && complaintList.length === 0 && (
-                  <ErrorMessage
-                    message={[
-                      " Please Create Complaint Type in Settings-Complaint  before adding an complaint",
-                    ]}
-                    type="error"
-                  />
-                )}
-
-                <div className="grid grid-cols-12 gap-3">
-                  <div className="col-span-12">
-                    <Form.Group controlId="exampleForm.ControlInput1">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                        Tenant <span className="text-red-600 text-xl">*</span>
-                      </Form.Label>
-
-                      <Select
-                        ref={customerSelectRef}
-                        options={(state?.UsersList?.TenantList || []).map(
-                          (u) => ({
-                            value: u.customerId,
-                            label: u.fullName || u.firstName || "Unnamed",
-                          }),
-                        )}
-                        onChange={handleCheckoutChange}
-                        value={
-                          selectedUsername
-                            ? (() => {
-                                const user = (
-                                  state?.UsersList?.TenantList || []
-                                ).find(
-                                  (u) => u.customerId === selectedUsername,
-                                );
-
-                                return user
-                                  ? {
-                                      value: user.customerId,
-                                      label: user.fullName || user.firstName,
-                                    }
-                                  : null;
-                              })()
-                            : null
-                        }
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            backgroundColor: edit ? "#E7F1FF" : "#fff",
-                            cursor: "pointer",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                            fontFamily: "Gilroy",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                            fontFamily: "Gilroy",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            opacity: 1,
-                            cursor: edit ? "not-allowed" : "pointer",
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: edit ? "not-allowed" : "pointer",
-                            backgroundColor: state.isFocused
-                              ? "lightblue"
-                              : "white",
-                            color: "#000",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-
-                      {usererrmsg.trim() !== "" && (
-                        <ErrorMessage message={usererrmsg} type="error" />
-                      )}
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-span-12 ">
-                    <label className="block text-sm text-gray-900 font-medium font-gilroy mb-1">
-                      Complaint Type{" "}
-                      <span className="text-red-600 text-xl">*</span>
-                    </label>
-                    <Select
-                      options={
-                        Array.isArray(complainttypelist) &&
-                        complainttypelist.length > 0
-                          ? complainttypelist.map((u) => ({
-                              value: u.complaintTypeId,
-                              label: u.complaintTypeName,
-                            }))
-                          : []
-                      }
-                      onChange={handleComplaintType}
-                      value={
-                        edit && editcomplainttype
-                          ? {
-                              value: editcomplainttype,
-                              label:
-                                complainttypelist.find(
-                                  (c) =>
-                                    c.complaintTypeId === editcomplainttype,
-                                )?.complaintTypeName || editcomplainttype,
-                            }
-                          : Complainttype
-                            ? {
-                                value: Complainttype,
-                                label:
-                                  complainttypelist.find(
-                                    (c) => c.complaintTypeId === Complainttype,
-                                  )?.complaintTypeName || Complainttype,
-                              }
-                            : null
-                      }
-                      placeholder="Select a type"
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      isDisabled={edit}
-                      components={
-                        edit
-                          ? {
-                              DropdownIndicator: () => null,
-                              IndicatorSeparator: () => null,
-                            }
-                          : undefined
-                      }
-                      noOptionsMessage={() => "No complaint types available"}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          backgroundColor: edit ? "#E7F1FF" : "#fff",
-                          cursor: "pointer",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                          cursor: "pointer",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                          cursor: "pointer",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          display: "inline-block",
-                          fill: "currentColor",
-                          lineHeight: 1,
-                          stroke: "currentColor",
-                          strokeWidth: 0,
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          color: state.isSelected ? "#fff" : "#000",
-                          fontFamily: "Gilroy",
-                        }),
-                      }}
-                    />
-
-                    {complaint_typeerrmsg.trim() !== "" && (
-                      <ErrorMessage
-                        message={complaint_typeerrmsg}
-                        type="error"
-                      />
-                    )}
-                  </div>
-
-                  {state?.Settings?.Complainttypelist &&
-                    state?.Settings?.Complainttypelist?.complaint_types
-                      ?.length === 0 && (
-                      <>
-                        <label className="pb-1 text-sm text-red-600 font-medium font-gilroy">
-                          * Please add a &apos;ComplaintType&apos; option in
-                          Settings, accessible after adding an Complaints.
-                        </label>
-                      </>
-                    )}
-
-                  <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
-                    <Form.Group controlId="exampleForm.ControlInput1">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                        Floor <span className="text-red-600 text-xl">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Floor"
-                        value={floorname}
-                        readOnly
-                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
-                    <Form.Group controlId="exampleForm.ControlInput3">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                        Room <span className="text-red-600 text-xl">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Rooms"
-                        value={room_name}
-                        readOnly
-                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
-                    <Form.Group
-                      className=""
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                        Bed <span className="text-red-600 text-xl">*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Beds"
-                        value={bed_name}
-                        readOnly
-                        className="!bg-[#E7F1FF] text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 !rounded-lg"
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-span-12 md:col-span-6 lg:col-span-6 -mt-2">
-                    <Form.Group controlId="purchaseDate">
-                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                        Complaint Date{" "}
-                        <span className="text-red-600 text-xl">*</span>
-                      </Form.Label>
-
-                      <div className="datepicker-wrapper w-full relative">
-                        <DatePicker
-                          className="w-full h-12 cursor-pointer font-gilroy"
-                          format="DD/MM/YYYY"
-                          placeholder="DD/MM/YYYY"
-                          value={selectedDate ? dayjs(selectedDate) : null}
-                          // onChange={(date) => {
-                          //   setDateErrmsg('');
-                          //   setJoingDateErrmsg('');
-                          //   setSelectedDate(date ? date.toDate() : null);
-                          // }}
-                          onChange={(date) => {
-                            setDateErrmsg("");
-                            setJoingDateErrmsg("");
-                            setSelectedDate(date);
-                          }}
-                          disabledDate={(current) => {
-                            if (!selectedUsername) {
-                              return true;
-                            }
-
-                            if (
-                              !CustomerOverview ||
-                              !CustomerOverview.joiningDate
-                            ) {
-                              return current && current > dayjs().endOf("day");
-                            }
-
-                            const bookedDate = dayjs(
-                              CustomerOverview.joiningDate,
-                              "DD/MM/YYYY",
-                            );
-                            return (
-                              (current &&
-                                current < bookedDate.startOf("day")) ||
-                              (current && current > dayjs().endOf("day"))
-                            );
-                          }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".datepicker-wrapper")
-                          }
-                        />
-                      </div>
-                      {dateerrmsg.trim() !== "" && (
-                        <ErrorMessage message={dateerrmsg} type="error" />
-                      )}
-                      {joiningDateErrmsg.trim() !== "" && (
-                        <ErrorMessage
-                          message={joiningDateErrmsg}
-                          type="error"
-                        />
-                      )}
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-span-12 ">
-                    <Form.Group
-                      className="mb-1"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label className="text-sm text-gray-900 font-medium font-gilroy not-italic leading-normal">
-                        Description
-                      </Form.Label>
-
-                      <Form.Control
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        type="text"
-                        placeholder="Enter description"
-                        className="text-base text-gray-700 font-medium font-gilroy shadow-none border border-gray-300 h-12 rounded-lg"
-                      />
-                    </Form.Group>
-                  </div>
-                </div>
-              </Modal.Body>
-
-              {formLoading && (
-                <div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                  flex items-center justify-center bg-transparent opacity-75 z-10"
-                >
-                  <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
-                </div>
-              )}
-
-              {totalErrormsg.trim() !== "" && (
-                <div className="d-flex justify-content-center mb-2">
-                  <ErrorMessage message={totalErrormsg} type="error" />
-                </div>
-              )}
-
-              {/* {state.createAccount?.networkError ?
-                  <div className="d-flex justify-content-center mt-1 mb-1">
-                    <ErrorMessage message={state.createAccount?.networkError} type="error" /></div>
-                  : null} */}
-
-              <Modal.Footer className="!border-none pt-0">
-                <Button
-                  disabled={formLoading}
-                  className="w-full !bg-blue-700 !font-gilroy text-white font-medium font-gilroy text-base h-12 rounded-xl"
-                  onClick={handleAddcomplaint}
-                >
-                  {edit ? "Save complaint" : "Add complaint"}
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
+        <AddCompliants
+          show={show}
+          handleClose={handleClose}
+          edit={edit}
+          ComplaintData={ComplaintData}
+        />
       )}
 
       {Assignpopupshow && (
