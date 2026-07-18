@@ -785,7 +785,7 @@ const RoomReadingTable = () => {
                           ),
                         )
                       ) : (
-                        <div className="bg-white rounded-2xl px-5 py-4.5 mb-3.5 flex items-center gap-3 border border-dashed border-gray-300 text-gray-500">
+                        <div className="bg-white rounded-2xl px-5 py-4.5 h-[100px] mb-3.5 flex items-center gap-3 border border-dashed border-gray-300 text-gray-500">
                           <div className="h-9 w-9 rounded-full bg-gray-100 flex items-center justify-center text-lg">
                             <Flash />
                           </div>

@@ -187,12 +187,14 @@ function AddRoomReading({
   }, [show]);
 
   return (
-    <div className="modal show block relative overflow-hidden">
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <Modal.Header className="flex justify-between items-center">
-          <Modal.Title className="!font-gilroy !font-semibold !text-xl !mb-0">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className="flex justify-between items-center px-4 py-3 border-b ">
+          <div className="!font-gilroy !font-semibold !text-xl !mb-0">
             {editRoomReading ? "Edit Room Reading" : "Add Room Reading"}
-          </Modal.Title>
+          </div>
 
           <CloseCircle
             size={26}
@@ -200,9 +202,12 @@ function AddRoomReading({
             className="cursor-pointer"
             onClick={handleClose}
           />
-        </Modal.Header>
-        <Modal.Body ref={modalBodyRef}>
-          <div className="flex justify-between items-center w-full border-b border-gray-300 pb-2.5">
+        </div>
+        <div
+          ref={modalBodyRef}
+          className="flex-1 overflow-y-auto p-4 show-scrolls "
+        >
+          <div className="flex justify-between items-center w-full  border-gray-300 pb-2.5">
             <div className="d-flex align-items-center">
               <span className="flex items-center justify-center bg-blue-100 rounded-full w-12 h-12 mr-2.5">
                 <img src={electricity} alt="electricity" className="h-6 w-6" />
@@ -294,14 +299,14 @@ function AddRoomReading({
               />
             </div>
           )}
-        </Modal.Body>
+        </div>
         {loading && (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
             <div className="w-10 h-10 border-4 border-t-blue-600 border-r-transparent rounded-full animate-spin"></div>
           </div>
         )}
 
-        <Modal.Footer className="!border-t-0">
+        <div className="p-4 flex justify-end">
           <Button
             className="bg-transparent !text-black !font-gilroy !border-none"
             onClick={handleClose}
@@ -315,8 +320,8 @@ function AddRoomReading({
           >
             {editRoomReading ? "Update" : "Add"}
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      </div>
     </div>
   );
 }
