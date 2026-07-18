@@ -1194,27 +1194,60 @@ function FinalSettlement() {
                   )}
                 </div>
                 <div
-                  className="flex items-center gap-2 px-4 py-2"
+                  className="flex items-center justify-between gap-2 px-4 py-2"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <input
-                    type="checkbox"
-                    id="collectFullRent"
-                    checked={collectFullRent}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleCheckboxChange(e);
-                    }}
-                    className="w-4 h-4 cursor-pointer accent-[#1E45E1]"
-                  />
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="checkbox"
+                      id="collectFullRent"
+                      checked={collectFullRent}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        handleCheckboxChange(e);
+                      }}
+                      className="w-4 h-4 cursor-pointer accent-[#1E45E1]"
+                    />
 
-                  <label
-                    htmlFor="collectFullRent"
-                    className="text-sm font-medium text-[#222222] cursor-pointer flex items-center gap-4"
-                  >
-                    Do you want to collect Full Rent for current month?{" "}
-                    {/* <InfoCircle size="14" color="#DCDCDC" /> */}
-                  </label>
+                    <label
+                      htmlFor="collectFullRent"
+                      className="text-sm font-medium text-[#222222] cursor-pointer flex items-center gap-4"
+                    >
+                      Do you want to collect Full Rent for current month?{" "}
+                    </label>
+                  </div>
+                  {collectFullRent && (
+                    <div className="relative inline-block group">
+                      <label className="text-sm font-medium text-[#1E45E1] cursor-pointer flex items-center gap-2 whitespace-nowrap">
+                        Full Rent + Other Charges
+                        <InfoCircle size="14" color="#1E45E1" />
+                      </label>
+
+                      <div className="absolute right-0 top-full mt-2 z-50 hidden w-72 rounded-lg bg-[#64748B] px-3 py-2 text-xs text-white shadow-lg group-hover:block">
+                        <p>
+                          <strong>Full Rent</strong> ₹{customRent}
+                          {finalSettlementList?.currentMonthRentInfo
+                            ?.otherItemAmount > 0 && (
+                            <>
+                              {" + "}
+                              <strong>Other Charges</strong> ₹
+                              {
+                                finalSettlementList.currentMonthRentInfo
+                                  .otherItemAmount
+                              }
+                            </>
+                          )}
+                        </p>
+
+                        <p className="mt-2 text-gray-100">
+                          System automatically adds other charges to the rent
+                          amount.
+                        </p>
+
+                        <div className="absolute -top-1 right-5  h-2 w-2 rotate-45 bg-[#64748B]" />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 {showRentDetails && <hr className="m-0 border-gray-300" />}
 
