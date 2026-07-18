@@ -73,7 +73,7 @@ const InvoicePage = () => {
   const [page, setPage] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("ALL");
-  console.log("statusfilter", statusfilter);
+  // console.log("statusfilter", statusfilter);
   const [selectedUserId, setSelectedUserId] = useState("");
   const [customername, setCustomerName] = useState("");
   const [startdate, setStartDate] = useState(null);
@@ -1306,25 +1306,25 @@ const InvoicePage = () => {
   const stats = [
     {
       label: "Total Outstanding Receivables",
-      value: `${state.InvoiceList.billsList?.invoiceSummary?.outstandingAmount}`,
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.outstandingAmount || 0}`,
       icon: true,
       highlight: true,
     },
     {
       label: "Total Invoices",
-      value: `${state.InvoiceList.billsList?.invoiceSummary?.totalInvoices}`,
+      value: `${state.InvoiceList.billsList?.invoiceSummary?.totalInvoices || 0}`,
     },
     {
       label: "Collected This Month",
-      value: `${state.InvoiceList.billsList?.invoiceSummary?.collectedThisMonth}`,
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.collectedThisMonth || 0}`,
     },
     {
       label: "Due Today",
-      value: `${state.InvoiceList.billsList?.invoiceSummary?.todaysDue}`,
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.todaysDue || 0} `,
     },
     {
       label: "Overdue Amount",
-      value: `${state.InvoiceList.billsList?.invoiceSummary?.overDueAmount}`,
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.overDueAmount || 0}`,
     },
   ];
 

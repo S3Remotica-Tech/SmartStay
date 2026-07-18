@@ -313,6 +313,14 @@ function AddTenantBookingCheckin({
     setCheckInRentAmountError("");
   };
 
+  const isCheckInFormValid =
+    joiningDate &&
+    checkinFloor &&
+    checkinRoom &&
+    checkinBed &&
+    rentAmount &&
+    (isAdvanceRefused || advanceAmount);
+
   const validateCheckInDraft = () => {
     let isValid = true;
     let firstInvalidRef = null;
@@ -508,8 +516,8 @@ function AddTenantBookingCheckin({
   };
 
   const handleNextStepCheckinDraft = () => {
-    // handleCheckin();
-    handleCheckInDraft();
+    handleCheckin();
+    // handleCheckInDraft();
     setCheckinAction("next");
     handleNextStep();
   };
@@ -2826,7 +2834,7 @@ function AddTenantBookingCheckin({
                 )}
                 <div className="flex gap-2">
                   <button
-                    disabled={!isConfirmed}
+                    disabled={!isConfirmed || checkInLoading}
                     onClick={handleCheckin}
                     className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
@@ -2843,8 +2851,8 @@ function AddTenantBookingCheckin({
                   </button>
 
                   <button
-                    disabled={checkInLoading}
-                    className="!font-gilroy text-sm flex items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                    disabled={checkInLoading || !isCheckInFormValid}
+                    className="!font-gilroy text-sm flex    disabled:opacity-70 items-center justify-center gap-1 !bg-[#1E45E1] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
                     onClick={handleNextStepCheckinDraft}
                   >
                     {checkInLoading && checkinAction === "next" ? (
@@ -2854,7 +2862,7 @@ function AddTenantBookingCheckin({
                       </>
                     ) : (
                       <>
-                        Next <ArrowRight color="#FFFFFF" size="18" />
+                        Save & Next <ArrowRight color="#FFFFFF" size="18" />
                       </>
                     )}
                   </button>
