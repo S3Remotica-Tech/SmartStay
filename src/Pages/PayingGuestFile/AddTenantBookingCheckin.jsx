@@ -1098,11 +1098,11 @@ function AddTenantBookingCheckin({
         },
       });
 
-      // if (checkinAction === "checkin") {
-      handleClose();
-      // } else if (checkinAction === "next") {
-      //   handleNextStep();
-      // }
+      if (checkinAction === "checkin") {
+        handleClose();
+      } else if (checkinAction === "next") {
+        handleNextStep();
+      }
 
       setCheckinAction("");
 
