@@ -7,22 +7,30 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import Select from "react-select";
 import { Add } from "iconsax-react";
 
-function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
+function DiscountInvoice({
+  show,
+  handleClose,
+  editData = null,
+  isEdit,
+  discountDetails,
+}) {
   const state = useSelector((state) => state);
-  // console.log("EDIT DATA", editData);
+
   const [discountInput, setDiscountInput] = useState("");
   const [discountInputError, setDiscountInputError] = useState("");
   const [reasonError, setReasonError] = useState("");
   const dispatch = useDispatch();
   const [formLoading, setFormLoading] = useState(false);
-  const pdfDetails = state.InvoiceList?.particularBillsDetails;
+  const TenantDetails = state.InvoiceList?.initializeDiscount;
   const [discountType, setDiscountType] = useState("amount");
   const [selectedReason, setSelectedReason] = useState(null);
   const [customReason, setCustomReason] = useState("");
   const [noChangesError, setNoChangesError] = useState("");
-
+  const pdfDetails = state.InvoiceList?.particularBillsDetails;
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
+
+  console.log("discountDetails", discountDetails);
 
   const handleDiscountChange = (e) => {
     const value = e.target.value;
@@ -78,10 +86,11 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     const [day, month, year] = parts.map(Number);
     return new Date(year, month - 1, day);
   };
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const dueDateObj = parseDate(pdfDetails?.dueDate);
+  const dueDateObj = parseDate(TenantDetails?.overDueOn);
 
   let overdueDays = 0;
 
@@ -92,18 +101,14 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     overdueDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
 
-  // const Amount =
-  // pdfDetails?.invoiceInfo?.subTotal ||
-  // pdfDetails?.invoiceInfo?.totalAmount
+  // const Amount = TenantDetails?.invoiceInfo?.reduce(
+  //   (sum, item) => sum + item.amount,
+  //   0,
+  // );
 
-  const Amount = pdfDetails?.invoiceInfo?.invoiceItems?.reduce(
-    (sum, item) => sum + item.amount,
-    0,
-  );
+  const baseAmount = TenantDetails?.invoiceInfo?.invoiceAmount;
 
-  const baseAmount = Amount;
-
-  const total = parseFloat(Amount) || 0;
+  const total = parseFloat(TenantDetails?.invoiceInfo?.invoiceAmount) || 0;
   const discount = parseFloat(discountInput) || 0;
   const calculatedDiscount =
     discountType === "percent"
@@ -157,7 +162,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
   }, []);
 
   useEffect(() => {
-    if (editData && pdfDetails?.invoiceInfo?.isDiscounted) {
+    if (editData) {
       setDiscountInput(
         discountType === "amount"
           ? editData?.discountAmount
@@ -187,6 +192,18 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
     }
   }, [show]);
 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "GET_INITIALIZE_DICOUNT_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: discountDetails?.invoiceId || pdfDetails?.invoiceId,
+        },
+      });
+    }
+  }, [discountDetails, pdfDetails]);
+
   const handleApplyInvoices = () => {
     dispatch({ type: "CLEAR_NETWORK_ERROR" });
 
@@ -199,7 +216,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
       selectedReason?.value === "other" ? customReason : selectedReason?.label;
 
     const discountValue = parseFloat(discountInput) || 0;
-    const total = parseFloat(pdfDetails?.invoiceInfo?.totalAmount) || 0;
+    const total = parseFloat(TenantDetails?.invoiceInfo?.invoiceAmount) || 0;
 
     setDiscountInputError("");
     setReasonError("");
@@ -220,31 +237,16 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
       hasError = true;
     }
 
-    if (discountType === "amount" && discountValue > Amount) {
+    if (discountType === "amount" && discountValue > baseAmount) {
       setDiscountInputError("Discount cannot exceed invoice amount");
       hasError = true;
     }
 
     if (hasError) return;
 
-    // if (isEdit) {
-    //     const oldDiscount =
-    //         editData?.discountAmount || editData?.discountPercentage || 0;
-
-    //     const oldReason = editData?.discountReason;
-
-    //     if (
-    //         discountValue === oldDiscount &&
-    //         finalReason === oldReason
-    //     ) {
-    //         setNoChangesError("No Changes Detected");
-    //         return;
-    //     }
-    // }
-
     let payload = {
       hostelId: state.login?.selectedHostel_Id,
-      invoiceId: pdfDetails?.invoiceId,
+      invoiceId: TenantDetails?.invoiceInfo?.invoiceId,
       reason: finalReason,
     };
 
@@ -298,9 +300,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
       <div className="absolute top-2 right-2 bottom-2 w-full max-w-4xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="flex justify-between items-center px-4 pt-4 py-2 ">
           <h2 className="text-lg font-semibold text-gray-800">
-            {pdfDetails?.invoiceInfo?.isDiscounted
-              ? "Edit Discount Invoice"
-              : "Discount Invoice"}
+            {editData ? "Edit Discount Invoice" : "Discount Invoice"}
           </h2>
 
           <button onClick={handleClose} className="text-red-500 text-xl">
@@ -310,30 +310,30 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
 
         <div className="flex justify-between items-center bg-[#F7F8FCA8] mx-4 px-2 py-2.5 rounded mb-2">
           <div className="flex gap-3">
-            {pdfDetails?.customerInfo?.profilePic ? (
+            {TenantDetails?.customerInfo?.profilePic ? (
               <img
-                src={pdfDetails?.customerInfo?.profilePic}
+                src={TenantDetails?.customerInfo?.profilePic}
                 alt="image"
                 className="h-14 w-14 rounded-full"
               />
             ) : (
               <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-gray-700">
-                {pdfDetails?.customerInfo?.initials}
+                {TenantDetails?.customerInfo?.initials}
               </div>
             )}
 
             <div>
               <div className="font-medium text-lg text-gray-800 mb-1">
-                {pdfDetails?.customerInfo?.fullName}
+                {TenantDetails?.customerInfo?.fullName}
               </div>
               <div className="text-xs">
                 <span className="bg-yellow-100 text-[10px] text-gray-900 px-3 py-1.5 rounded-md">
-                  {pdfDetails?.stayInfo?.floorName}
+                  {TenantDetails?.stayInfo?.floorName}
                 </span>
                 &nbsp; | &nbsp;
                 <span className="bg-[#FFE0D9] text-[10px] text-[#222222] px-[14px] py-[6px] rounded-[10px]">
-                  {pdfDetails?.stayInfo?.roomName}-{" "}
-                  {pdfDetails?.stayInfo?.bedName}
+                  {TenantDetails?.stayInfo?.roomName}-{" "}
+                  {TenantDetails?.stayInfo?.bedName}
                 </span>
               </div>
             </div>
@@ -346,7 +346,7 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
             <div className="flex items-center gap-2 font-semibold">
               <div>
                 <label className="text-[#222222] text-[18px] font-semibold">
-                  ₹ {Amount}
+                  ₹ {baseAmount}
                 </label>
               </div>
             </div>
@@ -483,15 +483,15 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
                 <tbody>
                   <tr className="border-t">
                     <td className="px-3 py-2 text-blue-600 font-semibold">
-                      {pdfDetails?.invoiceNumber}
+                      {TenantDetails?.invoiceInfo?.invoiceNumber}
                     </td>
                     <td className="px-3 py-2 text-gray-500">
-                      {pdfDetails?.invoiceDate}
+                      {TenantDetails?.invoiceInfo?.invoiceDate}
                     </td>
 
-                    <td className="px-3 py-2 font-semibold">₹ {Amount}</td>
+                    <td className="px-3 py-2 font-semibold">₹ {baseAmount}</td>
                     <td className="px-3 py-2 text-gray-500">
-                      <div>{pdfDetails?.dueDate}</div>
+                      <div>{TenantDetails?.invoiceInfo?.overDueOn}</div>
                       {overdueDays > 0 && (
                         <span className="text-[#FF9500] text-xs">
                           Overdue by {overdueDays} day
@@ -565,11 +565,11 @@ function DiscountInvoice({ show, handleClose, editData = null, isEdit }) {
           <div className="flex justify-end h-fit w-full  px-10 whitespace-nowrap">
             <div className="bg-gray-50 p-4 rounded-lg w-full max-w-sm text-sm grid grid-cols-2 gap-y-2">
               <span className="text-[#4B4B4B] break-words">
-                Invoice Amount ({pdfDetails?.invoiceNumber})
+                Invoice Amount ({TenantDetails?.invoiceNumber})
               </span>
 
               <span className="font-semibold text-right whitespace-nowrap">
-                ₹ {Amount}
+                ₹ {baseAmount}
               </span>
 
               <span className="text-[#4B4B4B] break-words">

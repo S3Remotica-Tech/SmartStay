@@ -151,16 +151,8 @@ function UserListInvoice(props) {
   };
 
   const handleMakeDiscount = (item) => {
-    setDiscountDetails(CustomerOverView);
+    setDiscountDetails(item);
     setShowDiscountInvoice(true);
-
-    dispatch({
-      type: "GETPARTICULARBILLSDETAILS",
-      payload: {
-        hostelId: CustomerOverView?.hostelId,
-        invoiceId: item?.invoiceId,
-      },
-    });
   };
 
   const handleCloseFormDiscount = () => {
@@ -242,6 +234,13 @@ function UserListInvoice(props) {
           invoiceId: item.invoiceId,
         },
       });
+      dispatch({
+        type: "ALL_BILLS_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+
       navigate(`/invoice/details/${item.invoiceId}`, {
         replace: false,
         state: {

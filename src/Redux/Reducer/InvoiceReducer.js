@@ -119,7 +119,8 @@ export const initialState = {
   receiptCustomizeSuccessCode: 0,
   getCustomizeReceiptList: [],
   getReceiptSucessStatus: 0,
-
+  initializeRecordPayment: "",
+  initializeDiscount: "",
   invoiceFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -130,7 +131,7 @@ export const initialState = {
     paymentStatus: [],
     search: "",
     size: "",
-    page : "",
+    page: "",
   },
   receiptFilters: {
     type: "",
@@ -179,6 +180,12 @@ const InvoiceReducer = (state = initialState, action) => {
 
     case "REMOVE_ERROR_AMENITIES":
       return { ...state, errorAmenities: 0 };
+
+    case "GET_INITIALIZE_RECORD_PAYMENT_REDUCER":
+      return { ...state, initializeRecordPayment: action.payload.response };
+
+    case "GET_INITIALIZE_DICOUNT_REDUCER":
+      return { ...state, initializeDiscount: action.payload.response };
 
     case "REFUNDABLE_ERROR":
       return { ...state, refundableError: action.payload };

@@ -244,13 +244,13 @@ const InvoiceTable = (props) => {
     setShowDiscountInvoice(true);
     setShowDots(false);
 
-    dispatch({
-      type: "GETPARTICULARBILLSDETAILS",
-      payload: {
-        hostelId: item?.hostelId,
-        invoiceId: item?.invoiceId,
-      },
-    });
+    // dispatch({
+    //   type: "GETPARTICULARBILLSDETAILS",
+    //   payload: {
+    //     hostelId: item?.hostelId,
+    //     invoiceId: item?.invoiceId,
+    //   },
+    // });
   };
   const handleCloseFormDiscount = () => {
     setShowDiscountInvoice(false);

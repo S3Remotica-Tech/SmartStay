@@ -61,7 +61,7 @@ const CustomStyles = {
 
       whiteSpace: "nowrap",
       overflow: "visible",
-
+      fontFamily: "Gilroy",
       paddingLeft: isSelected ? "9px" : "12px",
 
       ...(isSelected && {
@@ -113,13 +113,8 @@ const CustomStyles = {
 function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  const [bankking, setBanking] = useState("");
-  // const [formLoading, setFormLoading] = useState(false)
   const [initials, setInitials] = useState("");
   const [formRecordLoading, setFormRecordLoading] = useState(false);
-
-  // console.log("invoiceList", invoiceList);
 
   const calendarRef = useRef(null);
   const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
@@ -133,7 +128,6 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const [room_name, setRoomName] = useState("");
   const [bed_name, setBedName] = useState("");
   const [profile_pic, setProfilePic] = useState(null);
-  // const [selectedTenant, setSelectedTenant] = useState("")
 
   const [balance, setBalance] = useState(0);
   const [payableAmount, setPayableAmount] = useState("");
@@ -142,34 +136,31 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const [modeOfPayment, setModeOfPayment] = useState("");
 
   useEffect(() => {
-    if (!selectedUserId) return;
-    dispatch({
-      type: "CUSTOMERDETAILS",
-      payload: { customerId: selectedUserId },
-    });
-  }, [selectedUserId]);
-
-  const CustomerOverview = state.UsersList?.customerdetails?.hostelInfo;
-
-  useEffect(() => {
-    if (!selectedUserId) return;
-
-    if (CustomerOverview) {
-      setName(state.UsersList?.customerdetails?.fullName);
-      setFloorName(CustomerOverview.floorName);
-      setRoomName(CustomerOverview.roomName);
-      setBedName(CustomerOverview.bedName);
-      setProfilePic(state.UsersList?.customerdetails?.profilePic);
-      setInitials(state.UsersList?.customerdetails?.initials);
+    if (state.login.selectedHostel_Id && invoiceList?.invoiceId) {
+      dispatch({
+        type: "GET_INITIALIZE_RECORD_PAYMENT_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: invoiceList?.invoiceId,
+        },
+      });
     }
-  }, [selectedUserId, state.UsersList?.customerdetails]);
-
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
   }, []);
 
-  // console.log("invoiceValue",invoiceValue)
+  const TenantDetails = state.InvoiceList?.initializeRecordPayment;
+
+  useEffect(() => {
+    if (!selectedUserId) return;
+
+    if (TenantDetails) {
+      setName(TenantDetails.customerInfo?.fullName);
+      setFloorName(TenantDetails.stayInfo?.floorName);
+      setRoomName(TenantDetails.stayInfo?.roomName);
+      setBedName(TenantDetails.stayInfo?.bedName);
+      setProfilePic(TenantDetails.customerInfo?.profilePic);
+      setInitials(TenantDetails?.customerInfo?.initials);
+    }
+  }, [selectedUserId, TenantDetails]);
 
   const options = {
     dateFormat: "d/m/Y",
@@ -184,20 +175,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   }, [selectedDate]);
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      setBanking(state.bankingDetails.bankingList.banks);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
-
-  useEffect(() => {
     if (state.InvoiceList.payapleAmountError) {
       setFormRecordLoading(false);
-      // setFormLoading(false)
-      //   setLoading(false)
-      // setPayableAmountError(state.InvoiceList.payapleAmountError)
     }
   }, [state.InvoiceList.payapleAmountError]);
 
@@ -218,24 +197,14 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     setTransactionId(e.target.value);
   };
 
-  const bankingOptions = Array.isArray(
-    state.bankingDetails?.bankingList?.listBanks,
-  )
-    ? state.bankingDetails?.bankingList?.listBanks.map((item) => {
-        let label = "";
-        if (item.accountType === "BANK") label = "BANK";
-        else if (item.accountType === "UPI") label = "UPI";
-        else if (item.accountType === "CARD") label = "CARD";
-        else if (item.accountType === "CASH") label = "CASH";
-
+  const bankingOptions = Array.isArray(TenantDetails?.accountInfo)
+    ? TenantDetails?.accountInfo?.map((item) => {
         return {
-          value: item?.bankingId,
-          label: `${item?.accountHolderName} - ${label}`,
+          value: item?.bankId,
+          label: `${item?.bankName}`,
         };
       })
     : [];
-
-  const combinedOptions = [...bankingOptions];
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -249,10 +218,6 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const handleAmount = (e) => {
     setAmountErrmsg("");
     let value = e.target.value;
-
-    // if (value.includes('.')) {
-    //     return;
-    // }
     if (!/^\d*\.?\d{0,2}$/.test(value)) return;
     if (value.startsWith(".")) return;
     if (value !== "") {
@@ -278,15 +243,6 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
       setBalance("");
       setTransactionId("");
       setSelectedDate(null);
-      // if (invoiceList?.invoiceId) {
-      //   dispatch({
-      //     type: "GETPARTICULARBILLSDETAILS",
-      //     payload: {
-      //       hostelId: state.login.selectedHostel_Id,
-      //       invoiceId: invoiceList?.invoiceId,
-      //     },
-      //   });
-      // }
       setFormRecordLoading(false);
       handleClose();
 
@@ -301,7 +257,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     return `${year}-${month}-${day}`;
   };
 
-  const handleSaveInvoiceList = () => {
+  const handleSaveRecordPayment = () => {
     dispatch({ type: "CLEAR_PAYABLE_AMOUNT" });
     const formatpaiddate = formatDateForPayload(selectedDate);
 
@@ -341,7 +297,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     }
 
     if (
-      invoiceList?.invoiceId &&
+      TenantDetails?.invoiceId &&
       payableAmount &&
       modeOfPayment &&
       formatpaiddate &&
@@ -351,7 +307,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
         type: "RECORD_PAYMENT",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          invoiceId: invoiceList?.invoiceId,
+          invoiceId: TenantDetails?.invoiceId,
           data: {
             bankId: modeOfPayment,
             paymentDate: convertYMDToDMY(formatpaiddate),
@@ -435,7 +391,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 </p>
 
                 <p className="font-gilroy text-[16px] font-semibold">
-                  {invoiceList?.balanceDue}
+                  {TenantDetails?.pendingAmount}
                 </p>
               </div>
             </div>
@@ -532,13 +488,13 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
               </label>
 
               <Select
-                options={combinedOptions}
+                options={bankingOptions}
                 onChange={(selectedOption) =>
                   handleTransaction(selectedOption?.value)
                 }
                 value={
                   modeOfPayment
-                    ? combinedOptions.find(
+                    ? bankingOptions.find(
                         (option) => option.value === modeOfPayment,
                       )
                     : null
@@ -597,7 +553,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
           <button
             type="button"
             disabled={formRecordLoading}
-            onClick={handleSaveInvoiceList}
+            onClick={handleSaveRecordPayment}
             className="flex min-w-[100px] items-center justify-center rounded-lg bg-[#1E45E1] px-4 py-2 font-gilroy text-[16px] font-normal text-white transition hover:bg-[#1838c4] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {formRecordLoading ? (
