@@ -120,8 +120,7 @@ export async function GetFilterInvoices(hostelId, filters = {}) {
 }
 
 export async function getAllBills(hostelId, filters = {}) {
-
-  console.log("hostelId", hostelId, "filters", filters)
+  console.log("hostelId", hostelId, "filters", filters);
   return AxiosConfigV2.get(`/v2/bills/basic-list/${hostelId}`, {
     params: {
       startDate: filters.startDate,
@@ -157,6 +156,18 @@ export async function getParticularBillsDetails(bill) {
 export async function getParticularReceiptDetails(bill) {
   return await AxiosConfigV2.get(
     `/v2/transaction/${bill.hostelId}/${bill.transactionId}`,
+  );
+}
+
+export async function getInitializeRecordPayment(bill) {
+  return await AxiosConfigV2.get(
+    `/v2/bills/payment/initialize/${bill.hostelId}/${bill.invoiceId}`,
+  );
+}
+
+export async function getInitializeMakeDiscount(bill) {
+  return await AxiosConfigV2.get(
+    `v2/bills/discount/${bill.hostelId}/${bill.invoiceId}`,
   );
 }
 

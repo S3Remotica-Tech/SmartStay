@@ -1,5 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  getInitializeRecordPayment,
+  getInitializeMakeDiscount,
   getAllBills,
   getReceiptList,
   InvoiceDiscount,
@@ -632,6 +634,46 @@ function* handleGetInitializeRefund(action) {
 
     if (response) {
       refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetInitializeRecordPayment(action) {
+  try {
+    const response = yield call(getInitializeRecordPayment, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_INITIALIZE_RECORD_PAYMENT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetInitializeMakeDiscount(action) {
+  try {
+    const response = yield call(getInitializeMakeDiscount, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_INITIALIZE_DICOUNT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
     }
   } catch (error) {
     yield* handleApiError(error);
@@ -2423,6 +2465,15 @@ function refreshToken(response) {
 }
 
 function* InvoiceSaga() {
+  yield takeEvery(
+    "GET_INITIALIZE_RECORD_PAYMENT_SAGA",
+    handleGetInitializeRecordPayment,
+  );
+  yield takeEvery(
+    "GET_INITIALIZE_DICOUNT_SAGA",
+    handleGetInitializeMakeDiscount,
+  );
+
   yield takeEvery("CUSTOMIZE_RECEIPT_COLUMNS_SAGA", handleReceiptCustomizeData);
   yield takeEvery("SUBSCRIPTION_PDF_SAGA", handleSubscriptionPDF);
   yield takeEvery("INVOICE_DISCOUNT_SAGA", handleInvoiceDiscount);
