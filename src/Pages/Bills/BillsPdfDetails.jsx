@@ -168,6 +168,8 @@ function BillsPdfDetails() {
     }
   }, [rowData]);
 
+  console.log("rowData", rowData);
+
   useEffect(() => {
     if (isReportsInvoiceRegisterWay) {
       dispatch({
@@ -194,31 +196,6 @@ function BillsPdfDetails() {
     dispatch({ type: "USERROOMAVAILABLEFALSE" });
   };
 
-  // useEffect(() => {
-  //   if (!state.login?.selectedHostel_Id) return;
-
-  //   const delay = setTimeout(() => {
-  //     const filters = {};
-  //     if (search && search.trim().length > 0) {
-  //       filters.search = search.trim();
-  //     }
-
-  //     if (statusfilter && statusfilter.value !== "ALL") {
-  //       filters.paymentStatus = [statusfilter.value];
-  //     }
-
-  //     dispatch({
-  //       type: "ALL_BILLS_LIST_SAGA",
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         filters: Object.keys(filters).length ? filters : undefined,
-  //       },
-  //     });
-  //   }, 500);
-
-  //   return () => clearTimeout(delay);
-  // }, [search, state.login?.selectedHostel_Id]);
-
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearch(value);
@@ -242,17 +219,6 @@ function BillsPdfDetails() {
       });
     }, 500);
   };
-
-
-
-
-
-
-
-
-
-
-  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen overflow-hidden">
