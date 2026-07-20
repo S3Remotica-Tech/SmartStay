@@ -2502,7 +2502,7 @@ function TenantOverview(props) {
                           </div>
                         </div>
 
-                        <div className="flex flex-col sm:pl-6">
+                        <div className="flex flex-col sm:pl-6 my-2">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Mobile No
                           </p>
@@ -2516,6 +2516,26 @@ function TenantOverview(props) {
                               {CustomerOverView?.mobileNo
                                 ? `+${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
                                 : ""}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col ">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            ID Proof
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                              {CustomerOverView?.idProofType || "N/A"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col pl-6">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            Document No
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                              {CustomerOverView?.idProofNo || "N/A"}
                             </span>
                           </div>
                         </div>
