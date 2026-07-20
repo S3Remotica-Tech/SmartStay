@@ -1559,6 +1559,13 @@ function AddTenant({
     }
   }, [state.UsersList?.draftClickError]);
 
+  useEffect(() => {
+    if (state.UsersList?.additionalUpdateError) {
+      setSaveLoading(false);
+      dispatch({ type: "REMOVE_ADDITIONAL_UPDATE_ERROR" });
+    }
+  }, [state.UsersList?.additionalUpdateError]);
+
   const step2Ref = useRef(null);
 
   useEffect(() => {
