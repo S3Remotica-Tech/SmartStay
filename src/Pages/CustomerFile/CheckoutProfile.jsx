@@ -41,6 +41,7 @@ import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import { ArrowUp } from "iconsax-react";
+import TenantJobDetails from "./TenantJobDetails";
 function CustomerProfile(props) {
   const state = useSelector((state) => state);
   const location = useLocation();
@@ -1055,6 +1056,9 @@ function CustomerProfile(props) {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div>
+                <TenantJobDetails />
               </div>
 
               <div className="grid grid-cols-1 mt-[30px]">

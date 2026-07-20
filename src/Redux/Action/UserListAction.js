@@ -1,26 +1,5 @@
-// import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-// v1
-
-// export async function userlist(users) {
-//   return await AxiosConfig.post('/users/user-list', users, {
-//     data: users
-//   })
-// }
-
-// v2
-
-// export async function userlist(users) {
-//   return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
-//     params: {
-//       name: users.name || "",
-//       type: users.type || ""
-//     }
-//   })
-// }
-
-// v2
 export async function userlist(users) {
   const params = {};
 
@@ -48,146 +27,6 @@ export async function tenantSearch(tenant) {
 export async function draftTenantSearch(customerId) {
   return await AxiosConfigV2.get(`/v3/customers/draftDetails/${customerId}`);
 }
-
-// export async function SaveDraftTenant(tenant) {
-//   console.log("save draft ", tenant);
-//   return await AxiosConfigV2.post(
-//     `/v3/customers/saveDraft/${tenant.hostelId}`,
-//     tenant,
-//     {
-//       data: tenant,
-//     },
-//   );
-// }
-
-// export async function SaveDraftTenant(tenant) {
-//   const formData = new FormData();
-
-//   if (tenant.profilePic instanceof File) {
-//     formData.append("profilePic", tenant.profilePic);
-//   }
-
-//   formData.append(
-//     "request",
-//     JSON.stringify({
-//       firstName: tenant.request.firstName,
-//       lastName: tenant.request.lastName,
-//       mobile: tenant.request.mobile,
-//       emailId: tenant.request.emailId,
-
-//       idProof: {
-//         type:
-//           tenant.request.idProof?.type?.value || tenant.request.idProof?.type,
-//         number: tenant.request.idProof?.number,
-//       },
-
-//       address: tenant.request.address,
-//     }),
-//   );
-
-//   return AxiosConfigV2.post(
-//     `/v3/customers/saveDraft/${tenant.hostelId}`,
-//     formData,
-//     {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     },
-//   );
-// }
-
-// export async function SaveDraftTenant(tenant) {
-//   return AxiosConfigV2.post(`/v3/customers/saveDraft/${tenant.hostelId}`, {
-//     profilePic: "",
-//     aadharPic: "",
-//     panPic: "",
-//     request: {
-//       firstName: tenant.request.firstName,
-//       lastName: tenant.request.lastName,
-//       mobile: tenant.request.mobile,
-//       emailId: tenant.request.emailId,
-
-//       idProof: {
-//         type:
-//           tenant.request.idProof?.type?.value || tenant.request.idProof?.type,
-//         number: tenant.request.idProof?.number,
-//       },
-
-//       address: tenant.request.address,
-//     },
-//   });
-// }
-
-// export async function SaveDraftTenant(tenant) {
-//   return AxiosConfigV2.post(`/v3/customers/saveDraft/${tenant.hostelId}`, {
-//     profilePic: tenant.profilePic || "",
-//     aadharPic: tenant.aadharPic || "",
-//     panPic: tenant.panPic || "",
-
-//     request: {
-//       firstName: tenant.request?.firstName || "",
-//       lastName: tenant.request?.lastName || "",
-//       mobile: tenant.request?.mobile || "",
-//       emailId: tenant.request?.emailId || "",
-
-//       joiningDate: tenant.request?.joiningDate || "",
-//       bookingDate: tenant.request?.bookingDate || "",
-//       bookingAmount: tenant.request?.bookingAmount || 0,
-//       floorId: tenant.request?.floorId || 0,
-//       roomId: tenant.request?.roomId || 0,
-//       bedId: tenant.request?.bedId || 0,
-//       bankId: tenant.request?.bankId || "",
-//       referenceNumber: tenant.request?.referenceNumber || "",
-//       advanceAmount: tenant.request?.advanceAmount || 0,
-//       rentalAmount: tenant.request?.rentalAmount || 0,
-//       stayType: tenant.request?.stayType || "",
-//       deductions: tenant.request?.deductions || [],
-//       proRate: tenant.request?.proRate ?? true,
-
-//       idProof: {
-//         type:
-//           tenant.request?.idProof?.type?.value ||
-//           tenant.request?.idProof?.type ||
-//           "",
-//         number: tenant.request?.idProof?.number || "",
-//       },
-
-//       address: tenant.request?.address || {
-//         flat: "",
-//         house: "",
-//         building: "",
-//         company: "",
-//         apartment: "",
-//         area: "",
-//         street: "",
-//         sector: "",
-//         village: "",
-//         landmark: "",
-//         pincode: "",
-//         city: "",
-//         state: "",
-//       },
-
-//       booking: tenant.request?.booking || {
-//         joiningDateTentative: "",
-//         refuseAdvanceAmount: false,
-//       },
-
-//       jobDetails: tenant.request?.jobDetails || {
-//         employmentStatus: "",
-//         companyName: "",
-//         collegeName: "",
-//         jobRole: "",
-//         workLocation: "",
-//         shiftType: "",
-//         shiftFrom: "",
-//         shiftTo: "",
-//       },
-
-//       guardians: tenant.request?.guardians || [],
-//     },
-//   });
-// }
 
 export async function SaveDraftTenant(tenant) {
   const formData = new FormData();
@@ -290,8 +129,6 @@ export async function cancelBookingGet(customerId) {
 }
 
 export async function KYCReminder(customerId) {
-  // console.log("customerId", customerId);
-
   return await AxiosConfigV2.post(`/v2/kyc/request/${customerId}`);
 }
 
@@ -333,29 +170,53 @@ export async function addUser(params) {
   }
 }
 
-// v1
+export async function CheckInTenantAdditional(params) {
+  const formData = new FormData();
 
-// export async function hostelList(hosteldetails) {
-//   return await AxiosConfig.post('/list/hostel-list', hosteldetails, {
-//     data: hosteldetails
-//   })
-// }
+  if (params.additionalData) {
+    formData.append(
+      "additionalData",
+      new Blob([JSON.stringify(params.additionalData)], {
+        type: "application/json",
+      })
+    );
+  }
 
-// v2 all pg details
+  if (params.aadhaarPic) {
+    formData.append("aadhaarPic", params.aadhaarPic);
+  }
+
+  if (params.panPic) {
+    formData.append("panPic", params.panPic);
+  }
+
+  try {
+    const response = await AxiosConfigV2.put(
+      `/v3/customers/additional-details/${params.hostelId}/${params.customerId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Axios Error:", error.response?.data || error);
+    throw error;
+  }
+}
 
 export async function hostelList() {
   return await AxiosConfigV2.get("/v2/hostel");
 }
-
-// v2 single pg details
 
 export async function getParticularHostelList(hostel) {
   return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel, {
     data: hostel,
   });
 }
-
-// v2  check in api
 
 export async function CheckIn(CheckIn) {
   return await AxiosConfigV2.post(

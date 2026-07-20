@@ -94,6 +94,7 @@ import MakeAsInactive from "./MakeAsInactive";
 import icon from "../../Assets/Images/New_images/Icon (1).svg";
 import TenantActions from "./TenantActions";
 import KYCTenantDetails from "./KYCTenantDetails";
+import TenantJobDetails from "./TenantJobDetails";
 
 function TenantOverview(props) {
   const state = useSelector((state) => state);
@@ -3228,6 +3229,9 @@ function TenantOverview(props) {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div>
+                <TenantJobDetails />
               </div>
 
               <div className="row">

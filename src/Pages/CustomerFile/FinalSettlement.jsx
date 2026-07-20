@@ -154,7 +154,7 @@ function FinalSettlement() {
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-
+  // console.log("customRent", customRent);
   const [showInvoices, setShowInvoices] = React.useState(false);
   const [showRentDetails, setShowRentDetails] = React.useState(false);
   const [collectFullRent, setCollectFullRent] = useState(false);
@@ -1225,7 +1225,7 @@ function FinalSettlement() {
 
                       <div className="absolute right-0 top-full mt-2 z-50 hidden w-72 rounded-lg bg-[#64748B] px-3 py-2 text-xs text-white shadow-lg group-hover:block">
                         <p>
-                          <strong>Full Rent</strong> ₹{customRent}
+                          <strong>Full Rent</strong> ₹{amount}
                           {finalSettlementList?.currentMonthRentInfo
                             ?.otherItemAmount > 0 && (
                             <>
