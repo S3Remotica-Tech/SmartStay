@@ -186,6 +186,7 @@ export const initialState = {
   vendorSettleError: "",
   expenseSettleError: "",
   statusCodeForDirectCheckInCustomer: 0,
+  additionalUpdateError: "",
   draftClickError: "",
   TenantList: [],
   tenantFilters: {
@@ -500,6 +501,11 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, draftClickError: action.payload };
     case "REMOVE_NO_TENANT_DRAFT":
       return { ...state, draftClickError: "" };
+
+    case "ADDITIONAL_UPDATE_ERROR":
+      return { ...state, additionalUpdateError: action.payload };
+    case "REMOVE_ADDITIONAL_UPDATE_ERROR":
+      return { ...state, additionalUpdateError: "" };
 
     case "SETTLEMENT_PAYMENT_REDUCER":
       return {

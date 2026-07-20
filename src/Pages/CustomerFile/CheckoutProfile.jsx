@@ -403,6 +403,26 @@ function CustomerProfile(props) {
                             : ""}
                         </p>
                       </div>
+                      <div className="flex flex-col ">
+                        <p className="text-xs font-medium font-gilroy text-gray-500">
+                          ID Proof
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                            {CustomerOverView?.idProofType || "N/A"}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col ">
+                        <p className="text-xs font-medium font-gilroy text-gray-500">
+                          Document No
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                            {CustomerOverView?.idProofNo || "N/A"}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 

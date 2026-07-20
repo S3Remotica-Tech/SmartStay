@@ -21,6 +21,7 @@ import {
   ArrowUp,
   InfoCircle,
   ArrowLeft,
+  Timer1,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -2502,7 +2503,7 @@ function TenantOverview(props) {
                           </div>
                         </div>
 
-                        <div className="flex flex-col sm:pl-6">
+                        <div className="flex flex-col sm:pl-6 my-2">
                           <p className="text-xs font-medium font-gilroy text-gray-500">
                             Mobile No
                           </p>
@@ -2516,6 +2517,26 @@ function TenantOverview(props) {
                               {CustomerOverView?.mobileNo
                                 ? `+${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
                                 : ""}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col ">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            ID Proof
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                              {CustomerOverView?.idProofType || "N/A"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col pl-6">
+                          <p className="text-xs font-medium font-gilroy text-gray-500">
+                            Document No
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold font-gilroy whitespace-nowrap">
+                              {CustomerOverView?.idProofNo || "N/A"}
                             </span>
                           </div>
                         </div>
@@ -2816,14 +2837,13 @@ function TenantOverview(props) {
                             <div
                               className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}
                             >
-                              <img
-                                src={Stayhistory}
-                                alt="stayhistoryicon"
+                              <Timer1
+                                size="18"
+                                className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
                                 onClick={() =>
                                   canUpdateTenant &&
                                   handleShowStayHistory(CustomerOverView)
                                 }
-                                className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
                               />
                             </div>
                           </div>
@@ -3038,7 +3058,9 @@ function TenantOverview(props) {
                                   Maintenance
                                 </div>
                                 <p className="text-sm font-semibold font-gilroy pt-2">
-                                  ₹{CustomerOverView.hostelInfo?.maintenance}
+                                  ₹
+                                  {CustomerOverView.hostelInfo?.maintenance ||
+                                    0}
                                 </p>
                               </div>
                             )}
