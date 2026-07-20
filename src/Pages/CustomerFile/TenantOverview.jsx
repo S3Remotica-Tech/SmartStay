@@ -21,6 +21,7 @@ import {
   ArrowUp,
   InfoCircle,
   ArrowLeft,
+  Timer1,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -2836,14 +2837,13 @@ function TenantOverview(props) {
                             <div
                               className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}
                             >
-                              <img
-                                src={Stayhistory}
-                                alt="stayhistoryicon"
+                              <Timer1
+                                size="18"
+                                className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
                                 onClick={() =>
                                   canUpdateTenant &&
                                   handleShowStayHistory(CustomerOverView)
                                 }
-                                className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
                               />
                             </div>
                           </div>
@@ -3058,7 +3058,9 @@ function TenantOverview(props) {
                                   Maintenance
                                 </div>
                                 <p className="text-sm font-semibold font-gilroy pt-2">
-                                  ₹{CustomerOverView.hostelInfo?.maintenance}
+                                  ₹
+                                  {CustomerOverView.hostelInfo?.maintenance ||
+                                    0}
                                 </p>
                               </div>
                             )}

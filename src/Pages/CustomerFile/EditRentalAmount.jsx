@@ -165,40 +165,6 @@ function EditRentalAmount({ show, handleClose }) {
   const typeOfBilling =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling;
 
-  // const disabledDate = (current) => {
-  //   if (!current) return false;
-
-  //   const today = dayjs();
-
-  //   if (typeOfBilling === "Joining Date Based") {
-  //     const start = today.startOf("month");
-  //     const end = today.add(2, "month").endOf("month");
-
-  //     return (
-  //       current.startOf("month").isBefore(start, "month") ||
-  //       current.startOf("month").isAfter(end, "month")
-  //     );
-  //   }
-
-  //   let cycleMonth = today.month();
-  //   let cycleYear = today.year();
-
-  //   if (today.date() >= billStartDate) {
-  //     const nextMonth = today.add(1, "month");
-  //     cycleMonth = nextMonth.month();
-  //     cycleYear = nextMonth.year();
-  //   }
-
-  //   const start = dayjs().year(cycleYear).month(cycleMonth).startOf("month");
-
-  //   const end = start.add(2, "month").endOf("month");
-
-  //   return (
-  //     current.startOf("month").isBefore(start, "month") ||
-  //     current.startOf("month").isAfter(end, "month")
-  //   );
-  // };
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -214,12 +180,14 @@ function EditRentalAmount({ show, handleClose }) {
     ) || [];
 
   return (
-    <Modal show={show} onHide={handleClose} centered backdrop="static">
-      <Modal.Dialog className="m-0 p-0 w-full  " style={{ maxWidth: 850 }}>
-        <Modal.Header className="border border-[#E7E7E7] flex justify-between items-center">
-          <Modal.Title className="!text-[20px] text-[#222] !font-gilroy !font-semibold">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className="  px-4 py-3 shrink-0 flex justify-between mb-2 border-b">
+          <div className="!text-[20px] text-[#222] !font-gilroy !font-semibold">
             Edit Rental Amount
-          </Modal.Title>
+          </div>
 
           <CloseCircle
             size="24"
@@ -227,9 +195,9 @@ function EditRentalAmount({ show, handleClose }) {
             onClick={handleClose}
             className="cursor-pointer"
           />
-        </Modal.Header>
+        </div>
 
-        <Modal.Body className="max-h-[450px] overflow-y-scroll show-scrolls">
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px]">
           <div className="flex flex-col gap-1">
             {types === "Rent-Revision" && (
               <div>
@@ -389,7 +357,7 @@ function EditRentalAmount({ show, handleClose }) {
               type="error"
             />
           )}
-        </Modal.Body>
+        </div>
 
         {loading && (
           <div className="absolute inset-x-0 top-[100px] bottom-0 flex items-center justify-center opacity-75 z-10">
@@ -409,27 +377,24 @@ function EditRentalAmount({ show, handleClose }) {
           </div>
         )}
 
-        {/* FOOTER */}
-        <Modal.Footer className="border-0 pt-0">
-          <div className="flex justify-end gap-3">
-            <Button
-              onClick={handleClose}
-              className="mt-1 w-full bg-white !text-[#1E45E1] !font-gilroy !font-semibold rounded-xl px-10 py-2 !border-none"
-            >
-              Cancel
-            </Button>
+        <div className="flex justify-end gap-3 p-4">
+          <Button
+            onClick={handleClose}
+            className="mt-1 w-full bg-white !text-[#1E45E1] !font-gilroy !font-semibold rounded-xl px-10 py-2 !border-none"
+          >
+            Cancel
+          </Button>
 
-            <Button
-              disabled={loading}
-              onClick={handleSubmit}
-              className="mt-1 w-full !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-xl px-10 py-2"
-            >
-              Update
-            </Button>
-          </div>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </Modal>
+          <Button
+            disabled={loading}
+            onClick={handleSubmit}
+            className="mt-1 w-full !bg-[#1E45E1] text-white !font-gilroy !font-semibold rounded-xl px-10 py-2"
+          >
+            Update
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
 EditRentalAmount.propTypes = {
