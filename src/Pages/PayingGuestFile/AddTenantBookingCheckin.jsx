@@ -154,6 +154,7 @@ function AddTenantBookingCheckin({
   const [formLoading, setFormLoading] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [checkInLoading, setCheckInLoading] = useState(false);
+
   const [bookingJoiningDate, setBookingJoiningDate] = useState(null);
   const [bookingAmount, setBookingAmount] = useState("");
   const [bookingFloor, setBookingFloor] = useState(null);

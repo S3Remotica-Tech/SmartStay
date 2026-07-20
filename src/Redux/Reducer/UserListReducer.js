@@ -68,6 +68,7 @@ export const initialState = {
   statusCodeForExportcompliance: 0,
   exportBookingDetails: [],
   statusCodeForExportBooking: 0,
+  addtionalDetailsSuccessCode: 0,
   exportWalkinDetails: [],
   statusCodeForExportWalkin: 0,
   exportCheckoutDetails: [],
@@ -201,7 +202,7 @@ export const initialState = {
   kycRemindeSuccess: 0,
   kycReminderError: "",
   bookingToCheckinSuccessCode: 0,
-  bookToCheckinError: ""
+  bookToCheckinError: "",
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -286,7 +287,11 @@ const UserListReducer = (state = initialState, action) => {
       };
 
     case "DRAFT_ERROR":
-      return { ...state, saveDreaftTenantError: action.payload ,alreadyAvailableDraftTenantGetList : "" };
+      return {
+        ...state,
+        saveDreaftTenantError: action.payload,
+        alreadyAvailableDraftTenantGetList: "",
+      };
     case "REMOVE_DRAFT_ERROR":
       return { ...state, saveDreaftTenantError: "" };
 
@@ -433,6 +438,15 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, editHostelStatusCode: action.payload.statusCode };
     case "REMOVE_EDIT_HOSTEL_READING":
       return { ...state, editHostelStatusCode: 0 };
+
+    case "ADDITIONAL_DETAILS_TENANT_REDUCER":
+      return {
+        ...state,
+        addtionalDetailsSuccessCode: action.payload.statusCode,
+      };
+    case "REMOVE_ADDITIONAL_DETAILS_TENANT_REDUCER":
+      return { ...state, addtionalDetailsSuccessCode: 0 };
+
     case "DELETE_READING":
       return { ...state, deleteReadingStatusCode: action.payload.statusCode };
     case "REMOVE_DELETE_READING":

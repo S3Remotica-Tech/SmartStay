@@ -205,7 +205,7 @@ function AddTenant({
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-
+  const [saveLoading, setSaveLoading] = useState(false);
   const [newTenant, setNewTenant] = useState(true);
 
   const [house_noError, setHouse_NoError] = useState("");
@@ -264,7 +264,7 @@ function AddTenant({
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
 
-  console.log("bookingOnly", bookingOnly);
+  // console.log("bookingOnly", bookingOnly);
 
   const vehicleTypeOptions = [
     {
@@ -1184,66 +1184,13 @@ function AddTenant({
     }
 
     dispatch({
-      type: "UPDATE_SAVE_DRAFT_SAGA",
+      type: "ADDITIONAL_DETAILS_TENANT_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
         customerId: draftTenantId,
-        profilePic: DraftTenantDetails?.profilePic || "",
-        aadharPic: aadhaarFile || "",
+        aadhaarPic: aadhaarFile || "",
         panPic: panFile || "",
-
-        request: {
-          firstName: capitalizedFirstname || "",
-          lastName: capitalizedLastname || "",
-          mobile: Phone || "",
-          emailId: Email || "",
-          joiningDate: DraftTenantDetails?.hostelInfo?.joiningDate || "",
-          bookingDate: DraftTenantDetails?.bookingInfo?.bookingDate || "",
-          bookingAmount: DraftTenantDetails?.bookingAmount ?? "",
-          bedId: DraftTenantDetails?.bedDetails?.bedId ?? "",
-          roomId: DraftTenantDetails?.bedDetails?.roomId ?? "",
-          floorId: DraftTenantDetails?.bedDetails?.floorId ?? "",
-          bankId: DraftTenantDetails?.bankId || "",
-          referenceNumber: DraftTenantDetails?.referenceNumber || "",
-
-          advanceAmount: DraftTenantDetails?.hostelInfo?.advanceAmount ?? "",
-          rentalAmount: DraftTenantDetails?.hostelInfo?.monthlyRent ?? "",
-          stayType: DraftTenantDetails?.stayType || "",
-          deductions: DraftTenantDetails?.deductions || [],
-          proRate: DraftTenantDetails?.proRate ?? true,
-
-          idProof: {
-            type:
-              idProofType?.value ||
-              idProofType ||
-              DraftTenantDetails?.idProof?.type ||
-              "",
-            number: idProofNo || DraftTenantDetails?.idProof?.number || "",
-          },
-
-          address: {
-            flat: DraftTenantDetails?.address?.flat || "",
-            house: house_no || DraftTenantDetails?.address?.house || "",
-            building: DraftTenantDetails?.address?.building || "",
-            company: DraftTenantDetails?.address?.company || "",
-            apartment: DraftTenantDetails?.address?.apartment || "",
-            area: DraftTenantDetails?.address?.area || "",
-            street: street || DraftTenantDetails?.address?.street || "",
-            sector: DraftTenantDetails?.address?.sector || "",
-            village: DraftTenantDetails?.address?.village || "",
-            landmark: landmark || DraftTenantDetails?.address?.landmark || "",
-            pincode: pincode || DraftTenantDetails?.address?.pincode || "",
-            city: city || DraftTenantDetails?.address?.city || "",
-            state: state_name || DraftTenantDetails?.address?.state || "",
-          },
-
-          booking: {
-            joiningDateTentative:
-              DraftTenantDetails?.booking?.joiningDateTentative || "",
-            refuseAdvanceAmount:
-              DraftTenantDetails?.booking?.refuseAdvanceAmount ?? true,
-          },
-
+        additionalData: {
           jobDetails: {
             employmentStatus: employmentStatus?.value || "",
             companyName: companyName || "",
@@ -1254,7 +1201,6 @@ function AddTenant({
             shiftFrom: fromTime || "",
             shiftTo: toTime || "",
           },
-
           guardians: guardians?.map((g) => ({
             guardianFullName: g.guardianFullName || "",
             relationshipToTenant:
@@ -1263,12 +1209,10 @@ function AddTenant({
               g.guardianOccupation?.value || g.guardianOccupation || "",
             mobileNo: g.mobileNo || "",
           })),
-          shouldCollectFullRent: DraftTenantDetails?.shouldCollectFullRent,
-          customRent: DraftTenantDetails?.customRent,
-          oneTimeDeduction: DraftTenantDetails?.oneTimeDeduction || [],
         },
       },
     });
+    setSaveLoading(true);
   };
 
   useEffect(() => {
@@ -1287,23 +1231,25 @@ function AddTenant({
       });
       setNewTenant(false);
       setFormLoading(false);
-      // setFirstname("");
-      // setLastname("");
-      // setEmail("");
-      // setMobile("");
-      // handleClose();
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: {
-      //     hostel_id: state.login.selectedHostel_Id,
-      //     page: 1,
-      //     size: 10,
-      //   },
-      // });
-
       dispatch({ type: "REMOVE_SAVE_DRAFT_REDUCER" });
     }
   }, [state.UsersList?.saveDreaftTenantSuccessCode]);
+
+  useEffect(() => {
+    if (state.UsersList?.addtionalDetailsSuccessCode === 201) {
+      setSaveLoading(false);
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: 1,
+          size: 10,
+        },
+      });
+      handleClose();
+      dispatch({ type: "REMOVE_ADDITIONAL_DETAILS_TENANT_REDUCER" });
+    }
+  }, [state.UsersList?.addtionalDetailsSuccessCode]);
 
   useEffect(() => {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
@@ -1415,8 +1361,6 @@ function AddTenant({
   };
 
   const handleNextStep = () => {
-    // console.log("handleNextStep", action);
-    // setIsDisabled(action);
     setStep(3);
   };
   const handlePrevious = () => {
@@ -1636,10 +1580,10 @@ function AddTenant({
                 {bookingOnly ? "Booking Tenant" : "Add New Tenant "}
               </h5>
               <div
-                onClick={() => {
-                  // if (isDisabled) return;
-                  setStep(1);
-                }}
+                // onClick={() => {
+                //   // if (isDisabled) return;
+                //   setStep(1);
+                // }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -1659,12 +1603,12 @@ function AddTenant({
                 </span>
               </div>
               <div
-                onClick={() => {
-                  // if (isDisabled) return;
-                  if (newTenant && !handleSaveStepOne()) return;
+                // onClick={() => {
+                //   // if (isDisabled) return;
+                //   if (newTenant && !handleSaveStepOne()) return;
 
-                  setStep(2);
-                }}
+                //   setStep(2);
+                // }}
                 className="flex items-start  mb-4 cursor-pointer"
               >
                 <div
@@ -1686,10 +1630,10 @@ function AddTenant({
               </div>
               {!bookingOnly && (
                 <div
-                  onClick={() => {
-                    if (newTenant && !handleSaveStepOne()) return;
-                    setStep(3);
-                  }}
+                  // onClick={() => {
+                  //   if (newTenant && !handleSaveStepOne()) return;
+                  //   setStep(3);
+                  // }}
                   className="flex items-start  mb-4 cursor-pointer"
                 >
                   <div
@@ -2826,9 +2770,19 @@ function AddTenant({
 
                         <button
                           onClick={handleSaveStep3}
-                          className="!font-gilroy text-sm !bg-[#038C3D] !text-white !font-semibold !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap"
+                          disabled={saveLoading}
+                          className={`font-gilroy text-sm bg-[#038C3D] text-white font-semibold rounded-md py-2.5 px-4 mb-2 mx-2 h-11 w-36 whitespace-nowrap flex items-center justify-center gap-2 ${
+                            saveLoading ? "opacity-70 cursor-not-allowed" : ""
+                          }`}
                         >
-                          Save
+                          {saveLoading ? (
+                            <>
+                              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              Saving...
+                            </>
+                          ) : (
+                            "Save"
+                          )}
                         </button>
                       </div>
                     </div>
