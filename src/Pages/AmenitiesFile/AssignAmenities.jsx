@@ -770,11 +770,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                               >
                                 {list.customerName}
                               </label>
-                              {list?.canAssign === false ? (
+                              {
+                                list.isBooked ?  <ArrowUp size={16} color="#1E45E1" className="mb-1" /> : 
+                                list.onNotice ? <ArrowDown size={16} color="#FF0000" className="mb-1" /> : null
+                              }
+                              {/* {list?.canAssign === false ? (
                                 <ArrowDown size={16} color="#FF0000" className="mb-1" />
                               ) : (
                                 <ArrowUp size={16} color="#1E45E1" className="mb-1" />
-                              )}
+                              )} */}
                             </div>
 
                             {list?.canAssign === false ? (
