@@ -1603,6 +1603,17 @@ function TenantOverview(props) {
   }, [state.Booking.StatusCodeInactiveCode]);
 
   useEffect(() => {
+    if (state.UsersList?.addtionalDetailsSuccessCode === 201) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+
+      dispatch({ type: "REMOVE_ADDITIONAL_DETAILS_TENANT_REDUCER" });
+    }
+  }, [state.UsersList?.addtionalDetailsSuccessCode]);
+
+  useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
       dispatch({
         type: "CUSTOMERDETAILS",

@@ -1192,7 +1192,7 @@ function AddTenant({
           jobDetails: {
             employmentStatus: employmentStatus?.value || "",
             companyName: companyName || "",
-            collegeName: "",
+            collegeName: companyName || " ",
             jobRole: jobRole?.value || "",
             workLocation: workLocation || "",
             shiftType: shiftType?.value || "",
