@@ -999,7 +999,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
                 </p>
               </div>
               <div className="text-xs text-[#4B4B4B]">
-                {tenantDetails?.mobile}
+                {CustomerOverView?.customerInfo?.mobileNumber}
               </div>
             </div>
           </div>

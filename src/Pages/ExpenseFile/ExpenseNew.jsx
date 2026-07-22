@@ -822,6 +822,7 @@ function Expenses() {
     "Total Amount": "totalAmount",
     "Paid Amount": "paidAmount",
     "Balance Amount": "balanceAmount",
+    "Actual Total": "actualTotal",
   };
 
   const formattedData = (getData?.expenses || []).map((row) => {

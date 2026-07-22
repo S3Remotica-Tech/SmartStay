@@ -8,12 +8,17 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   });
 // }
 // v2
+
 export async function AddBankingDetails(hostelId, datum) {
   return await AxiosConfigV2.post(`/v2/bank/${hostelId}`, datum, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+}
+
+export async function AddBanking(datum) {
+  return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
 }
 
 export async function EditBankingDetails(hostelId, bankId, datum) {
@@ -37,6 +42,14 @@ export async function GetAddBanking(hostelId) {
       "Content-Type": "application/json",
     },
   });
+}
+
+export async function v3GetBanking(hostelId) {
+  return await AxiosConfigV2.get(`/v3/bank/${hostelId}`);
+}
+
+export async function GetResponsibleList(hostelId) {
+  return await AxiosConfigV2.get(`/v3/bank/responsiblePerson/${hostelId}`);
 }
 
 export async function selfTranferInitialize(bank) {

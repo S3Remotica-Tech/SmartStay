@@ -178,7 +178,7 @@ export async function CheckInTenantAdditional(params) {
       "additionalData",
       new Blob([JSON.stringify(params.additionalData)], {
         type: "application/json",
-      })
+      }),
     );
   }
 
@@ -198,7 +198,7 @@ export async function CheckInTenantAdditional(params) {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
 
     return response;
@@ -224,6 +224,16 @@ export async function CheckIn(CheckIn) {
     CheckIn,
     {
       data: CheckIn,
+    },
+  );
+}
+
+export async function UpdateJobDetails(job) {
+  return await AxiosConfigV2.put(
+    `/v3/customers/job/${job.hostelId}/${job.customerId}`,
+    job,
+    {
+      data: job,
     },
   );
 }

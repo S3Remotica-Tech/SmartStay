@@ -679,8 +679,17 @@ function AddTenantBookingCheckin({
   }, [bookingBed]);
 
   const handleBookingAmountChange = (e) => {
-    setBookingAmount(e.target.value);
-    setBookingAmountError("");
+    const value = e.target.value;
+
+    if (!/^\d*\.?\d{0,2}$/.test(value)) return;
+
+    setBookingAmount(value);
+
+    if (value && Number(value) <= 0) {
+      setBookingAmountError("Booking Amount must be greater than 0");
+    } else {
+      setBookingAmountError("");
+    }
   };
 
   const handleTotalRentChange = (e) => {
@@ -703,7 +712,7 @@ function AddTenantBookingCheckin({
 
   const validateBookingDraft = () => {
     let isValid = true;
-
+    setBedWarning("");
     setJoiningDateError("");
     setBookingDateError("");
     setBookingAmountError("");
@@ -728,6 +737,14 @@ function AddTenantBookingCheckin({
 
     if (!bookingAmount) {
       setBookingAmountError("Please Enter Booking Amount");
+
+      if (!firstInvalidRef) {
+        firstInvalidRef = bookingAmountRef;
+      }
+
+      isValid = false;
+    } else if (Number(bookingAmount) <= 0) {
+      setBookingAmountError("Booking Amount must be greater than 0");
 
       if (!firstInvalidRef) {
         firstInvalidRef = bookingAmountRef;
@@ -1036,6 +1053,7 @@ function AddTenantBookingCheckin({
   };
 
   const handleAddBooking = () => {
+    setBedWarning("");
     dispatch({ type: "ERROR_BOOKING_REMOVE" });
     const isValid = validateBookingDraft();
 
@@ -1835,19 +1853,21 @@ function AddTenantBookingCheckin({
                   onChange={handleBookingBedChange}
                   styles={CustomStyles}
                 />
-                {state.Booking?.bookingBedError ? (
-                  <ErrorMessage
-                    message={state.Booking?.bookingBedError}
-                    type="error"
-                  />
-                ) : null}
-                {bedError && <ErrorMessage message={bedError} type="error" />}
-                {bedWarning ? (
-                  <div className="">
-                    <ErrorMessage message={bedWarning} type="error" />
-                  </div>
-                ) : null}
               </div>
+            </div>
+            <div className="flex justify-end">
+              {state.Booking?.bookingBedError ? (
+                <ErrorMessage
+                  message={state.Booking?.bookingBedError}
+                  type="error"
+                />
+              ) : null}
+              {bedError && <ErrorMessage message={bedError} type="error" />}
+              {bedWarning ? (
+                <div className="">
+                  <ErrorMessage message={bedWarning} type="error" />
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -2187,7 +2207,7 @@ function AddTenantBookingCheckin({
                   </div>
                 </div>
                 {bedWarning ? (
-                  <div className="flex justify-end">
+                  <div className="flex justify-end me-2">
                     <ErrorMessage message={bedWarning} type="error" />
                   </div>
                 ) : null}

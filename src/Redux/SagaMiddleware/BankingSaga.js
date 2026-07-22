@@ -1,5 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  AddBanking,
+  v3GetBanking,
+  GetResponsibleList,
   selfTranfer,
   selfTranferInitialize,
   AddBankingDetails,
@@ -90,6 +93,58 @@ function* handleAddBanking(action) {
   }
 }
 
+function* handleAddBankingNew(action) {
+  try {
+    const response = yield call(AddBanking, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "ADD_BANKING_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      yield put({
+        type: "ADD_BANKING_ERROR",
+        payload: error.response.data,
+      });
+    }
+  }
+}
+
 function* handleEditBanking(action) {
   try {
     const { hostelId, bankId, data } = action.payload;
@@ -165,6 +220,50 @@ function* handleGetBanking(action) {
     }
     if (response) {
       refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleV3GetBanking(action) {
+  try {
+    const response = yield call(v3GetBanking, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "BANKING_LIST_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetResponsibleList(action) {
+  try {
+    const response = yield call(GetResponsibleList, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "RESPONSIBLE_PERSON_LIST_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
     }
   } catch (error) {
     yield* handleApiError(error);
@@ -504,9 +603,12 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery("ADD_BANKING_SAGA", handleAddBankingNew);
   yield takeEvery("ADD_BANKING", handleAddBanking);
   yield takeEvery("EDIT_BANKING", handleEditBanking);
   yield takeEvery("BANKINGLIST", handleGetBanking);
+  yield takeEvery("BANKING_LIST_SAGA", handleV3GetBanking);
+  yield takeEvery("RESPONSIBLE_PERSON_LIST_SAGA", handleGetResponsibleList);
   yield takeEvery("SELF_TRANSER_INITIALIZE_SAGA", handleSelfTranferInitialize);
   yield takeEvery("SELF_TRANSER_SAGA", handleSelfTranfer);
   yield takeEvery("DEFAULTACCOUNT", handleDefaultAccount);

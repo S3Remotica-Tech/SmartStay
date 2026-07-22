@@ -38,6 +38,8 @@ export const initialState = {
   createFloorSuccessStatusCode: 0,
   editHostelStatusCode: 0,
   noHosteListStatusCode: 0,
+  updateJobDetailsSuccessCode: 0,
+  JobDetailsUpdateError: "",
   alreadyFloorHere: "",
   deleteFloorError: "",
   deleteRoomError: "",
@@ -506,6 +508,20 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, additionalUpdateError: action.payload };
     case "REMOVE_ADDITIONAL_UPDATE_ERROR":
       return { ...state, additionalUpdateError: "" };
+
+    case "JOB_UPDATE_REDUCER":
+      return {
+        ...state,
+        updateJobDetailsSuccessCode: action.payload.statusCode,
+      };
+    case "REMOVE_JOB_UPDATE_REDUCER":
+      return { ...state, updateJobDetailsSuccessCode: 0 };
+
+    case "JOB_UPDATE_ERROR":
+      return { ...state, JobDetailsUpdateError: action.payload };
+
+    case "REMOVE_JOB_UPDATE_ERROR":
+      return { ...state, JobDetailsUpdateError: "" };
 
     case "SETTLEMENT_PAYMENT_REDUCER":
       return {

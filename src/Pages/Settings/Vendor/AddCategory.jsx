@@ -111,7 +111,9 @@ function AddCategory({ show, onClose, updateDetails }) {
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999]">
       <div className="bg-white w-[500px] rounded-lg  shadow-lg font-gilroy">
         <div className="flex justify-between items-center  px-4 py-2.5">
-          <h2 className="text-xl font-gilroy font-semibold">Add Category</h2>
+          <h2 className="text-xl font-gilroy font-semibold">
+            {updateDetails ? "Edit Category" : "Add Category"}
+          </h2>
 
           <button
             onClick={onClose}

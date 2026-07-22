@@ -74,28 +74,6 @@ function ApiPagination({
     <>
       <div className="font-gilroy">
         <div className="flex items-stretch border border-[#E5E7EB] rounded-md ">
-          {/* <div className="bg-[#ebeef9] flex items-center px-3">
-              <select
-                value={size}
-                onChange={(e) => {
-                  const newSize = Number(e.target.value);
-                  onSizeChange?.(newSize);
-                  onPageChange?.(1);
-                }}
-                className="bg-transparent outline-none text-sm cursor-pointer h-full"
-              >
-                {sizeOptions.map((opt) => (
-                  <option
-                    key={opt}
-                    value={opt}
-                    style={{ border: "4px solid #222222" }}
-                  >
-                    {opt} / page
-                  </option>
-                ))}
-              </select>
-            </div> */}
-
           <Select
             menuPlacement="auto"
             menuPosition="absolute"

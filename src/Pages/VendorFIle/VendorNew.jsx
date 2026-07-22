@@ -180,6 +180,7 @@ function Vendor() {
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
   const popupRef = useRef(null);
+  
   const {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
