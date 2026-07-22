@@ -1,14 +1,18 @@
-import { Location, ArrowRight } from "iconsax-react";
+import { Location, ArrowRight, Edit } from "iconsax-react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Pngtree from "../../Assets/v2Images/pngtree.svg";
 import AddAndUpdateJobDetails from "./AddAndUpdateJobDetails";
+import { useHasPermission } from "../../Utils/Permission";
 
 function TenantJobDetails() {
   const state = useSelector((state) => state);
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [showJobModal, setShowJobModal] = useState(false);
   const jobDetails = CustomerOverView?.jobDetails;
+
+  const { canWriteModule: canWriteTenant, canUpdateModule: canUpdateTenant } =
+    useHasPermission("Customers");
 
   const hasJobDetails =
     jobDetails &&
@@ -23,12 +27,33 @@ function TenantJobDetails() {
     setShowJobModal(false);
   };
 
+  const isDisabledButton =
+    !canWriteTenant ||
+    !canUpdateTenant ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
+
   return (
     <div className="w-full rounded-[14px] border border-gray-200 bg-white px-4 py-3 font-gilroy my-4">
-      <div className="pb-2 border-b border-gray-100">
+      <div className="pb-2 border-b border-gray-100 flex items-center justify-between">
         <h2 className="font-gilroy font-semibold text-black text-[16px] leading-[40px]  sm:mb-0">
           Job & Shift Details
         </h2>
+        {!isDisabledButton && (
+          <div>
+            <Edit
+              size="16"
+              className="cursor-pointer"
+              onClick={() => setShowJobModal(true)}
+            />
+          </div>
+        )}
       </div>
 
       {!hasJobDetails ? (
@@ -45,9 +70,10 @@ function TenantJobDetails() {
             <div>
               {" "}
               <button
+                disabled={isDisabledButton}
                 onClick={() => setShowJobModal(true)}
                 type="submit"
-                className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
+                className="bg-[#1E45E1] disabled:bg-blue-700/60 disabled:cursor-not-allowed text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
               >
                 Add Now <ArrowRight size="14" color="#FFFFFF" />
               </button>
