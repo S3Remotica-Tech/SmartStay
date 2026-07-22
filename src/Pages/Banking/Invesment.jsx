@@ -312,7 +312,7 @@ function Invesment({ show, handleClose }) {
                   value={investment}
                   onChange={handleInvestmentChange}
                   type="number"
-                  placeholder="Enter Amount"
+                  placeholder="Enter Investor Name"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     investment ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}

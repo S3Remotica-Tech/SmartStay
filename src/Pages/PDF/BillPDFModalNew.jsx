@@ -611,30 +611,51 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               </label>
             </div>
 
-            <div>
-              {(() => {
-                const status =
-                  pdfDetails?.invoiceInfo?.paymentStatus === "Cancelled"
-                    ? "Cancelled"
-                    : pdfDetails?.invoiceInfo?.paymentStatus;
+            {(() => {
+              const invoice = pdfDetails?.invoiceInfo;
 
-                if (!status) return null;
+              let status = invoice?.paymentStatus || invoice?.status;
 
-                const styles = statusClasses[status] || {
-                  bg: "bg-gray-100",
-                  dot: "bg-gray-400",
-                };
+              switch (invoice?.status) {
+                case "PENDING":
+                  status = "Pending";
+                  break;
+                case "CANCELLED":
+                case "Cancelled":
+                  status = "Cancelled";
+                  break;
+                case "PENDING REFUND":
+                  status = "Pending Refund";
+                  break;
+                case "PARTIAL_REFUND":
+                  status = "Partially Refunded";
+                  break;
+                case "REFUNDED":
+                  status = "Refunded";
+                  break;
+                case "PAID":
+                  status = "Paid";
+                  break;
+                default:
+                  break;
+              }
 
-                return (
-                  <span
-                    className={`flex items-center gap-2 px-2 py-[2px] text-[10px] rounded-full  font-gilroy w-fit ${styles.bg}`}
-                  >
-                    <span className={`h-2 w-2 rounded-full ${styles.dot}`} />
-                    {status}
-                  </span>
-                );
-              })()}
-            </div>
+              if (!status) return null;
+
+              const styles = statusClasses[status] || {
+                bg: "bg-gray-100",
+                dot: "bg-gray-400",
+              };
+
+              return (
+                <span
+                  className={`flex items-center gap-2 px-2 py-[2px] text-[10px] rounded-full font-gilroy w-fit ${styles.bg}`}
+                >
+                  <span className={`h-2 w-2 rounded-full ${styles.dot}`} />
+                  {status}
+                </span>
+              );
+            })()}
           </div>
 
           <div className="flex items-center gap-2">
@@ -771,7 +792,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         className={`fixed  right-14 ${isOpenPayment ? "bottom-[200px]" : "bottom-16"} z-50 flex flex-col gap-3 items-end`}
       >
         {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
-          pdfDetails?.invoiceInfo?.paymentStatus === "Pending" &&
+          (pdfDetails?.invoiceInfo?.paymentStatus === "Pending" ||
+            pdfDetails?.invoiceInfo?.status === "PENDING") &&
           !showDiscountInvoice && (
             <div className=" animate-slideIn">
               <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">

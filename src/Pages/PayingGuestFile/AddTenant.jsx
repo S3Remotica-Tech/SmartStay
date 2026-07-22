@@ -480,10 +480,8 @@ function AddTenant({
     { value: "Brother", label: "Brother" },
     { value: "Sister", label: "Sister" },
     { value: "Husband", label: "Husband" },
-    { value: "Husband", label: "Husband" },
     { value: "Son", label: "Son" },
     { value: "Daughter", label: "Daughter" },
-    { value: "Grandfather", label: "Grandfather" },
     { value: "Grandfather", label: "Grandfather" },
     { value: "Uncle", label: "Uncle" },
     { value: "Aunt", label: "Aunt" },
@@ -1371,6 +1369,7 @@ function AddTenant({
     if (customerId) {
       dispatch({ type: "DRAFT_TENANT_LIST_SAGA", payload: customerId });
       setNewTenant(false);
+      dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
     }
   };
 
@@ -1504,8 +1503,48 @@ function AddTenant({
       );
       setPanFile(DraftTenantDetails?.panPic);
       setAadhaarFile(DraftTenantDetails?.aadharPic);
+    } else {
+      resetForm();
     }
   }, [DraftTenantDetails, newTenant, state.UsersList?.draftClickError]);
+
+  const resetForm = () => {
+    setFirstname("");
+    setLastname("");
+    setPhone("");
+    setEmail("");
+    setFile("");
+
+    setIdProofType(null);
+    setIdProofNo("");
+
+    setHouseNo("");
+    setStreet("");
+    setLandmark("");
+    setPincode("");
+    setCity("");
+    setStateName("");
+
+    setAadhaarFile("");
+    setPanFile("");
+
+    setEmploymentStatus(null);
+    setCompanyName("");
+    setJobRole(null);
+    setWorkLocation("");
+    setShiftType(null);
+    setFromTime("");
+    setToTime("");
+
+    setGuardians([
+      {
+        guardianFullName: "",
+        relationshipToTenant: null,
+        guardianOccupation: null,
+        mobileNo: "",
+      },
+    ]);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -1553,11 +1592,11 @@ function AddTenant({
     state.UsersList?.statusCodeForAddCustomerSaveInfo,
   ]);
 
-  useEffect(() => {
-    if (state.UsersList?.draftClickError) {
-      dispatch({ type: "REMOVE_TENANT_SEARCH_LIST_REDUCER" });
-    }
-  }, [state.UsersList?.draftClickError]);
+  // useEffect(() => {
+  //   if (state.UsersList?.draftClickError) {
+  //      setNewTenant(true);
+  //   }
+  // }, [state.UsersList?.draftClickError]);
 
   useEffect(() => {
     if (state.UsersList?.additionalUpdateError) {
@@ -2246,10 +2285,13 @@ function AddTenant({
                           </div>
                           <div className="d-flex justify-content-end mt-3">
                             <button
-                              disabled={formLoading}
+                              disabled={
+                                formLoading || state.UsersList?.draftClickError
+                              }
                               className={`font-gilroy text-sm bg-[#EBEFFF] text-[#1E45E1]
                                  border-1 border-[#D6DEFF] font-semibold rounded-md py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center justify-center gap-2 ${
-                                   formLoading
+                                   formLoading ||
+                                   state.UsersList?.draftClickError
                                      ? "bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed opacity-70"
                                      : "bg-[#EBEFFF] border-[#D6DEFF] text-[#1E45E1] hover:bg-[#DDE5FF] cursor-pointer"
                                  }`}

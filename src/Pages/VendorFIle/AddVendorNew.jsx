@@ -1166,6 +1166,8 @@ function AddVendorNew() {
     }
   }, [state.createAccount?.networkError]);
 
+  console.log("state", state);
+
   return (
     <div className="block relative font-gilroy ">
       <div className="relative w-full  bg-white  ">

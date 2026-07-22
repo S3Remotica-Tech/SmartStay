@@ -598,6 +598,7 @@ function InvoiceRegister() {
   const totalRecords = state?.reports?.getInvoiceRegister?.totalInvoices ?? 0;
 
   const handlePageChange = (page) => {
+    console.log("pagepagepagepage", page);
     setPage(page);
   };
 

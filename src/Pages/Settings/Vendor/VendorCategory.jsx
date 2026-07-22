@@ -25,7 +25,7 @@ function VendorCategory() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [categoryList, setCategoryList] = useState(false);
+  const [categoryList, setCategoryList] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
@@ -306,7 +306,6 @@ function VendorCategory() {
               </div>
             </div>
           ) : (
-            !loading &&
             categoryList.length === 0 &&
             canReadVendor && <NoDataMessage label="Vendor Category" />
           )}

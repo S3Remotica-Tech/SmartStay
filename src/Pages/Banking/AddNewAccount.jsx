@@ -171,10 +171,12 @@ function AddNewAccount({ show, handleClose }) {
     { label: "Office Cash", value: "Office Cash" },
   ];
 
-  const userOptions = [
-    { label: "Admin", value: 1 },
-    { label: "Manager", value: 2 },
-  ];
+  const userOptions =
+    state.bankingDetails?.responsiblepersonList?.map((item) => ({
+      label: `${item.firstName} ${item.lastName || ""}`.trim(),
+      value: item.userId,
+      roleId: item.roleId,
+    })) || [];
 
   //  Bank
   const handleBankDisplayName = (e) => {
@@ -374,23 +376,23 @@ function AddNewAccount({ show, handleClose }) {
     if (!validateBank()) return;
     if (state.login.selectedHostel_Id) {
       dispatch({
-        type: "ADD_BANKING",
+        type: "ADD_BANKING_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          data: {
-            accountType: accountMode,
-            holderName: holderName,
-            accountNo: Number(accountNumber),
-            bankName: bankName,
-            ifscCode: ifscCode,
-            description: bankDescription,
-            branchName: branchName,
-            branchCode: "",
-            isDefault: true,
-            upiId: "",
-            cardType: "",
-            cardNumber: "",
-          },
+
+          holderName: holderName,
+          bankName: bankName,
+          displayName: bankDisplayName,
+          branchName: branchName,
+          accountNo: accountNumber,
+          ifscCode: ifscCode,
+          description: bankDescription,
+          isDefault: true,
+          accountType: accountMode,
+          bankAccountType: accountType?.value || accountType,
+          openingBalance: Number(bankOpeningBalance),
+          cashAccountType: "",
+          responsiblePerson: "",
         },
       });
       setFormLoading(true);
@@ -450,23 +452,23 @@ function AddNewAccount({ show, handleClose }) {
     if (!validateCash()) return;
     if (state.login.selectedHostel_Id) {
       dispatch({
-        type: "ADD_BANKING",
+        type: "ADD_BANKING_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          data: {
-            accountType: accountMode,
-            holderName: "",
-            accountNo: "",
-            bankName: "",
-            ifscCode: "",
-            description: cashDescription,
-            branchName: "",
-            branchCode: "",
-            isDefault: true,
-            upiId: "",
-            cardType: "",
-            cardNumber: "",
-          },
+
+          // holderName: holderName,
+          // bankName: bankName,
+          displayName: bankDisplayName,
+          // branchName: branchName,
+          // accountNo: accountNumber,
+          // ifscCode: ifscCode,
+          description: bankDescription,
+          isDefault: true,
+          accountType: accountMode,
+          // bankAccountType: accountType?.value || accountType,
+          openingBalance: Number(bankOpeningBalance),
+          cashAccountType: cashType?.value || cashType,
+          responsiblePerson: responsiblePerson?.value || responsiblePerson,
         },
       });
       setFormLoading(true);
@@ -474,12 +476,33 @@ function AddNewAccount({ show, handleClose }) {
   };
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForAddBanking === 201) {
+    if (state.bankingDetails.createBankingError) {
       setFormLoading(false);
-      dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
+    }
+  }, [state.bankingDetails.createBankingError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "RESPONSIBLE_PERSON_LIST_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForCreateBanking === 201) {
+      setFormLoading(false);
+
       handleClose();
     }
-  }, [state.bankingDetails.statusCodeForAddBanking]);
+  }, [state.bankingDetails.statusCodeForCreateBanking]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForEditBanking === 200) {
@@ -872,6 +895,7 @@ function AddNewAccount({ show, handleClose }) {
                         value={cashOpeningBalance}
                         ref={cashOpeningBalanceRef}
                         onChange={handleCashOpeningBalance}
+                        onWheel={(e) => e.target.blur()}
                         placeholder="0.00"
                         className="w-full h-11 rounded-lg border border-[#D9D9D9] pl-9 pr-4 text-[14px] outline-none focus:border-[#2F54EB]"
                       />

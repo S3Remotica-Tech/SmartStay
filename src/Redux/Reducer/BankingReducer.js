@@ -15,6 +15,11 @@ export const initialState = {
   statusSelfTransferInitialize: 0,
   statusSuccessSelfTransfer: 0,
   selfError: "",
+  newBankingList: [],
+  getBankingSuccessCode: 0,
+  statusCodeForCreateBanking: 0,
+  createBankingError: "",
+  responsiblepersonList: [],
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -29,11 +34,22 @@ const BankingReducer = (state = initialState, action) => {
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
 
-    // case 'ERROR_BOOKING':
-    //   return { ...state, bankingError: action.payload }
+    case "ADD_BANKING_ERROR":
+      return { ...state, createBankingError: action.payload };
 
-    // case 'REMOVE_ERROR_BOOKING':
-    //   return { ...state, bankingError: '' }
+    case "REMOVE_ADD_BANKING_ERROR":
+      return { ...state, createBankingError: "" };
+
+    case "ADD_BANKING_REDUCER":
+      return {
+        ...state,
+        statusCodeForCreateBanking: action.payload.statusCode,
+      };
+    case "REMOVE_ADD_BANKING_REDUCER":
+      return {
+        ...state,
+        statusCodeForCreateBanking: 0,
+      };
 
     case "CREATE_BANKING_ERROR":
       return { ...state, bankingCreateError: action.payload };
@@ -80,6 +96,12 @@ const BankingReducer = (state = initialState, action) => {
     case "CLEAR_EDIT_BANK_TRANSACTION":
       return { ...state, statusEditTrasactionCode: 0 };
 
+    case "RESPONSIBLE_PERSON_LIST_REDUCER":
+      return {
+        ...state,
+        responsiblepersonList: action.payload.response,
+      };
+
     case "ADD_BANK_AMOUNT":
       return {
         ...state,
@@ -96,6 +118,18 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_BANKING_LIST":
       return { ...state, statusCodeForGetBanking: 0 };
+
+    case "BANKING_LIST_REDUCER":
+      return {
+        ...state,
+        newBankingList: action.payload.response,
+        getBankingSuccessCode: action.payload.statusCode,
+      };
+    case "REMOVE_BANKING_LIST_REDUCER":
+      return {
+        ...state,
+        getBankingSuccessCode: 0,
+      };
 
     case "NO_BANKING":
       return {

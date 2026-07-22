@@ -16,17 +16,24 @@ function TenantJobDetails() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-8 pt-4">
         <div>
           <p className="text-xs text-gray-500 mb-1">Employment Status</p>
-          <p className="text-sm font-medium text-[#222222]">N/A</p>
+          <p className="text-sm font-medium text-[#222222]">
+            {CustomerOverView?.jobDetails?.employmentStatus || "N/A"}
+          </p>
         </div>
 
         <div>
           <p className="text-xs text-gray-500 mb-1">Company/College Name</p>
-          <p className="text-sm font-medium text-[#222222]">N/A</p>
+          <p className="text-sm font-medium text-[#222222]">
+            {" "}
+            {CustomerOverView?.jobDetails?.organizationName || "N/A"}
+          </p>
         </div>
 
         <div>
           <p className="text-xs text-gray-500 mb-1">Job Role</p>
-          <p className="text-sm font-medium text-[#222222]">N/A</p>
+          <p className="text-sm font-medium text-[#222222]">
+            {CustomerOverView?.jobDetails?.role || "N/A"}
+          </p>
         </div>
 
         <div>
@@ -35,18 +42,24 @@ function TenantJobDetails() {
           <div className="flex items-center gap-2">
             <Location size="16" color="#1E45E1" />
 
-            <span className="text-sm font-medium text-[#222222]">N/A</span>
+            <span className="text-sm font-medium text-[#222222]">
+              {CustomerOverView?.jobDetails?.workLocation || "N/A"}
+            </span>
           </div>
         </div>
 
         <div>
           <p className="text-xs text-gray-500 mb-1">Shift Type</p>
-          <p className="text-sm font-medium text-gray-900">N/A</p>
+          <p className="text-sm font-medium text-gray-900">
+            {CustomerOverView?.jobDetails?.shiftType || "N/A"}
+          </p>
         </div>
 
         <div>
           <p className="text-xs text-gray-500 mb-1">Shift Timing</p>
-          <p className="text-sm font-medium text-[#222222]">N/A</p>
+          <p className="text-sm font-medium text-[#222222]">
+            {CustomerOverView?.jobDetails?.shiftTiming || "N/A"}
+          </p>
         </div>
       </div>
     </div>
