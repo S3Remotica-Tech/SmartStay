@@ -1115,6 +1115,7 @@ const InvoicePage = () => {
         filters,
       },
     });
+    setLoading(true);
   }, [filterInput, statusfilter, size, page, state.login?.selectedHostel_Id]);
 
   const handleCloseSearch = () => {
