@@ -8,11 +8,13 @@ export const Connect = (onMessageReceived, paymentId) => {
   const socket = new SockJS(ConfigV2.apiBaseUrl + "/ws");
   stompClient = over(socket);
 
-  // console.log(paymentId);
+  console.log(paymentId);
   if (paymentId) {
     stompClient.connect({}, () => {
-      // console.log(`/payments/${paymentId}`)
+      console.log(`/payments/${paymentId}`);
+
       stompClient.subscribe(`/payments/${paymentId}`, (message) => {
+        console.log("Received:", message);
         onMessageReceived(message);
       });
     });
