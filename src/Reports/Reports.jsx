@@ -387,13 +387,13 @@ function Reports() {
 
   useEffect(() => {
     return () => {
-      dispatch({
-        type: "GET_REEPORTS_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {},
-        },
-      });
+      // dispatch({
+      //   type: "GET_REEPORTS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters: {},
+      //   },
+      // });
     };
   }, []);
 
@@ -407,7 +407,7 @@ function Reports() {
   }, [state.createAccount?.networkError]);
 
   return (
-    <div className="w-full flex flex-col font-[Gilroy] px-0 mt-px h-[600px] 2xl:h-[800px] 3xl:h-[800px]">
+    <div className="w-full flex flex-col font-[Gilroy] px-0 mt-px">
       {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>

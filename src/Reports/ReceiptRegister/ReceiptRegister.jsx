@@ -202,7 +202,7 @@ function ReceiptRegister() {
   const stats = [
     {
       title: "Total Receipts",
-      value: state?.reports?.getReceiptRegister?.pagination?.totalRecords,
+      value: state?.reports?.getReceiptRegister?.totalItems,
     },
     {
       title: "Total Amount",
@@ -392,13 +392,13 @@ function ReceiptRegister() {
         size,
         page,
       };
-      dispatch({
-        type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
+      // dispatch({
+      //   type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters: filters,
+      //   },
+      // });
     };
   }, []);
 
@@ -439,14 +439,11 @@ function ReceiptRegister() {
     setLoading(true);
   }, [size, page, selectedRange, state.login?.selectedHostel_Id]);
 
-  const currentPage =
-    state?.reports?.getReceiptRegister?.pagination?.currentPage ?? 1;
+  const currentPage = state?.reports?.getReceiptRegister?.currentPage ?? 1;
 
-  const totalPages =
-    state?.reports?.getReceiptRegister?.pagination?.totalPages ?? 1;
+  const totalPages = state?.reports?.getReceiptRegister?.totalPages ?? 1;
 
-  const totalRecords =
-    state?.reports?.getReceiptRegister?.pagination?.totalRecords ?? 0;
+  const totalRecords = state?.reports?.getReceiptRegister?.totalItems ?? 0;
 
   const handlePageChange = (page) => {
     setPage(page);

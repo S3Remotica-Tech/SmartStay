@@ -302,13 +302,13 @@ function TenantsRegister() {
         page: page,
       };
 
-      dispatch({
-        type: "GET_REPORTS_TENANT_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
+      // dispatch({
+      //   type: "GET_REPORTS_TENANT_REGISTER_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters: filters,
+      //   },
+      // });
     };
   }, []);
 

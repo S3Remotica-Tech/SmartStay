@@ -297,13 +297,13 @@ function ExpenseRegister() {
         size: size,
         page: page,
       };
-      dispatch({
-        type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
+      // dispatch({
+      //   type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters: filters,
+      //   },
+      // });
     };
   }, []);
 

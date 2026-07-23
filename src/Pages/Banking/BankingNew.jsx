@@ -1002,7 +1002,7 @@ function BankingNew() {
                                   </span>
                                 </div>
                                 <div>
-                                  <BsExclamationCircle className="text-[#64748B] cursor-pointer" />
+                                  <BsExclamationCircle className="text-[#64748B] cursor-pointer" />{" "}
                                 </div>
                               </div>
                               {/* <div className="flex justify-end my-1">

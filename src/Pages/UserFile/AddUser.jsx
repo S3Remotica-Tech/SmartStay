@@ -1,5 +1,3 @@
-
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -14,7 +12,7 @@ import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function User({ show, editDetails, setAddUserForm, edit }) {
   const state = useSelector((state) => state);
@@ -36,12 +34,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [passwordError, setPasswordError] = useState("");
   const [initialState, setInitialState] = useState({});
   const [error, setError] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
 
-  const [hostel_Id, setHostel_Id] = useState("")
-  const [user_Id, setUser_Id] = useState("")
-
-
+  const [hostel_Id, setHostel_Id] = useState("");
+  const [user_Id, setUser_Id] = useState("");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -49,12 +45,12 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   }, [state?.login?.selectedHostel_Id]);
 
-
   useEffect(() => {
-
-    dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
+    dispatch({
+      type: "SETTING_ROLE_LIST",
+      payload: state.login.selectedHostel_Id,
+    });
   }, []);
-
 
   useEffect(() => {
     if (editDetails && edit) {
@@ -77,14 +73,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       setCountryCode(initial.countryCode);
       setRole(initial.role);
       setDescription(initial.description);
-      setUser_Id(editDetails?.userId)
+      setUser_Id(editDetails?.userId);
 
       setInitialState(initial);
     }
   }, [editDetails]);
-
-
-
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -119,7 +112,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
     const value = e.target.value;
 
-
     if (/^\d{0,10}$/.test(value)) {
       setMobile(value);
 
@@ -137,7 +129,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
   };
 
-
   const handleRoleChange = (selectedOption) => {
     setRoleError("");
     setError("");
@@ -150,41 +141,29 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   };
 
   const handlePassword = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
+    const value = e.target.value;
+    setPassword(value);
 
-    const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasNumber = /[0-9]/.test(newPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+    const errors = [];
 
-    let errorMessage = "";
-
-
-    if (newPassword.length < 8) {
-      errorMessage += "Password must be at least 8 characters\n";
+    if (value.length < 8) {
+      errors.push("Minimum 8 characters");
     }
 
-
-    if (!hasUppercase) {
-      errorMessage += "At least 1 capital letter\n";
+    if (!/[A-Z]/.test(value)) {
+      errors.push("One uppercase letter");
     }
 
-
-    if (!hasNumber) {
-      errorMessage += "At least 1 number\n";
+    if (!/[0-9]/.test(value)) {
+      errors.push("One number");
     }
 
-    if (!hasSpecialChar) {
-      errorMessage += "At least 1 special character\n";
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+      errors.push("One special character");
     }
 
-    setPasswordError(errorMessage.trim());
+    setPasswordError(errors);
   };
-
-
-
-
-
 
   const handleCloseForm = () => {
     setAddUserForm(false);
@@ -256,7 +235,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       setMobileError("");
     }
 
-
     if (!role) {
       setRoleError("Please Select Role");
       isValid = false;
@@ -266,25 +244,22 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       if (!password) {
         setPasswordError("Please Enter Password");
         isValid = false;
-      }
-      else if (password.length < 8) {
+      } else if (password.length < 8) {
         setPasswordError("Password must be at least 8 characters");
         isValid = false;
-      }
-      else {
+      } else {
         const hasUppercase = /[A-Z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
         if (!hasUppercase || !hasNumber || !hasSpecialChar) {
           setPasswordError(
-            "Password must include a capital letter, a number, and a special character"
+            "Password must include a capital letter, a number, and a special character",
           );
           isValid = false;
         }
       }
     }
-
 
     const hasChanges =
       name !== initialState.name ||
@@ -341,14 +316,9 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   };
 
-
-
-
-
-
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 201) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleCloseForm();
       dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
       setTimeout(() => {
@@ -359,7 +329,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
   useEffect(() => {
     if (state.Settings.StatusForEditSettingUser === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleCloseForm();
       dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
       setTimeout(() => {
@@ -368,344 +338,319 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   }, [state.Settings.StatusForEditSettingUser]);
 
-
-
   useEffect(() => {
     if (state.Settings.emailIdError || state.Settings.phoneNumError) {
-      setFormLoading(false)
+      setFormLoading(false);
     }
-
-  }, [state.Settings.emailIdError, state.Settings.phoneNumError])
-
+  }, [state.Settings.emailIdError, state.Settings.phoneNumError]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-
-
-
-
+  }, [state.createAccount?.networkError]);
 
   return (
-    <div className="modal show block relative">
-      <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
-        <Modal.Dialog className="w-full max-w-[850px] m-0 p-0">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
 
-          <Modal.Header className="border border-[#E7E7E7] px-4 py-2.5 flex items-center justify-between">
+      <div className="absolute top-2 right-2 bottom-2 w-full  max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className=" relative border-b flex justify-between mb-2 px-3 py-3">
+          <div className="!text-xl !font-gilroy !font-semibold text-[#222222]">
+            {edit ? "Edit Staff" : "Add Staff"}
+          </div>
 
-            <Modal.Title className="!text-xl !font-gilroy !font-semibold text-[#222222]">
-              {edit ? "Edit Staff" : "Add Staff"}
-            </Modal.Title>
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleCloseForm}
+            className="cursor-pointer"
+          />
+        </div>
 
-            <CloseCircle
-              size="24"
-              color="#000"
-              onClick={handleCloseForm}
-              className="cursor-pointer"
-            />
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[600px]">
+          <div className="grid grid-cols-12 gap-x-6 mt-2">
+            <div className="col-span-6">
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                  Name <span className="text-lg text-red-500">*</span>
+                </Form.Label>
+                <Form.Control
+                  value={name}
+                  onChange={(e) => handleNameChange(e)}
+                  type="text"
+                  placeholder="Enter Name"
+                  className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
+                />
+              </Form.Group>
+              {nameError && <ErrorMessage message={nameError} type="error" />}
+            </div>
 
-          </Modal.Header>
+            <div className="col-span-6 mb-1">
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                  Email ID <span className="text-lg text-red-500">*</span>
+                </Form.Label>
+                <Form.Control
+                  value={email}
+                  onChange={(e) => handleEmailChange(e)}
+                  type="text"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  placeholder="Enter Email ID"
+                  className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
+                />
+              </Form.Group>
 
-          <Modal.Body className="pt-0">
-            <div className="grid grid-cols-12 gap-x-6 mt-2">
+              {emailError && <ErrorMessage message={emailError} type="error" />}
 
-              <div className="col-span-6">
-                <Form.Group controlId="exampleForm.ControlInput1" >
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]"
+              {state.Settings.emailIdError && (
+                <ErrorMessage
+                  message={state.Settings.emailIdError}
+                  type="error"
+                />
+              )}
+            </div>
+
+            <div className="col-span-6 mb-1">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                  Mobile No <span className="text-lg text-red-500">*</span>
+                </Form.Label>
+
+                <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-[52px]">
+                  <Form.Select
+                    value={countryCode}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className={`border-0 bg-white text-[16px] text-[#4B4B4B] font-gilroy max-w-[90px] px-3 shadow-none focus:outline-none ${
+                      countryCode ? "font-semibold" : "font-medium"
+                    }`}
                   >
-                    Name {' '}
-                    <span className="text-lg text-red-500">*</span>
-                  </Form.Label>
-                  <Form.Control
-                    value={name}
-                    onChange={(e) => handleNameChange(e)}
-                    type="text"
-                    placeholder="Enter Name"
-                    className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
-                  />
-                </Form.Group>
-                {nameError && (
-                  <ErrorMessage message={nameError} type="error" />
-                )}
-              </div>
+                    <option>+{countryCode}</option>
+                  </Form.Select>
 
-              <div className="col-span-6 mb-1">
-                <Form.Group controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                    Email ID {" "}
-                    <span className="text-lg text-red-500">*</span>
-                  </Form.Label>
                   <Form.Control
-                    value={email}
-                    onChange={(e) => handleEmailChange(e)}
+                    value={mobile}
+                    onChange={handleMobileChange}
                     type="text"
                     autoComplete="off"
                     autoCorrect="off"
-                    placeholder="Enter Email ID"
-                    className="h-12 rounded-lg border border-gray-300 !font-gilroy !text-base font-medium text-gray-600 shadow-none focus:shadow-none"
+                    placeholder="9876543210"
+                    maxLength={10}
+                    className={`border-0 text-[16px] text-[#4B4B4B] font-gilroy px-3 shadow-none focus:outline-none ${
+                      mobile ? "font-semibold" : "font-medium"
+                    }`}
                   />
-                </Form.Group>
+                </InputGroup>
+              </Form.Group>
 
-                {emailError && (
-                  <ErrorMessage message={emailError} type="error" />
-                )}
+              {mobileError && (
+                <ErrorMessage message={mobileError} type="error" />
+              )}
 
-                {state.Settings.emailIdError && (
-                  <ErrorMessage message={state.Settings.emailIdError} type="error" />
-                )}
-              </div>
+              {countryCodeError && (
+                <ErrorMessage message={countryCodeError} type="error" />
+              )}
 
-              <div className="col-span-6 mb-1">
-
-                <Form.Group>
+              {state.Settings.phoneNumError && (
+                <ErrorMessage
+                  message={state.Settings.phoneNumError}
+                  type="error"
+                />
+              )}
+            </div>
+            {!edit && (
+              <div className="col-span-6 mb-2">
+                <Form.Group className="">
                   <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                    Mobile No <span className="text-lg text-red-500">*</span>
+                    Password <span className="text-lg text-red-500"> * </span>
                   </Form.Label>
-
-                  <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-[52px]">
-                    <Form.Select
-                      value={countryCode}
-                      autoComplete="off"
+                  <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-12">
+                    <FormControl
+                      id="form-controls"
+                      autoComplete="new-password"
                       autoCorrect="off"
-                      className={`border-0 bg-white text-[16px] text-[#4B4B4B] font-gilroy max-w-[90px] px-3 shadow-none focus:outline-none ${countryCode ? "font-semibold" : "font-medium"
-                        }`}
-                    >
-                      <option>+{countryCode}</option>
-                    </Form.Select>
-
-                    <Form.Control
-                      value={mobile}
-                      onChange={handleMobileChange}
-                      type="text"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      placeholder="9876543210"
-                      maxLength={10}
-                      className={`border-0 text-[16px] text-[#4B4B4B] font-gilroy px-3 shadow-none focus:outline-none ${mobile ? "font-semibold" : "font-medium"
-                        }`}
+                      placeholder="Enter Password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => handlePassword(e)}
+                      className="border-0 text-[16px] text-[#4B4B4B] font-gilroy focus:outline-none shadow-none"
                     />
+
+                    <InputGroup.Text
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={
+                        showPassword ? "Hide Password" : "Show Password"
+                      }
+                      className="bg-white border-0 cursor-pointer px-3"
+                    >
+                      <img
+                        src={showPassword ? eye : eyeClosed}
+                        alt="toggle password"
+                        width={20}
+                        height={20}
+                      />
+                    </InputGroup.Text>
                   </InputGroup>
                 </Form.Group>
 
-                {mobileError && (
-                  <ErrorMessage message={mobileError} type="error" />
-                )}
-
-                {countryCodeError && (
-                  <ErrorMessage message={countryCodeError} type="error" />
-                )}
-
-                {state.Settings.phoneNumError && (
-                  <ErrorMessage message={state.Settings.phoneNumError} type="error" />
+                {passwordError && (
+                  <ErrorMessage message={passwordError} type="error" />
                 )}
               </div>
-              {!edit && (
-                <div className="col-span-6 mb-2">
-                  <Form.Group className="">
-                    <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                      Password {" "}
-                      <span className="text-lg text-red-500">
-                        {" "}
-                        *{" "}
-                      </span>
-                    </Form.Label>
-                    <InputGroup className="border border-gray-300 rounded-lg overflow-hidden h-12">
-                      <FormControl
-                        id="form-controls"
-                        autoComplete="new-password"
-                        autoCorrect="off"
-                        placeholder="Enter Password"
-                        type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => handlePassword(e)}
-                        className="border-0 text-[16px] text-[#4B4B4B] font-gilroy focus:outline-none shadow-none"
-                      />
+            )}
 
-                      <InputGroup.Text
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? "Hide Password" : "Show Password"}
-                        className="bg-white border-0 cursor-pointer px-3"
-                      >
-                        <img
-                          src={showPassword ? eye : eyeClosed}
-                          alt="toggle password"
-                          width={20}
-                          height={20}
-                        />
-                      </InputGroup.Text>
-                    </InputGroup>
-                  </Form.Group>
+            <div className="col-span-6 ">
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                  Role <span className="text-lg text-red-500">*</span>
+                </Form.Label>
 
-
-
-                  {passwordError && (
-
-                    <ErrorMessage message={passwordError} type="error" />
-
-                  )}
-
-                </div>
-              )}
-
-              <div className="col-span-6 ">
-                <Form.Group
-                  className="mb-1"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                    Role {" "}
-                    <span className="text-lg text-red-500">*</span>
-                  </Form.Label>
-
-                  <Select
-                    options={
-                      state.Settings?.getsettingRoleList?.map((u) => ({
-                        value: u.id,
-                        label: u.name,
-                      })) || []
-                    }
-                    onChange={handleRoleChange}
-                    value={
-                      state.Settings?.getsettingRoleList?.find(
-                        (option) => option.id === role
-                      )
-                        ? {
+                <Select
+                  options={
+                    state.Settings?.getsettingRoleList?.map((u) => ({
+                      value: u.id,
+                      label: u.name,
+                    })) || []
+                  }
+                  onChange={handleRoleChange}
+                  value={
+                    state.Settings?.getsettingRoleList?.find(
+                      (option) => option.id === role,
+                    )
+                      ? {
                           value: role,
                           label: state.Settings.getsettingRoleList.find(
-                            (option) => option.id === role
+                            (option) => option.id === role,
                           )?.name,
                         }
-                        : null
-                    }
-                    placeholder="Select a Role"
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "50px",
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        fontSize: "16px",
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        display: "inline-block",
-                        fill: "currentColor",
-                        lineHeight: 1,
-                        stroke: "currentColor",
-                        strokeWidth: 0,
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isSelected
-                          ? "#1E45E1"
-                          : state.isFocused
-                            ? "#E8EEFF"
-                            : "white",
-                        color: state.isSelected ? "#fff" : "#000",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                    }}
-                  />
-                </Form.Group>
-
-                {roleError && (
-                  <ErrorMessage message={roleError} type="error" />
-                )}
-              </div>
-
-              <div className="col-span-6">
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
-                    Description {" "}
-                  </Form.Label>
-                  <Form.Control
-                    value={description}
-                    onChange={handleDescriptionChange}
-                    type="text"
-                    placeholder="Enter Description"
-                    style={{
-                      fontSize: 16,
+                      : null
+                  }
+                  placeholder="Select a Role"
+                  classNamePrefix="custom"
+                  menuPlacement="auto"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      height: "50px",
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px",
+                      fontSize: "16px",
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                      marginTop: "6px",
-                    }}
-                  />
-                </Form.Group>
-              </div>
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "120px",
+                      padding: 0,
+                      scrollbarWidth: "thin",
+                      overflowY: "auto",
+                      fontFamily: "Gilroy",
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                      display: "inline-block",
+                      fill: "currentColor",
+                      lineHeight: 1,
+                      stroke: "currentColor",
+                      strokeWidth: 0,
+                      cursor: "pointer",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isSelected
+                        ? "#1E45E1"
+                        : state.isFocused
+                          ? "#E8EEFF"
+                          : "white",
+                      color: state.isSelected ? "#fff" : "#000",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                  }}
+                />
+              </Form.Group>
 
-             
+              {roleError && <ErrorMessage message={roleError} type="error" />}
             </div>
-             {error && (
-                <div className="flex items-center justify-center w-full">
-                  <ErrorMessage message={error} type="error" />
-                </div>
-              )}
-          </Modal.Body>
 
-
-          {formLoading && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-transparent border-t-blue-600"></div>
+            <div className="col-span-6">
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label className="text-sm font-medium font-gilroy text-[#222222]">
+                  Description{" "}
+                </Form.Label>
+                <Form.Control
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  type="text"
+                  placeholder="Enter Description"
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                    marginTop: "6px",
+                  }}
+                />
+              </Form.Group>
+            </div>
+          </div>
+          {error && (
+            <div className="flex items-center justify-center w-full">
+              <ErrorMessage message={error} type="error" />
             </div>
           )}
+        </div>
 
-          <Modal.Footer className="!mt-[-10px] !border-0 !px-3">
-            
-            <button  disabled={formLoading}
-              onClick={handleSubmit}
- className="!w-full !bg-[#1E45E1] !font-semibold !p-3 !rounded-lg !text-sm !font-gilroy !text-white 
-  !cursor-pointer hover:!bg-[#1639c3] active:!scale-95
-  disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"            >
-              {edit ? "Save Changes" : " + Staff"}
-            </button>
-          </Modal.Footer>
-        </Modal.Dialog>
-      </Modal>
+        <div className="flex justify-end p-2">
+          <button
+            disabled={formLoading}
+            onClick={handleSubmit}
+            className="!bg-[#1E45E1] !font-semibold !px-6 !py-3 !rounded-lg !text-sm !font-gilroy !text-white
+  !flex !items-center !justify-center gap-2
+  hover:!bg-[#1639c3] active:!scale-95
+disabled:!opacity-70"
+          >
+            {formLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                <span>{edit ? "Saving..." : "Adding..."}</span>
+              </>
+            ) : (
+              <span>{edit ? "Save Changes" : "+ Staff"}</span>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
