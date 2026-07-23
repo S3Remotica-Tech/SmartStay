@@ -55,7 +55,9 @@ function ExpensePaymentHistory() {
                         </td>
 
                         <td className="px-4 py-2.5 text-sm">
-                          {payment.bankName ? `  ${payment.bankName}  ` : "-"}
+                          {payment.paymentMode
+                            ? `  ${payment.paymentMode}  `
+                            : "-"}
                         </td>
 
                         <td className="px-4 py-2.5">
