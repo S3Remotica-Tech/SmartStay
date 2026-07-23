@@ -13,18 +13,22 @@ function AllPlans() {
   const { hostelId } = useParams();
 
   const [formLoading, setFormLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const onMessageReceived = (message) => {
     // console.log("Payment update:", message);
     if (message.body === "success") {
+      setPaymentLoading(false);
       window.location.reload();
-      setIsPaymentOpened(false);
+    } else if (message.body === "failed") {
+      setPaymentLoading(false);
     }
   };
 
   useEffect(() => {
     if (state.Settings?.statusCodeUpgradePlan === 200) {
       setFormLoading(false);
+      setPaymentLoading(true);
       const reDirectURL = state.Settings.upgradePlan?.paymentLink;
       if (reDirectURL) {
         Connect(onMessageReceived, state.Settings.upgradePlan?.paymentLinkId);
@@ -134,6 +138,37 @@ function AllPlans() {
           </div>
         ))}
       </div>
+      {paymentLoading && (
+        <div className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center">
+          <div className="bg-white rounded-2xl shadow-2xl px-8 py-8 w-[360px] text-center">
+            <div className="mx-auto w-14 h-14 border-[5px] border-gray-200 border-t-[#1E45E1] rounded-full animate-spin"></div>
+
+            <h2 className="mt-6 text-xl font-semibold text-gray-800">
+              Processing Payment...
+            </h2>
+
+            <p className="mt-3 text-sm text-gray-500 leading-6">
+              Please wait while we confirm your payment.
+              <br />
+              <span className="font-medium text-[#1E45E1]">
+                Do not close or refresh this page.
+              </span>
+            </p>
+
+            <div className="flex justify-center gap-1 mt-6">
+              <span className="w-2 h-2 rounded-full bg-[#1E45E1] animate-bounce"></span>
+              <span
+                className="w-2 h-2 rounded-full bg-[#1E45E1] animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></span>
+              <span
+                className="w-2 h-2 rounded-full bg-[#1E45E1] animate-bounce"
+                style={{ animationDelay: "0.4s" }}
+              ></span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

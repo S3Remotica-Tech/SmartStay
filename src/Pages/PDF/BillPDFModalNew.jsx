@@ -792,8 +792,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         className={`fixed  right-14 ${isOpenPayment ? "bottom-[200px]" : "bottom-16"} z-50 flex flex-col gap-3 items-end`}
       >
         {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
-          (pdfDetails?.invoiceInfo?.paymentStatus === "Pending" ||
-            pdfDetails?.invoiceInfo?.status === "PENDING") &&
+          // (pdfDetails?.invoiceInfo?.paymentStatus === "Pending" ||
+          //   pdfDetails?.invoiceInfo?.status === "PENDING") &&
           !showDiscountInvoice && (
             <div className=" animate-slideIn">
               <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">

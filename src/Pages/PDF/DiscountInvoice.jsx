@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import Select from "react-select";
 import { Add } from "iconsax-react";
+import { PiDnaFill } from "react-icons/pi";
 
 function DiscountInvoice({
   show,
@@ -20,6 +21,7 @@ function DiscountInvoice({
   const [discountInputError, setDiscountInputError] = useState("");
   const [reasonError, setReasonError] = useState("");
   const dispatch = useDispatch();
+
   const [formLoading, setFormLoading] = useState(false);
   const TenantDetails = state.InvoiceList?.initializeDiscount;
   const [discountType, setDiscountType] = useState("amount");
@@ -30,7 +32,7 @@ function DiscountInvoice({
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
 
-  console.log("discountDetails", discountDetails);
+  console.log("editData", editData);
 
   const handleDiscountChange = (e) => {
     const value = e.target.value;
@@ -198,7 +200,10 @@ function DiscountInvoice({
         type: "GET_INITIALIZE_DICOUNT_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          invoiceId: discountDetails?.invoiceId || pdfDetails?.invoiceId,
+          invoiceId:
+            discountDetails?.invoiceId ||
+            pdfDetails?.invoiceId ||
+            pdfDetails?.invoiceInfo?.invoiceId,
         },
       });
     }
