@@ -1603,15 +1603,15 @@ function TenantOverview(props) {
   }, [state.Booking.StatusCodeInactiveCode]);
 
   useEffect(() => {
-    if (state.UsersList?.addtionalDetailsSuccessCode === 201) {
+    if (state.UsersList?.updateJobDetailsSuccessCode === 200) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
       });
 
-      dispatch({ type: "REMOVE_ADDITIONAL_DETAILS_TENANT_REDUCER" });
+      dispatch({ type: "REMOVE_JOB_UPDATE_REDUCER" });
     }
-  }, [state.UsersList?.addtionalDetailsSuccessCode]);
+  }, [state.UsersList?.updateJobDetailsSuccessCode]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {

@@ -9,6 +9,7 @@ function TenantJobDetails() {
   const state = useSelector((state) => state);
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [showJobModal, setShowJobModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const jobDetails = CustomerOverView?.jobDetails;
 
   const { canWriteModule: canWriteTenant, canUpdateModule: canUpdateTenant } =
@@ -39,6 +40,11 @@ function TenantJobDetails() {
       "SETTLEMENT_GENERATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
+  const handleEdit = () => {
+    setShowJobModal(true);
+    setEditMode(true);
+  };
+
   return (
     <div className="w-full rounded-[14px] border border-gray-200 bg-white px-4 py-3 font-gilroy my-4">
       <div className="pb-2 border-b border-gray-100 flex items-center justify-between">
@@ -50,7 +56,7 @@ function TenantJobDetails() {
             <Edit
               size="16"
               className="cursor-pointer"
-              onClick={() => setShowJobModal(true)}
+              onClick={() => handleEdit()}
             />
           </div>
         )}
@@ -71,7 +77,10 @@ function TenantJobDetails() {
               {" "}
               <button
                 disabled={isDisabledButton}
-                onClick={() => setShowJobModal(true)}
+                onClick={() => {
+                  setShowJobModal(true);
+                  setEditMode(false);
+                }}
                 type="submit"
                 className="bg-[#1E45E1] disabled:bg-blue-700/60 disabled:cursor-not-allowed text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
               >
@@ -133,6 +142,7 @@ function TenantJobDetails() {
         <AddAndUpdateJobDetails
           show={showJobModal}
           handleClose={handleCloseShowModal}
+          editMode={editMode}
         />
       )}
     </div>

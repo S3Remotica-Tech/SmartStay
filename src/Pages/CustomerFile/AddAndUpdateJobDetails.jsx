@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -104,7 +105,7 @@ const CustomStyles = {
     display: "none",
   }),
 };
-function AddAndUpdateJobDetails({ show, handleClose }) {
+function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const CustomerOverView = state?.UsersList?.customerdetails;
@@ -116,6 +117,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
   const [fromTime, setFromTime] = useState("");
   const [toTime, setToTime] = useState("");
   const [saveLoading, setSaveLoading] = useState(false);
+  const [noChanges, setNoChanges] = useState("");
 
   const shiftTypeOptions = [
     { value: "Day Shift", label: "Day Shift" },
@@ -156,36 +158,139 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
     { value: "Other", label: "Other" },
   ];
 
+  const handleEmploymentStatusChange = (selected) => {
+    setEmploymentStatus(selected);
+    setNoChanges("");
+  };
+
+  const handleOrganizationNameChange = (e) => {
+    setOrganizationName(e.target.value);
+    setNoChanges("");
+  };
+
+  const handleJobRoleChange = (selected) => {
+    setJobRole(selected);
+    setNoChanges("");
+  };
+
+  const handleWorkLocationChange = (e) => {
+    setWorkLocation(e.target.value);
+    setNoChanges("");
+  };
+
+  const handleShiftTypeChange = (selected) => {
+    setShiftType(selected);
+    setNoChanges("");
+  };
+
+  const handleFromTimeChange = (e) => {
+    setFromTime(e.target.value);
+    setNoChanges("");
+  };
+
+  const handleToTimeChange = (e) => {
+    setToTime(e.target.value);
+    setNoChanges("");
+  };
+
+  useEffect(() => {
+    const jobDetails = CustomerOverView?.jobDetails;
+
+    if (jobDetails && editMode) {
+      setEmploymentStatus(
+        jobDetails.employmentStatus
+          ? {
+              value: jobDetails.employmentStatus,
+              label: jobDetails.employmentStatus,
+            }
+          : null,
+      );
+
+      setOrganizationName(jobDetails.organizationName?.trim() || "");
+
+      setJobRole(
+        jobDetails.role
+          ? {
+              value: jobDetails.role,
+              label: jobDetails.role,
+            }
+          : null,
+      );
+
+      setWorkLocation(jobDetails.workLocation || "");
+
+      setShiftType(
+        jobDetails.shiftType
+          ? {
+              value: jobDetails.shiftType,
+              label: jobDetails.shiftType,
+            }
+          : null,
+      );
+
+      const [from = "", to = ""] = (jobDetails.shiftTiming || "").split(":");
+
+      setFromTime(from);
+      setToTime(to);
+    }
+  }, [CustomerOverView, editMode]);
+
   const handleSave = () => {
+    setNoChanges("");
+    const existing = CustomerOverView?.jobDetails || {};
+
+    const currentShiftTiming = `${fromTime || ""}:${toTime || ""}`;
+
+    const existingData = {
+      employmentStatus: existing.employmentStatus || "",
+      organizationName: (existing.organizationName || "").trim(),
+      role: existing.role || "",
+      workLocation: existing.workLocation || "",
+      shiftType: existing.shiftType || "",
+      shiftTiming: existing.shiftTiming || "",
+    };
+
+    const currentData = {
+      employmentStatus: employmentStatus?.value || "",
+      organizationName: organizationName.trim(),
+      role: jobRole?.value || "",
+      workLocation,
+      shiftType: shiftType?.value || "",
+      shiftTiming: `${fromTime}:${toTime}`,
+    };
+
+    const isJobDetailsChanged =
+      JSON.stringify(existingData) !== JSON.stringify(currentData);
+
+    if (!isJobDetailsChanged) {
+      setNoChanges("No changes detected");
+      return;
+    }
+
     dispatch({
-      type: "ADDITIONAL_DETAILS_TENANT_SAGA",
+      type: "JOB_UPDATE_SAGA",
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
         customerId: CustomerOverView?.customerId,
-        additionalData: {
-          jobDetails: {
-            employmentStatus: employmentStatus?.value || "",
-            companyName: organizationName || "",
-            collegeName: organizationName || " ",
-            jobRole: jobRole?.value || "",
-            workLocation: workLocation || "",
-            shiftType: shiftType?.value || "",
-            shiftFrom: fromTime || "",
-            shiftTo: toTime || "",
-          },
-        },
+        employmentStatus: employmentStatus?.value || "",
+        organizationName: organizationName || "",
+        role: jobRole?.value || "",
+        workLocation: workLocation || "",
+        shiftType: shiftType?.value || "",
+        shiftStartsFrom: fromTime || "",
+        shiftEndsAt: toTime || "",
       },
     });
     setSaveLoading(true);
   };
 
   useEffect(() => {
-    if (state.UsersList?.addtionalDetailsSuccessCode === 201) {
+    if (state.UsersList?.updateJobDetailsSuccessCode === 200) {
       setSaveLoading(false);
 
       handleClose();
     }
-  }, [state.UsersList?.addtionalDetailsSuccessCode]);
+  }, [state.UsersList?.updateJobDetailsSuccessCode]);
 
   return (
     <div className="fixed inset-0 z-50">
@@ -193,7 +298,9 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
 
       <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
         <div className="flex items-center justify-between px-4 py-3 border-b">
-          <h3 className="text-lg font-semibold">Add Job Details</h3>
+          <h3 className="text-lg font-semibold">
+            {editMode ? "Edit Job Details" : "Add Job Details"}
+          </h3>
 
           <CloseCircle
             size="24"
@@ -211,7 +318,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               <Select
                 options={jobOptions}
                 value={employmentStatus}
-                onChange={setEmploymentStatus}
+                onChange={handleEmploymentStatusChange}
                 placeholder="Employment Status"
                 styles={CustomStyles}
               />
@@ -223,7 +330,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               </label>
               <input
                 value={organizationName}
-                onChange={(e) => setOrganizationName(e.target.value)}
+                onChange={handleOrganizationNameChange}
                 className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
                 placeholder="Company / College"
               />
@@ -236,7 +343,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               <Select
                 options={jobRoleOptions}
                 value={jobRole}
-                onChange={setJobRole}
+                onChange={handleJobRoleChange}
                 placeholder="Job Role"
                 styles={CustomStyles}
               />
@@ -248,7 +355,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               </label>
               <input
                 value={workLocation}
-                onChange={(e) => setWorkLocation(e.target.value)}
+                onChange={handleWorkLocationChange}
                 className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
                 placeholder="Work Location"
               />
@@ -261,7 +368,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               <Select
                 options={shiftTypeOptions}
                 value={shiftType}
-                onChange={setShiftType}
+                onChange={handleShiftTypeChange}
                 placeholder="Shift Type"
                 styles={CustomStyles}
               />
@@ -274,7 +381,7 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               <input
                 type="time"
                 value={fromTime}
-                onChange={(e) => setFromTime(e.target.value)}
+                onChange={handleFromTimeChange}
                 className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
               />
             </div>
@@ -286,12 +393,13 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
               <input
                 type="time"
                 value={toTime}
-                onChange={(e) => setToTime(e.target.value)}
+                onChange={handleToTimeChange}
                 className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
               />
             </div>
           </div>
         </div>
+        {noChanges && <ErrorMessage message={noChanges} type="error" />}
         <div className="flex justify-end gap-3 border-t px-6 py-4">
           <button onClick={handleClose} className="px-5 py-2 border rounded-lg">
             Cancel
@@ -299,9 +407,22 @@ function AddAndUpdateJobDetails({ show, handleClose }) {
 
           <button
             onClick={handleSave}
-            className="px-5 py-2 bg-[#1E45E1] text-white rounded-lg"
+            disabled={saveLoading}
+            className={`px-5 py-2 rounded-lg text-white flex items-center justify-center gap-2 min-w-[100px]
+    ${
+      saveLoading
+        ? "bg-[#1E45E1]/70 cursor-not-allowed"
+        : "bg-[#1E45E1] hover:bg-[#1739b8]"
+    }`}
           >
-            Save
+            {saveLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>
