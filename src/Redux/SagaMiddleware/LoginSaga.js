@@ -94,7 +94,7 @@ function* handleLoginV2(args) {
     if (error) {
       yield put({
         type: "INVALID_CREDENTIALS",
-        payload: error?.response?.data || "Invalid email or password",
+        payload: "Invalid email or password",
       });
     }
   }
