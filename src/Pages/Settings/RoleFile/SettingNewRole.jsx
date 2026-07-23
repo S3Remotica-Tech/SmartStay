@@ -177,6 +177,7 @@ function SettingNewRole() {
     setShowRole(true);
     setAddRole(false);
     setEditRoleDetails(view);
+    setShowDots(false);
   };
 
   const [page, setPage] = useState(1);

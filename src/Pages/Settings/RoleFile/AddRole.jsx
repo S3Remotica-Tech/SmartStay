@@ -364,7 +364,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
             className="cursor-pointer"
           />
         </div>
-        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[600px]">
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[600px] ">
           <div className="w-full">
             <div className="mb-2">
               <label className="block text-[#222222] font-gilroy font-medium text-[14px] mb-1">
@@ -433,11 +433,6 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
           </div>
         </div>
 
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 border-4 border-t-[#1E45E1] border-r-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
         {errorIsChanged && (
           <div className="flex justify-center" style={{ textAlign: "center" }}>
             <ErrorMessage message={errorIsChanged} type="error" />
@@ -454,9 +449,18 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
           <Button
             disabled={formLoading}
             onClick={handleSubmit}
-            className=" !cursor-pointer !bg-[#1E45E1] !font-semibold !py-3 !rounded-lg !text-[16px] !font-gilroy"
+            className="!bg-[#1E45E1] !font-semibold !py-3 !rounded-lg !text-[16px] !font-gilroy !flex !items-center !justify-center gap-2 disabled:!opacity-70 disabled:!cursor-not-allowed"
           >
-            {editRoleDetails ? "Save Changes" : "Create Role"}
+            {formLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></div>
+                <span>{editRoleDetails ? "Saving..." : "Creating..."}</span>
+              </>
+            ) : editRoleDetails ? (
+              "Save Changes"
+            ) : (
+              "Create Role"
+            )}
           </Button>
         </div>
       </div>
