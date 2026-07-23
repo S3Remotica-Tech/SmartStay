@@ -387,13 +387,13 @@ function Reports() {
 
   useEffect(() => {
     return () => {
-      dispatch({
-        type: "GET_REEPORTS_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {},
-        },
-      });
+      // dispatch({
+      //   type: "GET_REEPORTS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters: {},
+      //   },
+      // });
     };
   }, []);
 

@@ -518,13 +518,13 @@ function InvoiceRegister() {
         page,
       };
 
-      dispatch({
-        type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters,
-        },
-      });
+      // dispatch({
+      //   type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters,
+      //   },
+      // });
     };
   }, []);
 
