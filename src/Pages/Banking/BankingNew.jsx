@@ -146,8 +146,12 @@ function BankingNew() {
   const [defaltType, setDefaultType] = useState("");
   const [selectedAccountType, setSelectedAccountType] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [showBankInfo, setShowBankInfo] = useState(null);
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
+  const popupRef2 = useRef(null);
+  const iconRef = useRef(null);
+  const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
@@ -188,6 +192,22 @@ function BankingNew() {
   const selectOptions = [{ value: "ALL", label: "All" }];
   const [statusfilter, setStatusFilter] = useState("ALL");
   const [selectedMonth, setSelectedMonth] = useState("");
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        popupRef2.current &&
+        !popupRef2.current.contains(e.target) &&
+        !iconRef.current?.contains(e.target)
+      ) {
+        setShowBankInfo(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected?.value || "");
@@ -1001,8 +1021,94 @@ function BankingNew() {
                                   Balance
                                 </span>
                               </div>
-                              <div>
-                                <BsExclamationCircle className="text-[#64748B] cursor-pointer" />{" "}
+                              <div className="relative">
+                                <BsExclamationCircle
+                                  ref={iconRef}
+                                  className="text-[#64748B] cursor-pointer"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    const rect =
+                                      e.currentTarget.getBoundingClientRect();
+
+                                    setPopupPos({
+                                      top: rect.bottom + window.scrollY + 20,
+                                      left: rect.right + window.scrollX - 280,
+                                    });
+
+                                    setShowBankInfo(
+                                      showBankInfo === item.bankId
+                                        ? null
+                                        : item.bankId,
+                                    );
+                                  }}
+                                />
+
+                                {showBankInfo === item.bankId && (
+                                  <div
+                                    onClick={(e) => e.stopPropagation()}
+                                    ref={popupRef2}
+                                    className="fixed z-[9999] w-72 rounded-xl bg-white border border-gray-200 shadow-xl p-3"
+                                    style={{
+                                      top: popupPos.top,
+                                      left: popupPos.left,
+                                    }}
+                                  >
+                                    <div className="space-y-3 text-sm">
+                                      <div className="flex">
+                                        <span className="w-28 text-gray-500">
+                                          Bank Name
+                                        </span>
+                                        <span className="mr-2">:</span>
+                                        <span className="font-semibold text-[#222]">
+                                          {item.bankName || "-"}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex">
+                                        <span className="w-28 text-gray-500">
+                                          Beneficiary
+                                        </span>
+                                        <span className="mr-2">:</span>
+                                        <span className="font-semibold text-[#222]">
+                                          {item.accountHolderName || "-"}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex">
+                                        <span className="w-28 text-gray-500">
+                                          Account No
+                                        </span>
+                                        <span className="mr-2">:</span>
+                                        <span className="font-semibold text-[#222] whitespace-wrap">
+                                          {item.accountNumber || "-"}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex">
+                                        <span className="w-28 text-gray-500">
+                                          IFSC Code
+                                        </span>
+                                        <span className="mr-2">:</span>
+                                        <span className="font-semibold text-[#222]">
+                                          {item.ifscCode || "-"}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex items-start">
+                                        <span className="w-28 shrink-0 text-gray-500">
+                                          Description
+                                        </span>
+
+                                        <span className=" shrink-0">:</span>
+
+                                        <span className="flex-1 font-semibold text-[#222] break-words whitespace-pre-wrap">
+                                          {item.description || "-"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                             {/* <div className="flex justify-end my-1">
@@ -1105,7 +1211,7 @@ function BankingNew() {
                   All Transactions
                 </label>
               </div>
-              <div className=" m-2">
+              <div className=" my-2">
                 <div className="flex justify-between items-center gap-2 ">
                   <div className="flex flex-wrap items-center gap-3">
                     <div

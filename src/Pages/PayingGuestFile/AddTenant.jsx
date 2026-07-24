@@ -457,7 +457,7 @@ function AddTenant({
   };
 
   const handleFirstName = (e) => {
-    setNewTenant(true);
+    // setNewTenant(true);
     const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
