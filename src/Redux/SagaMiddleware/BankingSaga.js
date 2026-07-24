@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  ParticularBankingOverview,
   AddBanking,
   AddPaymentMethod,
   v3GetBanking,
@@ -37,6 +38,28 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleParticularBankingOverview(action) {
+  try {
+    const response = yield call(ParticularBankingOverview, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "PARTICULAR_BANKING_OVERVIEW_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -658,6 +681,10 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery(
+    "PARTICULAR_BANKING_OVERVIEW_SAGA",
+    handleParticularBankingOverview,
+  );
   yield takeEvery("ADD_PAYMENT_METHOD_SAGA", handleAddPaymentMethod);
   yield takeEvery("ADD_BANKING_SAGA", handleAddBankingNew);
   yield takeEvery("ADD_BANKING", handleAddBanking);
