@@ -548,14 +548,11 @@ function TenantsRegister() {
     });
   };
 
-  const currentPage =
-    state?.reports?.getTenantRegister?.pagination?.currentPage ?? 1;
+  const currentPage = state?.reports?.getTenantRegister?.currentPage ?? 1;
 
-  const totalPages =
-    state?.reports?.getTenantRegister?.pagination?.totalPages ?? 1;
+  const totalPages = state?.reports?.getTenantRegister?.totalPages ?? 1;
 
-  const totalRecords =
-    state?.reports?.getTenantRegister?.pagination?.totalRecords ?? 0;
+  const totalRecords = state?.reports?.getTenantRegister?.totalRecords ?? 0;
 
   const handlePageChange = (page) => {
     setPage(page);

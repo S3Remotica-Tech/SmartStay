@@ -14,13 +14,13 @@ function AllPlans() {
 
   const [formLoading, setFormLoading] = useState(false);
   const [paymentLoading, setPaymentLoading] = useState(false);
-
+  // if (message.body === "failed")
   const onMessageReceived = (message) => {
-    // console.log("Payment update:", message);
+    console.log("Payment update:", message);
     if (message.body === "success") {
       setPaymentLoading(false);
       window.location.reload();
-    } else if (message.body === "failed") {
+    } else {
       setPaymentLoading(false);
     }
   };

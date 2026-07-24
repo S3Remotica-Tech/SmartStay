@@ -1182,9 +1182,8 @@ function AddExpenseNew() {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
 
-              <div className="relative">
+              <div className="relative" ref={purchaseDateRef}>
                 <DatePicker
-                  ref={purchaseDateRef}
                   selected={purchaseDate}
                   onChange={(date) => {
                     setPurchaseDate(date);

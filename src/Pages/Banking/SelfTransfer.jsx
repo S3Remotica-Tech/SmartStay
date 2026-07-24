@@ -5,14 +5,14 @@ import { Bank, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
-  // console.log("selfDetailsselfDetails", selfDetails);
+  console.log("selfDetailsselfDetails", selfDetails);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedBank, setSelectedBank] = useState("");
-
+  // const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
     setError("");
@@ -46,7 +46,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
       type: "SELF_TRANSER_SAGA",
       payload: {
         hostelId: state.login?.selectedHostel_Id,
-        fromBankId: bankDetails?.fromBank?.bankingId,
+        fromBankId: bankDetails?.fromBank?.bankId,
         toBankId: selectedBank,
         balance: Number(amount),
       },
@@ -65,12 +65,12 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
   }, []);
 
   useEffect(() => {
-    if (selfDetails?.bankingId) {
+    if (selfDetails?.bankId) {
       dispatch({
         type: "SELF_TRANSER_INITIALIZE_SAGA",
         payload: {
           hostelId: state.login?.selectedHostel_Id,
-          bankId: selfDetails?.bankingId,
+          bankId: selfDetails?.bankId,
         },
       });
     }
@@ -91,7 +91,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  console.log("state", state.bankingDetails?.selfTransferInitialize);
+  // console.log("state", state.bankingDetails?.selfTransferInitialize);
 
   const bankDetails = state.bankingDetails?.selfTransferInitialize;
 
@@ -126,35 +126,37 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
               From
             </h6>
 
-            <div className="flex items-center gap-2 p-3 border-b border-[#ccc]">
-              <div>
-                <Bank color="#1E45E1" size="20" />
-              </div>
-
-              <div className="w-full flex justify-between items-center">
-                <div className="h-fit">
-                  {bankDetails?.fromBank?.bankName && (
-                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                      {bankDetails?.fromBank?.bankName}
-                    </div>
-                  )}
-
-                  <div className="text-xs text-gray-500 font-gilroy">
-                    {bankDetails?.fromBank?.accountType || ""}
-                  </div>
+            <div className="flex items-center justify-between gap-3 p-2 border-b border-[#ccc]">
+              <div className="flex items-center gap-2 flex-1">
+                <div className="rounded-full bg-[#E8EDFF] p-3">
+                  <Bank color="#1E45E1" size="14" />
                 </div>
 
-                <div className="text-right font-gilroy">
-                  <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                    {bankDetails?.fromBank?.accountHolderName}
+                <div className="w-full flex justify-between items-center">
+                  <div>
+                    {bankDetails?.fromBank?.bankName && (
+                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                        {bankDetails?.fromBank?.bankName}
+                      </div>
+                    )}
+
+                    <div className="text-xs text-gray-500 font-gilroy">
+                      {bankDetails?.fromBank?.accountType || ""}
+                    </div>
                   </div>
 
-                  <div className="text-xs font-normal font-gilroy mb-0.5">
-                    {bankDetails?.fromBank?.accountNumber || "-"}
-                  </div>
+                  <div className="text-right font-gilroy">
+                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                      {bankDetails?.fromBank?.accountHolderName}
+                    </div>
 
-                  <div className="text-xs font-semibold text-[#1E45E1]">
-                    Avl Bal : ₹ {bankDetails?.fromBank?.accountBalance || 0}
+                    <div className="text-xs font-normal mb-0.5">
+                      {bankDetails?.fromBank?.accountNumber || "-"}
+                    </div>
+
+                    <div className="text-xs font-semibold text-[#1E45E1]">
+                      Avl Bal : ₹ {bankDetails?.fromBank?.accountBalance || 0}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -168,11 +170,11 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
 
             {bankDetails?.toBanks?.map((bank) => (
               <div
-                key={bank.bankingId}
-                onClick={() => handleSelect(bank.bankingId)}
+                key={bank.bankId}
+                onClick={() => handleSelect(bank.bankId)}
                 className={`flex items-center gap-2 mb-3 p-3 rounded-lg transition-all duration-200 cursor-pointer
       ${
-        selectedBank === bank.bankingId
+        selectedBank === bank.bankId
           ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
           : "bg-[#F7FAFF] border-1  border-transparent"
       }`}
@@ -208,6 +210,15 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
                     )}
                   </div>
                 </div>
+                <input
+                  type="radio"
+                  name="selectedBank"
+                  className="w-5 h-5 accent-[#1E45E1] cursor-pointer"
+                  checked={selectedBank === bankDetails?.fromBank?.bankId}
+                  onChange={() =>
+                    setSelectedBank(bankDetails?.fromBank?.bankId)
+                  }
+                />
               </div>
             ))}
           </div>

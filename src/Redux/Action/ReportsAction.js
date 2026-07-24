@@ -1,26 +1,19 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 import qs from "qs";
 
-
-
-
 export async function getReportsDetails(hostelId, filters = {}) {
   return AxiosConfigV2.get(`/v2/reports/${hostelId}`, {
     params: {
       startDate: filters.startDate,
       endDate: filters.endDate,
-
     },
-    paramsSerializer: params =>
+    paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
 
-
-
-
 export async function getInvoiceRegister(hostelId, filters = {}) {
-    return AxiosConfigV2.get(`/v2/reports/invoice/${hostelId}`, {
+  return AxiosConfigV2.get(`/v2/reports/invoice/${hostelId}`, {
     params: {
       startDate: filters.startDate,
       endDate: filters.endDate,
@@ -37,16 +30,10 @@ export async function getInvoiceRegister(hostelId, filters = {}) {
       page: filters?.page,
       size: filters?.size,
     },
-    paramsSerializer: params =>
+    paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
-
-
-
-
-
-
 
 export async function getExpenseRegister(hostelId, filters = {}) {
   return AxiosConfigV2.get(`/v2/reports/expense/${hostelId}`, {
@@ -55,22 +42,19 @@ export async function getExpenseRegister(hostelId, filters = {}) {
       endDate: filters.endDate,
       period: filters?.period,
       categoryId: filters?.category,
+      subCategoryId: filters?.subCategory,
       paymentMode: filters?.paymentMode,
       createdBy: filters?.createdBy,
       paidTo: filters?.paidTo,
       page: filters?.page,
       size: filters?.size,
     },
-    paramsSerializer: params =>
+    paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
 
-
-
-
 export async function getReceiptRegister(hostelId, filters = {}) {
-
   return AxiosConfigV2.get(`/v2/reports/transaction/${hostelId}`, {
     params: {
       startDate: filters.startDate,
@@ -82,15 +66,13 @@ export async function getReceiptRegister(hostelId, filters = {}) {
       // period: filters?.period,
       page: filters.page,
       size: filters.size,
-
     },
-    paramsSerializer: params =>
+    paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
 
 export async function getTenantRegister(hostelId, filters = {}) {
-
   return AxiosConfigV2.get(`/v2/reports/tenants/${hostelId}`, {
     params: {
       startDate: filters.startDate,
@@ -102,30 +84,22 @@ export async function getTenantRegister(hostelId, filters = {}) {
       floor: filters?.floor,
       room: filters?.room,
       search: filters?.search,
-sharingType: filters?.sharingType,
-
-
-
+      sharingType: filters?.sharingType,
     },
-    paramsSerializer: params =>
+    paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
 }
 
-
 export async function ReportsTenantRegisterPDF(tenant) {
-  return await AxiosConfigV2.get(
-    `/v2/reports/download/${tenant.hostelId}`,
-    {
-      params: {
-        startDate: tenant.startDate,
-        endDate: tenant.endDate,
-        period: tenant.period
-      },
-              }
-  );
+  return await AxiosConfigV2.get(`/v2/reports/download/${tenant.hostelId}`, {
+    params: {
+      startDate: tenant.startDate,
+      endDate: tenant.endDate,
+      period: tenant.period,
+    },
+  });
 }
-
 
 export async function ReportsReceiptsPDF(receipt) {
   return await AxiosConfigV2.get(
@@ -134,12 +108,11 @@ export async function ReportsReceiptsPDF(receipt) {
       params: {
         startDate: receipt.startDate,
         endDate: receipt.endDate,
-        period: receipt.period
+        period: receipt.period,
       },
-              }
+    },
   );
 }
-
 
 export async function ReportsInvoicePDF(invoice) {
   return await AxiosConfigV2.get(
@@ -148,9 +121,9 @@ export async function ReportsInvoicePDF(invoice) {
       params: {
         startDate: invoice.startDate,
         endDate: invoice.endDate,
-        period: invoice.period
+        period: invoice.period,
       },
-              }
+    },
   );
 }
 
@@ -161,8 +134,8 @@ export async function ReportsExpensePDF(invoice) {
       params: {
         startDate: invoice.startDate,
         endDate: invoice.endDate,
-        period: invoice.period
+        period: invoice.period,
       },
-              }
+    },
   );
 }

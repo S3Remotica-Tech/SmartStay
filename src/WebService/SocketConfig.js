@@ -14,7 +14,7 @@ export const Connect = (onMessageReceived, paymentId) => {
       // console.log(`/payments/${paymentId}`);
 
       stompClient.subscribe(`/payments/${paymentId}`, (message) => {
-        // console.log("Received:", message);
+        console.log("Received", message);
         onMessageReceived(message);
       });
     });

@@ -127,8 +127,7 @@ function Sidebar() {
   const dispatch = useDispatch();
   const location = useLocation();
   const state = useSelector((state) => state);
-
-  const stateData = useSelector((state) => state.createAccount);
+    const stateData = useSelector((state) => state.createAccount);
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
@@ -176,6 +175,7 @@ function Sidebar() {
     "/banking/new/:hostelId": "banking-new",
     "/settings/:hostelId": "settingNewDesign",
   };
+
 
   useEffect(() => {
     const path = location.pathname;

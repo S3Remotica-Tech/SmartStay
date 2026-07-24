@@ -10,7 +10,106 @@ import { IoCloseOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+const selectStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "45px",
+    height: "30px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
 
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -20,95 +119,12 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
   // const [paidTo, setPaidTo] = useState([]);
   const [createdBy, setCreatedBy] = useState([]);
   const [category, setCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
   const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState(
     [],
   );
   const [selectedCategory, setSelectedCategory] = useState([]);
-
-  const selectStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
-
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
-
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: "#000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    clearIndicator: () => ({
-      display: "none",
-    }),
-  };
+  const [selectedSubCategory, setSelectedSubCategory] = useState([]);
 
   const filterOptionsData = useSelector(
     (state) => state.reports?.getExpenseRegister?.filtersData,
@@ -118,6 +134,11 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
     filterOptionsData?.category?.map((item) => ({
       label: item.categoryName,
       value: item.categoryId,
+    })) || [];
+  const subCategoryOptions =
+    filterOptionsData?.subCategory?.map((item) => ({
+      label: item.subCategoryName,
+      value: item.subCategoryId,
     })) || [];
 
   const paymentModeOptions =
@@ -213,6 +234,15 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
     category?.includes(opt.value),
   );
 
+  const handleSubCategoryChange = (selected) => {
+    setSubCategory(selected.map((opt) => opt.value));
+    setSelectedSubCategory(selected.map((opt) => opt.label));
+  };
+
+  const selectedSubCategoryOptions = subCategoryOptions?.filter((opt) =>
+    subCategory?.includes(opt.value),
+  );
+
   const selectedPaymentModeOptions = paymentModeOptions?.filter((opt) =>
     paymentMode?.includes(opt.value),
   );
@@ -230,6 +260,10 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
     const expnseFilter = {
       category: category?.length ? category : undefined,
       categoryLabel: selectedCategory?.length ? selectedCategory : undefined,
+      subCategory: subCategory?.length ? subCategory : undefined,
+      subCategoryLabel: selectedSubCategory?.length
+        ? selectedSubCategory
+        : undefined,
       paymentMode: paymentMode?.length ? paymentMode : undefined,
 
       createdBy: createdBy?.length ? createdBy : undefined,
@@ -367,7 +401,25 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 onChange={handleCategoryChange}
                 styles={selectStyles}
                 components={{ Option: CheckboxOption }}
-                placeholder="Select"
+                placeholder="Select Category"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                Sub Category
+              </Form.Label>
+
+              <Select
+                isMulti
+                closeMenuOnSelect={false}
+                hideSelectedOptions={false}
+                options={subCategoryOptions}
+                value={selectedSubCategoryOptions}
+                onChange={handleSubCategoryChange}
+                styles={selectStyles}
+                components={{ Option: CheckboxOption }}
+                placeholder="Select Sub Category"
               />
             </Form.Group>
 
@@ -380,7 +432,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 value={selectedPeriodOption}
                 onChange={handlePeriodChange}
                 options={periodOptions}
-                placeholder="Select"
+                placeholder="Select Period "
               />
             </Form.Group>
 
@@ -401,24 +453,6 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
                 placeholder="Select Payment Mode"
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-3">
-                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Paid To
-                            </Form.Label>
-                            <Select isDisabled
-                                styles={selectStyles}
-                                isMulti
-                                closeMenuOnSelect={false}
-                                hideSelectedOptions={false}
-                                value={selectedPaidToOption}
-                                onChange={handlePaidChange}
-                                options={paidToOptions}
-                                components={{ Option: CheckboxOption }}
-                                placeholder="Select"
-                            />
-
-                        </Form.Group> */}
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>

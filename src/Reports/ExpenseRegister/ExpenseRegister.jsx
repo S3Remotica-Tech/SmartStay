@@ -88,6 +88,8 @@ function ExpenseRegister() {
         createdBy: [],
         createdByLabels: [],
         categoryLabel: [],
+        subCategory: [],
+        subCategoryLabel: [],
       },
     });
     dispatch({
@@ -178,6 +180,8 @@ function ExpenseRegister() {
         createdBy: [],
         createdByLabels: [],
         categoryLabel: [],
+        subCategory: [],
+        subCategoryLabel: [],
       },
     });
   };
@@ -240,6 +244,8 @@ function ExpenseRegister() {
           createdBy: [],
           createdByLabels: [],
           categoryLabel: [],
+          subCategory: [],
+          subCategoryLabel: [],
         },
       });
       dispatch({
@@ -290,6 +296,8 @@ function ExpenseRegister() {
           createdBy: [],
           createdByLabels: [],
           categoryLabel: [],
+          subCategory: [],
+          subCategoryLabel: [],
         },
       });
 
@@ -324,6 +332,7 @@ function ExpenseRegister() {
       size: size,
       page: page,
       category: expenseFilters?.category,
+      subCategory: expenseFilters?.subCategory,
       paymentMode: expenseFilters?.paymentMode,
       createdBy: expenseFilters?.createdBy,
       period: expenseFilters?.period,
@@ -382,18 +391,17 @@ function ExpenseRegister() {
         createdBy: [],
         createdByLabels: [],
         categoryLabel: [],
+        subCategory: [],
+        subCategoryLabel: [],
       },
     });
   };
 
-  const currentPage =
-    state?.reports?.getExpenseRegister?.pagination?.currentPage ?? 1;
+  const currentPage = state?.reports?.getExpenseRegister?.currentPage ?? 1;
 
-  const totalPages =
-    state?.reports?.getExpenseRegister?.pagination?.totalPages ?? 1;
+  const totalPages = state?.reports?.getExpenseRegister?.totalPages ?? 1;
 
-  const totalRecords =
-    state?.reports?.getExpenseRegister?.pagination?.totalRecords ?? 0;
+  const totalRecords = state?.reports?.getExpenseRegister?.totalRecords ?? 0;
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -429,6 +437,15 @@ function ExpenseRegister() {
         label: "Category  is",
         type: "category",
         value: invoiceFilters.categoryLabel.join(", "),
+      });
+    }
+
+    if (invoiceFilters?.subCategoryLabel?.length) {
+      filterData.push({
+        key: "SubCategory",
+        label: "SubCategory  is",
+        type: "subCategoryLabel",
+        value: invoiceFilters.subCategoryLabel.join(", "),
       });
     }
 
