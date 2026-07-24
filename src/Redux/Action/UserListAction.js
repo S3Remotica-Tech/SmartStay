@@ -1093,3 +1093,21 @@ export async function deleteGloblTemplatesImages({
     { data: { type } },
   );
 }
+
+export async function CustomerListGet({ hostelId, purpose }) {
+  return await AxiosConfigV2.get(`/v2/customers/get/${hostelId}`, {
+    params: {
+      purpose: purpose,
+    },
+  });
+} 
+
+export async function CustomerAdd(retainer) {
+  return await AxiosConfigV2.post(
+    `/v2/retainer/${retainer.hostelId}/${retainer.customerId}`,
+    retainer,
+    {
+      data: retainer,
+    },
+  );
+}
