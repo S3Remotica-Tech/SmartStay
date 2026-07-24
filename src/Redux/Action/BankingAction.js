@@ -21,6 +21,10 @@ export async function AddBanking(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
 }
 
+export async function AddPaymentMethod(datum) {
+  return await AxiosConfigV2.post(`/v3/${datum.hostelId}`, datum);
+}
+
 export async function EditBankingDetails(hostelId, bankId, datum) {
   return await AxiosConfigV2.put(`/v2/bank/${hostelId}/${bankId}`, datum, {
     headers: {
