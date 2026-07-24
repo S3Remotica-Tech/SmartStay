@@ -86,6 +86,8 @@ import {
   draftTenantSearch,
   settlePaymentExpense,
   BookingToCheckInV3,
+  CustomerListGet,
+  CustomerAdd,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -3826,6 +3828,81 @@ function* handleCheckoutProfile(action) {
   }
 }
 
+
+function* handleCustomerListGet(user) {
+  try {
+    const response = yield call(CustomerListGet, user.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "CUSTOMER_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+  }
+}
+
+function* handleCustomerAdd(reading) {
+  try {
+    const response = yield call(CustomerAdd, reading.payload);
+
+    if (response?.status === 201 || response?.status === 200) {
+      yield put({
+        type: "CUSTOMER_ADD",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      yield put({
+        type: "CUSTOMER_ADD_ERROR",
+        payload: error.response.data,
+      });
+    }
+  }
+}
+
 function* UserListSaga() {
   yield takeEvery("JOB_UPDATE_SAGA", handleUpdateJobDetails);
 
@@ -3944,5 +4021,7 @@ function* UserListSaga() {
   yield takeEvery("CHECKOUTPROFILEDETAILS", handleCheckoutProfile);
   yield takeEvery("FINALSETTLEMENT", handleGenerateDetails);
   yield takeEvery("CONFIRMCHECKOUT", handleConformCheckout);
+  yield takeEvery("CUSTOMER_LIST_SAGA", handleCustomerListGet);
+  yield takeEvery("CUSTOMER_LIST_ADD", handleCustomerAdd);
 }
 export default UserListSaga;

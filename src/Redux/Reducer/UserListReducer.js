@@ -206,6 +206,9 @@ export const initialState = {
   kycReminderError: "",
   bookingToCheckinSuccessCode: 0,
   bookToCheckinError: "",
+  customerAddStatusCode: 0,
+  CustomerListGetSuccessCode: 0,
+  CustomerList: [],
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -1230,6 +1233,38 @@ const UserListReducer = (state = initialState, action) => {
 
     case "REMOVE_FINAL_GENERATE_ERROR":
       return { ...state, finalError: "" };
+
+    case "CUSTOMER_LIST_REDUCER":
+      return {
+        ...state,
+        CustomerListGetSuccessCode: action.payload.statusCode,
+        CustomerList: action.payload.response,
+      };
+    case "REMOVE_CUSTOMER_LIST_REDUCER":
+      return {
+        ...state,
+        CustomerListGetSuccessCode: 0,
+      };
+
+    case "CUSTOMER_ADD":
+      return {
+        ...state,
+        customerAddStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_CUSTOMER_ADD":
+      return { ...state, customerAddStatusCode: 0 };
+
+    case "CUSTOMER_ADD_ERROR":
+      return {
+        ...state,
+        customerAddError: action.payload,
+      };
+
+    case "REMOVE_CUSTOMER_ADD_ERROR":
+      return {
+        ...state,
+        customerAddError: "",
+      };
 
     default:
       return state;
