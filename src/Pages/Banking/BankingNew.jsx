@@ -8,7 +8,14 @@ import BankingAddForm from "../Banking/BankingAddForm";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
-import { ArrowDown2, Bank, Edit, Location, Trash } from "iconsax-react";
+import {
+  ArrowDown2,
+  Bank,
+  Edit,
+  Location,
+  MoneyRecive,
+  Trash,
+} from "iconsax-react";
 import money from "../../Assets/Images/New_images/Amount.png";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -697,6 +704,7 @@ function BankingNew() {
   const handleInvestment = () => {
     setShowTransactionMenu(false);
     seShowInvestmentForm(true);
+    setOpenMenuId(null);
   };
 
   const handleCloseInvestment = () => {
@@ -839,13 +847,6 @@ function BankingNew() {
                     >
                       Credit Card Payment
                     </button>
-
-                    <button
-                      onClick={() => handleInvestment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                    >
-                      Investment
-                    </button>
                   </div>
                 )}
               </div>
@@ -965,7 +966,38 @@ function BankingNew() {
                                   </button>
 
                                   <div className="h-px bg-gray-200" />
-
+                                  <button
+                                    disabled={!canWriteBanking}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleInvestment();
+                                    }}
+                                    className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+    ${
+      canWriteBanking
+        ? "hover:bg-red-50 cursor-pointer"
+        : "cursor-not-allowed opacity-50"
+    }`}
+                                  >
+                                    <MoneyRecive
+                                      size={16}
+                                      className={
+                                        canWriteBanking
+                                          ? "text-[#1E45E1]"
+                                          : "text-gray-400"
+                                      }
+                                    />
+                                    <span
+                                      className={`text-sm font-semibold font-gilroy ${
+                                        canWriteBanking
+                                          ? "text-black"
+                                          : "text-gray-400"
+                                      }`}
+                                    >
+                                      Investment
+                                    </span>
+                                  </button>
+                                  <div className="h-px bg-gray-200" />
                                   <button
                                     disabled={
                                       !(canUpdateBanking && !item.isDeleted)

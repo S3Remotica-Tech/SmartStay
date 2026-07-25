@@ -14,6 +14,108 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    width: "100%",
+    minWidth: "100%",
+    minHeight: "45px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "100%",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
 function AddPg({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -511,71 +613,6 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-  // useEffect(() => {
-  //   setHostel_Id(state.login.selectedHostel_Id);
-  // }, [state?.login?.selectedHostel_Id]);
-
-  // useEffect(() => {
-  //   if (particularEditDetails) {
-  //     const initialData = {
-  //       pgName: particularEditDetails.name || "",
-  //       mobile: particularEditDetails.mobile,
-  //       countryCode: countryCode,
-  //       email:
-  //         particularEditDetails.emailId &&
-  //         particularEditDetails.emailId !== "undefined"
-  //           ? particularEditDetails.emailId
-  //           : "",
-  //       house_no: particularEditDetails.houseNo || "",
-  //       street: particularEditDetails.street || "",
-  //       city: particularEditDetails.city || "",
-  //       pincode: particularEditDetails.pincode || "",
-  //       landmark: particularEditDetails.landmark || "",
-  //       state: particularEditDetails.state || "",
-  //       file: particularEditDetails.mainImage
-  //         ? particularEditDetails.mainImage
-  //         : null,
-  //     };
-
-  //     setPgName(initialData.pgName);
-  //     setMobile(initialData.mobile);
-  //     setEmail(initialData.email);
-  //     setFile(initialData.file);
-  //     setCountryCode(initialData.countryCode);
-  //     setHouseNo(initialData.house_no);
-  //     setStreet(initialData.street);
-  //     setLandmark(initialData.landmark);
-  //     setPincode(initialData.pincode);
-  //     setCity(initialData.city);
-  //     setStateName(initialData.state);
-
-  //     const formattedImages = particularEditDetails?.images?.map((img) => ({
-  //       id: img.id,
-  //       name:
-  //         img.image !== "0" && typeof img.image === "string" ? img.name : "",
-  //       image:
-  //         img.image !== "0" && typeof img.image === "string" ? img.image : null,
-  //     }));
-
-  //     const maxSlots = 4;
-
-  //     const finalImages = Array(maxSlots)
-  //       .fill(null)
-  //       .map((_, i) => ({
-  //         image: formattedImages[i]?.image || null,
-  //         isChanged: false,
-  //         id: formattedImages[i]?.id || null,
-  //       }));
-
-  //     setImages(finalImages);
-
-  //     setInitialState({
-  //       ...initialData,
-  //       imageUrls: formattedImages,
-  //     });
-  //   }
-  // }, [particularEditDetails]);
-
   useEffect(() => {
     if (!particularEditDetails) return;
 
@@ -735,22 +772,25 @@ function AddPg({ show, handleClose, currentItem }) {
   }, [state.createAccount?.networkError]);
 
   return (
-    <div className="modal show block static">
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <Modal.Header>
-          <Modal.Title className="!text-gray-900 !font-semibold !text-lg !font-gilroy">
+    <div className="fixed inset-0 z-[9999]">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className=" px-4 py-3 shrink-0 border-b flex items-center justify-between gap-2 mb-2">
+          <div className="!text-gray-900 !font-semibold !text-lg !font-gilroy">
             {currentItem ? "Edit Paying Guest" : "Add Paying Guest"}
-          </Modal.Title>
+          </div>
           <CloseCircle
             size="24"
             color="#000"
             onClick={handleClose}
             className="cursor-pointer"
           />
-        </Modal.Header>
+        </div>
+
         {generalError && <ErrorMessage message={generalError} type="error" />}
 
-        <Modal.Body className="show-scroll mt-1 mr-3 max-h-96 overflow-y-scroll">
+        <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px] relative">
           <div className="flex items-center">
             <div className="h-24 w-24 relative">
               <Image
@@ -1161,51 +1201,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   classNamePrefix="custom"
                   menuPlacement="auto"
                   noOptionsMessage={() => "No state available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: state_name ? "#4B4B4B" : "9AA0A6",
-                      fontFamily: "Gilroy",
-                      fontWeight: state_name ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#9AA0A6",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
+                  styles={CustomStyles}
                 />
                 {state_nameError && (
                   <ErrorMessage message={state_nameError} type="error" />
@@ -1305,15 +1301,9 @@ function AddPg({ show, handleClose, currentItem }) {
           {/* {
             state.createAccount?.networkError &&   <ErrorMessage message={state.createAccount?.networkError} type="error" />
           } */}
-        </Modal.Body>
+        </div>
 
-        {formLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 border-t-4 border-r-4 border-t-blue-700 border-r-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
-
-        <Modal.Footer className="flex items-center justify-center !border-t-0">
+        <div className="flex justify-end gap-4 p-4">
           {isChangedError && (
             <div
               ref={nochangeRef}
@@ -1323,15 +1313,26 @@ function AddPg({ show, handleClose, currentItem }) {
             </div>
           )}
 
-          <Button
+          <button
             disabled={formLoading}
             onClick={handleCreatePayingGuest}
-            className="w-100 !bg-[#1E45E1] !font-semibold !rounded-lg !text-base !font-gilroy h-12"
+            className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
           >
-            {currentItem ? "Save Changes" : "Add Paying Guest"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            {formLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Saving ....{" "}
+              </>
+            ) : currentItem ? (
+              "Save Changes"
+            ) : (
+              "Add Paying Guest"
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
