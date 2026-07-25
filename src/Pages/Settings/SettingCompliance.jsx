@@ -18,6 +18,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import { Messages3 } from "iconsax-react";
 function SettingCompliance() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -148,8 +149,8 @@ function SettingCompliance() {
       setShowDots(false);
     }
   };
-  const handleEdit = () => {
-    setShowEditForm(true);
+  const handleEdit = (rowDetails) => {
+    setShowForm(true);
     setShowDots(false);
     setId(rowDetails.complaintTypeId);
     setComplaintTypeName(rowDetails.complaintTypeName);
@@ -184,16 +185,40 @@ function SettingCompliance() {
       return;
     }
     setShowForm(true);
+    setId("");
+    setComplaintTypeName("");
+    setOriginalComplaintTypeName("");
     dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
   };
 
   const handleAddComplaintType = () => {
+    setIsChangedError("");
+    setComplaintError("");
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
     dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" });
 
     if (!complaintTypeName.trim()) {
       setComplaintError("Please Enter Complaint Type");
+      return;
+    }
+
+    if (id) {
+      if (complaintTypeName === originalComplaintTypeName) {
+        setIsChangedError("No Changes Detected");
+      } else {
+        dispatch({
+          type: "COMPLAINT-TYPE-EDIT",
+          payload: {
+            id,
+            complaintTypeName: complaintTypeName.trim(),
+            isActive: true,
+            hostelId: state.login.selectedHostel_Id,
+          },
+        });
+
+        setFormLoading(true);
+      }
     } else {
       dispatch({
         type: "COMPLAINT-TYPE-ADD",
@@ -203,38 +228,6 @@ function SettingCompliance() {
         },
       });
       setFormLoading(true);
-      setComplaintError("");
-    }
-  };
-
-  const handleEditType = () => {
-    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
-    dispatch({ type: "CLEAR_PLAN-EXPIRED" });
-
-    if (complaintTypeName === originalComplaintTypeName) {
-      setIsChangedError("No Changes Detected");
-    } else {
-      // dispatch({
-      //   type: "COMPLAINT-TYPE-EDIT",
-      //   payload: {
-      //     complaint_name: complaintTypeName,
-      //     hostel_id: state.login.selectedHostel_Id,
-      //     id: id,
-      //   },
-      // });
-
-      dispatch({
-        type: "COMPLAINT-TYPE-EDIT",
-        payload: {
-          id,
-          complaintTypeName: complaintTypeName.trim(),
-          isActive: true,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-
-      setFormLoading(true);
-      setIsChangedError("");
     }
   };
 
@@ -416,13 +409,7 @@ function SettingCompliance() {
       ) : (
         <div className=" mt-2">
           {complianceFilterddata && complianceFilterddata.length > 0 ? (
-            <div className="container show-scrolls relative max-h-[475px] overflow-y-auto">
-              {loading && (
-                <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
-                  <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
-                </div>
-              )}
-
+            <div className="container show-scrolls relative h-[500px] overflow-y-auto">
               <div className="flex flex-wrap -mx-2">
                 {complianceFilterddata.map((u, i) => (
                   <div
@@ -430,19 +417,24 @@ function SettingCompliance() {
                     className="w-full sm:w-1/2 md:w-full lg:w-1/3 px-2 mb-3"
                   >
                     <div
-                      className="flex items-center justify-between p-3 border rounded w-full"
+                      className="flex items-center justify-between p-3 border rounded w-full shrink-0"
                       style={{ height: "64px" }}
                     >
-                      <div className="flex items-center">
-                        <img
-                          src={message}
-                          width={24}
-                          height={24}
-                          alt="Role Icon"
-                        />
-                        <span className="ml-5 text-[16px] font-semibold font-gilroy text-[#222222]">
-                          {u.complaintTypeName}
-                        </span>
+                      <div className="flex items-center min-w-0">
+                        <Messages3 className="shrink-0" />
+                        <div className="relative group ml-5 min-w-0 flex-1">
+                          <span className="block max-w-[180px] truncate text-[16px] font-semibold font-gilroy text-[#222222] cursor-default">
+                            {u.complaintTypeName}
+                          </span>
+
+                          <div
+                            className="absolute left-0 top-full mt-2 hidden group-hover:block
+                 whitespace-nowrap rounded-md bg-blue-700  px-3 py-2 font-gilroy 
+                 text-sm text-white shadow-lg z-50"
+                          >
+                            {u.complaintTypeName}
+                          </div>
+                        </div>
                       </div>
 
                       <button
@@ -539,6 +531,11 @@ function SettingCompliance() {
                   </div>
                 ))}
               </div>
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center z-[1050] bg-transparent">
+                  <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent animate-spin"></div>
+                </div>
+              )}
             </div>
           ) : (
             !loading &&
@@ -548,147 +545,89 @@ function SettingCompliance() {
         </div>
       )}
 
-      <Modal
-        className="editform custom-modal"
-        show={showEditForm}
-        onHide={() => handleClose()}
-        backdrop="static"
-        centered
-      >
-        <Modal.Header className="relative flex items-center justify-between">
-          <div className="text-lg font-semibold font-gilroy">
-            Edit Complaint Type
-          </div>
-          <CloseCircle
-            size={24}
-            color="#000"
-            onClick={handleClose}
-            className="cursor-pointer"
-          />
-        </Modal.Header>
+      {showForm && (
+        <div className="fixed inset-0 z-[9999]">
+          <div className="absolute inset-0 bg-black/50" />
 
-        <Modal.Body className="pt-1 mb-2">
-          <div className="w-full">
-            <div className="w-full">
-              <div className="flex flex-col">
-                <label className="text-sm text-gray-900 font-gilroy font-medium mb-1">
-                  Complaint Type <span className="text-red-500 text-xl">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter Complaint Type"
-                  value={complaintTypeName}
-                  onChange={(e) => handleComplaintType(e)}
-                  className="mb-2 w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
-                />
+          <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
+            <div className=" px-4 py-3 shrink-0 border-b flex items-center justify-between gap-2 mb-2">
+              <div className="text-lg md:text-xl font-gilroy font-semibold">
+                {id ? "Edit  Complaint Type " : "Add Complaint Type"}
               </div>
-
-              {isChangedError && (
-                <div className="flex items-center justify-center mt-2">
-                  <ErrorMessage message={isChangedError} type="error" />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {state.Settings.alreadytypeerror && (
-            <div className="mt-2">
-              <ErrorMessage
-                message={state.Settings.alreadytypeerror}
-                type="error"
+              <CloseCircle
+                size={24}
+                color="#000"
+                onClick={handleClose}
+                className="cursor-pointer"
               />
             </div>
-          )}
 
-          <Button
-            disabled={formLoading}
-            onClick={handleEditType}
-            className="!w-full !mt-2 !h-12 !bg-[#1E45E1] !text-white !font-montserrat !font-semibold !text-base !rounded-lg"
-          >
-            Update Complaint Type
-          </Button>
-        </Modal.Body>
-
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
-          </div>
-        )}
-      </Modal>
-
-      <Modal
-        show={showForm}
-        onHide={() => handleClose()}
-        backdrop="static"
-        centered
-      >
-        <Modal.Header className="relative flex items-center justify-between">
-          <div className="text-lg md:text-xl font-gilroy font-semibold">
-            Add Complaint Type
-          </div>
-          <CloseCircle
-            size={24}
-            color="#000"
-            onClick={handleClose}
-            className="cursor-pointer"
-          />
-        </Modal.Header>
-
-        <Modal.Body className="pt-1">
-          <div className="flex flex-col w-full">
-            <div className="w-full">
-              <div className="mb-2 flex flex-col">
-                <label className="text-base text-gray-900 font-gilroy font-medium mb-2">
-                  Complaint Type <span className="text-red-500 text-xl">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter Complaint Type"
-                  value={complaintTypeName}
-                  onChange={(e) => handleComplaintType(e)}
-                  className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
-                />
-
-                {state.Settings.alreadytypeerror && (
-                  <div className="mt-1">
-                    <ErrorMessage
-                      message={state.Settings.alreadytypeerror}
-                      type="error"
+            <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] relative">
+              <div className="flex flex-col w-full">
+                <div className="w-full">
+                  <div className="mb-2 flex flex-col">
+                    <label className="text-base text-gray-900 font-gilroy font-medium mb-2">
+                      Complaint Type{" "}
+                      <span className="text-red-500 text-xl">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="form-controls"
+                      placeholder="Enter Complaint Type"
+                      value={complaintTypeName}
+                      onChange={(e) => handleComplaintType(e)}
+                      className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
-                  </div>
-                )}
 
-                {complaintError && (
-                  <div className="mt-1">
-                    <ErrorMessage message={complaintError} type="error" />
+                    {state.Settings.alreadytypeerror && (
+                      <div className="mt-1">
+                        <ErrorMessage
+                          message={state.Settings.alreadytypeerror}
+                          type="error"
+                        />
+                      </div>
+                    )}
+
+                    {complaintError && (
+                      <div className="mt-1">
+                        <ErrorMessage message={complaintError} type="error" />
+                      </div>
+                    )}
+                    {isChangedError && (
+                      <div className="flex items-center  mt-2">
+                        <ErrorMessage message={isChangedError} type="error" />
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </div>
+
+            {planExpiredCompliance && (
+              <ErrorMessage message={planExpiredCompliance} type="error" />
+            )}
+
+            <div className="!flex !justify-end m-4">
+              <button
+                disabled={formLoading}
+                onClick={handleAddComplaintType}
+                className="h-12 px-4 py-3 rounded-lg bg-[#1E45E1] text-white font-montserrat font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {formLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Saving...</span>
+                  </>
+                ) : id ? (
+                  "Save Changes"
+                ) : (
+                  "+ Complaint Type"
+                )}
+              </button>
+            </div>
           </div>
-        </Modal.Body>
-
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 rounded-full border-t-4 border-r-4 border-t-blue-700 border-r-transparent animate-spin"></div>
-          </div>
-        )}
-
-        {planExpiredCompliance && (
-          <ErrorMessage message={planExpiredCompliance} type="error" />
-        )}
-
-        <Modal.Footer className="!flex !justify-center !pt-0 !border-t-0">
-          <button
-            disabled={formLoading}
-            onClick={handleAddComplaintType}
-            className=" disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 !w-full !h-12 !px-4 !py-3 !rounded-lg !bg-[#1E45E1] !text-white !font-montserrat !font-semibold !text-sm"
-          >
-            + Complaint Type
-          </button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      )}
 
       <Modal
         show={showPopup}

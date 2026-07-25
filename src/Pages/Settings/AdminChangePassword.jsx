@@ -108,151 +108,156 @@ function AdminChangePassword({ show, handleClose }) {
   ]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-['Gilroy']">
-      {formLoading && (
-        <div className="absolute inset-0  flex items-center justify-center rounded-2xl z-50">
-          <div className="w-12 h-12 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+    <div className="fixed inset-0 z-[9999]">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className=" px-4 py-3 shrink-0 border-b flex items-center flex-col gap-2">
+          <h2 className="text-[22px] font-semibold text-[#1F2633] ">
+            Reset Password for {account?.firstName} {account?.lastName}
+          </h2>
+
+          <p className="mt-2 text-[12px] text-gray-500 leading-5 mb-0">
+            This will generate a new temporary password and invalidate the
+            current login credentials.
+          </p>
         </div>
-      )}
-      <div className="w-[520px] bg-white rounded-2xl p-8 shadow-xl">
-        <h2 className="text-[22px] font-semibold text-[#1F2633]">
-          Reset Password for {account?.firstName} {account?.lastName}
-        </h2>
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] relative">
+          <div className="mt-6">
+            <label className="text-[14px] text-gray-700">
+              Current Password <span className="text-red-500">*</span>
+            </label>
 
-        <p className="mt-2 text-[14px] text-gray-500 leading-5">
-          This will generate a new temporary password and invalidate the current
-          login credentials.
-        </p>
-
-        <div className="mt-6">
-          <label className="text-[14px] text-gray-700">
-            Current Password <span className="text-red-500">*</span>
-          </label>
-
-          <div className="relative mt-2">
-            <input
-              autoComplete="off"
-              name="current_password"
-              type={showCurrent ? "text" : "password"}
-              value={currentPassword}
-              placeholder="Enter current password"
-              onChange={(e) => {
-                setCurrentPassword(e.target.value);
-                setErrors({ ...errors, currentPassword: "" });
-                dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
-              }}
-              className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
-                errors.currentPassword ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
-            />
-
-            {showCurrent ? (
-              <Eye
-                size="20"
-                color="#9CA3AF"
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowCurrent(false)}
+            <div className="relative mt-2">
+              <input
+                autoComplete="off"
+                name="current_password"
+                type={showCurrent ? "text" : "password"}
+                value={currentPassword}
+                placeholder="Enter current password"
+                onChange={(e) => {
+                  setCurrentPassword(e.target.value);
+                  setErrors({ ...errors, currentPassword: "" });
+                  dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
+                }}
+                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
+                  errors.currentPassword ? "border-red-500" : "border-gray-300"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
               />
-            ) : (
-              <EyeSlash
-                size="20"
-                color="#9CA3AF"
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowCurrent(true)}
-              />
+
+              {showCurrent ? (
+                <Eye
+                  size="20"
+                  color="#9CA3AF"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowCurrent(false)}
+                />
+              ) : (
+                <EyeSlash
+                  size="20"
+                  color="#9CA3AF"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowCurrent(true)}
+                />
+              )}
+            </div>
+
+            {errors.currentPassword && (
+              <ErrorMessage message={errors.currentPassword} type="error" />
             )}
           </div>
 
-          {errors.currentPassword && (
-            <ErrorMessage message={errors.currentPassword} type="error" />
-          )}
-        </div>
+          <div className="mt-2">
+            <label className="text-[14px] text-gray-700">
+              New Password <span className="text-red-500">*</span>
+            </label>
 
-        <div className="mt-2">
-          <label className="text-[14px] text-gray-700">
-            New Password <span className="text-red-500">*</span>
-          </label>
-
-          <div className="relative mt-2">
-            <input
-              autoComplete="new-password"
-              name="new_password"
-              type={showNew ? "text" : "password"}
-              value={newPassword}
-              placeholder="Enter new password"
-              onChange={(e) => {
-                setNewPassword(e.target.value);
-                setErrors({ ...errors, newPassword: "" });
-                dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
-              }}
-              className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
-                errors.newPassword ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
-            />
-
-            {showNew ? (
-              <Eye
-                size="20"
-                color="#9CA3AF"
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowNew(false)}
+            <div className="relative mt-2">
+              <input
+                autoComplete="new-password"
+                name="new_password"
+                type={showNew ? "text" : "password"}
+                value={newPassword}
+                placeholder="Enter new password"
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                  setErrors({ ...errors, newPassword: "" });
+                  dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
+                }}
+                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
+                  errors.newPassword ? "border-red-500" : "border-gray-300"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
               />
-            ) : (
-              <EyeSlash
-                size="20"
-                color="#9CA3AF"
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowNew(true)}
-              />
+
+              {showNew ? (
+                <Eye
+                  size="20"
+                  color="#9CA3AF"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowNew(false)}
+                />
+              ) : (
+                <EyeSlash
+                  size="20"
+                  color="#9CA3AF"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowNew(true)}
+                />
+              )}
+            </div>
+
+            {errors.newPassword && (
+              <ErrorMessage message={errors.newPassword} type="error" />
             )}
           </div>
 
-          {errors.newPassword && (
-            <ErrorMessage message={errors.newPassword} type="error" />
-          )}
-        </div>
+          <div className="mt-2">
+            <label className="text-[14px] text-gray-700">
+              Confirm Password <span className="text-red-500">*</span>
+            </label>
 
-        <div className="mt-2">
-          <label className="text-[14px] text-gray-700">
-            Confirm Password <span className="text-red-500">*</span>
-          </label>
-
-          <div className="relative mt-2">
-            <input
-              autoComplete="new-password"
-              name="confirm_password"
-              type={showConfirm ? "text" : "password"}
-              value={confirmPassword}
-              placeholder="Enter confirm password"
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                setErrors({ ...errors, confirmPassword: "" });
-                dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
-              }}
-              className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
-                errors.confirmPassword ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
-            />
-
-            {showConfirm ? (
-              <Eye
-                size="20"
-                color="#9CA3AF"
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowConfirm(false)}
+            <div className="relative mt-2">
+              <input
+                autoComplete="new-password"
+                name="confirm_password"
+                type={showConfirm ? "text" : "password"}
+                value={confirmPassword}
+                placeholder="Enter confirm password"
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setErrors({ ...errors, confirmPassword: "" });
+                  dispatch({ type: "REMOVE_UPDATE_CHANGEPASSWORD_ERROR" });
+                }}
+                className={`w-full h-[48px] px-4 pr-12 rounded-lg border ${
+                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 text-[14px]`}
               />
-            ) : (
-              <EyeSlash
-                size="20"
-                color="#9CA3AF"
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => setShowConfirm(true)}
-              />
+
+              {showConfirm ? (
+                <Eye
+                  size="20"
+                  color="#9CA3AF"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowConfirm(false)}
+                />
+              ) : (
+                <EyeSlash
+                  size="20"
+                  color="#9CA3AF"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowConfirm(true)}
+                />
+              )}
+            </div>
+
+            {errors.confirmPassword && (
+              <ErrorMessage message={errors.confirmPassword} type="error" />
             )}
           </div>
-
-          {errors.confirmPassword && (
-            <ErrorMessage message={errors.confirmPassword} type="error" />
+          {formLoading && (
+            <div className="absolute inset-0  flex items-center justify-center rounded-2xl z-50">
+              <div className="w-12 h-12 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+            </div>
           )}
         </div>
         {state.createAccount.passwordUpdateError && (
@@ -261,7 +266,8 @@ function AdminChangePassword({ show, handleClose }) {
             type="error"
           />
         )}
-        <div className="mt-8 flex justify-end gap-4">
+
+        <div className="m-4 flex justify-end gap-4">
           <button
             onClick={handleClose}
             className="h-[44px] px-6 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-medium hover:bg-gray-100 transition"

@@ -1047,6 +1047,27 @@ function AddExpenseNew() {
       })
     : [];
 
+
+
+useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setFormLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
+    }
+  }, [state.UsersList?.accessRestrictionError]);
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="block relative font-gilroy ">
       <div className="relative w-full  bg-white ">

@@ -108,8 +108,10 @@ function AddCategory({ show, onClose, updateDetails }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999]">
-      <div className="bg-white w-[500px] rounded-lg  shadow-lg font-gilroy">
+    <div className="fixed inset-0 z-[9999]">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
         <div className="flex justify-between items-center  px-4 py-2.5">
           <h2 className="text-xl font-gilroy font-semibold">
             {updateDetails ? "Edit Category" : "Add Category"}
@@ -124,7 +126,7 @@ function AddCategory({ show, onClose, updateDetails }) {
         </div>
 
         <hr className="m-0  border-1 border-gray-400" />
-        <div className="py-3 px-3">
+        <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls max-h-[500px] relative">
           <label className="font-gilroy text-[14px] font-medium text-[#222] leading-normal">
             Category Name <span className="text-red-500">*</span>
           </label>
@@ -148,11 +150,13 @@ function AddCategory({ show, onClose, updateDetails }) {
             />
           )}
         </div>
-        <div className="flex justify-center  gap-3 px-3 my-2">
+        <div className="flex justify-end  gap-3 px-3 my-2">
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="bg-[#1E45E1] text-white px-4 py-2 rounded-lg w-full flex items-center justify-center"
+            className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
           >
             {loading ? (
               <>

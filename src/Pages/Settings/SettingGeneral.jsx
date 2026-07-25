@@ -1660,79 +1660,86 @@ function SettingGeneral() {
         </Modal.Footer>
       </Modal>
 
-      <Modal
-        show={changePassword}
-        onHide={() => handleCloseChangepassword()}
-        backdrop="static"
-        centered
-        // dialogClassName="custom-modal"
-      >
-        <Modal.Header className="relative flex items-center justify-between">
-          <div className="text-xl font-semibold font-gilroy">
-            Change Password
-          </div>
+      {changePassword && (
+        <div className="fixed inset-0 z-[9999]">
+          <div className="absolute inset-0 bg-black/50" />
 
-          <CloseCircle
-            size="24"
-            color="#000"
-            onClick={handleCloseChangepassword}
-            className="cursor-pointer"
-          />
-        </Modal.Header>
+          <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
+            <div className=" px-4 py-3 shrink-0 border-b flex items-center justify-between gap-2 mb-2">
+              <div className="text-xl font-semibold font-gilroy">
+                Change Password
+              </div>
 
-        <Modal.Body className="font-gilroy mt-0 pt-0">
-          <Form.Group>
-            <Form.Label className="text-sm font-medium font-gilroy text-gray-900 mt-0 pt-0">
-              New Password <span className="text-red-500 text-xl"> *</span>
-            </Form.Label>
-
-            <InputGroup>
-              <FormControl
-                id="form-controls"
-                placeholder="Enter password"
-                type={showPassword ? "text" : "password"}
-                value={checkPassword}
-                onChange={(e) => handleCheckPassword(e)}
-                className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg pr-12"
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleCloseChangepassword}
+                className="cursor-pointer"
               />
+            </div>
 
-              <InputGroup.Text
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide Password" : "Show Password"}
-                className="bg-transparent border-0 cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
-              >
-                {showPassword ? (
-                  <img src={eye} alt="Hide Password" width={20} height={20} />
-                ) : (
-                  <img
-                    src={eyeClosed}
-                    alt="Show Password"
-                    width={20}
-                    height={20}
+            <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px] relative">
+              <Form.Group>
+                <Form.Label className="text-sm font-medium font-gilroy text-gray-900 mt-0 pt-0">
+                  New Password <span className="text-red-500 text-xl"> *</span>
+                </Form.Label>
+
+                <InputGroup>
+                  <FormControl
+                    id="form-controls"
+                    placeholder="Enter password"
+                    type={showPassword ? "text" : "password"}
+                    value={checkPassword}
+                    onChange={(e) => handleCheckPassword(e)}
+                    className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg pr-12"
                   />
-                )}
-              </InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
 
-          {passError && <ErrorMessage message={passError} type="error" />}
-        </Modal.Body>
+                  <InputGroup.Text
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword ? "Hide Password" : "Show Password"
+                    }
+                    className="bg-transparent border-0 cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
+                  >
+                    {showPassword ? (
+                      <img
+                        src={eye}
+                        alt="Hide Password"
+                        width={20}
+                        height={20}
+                      />
+                    ) : (
+                      <img
+                        src={eyeClosed}
+                        alt="Show Password"
+                        width={20}
+                        height={20}
+                      />
+                    )}
+                  </InputGroup.Text>
+                </InputGroup>
+              </Form.Group>
 
-        {verifyLoading && (
-          <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-            <div className="w-10 h-10 border-4 border-r-transparent border-t-blue-700 rounded-full animate-spin"></div>
+              {passError && <ErrorMessage message={passError} type="error" />}
+
+              {verifyLoading && (
+                <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
+                  <div className="w-10 h-10 border-4 border-r-transparent border-t-blue-700 rounded-full animate-spin"></div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-4 p-4">
+              <Button
+                onClick={() => handleCheckPasswordChange()}
+                className="w-full mt-1 h-12 !rounded-xl !bg-[#1E45E1] text-sm !font-semibold font-gilroy"
+              >
+                Update
+              </Button>
+            </div>
           </div>
-        )}
-
-        <Modal.Footer className="flex justify-center m-0 pt-1 border-0">
-          <Button
-            onClick={() => handleCheckPasswordChange()}
-            className="w-full mt-1 h-12 !rounded-xl !bg-[#1E45E1] text-sm !font-semibold font-gilroy"
-          >
-            Update
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      )}
 
       <Modal
         show={confirmPass}
@@ -1938,434 +1945,444 @@ function SettingGeneral() {
           </Button>
         </Modal.Footer>
       </Modal>
+      {showFormGeneral && (
+        <div className="fixed inset-0 z-[9999]">
+          <div className="absolute inset-0 bg-black/50" />
 
-      <Modal
-        show={showFormGeneral}
-        onHide={() => handleClose()}
-        backdrop="static"
-        centered
-        dialogClassName="md:!h-[75vh]"
-      >
-        <Modal.Header className="relative mb-2 flex items-center justify-between">
-          <div className="text-xl font-semibold font-gilroy">
-            {edit ? "Edit General" : "Add General"}
-          </div>
+          <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+            <div className=" px-4 py-3 shrink-0 border-b flex justify-between mb-2">
+              <div className="text-xl font-semibold font-gilroy">
+                {edit ? "Edit General" : "Add General"}
+              </div>
 
-          <CloseCircle
-            size="24"
-            color="#000"
-            onClick={handleClose}
-            className="cursor-pointer"
-          />
-        </Modal.Header>
-
-        <div className="font-gilroy flex items-center ml-2.5">
-          <div className="h-20 w-20 relative">
-            <Image
-              src={
-                file
-                  ? typeof file === "string"
-                    ? file
-                    : URL.createObjectURL(file)
-                  : Profile
-              }
-              roundedCircle
-              className="h-20 w-20 object-cover"
-            />
-
-            <label
-              htmlFor="imageInput"
-              className="absolute bottom-0 right-1 cursor-pointer"
-            >
-              <Image src={Plus} roundedCircle className="h-5 w-5" />
-
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                id="imageInput"
-                onChange={handleImageChange}
-                className="sr-only"
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleClose}
+                className="cursor-pointer"
               />
-            </label>
-          </div>
-
-          <div className="pl-4">
-            <div>
-              <label className="text-base font-medium font-gilroy text-gray-900">
-                Profile Photo
-              </label>
             </div>
 
-            <div>
-              <label className="text-sm font-medium font-gilroy text-gray-600">
-                Max size of image 10MB
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <Modal.Body className="font-gilroy show-scroll mt-0 mr-3 max-h-80 md:!max-h-[50vh] overflow-y-auto">
-          <div className="grid grid-cols-12 gap-x-4">
-            <div className="col-span-12 md:col-span-6">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  First Name <span className="text-red-500 text-xl"> *</span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter First Name"
-                  value={firstName}
-                  onChange={(e) => handleFirstName(e)}
-                  className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
+            <div className="font-gilroy flex items-center ml-2.5">
+              <div className="h-20 w-20 relative">
+                <Image
+                  src={
+                    file
+                      ? typeof file === "string"
+                        ? file
+                        : URL.createObjectURL(file)
+                      : Profile
+                  }
+                  roundedCircle
+                  className="h-20 w-20 object-cover"
                 />
-              </Form.Group>
-              {firstNameError && (
-                <ErrorMessage message={firstNameError} type="error" />
-              )}
-            </div>
 
-            <div className="col-span-12 md:col-span-6">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Last Name <span className="invisible text-xl"> *</span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter Last Name"
-                  value={lastName}
-                  onChange={(e) => handlelastName(e)}
-                  className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
-                />
-              </Form.Group>
-            </div>
+                <label
+                  htmlFor="imageInput"
+                  className="absolute bottom-0 right-1 cursor-pointer"
+                >
+                  <Image src={Plus} roundedCircle className="h-5 w-5" />
 
-            <div className="col-span-12 md:col-span-6 mb-0">
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Mobile Number <span className="text-red-500 text-xl"> *</span>
-                </Form.Label>
-
-                <InputGroup className="flex">
-                  <Form.Select
-                    value={countryCode}
-                    id="vendor-select-pg"
-                    className="max-w-[5.5rem] !h-12 border border-gray-300 rounded-l-lg !rounded-tr-none !rounded-br-none"
-                  >
-                    <option>+{countryCode}</option>
-                  </Form.Select>
-
-                  <Form.Control
-                    value={Phone}
-                    onChange={handlePhone}
-                    type="text"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    placeholder="9876543210"
-                    maxLength={10}
-                    className="!h-12 text-sm font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 border-l-0 rounded-r-lg"
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    id="imageInput"
+                    onChange={handleImageChange}
+                    className="sr-only"
                   />
-                </InputGroup>
-              </Form.Group>
+                </label>
+              </div>
 
-              {phoneError && <ErrorMessage message={phoneError} type="error" />}
-              {phoneErrorMessage && (
-                <ErrorMessage message={phoneErrorMessage} type="error" />
-              )}
-              {state.Settings?.generalMobileError && (
-                <ErrorMessage
-                  message={state.Settings?.generalMobileError}
-                  type="error"
-                />
-              )}
+              <div className="pl-4">
+                <div>
+                  <label className="text-base font-medium font-gilroy text-gray-900">
+                    Profile Photo
+                  </label>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium font-gilroy text-gray-600">
+                    Max size of image 10MB
+                  </label>
+                </div>
+              </div>
             </div>
 
-            <div className="col-span-12 md:col-span-6 mb-0">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Email ID <span className="text-red-500 text-xl"> *</span>
-                </Form.Label>
-
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  placeholder="Enter Email ID"
-                  value={emilId}
-                  onChange={(e) => handleEmailId(e)}
-                  className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
-                />
-              </Form.Group>
-
-              {emailError && <ErrorMessage message={emailError} type="error" />}
-              {state.Settings?.generalEmailError && (
-                <ErrorMessage
-                  message={state.Settings?.generalEmailError}
-                  type="error"
-                />
-              )}
-              {emailErrorMessage && (
-                <ErrorMessage
-                  message={state.Settings?.generalEmailError}
-                  type="error"
-                />
-              )}
-            </div>
-
-            {!edit && (
-              <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-1 mt-1">
-                <Form.Group className="">
-                  <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                    Password <span className="text-red-500 text-xl">*</span>
-                  </Form.Label>
-                  <InputGroup>
+            <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px]">
+              <div className="grid grid-cols-12 gap-x-4">
+                <div className="col-span-12 md:col-span-6">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      First Name{" "}
+                      <span className="text-red-500 text-xl"> *</span>
+                    </Form.Label>
                     <FormControl
-                      autoComplete="new-password"
-                      autoCorrect="off"
+                      type="text"
                       id="form-controls"
-                      placeholder="Enter Password"
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => handlePassword(e)}
-                      className="h-12 w-full rounded-lg border border-gray-300 pl-3 pr-10 text-base text-gray-600 font-gilroy font-medium shadow-none focus:outline-none focus:ring-0"
+                      placeholder="Enter First Name"
+                      value={firstName}
+                      onChange={(e) => handleFirstName(e)}
+                      className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
                     />
-                    <InputGroup.Text
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={
-                        showPassword ? "Hide Password" : "Show Password"
-                      }
-                      className="bg-white border border-gray-300 cursor-pointer rounded-lg"
-                    >
-                      {showPassword ? (
-                        <img
-                          src={eye}
-                          alt="Hide Password"
-                          width={20}
-                          height={20}
+                  </Form.Group>
+                  {firstNameError && (
+                    <ErrorMessage message={firstNameError} type="error" />
+                  )}
+                </div>
+
+                <div className="col-span-12 md:col-span-6">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Last Name <span className="invisible text-xl"> *</span>
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="Enter Last Name"
+                      value={lastName}
+                      onChange={(e) => handlelastName(e)}
+                      className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
+                    />
+                  </Form.Group>
+                </div>
+
+                <div className="col-span-12 md:col-span-6 mb-0">
+                  <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Mobile Number{" "}
+                      <span className="text-red-500 text-xl"> *</span>
+                    </Form.Label>
+
+                    <InputGroup className="flex">
+                      <Form.Select
+                        value={countryCode}
+                        id="vendor-select-pg"
+                        className="max-w-[5.5rem] !h-12 border border-gray-300 rounded-l-lg !rounded-tr-none !rounded-br-none"
+                      >
+                        <option>+{countryCode}</option>
+                      </Form.Select>
+
+                      <Form.Control
+                        value={Phone}
+                        onChange={handlePhone}
+                        type="text"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        placeholder="9876543210"
+                        maxLength={10}
+                        className="!h-12 text-sm font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 border-l-0 rounded-r-lg"
+                      />
+                    </InputGroup>
+                  </Form.Group>
+
+                  {phoneError && (
+                    <ErrorMessage message={phoneError} type="error" />
+                  )}
+                  {phoneErrorMessage && (
+                    <ErrorMessage message={phoneErrorMessage} type="error" />
+                  )}
+                  {state.Settings?.generalMobileError && (
+                    <ErrorMessage
+                      message={state.Settings?.generalMobileError}
+                      type="error"
+                    />
+                  )}
+                </div>
+
+                <div className="col-span-12 md:col-span-6 mb-0">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Email ID <span className="text-red-500 text-xl"> *</span>
+                    </Form.Label>
+
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      placeholder="Enter Email ID"
+                      value={emilId}
+                      onChange={(e) => handleEmailId(e)}
+                      className="text-base font-medium font-gilroy text-gray-600 shadow-none border border-gray-300 h-12 rounded-lg"
+                    />
+                  </Form.Group>
+
+                  {emailError && (
+                    <ErrorMessage message={emailError} type="error" />
+                  )}
+                  {state.Settings?.generalEmailError && (
+                    <ErrorMessage
+                      message={state.Settings?.generalEmailError}
+                      type="error"
+                    />
+                  )}
+                  {emailErrorMessage && (
+                    <ErrorMessage
+                      message={state.Settings?.generalEmailError}
+                      type="error"
+                    />
+                  )}
+                </div>
+
+                {!edit && (
+                  <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-1 mt-1">
+                    <Form.Group className="">
+                      <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                        Password <span className="text-red-500 text-xl">*</span>
+                      </Form.Label>
+                      <InputGroup>
+                        <FormControl
+                          autoComplete="new-password"
+                          autoCorrect="off"
+                          id="form-controls"
+                          placeholder="Enter Password"
+                          type={showPassword ? "text" : "password"}
+                          value={password}
+                          onChange={(e) => handlePassword(e)}
+                          className="h-12 w-full rounded-lg border border-gray-300 pl-3 pr-10 text-base text-gray-600 font-gilroy font-medium shadow-none focus:outline-none focus:ring-0"
                         />
-                      ) : (
-                        <img
-                          src={eyeClosed}
-                          alt="Show Password"
-                          width={20}
-                          height={20}
-                        />
-                      )}
-                    </InputGroup.Text>
-                  </InputGroup>
-                </Form.Group>
-                {!edit && passwordError && (
-                  <ErrorMessage message={passwordError} type="error" />
+                        <InputGroup.Text
+                          onClick={() => setShowPassword(!showPassword)}
+                          aria-label={
+                            showPassword ? "Hide Password" : "Show Password"
+                          }
+                          className="bg-white border border-gray-300 cursor-pointer rounded-lg"
+                        >
+                          {showPassword ? (
+                            <img
+                              src={eye}
+                              alt="Hide Password"
+                              width={20}
+                              height={20}
+                            />
+                          ) : (
+                            <img
+                              src={eyeClosed}
+                              alt="Show Password"
+                              width={20}
+                              height={20}
+                            />
+                          )}
+                        </InputGroup.Text>
+                      </InputGroup>
+                    </Form.Group>
+                    {!edit && passwordError && (
+                      <ErrorMessage message={passwordError} type="error" />
+                    )}
+                  </div>
                 )}
+
+                <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-2 mt-2">
+                  <Form.Group className="">
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Flat , House no , Building , Company , Apartment
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="Enter House No"
+                      value={house_no}
+                      onChange={(e) => handleHouseNo(e)}
+                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                    />
+                  </Form.Group>
+                  {house_noError && (
+                    <ErrorMessage message={house_noError} type="error" />
+                  )}
+                </div>
+
+                <div className="col-span-12 md:col-span-6 mb-1">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Area , Street , Sector , Village
+                    </Form.Label>
+
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="Enter Street"
+                      value={street}
+                      onChange={handleStreetName}
+                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                    />
+                  </Form.Group>
+                  {streetError && (
+                    <ErrorMessage message={streetError} type="error" />
+                  )}
+                </div>
+
+                <div className="col-span-12 md:col-span-6 mb-1">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Landmark
+                    </Form.Label>
+
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="E.g , near appollo hospital"
+                      value={landmark}
+                      onChange={handleLandmark}
+                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                    />
+                  </Form.Group>
+
+                  {landmarkError && (
+                    <ErrorMessage message={landmarkError} type="error" />
+                  )}
+                </div>
+
+                <div className="col-span-12 md:col-span-6">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Pincode <span className="text-red-500 text-xl">*</span>
+                    </Form.Label>
+
+                    <Form.Control
+                      value={pincode}
+                      onChange={handlePinCodeChange}
+                      type="tel"
+                      maxLength={6}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      placeholder="Enter Pincode"
+                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                    />
+
+                    {pincodeError && (
+                      <ErrorMessage message={pincodeError} type="error" />
+                    )}
+                  </Form.Group>
+                </div>
+
+                <div className="col-span-12 md:col-span-6 mb-1">
+                  <Form.Group>
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      Town / City{" "}
+                      <span className="text-red-500 text-xl">*</span>
+                    </Form.Label>
+
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="Enter City"
+                      value={city}
+                      onChange={handleCity}
+                      className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
+                    />
+                  </Form.Group>
+
+                  {cityError && (
+                    <ErrorMessage message={cityError} type="error" />
+                  )}
+                </div>
+
+                <div className="col-span-12">
+                  <Form.Group controlId="exampleForm.ControlInput5">
+                    <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
+                      State <span className="text-red-500 text-xl">*</span>
+                    </Form.Label>
+
+                    <Select
+                      options={indianStates}
+                      onChange={(selectedOption) => {
+                        setStateName(selectedOption?.value);
+                        setFormError("");
+                      }}
+                      value={
+                        state_name
+                          ? { value: state_name, label: state_name }
+                          : null
+                      }
+                      onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                          return inputValue.replace(/[^a-zA-Z\s]/g, "");
+                        }
+                        return inputValue;
+                      }}
+                      placeholder="Select State"
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No state available"}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          height: "50px",
+                          border: "1px solid #D9D9D9",
+                          borderRadius: "8px",
+                          fontSize: "16px",
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: state_name ? 600 : 500,
+                          boxShadow: "none",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "120px",
+                          padding: 0,
+                          overflowY: "auto",
+                          fontFamily: "Gilroy",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
+                          color: "#000",
+                        }),
+                      }}
+                    />
+                  </Form.Group>
+
+                  {!state_name && state_nameError && (
+                    <ErrorMessage message={state_nameError} type="error" />
+                  )}
+                </div>
+              </div>
+              {formError && (
+                <div ref={errorRef} className="flex justify-center mt-1">
+                  <ErrorMessage message={formError} type="error" />
+                </div>
+              )}
+            </div>
+
+            {formLoading && (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
+                <div className="h-10 w-10 rounded-full border-4 border-t-blue-700 border-r-transparent animate-spin"></div>
               </div>
             )}
 
-            <div className="col-span-12 md:col-span-12 lg:col-span-12 mb-2 mt-2">
-              <Form.Group className="">
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Flat , House no , Building , Company , Apartment
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter House No"
-                  value={house_no}
-                  onChange={(e) => handleHouseNo(e)}
-                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
-                />
-              </Form.Group>
-              {house_noError && (
-                <ErrorMessage message={house_noError} type="error" />
-              )}
-            </div>
-
-            <div className="col-span-12 md:col-span-6 mb-1">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Area , Street , Sector , Village
-                </Form.Label>
-
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter Street"
-                  value={street}
-                  onChange={handleStreetName}
-                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
-                />
-              </Form.Group>
-              {streetError && (
-                <ErrorMessage message={streetError} type="error" />
-              )}
-            </div>
-
-            <div className="col-span-12 md:col-span-6 mb-1">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Landmark
-                </Form.Label>
-
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="E.g , near appollo hospital"
-                  value={landmark}
-                  onChange={handleLandmark}
-                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
-                />
-              </Form.Group>
-
-              {landmarkError && (
-                <ErrorMessage message={landmarkError} type="error" />
-              )}
-            </div>
-
-            <div className="col-span-12 md:col-span-6">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Pincode <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
-
-                <Form.Control
-                  value={pincode}
-                  onChange={handlePinCodeChange}
-                  type="tel"
-                  maxLength={6}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  placeholder="Enter Pincode"
-                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
-                />
-
-                {pincodeError && (
-                  <ErrorMessage message={pincodeError} type="error" />
-                )}
-              </Form.Group>
-            </div>
-
-            <div className="col-span-12 md:col-span-6 mb-1">
-              <Form.Group>
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  Town / City <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
-
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter City"
-                  value={city}
-                  onChange={handleCity}
-                  className="h-12 text-base text-gray-600 font-gilroy font-medium shadow-none border border-gray-300 rounded-lg"
-                />
-              </Form.Group>
-
-              {cityError && <ErrorMessage message={cityError} type="error" />}
-            </div>
-
-            <div className="col-span-12">
-              <Form.Group controlId="exampleForm.ControlInput5">
-                <Form.Label className="text-sm font-medium font-gilroy text-gray-900">
-                  State <span className="text-red-500 text-xl">*</span>
-                </Form.Label>
-
-                <Select
-                  options={indianStates}
-                  onChange={(selectedOption) => {
-                    setStateName(selectedOption?.value);
-                    setFormError("");
-                  }}
-                  value={
-                    state_name ? { value: state_name, label: state_name } : null
-                  }
-                  onInputChange={(inputValue, { action }) => {
-                    if (action === "input-change") {
-                      return inputValue.replace(/[^a-zA-Z\s]/g, "");
-                    }
-                    return inputValue;
-                  }}
-                  placeholder="Select State"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No state available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: state_name ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      overflowY: "auto",
-                      fontFamily: "Gilroy",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
-                      color: "#000",
-                    }),
-                  }}
-                />
-              </Form.Group>
-
-              {!state_name && state_nameError && (
-                <ErrorMessage message={state_nameError} type="error" />
-              )}
+            <div className="flex justify-end border-0 px-4 py-1">
+              <Button
+                disabled={formLoading}
+                className=" !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"
+                onClick={handleSave}
+              >
+                {edit ? "Save changes" : "Add General"}
+              </Button>
             </div>
           </div>
-          {formError && (
-            <div ref={errorRef} className="flex justify-center mt-1">
-              <ErrorMessage message={formError} type="error" />
-            </div>
-          )}
-        </Modal.Body>
-
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
-            <div className="h-10 w-10 rounded-full border-4 border-t-blue-700 border-r-transparent animate-spin"></div>
-          </div>
-        )}
-
-        <Modal.Footer className="flex justify-center border-0">
-          <Button
-            disabled={formLoading}
-            className="!w-full !bg-[#1E45E1] text-white !font-semibold !h-12 !rounded-xl !text-sm !font-gilroy mt-1"
-            onClick={handleSave}
-          >
-            {edit ? "Save changes" : "Add General"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        </div>
+      )}
     </>
   );
 }

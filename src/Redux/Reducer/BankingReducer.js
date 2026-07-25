@@ -20,6 +20,8 @@ export const initialState = {
   statusCodeForCreateBanking: 0,
   createBankingError: "",
   responsiblepersonList: [],
+  addPaymentMethodSuccessCode: 0,
+  particularBankingOverview: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -109,6 +111,24 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_BANK_AMOUNT":
       return { ...state, statusCodeForAddBankingAmount: 0 };
+
+    case "ADD_PAYMENT_METHOD_REDUCER":
+      return {
+        ...state,
+        addPaymentMethodSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_ADD_PAYMENT_METHOD_REDUCER":
+      return {
+        ...state,
+        addPaymentMethodSuccessCode: 0,
+      };
+
+    case "PARTICULAR_BANKING_OVERVIEW_REDUCER":
+      return {
+        ...state,
+        particularBankingOverview: action.payload.response,
+      };
 
     case "BANKING_LIST":
       return {

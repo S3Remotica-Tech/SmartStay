@@ -1016,6 +1016,15 @@ function AddVendorNew() {
   ]);
 
   useEffect(() => {
+    if (state.UsersList?.accessRestrictionError) {
+      setFormLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
+    }
+  }, [state.UsersList?.accessRestrictionError]);
+
+  useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]',
     );

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Edit2, Camera, User } from "iconsax-react";
+import { Edit2, Camera, User, CloseCircle } from "iconsax-react";
 import AdminProfile from "../../Assets/v2Images/adminprofile.png";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
@@ -208,21 +208,27 @@ function AdminProfileEdit({ show, handleClose }) {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] font-['Gilroy']">
-      <div className="relative w-[520px] md:w-[460px] lg:w-[520px] bg-white rounded-2xl p-4 md:p-3 lg:p-5 shadow-xl">
-        {formLoading && (
-          <div className="absolute inset-0  flex items-center justify-center rounded-2xl z-50">
-            <div className="w-12 h-12 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+    <div className="fixed inset-0 z-[9999]">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className=" px-4 py-3 shrink-0 border-b flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <Edit2 size="20" color="#111827" />
+            <h2 className="text-[20px] font-semibold text-gray-800 mt-1">
+              Edit Profile
+            </h2>
           </div>
-        )}
-        <div className="flex items-center gap-2 mb-2">
-          <Edit2 size="20" color="#111827" />
-          <h2 className="text-[20px] font-semibold text-gray-800 mt-1">
-            Edit Profile
-          </h2>
+
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleClose}
+            className="cursor-pointer"
+          />
         </div>
 
-        <div className="overflow-y-auto h-[450px] md:h-[350px] lg:h-[430px] pr-2 show-scroll">
+        <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px] relative">
           <div className="flex justify-center mb-2">
             <div
               className="relative w-[70px] h-[70px] rounded-full overflow-hidden border border-gray-200 flex items-center justify-center bg-gray-50"
@@ -344,8 +350,14 @@ function AdminProfileEdit({ show, handleClose }) {
               />
             )}
           </div>
+
+          {formLoading && (
+            <div className="absolute inset-0  flex items-center justify-center rounded-2xl z-50">
+              <div className="w-12 h-12 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
         </div>
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-4 p-4">
           <button
             onClick={handleClose}
             className="h-[44px] px-6 rounded-lg border border-gray-300 text-gray-700 text-[14px] font-medium hover:bg-gray-100 transition"

@@ -5,10 +5,10 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { CloseCircle, } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 
 function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const state = useSelector((state) => state);
@@ -23,7 +23,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const [errorAmenity, setErrorAmenity] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
   // const [amnitiesError, setAmnitiesError] = useState("")
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
     if (editDetails) {
@@ -33,15 +33,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
         isChecked: !!editDetails.proRate,
       };
 
-
       setAmenity(initialData.amenity);
       setAmount(initialData.amount);
       setIsChecked(initialData.isChecked);
       setInitialState(initialData);
     }
   }, [editDetails]);
-
-
 
   // const handleAmenityChange = (e) => {
   //   const value = e.target.value;
@@ -71,10 +68,8 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     setErrorAmenity("");
     setIsChangedError("");
     // setAmnitiesError("");
-    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' });
+    dispatch({ type: "REMOVE_ERROR_AMENITIES_SETTINGS" });
   };
-
-
 
   const handleAmountChange = (e) => {
     const newAmount = e.target.value;
@@ -86,26 +81,21 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     setIsChangedError("");
   };
 
-
   const handleCloseForm = () => {
-    handleClose()
+    handleClose();
     // setAmnitiesError("")
-    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
-  }
+    dispatch({ type: "REMOVE_ERROR_AMENITIES_SETTINGS" });
+  };
 
   useEffect(() => {
     if (state.InvoiceList.amnitiessAddError) {
-      setFormLoading(false)
+      setFormLoading(false);
       // setAmnitiesError(state.InvoiceList.amnitiessAddError)
     }
-
-  }, [state.InvoiceList.amnitiessAddError])
-
-
-
+  }, [state.InvoiceList.amnitiessAddError]);
 
   const handleSubmit = () => {
-    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
+    dispatch({ type: "REMOVE_ERROR_AMENITIES_SETTINGS" });
     let isValid = true;
 
     if (!hostelid) {
@@ -174,11 +164,10 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               amenityName: amenity.trim(),
               amount: amount,
               proRate: isChecked,
-            }
+            },
           },
-
         });
-        setFormLoading(true)
+        setFormLoading(true);
       } else {
         dispatch({
           type: "ADD_AMENITIY",
@@ -188,133 +177,127 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               amenityName: amenity.trim(),
               amount: amount,
               proRate: isChecked,
-            }
-          }
+            },
+          },
         });
-        setFormLoading(true)
+        setFormLoading(true);
       }
     }
   };
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
+  }, [state.createAccount?.networkError]);
 
   return (
-    <>
+    <div className="fixed inset-0 z-[9999]">
+      <div className="absolute inset-0 bg-black/50" />
 
-      <div className="modal show block relative">
-        <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
-          <Modal.Dialog className="m-0 p-0 w-full max-w-3xl">
+      <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
+        <div className=" px-4 py-3 shrink-0 border-b flex items-center justify-between gap-2 mb-2">
+          <Modal.Title className="!text-lg !font-gilroy !font-semibold !text-gray-900">
+            {editDetails ? "Edit Amenities" : "Add Amenities"}
+          </Modal.Title>
 
-            <Modal.Header className="border border-gray-200 mb-[-4]">
-              <Modal.Title className="!text-lg !font-gilroy !font-semibold !text-gray-900">
-                {editDetails ? "Edit Amenities" : "Add Amenities"}
-              </Modal.Title>
+          <CloseCircle
+            size={24}
+            color="#000"
+            onClick={handleCloseForm}
+            className="cursor-pointer"
+          />
+        </div>
 
-              <CloseCircle
-                size={24}
-                color="#000"
-                onClick={handleCloseForm}
-                className="cursor-pointer"
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] relative">
+          {hostelError && <ErrorMessage message={hostelError} type="error" />}
+
+          <div className="grid gap-4 mt-2">
+            <div className="w-full">
+              <label className="block text-sm text-gray-900 font-gilroy font-medium mb-1">
+                Amenity <span className="text-red-500 text-xl">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Amenity"
+                value={amenity}
+                onChange={handleAmenityChange}
+                className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-            </Modal.Header>
-
-            <Modal.Body className="pt-2">
-              {hostelError && (
-                <ErrorMessage message={hostelError} type="error" />
+              {errorAmenity && (
+                <ErrorMessage message={errorAmenity} type="error" />
               )}
+            </div>
 
-              <div className="grid gap-4 mt-2">
+            <div className="w-full">
+              <label className="block text-sm text-gray-900 font-gilroy font-medium mb-1">
+                Amount <span className="text-red-500 text-xl">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Amount"
+                value={amount}
+                onChange={handleAmountChange}
+                className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+              {errorAmount && (
+                <ErrorMessage message={errorAmount} type="error" />
+              )}
+            </div>
+          </div>
+        </div>
 
-                <div className="w-full">
-                  <label className="block text-sm text-gray-900 font-gilroy font-medium mb-1">
-                    Amenity <span className="text-red-500 text-xl">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter Amenity"
-                    value={amenity}
-                    onChange={handleAmenityChange}
-                    className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                  {errorAmenity && (
-                    <ErrorMessage message={errorAmenity} type="error" />
-                  )}
-                </div>
-
-                <div className="w-full">
-                  <label className="block text-sm text-gray-900 font-gilroy font-medium mb-1">
-                    Amount <span className="text-red-500 text-xl">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter Amount"
-                    value={amount}
-                    onChange={handleAmountChange}
-                    className="w-full h-12 px-3 border border-gray-300 rounded-md text-gray-700 font-gilroy font-medium text-base shadow-none focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                  {errorAmount && (
-                    <ErrorMessage message={errorAmount} type="error" />
-                  )}
-                </div>
-              </div>
-            </Modal.Body>
-
-            {/* {state.createAccount?.networkError ?
+        {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
 
-            {formLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-75 z-10">
-                <div className="w-10 h-10 border-t-4 border-blue-700 border-r-4 border-r-transparent rounded-full animate-spin"></div>
-              </div>
+        {state.InvoiceList.amnitiessAddError && (
+          <div className="flex justify-center items-center">
+            <ErrorMessage
+              message={state.InvoiceList.amnitiessAddError}
+              type="error"
+            />
+          </div>
+        )}
+        {isChangedError && (
+          <div className="flex justify-center items-center mt-1 mb-2">
+            <ErrorMessage message={isChangedError} type="error" />
+          </div>
+        )}
+
+        <div className="flex justify-end gap-4 p-4">
+          <button
+            disabled={formLoading}
+            onClick={handleSubmit}
+            className="px-4 bg-[#1E45E1] text-white font-gilroy font-semibold text-base rounded-lg
+             py-2 flex items-center justify-center gap-2 disabled:opacity-70 "
+          >
+            {formLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Saving...</span>
+              </>
+            ) : editDetails ? (
+              "Save Changes"
+            ) : (
+              "Add Amenities"
             )}
-
-            {state.InvoiceList.amnitiessAddError && (
-              <div className="flex justify-center items-center">
-                <ErrorMessage message={state.InvoiceList.amnitiessAddError} type="error" />
-
-              </div>
-            )}
-            {isChangedError && (
-              <div className="flex justify-center items-center mt-1 mb-2">
-                <ErrorMessage message={isChangedError} type="error" />
-              </div>
-            )}
-
-            <Modal.Footer className="!border-none !pt-1">
-              <button disabled={formLoading}
-                onClick={handleSubmit}
-                className="!w-full !bg-[#1E45E1] !font-gilroy !font-semibold !text-base !rounded-lg !py-3 text-white 
-                disabled:!bg-gray-300  
-                disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70 "
-              >
-                {editDetails ? "Save Changes" : "Add Amenities"}
-              </button>
-            </Modal.Footer>
-
-          </Modal.Dialog>
-        </Modal>
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
-
 
 AddAmenities.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   hostelid: PropTypes.func.isRequired,
   editDetails: PropTypes.func.isRequired,
-
 };
 
 export default AddAmenities;
