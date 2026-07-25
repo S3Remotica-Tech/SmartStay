@@ -790,7 +790,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
         {generalError && <ErrorMessage message={generalError} type="error" />}
 
-        <div className="flex-1 overflow-y-auto p-4 show-scrolls max-h-[500px] relative">
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] relative">
           <div className="flex items-center">
             <div className="h-24 w-24 relative">
               <Image
