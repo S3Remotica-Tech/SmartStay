@@ -355,6 +355,17 @@ function Reports() {
       from: from ? from.toDate() : null,
       to: to ? to.toDate() : null,
     });
+
+    dispatch({
+      type: "GET_REEPORTS_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: {
+          startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+          endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+        },
+      },
+    });
   };
 
   const startDate = useMemo(() => {
@@ -383,7 +394,7 @@ function Reports() {
       },
     });
     setLoading(true);
-  }, [state.login?.selectedHostel_Id, startDate, endDate]);
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     return () => {

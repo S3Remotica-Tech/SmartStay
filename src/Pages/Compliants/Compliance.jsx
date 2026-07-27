@@ -187,7 +187,10 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hosId } });
+      dispatch({
+        type: "COMPLIANCE-LIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_COMPLIANCE" });
@@ -289,14 +292,14 @@ const Compliance = () => {
     setDropdownVisible(false);
   };
 
-  useEffect(() => {
-    if (!filterInput) {
-      dispatch({
-        type: "COMPLIANCE-LIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, [filterInput]);
+  // useEffect(() => {
+  //   if (!filterInput) {
+  //     dispatch({
+  //       type: "COMPLIANCE-LIST",
+  //       payload: { hostelId: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, [filterInput]);
 
   const handleStatusFilter = (event) => {
     const value = event.target.value;
@@ -329,17 +332,27 @@ const Compliance = () => {
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setStatusfilter("All");
+
       dispatch({
         type: "COMPLIANCE-LIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
       });
+
       return;
     }
 
     setSelectedDateRange(dates);
-    const newStartDate = dayjs(dates[0]).startOf("day");
-    const newEndDate = dayjs(dates[1]).endOf("day");
-    setExcelFilterDates([newStartDate, newEndDate]);
+
+    const newStartDate = dayjs(dates[0]).startOf("day").format("DD-MM-YYYY");
+
+    const newEndDate = dayjs(dates[1]).endOf("day").format("DD-MM-YYYY");
+
+    setExcelFilterDates([
+      dayjs(dates[0]).startOf("day"),
+      dayjs(dates[1]).endOf("day"),
+    ]);
 
     const filtered = (state.ComplianceList?.Compliance || []).filter((item) => {
       const itemDate = dayjs(item.date);
@@ -350,30 +363,16 @@ const Compliance = () => {
     });
 
     setFilteredUsers(filtered);
-    // setCurrentPage(1);
+
+    dispatch({
+      type: "COMPLIANCE-LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        startDate: newStartDate,
+        endDate: newEndDate,
+      },
+    });
   };
-
-  useEffect(() => {
-    if (selectedDateRange?.length === 2) {
-      const newStartDate = dayjs(selectedDateRange[0])
-        .startOf("day")
-        .format("DD-MM-YYYY");
-      const newEndDate = dayjs(selectedDateRange[1])
-        .endOf("day")
-        .format("DD-MM-YYYY");
-
-      if (newStartDate && newEndDate) {
-        dispatch({
-          type: "COMPLIANCE-LIST",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-            startDate: newStartDate,
-            endDate: newEndDate,
-          },
-        });
-      }
-    }
-  }, [selectedDateRange]);
 
   useEffect(() => {
     if (!filterStatus) {
@@ -420,7 +419,7 @@ const Compliance = () => {
         style: {
           color: "#000",
           borderBottom: "5px solid red",
-          fontFamily: "Gilroy",                 
+          fontFamily: "Gilroy",
         },
       });
       return;
@@ -575,79 +574,70 @@ const Compliance = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              {search ? (
-                <div className="relative mt-2">
-                  <div className="input-group">
-                    <span className="input-group-text bg-white border-end-0">
-                      <Image src={searchteam} className="h-5 w-5" />
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 w-full w-12 font-gilroy"
-                      value={filterInput}
-                      onChange={(e) => handlefilterInput(e)}
-                    />
-                    <span className="input-group-text bg-white border-start-0">
-                      <img
-                        src={closecircle}
-                        alt="close"
-                        className="h-5 w-5 cursor-pointer"
-                        onClick={handleCloseSearch}
-                      />
-                    </span>
-                  </div>
-
-                  {isDropdownVisible && filteredUsers?.length > 0 && (
-                    <div className="absolute top-15 left-0 z-50 w-full p-2.5 bg-white border border-gray-300 rounded-lg">
-                      <ul className="show-scroll p-0 m-0 list-none rounded-lg max-h-44 overflow-y-auto bg-white w-full box-border">
-                        {filterUsers?.length > 0 ? (
-                          filterUsers.map((user, index) => {
-                            const imagedrop =
-                              user?.complaintResponseDto?.customerProfile ||
-                              Profile;
-                            return (
-                              <li
-                                key={index}
-                                className={`flex items-center w-full p-2.5 rounded-lg cursor-pointer box-border font-gilroy ${
-                                  hoveredIndex === index
-                                    ? "bg-blue-700 text-white"
-                                    : "bg-white text-black"
-                                }`}
-                                onClick={() =>
-                                  handleUserSelect(user.complaintResponseDto)
-                                }
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                              >
-                                <Image
-                                  src={imagedrop}
-                                  alt={user?.Name || "Default Profile"}
-                                  roundedCircle
-                                  className="h-7.5 w-7.5 mr-2.5 flex-shrink-0"
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = Profile;
-                                  }}
-                                />
-                                <div style={{ flexGrow: 1 }}>
-                                  {user?.complaintResponseDto?.customerName ||
-                                    "Unnamed"}
-                                </div>
-                              </li>
-                            );
-                          })
-                        ) : (
-                          <li className="flex items-center justify-center w-full p-2.5 rounded-lg bg-white text-black box-border font-gilroy">
-                            No Customer found
-                          </li>
-                        )}
-                      </ul>
-                    </div>
-                  )}
+              <div className="relative mt-2">
+                <div className="input-group">
+                  <span className="input-group-text bg-white border-end-0">
+                    <Image src={searchteam} className="h-5 w-5" />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 w-full w-12 font-gilroy"
+                    value={filterInput}
+                    onChange={(e) => handlefilterInput(e)}
+                  />
                 </div>
-              ) : (
-                <div className="me-2 cursor-pointer">
+
+                {/* {isDropdownVisible && filteredUsers?.length > 0 && (
+                  <div className="absolute top-15 left-0 z-50 w-full p-2.5 bg-white border border-gray-300 rounded-lg">
+                    <ul className="show-scroll p-0 m-0 list-none rounded-lg max-h-44 overflow-y-auto bg-white w-full box-border">
+                      {filterUsers?.length > 0 ? (
+                        filterUsers.map((user, index) => {
+                          const imagedrop =
+                            user?.complaintResponseDto?.customerProfile ||
+                            Profile;
+                          return (
+                            <li
+                              key={index}
+                              className={`flex items-center w-full p-2.5 rounded-lg cursor-pointer box-border font-gilroy ${
+                                hoveredIndex === index
+                                  ? "bg-blue-700 text-white"
+                                  : "bg-white text-black"
+                              }`}
+                              onClick={() =>
+                                handleUserSelect(user.complaintResponseDto)
+                              }
+                              onMouseEnter={() => setHoveredIndex(index)}
+                              onMouseLeave={() => setHoveredIndex(null)}
+                            >
+                              <Image
+                                src={imagedrop}
+                                alt={user?.Name || "Default Profile"}
+                                roundedCircle
+                                className="h-7.5 w-7.5 mr-2.5 flex-shrink-0"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <div style={{ flexGrow: 1 }}>
+                                {user?.complaintResponseDto?.customerName ||
+                                  "Unnamed"}
+                              </div>
+                            </li>
+                          );
+                        })
+                      ) : (
+                        <li className="flex items-center justify-center w-full p-2.5 rounded-lg bg-white text-black box-border font-gilroy">
+                          No Customer found
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                )} */}
+              </div>
+              {/* ) : ( */}
+              {/* <div className="me-2 cursor-pointer">
                   <Image
                     src={searchteam}
                     className={`h-6 w-6 transition-opacity duration-300 ease-in-out ${
@@ -658,7 +648,7 @@ const Compliance = () => {
                     onClick={() => canReadComplaints && handleSearch()}
                   />
                 </div>
-              )}
+              )} */}
 
               <div className="me-2 cursor-pointer">
                 <Image
