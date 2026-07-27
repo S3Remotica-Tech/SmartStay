@@ -568,7 +568,7 @@ function TenantsRegister() {
 
   const totalPages = state?.reports?.getTenantRegister?.totalPages ?? 1;
 
-  const totalRecords = state?.reports?.getTenantRegister?.totalRecords ?? 0;
+  const totalRecords = state?.reports?.getTenantRegister?.totalItems ?? 0;
 
   const handlePageChange = (page) => {
     setPage(page);

@@ -284,7 +284,7 @@ const InvoicePage = () => {
     if (state.login.selectedHostel_Id) {
       setPage(1);
       setFilterInput("");
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -877,8 +877,8 @@ const InvoicePage = () => {
           filters: {
             size,
             page,
-            paymentStatus: "",
-            search: "",
+            // paymentStatus: "",
+            // search: "",
           },
         },
       });
