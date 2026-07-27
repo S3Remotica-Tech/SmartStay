@@ -51,7 +51,7 @@ function TenantJobDetails() {
         <h2 className="font-gilroy font-semibold text-black text-[16px] leading-[40px]  sm:mb-0">
           Job & Shift Details
         </h2>
-        {!isDisabledButton && (
+        {!isDisabledButton && hasJobDetails && (
           <div>
             <Edit
               size="16"
