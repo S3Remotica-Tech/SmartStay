@@ -45,6 +45,7 @@ function ReceiptRegister() {
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const isInitialLoad = useRef(true);
+
   const apiStart = state?.reports?.getReceiptRegister?.summary?.startDate;
   const apiEnd = state?.reports?.getReceiptRegister?.summary?.endDate;
 
@@ -329,6 +330,14 @@ function ReceiptRegister() {
     });
   }, [apiStart, apiEnd]);
 
+  const startDate = selectedRange?.from
+    ? dayjs(selectedRange.from).format("DD-MM-YYYY")
+    : undefined;
+
+  const endDate = selectedRange?.to
+    ? dayjs(selectedRange.to).format("DD-MM-YYYY")
+    : undefined;
+
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
@@ -360,16 +369,35 @@ function ReceiptRegister() {
       to: to ? to.toDate() : null,
     });
 
+    // const filters = {
+    //   startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+    //   endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+    //   size: size,
+    //   page: page,
+    // };
+    const receiptFilters = state.reports?.receiptRegisterFilters;
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
       size: size,
-      page: page,
+      page: 1,
+      invoiceType: receiptFilters?.invoiceType,
+      paymentMode: receiptFilters?.paymentMode,
+      collectedBy: receiptFilters?.collectedBy,
+      period: receiptFilters?.period,
     };
 
     dispatch({
       type: "SET_RECEIPT_REGISTER_FILTERS",
       payload: filters,
+    });
+
+    dispatch({
+      type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: filters,
+      },
     });
   };
 
@@ -388,10 +416,10 @@ function ReceiptRegister() {
         },
       });
 
-      const filters = {
-        size,
-        page,
-      };
+      // const filters = {
+      //   size,
+      //   page,
+      // };
       // dispatch({
       //   type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
       //   payload: {
@@ -401,18 +429,6 @@ function ReceiptRegister() {
       // });
     };
   }, []);
-
-  const startDate = selectedRange?.from
-    ? dayjs(selectedRange.from).format("DD-MM-YYYY")
-    : undefined;
-
-  const endDate = selectedRange?.to
-    ? dayjs(selectedRange.to).format("DD-MM-YYYY")
-    : undefined;
-
-  // useEffect(() => {
-  //   setPage(0);
-  // }, [state.reports?.receiptRegisterFilters]);
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
@@ -429,6 +445,7 @@ function ReceiptRegister() {
       collectedBy: receiptFilters?.collectedBy,
       period: receiptFilters?.period,
     };
+
     dispatch({
       type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
       payload: {
@@ -437,7 +454,7 @@ function ReceiptRegister() {
       },
     });
     setLoading(true);
-  }, [size, page, selectedRange, state.login?.selectedHostel_Id]);
+  }, [size, page, state.login?.selectedHostel_Id]);
 
   const currentPage = state?.reports?.getReceiptRegister?.currentPage ?? 1;
 
