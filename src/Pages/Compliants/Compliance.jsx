@@ -203,13 +203,16 @@ const Compliance = () => {
       setLoading(true);
       dispatch({
         type: "COMPLIANCE-LIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          customerName: filterInput,
+        },
       });
     } else {
       setFilteredUsers([]);
       setLoading(false);
     }
-  }, [state.login?.selectedHostel_Id]);
+  }, [state.login?.selectedHostel_Id, filterInput]);
 
   useEffect(() => {
     setLoading(false);
