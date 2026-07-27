@@ -480,12 +480,47 @@ function InvoiceRegister() {
       to: to ? to.toDate() : null,
     });
 
+    const invoiceFilters = state.reports?.invoiceRegisterFilters;
+
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
       size: size,
-      page: page,
+      page: 1,
+      search: invoiceFilters?.search || undefined,
+
+      paymentStatus: invoiceFilters?.paymentStatus?.length
+        ? invoiceFilters.paymentStatus
+        : undefined,
+
+      invoiceModes: invoiceFilters?.invoiceModes?.length
+        ? invoiceFilters.invoiceModes
+        : undefined,
+
+      invoiceTypes: invoiceFilters?.invoiceTypes?.length
+        ? invoiceFilters.invoiceTypes
+        : undefined,
+
+      createdBy: invoiceFilters?.createdBy?.length
+        ? invoiceFilters.createdBy
+        : undefined,
+
+      period: invoiceFilters?.period || "",
+
+      minPaidAmount: invoiceFilters?.minPaidAmount || undefined,
+      maxPaidAmount: invoiceFilters?.maxPaidAmount || undefined,
+
+      minOutstandingAmount: invoiceFilters?.minOutstandingAmount || undefined,
+      maxOutstandingAmount: invoiceFilters?.maxOutstandingAmount || undefined,
     };
+
+    dispatch({
+      type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters,
+      },
+    });
 
     dispatch({
       type: "SET_INVOICE_REGISTER_FILTERS",
@@ -513,10 +548,10 @@ function InvoiceRegister() {
           createdByLabels: [],
         },
       });
-      const filters = {
-        size,
-        page,
-      };
+      // const filters = {
+      //   size,
+      //   page,
+      // };
 
       // dispatch({
       //   type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
@@ -589,7 +624,7 @@ function InvoiceRegister() {
     });
 
     setLoading(true);
-  }, [state.login?.selectedHostel_Id, size, page, startDate, endDate]);
+  }, [state.login?.selectedHostel_Id, size, page]);
 
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
 

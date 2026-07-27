@@ -98,7 +98,7 @@ const InvoicePage = () => {
   const [showdeleteform, setShowDeleteform] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [filterInput, setFilterInput] = useState("");
-
+  const [debouncedInput, setDebouncedInput] = useState(filterInput);
   const [search, setSearch] = useState(false);
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([]);
@@ -114,6 +114,14 @@ const InvoicePage = () => {
   const tableContainerRef = useRef(null);
   const listRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedInput(filterInput);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [filterInput]);
 
   const Options = [
     { key: "Invoice Number", label: "Invoice Number" },
@@ -141,8 +149,8 @@ const InvoicePage = () => {
     { key: "Room View", label: "Room", img: Buildings },
   ];
 
-  console.log("statusfilter after reset:", statusfilter);
-  console.log("invoiceFilters:", invoiceFilters);
+  // console.log("statusfilter after reset:", statusfilter);
+  // console.log("invoiceFilters:", invoiceFilters);
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -284,7 +292,7 @@ const InvoicePage = () => {
     if (state.login.selectedHostel_Id) {
       setPage(1);
       setFilterInput("");
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -574,7 +582,7 @@ const InvoicePage = () => {
   };
 
   const handleStatusFilter = (selectedOption) => {
-    console.log("selectedOption", selectedOption);
+    // console.log("selectedOption", selectedOption);
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
@@ -877,6 +885,8 @@ const InvoicePage = () => {
           filters: {
             size,
             page,
+            // paymentStatus: "",
+            // search: "",
           },
         },
       });
@@ -1094,9 +1104,11 @@ const InvoicePage = () => {
       modes: previousFilters.modes,
       paymentStatus:
         statusfilter && statusfilter !== "ALL" ? [statusfilter] : "",
-      search: filterInput?.trim() ? filterInput.trim() : previousFilters.search,
+      search: debouncedInput?.trim()
+        ? debouncedInput.trim()
+        : previousFilters.search,
       size: size,
-      page: page,
+      page: statusfilter ? 1 : page,
     };
 
     dispatch({
@@ -1116,7 +1128,13 @@ const InvoicePage = () => {
       },
     });
     setLoading(true);
-  }, [filterInput, statusfilter, size, page, state.login?.selectedHostel_Id]);
+  }, [
+    debouncedInput,
+    statusfilter,
+    size,
+    page,
+    state.login?.selectedHostel_Id,
+  ]);
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1167,7 +1185,7 @@ const InvoicePage = () => {
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    console.log("invoiceFilters", invoiceFilters);
+    // console.log("invoiceFilters", invoiceFilters);
 
     const filterData = [];
 

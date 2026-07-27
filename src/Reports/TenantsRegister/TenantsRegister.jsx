@@ -262,12 +262,28 @@ function TenantsRegister() {
       to: to ? to.toDate() : null,
     });
 
+    const savedFilters = state.reports?.tenantRegisterFilters;
+
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
       size: size,
-      page: page,
+      page: 1,
+      status: savedFilters?.tenantStatus,
+      period: savedFilters?.period,
+      floor: savedFilters?.floorId,
+      room: savedFilters?.roomId,
+      search: savedFilters?.search,
+      sharingType: savedFilters?.sharingType,
     };
+
+    dispatch({
+      type: "GET_REPORTS_TENANT_REGISTER_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: filters,
+      },
+    });
 
     dispatch({
       type: "SET_TENANT_REGISTER_FILTERS",
@@ -297,10 +313,10 @@ function TenantsRegister() {
         },
       });
 
-      const filters = {
-        size: size,
-        page: page,
-      };
+      // const filters = {
+      //   size: size,
+      //   page: page,
+      // };
 
       // dispatch({
       //   type: "GET_REPORTS_TENANT_REGISTER_SAGA",
@@ -345,7 +361,7 @@ function TenantsRegister() {
       },
     });
     setLoading(true);
-  }, [size, page, startDate, endDate, state.login?.selectedHostel_Id]);
+  }, [size, page, state.login?.selectedHostel_Id]);
 
   const handleDownload = () => {
     if (state.login.selectedHostel_Id && startDate && endDate) {
@@ -552,7 +568,7 @@ function TenantsRegister() {
 
   const totalPages = state?.reports?.getTenantRegister?.totalPages ?? 1;
 
-  const totalRecords = state?.reports?.getTenantRegister?.totalRecords ?? 0;
+  const totalRecords = state?.reports?.getTenantRegister?.totalItems ?? 0;
 
   const handlePageChange = (page) => {
     setPage(page);

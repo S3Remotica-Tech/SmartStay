@@ -418,7 +418,7 @@ function TenantListFilter({ show, handleClose, size }) {
                 Sharing Type
               </Form.Label>
               <Select
-                isDisabled
+                // isDisabled
                 styles={selectStyles}
                 placeholder="Select Share Type..."
                 value={selectedSharingOptions}

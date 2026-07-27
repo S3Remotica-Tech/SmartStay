@@ -455,7 +455,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const ShowMakeDiscount =
     isPayableTenant &&
     isPending &&
-    (isAdvanceInvoice || isRentInvoice || isSettlement) &&
+    ( isRentInvoice || isSettlement) &&
     isNotDiscounted;
 
   // console.log("isPayableTenant", isPayableTenant);

@@ -269,12 +269,25 @@ function ExpenseRegister() {
       to: to ? to.toDate() : null,
     });
 
+    const expenseFilters = state.reports?.expenseRegisterFilters;
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
       size: size,
-      page: page,
+      page: 1,
+      category: expenseFilters?.category,
+      subCategory: expenseFilters?.subCategory,
+      paymentMode: expenseFilters?.paymentMode,
+      createdBy: expenseFilters?.createdBy,
+      period: expenseFilters?.period,
     };
+    dispatch({
+      type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters: filters,
+      },
+    });
 
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
@@ -301,10 +314,10 @@ function ExpenseRegister() {
         },
       });
 
-      const filters = {
-        size: size,
-        page: page,
-      };
+      // const filters = {
+      //   size: size,
+      //   page: page,
+      // };
       // dispatch({
       //   type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
       //   payload: {
@@ -345,7 +358,7 @@ function ExpenseRegister() {
       },
     });
     setLoading(true);
-  }, [size, page, selectedRange, state.login?.selectedHostel_Id]);
+  }, [size, page, state.login?.selectedHostel_Id]);
 
   const handleNavigateRegister = (item) => {
     setRegister(false);
