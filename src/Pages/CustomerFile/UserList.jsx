@@ -948,7 +948,7 @@ function UserList(props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedInput(filterInput);
-    }, 100);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [filterInput]);

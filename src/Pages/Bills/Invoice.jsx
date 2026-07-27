@@ -98,7 +98,7 @@ const InvoicePage = () => {
   const [showdeleteform, setShowDeleteform] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [filterInput, setFilterInput] = useState("");
-
+  const [debouncedInput, setDebouncedInput] = useState(filterInput);
   const [search, setSearch] = useState(false);
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([]);
@@ -114,6 +114,14 @@ const InvoicePage = () => {
   const tableContainerRef = useRef(null);
   const listRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedInput(filterInput);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [filterInput]);
 
   const Options = [
     { key: "Invoice Number", label: "Invoice Number" },
@@ -1096,9 +1104,11 @@ const InvoicePage = () => {
       modes: previousFilters.modes,
       paymentStatus:
         statusfilter && statusfilter !== "ALL" ? [statusfilter] : "",
-      search: filterInput?.trim() ? filterInput.trim() : previousFilters.search,
+      search: debouncedInput?.trim()
+        ? debouncedInput.trim()
+        : previousFilters.search,
       size: size,
-      page: page,
+      page: statusfilter ? 1 : page,
     };
 
     dispatch({
@@ -1118,7 +1128,13 @@ const InvoicePage = () => {
       },
     });
     setLoading(true);
-  }, [filterInput, statusfilter, size, page, state.login?.selectedHostel_Id]);
+  }, [
+    debouncedInput,
+    statusfilter,
+    size,
+    page,
+    state.login?.selectedHostel_Id,
+  ]);
 
   const handleCloseSearch = () => {
     setSearch(false);
