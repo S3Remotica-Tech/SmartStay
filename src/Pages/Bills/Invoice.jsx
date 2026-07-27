@@ -73,7 +73,7 @@ const InvoicePage = () => {
   const [page, setPage] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("ALL");
-  // console.log("statusfilter", statusfilter);
+
   const [selectedUserId, setSelectedUserId] = useState("");
   const [customername, setCustomerName] = useState("");
   const [startdate, setStartDate] = useState(null);
@@ -1090,6 +1090,8 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
   };
 
+  console.log("statusfilter", statusfilter);
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -1108,7 +1110,7 @@ const InvoicePage = () => {
         ? debouncedInput.trim()
         : previousFilters.search,
       size: size,
-      page: statusfilter ? 1 : page,
+      page: page,
     };
 
     dispatch({
