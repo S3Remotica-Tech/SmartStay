@@ -106,7 +106,7 @@ const CustomStyles = {
   }),
 };
 
-function QRCode() {
+function QRCode({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
@@ -141,6 +141,7 @@ function QRCode() {
   const [hoveredImage, setHoveredImage] = useState(null);
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleLinkedUpiChange = (selected) => {
     setLinkedUpi(selected);
@@ -254,10 +255,31 @@ function QRCode() {
     }
 
     if (!isValid) return;
+
+    setIsSaving(true);
   };
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentError) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    };
+  }, []);
+
   return (
     <div className="">
-      <div className="h-[500px] overflow-y-auto  show-scrolls">
+      <div className="">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="block mb-2 text-[13px] font-medium">
@@ -424,13 +446,28 @@ function QRCode() {
         </div>
       </div>
       <div className="flex justify-end gap-4 mt-6">
-        <button className="text-[#6B7280] text-sm font-medium">Cancel</button>
+        <button
+          onClick={handleClose}
+          className="px-6 py-2 text-[#6B7280] text-sm font-medium"
+        >
+          Cancel
+        </button>
 
         <button
+          disabled={isSaving}
           onClick={handleSaveQRCode}
-          className="px-8 py-2 bg-[#2952CC] text-white rounded-lg text-sm font-medium"
+          className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
         >
-          Save
+          {isSaving ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Saving ....{" "}
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
     </div>

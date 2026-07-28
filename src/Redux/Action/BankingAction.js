@@ -1,13 +1,4 @@
-// import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
-
-// v1
-// export async function AddBankingDetails(datum) {
-//   return await AxiosConfig.post("/add_bank", datum, {
-//     data: datum,
-//   });
-// }
-// v2
 
 export async function AddBankingDetails(hostelId, datum) {
   return await AxiosConfigV2.post(`/v2/bank/${hostelId}`, datum, {
@@ -20,17 +11,52 @@ export async function AddBankingDetails(hostelId, datum) {
 export async function AddBanking(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
 }
+
 //////////////////////////////////////////////////////////////
 // Add payment method
 
 export async function AddPaymentMethod(datum) {
-  return await AxiosConfigV2.post(`/v3/${datum.hostelId}`, datum);
+  const formData = new FormData();
+
+  if (datum.qrImage) {
+    formData.append("qrImage", datum.qrImage);
+  }
+
+  return await AxiosConfigV2.post(
+    `/v3/bank/bankMethod/${datum.hostelId}/${datum.bankId}`,
+    formData,
+    {
+      params: {
+        paymentMethod: datum.paymentMethod,
+        upiId: datum.upiId,
+        upiApp: datum.upiApp,
+        displayName: datum.displayName,
+        description: datum.description,
+        cardNumber: datum.cardNumber,
+        cardNetwork: datum.cardNetwork,
+        cardHolderName: datum.cardHolderName,
+        creditLimit: datum.creditLimit,
+        billingCycle: datum.billingCycle,
+        linkedUpiId: datum.linkedUpiId,
+      },
+    },
+  );
 }
 
 // Banking Overview
 
-export async function ParticularBankingOverview(hostelId) {
-  return await AxiosConfigV2.get(`//${hostelId}`);
+export async function ParticularBankingOverview(hostel) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/bankMethod/${hostel.hostelId}/${hostel.bankId}`,
+  );
+}
+
+// get /v3/bank/qrCardType
+
+export async function getUPIAndCardTypes(payload) {
+  return await AxiosConfigV2.get(`/v3/bank/qrCardType`, {
+    params: payload,
+  });
 }
 
 /////////////////////////////////////////////////////////////////
@@ -42,13 +68,6 @@ export async function EditBankingDetails(hostelId, bankId, datum) {
     },
   });
 }
-
-// v1
-// export async function GetAddBanking(datum) {
-//   return await AxiosConfig.post("/all_bankings",datum, {
-//     data:datum,
-//   });
-// }
 
 export async function GetAddBanking(hostelId) {
   return await AxiosConfigV2.get(`/v2/bank/${hostelId}`, {

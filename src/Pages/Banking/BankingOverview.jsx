@@ -14,6 +14,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingChart from "./BankingChart";
 import BankingLinkMethod from "./BankingLinkMethod";
 import BankingLedger from "./BankingLedger";
+import { useDispatch, useSelector } from "react-redux";
 
 const tabs = [
   { id: "overview", label: "Overview" },
@@ -53,10 +54,19 @@ const accountDetails = [
   { label: "Branch", value: "Navalur Canara" },
 ];
 
-function BankingOverview({ show, onClose }) {
+function BankingOverview({ show, onClose, bankingOverviewDetails }) {
   if (!show) return null;
+
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
+
+  console.log("bankingOverviewDetails", bankingOverviewDetails);
+
+  const BankingOverview = state?.bankingDetails?.particularBankingOverview;
+
+  console.log("BankingOverview", BankingOverview);
 
   const dropdownRef = useRef(null);
   const transactionMenus = [
@@ -82,6 +92,18 @@ function BankingOverview({ show, onClose }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (bankingOverviewDetails) {
+      dispatch({
+        type: "PARTICULAR_BANKING_OVERVIEW_SAGA",
+        payload: {
+          hostelId: bankingOverviewDetails?.hostelId,
+          bankId: bankingOverviewDetails?.bankId,
+        },
+      });
+    }
+  }, [bankingOverviewDetails]);
+
   return (
     <div className="font-gilroy">
       <div
@@ -90,7 +112,7 @@ function BankingOverview({ show, onClose }) {
         }`}
         // onClick={onClose}
       />
-      <div className="fixed top-2 right-2 bottom-2 w-[1100px]  bg-white z-50 rounded-md flex flex-col">
+      <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
         <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0] shrink-0">
           <div className="flex items-center gap-4">
             <div className="w-[50px] h-[50px] rounded-2xl bg-[#EEF2FF] flex items-center justify-center">
@@ -99,15 +121,20 @@ function BankingOverview({ show, onClose }) {
 
             <div>
               <div className="text-[18px] font-semibold text-[#222222]">
-                Canara Bank - Imman
+                {bankingOverviewDetails?.bankName} -{" "}
+                {bankingOverviewDetails?.accountHolderName}
               </div>
 
               <div className="flex items-center gap-3 mt-1">
-                <div className="text-[#4B4B4B] text-[14px]">Bank Account</div>
+                <div className="text-[#4B4B4B] text-[14px] capitalize">
+                  {bankingOverviewDetails?.accountType?.toLowerCase()} Account
+                </div>
 
                 <div className="flex items-center gap-1">
                   <Location size="16" color="#8F5C09" variant="Bold" />
-                  <div className="text-[#8F5C09] text-[14px]">Navalur</div>
+                  <div className="text-[#8F5C09] text-[14px]">
+                    {bankingOverviewDetails?.branchName}
+                  </div>
                 </div>
               </div>
             </div>

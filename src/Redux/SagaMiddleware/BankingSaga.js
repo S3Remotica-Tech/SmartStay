@@ -4,6 +4,7 @@ import {
   AddBanking,
   AddPaymentMethod,
   v3GetBanking,
+  getUPIAndCardTypes,
   GetResponsibleList,
   selfTranfer,
   selfTranferInitialize,
@@ -38,6 +39,29 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleGetUPIAndCardTypes(action) {
+  try {
+    console.log("actinnnn", action);
+    const response = yield call(getUPIAndCardTypes, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_UPI_CARD_TYPES_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -160,13 +184,12 @@ function* handleAddPaymentMethod(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({
-          type: "ADD_PAYEMNT_METHOD_BANKING_ERROR",
-          payload: error.response.data,
-        });
-      }
+
+    if (error) {
+      yield put({
+        type: "ADD_PAYEMNT_METHOD_BANKING_ERROR",
+        payload: error.response.data,
+      });
     }
   }
 }
@@ -681,6 +704,7 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery("GET_UPI_CARD_TYPES_SAGA", handleGetUPIAndCardTypes);
   yield takeEvery(
     "PARTICULAR_BANKING_OVERVIEW_SAGA",
     handleParticularBankingOverview,

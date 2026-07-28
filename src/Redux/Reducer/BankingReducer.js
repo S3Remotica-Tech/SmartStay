@@ -22,6 +22,8 @@ export const initialState = {
   responsiblepersonList: [],
   addPaymentMethodSuccessCode: 0,
   particularBankingOverview: "",
+  getUpiCardTypes: [],
+  addPaymentError: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -124,11 +126,20 @@ const BankingReducer = (state = initialState, action) => {
         addPaymentMethodSuccessCode: 0,
       };
 
+    case "ADD_PAYEMNT_METHOD_BANKING_ERROR":
+      return { ...state, addPaymentError: action.payload };
+
+    case "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR":
+      return { ...state, addPaymentError: "" };
+
     case "PARTICULAR_BANKING_OVERVIEW_REDUCER":
       return {
         ...state,
         particularBankingOverview: action.payload.response,
       };
+
+    case "GET_UPI_CARD_TYPES_REDUCER":
+      return { ...state, getUpiCardTypes: action.payload.response };
 
     case "BANKING_LIST":
       return {

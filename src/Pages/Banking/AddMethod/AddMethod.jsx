@@ -20,11 +20,23 @@ function AddPaymentMethod({ show, handleClose }) {
     setPaymentType(value);
     setPaymentTypeError("");
   };
-  return (
-    <div className="font-gilroy">
-      <div className="fixed inset-0 bg-black/40 z-40" />
 
-      <div className="fixed top-2 right-2 bottom-2 w-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col ">
+  useEffect(() => {
+    if (paymentType) {
+      dispatch({
+        type: "GET_UPI_CARD_TYPES_SAGA",
+        payload: {
+          type: paymentType,
+        },
+      });
+    }
+  }, [paymentType]);
+
+  return (
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-md bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="flex items-center justify-between px-6 py-3 ">
           <h2 className="text-[18px] font-semibold text-[#1A1C21]">
             Add Payment Method
@@ -42,44 +54,43 @@ function AddPaymentMethod({ show, handleClose }) {
           </button>
         </div>
 
-        <div className="px-6 py-2">
-          <div>
-            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-              Select Type <span className="text-red-500">*</span>
-            </label>
+        <div className="px-4">
+          <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+            Select Type <span className="text-red-500">*</span>
+          </label>
 
-            <div className="flex gap-6 mt-2 cursor-pointer">
-              {["UPI", "Credit Card", "Debit Card", "QR Code"].map(
-                (item, index) => (
-                  <label
-                    key={index}
-                    className="flex items-center gap-2 text-[14px] text-[#111928] cursor-pointer"
-                  >
-                    <input
-                      type="radio"
-                      name="paymentType"
-                      value={item}
-                      checked={paymentType === item}
-                      onChange={(e) => handlePaymentTypeChange(e.target.value)}
-                      className="accent-blue-600 cursor-pointer"
-                    />
-                    {item}
-                  </label>
-                ),
-              )}
-            </div>
-            {paymentTypeError && (
-              <ErrorMessage message={paymentTypeError} type="error" />
+          <div className="flex gap-6 mt-2 cursor-pointer">
+            {["UPI", "Credit Card", "Debit Card", "QR Code"].map(
+              (item, index) => (
+                <label
+                  key={index}
+                  className="flex items-center gap-2 text-[14px] text-[#111928] cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="paymentType"
+                    value={item}
+                    checked={paymentType === item}
+                    onChange={(e) => handlePaymentTypeChange(e.target.value)}
+                    className="accent-blue-600 cursor-pointer"
+                  />
+                  {item}
+                </label>
+              ),
             )}
           </div>
+          {paymentTypeError && (
+            <ErrorMessage message={paymentTypeError} type="error" />
+          )}
+        </div>
+        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] ">
+          {paymentType === "UPI" && <UPI handleClose={handleClose}/>}
 
-          {paymentType === "UPI" && <UPI />}
+          {paymentType === "Credit Card" && <Credit handleClose={handleClose}/>}
 
-          {paymentType === "Credit Card" && <Credit />}
+          {paymentType === "Debit Card" && <Debit handleClose={handleClose}/>}
 
-          {paymentType === "Debit Card" && <Debit />}
-
-          {paymentType === "QR Code" && <QRCode />}
+          {paymentType === "QR Code" && <QRCode handleClose={handleClose}/>}
         </div>
       </div>
     </div>

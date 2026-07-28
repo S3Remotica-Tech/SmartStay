@@ -106,9 +106,11 @@ const CustomStyles = {
   }),
 };
 
-function UPI() {
+function UPI({handleClose}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  // const getUpiCardTypes   state?.bankingDetails?.getUpiCardTypes
 
   const bankOptions = [
     { value: "canara", label: "Canara Bank (Navalur Branch)" },
@@ -116,8 +118,14 @@ function UPI() {
   ];
 
   const upiOptions = [
-    { value: "gpay", label: "Gpay" },
-    { value: "phonepe", label: "PhonePe" },
+    { value: "GOOGLEPAY", label: "Google Pay" },
+    { value: "PHONEPE", label: "PhonePe" },
+    { value: "PAYTM", label: "Paytm" },
+    { value: "BHIM", label: "BHIM UPI" },
+    { value: "AMAZONPAY", label: "Amazon Pay" },
+    { value: "CRED", label: "CRED" },
+    { value: "SUPERMONEY", label: "Super.money" },
+    { value: "MOBIKWIK", label: "MobiKwik" },
   ];
 
   const [linkedBank, setLinkedBank] = useState(null);
@@ -125,7 +133,7 @@ function UPI() {
 
   const [upiApp, setUpiApp] = useState(null);
   const [upiAppError, setUpiAppError] = useState("");
-
+  const [isSaving, setIsSaving] = useState(false);
   const [upiId, setUpiId] = useState("");
   const [upiIdError, setUpiIdError] = useState("");
 
@@ -190,12 +198,13 @@ function UPI() {
   };
 
   const handleSaveUPI = () => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     let isValid = true;
 
-    if (!linkedBank) {
-      setLinkedBankError("Please select linked bank");
-      isValid = false;
-    }
+    // if (!linkedBank) {
+    //   setLinkedBankError("Please select linked bank");
+    //   isValid = false;
+    // }
 
     if (!upiApp) {
       setUpiAppError("Please select UPI app");
@@ -232,25 +241,65 @@ function UPI() {
     // }
 
     if (!isValid) return;
+
+    dispatch({
+      type: "ADD_PAYMENT_METHOD_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        bankId: bankingOverviewDetails?.bankId,
+        paymentMethod: "UPI",
+        upiId: upiId.trim(),
+        upiApp: upiApp.value,
+        displayName: displayName.trim(),
+        description: description.trim(),
+        // qrImage: qrImage || null,
+
+        // cardNumber: null,
+        // cardNetwork: null,
+        // cardHolderName: null,
+        // creditLimit: null,
+        // billingCycle: null,
+        // linkedUpiId: null,
+      },
+    });
+    setIsSaving(true);
   };
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentError) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    };
+  }, []);
 
   return (
     <div className="">
-      <div className="h-[500px] overflow-y-auto  show-scrolls">
+      <div className="">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-              Linked Bank <span className="text-red-500">*</span>
+              Linked Bank
             </label>
 
-            <Select
-              options={bankOptions}
+            <input
               value={linkedBank}
-              onChange={handleLinkedBankChange}
-              placeholder="Select Bank"
-              className="mt-2"
-              styles={CustomStyles}
+              disabled
+              // onChange={handleLinkedBankChange}
+              placeholder=""
+              className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
             />
+
             {linkedBankError && (
               <ErrorMessage message={linkedBankError} type="error" />
             )}
@@ -322,16 +371,34 @@ function UPI() {
           )} */}
         </div>
       </div>
+
+      {state.bankingDetails.addPaymentError && (
+        <ErrorMessage
+          message={state.bankingDetails.addPaymentError}
+          type="error"
+        />
+      )}
+
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button className="px-6 py-2 text-[#6B7280] text-sm font-medium">
+        <button onClick={handleClose} className="px-6 py-2 text-[#6B7280] text-sm font-medium">
           Cancel
         </button>
 
         <button
+          disabled={isSaving}
           onClick={handleSaveUPI}
-          className="px-8 py-2 bg-[#2952CC] text-white rounded-lg text-sm font-medium hover:bg-[#1E40AF]"
+          className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
         >
-          Save
+          {isSaving ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Saving ....{" "}
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
     </div>

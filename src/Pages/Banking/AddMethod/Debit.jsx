@@ -109,7 +109,7 @@ const CustomStyles = {
   }),
 };
 
-function Debit() {
+function Debit({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -126,7 +126,7 @@ function Debit() {
   const [displayNameError, setDisplayNameError] = useState("");
   const [cardNetwork, setCardNetwork] = useState(null);
   const [cardNetworkError, setCardNetworkError] = useState("");
-
+  const [isSaving, setIsSaving] = useState(false);
   const [cardHolderName, setCardHolderName] = useState("");
   const [cardHolderNameError, setCardHolderNameError] = useState("");
 
@@ -207,12 +207,12 @@ function Debit() {
 
     const nameRegex = /^[A-Za-z\s]+$/;
 
-    if (!linkedBank) {
-      setLinkedBankError("Please select linked bank");
-      isValid = false;
-    } else {
-      setLinkedBankError("");
-    }
+    // if (!linkedBank) {
+    //   setLinkedBankError("Please select linked bank");
+    //   isValid = false;
+    // } else {
+    //   setLinkedBankError("");
+    // }
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
@@ -252,18 +252,51 @@ function Debit() {
     }
 
     if (!isValid) return;
+
+    dispatch({
+      type: "ADD_PAYMENT_METHOD_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        bankId: bankingOverviewDetails?.bankId,
+        paymentMethod: "DEBIT",
+        displayName: displayName.trim(),
+        description: description.trim(),
+        cardNumber: cardNumber,
+        cardNetwork: cardNetwork,
+        cardHolderName: cardHolderName,
+      },
+    });
+    setIsSaving(true);
   };
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentError) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    };
+  }, []);
 
   return (
     <div className="">
-      <div className="h-[500px] overflow-y-auto  show-scrolls">
+      <div className="">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
               Linked Bank <span className="text-red-500">*</span>
             </label>
 
-            <Select
+            {/* <Select
               options={bankOptions}
               value={linkedBank}
               onChange={handleLinkedBankChange}
@@ -273,7 +306,15 @@ function Debit() {
             />
             {linkedBankError && (
               <ErrorMessage message={linkedBankError} type="error" />
-            )}
+            )} */}
+
+            <input
+              value={linkedBank}
+              disabled
+              // onChange={handleLinkedBankChange}
+              placeholder=""
+              className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+            />
           </div>
 
           <div>
@@ -367,15 +408,25 @@ function Debit() {
         </div>
       </div>
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button className="px-6 py-2 text-[#6B7280] text-sm font-medium">
+        <button onClick={handleClose} className="px-6 py-2 text-[#6B7280] text-sm font-medium">
           Cancel
         </button>
 
         <button
+          disabled={isSaving}
           onClick={handleSaveDebit}
-          className="px-8 py-2 bg-[#2952CC] text-white rounded-lg text-sm font-medium hover:bg-[#1E40AF]"
+          className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
         >
-          Save
+          {isSaving ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Saving ....{" "}
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
     </div>

@@ -1,13 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, FormControl } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "../Banking/BankingAddForm";
-import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import {
   ArrowDown2,
   Bank,
@@ -16,9 +11,12 @@ import {
   MoneyRecive,
   Trash,
 } from "iconsax-react";
-import money from "../../Assets/Images/New_images/Amount.png";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
+import Modal from "react-bootstrap/Modal";
+import { Button, Form, FormControl } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Table } from "react-bootstrap";
 import dayjs from "dayjs";
 import { CloseCircle, Filter } from "iconsax-react";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -178,6 +176,7 @@ function BankingNew() {
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
   const [showOverview, setShowOverview] = useState(false);
+  const [bankingOverviewDetails, setBankingOverviewDetails] = useState("");
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [showTenantPaymentForm, setShowTenantPaymentForm] = useState(false);
   const [showCreditCardForm, seShowCreditCardForm] = useState(false);
@@ -661,8 +660,9 @@ function BankingNew() {
     }
   }, [state.createAccount?.networkError]);
 
-  const handleShowOverview = () => {
+  const handleShowOverview = (item) => {
     setShowOverview(true);
+    setBankingOverviewDetails(item);
   };
 
   const handleAddExpense = () => {
@@ -889,7 +889,7 @@ function BankingNew() {
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleShowOverview();
+                            handleShowOverview(item);
                           }}
                           key={item.id}
                           className={` flex-shrink-0
@@ -1541,6 +1541,7 @@ function BankingNew() {
             <BankingOverview
               show={showOverview}
               onClose={() => setShowOverview(false)}
+              bankingOverviewDetails={bankingOverviewDetails}
             />
           )}
 
