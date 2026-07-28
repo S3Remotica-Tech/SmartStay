@@ -112,7 +112,7 @@ const CustomStyles = {
 function Credit({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+ const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
   const bankOptions = [
     { value: "canara", label: "Canara Bank (Navalur Branch)" },
     { value: "hdfc", label: "HDFC Bank" },
@@ -291,7 +291,7 @@ function Credit({ handleClose }) {
       type: "ADD_PAYMENT_METHOD_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        bankId: bankingOverviewDetails?.bankId,
+          bankId: OverviewDetails?.bankId,
         paymentMethod: "CREDIT",
         displayName: displayName.trim(),
         description: description.trim(),
@@ -308,6 +308,7 @@ function Credit({ handleClose }) {
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
       setIsSaving(false);
+      handleClose();
     }
   }, [state.bankingDetails.addPaymentMethodSuccessCode]);
 

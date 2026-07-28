@@ -21,15 +21,20 @@ export const initialState = {
   createBankingError: "",
   responsiblepersonList: [],
   addPaymentMethodSuccessCode: 0,
-  particularBankingOverview: "",
+  linkedPaymentMethodsList: "",
   getUpiCardTypes: [],
   addPaymentError: "",
+  OverviewBankDetails: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
+
+    case "STOREBANK_DETAILS":
+      return { ...state, OverviewBankDetails: action.payload };
+
     case "ADD_USER_BANKING":
       return {
         ...state,
@@ -132,10 +137,10 @@ const BankingReducer = (state = initialState, action) => {
     case "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR":
       return { ...state, addPaymentError: "" };
 
-    case "PARTICULAR_BANKING_OVERVIEW_REDUCER":
+    case "LINKED_PAYMENT_METHOD_REDUCER":
       return {
         ...state,
-        particularBankingOverview: action.payload.response,
+        linkedPaymentMethodsList: action.payload.response,
       };
 
     case "GET_UPI_CARD_TYPES_REDUCER":

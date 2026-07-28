@@ -42,6 +42,7 @@ import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";
 import AddNewAccount from "./AddNewAccount";
+import { StoreBankDetails } from "../../Redux/Action/BankingAction";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -663,6 +664,7 @@ function BankingNew() {
   const handleShowOverview = (item) => {
     setShowOverview(true);
     setBankingOverviewDetails(item);
+    dispatch(StoreBankDetails(item));
   };
 
   const handleAddExpense = () => {

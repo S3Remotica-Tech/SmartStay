@@ -45,7 +45,7 @@ export async function AddPaymentMethod(datum) {
 
 // Banking Overview
 
-export async function ParticularBankingOverview(hostel) {
+export async function LinkedPaymentMethod(hostel) {
   return await AxiosConfigV2.get(
     `/v3/bank/bankMethod/${hostel.hostelId}/${hostel.bankId}`,
   );
@@ -58,6 +58,11 @@ export async function getUPIAndCardTypes(payload) {
     params: payload,
   });
 }
+
+export const StoreBankDetails = (bank) => ({
+  type: "STOREBANK_DETAILS",
+  payload: bank,
+});
 
 /////////////////////////////////////////////////////////////////
 
@@ -93,10 +98,10 @@ export async function selfTranferInitialize(bank) {
 }
 
 export async function selfTranfer(bank) {
-  return await AxiosConfigV2.put(`/v2/bank/transfer/${bank.hostelId}`, {
+  return await AxiosConfigV2.put(`/v3/bank/moneyTransfer/${bank.hostelId}`, {
     fromBankId: bank.fromBankId,
     toBankId: bank.toBankId,
-    balance: bank.balance,
+    amount: bank.amount,
   });
 }
 

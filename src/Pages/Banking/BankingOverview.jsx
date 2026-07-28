@@ -16,12 +16,6 @@ import BankingLinkMethod from "./BankingLinkMethod";
 import BankingLedger from "./BankingLedger";
 import { useDispatch, useSelector } from "react-redux";
 
-const tabs = [
-  { id: "overview", label: "Overview" },
-  { id: "linkedMethods", label: "Linked Methods" },
-  { id: "ledger", label: "Ledger" },
-];
-
 const summaryCards = [
   {
     title: "Current Balance",
@@ -54,7 +48,7 @@ const accountDetails = [
   { label: "Branch", value: "Navalur Canara" },
 ];
 
-function BankingOverview({ show, onClose, bankingOverviewDetails }) {
+function BankingOverview({ show, onClose }) {
   if (!show) return null;
 
   const state = useSelector((state) => state);
@@ -62,11 +56,24 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
-  console.log("bankingOverviewDetails", bankingOverviewDetails);
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
+  const isBankAccount = OverviewDetails?.accountType === "BANK";
 
-  const BankingOverview = state?.bankingDetails?.particularBankingOverview;
+  console.log("OverviewBankDetails", OverviewDetails);
 
-  console.log("BankingOverview", BankingOverview);
+  const tabs = isBankAccount
+    ? [
+        { id: "overview", label: "Overview" },
+        { id: "linkedMethods", label: "Linked Methods" },
+        { id: "ledger", label: "Ledger" },
+      ]
+    : [
+        { id: "overview", label: "Overview" },
+        { id: "ledger", label: "Ledger" },
+      ];
+
+  const LinkedPaymentMethodsList =
+    state?.bankingDetails?.linkedPaymentMethodsList;
 
   const dropdownRef = useRef(null);
   const transactionMenus = [
@@ -93,16 +100,29 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
   }, []);
 
   useEffect(() => {
-    if (bankingOverviewDetails) {
+    if (OverviewDetails && activeTab === "linkedMethods") {
       dispatch({
-        type: "PARTICULAR_BANKING_OVERVIEW_SAGA",
+        type: "LINKED_PAYMENT_METHOD_SAGA",
         payload: {
-          hostelId: bankingOverviewDetails?.hostelId,
-          bankId: bankingOverviewDetails?.bankId,
+          hostelId: OverviewDetails?.hostelId,
+          bankId: OverviewDetails?.bankId,
         },
       });
     }
-  }, [bankingOverviewDetails]);
+  }, [OverviewDetails, activeTab]);
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+      dispatch({
+        type: "LINKED_PAYMENT_METHOD_SAGA",
+        payload: {
+          hostelId:OverviewDetails?.hostelId,
+          bankId:OverviewDetails?.bankId,
+        },
+      });
+      dispatch({ type: "REMOVE_ADD_PAYMENT_METHOD_REDUCER" });
+    }
+  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
 
   return (
     <div className="font-gilroy">
@@ -121,19 +141,20 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
 
             <div>
               <div className="text-[18px] font-semibold text-[#222222]">
-                {bankingOverviewDetails?.bankName} -{" "}
-                {bankingOverviewDetails?.accountHolderName}
+                {OverviewDetails?.bankName} -{" "}
+                {OverviewDetails?.accountHolderName}
               </div>
 
               <div className="flex items-center gap-3 mt-1">
                 <div className="text-[#4B4B4B] text-[14px] capitalize">
-                  {bankingOverviewDetails?.accountType?.toLowerCase()} Account
+                  {OverviewDetails?.accountType?.toLowerCase()}{" "}
+                  Account
                 </div>
 
                 <div className="flex items-center gap-1">
                   <Location size="16" color="#8F5C09" variant="Bold" />
                   <div className="text-[#8F5C09] text-[14px]">
-                    {bankingOverviewDetails?.branchName}
+                    {OverviewDetails?.branchName}
                   </div>
                 </div>
               </div>
@@ -268,7 +289,9 @@ function BankingOverview({ show, onClose, bankingOverviewDetails }) {
 
           {activeTab === "overview" && <BankingChart />}
 
-          {activeTab === "linkedMethods" && <BankingLinkMethod />}
+          {activeTab === "linkedMethods" && isBankAccount && (
+            <BankingLinkMethod />
+          )}
 
           {activeTab === "ledger" && <BankingLedger />}
         </div>

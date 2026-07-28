@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-  ParticularBankingOverview,
+  LinkedPaymentMethod,
   AddBanking,
   AddPaymentMethod,
   v3GetBanking,
@@ -65,9 +65,9 @@ function* handleGetUPIAndCardTypes(action) {
   }
 }
 
-function* handleParticularBankingOverview(action) {
+function* handleLinkedPaymentMethod(action) {
   try {
-    const response = yield call(ParticularBankingOverview, action.payload);
+    const response = yield call(LinkedPaymentMethod, action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
@@ -75,7 +75,7 @@ function* handleParticularBankingOverview(action) {
 
     if (response?.status === 200) {
       yield put({
-        type: "PARTICULAR_BANKING_OVERVIEW_REDUCER",
+        type: "LINKED_PAYMENT_METHOD_REDUCER",
         payload: {
           response: response.data || [],
           statusCode: response?.status,
@@ -706,8 +706,8 @@ function refreshToken(response) {
 function* CreateBankingSaga() {
   yield takeEvery("GET_UPI_CARD_TYPES_SAGA", handleGetUPIAndCardTypes);
   yield takeEvery(
-    "PARTICULAR_BANKING_OVERVIEW_SAGA",
-    handleParticularBankingOverview,
+    "LINKED_PAYMENT_METHOD_SAGA",
+    handleLinkedPaymentMethod,
   );
   yield takeEvery("ADD_PAYMENT_METHOD_SAGA", handleAddPaymentMethod);
   yield takeEvery("ADD_BANKING_SAGA", handleAddBankingNew);

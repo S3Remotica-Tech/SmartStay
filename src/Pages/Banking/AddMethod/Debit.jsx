@@ -113,6 +113,8 @@ function Debit({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
+
   const bankOptions = [
     { value: "canara", label: "Canara Bank (Navalur Branch)" },
     { value: "hdfc", label: "HDFC Bank" },
@@ -257,7 +259,7 @@ function Debit({ handleClose }) {
       type: "ADD_PAYMENT_METHOD_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        bankId: bankingOverviewDetails?.bankId,
+        bankId: OverviewDetails?.bankId,
         paymentMethod: "DEBIT",
         displayName: displayName.trim(),
         description: description.trim(),
@@ -272,6 +274,7 @@ function Debit({ handleClose }) {
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
       setIsSaving(false);
+      handleClose();
     }
   }, [state.bankingDetails.addPaymentMethodSuccessCode]);
 
@@ -408,7 +411,10 @@ function Debit({ handleClose }) {
         </div>
       </div>
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button onClick={handleClose} className="px-6 py-2 text-[#6B7280] text-sm font-medium">
+        <button
+          onClick={handleClose}
+          className="px-6 py-2 text-[#6B7280] text-sm font-medium"
+        >
           Cancel
         </button>
 

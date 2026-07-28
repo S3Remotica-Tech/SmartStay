@@ -106,11 +106,13 @@ const CustomStyles = {
   }),
 };
 
-function UPI({handleClose}) {
+function UPI({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   // const getUpiCardTypes   state?.bankingDetails?.getUpiCardTypes
+
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
   const bankOptions = [
     { value: "canara", label: "Canara Bank (Navalur Branch)" },
@@ -235,18 +237,13 @@ function UPI({handleClose}) {
       setDisplayNameError("");
     }
 
-    // if (!description.trim()) {
-    //   setDescriptionError("Please Enter Description");
-    //   isValid = false;
-    // }
-
     if (!isValid) return;
 
     dispatch({
       type: "ADD_PAYMENT_METHOD_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        bankId: bankingOverviewDetails?.bankId,
+        bankId: OverviewDetails?.bankId,
         paymentMethod: "UPI",
         upiId: upiId.trim(),
         upiApp: upiApp.value,
@@ -268,6 +265,7 @@ function UPI({handleClose}) {
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
       setIsSaving(false);
+      handleClose();
     }
   }, [state.bankingDetails.addPaymentMethodSuccessCode]);
 
@@ -380,7 +378,10 @@ function UPI({handleClose}) {
       )}
 
       <div className="flex justify-end gap-4 px-6 py-2 ">
-        <button onClick={handleClose} className="px-6 py-2 text-[#6B7280] text-sm font-medium">
+        <button
+          onClick={handleClose}
+          className="px-6 py-2 text-[#6B7280] text-sm font-medium"
+        >
           Cancel
         </button>
 

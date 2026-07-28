@@ -262,6 +262,7 @@ function QRCode({ handleClose }) {
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
       setIsSaving(false);
+       handleClose()
     }
   }, [state.bankingDetails.addPaymentMethodSuccessCode]);
 
