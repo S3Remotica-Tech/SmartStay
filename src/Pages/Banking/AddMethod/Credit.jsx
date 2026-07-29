@@ -112,11 +112,14 @@ const CustomStyles = {
 function Credit({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
- const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
-  const bankOptions = [
-    { value: "canara", label: "Canara Bank (Navalur Branch)" },
-    { value: "hdfc", label: "HDFC Bank" },
-  ];
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
+ 
+
+   const upiOptions =
+    state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
+      value: view.id,
+      label: view.name,
+    })) || [];
 
   const [linkedBank, setLinkedBank] = useState(null);
   const [linkedBankError, setLinkedBankError] = useState("");
@@ -291,7 +294,7 @@ function Credit({ handleClose }) {
       type: "ADD_PAYMENT_METHOD_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-          bankId: OverviewDetails?.bankId,
+        bankId: OverviewDetails?.bankId,
         paymentMethod: "CREDIT",
         displayName: displayName.trim(),
         description: description.trim(),
@@ -304,6 +307,8 @@ function Credit({ handleClose }) {
     });
     setIsSaving(true);
   };
+
+ 
 
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
@@ -342,8 +347,8 @@ function Credit({ handleClose }) {
               styles={CustomStyles}
             /> */}
 
-            <input
-              value={linkedBank}
+              <input
+              value={OverviewDetails?.bankName}
               disabled
               // onChange={handleLinkedBankChange}
               placeholder=""
@@ -360,12 +365,7 @@ function Credit({ handleClose }) {
             </label>
 
             <Select
-              options={[
-                { value: "visa", label: "Visa" },
-                { value: "master", label: "Master Card" },
-                { value: "rupay", label: "RuPay" },
-                { value: "amex", label: "American Express" },
-              ]}
+              options={upiOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
               placeholder="Ex : Visa, Master"

@@ -109,7 +109,7 @@ const CustomStyles = {
 function QRCode({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const fileInputRef = useRef(null);
+
 
   const upiOptions = [
     { value: "gpay1", label: "Gpay - smartstay@oksbi" },
@@ -180,16 +180,7 @@ function QRCode({ handleClose }) {
     }
   };
 
-  const handleQrImageChange = (e) => {
-    const file = e.target.files?.[0];
-
-    if (!file) return;
-
-    setQrImage(file);
-    setQrImageName(file.name);
-    setQrImagePreview(URL.createObjectURL(file));
-    setQrImageError("");
-  };
+  
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -247,13 +238,7 @@ function QRCode({ handleClose }) {
       setCardLast4Error("");
     }
 
-    if (!qrImage) {
-      setQrImageError("Please upload QR image");
-      isValid = false;
-    } else {
-      setQrImageError("");
-    }
-
+   
     if (!isValid) return;
 
     setIsSaving(true);
@@ -353,80 +338,6 @@ function QRCode({ handleClose }) {
             <ErrorMessage message={cardLast4Error} type="error" />
           )}
         </div>
-
-        <div className="mt-3">
-          <label className="block mb-2 text-[13px] font-medium">
-            Add QR Image <span className="text-red-500">*</span>
-          </label>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/jpg,image/png"
-            className="hidden"
-            onChange={handleQrImageChange}
-          />
-
-          <div
-            onClick={() => fileInputRef.current?.click()}
-            className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-          >
-            <div className="rounded-md bg-blue-100 px-1 py-1">
-              <DocumentUpload size={20} color="#1E45E1" />
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-[#222222] mb-1">
-                <span className="text-[#1E45E1]">Choose Image to</span> Upload
-              </p>
-
-              <p className="text-xs text-gray-500">JPG / JPEG / PNG Format</p>
-            </div>
-          </div>
-
-          {qrImageError && <ErrorMessage message={qrImageError} type="error" />}
-        </div>
-
-        {qrImagePreview && (
-          <div className="flex items-center justify-center">
-            <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-              <div
-                className="relative px-4 py-2 group"
-                onMouseEnter={() => setHoveredImage(qrImagePreview)}
-                onMouseLeave={() => setHoveredImage(null)}
-              >
-                <img
-                  src={qrImagePreview}
-                  alt="preview"
-                  className="w-[350px] h-auto rounded-md object-fit"
-                />
-
-                <div
-                  className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                    hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
-                  }`}
-                >
-                  <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
-                    <p className="text-white text-sm truncate max-w-[170px] mb-0">
-                      {qrImageName}
-                    </p>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setQrImagePreview(null);
-                        removeQrImage();
-                      }}
-                      className="bg-[#FFF2F2] rounded-md p-1"
-                    >
-                      <Add size={20} color="#FF3B30" className="rotate-45" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="mt-3">
           <label className="block mb-2 text-[13px] font-medium">

@@ -7,7 +7,7 @@ import { Calendar } from "iconsax-react";
 import DatePicker from "react-datepicker";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
-  console.log("selfDetailsselfDetails", selfDetails);
+  // console.log("selfDetailsselfDetails", selfDetails);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -48,7 +48,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     setError("");
 
     dispatch({
-      type: "SELF_TRANSER_SAGA",
+      type: "SELF_TRANSFER_V3_SAGA",
       payload: {
         hostelId: state.login?.selectedHostel_Id,
         fromBankId: bankDetails?.fromBank?.bankId,
@@ -170,7 +170,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             </div>
           </div>
 
-          <div className="mb-3 mt-3  pe-2 overflow-y-auto h-[250px] show-scrolls">
+          <div className="mb-3   pe-2 overflow-y-auto  show-scrolls">
             <h6 className="text-[#4B4B4B] text-base font-medium font-gilroy mb-2">
               To
             </h6>

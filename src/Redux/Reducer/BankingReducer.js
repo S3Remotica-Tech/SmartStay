@@ -25,6 +25,8 @@ export const initialState = {
   getUpiCardTypes: [],
   addPaymentError: "",
   OverviewBankDetails: "",
+  getAllPaymentMethodList: [],
+  addMoneySuccess: 0,
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -42,6 +44,11 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
+
+    case "ADD_MONEY_REDUCER":
+      return { ...state, addMoneySuccess: action.payload.statusCode };
+    case "REMOVE_ADD_MONEY_REDUCER":
+      return { ...state, addMoneySuccess: 0 };
 
     case "ADD_BANKING_ERROR":
       return { ...state, createBankingError: action.payload };
@@ -84,6 +91,9 @@ const BankingReducer = (state = initialState, action) => {
         ...state,
         statusSuccessSelfTransfer: 0,
       };
+
+    case "GET_ALL_PAYMENTS_METHODS_REDUCER":
+      return { ...state, getAllPaymentMethodList: action.payload.response };
 
     case "SELF_TRANSFER_ERROR":
       return {

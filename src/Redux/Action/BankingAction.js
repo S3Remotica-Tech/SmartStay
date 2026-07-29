@@ -1,28 +1,20 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-export async function AddBankingDetails(hostelId, datum) {
-  return await AxiosConfigV2.post(`/v2/bank/${hostelId}`, datum, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
+//////////////////////////////////////////////////////////////
 
 export async function AddBanking(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
 }
-
-//////////////////////////////////////////////////////////////
 // Add payment method
 
 export async function AddPaymentMethod(datum) {
   const formData = new FormData();
 
-  if (datum.qrImage) {
-    formData.append("qrImage", datum.qrImage);
-  }
+  console.log("datum", datum);
 
-  return await AxiosConfigV2.post(
+  formData.append("qrImage", datum.qrImage || "");
+
+  return AxiosConfigV2.post(
     `/v3/bank/bankMethod/${datum.hostelId}/${datum.bankId}`,
     formData,
     {
@@ -38,6 +30,9 @@ export async function AddPaymentMethod(datum) {
         creditLimit: datum.creditLimit,
         billingCycle: datum.billingCycle,
         linkedUpiId: datum.linkedUpiId,
+      },
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
     },
   );
@@ -59,12 +54,50 @@ export async function getUPIAndCardTypes(payload) {
   });
 }
 
+// allpayments methods
+
+export async function getAllPaymentMethod(hostelId) {
+  return await AxiosConfigV2.get(`v3/bank/allPaymentMethods/${hostelId}`);
+}
+
 export const StoreBankDetails = (bank) => ({
   type: "STOREBANK_DETAILS",
   payload: bank,
 });
 
+export async function AddMoney(money) {
+  return await AxiosConfigV2.put(
+    `/v3/bank/addMoney/${money.hostelId}`,
+    money,
+    {},
+  );
+}
+
+export async function v3GetBanking(hostelId) {
+  return await AxiosConfigV2.get(`/v3/bank/${hostelId}`);
+}
+
+export async function GetResponsibleList(hostelId) {
+  return await AxiosConfigV2.get(`/v3/bank/responsiblePerson/${hostelId}`);
+}
+
+export async function selfTranferV3(bank) {
+  return await AxiosConfigV2.put(`/v3/bank/moneyTransfer/${bank.hostelId}`, {
+    fromBankId: bank.fromBankId,
+    toBankId: bank.toBankId,
+    amount: bank.amount,
+  });
+}
+
 /////////////////////////////////////////////////////////////////
+
+export async function AddBankingDetails(hostelId, datum) {
+  return await AxiosConfigV2.post(`/v2/bank/${hostelId}`, datum, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 
 export async function EditBankingDetails(hostelId, bankId, datum) {
   return await AxiosConfigV2.put(`/v2/bank/${hostelId}/${bankId}`, datum, {
@@ -82,14 +115,6 @@ export async function GetAddBanking(hostelId) {
   });
 }
 
-export async function v3GetBanking(hostelId) {
-  return await AxiosConfigV2.get(`/v3/bank/${hostelId}`);
-}
-
-export async function GetResponsibleList(hostelId) {
-  return await AxiosConfigV2.get(`/v3/bank/responsiblePerson/${hostelId}`);
-}
-
 export async function selfTranferInitialize(bank) {
   return await AxiosConfigV2.get(
     `/v2/bank/transfer/initialize/${bank.hostelId}/${bank.bankId}`,
@@ -98,10 +123,10 @@ export async function selfTranferInitialize(bank) {
 }
 
 export async function selfTranfer(bank) {
-  return await AxiosConfigV2.put(`/v3/bank/moneyTransfer/${bank.hostelId}`, {
+  return await AxiosConfigV2.put(`/v2/bank/transfer/${bank.hostelId}`, {
     fromBankId: bank.fromBankId,
     toBankId: bank.toBankId,
-    amount: bank.amount,
+    balance: bank.amount,
   });
 }
 

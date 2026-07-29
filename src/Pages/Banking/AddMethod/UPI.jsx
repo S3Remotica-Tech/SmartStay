@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { CloseCircle, Add } from "iconsax-react";
+import { CloseCircle, Add, DocumentUpload } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 
 const CustomStyles = {
@@ -110,25 +110,17 @@ function UPI({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  // const getUpiCardTypes   state?.bankingDetails?.getUpiCardTypes
-
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  const bankOptions = [
-    { value: "canara", label: "Canara Bank (Navalur Branch)" },
-    { value: "hdfc", label: "HDFC Bank" },
-  ];
+  console.log("OverviewDetails", OverviewDetails);
 
-  const upiOptions = [
-    { value: "GOOGLEPAY", label: "Google Pay" },
-    { value: "PHONEPE", label: "PhonePe" },
-    { value: "PAYTM", label: "Paytm" },
-    { value: "BHIM", label: "BHIM UPI" },
-    { value: "AMAZONPAY", label: "Amazon Pay" },
-    { value: "CRED", label: "CRED" },
-    { value: "SUPERMONEY", label: "Super.money" },
-    { value: "MOBIKWIK", label: "MobiKwik" },
-  ];
+  const upiOptions =
+    state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
+      value: view.id,
+      label: view.name,
+    })) || [];
+
+  console.log("upiOptions", upiOptions);
 
   const [linkedBank, setLinkedBank] = useState(null);
   const [linkedBankError, setLinkedBankError] = useState("");
@@ -144,6 +136,13 @@ function UPI({ handleClose }) {
 
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+
+  const [qrImage, setQrImage] = useState(null);
+  const [qrImagePreview, setQrImagePreview] = useState("");
+  const [qrImageError, setQrImageError] = useState("");
+  const [qrImageName, setQrImageName] = useState("");
+  const [hoveredImage, setHoveredImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
@@ -199,6 +198,22 @@ function UPI({ handleClose }) {
     }
   };
 
+  const handleQrImageChange = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    setQrImage(file);
+    setQrImageName(file.name);
+    setQrImagePreview(URL.createObjectURL(file));
+    setQrImageError("");
+  };
+
+  const removeQrImage = () => {
+    setQrImage(null);
+    setQrImagePreview("");
+  };
+
   const handleSaveUPI = () => {
     dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     let isValid = true;
@@ -237,6 +252,13 @@ function UPI({ handleClose }) {
       setDisplayNameError("");
     }
 
+    if (!qrImage) {
+      setQrImageError("Please upload QR image");
+      isValid = false;
+    } else {
+      setQrImageError("");
+    }
+
     if (!isValid) return;
 
     dispatch({
@@ -249,14 +271,13 @@ function UPI({ handleClose }) {
         upiApp: upiApp.value,
         displayName: displayName.trim(),
         description: description.trim(),
-        // qrImage: qrImage || null,
-
-        // cardNumber: null,
-        // cardNetwork: null,
-        // cardHolderName: null,
-        // creditLimit: null,
-        // billingCycle: null,
-        // linkedUpiId: null,
+        qrImage: qrImage || "",
+        cardNumber: "",
+        cardNetwork: 0,
+        cardHolderName: "",
+        creditLimit: "",
+        billingCycle: "",
+        linkedUpiId: "",
       },
     });
     setIsSaving(true);
@@ -276,6 +297,20 @@ function UPI({ handleClose }) {
   }, [state.bankingDetails.addPaymentError]);
 
   useEffect(() => {
+    if (
+      state.UsersList?.accessRestrictionError ||
+      state.createAccount?.networkError
+    ) {
+      setIsSaving(false);
+      dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [
+    state.UsersList?.accessRestrictionError,
+    state.createAccount?.networkError,
+  ]);
+
+  useEffect(() => {
     return () => {
       dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     };
@@ -291,11 +326,11 @@ function UPI({ handleClose }) {
             </label>
 
             <input
-              value={linkedBank}
+              value={OverviewDetails?.bankName}
               disabled
               // onChange={handleLinkedBankChange}
               placeholder=""
-              className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+              className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
             />
 
             {linkedBankError && (
@@ -330,7 +365,7 @@ function UPI({ handleClose }) {
             value={upiId}
             onChange={handleUpiIdChange}
             placeholder="Ex : smartstay@oksbi"
-            className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+            className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
           />
           {upiIdError && <ErrorMessage message={upiIdError} type="error" />}
         </div>
@@ -344,13 +379,88 @@ function UPI({ handleClose }) {
             value={displayName}
             onChange={handleDisplayNameChange}
             placeholder="Gpay UPI"
-            className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+            className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
           />
 
           {displayNameError && (
             <ErrorMessage message={displayNameError} type="error" />
           )}
         </div>
+
+        <div className="mt-3">
+          <label className="block mb-2 text-[13px] font-medium">
+            Add QR Image <span className="text-red-500">*</span>
+          </label>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/jpg,image/png"
+            className="hidden"
+            onChange={handleQrImageChange}
+          />
+
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+          >
+            <div className="rounded-md bg-blue-100 px-1 py-1">
+              <DocumentUpload size={20} color="#1E45E1" />
+            </div>
+
+            <div>
+              <p className="text-sm font-medium text-[#222222] mb-1">
+                <span className="text-[#1E45E1]">Choose Image to</span> Upload
+              </p>
+
+              <p className="text-xs text-gray-500">JPG / JPEG / PNG Format</p>
+            </div>
+          </div>
+
+          {qrImageError && <ErrorMessage message={qrImageError} type="error" />}
+        </div>
+
+        {qrImagePreview && (
+          <div className="flex items-center justify-center">
+            <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
+              <div
+                className="relative px-4 py-2 group"
+                onMouseEnter={() => setHoveredImage(qrImagePreview)}
+                onMouseLeave={() => setHoveredImage(null)}
+              >
+                <img
+                  src={qrImagePreview}
+                  alt="preview"
+                  className="w-[350px] h-auto rounded-md object-fit"
+                />
+
+                <div
+                  className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md bg-gray-100
+                    transition-all duration-300 ${
+                      hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
+                    }`}
+                >
+                  <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
+                    <p className=" text-sm truncate max-w-[170px] mb-0 text-[#222222]">
+                      {qrImageName}
+                    </p>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setQrImagePreview(null);
+                        removeQrImage();
+                      }}
+                      className="bg-[#FFF2F2] rounded-md p-1"
+                    >
+                      <Add size={20} color="#FF3B30" className="rotate-45" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="mt-3">
           <label className="text-[13px] text-[#222222] font-gilroy font-medium">
@@ -362,7 +472,7 @@ function UPI({ handleClose }) {
             value={description}
             onChange={handleDescriptionChange}
             placeholder="Describe the notes..."
-            className="w-full mt-2 p-4 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
+            className="w-full mt-2 p-3 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
           />
           {/* {descriptionError && (
             <ErrorMessage message={descriptionError} type="error" />

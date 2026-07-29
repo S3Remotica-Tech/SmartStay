@@ -115,11 +115,11 @@ function Debit({ handleClose }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  const bankOptions = [
-    { value: "canara", label: "Canara Bank (Navalur Branch)" },
-    { value: "hdfc", label: "HDFC Bank" },
-  ];
-
+  const upiOptions =
+    state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
+      value: view.id,
+      label: view.name,
+    })) || [];
   const [linkedBank, setLinkedBank] = useState(null);
   const [linkedBankError, setLinkedBankError] = useState("");
   const [description, setDescription] = useState("");
@@ -299,20 +299,8 @@ function Debit({ handleClose }) {
               Linked Bank <span className="text-red-500">*</span>
             </label>
 
-            {/* <Select
-              options={bankOptions}
-              value={linkedBank}
-              onChange={handleLinkedBankChange}
-              placeholder="Select Bank"
-              className="mt-2"
-              styles={CustomStyles}
-            />
-            {linkedBankError && (
-              <ErrorMessage message={linkedBankError} type="error" />
-            )} */}
-
             <input
-              value={linkedBank}
+              value={OverviewDetails?.bankName}
               disabled
               // onChange={handleLinkedBankChange}
               placeholder=""
@@ -326,12 +314,7 @@ function Debit({ handleClose }) {
             </label>
 
             <Select
-              options={[
-                { value: "visa", label: "Visa" },
-                { value: "master", label: "Master Card" },
-                { value: "rupay", label: "RuPay" },
-                { value: "amex", label: "American Express" },
-              ]}
+              options={upiOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
               placeholder="Ex : Visa, Master"

@@ -26,7 +26,7 @@ function AddPaymentMethod({ show, handleClose }) {
       dispatch({
         type: "GET_UPI_CARD_TYPES_SAGA",
         payload: {
-          type: paymentType,
+          type: paymentType === "UPI" ? "UPI" : "CARD",
         },
       });
     }
@@ -60,37 +60,37 @@ function AddPaymentMethod({ show, handleClose }) {
           </label>
 
           <div className="flex gap-6 mt-2 cursor-pointer">
-            {["UPI", "Credit Card", "Debit Card", "QR Code"].map(
-              (item, index) => (
-                <label
-                  key={index}
-                  className="flex items-center gap-2 text-[14px] text-[#111928] cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="paymentType"
-                    value={item}
-                    checked={paymentType === item}
-                    onChange={(e) => handlePaymentTypeChange(e.target.value)}
-                    className="accent-blue-600 cursor-pointer"
-                  />
-                  {item}
-                </label>
-              ),
-            )}
+            {["UPI", "Credit Card", "Debit Card"].map((item, index) => (
+              <label
+                key={index}
+                className="flex items-center gap-2 text-[14px] text-[#111928] cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  name="paymentType"
+                  value={item}
+                  checked={paymentType === item}
+                  onChange={(e) => handlePaymentTypeChange(e.target.value)}
+                  className="accent-blue-600 cursor-pointer"
+                />
+                {item}
+              </label>
+            ))}
           </div>
           {paymentTypeError && (
             <ErrorMessage message={paymentTypeError} type="error" />
           )}
         </div>
         <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] ">
-          {paymentType === "UPI" && <UPI handleClose={handleClose}/>}
+          {paymentType === "UPI" && <UPI handleClose={handleClose} />}
 
-          {paymentType === "Credit Card" && <Credit handleClose={handleClose}/>}
+          {paymentType === "Credit Card" && (
+            <Credit handleClose={handleClose} />
+          )}
 
-          {paymentType === "Debit Card" && <Debit handleClose={handleClose}/>}
+          {paymentType === "Debit Card" && <Debit handleClose={handleClose} />}
 
-          {paymentType === "QR Code" && <QRCode handleClose={handleClose}/>}
+          {paymentType === "QR Code" && <QRCode handleClose={handleClose} />}
         </div>
       </div>
     </div>

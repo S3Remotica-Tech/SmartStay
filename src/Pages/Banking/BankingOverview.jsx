@@ -112,17 +112,17 @@ function BankingOverview({ show, onClose }) {
   }, [OverviewDetails, activeTab]);
 
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+    if (state?.bankingDetails?.addPaymentMethodSuccessCode === 200) {
       dispatch({
         type: "LINKED_PAYMENT_METHOD_SAGA",
         payload: {
-          hostelId:OverviewDetails?.hostelId,
-          bankId:OverviewDetails?.bankId,
+          hostelId: OverviewDetails?.hostelId,
+          bankId: OverviewDetails?.bankId,
         },
       });
       dispatch({ type: "REMOVE_ADD_PAYMENT_METHOD_REDUCER" });
     }
-  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+  }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
 
   return (
     <div className="font-gilroy">
@@ -147,8 +147,7 @@ function BankingOverview({ show, onClose }) {
 
               <div className="flex items-center gap-3 mt-1">
                 <div className="text-[#4B4B4B] text-[14px] capitalize">
-                  {OverviewDetails?.accountType?.toLowerCase()}{" "}
-                  Account
+                  {OverviewDetails?.accountType?.toLowerCase()} Account
                 </div>
 
                 <div className="flex items-center gap-1">
