@@ -37,12 +37,13 @@ import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
 import BankingOverview from "./BankingOverview";
 import { useNavigate } from "react-router-dom";
-import SettlementPayment from "../VendorFIle/SettlementPayment";
+
 import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";
 import AddNewAccount from "./AddNewAccount";
 import { StoreBankDetails } from "../../Redux/Action/BankingAction";
+import VendorPayment from "./VendorPayment";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -849,6 +850,22 @@ function BankingNew() {
                     >
                       Credit Card Payment
                     </button>
+                    <button
+                      disabled={!canWriteBanking}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleInvestment();
+                      }}
+                      className="w-full text-left px-3 py-2 text-[14px]   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                    >
+                      <span
+                        className={`text-sm font-medium font-gilroy ${
+                          canWriteBanking ? "text-[#111827]" : "text-gray-400"
+                        }`}
+                      >
+                        Investment
+                      </span>
+                    </button>
                   </div>
                 )}
               </div>
@@ -1512,7 +1529,7 @@ function BankingNew() {
           </Modal>
 
           {showSettlementForm && (
-            <SettlementPayment
+            <VendorPayment
               show={showSettlementForm}
               handleClose={handleCloseSettlement}
               isBanking={true}

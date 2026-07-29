@@ -16,6 +16,7 @@ import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch, useSelector } from "react-redux";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -203,6 +204,9 @@ const GroupHeading = (props) => (
 
 function Invesment({ show, handleClose }) {
   if (!show) return null;
+
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [investment, setInvestment] = useState("");
   const [investmentError, setInvestmentError] = useState("");
 
@@ -253,22 +257,22 @@ function Invesment({ show, handleClose }) {
     let isValid = true;
 
     if (!investment) {
-      setInvestmentError("Investment is required");
+      setInvestmentError("Please Enter Investment Name");
       isValid = false;
     }
 
     if (!amount) {
-      setAmountError("Amount is required");
+      setAmountError("Please Enter Amount");
       isValid = false;
     }
 
     if (!paymentDate) {
-      setPaymentDateError("Date is required");
+      setPaymentDateError("Plese Select Date");
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Payment Method is required");
+      setPaymentMethodError("Please Select Payment Method");
       isValid = false;
     }
 
@@ -278,6 +282,15 @@ function Invesment({ show, handleClose }) {
   const handleSubmit = () => {
     if (!validateForm()) return;
   };
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        payload: state.login.selectedHostel_Id,
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
   return (
     <>

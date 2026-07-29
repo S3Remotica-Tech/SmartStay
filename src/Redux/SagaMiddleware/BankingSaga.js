@@ -47,7 +47,6 @@ function* handleApiError(error) {
 
 function* handleGetAllPaymentMethod(action) {
   try {
-    console.log("actinnnn", action);
     const response = yield call(getAllPaymentMethod, action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
