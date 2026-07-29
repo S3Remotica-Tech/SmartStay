@@ -40,13 +40,7 @@ const summaryCards = [
   },
 ];
 
-const accountDetails = [
-  { label: "Bank Name", value: "Canara Bank" },
-  { label: "Beneficiary Name", value: "Immanuvel Suthakaran" },
-  { label: "Account No", value: "65784195214" },
-  { label: "IFSC Code", value: "CAN45789" },
-  { label: "Branch", value: "Navalur Canara" },
-];
+
 
 function BankingOverview({ show, onClose }) {
   if (!show) return null;
@@ -112,7 +106,7 @@ function BankingOverview({ show, onClose }) {
   }, [OverviewDetails, activeTab]);
 
   useEffect(() => {
-    if (state?.bankingDetails?.addPaymentMethodSuccessCode === 200) {
+    if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {
       dispatch({
         type: "LINKED_PAYMENT_METHOD_SAGA",
         payload: {

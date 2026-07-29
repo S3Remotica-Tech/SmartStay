@@ -120,7 +120,7 @@ function UPI({ handleClose }) {
       label: view.name,
     })) || [];
 
-  console.log("upiOptions", upiOptions);
+
 
   const [linkedBank, setLinkedBank] = useState(null);
   const [linkedBankError, setLinkedBankError] = useState("");
@@ -284,7 +284,7 @@ function UPI({ handleClose }) {
   };
 
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
       setIsSaving(false);
       handleClose();
     }

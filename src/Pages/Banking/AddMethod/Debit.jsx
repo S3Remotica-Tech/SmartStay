@@ -191,6 +191,7 @@ function Debit({ handleClose }) {
   };
 
   const handleCardNumberChange = (e) => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     const value = e.target.value.replace(/\D/g, "").slice(0, 4);
 
     setCardNumber(value);
@@ -205,6 +206,7 @@ function Debit({ handleClose }) {
   };
 
   const handleSaveDebit = () => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     let isValid = true;
 
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -260,11 +262,11 @@ function Debit({ handleClose }) {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         bankId: OverviewDetails?.bankId,
-        paymentMethod: "DEBIT",
+        paymentMethod: "Debit Card",
         displayName: displayName.trim(),
         description: description.trim(),
         cardNumber: cardNumber,
-        cardNetwork: cardNetwork,
+        cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
       },
     });
@@ -272,7 +274,7 @@ function Debit({ handleClose }) {
   };
 
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
       setIsSaving(false);
       handleClose();
     }
@@ -393,6 +395,14 @@ function Debit({ handleClose }) {
           )}
         </div>
       </div>
+
+      {state.bankingDetails.addPaymentError && (
+        <ErrorMessage
+          message={state.bankingDetails.addPaymentError}
+          type="error"
+        />
+      )}
+
       <div className="flex justify-end gap-4 px-6 py-2 ">
         <button
           onClick={handleClose}

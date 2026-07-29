@@ -7,6 +7,7 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
+import dayjs from "dayjs";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -113,9 +114,8 @@ function Credit({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
- 
 
-   const upiOptions =
+  const upiOptions =
     state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
       value: view.id,
       label: view.name,
@@ -141,6 +141,8 @@ function Credit({ handleClose }) {
 
   const [billingCycle, setBillingCycle] = useState(null);
   const [billingCycleError, setBillingCycleError] = useState("");
+
+  console.log("billingCycle", billingCycle);
 
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
@@ -194,6 +196,7 @@ function Credit({ handleClose }) {
   };
 
   const handleCardNumberChange = (e) => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     const value = e.target.value.replace(/\D/g, "").slice(0, 4);
 
     setCardNumber(value);
@@ -212,9 +215,7 @@ function Credit({ handleClose }) {
 
     setCreditLimit(value);
 
-    if (!value) {
-      setCreditLimitError("Please Enter Credit limit");
-    } else if (Number(value) <= 0) {
+    if (value && Number(value) <= 0) {
       setCreditLimitError("Credit limit must be greater than 0");
     } else {
       setCreditLimitError("");
@@ -227,6 +228,7 @@ function Credit({ handleClose }) {
   };
 
   const handleSaveCredit = () => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     let isValid = true;
 
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -275,12 +277,12 @@ function Credit({ handleClose }) {
       setDisplayNameError("");
     }
 
-    if (!billingCycle) {
-      setBillingCycleError("Please select billing cycle");
-      isValid = false;
-    } else {
-      setBillingCycleError("");
-    }
+    // if (!billingCycle) {
+    //   setBillingCycleError("Please select billing cycle");
+    //   isValid = false;
+    // } else {
+    //   setBillingCycleError("");
+    // }
 
     if (creditLimit && Number(creditLimit) <= 0) {
       setCreditLimitError("Credit limit must be greater than 0");
@@ -290,28 +292,30 @@ function Credit({ handleClose }) {
     }
 
     if (!isValid) return;
+
     dispatch({
       type: "ADD_PAYMENT_METHOD_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         bankId: OverviewDetails?.bankId,
-        paymentMethod: "CREDIT",
+        paymentMethod: "Credit Card",
         displayName: displayName.trim(),
         description: description.trim(),
         cardNumber: cardNumber,
-        cardNetwork: cardNetwork,
+        cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
         creditLimit: creditLimit,
-        billingCycle: billingCycle,
+        billingCycle: billingCycle
+          ? dayjs(billingCycle).format("DD/MM/YYYY")
+          : null,
       },
     });
     setIsSaving(true);
   };
 
- 
-
+  // console.log("cardNetwork", cardNetwork);
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
       setIsSaving(false);
       handleClose();
     }
@@ -338,25 +342,12 @@ function Credit({ handleClose }) {
               Linked Bank
             </label>
 
-            {/* <Select
-              options={bankOptions}
-              value={linkedBank}
-              onChange={handleLinkedBankChange}
-              placeholder="Select Bank"
-              className="mt-2"
-              styles={CustomStyles}
-            /> */}
-
-              <input
+            <input
               value={OverviewDetails?.bankName}
               disabled
-              // onChange={handleLinkedBankChange}
               placeholder=""
               className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
             />
-            {/* {linkedBankError && (
-              <ErrorMessage message={linkedBankError} type="error" />
-            )} */}
           </div>
 
           <div>
@@ -484,6 +475,14 @@ function Credit({ handleClose }) {
           )} */}
         </div>
       </div>
+
+      {state.bankingDetails.addPaymentError && (
+        <ErrorMessage
+          message={state.bankingDetails.addPaymentError}
+          type="error"
+        />
+      )}
+
       <div className="flex justify-end gap-4 px-6 py-2 ">
         <button
           onClick={handleClose}

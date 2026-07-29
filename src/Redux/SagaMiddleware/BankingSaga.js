@@ -192,7 +192,7 @@ function* handleAddPaymentMethod(action) {
         type: "ADD_PAYMENT_METHOD_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
-      toast.success(`${response.data}`, {
+      toast.success(`Created Successfully`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,

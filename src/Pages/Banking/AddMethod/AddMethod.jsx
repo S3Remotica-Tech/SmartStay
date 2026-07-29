@@ -7,7 +7,6 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import UPI from "./UPI";
 import Credit from "./Credit";
 import Debit from "./Debit";
-import QRCode from "./QRCode";
 
 function AddPaymentMethod({ show, handleClose }) {
   const state = useSelector((state) => state);

@@ -37,6 +37,12 @@ const paymentMethods = [
 ];
 
 function BankingLinkMethod() {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const LinkedPaymentMethodsList =
+    state?.bankingDetails?.linkedPaymentMethodsList;
+
   const [showAddMethodForm, setShowAddMethodForm] = useState(false);
 
   const handleAddMethod = () => {
@@ -46,16 +52,11 @@ function BankingLinkMethod() {
     setShowAddMethodForm(false);
   };
 
-
-
-
-
-
-
-
-
-
-
+  const cardNetworks = {
+    7: "RuPay",
+    8: "Visa",
+    9: "Mastercard",
+  };
 
   return (
     <div className="px-4 py-4">
@@ -75,83 +76,82 @@ function BankingLinkMethod() {
       </div>
 
       <div className="space-y-4">
-        {paymentMethods.map((item) => (
-          <div key={item.id} className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center
-                ${
-                  item.type === "UPI"
-                    ? "bg-[#F3F4F6]"
-                    : item.type === "Debit Card"
-                      ? "bg-[#E0F2FE]"
-                      : "bg-[#FFF7ED]"
-                }`}
-              >
-                {item.type === "UPI" ? (
-                  <Wallet3
-                    size="16"
-                    color={
-                      item.name.includes("Phonepe") ? "#6B21A8" : "#2563EB"
-                    }
-                    variant="Bold"
-                  />
-                ) : (
-                  <Card
-                    size="16"
-                    color={item.type === "Debit Card" ? "#0284C7" : "#EA580C"}
-                    variant="Bold"
-                  />
-                )}
-              </div>
+        {LinkedPaymentMethodsList?.map((item) => {
+          const isUPI = item.paymentMethod === "UPI";
+          const isDebit = item.paymentMethod === "Debit Card";
+          const isCredit = item.paymentMethod === "Credit Card";
 
-              <div>
-                <div className="text-[16px] font-medium text-[#222222]">
-                  {item.name}
-                </div>
-
-                <div className="text-[14px] text-[#7B8797]">
-                  {item.subTitle}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="text-right">
+          return (
+            <div
+              key={item.paymentMethodId}
+              className="flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
                 <div
-                  className={`text-[11px] px-2 py-0.5 rounded
-                  ${
-                    item.type === "UPI"
-                      ? "bg-[#EEF2FF] text-[#6366F1]"
-                      : item.type === "Debit Card"
-                        ? "bg-[#F3E8FF] text-[#A855F7]"
-                        : "bg-[#FFF7ED] text-[#F97316]"
-                  }`}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center
+            ${
+              isUPI ? "bg-[#F3F4F6]" : isDebit ? "bg-[#E0F2FE]" : "bg-[#FFF7ED]"
+            }`}
                 >
-                  {item.type}
+                  {isUPI ? (
+                    <Wallet3 size="16" color="#2563EB" variant="Bold" />
+                  ) : (
+                    <Card
+                      size="16"
+                      color={isDebit ? "#0284C7" : "#EA580C"}
+                      variant="Bold"
+                    />
+                  )}
                 </div>
 
-                {item.payable && (
-                  <div className="text-[11px] text-[#6B7280] mt-1">
-                    Payable
-                    <span className="font-medium text-[#111827] ml-1">
-                      {item.payable}
-                    </span>
+                <div>
+                  <div className="text-[16px] font-medium text-[#222222]">
+                    {item.displayName}
                   </div>
-                )}
+
+                  <div className="text-[14px] text-[#7B8797]">
+                    {isUPI ? item.upiId : ` •••• ${item.cardNumber}`}
+                  </div>
+                </div>
               </div>
 
-              <button>
-                <More
-                  size="16"
-                  color="#6B7280"
-                  variant="Outline"
-                  className="rotate-90"
-                />
-              </button>
+              <div className="flex items-start gap-3">
+                <div className="text-right">
+                  <div
+                    className={`text-[11px] px-2 py-0.5 rounded
+              ${
+                isUPI
+                  ? "bg-[#EEF2FF] text-[#6366F1]"
+                  : isDebit
+                    ? "bg-[#F3E8FF] text-[#A855F7]"
+                    : "bg-[#FFF7ED] text-[#F97316]"
+              }`}
+                  >
+                    {item.paymentMethod}
+                  </div>
+
+                  {isCredit && (
+                    <div className="text-[11px] text-[#6B7280] mt-1">
+                      Limit
+                      <span className="font-medium text-[#111827] ml-1">
+                        ₹{Number(item.creditLimit || 0).toLocaleString()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <button>
+                  <More
+                    size="16"
+                    color="#6B7280"
+                    variant="Outline"
+                    className="rotate-90"
+                  />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {showAddMethodForm && (
