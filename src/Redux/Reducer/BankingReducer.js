@@ -21,13 +21,22 @@ export const initialState = {
   createBankingError: "",
   responsiblepersonList: [],
   addPaymentMethodSuccessCode: 0,
-  particularBankingOverview: "",
+  linkedPaymentMethodsList: "",
+  getUpiCardTypes: [],
+  addPaymentError: "",
+  OverviewBankDetails: "",
+  getAllPaymentMethodList: [],
+  addMoneySuccess: 0,
 };
 
 const BankingReducer = (state = initialState, action) => {
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
+
+    case "STOREBANK_DETAILS":
+      return { ...state, OverviewBankDetails: action.payload };
+
     case "ADD_USER_BANKING":
       return {
         ...state,
@@ -35,6 +44,11 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
+
+    case "ADD_MONEY_REDUCER":
+      return { ...state, addMoneySuccess: action.payload.statusCode };
+    case "REMOVE_ADD_MONEY_REDUCER":
+      return { ...state, addMoneySuccess: 0 };
 
     case "ADD_BANKING_ERROR":
       return { ...state, createBankingError: action.payload };
@@ -77,6 +91,9 @@ const BankingReducer = (state = initialState, action) => {
         ...state,
         statusSuccessSelfTransfer: 0,
       };
+
+    case "GET_ALL_PAYMENTS_METHODS_REDUCER":
+      return { ...state, getAllPaymentMethodList: action.payload.response };
 
     case "SELF_TRANSFER_ERROR":
       return {
@@ -124,11 +141,20 @@ const BankingReducer = (state = initialState, action) => {
         addPaymentMethodSuccessCode: 0,
       };
 
-    case "PARTICULAR_BANKING_OVERVIEW_REDUCER":
+    case "ADD_PAYEMNT_METHOD_BANKING_ERROR":
+      return { ...state, addPaymentError: action.payload };
+
+    case "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR":
+      return { ...state, addPaymentError: "" };
+
+    case "LINKED_PAYMENT_METHOD_REDUCER":
       return {
         ...state,
-        particularBankingOverview: action.payload.response,
+        linkedPaymentMethodsList: action.payload.response,
       };
+
+    case "GET_UPI_CARD_TYPES_REDUCER":
+      return { ...state, getUpiCardTypes: action.payload.response };
 
     case "BANKING_LIST":
       return {

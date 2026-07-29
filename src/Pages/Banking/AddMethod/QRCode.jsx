@@ -106,10 +106,10 @@ const CustomStyles = {
   }),
 };
 
-function QRCode() {
+function QRCode({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const fileInputRef = useRef(null);
+
 
   const upiOptions = [
     { value: "gpay1", label: "Gpay - smartstay@oksbi" },
@@ -141,6 +141,7 @@ function QRCode() {
   const [hoveredImage, setHoveredImage] = useState(null);
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleLinkedUpiChange = (selected) => {
     setLinkedUpi(selected);
@@ -179,16 +180,7 @@ function QRCode() {
     }
   };
 
-  const handleQrImageChange = (e) => {
-    const file = e.target.files?.[0];
-
-    if (!file) return;
-
-    setQrImage(file);
-    setQrImageName(file.name);
-    setQrImagePreview(URL.createObjectURL(file));
-    setQrImageError("");
-  };
+  
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -246,18 +238,34 @@ function QRCode() {
       setCardLast4Error("");
     }
 
-    if (!qrImage) {
-      setQrImageError("Please upload QR image");
-      isValid = false;
-    } else {
-      setQrImageError("");
-    }
-
+   
     if (!isValid) return;
+
+    setIsSaving(true);
   };
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+      setIsSaving(false);
+       handleClose()
+    }
+  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
+    if (state.bankingDetails.addPaymentError) {
+      setIsSaving(false);
+    }
+  }, [state.bankingDetails.addPaymentError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    };
+  }, []);
+
   return (
     <div className="">
-      <div className="h-[500px] overflow-y-auto  show-scrolls">
+      <div className="">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="block mb-2 text-[13px] font-medium">
@@ -333,80 +341,6 @@ function QRCode() {
 
         <div className="mt-3">
           <label className="block mb-2 text-[13px] font-medium">
-            Add QR Image <span className="text-red-500">*</span>
-          </label>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/jpg,image/png"
-            className="hidden"
-            onChange={handleQrImageChange}
-          />
-
-          <div
-            onClick={() => fileInputRef.current?.click()}
-            className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-          >
-            <div className="rounded-md bg-blue-100 px-1 py-1">
-              <DocumentUpload size={20} color="#1E45E1" />
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-[#222222] mb-1">
-                <span className="text-[#1E45E1]">Choose Image to</span> Upload
-              </p>
-
-              <p className="text-xs text-gray-500">JPG / JPEG / PNG Format</p>
-            </div>
-          </div>
-
-          {qrImageError && <ErrorMessage message={qrImageError} type="error" />}
-        </div>
-
-        {qrImagePreview && (
-          <div className="flex items-center justify-center">
-            <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-              <div
-                className="relative px-4 py-2 group"
-                onMouseEnter={() => setHoveredImage(qrImagePreview)}
-                onMouseLeave={() => setHoveredImage(null)}
-              >
-                <img
-                  src={qrImagePreview}
-                  alt="preview"
-                  className="w-[350px] h-auto rounded-md object-fit"
-                />
-
-                <div
-                  className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                    hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
-                  }`}
-                >
-                  <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
-                    <p className="text-white text-sm truncate max-w-[170px] mb-0">
-                      {qrImageName}
-                    </p>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setQrImagePreview(null);
-                        removeQrImage();
-                      }}
-                      className="bg-[#FFF2F2] rounded-md p-1"
-                    >
-                      <Add size={20} color="#FF3B30" className="rotate-45" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="mt-3">
-          <label className="block mb-2 text-[13px] font-medium">
             Description <span className="text-red-500">*</span>
           </label>
 
@@ -424,13 +358,28 @@ function QRCode() {
         </div>
       </div>
       <div className="flex justify-end gap-4 mt-6">
-        <button className="text-[#6B7280] text-sm font-medium">Cancel</button>
+        <button
+          onClick={handleClose}
+          className="px-6 py-2 text-[#6B7280] text-sm font-medium"
+        >
+          Cancel
+        </button>
 
         <button
+          disabled={isSaving}
           onClick={handleSaveQRCode}
-          className="px-8 py-2 bg-[#2952CC] text-white rounded-lg text-sm font-medium"
+          className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
+  !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
+  flex items-center justify-center gap-2 disabled:opacity-70"
         >
-          Save
+          {isSaving ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Saving ....{" "}
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
     </div>

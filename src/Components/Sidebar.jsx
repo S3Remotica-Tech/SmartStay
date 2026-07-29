@@ -10,7 +10,7 @@ import EbHostel from "../Pages/ElectrictyFile/EB_Hostel";
 import Invoices from "../Pages/Bills/Invoice";
 import Compliances from "../Pages/Compliants/Compliance";
 import Report from "../Reports/Reports";
-import VendorComponent from "../Pages/VendorFIle/Vendor";
+// import VendorComponent from "../Pages/VendorFIle/Vendor";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -1725,24 +1725,6 @@ function Sidebar() {
               />
               {isDevelopment && (
                 <>
-                  {/* <Route
-                    path="/vendor/new/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <VendorNew />
-                      </div>
-                    }
-                  /> */}
-
-                  {/* <Route
-                    path="/expense/new/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <ExpenseNew />
-                      </div>
-                    }
-                  /> */}
-
                   <Route
                     path="/banking/new/:hostelId?"
                     element={
@@ -1786,15 +1768,6 @@ function Sidebar() {
                       </div>
                     }
                   />
-
-                  {/* <Route
-                    path="/receipts/new/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <ReceiptNew />
-                      </div>
-                    }
-                  /> */}
                 </>
               )}
               <Route

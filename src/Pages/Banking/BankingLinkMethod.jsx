@@ -46,6 +46,17 @@ function BankingLinkMethod() {
     setShowAddMethodForm(false);
   };
 
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="px-4 py-4">
       <div className="flex items-center justify-between mb-5">

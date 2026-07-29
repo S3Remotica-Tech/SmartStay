@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import AddVendor from "./AddVendor";
+// import AddVendor from "./AddVendor";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import { TiTick } from "react-icons/ti";
@@ -180,7 +180,7 @@ function Vendor() {
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
   const popupRef = useRef(null);
-  
+
   const {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,

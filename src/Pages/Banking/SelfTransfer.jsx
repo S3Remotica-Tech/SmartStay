@@ -1,17 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Bank, CloseCircle } from "iconsax-react";
+import { Add, Bank, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import { Calendar } from "iconsax-react";
+import DatePicker from "react-datepicker";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
-  console.log("selfDetailsselfDetails", selfDetails);
+  // console.log("selfDetailsselfDetails", selfDetails);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedBank, setSelectedBank] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [notes, setNotes] = useState("");
+
   // const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
@@ -43,12 +48,12 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     setError("");
 
     dispatch({
-      type: "SELF_TRANSER_SAGA",
+      type: "SELF_TRANSFER_V3_SAGA",
       payload: {
         hostelId: state.login?.selectedHostel_Id,
         fromBankId: bankDetails?.fromBank?.bankId,
         toBankId: selectedBank,
-        balance: Number(amount),
+        amount: Number(amount),
       },
     });
 
@@ -105,22 +110,24 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-[600px] rounded-2xl bg-white shadow-xl overflow-hidden">
+    <div className="fixed inset-0 z-50">
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-md bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="relative flex items-center justify-between border-b border-[#E5E7EB] px-4 py-3">
-          <div className="text-[1.25rem] font-semibold font-gilroy text-[#1E45E1]">
+          <div className="text-[1.25rem] font-semibold font-gilroy text-[#344054]">
             Self Transfer
           </div>
 
-          <CloseCircle
+          <Add
             size="24"
-            color="#000"
-            className="cursor-pointer"
+            color="#FF0000"
+            className="cursor-pointer rotate-45"
             onClick={handleClose}
           />
         </div>
 
-        <div className="px-4 py-4">
+        <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls max-h-[500px]">
           <div>
             <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy mb-2">
               From
@@ -163,7 +170,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             </div>
           </div>
 
-          <div className="mb-3 mt-3  pe-2 overflow-y-auto h-[250px] show-scrolls">
+          <div className="mb-3   pe-2 overflow-y-auto  show-scrolls">
             <h6 className="text-[#4B4B4B] text-base font-medium font-gilroy mb-2">
               To
             </h6>
@@ -223,19 +230,65 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
             ))}
           </div>
 
-          <div className="flex items-center border border-[#D1D5DB] rounded-md overflow-hidden h-11">
-            <span className="px-4 bg-white text-[#4B4B4B] font-medium border-r border-[#D1D5DB]">
-              ₹
-            </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-[#222222] mb-2">
+                Enter Amount to transfer <span className="text-red-500">*</span>
+              </label>
 
-            <input
-              type="number"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={handleChange}
-              className="w-full h-full px-3 outline-none shadow-none font-gilroy text-sm"
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#222222] text-sm font-medium">
+                  ₹
+                </span>
+
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={amount}
+                  onChange={handleChange}
+                  className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white pl-8 pr-4 text-sm font-gilroy text-[#222222] placeholder:text-[#B8B8B8] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#222222] mb-2">
+                Date <span className="text-red-500">*</span>
+              </label>
+
+              <div className="relative">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white px-4 pr-10 text-sm font-gilroy text-[#222222] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
+                  placeholderText="Select date"
+                  maxDate={new Date()}
+                />
+
+                <Calendar
+                  size="20"
+                  color="#2952CC"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <label className="block text-sm font-medium text-[#222222] mb-2">
+              Notes
+            </label>
+
+            <textarea
+              rows={4}
+              placeholder="Describe the notes..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full rounded-lg border border-[#D9D9D9] bg-white px-4 py-3 text-sm font-gilroy text-[#222222] placeholder:text-[#B8B8B8] resize-none outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
             />
           </div>
+
           {error && <ErrorMessage message={error} type="error" />}
           {state?.bankingDetails?.selfError && (
             <ErrorMessage
@@ -243,25 +296,26 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
               type="error"
             />
           )}
+        </div>
+
+        <div className="flex justify-end m-4">
           <div className="flex justify-end mt-4">
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={handleTransfer}
-                disabled={isTransferDisabled}
-                className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Processing...
-                    </div>
-                  </>
-                ) : (
-                  "Transfer"
-                )}
-              </button>
-            </div>
+            <button
+              onClick={handleTransfer}
+              disabled={isTransferDisabled}
+              className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Processing...
+                  </div>
+                </>
+              ) : (
+                "Transfer"
+              )}
+            </button>
           </div>
         </div>
       </div>

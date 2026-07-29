@@ -1027,7 +1027,7 @@ function CreateBill() {
                     <div className="col-span-3">
                       <input
                         type="text"
-                        disabled={u.isRent}
+                        // disabled={u.isRent}
                         value={u.amount !== "0" ? u.amount : ""}
                         placeholder="Please Enter Amount"
                         onChange={(e) => {

@@ -1,20 +1,24 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-  ParticularBankingOverview,
+  LinkedPaymentMethod,
   AddBanking,
   AddPaymentMethod,
   v3GetBanking,
+  getUPIAndCardTypes,
   GetResponsibleList,
   selfTranfer,
+  selfTranferV3,
   selfTranferInitialize,
   AddBankingDetails,
   GetAddBanking,
   AddDefaultAccount,
   AddBankAmount,
+  AddMoney,
   editBankTrans,
   DeleteBanking,
   DeleteTransactionId,
   EditBankingDetails,
+  getAllPaymentMethod,
 } from "../Action/BankingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,9 +45,9 @@ function* handleApiError(error) {
   }
 }
 
-function* handleParticularBankingOverview(action) {
+function* handleGetAllPaymentMethod(action) {
   try {
-    const response = yield call(ParticularBankingOverview, action.payload);
+    const response = yield call(getAllPaymentMethod, action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
@@ -51,7 +55,52 @@ function* handleParticularBankingOverview(action) {
 
     if (response?.status === 200) {
       yield put({
-        type: "PARTICULAR_BANKING_OVERVIEW_REDUCER",
+        type: "GET_ALL_PAYMENTS_METHODS_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetUPIAndCardTypes(action) {
+  try {
+    console.log("actinnnn", action);
+    const response = yield call(getUPIAndCardTypes, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_UPI_CARD_TYPES_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleLinkedPaymentMethod(action) {
+  try {
+    const response = yield call(LinkedPaymentMethod, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "LINKED_PAYMENT_METHOD_REDUCER",
         payload: {
           response: response.data || [],
           statusCode: response?.status,
@@ -119,8 +168,9 @@ function* handleAddBanking(action) {
 
 function* handleAddPaymentMethod(action) {
   try {
-    const { hostelId, data } = action.payload;
-    const response = yield call(AddPaymentMethod, hostelId, data);
+    const response = yield call(AddPaymentMethod, action.payload);
+
+    console.log("response", response);
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -160,13 +210,12 @@ function* handleAddPaymentMethod(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if (error.code === "ERR_BAD_REQUEST") {
-      if (error.status === 400) {
-        yield put({
-          type: "ADD_PAYEMNT_METHOD_BANKING_ERROR",
-          payload: error.response.data,
-        });
-      }
+    console.log("errror", error);
+    if (error) {
+      yield put({
+        type: "ADD_PAYEMNT_METHOD_BANKING_ERROR",
+        payload: error?.response?.data || "",
+      });
     }
   }
 }
@@ -423,6 +472,59 @@ function* handleSelfTranfer(action) {
   }
 }
 
+function* handleSelfTranferV3(action) {
+  try {
+    const response = yield call(selfTranferV3, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+    if (response?.status === 200) {
+      yield put({
+        type: "SELF_TRANSFER_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "SELF_TRANSFER_ERROR",
+        payload: error.response.data,
+      });
+    }
+  }
+}
+
 function* handleDefaultAccount(action) {
   try {
     const response = yield call(AddDefaultAccount, action.payload);
@@ -515,6 +617,50 @@ function* handleAddBankAmount(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
+  }
+}
+
+function* handleAddMoney(action) {
+  try {
+    const response = yield call(AddMoney, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 200) {
+      yield put({
+        type: "ADD_MONEY_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({ type: "ERROR_ADD_AMOUNT", payload: error?.response?.data });
+    }
   }
 }
 
@@ -681,10 +827,10 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
-  yield takeEvery(
-    "PARTICULAR_BANKING_OVERVIEW_SAGA",
-    handleParticularBankingOverview,
-  );
+  yield takeEvery("ADD_MONEY_SAGA", handleAddMoney);
+  yield takeEvery("GET_ALL_PAYMENTS_METHODS_SAGA", handleGetAllPaymentMethod);
+  yield takeEvery("GET_UPI_CARD_TYPES_SAGA", handleGetUPIAndCardTypes);
+  yield takeEvery("LINKED_PAYMENT_METHOD_SAGA", handleLinkedPaymentMethod);
   yield takeEvery("ADD_PAYMENT_METHOD_SAGA", handleAddPaymentMethod);
   yield takeEvery("ADD_BANKING_SAGA", handleAddBankingNew);
   yield takeEvery("ADD_BANKING", handleAddBanking);
@@ -694,6 +840,7 @@ function* CreateBankingSaga() {
   yield takeEvery("RESPONSIBLE_PERSON_LIST_SAGA", handleGetResponsibleList);
   yield takeEvery("SELF_TRANSER_INITIALIZE_SAGA", handleSelfTranferInitialize);
   yield takeEvery("SELF_TRANSER_SAGA", handleSelfTranfer);
+  yield takeEvery("SELF_TRANSFER_V3_SAGA", handleSelfTranferV3);
   yield takeEvery("DEFAULTACCOUNT", handleDefaultAccount);
   yield takeEvery("ADDBANKAMOUNT", handleAddBankAmount);
   yield takeEvery("EDITBANKTRANSACTION", handleEditBankTrans);
