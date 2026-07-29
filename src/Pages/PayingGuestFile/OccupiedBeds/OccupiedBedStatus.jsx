@@ -49,7 +49,10 @@ function OccupiedBedStatus({
     // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 
-  const { canWriteModule: canWriteCheckout } = useHasPermission("Checkout");
+  const {
+    canWriteModule: canWriteCheckout,
+    canUpdateModule: canUpdateCheckout,
+  } = useHasPermission("Checkout");
 
   const { canReadModule: canReadBooking } = useHasPermission("Booking");
 
@@ -240,23 +243,23 @@ function OccupiedBedStatus({
 
                               <div
                                 onClick={() =>
-                                  canWriteCheckout &&
+                                  canUpdateCheckout &&
                                   handleMoveToNoticePeriod(tenant)
                                 }
                                 className={`flex gap-2 items-center p-2 -ml-[3px]
-            ${canWriteCheckout ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}
+            ${canUpdateCheckout ? "cursor-pointer hover:bg-[#FFF3F3]" : "cursor-not-allowed opacity-60"}
           `}
                               >
                                 <LogoutCurve
                                   size="18"
                                   color={
-                                    canWriteCheckout ? "#FF9500" : "#A9A9A9"
+                                    canUpdateCheckout ? "#FF9500" : "#A9A9A9"
                                   }
                                   className="ml-1"
                                 />
                                 <label
                                   className={`text-[13px] font-medium font-gilroy mb-0
-            ${canWriteCheckout ? "text-[#222222] cursor-pointer" : "text-[#A9A9A9]"}
+            ${canUpdateCheckout ? "text-[#222222] cursor-pointer" : "text-[#A9A9A9]"}
           `}
                                 >
                                   Move To Notice Period

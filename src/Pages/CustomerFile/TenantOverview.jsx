@@ -246,6 +246,7 @@ function TenantOverview(props) {
   const {
     // canReadModule: canReadCheckout,
     canWriteModule: canWriteCheckout,
+    canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
   const {
@@ -2214,9 +2215,9 @@ function TenantOverview(props) {
                       "CHECK_IN" && (
                       <>
                         <button
-                          disabled={!canWriteCheckout}
+                          disabled={!canUpdateCheckout}
                           onClick={() => {
-                            if (canWriteCheckout) {
+                            if (canUpdateCheckout) {
                               handleCustomerCheckout(CustomerOverView);
                               setOpenMenu(false);
                             }
@@ -2231,7 +2232,7 @@ function TenantOverview(props) {
                         >
                           <Notification1
                             size="18"
-                            color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
+                            color={canUpdateCheckout ? "#1E45E1" : "#9CA3AF"}
                           />
                           Move to Notice Period
                         </button>
