@@ -221,7 +221,7 @@ const InvoiceCard = ({ rowData }) => {
     }, [state?.Booking?.applyinvoiceSuccessCode]);
 
     return (
-        <div className=" bg-white font-gilroy">
+        <div className=" bg-[#F7F8FC] font-gilroy">
             <div className="border-l border-gray-200">
                 <div className="flex justify-between items-center bg-white  border-gray-200 min-h-[50px] w-full sticky top-0 z-10 px-2">
                     <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0] px-2">
@@ -375,7 +375,7 @@ const InvoiceCard = ({ rowData }) => {
                                             </p>
 
                                             <p className="text-[12px] mt-1">
-                                                +{pdfDetails?.countryCode} {pdfDetails?.mobile}
+                                                {pdfDetails?.mobile}
                                             </p>
                                         </div>
 
@@ -617,10 +617,8 @@ const InvoiceCard = ({ rowData }) => {
                                                 </div>
                                             </div>
 
-                                            {/* SPACER */}
                                             <div className="hidden md:block md:col-span-2"></div>
 
-                                            {/* RIGHT SECTION */}
                                             <div className="col-span-12 md:col-span-4 flex flex-col justify-between">
                                                 <div className="flex justify-center mb-2">
                                                     {pdfDetails?.accountDetails?.qrCode && (
@@ -686,7 +684,7 @@ const InvoiceCard = ({ rowData }) => {
 
                                     </div>
                                 </div>
-                                <hr
+                                {/* <hr
                                     className="mb-2"
                                     style={{
                                         border: "none",
@@ -695,38 +693,41 @@ const InvoiceCard = ({ rowData }) => {
                                         boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                                         borderRadius: "2px",
                                     }}
-                                />
+                                /> */}
 
-                                <div className="px-5">
-                                    <div className="flex justify-between text-center rounded-b-[38px]">
-                                        <p
-                                            className="mb-0 text-[13px] font-medium text-[#4B4B4B]"
-                                            style={{ fontFamily: "Gilroy" }}
-                                        >
-                                            Email:{" "}
-                                            <span className="text-[13px] font-semibold text-[#222222]">
-                                                {pdfDetails?.emailId}
-                                            </span>
-                                        </p>
-
-                                        <p
-                                            className="mb-0 text-[13px] font-medium text-[#4B4B4B]"
-                                            style={{ fontFamily: "Gilroy" }}
-                                        >
-                                            Contact:{" "}
-                                            <span className="text-[13px] font-semibold text-[#222222]">
-                                                {pdfDetails?.mobile &&
-                                                    `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
-                                            </span>
-                                        </p>
-                                    </div>
+                                <div className="px-4 mt-3 mb-2">
+                                    <p
+                                        className="text-[10px] text-[#4B4B4B] leading-4"
+                                        style={{ fontFamily: "Gilroy" }}
+                                    >
+                                        <span className="font-semibold">T&amp;C :</span>{" "}
+                                        Pay on the date of subscription to avoid the access issues.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     )}
                 </div>
             </div>
+            <div className="px-4 mt-4">
+                <label className=" bg-[#F7F8FC] block text-[13px] font-semibold text-[#666666] mb-2 ">
+                    Description/Notes
+                </label>
 
+                <div className="border border-[#E5E5E5] bg-white rounded-[8px] bg-[#FAFAFA] p-3 min-h-[60px]">
+                    <p className="text-[12px] text-[#4B4B4B]">
+                        3 Months Rent was paid in advance by parent.
+                    </p>
+                </div>
+            </div>
+
+            <div className="px-4 mt-3 flex items-center text-[13px] bg-[#F7F8FC]">
+                <span className="text-[#666666]">Received from</span>
+                <span className="mx-3 font-semibold">:</span>
+                <span className="font-semibold text-[#222222]">
+
+                </span>
+            </div>
 
             <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
                 <div className="flex justify-between items-center px-4 py-2 !cursor-pointer ">

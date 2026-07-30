@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 import {
   SearchNormal,
   Setting3,
@@ -158,6 +159,10 @@ function AddRetainerInvoice() {
   const [invoiceDateErrmsg, setInvoiceDateErrmsg] = useState("");
   const [receivedAccountErrmsg, setReceivedAccountErrmsg] = useState("");
   const [paymentMethodErrmsg, setPaymentMethodErrmsg] = useState("");
+  const [tenantDetails, setTenantDetails] = useState(null);
+  const [selectedTenantDetail, setSelectedTenantDetail] = useState("");
+  const [isManualReceivedFrom, setIsManualReceivedFrom] = useState(false);
+
   const [errors, setErrors] = useState({
     totalAmount: ""
   });
@@ -284,9 +289,9 @@ function AddRetainerInvoice() {
   };
 
   const retainerTypeOptions = [
+    { value: "rent", label: "Rent" },
     { value: "advance", label: "Advance" },
-    { value: "security_deposit", label: "Security Deposit" },
-    { value: "booking", label: "Booking Amount" },
+    { value: "eb", label: "EB" },
   ];
 
   useEffect(() => {
@@ -306,14 +311,33 @@ function AddRetainerInvoice() {
       label: u.fullName,
     })) || [];
 
+  // const handleCustomerName = (selectedOption) => {
+  //   setCustomerName(selectedOption?.value || "");
+  //   // setAllFieldErrmsg("");
+  //   setTenantDetails(null);
+  //   if (!selectedOption) {
+  //     setCustomerErrmsg("Please Select Tenant");
+  //   } else {
+  //     setCustomerErrmsg("");
+  //   }
+  // };
+
   const handleCustomerName = (selectedOption) => {
     setCustomerName(selectedOption?.value || "");
-    // setAllFieldErrmsg("");
+
     if (!selectedOption) {
       setCustomerErrmsg("Please Select Tenant");
-    } else {
-      setCustomerErrmsg("");
+      setSelectedTenantDetail(null);
+      return;
     }
+
+    setCustomerErrmsg("");
+
+    const customer = state.UsersList.CustomerList.customersLists.find(
+      (item) => item.customerId === selectedOption.value
+    );
+
+    setSelectedTenantDetail(customer || null);
   };
 
   console.log("customername", customername);
@@ -336,6 +360,8 @@ function AddRetainerInvoice() {
 
   const handleGuardianName = (selectedOption) => {
     setGuardianName(selectedOption?.value || "");
+    setIsManualReceivedFrom(false);
+
     // setAllFieldErrmsg("");
     if (!selectedOption) {
       setGuardianErrmsg("Please Select Received From");
@@ -413,16 +439,25 @@ function AddRetainerInvoice() {
   };
 
   const handleSaveAndGenerate = () => {
+    const formattedDate = invoiceDate
+      ? `${String(invoiceDate.getDate()).padStart(2, "0")}-${String(
+        invoiceDate.getMonth() + 1
+      ).padStart(2, "0")}-${invoiceDate.getFullYear()}`
+      : null;
+
     const payload = {
       hostelId: state.login.selectedHostel_Id,
       customerId: customername,
-      guardianId: guardianName,
-      relationName: selectedGuardian?.relationShip,
-      invoiceDate: invoiceDate
-        ? invoiceDate.toISOString().split("T")[0]
-        : null,
+      guardianId: isManualReceivedFrom ? null : guardianName,
+      relationName: isManualReceivedFrom
+        ? guardianName
+        : selectedGuardian?.relationShip,
+
+      // guardianId: guardianName,
+      // relationName: selectedGuardian?.relationShip,
+      invoiceDate: formattedDate,
       referenceNumber: referenceNumber,
-      invoiceType: "advance_holding",
+      invoiceType: "amount_holding",
       amount: Number(expenseItem.amount || 0),
 
       description: expenseItem.itemName,
@@ -598,6 +633,49 @@ function AddRetainerInvoice() {
               </div>
             </div>
           </div>
+          {selectedTenantDetail && (
+            <div className="mt-3 max-w-[700px] rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-4 py-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-start gap-4">
+                  {selectedTenantDetail.profilePic ? (
+                    <img
+                      src={selectedTenantDetail.profilePic}
+                      alt={selectedTenantDetail.fullName}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-[#E5E7EB] flex items-center justify-center font-semibold text-[#4B5563]">
+                      {selectedTenantDetail.initials}
+                    </div>
+                  )}
+
+                  <div>
+                    <h4 className="text-[15px] font-semibold text-[#222222]">
+                      {selectedTenantDetail.fullName}
+                    </h4>
+
+                    <p className="text-[12px] text-[#6B7280] mt-1">
+                      {selectedTenantDetail.roomName || "-"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-left max-w-[280px] mr-10">
+                  <p className="text-[13px] font-semibold text-[#222222] mb-1">
+                    Billed to
+                  </p>
+
+                  <p className="text-[12px] text-[#6B7280]">
+                    {selectedTenantDetail.address || "-"}
+                  </p>
+
+                  <p className="text-[12px] text-[#6B7280] mt-1">
+                    +{selectedTenantDetail.country} {selectedTenantDetail.mobile}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
             <div className="col-span-1 xl:col-span-9">
@@ -606,7 +684,7 @@ function AddRetainerInvoice() {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
 
-              <Select
+              {/* <Select
                 placeholder="Enter/Select Respective Person"
                 classNamePrefix="custom"
                 styles={CustomStyles}
@@ -618,6 +696,42 @@ function AddRetainerInvoice() {
                 }
 
               />
+              {guardianErrmsg && (
+                <ErrorMessage
+                  message={guardianErrmsg}
+                  type="error"
+                />
+              )} */}
+              {GuardianOptions.length > 0 ? (
+                <Select
+                  placeholder="Enter/Select Respective Person"
+                  classNamePrefix="custom"
+                  styles={CustomStyles}
+                  options={GuardianOptions}
+                  onChange={handleGuardianName}
+                  value={
+                    GuardianOptions.find((opt) => opt.value === guardianName) || null
+                  }
+                />
+              ) : (
+                <input
+                  type="text"
+                  className="w-full border border-[#D9D9D9] rounded-md px-3 py-2 text-[13px] focus:outline-none focus:border-[#3B82F6]"
+                  placeholder="Enter Received From"
+                  value={guardianName}
+                  onChange={(e) => {
+                    setGuardianName(e.target.value);
+                    setIsManualReceivedFrom(true);
+
+                    if (e.target.value.trim()) {
+                      setGuardianErrmsg("");
+                    } else {
+                      setGuardianErrmsg("Please Enter Received From");
+                    }
+                  }}
+                />
+              )}
+
               {guardianErrmsg && (
                 <ErrorMessage
                   message={guardianErrmsg}
