@@ -200,8 +200,11 @@ function UserList(props) {
   const { canWriteModule: canWriteWalkin, canReadModule: canReadWalkin } =
     useHasPermission("Walk in");
 
-  const { canReadModule: canReadCheckout, canWriteModule: canWriteCheckout } =
-    useHasPermission("Checkout");
+  const {
+    canReadModule: canReadCheckout,
+    canWriteModule: canWriteCheckout,
+    canUpdateModule: canUpdateCheckout,
+  } = useHasPermission("Checkout");
 
   const {
     canWriteModule: canWriteBooking,
@@ -2705,6 +2708,7 @@ function UserList(props) {
                                 return (
                                   <tr
                                     onClick={() =>
+                                      canReadTenant &&
                                       handleRoomDetailsPage(user?.apiCall)
                                     }
                                     key={user?.apiCall?.customerId || index}
@@ -2974,17 +2978,17 @@ function UserList(props) {
                                                 <>
                                                   <div
                                                     onClick={() =>
-                                                      canWriteCheckout &&
+                                                      canUpdateCheckout &&
                                                       handleCustomerCheckout(
                                                         user,
                                                       )
                                                     }
                                                     className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                  ${canUpdateCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                   >
                                                     <img
                                                       src={addcircle}
-                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                      className={`h-4 w-4 ${!canUpdateCheckout && "grayscale"}`}
                                                     />
                                                     <span className="text-sm font-medium font-gilroy whitespace-nowrap">
                                                       Move to Notice Period

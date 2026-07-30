@@ -56,7 +56,7 @@ export async function UpdateVendorCategory(vendor) {
       params: {
         hostelId: vendor.hostelId,
       },
-    }
+    },
   );
 }
 

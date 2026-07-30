@@ -135,6 +135,11 @@ function Debit({ handleClose }) {
   const [cardNumber, setCardNumber] = useState("");
   const [cardNumberError, setCardNumberError] = useState("");
 
+  const cardNetworkRef = useRef(null);
+  const cardHolderNameRef = useRef(null);
+  const cardNumberRef = useRef(null);
+  const displayNameRef = useRef(null);
+
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
     setLinkedBankError("");
@@ -191,6 +196,7 @@ function Debit({ handleClose }) {
   };
 
   const handleCardNumberChange = (e) => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     const value = e.target.value.replace(/\D/g, "").slice(0, 4);
 
     setCardNumber(value);
@@ -205,19 +211,25 @@ function Debit({ handleClose }) {
   };
 
   const handleSaveDebit = () => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    setCardNetworkError("");
+    setCardHolderNameError("");
+    setCardNumberError("");
+    setDisplayNameError("");
     let isValid = true;
+    let hasFocused = false;
 
+    const focusField = (ref) => {
+      if (!hasFocused) {
+        ref.current?.focus();
+        hasFocused = true;
+      }
+    };
     const nameRegex = /^[A-Za-z\s]+$/;
-
-    // if (!linkedBank) {
-    //   setLinkedBankError("Please select linked bank");
-    //   isValid = false;
-    // } else {
-    //   setLinkedBankError("");
-    // }
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
+      focusField(cardNetworkRef);
       isValid = false;
     } else {
       setCardNetworkError("");
@@ -225,9 +237,11 @@ function Debit({ handleClose }) {
 
     if (!cardHolderName.trim()) {
       setCardHolderNameError("Please Enter Card Holder Name");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else if (!nameRegex.test(cardHolderName.trim())) {
       setCardHolderNameError("Card holder name should contain only letters");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else {
       setCardHolderNameError("");
@@ -235,9 +249,11 @@ function Debit({ handleClose }) {
 
     if (!cardNumber.trim()) {
       setCardNumberError("Please Enter Last 4 Digits");
+      focusField(cardNumberRef);
       isValid = false;
     } else if (!/^\d{4}$/.test(cardNumber)) {
       setCardNumberError("Enter exactly 4 digits");
+      focusField(cardNumberRef);
       isValid = false;
     } else {
       setCardNumberError("");
@@ -245,9 +261,11 @@ function Debit({ handleClose }) {
 
     if (!displayName.trim()) {
       setDisplayNameError("Please Enter Display Name");
+      focusField(displayNameRef);
       isValid = false;
     } else if (!nameRegex.test(displayName.trim())) {
       setDisplayNameError("Display name should contain only letters");
+      focusField(displayNameRef);
       isValid = false;
     } else {
       setDisplayNameError("");
@@ -260,11 +278,11 @@ function Debit({ handleClose }) {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         bankId: OverviewDetails?.bankId,
-        paymentMethod: "DEBIT",
+        paymentMethod: "Debit Card",
         displayName: displayName.trim(),
         description: description.trim(),
         cardNumber: cardNumber,
-        cardNetwork: cardNetwork,
+        cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
       },
     });
@@ -272,7 +290,7 @@ function Debit({ handleClose }) {
   };
 
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
       setIsSaving(false);
       handleClose();
     }
@@ -291,8 +309,8 @@ function Debit({ handleClose }) {
   }, []);
 
   return (
-    <div className="">
-      <div className="">
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto show-scrolls pr-1">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
@@ -314,6 +332,7 @@ function Debit({ handleClose }) {
             </label>
 
             <Select
+              ref={cardNetworkRef}
               options={upiOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
@@ -333,6 +352,7 @@ function Debit({ handleClose }) {
           </label>
 
           <input
+            ref={cardHolderNameRef}
             value={cardHolderName}
             onChange={handleCardHolderNameChange}
             placeholder="Enter Holder name"
@@ -349,6 +369,7 @@ function Debit({ handleClose }) {
           </label>
 
           <input
+            ref={cardNumberRef}
             value={cardNumber}
             onChange={handleCardNumberChange}
             placeholder="**** **** **** 1234"
@@ -365,6 +386,7 @@ function Debit({ handleClose }) {
           </label>
 
           <input
+            ref={displayNameRef}
             value={displayName}
             onChange={handleDisplayNameChange}
             placeholder="Gpay UPI"
@@ -393,6 +415,14 @@ function Debit({ handleClose }) {
           )}
         </div>
       </div>
+
+      {state.bankingDetails.addPaymentError && (
+        <ErrorMessage
+          message={state.bankingDetails.addPaymentError}
+          type="error"
+        />
+      )}
+
       <div className="flex justify-end gap-4 px-6 py-2 ">
         <button
           onClick={handleClose}

@@ -7,7 +7,6 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import UPI from "./UPI";
 import Credit from "./Credit";
 import Debit from "./Debit";
-import QRCode from "./QRCode";
 
 function AddPaymentMethod({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -81,7 +80,7 @@ function AddPaymentMethod({ show, handleClose }) {
             <ErrorMessage message={paymentTypeError} type="error" />
           )}
         </div>
-        <div className="flex-1 overflow-y-auto px-4 show-scrolls max-h-[500px] ">
+        <div className="flex-1 overflow-y-auto px-3 show-scrolls max-h-[500px] ">
           {paymentType === "UPI" && <UPI handleClose={handleClose} />}
 
           {paymentType === "Credit Card" && (

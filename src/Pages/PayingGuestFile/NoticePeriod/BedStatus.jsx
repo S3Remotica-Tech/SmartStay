@@ -48,7 +48,10 @@ function NoticeBedStatusDetails({
     // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Customers");
 
-  const { canWriteModule: canWriteCheckout } = useHasPermission("Checkout");
+  const {
+    canWriteModule: canWriteCheckout,
+    canUpdateModule: canUpdateCheckout,
+  } = useHasPermission("Checkout");
 
   const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
   const {
@@ -592,12 +595,12 @@ function NoticeBedStatusDetails({
                                   <div className="h-px bg-gray-300" />
                                   <div
                                     className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                      canWriteCustomers
+                                      canUpdateCheckout
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-60"
                                     }`}
                                     onClick={() =>
-                                      canWriteCustomers &&
+                                      canUpdateCheckout &&
                                       handleMoveToNoticePeriod(tenant)
                                     }
                                     onMouseEnter={(e) => {
@@ -613,14 +616,14 @@ function NoticeBedStatusDetails({
                                       className="flex-shrink-0"
                                       size="18"
                                       color={
-                                        canWriteCustomers
+                                        canUpdateCheckout
                                           ? "#FF9500"
                                           : "#A9A9A9"
                                       }
                                     />
                                     <label
                                       className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                        canWriteCustomers
+                                        canUpdateCheckout
                                           ? "text-gray-900 cursor-pointer"
                                           : "text-gray-400 cursor-not-allowed"
                                       }`}

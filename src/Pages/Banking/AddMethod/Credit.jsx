@@ -7,6 +7,7 @@ import ErrorMessage from "../../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
+import dayjs from "dayjs";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -113,9 +114,8 @@ function Credit({ handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
- 
 
-   const upiOptions =
+  const upiOptions =
     state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
       value: view.id,
       label: view.name,
@@ -141,6 +141,14 @@ function Credit({ handleClose }) {
 
   const [billingCycle, setBillingCycle] = useState(null);
   const [billingCycleError, setBillingCycleError] = useState("");
+
+  const cardNetworkRef = useRef(null);
+  const cardHolderNameRef = useRef(null);
+  const cardNumberRef = useRef(null);
+  const displayNameRef = useRef(null);
+  const creditLimitRef = useRef(null);
+
+  // console.log("billingCycle", billingCycle);
 
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
@@ -194,6 +202,7 @@ function Credit({ handleClose }) {
   };
 
   const handleCardNumberChange = (e) => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     const value = e.target.value.replace(/\D/g, "").slice(0, 4);
 
     setCardNumber(value);
@@ -212,9 +221,7 @@ function Credit({ handleClose }) {
 
     setCreditLimit(value);
 
-    if (!value) {
-      setCreditLimitError("Please Enter Credit limit");
-    } else if (Number(value) <= 0) {
+    if (value && Number(value) <= 0) {
       setCreditLimitError("Credit limit must be greater than 0");
     } else {
       setCreditLimitError("");
@@ -227,19 +234,28 @@ function Credit({ handleClose }) {
   };
 
   const handleSaveCredit = () => {
+    dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    setCardNetworkError("");
+    setCardHolderNameError("");
+    setCardNumberError("");
+    setDisplayNameError("");
+    setCreditLimitError("");
     let isValid = true;
 
     const nameRegex = /^[A-Za-z\s]+$/;
 
-    // if (!linkedBank) {
-    //   setLinkedBankError("Please select linked bank");
-    //   isValid = false;
-    // } else {
-    //   setLinkedBankError("");
-    // }
+    let hasFocused = false;
+
+    const focusField = (ref) => {
+      if (!hasFocused) {
+        ref.current?.focus();
+        hasFocused = true;
+      }
+    };
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
+      focusField(cardNetworkRef);
       isValid = false;
     } else {
       setCardNetworkError("");
@@ -247,9 +263,11 @@ function Credit({ handleClose }) {
 
     if (!cardHolderName.trim()) {
       setCardHolderNameError("Please enter card holder name");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else if (!nameRegex.test(cardHolderName.trim())) {
       setCardHolderNameError("Card holder name should contain only letters");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else {
       setCardHolderNameError("");
@@ -257,9 +275,11 @@ function Credit({ handleClose }) {
 
     if (!cardNumber.trim()) {
       setCardNumberError("Please enter last 4 digits");
+      focusField(cardNumberRef);
       isValid = false;
     } else if (!/^\d{4}$/.test(cardNumber)) {
       setCardNumberError("Last 4 digits must contain exactly 4 numbers");
+      focusField(cardNumberRef);
       isValid = false;
     } else {
       setCardNumberError("");
@@ -267,51 +287,49 @@ function Credit({ handleClose }) {
 
     if (!displayName.trim()) {
       setDisplayNameError("Please enter display name");
+      focusField(displayNameRef);
       isValid = false;
     } else if (!nameRegex.test(displayName.trim())) {
       setDisplayNameError("Display name should contain only letters");
+      focusField(displayNameRef);
       isValid = false;
     } else {
       setDisplayNameError("");
     }
 
-    if (!billingCycle) {
-      setBillingCycleError("Please select billing cycle");
-      isValid = false;
-    } else {
-      setBillingCycleError("");
-    }
-
     if (creditLimit && Number(creditLimit) <= 0) {
       setCreditLimitError("Credit limit must be greater than 0");
+      creditLimitRef.current?.focus();
       isValid = false;
     } else {
       setCreditLimitError("");
     }
 
     if (!isValid) return;
+
     dispatch({
       type: "ADD_PAYMENT_METHOD_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         bankId: OverviewDetails?.bankId,
-        paymentMethod: "CREDIT",
+        paymentMethod: "Credit Card",
         displayName: displayName.trim(),
         description: description.trim(),
         cardNumber: cardNumber,
-        cardNetwork: cardNetwork,
+        cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
         creditLimit: creditLimit,
-        billingCycle: billingCycle,
+        billingCycle: billingCycle
+          ? dayjs(billingCycle).format("DD/MM/YYYY")
+          : null,
       },
     });
     setIsSaving(true);
   };
 
- 
-
+  // console.log("cardNetwork", cardNetwork);
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 200) {
+    if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
       setIsSaving(false);
       handleClose();
     }
@@ -330,33 +348,20 @@ function Credit({ handleClose }) {
   }, []);
 
   return (
-    <div className="">
-      <div className="">
+    <div className="flex flex-col h-full ">
+      <div className="flex-1 overflow-y-auto show-scrolls pr-1">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
               Linked Bank
             </label>
 
-            {/* <Select
-              options={bankOptions}
-              value={linkedBank}
-              onChange={handleLinkedBankChange}
-              placeholder="Select Bank"
-              className="mt-2"
-              styles={CustomStyles}
-            /> */}
-
-              <input
+            <input
               value={OverviewDetails?.bankName}
               disabled
-              // onChange={handleLinkedBankChange}
               placeholder=""
               className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
             />
-            {/* {linkedBankError && (
-              <ErrorMessage message={linkedBankError} type="error" />
-            )} */}
           </div>
 
           <div>
@@ -365,6 +370,7 @@ function Credit({ handleClose }) {
             </label>
 
             <Select
+              ref={cardNetworkRef}
               options={upiOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
@@ -384,6 +390,7 @@ function Credit({ handleClose }) {
           </label>
 
           <input
+            ref={cardHolderNameRef}
             value={cardHolderName}
             onChange={handleCardHolderNameChange}
             placeholder="Enter Holder name"
@@ -400,6 +407,7 @@ function Credit({ handleClose }) {
           </label>
 
           <input
+            ref={cardNumberRef}
             value={cardNumber}
             onChange={handleCardNumberChange}
             placeholder="**** **** **** 1234"
@@ -416,6 +424,7 @@ function Credit({ handleClose }) {
           </label>
 
           <input
+            ref={displayNameRef}
             value={displayName}
             onChange={handleDisplayNameChange}
             placeholder="Gpay UPI"
@@ -426,13 +435,14 @@ function Credit({ handleClose }) {
             <ErrorMessage message={displayNameError} type="error" />
           )}
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="mt-3">
+        <div className="grid grid-cols-2 gap-4 mt-3">
+          <div className="">
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
               Credit Limit
             </label>
 
             <input
+              ref={creditLimitRef}
               value={creditLimit}
               onChange={handleCreditLimitChange}
               placeholder="Ex : ₹ 50,000"
@@ -443,8 +453,8 @@ function Credit({ handleClose }) {
             )}
           </div>
 
-          <div className="mt-3">
-            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+          <div className="">
+            <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-2">
               Billing Cycle
             </label>
 
@@ -454,7 +464,7 @@ function Credit({ handleClose }) {
                 onChange={handleBillingCycleChange}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Select Date"
-                className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[14px]
+                className={`w-full h-11 rounded-[8px] border px-3 pr-10 text-[13px]
                   focus:outline-none`}
               />
 
@@ -484,6 +494,14 @@ function Credit({ handleClose }) {
           )} */}
         </div>
       </div>
+
+      {state.bankingDetails.addPaymentError && (
+        <ErrorMessage
+          message={state.bankingDetails.addPaymentError}
+          type="error"
+        />
+      )}
+
       <div className="flex justify-end gap-4 px-6 py-2 ">
         <button
           onClick={handleClose}

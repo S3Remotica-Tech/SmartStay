@@ -32,7 +32,7 @@ import { useLocation } from "react-router-dom";
 import { Setting3, SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import SelfTransfer from "./SelfTransfer";
+import SelfTransferNew from "./SelfTransferNew";
 import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
 import BankingOverview from "./BankingOverview";
@@ -194,6 +194,8 @@ function BankingNew() {
     canUpdateModule: canUpdateBanking,
     canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
+
+  const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const monthOptions = [];
@@ -824,29 +826,30 @@ function BankingNew() {
                     rounded-[8px] shadow-lg  min-w-[220px]"
                   >
                     <button
+                      disabled={!canWriteExpense}
                       onClick={() => handleAddExpense()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Add Expense
                     </button>
 
                     <button
                       onClick={() => handleTenantPayment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Tenant Payment
                     </button>
 
                     <button
                       onClick={() => handleVendorPayment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Vendor Payment
                     </button>
 
                     <button
                       onClick={() => handleCreditPayment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Credit Card Payment
                     </button>
@@ -856,7 +859,7 @@ function BankingNew() {
                         e.stopPropagation();
                         handleInvestment();
                       }}
-                      className="w-full text-left px-3 py-2 text-[14px]   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className=" disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px]   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       <span
                         className={`text-sm font-medium font-gilroy ${
@@ -1018,9 +1021,10 @@ function BankingNew() {
                                   </button>
                                   <div className="h-px bg-gray-200" />
                                   <button
-                                    disabled={
-                                      !(canUpdateBanking && !item.isDeleted)
-                                    }
+                                    disabled
+                                    // disabled={
+                                    //   !(canUpdateBanking && !item.isDeleted)
+                                    // }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       // handleEditAddBank(item);
@@ -1220,15 +1224,28 @@ function BankingNew() {
                     })
                   ) : (
                     <div
-                      onClick={handleAddAccount}
-                      className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors"
+                      onClick={() => canWriteBanking && handleAddAccount()}
+                      className={`border-1 w-[150px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
+                        canWriteBanking
+                          ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
+                          : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
+                      }`}
                     >
                       <div className="flex flex-col items-center text-center">
                         <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
-                          <Bank size="20" color="#1E45E1" />
+                          <Bank
+                            size="20"
+                            color={canWriteBanking ? "#1E45E1" : "#9CA3AF"}
+                          />
                         </div>
 
-                        <div className="text-base font-medium text-[#1E45E1] leading-6">
+                        <div
+                          className={`text-base font-medium leading-6 ${
+                            canWriteBanking
+                              ? "text-[#1E45E1]"
+                              : "text-[#9CA3AF] cursor-not-allowed"
+                          }`}
+                        >
                           Add New Bank / Cash
                           <br />
                           Account
@@ -1239,15 +1256,28 @@ function BankingNew() {
                 </div>
                 {banking && banking.length > 0 && (
                   <div
-                    onClick={handleAddAccount}
-                    className="border-1 w-[150px] border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors"
+                    onClick={() => canWriteBanking && handleAddAccount()}
+                    className={`border-1 w-[150px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
+                      canWriteBanking
+                        ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
+                        : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
+                    }`}
                   >
                     <div className="flex flex-col items-center text-center">
                       <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
-                        <Bank size="20" color="#1E45E1" />
+                        <Bank
+                          size="20"
+                          color={canWriteBanking ? "#1E45E1" : "#9CA3AF"}
+                        />
                       </div>
 
-                      <div className="text-base font-medium text-[#1E45E1] leading-6">
+                      <div
+                        className={`text-base font-medium leading-6 ${
+                          canWriteBanking
+                            ? "text-[#1E45E1]"
+                            : "text-[#9CA3AF] cursor-not-allowed"
+                        }`}
+                      >
                         Add New Bank / Cash
                         <br />
                         Account
@@ -1404,7 +1434,12 @@ function BankingNew() {
                     <div>
                       {!loader &&
                         transactionFilterddata.length === 0 &&
-                        canReadBanking && <NoDataMessage label="Transaction" />}
+                        canReadBanking && (
+                          <div className="my-2">
+                            {" "}
+                            <NoDataMessage label="Transaction" />{" "}
+                          </div>
+                        )}
 
                       {loader && (
                         <div className="fixed inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -1417,116 +1452,6 @@ function BankingNew() {
               </div>
             </>
           )}
-
-          <Modal
-            show={deleteShow}
-            onHide={handleCloseDelete}
-            centered
-            backdrop="static"
-            dialogClassName="custom-delete-modal"
-          >
-            <Modal.Header className="!border-t-0">
-              <Modal.Title className="w-full text-center !font-semibold !text-[18px] !font-gilroy !text-[#222222]">
-                Delete Banking?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body className="text-center !text-[14px] !font-medium !font-gilroy !text-[#646464] -mt-2.5">
-              Are you sure you want to delete this Bank-details?
-            </Modal.Body>
-
-            <Modal.Footer className="flex content-center !border-t-0 -mt-2.5">
-              <Button
-                className="me-2 w-full max-w-[160px] h-[52px] rounded-[8px] px-5 py-3 bg-white !text-[#1E45E1] !border !border-[#1E45E1] !font-gilroy !font-semibold !text-[14px]"
-                onClick={handleCloseDelete}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                disabled
-                className="w-full max-w-[160px] h-[52px] rounded-[8px] px-3 py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold !text-[14px] !disabled:opacity-50 !disabled:cursor-not-allowed"
-                onClick={handleDeleteBank}
-              >
-                {/* Delete */} Coming Soon
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal
-            show={showAddBalance}
-            onHide={() => handleCloseAddBalance()}
-            backdrop="static"
-            centered
-            className="modal-dialog-centered max-w-[353px] w-[80vw]"
-          >
-            <Modal.Header className="relative">
-              <div className="text-[1.25rem] font-semibold font-gilroy">
-                Add Balance
-              </div>
-              <CloseCircle
-                size="24"
-                color="#000"
-                className="cursor pointer"
-                onClick={handleCloseAddBalance}
-              />
-            </Modal.Header>
-            <Modal.Body className="pt-2">
-              <div className="w-full">
-                <Form.Group className="mb-2">
-                  <Form.Label className="!text-[14px] !text-[#222222] !font-gilroy !font-medium">
-                    Account{" "}
-                    <span className="text-red-500 text-[20px]"> * </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Account"
-                    value={AddBankName}
-                    className="text-[16px] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
-                  />
-                </Form.Group>
-              </div>
-
-              <div className="w-full">
-                <Form.Group className="mb-3">
-                  <Form.Label className="text-[0.875rem] text-[#222222] font-gilroy font-medium">
-                    Balance {""}
-                    <span className="text-red-500 text-[20px]"> * </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    placeholder="Enter Amount"
-                    value={AddBankAmount}
-                    onChange={(e) => handleAddBankAmount(e)}
-                    className="text-[1rem] text-[#4B4B4B] font-gilroy font-medium shadow-none border border-[#D9D9D9] h-[50px] rounded-[8px]"
-                  />
-                  {amountError && (
-                    <ErrorMessage message={amountError} type="error" />
-                  )}
-                </Form.Group>
-
-                {/* {state.createAccount?.networkError ?
-                <div className="d-flex justify-content-center mt-1 mb-1">
-                  <ErrorMessage message={state.createAccount?.networkError} type="error" />
-                  </div>
-                  : null} */}
-
-                <Button
-                  className="w-full !bg-[#1E45E1] !font-semibold h-[50px] rounded-[12px] !text-[16px] !font-gilroy mt-2.5"
-                  onClick={handleAddAmountSubmit}
-                >
-                  Add balance
-                </Button>
-              </div>
-            </Modal.Body>
-
-            {formLoading && (
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent opacity-75 z-10">
-                <div className="w-[40px] h-[40px] rounded-full border-t-[4px] border-t-[#1E45E1] border-r-[4px] border-r-transparent animate-spin"></div>
-              </div>
-            )}
-          </Modal>
 
           {showSettlementForm && (
             <VendorPayment
@@ -1565,7 +1490,7 @@ function BankingNew() {
           )}
 
           {selfTranfer && (
-            <SelfTransfer
+            <SelfTransferNew
               show={selfTranfer}
               handleClose={handleCloseSelfTransfer}
               selfDetails={selfDetails}

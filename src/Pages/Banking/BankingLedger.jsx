@@ -149,8 +149,8 @@ function BankingLedger() {
     endIndex,
   );
   return (
-    <div className=" m-2">
-      <div className="flex justify-between items-center gap-2 ">
+    <div className="px-4 py-4 h-full flex flex-col">
+      <div className="flex justify-between items-center gap-2 flex-shrink-0">
         <div className="flex flex-wrap items-center gap-3">
           <div
             className={`border border-gray-300 rounded-lg w-36 ${
@@ -247,7 +247,7 @@ function BankingLedger() {
         </div>
       </div>
 
-      <div className="relative ">
+      <div className="relative flex-1 overflow-y-auto pr-2 space-y-4 show-scrolls">
         {/* {transactionFilterddata?.length > 0 ? ( */}
         <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
           <div
@@ -258,14 +258,24 @@ function BankingLedger() {
             <table className=" w-full font-gilroy">
               <thead className="bg-[#F9FAFB] sticky top-0 z-40 text-[#6B7280] text-xs uppercase">
                 <tr className="h-9">
-                  <th className="w-[230px] px-2">date & Time</th>
-                  <th className="w-[230px] px-2">Type</th>
-                  <th className="w-[230px] px-2">Account / Method</th>
-                  <th className="w-[230px] px-2">Reference</th>
-                  <th className="w-[230px] px-2">Transaction ID</th>
-                  <th className="w-[230px] px-2">Description</th>
-                  <th className="w-[230px] px-2">Amount</th>
-                  <th className="w-[230px] px-2">Action</th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">
+                    date & Time
+                  </th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">Type</th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">
+                    Account / Method
+                  </th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">
+                    Reference
+                  </th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">
+                    Transaction ID
+                  </th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">
+                    Description
+                  </th>
+                  <th className="w-[230px] px-2 whitespace-nowrap">Amount</th>
+                  <th className="w-[230px] px-2 ">Action</th>
                 </tr>
               </thead>
 

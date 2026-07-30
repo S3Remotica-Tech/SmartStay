@@ -44,7 +44,7 @@ function BillingRule() {
   // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
   // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
 
-  const { canWriteModule: canWriteBills, canReadModule: canReadRecurring } =
+  const { canWriteModule: canWriteBills, canReadModule: canReadBills } =
     useHasPermission("Bills");
 
   //  Future needed this function so don't delete this command line.............
@@ -130,7 +130,7 @@ function BillingRule() {
       </div>
 
       <div className="flex-1 overflow-hidden px-4 py-3">
-        {!canReadRecurring ? (
+        {!canReadBills ? (
           <>
             <PermissionDeniedMessage />
           </>

@@ -445,7 +445,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     }
   }, [state.login.selectedHostel_Id, selectedVendor]);
 
-  console.log("selectedVendor", selectedVendor);
+//   console.log("selectedVendor", selectedVendor);
 
   return (
     <>

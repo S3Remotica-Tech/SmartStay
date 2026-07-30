@@ -192,7 +192,7 @@ function* handleAddPaymentMethod(action) {
         type: "ADD_PAYMENT_METHOD_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
-      toast.success(`${response.data}`, {
+      toast.success(`Created Successfully`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -449,7 +449,7 @@ function* handleSelfTranfer(action) {
         },
       });
 
-      toast.success(`${response.data}`, {
+      toast.success(`${response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -466,7 +466,7 @@ function* handleSelfTranfer(action) {
     if (error) {
       yield put({
         type: "SELF_TRANSFER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
