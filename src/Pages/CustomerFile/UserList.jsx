@@ -2708,6 +2708,7 @@ function UserList(props) {
                                 return (
                                   <tr
                                     onClick={() =>
+                                      canReadTenant &&
                                       handleRoomDetailsPage(user?.apiCall)
                                     }
                                     key={user?.apiCall?.customerId || index}

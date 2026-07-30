@@ -142,7 +142,7 @@ function Credit({ handleClose }) {
   const [billingCycle, setBillingCycle] = useState(null);
   const [billingCycleError, setBillingCycleError] = useState("");
 
-  console.log("billingCycle", billingCycle);
+  // console.log("billingCycle", billingCycle);
 
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
@@ -334,8 +334,8 @@ function Credit({ handleClose }) {
   }, []);
 
   return (
-    <div className="">
-      <div className="">
+    <div className="flex flex-col h-full ">
+      <div className="flex-1 overflow-y-auto show-scrolls pr-1">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
@@ -417,8 +417,8 @@ function Credit({ handleClose }) {
             <ErrorMessage message={displayNameError} type="error" />
           )}
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="mt-3">
+        <div className="grid grid-cols-2 gap-4 mt-3">
+          <div className="">
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">
               Credit Limit
             </label>
@@ -434,8 +434,8 @@ function Credit({ handleClose }) {
             )}
           </div>
 
-          <div className="mt-3">
-            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+          <div className="">
+            <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-2">
               Billing Cycle
             </label>
 
@@ -445,7 +445,7 @@ function Credit({ handleClose }) {
                 onChange={handleBillingCycleChange}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Select Date"
-                className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[14px]
+                className={`w-full h-11 rounded-[8px] border px-3 pr-10 text-[13px]
                   focus:outline-none`}
               />
 

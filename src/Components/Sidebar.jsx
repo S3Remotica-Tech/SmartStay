@@ -10,7 +10,6 @@ import EbHostel from "../Pages/ElectrictyFile/EB_Hostel";
 import Invoices from "../Pages/Bills/Invoice";
 import Compliances from "../Pages/Compliants/Compliance";
 import Report from "../Reports/Reports";
-// import VendorComponent from "../Pages/VendorFIle/Vendor";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import "bootstrap/dist/css/bootstrap.min.css";

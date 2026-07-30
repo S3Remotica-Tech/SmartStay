@@ -293,8 +293,8 @@ function Debit({ handleClose }) {
   }, []);
 
   return (
-    <div className="">
-      <div className="">
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto show-scrolls pr-1">
         <div className="grid grid-cols-2 gap-4 mt-3">
           <div>
             <label className="text-[13px] text-[#222222] font-gilroy font-medium">

@@ -120,8 +120,6 @@ function UPI({ handleClose }) {
       label: view.name,
     })) || [];
 
-
-
   const [linkedBank, setLinkedBank] = useState(null);
   const [linkedBankError, setLinkedBankError] = useState("");
 
@@ -317,176 +315,181 @@ function UPI({ handleClose }) {
   }, []);
 
   return (
-    <div className="">
-      <div className="">
-        <div className="grid grid-cols-2 gap-4 mt-3">
-          <div>
-            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-              Linked Bank
-            </label>
+    <div className="flex flex-col h-full ">
+      <div className="flex-1 overflow-y-auto show-scrolls pr-1">
+        <div className="">
+          <div className="grid grid-cols-2 gap-4 mt-3">
+            <div>
+              <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+                Linked Bank
+              </label>
 
-            <input
-              value={OverviewDetails?.bankName}
-              disabled
-              // onChange={handleLinkedBankChange}
-              placeholder=""
-              className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
-            />
+              <input
+                value={OverviewDetails?.bankName}
+                disabled
+                // onChange={handleLinkedBankChange}
+                placeholder=""
+                className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+              />
 
-            {linkedBankError && (
-              <ErrorMessage message={linkedBankError} type="error" />
-            )}
-          </div>
-
-          <div>
-            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-              UPI APP <span className="text-red-500">*</span>
-            </label>
-
-            <Select
-              options={upiOptions}
-              value={upiApp}
-              onChange={handleUpiAppChange}
-              placeholder="Select UPI App"
-              className="mt-2"
-              styles={CustomStyles}
-            />
-
-            {upiAppError && <ErrorMessage message={upiAppError} type="error" />}
-          </div>
-        </div>
-
-        <div className="mt-3">
-          <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-            UPI ID <span className="text-red-500">*</span>
-          </label>
-
-          <input
-            value={upiId}
-            onChange={handleUpiIdChange}
-            placeholder="Ex : smartstay@oksbi"
-            className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
-          />
-          {upiIdError && <ErrorMessage message={upiIdError} type="error" />}
-        </div>
-
-        <div className="mt-3">
-          <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-            Display Name <span className="text-red-500">*</span>
-          </label>
-
-          <input
-            value={displayName}
-            onChange={handleDisplayNameChange}
-            placeholder="Gpay UPI"
-            className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
-          />
-
-          {displayNameError && (
-            <ErrorMessage message={displayNameError} type="error" />
-          )}
-        </div>
-
-        <div className="mt-3">
-          <label className="block mb-2 text-[13px] font-medium">
-            Add QR Image <span className="text-red-500">*</span>
-          </label>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/jpg,image/png"
-            className="hidden"
-            onChange={handleQrImageChange}
-          />
-
-          <div
-            onClick={() => fileInputRef.current?.click()}
-            className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
-          >
-            <div className="rounded-md bg-blue-100 px-1 py-1">
-              <DocumentUpload size={20} color="#1E45E1" />
+              {linkedBankError && (
+                <ErrorMessage message={linkedBankError} type="error" />
+              )}
             </div>
 
             <div>
-              <p className="text-sm font-medium text-[#222222] mb-1">
-                <span className="text-[#1E45E1]">Choose Image to</span> Upload
-              </p>
+              <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+                UPI APP <span className="text-red-500">*</span>
+              </label>
 
-              <p className="text-xs text-gray-500">JPG / JPEG / PNG Format</p>
+              <Select
+                options={upiOptions}
+                value={upiApp}
+                onChange={handleUpiAppChange}
+                placeholder="Select UPI App"
+                className="mt-2"
+                styles={CustomStyles}
+              />
+
+              {upiAppError && (
+                <ErrorMessage message={upiAppError} type="error" />
+              )}
             </div>
           </div>
 
-          {qrImageError && <ErrorMessage message={qrImageError} type="error" />}
-        </div>
+          <div className="mt-3">
+            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+              UPI ID <span className="text-red-500">*</span>
+            </label>
 
-        {qrImagePreview && (
-          <div className="flex items-center justify-center">
-            <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
-              <div
-                className="relative px-4 py-2 group"
-                onMouseEnter={() => setHoveredImage(qrImagePreview)}
-                onMouseLeave={() => setHoveredImage(null)}
-              >
-                <img
-                  src={qrImagePreview}
-                  alt="preview"
-                  className="w-[350px] h-auto rounded-md object-fit"
-                />
+            <input
+              value={upiId}
+              onChange={handleUpiIdChange}
+              placeholder="Ex : smartstay@oksbi"
+              className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+            />
+            {upiIdError && <ErrorMessage message={upiIdError} type="error" />}
+          </div>
 
+          <div className="mt-3">
+            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+              Display Name <span className="text-red-500">*</span>
+            </label>
+
+            <input
+              value={displayName}
+              onChange={handleDisplayNameChange}
+              placeholder="Gpay UPI"
+              className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
+            />
+
+            {displayNameError && (
+              <ErrorMessage message={displayNameError} type="error" />
+            )}
+          </div>
+
+          <div className="mt-3">
+            <label className="block mb-2 text-[13px] font-medium">
+              Add QR Image <span className="text-red-500">*</span>
+            </label>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/jpg,image/png"
+              className="hidden"
+              onChange={handleQrImageChange}
+            />
+
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="mb-3 flex flex-row gap-4 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 py-6 cursor-pointer hover:bg-gray-100"
+            >
+              <div className="rounded-md bg-blue-100 px-1 py-1">
+                <DocumentUpload size={20} color="#1E45E1" />
+              </div>
+
+              <div>
+                <p className="text-sm font-medium text-[#222222] mb-1">
+                  <span className="text-[#1E45E1]">Choose Image to</span> Upload
+                </p>
+
+                <p className="text-xs text-gray-500">JPG / JPEG / PNG Format</p>
+              </div>
+            </div>
+
+            {qrImageError && (
+              <ErrorMessage message={qrImageError} type="error" />
+            )}
+          </div>
+
+          {qrImagePreview && (
+            <div className="flex items-center justify-center">
+              <div className="bg-[#FAFAFB] w-full rounded-md flex items-center justify-center">
                 <div
-                  className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md bg-gray-100
+                  className="relative px-4 py-2 group"
+                  onMouseEnter={() => setHoveredImage(qrImagePreview)}
+                  onMouseLeave={() => setHoveredImage(null)}
+                >
+                  <img
+                    src={qrImagePreview}
+                    alt="preview"
+                    className="w-[350px] h-auto rounded-md object-fit"
+                  />
+
+                  <div
+                    className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md bg-gray-100
                     transition-all duration-300 ${
                       hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
                     }`}
-                >
-                  <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
-                    <p className=" text-sm truncate max-w-[170px] mb-0 text-[#222222]">
-                      {qrImageName}
-                    </p>
+                  >
+                    <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
+                      <p className=" text-sm truncate max-w-[170px] mb-0 text-[#222222]">
+                        {qrImageName}
+                      </p>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setQrImagePreview(null);
-                        removeQrImage();
-                      }}
-                      className="bg-[#FFF2F2] rounded-md p-1"
-                    >
-                      <Add size={20} color="#FF3B30" className="rotate-45" />
-                    </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setQrImagePreview(null);
+                          removeQrImage();
+                        }}
+                        className="bg-[#FFF2F2] rounded-md p-1"
+                      >
+                        <Add size={20} color="#FF3B30" className="rotate-45" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="mt-3">
-          <label className="text-[13px] text-[#222222] font-gilroy font-medium">
-            Description
-          </label>
+          <div className="mt-3">
+            <label className="text-[13px] text-[#222222] font-gilroy font-medium">
+              Description
+            </label>
 
-          <textarea
-            rows={4}
-            value={description}
-            onChange={handleDescriptionChange}
-            placeholder="Describe the notes..."
-            className="w-full mt-2 p-3 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
-          />
-          {/* {descriptionError && (
+            <textarea
+              rows={4}
+              value={description}
+              onChange={handleDescriptionChange}
+              placeholder="Describe the notes..."
+              className="w-full mt-2 p-3 border border-[#E5E7EB] rounded-lg text-sm resize-none outline-none focus:border-[#2952CC]"
+            />
+            {/* {descriptionError && (
             <ErrorMessage message={descriptionError} type="error" />
           )} */}
+          </div>
         </div>
+
+        {state.bankingDetails.addPaymentError && (
+          <ErrorMessage
+            message={state.bankingDetails.addPaymentError}
+            type="error"
+          />
+        )}
       </div>
-
-      {state.bankingDetails.addPaymentError && (
-        <ErrorMessage
-          message={state.bankingDetails.addPaymentError}
-          type="error"
-        />
-      )}
-
       <div className="flex justify-end gap-4 px-6 py-2 ">
         <button
           onClick={handleClose}

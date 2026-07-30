@@ -40,8 +40,6 @@ const summaryCards = [
   },
 ];
 
-
-
 function BankingOverview({ show, onClose }) {
   if (!show) return null;
 
@@ -103,7 +101,7 @@ function BankingOverview({ show, onClose }) {
         },
       });
     }
-  }, [OverviewDetails, activeTab]);
+  }, [activeTab]);
 
   useEffect(() => {
     if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Wallet3, Card, More, Add } from "iconsax-react";
 import AddMethod from "../Banking/AddMethod/AddMethod";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 const paymentMethods = [
   {
@@ -59,8 +60,8 @@ function BankingLinkMethod() {
   };
 
   return (
-    <div className="px-4 py-4">
-      <div className="flex items-center justify-between mb-5">
+    <div className="px-4 py-4 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-5 flex-shrink-0">
         <div className="text-[16px] font-semibold text-[#111827]">
           Linked Payment methods
         </div>
@@ -75,50 +76,51 @@ function BankingLinkMethod() {
         </button>
       </div>
 
-      <div className="space-y-4">
-        {LinkedPaymentMethodsList?.map((item) => {
-          const isUPI = item.paymentMethod === "UPI";
-          const isDebit = item.paymentMethod === "Debit Card";
-          const isCredit = item.paymentMethod === "Credit Card";
+      <div className="flex-1 overflow-y-auto pr-2 space-y-4 show-scrolls">
+        {LinkedPaymentMethodsList?.length > 0 ? (
+          LinkedPaymentMethodsList?.map((item) => {
+            const isUPI = item.paymentMethod === "UPI";
+            const isDebit = item.paymentMethod === "Debit Card";
+            const isCredit = item.paymentMethod === "Credit Card";
 
-          return (
-            <div
-              key={item.paymentMethodId}
-              className="flex items-center justify-between"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center
+            return (
+              <div
+                key={item.paymentMethodId}
+                className="flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center
             ${
               isUPI ? "bg-[#F3F4F6]" : isDebit ? "bg-[#E0F2FE]" : "bg-[#FFF7ED]"
             }`}
-                >
-                  {isUPI ? (
-                    <Wallet3 size="16" color="#2563EB" variant="Bold" />
-                  ) : (
-                    <Card
-                      size="16"
-                      color={isDebit ? "#0284C7" : "#EA580C"}
-                      variant="Bold"
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <div className="text-[16px] font-medium text-[#222222]">
-                    {item.displayName}
+                  >
+                    {isUPI ? (
+                      <Wallet3 size="16" color="#2563EB" variant="Bold" />
+                    ) : (
+                      <Card
+                        size="16"
+                        color={isDebit ? "#0284C7" : "#EA580C"}
+                        variant="Bold"
+                      />
+                    )}
                   </div>
 
-                  <div className="text-[14px] text-[#7B8797]">
-                    {isUPI ? item.upiId : ` •••• ${item.cardNumber}`}
+                  <div>
+                    <div className="text-[16px] font-medium text-[#222222]">
+                      {item.displayName}
+                    </div>
+
+                    <div className="text-[14px] text-[#7B8797]">
+                      {isUPI ? item.upiId : ` •••• ${item.cardNumber}`}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-start gap-3">
-                <div className="text-right">
-                  <div
-                    className={`text-[11px] px-2 py-0.5 rounded
+                <div className="flex items-start gap-3">
+                  <div className="text-right">
+                    <div
+                      className={`text-[11px] px-2 py-0.5 rounded
               ${
                 isUPI
                   ? "bg-[#EEF2FF] text-[#6366F1]"
@@ -126,32 +128,35 @@ function BankingLinkMethod() {
                     ? "bg-[#F3E8FF] text-[#A855F7]"
                     : "bg-[#FFF7ED] text-[#F97316]"
               }`}
-                  >
-                    {item.paymentMethod}
+                    >
+                      {item.paymentMethod}
+                    </div>
+
+                    {isCredit && (
+                      <div className="text-[11px] text-[#6B7280] mt-1">
+                        Limit
+                        <span className="font-medium text-[#111827] ml-1">
+                          ₹{Number(item.creditLimit || 0).toLocaleString()}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
-                  {isCredit && (
-                    <div className="text-[11px] text-[#6B7280] mt-1">
-                      Limit
-                      <span className="font-medium text-[#111827] ml-1">
-                        ₹{Number(item.creditLimit || 0).toLocaleString()}
-                      </span>
-                    </div>
-                  )}
+                  <button>
+                    <More
+                      size="16"
+                      color="#6B7280"
+                      variant="Outline"
+                      className="rotate-90"
+                    />
+                  </button>
                 </div>
-
-                <button>
-                  <More
-                    size="16"
-                    color="#6B7280"
-                    variant="Outline"
-                    className="rotate-90"
-                  />
-                </button>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <NoDataMessage label="Payment Method" isHeightChanged={true} />
+        )}
       </div>
 
       {showAddMethodForm && (

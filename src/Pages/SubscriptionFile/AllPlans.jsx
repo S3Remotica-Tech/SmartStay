@@ -139,7 +139,7 @@ function AllPlans() {
         ))}
       </div>
       {paymentLoading && (
-        <div className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center">
+        <div className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center font-gilroy">
           <div className="bg-white rounded-2xl shadow-2xl px-8 py-8 w-[360px] text-center">
             <div className="mx-auto w-14 h-14 border-[5px] border-gray-200 border-t-[#1E45E1] rounded-full animate-spin"></div>
 

@@ -48,7 +48,7 @@ const bankDetails = [
 
 function BankingChart() {
   return (
-    <div className="">
+    <div className="h-full flex flex-col">
       <div className="border border-[#E5E7EB] rounded-xl p-3 mx-4 my-4 ">
         <div className="text-[18px] font-semibold text-[#101828] mb-6">
           Account Analysis

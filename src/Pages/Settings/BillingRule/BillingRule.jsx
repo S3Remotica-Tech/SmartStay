@@ -130,7 +130,7 @@ function BillingRule() {
       </div>
 
       <div className="flex-1 overflow-hidden px-4 py-3">
-        {!canReadRecurring ? (
+        {!canReadBills ? (
           <>
             <PermissionDeniedMessage />
           </>
