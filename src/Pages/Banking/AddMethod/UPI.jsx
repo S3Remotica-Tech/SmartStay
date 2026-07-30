@@ -142,6 +142,11 @@ function UPI({ handleClose }) {
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  const upiAppRef = useRef(null);
+  const upiIdRef = useRef(null);
+  const displayNameRef = useRef(null);
+  const qrImageRef = useRef(null);
+
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
     setLinkedBankError("");
@@ -213,16 +218,23 @@ function UPI({ handleClose }) {
   };
 
   const handleSaveUPI = () => {
+    setUpiAppError("");
+    setUpiIdError("");
+    setDisplayNameError("");
+    setQrImageError("");
     dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     let isValid = true;
+    let hasFocused = false;
 
-    // if (!linkedBank) {
-    //   setLinkedBankError("Please select linked bank");
-    //   isValid = false;
-    // }
-
+    const focusField = (ref) => {
+      if (!hasFocused) {
+        ref.current?.focus();
+        hasFocused = true;
+      }
+    };
     if (!upiApp) {
       setUpiAppError("Please select UPI app");
+      focusField(upiAppRef);
       isValid = false;
     }
 
@@ -230,9 +242,11 @@ function UPI({ handleClose }) {
 
     if (!upiId.trim()) {
       setUpiIdError("Please Enter UPI ID");
+      focusField(upiIdRef);
       isValid = false;
     } else if (!upiRegex.test(upiId.trim())) {
       setUpiIdError("Please Enter a Valid UPI ID");
+      focusField(upiIdRef);
       isValid = false;
     } else {
       setUpiIdError("");
@@ -242,9 +256,11 @@ function UPI({ handleClose }) {
 
     if (!displayName.trim()) {
       setDisplayNameError("Please Enter Display Name");
+      focusField(displayNameRef);
       isValid = false;
     } else if (!displayNameRegex.test(displayName.trim())) {
       setDisplayNameError("Display Name should contain only letters");
+      focusField(displayNameRef);
       isValid = false;
     } else {
       setDisplayNameError("");
@@ -252,6 +268,7 @@ function UPI({ handleClose }) {
 
     if (!qrImage) {
       setQrImageError("Please upload QR image");
+      focusField(qrImageRef);
       isValid = false;
     } else {
       setQrImageError("");
@@ -343,6 +360,7 @@ function UPI({ handleClose }) {
               </label>
 
               <Select
+                ref={upiAppRef}
                 options={upiOptions}
                 value={upiApp}
                 onChange={handleUpiAppChange}
@@ -364,6 +382,7 @@ function UPI({ handleClose }) {
 
             <input
               value={upiId}
+              ref={upiIdRef}
               onChange={handleUpiIdChange}
               placeholder="Ex : smartstay@oksbi"
               className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
@@ -377,6 +396,7 @@ function UPI({ handleClose }) {
             </label>
 
             <input
+              ref={displayNameRef}
               value={displayName}
               onChange={handleDisplayNameChange}
               placeholder="Gpay UPI"
@@ -388,7 +408,7 @@ function UPI({ handleClose }) {
             )}
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3" ref={qrImageRef}>
             <label className="block mb-2 text-[13px] font-medium">
               Add QR Image <span className="text-red-500">*</span>
             </label>

@@ -135,6 +135,11 @@ function Debit({ handleClose }) {
   const [cardNumber, setCardNumber] = useState("");
   const [cardNumberError, setCardNumberError] = useState("");
 
+  const cardNetworkRef = useRef(null);
+  const cardHolderNameRef = useRef(null);
+  const cardNumberRef = useRef(null);
+  const displayNameRef = useRef(null);
+
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
     setLinkedBankError("");
@@ -207,19 +212,24 @@ function Debit({ handleClose }) {
 
   const handleSaveDebit = () => {
     dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    setCardNetworkError("");
+    setCardHolderNameError("");
+    setCardNumberError("");
+    setDisplayNameError("");
     let isValid = true;
+    let hasFocused = false;
 
+    const focusField = (ref) => {
+      if (!hasFocused) {
+        ref.current?.focus();
+        hasFocused = true;
+      }
+    };
     const nameRegex = /^[A-Za-z\s]+$/;
-
-    // if (!linkedBank) {
-    //   setLinkedBankError("Please select linked bank");
-    //   isValid = false;
-    // } else {
-    //   setLinkedBankError("");
-    // }
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
+      focusField(cardNetworkRef);
       isValid = false;
     } else {
       setCardNetworkError("");
@@ -227,9 +237,11 @@ function Debit({ handleClose }) {
 
     if (!cardHolderName.trim()) {
       setCardHolderNameError("Please Enter Card Holder Name");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else if (!nameRegex.test(cardHolderName.trim())) {
       setCardHolderNameError("Card holder name should contain only letters");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else {
       setCardHolderNameError("");
@@ -237,9 +249,11 @@ function Debit({ handleClose }) {
 
     if (!cardNumber.trim()) {
       setCardNumberError("Please Enter Last 4 Digits");
+      focusField(cardNumberRef);
       isValid = false;
     } else if (!/^\d{4}$/.test(cardNumber)) {
       setCardNumberError("Enter exactly 4 digits");
+      focusField(cardNumberRef);
       isValid = false;
     } else {
       setCardNumberError("");
@@ -247,9 +261,11 @@ function Debit({ handleClose }) {
 
     if (!displayName.trim()) {
       setDisplayNameError("Please Enter Display Name");
+      focusField(displayNameRef);
       isValid = false;
     } else if (!nameRegex.test(displayName.trim())) {
       setDisplayNameError("Display name should contain only letters");
+      focusField(displayNameRef);
       isValid = false;
     } else {
       setDisplayNameError("");
@@ -316,6 +332,7 @@ function Debit({ handleClose }) {
             </label>
 
             <Select
+              ref={cardNetworkRef}
               options={upiOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
@@ -335,6 +352,7 @@ function Debit({ handleClose }) {
           </label>
 
           <input
+            ref={cardHolderNameRef}
             value={cardHolderName}
             onChange={handleCardHolderNameChange}
             placeholder="Enter Holder name"
@@ -351,6 +369,7 @@ function Debit({ handleClose }) {
           </label>
 
           <input
+            ref={cardNumberRef}
             value={cardNumber}
             onChange={handleCardNumberChange}
             placeholder="**** **** **** 1234"
@@ -367,6 +386,7 @@ function Debit({ handleClose }) {
           </label>
 
           <input
+            ref={displayNameRef}
             value={displayName}
             onChange={handleDisplayNameChange}
             placeholder="Gpay UPI"

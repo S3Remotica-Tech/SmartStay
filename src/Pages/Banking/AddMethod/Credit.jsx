@@ -142,6 +142,12 @@ function Credit({ handleClose }) {
   const [billingCycle, setBillingCycle] = useState(null);
   const [billingCycleError, setBillingCycleError] = useState("");
 
+  const cardNetworkRef = useRef(null);
+  const cardHolderNameRef = useRef(null);
+  const cardNumberRef = useRef(null);
+  const displayNameRef = useRef(null);
+  const creditLimitRef = useRef(null);
+
   // console.log("billingCycle", billingCycle);
 
   const handleLinkedBankChange = (selected) => {
@@ -229,19 +235,27 @@ function Credit({ handleClose }) {
 
   const handleSaveCredit = () => {
     dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+    setCardNetworkError("");
+    setCardHolderNameError("");
+    setCardNumberError("");
+    setDisplayNameError("");
+    setCreditLimitError("");
     let isValid = true;
 
     const nameRegex = /^[A-Za-z\s]+$/;
 
-    // if (!linkedBank) {
-    //   setLinkedBankError("Please select linked bank");
-    //   isValid = false;
-    // } else {
-    //   setLinkedBankError("");
-    // }
+    let hasFocused = false;
+
+    const focusField = (ref) => {
+      if (!hasFocused) {
+        ref.current?.focus();
+        hasFocused = true;
+      }
+    };
 
     if (!cardNetwork) {
       setCardNetworkError("Please select card network");
+      focusField(cardNetworkRef);
       isValid = false;
     } else {
       setCardNetworkError("");
@@ -249,9 +263,11 @@ function Credit({ handleClose }) {
 
     if (!cardHolderName.trim()) {
       setCardHolderNameError("Please enter card holder name");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else if (!nameRegex.test(cardHolderName.trim())) {
       setCardHolderNameError("Card holder name should contain only letters");
+      focusField(cardHolderNameRef);
       isValid = false;
     } else {
       setCardHolderNameError("");
@@ -259,9 +275,11 @@ function Credit({ handleClose }) {
 
     if (!cardNumber.trim()) {
       setCardNumberError("Please enter last 4 digits");
+      focusField(cardNumberRef);
       isValid = false;
     } else if (!/^\d{4}$/.test(cardNumber)) {
       setCardNumberError("Last 4 digits must contain exactly 4 numbers");
+      focusField(cardNumberRef);
       isValid = false;
     } else {
       setCardNumberError("");
@@ -269,23 +287,19 @@ function Credit({ handleClose }) {
 
     if (!displayName.trim()) {
       setDisplayNameError("Please enter display name");
+      focusField(displayNameRef);
       isValid = false;
     } else if (!nameRegex.test(displayName.trim())) {
       setDisplayNameError("Display name should contain only letters");
+      focusField(displayNameRef);
       isValid = false;
     } else {
       setDisplayNameError("");
     }
 
-    // if (!billingCycle) {
-    //   setBillingCycleError("Please select billing cycle");
-    //   isValid = false;
-    // } else {
-    //   setBillingCycleError("");
-    // }
-
     if (creditLimit && Number(creditLimit) <= 0) {
       setCreditLimitError("Credit limit must be greater than 0");
+      creditLimitRef.current?.focus();
       isValid = false;
     } else {
       setCreditLimitError("");
@@ -356,6 +370,7 @@ function Credit({ handleClose }) {
             </label>
 
             <Select
+              ref={cardNetworkRef}
               options={upiOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
@@ -375,6 +390,7 @@ function Credit({ handleClose }) {
           </label>
 
           <input
+            ref={cardHolderNameRef}
             value={cardHolderName}
             onChange={handleCardHolderNameChange}
             placeholder="Enter Holder name"
@@ -391,6 +407,7 @@ function Credit({ handleClose }) {
           </label>
 
           <input
+            ref={cardNumberRef}
             value={cardNumber}
             onChange={handleCardNumberChange}
             placeholder="**** **** **** 1234"
@@ -407,6 +424,7 @@ function Credit({ handleClose }) {
           </label>
 
           <input
+            ref={displayNameRef}
             value={displayName}
             onChange={handleDisplayNameChange}
             placeholder="Gpay UPI"
@@ -424,6 +442,7 @@ function Credit({ handleClose }) {
             </label>
 
             <input
+              ref={creditLimitRef}
               value={creditLimit}
               onChange={handleCreditLimitChange}
               placeholder="Ex : ₹ 50,000"
