@@ -32,7 +32,7 @@ import { useLocation } from "react-router-dom";
 import { Setting3, SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import SelfTransfer from "./SelfTransfer";
+import SelfTransferNew from "./SelfTransferNew";
 import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
 import BankingOverview from "./BankingOverview";
@@ -1461,7 +1461,7 @@ function BankingNew() {
           )}
 
           {selfTranfer && (
-            <SelfTransfer
+            <SelfTransferNew
               show={selfTranfer}
               handleClose={handleCloseSelfTransfer}
               selfDetails={selfDetails}
