@@ -34,6 +34,8 @@ function VendorOverView({
 
   const VendorOverView = state.ComplianceList?.vendorOverview;
 
+  const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
+
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
 
   const handleShow = () => {
@@ -289,10 +291,12 @@ function VendorOverView({
 
               {activeTab === "payments" && (
                 <button
-                  disabled={VendorOverView?.summary?.outstanding <= 0}
+                  disabled={
+                    VendorOverView?.summary?.outstanding <= 0 || !canWriteVendor
+                  }
                   onClick={() => handleShowSettlement(true)}
                   className={`px-4 py-2 rounded-lg text-sm ${
-                    VendorOverView?.summary?.outstanding <= 0
+                    VendorOverView?.summary?.outstanding <= 0 || !canWriteVendor
                       ? "bg-gray-400 cursor-not-allowed text-white"
                       : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
                   }`}

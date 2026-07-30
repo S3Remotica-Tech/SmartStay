@@ -14,6 +14,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import { Edit2, Trash } from "iconsax-react";
 import DeleteComments from "./DeleteComments";
+import { useHasPermission } from "../../Utils/Permission";
 
 const quillStyle = {
   height: "100px",
@@ -29,6 +30,13 @@ function VendorComments({ selectedVendorId }) {
   const [showDelete, setShowDelete] = useState(false);
   const [edit, setEdit] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
+
+  const {
+    canWriteModule: canWriteVendor,
+    // canReadModule: canReadVendor,
+    canDeleteModule: canDeleteVendor,
+    canUpdateModule: canUpdateVendor,
+  } = useHasPermission("Vendor");
 
   const [formLoading, setFormLoading] = useState(false);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
@@ -214,20 +222,22 @@ function VendorComments({ selectedVendorId }) {
         <div className="flex justify-end mt-3">
           <button
             onClick={handleAddComment}
-            disabled={formLoading}
-            className={`flex items-center justify-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium ${
-              formLoading ? "opacity-70 cursor-not-allowed" : ""
+            disabled={formLoading || !canWriteVendor}
+            className={`disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium ${
+              formLoading || !canWriteVendor
+                ? "opacity-70 cursor-not-allowed"
+                : ""
             }`}
           >
             {formLoading ? (
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                {edit ? "Saving....." : " Adding..."}
+                {edit ? "Saving....." : "Adding..."}
               </div>
             ) : (
               <>
                 <Send2 size={16} color="#fff" />
-                {edit ? "Save" : " Add"}
+                {edit ? "Save" : "Add"}
               </>
             )}
           </button>
@@ -270,17 +280,33 @@ function VendorComments({ selectedVendorId }) {
                 <div className="flex-1 min-w-0 pb-8 relative">
                   <div className="absolute right-0 top-0 hidden group-hover:flex items-center gap-2">
                     <button
-                      onClick={() => handleEdit(item)}
-                      className="p-1 rounded hover:bg-blue-100"
+                      onClick={() => canUpdateVendor && handleEdit(item)}
+                      disabled={!canUpdateVendor}
+                      className={`p-1 rounded ${
+                        canUpdateVendor
+                          ? "hover:bg-blue-100 cursor-pointer"
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
                     >
-                      <Edit2 size={18} color="#2563EB" />
+                      <Edit2
+                        size={18}
+                        color={canUpdateVendor ? "#2563EB" : "#9CA3AF"}
+                      />
                     </button>
 
                     <button
-                      onClick={() => handleDelete(item.id)}
-                      className="p-1 rounded hover:bg-red-100"
+                      onClick={() => canDeleteVendor && handleDelete(item.id)}
+                      disabled={!canDeleteVendor}
+                      className={`p-1 rounded ${
+                        canDeleteVendor
+                          ? "hover:bg-red-100 cursor-pointer"
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
                     >
-                      <Trash size={18} color="#EF4444" />
+                      <Trash
+                        size={18}
+                        color={canDeleteVendor ? "#EF4444" : "#9CA3AF"}
+                      />
                     </button>
                   </div>
 

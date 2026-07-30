@@ -302,7 +302,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
           <div className="flex justify-end mt-4">
             <button
               onClick={handleTransfer}
-              disabled={isTransferDisabled}
+              // disabled={isTransferDisabled}
               className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
             >
               {loading ? (

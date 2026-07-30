@@ -466,7 +466,7 @@ function AddNewAccount({ show, handleClose }) {
           isDefault: true,
           accountType: accountMode,
           // bankAccountType: accountType?.value || accountType,
-          openingBalance: Number(bankOpeningBalance),
+          openingBalance: Number(cashOpeningBalance),
           cashAccountType: cashType?.value || cashType,
           responsiblePerson: responsiblePerson?.value || responsiblePerson,
         },
@@ -527,26 +527,13 @@ function AddNewAccount({ show, handleClose }) {
   ]);
 
   useEffect(() => {
-      if (state.UsersList?.accessRestrictionError) {
-        setFormLoading(false);
-        setTimeout(() => {
-          dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
-        }, 100);
-      }
-    }, [state.UsersList?.accessRestrictionError]);
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if (state.UsersList?.accessRestrictionError) {
+      setFormLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "ACCESS_RESTRICTION_ERROR_REMOVE" });
+      }, 100);
+    }
+  }, [state.UsersList?.accessRestrictionError]);
 
   if (!show) return null;
 

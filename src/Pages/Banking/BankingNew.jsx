@@ -195,6 +195,8 @@ function BankingNew() {
     canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
+  const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
@@ -824,29 +826,30 @@ function BankingNew() {
                     rounded-[8px] shadow-lg  min-w-[220px]"
                   >
                     <button
+                      disabled={!canWriteExpense}
                       onClick={() => handleAddExpense()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Add Expense
                     </button>
 
                     <button
                       onClick={() => handleTenantPayment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Tenant Payment
                     </button>
 
                     <button
                       onClick={() => handleVendorPayment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Vendor Payment
                     </button>
 
                     <button
                       onClick={() => handleCreditPayment()}
-                      className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Credit Card Payment
                     </button>
@@ -856,7 +859,7 @@ function BankingNew() {
                         e.stopPropagation();
                         handleInvestment();
                       }}
-                      className="w-full text-left px-3 py-2 text-[14px]   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                      className=" disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px]   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       <span
                         className={`text-sm font-medium font-gilroy ${
@@ -1221,15 +1224,28 @@ function BankingNew() {
                     })
                   ) : (
                     <div
-                      onClick={handleAddAccount}
-                      className="border-1 border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors"
+                      onClick={() => canWriteBanking && handleAddAccount()}
+                      className={`border-1 w-[150px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
+                        canWriteBanking
+                          ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
+                          : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
+                      }`}
                     >
                       <div className="flex flex-col items-center text-center">
                         <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
-                          <Bank size="20" color="#1E45E1" />
+                          <Bank
+                            size="20"
+                            color={canWriteBanking ? "#1E45E1" : "#9CA3AF"}
+                          />
                         </div>
 
-                        <div className="text-base font-medium text-[#1E45E1] leading-6">
+                        <div
+                          className={`text-base font-medium leading-6 ${
+                            canWriteBanking
+                              ? "text-[#1E45E1]"
+                              : "text-[#9CA3AF] cursor-not-allowed"
+                          }`}
+                        >
                           Add New Bank / Cash
                           <br />
                           Account
@@ -1240,15 +1256,28 @@ function BankingNew() {
                 </div>
                 {banking && banking.length > 0 && (
                   <div
-                    onClick={handleAddAccount}
-                    className="border-1 w-[150px] border-dashed border-[#1E45E1] rounded-md px-10 py-6 m-1 flex items-center justify-center cursor-pointer hover:bg-[#F8FAFF] transition-colors"
+                    onClick={() => canWriteBanking && handleAddAccount()}
+                    className={`border-1 w-[150px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
+                      canWriteBanking
+                        ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
+                        : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
+                    }`}
                   >
                     <div className="flex flex-col items-center text-center">
                       <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
-                        <Bank size="20" color="#1E45E1" />
+                        <Bank
+                          size="20"
+                          color={canWriteBanking ? "#1E45E1" : "#9CA3AF"}
+                        />
                       </div>
 
-                      <div className="text-base font-medium text-[#1E45E1] leading-6">
+                      <div
+                        className={`text-base font-medium leading-6 ${
+                          canWriteBanking
+                            ? "text-[#1E45E1]"
+                            : "text-[#9CA3AF] cursor-not-allowed"
+                        }`}
+                      >
                         Add New Bank / Cash
                         <br />
                         Account
