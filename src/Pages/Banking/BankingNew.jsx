@@ -12,6 +12,8 @@ import {
   Profile,
   Trash,
   Wallet,
+  ArrowUp,
+  ArrowDown,
 } from "iconsax-react";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -1418,11 +1420,31 @@ function BankingNew() {
                                   <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">
                                     {user.createdAt}
                                   </td>
-                                  <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap capitalize">
-                                    {user.type.toLowerCase()}
+                                  <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
+                                    <div className="flex items-center gap-2 capitalize">
+                                      {user.type === "CREDIT" ? (
+                                        <>
+                                          <ArrowUp size="16" color="#16A34A" />
+                                          <span>{user.type}</span>
+                                        </>
+                                      ) : user.type === "DEBIT" ? (
+                                        <>
+                                          <ArrowDown
+                                            size="16"
+                                            color="#DC2626"
+                                          />
+                                          <span>{user.type}</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <span>{user.type}</span>
+                                        </>
+                                      )}
+                                    </div>
                                   </td>
                                   <td className="w-[230px] px-2 py-1 text-[#111928]">
                                     {user.cashAccountType || user?.bankName}
+                                    {/* {user?.source} */}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     {user.description || "-"}

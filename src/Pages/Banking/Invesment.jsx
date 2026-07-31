@@ -120,36 +120,36 @@ const CustomStyles = {
   }),
 };
 
-const paymentOptions = [
-  {
-    label: "Bank Accounts",
-    options: [
-      {
-        value: "sbi",
-        label: "SBI Bank",
-        type: "Bank",
-        icon: <Bank size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-  {
-    label: "Linked Payment Methods",
-    options: [
-      {
-        value: "gpay",
-        label: "Google Pay",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-      {
-        value: "phonepe",
-        label: "PhonePe",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-];
+// const paymentOptions = [
+//   {
+//     label: "Bank Accounts",
+//     options: [
+//       {
+//         value: "sbi",
+//         label: "SBI Bank",
+//         type: "Bank",
+//         icon: <Bank size={18} color="#1E45E1" />,
+//       },
+//     ],
+//   },
+//   {
+//     label: "Linked Payment Methods",
+//     options: [
+//       {
+//         value: "gpay",
+//         label: "Google Pay",
+//         type: "UPI",
+//         icon: <Wallet2 size={18} color="#1E45E1" />,
+//       },
+//       {
+//         value: "phonepe",
+//         label: "PhonePe",
+//         type: "UPI",
+//         icon: <Wallet2 size={18} color="#1E45E1" />,
+//       },
+//     ],
+//   },
+// ];
 
 const Option = (props) => {
   const { data } = props;
@@ -254,6 +254,12 @@ function Invesment({ show, handleClose }) {
     setDescription(e.target.value);
   };
 
+  const paymentOptions =
+    state?.bankingDetails?.getAllPaymentMethodList?.map((view) => ({
+      value: view?.bankId,
+      label: `${view?.displayName} - ${view?.accountType}`,
+    })) || [];
+
   const validateForm = () => {
     let isValid = true;
 
@@ -282,18 +288,20 @@ function Invesment({ show, handleClose }) {
 
   const handleSubmit = () => {
     if (!validateForm()) return;
-
-    dispatch({
-      type: "ADD_MONEY_SAGA",
-      payload: {
-        hostelId: state.login?.selectedHostel_Id,
-        bankId: "",
-        paymentMethodId: "",
-        description: description,
-        transactionDate: dayjs(paymentDate).format("DD/MM/YYYY"),
-        amount: Number(amount),
-      },
-    });
+    if (state.login?.selectedHostel_Id) {
+      dispatch({
+        type: "ADD_MONEY_SAGA",
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          bankId: "",
+          paymentMethodId: "",
+          description: description,
+          transactionDate: dayjs(paymentDate).format("DD/MM/YYYY"),
+          amount: Number(amount),
+          // investment , transaction id  pending
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -408,13 +416,13 @@ function Invesment({ show, handleClose }) {
                 placeholder="Select Payment Method"
                 styles={CustomStyles}
                 isSearchable={false}
-                components={{
-                  Option,
-                  SingleValue,
-                  DropdownIndicator,
-                  GroupHeading,
-                  IndicatorSeparator: () => null,
-                }}
+                // components={{
+                //   Option,
+                //   SingleValue,
+                //   DropdownIndicator,
+                //   GroupHeading,
+                //   IndicatorSeparator: () => null,
+                // }}
               />
 
               {paymentMethodError && (
