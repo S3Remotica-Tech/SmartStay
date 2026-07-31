@@ -17,6 +17,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -281,6 +282,18 @@ function Invesment({ show, handleClose }) {
 
   const handleSubmit = () => {
     if (!validateForm()) return;
+
+    dispatch({
+      type: "ADD_MONEY_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        bankId: "",
+        paymentMethodId: "",
+        description: description,
+        transactionDate: dayjs(paymentDate).format("DD/MM/YYYY"),
+        amount: Number(amount),
+      },
+    });
   };
 
   useEffect(() => {

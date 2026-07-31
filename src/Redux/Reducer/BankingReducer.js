@@ -12,6 +12,8 @@ export const initialState = {
   statusCodeForDeleteTrans: 0,
   bankingCreateError: "",
   selfTransferInitialize: "",
+  selfTransferInitializeV3: "",
+  selfInitializeError: "",
   statusSelfTransferInitialize: 0,
   statusSuccessSelfTransfer: 0,
   selfError: "",
@@ -33,6 +35,9 @@ const BankingReducer = (state = initialState, action) => {
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
+
+    case "SELF_TRANSFER_INITIALIZE_V3_ERROR":
+      return { ...state, selfInitializeError: action.payload };
 
     case "STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: action.payload };
@@ -84,6 +89,20 @@ const BankingReducer = (state = initialState, action) => {
       return {
         ...state,
         statusSuccessSelfTransfer: action.payload.statusCode,
+      };
+
+    case "SELF_TRANSFER_INITIALIZE_V3_REDUCER":
+      return {
+        ...state,
+        selfTransferInitializeV3: action.payload.response,
+        statusSelfTransferInitialize: action.payload.statusCode,
+      };
+
+    case "CLEAR_SELF_REDUCER":
+      return {
+        ...state,
+        selfTransferInitializeV3: "",
+        statusSelfTransferInitialize: 0,
       };
 
     case "REMOVE_SELF_TRANSFER_REDUCER":

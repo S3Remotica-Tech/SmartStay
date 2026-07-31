@@ -89,6 +89,13 @@ export async function selfTranferV3(bank) {
   });
 }
 
+export async function selfTranferInitializeV3(bank) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/transfer/initialize/${bank.hostelId}/${bank.bankId}`,
+    {},
+  );
+}
+
 /////////////////////////////////////////////////////////////////
 
 export async function AddBankingDetails(hostelId, datum) {

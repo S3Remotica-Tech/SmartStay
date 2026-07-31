@@ -107,7 +107,13 @@ function BankingLinkMethod() {
               isUPI ? "bg-[#F3F4F6]" : isDebit ? "bg-[#E0F2FE]" : "bg-[#FFF7ED]"
             }`}
                   >
-                    {isUPI ? (
+                    {item.upiAppImage ? (
+                      <img
+                        src={item.upiAppImage}
+                        alt="image"
+                        className="rounded-full "
+                      />
+                    ) : isUPI ? (
                       <Wallet3 size="16" color="#2563EB" variant="Bold" />
                     ) : (
                       <Card
@@ -115,7 +121,7 @@ function BankingLinkMethod() {
                         color={isDebit ? "#0284C7" : "#EA580C"}
                         variant="Bold"
                       />
-                    )}
+                    )}{" "}
                   </div>
 
                   <div>

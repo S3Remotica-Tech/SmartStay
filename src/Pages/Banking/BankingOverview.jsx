@@ -9,6 +9,7 @@ import {
   ArrowDown2,
   Add,
   ArrowSwapVertical,
+  Wallet,
 } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingChart from "./BankingChart";
@@ -127,14 +128,21 @@ function BankingOverview({ show, onClose }) {
       <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
         <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0] shrink-0">
           <div className="flex items-center gap-4">
-            <div className="w-[50px] h-[50px] rounded-2xl bg-[#EEF2FF] flex items-center justify-center">
-              <Bank size="18" color="#1E45E1" variant="Bold" />
+            <div
+              className={`${OverviewDetails?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+            >
+              {OverviewDetails?.accountType === "CASH" ? (
+                <Wallet color="#038C3D" size="16" />
+              ) : (
+                <Bank color="#1E45E1" size="16" />
+              )}
             </div>
 
             <div>
               <div className="text-[18px] font-semibold text-[#222222]">
-                {OverviewDetails?.bankName} -{" "}
-                {OverviewDetails?.accountHolderName}
+                {OverviewDetails?.accountType === "BANK"
+                  ? `${OverviewDetails?.bankName}`
+                  : `${OverviewDetails?.cashAccountType}`}
               </div>
 
               <div className="flex items-center gap-3 mt-1">
@@ -142,12 +150,14 @@ function BankingOverview({ show, onClose }) {
                   {OverviewDetails?.accountType?.toLowerCase()} Account
                 </div>
 
-                <div className="flex items-center gap-1">
-                  <Location size="16" color="#8F5C09" variant="Bold" />
-                  <div className="text-[#8F5C09] text-[14px]">
-                    {OverviewDetails?.branchName}
+                {OverviewDetails?.accountType === "BANK" && (
+                  <div className="flex items-center gap-1">
+                    <Location size="16" color="#8F5C09" variant="Bold" />
+                    <div className="text-[#8F5C09] text-[14px]">
+                      {OverviewDetails?.branchName}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

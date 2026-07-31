@@ -9,7 +9,9 @@ import {
   Edit,
   Location,
   MoneyRecive,
+  Profile,
   Trash,
+  Wallet,
 } from "iconsax-react";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -927,20 +929,25 @@ function BankingNew() {
                           <div className="p-2">
                             <div className="flex justify-between items-center">
                               <div className="flex justify-between items-center gap-2">
-                                <div className="bg-[#E8ECFF] rounded-full px-2 py-2">
-                                  <Bank color="#1E45E1" size="16" />
+                                <div
+                                  className={`${item?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+                                >
+                                  {item?.accountType === "CASH" ? (
+                                    <Wallet color="#038C3D" size="16" />
+                                  ) : (
+                                    <Bank color="#1E45E1" size="16" />
+                                  )}
                                 </div>
                                 <div>
-                                  <p className="text-sm font-semibold font-gilroy mb-0 text-[#222222]">
-                                    {item?.bankName}
+                                  <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222]">
+                                    {item?.accountType === "CASH"
+                                      ? item?.cashAccountType
+                                      : item?.bankName}
                                   </p>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
-                                    {item?.accountType} Account
+                                    {item?.accountType.toLowerCase()} Account
                                   </p>
-                                  {/* <p className="text-xs font-semibold text-gray-500 font-gilroy mb-1">
-                                      {item.accountHolderName}
-                                    </p> */}
                                 </div>
                               </div>
 
@@ -1203,14 +1210,18 @@ function BankingNew() {
                                   </div>
                                 </>
                               )}
-                              <div
-                                className="flex gap-2 items-center  px-2 py-1 bg-[#FFFFFF]
+
+                              {item.accountType === "CASH" && (
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#F1F1FF]
                                text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
-                              >
-                                {item.accountType === "BANK"
-                                  ? item?.bankAccountType || "-"
-                                  : item?.cashAccountType || "-"}
-                              </div>
+                                >
+                                  <Profile color="#1E45E1" size="16" />{" "}
+                                  {(item.accountType === "CASH" &&
+                                    item?.displayName) ||
+                                    "-"}
+                                </div>
+                              )}
                             </div>
 
                             <div className="flex justify-end my-1">
@@ -1225,7 +1236,7 @@ function BankingNew() {
                   ) : (
                     <div
                       onClick={() => canWriteBanking && handleAddAccount()}
-                      className={`border-1 w-[150px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
+                      className={`border-1  max-w-[150px] w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
                         canWriteBanking
                           ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                           : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
@@ -1240,10 +1251,10 @@ function BankingNew() {
                         </div>
 
                         <div
-                          className={`text-base font-medium leading-6 ${
+                          className={`text-sm sm:text-base font-medium leading-6 break-words whitespace-normal w-full ${
                             canWriteBanking
                               ? "text-[#1E45E1]"
-                              : "text-[#9CA3AF] cursor-not-allowed"
+                              : "text-[#9CA3AF]"
                           }`}
                         >
                           Add New Bank / Cash

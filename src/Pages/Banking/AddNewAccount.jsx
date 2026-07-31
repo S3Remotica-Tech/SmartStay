@@ -458,11 +458,11 @@ function AddNewAccount({ show, handleClose }) {
 
           // holderName: holderName,
           // bankName: bankName,
-          displayName: bankDisplayName,
+          displayName: cashDisplayName,
           // branchName: branchName,
           // accountNo: accountNumber,
           // ifscCode: ifscCode,
-          description: bankDescription,
+          description: cashDescription,
           isDefault: true,
           accountType: accountMode,
           // bankAccountType: accountType?.value || accountType,

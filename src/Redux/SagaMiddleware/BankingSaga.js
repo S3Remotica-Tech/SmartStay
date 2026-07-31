@@ -19,6 +19,7 @@ import {
   DeleteTransactionId,
   EditBankingDetails,
   getAllPaymentMethod,
+  selfTranferInitializeV3,
 } from "../Action/BankingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -244,7 +245,7 @@ function* handleAddBankingNew(action) {
         type: "ADD_BANKING_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
-      toast.success(`${response.data}`, {
+      toast.success(`Created Successfully`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -416,6 +417,35 @@ function* handleSelfTranferInitialize(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
+  }
+}
+
+function* handleSelfTranferInitializeV3(action) {
+  try {
+    const response = yield call(selfTranferInitializeV3, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "SELF_TRANSFER_INITIALIZE_V3_REDUCER",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if(error){
+       yield put({
+        type: "SELF_TRANSFER_INITIALIZE_V3_ERROR",
+        payload: error?.response
+       
+      });
+    }
   }
 }
 
@@ -839,6 +869,11 @@ function* CreateBankingSaga() {
   yield takeEvery("BANKING_LIST_SAGA", handleV3GetBanking);
   yield takeEvery("RESPONSIBLE_PERSON_LIST_SAGA", handleGetResponsibleList);
   yield takeEvery("SELF_TRANSER_INITIALIZE_SAGA", handleSelfTranferInitialize);
+  yield takeEvery(
+    "SELF_TRANSFER_INITIALIZE_V3_SAGA",
+    handleSelfTranferInitializeV3,
+  );
+
   yield takeEvery("SELF_TRANSER_SAGA", handleSelfTranfer);
   yield takeEvery("SELF_TRANSFER_V3_SAGA", handleSelfTranferV3);
   yield takeEvery("DEFAULTACCOUNT", handleDefaultAccount);
