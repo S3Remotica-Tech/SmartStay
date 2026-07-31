@@ -20,6 +20,7 @@ import {
   EditBankingDetails,
   getAllPaymentMethod,
   selfTranferInitializeV3,
+  AllTransaction,
 } from "../Action/BankingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,6 +44,28 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleGetAllTransaction(action) {
+  try {
+    const response = yield call(AllTransaction, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_ALL_TRANSACTION_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -439,11 +462,10 @@ function* handleSelfTranferInitializeV3(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    if(error){
-       yield put({
+    if (error) {
+      yield put({
         type: "SELF_TRANSFER_INITIALIZE_V3_ERROR",
-        payload: error?.response
-       
+        payload: error?.response?.data,
       });
     }
   }
@@ -857,6 +879,7 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery("GET_ALL_TRANSACTION_SAGA", handleGetAllTransaction);
   yield takeEvery("ADD_MONEY_SAGA", handleAddMoney);
   yield takeEvery("GET_ALL_PAYMENTS_METHODS_SAGA", handleGetAllPaymentMethod);
   yield takeEvery("GET_UPI_CARD_TYPES_SAGA", handleGetUPIAndCardTypes);

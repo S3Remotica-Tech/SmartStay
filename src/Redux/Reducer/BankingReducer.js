@@ -29,6 +29,8 @@ export const initialState = {
   OverviewBankDetails: "",
   getAllPaymentMethodList: [],
   addMoneySuccess: 0,
+  allTransactionList: [],
+  allTransactionSuccess: 0,
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -103,6 +105,20 @@ const BankingReducer = (state = initialState, action) => {
         ...state,
         selfTransferInitializeV3: "",
         statusSelfTransferInitialize: 0,
+      };
+
+    case "GET_ALL_TRANSACTION_REDUCER":
+      return {
+        ...state,
+        allTransactionList: action.payload.response,
+        allTransactionSuccess: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_ALL_TRANSACTION_REDUCER":
+      return {
+        ...state,
+
+        allTransactionSuccess: 0,
       };
 
     case "REMOVE_SELF_TRANSFER_REDUCER":

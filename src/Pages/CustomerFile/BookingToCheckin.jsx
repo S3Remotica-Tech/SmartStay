@@ -964,7 +964,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl flex flex-col">
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-2xl bg-white rounded-xl shadow-xl font-gilroy flex flex-col">
         <div className=" px-4 py-3 shrink-0">
           <div className="pt-0 relative border-0 flex justify-between mb-2">
             <div className="text-xl font-semibold font-gilroy">
