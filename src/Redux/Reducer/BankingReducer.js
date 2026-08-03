@@ -31,6 +31,9 @@ export const initialState = {
   addMoneySuccess: 0,
   allTransactionList: [],
   allTransactionSuccess: 0,
+  getBankingOverviewList: "",
+  getBankingLedgerList: "",
+  getBankingLedgerListSuccessStatus: 0,
 
   bankFilters: {
     startDate: undefined,
@@ -62,6 +65,22 @@ const BankingReducer = (state = initialState, action) => {
 
     case "STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: action.payload };
+
+    case "GET_BANKING_OVERVIEW_REDUCER":
+      return { ...state, getBankingOverviewList: action.payload.response };
+
+    case "GET_BANKING_LEDGER_REDUCER":
+      return {
+        ...state,
+        getBankingLedgerList: action.payload.response,
+        getBankingLedgerListSuccessStatus: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_BANKING_LEDGER_REDUCER":
+      return {
+        ...state,
+        getBankingLedgerListSuccessStatus: 0,
+      };
 
     case "ADD_USER_BANKING":
       return {

@@ -62,6 +62,38 @@ export async function getAllPaymentMethod(hostel) {
   );
 }
 
+//  BankingOverview
+export async function getBankingOverview(hostel) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/overview/${hostel.hostelId}/${hostel.bankId}`,
+    {
+      params: {
+        dateFilter: hostel.dateFilter,
+      },
+    },
+  );
+}
+
+//  banking Ledger
+
+export async function getBankingLedger(bank) {
+  console.log("bank", bank);
+  const params = {};
+  if (bank.dateFilter) params.dateFilter = bank.dateFilter;
+  if (bank.source) params.source = bank.source;
+  if (bank.fromDate) params.fromDate = bank.fromDate;
+  if (bank.toDate) params.toDate = bank.toDate;
+  if (bank.page) params.page = bank.page;
+  if (bank.size) params.size = bank.size;
+
+  return await AxiosConfigV2.get(
+    `/v3/bank/allBankTransactions/${bank.hostelId}/${bank.bankId}`,
+    {
+      params,
+    },
+  );
+}
+
 export const StoreBankDetails = (bank) => ({
   type: "STOREBANK_DETAILS",
   payload: bank,

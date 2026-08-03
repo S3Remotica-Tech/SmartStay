@@ -1527,7 +1527,7 @@ function BankingNew() {
                         onPageChange={handlePageChangeTransaction}
                         onSizeChange={handleSizeChangeTransaction}
                         isTenantPagination={true}
-                        size={size}
+                        size={sizeTransaction}
                       />
                     )}
                   </div>

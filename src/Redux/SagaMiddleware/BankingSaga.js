@@ -1,5 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  getBankingOverview,
+  getBankingLedger,
   LinkedPaymentMethod,
   AddBanking,
   AddPaymentMethod,
@@ -58,6 +60,51 @@ function* handleGetAllTransaction(action) {
     if (response?.status === 200) {
       yield put({
         type: "GET_ALL_TRANSACTION_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetBankingOverview(action) {
+  try {
+    const response = yield call(getBankingOverview, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_BANKING_OVERVIEW_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetBankingLedger(action) {
+  try {
+    const response = yield call(getBankingLedger, action.payload);
+    
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_BANKING_LEDGER_REDUCER",
         payload: {
           response: response.data || [],
           statusCode: response?.status,
@@ -879,6 +926,8 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery("GET_BANKING_LEDGER_SAGA", handleGetBankingLedger);
+  yield takeEvery("GET_BANKING_OVERVIEW_SAGA", handleGetBankingOverview);
   yield takeEvery("GET_ALL_TRANSACTION_SAGA", handleGetAllTransaction);
   yield takeEvery("ADD_MONEY_SAGA", handleAddMoney);
   yield takeEvery("GET_ALL_PAYMENTS_METHODS_SAGA", handleGetAllPaymentMethod);
