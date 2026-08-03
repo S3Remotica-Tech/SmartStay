@@ -22,7 +22,8 @@ function TenantJobDetails() {
       jobDetails.role ||
       jobDetails.workLocation ||
       jobDetails.shiftType ||
-      jobDetails.shiftTiming);
+      jobDetails.shiftStartTime ||
+      jobDetails?.shiftEndTime);
 
   const handleCloseShowModal = () => {
     setShowJobModal(false);
@@ -132,7 +133,8 @@ function TenantJobDetails() {
           <div>
             <p className="text-xs text-gray-500 mb-1">Shift Timing</p>
             <p className="text-sm font-medium text-[#222222]">
-              {jobDetails?.shiftTiming || "N/A"}
+              {jobDetails?.shiftStartTime || "N/A"} -{" "}
+              {jobDetails?.shiftEndTime || "N/A"}
             </p>
           </div>
         </div>

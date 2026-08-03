@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function TenantsFilter({ show, handleClose, startDate, endDate, size }) {
+function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
@@ -283,7 +283,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size }) {
       room: room?.map((r) => r.value),
       search: tenantName,
       size: size,
-      page: 1,
+      page: page,
       startDate: period?.value ? undefined : startDate,
       endDate: period?.value ? undefined : endDate,
       sharingType: sharingType?.value,

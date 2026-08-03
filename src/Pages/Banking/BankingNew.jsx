@@ -14,6 +14,7 @@ import {
   Wallet,
   ArrowUp,
   ArrowDown,
+  ArrowSwapVertical,
 } from "iconsax-react";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -56,19 +57,23 @@ const CustomStyles = {
     minHeight: "32px",
     height: "32px",
     width: "100%",
-    border: "1px solid #D9D9D9",
+    border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
     borderRadius: "8px",
     fontSize: "12px",
     fontFamily: "Gilroy, sans-serif",
     fontWeight: 500,
     boxShadow: "none",
     cursor: "pointer",
-    backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
+    backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
+
+    "&:hover": {
+      borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
+    },
   }),
 
   singleValue: (base) => ({
     ...base,
-    color: "#333",
+    color: "#FFF",
     fontWeight: 500,
   }),
 
@@ -138,7 +143,6 @@ const CustomStyles = {
     display: "none",
   }),
 };
-
 function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -174,7 +178,7 @@ function BankingNew() {
   // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, setTransactionFilterddata] = useState([]);
   const [amountError, setAmountError] = useState("");
-  const [banking, setBanking] = useState("");
+  const [banking, setBanking] = useState([]);
   const tableContainerRef = useRef(null);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
@@ -199,6 +203,18 @@ function BankingNew() {
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const dropdownRef = useRef(null);
 
+  const [period, setPeriod] = useState("ALL");
+  const [source, setSource] = useState(null);
+  const [chips, setChips] = useState([]);
+
+  const handlePeriodChange = (selected) => {
+    setPeriod(selected);
+  };
+
+  const handleSourceChange = (selected) => {
+    setSource(selected);
+  };
+
   const {
     canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
@@ -207,6 +223,8 @@ function BankingNew() {
   } = useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
+
+  // console.log("banking", banking);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const monthOptions = [];
@@ -293,39 +311,60 @@ function BankingNew() {
     if (state.login.selectedHostel_Id) {
       setLoader(true);
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
     } else {
       setLoader(false);
     }
-  }, [state.login.selectedHostel_Id, page, size]);
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+      const bankFilterReducer = state.bankingDetails?.bankFilters;
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           page: pageTransaction,
           size: sizeTransaction,
+          dateFilter: period?.value || bankFilterReducer?.period,
+          source: source?.value || bankFilterReducer?.source,
+          fromDate: bankFilterReducer?.startDate,
+          toDate: bankFilterReducer?.endDate,
         },
       });
+
+      const bankFilter = {
+        period: period?.value,
+        source: source?.value,
+      };
+
+      dispatch({
+        type: "SET_BANK_TRANSACTION_FILTERS",
+        payload: bankFilter,
+      });
     }
-  }, [state.login.selectedHostel_Id, pageTransaction, sizeTransaction]);
+  }, [
+    state.login.selectedHostel_Id,
+    pageTransaction,
+    sizeTransaction,
+    period,
+    source,
+  ]);
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
       dispatch({
@@ -342,16 +381,15 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
-  // console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
-
   useEffect(() => {
     setLoader(false);
-    if (state.bankingDetails.getBankingSuccessCode === 200) {
-      setBanking(state.bankingDetails?.newBankingList?.banks);
+    if (state.bankingDetails.getAllPaymentsSuccessCode === 200) {
+      // setBanking(state.bankingDetails?.newBankingList?.banks);
+      setBanking(state.bankingDetails?.getAllPaymentMethodList);
 
-      dispatch({ type: "CLEAR_BANKING_LIST" });
+      dispatch({ type: "REMOVE_GET_ALL_PAYMENTS_METHODS_REDUCER" });
     }
-  }, [state.bankingDetails.getBankingSuccessCode]);
+  }, [state.bankingDetails.getAllPaymentsSuccessCode]);
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
@@ -414,11 +452,11 @@ function BankingNew() {
       setFormLoading(false);
       setShowAccountTypeOptions(null);
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
       setTimeout(() => {
@@ -431,11 +469,11 @@ function BankingNew() {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       setFormLoading(false);
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
       handleCloseAddBalance();
@@ -448,11 +486,11 @@ function BankingNew() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForCreateBanking === 201) {
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
       dispatch({ type: "REMOVE_ADD_BANKING_REDUCER" });
@@ -462,17 +500,125 @@ function BankingNew() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForEditBanking === 200) {
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
 
       dispatch({ type: "CLEAR_EDITBANKING" });
     }
   }, [state.bankingDetails.statusCodeForEditBanking]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "SET_BANK_TRANSACTION_FILTERS",
+        payload: {
+          startDate: undefined,
+          endDate: undefined,
+          period: "",
+          source: "",
+          search: "",
+          size: "",
+          page: "",
+        },
+      });
+
+      setChips([]);
+      setPeriod("");
+      setSource("");
+    };
+  }, []);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_BANK_TRANSACTION_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        period: "",
+        source: "",
+        search: "",
+        size: "",
+        page: "",
+      },
+    });
+    dispatch({
+      type: "GET_ALL_TRANSACTION_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        page: pageTransaction,
+        size: sizeTransaction,
+      },
+    });
+
+    setChips([]);
+    setPeriod("");
+    setSource("");
+  };
+
+  useEffect(() => {
+    const bankFilter = state.bankingDetails?.bankFilters;
+
+    console.log("bankFilter", bankFilter);
+
+    const filterData = [];
+
+    if (bankFilter?.search) {
+      filterData.push({
+        key: "search",
+        label: "Search",
+        type: "search",
+        value: bankFilter.search,
+      });
+    }
+
+    if (bankFilter?.period) {
+      filterData.push({
+        key: "period",
+        label: "Period",
+        type: "period",
+        value: bankFilter?.period,
+      });
+    }
+
+    if (bankFilter?.source) {
+      filterData.push({
+        key: "source",
+        label: "Source",
+        type: "source",
+        value: bankFilter?.source,
+      });
+    }
+
+    if (bankFilter?.startDate && bankFilter?.endDate) {
+      filterData.push({
+        key: "date",
+        label: "Date",
+        type: "date",
+        value: `${bankFilter.startDate} - ${bankFilter.endDate}`,
+      });
+    } else if (bankFilter?.startDate) {
+      filterData.push({
+        key: "startDate",
+        label: "From",
+        type: "date",
+        value: bankFilter.startDate,
+      });
+    } else if (bankFilter?.endDate) {
+      filterData.push({
+        key: "endDate",
+        label: "To",
+        type: "date",
+        value: bankFilter.endDate,
+      });
+    }
+
+    setChips(filterData);
+  }, [state.bankingDetails?.bankFilters]);
 
   const handleOpenSelfTransfer = (item) => {
     setOpenMenuId(null);
@@ -518,11 +664,11 @@ function BankingNew() {
     if (state.bankingDetails.statusCodeDeleteBank === 200) {
       handleCloseDelete();
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
       setTimeout(() => {
@@ -541,11 +687,11 @@ function BankingNew() {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          // page: page,
+          // size: size,
         },
       });
       setTimeout(() => {
@@ -712,6 +858,22 @@ function BankingNew() {
       clearTimeout(timeout);
     };
   }, []);
+
+  const filterOptionsData = useSelector(
+    (state) => state.bankingDetails?.allTransactionList?.filterOptions,
+  );
+
+  const periodOptions =
+    filterOptionsData?.dateFilter?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || [];
+
+  const sourceOptions =
+    filterOptionsData?.source?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || [];
 
   const currentPage = state.bankingDetails?.newBankingList?.currentPage ?? 1;
 
@@ -1316,31 +1478,23 @@ function BankingNew() {
                       }`}
                     >
                       <Select
-                        options={selectOptions}
-                        styles={CustomStyles}
                         isDisabled={!canReadBanking}
-                        menuPlacement="auto"
-                        classNamePrefix="custom"
-                        onChange={(e) => handleStatusFilter(e)}
-                        value={
-                          selectOptions.find(
-                            (opt) => opt.value === statusfilter,
-                          ) || null
-                        }
-                        id="statusselect"
+                        styles={CustomStyles}
+                        placeholder="Select Period"
+                        options={periodOptions}
+                        value={period}
+                        onChange={handlePeriodChange}
                       />
                     </div>
 
                     <div className="flex items-center gap-3">
                       <Select
                         isDisabled={!canReadBanking}
-                        options={monthOptions}
-                        value={selectedMonth}
-                        onChange={handleMonthChange}
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        noOptionsMessage={() => "No options"}
                         styles={CustomStyles}
+                        placeholder="Select Source"
+                        options={sourceOptions}
+                        value={source}
+                        onChange={handleSourceChange}
                       />
                     </div>
 
@@ -1376,6 +1530,28 @@ function BankingNew() {
                     )}
                   </div>
                 </div>
+
+                {chips?.length > 0 && (
+                  <div className="flex flex-wrap items-start gap-3 p-3 my-3 rounded-lg bg-gray-50 border border-gray-200">
+                    <div className="flex flex-wrap gap-2 flex-1">
+                      {chips.map((chip) => (
+                        <span
+                          key={chip.key}
+                          className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                        >
+                          {chip.label} :
+                          <span className="text-gray-900">{chip.value}</span>
+                        </span>
+                      ))}
+                    </div>
+                    <span
+                      className="text-blue-600 text-sm font-medium cursor-pointer"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </span>
+                  </div>
+                )}
 
                 <div className="relative ">
                   {transactionFilterddata?.transactions?.length > 0 ? (
@@ -1422,35 +1598,51 @@ function BankingNew() {
                                   </td>
                                   <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
                                     <div className="flex items-center gap-2 capitalize">
-                                      {user.type === "CREDIT" ? (
+                                      {["DEPOSIT", "INVOICE"].includes(
+                                        user.source,
+                                      ) ? (
                                         <>
-                                          <ArrowUp size="16" color="#16A34A" />
-                                          <span>{user.type}</span>
+                                          <ArrowUp size={16} color="#16A34A" />
+                                          <span>{user.source}</span>
                                         </>
-                                      ) : user.type === "DEBIT" ? (
+                                      ) : [
+                                          "EXPENSE",
+                                          "ASSETS",
+                                          "BOOKING_REFUND",
+                                          "RENT_REFUND",
+                                        ].includes(user.source) ? (
                                         <>
                                           <ArrowDown
-                                            size="16"
+                                            size={16}
                                             color="#DC2626"
                                           />
-                                          <span>{user.type}</span>
+                                          <span>{user.source}</span>
+                                        </>
+                                      ) : user.source === "SELF_TRANSFER" ? (
+                                        <>
+                                          <ArrowSwapVertical
+                                            size={16}
+                                            color="#1E45E1"
+                                          />
+                                          <span>{user.source}</span>
                                         </>
                                       ) : (
-                                        <>
-                                          <span>{user.type}</span>
-                                        </>
+                                        <span>{user.source}</span>
                                       )}
                                     </div>
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 text-[#111928]">
-                                    {user.cashAccountType || user?.bankName}
+                                  <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
+                                    {user.cashAccountType || user?.bankName} -{" "}
+                                    <span className="text-xs">
+                                      {user.displayName}
+                                    </span>
                                     {/* {user?.source} */}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     {user.description || "-"}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
-                                    {user?.displayName}
+                                    {/* {user?.displayName} */}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     {user.transactionAmount}
@@ -1470,8 +1662,7 @@ function BankingNew() {
                     </div>
                   ) : (
                     <div>
-                      {!loader &&
-                        transactionFilterddata.length === 0 &&
+                      {transactionFilterddata.transactions?.length === 0 &&
                         canReadBanking && (
                           <div className="my-2">
                             {" "}

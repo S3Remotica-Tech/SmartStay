@@ -143,13 +143,19 @@ function TransactionFilter({ show, handleClose, size }) {
   };
 
   const filterOptionsData = useSelector(
-    (state) => state.bankingDetails?.allTransactionList?.filters,
+    (state) => state.bankingDetails?.allTransactionList?.filterOptions,
   );
 
   const periodOptions =
-    filterOptionsData?.period?.map((item) => ({
-      label: item.label,
-      value: item.id,
+    filterOptionsData?.dateFilter?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || [];
+
+  const sourceOptions =
+    filterOptionsData?.source?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const handleReset = () => {
@@ -160,16 +166,28 @@ function TransactionFilter({ show, handleClose, size }) {
   };
 
   const handleFilterBills = () => {
+    const bankFilter = {
+      startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
+      endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
+      period: period?.value,
+      source: source?.value,
+    };
+
+    dispatch({
+      type: "SET_BANK_TRANSACTION_FILTERS",
+      payload: bankFilter,
+    });
+
     dispatch({
       type: "GET_ALL_TRANSACTION_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         page: 1,
         size: size,
-        dateFilter: period,
+        dateFilter: period?.value,
         fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
         toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
-        source: source,
+        source: source?.value,
       },
     });
     setFormLoading(true);
@@ -225,7 +243,7 @@ function TransactionFilter({ show, handleClose, size }) {
             <Select
               styles={CustomStyles}
               placeholder="Select Source"
-              //   options={sourceOptions}
+              options={sourceOptions}
               value={source}
               onChange={handleSourceChange}
             />

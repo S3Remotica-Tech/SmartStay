@@ -298,20 +298,20 @@ function Invesment({ show, handleClose }) {
           description: description,
           transactionDate: dayjs(paymentDate).format("DD/MM/YYYY"),
           amount: Number(amount),
-          // investment , transaction id  pending
+          transactionId: transactionId,
         },
       });
     }
   };
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-        payload: state.login.selectedHostel_Id,
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+  //       payload: state.login.selectedHostel_Id,
+  //     });
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
   return (
     <>

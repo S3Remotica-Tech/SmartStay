@@ -31,12 +31,31 @@ export const initialState = {
   addMoneySuccess: 0,
   allTransactionList: [],
   allTransactionSuccess: 0,
+
+  bankFilters: {
+    startDate: undefined,
+    endDate: undefined,
+    period: "",
+    source: "",
+    search: "",
+    size: "",
+    page: "",
+  },
 };
 
 const BankingReducer = (state = initialState, action) => {
   switch (action.type) {
     case "RESET_ALL":
       return initialState;
+
+    case "SET_BANK_TRANSACTION_FILTERS":
+      return {
+        ...state,
+        bankFilters: {
+          ...state.bankFilters,
+          ...action.payload,
+        },
+      };
 
     case "SELF_TRANSFER_INITIALIZE_V3_ERROR":
       return { ...state, selfInitializeError: action.payload };
@@ -128,7 +147,17 @@ const BankingReducer = (state = initialState, action) => {
       };
 
     case "GET_ALL_PAYMENTS_METHODS_REDUCER":
-      return { ...state, getAllPaymentMethodList: action.payload.response };
+      return {
+        ...state,
+        getAllPaymentMethodList: action.payload.response,
+        getAllPaymentsSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_ALL_PAYMENTS_METHODS_REDUCER":
+      return {
+        ...state,
+        getAllPaymentsSuccessCode: 0,
+      };
 
     case "SELF_TRANSFER_ERROR":
       return {

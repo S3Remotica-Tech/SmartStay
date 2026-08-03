@@ -56,8 +56,10 @@ export async function getUPIAndCardTypes(payload) {
 
 // allpayments methods
 
-export async function getAllPaymentMethod(hostelId) {
-  return await AxiosConfigV2.get(`v3/bank/allPaymentMethods/${hostelId}`);
+export async function getAllPaymentMethod(hostel) {
+  return await AxiosConfigV2.get(
+    `v3/bank/allPaymentMethods/${hostel.hostelId}`,
+  );
 }
 
 export const StoreBankDetails = (bank) => ({

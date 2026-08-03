@@ -228,10 +228,10 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
           : null,
       );
 
-      const [from = "", to = ""] = (jobDetails.shiftTiming || "").split(":");
+      // const [from = "", to = ""] = (jobDetails.shiftTiming || "").split(":");
 
-      setFromTime(from);
-      setToTime(to);
+      setFromTime(jobDetails?.shiftStartTime);
+      setToTime(jobDetails?.shiftEndTime);
     }
   }, [CustomerOverView, editMode]);
 
