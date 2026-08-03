@@ -96,6 +96,7 @@ import icon from "../../Assets/Images/New_images/Icon (1).svg";
 import TenantActions from "./TenantActions";
 import KYCTenantDetails from "./KYCTenantDetails";
 import TenantJobDetails from "./TenantJobDetails";
+import RemoveRentRevision from "./RemoveRentRevision";
 
 function TenantOverview(props) {
   const state = useSelector((state) => state);
@@ -207,15 +208,10 @@ function TenantOverview(props) {
   const [EditObj, setEditObj] = useState("");
   const menuRef = useRef(null);
   const [ProfilePic, setProfilepic] = useState(false);
-  // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
-  // const canDeleteTenant = useHasPermission("Customers", "canDelete")
-  // const canWriteTenant = useHasPermission("Customers", "canWrite")
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  //  const menuRef = useRef(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const handleShowActions = () => {
-    // console.log("clickeddddddddd");
     setShowAction(true);
   };
 
@@ -238,30 +234,18 @@ function TenantOverview(props) {
 
   const {
     canWriteModule: canWriteTenant,
-    // canReadModule: canReadInvoice,
+
     canUpdateModule: canUpdateTenant,
-    // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
   const {
-    // canReadModule: canReadCheckout,
     canWriteModule: canWriteCheckout,
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const {
-    canWriteModule: canWriteBooking,
-    // canReadModule: canReadBooking,
-  } = useHasPermission("Booking");
+  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
 
-  // console.log("documentvalue", documentvalue);
-
-  const {
-    canWriteModule: canWriteAmenities,
-    // canReadModule: canReadAmenities,
-    // canUpdateModule: canUpdateAmenities,
-    // canDeleteModule: canDeleteAmenities,
-  } = useHasPermission("Amenities");
+  const { canWriteModule: canWriteAmenities } = useHasPermission("Amenities");
 
   const amenitiesRef = useRef(null);
 
@@ -3007,9 +2991,18 @@ function TenantOverview(props) {
                             </div>
                             {CustomerOverView?.isNewRentApplied && (
                               <div
-                                className=" bg-[#FFF8EB] rounded-xl px-3 w-full
-                              py-2 flex flex-col items-start min-w-0"
+                                className="group relative bg-[#FFF8EB] rounded-xl px-3 w-full
+                              py-2 flex flex-col items-start min-w-0   "
                               >
+                                {/* <button
+                                  // onClick={() => setShowDeletePopup(true)}
+                                  className="absolute top-2 right-2 z-50 bg-white p-1 rounded
+            hidden group-hover:!block
+             transition-opacity duration-200"
+                                >
+                                  <Trash size={14} color="red" />
+                                </button> */}
+
                                 <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
                                   New Monthly Rent
                                 </p>
@@ -3557,6 +3550,13 @@ function TenantOverview(props) {
           show={inactiveForm}
           handleCloseInActive={handleCloseInActive}
           inActiveDetails={inActiveDetails}
+        />
+      )}
+
+      {showDeletePopup && (
+        <RemoveRentRevision
+          open={showDeletePopup}
+          onClose={() => setShowDeletePopup(false)}
         />
       )}
     </>
