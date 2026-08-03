@@ -116,7 +116,7 @@ const CustomStyles = {
   }),
 };
 
-function TransactionFilter({ show, handleClose, size }) {
+function TransactionFilter({ show, handleClose, size, page }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 

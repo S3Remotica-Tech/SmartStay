@@ -1482,7 +1482,9 @@ function BankingNew() {
                         styles={CustomStyles}
                         placeholder="Select Period"
                         options={periodOptions}
-                        value={period}
+                        value={periodOptions.find(
+                          (option) => option.value === period,
+                        )}
                         onChange={handlePeriodChange}
                       />
                     </div>
@@ -1687,6 +1689,7 @@ function BankingNew() {
               show={isFilterOpen}
               handleClose={handleCloseFilter}
               size={sizeTransaction}
+              page={pageTransaction}
             />
           )}
 
