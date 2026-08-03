@@ -44,6 +44,16 @@ export const initialState = {
     size: "",
     page: "",
   },
+
+  ledgerFilter: {
+    startDate: undefined,
+    endDate: undefined,
+    period: "",
+    source: "",
+    search: "",
+    size: "",
+    page: "",
+  },
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -56,6 +66,15 @@ const BankingReducer = (state = initialState, action) => {
         ...state,
         bankFilters: {
           ...state.bankFilters,
+          ...action.payload,
+        },
+      };
+
+    case "SET_BANK_LEDGER_FILTERS":
+      return {
+        ...state,
+        ledgerFilter: {
+          ...state.ledgerFilter,
           ...action.payload,
         },
       };

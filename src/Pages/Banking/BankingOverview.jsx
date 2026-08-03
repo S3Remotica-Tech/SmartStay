@@ -209,6 +209,7 @@ function BankingOverview({ show, onClose }) {
                 </div>
               )}
             </div>
+
             <button
               className="flex items-center  gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF] 
                                text-[#1E45E1] !font-semibold rounded-[8px] px-3 py-2   whitespace-nowrap"
@@ -253,47 +254,48 @@ function BankingOverview({ show, onClose }) {
               </button>
             ))}
           </div>
-
-          <div className="relative inline-block" ref={menuRef}>
-            <button
-              onClick={() => setShowMenu(!showMenu)}
-              className="flex items-center justify-between 
+          {activeTab === "overview" && (
+            <div className="relative inline-block" ref={menuRef}>
+              <button
+                onClick={() => setShowMenu(!showMenu)}
+                className="flex items-center justify-between 
                gap-2 min-w-[220px] px-4 py-2 border border-gray-300 rounded-md bg-white text-sm"
-            >
-              <div className="flex items-center gap-2">
-                <Calendar size={18} color="#1E45E1" />
-                <span>
-                  {periodOptions.find((p) => p.value === period)?.label ||
-                    "Select Period"}
-                </span>
-              </div>
+              >
+                <div className="flex items-center gap-2">
+                  <Calendar size={18} color="#1E45E1" />
+                  <span>
+                    {periodOptions.find((p) => p.value === period)?.label ||
+                      "Select Period"}
+                  </span>
+                </div>
 
-              <ArrowDown2
-                size={16}
-                color="#6B7280"
-                className={`transition-transform ${
-                  showMenu ? "rotate-180" : ""
-                }`}
-              />
-            </button>
+                <ArrowDown2
+                  size={16}
+                  color="#6B7280"
+                  className={`transition-transform ${
+                    showMenu ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
 
-            {showMenu && (
-              <div className="absolute left-0 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-lg z-10">
-                {periodOptions.map((item) => (
-                  <div
-                    key={item.value}
-                    onClick={() => {
-                      setPeriod(item.value);
-                      setShowMenu(false);
-                    }}
-                    className="cursor-pointer px-4 py-2 hover:bg-[#F3F6FF]"
-                  >
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+              {showMenu && (
+                <div className="absolute left-0 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-lg z-10">
+                  {periodOptions.map((item) => (
+                    <div
+                      key={item.value}
+                      onClick={() => {
+                        setPeriod(item.value);
+                        setShowMenu(false);
+                      }}
+                      className="cursor-pointer px-4 py-2 hover:bg-[#F3F6FF]"
+                    >
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="flex-1 overflow-y-auto show-scrolls">
           {activeTab === "overview" && <BankingChart />}

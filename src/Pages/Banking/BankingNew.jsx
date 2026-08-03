@@ -556,7 +556,7 @@ function BankingNew() {
     });
 
     setChips([]);
-    setPeriod("");
+    setPeriod("ALL");
     setSource("");
   };
 
