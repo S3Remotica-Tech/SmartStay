@@ -1100,9 +1100,9 @@ export async function CustomerListGet({ hostelId, purpose }) {
       purpose: purpose,
     },
   });
-} 
+}
 
-export async function CustomerAdd(retainer) {
+export async function CreateRetainerInvoice(retainer) {
   return await AxiosConfigV2.post(
     `/v2/retainer/${retainer.hostelId}/${retainer.customerId}`,
     retainer,

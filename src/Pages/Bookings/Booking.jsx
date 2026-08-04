@@ -81,14 +81,9 @@ function Booking() {
   const [advanceDetails, setAdvanceDetails] = useState("");
   const popupRef = useRef(null);
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
-  const {
-    // canWriteModule: canWriteBooking,
-    canReadModule: canReadBooking,
-    // canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteTenant,
-  } = useHasPermission("Booking");
 
-  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Bills");
+  const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
+    useHasPermission("Bills");
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -100,10 +95,10 @@ function Booking() {
   }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
-    if (!canReadBooking) {
+    if (!canReadInvoice) {
       setLoading(false);
     }
-  }, [canReadBooking]);
+  }, [canReadInvoice]);
 
   const sortedData = [];
 
@@ -819,7 +814,7 @@ function Booking() {
                 <SearchNormal1
                   className={`h-5 w-5 transition-opacity duration-300 text-gray-500
               ${
-                canReadBooking
+                canReadInvoice
                   ? "cursor-pointer opacity-100"
                   : "cursor-not-allowed opacity-40 pointer-events-none"
               }`}
@@ -829,7 +824,7 @@ function Booking() {
           </div>
           <div>
             <button
-              // disabled={!canWriteInvoice}
+              disabled={!canUpdateInvoice}
               onClick={handleShow}
               className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
                        rounded-md px-4 py-2  whitespace-nowrap font-gilroy
@@ -840,7 +835,7 @@ function Booking() {
           </div>
         </div>
       </div>
-      {!canReadBooking ? (
+      {!canReadInvoice ? (
         <PermissionDeniedMessage />
       ) : (
         <>
@@ -852,7 +847,7 @@ function Booking() {
                 isDisabled={isComingSoon}
                 options={selectOptions}
                 styles={CustomStyles}
-                disabled={!canReadBooking}
+                disabled={!canReadInvoice}
                 onChange={(e) => handleStatusFilter(e)}
                 value={statusfilter}
                 aria-label="Select"
@@ -872,10 +867,10 @@ function Booking() {
               />
 
               <button
-                onClick={() => canReadBooking && handleShowFilterBills()}
-                disabled={!canReadBooking}
+                onClick={() => canReadInvoice && handleShowFilterBills()}
+                disabled={!canReadInvoice}
                 className={`border border-slate-300 rounded-full p-2
-            ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
+            ${canReadInvoice ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
               >
                 <Filter size={18} />
               </button>

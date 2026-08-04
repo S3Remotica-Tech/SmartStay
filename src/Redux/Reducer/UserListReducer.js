@@ -30,6 +30,7 @@ export const initialState = {
   CustomerdetailsgetStatuscode: 0,
   AmentiesHistorygetStatuscode: 0,
   bednumberdetails: [],
+  createRetainerError: "",
   statushostelbedstatuscode: "",
   kycValidateSendOtpSuccess: 0,
   deleteFloorSuccessStatusCode: 0,
@@ -206,7 +207,7 @@ export const initialState = {
   kycReminderError: "",
   bookingToCheckinSuccessCode: 0,
   bookToCheckinError: "",
-  customerAddStatusCode: 0,
+  createRetainerInvoiceStatusCode: 0,
   CustomerListGetSuccessCode: 0,
   CustomerList: [],
 };
@@ -1246,24 +1247,24 @@ const UserListReducer = (state = initialState, action) => {
         CustomerListGetSuccessCode: 0,
       };
 
-    case "CUSTOMER_ADD":
+    case "CREATE_RETAINER_REDUCER":
       return {
         ...state,
-        customerAddStatusCode: action.payload.statusCode,
+        createRetainerInvoiceStatusCode: action.payload.statusCode,
       };
-    case "REMOVE_CUSTOMER_ADD":
-      return { ...state, customerAddStatusCode: 0 };
+    case "REMOVE_CREATE_RETAINER_REDUCER":
+      return { ...state, createRetainerInvoiceStatusCode: 0 };
 
-    case "CUSTOMER_ADD_ERROR":
+    case "CREATE_RETAINER_ADD_ERROR":
       return {
         ...state,
-        customerAddError: action.payload,
+        createRetainerError: action.payload,
       };
 
-    case "REMOVE_CUSTOMER_ADD_ERROR":
+    case "REMOVE_CREATE_RETAINER_ADD_ERROR":
       return {
         ...state,
-        customerAddError: "",
+        createRetainerError: "",
       };
 
     default:

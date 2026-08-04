@@ -162,6 +162,7 @@ function BankingNew() {
   const [defaltType, setDefaultType] = useState("");
   const [selectedAccountType, setSelectedAccountType] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
@@ -500,6 +501,21 @@ function BankingNew() {
       }, 1000);
     }
   }, [state.bankingDetails.statusCodeForDefaultAccount]);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.addMoneySuccess === 200) {
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+
+      dispatch({ type: "REMOVE_ADD_MONEY_REDUCER" });
+    }
+  }, [state?.bankingDetails?.addMoneySuccess]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
@@ -888,10 +904,11 @@ function BankingNew() {
     seShowCreditCardForm(false);
   };
 
-  const handleInvestment = () => {
+  const handleInvestment = (bankId) => {
     setShowTransactionMenu(false);
     seShowInvestmentForm(true);
     setOpenMenuId(null);
+    setBankDetails(bankId);
   };
 
   const handleCloseInvestment = () => {
@@ -1246,7 +1263,7 @@ function BankingNew() {
                                     disabled={!canWriteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleInvestment();
+                                      handleInvestment(item.bankId);
                                     }}
                                     className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
     ${
@@ -1799,6 +1816,7 @@ function BankingNew() {
             <Invesment
               show={showInvestmentForm}
               handleClose={handleCloseInvestment}
+              bankDetails={bankDetails}
             />
           )}
 

@@ -117,7 +117,7 @@ import BankingNew from "../Pages/Banking/BankingNew";
 import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
 import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 import RetainerInvoice from "../Pages/RetainerInvoice/RetainerInvoice";
-import AddRetainerInvoice from "../Pages/RetainerInvoice/AddRetainerInvoice";
+import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
 import RetainerPdfModal from "../Pages/RetainerInvoice/RetainerPdfModal";
 import RetainerPdfDetails from "../Pages/RetainerInvoice/RetainerPdfDetails";
 

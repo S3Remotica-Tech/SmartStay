@@ -93,7 +93,7 @@ const CustomStyles = {
 
   menuList: (base) => ({
     ...base,
-    maxHeight: "300px",
+    maxHeight: "200px",
     padding: 0,
     overflowY: "auto",
   }),
@@ -203,14 +203,14 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function Invesment({ show, handleClose }) {
+function Invesment({ show, handleClose, bankDetails }) {
   if (!show) return null;
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [investment, setInvestment] = useState("");
   const [investmentError, setInvestmentError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
 
@@ -255,18 +255,30 @@ function Invesment({ show, handleClose }) {
   };
 
   const paymentOptions =
-    state?.bankingDetails?.getAllPaymentMethodList?.map((view) => ({
+    state.bankingDetails?.newBankingList?.banks?.map((view) => ({
       value: view?.bankId,
       label: `${view?.displayName} - ${view?.accountType}`,
     })) || [];
 
+  useEffect(() => {
+    if (bankDetails && paymentOptions.length) {
+      const selected = paymentOptions.find(
+        (option) => option.value === bankDetails,
+      );
+
+      setPaymentMethod(selected || null);
+    }
+  }, [bankDetails, paymentOptions]);
+
+  console.log("bankDetails", bankDetails);
+
   const validateForm = () => {
     let isValid = true;
 
-    if (!investment) {
-      setInvestmentError("Please Enter Investment Name");
-      isValid = false;
-    }
+    // if (!investment) {
+    //   setInvestmentError("Please Enter Investment Name");
+    //   isValid = false;
+    // }
 
     if (!amount) {
       setAmountError("Please Enter Amount");
@@ -293,14 +305,17 @@ function Invesment({ show, handleClose }) {
         type: "ADD_MONEY_SAGA",
         payload: {
           hostelId: state.login?.selectedHostel_Id,
-          bankId: "",
+          bankId: paymentMethod?.value,
           paymentMethodId: "",
           description: description,
-          transactionDate: dayjs(paymentDate).format("DD/MM/YYYY"),
+          transactionDate: paymentDate
+            ? dayjs(paymentDate).format("YYYY-MM-DD")
+            : null,
           amount: Number(amount),
           transactionId: transactionId,
         },
       });
+      setLoading(true);
     }
   };
 
@@ -308,10 +323,17 @@ function Invesment({ show, handleClose }) {
   //   if (state.login.selectedHostel_Id) {
   //     dispatch({
   //       type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-  //       payload: state.login.selectedHostel_Id,
+  //       payload: { hostelId: state.login.selectedHostel_Id },
   //     });
   //   }
   // }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.addMoneySuccess === 200) {
+      setLoading(false);
+      handleClose();
+    }
+  }, [state?.bankingDetails?.addMoneySuccess]);
 
   return (
     <>
@@ -339,7 +361,7 @@ function Invesment({ show, handleClose }) {
           <div className="grid grid-cols-1 mx-3">
             <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Investment <span className="text-red-600 text-[20px]">*</span>
+                Investment
               </label>
               <div className="relative">
                 <input
@@ -350,12 +372,13 @@ function Invesment({ show, handleClose }) {
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     investment ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  onWheel={(e) => e.target.blur()}
                 />
               </div>
 
-              {investmentError && (
+              {/* {investmentError && (
                 <ErrorMessage message={investmentError} type="error" />
-              )}
+              )} */}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 mx-3 ">
@@ -366,6 +389,7 @@ function Invesment({ show, handleClose }) {
               <div className="relative">
                 <input
                   type="number"
+                  onWheel={(e) => e.target.blur()}
                   value={amount}
                   onChange={handleAmountChange}
                   placeholder="Enter Amount"
@@ -410,6 +434,7 @@ function Invesment({ show, handleClose }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
+                isDisabled={bankDetails}
                 value={paymentMethod}
                 onChange={handlePaymentMethodChange}
                 options={paymentOptions}
@@ -476,10 +501,25 @@ function Invesment({ show, handleClose }) {
 
           <button
             onClick={handleSubmit}
-            type="submit"
-            className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
+            type="button"
+            disabled={loading}
+            className={`px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-2 transition-colors ${
+              loading
+                ? "bg-[#1E45E1]/80 cursor-not-allowed"
+                : "bg-[#1E45E1] hover:bg-[#1738BB]"
+            } text-white`}
           >
-            Save <ArrowRight size="14" color="#FFFFFF" />
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                Save
+                <ArrowRight size="14" color="#FFFFFF" />
+              </>
+            )}
           </button>
         </div>
       </div>
