@@ -51,49 +51,49 @@ function BankingChart() {
   const summaryCards = [
     {
       title: "Current Balance",
-      amount: `₹ ${bankingChart?.currentBalance}`,
+      amount: `₹ ${bankingChart?.currentBalance || 0}`,
       icon: ArrowUp2,
     },
     {
       title: "Opening Balance",
-      amount: `₹ ${bankingChart?.openingBalance}`,
+      amount: `₹ ${bankingChart?.openingBalance || 0}`,
     },
     {
       title: "Inflow (Income)",
-      amount: `₹ ${bankingChart?.invoiceAmount}`,
+      amount: `₹ ${bankingChart?.invoiceAmount || 0}`,
     },
     {
       title: "Out flow (Expense)",
-      amount: `₹ ${bankingChart?.expenseAmount}`,
+      amount: `₹ ${bankingChart?.expenseAmount || 0}`,
     },
     {
       title: "Out flow (Asset)",
-      amount: `₹ ${bankingChart?.assetsAmount}`,
+      amount: `₹ ${bankingChart?.assetsAmount || 0}`,
     },
     {
       title: "Out flow (Booking Refund)",
-      amount: `₹ ${bankingChart?.bookingRefundAmount}`,
+      amount: `₹ ${bankingChart?.bookingRefundAmount || 0}`,
     },
     {
       title: "Inflow (Deposit)",
-      amount: `₹ ${bankingChart?.depositAmount}`,
+      amount: `₹ ${bankingChart?.depositAmount || 0}`,
     },
     {
       title: "Out flow (Rent Refund)",
-      amount: `₹ ${bankingChart?.rentRefundAmount}`,
+      amount: `₹ ${bankingChart?.rentRefundAmount || 0}`,
     },
 
     {
       title: "Transfers",
-      amount: `₹ ${bankingChart?.selfTransferAmount}`,
+      amount: `₹ ${bankingChart?.selfTransferAmount || 0}`,
     },
   ];
 
   const chartData =
-  bankingChart?.monthData?.map((item) => ({
-    month: item.month,
-    balance: item.currentBalance,
-  })) || [];
+    bankingChart?.monthData?.map((item) => ({
+      month: item.month,
+      balance: item.currentBalance,
+    })) || [];
 
   const maxBalance = Math.max(...chartData?.map((item) => item?.balance), 0);
 

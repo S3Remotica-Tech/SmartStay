@@ -310,12 +310,20 @@ function BankingNew() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoader(true);
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
     } else {
@@ -359,12 +367,21 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
       dispatch({
@@ -381,15 +398,24 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
-  useEffect(() => {
-    setLoader(false);
-    if (state.bankingDetails.getAllPaymentsSuccessCode === 200) {
-      // setBanking(state.bankingDetails?.newBankingList?.banks);
-      setBanking(state.bankingDetails?.getAllPaymentMethodList);
+  // useEffect(() => {
+  //   setLoader(false);
+  //   if (state.bankingDetails.getAllPaymentsSuccessCode === 200) {
+  //     // setBanking(state.bankingDetails?.newBankingList?.banks);
+  //     setBanking(state.bankingDetails?.getAllPaymentMethodList);
 
-      dispatch({ type: "REMOVE_GET_ALL_PAYMENTS_METHODS_REDUCER" });
+  //     dispatch({ type: "REMOVE_GET_ALL_PAYMENTS_METHODS_REDUCER" });
+  //   }
+  // }, [state.bankingDetails.getAllPaymentsSuccessCode]);
+
+  useEffect(() => {
+    if (state.bankingDetails.getBankingSuccessCode === 200) {
+      setLoader(false);
+      setBanking(state.bankingDetails?.newBankingList?.banks);
+
+      dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
     }
-  }, [state.bankingDetails.getAllPaymentsSuccessCode]);
+  }, [state.bankingDetails.getBankingSuccessCode]);
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
@@ -451,14 +477,24 @@ function BankingNew() {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
       setFormLoading(false);
       setShowAccountTypeOptions(null);
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
       }, 1000);
@@ -468,12 +504,21 @@ function BankingNew() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       setFormLoading(false);
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
       handleCloseAddBalance();
@@ -485,26 +530,44 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForCreateBanking === 201) {
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
+
       dispatch({ type: "REMOVE_ADD_BANKING_REDUCER" });
     }
   }, [state.bankingDetails.statusCodeForCreateBanking]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForEditBanking === 200) {
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
 
@@ -663,12 +726,21 @@ function BankingNew() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeDeleteBank === 200) {
       handleCloseDelete();
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
       setTimeout(() => {
@@ -686,12 +758,21 @@ function BankingNew() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
+      // dispatch({
+      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     // page: page,
+      //     // size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+        type: "BANKING_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          // page: page,
-          // size: size,
+          page: page,
+          size: size,
         },
       });
       setTimeout(() => {
