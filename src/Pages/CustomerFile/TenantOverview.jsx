@@ -279,7 +279,7 @@ function TenantOverview(props) {
     } else if (isReceiptWay) {
       navigate(`/receipts/${state.login.selectedHostel_Id}`);
     } else if (isBookingWay) {
-      navigate(`/booking/${state.login.selectedHostel_Id}`);
+      navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
     } else if (isTenantWay || navigateTenant) {
       navigate(`/tenant/${state.login.selectedHostel_Id}`);
     } else {

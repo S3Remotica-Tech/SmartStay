@@ -159,8 +159,9 @@ function AddRetainerInvoice() {
   const [receivedAccountErrmsg, setReceivedAccountErrmsg] = useState("");
   const [paymentMethodErrmsg, setPaymentMethodErrmsg] = useState("");
   const [errors, setErrors] = useState({
-    totalAmount: "",
+    totalAmount: ""
   });
+
 
   const handleSearch = () => {
     if (!state.login.selectedHostel_Id || search.trim() === "") return;
@@ -294,7 +295,7 @@ function AddRetainerInvoice() {
       type: "CUSTOMER_LIST_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        purpose: "ADVANCE_HOLDING",
+        purpose: "ADVANCE_HOLDING"
       },
     });
   }, [state.login.selectedHostel_Id]);
@@ -318,11 +319,11 @@ function AddRetainerInvoice() {
   console.log("customername", customername);
 
   const selectedCustomer = state.UsersList?.CustomerList?.customersLists?.find(
-    (c) => c.customerId === customername,
+    (c) => c.customerId === customername
   );
 
   const selectedGuardian = selectedCustomer?.guardiansList?.find(
-    (g) => g.guardianId === guardianName,
+    (g) => g.guardianId === guardianName
   );
 
   console.log("selectedGuardian", selectedGuardian);
@@ -417,7 +418,9 @@ function AddRetainerInvoice() {
       customerId: customername,
       guardianId: guardianName,
       relationName: selectedGuardian?.relationShip,
-      invoiceDate: invoiceDate ? invoiceDate.toISOString().split("T")[0] : null,
+      invoiceDate: invoiceDate
+        ? invoiceDate.toISOString().split("T")[0]
+        : null,
       referenceNumber: referenceNumber,
       invoiceType: "advance_holding",
       amount: Number(expenseItem.amount || 0),
@@ -438,6 +441,7 @@ function AddRetainerInvoice() {
       type: "CUSTOMER_LIST_ADD",
       payload,
     });
+
   };
 
   useEffect(() => {
@@ -521,10 +525,7 @@ function AddRetainerInvoice() {
 
   return (
     <div className="block relative font-gilroy ">
-      {console.log(
-        "dfdj",
-        JSON.stringify(state.UsersList.CustomerList.customersLists),
-      )}
+      {console.log("dfdj", JSON.stringify(state.UsersList.CustomerList.customersLists))}
       <div className="relative w-full  bg-white  ">
         <div className="flex items-center justify-between  p-2 sticky top-0  bg-white">
           <h2 className="text-[18px] text-[#222222] font-gilroy font-semibold">
@@ -561,22 +562,21 @@ function AddRetainerInvoice() {
                       options={customerOptions}
                       onChange={handleCustomerName}
                       value={
-                        customerOptions.find(
-                          (opt) => opt.value === customername,
-                        ) || null
+                        customerOptions.find((opt) => opt.value === customername) ||
+                        null
                       }
                     />
+
                   </div>
 
                   <button
                     type="button"
                     onClick={!searchLoading ? handleSearch : undefined}
                     disabled={searchLoading}
-                    className={`h-[48px] w-14 flex items-center justify-center rounded-r-lg bg-[#1E45E1] transition-colors ${
-                      searchLoading
-                        ? "cursor-not-allowed opacity-80"
-                        : "hover:bg-[#1738BB]"
-                    }`}
+                    className={`h-[48px] w-14 flex items-center justify-center rounded-r-lg bg-[#1E45E1] transition-colors ${searchLoading
+                      ? "cursor-not-allowed opacity-80"
+                      : "hover:bg-[#1738BB]"
+                      }`}
                   >
                     {searchLoading ? (
                       <div className="w-4 h-4 border-2 border-white rounded-lg border-t-transparent rounded-full animate-spin" />
@@ -586,7 +586,10 @@ function AddRetainerInvoice() {
                   </button>
                 </div>
                 {customerErrmsg && (
-                  <ErrorMessage message={customerErrmsg} type="error" />
+                  <ErrorMessage
+                    message={customerErrmsg}
+                    type="error"
+                  />
                 )}
                 <p className="mt-2 text-xs text-[#6B7280] leading-5">
                   Search existing tenants in the Property Flow ecosystem to
@@ -613,9 +616,13 @@ function AddRetainerInvoice() {
                   GuardianOptions.find((opt) => opt.value === guardianName) ||
                   null
                 }
+
               />
               {guardianErrmsg && (
-                <ErrorMessage message={guardianErrmsg} type="error" />
+                <ErrorMessage
+                  message={guardianErrmsg}
+                  type="error"
+                />
               )}
             </div>
           </div>
@@ -643,7 +650,10 @@ function AddRetainerInvoice() {
                 />
               </div>
               {invoiceDateErrmsg && (
-                <ErrorMessage message={invoiceDateErrmsg} type="error" />
+                <ErrorMessage
+                  message={invoiceDateErrmsg}
+                  type="error"
+                />
               )}
             </div>
             <div className="col-span-1 md:col-span-4 mt-1">
@@ -749,31 +759,31 @@ function AddRetainerInvoice() {
                     {(expenseItemError.itemName ||
                       expenseItemError.retainertype ||
                       expenseItemError.amount) && (
-                      <tr>
-                        <td className="pb-2">
-                          <ErrorMessage
-                            message={expenseItemError.itemName}
-                            type="error"
-                          />
-                        </td>
+                        <tr>
+                          <td className="pb-2">
+                            <ErrorMessage
+                              message={expenseItemError.itemName}
+                              type="error"
+                            />
+                          </td>
 
-                        <td className="pb-2">
-                          <ErrorMessage
-                            message={expenseItemError.retainertype}
-                            type="error"
-                          />
-                        </td>
+                          <td className="pb-2">
+                            <ErrorMessage
+                              message={expenseItemError.retainertype}
+                              type="error"
+                            />
+                          </td>
 
-                        <td className="pb-2">
-                          <ErrorMessage
-                            message={expenseItemError.amount}
-                            type="error"
-                          />
-                        </td>
+                          <td className="pb-2">
+                            <ErrorMessage
+                              message={expenseItemError.amount}
+                              type="error"
+                            />
+                          </td>
 
-                        <td></td>
-                      </tr>
-                    )}
+                          <td></td>
+                        </tr>
+                      )}
                   </tbody>
                 </table>
               </div>
@@ -811,7 +821,10 @@ function AddRetainerInvoice() {
                 onChange={handleReceivedAccount}
               />
               {receivedAccountErrmsg && (
-                <ErrorMessage message={receivedAccountErrmsg} type="error" />
+                <ErrorMessage
+                  message={receivedAccountErrmsg}
+                  type="error"
+                />
               )}
             </div>
 
@@ -829,7 +842,10 @@ function AddRetainerInvoice() {
                 onChange={handlePaymentMethod}
               />
               {paymentMethodErrmsg && (
-                <ErrorMessage message={paymentMethodErrmsg} type="error" />
+                <ErrorMessage
+                  message={paymentMethodErrmsg}
+                  type="error"
+                />
               )}
             </div>
           </div>

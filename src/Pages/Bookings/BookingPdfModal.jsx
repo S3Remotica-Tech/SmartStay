@@ -109,7 +109,7 @@ const InvoiceCard = ({ rowData }) => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const handleBackInvoice = () => {
-    navigate(`/booking/${state.login?.selectedHostel_Id}`);
+    navigate(`/retainer-invoice/${state.login?.selectedHostel_Id}`);
   };
   const {
     canWriteModule: canWriteBooking,

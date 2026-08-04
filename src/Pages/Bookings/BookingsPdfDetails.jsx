@@ -116,7 +116,7 @@ function BookingsPdfDetails() {
           <div className="flex justify-between items-center flex-wrap ">
             <div className="min-h-[50px] px-1 py-2">
               <label className="text-[18px] text-black font-semibold font-gilroy">
-                Bookings
+                Retainer Invoice
               </label>
             </div>
             {/* <div className="flex justify-between items-center gap-2">

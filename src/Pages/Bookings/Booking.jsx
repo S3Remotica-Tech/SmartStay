@@ -8,6 +8,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import BookingInvoice from "../Bookings/BookingInvoice";
 import { DndContext, closestCenter } from "@dnd-kit/core";
+import { toast } from "react-toastify";
 import {
   SortableContext,
   useSortable,
@@ -34,6 +35,7 @@ import {
   CloseCircle,
   Document,
   Link21,
+  AddCircle,
 } from "iconsax-react";
 import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
@@ -726,7 +728,22 @@ function Booking() {
   }, [state.Booking?.successBookingCustomizeColumns]);
 
   // console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
+  const handleShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding invoice information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
 
+    navigate(`/add-retainer/${state.login.selectedHostel_Id}`);
+  };
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {
       dispatch({
@@ -736,7 +753,7 @@ function Booking() {
           invoiceId: invoiceId,
         },
       });
-      navigate(`/booking/details/${invoiceId}`, {
+      navigate(`/retainer-invoice/details/${invoiceId}`, {
         state: {
           rowData: invoiceId,
         },
@@ -783,7 +800,7 @@ function Booking() {
     <div className="relative bg-white font-gilroy  mr-2 ">
       <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
         <label className="text-lg text-black font-semibold font-gilroy">
-          Booking
+          Retainer Invoice
         </label>
 
         <div className="flex items-center gap-2">
@@ -809,6 +826,17 @@ function Booking() {
                 />
               </span>
             </div>
+          </div>
+          <div>
+            <button
+              // disabled={!canWriteInvoice}
+              onClick={handleShow}
+              className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
+                       rounded-md px-4 py-2  whitespace-nowrap font-gilroy
+                       disabled:opacity-50 disabled:cursor-not-allowed  flex items-center gap-2"
+            >
+              <AddCircle color="#FFFFFF" size="16" /> Retainer
+            </button>
           </div>
         </div>
       </div>
