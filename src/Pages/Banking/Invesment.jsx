@@ -18,6 +18,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { Wallet3, Card } from "iconsax-react";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -156,19 +157,32 @@ const Option = (props) => {
 
   return (
     <components.Option {...props}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
-          {data.icon}
-          <div>
-            <label className="text-xs font-medium  text-[#222222]">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
               {data.label}
-            </label>
+            </span>
+
             {data.subLabel && (
-              <label className="text-xs text-[#6B7280]">{data.subLabel}</label>
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
             )}
           </div>
         </div>
-        <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
           {data.type}
         </span>
       </div>
@@ -182,8 +196,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        {data.icon}
-        <span>{data.label}</span>
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
       </div>
     </components.SingleValue>
   );
@@ -255,9 +275,21 @@ function Invesment({ show, handleClose, bankDetails }) {
   };
 
   const paymentOptions =
-    state.bankingDetails?.newBankingList?.banks?.map((view) => ({
-      value: view?.bankId,
-      label: `${view?.displayName} - ${view?.accountType}`,
+    state?.bankingDetails?.newBankingList?.banks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.displayName,
+      subLabel:
+        bank.accountType === "BANK"
+          ? `${bank.bankName} `
+          : `${bank.cashAccountType} `,
+      type: bank.accountType,
+      icon:
+        bank.accountType === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
     })) || [];
 
   useEffect(() => {
@@ -441,13 +473,13 @@ function Invesment({ show, handleClose, bankDetails }) {
                 placeholder="Select Payment Method"
                 styles={CustomStyles}
                 isSearchable={false}
-                // components={{
-                //   Option,
-                //   SingleValue,
-                //   DropdownIndicator,
-                //   GroupHeading,
-                //   IndicatorSeparator: () => null,
-                // }}
+                components={{
+                  Option,
+                  SingleValue,
+                  DropdownIndicator,
+                  GroupHeading,
+                  IndicatorSeparator: () => null,
+                }}
               />
 
               {paymentMethodError && (
