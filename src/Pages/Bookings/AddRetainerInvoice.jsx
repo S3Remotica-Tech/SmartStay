@@ -592,7 +592,7 @@ function AddRetainerInvoice() {
       setSaveLoading(false);
       navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
       dispatch({
-        type: "REMOVE_CUSTOMER_ADD",
+        type: "REMOVE_CREATE_RETAINER_REDUCER",
       });
     }
   }, [state.UsersList.createRetainerInvoiceStatusCode]);
