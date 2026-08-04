@@ -117,7 +117,7 @@ import BankingNew from "../Pages/Banking/BankingNew";
 import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
 import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 import RetainerInvoice from "../Pages/RetainerInvoice/RetainerInvoice";
-import AddRetainerInvoice from "../Pages/RetainerInvoice/AddRetainerInvoice";
+import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
 import RetainerPdfModal from "../Pages/RetainerInvoice/RetainerPdfModal";
 import RetainerPdfDetails from "../Pages/RetainerInvoice/RetainerPdfDetails";
 
@@ -1228,7 +1228,7 @@ function Sidebar() {
 
                         <li className="list-none rounded-md">
                           <NavLink
-                            to={withHostel("/booking")}
+                            to={withHostel("/retainer-invoice")}
                             className={({ isActive }) =>
                               `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
                                 isActive || currentPage === "booking"
@@ -1236,7 +1236,7 @@ function Sidebar() {
                                   : ""
                               }`
                             }
-                            onClick={() => handlePageClick("booking")}
+                            onClick={() => handlePageClick("retainer-invoice")}
                           >
                             <OverlayTrigger
                               trigger={tooltipTrigger}
@@ -1245,7 +1245,7 @@ function Sidebar() {
                               delay={{ show: 200, hide: 0 }}
                               overlay={
                                 <Tooltip className="custom-tooltip">
-                                  Bookings
+                                  Retainer Invoice
                                 </Tooltip>
                               }
                             >
@@ -1257,7 +1257,7 @@ function Sidebar() {
                             </OverlayTrigger>
 
                             <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Bookings
+                              Retainer Invoice
                             </span>
                           </NavLink>
                         </li>
@@ -1371,7 +1371,7 @@ function Sidebar() {
                                 </span>
                               </NavLink>
                             </li> */}
-                            <li className="list-none">
+                            {/* <li className="list-none">
                               <NavLink
                                 to={withHostel("/retainer-invoice")}
                                 className={({ isActive }) =>
@@ -1408,7 +1408,7 @@ function Sidebar() {
                                   Retainer Invoice
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                           </>
                         )}
                       </ul>
@@ -1636,7 +1636,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/booking/:hostelId?"
+                path="/retainer-invoice/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
                     <Booking />
@@ -1644,7 +1644,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/booking/details/:hostelId?"
+                path="/retainer-invoice/details/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
                     <BookingsPdfDetails />
@@ -1742,7 +1742,7 @@ function Sidebar() {
                     }
                   />
 
-                  <Route
+                  {/* <Route
                     path="/retainer-invoice/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
@@ -1758,15 +1758,15 @@ function Sidebar() {
                         <RetainerPdfDetails />
                       </div>
                     }
-                  />
-                  <Route
+                  /> */}
+                  {/* <Route
                     path="/retainerinvoice/details/:hostelId?"
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <RetainerPdfModal />
                       </div>
                     }
-                  />
+                  /> */}
                 </>
               )}
               <Route

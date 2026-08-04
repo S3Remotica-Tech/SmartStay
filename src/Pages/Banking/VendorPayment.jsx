@@ -403,7 +403,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
       setFormLoading(false);
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
         payload: state.login.selectedHostel_Id,
       });
 
@@ -445,7 +445,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     }
   }, [state.login.selectedHostel_Id, selectedVendor]);
 
-//   console.log("selectedVendor", selectedVendor);
+  //   console.log("selectedVendor", selectedVendor);
 
   return (
     <>

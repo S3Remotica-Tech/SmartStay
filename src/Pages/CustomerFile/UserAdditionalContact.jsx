@@ -11,7 +11,7 @@ import { CloseCircle, Trash } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function UserAdditionalContact({ show, handleClose }) {
+function UserAdditionalContact({ show, handleClose, customerId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -177,7 +177,7 @@ function UserAdditionalContact({ show, handleClose }) {
 
     const payload = {
       hostelId: state.login.selectedHostel_Id,
-      customerId: CustomerOverView?.customerId,
+      customerId: CustomerOverView?.customerId || customerId,
       fullName: userName,
       mobile: Phone,
       relationship: guardian || "",

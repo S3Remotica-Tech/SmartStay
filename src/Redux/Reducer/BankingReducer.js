@@ -12,6 +12,8 @@ export const initialState = {
   statusCodeForDeleteTrans: 0,
   bankingCreateError: "",
   selfTransferInitialize: "",
+  selfTransferInitializeV3: "",
+  selfInitializeError: "",
   statusSelfTransferInitialize: 0,
   statusSuccessSelfTransfer: 0,
   selfError: "",
@@ -27,6 +29,31 @@ export const initialState = {
   OverviewBankDetails: "",
   getAllPaymentMethodList: [],
   addMoneySuccess: 0,
+  allTransactionList: [],
+  allTransactionSuccess: 0,
+  getBankingOverviewList: "",
+  getBankingLedgerList: "",
+  getBankingLedgerListSuccessStatus: 0,
+
+  bankFilters: {
+    startDate: undefined,
+    endDate: undefined,
+    period: "",
+    source: "",
+    search: "",
+    size: "",
+    page: "",
+  },
+
+  ledgerFilter: {
+    startDate: undefined,
+    endDate: undefined,
+    period: "",
+    source: "",
+    search: "",
+    size: "",
+    page: "",
+  },
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -34,8 +61,45 @@ const BankingReducer = (state = initialState, action) => {
     case "RESET_ALL":
       return initialState;
 
+    case "SET_BANK_TRANSACTION_FILTERS":
+      return {
+        ...state,
+        bankFilters: {
+          ...state.bankFilters,
+          ...action.payload,
+        },
+      };
+
+    case "SET_BANK_LEDGER_FILTERS":
+      return {
+        ...state,
+        ledgerFilter: {
+          ...state.ledgerFilter,
+          ...action.payload,
+        },
+      };
+
+    case "SELF_TRANSFER_INITIALIZE_V3_ERROR":
+      return { ...state, selfInitializeError: action.payload };
+
     case "STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: action.payload };
+
+    case "GET_BANKING_OVERVIEW_REDUCER":
+      return { ...state, getBankingOverviewList: action.payload.response };
+
+    case "GET_BANKING_LEDGER_REDUCER":
+      return {
+        ...state,
+        getBankingLedgerList: action.payload.response,
+        getBankingLedgerListSuccessStatus: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_BANKING_LEDGER_REDUCER":
+      return {
+        ...state,
+        getBankingLedgerListSuccessStatus: 0,
+      };
 
     case "ADD_USER_BANKING":
       return {
@@ -86,6 +150,34 @@ const BankingReducer = (state = initialState, action) => {
         statusSuccessSelfTransfer: action.payload.statusCode,
       };
 
+    case "SELF_TRANSFER_INITIALIZE_V3_REDUCER":
+      return {
+        ...state,
+        selfTransferInitializeV3: action.payload.response,
+        statusSelfTransferInitialize: action.payload.statusCode,
+      };
+
+    case "CLEAR_SELF_REDUCER":
+      return {
+        ...state,
+        selfTransferInitializeV3: "",
+        statusSelfTransferInitialize: 0,
+      };
+
+    case "GET_ALL_TRANSACTION_REDUCER":
+      return {
+        ...state,
+        allTransactionList: action.payload.response,
+        allTransactionSuccess: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_ALL_TRANSACTION_REDUCER":
+      return {
+        ...state,
+
+        allTransactionSuccess: 0,
+      };
+
     case "REMOVE_SELF_TRANSFER_REDUCER":
       return {
         ...state,
@@ -93,7 +185,17 @@ const BankingReducer = (state = initialState, action) => {
       };
 
     case "GET_ALL_PAYMENTS_METHODS_REDUCER":
-      return { ...state, getAllPaymentMethodList: action.payload.response };
+      return {
+        ...state,
+        getAllPaymentMethodList: action.payload.response,
+        getAllPaymentsSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_ALL_PAYMENTS_METHODS_REDUCER":
+      return {
+        ...state,
+        getAllPaymentsSuccessCode: 0,
+      };
 
     case "SELF_TRANSFER_ERROR":
       return {

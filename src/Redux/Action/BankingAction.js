@@ -56,8 +56,42 @@ export async function getUPIAndCardTypes(payload) {
 
 // allpayments methods
 
-export async function getAllPaymentMethod(hostelId) {
-  return await AxiosConfigV2.get(`v3/bank/allPaymentMethods/${hostelId}`);
+export async function getAllPaymentMethod(hostel) {
+  return await AxiosConfigV2.get(
+    `v3/bank/allPaymentMethods/${hostel.hostelId}`,
+  );
+}
+
+//  BankingOverview
+export async function getBankingOverview(hostel) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/overview/${hostel.hostelId}/${hostel.bankId}`,
+    {
+      params: {
+        dateFilter: hostel.dateFilter,
+      },
+    },
+  );
+}
+
+//  banking Ledger
+
+export async function getBankingLedger(bank) {
+  console.log("bank", bank);
+  const params = {};
+  if (bank.dateFilter) params.dateFilter = bank.dateFilter;
+  if (bank.source) params.source = bank.source;
+  if (bank.fromDate) params.fromDate = bank.fromDate;
+  if (bank.toDate) params.toDate = bank.toDate;
+  if (bank.page) params.page = bank.page;
+  if (bank.size) params.size = bank.size;
+
+  return await AxiosConfigV2.get(
+    `/v3/bank/allBankTransactions/${bank.hostelId}/${bank.bankId}`,
+    {
+      params,
+    },
+  );
 }
 
 export const StoreBankDetails = (bank) => ({
@@ -73,8 +107,15 @@ export async function AddMoney(money) {
   );
 }
 
-export async function v3GetBanking(hostelId) {
-  return await AxiosConfigV2.get(`/v3/bank/${hostelId}`);
+export async function v3GetBanking(bank) {
+  const params = {};
+
+  if (bank.page) params.page = bank.page;
+  if (bank.size) params.size = bank.size;
+
+  return await AxiosConfigV2.get(`/v3/bank/${bank.hostelId}`, {
+    params,
+  });
 }
 
 export async function GetResponsibleList(hostelId) {
@@ -87,6 +128,30 @@ export async function selfTranferV3(bank) {
     toBankId: bank.toBankId,
     amount: bank.amount,
   });
+}
+
+export async function selfTranferInitializeV3(bank) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/transfer/initialize/${bank.hostelId}/${bank.bankId}`,
+    {},
+  );
+}
+
+export async function AllTransaction(transaction) {
+  const params = {};
+  if (transaction.dateFilter) params.dateFilter = transaction.dateFilter;
+  if (transaction.source) params.source = transaction.source;
+  if (transaction.fromDate) params.fromDate = transaction.fromDate;
+  if (transaction.toDate) params.toDate = transaction.toDate;
+  if (transaction.page) params.page = transaction.page;
+  if (transaction.size) params.size = transaction.size;
+
+  return await AxiosConfigV2.get(
+    `/v3/bank/allTransactions/${transaction.hostelId}`,
+    {
+      params,
+    },
+  );
 }
 
 /////////////////////////////////////////////////////////////////

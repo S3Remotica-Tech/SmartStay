@@ -87,7 +87,7 @@ import {
   settlePaymentExpense,
   BookingToCheckInV3,
   CustomerListGet,
-  CustomerAdd,
+  CreateRetainerInvoice,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -3828,7 +3828,6 @@ function* handleCheckoutProfile(action) {
   }
 }
 
-
 function* handleCustomerListGet(user) {
   try {
     const response = yield call(CustomerListGet, user.payload);
@@ -3850,13 +3849,13 @@ function* handleCustomerListGet(user) {
   }
 }
 
-function* handleCustomerAdd(reading) {
+function* handleCreateRetainerInvoice(reading) {
   try {
-    const response = yield call(CustomerAdd, reading.payload);
+    const response = yield call(CreateRetainerInvoice, reading.payload);
 
     if (response?.status === 201 || response?.status === 200) {
       yield put({
-        type: "CUSTOMER_ADD",
+        type: "CREATE_RETAINER_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
 
@@ -3888,15 +3887,13 @@ function* handleCustomerAdd(reading) {
       });
     }
 
-    if (response) {
-      refreshToken(response);
-    }
+   
   } catch (error) {
     yield* handleApiError(error);
 
     if (error) {
       yield put({
-        type: "CUSTOMER_ADD_ERROR",
+        type: "CREATE_RETAINER_ADD_ERROR",
         payload: error.response.data,
       });
     }
@@ -4022,6 +4019,6 @@ function* UserListSaga() {
   yield takeEvery("FINALSETTLEMENT", handleGenerateDetails);
   yield takeEvery("CONFIRMCHECKOUT", handleConformCheckout);
   yield takeEvery("CUSTOMER_LIST_SAGA", handleCustomerListGet);
-  yield takeEvery("CUSTOMER_LIST_ADD", handleCustomerAdd);
+  yield takeEvery("CREATE_RETAINER_SAGA", handleCreateRetainerInvoice);
 }
 export default UserListSaga;

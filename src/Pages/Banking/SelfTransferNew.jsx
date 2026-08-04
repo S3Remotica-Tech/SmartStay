@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Add, Bank, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-import { Calendar } from "iconsax-react";
+import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
 
 function SelfTransferNew({ show, handleClose, selfDetails }) {
@@ -29,6 +29,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   };
 
   const handleTransfer = () => {
+    setError("");
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
     if (!selectedBank) {
       setError("Please select a destination account");
@@ -36,7 +37,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
 
     if (!amount || Number(amount) <= 0) {
-      setError("Please enter a valid amount");
+      setError("Please Enter Amount");
       return;
     }
 
@@ -72,7 +73,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   useEffect(() => {
     if (selfDetails?.bankId) {
       dispatch({
-        type: "SELF_TRANSER_INITIALIZE_SAGA",
+        type: "SELF_TRANSFER_INITIALIZE_V3_SAGA",
         payload: {
           hostelId: state.login?.selectedHostel_Id,
           bankId: selfDetails?.bankId,
@@ -98,9 +99,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
 
   // console.log("state", state.bankingDetails?.selfTransferInitialize);
 
-  const bankDetails = state.bankingDetails?.selfTransferInitialize;
+  const bankDetails = state.bankingDetails?.selfTransferInitializeV3;
 
-  const availableBalance = Number(bankDetails?.fromBank?.accountBalance || 0);
+  const availableBalance = Number(bankDetails?.fromBank?.balance || 0);
 
   const isTransferDisabled =
     loading || !selectedBank || Number(amount) > availableBalance;
@@ -108,6 +109,12 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const handleSelect = (item) => {
     setSelectedBank(item);
   };
+
+  useEffect(() => {
+    if (state.bankingDetails?.selfInitializeError) {
+      dispatch({ type: "CLEAR_SELF_REDUCER" });
+    }
+  }, [state.bankingDetails?.selfInitializeError]);
 
   return (
     <div className="fixed inset-0 z-50">
@@ -128,15 +135,21 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls max-h-[500px]">
-          <div>
+          <div className="my-2">
             <h6 className="text-[#4B4B4B] text-[16px] font-medium font-gilroy mb-2">
               From
             </h6>
 
             <div className="flex items-center justify-between gap-3 p-2 border-b border-[#ccc]">
               <div className="flex items-center gap-2 flex-1">
-                <div className="rounded-full bg-[#E8EDFF] p-3">
-                  <Bank color="#1E45E1" size="14" />
+                <div
+                  className={`${bankDetails?.fromBank?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+                >
+                  {bankDetails?.fromBank?.accountType === "CASH" ? (
+                    <Wallet color="#038C3D" size="16" />
+                  ) : (
+                    <Bank color="#1E45E1" size="16" />
+                  )}
                 </div>
 
                 <div className="w-full flex justify-between items-center">
@@ -147,22 +160,31 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                       </div>
                     )}
 
+                    {bankDetails?.fromBank?.accountType === "CASH" && (
+                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                        {bankDetails?.fromBank?.cashAccountType}
+                      </div>
+                    )}
+
                     <div className="text-xs text-gray-500 font-gilroy">
-                      {bankDetails?.fromBank?.accountType || ""}
+                      {bankDetails?.fromBank?.accountType.toLowerCase() || ""}{" "}
+                      account
                     </div>
                   </div>
 
                   <div className="text-right font-gilroy">
                     <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                      {bankDetails?.fromBank?.accountHolderName}
+                      {bankDetails?.fromBank?.displayName}
                     </div>
 
-                    <div className="text-xs font-normal mb-0.5">
-                      {bankDetails?.fromBank?.accountNumber || "-"}
-                    </div>
+                    {bankDetails?.fromBank?.accountNumber && (
+                      <div className="text-xs font-normal font-gilroy mb-0.5">
+                        {bankDetails?.fromBank?.accountNumber || "-"}
+                      </div>
+                    )}
 
                     <div className="text-xs font-semibold text-[#1E45E1]">
-                      Avl Bal : ₹ {bankDetails?.fromBank?.accountBalance || 0}
+                      Avl Bal : ₹ {bankDetails?.fromBank?.balance || 0}
                     </div>
                   </div>
                 </div>
@@ -170,67 +192,91 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
             </div>
           </div>
 
-          <div className="mb-3   pe-2 overflow-y-auto  show-scrolls">
+          <div className="my-3   pe-2 overflow-y-auto  show-scrolls">
             <h6 className="text-[#4B4B4B] text-base font-medium font-gilroy mb-2">
               To
             </h6>
 
-            {bankDetails?.toBanks?.map((bank) => (
-              <div
-                key={bank.bankId}
-                onClick={() => handleSelect(bank.bankId)}
-                className={`flex items-center gap-2 mb-3 p-3 rounded-lg transition-all duration-200 cursor-pointer
+            {bankDetails?.toBanks?.length > 0 ? (
+              bankDetails?.toBanks?.map((bank) => (
+                <div
+                  key={bank.bankId}
+                  onClick={() => handleSelect(bank.bankId)}
+                  className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
       ${
         selectedBank === bank.bankId
           ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
           : "bg-[#F7FAFF] border-1  border-transparent"
       }`}
-              >
-                <div>
-                  <Bank color="#1E45E1" size="20" />
-                </div>
-
-                <div className="w-full flex justify-between items-center">
-                  <div>
-                    <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                      {bank.bankName}
-                    </div>
-
-                    <div className="text-xs text-gray-500 font-gilroy">
-                      {bank.accountType}
-                    </div>
-                  </div>
-
-                  <div className="text-right font-gilroy">
-                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                      {bank.accountHolderName}
-                    </div>
-
-                    <div className="text-xs font-normal font-gilroy mb-0.5">
-                      {bank.accountNumber}
-                    </div>
-
-                    {bank.accountBalance && (
-                      <div className="text-xs font-semibold text-[#1E45E1]">
-                        Avl Bal : ₹ {bank.accountBalance || 0}
-                      </div>
+                >
+                  <div
+                    className={`${bank.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+                  >
+                    {bank?.accountType === "CASH" ? (
+                      <Wallet color="#038C3D" size="16" />
+                    ) : (
+                      <Bank color="#1E45E1" size="16" />
                     )}
                   </div>
+
+                  <div className="w-full flex justify-between items-center">
+                    <div>
+                      {bank?.bankName && (
+                        <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                          {bank.bankName}
+                        </div>
+                      )}
+
+                      {bank?.accountType === "CASH" && (
+                        <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                          {bank?.cashAccountType}
+                        </div>
+                      )}
+
+                      <div className="text-xs text-gray-500 font-gilroy">
+                        {bank?.accountType.toLowerCase() || ""} account
+                      </div>
+                    </div>
+
+                    <div className="text-right font-gilroy">
+                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                        {bank.displayName}
+                      </div>
+
+                      {bank.accountNumber && (
+                        <div className="text-xs font-normal font-gilroy mb-0.5">
+                          {bank.accountNumber || "-"}
+                        </div>
+                      )}
+
+                      {bank.balance && (
+                        <div className="text-xs font-semibold text-[#1E45E1]">
+                          Avl Bal : ₹ {bank.balance || 0}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <input
+                    type="radio"
+                    name="selectedBank"
+                    className="w-5 h-5 accent-[#1E45E1] cursor-pointer"
+                    checked={selectedBank === bank.bankId}
+                    onChange={() => setSelectedBank(bank.bankId)}
+                  />
                 </div>
-                <input
-                  type="radio"
-                  name="selectedBank"
-                  className="w-5 h-5 accent-[#1E45E1] cursor-pointer"
-                  checked={selectedBank === bankDetails?.fromBank?.bankId}
-                  onChange={() =>
-                    setSelectedBank(bankDetails?.fromBank?.bankId)
-                  }
-                />
+              ))
+            ) : (
+              <div className="flex justify-center ">
+                <label className="text-sm text-red-500 ">
+                  {bankDetails?.fromBank?.accountType === "CASH"
+                    ? " No cash accounts available"
+                    : ""}
+                </label>
               </div>
-            ))}
+            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-gilroy">
             <div>
               <label className="block text-sm font-medium text-[#222222] mb-2">
                 Enter Amount to transfer <span className="text-red-500">*</span>
@@ -246,9 +292,11 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   placeholder="Enter amount"
                   value={amount}
                   onChange={handleChange}
+                  onWheel={(e) => e.target.blur()}
                   className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white pl-8 pr-4 text-sm font-gilroy text-[#222222] placeholder:text-[#B8B8B8] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
                 />
               </div>
+              {error && <ErrorMessage message={error} type="error" />}
             </div>
 
             <div>
@@ -275,7 +323,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div className="my-3">
             <label className="block text-sm font-medium text-[#222222] mb-2">
               Notes
             </label>
@@ -289,7 +337,6 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
             />
           </div>
 
-          {error && <ErrorMessage message={error} type="error" />}
           {state?.bankingDetails?.selfError && (
             <ErrorMessage
               message={state?.bankingDetails?.selfError}
@@ -302,7 +349,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
           <div className="flex justify-end mt-4">
             <button
               onClick={handleTransfer}
-              // disabled={isTransferDisabled}
+              disabled={isTransferDisabled}
               className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
             >
               {loading ? (

@@ -15,6 +15,7 @@ function InvoiceRegisterFilter({
   show,
   handleClose,
   size,
+  page,
   startDate,
   endDate,
 }) {
@@ -352,7 +353,7 @@ function InvoiceRegisterFilter({
       maxPaidAmount: paidAmountMax,
       minOutstandingAmount: outstandingMin,
       maxOutstandingAmount: outstandingMax,
-      page: 1,
+      page: page,
       size: size,
       startDate: period?.value ? undefined : startDate,
       endDate: period?.value ? undefined : endDate,

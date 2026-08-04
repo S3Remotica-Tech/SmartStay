@@ -8,6 +8,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import BookingInvoice from "../Bookings/BookingInvoice";
 import { DndContext, closestCenter } from "@dnd-kit/core";
+import { toast } from "react-toastify";
 import {
   SortableContext,
   useSortable,
@@ -34,6 +35,7 @@ import {
   CloseCircle,
   Document,
   Link21,
+  AddCircle,
 } from "iconsax-react";
 import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
@@ -79,14 +81,9 @@ function Booking() {
   const [advanceDetails, setAdvanceDetails] = useState("");
   const popupRef = useRef(null);
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
-  const {
-    // canWriteModule: canWriteBooking,
-    canReadModule: canReadBooking,
-    // canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteTenant,
-  } = useHasPermission("Booking");
 
-  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Bills");
+  const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
+    useHasPermission("Bills");
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -98,10 +95,10 @@ function Booking() {
   }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
-    if (!canReadBooking) {
+    if (!canReadInvoice) {
       setLoading(false);
     }
-  }, [canReadBooking]);
+  }, [canReadInvoice]);
 
   const sortedData = [];
 
@@ -726,7 +723,22 @@ function Booking() {
   }, [state.Booking?.successBookingCustomizeColumns]);
 
   // console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
+  const handleShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding invoice information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
 
+    navigate(`/add-retainer/${state.login.selectedHostel_Id}`);
+  };
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {
       dispatch({
@@ -736,7 +748,7 @@ function Booking() {
           invoiceId: invoiceId,
         },
       });
-      navigate(`/booking/details/${invoiceId}`, {
+      navigate(`/retainer-invoice/details/${invoiceId}`, {
         state: {
           rowData: invoiceId,
         },
@@ -783,7 +795,7 @@ function Booking() {
     <div className="relative bg-white font-gilroy  mr-2 ">
       <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
         <label className="text-lg text-black font-semibold font-gilroy">
-          Booking
+          Retainer Invoice
         </label>
 
         <div className="flex items-center gap-2">
@@ -802,7 +814,7 @@ function Booking() {
                 <SearchNormal1
                   className={`h-5 w-5 transition-opacity duration-300 text-gray-500
               ${
-                canReadBooking
+                canReadInvoice
                   ? "cursor-pointer opacity-100"
                   : "cursor-not-allowed opacity-40 pointer-events-none"
               }`}
@@ -810,9 +822,20 @@ function Booking() {
               </span>
             </div>
           </div>
+          <div>
+            <button
+              disabled={!canUpdateInvoice}
+              onClick={handleShow}
+              className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
+                       rounded-md px-4 py-2  whitespace-nowrap font-gilroy
+                       disabled:opacity-50 disabled:cursor-not-allowed  flex items-center gap-2"
+            >
+              <AddCircle color="#FFFFFF" size="16" /> Retainer
+            </button>
+          </div>
         </div>
       </div>
-      {!canReadBooking ? (
+      {!canReadInvoice ? (
         <PermissionDeniedMessage />
       ) : (
         <>
@@ -824,7 +847,7 @@ function Booking() {
                 isDisabled={isComingSoon}
                 options={selectOptions}
                 styles={CustomStyles}
-                disabled={!canReadBooking}
+                disabled={!canReadInvoice}
                 onChange={(e) => handleStatusFilter(e)}
                 value={statusfilter}
                 aria-label="Select"
@@ -844,10 +867,10 @@ function Booking() {
               />
 
               <button
-                onClick={() => canReadBooking && handleShowFilterBills()}
-                disabled={!canReadBooking}
+                onClick={() => canReadInvoice && handleShowFilterBills()}
+                disabled={!canReadInvoice}
                 className={`border border-slate-300 rounded-full p-2
-            ${canReadBooking ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
+            ${canReadInvoice ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
               >
                 <Filter size={18} />
               </button>

@@ -626,15 +626,31 @@ function InvoiceRegister() {
     setLoading(true);
   }, [state.login?.selectedHostel_Id, size, page]);
 
+  console.log("Render", page);
+
+  useEffect(() => {
+    console.log("Mounted");
+  }, []);
+
+  useEffect(() => {
+    console.log("Page effect", page);
+  }, [page]);
+
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
 
   const totalPages = state?.reports?.getInvoiceRegister?.totalPages ?? 1;
 
   const totalRecords = state?.reports?.getInvoiceRegister?.totalInvoices ?? 0;
 
-  const handlePageChange = (page) => {
-    console.log("pagepagepagepage", page);
-    setPage(page);
+  const handlePageChange = (newPage) => {
+    console.log("Current:", page, "New:", newPage);
+
+    if (page === newPage) {
+      console.log("Same page, no state update");
+      return;
+    }
+
+    setPage(newPage);
   };
 
   const handleSizeChange = (sizeValue) => {

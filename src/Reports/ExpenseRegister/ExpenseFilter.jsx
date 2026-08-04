@@ -110,7 +110,7 @@ const selectStyles = {
     display: "none",
   }),
 };
-function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
+function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [period, setPeriod] = useState(null);
@@ -271,7 +271,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
       period: period ? period : "",
       createdByLabels: selectedCollectedBylabels,
 
-      page: 1,
+      page: page,
       size: size,
       startDate: period ? undefined : startDate,
       endDate: period ? undefined : endDate,

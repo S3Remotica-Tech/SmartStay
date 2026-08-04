@@ -9,36 +9,13 @@ import {
   ArrowDown2,
   Add,
   ArrowSwapVertical,
+  Wallet,
 } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingChart from "./BankingChart";
 import BankingLinkMethod from "./BankingLinkMethod";
 import BankingLedger from "./BankingLedger";
 import { useDispatch, useSelector } from "react-redux";
-
-const summaryCards = [
-  {
-    title: "Current Balance",
-    amount: "₹ 97,500.23",
-    icon: ArrowUp2,
-  },
-  {
-    title: "Opening Balance",
-    amount: "₹ 32,321.00",
-  },
-  {
-    title: "Inflow (Income)",
-    amount: "₹ 22,321.30",
-  },
-  {
-    title: "Out flow (Expense)",
-    amount: "₹ 12,321.00",
-  },
-  {
-    title: "Transfers",
-    amount: "₹ 16,500.00",
-  },
-];
 
 function BankingOverview({ show, onClose }) {
   if (!show) return null;
@@ -47,11 +24,14 @@ function BankingOverview({ show, onClose }) {
   const dispatch = useDispatch();
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
+  const [showMenu, setShowMenu] = useState(false);
+  const [period, setPeriod] = useState("THIS_MONTH");
+  const menuRef = useRef(null);
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
   const isBankAccount = OverviewDetails?.accountType === "BANK";
 
-  console.log("OverviewBankDetails", OverviewDetails);
+  // console.log("OverviewBankDetails", OverviewDetails);
 
   const tabs = isBankAccount
     ? [
@@ -77,10 +57,32 @@ function BankingOverview({ show, onClose }) {
     "Investment",
   ];
 
+  const periodOptions =
+    state?.bankingDetails?.getBankingOverviewList?.filterOptions?.dateFilter?.map(
+      (item) => ({
+        label: item.name,
+        value: item.type,
+      }),
+    ) || [];
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowTransactionMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
       }
     };
 
@@ -100,8 +102,17 @@ function BankingOverview({ show, onClose }) {
           bankId: OverviewDetails?.bankId,
         },
       });
+    } else if (activeTab === "overview") {
+      dispatch({
+        type: "GET_BANKING_OVERVIEW_SAGA",
+        payload: {
+          hostelId: OverviewDetails?.hostelId,
+          bankId: OverviewDetails?.bankId,
+          dateFilter: period,
+        },
+      });
     }
-  }, [activeTab]);
+  }, [activeTab, period]);
 
   useEffect(() => {
     if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {
@@ -124,17 +135,24 @@ function BankingOverview({ show, onClose }) {
         }`}
         // onClick={onClose}
       />
-      <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
+      <div className="fixed top-2 right-2 bottom-2 w-full max-w-6xl bg-white z-50 rounded-md flex flex-col">
         <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0] shrink-0">
           <div className="flex items-center gap-4">
-            <div className="w-[50px] h-[50px] rounded-2xl bg-[#EEF2FF] flex items-center justify-center">
-              <Bank size="18" color="#1E45E1" variant="Bold" />
+            <div
+              className={`${OverviewDetails?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+            >
+              {OverviewDetails?.accountType === "CASH" ? (
+                <Wallet color="#038C3D" size="16" />
+              ) : (
+                <Bank color="#1E45E1" size="16" />
+              )}
             </div>
 
             <div>
               <div className="text-[18px] font-semibold text-[#222222]">
-                {OverviewDetails?.bankName} -{" "}
-                {OverviewDetails?.accountHolderName}
+                {OverviewDetails?.accountType === "BANK"
+                  ? `${OverviewDetails?.bankName}`
+                  : `${OverviewDetails?.cashAccountType}`}
               </div>
 
               <div className="flex items-center gap-3 mt-1">
@@ -142,12 +160,14 @@ function BankingOverview({ show, onClose }) {
                   {OverviewDetails?.accountType?.toLowerCase()} Account
                 </div>
 
-                <div className="flex items-center gap-1">
-                  <Location size="16" color="#8F5C09" variant="Bold" />
-                  <div className="text-[#8F5C09] text-[14px]">
-                    {OverviewDetails?.branchName}
+                {OverviewDetails?.accountType === "BANK" && (
+                  <div className="flex items-center gap-1">
+                    <Location size="16" color="#8F5C09" variant="Bold" />
+                    <div className="text-[#8F5C09] text-[14px]">
+                      {OverviewDetails?.branchName}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -189,6 +209,7 @@ function BankingOverview({ show, onClose }) {
                 </div>
               )}
             </div>
+
             <button
               className="flex items-center  gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF] 
                                text-[#1E45E1] !font-semibold rounded-[8px] px-3 py-2   whitespace-nowrap"
@@ -233,51 +254,50 @@ function BankingOverview({ show, onClose }) {
               </button>
             ))}
           </div>
-
-          <button className="h-[40px] px-4 rounded-lg bg-[#F9FAFB] flex items-center gap-2 text-[14px]">
-            <Calendar size="18" />
-            <div>This Month</div>
-            <ArrowDown2 size="14" />
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto show-scrolls">
           {activeTab === "overview" && (
-            <div className="flex gap-8 px-6 py-6">
-              {summaryCards.map((item, index) => {
-                const Icon = item.icon;
+            <div className="relative inline-block" ref={menuRef}>
+              <button
+                onClick={() => setShowMenu(!showMenu)}
+                className="flex items-center justify-between 
+               gap-2 min-w-[220px] px-4 py-2 border border-gray-300 rounded-md bg-white text-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <Calendar size={18} color="#1E45E1" />
+                  <span>
+                    {periodOptions.find((p) => p.value === period)?.label ||
+                      "Select Period"}
+                  </span>
+                </div>
 
-                return (
-                  <div
-                    key={index}
-                    className={`flex items-center gap-6 px-6 ${
-                      index !== summaryCards.length - 1 ? "border-r" : ""
-                    }`}
-                  >
-                    {Icon && (
-                      <div className="w-11 h-11 rounded-full bg-[#FBF7FF] flex items-center justify-center">
-                        <ArrowUp
-                          size="18"
-                          color="#7840A9"
-                          className="rotate-45"
-                        />
-                      </div>
-                    )}
+                <ArrowDown2
+                  size={16}
+                  color="#6B7280"
+                  className={`transition-transform ${
+                    showMenu ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
 
-                    <div>
-                      <div className="text-[12px] text-[#4A5565] font-medium">
-                        {item.title}
-                      </div>
-
-                      <div className="text-[18px] font-semibold text-[#101828]">
-                        {item.amount}
-                      </div>
+              {showMenu && (
+                <div className="absolute left-0 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-lg z-10">
+                  {periodOptions.map((item) => (
+                    <div
+                      key={item.value}
+                      onClick={() => {
+                        setPeriod(item.value);
+                        setShowMenu(false);
+                      }}
+                      className="cursor-pointer px-4 py-2 hover:bg-[#F3F6FF]"
+                    >
+                      {item.label}
                     </div>
-                  </div>
-                );
-              })}
+                  ))}
+                </div>
+              )}
             </div>
           )}
-
+        </div>
+        <div className="flex-1 overflow-y-auto show-scrolls">
           {activeTab === "overview" && <BankingChart />}
 
           {activeTab === "linkedMethods" && isBankAccount && (
