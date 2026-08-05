@@ -581,6 +581,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
   useEffect(() => {
+    if (state?.Booking?.applyRetainerSuccessCode === 201) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: InvoiceId,
+        },
+      });
+      dispatch({
+        type: "ALL_BILLS_LIST_SAGA",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+
+      dispatch({ type: "REMOVE_APPLY_RETAINER_REDUCER" });
+    }
+  }, [state?.Booking?.applyRetainerSuccessCode]);
+
+  useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",

@@ -1309,61 +1309,65 @@ function BankingNew() {
                                   ref={popupRef}
                                   className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
                                 >
-                                  <button
-                                    disabled={
-                                      !(canWriteBanking && !item.isDeleted)
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleOpenSelfTransfer(item);
-                                    }}
-                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
+                                  {!item?.paymentMethod && (
+                                    <>
+                                      <button
+                                        disabled={
+                                          !(canWriteBanking && !item.isDeleted)
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleOpenSelfTransfer(item);
+                                        }}
+                                        className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-blue-100"
-                                  >
-                                    <img
-                                      src={transArrow}
-                                      alt="transArrow"
-                                      className="h-4 w-4"
-                                    />
+                                      >
+                                        <img
+                                          src={transArrow}
+                                          alt="transArrow"
+                                          className="h-4 w-4"
+                                        />
 
-                                    <span className="text-sm font-semibold font-gilroy">
-                                      Self Transfer
-                                    </span>
-                                  </button>
+                                        <span className="text-sm font-semibold font-gilroy">
+                                          Self Transfer
+                                        </span>
+                                      </button>
 
-                                  <div className="h-px bg-gray-200" />
-                                  <button
-                                    disabled={!canWriteBanking}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleInvestment(item.bankId);
-                                    }}
-                                    className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+                                      <div className="h-px bg-gray-200" />
+                                      <button
+                                        disabled={!canWriteBanking}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleInvestment(item.bankId);
+                                        }}
+                                        className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
     ${
       canWriteBanking
         ? "hover:bg-red-50 cursor-pointer"
         : "cursor-not-allowed opacity-50"
     }`}
-                                  >
-                                    <MoneyRecive
-                                      size={16}
-                                      className={
-                                        canWriteBanking
-                                          ? "text-[#1E45E1]"
-                                          : "text-gray-400"
-                                      }
-                                    />
-                                    <span
-                                      className={`text-sm font-semibold font-gilroy ${
-                                        canWriteBanking
-                                          ? "text-black"
-                                          : "text-gray-400"
-                                      }`}
-                                    >
-                                      Investment
-                                    </span>
-                                  </button>
+                                      >
+                                        <MoneyRecive
+                                          size={16}
+                                          className={
+                                            canWriteBanking
+                                              ? "text-[#1E45E1]"
+                                              : "text-gray-400"
+                                          }
+                                        />
+                                        <span
+                                          className={`text-sm font-semibold font-gilroy ${
+                                            canWriteBanking
+                                              ? "text-black"
+                                              : "text-gray-400"
+                                          }`}
+                                        >
+                                          Investment
+                                        </span>
+                                      </button>
+                                    </>
+                                  )}
                                   <div className="h-px bg-gray-200" />
                                   <button
                                     disabled

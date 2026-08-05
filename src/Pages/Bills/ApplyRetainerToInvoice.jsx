@@ -77,6 +77,8 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
     );
   };
 
+  console.log("applyAmountForInvoice", applyAmountForInvoice);
+
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -139,23 +141,25 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
     if (validationError) return;
 
     dispatch({
-      type: "APPLY_INVOICE_SAGA",
+      type: "APPLY_RETAINER_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        // invoiceId: initializeDetails?.advanceInfo?.invoiceId,
         invoiceId: initializeDetails?.currentInvoiceInfo?.invoiceId,
-        listItems: applyAmountForInvoice,
+        appliedAmount: "",
+        redeemedOn: "",
+        comments: "",
+        retainersBreakup: applyAmountForInvoice,
       },
     });
     setFormLoading(true);
   };
 
   useEffect(() => {
-    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+    if (state?.Booking?.applyRetainerSuccessCode === 201) {
       setFormLoading(false);
       handleClose();
     }
-  }, [state?.Booking?.applyinvoiceSuccessCode]);
+  }, [state?.Booking?.applyRetainerSuccessCode]);
 
   useEffect(() => {
     return () => {

@@ -402,7 +402,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                 <input
                   value={investment}
                   onChange={handleInvestmentChange}
-                  type="number"
+                  type="type"
                   placeholder="Enter Investor Name"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     investment ? "font-semibold" : "font-medium"
@@ -446,6 +446,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
+                  maxDate={new Date()}
                   placeholderText="Select Date"
                   className="w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 pr-10 focus:outline-none"
                 />

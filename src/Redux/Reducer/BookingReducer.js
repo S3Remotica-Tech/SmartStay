@@ -28,6 +28,7 @@ export const initialState = {
   applyAdvanceRedeemError: "",
   advanceInitialize: "",
   successBookingCustomizeColumns: 0,
+  applyRetainerSuccessCode: 0,
   bookingFilters: {
     period: [],
     search: "",
@@ -53,6 +54,11 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, applyinvoiceSuccessCode: action.payload.statusCode };
     case "REMOVE_APPLY_INVOICE_REDUCER":
       return { ...state, applyinvoiceSuccessCode: 0 };
+
+    case "APPLY_RETAINER_REDUCER":
+      return { ...state, applyRetainerSuccessCode: action.payload.statusCode };
+    case "REMOVE_APPLY_RETAINER_REDUCER":
+      return { ...state, applyRetainerSuccessCode: 0 };
 
     case "APPLY_ADVANCE_INVOICE_REDUCER":
       return {
