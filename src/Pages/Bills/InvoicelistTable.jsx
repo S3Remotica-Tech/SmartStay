@@ -17,6 +17,7 @@ import DiscountInvoice from "../PDF/DiscountInvoice";
 import { Edit, Link21 } from "iconsax-react";
 import ApplyBookingModal from "../Bookings/ApplyInvoices";
 import ApplyAdvance from "./ApplyAdvance";
+import ApplyRetainerToInvoice from "./ApplyRetainerToInvoice";
 
 const InvoiceTable = (props) => {
   const { item, selectedRows, handleRowSelect } = props;
@@ -27,9 +28,11 @@ const InvoiceTable = (props) => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyAdvance, setApplyAdvance] = useState(false);
+  const [applyRetainer, setApplyRetainer] = useState(false);
   const [WriteoffForm, setWriteOffForm] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [refundDetails, setRefundDetails] = useState("");
+  const [applyRetainerDetails, setApplyRetainerDetails] = useState("");
   const popupRef = useRef(null);
   const [navigation, setNavigation] = useState(false);
   const [showUnpaidModal, setShowUnpaidModal] = useState(false);
@@ -231,6 +234,16 @@ const InvoiceTable = (props) => {
 
   const handleCloseBookingApplyRedeem = (item) => {
     setApplyAdvance(false);
+  };
+
+  const handleAdjustWithRetainer = (item) => {
+    setApplyRetainer(true);
+    setShowDots(false);
+    setApplyRetainerDetails(item);
+  };
+
+  const handleCloseAdjustWithRetainer = () => {
+    setApplyRetainer(false);
   };
 
   const handleUnpaid = (item) => {
@@ -599,7 +612,7 @@ const InvoiceTable = (props) => {
                     </button>
                   ) : (
                     <>
-                      <button
+                      {/* <button
                         disabled={
                           !canUpdateInvoice || !props.item?.canApplyFromAdvance
                         }
@@ -635,15 +648,15 @@ const InvoiceTable = (props) => {
                         >
                           Adjust with Advance
                         </span>
-                      </button>
+                      </button> */}
 
-                      {/* <button
+                      <button
                         disabled={
                           !canUpdateInvoice || !props.item?.canApplyFromAdvance
                         }
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleApplyInvoices(props.item);
+                          handleAdjustWithRetainer(props.item);
                         }}
                         className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
     ${
@@ -673,7 +686,7 @@ const InvoiceTable = (props) => {
                         >
                           Adjust with Retainer
                         </span>
-                      </button> */}
+                      </button>
                     </>
                   )}
 
@@ -836,6 +849,14 @@ const InvoiceTable = (props) => {
           )}
         </td>
       </tr>
+
+      {applyRetainer && (
+        <ApplyRetainerToInvoice
+          show={applyRetainer}
+          handleClose={handleCloseAdjustWithRetainer}
+          retainerDetails={applyRetainerDetails}
+        />
+      )}
 
       {showDiscountInvoice && (
         <DiscountInvoice

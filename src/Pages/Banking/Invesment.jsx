@@ -345,20 +345,23 @@ function Invesment({ show, handleClose, bankDetails }) {
             : null,
           amount: Number(amount),
           transactionId: transactionId,
+          investorName: investment,
         },
       });
       setLoading(true);
     }
   };
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-  //       payload: { hostelId: state.login.selectedHostel_Id },
-  //     });
-  //   }
-  // }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (state?.bankingDetails?.addMoneySuccess === 200) {

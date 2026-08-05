@@ -367,6 +367,19 @@ function BankingNew() {
   ]);
 
   useEffect(() => {
+    if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {
+      dispatch({
+        type: "GET_ALL_TRANSACTION_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: pageTransaction,
+          size: sizeTransaction,
+        },
+      });
+    }
+  }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       // dispatch({
       //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
@@ -433,11 +446,11 @@ function BankingNew() {
     state.bankingDetails?.bankingList?.listBanks,
   ]);
 
-  const handleShowDots = (bankingId) => {
-    if (openMenuId === bankingId) {
+  const handleShowDots = (bankingId, index) => {
+    if (openMenuId === index) {
       setOpenMenuId(null);
     } else {
-      setOpenMenuId(bankingId);
+      setOpenMenuId(index);
     }
   };
 
@@ -1228,7 +1241,7 @@ function BankingNew() {
     scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 show-scrolls"
                 >
                   {banking && banking.length > 0 ? (
-                    banking.map((item) => {
+                    banking.map((item, index) => {
                       return (
                         <div
                           onClick={(e) => {
@@ -1260,13 +1273,18 @@ function BankingNew() {
                                 </div>
                                 <div>
                                   <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222]">
-                                    {item?.accountType === "CASH"
-                                      ? item?.cashAccountType
-                                      : item?.bankName}
+                                    {item?.paymentMethod
+                                      ? `${item.displayName} - ${item.paymentMethod}`
+                                      : item?.accountType === "CASH"
+                                        ? item?.cashAccountType
+                                        : item?.bankName}
                                   </p>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
-                                    {item?.accountType.toLowerCase()} Account
+                                    {item?.paymentMethod ||
+                                      (item?.accountType
+                                        ? `${item.accountType.toLowerCase()} Account`
+                                        : "")}
                                   </p>
                                 </div>
                               </div>
@@ -1279,14 +1297,14 @@ function BankingNew() {
                                 onClick={(e) => {
                                   if (!item.isDeleted) {
                                     e.stopPropagation();
-                                    handleShowDots(item.bankId);
+                                    handleShowDots(item.bankId, index);
                                   }
                                 }}
                               >
                                 <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                               </div>
 
-                              {openMenuId === item.bankId && (
+                              {openMenuId === index && (
                                 <div
                                   ref={popupRef}
                                   className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
@@ -1493,43 +1511,46 @@ function BankingNew() {
                                 )}
                               </div>
                             </div>
-                            {/* <div className="flex justify-end my-1">
-                                <span
-                                  className={`text-xs font-semibold font-gilroy ${
-                                    canWriteBanking && !item.isDeleted
-                                      ? "text-blue-600 cursor-pointer"
-                                      : "text-gray-400 cursor-not-allowed"
-                                  }`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (canWriteBanking && !item.isDeleted) {
-                                      handleShowAddBalance(item);
-                                    }
-                                  }}
-                                >
-                                  + Add Amount
-                                </span>
-                              </div> */}
 
                             <div className="flex justify-between my-3 gap-2">
-                              {item.accountType === "BANK" && (
-                                <>
-                                  <div
-                                    className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                              {item.paymentMethod && (
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
-                                  >
-                                    <Location size="12" color="#8F5C09" />{" "}
-                                    {item?.branchName}
-                                  </div>
-
-                                  <div
-                                    className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
-                               text-[#1E45E1] border-1 border-[#9EB1FF2B] text-[11px] rounded-md"
-                                  >
-                                    UPI :
-                                  </div>
-                                </>
+                                >
+                                  <Bank size="16" /> {item?.bankName}
+                                </div>
                               )}
+
+                              {item.paymentMethod && (
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#F1F1FF]
+                               text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
+                                >
+                                  **** **** ****{item?.cardNumber}
+                                </div>
+                              )}
+
+                              {item.accountType === "BANK" &&
+                                !item.paymentMethod && (
+                                  <>
+                                    <div
+                                      className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                               text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
+                                    >
+                                      <Location size="12" color="#8F5C09" />{" "}
+                                      {item?.branchName}
+                                    </div>
+                                    {item?.upiId && (
+                                      <div
+                                        className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
+                               text-[#1E45E1] border-1 border-[#9EB1FF2B] text-[11px] rounded-md"
+                                      >
+                                        UPI : {item?.upiId}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
 
                               {item.accountType === "CASH" && (
                                 <div

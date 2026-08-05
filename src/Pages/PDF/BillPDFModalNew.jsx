@@ -1040,7 +1040,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
                         {!isAdvanceInvoice ? (
                           <>
-                            <button
+                            {/* <button
                               onClick={(e) => {
                                 if (
                                   !canUpdateInvoice ||
@@ -1064,7 +1064,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   `}
                             >
                               Adjust with Advance
-                            </button>
+                            </button> */}
 
                             <button
                               onClick={(e) => {
