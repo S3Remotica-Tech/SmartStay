@@ -400,7 +400,7 @@ const InvoiceCard = ({ rowData }) => {
                       className="text-[17px] font-semibold font-gilroy"
                       style={textStyle}
                     >
-                      Booking Invoice
+                      Retainer Invoice
                     </h5>
                   </div>
                   <div

@@ -57,6 +57,14 @@ function SettingManage() {
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 
+  const RoleAccess =
+    state.createAccount?.accountList?.roleId === 1 ||
+    state.createAccount?.accountList?.roleId === 2;
+
+  console.log("RoleAccess", RoleAccess);
+
+  const isEnable = canWritePayingGuests && RoleAccess;
+
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
@@ -587,10 +595,10 @@ function SettingManage() {
             <div className="w-full flex justify-center md:justify-end mt-0 md:mt-0">
               <button
                 onClick={handleShowAddPg}
-                disabled={!canWritePayingGuests}
+                disabled={!isEnable}
                 className={`mt-[5px] h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy
             ${
-              canWritePayingGuests
+              isEnable
                 ? "bg-[#1E45E1] text-white cursor-pointer"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}

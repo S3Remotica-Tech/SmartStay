@@ -126,6 +126,12 @@ export async function advanceRedeemInitialize(hostel) {
   );
 }
 
+export async function getRetainerInvoice(hostel) {
+  return await AxiosConfigV2.get(
+    `/v2/retainer/get/${hostel.hostelId}/${hostel.invoiceId}`,
+  );
+}
+
 export async function ApplyAdvanceInvoice(advance) {
   return await AxiosConfigV2.get(
     `/v2/bills/advances/${advance.hostelId}/${advance.invoiceId}`,

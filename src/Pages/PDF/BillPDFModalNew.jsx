@@ -39,6 +39,7 @@ import FinalSettlementInvoicePDF from "./FinalSettlementInvoicePDF";
 import RentInvoicePDF from "./RentInvoicePDF";
 import AdvanceInvoicePDF from "./AdvanceInvoicePDF";
 import FinalSettlementOldPDF from "./FinalSettlementOldPDF";
+import ApplyRetainerToInvoice from "../Bills/ApplyRetainerToInvoice";
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const state = useSelector((state) => state);
@@ -86,6 +87,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [applyRetainer, setApplyRetainer] = useState(false);
   const [label, setLabel] = useState("");
   const [bookingModal, setBookingModal] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
@@ -140,6 +142,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
+  };
+
+  //  adjust with retainer
+
+  const handleAdjustWithRetainer = () => {
+    setApplyRetainer(true);
+  };
+
+  const handleCloseAdjustWithRetainer = () => {
+    setApplyRetainer(false);
   };
 
   const handleBookingApplyRedeem = (item) => {
@@ -439,8 +451,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   // const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
+  // adjust with advance
   const isAdvanceRedeemAvailable =
     pdfDetails?.invoiceInfo?.isAvanceAvailableForRedeem;
+
+  // apply to invoice
 
   const isApplyInvoiceRedeemAvailable =
     pdfDetails?.invoiceInfo?.canApplyToOtherInvoice;
@@ -455,7 +470,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const ShowMakeDiscount =
     isPayableTenant &&
     isPending &&
-    ( isRentInvoice || isSettlement) &&
+    (isRentInvoice || isSettlement) &&
     isNotDiscounted;
 
   // console.log("isPayableTenant", isPayableTenant);
@@ -1024,21 +1039,22 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         </button>
 
                         {!isAdvanceInvoice ? (
-                          <button
-                            onClick={(e) => {
-                              if (
-                                !canUpdateInvoice ||
-                                !isAdvanceRedeemAvailable
-                              )
-                                return;
+                          <>
+                            <button
+                              onClick={(e) => {
+                                if (
+                                  !canUpdateInvoice ||
+                                  !isAdvanceRedeemAvailable
+                                )
+                                  return;
 
-                              e.stopPropagation();
-                              handleApplyInvoices("Advance");
-                            }}
-                            disabled={
-                              !canUpdateInvoice || !isAdvanceRedeemAvailable
-                            }
-                            className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+                                e.stopPropagation();
+                                handleApplyInvoices("Advance");
+                              }}
+                              disabled={
+                                !canUpdateInvoice || !isAdvanceRedeemAvailable
+                              }
+                              className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
     whitespace-nowrap rounded-md transition-all duration-150
     ${
       !canUpdateInvoice || !isAdvanceRedeemAvailable
@@ -1046,9 +1062,36 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
     }
   `}
-                          >
-                            Adjust with Advance
-                          </button>
+                            >
+                              Adjust with Advance
+                            </button>
+
+                            <button
+                              onClick={(e) => {
+                                if (
+                                  !canUpdateInvoice ||
+                                  !isAdvanceRedeemAvailable
+                                )
+                                  return;
+
+                                e.stopPropagation();
+                                handleAdjustWithRetainer("Retainer");
+                              }}
+                              disabled={
+                                !canUpdateInvoice || !isAdvanceRedeemAvailable
+                              }
+                              className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+    whitespace-nowrap rounded-md transition-all duration-150
+    ${
+      !canUpdateInvoice || !isAdvanceRedeemAvailable
+        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+    }
+  `}
+                            >
+                              Adjust with Retainer
+                            </button>
+                          </>
                         ) : (
                           <button
                             onClick={(e) => {
@@ -1397,6 +1440,14 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           handleClose={handleCloseBookingModal}
           advanceDetails={advanceDetails}
           label={label}
+        />
+      )}
+
+      {applyRetainer && (
+        <ApplyRetainerToInvoice
+          show={applyRetainer}
+          handleClose={handleCloseAdjustWithRetainer}
+          retainerDetails={pdfDetails}
         />
       )}
 

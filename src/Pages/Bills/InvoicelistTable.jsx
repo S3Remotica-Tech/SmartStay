@@ -243,8 +243,6 @@ const InvoiceTable = (props) => {
     setDiscountDetails(item);
     setShowDiscountInvoice(true);
     setShowDots(false);
-
-   
   };
   const handleCloseFormDiscount = () => {
     setShowDiscountInvoice(false);
@@ -600,41 +598,83 @@ const InvoiceTable = (props) => {
                       </span>
                     </button>
                   ) : (
-                    <button
-                      disabled={
-                        !canUpdateInvoice || !props.item?.canApplyFromAdvance
-                      }
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleApplyInvoices(props.item);
-                      }}
-                      className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                    <>
+                      <button
+                        disabled={
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyInvoices(props.item);
+                        }}
+                        className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
     ${
       !canUpdateInvoice || !props.item?.canApplyFromAdvance
         ? "cursor-not-allowed opacity-50 bg-gray-100"
         : "cursor-pointer hover:bg-[#EDF2FF]"
     }`}
-                    >
-                      <Link21
-                        className="flex-shrink-0"
-                        color={
-                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
-                            ? "#A9A9A9"
-                            : "#1E45E1"
-                        }
-                        size="16"
-                      />
-
-                      <span
-                        className={`text-sm font-medium ${
-                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
-                            ? "text-[#A9A9A9]"
-                            : "text-[#222222]"
-                        }`}
                       >
-                        Adjust with Advance
-                      </span>
-                    </button>
+                        <Link21
+                          className="flex-shrink-0"
+                          color={
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "#A9A9A9"
+                              : "#1E45E1"
+                          }
+                          size="16"
+                        />
+
+                        <span
+                          className={`text-sm font-medium ${
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "text-[#A9A9A9]"
+                              : "text-[#222222]"
+                          }`}
+                        >
+                          Adjust with Advance
+                        </span>
+                      </button>
+
+                      {/* <button
+                        disabled={
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyInvoices(props.item);
+                        }}
+                        className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !props.item?.canApplyFromAdvance
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                      >
+                        <Link21
+                          className="flex-shrink-0"
+                          color={
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "#A9A9A9"
+                              : "#1E45E1"
+                          }
+                          size="16"
+                        />
+
+                        <span
+                          className={`text-sm font-medium ${
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "text-[#A9A9A9]"
+                              : "text-[#222222]"
+                          }`}
+                        >
+                          Adjust with Retainer
+                        </span>
+                      </button> */}
+                    </>
                   )}
 
                   {/* <button

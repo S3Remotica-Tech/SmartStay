@@ -10,6 +10,7 @@ import {
   advanceRedeemInitialize,
   ApplyAdvanceInvoice,
   bookingCustomizeData,
+  getRetainerInvoice,
 } from "../Action/BookingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,6 +43,21 @@ function* handleAdvanceRedeemInitialize(action) {
     if (response?.status === 200) {
       yield put({
         type: "REDEEM_ADVANCE_INITIALIZE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetRetainerInvoice(action) {
+  try {
+    const response = yield call(getRetainerInvoice, action.payload);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_RETAINER_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
     }
@@ -454,6 +470,7 @@ function refreshToken(response) {
 }
 
 function* CreateBookinSaga() {
+  yield takeEvery("GET_RETAINER_INVOICE_SAGA", handleGetRetainerInvoice);
   yield takeEvery(
     "REDEEM_ADVANCE_INITIALIZE_SAGA",
     handleAdvanceRedeemInitialize,

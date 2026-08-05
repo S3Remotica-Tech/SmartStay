@@ -91,7 +91,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  console.log("state", state.bankingDetails?.selfTransferInitialize);
+  // console.log("state", state.bankingDetails?.selfTransferInitialize);
 
   const bankDetails = state.bankingDetails?.selfTransferInitialize;
 
