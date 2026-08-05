@@ -364,6 +364,7 @@ function AddRetainerInvoice() {
 
   const [customername, setCustomerName] = useState("");
   const [guardianName, setGuardianName] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [invoiceDate, setInvoiceDate] = useState(null);
   const [referenceNumber, setReferenceNumber] = useState("");
   const [receivedAccount, setReceivedAccount] = useState(null);
@@ -384,6 +385,9 @@ function AddRetainerInvoice() {
   // const handleSearch = () => {
   //   if (!state.login.selectedHostel_Id || search.trim() === "") return;
   // };
+
+  console.log("guardianName", guardianName);
+  console.log("inputValue", inputValue);
 
   const handleClose = () => {
     navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
@@ -423,6 +427,7 @@ function AddRetainerInvoice() {
     } else {
       setCustomerErrmsg("");
     }
+    setGuardianName("");
   };
 
   const selectedCustomer = state.UsersList?.CustomerList?.customersLists?.find(
@@ -566,19 +571,39 @@ function AddRetainerInvoice() {
     });
     if (!validateForm()) return;
 
+    // const payload = {
+    //   hostelId: state.login.selectedHostel_Id,
+    //   customerId: customername,
+    //   relationId: guardianName,
+    //   paymentDate: invoiceDate ? dayjs(invoiceDate).format("DD-MM-YYYY") : null,
+    //   relationName: inputValue,
+    //   invoiceType: expenseItem.retainertype?.value,
+    //   amount: Number(expenseItem.amount || 0),
+    //   bankId: paymentMethod?.value,
+    //   referenceNumber: transactionId,
+    //   // description: expenseItem.itemName,
+    //   //          notes: description,
+    // };
+
     const payload = {
       hostelId: state.login.selectedHostel_Id,
       customerId: customername,
-      relationId: guardianName,
       paymentDate: invoiceDate ? dayjs(invoiceDate).format("DD-MM-YYYY") : null,
-      relationName: selectedGuardian?.relationShip,
       invoiceType: expenseItem.retainertype?.value,
       amount: Number(expenseItem.amount || 0),
       bankId: paymentMethod?.value,
       referenceNumber: transactionId,
-      // description: expenseItem.itemName,
-      //          notes: description,
     };
+
+    const isExisting = GuardianOptions.some(
+      (opt) => opt.value === guardianName,
+    );
+
+    if (isExisting) {
+      payload.relationId = guardianName;
+    } else {
+      payload.relationName = guardianName;
+    }
 
     dispatch({
       type: "CREATE_RETAINER_SAGA",
@@ -647,8 +672,9 @@ function AddRetainerInvoice() {
       setCustomerErrmsg("Please Select Tenant");
       setFirstError(customerRef);
     }
+    const receivedFrom = guardianName || inputValue.trim();
 
-    if (!guardianName) {
+    if (!receivedFrom) {
       setGuardianErrmsg("Please Select Received From");
       setFirstError(guardianRef);
     }
@@ -840,22 +866,35 @@ function AddRetainerInvoice() {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
 
-              {/* <Select
+              {/* <CreatableSelect
                 isDisabled={!selectedCustomer}
                 ref={guardianRef}
                 placeholder="Enter / Select Respective Person"
                 classNamePrefix="custom"
                 styles={CustomStylesCode}
                 options={GuardianOptions}
-                onChange={handleGuardianName}
                 value={
                   GuardianOptions.find((opt) => opt.value === guardianName) ||
                   null
                 }
-                components={{
-                  NoOptionsMessage: CustomNoOptionsMessage,
+                inputValue={inputValue}
+                onInputChange={(value, { action }) => {
+                  if (action === "input-change") {
+                    setInputValue(value);
+                    setGuardianName("");
+                  }
                 }}
+                onChange={(option) => {
+                  setGuardianName(option?.value || "");
+                  setInputValue("");
+                }}
+                // onCreateOption={(value) => {
+                //   setInputValue(value);
+                //   setGuardianName("");
+                // }}
+                formatCreateLabel={(inputValue) => `+ Add "${inputValue}"`}
               /> */}
+
               <CreatableSelect
                 isDisabled={!selectedCustomer}
                 ref={guardianRef}
@@ -865,24 +904,29 @@ function AddRetainerInvoice() {
                 options={GuardianOptions}
                 value={
                   GuardianOptions.find((opt) => opt.value === guardianName) ||
-                  null
+                  (guardianName
+                    ? { label: guardianName, value: guardianName }
+                    : null)
                 }
-                onChange={handleGuardianName}
-                onCreateOption={(inputValue) => {
-                  dispatch({
-                    type: "CUSTOMERADDCONTACT",
-                    payload: {
-                      hostelId: state.login.selectedHostel_Id,
-                      customerId: selectedCustomer?.customerId,
-                      fullName: inputValue,
-                    },
-                  });
+                inputValue={inputValue}
+                onInputChange={(value, { action }) => {
+                  if (action === "input-change") {
+                    setInputValue(value);
+                    setGuardianName(value);
+                  }
                 }}
-                formatCreateLabel={(inputValue) => `+ Add "${inputValue}"`}
-                components={{
-                  NoOptionsMessage: CustomNoOptionsMessage,
+                onChange={(option) => {
+                  setGuardianName(option?.value || "");
+                  setInputValue("");
                 }}
+                onCreateOption={(value) => {
+                  // User clicked + Add "value"
+                  setInputValue("");
+                  setGuardianName(value);
+                }}
+                // formatCreateLabel={(inputValue) => `+ Add "${inputValue}"`}
               />
+
               {guardianErrmsg && (
                 <ErrorMessage message={guardianErrmsg} type="error" />
               )}

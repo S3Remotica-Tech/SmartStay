@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Bank, CloseCircle } from "iconsax-react";
+import { Add, Bank, Card, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
@@ -17,7 +17,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
 
-  // const [selectedBankId, setSelectedBankId] = useState(null);
+  const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
     setError("");
@@ -28,10 +28,12 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
   };
 
+  console.log("selectedBankId", selectedBankId);
+
   const handleTransfer = () => {
     setError("");
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
-    if (!selectedBank) {
+    if (!selectedBankId) {
       setError("Please select a destination account");
       return;
     }
@@ -53,7 +55,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
       payload: {
         hostelId: state.login?.selectedHostel_Id,
         fromBankId: bankDetails?.fromBank?.bankId,
-        toBankId: selectedBank,
+        toBankId: selectedBankId,
         amount: Number(amount),
       },
     });
@@ -106,8 +108,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const isTransferDisabled =
     loading || !selectedBank || Number(amount) > availableBalance;
 
-  const handleSelect = (item) => {
-    setSelectedBank(item);
+  const handleSelect = (bankId, index) => {
+    setSelectedBank(index);
+    setSelectedBankId(bankId);
   };
 
   useEffect(() => {
@@ -198,21 +201,23 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
             </h6>
 
             {bankDetails?.toBanks?.length > 0 ? (
-              bankDetails?.toBanks?.map((bank) => (
+              bankDetails?.toBanks?.map((bank, index) => (
                 <div
-                  key={bank.bankId}
-                  onClick={() => handleSelect(bank.bankId)}
+                  key={bank.index}
+                  onClick={() => handleSelect(bank.bankId, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
       ${
-        selectedBank === bank.bankId
+        selectedBank === index
           ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
           : "bg-[#F7FAFF] border-1  border-transparent"
       }`}
                 >
                   <div
-                    className={`${bank.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+                    className={`${bank?.paymentMethod ? "bg-[#FFF7F0]" : bank.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
                   >
-                    {bank?.accountType === "CASH" ? (
+                    {bank?.paymentMethod ? (
+                      <Card color="#F97316" size="16" />
+                    ) : bank?.accountType === "CASH" ? (
                       <Wallet color="#038C3D" size="16" />
                     ) : (
                       <Bank color="#1E45E1" size="16" />
@@ -221,10 +226,16 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
 
                   <div className="w-full flex justify-between items-center">
                     <div>
-                      {bank?.bankName && (
+                      {bank?.paymentMethod ? (
                         <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                          {bank.bankName}
+                          {bank.displayName} {bank.paymentMethod}
                         </div>
+                      ) : (
+                        bank?.bankName && (
+                          <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                            {bank.bankName}
+                          </div>
+                        )
                       )}
 
                       {bank?.accountType === "CASH" && (
@@ -234,7 +245,10 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                       )}
 
                       <div className="text-xs text-gray-500 font-gilroy">
-                        {bank?.accountType.toLowerCase() || ""} account
+                        {bank?.paymentMethod ||
+                          (bank?.accountType
+                            ? `${bank.accountType.toLowerCase()} Account`
+                            : "")}
                       </div>
                     </div>
 
@@ -243,11 +257,11 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                         {bank.displayName}
                       </div>
 
-                      {bank.accountNumber && (
-                        <div className="text-xs font-normal font-gilroy mb-0.5">
-                          {bank.accountNumber || "-"}
-                        </div>
-                      )}
+                      <div className="text-xs font-normal font-gilroy mb-0.5 text-[#4B4B4B]">
+                        {bank?.paymentMethod
+                          ? `**** **** **** ${bank.cardNumber}`
+                          : bank?.accountNumber}
+                      </div>
 
                       {bank.balance && (
                         <div className="text-xs font-semibold text-[#1E45E1]">
@@ -260,8 +274,8 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                     type="radio"
                     name="selectedBank"
                     className="w-5 h-5 accent-[#1E45E1] cursor-pointer"
-                    checked={selectedBank === bank.bankId}
-                    onChange={() => setSelectedBank(bank.bankId)}
+                    checked={selectedBank === index}
+                    onChange={() => setSelectedBankId(bank.bankId)}
                   />
                 </div>
               ))

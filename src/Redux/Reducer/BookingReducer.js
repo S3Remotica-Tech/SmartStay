@@ -23,9 +23,12 @@ export const initialState = {
   initializeRedeem: "",
   applyRedeemError: "",
   applyAdvanceInvoiceSuccessCode: 0,
+  getRetainerInvoiceStatus: 0,
+  getRetainerInvoice: "",
   applyAdvanceRedeemError: "",
   advanceInitialize: "",
   successBookingCustomizeColumns: 0,
+  applyRetainerSuccessCode: 0,
   bookingFilters: {
     period: [],
     search: "",
@@ -52,6 +55,11 @@ const BookingReducer = (state = initialState, action) => {
     case "REMOVE_APPLY_INVOICE_REDUCER":
       return { ...state, applyinvoiceSuccessCode: 0 };
 
+    case "APPLY_RETAINER_REDUCER":
+      return { ...state, applyRetainerSuccessCode: action.payload.statusCode };
+    case "REMOVE_APPLY_RETAINER_REDUCER":
+      return { ...state, applyRetainerSuccessCode: 0 };
+
     case "APPLY_ADVANCE_INVOICE_REDUCER":
       return {
         ...state,
@@ -63,6 +71,19 @@ const BookingReducer = (state = initialState, action) => {
       return {
         ...state,
         applyAdvanceInvoiceSuccessCode: 0,
+      };
+
+    case "GET_RETAINER_INVOICE_REDUCER":
+      return {
+        ...state,
+        getRetainerInvoice: action.payload.response,
+        getRetainerInvoiceStatus: action.payload.statusCode,
+      };
+
+    case "REMOVE_GET_RETAINER_INVOICE_REDUCER":
+      return {
+        ...state,
+        getRetainerInvoiceStatus: 0,
       };
 
     case "ERROR_APPLY_ADVANCE_INVOICE":
@@ -112,10 +133,9 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, bookingEmailError: action.payload };
     case "CLEAR_EMAIL_ERROR":
       return { ...state, bookingEmailError: "" };
-      
+
     case "CLEAR_ERROR_BOOKING":
       return { ...state, bookingError: "" };
-
 
     case "CLEAR_ADD_USER_BOOKING":
       return { ...state, statusCodeForAddBooking: 0 };

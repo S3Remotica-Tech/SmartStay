@@ -791,6 +791,36 @@ function Booking() {
     },
   };
 
+  const stats = [
+    {
+      label: "Total Retainer Amount",
+      value: "0",
+      icon: true,
+      highlight: true,
+    },
+    {
+      label: "Booking",
+      value: "0",
+    },
+    {
+      label: "Advance",
+      value: "0",
+    },
+    {
+      label: "Rent",
+      value: "0",
+    },
+    {
+      label: "EB",
+      value: "0",
+    },
+    {
+      label: "General",
+      value: "0",
+      icon: false,
+    },
+  ];
+
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
       <div className="sticky top-0 bg-white z-50  min-h-[60px] sm:min-h-[60px] flex flex-wrap items-center justify-between gap-2 shrink-0">
@@ -839,6 +869,54 @@ function Booking() {
         <PermissionDeniedMessage />
       ) : (
         <>
+          <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 font-gilroy">
+            {stats.map((item, index) => (
+              <div key={index} className="flex items-center gap-3">
+                {item.highlight && (
+                  <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                    {item.icon && (
+                      <ArrowDown
+                        color="#FF9500"
+                        size="18"
+                        className="rotate-[310deg]"
+                      />
+                    )}
+                  </div>
+                )}
+
+                <div>
+                  <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
+                    {item.label}
+
+                    <div className="relative group w-fit">
+                      {item.label !== "Notice Period" && (
+                        <Filter
+                          size="14"
+                          color="#9CA3AF"
+                          className="cursor-pointer"
+                        />
+                      )}
+
+                      <div
+                        className="absolute left-1/2 -translate-x-1/2 mt-2 
+                      hidden group-hover:flex
+                      px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
+                      items-center gap-1 whitespace-nowrap z-50"
+                      >
+                        <Filter size="14" color="#fff" />
+                        Click to Filter
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-lg font-semibold text-[#111827]">
+                    {item.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
             <div className="flex flex-wrap items-center gap-3">
               {/* <div className="w-[150px]">

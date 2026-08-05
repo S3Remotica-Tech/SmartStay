@@ -10,6 +10,8 @@ import {
   advanceRedeemInitialize,
   ApplyAdvanceInvoice,
   bookingCustomizeData,
+  getRetainerInvoice,
+  ApplyRetainerInvoice,
 } from "../Action/BookingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,6 +44,21 @@ function* handleAdvanceRedeemInitialize(action) {
     if (response?.status === 200) {
       yield put({
         type: "REDEEM_ADVANCE_INITIALIZE",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetRetainerInvoice(action) {
+  try {
+    const response = yield call(getRetainerInvoice, action.payload);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_RETAINER_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
     }
@@ -192,6 +209,56 @@ function* handleApplyInvoice(action) {
       if (error.status) {
         yield put({
           type: "ERROR_APPLY_INVOICE",
+          payload: error.response.data,
+        });
+      }
+    }
+  }
+}
+
+function* handleApplyRetainerInvoice(action) {
+  try {
+    const response = yield call(ApplyRetainerInvoice, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "APPLY_RETAINER_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Updated Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error.code === "ERR_BAD_REQUEST") {
+      if (error.status) {
+        yield put({
+          type: "ERROR_APPLY_RETAINER",
           payload: error.response.data,
         });
       }
@@ -454,6 +521,8 @@ function refreshToken(response) {
 }
 
 function* CreateBookinSaga() {
+  yield takeEvery("APPLY_RETAINER_SAGA", handleApplyRetainerInvoice);
+  yield takeEvery("GET_RETAINER_INVOICE_SAGA", handleGetRetainerInvoice);
   yield takeEvery(
     "REDEEM_ADVANCE_INITIALIZE_SAGA",
     handleAdvanceRedeemInitialize,

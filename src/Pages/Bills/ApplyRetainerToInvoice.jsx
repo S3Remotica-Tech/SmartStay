@@ -1,25 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Table, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
+function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");
   const [applyAmountForInvoice, setApplyAmountForInvoice] = useState([]);
   const [formLoading, setFormLoading] = useState(false);
+  const [selectedInvoices, setSelectedInvoices] = useState([]);
 
-  const handleApplyAmountChange = (index, value) => {
+  const handleApplyAmountChange = (invoiceId, value) => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
     setError("");
 
-    const invoice = initializeDetails.listInvoices[index];
-    const invoiceId = invoice.invoiceId;
+    const invoice = initializeDetails?.advanceInfo?.find(
+      (item) => item.invoiceId === invoiceId,
+    );
+
+    if (!invoice) return;
 
     if (value === "") {
       const updated = applyAmountForInvoice.filter(
@@ -33,37 +36,39 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
       setError("Only numbers are allowed");
       return;
     }
+
     let amount = Number(value);
-    if (amount > Number(invoice.pendingAmount)) {
+
+    if (amount > Number(invoice.availableBalance)) {
       setError("Cannot exceed invoice balance");
-      amount = Number(invoice.pendingAmount);
+      amount = Number(invoice.availableBalance);
     }
+
     const otherApplied = applyAmountForInvoice.reduce(
       (sum, item) =>
         item.invoiceId !== invoiceId ? sum + Number(item.amount || 0) : sum,
       0,
     );
 
-    if (amount + Number(otherApplied) > bookingAmount) {
-      setError("Total exceeds booking amount");
-      amount = bookingAmount - otherApplied;
+    if (amount + otherApplied > retainerAmount) {
+      setError("Total exceeds retainer amount");
+      amount = retainerAmount - otherApplied;
     }
 
-    let updated = [...applyAmountForInvoice];
-
+    const updated = [...applyAmountForInvoice];
     const existingIndex = updated.findIndex(
       (item) => item.invoiceId === invoiceId,
     );
 
     if (existingIndex > -1) {
       updated[existingIndex] = {
-        invoiceId: invoiceId,
-        amount: amount,
+        invoiceId,
+        amount,
       };
     } else {
       updated.push({
-        invoiceId: invoiceId,
-        amount: amount,
+        invoiceId,
+        amount,
       });
     }
 
@@ -72,28 +77,53 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     );
   };
 
+  console.log("applyAmountForInvoice", applyAmountForInvoice);
+
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
-      type: "REDEEM_ADVANCE_INITIALIZE_SAGA",
+      type: "GET_RETAINER_INVOICE_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        advanceInvoiceId: advanceDetails?.invoiceId,
+        invoiceId: retainerDetails?.invoiceId,
+        // type: label === "booking" ? "Credit" : "",
       },
     });
   }, [state.login.selectedHostel_Id]);
 
-  const initializeDetails = state?.Booking?.initializeRedeem;
+  const initializeDetails = state?.Booking?.getRetainerInvoice;
 
-  const bookingAmount = Number(
-    initializeDetails?.advanceInfo?.advanceBalanceAmount || 0,
+  const retainerAmount = Number(
+    initializeDetails?.currentInvoiceInfo?.pendingAmount || 0,
   );
 
-  const totalApplied = applyAmountForInvoice.reduce(
+  const totalApplied = applyAmountForInvoice?.reduce(
     (sum, item) => sum + Number(item.amount || 0),
     0,
   );
-  const remainingBalance = bookingAmount - totalApplied;
+
+  const selectedRetainerBalance = initializeDetails?.advanceInfo?.reduce(
+    (sum, item) =>
+      selectedInvoices.includes(item.invoiceId)
+        ? sum + Number(item.availableBalance || 0)
+        : sum,
+    0,
+  );
+
+  const remainingBalance = selectedRetainerBalance - totalApplied;
+
+  const handleCheckboxChange = (invoiceId) => {
+    setSelectedInvoices((prev) => {
+      if (prev.includes(invoiceId)) {
+        setApplyAmountForInvoice((old) =>
+          old.filter((item) => item.invoiceId !== invoiceId),
+        );
+        return prev.filter((id) => id !== invoiceId);
+      }
+
+      return [...prev, invoiceId];
+    });
+  };
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
@@ -102,7 +132,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
 
     if (totalApplied === 0) {
       validationError = "Please enter at least one amount";
-    } else if (totalApplied > bookingAmount) {
+    } else if (totalApplied > retainerAmount) {
       validationError = "Applied amount exceeds booking amount";
     }
 
@@ -111,25 +141,25 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     if (validationError) return;
 
     dispatch({
-      type: "APPLY_INVOICE_SAGA",
+      type: "APPLY_RETAINER_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        invoiceId: advanceDetails?.invoiceId,
-        listItems: applyAmountForInvoice,
+        invoiceId: initializeDetails?.currentInvoiceInfo?.invoiceId,
+        appliedAmount: "",
+        redeemedOn: "",
+        comments: "",
+        retainersBreakup: applyAmountForInvoice,
       },
     });
-
     setFormLoading(true);
   };
 
-  console.log("advanceDetails", advanceDetails);
-
   useEffect(() => {
-    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+    if (state?.Booking?.applyRetainerSuccessCode === 201) {
       setFormLoading(false);
       handleClose();
     }
-  }, [state?.Booking?.applyinvoiceSuccessCode]);
+  }, [state?.Booking?.applyRetainerSuccessCode]);
 
   useEffect(() => {
     return () => {
@@ -149,10 +179,10 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="absolute inset-y-2 right-2 w-full max-w-4xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
+      <div className="absolute inset-y-2 right-2 w-full max-w-5xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="flex justify-between items-center p-3 border-b">
-          <h5 className="font-semibold text-lg text-black">
-            {label === "Advance" ? "Apply to Invoice" : "Apply  to Invoice"}
+          <h5 className="font-semibold text-lg text-black capitalize">
+            Adjust with Retainer Invoice
           </h5>
 
           <button
@@ -163,7 +193,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
+        <div className="p-3">
           <div className="flex justify-between items-center bg-[#F7F8FCA8] p-3 rounded mb-4">
             <div className="flex gap-3">
               <div className="w-14 h-14 rounded-full overflow-hidden bg-[#E2E8F0]  flex items-center justify-center text-gray-700 font-semibold">
@@ -199,27 +229,43 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
             </div>
 
             <div className="text-right">
-              <div className="text-sm text-gray-400">
-                {" "}
-                {initializeDetails?.advanceInfo?.invoiceType}
+              <div className="text-sm text-gray-400 capitalize">
+                {initializeDetails?.currentInvoiceInfo?.invoiceType.toLowerCase()}{" "}
+                Amount
               </div>
               <div className="font-semibold text-lg">
-                ₹ {initializeDetails?.advanceInfo?.advanceBalanceAmount}
+                ₹ {initializeDetails?.currentInvoiceInfo?.pendingAmount ?? 0}
+              </div>
+              <div className="font-semibold text-blue-600 text-sm">
+                {initializeDetails?.currentInvoiceInfo?.invoiceNumber}
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="my-3">
+            <div>
+              <label className="text-sm text-[#222222] font-semibold">
+                Retainer Invoices
+              </label>
+            </div>
+
+            <div className="text-sm text-[#4B4B4B]">
+              Select retainer Balance to adjust with Bills
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto my-2 show-scrolls max-h-[500px]">
             <div className="bg-white rounded-xl border border-[#E8E8E8]">
               <div className="overflow-auto h-fit">
                 <table className="w-full text-sm">
                   <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
                     <tr className="rounded-tl-xl rounded-tr-xl">
+                      <th className="text-left px-4 py-2"></th>
                       <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
-                        TYPE
+                        RETAINER TYPE
                       </th>
                       <th className="text-left px-4 py-2">INV NO</th>
                       <th className="text-left px-4 py-2">DUE DATE</th>
-                      <th className="text-left px-4 py-2">INVOICE AMOUNT</th>
+                      <th className="text-left px-4 py-2">RETAINER AMOUNT</th>
                       <th className="text-left px-4 py-2">INVOICE BALANCE</th>
                       <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
                         AMOUNT TO APPLY
@@ -228,14 +274,33 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
                   </thead>
 
                   <tbody>
-                    {initializeDetails?.listInvoices?.length > 0 ? (
-                      initializeDetails.listInvoices.map((item, index) => (
-                        <tr key={index} className="border-t  whitespace-nowrap">
+                    {initializeDetails?.advanceInfo?.length > 0 ? (
+                      initializeDetails.advanceInfo.map((item) => (
+                        <tr
+                          key={item.invoiceId}
+                          className={`border-t whitespace-nowrap transition-opacity ${
+                            !selectedInvoices.includes(item.invoiceId)
+                              ? "opacity-50"
+                              : "opacity-100"
+                          }`}
+                        >
+                          <td className="px-4 py-2 font-semibold">
+                            <input
+                              className="rounded-md accent-blue-800 cursor-pointer"
+                              type="checkbox"
+                              checked={selectedInvoices.includes(
+                                item.invoiceId,
+                              )}
+                              onChange={() =>
+                                handleCheckboxChange(item.invoiceId)
+                              }
+                            />
+                          </td>
                           <td className="px-4 py-2 font-semibold">
                             {item.invoiceType}
                           </td>
 
-                          <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
+                          <td className="text-blue-700 cursor-pointer px-4 py-2 font-semibold">
                             {item.invoiceNumber}
                           </td>
 
@@ -248,25 +313,31 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
                           </td>
 
                           <td className="px-4 py-2 font-semibold">
-                            ₹{item.pendingAmount}
+                            ₹{item.availableBalance}
                           </td>
 
                           <td className="px-4 py-2 font-semibold">
                             <input
                               type="number"
+                              disabled={
+                                !selectedInvoices.includes(item.invoiceId)
+                              }
                               value={
                                 applyAmountForInvoice.find(
                                   (i) => i.invoiceId === item.invoiceId,
                                 )?.amount || ""
                               }
                               onChange={(e) =>
-                                handleApplyAmountChange(index, e.target.value)
+                                handleApplyAmountChange(
+                                  item.invoiceId,
+                                  e.target.value,
+                                )
                               }
                               placeholder="₹ 0.00"
-                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
-                                item.applyAmount
-                                  ? "font-semibold"
-                                  : "font-medium"
+                              className={`w-full h-[34px] text-sm rounded-md border px-2 outline-none font-medium ${
+                                !selectedInvoices.includes(item.invoiceId)
+                                  ? "bg-gray-100 cursor-not-allowed"
+                                  : "bg-white"
                               }`}
                             />
                           </td>
@@ -350,9 +421,9 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     </div>
   );
 }
-ApplyBookingModal.propTypes = {
+ApplyRetainerToInvoice.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default ApplyBookingModal;
+export default ApplyRetainerToInvoice;

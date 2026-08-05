@@ -308,29 +308,29 @@ function BankingNew() {
     };
   }, []);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoader(true);
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-      dispatch({
-        type: "BANKING_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
-        },
-      });
-    } else {
-      setLoader(false);
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     setLoader(true);
+  //     // dispatch({
+  //     //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+  //     //   payload: {
+  //     //     hostelId: state.login.selectedHostel_Id,
+  //     //     // page: page,
+  //     //     // size: size,
+  //     //   },
+  //     // });
+  //     // dispatch({
+  //     //   type: "BANKING_LIST_SAGA",
+  //     //   payload: {
+  //     //     hostelId: state.login.selectedHostel_Id,
+  //     //     page: page,
+  //     //     size: size,
+  //     //   },
+  //     // });
+  //   } else {
+  //     setLoader(false);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -347,7 +347,7 @@ function BankingNew() {
           toDate: bankFilterReducer?.endDate,
         },
       });
-
+      setLoader(true);
       const bankFilter = {
         period: period?.value,
         source: source?.value,
@@ -367,6 +367,19 @@ function BankingNew() {
   ]);
 
   useEffect(() => {
+    if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {
+      dispatch({
+        type: "GET_ALL_TRANSACTION_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: pageTransaction,
+          size: sizeTransaction,
+        },
+      });
+    }
+  }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       // dispatch({
       //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
@@ -377,14 +390,14 @@ function BankingNew() {
       //   },
       // });
 
-      dispatch({
-        type: "BANKING_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
-        },
-      });
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     page: page,
+      //     size: size,
+      //   },
+      // });
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -409,19 +422,19 @@ function BankingNew() {
   //   }
   // }, [state.bankingDetails.getAllPaymentsSuccessCode]);
 
-  useEffect(() => {
-    if (state.bankingDetails.getBankingSuccessCode === 200) {
-      setLoader(false);
-      setBanking(state.bankingDetails?.newBankingList?.banks);
+  // useEffect(() => {
+  //   if (state.bankingDetails.getBankingSuccessCode === 200) {
+  //     setLoader(false);
+  //     setBanking(state.bankingDetails?.newBankingList?.banks);
 
-      dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
-    }
-  }, [state.bankingDetails.getBankingSuccessCode]);
+  //     dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
+  //   }
+  // }, [state.bankingDetails.getBankingSuccessCode]);
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setTransactionFilterddata(state.bankingDetails?.allTransactionList || []);
-
+      setBanking(state.bankingDetails?.allTransactionList?.bankList);
       dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
     }
   }, [state.bankingDetails.allTransactionSuccess]);
@@ -433,11 +446,11 @@ function BankingNew() {
     state.bankingDetails?.bankingList?.listBanks,
   ]);
 
-  const handleShowDots = (bankingId) => {
-    if (openMenuId === bankingId) {
+  const handleShowDots = (bankingId, index) => {
+    if (openMenuId === index) {
       setOpenMenuId(null);
     } else {
-      setOpenMenuId(bankingId);
+      setOpenMenuId(index);
     }
   };
 
@@ -474,42 +487,51 @@ function BankingNew() {
     }
   }, [showAccountTypeOptions, defaltType]);
 
+  // useEffect(() => {
+  //   if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
+  //     setFormLoading(false);
+  //     setShowAccountTypeOptions(null);
+  //     // dispatch({
+  //     //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+  //     //   payload: {
+  //     //     hostelId: state.login.selectedHostel_Id,
+  //     //     // page: page,
+  //     //     // size: size,
+  //     //   },
+  //     // });
+
+  //     // dispatch({
+  //     //   type: "BANKING_LIST_SAGA",
+  //     //   payload: {
+  //     //     hostelId: state.login.selectedHostel_Id,
+  //     //     page: page,
+  //     //     size: size,
+  //     //   },
+  //     // });
+
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
+  //     }, 1000);
+  //   }
+  // }, [state.bankingDetails.statusCodeForDefaultAccount]);
+
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-      setFormLoading(false);
-      setShowAccountTypeOptions(null);
+    if (state?.bankingDetails?.addMoneySuccess === 200) {
       // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
+      //   type: "BANKING_LIST_SAGA",
       //   payload: {
       //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
+      //     page: page,
+      //     size: size,
       //   },
       // });
 
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
-        },
-      });
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
-      }, 1000);
-    }
-  }, [state.bankingDetails.statusCodeForDefaultAccount]);
-
-  useEffect(() => {
-    if (state?.bankingDetails?.addMoneySuccess === 200) {
-      dispatch({
-        type: "BANKING_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          page: pageTransaction,
+          size: sizeTransaction,
         },
       });
 
@@ -529,14 +551,24 @@ function BankingNew() {
       //   },
       // });
 
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     page: page,
+      //     size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          page: pageTransaction,
+          size: sizeTransaction,
         },
       });
+
       handleCloseAddBalance();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
@@ -554,12 +586,21 @@ function BankingNew() {
       //     // size: size,
       //   },
       // });
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     page: page,
+      //     size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          page: pageTransaction,
+          size: sizeTransaction,
         },
       });
 
@@ -578,12 +619,21 @@ function BankingNew() {
       //   },
       // });
 
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     page: page,
+      //     size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          page: pageTransaction,
+          size: sizeTransaction,
         },
       });
 
@@ -751,14 +801,24 @@ function BankingNew() {
       //   },
       // });
 
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     page: page,
+      //     size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          page: pageTransaction,
+          size: sizeTransaction,
         },
       });
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING" });
       }, 1000);
@@ -783,12 +843,21 @@ function BankingNew() {
       //   },
       // });
 
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     page: page,
+      //     size: size,
+      //   },
+      // });
+
       dispatch({
-        type: "BANKING_LIST_SAGA",
+        type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
-          size: size,
+          page: pageTransaction,
+          size: sizeTransaction,
         },
       });
       setTimeout(() => {
@@ -1146,7 +1215,7 @@ function BankingNew() {
             </>
           ) : (
             <>
-              <div className="flex  items-center justify-end gap-2">
+              {/* <div className="flex  items-center justify-end gap-2">
                 {state.bankingDetails?.newBankingList?.banks?.length > 0 && (
                   <ApiPagination
                     currentPage={currentPage}
@@ -1158,7 +1227,7 @@ function BankingNew() {
                     size={size}
                   />
                 )}
-              </div>
+              </div> */}
               <div
                 className="
     flex flex-row  gap-2 justify-between
@@ -1172,7 +1241,7 @@ function BankingNew() {
     scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 show-scrolls"
                 >
                   {banking && banking.length > 0 ? (
-                    banking.map((item) => {
+                    banking.map((item, index) => {
                       return (
                         <div
                           onClick={(e) => {
@@ -1204,13 +1273,18 @@ function BankingNew() {
                                 </div>
                                 <div>
                                   <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222]">
-                                    {item?.accountType === "CASH"
-                                      ? item?.cashAccountType
-                                      : item?.bankName}
+                                    {item?.paymentMethod
+                                      ? `${item.displayName} - ${item.paymentMethod}`
+                                      : item?.accountType === "CASH"
+                                        ? item?.cashAccountType
+                                        : item?.bankName}
                                   </p>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
-                                    {item?.accountType.toLowerCase()} Account
+                                    {item?.paymentMethod ||
+                                      (item?.accountType
+                                        ? `${item.accountType.toLowerCase()} Account`
+                                        : "")}
                                   </p>
                                 </div>
                               </div>
@@ -1223,73 +1297,77 @@ function BankingNew() {
                                 onClick={(e) => {
                                   if (!item.isDeleted) {
                                     e.stopPropagation();
-                                    handleShowDots(item.bankId);
+                                    handleShowDots(item.bankId, index);
                                   }
                                 }}
                               >
                                 <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                               </div>
 
-                              {openMenuId === item.bankId && (
+                              {openMenuId === index && (
                                 <div
                                   ref={popupRef}
                                   className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
                                 >
-                                  <button
-                                    disabled={
-                                      !(canWriteBanking && !item.isDeleted)
-                                    }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleOpenSelfTransfer(item);
-                                    }}
-                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
+                                  {!item?.paymentMethod && (
+                                    <>
+                                      <button
+                                        disabled={
+                                          !(canWriteBanking && !item.isDeleted)
+                                        }
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleOpenSelfTransfer(item);
+                                        }}
+                                        className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-blue-100"
-                                  >
-                                    <img
-                                      src={transArrow}
-                                      alt="transArrow"
-                                      className="h-4 w-4"
-                                    />
+                                      >
+                                        <img
+                                          src={transArrow}
+                                          alt="transArrow"
+                                          className="h-4 w-4"
+                                        />
 
-                                    <span className="text-sm font-semibold font-gilroy">
-                                      Self Transfer
-                                    </span>
-                                  </button>
+                                        <span className="text-sm font-semibold font-gilroy">
+                                          Self Transfer
+                                        </span>
+                                      </button>
 
-                                  <div className="h-px bg-gray-200" />
-                                  <button
-                                    disabled={!canWriteBanking}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleInvestment(item.bankId);
-                                    }}
-                                    className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+                                      <div className="h-px bg-gray-200" />
+                                      <button
+                                        disabled={!canWriteBanking}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleInvestment(item.bankId);
+                                        }}
+                                        className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
     ${
       canWriteBanking
         ? "hover:bg-red-50 cursor-pointer"
         : "cursor-not-allowed opacity-50"
     }`}
-                                  >
-                                    <MoneyRecive
-                                      size={16}
-                                      className={
-                                        canWriteBanking
-                                          ? "text-[#1E45E1]"
-                                          : "text-gray-400"
-                                      }
-                                    />
-                                    <span
-                                      className={`text-sm font-semibold font-gilroy ${
-                                        canWriteBanking
-                                          ? "text-black"
-                                          : "text-gray-400"
-                                      }`}
-                                    >
-                                      Investment
-                                    </span>
-                                  </button>
+                                      >
+                                        <MoneyRecive
+                                          size={16}
+                                          className={
+                                            canWriteBanking
+                                              ? "text-[#1E45E1]"
+                                              : "text-gray-400"
+                                          }
+                                        />
+                                        <span
+                                          className={`text-sm font-semibold font-gilroy ${
+                                            canWriteBanking
+                                              ? "text-black"
+                                              : "text-gray-400"
+                                          }`}
+                                        >
+                                          Investment
+                                        </span>
+                                      </button>
+                                    </>
+                                  )}
                                   <div className="h-px bg-gray-200" />
                                   <button
                                     disabled
@@ -1437,43 +1515,46 @@ function BankingNew() {
                                 )}
                               </div>
                             </div>
-                            {/* <div className="flex justify-end my-1">
-                                <span
-                                  className={`text-xs font-semibold font-gilroy ${
-                                    canWriteBanking && !item.isDeleted
-                                      ? "text-blue-600 cursor-pointer"
-                                      : "text-gray-400 cursor-not-allowed"
-                                  }`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (canWriteBanking && !item.isDeleted) {
-                                      handleShowAddBalance(item);
-                                    }
-                                  }}
-                                >
-                                  + Add Amount
-                                </span>
-                              </div> */}
 
                             <div className="flex justify-between my-3 gap-2">
-                              {item.accountType === "BANK" && (
-                                <>
-                                  <div
-                                    className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                              {item.paymentMethod && (
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
-                                  >
-                                    <Location size="12" color="#8F5C09" />{" "}
-                                    {item?.branchName}
-                                  </div>
-
-                                  <div
-                                    className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
-                               text-[#1E45E1] border-1 border-[#9EB1FF2B] text-[11px] rounded-md"
-                                  >
-                                    UPI :
-                                  </div>
-                                </>
+                                >
+                                  <Bank size="16" /> {item?.bankName}
+                                </div>
                               )}
+
+                              {item.paymentMethod && (
+                                <div
+                                  className="flex gap-2 items-center  px-2 py-1 bg-[#F1F1FF]
+                               text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
+                                >
+                                  **** **** ****{item?.cardNumber}
+                                </div>
+                              )}
+
+                              {item.accountType === "BANK" &&
+                                !item.paymentMethod && (
+                                  <>
+                                    <div
+                                      className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                               text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
+                                    >
+                                      <Location size="12" color="#8F5C09" />{" "}
+                                      {item?.branchName}
+                                    </div>
+                                    {item?.upiId && (
+                                      <div
+                                        className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
+                               text-[#1E45E1] border-1 border-[#9EB1FF2B] text-[11px] rounded-md"
+                                      >
+                                        UPI : {item?.upiId}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
 
                               {item.accountType === "CASH" && (
                                 <div

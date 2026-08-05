@@ -123,6 +123,10 @@ function BankingOverview({ show, onClose }) {
           bankId: OverviewDetails?.bankId,
         },
       });
+
+
+
+      
       dispatch({ type: "REMOVE_ADD_PAYMENT_METHOD_REDUCER" });
     }
   }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);

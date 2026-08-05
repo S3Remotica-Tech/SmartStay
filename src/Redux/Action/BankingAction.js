@@ -191,7 +191,7 @@ export async function selfTranfer(bank) {
   return await AxiosConfigV2.put(`/v2/bank/transfer/${bank.hostelId}`, {
     fromBankId: bank.fromBankId,
     toBankId: bank.toBankId,
-    balance: bank.amount,
+    balance: bank.balance,
   });
 }
 

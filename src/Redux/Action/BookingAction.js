@@ -126,6 +126,24 @@ export async function advanceRedeemInitialize(hostel) {
   );
 }
 
+export async function getRetainerInvoice(hostel) {
+  return await AxiosConfigV2.get(
+    `/v2/retainer/get/${hostel.hostelId}/${hostel.invoiceId}`,
+  );
+}
+
+export async function ApplyRetainerInvoice(retainer) {
+  return await AxiosConfigV2.post(
+    `/v2/retainer/redeem/${retainer.hostelId}/${retainer.invoiceId}`,
+    {
+      appliedAmount: retainer.appliedAmount,
+      redeemedOn: retainer.redeemedOn,
+      comments: retainer.comments,
+      retainersBreakup: retainer.retainersBreakup,
+    },
+  );
+}
+
 export async function ApplyAdvanceInvoice(advance) {
   return await AxiosConfigV2.get(
     `/v2/bills/advances/${advance.hostelId}/${advance.invoiceId}`,

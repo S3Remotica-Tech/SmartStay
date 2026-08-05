@@ -17,6 +17,7 @@ import DiscountInvoice from "../PDF/DiscountInvoice";
 import { Edit, Link21 } from "iconsax-react";
 import ApplyBookingModal from "../Bookings/ApplyInvoices";
 import ApplyAdvance from "./ApplyAdvance";
+import ApplyRetainerToInvoice from "./ApplyRetainerToInvoice";
 
 const InvoiceTable = (props) => {
   const { item, selectedRows, handleRowSelect } = props;
@@ -27,9 +28,11 @@ const InvoiceTable = (props) => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyAdvance, setApplyAdvance] = useState(false);
+  const [applyRetainer, setApplyRetainer] = useState(false);
   const [WriteoffForm, setWriteOffForm] = useState(false);
   const [payapleform, setPayableForm] = useState(false);
   const [refundDetails, setRefundDetails] = useState("");
+  const [applyRetainerDetails, setApplyRetainerDetails] = useState("");
   const popupRef = useRef(null);
   const [navigation, setNavigation] = useState(false);
   const [showUnpaidModal, setShowUnpaidModal] = useState(false);
@@ -233,6 +236,16 @@ const InvoiceTable = (props) => {
     setApplyAdvance(false);
   };
 
+  const handleAdjustWithRetainer = (item) => {
+    setApplyRetainer(true);
+    setShowDots(false);
+    setApplyRetainerDetails(item);
+  };
+
+  const handleCloseAdjustWithRetainer = () => {
+    setApplyRetainer(false);
+  };
+
   const handleUnpaid = (item) => {
     setShowDots(false);
     setSelectedInvoice(item);
@@ -243,8 +256,6 @@ const InvoiceTable = (props) => {
     setDiscountDetails(item);
     setShowDiscountInvoice(true);
     setShowDots(false);
-
-   
   };
   const handleCloseFormDiscount = () => {
     setShowDiscountInvoice(false);
@@ -600,41 +611,83 @@ const InvoiceTable = (props) => {
                       </span>
                     </button>
                   ) : (
-                    <button
-                      disabled={
-                        !canUpdateInvoice || !props.item?.canApplyFromAdvance
-                      }
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleApplyInvoices(props.item);
-                      }}
-                      className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                    <>
+                      {/* <button
+                        disabled={
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyInvoices(props.item);
+                        }}
+                        className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
     ${
       !canUpdateInvoice || !props.item?.canApplyFromAdvance
         ? "cursor-not-allowed opacity-50 bg-gray-100"
         : "cursor-pointer hover:bg-[#EDF2FF]"
     }`}
-                    >
-                      <Link21
-                        className="flex-shrink-0"
-                        color={
-                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
-                            ? "#A9A9A9"
-                            : "#1E45E1"
-                        }
-                        size="16"
-                      />
-
-                      <span
-                        className={`text-sm font-medium ${
-                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
-                            ? "text-[#A9A9A9]"
-                            : "text-[#222222]"
-                        }`}
                       >
-                        Adjust with Advance
-                      </span>
-                    </button>
+                        <Link21
+                          className="flex-shrink-0"
+                          color={
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "#A9A9A9"
+                              : "#1E45E1"
+                          }
+                          size="16"
+                        />
+
+                        <span
+                          className={`text-sm font-medium ${
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "text-[#A9A9A9]"
+                              : "text-[#222222]"
+                          }`}
+                        >
+                          Adjust with Advance
+                        </span>
+                      </button> */}
+
+                      <button
+                        disabled={
+                          !canUpdateInvoice || !props.item?.canApplyFromAdvance
+                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAdjustWithRetainer(props.item);
+                        }}
+                        className={`flex items-center whitespace-nowrap gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !props.item?.canApplyFromAdvance
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                      >
+                        <Link21
+                          className="flex-shrink-0"
+                          color={
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "#A9A9A9"
+                              : "#1E45E1"
+                          }
+                          size="16"
+                        />
+
+                        <span
+                          className={`text-sm font-medium ${
+                            !canUpdateInvoice ||
+                            !props.item?.canApplyFromAdvance
+                              ? "text-[#A9A9A9]"
+                              : "text-[#222222]"
+                          }`}
+                        >
+                          Adjust with Retainer
+                        </span>
+                      </button>
+                    </>
                   )}
 
                   {/* <button
@@ -796,6 +849,14 @@ const InvoiceTable = (props) => {
           )}
         </td>
       </tr>
+
+      {applyRetainer && (
+        <ApplyRetainerToInvoice
+          show={applyRetainer}
+          handleClose={handleCloseAdjustWithRetainer}
+          retainerDetails={applyRetainerDetails}
+        />
+      )}
 
       {showDiscountInvoice && (
         <DiscountInvoice
