@@ -4,6 +4,7 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { NavigateToBack } from "../../Redux/Action/BookingAction";
 import "./UserList.css";
 import {
   Call,
@@ -97,6 +98,7 @@ import TenantActions from "./TenantActions";
 import KYCTenantDetails from "./KYCTenantDetails";
 import TenantJobDetails from "./TenantJobDetails";
 import RemoveRentRevision from "./RemoveRentRevision";
+import TenantRetainerInvoice from "./TenantRetainerInvoice";
 
 function TenantOverview(props) {
   const state = useSelector((state) => state);
@@ -299,6 +301,21 @@ function TenantOverview(props) {
   };
 
   useEffect(() => {
+    if (state.Booking?.toNavigateRetainerTap) {
+      setValue("5");
+
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+    }
+  }, [state.Booking?.toNavigateRetainerTap]);
+
+  useEffect(() => {
+    dispatch(NavigateToBack(false));
+  }, []);
+
+  useEffect(() => {
     if (isDashboardWay) {
       dispatch({
         type: "CUSTOMERDETAILS",
@@ -499,95 +516,95 @@ function TenantOverview(props) {
 
   const [advanceDetail, setAdvanceDetail] = useState("");
 
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
+  // useEffect(() => {
+  //   if (isFirstRun.current) {
+  //     isFirstRun.current = false;
+  //     return;
+  //   }
 
-    if (props.userData?.profile && !file) {
-      return;
-    }
+  //   if (props.userData?.profile && !file) {
+  //     return;
+  //   }
 
-    if (
-      ProfilePic &&
-      file &&
-      props.userData?.ID &&
-      props.userData?.Name &&
-      props.userData?.Phone
-    ) {
-      const name = props.userData?.Name || "";
-      const value = name.trim().split(" ");
-      setFirstname(value[0] || "");
-      setLastname(value[1] || "");
+  //   if (
+  //     ProfilePic &&
+  //     file &&
+  //     props.userData?.ID &&
+  //     props.userData?.Name &&
+  //     props.userData?.Phone
+  //   ) {
+  //     const name = props.userData?.Name || "";
+  //     const value = name.trim().split(" ");
+  //     setFirstname(value[0] || "");
+  //     setLastname(value[1] || "");
 
-      const payload = {
-        profile: file,
-        firstname: value[0] || "",
-        lastname: value[1] || "",
-        Phone: MobileNumber,
-        Email: Email,
-        Address: house_no,
-        area: street,
-        landmark: landmark,
-        city: city,
-        pincode: pincode,
-        state: state_name,
-        AadharNo: AadharNo,
-        PancardNo: PancardNo,
-        licence: licence,
-        HostelName: HostelName,
-        hostel_Id: hostel_Id,
-        Floor: props.userData?.Floor,
-        Rooms: props.userData?.room_id,
-        Bed: props.userData?.hstl_Bed,
-        joining_date: props.userData?.joining_Date,
-        AdvanceAmount: props.userData?.AdvanceAmount,
-        RoomRent: props.userData?.RoomRent,
-        BalanceDue: BalanceDue,
-        PaymentType: PaymentType,
-        paid_advance: paid_advance,
-        paid_rent: paid_rent,
-        ID: props.userData?.ID,
-      };
+  //     const payload = {
+  //       profile: file,
+  //       firstname: value[0] || "",
+  //       lastname: value[1] || "",
+  //       Phone: MobileNumber,
+  //       Email: Email,
+  //       Address: house_no,
+  //       area: street,
+  //       landmark: landmark,
+  //       city: city,
+  //       pincode: pincode,
+  //       state: state_name,
+  //       AadharNo: AadharNo,
+  //       PancardNo: PancardNo,
+  //       licence: licence,
+  //       HostelName: HostelName,
+  //       hostel_Id: hostel_Id,
+  //       Floor: props.userData?.Floor,
+  //       Rooms: props.userData?.room_id,
+  //       Bed: props.userData?.hstl_Bed,
+  //       joining_date: props.userData?.joining_Date,
+  //       AdvanceAmount: props.userData?.AdvanceAmount,
+  //       RoomRent: props.userData?.RoomRent,
+  //       BalanceDue: BalanceDue,
+  //       PaymentType: PaymentType,
+  //       paid_advance: paid_advance,
+  //       paid_rent: paid_rent,
+  //       ID: props.userData?.ID,
+  //     };
 
-      dispatch({
-        type: "ADDUSER",
-        payload: payload,
-      });
-    }
-  }, [ProfilePic, file, props.userData]);
+  //     dispatch({
+  //       type: "ADDUSER",
+  //       payload: payload,
+  //     });
+  //   }
+  // }, [ProfilePic, file, props.userData]);
 
-  useEffect(() => {
-    const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+  // useEffect(() => {
+  //   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
-    if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
-      setFile(base64Pic);
-    }
-  }, [state.UsersList?.KycCustomerDetails?.pic]);
-  useEffect(() => {
-    const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+  //   if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
+  //     setFile(base64Pic);
+  //   }
+  // }, [state.UsersList?.KycCustomerDetails?.pic]);
+  // useEffect(() => {
+  //   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
 
-    if (rawAddress) {
-      const parts = rawAddress.split(",").map((part) => part.trim());
+  //   if (rawAddress) {
+  //     const parts = rawAddress.split(",").map((part) => part.trim());
 
-      const addressParts = parts.slice(1);
+  //     const addressParts = parts.slice(1);
 
-      const pincodePart = addressParts[addressParts.length - 1];
-      const statePart = addressParts[addressParts.length - 2];
-      const cityPart = addressParts[addressParts.length - 3];
+  //     const pincodePart = addressParts[addressParts.length - 1];
+  //     const statePart = addressParts[addressParts.length - 2];
+  //     const cityPart = addressParts[addressParts.length - 3];
 
-      const others = addressParts.slice(0, addressParts.length - 3);
-      const [streetNumber, streetName, areaPart, landmarkPart] = others;
+  //     const others = addressParts.slice(0, addressParts.length - 3);
+  //     const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
-      setHouseNo(`${streetNumber} ${streetName}`);
-      setStreet(areaPart);
-      setLandmark(landmarkPart);
-      setCity(cityPart);
-      setStateName(statePart);
-      setPincode(pincodePart);
-    }
-  }, [state.UsersList.KycCustomerDetails?.address]);
+  //     setHouseNo(`${streetNumber} ${streetName}`);
+  //     setStreet(areaPart);
+  //     setLandmark(landmarkPart);
+  //     setCity(cityPart);
+  //     setStateName(statePart);
+  //     setPincode(pincodePart);
+  //   }
+  // }, [state.UsersList.KycCustomerDetails?.address]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
@@ -2418,6 +2435,12 @@ function TenantOverview(props) {
                   value="4"
                   className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "4" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
+
+                <Tab
+                  label="Retainer"
+                  value="5"
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "5" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
+                />
               </TabList>
             </Box>
           </div>
@@ -3431,6 +3454,10 @@ function TenantOverview(props) {
 
           <TabPanel value="4">
             <TransactionHistory />
+          </TabPanel>
+
+          <TabPanel value="5">
+            <TenantRetainerInvoice />
           </TabPanel>
         </TabContext>
 

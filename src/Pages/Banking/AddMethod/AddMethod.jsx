@@ -35,7 +35,7 @@ function AddPaymentMethod({ show, handleClose }) {
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="absolute top-2 right-2 bottom-2 w-full max-w-md bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
+      <div className="absolute top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col font-gilroy">
         <div className="flex items-center justify-between px-6 py-3 ">
           <h2 className="text-[18px] font-semibold text-[#1A1C21]">
             Add Payment Method

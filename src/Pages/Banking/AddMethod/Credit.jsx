@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { CloseCircle, Add } from "iconsax-react";
+import { CloseCircle, Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -141,14 +141,17 @@ function Credit({ handleClose }) {
 
   const [billingCycle, setBillingCycle] = useState(null);
   const [billingCycleError, setBillingCycleError] = useState("");
+  const [openBillingPicker, setOpenBillingPicker] = useState(false);
+
+  const billingPickerRef = useRef(null);
+
+  const billingDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const cardNetworkRef = useRef(null);
   const cardHolderNameRef = useRef(null);
   const cardNumberRef = useRef(null);
   const displayNameRef = useRef(null);
   const creditLimitRef = useRef(null);
-
-  // console.log("billingCycle", billingCycle);
 
   const handleLinkedBankChange = (selected) => {
     setLinkedBank(selected);
@@ -319,15 +322,34 @@ function Credit({ handleClose }) {
         cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
         creditLimit: creditLimit,
-        billingCycle: billingCycle
-          ? dayjs(billingCycle).format("DD/MM/YYYY")
-          : null,
+        billingCycle: billingCycle,
+        // billingCycle: billingCycle
+        //   ? dayjs(billingCycle).format("DD/MM/YYYY")
+        //   : null,
       },
     });
     setIsSaving(true);
   };
 
   // console.log("cardNetwork", cardNetwork);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        billingPickerRef.current &&
+        !billingPickerRef.current.contains(event.target)
+      ) {
+        setOpenBillingPicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
       setIsSaving(false);
@@ -453,7 +475,7 @@ function Credit({ handleClose }) {
             )}
           </div>
 
-          <div className="">
+          {/* <div className="">
             <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-2">
               Billing Cycle
             </label>
@@ -474,6 +496,59 @@ function Credit({ handleClose }) {
                 className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
               />
             </div>
+          </div> */}
+
+          <div className="relative">
+            <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
+              Billing Cycle
+            </label>
+
+            <div
+              onClick={() => setOpenBillingPicker(!openBillingPicker)}
+              className="w-full border border-gray-300 rounded-md min-h-[44px] px-3 py-2.5 text-sm flex justify-between items-center cursor-pointer bg-white"
+            >
+              <span
+                className={billingCycle ? "text-gray-900" : "text-gray-400"}
+              >
+                {billingCycle
+                  ? `${billingCycle.toString().padStart(2, "0")} Days`
+                  : "Select Billing Cycle"}
+              </span>
+
+              {openBillingPicker ? (
+                <ArrowUp2 size="18" color="#1E45E1" />
+              ) : (
+                <ArrowDown2 size="18" color="#1E45E1" />
+              )}
+            </div>
+
+            {openBillingPicker && (
+              <div
+                ref={billingPickerRef}
+                className="absolute z-50 mt-2 w-full bg-white border rounded-lg shadow-md p-3"
+              >
+                <div className="grid grid-cols-5 gap-3">
+                  {billingDaysOptions.map((day) => (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => {
+                        setBillingCycle(day);
+                        setOpenBillingPicker(false);
+                      }}
+                      className={`w-10 h-10 rounded-full text-xs flex items-center justify-center transition
+              ${
+                billingCycle === day
+                  ? "bg-[#1E45E1] text-white"
+                  : "hover:bg-gray-100 text-gray-700"
+              }`}
+                    >
+                      {day.toString().padStart(2, "0")}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

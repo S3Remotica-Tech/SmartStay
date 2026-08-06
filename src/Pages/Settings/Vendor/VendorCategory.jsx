@@ -103,12 +103,12 @@ function VendorCategory() {
   }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
-    setLoading(true);
     if (state.login.selectedHostel_Id) {
       dispatch({
         type: "VENDOR_CATEGORY_LIST_SAGA",
         payload: state.login.selectedHostel_Id,
       });
+      setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
 

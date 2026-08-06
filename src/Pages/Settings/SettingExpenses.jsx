@@ -154,12 +154,12 @@ function SettingExpenses() {
   }, [state.Settings?.alreadycategoryerror]);
 
   useEffect(() => {
-    setLoading(true);
     if (state.login.selectedHostel_Id) {
       dispatch({
         type: "EXPENCES-CATEGORY-LIST",
         payload: state.login.selectedHostel_Id,
       });
+      setLoading(true);
     }
     const timeout = setTimeout(() => {
       setLoading(false);

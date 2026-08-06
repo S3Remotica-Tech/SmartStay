@@ -29,6 +29,7 @@ export const initialState = {
   advanceInitialize: "",
   successBookingCustomizeColumns: 0,
   applyRetainerSuccessCode: 0,
+  toNavigateRetainerTap: "",
   bookingFilters: {
     period: [],
     search: "",
@@ -49,6 +50,8 @@ const BookingReducer = (state = initialState, action) => {
         ...state,
         statusCodeForAddBooking: action.payload.statusCode,
       };
+    case "SAVE_NAVIGATE_RETAINER":
+      return { ...state, toNavigateRetainerTap: action.payload };
 
     case "APPLY_INVOICE_REDUCER":
       return { ...state, applyinvoiceSuccessCode: action.payload.statusCode };

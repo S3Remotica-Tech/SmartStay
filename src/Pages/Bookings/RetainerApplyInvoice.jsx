@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Table, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { ArrowRight } from "iconsax-react";
+import { ArrowRight, ArrowRight2 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
+function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -148,7 +148,7 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
     // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
     <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40 px-3 md:px-8">
       <div
-  className="
+        className="
     bg-white
     w-full
     max-w-[850px]
@@ -162,14 +162,10 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
     flex
     flex-col
   "
->
-      {/* <div className="bg-white w-full max-w-[850px] rounded-xl shadow-lg font-gilroy animate-fadeIn relative"> */}
-        {/* <div className="flex justify-between items-center p-3 border-b"> */}
+      >
         <div className="flex justify-between items-center p-3 border-b shrink-0">
           <h5 className="font-semibold text-lg text-black">
-            {label === "Advance"
-              ? "Apply to Invoice"
-              : "Apply Retainer to Invoice"}
+            Apply Retainer to Invoice
           </h5>
 
           <button
@@ -180,11 +176,9 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
           </button>
         </div>
 
-        {/* <div className="p-3"> */}
         <div className="p-3 flex-1 overflow-y-auto show-scrolls">
           <div className="bg-[#F7F8FCA8] p-4 rounded-xl mb-5">
             <div className="flex justify-between items-start">
-              {/* Left */}
               <div className="flex gap-3">
                 <div className="w-14 h-14 rounded-full bg-[#E2E8F0] flex items-center justify-center font-semibold text-gray-700">
                   {initializeDetails?.customerInfo?.profilePic ? (
@@ -218,29 +212,36 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
 
               <div className="text-right">
                 <div className="text-xs text-gray-500">
-                  Total Retainer Amount
+                  Retainer Amount of{" "}
+                  <span className=" text-[#007AFF]">
+                    {initializeDetails?.advanceInfo?.advanceInvoiceNumber}
+                  </span>
                 </div>
 
                 <div className="text-1xl font-semibold">
-                  ₹ {bookingAmount.toLocaleString()}
+                  ₹ {bookingAmount?.toLocaleString()}
                 </div>
 
                 <button
-                  onClick={() => setShowRetainerBreakdown(!showRetainerBreakdown)}
+                  onClick={() =>
+                    setShowRetainerBreakdown(!showRetainerBreakdown)
+                  }
                   className={`mt-2 flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium transition
-    ${showRetainerBreakdown
-                      ? "bg-[#EEF4FF] text-[#1E45E1]"
-                      : "bg-[#1E45E1] text-white"
-                    }`}
+    ${
+      showRetainerBreakdown
+        ? "bg-[#EEF4FF] text-[#1E45E1]"
+        : "bg-[#0D1B8E] text-white"
+    }`}
                 >
                   {showRetainerBreakdown
                     ? "View Breakdown"
                     : "View Total Retainer Amount"}
 
-                  <ArrowRight
+                  <ArrowRight2
                     size={12}
-                    className={`transition-transform ${showRetainerBreakdown ? "-rotate-90" : ""
-                      }`}
+                    className={`transition-transform ${
+                      showRetainerBreakdown ? "-rotate-90" : ""
+                    }`}
                   />
                 </button>
               </div>
@@ -249,33 +250,32 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
             {showRetainerBreakdown && (
               <div className="mt-3 bg-white border border-[#E5E7EB] rounded-lg overflow-hidden">
                 <div className="grid grid-cols-5">
-
                   {[
                     {
                       title: "Advance",
-                      amount: initializeDetails?.advanceInfo?.advanceAmount || 5000,
+                      amount:
+                        initializeDetails?.advanceInfo?.advanceAmount || 0,
                     },
                     {
                       title: "Rent",
-                      amount: initializeDetails?.advanceInfo?.rentAmount || 12600,
+                      amount: initializeDetails?.advanceInfo?.rentAmount || 0,
                     },
                     {
                       title: "EB",
-                      amount: initializeDetails?.advanceInfo?.ebAmount || 600,
+                      amount: initializeDetails?.advanceInfo?.ebAmount || 0,
                     },
                     {
                       title: "Booking",
-                      amount: initializeDetails?.advanceInfo?.bookingAmount || 0,
+                      amount:
+                        initializeDetails?.advanceInfo?.bookingAmount || 0,
                     },
                     {
                       title: "General",
-                      amount: initializeDetails?.advanceInfo?.generalAmount || 0,
+                      amount:
+                        initializeDetails?.advanceInfo?.generalAmount || 0,
                     },
                   ].map((item, index) => (
-                    <div
-                      key={index}
-                      className={"px-4 py-3"}
-                    >
+                    <div key={index} className={"px-4 py-3"}>
                       <p className="text-[12px] text-[#667085] mb-2">
                         {item.title}
                       </p>
@@ -295,7 +295,6 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
                 <table className="w-full text-sm">
                   <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
                     <tr className="rounded-tl-xl rounded-tr-xl">
-
                       <th className="text-left px-4 py-2">INV NO</th>
                       <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
                         TYPE
@@ -312,8 +311,6 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
                     {initializeDetails?.listInvoices?.length > 0 ? (
                       initializeDetails.listInvoices.map((item, index) => (
                         <tr key={index} className="border-t  whitespace-nowrap">
-
-
                           <td className="text-blue-600 cursor-pointer px-4 py-2 font-semibold">
                             {item.invoiceNumber}
                           </td>
@@ -340,10 +337,11 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
                                 handleApplyAmountChange(index, e.target.value)
                               }
                               placeholder="₹ 0.00"
-                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${item.applyAmount
-                                ? "font-semibold"
-                                : "font-medium"
-                                }`}
+                              className={`w-full h-[34px] text-sm rounded-md border border-gray-200 px-2 outline-none ${
+                                item.applyAmount
+                                  ? "font-semibold"
+                                  : "font-medium"
+                              }`}
                             />
                           </td>
                         </tr>
@@ -419,9 +417,9 @@ function ApplyRetainerModal({ show, handleClose, advanceDetails, label }) {
     </div>
   );
 }
-ApplyRetainerModal.propTypes = {
+RetainerApplyInvoice.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default ApplyRetainerModal;
+export default RetainerApplyInvoice;

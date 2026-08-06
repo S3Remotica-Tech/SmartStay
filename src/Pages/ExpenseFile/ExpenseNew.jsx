@@ -515,6 +515,7 @@ function Expenses() {
           name: debouncedSearch,
         },
       });
+      setLoading(true);
       dispatch({
         type: "SET_EXPENSE_FILTERS",
         payload: {
@@ -709,7 +710,7 @@ function Expenses() {
   };
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
     }, 1500);

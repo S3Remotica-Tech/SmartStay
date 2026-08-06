@@ -110,7 +110,7 @@ function BookingsPdfDetails() {
     },
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 h-screen ">
+    <div className="grid grid-cols-1 md:grid-cols-12 h-screen  font-gilroy">
       <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto  ">
         <div className="sticky top-0 bg-white z-20  overflow-hidden">
           <div className="flex justify-between items-center flex-wrap ">
