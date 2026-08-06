@@ -15,7 +15,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import ApplyRetainerModal from "./RetainerApplyInvoice";
+// import ApplyRetainerModal from "./RetainerApplyInvoice";
 import ComingSoon from "../../Utils/ComingSoon";
 import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
@@ -1542,13 +1542,13 @@ function RetainerInvoice() {
           <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
         </div>
       )}
-      {applyInvoice && (
+      {/* {applyInvoice && (
         <ApplyRetainerModal
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={advanceDetails}
         />
-      )}
+      )} */}
 
       {showBillsFilter && (
         <RetainerFilter

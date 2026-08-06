@@ -97,6 +97,7 @@ import TenantActions from "./TenantActions";
 import KYCTenantDetails from "./KYCTenantDetails";
 import TenantJobDetails from "./TenantJobDetails";
 import RemoveRentRevision from "./RemoveRentRevision";
+import TenantRetainerInvoice from "./TenantRetainerInvoice";
 
 function TenantOverview(props) {
   const state = useSelector((state) => state);
@@ -2418,6 +2419,12 @@ function TenantOverview(props) {
                   value="4"
                   className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "4" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
                 />
+
+                <Tab
+                  label="Retainer"
+                  value="5"
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "5" ? "!text-[#222222]" : "!text-[#6B6B6B]"}`}
+                />
               </TabList>
             </Box>
           </div>
@@ -3431,6 +3438,10 @@ function TenantOverview(props) {
 
           <TabPanel value="4">
             <TransactionHistory />
+          </TabPanel>
+
+          <TabPanel value="5">
+            <TenantRetainerInvoice />
           </TabPanel>
         </TabContext>
 

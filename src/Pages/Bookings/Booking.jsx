@@ -44,6 +44,7 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoData from "../../Assets/v2Images/NoData.svg";
 import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import RetainerApplyInvoice from "./RetainerApplyInvoice";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -57,6 +58,7 @@ function Booking() {
   const [statusfilter, setStatusfilter] = useState("");
   const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
+  const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const selectOptions = [{ label: "All", value: "ALL" }];
@@ -388,6 +390,16 @@ function Booking() {
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
   };
+
+  const handleApplyInvoicesRetainer = (item) => {
+    setApplyInvoiceRetainer(true);
+    setAdvanceDetails(item);
+  };
+
+  const handleCloseApplyInvoicesRetainer = () => {
+    setApplyInvoiceRetainer(false);
+  };
+
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
   };
@@ -1305,7 +1317,7 @@ function Booking() {
                                     {showDots === index && (
                                       <div
                                         ref={popupRef}
-                                        className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                        className="  rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
@@ -1327,7 +1339,7 @@ function Booking() {
                                             e.stopPropagation();
                                             handleApplyInvoices(item?.apiCall);
                                           }}
-                                          className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                                          className={`flex items-center gap-2 px-3 py-2  my-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
       ${
         !canUpdateInvoice || !item.apiCall?.canApply
           ? "cursor-not-allowed opacity-50 bg-gray-100"
@@ -1355,6 +1367,45 @@ function Booking() {
                                             Apply Invoices
                                           </span>
                                         </button>
+                                        <button
+                                          disabled={
+                                            !canUpdateInvoice ||
+                                            !item.apiCall?.canApply
+                                          }
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleApplyInvoicesRetainer(
+                                              item?.apiCall,
+                                            );
+                                          }}
+                                          className={`flex items-center gap-2 my-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+      ${
+        !canUpdateInvoice || !item.apiCall?.canApply
+          ? "cursor-not-allowed opacity-50 bg-gray-100"
+          : "cursor-pointer hover:bg-[#EDF2FF]"
+      }`}
+                                        >
+                                          <Link21
+                                            color={
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                                ? "#A9A9A9"
+                                                : "#1E45E1"
+                                            }
+                                            size="16"
+                                          />
+
+                                          <span
+                                            className={`text-sm font-medium ${
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
+                                            }`}
+                                          >
+                                            Apply to Invoices
+                                          </span>
+                                        </button>
                                       </div>
                                     )}
                                   </div>
@@ -1365,7 +1416,7 @@ function Booking() {
                             <tr>
                               <td
                                 colSpan={12}
-                                className="text-center align-middle h-40 text-sm text-red-800 font-semibold"
+                                className="text-center align-middle  h-40 text-sm text-red-800 font-semibold"
                               >
                                 No Data Found
                               </td>
@@ -1539,6 +1590,14 @@ function Booking() {
         <ApplyBookingModal
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
+          advanceDetails={advanceDetails}
+        />
+      )}
+
+      {applyInvoiceRetainer && (
+        <RetainerApplyInvoice
+          show={applyInvoiceRetainer}
+          handleClose={handleCloseApplyInvoicesRetainer}
           advanceDetails={advanceDetails}
         />
       )}
