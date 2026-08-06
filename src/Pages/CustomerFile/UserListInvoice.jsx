@@ -486,29 +486,24 @@ function UserListInvoice(props) {
                                       }}
                                     >
                                       <div className="flex flex-col gap-1 divide-y divide-gray-300">
-                                        {view?.paymentStatus === "Pending" &&
-                                          view?.invoiceType === "Rent" &&
-                                          (view?.invoiceMode === "RECURRING" ||
-                                            view?.invoiceMode ===
-                                              "AUTOMATIC") && (
-                                            <button
-                                              onClick={() =>
-                                                canUpdateInvoice &&
-                                                handleEdit(view)
-                                              }
-                                              disabled={!canUpdateInvoice}
-                                              className={`flex items-center gap-2 px-3 py-2 
+                                        {view?.canEdit && (
+                                          <button
+                                            onClick={() =>
+                                              canUpdateInvoice &&
+                                              handleEdit(view)
+                                            }
+                                            disabled={!canUpdateInvoice}
+                                            className={`flex items-center gap-2 px-3 py-2 
       ${
         canUpdateInvoice
           ? "cursor-pointer hover:bg-[#EDF2FF]"
           : "cursor-not-allowed opacity-50"
       }`}
-                                            >
-                                              <Edit size="16" color="#1E45E1" />
-                                              Edit
-                                            </button>
-                                          )}
-                                        {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
+                                          >
+                                            <Edit size="16" color="#1E45E1" />
+                                            Edit
+                                          </button>
+                                        )}
 
                                         {view.canUnpaid && (
                                           <button
