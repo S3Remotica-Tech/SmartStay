@@ -1775,7 +1775,11 @@ function BankingNew() {
                                   className="text-xs font-gilroy border-b border-[#E8E8E8] h-10"
                                 >
                                   <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">
-                                    {user.createdAt}
+                                    {user.createdAt
+                                      ? dayjs(user.createdAt).format(
+                                          "DD-MM-YYYY HH:mm:ss",
+                                        )
+                                      : "-"}
                                   </td>
                                   <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
                                     <div className="flex items-center gap-2 capitalize">
