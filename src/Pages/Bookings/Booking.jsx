@@ -18,7 +18,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import ApplyBookingModal from "./ApplyInvoices";
 import ComingSoon from "../../Utils/ComingSoon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";
 import {
@@ -51,6 +51,8 @@ function Booking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
+
+  
 
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [search, setSearch] = useState(false);

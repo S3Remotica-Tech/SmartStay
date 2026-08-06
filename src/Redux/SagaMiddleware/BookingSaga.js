@@ -235,7 +235,7 @@ function* handleApplyRetainerInvoice(action) {
       padding: "10px",
     };
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "APPLY_RETAINER_REDUCER",
         payload: { response: response.data, statusCode: response?.status },

@@ -1055,7 +1055,7 @@ const InvoicePage = () => {
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
   useEffect(() => {
-    if (state?.Booking?.applyRetainerSuccessCode === 201) {
+    if (state?.Booking?.applyRetainerSuccessCode === 200) {
       dispatch({
         type: "INVOICESLISTFILTER",
         payload: {

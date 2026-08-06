@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import { useNavigate } from "react-router-dom";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import {
   Filter,
@@ -25,12 +26,15 @@ import {
   Link21,
   AddCircle,
 } from "iconsax-react";
+import { toast } from "react-toastify";
 
 function TenantRetainerInvoice() {
   const state = useSelector((state) => state);
   const CustomerOverView = state.UsersList?.customerdetails?.transactionList;
+
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const navigate = useNavigate();
 
   const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Bills");
@@ -83,8 +87,44 @@ function TenantRetainerInvoice() {
       highlight: true,
     },
   ];
+
+  const handleShow = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding invoice information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
+
+    navigate(`/add-retainer/${state.login.selectedHostel_Id}`, {
+      state: {
+        isTenantOverviewWay: true,
+        customerId: state?.UsersList?.customerdetails?.customerId,
+      },
+    });
+  };
+
+  console.log("CustomerOverView", CustomerOverView);
+
   return (
-    <div>
+    <div className="my-6">
+      <div className="flex justify-end w-full lg:-mt-[65px] mb-6 ">
+        <button
+          disabled={!canUpdateInvoice}
+          onClick={handleShow}
+          className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
+                              rounded-md px-4 py-2  whitespace-nowrap font-gilroy
+                              disabled:opacity-50 disabled:cursor-not-allowed  flex items-center gap-2"
+        >
+          <AddCircle color="#FFFFFF" size="16" /> Retainer
+        </button>
+      </div>
       {!canReadInvoice ? (
         <>
           <PermissionDeniedMessage isHeightChanged={true} />
@@ -96,7 +136,7 @@ function TenantRetainerInvoice() {
           ) : (
             <div>
               <div
-                className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between
+                className="w-full my-6 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between
                gap-4 sm:gap-6 md:gap-10 font-gilroy"
               >
                 {stats.map((item, index) => (

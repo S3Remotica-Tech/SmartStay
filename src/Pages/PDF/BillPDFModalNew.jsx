@@ -581,7 +581,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   }, [state?.Booking?.applyinvoiceSuccessCode]);
 
   useEffect(() => {
-    if (state?.Booking?.applyRetainerSuccessCode === 201) {
+    if (state?.Booking?.applyRetainerSuccessCode === 200) {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",
         payload: {

@@ -189,3 +189,12 @@ export async function bookingCustomizeData(book) {
     book.customize,
   );
 }
+
+export const NavigateToBack = (book) => {
+  // console.log("book", book);
+
+  return {
+    type: "SAVE_NAVIGATE_RETAINER",
+    payload: book,
+  };
+};

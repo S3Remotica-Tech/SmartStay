@@ -155,7 +155,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
   };
 
   useEffect(() => {
-    if (state?.Booking?.applyRetainerSuccessCode === 201) {
+    if (state?.Booking?.applyRetainerSuccessCode === 200) {
       setFormLoading(false);
       handleClose();
     }
@@ -193,7 +193,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
           </button>
         </div>
 
-        <div className="p-3">
+        <div className="p-3 flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
           <div className="flex justify-between items-center bg-[#F7F8FCA8] p-3 rounded mb-4">
             <div className="flex gap-3">
               <div className="w-14 h-14 rounded-full overflow-hidden bg-[#E2E8F0]  flex items-center justify-center text-gray-700 font-semibold">
@@ -241,7 +241,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
               </div>
             </div>
           </div>
-          <div className="my-3">
+          <div className="px-3 py-3 ">
             <div>
               <label className="text-sm text-[#222222] font-semibold">
                 Retainer Invoices
@@ -253,11 +253,11 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto my-2 show-scrolls max-h-[500px]">
+          <div className="">
             <div className="bg-white rounded-xl border border-[#E8E8E8]">
-              <div className="overflow-auto h-fit">
+              <div className=" h-fit">
                 <table className="w-full text-sm">
-                  <thead className="bg-[#F9FAFB] sticky top-0 text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
+                  <thead className="bg-[#F9FAFB] text-gray-500 text-xs uppercase whitespace-nowrap rounded-tl-xl rounded-tr-xl ">
                     <tr className="rounded-tl-xl rounded-tr-xl">
                       <th className="text-left px-4 py-2"></th>
                       <th className="text-left px-4 py-2 rounded-tl-xl rounded-tr-xl">
@@ -318,6 +318,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
 
                           <td className="px-4 py-2 font-semibold">
                             <input
+                              onWheel={(e) => e.target.blur()}
                               type="number"
                               disabled={
                                 !selectedInvoices.includes(item.invoiceId)

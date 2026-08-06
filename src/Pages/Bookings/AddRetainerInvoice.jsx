@@ -13,9 +13,9 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { components } from "react-select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import UserAdditionalContact from "../CustomerFile/UserAdditionalContact";
-import { useLocation } from "react-router-dom";
+import { NavigateToBack } from "../../Redux/Action/BookingAction";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 import NoData from "../../Assets/v2Images/NoData.svg";
@@ -337,7 +337,12 @@ function AddRetainerInvoice() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchLoading, setSearchLoading] = useState(false);
+
+  const { isTenantOverviewWay, customerId } = location.state || {};
+
+  // console.log("customerId", customerId);
 
   const [amountErrmsg, setAmountErrmsg] = useState("");
   const customerRef = useRef(null);
@@ -386,12 +391,21 @@ function AddRetainerInvoice() {
   //   if (!state.login.selectedHostel_Id || search.trim() === "") return;
   // };
 
-  console.log("guardianName", guardianName);
-  console.log("inputValue", inputValue);
-
   const handleClose = () => {
-    navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
+    // if (isTenantOverviewWay) {
+    //   navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
+    // } else {
+    //   navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
+    // }
+    navigate(-1);
+    dispatch(NavigateToBack(true));
   };
+
+  useEffect(() => {
+    if (customerId) {
+      setCustomerName(customerId);
+    }
+  }, [customerId]);
 
   const retainerTypeOptions = [
     { value: "amount_holding", label: "Advance" },
@@ -615,7 +629,9 @@ function AddRetainerInvoice() {
   useEffect(() => {
     if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
       setSaveLoading(false);
-      navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
+      // navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
+      navigate(-1);
+      dispatch(NavigateToBack(true));
       dispatch({
         type: "REMOVE_CREATE_RETAINER_REDUCER",
       });
@@ -724,7 +740,7 @@ function AddRetainerInvoice() {
     return isValid;
   };
 
-  console.log("selectedCustomer", selectedCustomer);
+  // console.log("selectedCustomer", selectedCustomer);
 
   return (
     <div className="block relative font-gilroy ">
@@ -761,6 +777,7 @@ function AddRetainerInvoice() {
                 >
                   <div className="flex-1">
                     <Select
+                      isDisabled={customerId}
                       ref={customerRef}
                       placeholder="Add or Search Tenant"
                       classNamePrefix="custom"
