@@ -85,7 +85,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   }, [selfDetails]);
 
   useEffect(() => {
-    if (state.bankingDetails?.statusSuccessSelfTransfer) {
+    if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       setLoading(false);
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
@@ -106,7 +106,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const availableBalance = Number(bankDetails?.fromBank?.balance || 0);
 
   const isTransferDisabled =
-    loading || !selectedBank || Number(amount) > availableBalance;
+    !selectedBankId || Number(amount) > availableBalance;
 
   const handleSelect = (bankId, index) => {
     setSelectedBank(index);

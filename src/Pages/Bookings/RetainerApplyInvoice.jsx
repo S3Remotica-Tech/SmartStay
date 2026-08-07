@@ -46,7 +46,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
     );
 
     if (amount + Number(otherApplied) > bookingAmount) {
-      setError("Total exceeds booking amount");
+      setError("Total exceeds retainer  amount");
       amount = bookingAmount - otherApplied;
     }
 
@@ -145,7 +145,6 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
 
   return (
-    // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
     <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40 px-3 md:px-8">
       <div
         className="
@@ -222,7 +221,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
                   ₹ {bookingAmount?.toLocaleString()}
                 </div>
 
-                <button
+                {/* <button
                   onClick={() =>
                     setShowRetainerBreakdown(!showRetainerBreakdown)
                   }
@@ -243,7 +242,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
                       showRetainerBreakdown ? "-rotate-90" : ""
                     }`}
                   />
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -378,14 +377,14 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
                 <div className="flex justify-between text-sm text-gray-500 mb-2 gap-6">
                   <span>Amount Applied</span>
                   <span className="font-semibold text-black">
-                    ₹ {totalApplied.toFixed(2)}{" "}
+                    ₹ {totalApplied?.toFixed(2)}{" "}
                   </span>
                 </div>
 
                 <div className="flex justify-between text-sm text-gray-500 gap-6">
                   <span>Available Balance</span>
                   <span className="font-semibold text-black">
-                    ₹ {remainingBalance.toFixed(2)}
+                    ₹ {remainingBalance?.toFixed(2)}
                   </span>
                 </div>
               </div>
