@@ -2,6 +2,7 @@
 
 export const initialState = {
   Users: [],
+  removeRentRevisionSuccess: 0,
   addUserResponse: "",
   errorMessage: {},
   hostelList: [],
@@ -210,6 +211,7 @@ export const initialState = {
   createRetainerInvoiceStatusCode: 0,
   CustomerListGetSuccessCode: 0,
   CustomerList: [],
+  RentRevisionError: "",
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -1254,6 +1256,18 @@ const UserListReducer = (state = initialState, action) => {
       };
     case "REMOVE_CREATE_RETAINER_REDUCER":
       return { ...state, createRetainerInvoiceStatusCode: 0 };
+
+    case "CANCEL_RENT_REVISION_UPDATE_REDUCER":
+      return { ...state, removeRentRevisionSuccess: action.payload.statusCode };
+
+    case "REMOVE_CANCEL_RENT_REVISION_UPDATE_REDUCER":
+      return { ...state, removeRentRevisionSuccess: 0 };
+
+    case "RENT_REVISION_ERROR":
+      return { ...state, RentRevisionError: action.payload };
+
+    case "REMOVE_RENT_REVISION_ERROR":
+      return { ...state, RentRevisionError: "" };
 
     case "CREATE_RETAINER_ADD_ERROR":
       return {

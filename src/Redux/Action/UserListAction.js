@@ -218,6 +218,12 @@ export async function getParticularHostelList(hostel) {
   });
 }
 
+export async function RemoveRentRevision(rent) {
+  return await AxiosConfigV2?.put(
+    `/v2/bookings/rent/${rent.hostelId}/${rent.customerId}/cancel-upcoming-rent`,
+  );
+}
+
 export async function CheckIn(CheckIn) {
   return await AxiosConfigV2.post(
     `/v2/customers/check-in/${CheckIn.customerId}`,

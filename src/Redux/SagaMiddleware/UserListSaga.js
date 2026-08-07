@@ -2,6 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import {
+  RemoveRentRevision,
   UpdateJobDetails,
   CheckInTenantAdditional,
   UpdateSaveDraftTenant,
@@ -265,6 +266,65 @@ function* handleUpdateJobDetails(job) {
     if (error) {
       yield put({
         type: "JOB_UPDATE_ERROR",
+        payload: error.response.data,
+      });
+
+      toast.error(`${error.response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+}
+
+function* handleRemoveRentRevision(rent) {
+  try {
+    const response = yield call(RemoveRentRevision, rent.payload);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "CANCEL_RENT_REVISION_UPDATE_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Updated Successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "RENT_REVISION_ERROR",
         payload: error.response.data,
       });
 
@@ -3886,8 +3946,6 @@ function* handleCreateRetainerInvoice(reading) {
         style: toastStyle,
       });
     }
-
-   
   } catch (error) {
     yield* handleApiError(error);
 
@@ -3901,6 +3959,7 @@ function* handleCreateRetainerInvoice(reading) {
 }
 
 function* UserListSaga() {
+  yield takeEvery("REMOVE_RENT_REVISION_UPDATE_SAGA", handleRemoveRentRevision);
   yield takeEvery("JOB_UPDATE_SAGA", handleUpdateJobDetails);
 
   yield takeEvery(

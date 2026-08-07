@@ -885,35 +885,6 @@ function AddRetainerInvoice() {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
 
-              {/* <CreatableSelect
-                isDisabled={!selectedCustomer}
-                ref={guardianRef}
-                placeholder="Enter / Select Respective Person"
-                classNamePrefix="custom"
-                styles={CustomStylesCode}
-                options={GuardianOptions}
-                value={
-                  GuardianOptions.find((opt) => opt.value === guardianName) ||
-                  null
-                }
-                inputValue={inputValue}
-                onInputChange={(value, { action }) => {
-                  if (action === "input-change") {
-                    setInputValue(value);
-                    setGuardianName("");
-                  }
-                }}
-                onChange={(option) => {
-                  setGuardianName(option?.value || "");
-                  setInputValue("");
-                }}
-                // onCreateOption={(value) => {
-                //   setInputValue(value);
-                //   setGuardianName("");
-                // }}
-                formatCreateLabel={(inputValue) => `+ Add "${inputValue}"`}
-              /> */}
-
               <CreatableSelect
                 isDisabled={!selectedCustomer}
                 ref={guardianRef}
@@ -979,19 +950,6 @@ function AddRetainerInvoice() {
                 <ErrorMessage message={invoiceDateErrmsg} type="error" />
               )}
             </div>
-            {/* <div className="col-span-1 md:col-span-4 mt-1">
-              <label className="font-gilroy text-[14px] font-medium text-[#222]">
-                Reference Number
-              </label>
-
-              <input
-                type="text"
-                placeholder="Enter Reference Number"
-                value={referenceNumber}
-                onChange={handleReferenceChange}
-                className="w-full h-[48px] px-[10px] py-[12px] text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0 mt-2"
-              />
-            </div> */}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
             <div className="col-span-1 md:col-span-10">
