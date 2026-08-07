@@ -222,7 +222,7 @@ function InvoiceRegisterFilter({
       return;
     }
 
-    const hasAll = selectedOptions.some((opt) => opt.value === "ALL");
+    const hasAll = selectedOptions?.some((opt) => opt.value === "ALL");
 
     if (hasAll) {
       const allOption = selectedOptions.find((opt) => opt.value === "ALL");
@@ -520,8 +520,15 @@ function InvoiceRegisterFilter({
                 styles={CustomStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
-                isOptionDisabled={(option) =>
-                  isAllSelectedDrop && option.value !== "ALL"
+                // isOptionDisabled={(option) =>
+                //   isAllSelectedDrop && option.value !== "ALL"
+                // }
+                isOptionSelected={(option) =>
+                  billStatus.includes("ALL")
+                    ? true
+                    : selectedBillStatusOptions.some(
+                        (selected) => selected.value === option.value,
+                      )
                 }
               />
             </Form.Group>

@@ -144,7 +144,7 @@ function EditRentalAmount({ show, handleClose }) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
-      }, 3000);
+      }, 100);
     }
   }, [state.createAccount?.networkError]);
 

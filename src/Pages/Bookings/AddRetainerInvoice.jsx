@@ -767,7 +767,7 @@ function AddRetainerInvoice() {
         </div>
         <div className="flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
           <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 md:col-span-8">
+            <div className="col-span-12 md:col-span-10">
               <label className="block mb-2 text-[13px] font-medium text-[#222222]">
                 Tenant Name <span className="text-red-500">*</span>
               </label>
@@ -781,7 +781,7 @@ function AddRetainerInvoice() {
                     <Select
                       isDisabled={customerId}
                       ref={customerRef}
-                      placeholder="Add or Search Tenant"
+                      placeholder="Select/Search Tenant"
                       classNamePrefix="custom"
                       styles={CustomStyles}
                       options={customerOptions}
@@ -812,16 +812,16 @@ function AddRetainerInvoice() {
                 {customerErrmsg && (
                   <ErrorMessage message={customerErrmsg} type="error" />
                 )}
-                <p className="mt-2 mb-0 text-xs text-[#6B7280] leading-5">
+                {/* <p className="mt-2 mb-0 text-xs text-[#6B7280] leading-5">
                   Search existing tenants in the Property Flow ecosystem to
                   auto-fill tenant details.
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
           {selectedCustomer && (
             <div className="grid grid-cols-12 gap-4 my-2 font-gilroy">
-              <div className="col-span-12 md:col-span-8">
+              <div className="col-span-12 md:col-span-10">
                 <div className="bg-[#F8F9FC] rounded-xl px-4 py-4 flex flex-col md:flex-row md:justify-between md:items-start gap-5">
                   <div className="flex items-start gap-3">
                     {selectedCustomer?.profilePic ? (
@@ -879,40 +879,11 @@ function AddRetainerInvoice() {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 mb-2">
-            <div className="col-span-1 xl:col-span-8">
+            <div className="col-span-1 xl:col-span-5">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Received from{" "}
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
-
-              {/* <CreatableSelect
-                isDisabled={!selectedCustomer}
-                ref={guardianRef}
-                placeholder="Enter / Select Respective Person"
-                classNamePrefix="custom"
-                styles={CustomStylesCode}
-                options={GuardianOptions}
-                value={
-                  GuardianOptions.find((opt) => opt.value === guardianName) ||
-                  null
-                }
-                inputValue={inputValue}
-                onInputChange={(value, { action }) => {
-                  if (action === "input-change") {
-                    setInputValue(value);
-                    setGuardianName("");
-                  }
-                }}
-                onChange={(option) => {
-                  setGuardianName(option?.value || "");
-                  setInputValue("");
-                }}
-                // onCreateOption={(value) => {
-                //   setInputValue(value);
-                //   setGuardianName("");
-                // }}
-                formatCreateLabel={(inputValue) => `+ Add "${inputValue}"`}
-              /> */}
 
               <CreatableSelect
                 isDisabled={!selectedCustomer}
@@ -930,8 +901,10 @@ function AddRetainerInvoice() {
                 inputValue={inputValue}
                 onInputChange={(value, { action }) => {
                   if (action === "input-change") {
-                    setInputValue(value);
-                    setGuardianName(value);
+                    const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
+
+                    setInputValue(filteredValue);
+                    setGuardianName(filteredValue);
                     setGuardianErrmsg("");
                   }
                 }}
@@ -951,10 +924,7 @@ function AddRetainerInvoice() {
                 <ErrorMessage message={guardianErrmsg} type="error" />
               )}
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
-            <div className="col-span-1 md:col-span-4">
+            <div className="col-span-1 md:col-span-5">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Invoice Date
                 <span className="text-red-600 text-[20px]">*</span>
@@ -979,20 +949,8 @@ function AddRetainerInvoice() {
                 <ErrorMessage message={invoiceDateErrmsg} type="error" />
               )}
             </div>
-            {/* <div className="col-span-1 md:col-span-4 mt-1">
-              <label className="font-gilroy text-[14px] font-medium text-[#222]">
-                Reference Number
-              </label>
-
-              <input
-                type="text"
-                placeholder="Enter Reference Number"
-                value={referenceNumber}
-                onChange={handleReferenceChange}
-                className="w-full h-[48px] px-[10px] py-[12px] text-[16px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0 mt-2"
-              />
-            </div> */}
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
             <div className="col-span-1 md:col-span-10">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium my-2 mx-2">
@@ -1118,11 +1076,15 @@ function AddRetainerInvoice() {
               )}
               <div className="flex justify-between">
                 <div className="w-full">
-                  <div className="flex justify-end  mt-6 me-6 ">
-                    <div className="w-[320px] space-y-3 p-4 rounded-md  bg-[#FAFAFA] ">
+                  <div className="flex justify-end  m-4 ">
+                    <div className="w-[325px] space-y-3 p-4 rounded-md  bg-[#F2F4F6] ">
                       <div className="flex justify-between">
-                        <span className="text-sm">TOTAL AMOUNT</span>
-                        <span>₹ {subTotal.toLocaleString("en-IN")}</span>
+                        <span className="text-sm font-semibold text-[#505F76]">
+                          TOTAL AMOUNT
+                        </span>
+                        <span className="text-sm font-bold text-[#191C1E]">
+                          ₹ {subTotal.toLocaleString("en-IN")}
+                        </span>
                       </div>
                     </div>
                   </div>

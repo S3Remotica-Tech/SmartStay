@@ -271,6 +271,8 @@ function TenantOverview(props) {
 
   const CustomerOverView = state?.UsersList?.customerdetails;
 
+
+
   const handleNavigateTenant = () => {
     if (isPgWay || navigatePg) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
@@ -314,6 +316,16 @@ function TenantOverview(props) {
   useEffect(() => {
     dispatch(NavigateToBack(false));
   }, []);
+
+ useEffect(() => {
+    if (state.UsersList?.removeRentRevisionSuccess) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      dispatch({ type: 'REMOVE_CANCEL_RENT_REVISION_UPDATE_REDUCER'})
+    }
+  }, [state.UsersList?.removeRentRevisionSuccess]);
 
   useEffect(() => {
     if (isDashboardWay) {
@@ -516,96 +528,6 @@ function TenantOverview(props) {
 
   const [advanceDetail, setAdvanceDetail] = useState("");
 
-  // useEffect(() => {
-  //   if (isFirstRun.current) {
-  //     isFirstRun.current = false;
-  //     return;
-  //   }
-
-  //   if (props.userData?.profile && !file) {
-  //     return;
-  //   }
-
-  //   if (
-  //     ProfilePic &&
-  //     file &&
-  //     props.userData?.ID &&
-  //     props.userData?.Name &&
-  //     props.userData?.Phone
-  //   ) {
-  //     const name = props.userData?.Name || "";
-  //     const value = name.trim().split(" ");
-  //     setFirstname(value[0] || "");
-  //     setLastname(value[1] || "");
-
-  //     const payload = {
-  //       profile: file,
-  //       firstname: value[0] || "",
-  //       lastname: value[1] || "",
-  //       Phone: MobileNumber,
-  //       Email: Email,
-  //       Address: house_no,
-  //       area: street,
-  //       landmark: landmark,
-  //       city: city,
-  //       pincode: pincode,
-  //       state: state_name,
-  //       AadharNo: AadharNo,
-  //       PancardNo: PancardNo,
-  //       licence: licence,
-  //       HostelName: HostelName,
-  //       hostel_Id: hostel_Id,
-  //       Floor: props.userData?.Floor,
-  //       Rooms: props.userData?.room_id,
-  //       Bed: props.userData?.hstl_Bed,
-  //       joining_date: props.userData?.joining_Date,
-  //       AdvanceAmount: props.userData?.AdvanceAmount,
-  //       RoomRent: props.userData?.RoomRent,
-  //       BalanceDue: BalanceDue,
-  //       PaymentType: PaymentType,
-  //       paid_advance: paid_advance,
-  //       paid_rent: paid_rent,
-  //       ID: props.userData?.ID,
-  //     };
-
-  //     dispatch({
-  //       type: "ADDUSER",
-  //       payload: payload,
-  //     });
-  //   }
-  // }, [ProfilePic, file, props.userData]);
-
-  // useEffect(() => {
-  //   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
-
-  //   if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
-  //     setFile(base64Pic);
-  //   }
-  // }, [state.UsersList?.KycCustomerDetails?.pic]);
-  // useEffect(() => {
-  //   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
-
-  //   if (rawAddress) {
-  //     const parts = rawAddress.split(",").map((part) => part.trim());
-
-  //     const addressParts = parts.slice(1);
-
-  //     const pincodePart = addressParts[addressParts.length - 1];
-  //     const statePart = addressParts[addressParts.length - 2];
-  //     const cityPart = addressParts[addressParts.length - 3];
-
-  //     const others = addressParts.slice(0, addressParts.length - 3);
-  //     const [streetNumber, streetName, areaPart, landmarkPart] = others;
-
-  //     setHouseNo(`${streetNumber} ${streetName}`);
-  //     setStreet(areaPart);
-  //     setLandmark(landmarkPart);
-  //     setCity(cityPart);
-  //     setStateName(statePart);
-  //     setPincode(pincodePart);
-  //   }
-  // }, [state.UsersList.KycCustomerDetails?.address]);
-
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({
@@ -736,9 +658,6 @@ function TenantOverview(props) {
     setFormShow(false);
     setKycDetailForm(false);
   };
-  const handleChangesupload = (event, newValue) => {
-    setDocumentValue(newValue);
-  };
 
   const options = {
     dateFormat: "Y/m/d",
@@ -750,98 +669,6 @@ function TenantOverview(props) {
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate]);
-
-  const handleShowEditBed = (item) => {
-    if (item[0].ID) {
-      if (activeRow === item[0].ID) {
-        setActiveRow(null);
-      } else {
-        setActiveRow(item[0].ID);
-      }
-      setBednum(item);
-      seteditBed("editbeddet");
-      setcustomerAsignBed(true);
-      setcustomerdetailShow(false);
-      setFormShow(true);
-      setId(item[0].ID);
-
-      if (item[0].profile === 0) {
-        setFile(null);
-      } else {
-        setFile(item[0].profile);
-      }
-
-      if (item[0].Name) {
-        let value = item[0].Name.split(" ");
-        setFirstname(value[0]);
-        setLastname(value[1]);
-      } else {
-        setFirstname("");
-        setLastname("");
-      }
-
-      setAddress(item[0].Address || "");
-      setAadharNo(item[0].AadharNo || "");
-      setPancardNo(item[0].PancardNo || "");
-      setLicence(item[0].licence || "");
-      setPhone(item[0].Phone || "");
-      setEmail(item[0].Email || "");
-      setHostelName(item[0].HostelName || "");
-      setHostel_Id(item[0].Hostel_Id || "");
-      setFloor(item[0].Floor || "");
-      setRooms(item[0].Rooms || "");
-      setRoomId(item[0].room_id || "");
-      setBedId(item[0].hstl_Bed || "");
-      setPincode(item[0].pincode);
-      setStreet(item[0].area);
-      setLandmark(item[0].landmark);
-      setCity(item[0].city);
-      setStateName(item[0].state);
-
-      const isValidDate =
-        item[0].user_join_date && item[0].user_join_date !== "0000-00-00";
-      const parsedDate = isValidDate ? new Date(item[0].user_join_date) : null;
-
-      if (parsedDate && !isNaN(parsedDate.getTime())) {
-        setSelectedDate(parsedDate);
-      } else {
-        setSelectedDate("");
-      }
-      setAdvanceAmount(item[0].AdvanceAmount || "");
-      setRoomRent(item[0].RoomRent || "");
-      setPaymentType(item[0].PaymentType || "");
-      setBalanceDue(item[0].BalanceDue || "");
-      setPaidAdvance(item[0].paid_advance || "");
-      setPaidrent(item[0].paid_rent || "");
-
-      if (item[0]?.reasonData && Array.isArray(item[0].reasonData)) {
-        const formattedFields = item[0]?.reasonData?.map((entry) => {
-          const isCustom = String(entry.reason) !== "maintenance";
-
-          return {
-            reason_name: entry.reason,
-            amount: entry.amount || "",
-            showInput: isCustom,
-            customReason: isCustom ? entry.reason : "",
-            id: entry.id || "",
-          };
-        });
-
-        setFields(formattedFields);
-      }
-
-      setInitialStateAssign({
-        Floor: item[0].Floor || "",
-        Rooms: item[0].room_id || "",
-        Bed: item[0].hstl_Bed || "",
-        selectedDate: item[0].user_join_date || "",
-        AdvanceAmount: item[0].AdvanceAmount || "",
-        RoomRent: item[0].RoomRent || "",
-      });
-
-      seteditMode(true);
-    }
-  };
 
   const handleCustomerReAssign = (reuser) => {
     if (reuser?.customerId) {
@@ -3017,14 +2844,14 @@ function TenantOverview(props) {
                                 className="group relative bg-[#FFF8EB] rounded-xl px-3 w-full
                               py-2 flex flex-col items-start min-w-0   "
                               >
-                                {/* <button
-                                  // onClick={() => setShowDeletePopup(true)}
+                                <button
+                                  onClick={() => setShowDeletePopup(true)}
                                   className="absolute top-2 right-2 z-50 bg-white p-1 rounded
             hidden group-hover:!block
              transition-opacity duration-200"
                                 >
                                   <Trash size={14} color="red" />
-                                </button> */}
+                                </button>
 
                                 <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
                                   New Monthly Rent
