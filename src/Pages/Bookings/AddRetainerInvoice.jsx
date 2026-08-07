@@ -607,6 +607,8 @@ function AddRetainerInvoice() {
       amount: Number(expenseItem.amount || 0),
       bankId: paymentMethod?.value,
       referenceNumber: transactionId,
+      detailedDescription: expenseItem?.itemName,
+      description: description,
     };
 
     const isExisting = GuardianOptions.some(
@@ -700,13 +702,13 @@ function AddRetainerInvoice() {
       setFirstError(invoiceDateRef);
     }
 
-    if (!expenseItem.itemName?.trim()) {
-      setExpenseItemError((prev) => ({
-        ...prev,
-        itemName: "Enter Item Name",
-      }));
-      setFirstError(itemNameRef);
-    }
+    // if (!expenseItem.itemName?.trim()) {
+    //   setExpenseItemError((prev) => ({
+    //     ...prev,
+    //     itemName: "Enter Item Name",
+    //   }));
+    //   setFirstError(itemNameRef);
+    // }
 
     if (!expenseItem.retainertype) {
       setExpenseItemError((prev) => ({
@@ -855,7 +857,7 @@ function AddRetainerInvoice() {
                       </p>
                     </div>
 
-                    <p className="text-[12px] text-[#555]">
+                    {/* <p className="text-[12px] text-[#555]">
                       {selectedCustomer?.addressLine1}
                     </p>
 
@@ -865,7 +867,7 @@ function AddRetainerInvoice() {
 
                     <p className="text-[12px] text-[#555]">
                       {selectedCustomer?.city}
-                    </p>
+                    </p> */}
 
                     <p className="mt-1 text-[12px] text-[#555]">
                       {selectedCustomer?.mobile}
@@ -930,18 +932,19 @@ function AddRetainerInvoice() {
                   if (action === "input-change") {
                     setInputValue(value);
                     setGuardianName(value);
+                    setGuardianErrmsg("");
                   }
                 }}
                 onChange={(option) => {
                   setGuardianName(option?.value || "");
                   setInputValue("");
+                  setGuardianErrmsg("");
                 }}
                 onCreateOption={(value) => {
-                  // User clicked + Add "value"
                   setInputValue("");
                   setGuardianName(value);
+                  setGuardianErrmsg("");
                 }}
-                // formatCreateLabel={(inputValue) => `+ Add "${inputValue}"`}
               />
 
               {guardianErrmsg && (
