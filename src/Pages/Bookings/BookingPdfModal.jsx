@@ -744,22 +744,29 @@ const InvoiceCard = ({ rowData }) => {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-2 flex items-stretch">
+                {pdfDetails?.invoiceInfo?.detailedDescription && (
+                  <div className="col-span-1 md:col-span-12">
+                    <label className="block mb-2 text-[13px] font-medium text-[#222222]">
+                      Description / Notes
+                    </label>
+
+                    <textarea
+                      rows={4}
+                      placeholder=""
+                      className="w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] font-medium text-[#4B4B4B] outline-none resize-none focus:ring-0 focus:border-[#1E45E1]"
+                      value={
+                        pdfDetails?.invoiceInfo?.detailedDescription || "-"
+                      }
+                    />
+                  </div>
+                )}
+
                 <div className="col-span-1 md:col-span-12">
                   <label className="block mb-2 text-[13px] font-medium text-[#222222]">
-                    Description / Notes
-                  </label>
-
-                  <textarea
-                    rows={4}
-                    placeholder=""
-                    className="w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] font-medium text-[#4B4B4B] outline-none resize-none focus:ring-0 focus:border-[#1E45E1]"
-                    // value={description}
-                  />
-                </div>
-
-                <div className="col-span-1 md:col-span-12">
-                  <label className="block mb-2 text-[13px] font-medium text-[#222222]">
-                    Received from :
+                    Received from :{" "}
+                    <span className="font-semibold">
+                      {pdfDetails?.invoiceInfo?.paidBy}
+                    </span>
                   </label>
                 </div>
               </div>

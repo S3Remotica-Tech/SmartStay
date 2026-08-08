@@ -1835,7 +1835,7 @@ function BankingNew() {
                                     {user.description || "-"}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
-                                    {/* {user?.displayName} */}
+                                    {user?.accountHolderName}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     {user.transactionAmount}

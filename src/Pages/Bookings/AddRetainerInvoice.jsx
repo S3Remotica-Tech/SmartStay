@@ -31,6 +31,9 @@ import {
   Calendar,
 } from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -452,6 +455,9 @@ function AddRetainerInvoice() {
     (g) => g.guardianId === guardianName,
   );
 
+  const joiningDate = selectedCustomer?.joiningDate
+    ? dayjs(selectedCustomer.joiningDate, "DD/MM/YYYY").toDate()
+    : null;
   const GuardianOptions =
     selectedCustomer?.guardiansList?.map((g) => ({
       value: g.guardianId,
@@ -843,34 +849,58 @@ function AddRetainerInvoice() {
                       </h3>
 
                       <p className="mt-1 text-[11px] text-[#6B7280]">
-                        {selectedCustomer?.floorName || "G-Floor"} | Room{" "}
-                        {selectedCustomer?.roomNumber || "--"} | Bed{" "}
-                        {selectedCustomer?.bedNumber || "--"}
+                        {selectedCustomer?.stayInfo?.floorName || "-"} |{" "}
+                        {selectedCustomer?.stayInfo?.roomName || "--"} |{" "}
+                        {selectedCustomer?.stayInfo?.bedName || "--"}
                       </p>
                     </div>
                   </div>
 
-                  <div className="min-w-[220px]">
+                  <div className="min-w-[500px]">
                     <div className="flex items-center gap-1 mb-1">
-                      <p className="text-[12px] font-semibold text-[#222222]">
+                      <p className="text-[12px] font-semibold text-[#222222] mb-0">
                         Billed to
                       </p>
                     </div>
+                    {selectedCustomer?.addressInfo?.houseNo && (
+                      <p className="text-[12px] text-[#555] mb-0">
+                        {selectedCustomer?.addressInfo?.houseNo},
+                      </p>
+                    )}
+                    <div className="flex gap-1 ">
+                      {selectedCustomer?.addressInfo?.street && (
+                        <p className="text-[12px] text-[#555] mb-0 capitalize">
+                          {selectedCustomer.addressInfo.street},
+                        </p>
+                      )}
 
-                    {/* <p className="text-[12px] text-[#555]">
-                      {selectedCustomer?.addressLine1}
-                    </p>
+                      {selectedCustomer?.addressInfo?.landmark && (
+                        <p className="text-[12px] text-[#555] mb-0 capitalize">
+                          {selectedCustomer.addressInfo.landmark},
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex gap-1 ">
+                      {selectedCustomer?.addressInfo?.city && (
+                        <p className="text-[12px] text-[#555] mb-0 capitalize">
+                          {selectedCustomer.addressInfo.city} ,
+                        </p>
+                      )}
+                      {selectedCustomer?.addressInfo?.pincode !== 0 && (
+                        <p className="text-[12px] text-[#555] mb-0">
+                          {selectedCustomer.addressInfo.pincode || "-"},
+                        </p>
+                      )}
+                    </div>
 
-                    <p className="text-[12px] text-[#555]">
-                      {selectedCustomer?.addressLine2}
-                    </p>
+                    {selectedCustomer?.addressInfo?.state && (
+                      <p className="text-[12px] text-[#555] mb-0 capitalize">
+                        {selectedCustomer.addressInfo.state}
+                      </p>
+                    )}
 
-                    <p className="text-[12px] text-[#555]">
-                      {selectedCustomer?.city}
-                    </p> */}
-
-                    <p className="mt-1 text-[12px] text-[#555]">
-                      {selectedCustomer?.mobile}
+                    <p className="mt-1 text-[12px] text-[#555] mb-0">
+                      + {selectedCustomer?.country} {selectedCustomer?.mobile}
                     </p>
                   </div>
                 </div>
@@ -924,7 +954,7 @@ function AddRetainerInvoice() {
                 <ErrorMessage message={guardianErrmsg} type="error" />
               )}
             </div>
-            <div className="col-span-1 md:col-span-5">
+            <div className="col-span-1 xl:col-span-5">
               <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
                 Invoice Date
                 <span className="text-red-600 text-[20px]">*</span>
@@ -936,6 +966,7 @@ function AddRetainerInvoice() {
                   onChange={handleInvoiceDate}
                   dateFormat="dd/MM/yyyy"
                   maxDate={new Date()}
+                  minDate={joiningDate}
                   placeholderText="Select Date"
                   className="w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px] border-[#D9D9D9] focus:outline-none"
                 />
