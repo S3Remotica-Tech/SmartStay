@@ -3952,7 +3952,7 @@ function* handleCreateRetainerInvoice(reading) {
     if (error) {
       yield put({
         type: "CREATE_RETAINER_ADD_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
