@@ -354,25 +354,21 @@ function FinalSettlementInvoicePDF() {
                 </h3>
 
                 <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
-                  <div>
-                    <span>Total Paid ₹</span>
-                  </div>
-
-                  {/* {pdfDetails?.advanceItems?.redeemedList?.map(
+                  {pdfDetails?.retainerInfo?.retainerItems?.map(
                     (item, index) => (
                       <div key={item.invoiceId || index}>
                         <span className="mb-1 block">
-                          {item.invoiceNumber} - ₹ {item.redeemedAmount}
+                          {item.invoiceNo} - ₹ {item.appliedAmount}
                         </span>
                       </div>
                     ),
-                  )} */}
+                  )}
                 </div>
               </div>
 
               <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
                 <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
-                {/* ₹ {pdfDetails?.advanceItems?.availableAdvanceBalance || 0} */}
+                ₹ {pdfDetails?.retainerInfo?.totalRetainerAmount || 0}
               </p>
             </div>
           </div>

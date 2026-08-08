@@ -637,12 +637,11 @@ function AddRetainerInvoice() {
   useEffect(() => {
     if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
       setSaveLoading(false);
+      dispatch(NavigateToBack(true));
       // navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
       navigate(-1);
-      dispatch(NavigateToBack(true));
-      dispatch({
-        type: "REMOVE_CREATE_RETAINER_REDUCER",
-      });
+
+     
     }
   }, [state.UsersList.createRetainerInvoiceStatusCode]);
 

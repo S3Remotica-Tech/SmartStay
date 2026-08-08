@@ -803,6 +803,14 @@ function Booking() {
     },
   };
 
+  useEffect(() => {
+    if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
+      dispatch({
+        type: "REMOVE_CREATE_RETAINER_REDUCER",
+      });
+    }
+  }, [state.UsersList.createRetainerInvoiceStatusCode]);
+
   const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
 
   const stats = [
