@@ -127,6 +127,8 @@ export async function selfTranferV3(bank) {
     fromBankId: bank.fromBankId,
     toBankId: bank.toBankId,
     amount: bank.amount,
+    date: bank?.date,
+    notes: bank?.notes,
   });
 }
 

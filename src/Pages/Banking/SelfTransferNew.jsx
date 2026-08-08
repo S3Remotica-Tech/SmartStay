@@ -5,6 +5,7 @@ import { Add, Bank, Card, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
 
 function SelfTransferNew({ show, handleClose, selfDetails }) {
   // console.log("selfDetailsselfDetails", selfDetails);
@@ -28,7 +29,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
   };
 
-  console.log("selectedBankId", selectedBankId);
+  // console.log("selectedBankId", selectedBankId);
 
   const handleTransfer = () => {
     setError("");
@@ -57,11 +58,15 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
         fromBankId: bankDetails?.fromBank?.bankId,
         toBankId: selectedBankId,
         amount: Number(amount),
+        date: selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null,
+        notes: notes,
       },
     });
 
     setLoading(true);
   };
+
+  // console.log("selectedDate", selectedDate);
 
   if (!show) return null;
 
