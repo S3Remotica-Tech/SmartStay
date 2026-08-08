@@ -27,6 +27,8 @@ import {
   AddCircle,
 } from "iconsax-react";
 import { toast } from "react-toastify";
+import ComingSoon from "../../Utils/ComingSoon";
+import FormComingSoon from "../../Utils/FormComingSoon";
 
 function TenantRetainerInvoice() {
   const state = useSelector((state) => state);
@@ -110,13 +112,15 @@ function TenantRetainerInvoice() {
     });
   };
 
-  console.log("CustomerOverView", CustomerOverView);
+  // console.log("CustomerOverView", CustomerOverView);
+  const isComingSoon =
+    import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
 
   return (
     <div className="my-6">
       <div className="flex justify-end w-full lg:-mt-[65px] mb-6 ">
         <button
-          disabled={!canUpdateInvoice}
+          disabled={!canUpdateInvoice || isComingSoon}
           onClick={handleShow}
           className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
                               rounded-md px-4 py-2  whitespace-nowrap font-gilroy
@@ -131,8 +135,10 @@ function TenantRetainerInvoice() {
         </>
       ) : (
         <div>
-          {CustomerOverView?.length === 0 ? (
-            <NoDataMessage label="Retainer" isHeightChanged={true} />
+          {isComingSoon ? (
+            // <NoDataMessage label="Retainer" isHeightChanged={true} />
+
+            <FormComingSoon />
           ) : (
             <div>
               <div

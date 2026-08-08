@@ -341,19 +341,18 @@ function Booking() {
     );
 
     const apiData = row[row.length - 1];
-
-    // console.log("apiData", apiData);
-
     obj.apiCall = {
       invoiceId: apiData?.invoiceId || null,
       canApply: apiData?.canApply || null,
       availableAmount: apiData?.availableAmount || 0,
       customerId: apiData?.customerId,
+      invoiceType: apiData?.invoiceType,
     };
 
-    // obj.status = apiData?.status || "-";
     return obj;
   });
+
+  console.log("formattedData", formattedData);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -1331,82 +1330,90 @@ function Booking() {
                                           zIndex: 1000,
                                         }}
                                       >
-                                        <button
-                                          disabled={
-                                            !canUpdateInvoice ||
-                                            !item.apiCall?.canApply
-                                          }
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleApplyInvoices(item?.apiCall);
-                                          }}
-                                          className={`flex items-center gap-2 px-3 py-2  my-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                                        {item?.apiCall?.invoiceType ===
+                                          "ADVANCE" ||
+                                        item?.apiCall?.invoiceType ===
+                                          "BOOKING" ? (
+                                          <button
+                                            disabled={
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                            }
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleApplyInvoices(
+                                                item?.apiCall,
+                                              );
+                                            }}
+                                            className={`flex items-center gap-2 px-3 py-2  my-2  rounded-[10px] transition-all duration-150
       ${
         !canUpdateInvoice || !item.apiCall?.canApply
           ? "cursor-not-allowed opacity-50 bg-gray-100"
           : "cursor-pointer hover:bg-[#EDF2FF]"
       }`}
-                                        >
-                                          <Link21
-                                            color={
-                                              !canUpdateInvoice ||
-                                              !item.apiCall?.canApply
-                                                ? "#A9A9A9"
-                                                : "#1E45E1"
-                                            }
-                                            size="16"
-                                          />
-
-                                          <span
-                                            className={`text-sm font-medium ${
-                                              !canUpdateInvoice ||
-                                              !item.apiCall?.canApply
-                                                ? "text-[#A9A9A9]"
-                                                : "text-[#222222]"
-                                            }`}
                                           >
-                                            Apply Invoices
-                                          </span>
-                                        </button>
-                                        <button
-                                          disabled={
-                                            !canUpdateInvoice ||
-                                            !item.apiCall?.canApply
-                                          }
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleApplyInvoicesRetainer(
-                                              item?.apiCall,
-                                            );
-                                          }}
-                                          className={`flex items-center gap-2 my-2 px-3 py-2 border-b border-[#EBEBEB] rounded-[10px] transition-all duration-150
+                                            <Link21
+                                              color={
+                                                !canUpdateInvoice ||
+                                                !item.apiCall?.canApply
+                                                  ? "#A9A9A9"
+                                                  : "#1E45E1"
+                                              }
+                                              size="16"
+                                            />
+
+                                            <span
+                                              className={`text-sm font-medium ${
+                                                !canUpdateInvoice ||
+                                                !item.apiCall?.canApply
+                                                  ? "text-[#A9A9A9]"
+                                                  : "text-[#222222]"
+                                              }`}
+                                            >
+                                              Apply Invoices
+                                            </span>
+                                          </button>
+                                        ) : (
+                                          <button
+                                            disabled={
+                                              !canUpdateInvoice ||
+                                              !item.apiCall?.canApply
+                                            }
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleApplyInvoicesRetainer(
+                                                item?.apiCall,
+                                              );
+                                            }}
+                                            className={`flex items-center gap-2 my-2 px-3 py-2  rounded-[10px] transition-all duration-150
       ${
         !canUpdateInvoice || !item.apiCall?.canApply
           ? "cursor-not-allowed opacity-50 bg-gray-100"
           : "cursor-pointer hover:bg-[#EDF2FF]"
       }`}
-                                        >
-                                          <Link21
-                                            color={
-                                              !canUpdateInvoice ||
-                                              !item.apiCall?.canApply
-                                                ? "#A9A9A9"
-                                                : "#1E45E1"
-                                            }
-                                            size="16"
-                                          />
-
-                                          <span
-                                            className={`text-sm font-medium ${
-                                              !canUpdateInvoice ||
-                                              !item.apiCall?.canApply
-                                                ? "text-[#A9A9A9]"
-                                                : "text-[#222222]"
-                                            }`}
                                           >
-                                            Apply to Invoices
-                                          </span>
-                                        </button>
+                                            <Link21
+                                              color={
+                                                !canUpdateInvoice ||
+                                                !item.apiCall?.canApply
+                                                  ? "#A9A9A9"
+                                                  : "#1E45E1"
+                                              }
+                                              size="16"
+                                            />
+
+                                            <span
+                                              className={`text-sm font-medium ${
+                                                !canUpdateInvoice ||
+                                                !item.apiCall?.canApply
+                                                  ? "text-[#A9A9A9]"
+                                                  : "text-[#222222]"
+                                              }`}
+                                            >
+                                              Apply to Invoices
+                                            </span>
+                                          </button>
+                                        )}
                                       </div>
                                     )}
                                   </div>

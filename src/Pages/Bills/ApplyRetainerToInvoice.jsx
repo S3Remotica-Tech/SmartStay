@@ -51,7 +51,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
     );
 
     if (amount + otherApplied > retainerAmount) {
-      setError("Total exceeds retainer amount");
+      setError("Total exceeds invoice amount");
       amount = retainerAmount - otherApplied;
     }
 
@@ -194,7 +194,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
         </div>
 
         <div className="p-3 flex-1 overflow-y-auto mx-2 my-2 show-scrolls max-h-[500px]">
-          <div className="flex justify-between items-center bg-[#F7F8FCA8] p-3 rounded mb-4">
+          <div className="flex justify-between items-center bg-[#F7F8FCA8] p-3 rounded mb-2">
             <div className="flex gap-3">
               <div className="w-14 h-14 rounded-full overflow-hidden bg-[#E2E8F0]  flex items-center justify-center text-gray-700 font-semibold">
                 {initializeDetails?.customerInfo?.profilePic ? (

@@ -2263,7 +2263,6 @@ function FinalSettlement() {
                         Final Settlement
                       </p>
                     </div>
-
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">
                         {/* {finalSettlementList?.settlementInfo?.label} */}{" "}
@@ -2277,7 +2276,6 @@ function FinalSettlement() {
                         ₹{PayableORRefundabeleRent}
                       </p>
                     </div>
-
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">
                         Refundable Advance
@@ -2287,14 +2285,12 @@ function FinalSettlement() {
                         {finalSettlementList?.settlementInfo?.refundableAdvance}
                       </p>
                     </div>
-
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Total Deductions</p>
                       <p className="text-sm font-medium text-red-600">
                         ₹ {totalDeductions}
                       </p>
                     </div>
-
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Electricity</p>
                       <p className="text-sm font-medium text-red-600">
@@ -2302,7 +2298,6 @@ function FinalSettlement() {
                         {finalSettlementList?.settlementInfo?.electricityAmount}
                       </p>
                     </div>
-
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Unpaid Invoices</p>
                       <p className="text-sm font-medium text-red-600">
@@ -2311,6 +2306,14 @@ function FinalSettlement() {
                           finalSettlementList?.settlementInfo
                             ?.unpaidInvoiceAmount
                         }
+                      </p>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className="text-sm text-gray-600">Retainer Invoice</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        ₹{" "}
+                        {finalSettlementList?.settlementInfo?.retainerBalance ||
+                          0}
                       </p>
                     </div>
                   </div>

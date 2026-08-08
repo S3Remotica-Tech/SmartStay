@@ -270,8 +270,7 @@ function TenantOverview(props) {
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state?.UsersList?.customerdetails;
-
-
+  const isDevelopment = import.meta.env.MODE === "development";
 
   const handleNavigateTenant = () => {
     if (isPgWay || navigatePg) {
@@ -317,13 +316,13 @@ function TenantOverview(props) {
     dispatch(NavigateToBack(false));
   }, []);
 
- useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.removeRentRevisionSuccess) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
       });
-      dispatch({ type: 'REMOVE_CANCEL_RENT_REVISION_UPDATE_REDUCER'})
+      dispatch({ type: "REMOVE_CANCEL_RENT_REVISION_UPDATE_REDUCER" });
     }
   }, [state.UsersList?.removeRentRevisionSuccess]);
 
@@ -2844,14 +2843,16 @@ function TenantOverview(props) {
                                 className="group relative bg-[#FFF8EB] rounded-xl px-3 w-full
                               py-2 flex flex-col items-start min-w-0   "
                               >
-                                <button
-                                  onClick={() => setShowDeletePopup(true)}
-                                  className="absolute top-2 right-2 z-50 bg-white p-1 rounded
+                                {isDevelopment && (
+                                  <button
+                                    onClick={() => setShowDeletePopup(true)}
+                                    className="absolute top-2 right-2 z-50 bg-white p-1 rounded
             hidden group-hover:!block
              transition-opacity duration-200"
-                                >
-                                  <Trash size={14} color="red" />
-                                </button>
+                                  >
+                                    <Trash size={14} color="red" />
+                                  </button>
+                                )}
 
                                 <p className="text-xs text-[#4B4B4B] font-medium font-gilroy whitespace-nowrap mb-1">
                                   New Monthly Rent
