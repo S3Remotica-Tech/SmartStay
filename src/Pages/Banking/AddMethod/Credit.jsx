@@ -322,10 +322,10 @@ function Credit({ handleClose }) {
         cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
         creditLimit: creditLimit,
-        billingCycle: billingCycle,
-        // billingCycle: billingCycle
-        //   ? dayjs(billingCycle).format("DD/MM/YYYY")
-        //   : null,
+        // billingCycle: billingCycle,
+        billingCycle: billingCycle
+          ? dayjs(billingCycle).format("DD/MM/YYYY")
+          : null,
       },
     });
     setIsSaving(true);
@@ -475,7 +475,7 @@ function Credit({ handleClose }) {
             )}
           </div>
 
-          {/* <div className="">
+          <div className="">
             <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-2">
               Billing Cycle
             </label>
@@ -496,9 +496,9 @@ function Credit({ handleClose }) {
                 className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
               />
             </div>
-          </div> */}
+          </div>
 
-          <div className="relative">
+          {/* <div className="relative">
             <label className="block text-sm font-medium text-[#1F1F1F] mb-2">
               Billing Cycle
             </label>
@@ -549,7 +549,7 @@ function Credit({ handleClose }) {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-3">

@@ -169,9 +169,7 @@ function TenantOverview(props) {
   const [deleteAdditional, setDeleteAdditional] = useState(false);
   const [advanceDate, setAdvanceDate] = useState("");
   const [advanceDueDate, setAdvanceDueDate] = useState("");
-  // const [advanceDateError, setAdvanceDateError] = useState("");
-  // const [advanceDueDateError, setAdvanceDueDateError] = useState("");
-  // const [customerDetails, setCustomerDetails] = useState([]);
+
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -185,11 +183,9 @@ function TenantOverview(props) {
   const [documentvalue, setDocumentValue] = useState("1");
   const [showWalletHistory, setShowWalletHistory] = useState(false);
   const [BookingAssignForm, setBookingAssignForm] = useState(false);
-  // const [previewUrl2, setPreviewUrl2] = useState(null)
-  // const [loadingFile, setLoadingFile] = useState(true)
+
   const [showModal, setShowModal] = useState(false);
   const [basicDetails, setBasicDetails] = useState("");
-  // const [imagePreview, setImagePreview] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [advanceList, setAdvanceList] = useState("");
   const [addamenityShow, setaddamenityShow] = useState(false);
@@ -301,20 +297,29 @@ function TenantOverview(props) {
     });
   };
 
-  useEffect(() => {
-    if (state.Booking?.toNavigateRetainerTap) {
-      setValue("5");
+  // useEffect(() => {
+  //   if (state.Booking?.toNavigateRetainerTap) {
+  //     setValue("5");
 
+  //     dispatch({
+  //       type: "CUSTOMERDETAILS",
+  //       payload: { customerId: CustomerOverView?.customerId },
+  //     });
+  //   }
+  // }, [state.Booking?.toNavigateRetainerTap]);
+
+  useEffect(() => {
+    if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
+      setValue("5");
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
       });
+      dispatch({
+        type: "REMOVE_CREATE_RETAINER_REDUCER",
+      });
     }
-  }, [state.Booking?.toNavigateRetainerTap]);
-
-  useEffect(() => {
-    dispatch(NavigateToBack(false));
-  }, []);
+  }, [state.UsersList.createRetainerInvoiceStatusCode]);
 
   useEffect(() => {
     if (state.UsersList?.removeRentRevisionSuccess) {
@@ -1299,58 +1304,6 @@ function TenantOverview(props) {
       setAdvanceDetail(state.UsersList.customerdetails);
     }
   }, [state.UsersList.customerdetails]);
-
-  // const [uploadError, setUploadError] = useState("");
-
-  // useEffect(() => {
-  //   setUploadError(state.UsersList.adharuploadfileError);
-  // }, [state.UsersList.adharuploadfileError]);
-
-  // const handleFileChange = (e, type) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     if (type === "doc1") {
-  //       dispatch({
-  //         type: "UPLOADDOCUMENT",
-  //         payload: {
-  //           user_id: props.id,
-  //           type,
-  //           file1: file,
-  //         },
-  //       });
-  //     } else if (type === "doc2") {
-  //       dispatch({
-  //         type: "UPLOADOTHERDOCUMENT",
-  //         payload: {
-  //           user_id: props.id,
-  //           type,
-  //           file1: file,
-  //         },
-  //       });
-  //     }
-  //   }
-  // };
-
-  // const handleUploadClick = (ref) => {
-  //   if (ref?.current) {
-  //     ref.current.click();
-  //   }
-  //   setUploadError("");
-  //   dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
-  // };
-
-  // useEffect(() => {
-  //   if (state.UsersList.statuscodeForAdharFileError === 201) {
-  //     setUploadError(state.UsersList.adharuploadfileError);
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
-  //     }, 100);
-  //   }
-  // }, [state.UsersList.statuscodeForAdharFileError]);
-
-  // const handleOtherUploadClick = (ref) => {
-  //   ref.current.click();
-  // };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {

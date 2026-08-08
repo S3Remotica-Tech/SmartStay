@@ -25,6 +25,7 @@ import {
   Document,
   Link21,
   AddCircle,
+  More,
 } from "iconsax-react";
 import { toast } from "react-toastify";
 import ComingSoon from "../../Utils/ComingSoon";
@@ -32,7 +33,10 @@ import FormComingSoon from "../../Utils/FormComingSoon";
 
 function TenantRetainerInvoice() {
   const state = useSelector((state) => state);
-  const CustomerOverView = state.UsersList?.customerdetails?.transactionList;
+  const CustomerOverView =
+    state.UsersList?.customerdetails?.retainerInfo?.retainerList;
+  const retainerSummary =
+    state.UsersList?.customerdetails?.retainerInfo?.summary;
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
@@ -54,37 +58,35 @@ function TenantRetainerInvoice() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+  // const startIndex = (page - 1) * pageSize;
+  // const endIndex = startIndex + pageSize;
 
-  const paginatedData = CustomerOverView?.slice(startIndex, endIndex);
+  // const paginatedData = CustomerOverView?.slice(startIndex, endIndex);
   const stats = [
     {
       label: "Booking",
-      value: "0",
-      isFilter: true,
+      value: `₹ ${retainerSummary?.totalBookingAmount || 0}`,
     },
     {
       label: "Advance",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalAdvanceAmount || 0}`,
     },
     {
       label: "Rent",
-      value: "0",
-      isFilter: true,
+      value: `₹ ${retainerSummary?.totalRentAmount || 0}`,
     },
     {
       label: "EB",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalEbAmount || 0}`,
     },
     {
       label: "General",
-      value: "0",
+      value: `₹ ${retainerSummary?.otherAmount || 0}`,
       icon: false,
     },
     {
-      label: "Total Retainer Available",
-      value: "0",
+      label: "Total Retainer Amount",
+      value: `₹ ${retainerSummary?.totalRetainerAmount || 0}`,
       icon: true,
       highlight: true,
     },
@@ -113,14 +115,14 @@ function TenantRetainerInvoice() {
   };
 
   // console.log("CustomerOverView", CustomerOverView);
-  const isComingSoon =
-    import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
+  // const isComingSoon =
+  //   import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
 
   return (
     <div className="my-6">
       <div className="flex justify-end w-full lg:-mt-[65px] mb-6 ">
         <button
-          disabled={!canUpdateInvoice || isComingSoon}
+          disabled={!canUpdateInvoice}
           onClick={handleShow}
           className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
                               rounded-md px-4 py-2  whitespace-nowrap font-gilroy
@@ -135,11 +137,10 @@ function TenantRetainerInvoice() {
         </>
       ) : (
         <div>
-          {isComingSoon ? (
-            // <NoDataMessage label="Retainer" isHeightChanged={true} />
-
-            <FormComingSoon />
+          {CustomerOverView?.length === 0 ? (
+            <NoDataMessage label="Retainer" isHeightChanged={true} />
           ) : (
+            // <FormComingSoon />
             <div>
               <div
                 className="w-full my-6 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between
@@ -222,28 +223,49 @@ function TenantRetainerInvoice() {
                     </thead>
 
                     <tbody>
-                      {paginatedData?.map((row, i) => (
+                      {CustomerOverView?.map((row, i) => (
                         <tr
                           key={i}
                           className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
                         >
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-                            <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1"></span>
+                            {row.date}
                           </td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap"></td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            {row.invoiceNo}
+                          </td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            {row?.invoiceType}
+                          </td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            {row?.amount}
+                          </td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            {row?.availableBalance}
+                          </td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            {row?.paymentMode}
+                          </td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1">
+                              {row?.status}
+                            </span>
+                          </td>
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                            <More
+                              color="#28303F"
+                              size="16"
+                              variant="Outline"
+                              className="cursor-pointer rotate-90"
+                            />
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
 
-                <div className="flex justify-end mr-2 mt-3.5 shrink-0 bg-white">
+                {/* <div className="flex justify-end mr-2 mt-3.5 shrink-0 bg-white">
                   <PaginationList
                     totalItems={CustomerOverView?.length}
                     itemsPerPage={pageSize}
@@ -251,7 +273,7 @@ function TenantRetainerInvoice() {
                     onPageChange={(p) => setPage(p)}
                     onPageSizeChange={(size) => setPageSize(size)}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           )}
