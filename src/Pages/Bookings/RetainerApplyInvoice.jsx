@@ -321,7 +321,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
                           </td>
 
                           <td className="font-semibold px-4 py-2">
-                            ₹{item.invoiceAmount}
+                            ₹{item.pendingAmount}
                           </td>
 
                           <td className="px-4 py-2 font-semibold">

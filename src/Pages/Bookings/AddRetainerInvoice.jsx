@@ -607,11 +607,11 @@ function AddRetainerInvoice() {
       amount: Number(expenseItem.amount || 0),
       bankId: paymentMethod?.value,
       referenceNumber: transactionId,
-      detailedDescription: expenseItem?.itemName,
-      description: description,
+      detailedDescription: description,
+      description: expenseItem?.itemName,
     };
 
-    const isExisting = GuardianOptions.some(
+    const isExisting = GuardianOptions?.some(
       (opt) => opt.value === guardianName,
     );
 

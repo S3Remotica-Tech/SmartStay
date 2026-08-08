@@ -152,7 +152,7 @@ function BankingNew() {
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
 
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
@@ -435,6 +435,7 @@ function BankingNew() {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setTransactionFilterddata(state.bankingDetails?.allTransactionList || []);
       setBanking(state.bankingDetails?.allTransactionList?.bankList);
+      setLoader(false);
       dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
     }
   }, [state.bankingDetails.allTransactionSuccess]);
