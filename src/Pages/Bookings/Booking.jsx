@@ -18,7 +18,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import ApplyBookingModal from "./ApplyInvoices";
 import ComingSoon from "../../Utils/ComingSoon";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";
 import {
@@ -51,8 +51,6 @@ function Booking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
-
-  
 
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [search, setSearch] = useState(false);
@@ -141,19 +139,19 @@ function Booking() {
     setShowBookingPdf(false);
   }, []);
 
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
-    setPage(1);
-    dispatch({
-      type: "GET_BOOKING_LIST",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        page: page,
-        size: size,
-      },
-    });
-    setLoading(true);
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (!state.login.selectedHostel_Id) return;
+  //   setPage(1);
+  //   dispatch({
+  //     type: "GET_BOOKING_LIST",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       page: page,
+  //       size: size,
+  //     },
+  //   });
+  //   setLoading(true);
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeGetBooking) {
@@ -572,6 +570,7 @@ function Booking() {
         // period: selectedMonth?.value,
       },
     });
+
     dispatch({
       type: "SET_BOOKING_FILTERS",
       payload: {
@@ -580,7 +579,7 @@ function Booking() {
     });
 
     setLoading(true);
-  }, [page, size, filterInput]);
+  }, [page, size, filterInput, state.login.selectedHostel_Id]);
 
   const handleReset = () => {
     dispatch({
@@ -625,9 +624,9 @@ function Booking() {
     };
   }, [state.login.selectedHostel_Id]);
 
-  useEffect(() => {
-    setPage(0);
-  }, [state.Booking?.bookingFilters]);
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [state.Booking?.bookingFilters]);
 
   useEffect(() => {
     const filters = state.Booking?.bookingFilters;

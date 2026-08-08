@@ -1568,12 +1568,19 @@ function BankingNew() {
                                 </div>
                               )}
                             </div>
-
-                            <div className="flex justify-end my-1">
-                              <label className="text-[#4B4B4B] text-xs font-medium">
-                                Last Txn :
-                              </label>
-                            </div>
+                            {!item.paymentMethod ? (
+                              <div className="flex justify-end my-1">
+                                <label className="text-[#4B4B4B] text-xs font-medium">
+                                  Last Txn : {item?.lastTransactionDate}
+                                </label>
+                              </div>
+                            ) : (
+                              <div className="flex justify-end my-1">
+                                <label className="text-[#4B4B4B] text-xs font-medium">
+                                  Due Date : {item?.dueDate || "-"}
+                                </label>
+                              </div>
+                            )}
                           </div>
                         </div>
                       );

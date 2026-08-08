@@ -100,18 +100,12 @@ function BankingChart() {
   const roundedMax = Math.ceil(maxBalance / 10000) * 10000 || 10000;
 
   const bankDetails = [
-    { label: "Bank Name", value: "" },
-    { label: "Beneficiary Name", value: "" },
-    { label: "Account No", value: "" },
-    { label: "IFSC Code", value: "" },
-    { label: "Branch", value: "" },
+    { label: "Bank Name", value: bankingChart?.bankName },
+    { label: "Beneficiary Name", value: bankingChart?.beneficiaryName },
+    { label: "Account No", value: bankingChart?.accountNumber },
+    { label: "IFSC Code", value: bankingChart?.ifscCode },
+    { label: "Branch", value: bankingChart?.branch },
   ];
-
-
-
-
-
-
 
   return (
     <div>
@@ -240,19 +234,26 @@ function BankingChart() {
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[#4F46E5]" />
               <div className="text-[#6B7280]">Average Monthly</div>
-              <div className="font-semibold">₹</div>
+              <div className="font-semibold">
+                ₹ {bankingChart?.averageMonthly}
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[#4F46E5]" />
               <div className="text-[#6B7280]">Highest Month</div>
-              <div className="font-semibold">₹</div>
+              <div className="font-semibold">
+                ₹ {bankingChart?.highestMonth?.netChange}
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[#DDD6FE]" />
               <div className="text-[#6B7280]">Lowest Month</div>
-              <div className="font-semibold">₹</div>
+              <div className="font-semibold">
+                {" "}
+                ₹ {bankingChart?.lowestMonth?.netChange}
+              </div>
             </div>
           </div>
         </div>
@@ -260,11 +261,11 @@ function BankingChart() {
           {bankDetails.map((item) => (
             <div
               key={item.label}
-              className="grid grid-cols-[140px_20px_1fr] gap-3 mb-2"
+              className="grid grid-cols-[140px_20px_1fr] gap-3 mb-2 "
             >
               <div className="text-[#4B4B4B] text-[13px] ">{item.label}</div>
               <div>:</div>
-              <div className="font-medium text-[14px] text-[#000825]">
+              <div className="font-semibold text-[14px] text-[#000825]">
                 {item.value}
               </div>
             </div>
