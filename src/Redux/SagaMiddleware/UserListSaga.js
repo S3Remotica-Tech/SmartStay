@@ -3934,7 +3934,7 @@ function* handleCreateRetainerInvoice(reading) {
         padding: "10px",
       };
 
-      toast.success(response.data, {
+      toast.success("Created Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -3952,7 +3952,7 @@ function* handleCreateRetainerInvoice(reading) {
     if (error) {
       yield put({
         type: "CREATE_RETAINER_ADD_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }

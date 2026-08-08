@@ -38,6 +38,21 @@ function TenantRetainerInvoice() {
   const retainerSummary =
     state.UsersList?.customerdetails?.retainerInfo?.summary;
 
+  const statusStyles = {
+    Redeemed: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+    "Partially Redeemed": {
+      bg: "#FFF4E5",
+      text: "#F59E0B",
+    },
+    fallback: {
+      bg: "#F3F4F6",
+      text: "#6B7280",
+    },
+  };
+
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const navigate = useNavigate();
@@ -247,9 +262,23 @@ function TenantRetainerInvoice() {
                             {row?.paymentMode}
                           </td>
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-                            <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1">
-                              {row?.status}
-                            </span>
+                            {(() => {
+                              const style =
+                                statusStyles[row?.status] ||
+                                statusStyles.fallback;
+
+                              return (
+                                <span
+                                  className="rounded-[14px] px-2 py-1"
+                                  style={{
+                                    backgroundColor: style.bg,
+                                    color: style.text,
+                                  }}
+                                >
+                                  {row?.status || "N/A"}
+                                </span>
+                              );
+                            })()}
                           </td>
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                             <More
