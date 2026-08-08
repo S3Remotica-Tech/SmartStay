@@ -84,6 +84,17 @@ const InvoiceCard = ({ rowData }) => {
       setPdfLoading(true);
     }
   };
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setPdfLoading(false);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 300);
+    }
+  }, [state.createAccount?.networkError]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -131,6 +142,7 @@ const InvoiceCard = ({ rowData }) => {
   };
 
   const handleMenuClick = async (key) => {
+    dispatch({ type: "REMOVE_SHARE_PDF_ERROR" });
     setIsOpen(false);
 
     if (String(key) === "whatsapp") {
@@ -146,9 +158,15 @@ const InvoiceCard = ({ rowData }) => {
     }
   };
 
+  useEffect(() => {
+    if (state.InvoiceList?.sharePdfError) {
+      setPdfLoading(false);
+    }
+  }, [state.InvoiceList?.sharePdfError]);
+
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
-  console.log("pdfDetails", pdfDetails);
+  // console.log("pdfDetails", pdfDetails);
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
   const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
