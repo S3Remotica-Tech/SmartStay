@@ -803,32 +803,34 @@ function Booking() {
     },
   };
 
+  const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
+
   const stats = [
     {
       label: "Total Retainer Amount",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalRetainerAmount || 0}`,
       icon: true,
       highlight: true,
     },
     {
       label: "Booking",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalBookingAmount || 0}`,
     },
     {
       label: "Advance",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalAdvanceAmount || 0}`,
     },
     {
       label: "Rent",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalRentAmount || 0}`,
     },
     {
       label: "EB",
-      value: "0",
+      value: `₹ ${retainerSummary?.totalEbAmount || 0}`,
     },
     {
       label: "General",
-      value: "0",
+      value: `₹ ${retainerSummary?.otherAmount || 0}`,
       icon: false,
     },
   ];
