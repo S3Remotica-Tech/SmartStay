@@ -3934,7 +3934,7 @@ function* handleCreateRetainerInvoice(reading) {
         padding: "10px",
       };
 
-      toast.success(response.data, {
+      toast.success("Created Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,

@@ -267,7 +267,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50">
+    <div className="fixed inset-0 z-[9999]">
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="absolute top-2 right-2 bottom-2 w-full max-w-xl bg-white rounded-xl shadow-xl flex flex-col">
