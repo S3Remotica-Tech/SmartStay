@@ -1738,32 +1738,6 @@ function Sidebar() {
                       </div>
                     }
                   />
-
-                  {/* <Route
-                    path="/retainer-invoice/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <RetainerInvoice />
-                      </div>
-                    }
-                  />
-
-                  <Route
-                    path="/retainerinvoice/details/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <RetainerPdfDetails />
-                      </div>
-                    }
-                  /> */}
-                  {/* <Route
-                    path="/retainerinvoice/details/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <RetainerPdfModal />
-                      </div>
-                    }
-                  /> */}
                 </>
               )}
               <Route
