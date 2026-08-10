@@ -1719,6 +1719,15 @@ function Sidebar() {
                   </div>
                 }
               />
+
+              <Route
+                path="/add-retainer/:hostelId?"
+                element={
+                  <div className="mt-1 ml-2.5 mr-1">
+                    <AddRetainerInvoice />
+                  </div>
+                }
+              />
               {isDevelopment && (
                 <>
                   <Route
@@ -1726,15 +1735,6 @@ function Sidebar() {
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <BankingNew />
-                      </div>
-                    }
-                  />
-
-                  <Route
-                    path="/add-retainer/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <AddRetainerInvoice />
                       </div>
                     }
                   />
