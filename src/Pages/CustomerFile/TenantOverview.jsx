@@ -322,6 +322,17 @@ function TenantOverview(props) {
   }, [state.UsersList.createRetainerInvoiceStatusCode]);
 
   useEffect(() => {
+    if (state?.Booking?.applyinvoiceSuccessCode === 201) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+
+      dispatch({ type: "REMOVE_APPLY_INVOICE_REDUCER" });
+    }
+  }, [state?.Booking?.applyinvoiceSuccessCode]);
+
+  useEffect(() => {
     if (state.UsersList?.removeRentRevisionSuccess) {
       dispatch({
         type: "CUSTOMERDETAILS",

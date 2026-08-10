@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 // import LoaderComponent from "../LoaderComponent";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PaginationList from "../../Components/PaginationList";
 import { useSelector } from "react-redux";
@@ -30,6 +30,7 @@ import {
 import { toast } from "react-toastify";
 import ComingSoon from "../../Utils/ComingSoon";
 import FormComingSoon from "../../Utils/FormComingSoon";
+import RetainerApplyInvoice from "../Bookings/RetainerApplyInvoice";
 
 function TenantRetainerInvoice() {
   const state = useSelector((state) => state);
@@ -37,9 +38,10 @@ function TenantRetainerInvoice() {
     state.UsersList?.customerdetails?.retainerInfo?.retainerList;
   const retainerSummary =
     state.UsersList?.customerdetails?.retainerInfo?.summary;
+  const [openMenu, setOpenMenu] = useState(null);
 
   const statusStyles = {
-    Redeemed: {
+    "Fully redeemed": {
       bg: "#EFFFF2",
       text: "#038C3D",
     },
@@ -47,7 +49,7 @@ function TenantRetainerInvoice() {
       bg: "#FFF4E5",
       text: "#F59E0B",
     },
-    fallback: {
+    default: {
       bg: "#F3F4F6",
       text: "#6B7280",
     },
@@ -56,9 +58,59 @@ function TenantRetainerInvoice() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const navigate = useNavigate();
+  const [advanceDetails, setAdvanceDetails] = useState("");
+  const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showAbove, setShowAbove] = useState(false);
 
-  const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
-    useHasPermission("Bills");
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
+
+  const handleShowDots = (event, index) => {
+    setOpenMenu((prev) => (prev === index ? null : index));
+
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + height / 2;
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+  };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setOpenMenu(null);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const {
+    canUpdateModule: canUpdateInvoice,
+    canReadModule: canReadInvoice,
+    canWriteModule: canWriteInvoice,
+  } = useHasPermission("Bills");
+
+  const isDisabledButton =
+    !canWriteInvoice ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED";
 
   useEffect(() => {
     const handleResize = () => {
@@ -133,11 +185,20 @@ function TenantRetainerInvoice() {
   // const isComingSoon =
   //   import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
 
+  const handleApplyInvoicesRetainer = (item) => {
+    setApplyInvoiceRetainer(true);
+    setAdvanceDetails(item);
+  };
+
+  const handleCloseApplyInvoicesRetainer = () => {
+    setApplyInvoiceRetainer(false);
+  };
+
   return (
     <div className="my-6">
       <div className="flex justify-end w-full lg:-mt-[65px] mb-6 ">
         <button
-          disabled={!canUpdateInvoice}
+          disabled={isDisabledButton}
           onClick={handleShow}
           className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
                               rounded-md px-4 py-2  whitespace-nowrap font-gilroy
@@ -265,28 +326,68 @@ function TenantRetainerInvoice() {
                             {(() => {
                               const style =
                                 statusStyles[row?.status] ||
-                                statusStyles.fallback;
+                                statusStyles.default;
 
                               return (
                                 <span
-                                  className="rounded-[14px] px-2 py-1"
+                                  className="inline-flex items-center gap-2 rounded-[14px] px-2 py-1"
                                   style={{
                                     backgroundColor: style.bg,
                                     color: style.text,
                                   }}
                                 >
+                                  <span
+                                    className="w-2 h-2 rounded-full"
+                                    style={{ backgroundColor: style.text }}
+                                  />
                                   {row?.status || "N/A"}
                                 </span>
                               );
                             })()}
                           </td>
-                          <td className="w-[230px] py-1 px-2 whitespace-nowrap">
+                          <td className="w-[230px] py-1 px-2 whitespace-nowrap relative">
                             <More
                               color="#28303F"
                               size="16"
                               variant="Outline"
                               className="cursor-pointer rotate-90"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleShowDots(e, row.invoiceId);
+                              }}
                             />
+
+                            {openMenu === row.invoiceId && (
+                              <div
+                                ref={popupRef}
+                                className="  rounded-[10px] border  border-[#EBEBEB] bg-[#F9F9F9] px-2  py-2 max-w-[200px] shadow-md z-[9999]"
+                                style={{
+                                  top: showAbove
+                                    ? popupPosition.top -
+                                      (popupRef.current?.offsetHeight || 120) -
+                                      10
+                                    : popupPosition.top + 5,
+                                  left: popupPosition.left - 40,
+                                  position: "fixed",
+                                  zIndex: 1000,
+                                }}
+                              >
+                                <button
+                                  disabled={
+                                    !canUpdateInvoice ||
+                                    row.status === "Fully redeemed"
+                                  }
+                                  onClick={() => {
+                                    handleApplyInvoicesRetainer(row);
+                                    setOpenMenu(null);
+                                  }}
+                                  className="w-full px-4 py-2 text-left text-sm hover:bg-blue-100 
+                                  rounded-md disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-70 "
+                                >
+                                  Apply to Invoice
+                                </button>
+                              </div>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -307,6 +408,14 @@ function TenantRetainerInvoice() {
             </div>
           )}
         </div>
+      )}
+
+      {applyInvoiceRetainer && (
+        <RetainerApplyInvoice
+          show={applyInvoiceRetainer}
+          handleClose={handleCloseApplyInvoicesRetainer}
+          advanceDetails={advanceDetails}
+        />
       )}
     </div>
   );

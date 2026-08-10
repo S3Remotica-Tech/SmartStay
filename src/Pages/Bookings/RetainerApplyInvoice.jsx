@@ -401,17 +401,22 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
             <button
               disabled={formLoading}
               onClick={handleApplySubmit}
-              className="bg-[#1E45E1] flex gap-2  items-center text-white px-4 py-2 rounded-md text-sm"
+              className="bg-[#1E45E1] flex items-center justify-center gap-2 text-white px-4 py-2 rounded-md text-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Apply <ArrowRight size="14" />
+              {formLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Applying...
+                </>
+              ) : (
+                <>
+                  Apply
+                  <ArrowRight size="14" />
+                </>
+              )}
             </button>
           </div>
         </div>
-        {formLoading && (
-          <div className="absolute top-1/2 left-1/2 z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 bg-transparent opacity-75">
-            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-t-[#1E45E1] border-r-transparent"></div>
-          </div>
-        )}
       </div>
     </div>
   );
