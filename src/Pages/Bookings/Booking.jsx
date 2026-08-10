@@ -801,6 +801,18 @@ function Booking() {
       bg: "#FFF4E5",
       text: "#F59E0B",
     },
+    "Fully Adjusted": {
+      bg: "#EEF4FF",
+      text: "#1E45E1",
+    },
+    "Partially Adjusted": {
+      bg: "#FFF4E5",
+      text: "#F59E0B",
+    },
+    Available: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
   };
 
   useEffect(() => {

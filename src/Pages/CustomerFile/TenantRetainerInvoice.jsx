@@ -41,13 +41,17 @@ function TenantRetainerInvoice() {
   const [openMenu, setOpenMenu] = useState(null);
 
   const statusStyles = {
-    "Fully redeemed": {
-      bg: "#EFFFF2",
-      text: "#038C3D",
+    "Fully Adjusted": {
+      bg: "#EEF4FF",
+      text: "#1E45E1",
     },
-    "Partially Redeemed": {
+    "Partially Adjusted": {
       bg: "#FFF4E5",
       text: "#F59E0B",
+    },
+    Available: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
     },
     default: {
       bg: "#F3F4F6",
@@ -104,6 +108,16 @@ function TenantRetainerInvoice() {
 
   const isDisabledButton =
     !canWriteInvoice ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+      "CANCELLED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus ===
+      "SETTLEMENT_GENERATED";
+
+  const isDisabledButtonForApply =
+    !canUpdateInvoice ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
       "CANCELLED" ||
@@ -374,8 +388,8 @@ function TenantRetainerInvoice() {
                               >
                                 <button
                                   disabled={
-                                    !canUpdateInvoice ||
-                                    row.status === "Fully redeemed"
+                                    row.status === "Fully Adjusted" ||
+                                    isDisabledButtonForApply
                                   }
                                   onClick={() => {
                                     handleApplyInvoicesRetainer(row);

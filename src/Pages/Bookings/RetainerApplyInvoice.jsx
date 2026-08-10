@@ -326,6 +326,7 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
 
                           <td className="px-4 py-2 font-semibold">
                             <input
+                              onWheel={(e) => e.target.blur()}
                               type="number"
                               value={
                                 applyAmountForInvoice.find(

@@ -660,10 +660,10 @@ const InvoiceCard = ({ rowData }) => {
                       </div>
                     </div>
 
-                    {/* SPACER */}
+                   
                     <div className="hidden md:block md:col-span-2"></div>
 
-                    {/* RIGHT SECTION */}
+                    
                     <div className="col-span-12 md:col-span-4 flex flex-col justify-between">
                       <div className="flex justify-center mb-2">
                         {pdfDetails?.accountDetails?.qrCode && (
@@ -675,14 +675,7 @@ const InvoiceCard = ({ rowData }) => {
                         )}
                       </div>
 
-                      {/* OPTIONAL ICONS */}
-                      {/* 
-      <div className="flex justify-end">
-        {[Paytm, Phonepe, Gpay].map((icon, idx) => (
-          <img key={idx} src={icon} alt="UPI" className="h-[38px] w-[38px] ml-2" />
-        ))}
-      </div> 
-      */}
+                     
                     </div>
                   </div>
                 </div>
