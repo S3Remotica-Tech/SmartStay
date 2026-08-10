@@ -74,6 +74,7 @@ function BookingsPdfDetails() {
     Bed: "bedName",
     Amount: "amount",
     Status: "status",
+    "Joining Date": "joiningDate",
   };
 
   const formattedData = (
@@ -109,6 +110,9 @@ function BookingsPdfDetails() {
       text: "#038C3D",
     },
   };
+
+  console.log("formattedData", formattedData);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen  font-gilroy">
       <div className="md:col-span-4 h-screen  border-r border-gray-200 overflow-y-auto  ">
@@ -209,31 +213,33 @@ function BookingsPdfDetails() {
                       <div className="font-gilroy text-xs text-[#222] font-semibold">
                         {item.invNo || "-"}
                       </div>
-
-                      <div className="font-gilroy text-xs text-[#222] font-medium">
-                        {item.bookingDate || "-"}
-                      </div>
+                      {item.joiningDate && (
+                        <div className="font-gilroy text-xs text-[#222] font-medium">
+                          {item.joiningDate || "-"}
+                        </div>
+                      )}
                     </div>
-
-                    <div className="mt-2">
-                      <span
-                        className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
-                        style={{
-                          backgroundColor:
-                            statusStyles[item.status]?.bg || "#EFFFF2",
-                        }}
-                      >
+                    {item.status && (
+                      <div className="mt-2">
                         <span
-                          className="h-2 w-2 rounded-full"
+                          className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-2 py-0.5 text-xs text-[#222222]"
                           style={{
                             backgroundColor:
-                              statusStyles[item.status]?.text || "#038C3D",
+                              statusStyles[item.status]?.bg || "#EFFFF2",
                           }}
-                        ></span>
+                        >
+                          <span
+                            className="h-2 w-2 rounded-full"
+                            style={{
+                              backgroundColor:
+                                statusStyles[item.status]?.text || "#038C3D",
+                            }}
+                          ></span>
 
-                        {item.status}
-                      </span>
-                    </div>
+                          {item.status}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
