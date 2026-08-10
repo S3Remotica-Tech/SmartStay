@@ -232,6 +232,7 @@ function TenantsRegister() {
   }, [apiStart, apiEnd]);
 
   const handleDateChange = (dates) => {
+    
     if (!dates) {
       setSelectedRange(null);
       dispatch({
