@@ -1592,7 +1592,7 @@ function Booking() {
                   </div>
                 ) : (
                   <NoDataMessage
-                    label="Bookings"
+                    label="Retainer"
                     isSearching={isSearching}
                     isClearSearch={true}
                     handleClear={() => {
