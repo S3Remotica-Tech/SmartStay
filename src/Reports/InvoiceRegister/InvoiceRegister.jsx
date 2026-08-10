@@ -142,6 +142,11 @@ function InvoiceRegister() {
       link: true,
     },
     {
+      title: "Booking Amount",
+      value: state?.reports?.getInvoiceRegister?.totalBookingAmount,
+      isCurrency: true,
+    },
+    {
       title: "Refunded Booking Amount",
       value: state?.reports?.getInvoiceRegister?.refundAmount,
       isCurrency: true,
@@ -773,6 +778,7 @@ function InvoiceRegister() {
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="datepicker-wrapper" style={{ position: "relative" }}>
             <RangePicker
+              allowClear={false}
               style={{
                 width: "100%",
                 height: "100%",
