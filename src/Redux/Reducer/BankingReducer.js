@@ -34,6 +34,7 @@ export const initialState = {
   getBankingOverviewList: "",
   getBankingLedgerList: "",
   getBankingLedgerListSuccessStatus: 0,
+  toOpenBankOverview: false,
 
   bankFilters: {
     startDate: undefined,
@@ -87,6 +88,11 @@ const BankingReducer = (state = initialState, action) => {
 
     case "REMOVE_STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: "" };
+
+    case "OPEN_BANK_OVERVIEW":
+      return { ...state, toOpenBankOverview: true };
+    case "CLOSE_BANK_OVERVIEW":
+      return { ...state, toOpenBankOverview: false };
 
     case "GET_BANKING_OVERVIEW_REDUCER":
       return { ...state, getBankingOverviewList: action.payload.response };

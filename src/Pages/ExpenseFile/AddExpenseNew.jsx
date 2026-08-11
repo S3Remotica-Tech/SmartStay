@@ -487,7 +487,9 @@ function AddExpenseNew() {
 
   const handleClose = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
+
     if (isBankingWayTrigger) {
+      dispatch({ type: "OPEN_BANK_OVERVIEW" });
       navigate(`/banking/new/${state.login.selectedHostel_Id}`);
     } else if (isVendorOverViewWay) {
       navigate(`/vendor/${state.login.selectedHostel_Id}`, {
@@ -957,7 +959,9 @@ function AddExpenseNew() {
     ) {
       setFormLoading(false);
 
-      if (isVendorOverViewWay) {
+      if (isBankingWayTrigger) {
+        navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+      } else if (isVendorOverViewWay) {
         navigate(`/vendor/${state.login.selectedHostel_Id}`, {
           state: {
             navigateToVendorOverviewSelectedVendorId: selectedVendorId,

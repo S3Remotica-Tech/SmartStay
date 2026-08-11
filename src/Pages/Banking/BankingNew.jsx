@@ -157,6 +157,7 @@ function BankingNew() {
   const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [typeId, setTypeId] = useState(null);
   const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [showAddBalance, setshowAddBalance] = useState(false);
@@ -228,6 +229,7 @@ function BankingNew() {
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
 
   const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
   // console.log("banking", banking);
 
@@ -698,8 +700,6 @@ function BankingNew() {
   useEffect(() => {
     const bankFilter = state.bankingDetails?.bankFilters;
 
-    console.log("bankFilter", bankFilter);
-
     const filterData = [];
 
     if (bankFilter?.search) {
@@ -881,6 +881,19 @@ function BankingNew() {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   useEffect(() => {
+    if (state?.bankingDetails?.toOpenBankOverview && OverviewDetails) {
+      setShowSuccessPopup(true);
+    }
+  }, [state.bankingDetails?.toOpenBankOverview, OverviewDetails]);
+
+  useEffect(() => {
+    if (state.ExpenseList.StatusCodeForAddExpenseSuccess === 201) {
+      dispatch({ type: "OPEN_BANK_OVERVIEW" });
+      dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
+    }
+  }, [state.ExpenseList.StatusCodeForAddExpenseSuccess]);
+
+  useEffect(() => {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
@@ -975,6 +988,7 @@ function BankingNew() {
       },
     });
     setShowTransactionMenu(false);
+    dispatch({ type: "REMOVE_STOREBANK_DETAILS" });
   };
 
   const handleVendorPayment = () => {
@@ -1283,6 +1297,7 @@ function BankingNew() {
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowOverview(item);
+                            dispatch({ type: "CLOSE_BANK_OVERVIEW" });
                           }}
                           key={item.id}
                           className={` flex-shrink-0
@@ -1982,6 +1997,40 @@ function BankingNew() {
               edit={edit}
             />
           ) : null}
+
+          {showSuccessPopup && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+              <div className="w-[350px] rounded-xl bg-white p-4 shadow-xl">
+                <p className="mt-2 text-sm text-gray-500 whitespace-nowrap text-center">
+                  What would you like to do next?
+                </p>
+
+                <div className="mt-2 flex justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      setShowSuccessPopup(false);
+                      dispatch({ type: "CLOSE_BANK_OVERVIEW" });
+                    }}
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowSuccessPopup(false);
+                      setShowOverview(true);
+                      setBankingOverviewDetails(OverviewDetails);
+                      dispatch({ type: "CLOSE_BANK_OVERVIEW" });
+                    }}
+                    className="rounded-lg bg-[#1E45E1] px-4 py-2 text-sm text-white"
+                  >
+                    View Overview
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
