@@ -156,6 +156,14 @@ export async function AllTransaction(transaction) {
   );
 }
 
+export async function tenantPayment(datum) {
+  return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
+}
+
+export async function CreditCardPayment(datum) {
+  return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
+}
+
 /////////////////////////////////////////////////////////////////
 
 export async function AddBankingDetails(hostelId, datum) {

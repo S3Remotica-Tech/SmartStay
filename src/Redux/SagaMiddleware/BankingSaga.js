@@ -1,5 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  tenantPayment,
+  creditCardPayment,
   getBankingOverview,
   getBankingLedger,
   LinkedPaymentMethod,
@@ -46,6 +48,105 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleTenantPayment(action) {
+  try {
+    const response = yield call(tenantPayment, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "TENANT_PAYMENT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Created Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      yield put({
+        type: "TENANT_PAYMENT_REDUCER_ERROR",
+        payload: error.response.data,
+      });
+    }
+  }
+}
+
+function* handleCreditCardPayment(action) {
+  try {
+    const response = yield call(creditCardPayment, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "CREDIT_CARD_PAYMENT_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Created Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "CREDIT_CARD_PAYMENT_REDUCER_ERROR",
+        payload: error.response.data,
+      });
+    }
   }
 }
 
@@ -96,7 +197,7 @@ function* handleGetBankingOverview(action) {
 function* handleGetBankingLedger(action) {
   try {
     const response = yield call(getBankingLedger, action.payload);
-    
+
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
@@ -926,6 +1027,8 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery("TENANT_PAYMENT_SAGA", handleTenantPayment);
+  yield takeEvery("CREDIT_CARD_PAYMENT_SAGA", handleCreditCardPayment);
   yield takeEvery("GET_BANKING_LEDGER_SAGA", handleGetBankingLedger);
   yield takeEvery("GET_BANKING_OVERVIEW_SAGA", handleGetBankingOverview);
   yield takeEvery("GET_ALL_TRANSACTION_SAGA", handleGetAllTransaction);
