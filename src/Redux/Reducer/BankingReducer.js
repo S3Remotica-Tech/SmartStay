@@ -36,6 +36,7 @@ export const initialState = {
   getBankingLedgerListSuccessStatus: 0,
   createTenantPaymentSuccessCode: 0,
   createCreditCardPaymentSuccessCode: 0,
+  tenantPaymentError: "",
   toOpenBankOverview: false,
 
   bankFilters: {
@@ -148,6 +149,12 @@ const BankingReducer = (state = initialState, action) => {
         ...state,
         createCreditCardPaymentSuccessCode: 0,
       };
+
+    case "TENANT_PAYMENT_REDUCER_ERROR":
+      return { ...state, tenantPaymentError: action.payload };
+
+    case "REMOVE_TENANT_PAYMENT_REDUCER_ERROR":
+      return { ...state, tenantPaymentError: "" };
 
     case "ADD_BANKING_ERROR":
       return { ...state, createBankingError: action.payload };

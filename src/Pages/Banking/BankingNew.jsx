@@ -386,6 +386,21 @@ function BankingNew() {
   }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
 
   useEffect(() => {
+    if (state?.bankingDetails?.createTenantPaymentSuccessCode === 201) {
+      dispatch({
+        type: "GET_ALL_TRANSACTION_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: pageTransaction,
+          size: sizeTransaction,
+        },
+      });
+
+      dispatch({ type: "REMOVE_TENANT_PAYMENT_REDUCER" });
+    }
+  }, [state?.bankingDetails?.createTenantPaymentSuccessCode]);
+
+  useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       // dispatch({
       //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",

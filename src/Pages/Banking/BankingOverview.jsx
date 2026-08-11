@@ -42,7 +42,7 @@ function BankingOverview({ show, onClose }) {
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
 
-  console.log("OverviewBankDetails", OverviewDetails);
+  // console.log("OverviewBankDetails", OverviewDetails);
 
   const tabs = isBankAccount
     ? [
