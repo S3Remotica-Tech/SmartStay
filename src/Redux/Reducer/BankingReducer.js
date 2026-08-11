@@ -85,6 +85,9 @@ const BankingReducer = (state = initialState, action) => {
     case "STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: action.payload };
 
+    case "REMOVE_STOREBANK_DETAILS":
+      return { ...state, OverviewBankDetails: "" };
+
     case "GET_BANKING_OVERVIEW_REDUCER":
       return { ...state, getBankingOverviewList: action.payload.response };
 

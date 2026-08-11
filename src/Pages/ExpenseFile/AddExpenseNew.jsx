@@ -1047,9 +1047,7 @@ function AddExpenseNew() {
       })
     : [];
 
-
-
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setFormLoading(false);
       setTimeout(() => {
@@ -1057,16 +1055,6 @@ useEffect(() => {
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className="block relative font-gilroy ">

@@ -125,21 +125,34 @@ const Option = (props) => {
 
   return (
     <components.Option {...props}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
-          {data.icon}
-          <div>
-            <label className="text-xs font-medium  text-[#222222]">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
               {data.label}
-            </label>
+            </span>
+
             {data.subLabel && (
-              <label className="text-xs text-[#6B7280]">{data.subLabel}</label>
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
             )}
           </div>
         </div>
-        {/* <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
           {data.type}
-        </span> */}
+        </span>
       </div>
     </components.Option>
   );
@@ -151,8 +164,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        {data.icon}
-        <span>{data.label}</span>
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
       </div>
     </components.SingleValue>
   );
@@ -209,7 +228,9 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const [expenseList, setExpenseList] = useState([]);
 
-  // console.log("expenseList", expenseList);
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
+
+  console.log("OverviewDetails", OverviewDetails);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -247,19 +268,23 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const finalOutstanding = VendorOverView?.summary?.outstanding - paidAmount;
 
-  const paymentOptions = [
-    {
-      label: "Bank Accounts",
-      options:
-        vendorInitialize?.banks?.map((bank) => ({
-          value: bank.bankId,
-          label: bank.bankName,
-          holderName: bank.holderName,
-          type: "Bank",
-          icon: <Bank size={18} color="#1E45E1" />,
-        })) || [],
-    },
-  ];
+  const paymentOptions =
+    vendorInitialize?.allPaymentMethods?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.displayName,
+      subLabel:
+        bank.accountType === "BANK"
+          ? `${bank.bankName} `
+          : `${bank.cashAccountType} `,
+      type: bank.accountType,
+      icon:
+        bank.accountType === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -402,19 +427,12 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
   useEffect(() => {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
       setFormLoading(false);
-      dispatch({
-        type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-        payload: state.login.selectedHostel_Id,
-      });
 
       setPaidAmountError("");
       setPaidDateError("");
       setPaymentMethodError("");
       setError("");
       handleClose();
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
-      }, 2000);
     }
   }, [state.UsersList.settlementPaymentSuccessCode]);
 
@@ -445,7 +463,15 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     }
   }, [state.login.selectedHostel_Id, selectedVendor]);
 
-  //   console.log("selectedVendor", selectedVendor);
+  useEffect(() => {
+    if (OverviewDetails?.bankId && paymentOptions.length) {
+      const selected = paymentOptions.find(
+        (option) => option.value === OverviewDetails?.bankId,
+      );
+
+      setPaymentMethod(selected || null);
+    }
+  }, [OverviewDetails, paymentOptions]);
 
   return (
     <>
@@ -495,14 +521,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   options={vendorOptions}
                   placeholder="Select Vendor"
                   styles={CustomStyles}
-                  isSearchable={false}
-                  components={{
-                    Option,
-                    SingleValue,
-                    DropdownIndicator,
-                    GroupHeading,
-                    IndicatorSeparator: () => null,
-                  }}
+                  isSearchable={true}
                 />
               </div>
 
@@ -576,7 +595,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   placeholderText="Select Date"
                   customInput={<input ref={paidDateRef} />}
                   maxDate={new Date()}
-                  className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
+                  className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[14px]
                   ${
                     paidDateError ? "border-red-500" : "border-[#D9D9D9]"
                   } focus:outline-none`}
@@ -599,6 +618,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
+                isDisabled={OverviewDetails?.bankId}
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={(selected) => {
@@ -851,7 +871,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
                       <tr>
                         <td
                           colSpan={5}
-                          className="py-6 text-center text-sm text-gray-500"
+                          className="py-6 text-center text-sm text-red-500"
                         >
                           No expenses found.
                         </td>

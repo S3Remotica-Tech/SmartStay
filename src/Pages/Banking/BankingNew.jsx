@@ -50,6 +50,7 @@ import AddNewAccount from "./AddNewAccount";
 import { StoreBankDetails } from "../../Redux/Action/BankingAction";
 import VendorPayment from "./VendorPayment";
 import TransactionFilter from "./TransactionFilter";
+import SelfTransferGlobal from "./SelfTransferGlobal";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -189,6 +190,7 @@ function BankingNew() {
   const [pageTransaction, setPageTransaction] = useState(1);
 
   const [selfTranfer, setSelfTransfer] = useState(false);
+  const [selfTranferGlobal, setSelfTransferGlobal] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -224,6 +226,8 @@ function BankingNew() {
   } = useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
+
+  const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
 
   // console.log("banking", banking);
 
@@ -408,6 +412,7 @@ function BankingNew() {
       });
 
       setSelfTransfer(false);
+      setSelfTransferGlobal(false);
       dispatch({ type: "REMOVE_SELF_TRANSFER_REDUCER" });
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
@@ -759,6 +764,14 @@ function BankingNew() {
     setSelfTransfer(false);
   };
 
+  const handleOpenSelfTransferGlobal = () => {
+    setSelfTransferGlobal(true);
+  };
+
+  const handleCloseSelfTransferGlobal = () => {
+    setSelfTransferGlobal(false);
+  };
+
   const handleEditAddBank = (item) => {
     setEdit(true);
     setAddNewAccount(true);
@@ -867,6 +880,23 @@ function BankingNew() {
     }
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
+  useEffect(() => {
+    if (state.UsersList.settlementPaymentSuccessCode === 200) {
+      dispatch({
+        type: "GET_ALL_TRANSACTION_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: pageTransaction,
+          size: sizeTransaction,
+        },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
+      }, 200);
+    }
+  }, [state.UsersList.settlementPaymentSuccessCode]);
+
   const handleShowAddBalance = (item) => {
     setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
 
@@ -950,6 +980,7 @@ function BankingNew() {
   const handleVendorPayment = () => {
     setShowSettlementForm(true);
     setShowTransactionMenu(false);
+    dispatch({ type: "REMOVE_STOREBANK_DETAILS" });
   };
 
   const handleCloseSettlement = () => {
@@ -1169,7 +1200,7 @@ function BankingNew() {
                       disabled={!canWriteBanking}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleOpenSelfTransfer();
+                        handleOpenSelfTransferGlobal();
                       }}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
@@ -1177,7 +1208,11 @@ function BankingNew() {
                     </button>
 
                     <button
-                      onClick={() => handleVendorPayment()}
+                      disabled={!canWriteVendor}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVendorPayment();
+                      }}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       Vendor Payment
@@ -1420,7 +1455,7 @@ function BankingNew() {
                             <div className="flex justify-between">
                               <div>
                                 <span className="text-[20px] font-semibold text-black font-gilroy">
-                                  ₹{item.balance || 0}
+                                  ₹{item.balance.toLocaleString() || 0}
                                 </span>
                                 <span className="flex items-center gap-1 text-sm font-medium font-gilroy text-[#4B4B4B]">
                                   Balance
@@ -1825,23 +1860,23 @@ function BankingNew() {
                                     </div>
                                   </td>
                                   <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
-                                    {user.cashAccountType || user?.bankName} -{" "}
-                                    <span className="text-xs">
+                                    {user.cashAccountType || user?.bankName}
+                                    {/* <span className="text-xs">
                                       {user.displayName}
-                                    </span>
+                                    </span> */}
                                     {/* {user?.source} */}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     {user.description || "-"}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
-                                    {user?.accountHolderName}
+                                    {user.displayName}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
-                                    {user.transactionAmount}
+                                    ₹{user.transactionAmount}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
-                                    {user.accountBalance}
+                                    ₹ {user.accountBalance}
                                   </td>
                                   <td className="sticky right-0 z-20 bg-white w-[80px] px-2 py-1 whitespace-nowrap">
                                     <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
@@ -1855,7 +1890,7 @@ function BankingNew() {
                     </div>
                   ) : (
                     <div>
-                      {transactionFilterddata.transactions?.length === 0 &&
+                      {transactionFilterddata?.transactions?.length === 0 &&
                         canReadBanking && (
                           <div className="my-2">
                             {" "}
@@ -1926,6 +1961,13 @@ function BankingNew() {
               show={selfTranfer}
               handleClose={handleCloseSelfTransfer}
               selfDetails={selfDetails}
+            />
+          )}
+
+          {selfTranferGlobal && (
+            <SelfTransferGlobal
+              show={selfTranferGlobal}
+              handleClose={handleCloseSelfTransferGlobal}
             />
           )}
 

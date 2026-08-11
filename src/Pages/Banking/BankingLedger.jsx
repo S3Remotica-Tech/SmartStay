@@ -529,15 +529,15 @@ function BankingLedger() {
                         </div>
                       </td>
                       <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
-                        {user.cashAccountType || user?.bankName} -{" "}
-                        <span className="text-xs">{user.displayName}</span>
+                        {user.cashAccountType || user?.bankName}
+                        {/* <span className="text-xs">{user.displayName}</span> */}
                         {/* {user?.source} */}
                       </td>
                       <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                         {user.description || "-"}
                       </td>
                       <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
-                        {/* {user?.displayName} */}
+                        {user.displayName}
                       </td>
                       <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                         {user.transactionAmount}
