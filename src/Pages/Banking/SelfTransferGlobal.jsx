@@ -7,8 +7,7 @@ import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 
-function SelfTransferNew({ show, handleClose, selfDetails }) {
-  // console.log("selfDetailsselfDetails", selfDetails);
+function SelfTransferGlobal({ show, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -17,6 +16,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const [selectedBank, setSelectedBank] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
+  const [selectedFromBank, setSelectedFromBank] = useState(null);
+
+  console.log("selectedFromBank", selectedFromBank);
 
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
@@ -55,7 +57,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
       type: "SELF_TRANSFER_V3_SAGA",
       payload: {
         hostelId: state.login?.selectedHostel_Id,
-        fromBankId: bankDetails?.fromBank?.bankId,
+        fromBankId: selectedFromBank?.bankId,
         toBankId: selectedBankId,
         amount: Number(amount),
         date: selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null,
@@ -78,16 +80,27 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   }, []);
 
   useEffect(() => {
-    if (selfDetails?.bankId) {
+    if (selectedFromBank?.bankId) {
       dispatch({
         type: "SELF_TRANSFER_INITIALIZE_V3_SAGA",
         payload: {
           hostelId: state.login?.selectedHostel_Id,
-          bankId: selfDetails?.bankId,
+          bankId: selectedFromBank?.bankId,
         },
       });
     }
-  }, [selfDetails]);
+  }, [selectedFromBank]);
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
@@ -148,56 +161,74 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
               From
             </h6>
 
-            <div className="flex items-center justify-between gap-3 p-2 border-b border-[#ccc]">
-              <div className="flex items-center gap-2 flex-1">
-                <div
-                  className={`${bankDetails?.fromBank?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
-                >
-                  {bankDetails?.fromBank?.accountType === "CASH" ? (
-                    <Wallet color="#038C3D" size="16" />
-                  ) : (
-                    <Bank color="#1E45E1" size="16" />
-                  )}
-                </div>
-
-                <div className="w-full flex justify-between items-center">
-                  <div>
-                    {bankDetails?.fromBank?.bankName && (
-                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        {bankDetails?.fromBank?.bankName}
-                      </div>
+            {state?.bankingDetails?.newBankingList?.banks?.map((bank) => (
+              <div
+                key={bank.bankId}
+                onClick={() => setSelectedFromBank(bank)}
+                className={`flex items-center justify-between gap-4 mb-2 p-2 rounded-lg  cursor-pointer ${
+                  selectedFromBank?.bankId === bank.bankId
+                    ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
+                    : "bg-[#F7FAFF] border-1  border-transparent"
+                }`}
+              >
+                <div className="flex items-center gap-3 flex-1">
+                  <div
+                    className={`${
+                      bank.accountType === "CASH"
+                        ? "bg-[#E9FFEE]"
+                        : "bg-[#E8ECFF]"
+                    } rounded-full p-2`}
+                  >
+                    {bank.accountType === "CASH" ? (
+                      <Wallet color="#038C3D" size="16" />
+                    ) : (
+                      <Bank color="#1E45E1" size="16" />
                     )}
-
-                    {bankDetails?.fromBank?.accountType === "CASH" && (
-                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        {bankDetails?.fromBank?.cashAccountType}
-                      </div>
-                    )}
-
-                    <div className="text-xs text-gray-500 font-gilroy">
-                      {bankDetails?.fromBank?.accountType.toLowerCase() || ""}{" "}
-                      account
-                    </div>
                   </div>
 
-                  <div className="text-right font-gilroy">
-                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                      {bankDetails?.fromBank?.displayName}
+                  <div className="w-full flex justify-between items-center">
+                    <div>
+                      {bank.bankName && (
+                        <div className="font-semibold text-[#1A1A1A] text-sm">
+                          {bank.bankName}
+                        </div>
+                      )}
+
+                      {bank.accountType === "CASH" && (
+                        <div className="font-semibold text-[#1A1A1A] text-sm">
+                          {bank.cashAccountType}
+                        </div>
+                      )}
+
+                      <div className="text-xs text-gray-500">
+                        {bank.accountType?.toLowerCase()} account
+                      </div>
                     </div>
 
-                    {bankDetails?.fromBank?.accountNumber && (
-                      <div className="text-xs font-normal font-gilroy mb-0.5">
-                        {bankDetails?.fromBank?.accountNumber || "-"}
+                    <div className="text-right">
+                      <div className="font-medium text-[#1A1A1A] text-sm">
+                        {bank.displayName}
                       </div>
-                    )}
 
-                    <div className="text-xs font-semibold text-[#1E45E1]">
-                      Avl Bal : ₹ {bankDetails?.fromBank?.balance || 0}
+                      {bank.accountNumber && (
+                        <div className="text-xs">{bank.accountNumber}</div>
+                      )}
+
+                      <div className="text-xs font-semibold text-[#1E45E1]">
+                        Avl Bal : ₹ {bank.balance?.toLocaleString() || 0}
+                      </div>
                     </div>
                   </div>
+                  <input
+                    type="radio"
+                    name="selectedBank"
+                    checked={selectedFromBank?.bankId === bank.bankId}
+                    onChange={() => setSelectedFromBank(bank)}
+                    className="accent-[#1E45E1] w-4 h-4 cursor-pointer"
+                  />
                 </div>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="my-3   pe-2 overflow-y-auto  show-scrolls">
@@ -285,11 +316,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                 </div>
               ))
             ) : (
-              <div className="flex justify-center ">
-                <label className="text-sm text-red-500 ">
-                  {bankDetails?.fromBank?.accountType === "CASH"
-                    ? " No cash accounts available"
-                    : ""}
+              <div className="flex justify-center border-1 border-blue-100 rounded-md py-4">
+                <label className="text-sm text-blue-800 ">
+                  Select From bank
                 </label>
               </div>
             )}
@@ -328,7 +357,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
                   dateFormat="dd/MM/yyyy"
-                  className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white px-4 pr-10 text-sm font-gilroy text-[#222222] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
+                  className="w-full h-11 rounded-lg border border-[#D9D9D9] bg-white px-4 pr-10 text-xs font-gilroy text-[#222222] outline-none focus:border-[#2952CC] focus:ring-1 focus:ring-[#2952CC]"
                   placeholderText="Select date"
                   maxDate={new Date()}
                 />
@@ -389,4 +418,4 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   );
 }
 
-export default SelfTransferNew;
+export default SelfTransferGlobal;

@@ -10,6 +10,8 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  console.log("advanceDetails", advanceDetails);
+
   const [error, setError] = useState("");
   const [applyAmountForInvoice, setApplyAmountForInvoice] = useState([]);
   const [formLoading, setFormLoading] = useState(false);

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   ArrowLeft2,
@@ -11,17 +12,14 @@ import {
   Bank,
   Wallet2,
   ArrowRight,
+  MessageText1,
+  MessageQuestion,
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-const vendorOptions = [
-  { value: "grow-aqua-services", label: "Grow Aqua Services" },
-  { value: "vinayaka-electricals", label: "Vinayaka Electricals" },
-  { value: "abc-traders", label: "ABC Traders" },
-];
+import Works from "./Works";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -124,54 +122,38 @@ const CustomStyles = {
   }),
 };
 
-const paymentOptions = [
-  {
-    label: "Bank Accounts",
-    options: [
-      {
-        value: "sbi",
-        label: "SBI Bank",
-        type: "Bank",
-        icon: <Bank size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-  {
-    label: "Linked Payment Methods",
-    options: [
-      {
-        value: "gpay",
-        label: "Google Pay",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-      {
-        value: "phonepe",
-        label: "PhonePe",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-];
+const paymentOptions = [];
 const Option = (props) => {
   const { data } = props;
 
   return (
     <components.Option {...props}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
-          {data.icon}
-          <div>
-            <label className="text-xs font-medium  text-[#222222]">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
               {data.label}
-            </label>
+            </span>
+
             {data.subLabel && (
-              <label className="text-xs text-[#6B7280]">{data.subLabel}</label>
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
             )}
           </div>
         </div>
-        <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
           {data.type}
         </span>
       </div>
@@ -185,8 +167,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        {data.icon}
-        <span>{data.label}</span>
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
       </div>
     </components.SingleValue>
   );
@@ -208,16 +196,25 @@ const GroupHeading = (props) => (
 
 function TenantPayment({ show, handleClose }) {
   if (!show) return null;
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [tenant, setTenant] = useState(null);
   const [tenantError, setTenantError] = useState("");
 
-  const [amountReceived, setAmountReceived] = useState(4500);
+  const workRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [amountReceived, setAmountReceived] = useState("");
   const [amountReceivedError, setAmountReceivedError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentDate, setPaymentDate] = useState(null);
   const [paymentDateError, setPaymentDateError] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [description, setDescription] = useState("");
+  const [showWorks, setShowWorks] = useState(false);
+  const tenantRef = useRef(null);
+  const amountReceivedRef = useRef(null);
+  const paymentDateRef = useRef(null);
+  const paymentMethodRef = useRef(null);
 
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
@@ -311,33 +308,85 @@ function TenantPayment({ show, handleClose }) {
 
   const validateForm = () => {
     let isValid = true;
+    let firstErrorRef = null;
 
     if (!tenant) {
-      setTenantError("Tenant is required");
+      setTenantError("Please Select Tenant");
+      if (!firstErrorRef) firstErrorRef = tenantRef;
       isValid = false;
     }
 
     if (!amountReceived) {
-      setAmountReceivedError("Amount Received is required");
+      setAmountReceivedError("Please Enter Amount Received");
+      if (!firstErrorRef) firstErrorRef = amountReceivedRef;
       isValid = false;
     }
 
     if (!paymentDate) {
-      setPaymentDateError("Date is required");
+      setPaymentDateError("Please Select Date");
+      if (!firstErrorRef) firstErrorRef = paymentDateRef;
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Payment Method is required");
+      setPaymentMethodError("Please Select Payment Method");
+      if (!firstErrorRef) firstErrorRef = paymentMethodRef;
       isValid = false;
+    }
+
+    if (firstErrorRef?.current) {
+      firstErrorRef.current.focus();
     }
 
     return isValid;
   };
 
   const handleSubmit = () => {
+    dispatch({ type: "REMOVE_TENANT_PAYMENT_REDUCER_ERROR" });
     if (!validateForm()) return;
+    setLoading(true);
+
+    // dispatch({
+    //   type: "TENANT_PAYMENT_SAGA",
+    //   payload: {
+    //     tenantId: tenant?.value,
+    //     amount: amountReceived,
+    //     paymentDate: paymentDate,
+    //     paymentMethodId: paymentMethod?.value,
+    //     transactionId: transactionId,
+    //     description: description,
+    //     attachment: attachments,
+    //     itemsDetails: invoiceDetails,
+    //   },
+    // });
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (workRef.current && !workRef.current.contains(event.target)) {
+        setShowWorks(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.createTenantPaymentSuccessCode === 201) {
+      setLoading(false);
+      handleClose();
+    }
+  }, [state?.bankingDetails?.createTenantPaymentSuccessCode]);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.tenantPaymentError) {
+      setLoading(false);
+    }
+  }, [state?.bankingDetails?.tenantPaymentError]);
 
   return (
     <>
@@ -354,12 +403,29 @@ function TenantPayment({ show, handleClose }) {
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
             Tenant Payment
           </h1>
-          <Add
-            size={24}
-            color="#FF0000"
-            onClick={handleClose}
-            className="cursor-pointer rotate-45"
-          />
+          <div className="flex gap-2">
+            <div className="relative">
+              <MessageQuestion
+                className="cursor-pointer"
+                onClick={() => setShowWorks(!showWorks)}
+              />
+
+              {showWorks && (
+                <div
+                  ref={workRef}
+                  className="absolute top-8 right-0 z-50 w-[420px]"
+                >
+                  <Works label="Tenant-Payment" />
+                </div>
+              )}
+            </div>
+            <Add
+              size={24}
+              color="#FF0000"
+              onClick={handleClose}
+              className="cursor-pointer rotate-45"
+            />
+          </div>
         </div>
         <div className="flex-1 show-scrolls overflow-y-auto">
           <div className="grid grid-cols-1 mx-3">
@@ -369,6 +435,7 @@ function TenantPayment({ show, handleClose }) {
               </label>
               <div className="relative">
                 <Select
+                  ref={tenantRef}
                   value={tenant}
                   onChange={handleTenantChange}
                   //   options={}
@@ -383,7 +450,15 @@ function TenantPayment({ show, handleClose }) {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2 mx-3 ">
+
+          <div className="grid grid-cols-1 gap-2 mx-3 my-1">
+            <div className="bg-[#FFF6E6] rounded-md text-[#795216] px-6 py-2 ">
+              <span className="text-xs font-medium">Payable Amount -</span>{" "}
+              <span className="text-sm font-semibold">₹ 00.00</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 mx-3">
             <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1 ">
                 Amount Received (INR){" "}
@@ -392,9 +467,11 @@ function TenantPayment({ show, handleClose }) {
               <div className="relative">
                 <input
                   type="number"
+                  ref={amountReceivedRef}
                   value={amountReceived}
                   onChange={handleAmountReceivedChange}
                   placeholder="Enter Amount"
+                  onWheel={(e) => e.target.blur()}
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
                     amountReceived ? "font-semibold" : "font-medium"
                   } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
@@ -409,7 +486,7 @@ function TenantPayment({ show, handleClose }) {
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Date <span className="text-red-500 text-[20px]">*</span>
               </label>
-              <div className="relative">
+              <div className="relative" ref={paymentDateRef}>
                 <DatePicker
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
@@ -436,6 +513,7 @@ function TenantPayment({ show, handleClose }) {
               </label>
               <Select
                 value={paymentMethod}
+                ref={paymentMethodRef}
                 onChange={handlePaymentMethodChange}
                 options={paymentOptions}
                 placeholder="Select Payment Method"
@@ -451,9 +529,7 @@ function TenantPayment({ show, handleClose }) {
               />
 
               {paymentMethodError && (
-                <p className="mt-1 text-xs text-red-500">
-                  {paymentMethodError}
-                </p>
+                <ErrorMessage message={paymentMethodError} type="error" />
               )}
             </div>
 
@@ -668,6 +744,7 @@ function TenantPayment({ show, handleClose }) {
                       <td className="px-4 py-2.5">
                         <input
                           type="number"
+                          onWheel={(e) => e.target.blur()}
                           value={item.amountToApply}
                           onChange={(e) =>
                             handleAmountApplyChange(index, e.target.value)
@@ -723,10 +800,19 @@ function TenantPayment({ show, handleClose }) {
 
           <button
             onClick={handleSubmit}
-            type="submit"
-            className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
+            disabled={loading}
+            className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
           >
-            Save <ArrowRight size="14" color="#FFFFFF" />
+            {loading ? (
+              <>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </div>
+              </>
+            ) : (
+              "Save"
+            )}{" "}
           </button>
         </div>
       </div>

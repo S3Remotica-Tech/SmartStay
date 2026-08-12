@@ -18,13 +18,20 @@ import BankingLedger from "./BankingLedger";
 import { useDispatch, useSelector } from "react-redux";
 import SelfTransferNew from "./SelfTransferNew";
 import { useHasPermission } from "../../Utils/Permission";
+import { useNavigate } from "react-router-dom";
+import TenantPayment from "./TenantPayment";
+import CreditCardPayment from "./CreditCardPayment";
+import Invesment from "./Invesment";
+import VendorPayment from "./VendorPayment";
 
 function BankingOverview({ show, onClose }) {
   if (!show) return null;
-
+  const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
+  const [showInvestmentForm, seShowInvestmentForm] = useState(false);
+  const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [showMenu, setShowMenu] = useState(false);
   const [period, setPeriod] = useState("THIS_MONTH");
@@ -68,6 +75,8 @@ function BankingOverview({ show, onClose }) {
     canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
+  const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
+
   const handleOpenSelfTransfer = (item) => {
     setSelfTransfer(true);
     setSelfDetails(item);
@@ -75,6 +84,33 @@ function BankingOverview({ show, onClose }) {
 
   const handleCloseSelfTransfer = () => {
     setSelfTransfer(false);
+  };
+
+  const handleAddExpense = () => {
+    navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+      state: {
+        isBankingWayTrigger: true,
+      },
+    });
+    setShowTransactionMenu(false);
+  };
+
+  const handleInvestment = () => {
+    setShowTransactionMenu(false);
+    seShowInvestmentForm(true);
+  };
+
+  const handleCloseInvestment = () => {
+    seShowInvestmentForm(false);
+  };
+
+  const handleVendorPayment = () => {
+    setShowSettlementForm(true);
+    setShowTransactionMenu(false);
+  };
+
+  const handleCloseSettlement = () => {
+    setShowSettlementForm(false);
   };
 
   useEffect(() => {
@@ -139,6 +175,38 @@ function BankingOverview({ show, onClose }) {
       dispatch({ type: "REMOVE_ADD_PAYMENT_METHOD_REDUCER" });
     }
   }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.addMoneySuccess === 200) {
+      dispatch({
+        type: "GET_BANKING_OVERVIEW_SAGA",
+        payload: {
+          hostelId: OverviewDetails?.hostelId,
+          bankId: OverviewDetails?.bankId,
+          dateFilter: period,
+        },
+      });
+
+      dispatch({ type: "REMOVE_ADD_MONEY_REDUCER" });
+    }
+  }, [state?.bankingDetails?.addMoneySuccess]);
+
+  useEffect(() => {
+    if (state.UsersList.settlementPaymentSuccessCode === 200) {
+      dispatch({
+        type: "GET_BANKING_OVERVIEW_SAGA",
+        payload: {
+          hostelId: OverviewDetails?.hostelId,
+          bankId: OverviewDetails?.bankId,
+          dateFilter: period,
+        },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_SETTLEMENT_PAYMENT_REDUCER" });
+      }, 200);
+    }
+  }, [state.UsersList.settlementPaymentSuccessCode]);
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
@@ -222,9 +290,9 @@ function BankingOverview({ show, onClose }) {
                                border border-[#E5E7EB] rounded-[8px] shadow-lg z-50 min-w-[220px] "
                 >
                   <button
-                    className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
-                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                    // onClick={handleAddExpense}
+                    disabled={!canWriteExpense}
+                    onClick={() => handleAddExpense()}
+                    className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                   >
                     Add Expense
                   </button>
@@ -240,7 +308,11 @@ function BankingOverview({ show, onClose }) {
                   <button
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                    // onClick={handleVendorPayment}
+                    disabled={!canWriteBanking}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleVendorPayment();
+                    }}
                   >
                     Vendor Payment
                   </button>
@@ -256,7 +328,11 @@ function BankingOverview({ show, onClose }) {
                   <button
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                    // onClick={handleInvestment}
+                    disabled={!canWriteBanking}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleInvestment();
+                    }}
                   >
                     Investment
                   </button>
@@ -366,6 +442,22 @@ function BankingOverview({ show, onClose }) {
           {activeTab === "ledger" && <BankingLedger />}
         </div>
       </div>
+
+      {showInvestmentForm && (
+        <Invesment
+          show={showInvestmentForm}
+          handleClose={handleCloseInvestment}
+          bankDetails={OverviewDetails?.bankId}
+        />
+      )}
+
+      {showSettlementForm && (
+        <VendorPayment
+          show={showSettlementForm}
+          handleClose={handleCloseSettlement}
+          isBanking={true}
+        />
+      )}
 
       {selfTranfer && (
         <SelfTransferNew

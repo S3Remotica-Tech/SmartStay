@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowUp2, ArrowDown2, AddCircle, Add, Link21 } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import ApplyBookingModal from "./ApplyInvoices";
+import RetainerApplyInvoice from "./RetainerApplyInvoice";
 
 const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);
@@ -170,6 +171,9 @@ const InvoiceCard = ({ rowData }) => {
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
   const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
+
+  const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
+  const [advanceDetails, setAdvanceDetails] = useState("");
   const templateColor = pdfDetails?.configurations?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
 
@@ -213,6 +217,15 @@ const InvoiceCard = ({ rowData }) => {
 
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
+  };
+
+  const handleApplyInvoicesRetainer = (item) => {
+    setApplyInvoiceRetainer(true);
+    setAdvanceDetails(item);
+  };
+
+  const handleCloseApplyInvoicesRetainer = () => {
+    setApplyInvoiceRetainer(false);
   };
 
   useEffect(() => {
@@ -810,35 +823,67 @@ const InvoiceCard = ({ rowData }) => {
 
           <div className="flex items-center gap-2">
             <div className="relative inline-flex">
-              <button
-                disabled={!canUpdateInvoice || !isRedeemAvailable}
-                onClick={() => handleApplyInvoices()}
-                className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
+              {pdfDetails?.invoiceInfo?.invoiceType === "ADVANCE" ? (
+                <button
+                  disabled={!canUpdateInvoice || !isRedeemAvailable}
+                  onClick={() => handleApplyInvoices()}
+                  className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
     ${
       !canUpdateInvoice || !isRedeemAvailable
         ? "cursor-not-allowed opacity-50 bg-gray-100"
         : "cursor-pointer hover:bg-[#EDF2FF]"
     }`}
-              >
-                <Link21
-                  color={
-                    !canUpdateInvoice || !isRedeemAvailable
-                      ? "#A9A9A9"
-                      : "#1E45E1"
-                  }
-                  size="16"
-                />
-
-                <span
-                  className={`text-sm font-semibold ${
-                    !canUpdateInvoice || !isRedeemAvailable
-                      ? "text-[#A9A9A9]"
-                      : "text-[#222222]"
-                  }`}
                 >
-                  Apply Invoices
-                </span>
-              </button>
+                  <Link21
+                    color={
+                      !canUpdateInvoice || !isRedeemAvailable
+                        ? "#A9A9A9"
+                        : "#1E45E1"
+                    }
+                    size="16"
+                  />
+
+                  <span
+                    className={`text-sm font-semibold ${
+                      !canUpdateInvoice || !isRedeemAvailable
+                        ? "text-[#A9A9A9]"
+                        : "text-[#222222]"
+                    }`}
+                  >
+                    Apply to Invoices
+                  </span>
+                </button>
+              ) : (
+                <button
+                  disabled={!canUpdateInvoice || !isRedeemAvailable}
+                  onClick={() => handleApplyInvoicesRetainer(pdfDetails)}
+                  className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
+    ${
+      !canUpdateInvoice || !isRedeemAvailable
+        ? "cursor-not-allowed opacity-50 bg-gray-100"
+        : "cursor-pointer hover:bg-[#EDF2FF]"
+    }`}
+                >
+                  <Link21
+                    color={
+                      !canUpdateInvoice || !isRedeemAvailable
+                        ? "#A9A9A9"
+                        : "#1E45E1"
+                    }
+                    size="16"
+                  />
+
+                  <span
+                    className={`text-sm font-semibold ${
+                      !canUpdateInvoice || !isRedeemAvailable
+                        ? "text-[#A9A9A9]"
+                        : "text-[#222222]"
+                    }`}
+                  >
+                    Apply to Invoices
+                  </span>
+                </button>
+              )}
             </div>
 
             {isOpenPayment ? (
@@ -994,6 +1039,14 @@ const InvoiceCard = ({ rowData }) => {
           show={applyInvoice}
           handleClose={handleCloseApplyInvoices}
           advanceDetails={pdfDetails}
+        />
+      )}
+
+      {applyInvoiceRetainer && (
+        <RetainerApplyInvoice
+          show={applyInvoiceRetainer}
+          handleClose={handleCloseApplyInvoicesRetainer}
+          advanceDetails={advanceDetails}
         />
       )}
     </div>

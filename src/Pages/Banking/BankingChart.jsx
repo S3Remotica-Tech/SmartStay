@@ -257,20 +257,22 @@ function BankingChart() {
             </div>
           </div>
         </div>
-        <div className="mx-4 my-4">
-          {bankDetails.map((item) => (
-            <div
-              key={item.label}
-              className="grid grid-cols-[140px_20px_1fr] gap-3 mb-2 "
-            >
-              <div className="text-[#4B4B4B] text-[13px] ">{item.label}</div>
-              <div>:</div>
-              <div className="font-semibold text-[14px] text-[#000825]">
-                {item.value}
+        {bankingChart?.accountType !== "CASH" && (
+          <div className="mx-4 my-4">
+            {bankDetails?.map((item) => (
+              <div
+                key={item.label}
+                className="grid grid-cols-[140px_20px_1fr] gap-3 mb-2 "
+              >
+                <div className="text-[#4B4B4B] text-[13px] ">{item.label}</div>
+                <div>:</div>
+                <div className="font-semibold text-[14px] text-[#000825]">
+                  {item.value}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
