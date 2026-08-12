@@ -734,7 +734,6 @@ function Booking() {
     }
   }, [state.Booking?.successBookingCustomizeColumns]);
 
-  // console.log("state.Booking", state.Booking?.successBookingCustomizeColumns);
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error("Please add a hostel before adding invoice information.", {

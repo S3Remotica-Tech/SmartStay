@@ -31,6 +31,7 @@ import { toast } from "react-toastify";
 import ComingSoon from "../../Utils/ComingSoon";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import RetainerApplyInvoice from "../Bookings/RetainerApplyInvoice";
+import ApplyBookingModal from "../Bookings/ApplyInvoices";
 
 function TenantRetainerInvoice() {
   const state = useSelector((state) => state);
@@ -64,6 +65,7 @@ function TenantRetainerInvoice() {
   const navigate = useNavigate();
   const [advanceDetails, setAdvanceDetails] = useState("");
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
+  const [applyInvoice, setApplyInvoice] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
 
@@ -206,6 +208,15 @@ function TenantRetainerInvoice() {
 
   const handleCloseApplyInvoicesRetainer = () => {
     setApplyInvoiceRetainer(false);
+  };
+
+  const handleApplyInvoices = (item) => {
+    setApplyInvoice(true);
+    setAdvanceDetails(item);
+  };
+
+  const handleCloseApplyInvoices = () => {
+    setApplyInvoice(false);
   };
 
   return (
@@ -386,20 +397,35 @@ function TenantRetainerInvoice() {
                                   zIndex: 1000,
                                 }}
                               >
-                                <button
-                                  disabled={
-                                    row.status === "Fully Adjusted" ||
-                                    isDisabledButtonForApply
-                                  }
-                                  onClick={() => {
-                                    handleApplyInvoicesRetainer(row);
-                                    setOpenMenu(null);
-                                  }}
-                                  className="w-full px-4 py-2 text-left text-sm hover:bg-blue-100 
+                                {row?.invoiceType === "ADVANCE" ||
+                                row?.invoiceType === "BOOKING" ? (
+                                  <button
+                                    disabled={isDisabledButtonForApply}
+                                    onClick={() => {
+                                      handleApplyInvoices(row);
+                                      setOpenMenu(null);
+                                    }}
+                                    className="w-full px-4 py-2 text-left text-sm hover:bg-blue-100 
                                   rounded-md disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-70 "
-                                >
-                                  Apply to Invoice
-                                </button>
+                                  >
+                                    Apply to Invoice
+                                  </button>
+                                ) : (
+                                  <button
+                                    disabled={
+                                      row.status === "Fully Adjusted" ||
+                                      isDisabledButtonForApply
+                                    }
+                                    onClick={() => {
+                                      handleApplyInvoicesRetainer(row);
+                                      setOpenMenu(null);
+                                    }}
+                                    className="w-full px-4 py-2 text-left text-sm hover:bg-blue-100 
+                                  rounded-md disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-70 "
+                                  >
+                                    Apply to Invoice
+                                  </button>
+                                )}
                               </div>
                             )}
                           </td>
@@ -428,6 +454,14 @@ function TenantRetainerInvoice() {
         <RetainerApplyInvoice
           show={applyInvoiceRetainer}
           handleClose={handleCloseApplyInvoicesRetainer}
+          advanceDetails={advanceDetails}
+        />
+      )}
+
+      {applyInvoice && (
+        <ApplyBookingModal
+          show={applyInvoice}
+          handleClose={handleCloseApplyInvoices}
           advanceDetails={advanceDetails}
         />
       )}
