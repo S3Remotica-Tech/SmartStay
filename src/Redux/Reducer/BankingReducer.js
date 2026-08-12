@@ -156,6 +156,11 @@ const BankingReducer = (state = initialState, action) => {
     case "REMOVE_TENANT_PAYMENT_REDUCER_ERROR":
       return { ...state, tenantPaymentError: "" };
 
+    case "CREDIT_CARD_PAYMENT_REDUCER_ERROR":
+      return { ...state, creditCardPaymentError: action.payload };
+    case "REMOVE_CREDIT_CARD_PAYMENT_REDUCER_ERROR":
+      return { ...state, creditCardPaymentError: "" };
+
     case "ADD_BANKING_ERROR":
       return { ...state, createBankingError: action.payload };
 

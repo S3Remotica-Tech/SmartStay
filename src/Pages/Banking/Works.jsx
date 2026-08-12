@@ -28,7 +28,7 @@ function Works({ label }) {
   if (!item) return null;
 
   return (
-    <div className="w-full rounded-lg bg-[#F4F4F4] p-4">
+    <div className="w-full rounded-lg bg-[#F4F4F4] p-4 shadow-md">
       <div className="flex items-center gap-2">
         <MessageQuestion size={18} color="#6B7280" />
         <h3 className="text-[15px] font-semibold text-[#1F2937] mb-0">

@@ -211,6 +211,10 @@ function TenantPayment({ show, handleClose }) {
   const [transactionId, setTransactionId] = useState("");
   const [description, setDescription] = useState("");
   const [showWorks, setShowWorks] = useState(false);
+  const tenantRef = useRef(null);
+  const amountReceivedRef = useRef(null);
+  const paymentDateRef = useRef(null);
+  const paymentMethodRef = useRef(null);
 
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
@@ -304,25 +308,34 @@ function TenantPayment({ show, handleClose }) {
 
   const validateForm = () => {
     let isValid = true;
+    let firstErrorRef = null;
 
     if (!tenant) {
       setTenantError("Please Select Tenant");
+      if (!firstErrorRef) firstErrorRef = tenantRef;
       isValid = false;
     }
 
     if (!amountReceived) {
       setAmountReceivedError("Please Enter Amount Received");
+      if (!firstErrorRef) firstErrorRef = amountReceivedRef;
       isValid = false;
     }
 
     if (!paymentDate) {
       setPaymentDateError("Please Select Date");
+      if (!firstErrorRef) firstErrorRef = paymentDateRef;
       isValid = false;
     }
 
     if (!paymentMethod) {
       setPaymentMethodError("Please Select Payment Method");
+      if (!firstErrorRef) firstErrorRef = paymentMethodRef;
       isValid = false;
+    }
+
+    if (firstErrorRef?.current) {
+      firstErrorRef.current.focus();
     }
 
     return isValid;
@@ -422,6 +435,7 @@ function TenantPayment({ show, handleClose }) {
               </label>
               <div className="relative">
                 <Select
+                  ref={tenantRef}
                   value={tenant}
                   onChange={handleTenantChange}
                   //   options={}
@@ -453,6 +467,7 @@ function TenantPayment({ show, handleClose }) {
               <div className="relative">
                 <input
                   type="number"
+                  ref={amountReceivedRef}
                   value={amountReceived}
                   onChange={handleAmountReceivedChange}
                   placeholder="Enter Amount"
@@ -471,7 +486,7 @@ function TenantPayment({ show, handleClose }) {
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Date <span className="text-red-500 text-[20px]">*</span>
               </label>
-              <div className="relative">
+              <div className="relative" ref={paymentDateRef}>
                 <DatePicker
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
@@ -498,6 +513,7 @@ function TenantPayment({ show, handleClose }) {
               </label>
               <Select
                 value={paymentMethod}
+                ref={paymentMethodRef}
                 onChange={handlePaymentMethodChange}
                 options={paymentOptions}
                 placeholder="Select Payment Method"

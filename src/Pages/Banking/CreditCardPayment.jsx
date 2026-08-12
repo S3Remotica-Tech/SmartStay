@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowLeft2,
   Calendar,
@@ -223,7 +223,8 @@ const GroupHeading = (props) => (
 
 function CreditCardPayment({ show, handleClose }) {
   if (!show) return null;
-
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const workRef = useRef(null);
   const [showWorks, setShowWorks] = useState(false);
   const [creditCardAccount, setCreditCardAccount] = useState(null);
@@ -237,11 +238,16 @@ function CreditCardPayment({ show, handleClose }) {
 
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [paymentDate, setPaymentDate] = useState(null);
   const [paymentDateError, setPaymentDateError] = useState("");
 
   const [description, setDescription] = useState("");
+
+  const creditCardAccountRef = useRef(null);
+  const amountRef = useRef(null);
+  const paymentDateRef = useRef(null);
+  const paymentMethodRef = useRef(null);
 
   const handleCreditCardAccountChange = (selected) => {
     setCreditCardAccount(selected);
@@ -274,33 +280,54 @@ function CreditCardPayment({ show, handleClose }) {
 
   const validateForm = () => {
     let isValid = true;
+    let firstErrorRef = null;
 
     if (!creditCardAccount) {
-      setCreditCardAccountError("Credit Card Account is required");
+      setCreditCardAccountError("Please Select Credit Card Account");
+      if (!firstErrorRef) firstErrorRef = creditCardAccountRef;
       isValid = false;
     }
 
     if (!amount) {
-      setAmountError("Amount is required");
+      setAmountError("Please Enter Amount");
+      if (!firstErrorRef) firstErrorRef = amountRef;
       isValid = false;
     }
 
     if (!paymentDate) {
-      setPaymentDateError("Settlement Date is required");
+      setPaymentDateError("Please Select Settlement Date");
+      if (!firstErrorRef) firstErrorRef = paymentDateRef;
       isValid = false;
     }
 
     if (!paymentMethod) {
-      setPaymentMethodError("Payment Method is required");
+      setPaymentMethodError("Please Select Payment Method");
+      if (!firstErrorRef) firstErrorRef = paymentMethodRef;
       isValid = false;
     }
+
+    firstErrorRef?.current?.focus();
 
     return isValid;
   };
 
   const handleSubmit = () => {
     if (!validateForm()) return;
+    setLoading(true);
   };
+
+  useEffect(() => {
+    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 201) {
+      setLoading(false);
+      handleClose();
+    }
+  }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.creditCardPaymentError) {
+      setLoading(false);
+    }
+  }, [state?.bankingDetails?.creditCardPaymentError]);
 
   return (
     <>
@@ -350,6 +377,7 @@ function CreditCardPayment({ show, handleClose }) {
               </label>
               <div className="relative">
                 <Select
+                  ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
                   // options={creditCardOptions}
@@ -371,6 +399,7 @@ function CreditCardPayment({ show, handleClose }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
+                ref={paymentMethodRef}
                 value={paymentMethod}
                 onChange={handlePaymentMethodChange}
                 options={paymentOptions}
@@ -416,8 +445,10 @@ function CreditCardPayment({ show, handleClose }) {
               </label>
               <div className="relative">
                 <input
+                  onWheel={(e) => e.target.blur()}
                   type="number"
                   value={amount}
+                  ref={amountRef}
                   onChange={handleAmountChange}
                   placeholder="Enter Amount"
                   className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
@@ -434,7 +465,7 @@ function CreditCardPayment({ show, handleClose }) {
                 Settlement Date{" "}
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
-              <div className="relative">
+              <div className="relative" ref={paymentDateRef}>
                 <DatePicker
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
@@ -482,10 +513,19 @@ function CreditCardPayment({ show, handleClose }) {
 
           <button
             onClick={handleSubmit}
-            type="submit"
-            className="bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
+            disabled={loading}
+            className="bg-[#1E45E1] hover:bg-[#1738C7] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 text-white px-5 h-10 rounded-md font-medium font-gilroy flex items-center gap-2"
           >
-            Save <ArrowRight size="14" color="#FFFFFF" />
+            {loading ? (
+              <>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </div>
+              </>
+            ) : (
+              "Save"
+            )}{" "}
           </button>
         </div>
       </div>

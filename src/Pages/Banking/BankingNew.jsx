@@ -401,6 +401,20 @@ function BankingNew() {
   }, [state?.bankingDetails?.createTenantPaymentSuccessCode]);
 
   useEffect(() => {
+    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 201) {
+      dispatch({
+        type: "GET_ALL_TRANSACTION_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: pageTransaction,
+          size: sizeTransaction,
+        },
+      });
+      dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER" });
+    }
+  }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
+
+  useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       // dispatch({
       //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
