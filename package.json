@@ -105,9 +105,9 @@
   },
   "scripts": {
     "start": "vite",
-    "build:dev": "vite build --mode development",
-    "build:prod": "vite build --mode production",
-    "build:qa": "vite build --mode qa",
+    "build:dev": "node scripts/increment-build.js dev && vite build --mode development",
+    "build:qa": "node scripts/increment-build.js qa && vite build --mode qa",
+    "build:prod": "node scripts/increment-build.js prod && vite build --mode production",
     "lint": "eslint . --max-warnings 0",
     "preview": "vite preview",
     "test": "jest --coverage"

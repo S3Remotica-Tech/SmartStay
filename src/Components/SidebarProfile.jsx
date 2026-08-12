@@ -60,16 +60,19 @@ function SidebarProfile({
           )}
 
           <div>
-
             <div className="fw-semibold mb-2 fs-5">
-              {[stateData?.accountList?.firstName || profilename, stateData?.accountList?.lastName]
+              {[
+                stateData?.accountList?.firstName || profilename,
+                stateData?.accountList?.lastName,
+              ]
                 .filter(Boolean)
                 .join(" ")}
             </div>
 
-
             <div>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <span
+                style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+              >
                 <span
                   style={{
                     backgroundColor: "#FFF3D9",
@@ -82,9 +85,24 @@ function SidebarProfile({
                     height: 24,
                   }}
                 >
-                  <img src={ArchieveTick} style={{ width: 15, height: 15, backgroundColor: "transparent" }} alt="icon" />
+                  <img
+                    src={ArchieveTick}
+                    style={{
+                      width: 15,
+                      height: 15,
+                      backgroundColor: "transparent",
+                    }}
+                    alt="icon"
+                  />
                 </span>
-                <span style={{ fontSize: 14, color: "black", fontWeight: 400, marginLeft: 5 }}>
+                <span
+                  style={{
+                    fontSize: 14,
+                    color: "black",
+                    fontWeight: 400,
+                    marginLeft: 5,
+                  }}
+                >
                   {stateData?.accountList?.roleName}
                 </span>
               </span>
@@ -97,33 +115,56 @@ function SidebarProfile({
           role="button"
           tabIndex={0}
           style={{ cursor: "pointer" }}
-        // title="Close"
+          // title="Close"
         >
           <img src={Icon} alt="close" />
         </div>
       </Offcanvas.Header>
 
-      <Offcanvas.Body style={{ fontFamily: "Gilroy", padding: 0, display: "flex", flexDirection: "column" }}>
+      <Offcanvas.Body
+        style={{
+          fontFamily: "Gilroy",
+          padding: 0,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <div className="p-3" style={{ flex: 1, overflowY: "auto" }}>
           {/* Details */}
           <div className="d-flex flex-column gap-2 mb-3">
             {stateData?.accountList?.mailId && (
               <div className="d-flex align-items-center gap-2 text-secondary">
-                <span><img src={Sms} alt="sms" style={{ width: 16, height: 16 }} /></span>
+                <span>
+                  <img src={Sms} alt="sms" style={{ width: 16, height: 16 }} />
+                </span>
                 <span className="small">{stateData?.accountList?.mailId}</span>
               </div>
             )}
 
             {stateData?.accountList?.mobileNo && (
               <div className="d-flex align-items-center gap-2 text-secondary">
-                <span><img src={Rectangle} alt="sms" style={{ width: 16, height: 16 }} /></span>
-                <span className="small">{stateData?.accountList?.mobileNo}</span>
+                <span>
+                  <img
+                    src={Rectangle}
+                    alt="sms"
+                    style={{ width: 16, height: 16 }}
+                  />
+                </span>
+                <span className="small">
+                  {stateData?.accountList?.mobileNo}
+                </span>
               </div>
             )}
 
             {payingGuestName && (
               <div className="d-flex align-items-center gap-2 text-secondary">
-                <span><img src={Buildings} alt="sms" style={{ width: 16, height: 16 }} /></span>
+                <span>
+                  <img
+                    src={Buildings}
+                    alt="sms"
+                    style={{ width: 16, height: 16 }}
+                  />
+                </span>
                 <span className="small">
                   {payingGuestName}
                   {state.UsersList.hostelList.length > 2 && (
@@ -142,28 +183,36 @@ function SidebarProfile({
           <div
             className="d-flex align-items-center justify-content-between gap-2 p-2 rounded-3 cursor-pointer mb-2"
             role="button"
-          // onClick={() => {
-          //   setShowProfileCard(false);
-          //   navigate("/profile");
-          // }}
+            // onClick={() => {
+            //   setShowProfileCard(false);
+            //   navigate("/profile");
+            // }}
           >
-            <div className="d-flex align-items-start gap-2" onClick={handleShowsettingsGenaral}>
-              <div style={{
-                backgroundColor: "#F6EFFF",
+            <div
+              className="d-flex align-items-start gap-2"
+              onClick={handleShowsettingsGenaral}
+            >
+              <div
+                style={{
+                  backgroundColor: "#F6EFFF",
 
-                borderRadius: 8,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 32,
-                height: 32,
-              }}
+                  borderRadius: 8,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 32,
+                  height: 32,
+                }}
               >
-                <span className="fs-5 text-primary"><img src={User} alt="sms" style={{ width: 18, height: 18 }} /></span>
+                <span className="fs-5 text-primary">
+                  <img src={User} alt="sms" style={{ width: 18, height: 18 }} />
+                </span>
               </div>
               <div>
-                <div className="" style={{ fontSize: '13px' }}>View Profile</div>
-                <div className="text-muted small" style={{ fontSize: '11px' }}>
+                <div className="" style={{ fontSize: "13px" }}>
+                  View Profile
+                </div>
+                <div className="text-muted small" style={{ fontSize: "11px" }}>
                   Manage your Personal Information
                 </div>
               </div>
@@ -171,7 +220,6 @@ function SidebarProfile({
             <div style={{ fontSize: 20, color: "#999", marginTop: 2 }}>›</div>
           </div>
 
-          {/* Logout */}
           <div
             role="button"
             onClick={() => {
@@ -206,7 +254,6 @@ function SidebarProfile({
               Logout
             </span>
           </div>
-
         </div>
 
         {/* Footer */}
@@ -221,7 +268,6 @@ function SidebarProfile({
             fontFamily: "Gilroy",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
-
           }}
         >
           <div style={{ fontSize: 12, color: "#6B7280" }}>
@@ -233,13 +279,15 @@ function SidebarProfile({
             />
           </div>
 
-          <label style={{ color: "#222222", fontSize: 13 }}>v 2.0</label>
+          <label style={{ color: "#222222", fontSize: 13 }}>
+            {" "}
+            v {APP_VERSION} - ({BUILD_NUMBER})
+          </label>
         </div>
       </Offcanvas.Body>
     </Offcanvas>
   );
 }
-
 
 SidebarProfile.propTypes = {
   profiles: PropTypes.string,
@@ -252,7 +300,7 @@ SidebarProfile.propTypes = {
   handleShowsettingsGenaral: PropTypes.func.isRequired,
   profileCardRef: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.shape({ current: PropTypes.any })
+    PropTypes.shape({ current: PropTypes.any }),
   ]),
 
   stateData: PropTypes.shape({
@@ -262,10 +310,7 @@ SidebarProfile.propTypes = {
       lastName: PropTypes.string,
       roleName: PropTypes.string,
       mailId: PropTypes.string,
-      mobileNo: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-      ]),
+      mobileNo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
   }),
 };

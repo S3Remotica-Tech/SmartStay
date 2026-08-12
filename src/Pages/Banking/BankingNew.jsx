@@ -227,7 +227,7 @@ function BankingNew() {
   } = useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
-
+  const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
   const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
@@ -1233,6 +1233,7 @@ function BankingNew() {
                     </button>
 
                     <button
+                      disabled={!canWriteInvoice}
                       onClick={() => handleTenantPayment()}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
