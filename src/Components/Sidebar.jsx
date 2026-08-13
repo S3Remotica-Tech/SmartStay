@@ -26,6 +26,9 @@ import {
   DocumentText,
   Buildings,
   Calendar,
+  Messages1,
+  Chart21,
+  Chart1,
 } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
@@ -117,6 +120,7 @@ import BankingNew from "../Pages/Banking/BankingNew";
 import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
 import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
+import Request from "../Pages/Request/Request";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -130,6 +134,7 @@ function Sidebar() {
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
   const [billingOpen, setBillingOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
+  const [serviceDesk, setServiceDesk] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMdSidebarExpanded, setIsMdSidebarExpanded] = useState(false);
   const isFirstLogin = useRef(true);
@@ -473,19 +478,6 @@ function Sidebar() {
     setLogoutformshow(false);
   };
 
-  // const handleLogout = () => {
-  //   dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
-  //   const token = cookies.get('v2-token');
-
-  //   if (!token) {
-  //     dispatch({ type: "LOG_OUT" });
-  //     dispatch({ type: 'RESET_ALL' })
-  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
-  //     localStorage.setItem("login", encryptData.toString());
-  //     return;
-  //   }
-  // };
-
   useEffect(() => {
     if (state.login?.logoutAdminStatusCode === 200) {
       dispatch({ type: "LOG_OUT" });
@@ -544,17 +536,6 @@ function Sidebar() {
     cookies.set("selected_hostelId", id, { path: "/" });
     setIsSidebarOpen(false);
   };
-
-  // const handleSettingspage = (view) => {
-  //   handlePageClick("settingNewDesign");
-  //   setSettingsPGShow(false);
-  //   const hostelId = state.login?.selectedHostel_Id;
-  //   if (hostelId) {
-  //     navigate(`/settings/${hostelId}`);
-  //   } else {
-  //     navigate(`/settings`);
-  //   }
-  // };
 
   const settingsPath = hostelId ? `/settings/${hostelId}` : `/settings`;
 
@@ -635,26 +616,6 @@ function Sidebar() {
     setIsVisibleSidebar(isVisible);
   };
 
-  // const getZoomLevel = () => {
-  //   const zoom = Math.round(window.devicePixelRatio * 100);
-  //   return zoom;
-  // };
-
-  // useEffect(() => {
-  //   const handleZoomDetect = () => {
-  //     const zoom = getZoomLevel();
-  //     setZoom(zoom);
-  //   };
-
-  //   window.addEventListener("resize", handleZoomDetect);
-  //   window.addEventListener("mousemove", handleZoomDetect);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleZoomDetect);
-  //     window.removeEventListener("mousemove", handleZoomDetect);
-  //   };
-  // }, []);
-
   const handleClose = () => {
     setShowNotify(false);
   };
@@ -714,15 +675,6 @@ function Sidebar() {
 
       <div className="w-full p-0">
         <div className="flex w-full h-screen overflow-y-hidden flex-row">
-          {/* <div className="d-md-none p-2 bg-white">
-            <button
-              onClick={toggleSidebar}
-              className="bg-transparent border-none text-2xl cursor-pointer"
-            >
-              ☰
-            </button>
-          </div> */}
-
           <div
             className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`}
           >
@@ -913,24 +865,6 @@ function Sidebar() {
               </div>
               <div className="show-scrolls-sidebar overflow-y-auto overflow-x-hidden h-[calc(100vh-130px)] p-1">
                 <ul className="flex-1 min-h-0 overflow-y-auto list-none p-0.5 mb-0 w-full">
-                  {/* <li
-                    className="list-none flex items-center" >
-                      <NavLink
-                        to={withHostel("/dashboard")}
-                        className={({ isActive }) =>
-                          `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                        }
-                        onClick={() => handlePageClick("dashboard")}
-                      >
-                        <Chart2
-                          size="20" variant="Bold"
-                        />
-                        <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title" >
-                          Home
-                        </span>
-                      </NavLink>
-                       </li> */}
-
                   <li className="list-none flex items-center">
                     <NavLink
                       to={withHostel("/dashboard")}
@@ -971,7 +905,7 @@ function Sidebar() {
                   </li>
 
                   {manageOpen && (
-                    <div className={`submenu ${manageOpen ? "open" : ""}`}>
+                    <div className={`mx-4 submenu ${manageOpen ? "open" : ""}`}>
                       <ul className="pl-2 relative p-1.5">
                         <li className="list-none flex">
                           <NavLink
@@ -1048,27 +982,6 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
-                        {/* {isDevelopment && (
-                          // <li className="list-none">
-                          //   <NavLink
-                          //     to={withHostel("/vendor/new")}
-                          //     className={({ isActive }) =>
-                          //       `align-items-center list-sub-Item no-underline d-flex ${
-                          //         isActive || currentPage === "vendor-new"
-                          //           ? "active"
-                          //           : ""
-                          //       }`
-                          //     }
-                          //     onClick={() => handlePageClick("vendor-new")}
-                          //   >
-                          //     <Shop size="20" variant="Bold" />
-
-                          //     <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          //       Vendor New
-                          //     </span>
-                          //   </NavLink>
-                          // </li>
-                        )} */}
                       </ul>
                     </div>
                   )}
@@ -1180,7 +1093,7 @@ function Sidebar() {
 
                   {billingOpen && (
                     <div
-                      className={`submenu ${billingOpen ? "open" : ""}`}
+                      className={`mx-4 submenu ${billingOpen ? "open" : ""}`}
                       style={{}}
                     >
                       <ul className="p-1 relative">
@@ -1330,84 +1243,6 @@ function Sidebar() {
                             </span>
                           </NavLink>
                         </li>
-
-                        {isDevelopment && (
-                          <>
-                            {/* <li className="list-none">
-                              <NavLink
-                                to={withHostel("/receipts/new/")}
-                                className={({ isActive }) =>
-                                  `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                    isActive || currentPage === "receipts-new"
-                                      ? "active"
-                                      : ""
-                                  }`
-                                }
-                                onClick={() => handlePageClick("receipts")}
-                              >
-                                <OverlayTrigger
-                                  trigger={tooltipTrigger}
-                                  placement="right"
-                                  container={document.body}
-                                  delay={{ show: 200, hide: 0 }}
-                                  overlay={
-                                    <Tooltip className="custom-tooltip">
-                                      Receipts
-                                    </Tooltip>
-                                  }
-                                >
-                                  <DocumentText
-                                    variant="Bold"
-                                    size="22"
-                                    className="-mt-1"
-                                  />
-                                </OverlayTrigger>
-
-                                <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                  Receipts New
-                                </span>
-                              </NavLink>
-                            </li> */}
-                            {/* <li className="list-none">
-                              <NavLink
-                                to={withHostel("/retainer-invoice")}
-                                className={({ isActive }) =>
-                                  `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                    isActive ||
-                                    currentPage === "retainer-invoice"
-                                      ? "active"
-                                      : ""
-                                  }`
-                                }
-                                onClick={() =>
-                                  handlePageClick("retainer-invoice")
-                                }
-                              >
-                                <OverlayTrigger
-                                  trigger={tooltipTrigger}
-                                  placement="right"
-                                  container={document.body}
-                                  delay={{ show: 200, hide: 0 }}
-                                  overlay={
-                                    <Tooltip className="custom-tooltip">
-                                      Retainer Invoice
-                                    </Tooltip>
-                                  }
-                                >
-                                  <Calendar
-                                    variant="Bold"
-                                    size="22"
-                                    className="-mt-1"
-                                  />
-                                </OverlayTrigger>
-
-                                <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                  Retainer Invoice
-                                </span>
-                              </NavLink>
-                            </li> */}
-                          </>
-                        )}
                       </ul>
                     </div>
                   )}
@@ -1442,35 +1277,103 @@ function Sidebar() {
                     </OverlayTrigger>
                   </li>
 
-                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">Compliants</Tooltip>
-                      }
-                    >
-                      <NavLink
-                        to={withHostel("/compliance")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "compliance"
-                              ? "active"
-                              : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("compliance")}
-                      >
-                        <MessageQuestion size="22" variant="Bold" />
+                  <li
+                    className={`flex relative list-none mt-[${serviceDesk ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
+    ${serviceDesk ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                    onClick={() => {
+                      const next = !serviceDesk;
+                      setServiceDesk(next);
+                      setManageOpen(false);
+                      // setIsMdSidebarExpanded(next);
+                    }}
+                  >
+                    <Messages1 size="20" variant="Bold" className="-mt-1" />
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Compliants
-                        </span>
-                      </NavLink>
-                    </OverlayTrigger>
+                    <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
+                      Service Desk
+                    </span>
+
+                    <span className="ml-auto inline-flex">
+                      {serviceDesk ? (
+                        <ArrowUp2 size={16} />
+                      ) : (
+                        <ArrowDown2 size={16} />
+                      )}
+                    </span>
                   </li>
+
+                  {serviceDesk && (
+                    <>
+                      <li
+                        className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                      >
+                        <OverlayTrigger
+                          trigger={tooltipTrigger}
+                          placement="right"
+                          container={document.body}
+                          delay={{ show: 200, hide: 0 }}
+                          overlay={
+                            <Tooltip className="custom-tooltip">
+                              Compliants
+                            </Tooltip>
+                          }
+                        >
+                          <NavLink
+                            to={withHostel("/compliance")}
+                            className={({ isActive }) =>
+                              `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                                isActive || currentPage === "compliance"
+                                  ? "active"
+                                  : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("compliance")}
+                          >
+                            <MessageQuestion size="22" variant="Bold" />
+
+                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                              Compliants
+                            </span>
+                          </NavLink>
+                        </OverlayTrigger>
+                      </li>
+                      {isDevelopment && (
+                        <li
+                          className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                        >
+                          <OverlayTrigger
+                            trigger={tooltipTrigger}
+                            placement="right"
+                            container={document.body}
+                            delay={{ show: 200, hide: 0 }}
+                            overlay={
+                              <Tooltip className="custom-tooltip">
+                                Requests
+                              </Tooltip>
+                            }
+                          >
+                            <NavLink
+                              to={withHostel("/requests")}
+                              className={({ isActive }) =>
+                                `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                                  isActive || currentPage === "requests"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("requests")}
+                            >
+                              <Chart1 size="22" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Requests
+                              </span>
+                            </NavLink>
+                          </OverlayTrigger>
+                        </li>
+                      )}
+                    </>
+                  )}
 
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <OverlayTrigger
@@ -1502,39 +1405,6 @@ function Sidebar() {
                     </OverlayTrigger>
                   </li>
 
-                  {/* {isDevelopment && (
-                    <li
-                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
-                    >
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        delay={{ show: 200, hide: 0 }}
-                        overlay={
-                          <Tooltip className="custom-tooltip">Expenses</Tooltip>
-                        }
-                      >
-                        <NavLink
-                          to={withHostel("/expense/new")}
-                          className={({ isActive }) =>
-                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                              isActive || currentPage === "expenses-new"
-                                ? "active"
-                                : ""
-                            }`
-                          }
-                          onClick={() => handlePageClick("expenses-new")}
-                        >
-                          <MoneySend size="20" variant="Bold" />
-
-                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Expenses New
-                          </span>
-                        </NavLink>
-                      </OverlayTrigger>
-                    </li>
-                  )} */}
                   <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <OverlayTrigger
                       trigger={tooltipTrigger}
@@ -1738,6 +1608,14 @@ function Sidebar() {
                       </div>
                     }
                   />
+                  <Route
+                    path="/requests/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <Request />
+                      </div>
+                    }
+                  />
                 </>
               )}
               <Route
@@ -1751,6 +1629,7 @@ function Sidebar() {
                   </div>
                 }
               />
+
               <Route
                 path="/asset/:hostelId?"
                 element={
@@ -2034,7 +1913,6 @@ function Sidebar() {
           </div>
 
           <div className="right-panel w-14 flex flex-col h-screen bg-slate-50 border-l border-slate-200 shadow-sm overflow-y-auto items-center flex-shrink-0">
-            {/* Profile Area */}
             <div
               ref={profileAreaRef}
               onClick={() => setShowProfileCard((s) => !s)}
