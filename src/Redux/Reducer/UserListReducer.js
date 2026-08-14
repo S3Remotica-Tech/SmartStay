@@ -14,6 +14,7 @@ export const initialState = {
   roomFullCheck: [],
   beddetails: [],
   UserListStatusCode: 0,
+  resetReadingSuccess: 0,
   bedCount: [],
   createFloorMessage: "",
   statusCodeForAddUser: "",
@@ -1262,6 +1263,12 @@ const UserListReducer = (state = initialState, action) => {
 
     case "REMOVE_CANCEL_RENT_REVISION_UPDATE_REDUCER":
       return { ...state, removeRentRevisionSuccess: 0 };
+
+
+      case 'RESET_EB_METER_READING_REDUCER':
+        return { ...state, resetReadingSuccess: action.payload.statusCode };
+        case 'REMOVE_RESET_EB_METER_READING_REDUCER':
+        return { ...state, resetReadingSuccess: 0 };
 
     case "RENT_REVISION_ERROR":
       return { ...state, RentRevisionError: action.payload };

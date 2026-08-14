@@ -7,7 +7,13 @@ import { FiFilter } from "react-icons/fi";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
-import { CloseCircle, ArrowUp2, ArrowDown2, Flash } from "iconsax-react";
+import {
+  CloseCircle,
+  ArrowUp2,
+  ArrowDown2,
+  Flash,
+  Refresh,
+} from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
 import EB_TenantOverview from "./EB_TenantOverview";
@@ -25,6 +31,7 @@ import Delete from "../../Assets/Images/Delete_red.png";
 import DeleteReading from "./DeleteReading";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import ResetReading from "./ResetReading";
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -66,6 +73,7 @@ const RoomReadingTable = () => {
   const [editHostelReading, setEditHostelReading] = useState("");
   const [editRoomReading, setEditRoomReading] = useState("");
   const [showDelete, setShowDelete] = useState(false);
+  const [showResetMeter, setShowResetMeter] = useState(false);
   const [deleteDetails, setDeleteDetails] = useState("");
 
   const popupRef = useRef(null);
@@ -154,6 +162,14 @@ const RoomReadingTable = () => {
 
   const handleCloseDelete = () => {
     setShowDelete(false);
+  };
+
+  const handleResetEBReading = () => {
+    setShowResetMeter(true);
+  };
+
+  const handleCloseResetEBReading = () => {
+    setShowResetMeter(false);
   };
 
   const handleActionReadingClick = () => {
@@ -928,7 +944,7 @@ const RoomReadingTable = () => {
                                                   20
                                                 : popupPosition.top - 35,
                                               left: popupPosition.left,
-                                              width: 130,
+                                              width: "auto",
                                               height: "auto",
                                               zIndex:
                                                 showDotsRoom === i
@@ -937,111 +953,113 @@ const RoomReadingTable = () => {
                                             }}
                                           >
                                             <div className="w-full">
-                                              <div
-                                                className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-t-lg 
-    ${!canWriteElectricity ? "cursor-not-allowed opacity-50" : "cursor-pointer"} 
-    bg-gray-100`}
+                                              <button
+                                                type="button"
+                                                disabled={!canWriteElectricity}
                                                 onClick={() =>
-                                                  canWriteElectricity &&
                                                   handleActionClick(row)
                                                 }
-                                                onMouseEnter={(e) => {
-                                                  e.currentTarget.style.backgroundColor =
-                                                    "#EDF2FF";
-                                                  e.currentTarget.style.borderBottomLeftRadius =
-                                                    "10px";
-                                                  e.currentTarget.style.borderBottomRightRadius =
-                                                    "10px";
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                  e.currentTarget.style.backgroundColor =
-                                                    "#F9F9F9";
-                                                }}
+                                                className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-t-lg transition-all
+    ${
+      canWriteElectricity
+        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF] hover:rounded-b-lg cursor-pointer"
+        : "bg-[#F9F9F9] cursor-not-allowed opacity-50"
+    }`}
                                               >
                                                 <img
                                                   src={Group}
-                                                  alt="Group"
-                                                  className={`w-4 h-4 ${!canWriteElectricity ? "filter grayscale" : ""}`}
+                                                  alt="Add"
+                                                  className={`w-4 h-4 ${!canWriteElectricity ? "grayscale" : ""}`}
                                                 />
-                                                <label
-                                                  className={`text-sm font-medium font-gilroy text-[#222] ${
-                                                    !canWriteElectricity
-                                                      ? "cursor-not-allowed"
-                                                      : "cursor-pointer"
-                                                  }`}
-                                                >
+
+                                                <span className="text-sm font-medium font-gilroy text-[#222222]">
                                                   Add
-                                                </label>
-                                              </div>
+                                                </span>
+                                              </button>
                                               {row?.currentReading ? (
                                                 <>
-                                                  <div
-                                                    className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-t-lg bg-gray-100
-    ${!canUpdateElectricity ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-                                                    onClick={() => {
-                                                      if (canUpdateElectricity)
-                                                        handleEditRoomReading(
-                                                          row,
-                                                        );
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      e.currentTarget.style.backgroundColor =
-                                                        "#EDF2FF";
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor =
-                                                        "#F9F9F9";
-                                                    }}
+                                                  <button
+                                                    type="button"
+                                                    disabled={
+                                                      !canUpdateElectricity
+                                                    }
+                                                    onClick={() =>
+                                                      handleEditRoomReading(row)
+                                                    }
+                                                    className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-t-lg transition-colors
+    ${
+      canUpdateElectricity
+        ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#EDF2FF]"
+        : "cursor-not-allowed opacity-50 bg-[#F9F9F9]"
+    }`}
                                                   >
                                                     <img
                                                       src={Edit}
                                                       alt="Edit"
-                                                      className={`w-4 h-4 ${!canUpdateElectricity ? "filter grayscale" : ""}`}
+                                                      className={`w-4 h-4 ${!canUpdateElectricity ? "grayscale" : ""}`}
                                                     />
-                                                    <label
-                                                      className={`text-sm font-medium font-gilroy text-[#222] ${
-                                                        !canUpdateElectricity
-                                                          ? "cursor-not-allowed"
-                                                          : "cursor-pointer"
-                                                      }`}
-                                                    >
-                                                      Edit
-                                                    </label>
-                                                  </div>
 
-                                                  <div
-                                                    className={`flex justify-start items-center gap-2 px-3 py-2.5 rounded-b-lg 
-                                                    ${!canDeleteElectricity ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-                                                    onClick={() => {
-                                                      if (canDeleteElectricity)
-                                                        handleReadingDelete(
-                                                          row,
-                                                        );
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      e.currentTarget.style.backgroundColor =
-                                                        "#FFF0F0";
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor =
-                                                        "#F9F9F9";
-                                                    }}
+                                                    <span className="text-sm font-medium font-gilroy text-[#222222]">
+                                                      Edit
+                                                    </span>
+                                                  </button>
+                                                  <button
+                                                    type="button"
+                                                    disabled={
+                                                      !canDeleteElectricity
+                                                    }
+                                                    onClick={() =>
+                                                      handleReadingDelete(row)
+                                                    }
+                                                    className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-b-lg transition-colors
+    ${
+      canDeleteElectricity
+        ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#FFF0F0]"
+        : "cursor-not-allowed opacity-50 bg-[#F9F9F9]"
+    }`}
                                                   >
                                                     <img
                                                       src={Delete}
                                                       alt="Delete"
-                                                      className={`w-4 h-4 ${!canDeleteElectricity ? "filter grayscale" : ""}`}
+                                                      className={`w-4 h-4 ${!canDeleteElectricity ? "grayscale" : ""}`}
                                                     />
-                                                    <label
-                                                      className={`text-sm font-medium font-gilroy text-red-500 ${
-                                                        !canDeleteElectricity
-                                                          ? "cursor-not-allowed"
-                                                          : "cursor-pointer"
+
+                                                    <span
+                                                      className={`text-sm font-medium font-gilroy ${
+                                                        canDeleteElectricity
+                                                          ? "text-red-500"
+                                                          : "text-red-500"
                                                       }`}
                                                     >
                                                       Delete
-                                                    </label>
-                                                  </div>
+                                                    </span>
+                                                  </button>
+
+                                                  <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                      handleResetEBReading(row)
+                                                    }
+                                                    className={`flex w-full items-center gap-2 px-3 py-2.5 transition-colors
+    ${
+      canWriteElectricity
+        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF] cursor-pointer"
+        : "bg-[#F9F9F9] opacity-50 cursor-not-allowed"
+    }`}
+                                                  >
+                                                    <Refresh
+                                                      size={18}
+                                                      color={
+                                                        canWriteElectricity
+                                                          ? "#1E45E1"
+                                                          : "#A0A0A0"
+                                                      }
+                                                    />
+
+                                                    <span className=" whitespace-nowrap text-sm font-medium font-gilroy text-[#222222]">
+                                                      Reset EB Reading
+                                                    </span>
+                                                  </button>
                                                 </>
                                               ) : (
                                                 ""
@@ -1228,6 +1246,13 @@ const RoomReadingTable = () => {
           show={showDelete}
           handleClose={handleCloseDelete}
           deleteDetails={deleteDetails}
+        />
+      )}
+
+      {showResetMeter && (
+        <ResetReading
+          show={showResetMeter}
+          handleClose={handleCloseResetEBReading}
         />
       )}
     </>
