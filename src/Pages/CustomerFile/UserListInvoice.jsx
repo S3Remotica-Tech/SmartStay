@@ -413,7 +413,7 @@ function UserListInvoice(props) {
                           </td>
 
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-                            {view?.invoiceGeneratedDate}
+                            {view?.invoiceDate}
                           </td>
 
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">

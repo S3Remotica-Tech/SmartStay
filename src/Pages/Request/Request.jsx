@@ -38,6 +38,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import Approve from "./Approve";
 import Deny from "./Deny";
 import BedChangeRequestOverview from "./BedChangeRequestOverview";
+import { triggerPG } from "../../Redux/Action/LoginAction";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -136,6 +137,7 @@ function Request() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("current");
   const [loading, setLoading] = useState(false);
   const [statusfilter, setStatusFilter] = useState("ALL");
@@ -418,7 +420,14 @@ function Request() {
     setShowBedChangeOverview(false);
   };
 
-  // console.log("setShowAssignAmenity", showAssignAmenity);
+  const handleCheckAvailability = () => {
+    //  dispatch({
+    //   type: "CUSTOMERDETAILS",
+    //   payload: { customerId: customer?.tenetId },
+    // });
+    navigate(`/change-bed/${state.login?.selectedHostel_Id}`);
+    dispatch(triggerPG(true));
+  };
 
   return (
     <>
@@ -833,6 +842,7 @@ function Request() {
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             setActiveRow(null);
+                                            handleCheckAvailability();
                                           }}
                                           className="w-full flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-50 text-[#1E45E1]"
                                         >

@@ -121,6 +121,7 @@ import VendorCategory from "../Pages/Settings/Vendor/VendorCategory";
 import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
 import Request from "../Pages/Request/Request";
+import ChangeBedPgView from "../Pages/Request/ChangeBedPgView";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1613,6 +1614,15 @@ function Sidebar() {
                     element={
                       <div className="mt-1 ml-2.5 mr-1">
                         <Request />
+                      </div>
+                    }
+                  />
+
+                  <Route
+                    path="/change-bed/:hostelId?"
+                    element={
+                      <div className="mt-1 ml-2.5 mr-1">
+                        <ChangeBedPgView />
                       </div>
                     }
                   />

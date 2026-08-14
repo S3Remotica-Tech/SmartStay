@@ -259,6 +259,8 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setEmptyBed(false);
   };
 
+  console.log("state.login.isTrigger", state.login.isTrigger);
+
   const [selectedTenant, setSelectedTenant] = useState(null);
 
   useEffect(() => {
@@ -757,10 +759,10 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           filteredBeds.map((bed) => (
             <div
               key={`${bed.roomId}-${bed.id}`}
-              className={`w-full flex justify-center px-1 ${propsValue.addPermissionError ? "disabled" : ""}`}
+              className={`w-full flex justify-center px-1 `}
             >
               <div
-                className={`flex flex-col items-center justify-start w-20 ${propsValue.addPermissionError ? "cursor-not-allowed" : "cursor-pointer"}`}
+                className={`flex flex-col items-center justify-start w-20 cursor-pointer `}
               >
                 <div className="relative w-9 h-10">
                   {state.login.isTrigger &&
@@ -877,7 +879,8 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
         {!state.login.isTrigger && (
           <div
-            className={`w-full flex px-1 ${filteredBeds.length === 0 ? "col-span-full justify-center" : "justify-center"} ${propsValue.addPermissionError ? "pointer-events-none opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+            className={`w-full flex px-1 cursor-pointer ${filteredBeds.length === 0 ? "col-span-full justify-center" : "justify-center"}
+             `}
             onClick={() => {
               if (canWritePayingGuests) {
                 handleAddBed(propsValue, room.id);
@@ -885,9 +888,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
             }}
           >
             <div className="flex flex-col items-center justify-center w-20">
-              <FaSquarePlus
-                className={`${propsValue.addPermissionError ? "text-gray-400" : "text-blue-600"} h-11 w-9`}
-              />
+              <FaSquarePlus className={`text-blue-600 h-11 w-9`} />
 
               <div
                 className={`pt-2 text-[10px] font-semibold font-montserrat ${!canWritePayingGuests ? "text-gray-400" : "text-blue-600"}`}
