@@ -322,6 +322,7 @@ function Booking() {
     Amount: "amount",
     "Available Amount": "availableAmount",
     Status: "status",
+    "Invoice Date": "invoiceDate",
   };
 
   const formattedData = (
@@ -367,6 +368,7 @@ function Booking() {
     Amount: "px-4",
     status: "px-4",
     "Available Amount": "px-4 whitespace-nowrap",
+    "Invoice Date": "px-4 whitespace-nowrap",
   };
 
   const handleStatusFilter = (selectedOption) => {
@@ -840,7 +842,7 @@ function Booking() {
       value: `₹ ${retainerSummary?.totalAdvanceAmount || 0}`,
     },
     {
-      label: "Rent",
+      label: "Available Retainer Amount",
       value: `₹ ${retainerSummary?.totalRentAmount || 0}`,
     },
     {
@@ -1197,7 +1199,7 @@ function Booking() {
                                           className={finalClass}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#111928] ">
+                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
                                               {item.bookingDate}
                                             </span>
                                           </div>
@@ -1211,8 +1213,22 @@ function Booking() {
                                           className={finalClass}
                                         >
                                           <div className="relative group w-[100px] ">
-                                            <span className="block w-full truncate text-sm text-[#111928] ">
+                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
                                               {item.joiningDate}
+                                            </span>
+                                          </div>
+                                        </td>
+                                      );
+
+                                    case "Invoice Date":
+                                      return (
+                                        <td
+                                          key={col.key}
+                                          className={finalClass}
+                                        >
+                                          <div className="relative group w-[100px] ">
+                                            <span className="block w-full truncate text-sm text-[#6B7280] font-medium ">
+                                              {item.invoiceDate}
                                             </span>
                                           </div>
                                         </td>
@@ -1261,7 +1277,7 @@ function Booking() {
                                       return (
                                         <td
                                           key={col.fieldName}
-                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                          className={`${finalClass} overflow-hidden text-ellipsis text-[#222222] font-semibold`}
                                         >
                                           {item.amount}
                                         </td>

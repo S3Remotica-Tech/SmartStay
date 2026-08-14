@@ -36,6 +36,8 @@ import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
 import ApiPagination from "../../Components/ApiPagination";
 import Approve from "./Approve";
+import Deny from "./Deny";
+import BedChangeRequestOverview from "./BedChangeRequestOverview";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -141,6 +143,7 @@ function Request() {
   const [chips, setChips] = useState([]);
   const [activeRow, setActiveRow] = useState(null);
   const [showAssignAmenity, setShowAssignAmenity] = useState(false);
+  const [showDeny, setShowDeny] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
   // const [customizeItems, setCustomizeItems] = useState([]);
@@ -150,6 +153,7 @@ function Request() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
+  const [showBedChangeOverview, setShowBedChangeOverview] = useState(false);
   const popupRef = useRef(null);
 
   const tableContainerRef = useRef(null);
@@ -397,7 +401,24 @@ function Request() {
     setActiveRow(null);
   };
 
-  console.log("setShowAssignAmenity", showAssignAmenity);
+  const handleDeny = () => {
+    setShowDeny(true);
+    setActiveRow(null);
+  };
+
+  const handleCloseDeny = () => {
+    setShowDeny(false);
+  };
+
+  const handleBedChangeOverview = () => {
+    setShowBedChangeOverview(true);
+  };
+
+  const handleCloseBedChangeOverview = () => {
+    setShowBedChangeOverview(false);
+  };
+
+  // console.log("setShowAssignAmenity", showAssignAmenity);
 
   return (
     <>
@@ -663,6 +684,12 @@ function Request() {
                           <tbody>
                             {data.map((user, index) => (
                               <tr
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (user.requestType === "Bed Change") {
+                                    handleBedChangeOverview();
+                                  }
+                                }}
                                 key={index}
                                 className="text-sm border-b border-[#E8E8E8] h-10 cursor-pointer group hover:bg-gray-50 "
                               >
@@ -748,7 +775,10 @@ function Request() {
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
-                                    onClick={(e) => handleShowDots(index, e)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleShowDots(index, e);
+                                    }}
                                   />
 
                                   {activeRow === index && (
@@ -785,7 +815,7 @@ function Request() {
                                           <button
                                             onClick={(e) => {
                                               e.stopPropagation();
-                                              setActiveRow(null);
+                                              handleDeny();
                                             }}
                                             className="w-full flex items-center gap-2 px-3 py-2 rounded-md hover:bg-red-50 text-[#EF4444]"
                                           >
@@ -852,6 +882,15 @@ function Request() {
         <Approve
           show={showAssignAmenity}
           handleClose={handleCloseAssignAmenity}
+        />
+      )}
+
+      {showDeny && <Deny show={showDeny} handleClose={handleCloseDeny} />}
+
+      {showBedChangeOverview && (
+        <BedChangeRequestOverview
+          show={showBedChangeOverview}
+          handleClose={handleCloseBedChangeOverview}
         />
       )}
     </>

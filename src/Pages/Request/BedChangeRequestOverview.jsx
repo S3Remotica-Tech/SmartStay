@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Building3, Building4, Wifi } from "iconsax-react";
+import { Add, Building3, Building4, MessageMinus, Wifi } from "iconsax-react";
 import { MdOutlineMeetingRoom } from "react-icons/md";
 import { IoBedOutline } from "react-icons/io5";
 import Select from "react-select";
@@ -108,7 +108,7 @@ const CustomStyles = {
   }),
 };
 
-function Approve({ show, handleClose }) {
+function BedChangeRequestOverview({ show, handleClose }) {
   if (!show) return null;
   const recurringOptions = [
     { value: "nextRecurring", label: "Next Recurring" },
@@ -126,7 +126,7 @@ function Approve({ show, handleClose }) {
                   rounded-xl  bg-white px-4 py-3"
         >
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
-            Assign Amenity
+            Bed change Request Overview
           </h1>
           <Add
             size={24}
@@ -165,37 +165,50 @@ function Approve({ show, handleClose }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 justify-between my-4">
+          <div className="flex items-center gap-3 justify-between my-1">
+            <label className="text-xs text-[#7F7F7F] mb-2">Bed Type </label>
+            <div className="text-[#222222] font-semibold">2 Sharing</div>
+          </div>
+          <div className="flex items-center gap-3 justify-between my-1">
             <label className="text-xs text-[#7F7F7F] mb-2">
-              Outstanding Amount{" "}
+              Bed Change Urgency{" "}
             </label>
-            <div>₹ 2,200</div>
+            <div className="text-[#222222] font-semibold">2 Week</div>
+          </div>
+          <div className="flex items-center gap-3 justify-between my-1">
+            <label className="text-xs text-[#7F7F7F] mb-2">
+              Requested Date{" "}
+            </label>
+            <div className="text-[#222222] font-semibold">10 Dec 2025</div>
           </div>
 
-          <label className="text-xs text-[#7F7F7F] mb-1">
-            Amenity Requested
-          </label>
-          <div className="flex items-center gap-3  p-3">
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-              <Wifi size="32" color="#1E45E1" />
-            </div>
+          <div className="bg-[#F8FAFF] pt-2 pb-10 px-2 rounded my-2">
+            <label className="text-xs text-[#475569] mb-2">Reason</label>
 
-            <div>
-              <p className="font-medium mb-1">Wifi</p>
-              <p className="text-sm text-[#667085] mb-1">₹399 / Month</p>
+            <div className="text-[#222222] text-sm  ">
+              Disturbance in current room
             </div>
           </div>
 
-          <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-            Activate from <span className="text-red-600 text-[20px]">*</span>
-          </label>
+          <div
+            className="flex items-center justify-between gap-4 
+          w-full bg-[#F8F8F8] border border-[#F5F5F5] p-2 rounded-lg my-2"
+          >
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-[#222222]">
+                Notify to the tenant
+              </label>
 
-          <Select
-            options={recurringOptions}
-            placeholder="Select "
-            classNamePrefix="custom"
-            styles={CustomStyles}
-          />
+              <p className="mt-1 text-xs text-[#4B4B4B]">
+                If the request is not valid or availability concerns.
+              </p>
+            </div>
+
+            <button className="flex items-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg whitespace-nowrap">
+              <MessageMinus size={18} />
+              Notify
+            </button>
+          </div>
         </div>
 
         <div className="flex justify-end gap-4 m-4">
@@ -207,7 +220,7 @@ function Approve({ show, handleClose }) {
           </button>
 
           <button className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
-            Approve{" "}
+            Check Availability{" "}
           </button>
         </div>
       </div>
@@ -215,4 +228,4 @@ function Approve({ show, handleClose }) {
   );
 }
 
-export default Approve;
+export default BedChangeRequestOverview;

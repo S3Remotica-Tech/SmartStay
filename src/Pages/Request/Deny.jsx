@@ -2,9 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Building3, Building4, Wifi } from "iconsax-react";
-import { MdOutlineMeetingRoom } from "react-icons/md";
-import { IoBedOutline } from "react-icons/io5";
+import { Add } from "iconsax-react";
+
 import Select from "react-select";
 
 const CustomStyles = {
@@ -108,11 +107,9 @@ const CustomStyles = {
   }),
 };
 
-function Approve({ show, handleClose }) {
+function Deny({ show, handleClose }) {
   if (!show) return null;
-  const recurringOptions = [
-    { value: "nextRecurring", label: "Next Recurring" },
-  ];
+
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
@@ -126,7 +123,7 @@ function Approve({ show, handleClose }) {
                   rounded-xl  bg-white px-4 py-3"
         >
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
-            Assign Amenity
+            Reject Amenity Request
           </h1>
           <Add
             size={24}
@@ -137,65 +134,28 @@ function Approve({ show, handleClose }) {
         </div>
 
         <div className="px-4 flex-1 show-scrolls overflow-y-auto">
-          <label className="text-xs text-[#7F7F7F] mb-0">Raised by</label>
-
-          <div className="flex items-center gap-3 my-3">
-            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold">
-              JS
-            </div>
-
-            <div>
-              <label className="font-medium text-[#222222] text-[18px]">
-                Jon Snow
-              </label>
-
-              <div className="flex gap-2 mt-1">
-                <span className=" text-[#4B4B4B] text-[12px] px-2 py-0.5 rounded flex items-center gap-2">
-                  <Building4 size="16" color="#1E45E1" /> Ground Floor
-                </span>
-
-                <span className=" text-[#4B4B4B] text-[12px] px-2 py-0.5 rounded flex items-center gap-2">
-                  <MdOutlineMeetingRoom size="16" color="#1E45E1" /> G005
-                </span>
-
-                <span className=" text-[#4B4B4B] text-[12px] px-2 py-0.5 rounded flex items-center gap-2">
-                  <IoBedOutline size="16" color="#1E45E1" /> B0006
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 justify-between my-4">
-            <label className="text-xs text-[#7F7F7F] mb-2">
-              Outstanding Amount{" "}
+          <div>
+            <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+              Status <span className="text-red-600 text-[20px]">*</span>
             </label>
-            <div>₹ 2,200</div>
+
+            <Select
+              placeholder="Select Status"
+              classNamePrefix="custom"
+              styles={CustomStyles}
+            />
           </div>
 
-          <label className="text-xs text-[#7F7F7F] mb-1">
-            Amenity Requested
-          </label>
-          <div className="flex items-center gap-3  p-3">
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-              <Wifi size="32" color="#1E45E1" />
-            </div>
-
-            <div>
-              <p className="font-medium mb-1">Wifi</p>
-              <p className="text-sm text-[#667085] mb-1">₹399 / Month</p>
-            </div>
+          <div>
+            <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
+              Commands
+            </label>
+            <textarea
+              placeholder="Enter Commands"
+              rows={4}
+              className={`w-full text-[15px] text-[#4B4B4B] font-gilroy   border border-[#D9D9D9] rounded-[8px] px-3 py-3 resize-none focus:outline-none focus:ring-0`}
+            />
           </div>
-
-          <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-            Activate from <span className="text-red-600 text-[20px]">*</span>
-          </label>
-
-          <Select
-            options={recurringOptions}
-            placeholder="Select "
-            classNamePrefix="custom"
-            styles={CustomStyles}
-          />
         </div>
 
         <div className="flex justify-end gap-4 m-4">
@@ -207,7 +167,7 @@ function Approve({ show, handleClose }) {
           </button>
 
           <button className="flex-1 bg-[#1E45E1] text-white rounded-lg py-2">
-            Approve{" "}
+            Notify{" "}
           </button>
         </div>
       </div>
@@ -215,4 +175,4 @@ function Approve({ show, handleClose }) {
   );
 }
 
-export default Approve;
+export default Deny;
