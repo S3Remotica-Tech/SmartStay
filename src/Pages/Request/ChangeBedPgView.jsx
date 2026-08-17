@@ -131,7 +131,7 @@ function ChangeBedPgView() {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
         <FaArrowLeftLong
           onClick={handleCloseChangeBed}
@@ -187,7 +187,7 @@ function ChangeBedPgView() {
       {!canReadPayingGuests ? (
         <PermissionDeniedMessage />
       ) : floorList?.length > 0 ? (
-        <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ml-2 md:ml-0">
+        <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)]  ml-2 md:ml-0 relative">
           <div className="sticky top-24 z-10">
             <div className="flex justify-center mb-2">
               <div

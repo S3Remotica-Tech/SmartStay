@@ -107,8 +107,19 @@ const CustomStyles = {
   }),
 };
 
-function Deny({ show, handleClose }) {
+function Deny({ show, handleClose, heading }) {
   if (!show) return null;
+
+  const statusOptions = [
+    {
+      label: "On Hold",
+      value: "onHold",
+    },
+    {
+      label: "Rejected",
+      value: "rejected",
+    },
+  ];
 
   return (
     <>
@@ -123,7 +134,7 @@ function Deny({ show, handleClose }) {
                   rounded-xl  bg-white px-4 py-3"
         >
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
-            Reject Amenity Request
+            {heading}
           </h1>
           <Add
             size={24}
@@ -143,6 +154,7 @@ function Deny({ show, handleClose }) {
               placeholder="Select Status"
               classNamePrefix="custom"
               styles={CustomStyles}
+              options={statusOptions}
             />
           </div>
 

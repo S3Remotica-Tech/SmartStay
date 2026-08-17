@@ -74,6 +74,8 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
   const [editBedMode, setEditBedMode] = useState(false);
 
+  console.log("clickedBed", clickedBed);
+
   const { canWriteModule: canWritePayingGuests } =
     useHasPermission("Paying Guests");
 

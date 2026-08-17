@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { useHasPermission } from "../../Utils/Permission";
 import NoData from "../../Assets/v2Images/NoData.svg";
 import BedView from "./BedView";
+import NoDataMessage from "../../Utils/NoDataMessage";
 
 function RoomView(props) {
   const dispatch = useDispatch();
@@ -33,17 +34,17 @@ function RoomView(props) {
     }
   }, [state?.PgList?.getAllRoomSuccessStatus, state?.PgList?.roomsList]);
 
-  console.log("length", roomList.length);
+  // console.log("length", roomList.length);
 
   return (
-    <div className="lg:px-4">
+    <div className="lg:px-4 ">
       {roomList?.length > 0 ? (
         <div
           className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4"
           style={{ maxHeight: "calc(100vh - 120px)", overflowY: "auto" }}
         >
           {roomList?.map((room, index) => {
-            console.log("room:", room);
+            // console.log("room:", room);
 
             return (
               <div key={room.id} className="flex justify-center">
@@ -77,21 +78,7 @@ function RoomView(props) {
           })}
         </div>
       ) : (
-        <div className="w-full my-6 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
-          <div className="flex flex-col items-center justify-center text-center">
-            <div>
-              <img src={NoData} alt="img" />
-            </div>
-
-            <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
-              No Data Found !
-            </h3>
-
-            <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
-              No Room found yet
-            </p>
-          </div>
-        </div>
+        <NoDataMessage label="Room" isHeightChanged={true} />
       )}
     </div>
   );

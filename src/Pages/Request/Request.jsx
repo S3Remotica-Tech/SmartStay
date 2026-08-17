@@ -426,7 +426,7 @@ function Request() {
     //   payload: { customerId: customer?.tenetId },
     // });
     navigate(`/change-bed/${state.login?.selectedHostel_Id}`);
-    dispatch(triggerPG(true));
+    // dispatch(triggerPG(true));
   };
 
   return (
@@ -895,7 +895,13 @@ function Request() {
         />
       )}
 
-      {showDeny && <Deny show={showDeny} handleClose={handleCloseDeny} />}
+      {showDeny && (
+        <Deny
+          show={showDeny}
+          handleClose={handleCloseDeny}
+          heading="Reject Amenity Request"
+        />
+      )}
 
       {showBedChangeOverview && (
         <BedChangeRequestOverview

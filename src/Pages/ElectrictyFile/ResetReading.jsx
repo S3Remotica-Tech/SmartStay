@@ -126,7 +126,7 @@ const CustomStyles = {
 
 function ResetReading({ show, handleClose }) {
   const [continueExisting, setContinueExisting] = useState(false);
-const state = useSelector((state) => state);
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [reason, setReason] = useState(null);
   const [reasonInput, setReasonInput] = useState("");
@@ -318,6 +318,7 @@ const state = useSelector((state) => state);
                 <input
                   type="checkbox"
                   checked={continueExisting}
+                  className="cursor-pointer"
                   onChange={(e) => setContinueExisting(e.target.checked)}
                 />
                 Continue from existing calculation
@@ -335,7 +336,7 @@ const state = useSelector((state) => state);
                 placeholder="00000"
                 type="number"
                 onWheel={(e) => e.target.blur()}
-                className={`w-full h-11 rounded-lg px-3 border ${
+                className={`w-full h-11 rounded-lg focus:outline-none px-3 border ${
                   readingError ? "border-red-500" : "border-[#D9D9D9]"
                 }`}
               />
