@@ -145,7 +145,7 @@ function Deny({ show, handleClose, heading }) {
         </div>
 
         <div className="px-4 flex-1 show-scrolls overflow-y-auto">
-          <div>
+          <div className="mb-2">
             <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
               Status <span className="text-red-600 text-[20px]">*</span>
             </label>

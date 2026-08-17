@@ -390,11 +390,11 @@ function Request() {
     },
     {
       label: "Active / In Use",
-      value: `₹ 0`,
+      value: ` 0`,
     },
     {
       label: "In Progress",
-      value: `₹ 0`,
+      value: `0`,
     },
   ];
 

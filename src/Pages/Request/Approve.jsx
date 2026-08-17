@@ -2,10 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Building3, Building4, Wifi } from "iconsax-react";
+import { Add, Building3, Building4, Calendar, Wifi } from "iconsax-react";
 import { MdOutlineMeetingRoom } from "react-icons/md";
 import { IoBedOutline } from "react-icons/io5";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -186,16 +188,36 @@ function Approve({ show, handleClose }) {
             </div>
           </div>
 
-          <label className="block mb-2 text-[13px] text-[#222222] font-gilroy font-medium">
-            Activate from <span className="text-red-600 text-[20px]">*</span>
-          </label>
+          <div>
+            <label className="text-sm font-medium text-[#344054]">
+              Activate from <span className="text-red-600 text-[20px]">*</span>
+            </label>
 
-          <Select
-            options={recurringOptions}
-            placeholder="Select "
-            classNamePrefix="custom"
-            styles={CustomStyles}
-          />
+            <div
+              className="relative"
+              //  ref={dateRef}
+            >
+              <DatePicker
+                // selected={date}
+                // onChange={(value) => {
+                //   setDate(value);
+                //   setDateError("");
+                // }}
+                dateFormat="dd/MM/yyyy"
+                placeholder="DD/MM/YYYY"
+                minDate={new Date()}
+                placeholderText="Select Date"
+                className={`w-full h-[50px] rounded-lg px-3 pr-10 text-sm outline-none border `}
+              />
+
+              <Calendar
+                size={18}
+                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                color="#1E45E1"
+              />
+            </div>
+            {/* {dateError && <ErrorMessage message={dateError} type="error" />} */}
+          </div>
         </div>
 
         <div className="flex justify-end gap-4 m-4">
