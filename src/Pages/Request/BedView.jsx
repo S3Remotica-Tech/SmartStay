@@ -9,6 +9,9 @@ import Tick from "../../Assets/v2Images/Tick.svg";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
+import { MessageMinus } from "iconsax-react";
+import ConfirmChangeBed from "../../Pages/PayingGuestFile/NoticePeriod/ConfirmChangedBed";
+import Deny from "./Deny";
 
 function BedView({ room, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
@@ -16,7 +19,13 @@ function BedView({ room, selectedBed, setSelectedBed }) {
   const navigate = useNavigate();
   const [hoveredBedId, setHoveredBedId] = useState(null);
   const [changeBedClicked, setChangedBedClicked] = useState("");
+  const [clickedBed, setClickedBed] = useState("");
   const [customer, setCustomer] = useState([]);
+  const [filteredBeds, setFilteredBeds] = useState([]);
+  const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] =
+    useState(false);
+
+  const [showDeny, setShowDeny] = useState(false);
   useEffect(() => {
     if (room.id) {
       dispatch({
@@ -28,11 +37,37 @@ function BedView({ room, selectedBed, setSelectedBed }) {
 
   const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-  const [filteredBeds, setFilteredBeds] = useState([]);
+  const availableBeds = Array.isArray(bedsForRoom)
+    ? bedsForRoom.filter((bed) => bed.isOccupied === false)
+    : [];
 
-  useEffect(() => {
-    setFilteredBeds(bedsForRoom.filter((bed) => !bed.isOccupied));
-  }, [bedsForRoom, state.login.isTrigger]);
+  const bedList = state.PgList?.bedList || {};
+
+  // console.log("bedList", bedList);
+
+  // const hasAvailableBedInAnyRoom = Object.values(bedList).some(
+  //   (beds) =>
+  //     Array.isArray(beds) && beds.some((bed) => bed.isOccupied === false),
+  // );
+
+  // console.log("HAS AVAILABLE BED IN ANY ROOM:", hasAvailableBedInAnyRoom);
+
+  const availableBedsInSelectedFloor = state.PgList?.roomsList?.flatMap(
+    (room) => {
+      const beds = bedList[String(room.id)] || [];
+
+      return Array.isArray(beds)
+        ? beds.filter((bed) => bed.isOccupied === false)
+        : [];
+    },
+  );
+
+  const hasAvailableBed = availableBedsInSelectedFloor.length > 0;
+
+  const noBedsAvailable = availableBedsInSelectedFloor.length === 0;
+
+  console.log("noBedsAvailable", noBedsAvailable);
+  console.log("hasAvailableBed", hasAvailableBed);
 
   const handleclickBedForChangeBed = (bed) => {
     if (selectedBed?.bedId === bed.id) {
@@ -59,14 +94,29 @@ function BedView({ room, selectedBed, setSelectedBed }) {
     }
   }, [state.PgList.OccupiedCustomerGetStatusCode]);
 
-  const handleShowConfirmChangeBed = () => {};
+  const handleCloseChangedBed = () => {
+    setShowConfirmChangeBedModal(false);
+    setChangedBedClicked("");
+    setSelectedBed(null);
+  };
+
+  const handleShowConfirmChangeBed = () => {
+    setShowConfirmChangeBedModal(true);
+  };
+  const handleDeny = () => {
+    setShowDeny(true);
+  };
+
+  const handleCloseDeny = () => {
+    setShowDeny(false);
+  };
 
   return (
-    <div>
+    <div className="">
       {" "}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
-        {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (
-          filteredBeds.map((bed) => (
+        {Array.isArray(availableBeds) && availableBeds?.length > 0 ? (
+          availableBeds.map((bed) => (
             <div
               key={`${bed.roomId}-${bed.id}`}
               className={`w-full flex justify-center px-1 `}
@@ -75,8 +125,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
                 className={`flex flex-col items-center justify-start w-20 cursor-pointer `}
               >
                 <div className="relative w-9 h-10">
-                  {state.login.isTrigger &&
-                    Number(selectedBed?.bedId) === Number(bed.id) &&
+                  {Number(selectedBed?.bedId) === Number(bed.id) &&
                     Number(selectedBed?.roomId) === Number(bed.roomId) && (
                       <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
                         <img
@@ -164,11 +213,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
                     src={bed.isOccupied ? Green : White}
                     alt="bedd"
                     onClick={() => {
-                      if (!state.login.isTrigger) {
-                        handleclickBed(bed, bed.roomId);
-                      } else {
-                        handleclickBedForChangeBed(bed, bed.roomId);
-                      }
+                      handleclickBedForChangeBed(bed, bed.roomId);
                     }}
                   />
                 </div>
@@ -187,58 +232,66 @@ function BedView({ room, selectedBed, setSelectedBed }) {
           </div>
         )}
 
-        {!state.login.isTrigger && (
-          <div
-            className={`w-full flex px-1 cursor-pointer ${filteredBeds.length === 0 ? "col-span-full justify-center" : "justify-center"}
-             `}
-            onClick={() => {
-              if (canWritePayingGuests) {
-                handleAddBed(propsValue, room.id);
-              }
-            }}
-          >
-            <div className="flex flex-col items-center justify-center w-20">
-              <FaSquarePlus className={`text-blue-600 h-11 w-9`} />
+        {hasAvailableBed && changeBedClicked?.roomId && selectedBed?.bedId && (
+          <div className="absolute bottom-0 left-0  right-0 z-40 flex flex-wrap items-center justify-around gap-6 border-t bg-white p-2">
+            <div>
+              <p className="m-0 text-sm font-semibold font-gilroy text-neutral-600">
+                Bed |{" "}
+                {Array.isArray(state.PgList?.bedList?.[room.id])
+                  ? `${state.PgList.bedList[room.id].length} sharing`
+                  : "0 sharing"}
+              </p>
 
-              <div
-                className={`pt-2 text-[10px] font-semibold font-montserrat ${!canWritePayingGuests ? "text-gray-400" : "text-blue-600"}`}
+              <p>
+                <span className="text-base font-medium font-gilroy text-blue-700">
+                  {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
+                </span>
+              </p>
+            </div>
+
+            <div className="ml-[200px]">
+              <button
+                className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
+                onClick={handleShowConfirmChangeBed}
               >
-                Add bed
-              </div>
+                Continue →
+              </button>
             </div>
           </div>
         )}
 
-        {state.login.isTrigger &&
-          changeBedClicked?.roomId &&
-          selectedBed?.bedId && (
-            <div className="fixed bottom-0 left-[19%] right-0 z-40 flex flex-wrap items-center justify-center border-t bg-white p-2">
-              <div>
-                <p className="m-0 text-sm font-semibold font-gilroy text-neutral-600">
-                  Bed |{" "}
-                  {Array.isArray(state.PgList?.bedList?.[room.id])
-                    ? `${state.PgList.bedList[room.id].length} sharing`
-                    : "0 sharing"}
-                </p>
-
-                <p>
-                  <span className="text-base font-medium font-gilroy text-blue-700">
-                    {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
-                  </span>
-                </p>
+        {noBedsAvailable && (
+          <div className="absolute bottom-0 left-0 right-0 z-40  flex flex-wrap items-center justify-around gap-6 border-t bg-white p-2">
+            <div>
+              <div className="text-[#1E45E1] text-[20px] font-semibold ">
+                {" "}
+                No Beds Available
               </div>
-
-              <div className="ml-[200px]">
-                <button
-                  className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
-                  onClick={handleShowConfirmChangeBed}
-                >
-                  Continue →
-                </button>
+              <div className="text-[#4B4B4B] text-xs">
+                Not available for this preference
               </div>
             </div>
-          )}
+            <div>
+              <button
+                className="rounded-xl flex items-center gap-2 bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
+                onClick={handleDeny}
+              >
+                <MessageMinus size="14" /> Notify
+              </button>
+            </div>
+          </div>
+        )}
       </div>
+      {showConfirmChangeBedModal && (
+        <ConfirmChangeBed
+          show={showConfirmChangeBedModal}
+          handleClose={handleCloseChangedBed}
+          previousBed={clickedBed}
+          currentBed={changeBedClicked}
+          customer={customer}
+        />
+      )}
+      {showDeny && <Deny show={showDeny} handleClose={handleCloseDeny} heading="Notify Tenant" />}
     </div>
   );
 }

@@ -32,12 +32,14 @@ import DeleteReading from "./DeleteReading";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ResetReading from "./ResetReading";
+import ResetNotify from "./ResetNotify";
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("room");
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   // const canReadElectricity = useHasPermission("Electricity", "canRead")
   // const canWriteElectricity = useHasPermission("Electricity", "canWrite");
@@ -75,7 +77,7 @@ const RoomReadingTable = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [showResetMeter, setShowResetMeter] = useState(false);
   const [deleteDetails, setDeleteDetails] = useState("");
-
+  const [resetDetails, setResetDetails] = useState("");
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -164,12 +166,17 @@ const RoomReadingTable = () => {
     setShowDelete(false);
   };
 
-  const handleResetEBReading = () => {
+  const handleResetEBReading = (row) => {
     setShowResetMeter(true);
+    setResetDetails(row);
   };
 
   const handleCloseResetEBReading = () => {
     setShowResetMeter(false);
+  };
+
+  const handleCloseNotify = () => {
+    setShowResetConfirm(false);
   };
 
   const handleActionReadingClick = () => {
@@ -254,6 +261,21 @@ const RoomReadingTable = () => {
       }, 100);
     }
   }, [state.UsersList?.addRoomReadingStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList.resetReadingSuccess === 200) {
+      dispatch({
+        type: "GETROOMREADING",
+        payload: state.login.selectedHostel_Id,
+      });
+      dispatch({
+        type: "GETCUSTOMERREADING",
+        payload: state.login.selectedHostel_Id,
+      });
+      setShowResetConfirm(true);
+      dispatch({ type: "REMOVE_RESET_EB_METER_READING_REDUCER" });
+    }
+  }, [state.UsersList.resetReadingSuccess]);
 
   useEffect(() => {
     if (state.UsersList?.editHostelStatusCode === 200) {
@@ -1253,7 +1275,12 @@ const RoomReadingTable = () => {
         <ResetReading
           show={showResetMeter}
           handleClose={handleCloseResetEBReading}
+          resetDetails={resetDetails}
         />
+      )}
+
+      {showResetConfirm && (
+        <ResetNotify show={showResetConfirm} handleClose={handleCloseNotify} />
       )}
     </>
   );

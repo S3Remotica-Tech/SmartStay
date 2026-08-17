@@ -1167,7 +1167,7 @@ function* handleResetReading(reading) {
   try {
     const response = yield call(ResetReading, reading.payload);
 
-    if (response?.status === 201 || response?.status === 200) {
+    if (response?.status === 200 || response?.status === 200) {
       yield put({
         type: "RESET_EB_METER_READING_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
@@ -1188,7 +1188,7 @@ function* handleResetReading(reading) {
         padding: "10px",
       };
 
-      toast.success(response.data, {
+      toast.success("Reset Successfully", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
