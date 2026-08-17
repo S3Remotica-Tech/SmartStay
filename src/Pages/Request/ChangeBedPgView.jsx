@@ -183,11 +183,11 @@ function ChangeBedPgView() {
           </div>
         </div>
       </div>
-
+      {/* h-[calc(100vh-90px)] */}
       {!canReadPayingGuests ? (
         <PermissionDeniedMessage />
       ) : floorList?.length > 0 ? (
-        <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)]  ml-2 md:ml-0 relative">
+        <div className="flex flex-col md:flex-row gap-0 h-[550px] overflow-y-auto ml-2 md:ml-0 relative">
           <div className="sticky top-24 z-10">
             <div className="flex justify-center mb-2">
               <div
@@ -267,11 +267,10 @@ function ChangeBedPgView() {
               </div>
             </div>
 
-            <div className="overflow-y-auto h-full pr-2">
+            <div className="  pr-2">
               <RoomView
                 floorID={floorClick}
                 hostel_Id={state.login?.selectedHostel_Id}
-                // phoneNumber={showHostelDetails.hostel_PhoneNo}
               />
             </div>
           </div>

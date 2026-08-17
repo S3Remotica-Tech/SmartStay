@@ -372,7 +372,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 placeholder="00000"
                 type="number"
                 onWheel={(e) => e.target.blur()}
-                className={`w-full h-11 rounded-lg focus:outline-none px-3 border ${
+                className={`w-full h-12 rounded-lg focus:outline-none px-3 border ${
                   readingError ? "border-red-500" : "border-[#D9D9D9]"
                 }`}
               />

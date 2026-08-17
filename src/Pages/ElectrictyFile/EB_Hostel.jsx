@@ -761,7 +761,7 @@ const RoomReadingTable = () => {
                                               </div>
 
                                               <div
-                                                className={`flex justify-start items-center gap-2 rounded-b-lg px-3 py-2 ${
+                                                className={`flex justify-start items-center gap-2  px-3 py-2 ${
                                                   !canDeleteElectricity
                                                     ? "cursor-not-allowed opacity-50"
                                                     : "cursor-pointer opacity-100"
@@ -956,7 +956,8 @@ const RoomReadingTable = () => {
                                         <>
                                           <div
                                             ref={popupRef}
-                                            className={`cursor-pointer bg-gray-100 border border-gray-300 rounded-[10px] flex flex-col`}
+                                            className={`cursor-pointer bg-gray-100 border px-2 mb-1 py-1
+                                               border-gray-300 rounded-[10px] flex flex-col`}
                                             style={{
                                               position: "fixed",
                                               top: showAbove
@@ -984,7 +985,7 @@ const RoomReadingTable = () => {
                                                 className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-t-lg transition-all
     ${
       canWriteElectricity
-        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF] hover:rounded-b-lg cursor-pointer"
+        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF]  cursor-pointer"
         : "bg-[#F9F9F9] cursor-not-allowed opacity-50"
     }`}
                                               >
@@ -1033,7 +1034,7 @@ const RoomReadingTable = () => {
                                                     onClick={() =>
                                                       handleReadingDelete(row)
                                                     }
-                                                    className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-b-lg transition-colors
+                                                    className={`flex w-full items-center gap-2 px-3 py-2.5  transition-colors
     ${
       canDeleteElectricity
         ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#FFF0F0]"

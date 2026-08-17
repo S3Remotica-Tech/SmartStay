@@ -37,12 +37,9 @@ function RoomView(props) {
   // console.log("length", roomList.length);
 
   return (
-    <div className="lg:px-4 ">
+    <div className="lg:px-4  ">
       {roomList?.length > 0 ? (
-        <div
-          className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4"
-          style={{ maxHeight: "calc(100vh - 120px)", overflowY: "auto" }}
-        >
+        <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 overflow-y-auto max-h-[400px] show-scrolls">
           {roomList?.map((room, index) => {
             // console.log("room:", room);
 
