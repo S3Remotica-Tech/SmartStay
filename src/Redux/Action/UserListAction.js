@@ -932,17 +932,15 @@ export async function addRoomReading(reading) {
   );
 }
 
-
 export async function ResetReading(reading) {
   return await AxiosConfigV2.post(
-    `/v2//${reading.hostelId}`,
+    `/v2/electricity/reset/${reading.hostelId}`,
     reading,
     {
       data: reading,
     },
   );
 }
-
 
 export async function finalAddRoomReading(reading) {
   return await AxiosConfigV2.post(`/v2/${reading.hostelId}`, reading, {

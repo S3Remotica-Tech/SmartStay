@@ -157,6 +157,7 @@ export const initialState = {
   getParticularCustomerReadingStatus: 0,
   statusCodeForFinalSettlement: 0,
   statuscodeForConformCheckout: 0,
+  resetEbError: "",
   chrckoutError: "",
   finalError: "",
   cancelCheckoutStatusCode: 0,
@@ -203,6 +204,10 @@ export const initialState = {
     sharingType: "",
     sharingTypeLabel: "",
   },
+  resetEb: {
+    resetOn: "",
+    startReading: "",
+  },
   draftTenantGetStatusCode: 0,
   alreadyAvailableDraftTenantGetList: "",
   kycRemindeSuccess: 0,
@@ -230,6 +235,14 @@ const UserListReducer = (state = initialState, action) => {
         },
       };
 
+    case "RESET_EB":
+      return {
+        ...state,
+        resetEb: {
+          ...state.resetEb,
+          ...action.payload,
+        },
+      };
     case "ACCESS_RESTRICTION_ERROR":
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
@@ -1264,11 +1277,15 @@ const UserListReducer = (state = initialState, action) => {
     case "REMOVE_CANCEL_RENT_REVISION_UPDATE_REDUCER":
       return { ...state, removeRentRevisionSuccess: 0 };
 
+    case "RESET_EB_METER_READING_REDUCER":
+      return { ...state, resetReadingSuccess: action.payload.statusCode };
+    case "REMOVE_RESET_EB_METER_READING_REDUCER":
+      return { ...state, resetReadingSuccess: 0 };
 
-      case 'RESET_EB_METER_READING_REDUCER':
-        return { ...state, resetReadingSuccess: action.payload.statusCode };
-        case 'REMOVE_RESET_EB_METER_READING_REDUCER':
-        return { ...state, resetReadingSuccess: 0 };
+    case "RESET_EB_METER_READING_ERROR":
+      return { ...state, resetEbError: action.payload };
+    case "REMOVE_RESET_EB_METER_READING_ERROR":
+      return { ...state, resetEbError: "" };
 
     case "RENT_REVISION_ERROR":
       return { ...state, RentRevisionError: action.payload };

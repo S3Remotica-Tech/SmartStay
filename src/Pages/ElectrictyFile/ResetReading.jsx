@@ -16,10 +16,7 @@ import dayjs from "dayjs";
 
 const reasonOptions = [
   { value: "meter_replaced", label: "Meter Replaced" },
-  { value: "meter_faulty", label: "Faulty Meter" },
-  { value: "meter_repaired", label: "Meter Repaired" },
-  { value: "reading_restarted", label: "Reading Restarted from Zero" },
-  { value: "manual_correction", label: "Manual Correction" },
+  { value: "meter_reset", label: "Meter Reset" },
   { value: "other", label: "Other" },
 ];
 
@@ -124,7 +121,7 @@ const CustomStyles = {
   }),
 };
 
-function ResetReading({ show, handleClose }) {
+function ResetReading({ show, handleClose, resetDetails }) {
   const [continueExisting, setContinueExisting] = useState(false);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -133,7 +130,8 @@ function ResetReading({ show, handleClose }) {
   const [date, setDate] = useState(null);
   const [reading, setReading] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log("loading", loading);
+
+  console.log("resetDetails", resetDetails);
 
   const [reasonError, setReasonError] = useState("");
   const [dateError, setDateError] = useState("");
@@ -144,6 +142,8 @@ function ResetReading({ show, handleClose }) {
   const readingRef = useRef(null);
 
   if (!show) return null;
+
+  console.log("date, date", date);
 
   const validateForm = () => {
     let isValid = true;
@@ -192,25 +192,52 @@ function ResetReading({ show, handleClose }) {
   };
 
   const handleSubmit = async () => {
+    dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
     if (!validateForm()) return;
 
-    // try {
     const payload = {
-      reason: reason?.label || reasonInput,
-      startingDate: date,
-      reading: Number(reading),
-      continueExisting: continueExisting,
+      // reason: reason?.label || reasonInput,
+      // continueExisting: continueExisting,
     };
 
-    console.log(payload);
-    // dispatch({ type: "RESET_EB_METER_READING_SAGA", payload: {} });
+    dispatch({
+      type: "RESET_EB",
+      payload: {
+        resetOn: date ? dayjs(date).format("DD-MM-YYYY") : "",
+        startReading: Number(reading),
+      },
+    });
+
+    dispatch({
+      type: "RESET_EB_METER_READING_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        roomId: resetDetails?.roomId,
+        resetOn: date ? dayjs(date).format("DD-MM-YYYY") : "",
+        startReading: Number(reading),
+      },
+    });
     setLoading(true);
-    // }
-    //  finally {
-    //   setLoading(false);
-    // }
   };
 
+  useEffect(() => {
+    if (state.UsersList.resetReadingSuccess === 200) {
+      setLoading(false);
+      handleClose();
+    }
+  }, [state.UsersList.resetReadingSuccess]);
+
+  useEffect(() => {
+    if (state.UsersList.resetEbError) {
+      setLoading(false);
+    }
+  }, [state.UsersList.resetEbError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
+    };
+  }, []);
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
@@ -260,6 +287,7 @@ function ResetReading({ show, handleClose }) {
                   setReason(option);
                   setReasonInput("");
                   setReasonError("");
+                  dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
                 }}
                 onCreateOption={(value) => {
                   const option = {
@@ -270,6 +298,7 @@ function ResetReading({ show, handleClose }) {
                   setReason(option);
                   setReasonInput("");
                   setReasonError("");
+                  dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
                 }}
                 options={reasonOptions}
                 styles={CustomStyles}
@@ -285,15 +314,19 @@ function ResetReading({ show, handleClose }) {
               Starting Date <span className="text-red-600 text-[20px]">*</span>
             </label>
 
-            <div className="relative mt-2" ref={dateRef}>
+            <div className="relative" ref={dateRef}>
               <DatePicker
                 selected={date}
                 onChange={(value) => {
                   setDate(value);
                   setDateError("");
+                  dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
                 }}
                 dateFormat="dd/MM/yyyy"
-                className={`w-full h-11 rounded-lg px-3 pr-10 outline-none border ${
+                placeholder="DD/MM/YYYY"
+                minDate={new Date()}
+                placeholderText="Select Date"
+                className={`w-full h-[50px] rounded-lg px-3 pr-10 text-sm outline-none border ${
                   dateError ? "border-red-500" : "border-[#D9D9D9]"
                 }`}
               />
@@ -319,7 +352,9 @@ function ResetReading({ show, handleClose }) {
                   type="checkbox"
                   checked={continueExisting}
                   className="cursor-pointer"
-                  onChange={(e) => setContinueExisting(e.target.checked)}
+                  onChange={(e) => {
+                    setContinueExisting(e.target.checked);
+                  }}
                 />
                 Continue from existing calculation
               </label>
@@ -332,6 +367,7 @@ function ResetReading({ show, handleClose }) {
                 onChange={(e) => {
                   setReading(e.target.value);
                   setReadingError("");
+                  dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
                 }}
                 placeholder="00000"
                 type="number"
@@ -349,18 +385,12 @@ function ResetReading({ show, handleClose }) {
               <ErrorMessage message={readingError} type="error" />
             )}
           </div>
-
-          <div className="text-[15px] leading-7 text-[#222]">
-            <span className="font-semibold">
-              New EB calculations will start from
-            </span>{" "}
-            <span className="font-semibold">14 Aug 2026</span> using the reading{" "}
-            <span className="font-semibold">0 kWh.</span>
-            <br />
-            Previous meter readings and calculations will remain in history.
-          </div>
         </div>
-
+        {state.UsersList.resetEbError && (
+          <div className="m-2 text-center flex justify-center">
+            <ErrorMessage message={state.UsersList.resetEbError} type="error" />
+          </div>
+        )}
         <div className="border-t px-5 py-4 flex justify-end gap-3">
           <button
             onClick={handleClose}
