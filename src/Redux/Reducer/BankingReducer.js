@@ -38,6 +38,7 @@ export const initialState = {
   createCreditCardPaymentSuccessCode: 0,
   tenantPaymentError: "",
   toOpenBankOverview: false,
+  creditCardPaymentError: "" ,
 
   bankFilters: {
     startDate: undefined,
