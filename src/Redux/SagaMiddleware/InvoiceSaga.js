@@ -56,6 +56,7 @@ import {
   AddRecurrBillsUsers,
   GetBillsPdfDetails,
   ReceiptCustomizeData,
+  getAllRetainerInvoice,
 } from "../Action/InvoiceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -759,6 +760,22 @@ function* handleGetAllBills(action) {
     if (response?.status === 200) {
       yield put({
         type: "ALL_BILLS_LIST_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetAllRetainerInvoice(action) {
+  try {
+    const { hostelId, filters } = action.payload;
+    const response = yield call(getAllRetainerInvoice, hostelId, filters);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "ALL_RETAINER_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
     }
@@ -2496,6 +2513,8 @@ function* InvoiceSaga() {
   );
   yield takeEvery("GETPARTICULARBILLSDETAILS", handleGetParticularBillsDetails);
   yield takeEvery("ALL_BILLS_LIST_SAGA", handleGetAllBills);
+  yield takeEvery("ALL_RETAINER_INVOICE_SAGA", handleGetAllRetainerInvoice);
+
   yield takeEvery("GETFINALSETTLEMENT", handleGetFinalSettlementList);
   yield takeEvery("INVOICEITEM", handleinvoicelist);
   yield takeEvery("INVOICELIST", handleInvoiceList);

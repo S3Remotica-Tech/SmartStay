@@ -111,7 +111,7 @@ function BookingsPdfDetails() {
     },
   };
 
-  console.log("formattedData", formattedData);
+  // console.log("formattedData", formattedData);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen  font-gilroy">

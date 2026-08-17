@@ -766,6 +766,13 @@ function Booking() {
           rowData: invoiceId,
         },
       });
+
+      dispatch({
+        type: "ALL_RETAINER_INVOICE_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
     }
   };
 

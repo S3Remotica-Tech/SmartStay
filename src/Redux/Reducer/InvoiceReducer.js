@@ -144,6 +144,8 @@ export const initialState = {
     maxAmount: "",
     paymentLabels: [],
   },
+  getAllRetainerList: [],
+  getAllRetainerListStatusCode: 0,
 
   whatsappSettings: JSON.parse(localStorage.getItem("whatsappSettings")) || {
     0: false,
@@ -232,8 +234,20 @@ const InvoiceReducer = (state = initialState, action) => {
     case "REMOVE_ALL_BILLS_LIST_REDUCER":
       return {
         ...state,
-        getAllBillsList: action.payload.response,
         getAllBillsListStatusCode: 0,
+      };
+
+    case "ALL_RETAINER_INVOICE_REDUCER":
+      return {
+        ...state,
+        getAllRetainerList: action.payload.response,
+        getAllRetainerListStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_ALL_RETAINER_INVOICE_REDUCER":
+      return {
+        ...state,
+        getAllRetainerListStatusCode: 0,
       };
 
     case "CUSTOMIZE_RECEIPT_COLUMNS_REDUCER":
