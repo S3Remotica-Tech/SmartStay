@@ -2,15 +2,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import {
-  ArrowLeft2,
+  // ArrowLeft2,
   Calendar,
   DocumentUpload,
-  CloseCircle,
+  // CloseCircle,
   ArrowDown2,
   Add,
   Bank,
-  Wallet2,
-  ArrowRight,
+  // Wallet2,
+  // ArrowRight,
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -18,6 +18,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -120,36 +121,6 @@ const CustomStyles = {
   }),
 };
 
-// const paymentOptions = [
-//   {
-//     label: "Bank Accounts",
-//     options: [
-//       {
-//         value: "sbi",
-//         label: "SBI Bank",
-//         type: "Bank",
-//         icon: <Bank size={18} color="#1E45E1" />,
-//       },
-//     ],
-//   },
-//   {
-//     label: "Linked Payment Methods",
-//     options: [
-//       {
-//         value: "gpay",
-//         label: "Google Pay",
-//         type: "UPI",
-//         icon: <Wallet2 size={18} color="#1E45E1" />,
-//       },
-//       {
-//         value: "phonepe",
-//         label: "PhonePe",
-//         type: "UPI",
-//         icon: <Wallet2 size={18} color="#1E45E1" />,
-//       },
-//     ],
-//   },
-// ];
 const Option = (props) => {
   const { data } = props;
 
@@ -203,10 +174,9 @@ const GroupHeading = (props) => (
 );
 
 function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
-  if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  if (!show) return null;
   const VendorOverView = state.ComplianceList?.vendorOverview;
 
   const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
@@ -950,5 +920,11 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     </>
   );
 }
-
+SettlementPayment.propTypes = {
+  data: PropTypes.shape({
+    icon: PropTypes.element,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+  }),
+};
 export default SettlementPayment;

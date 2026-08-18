@@ -1,22 +1,89 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
-
-function VendorPaymentHistory() {
+import ApiPagination from "../../Components/ApiPagination";
+import PropTypes from "prop-types";
+function VendorPaymentHistory({ selectedVendorId }) {
   const state = useSelector((state) => state);
-  // const dispatch = useDispatch();s
-
+  const dispatch = useDispatch();
+  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  const [page, setPage] = useState(1);
   const vendorPaymentMadeHistory =
     state.ComplianceList?.vendorOverviewExpensePaymentList?.payments || [];
 
+  useEffect(() => {
+    if (!selectedVendorId) return;
+
+    dispatch({
+      type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
+      payload: {
+        vendorId: selectedVendorId,
+        page: page,
+        size: size,
+      },
+    });
+  }, [selectedVendorId, page, size]);
+
+  const currentPage =
+    state.ComplianceList?.vendorOverviewExpensePaymentList?.currentPage ?? 1;
+
+  const totalPages =
+    state.ComplianceList?.vendorOverviewExpensePaymentList?.totalPages ?? 1;
+
+  const totalRecords =
+    state.ComplianceList?.vendorOverviewExpensePaymentList?.totalPayments ?? 0;
+
+  useEffect(() => {
+    let timeout;
+
+    const handleResize = () => {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        setSize((prev) => {
+          const newSize = window.innerWidth >= 1440 ? 20 : 10;
+          return prev !== newSize ? newSize : prev;
+        });
+      }, 300);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+
+  const handleSizeChange = (sizeValue) => {
+    setSize(sizeValue);
+  };
+
   return (
     <>
+      <div className="flex justify-end  me-4 my-2">
+        {vendorPaymentMadeHistory?.length > 0 && (
+          <ApiPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalRecords={totalRecords}
+            onPageChange={handlePageChange}
+            onSizeChange={handleSizeChange}
+            isTenantPagination={true}
+            size={size}
+          />
+        )}
+      </div>
+
+
       {vendorPaymentMadeHistory?.length > 0 ? (
         <div className="bg-white    rounded-xl px-4  ">
           <div
             id="tableContainer"
-            //   ref={tableContainerRef}
             className="overflow-auto relative h-[300px] show-scrolls"
           >
             <table className=" w-full font-gilroy ">
@@ -90,5 +157,8 @@ function VendorPaymentHistory() {
     </>
   );
 }
+VendorPaymentHistory.propTypes = {
+  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 export default VendorPaymentHistory;

@@ -57,25 +57,7 @@ function VendorOverView({
     });
   }, [selectedVendorId, selectedMonth]);
 
-  useEffect(() => {
-    if (!selectedVendorId) return;
-
-    if (activeTab === "expenses") {
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
-    } else if (activeTab === "payments") {
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
-    }
-  }, [selectedVendorId, activeTab]);
+  console.log("selectedVendorId", selectedVendorId);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;
@@ -317,9 +299,13 @@ function VendorOverView({
             <VendorDetailsOverview handleSelected={handleSelected} />
           )}
 
-          {activeTab === "payments" && <VendorPaymentHistory />}
+          {activeTab === "payments" && (
+            <VendorPaymentHistory selectedVendorId={selectedVendorId} />
+          )}
 
-          {activeTab === "expenses" && <VendorExpenseHistory />}
+          {activeTab === "expenses" && (
+            <VendorExpenseHistory selectedVendorId={selectedVendorId} />
+          )}
 
           {activeTab === "comments" && (
             <VendorComments selectedVendorId={selectedVendorId} />

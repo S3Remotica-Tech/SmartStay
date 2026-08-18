@@ -1,27 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Select from "react-select";
-// import { TiTick } from "react-icons/ti";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
-  // CloseCircle,
   SearchNormal1,
-  // ArrowDown,
   Filter,
-  // Setting3,
   ArrowDown2,
   ArrowUp2,
-  // DirectSend,
   ExportSquare,
 } from "iconsax-react";
-
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-// import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -112,15 +104,15 @@ const CustomStyles = {
   }),
 };
 
-function VendorExpenseHistory() {
+function VendorExpenseHistory({ selectedVendorId }) {
   const state = useSelector((state) => state);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const vendorExpenseList =
     state.ComplianceList?.vendorOverviewExpenseList?.expenses || [];
 
   const [openExpense, setOpenExpense] = useState(null);
 
-  // console.log("vendorExpenseList", vendorExpenseList);
+  console.log("selectedVendorId", selectedVendorId);
 
   const monthOptions = [
     { value: "this_month", label: "This Month" },
@@ -130,7 +122,7 @@ function VendorExpenseHistory() {
     { value: "this_year", label: "This Year" },
   ];
   const selectOptions = [{ value: "ALL", label: "All" }];
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  // const [statusfilter, setStatusFilter] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedMonth, setSelectedMonth] = useState();
@@ -145,21 +137,13 @@ function VendorExpenseHistory() {
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
-
-    // setCurrentPage(1);
   };
-  const {
-    // canWriteModule: canWriteExpense,
-    canReadModule: canReadExpense,
-    // canUpdateModule: canUpdateElectricity,
-    // canDeleteModule: canDeleteElectricity,
-  } = useHasPermission("Expense");
+  const { canReadModule: canReadExpense } = useHasPermission("Expense");
 
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const tableContainerRef = useRef(null);
-  const lastScrollLeftRef = useRef(0);
-  // const listRef = useRef(null);
+  // const lastScrollLeftRef = useRef(0);
   const currentPage =
     state.ComplianceList?.vendorOverviewExpenseList?.currentPage ?? 1;
 
@@ -190,58 +174,36 @@ function VendorExpenseHistory() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   setPage(1);
-  // }, [state.ComplianceList?.vendorFilters]);
-
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log("setPage", page);
   };
 
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
   };
 
-  // useEffect(() => {
-  //   const container = tableContainerRef.current;
-  //   if (!container) return;
-
-  //   const handleScroll = () => {
-  //     const current = container.scrollLeft;
-  //     if (current === 0) {
-  //       setIsScrolling(false);
-  //       lastScrollLeftRef.current = current;
-  //       return;
-  //     }
-
-  //     if (Math.abs(current - lastScrollLeftRef.current) < 2) {
-  //       return;
-  //     }
-  //     if (current > lastScrollLeftRef.current) {
-  //       setIsScrolling(true);
-  //     } else {
-  //       setIsScrolling(true);
-  //     }
-
-  //     lastScrollLeftRef.current = current;
-  //   };
-
-  //   container.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     container.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  useEffect(() => {
+    if (selectedVendorId) {
+      dispatch({
+        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+        payload: {
+          vendorId: selectedVendorId,
+          page: page,
+          size: size,
+        },
+      });
+    }
+  }, [page, size, selectedVendorId]);
 
   return (
     <div className="px-4 bg-white">
       <div className="flex flex-wrap items-center justify-between  bg-white min-h-[60px] sticky top-0 z-[50]">
         <div className="flex flex-wrap items-center gap-3">
           <div
-            className={`border border-gray-300 rounded-lg w-36 ${
-              statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-            }`}
+            // className={`border border-gray-300 rounded-lg w-36 ${
+            //   statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
+            // }`}
+            className={`border border-gray-300 rounded-lg w-36 `}
           >
             <Select
               options={selectOptions}
@@ -250,9 +212,9 @@ function VendorExpenseHistory() {
               menuPlacement="auto"
               classNamePrefix="custom"
               // onChange={(e) => handleStatusFilter(e)}
-              value={
-                selectOptions.find((opt) => opt.value === statusfilter) || null
-              }
+              // value={
+              //   selectOptions.find((opt) => opt.value === statusfilter) || null
+              // }
               id="statusselect"
             />
           </div>
@@ -490,5 +452,8 @@ function VendorExpenseHistory() {
     </div>
   );
 }
+VendorExpenseHistory.propTypes = {
+  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 export default VendorExpenseHistory;

@@ -18,7 +18,7 @@ import {
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-import { useMediaQuery, useTheme } from "@mui/material";
+// import { useTheme } from "@mui/material";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -37,6 +37,7 @@ import AddVendorNew from "./AddVendorNew";
 import { useNavigate } from "react-router-dom";
 import VendorOverView from "./VendorOverView";
 import ApiPagination from "../../Components/ApiPagination";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -148,7 +149,7 @@ function Vendor() {
   const [showDeleteVendor, setShowDeleteVendor] = useState(false);
   const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState("");
   const [open, setOpen] = useState(false);
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  // const [statusfilter, setStatusFilter] = useState("ALL");
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
 
@@ -159,7 +160,7 @@ function Vendor() {
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  const theme = useTheme();
+  // const theme = useTheme();
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -980,7 +981,7 @@ function Vendor() {
               <div className="flex flex-wrap items-center gap-3">
                 <div
                   className={`border border-gray-300 rounded-lg w-36 ${
-                    statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
+                    categoryFilter ? "bg-gray-100 text-gray-700" : "bg-white"
                   }`}
                 >
                   <Select
