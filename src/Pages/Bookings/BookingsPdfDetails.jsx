@@ -77,41 +77,12 @@ function BookingsPdfDetails() {
     "Joining Date": "joiningDate",
   };
 
-  const formattedData = (
-    state?.Booking?.tenantBookingList?.bookingsList || []
-  ).map((row) => {
-    const obj = {};
-
-    (state?.Booking?.tenantBookingList?.tableHeaders || []).forEach(
-      (header, index) => {
-        const key = headerKeyMap[header];
-        const value = row[index];
-
-        if (key) {
-          obj[key] = value ?? "-";
-        }
-      },
-    );
-
-    const apiData = row[row.length - 1];
-
-    obj.apiCall = {
-      invoiceId: apiData?.invoiceId || null,
-      canApply: apiData?.canApply || null,
-      availableAmount: apiData?.availableAmount || 0,
-    };
-
-    return obj;
-  });
-
   const statusStyles = {
     Paid: {
       bg: "#EFFFF2",
       text: "#038C3D",
     },
   };
-
-  // console.log("formattedData", formattedData);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen  font-gilroy">
@@ -154,8 +125,8 @@ function BookingsPdfDetails() {
         </div>
 
         <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto overflow-x-visible">
-          {formattedData?.length > 0 ? (
-            formattedData?.map((item) => (
+          {state?.Booking?.getAllRetainerList?.length > 0 ? (
+            state?.Booking?.getAllRetainerList?.map((item) => (
               <div
                 onClick={() => {
                   setSelectedInvoiceId(item.apiCall?.invoiceId);
