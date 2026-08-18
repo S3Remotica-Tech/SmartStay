@@ -1,13 +1,5 @@
-// import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-// export async function compliance(compliance) {
-//   return await AxiosConfig.post('/compliance/compliance-list', compliance, {
-//     data: compliance
-//   })
-// }
-
-// v2
 export async function complianceList(compliance) {
   return await AxiosConfigV2.get(
     `/v2/complaint/all-complaints/${compliance.hostelId}`,
@@ -25,20 +17,14 @@ export async function complianceList(compliance) {
   );
 }
 
-// v1
-// export async function Compliancedetails(formDetails) {
-//   return await AxiosConfig.post('/compliance/add-details', formDetails, {
-//     data: formDetails
-//   })
-// }
-// v2
+
 export async function Compliancedetails(formDetails) {
   return await AxiosConfigV2.post("/v2/complaint", formDetails, {
     data: formDetails,
   });
 }
 
-// v2
+
 export async function EditComplaint(complaint) {
   return await AxiosConfigV2.put(`/v2/complaint/${complaint.complaintId}`, {
     complaintDate: complaint.complaintDate,
@@ -71,7 +57,7 @@ export async function complaintsView(complaintsId) {
 }
 
 export async function complaintsViewUpdates(complaint) {
-  // console.log("complaintsViewUpdates",complaint)
+
   return await AxiosConfigV2.get(
     `/v2/complaint/updates/${complaint.hostelId}/${complaint.complaintsId}`,
   );
@@ -241,14 +227,7 @@ export async function UpdateVendorComments(comment) {
   );
 }
 
-// v1
-// export async function ComplianceChangeStatus(compliance) {
-//   return await AxiosConfig.post('/compliance/change_details', compliance, {
-//     data: compliance
-//   })
-// }
 
-// v2
 
 export async function ComplianceChangeStatus({ complaintId, status }) {
   return await AxiosConfigV2.put(`/v2/complaint/update-status/${complaintId}`, {
@@ -256,14 +235,7 @@ export async function ComplianceChangeStatus({ complaintId, status }) {
   });
 }
 
-// v1
-// export async function complianceDelete(datum) {
-//   return await AxiosConfig.post('/complaint/delete_compliant', datum, {
-//     data: datum
-//   })
-// }
 
-// v2
 export async function complianceDelete(complaintId) {
   return await AxiosConfigV2.delete(
     `/v2/complaint/delete-complaint/${complaintId}`,

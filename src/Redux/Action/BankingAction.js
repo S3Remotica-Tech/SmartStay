@@ -1,6 +1,5 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-//////////////////////////////////////////////////////////////
 
 export async function AddBanking(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);

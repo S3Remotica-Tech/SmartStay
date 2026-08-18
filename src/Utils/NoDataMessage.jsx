@@ -1,6 +1,7 @@
 import React from "react";
 import NoData from "../Assets/v2Images/NoData.svg";
 import DataSearch from "../Assets/v2Images/DataSearch.svg";
+import PropTypes from "prop-types";
 
 function NoDataMessage({
   label,
@@ -47,5 +48,11 @@ function NoDataMessage({
     </div>
   );
 }
-
+NoDataMessage.propTypes = {
+  label: PropTypes.string,
+  isSearching: PropTypes.bool,
+  handleClear: PropTypes.func,
+  isHeightChanged: PropTypes.bool,
+  isClearSearch: PropTypes.bool,
+};
 export default NoDataMessage;

@@ -1,6 +1,7 @@
 import React from "react";
 import ComingSoonImage from "../Assets/v2Images/permission.svg";
 import BottomImage from "../Assets/v2Images/bottom_image.svg";
+import PropTypes from "prop-types";
 
 function PermissionDeniedMessage({ isHeightChanged }) {
   return (
@@ -39,5 +40,7 @@ function PermissionDeniedMessage({ isHeightChanged }) {
     </div>
   );
 }
-
+PermissionDeniedMessage.propTypes = {
+  isHeightChanged: PropTypes.bool,
+};
 export default PermissionDeniedMessage;

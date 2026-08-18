@@ -142,6 +142,17 @@ function* handleApplyAdvanceInvoice(action) {
         type: "APPLY_ADVANCE_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
+      toast.success(`Updated Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
     }
 
     if (response) {

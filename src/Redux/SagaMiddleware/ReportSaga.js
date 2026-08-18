@@ -1,6 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ReportsExpensePDF, ReportsInvoicePDF, ReportsTenantRegisterPDF, ReportsReceiptsPDF, getReportsDetails, getInvoiceRegister, getExpenseRegister, getReceiptRegister, getTenantRegister } from "../Action/ReportsAction"
 
 

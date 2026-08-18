@@ -1,38 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import Select from "react-select";
-import { TiTick } from "react-icons/ti";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import {
-  CloseCircle,
-  SearchNormal1,
-  ArrowDown,
-  Filter,
-  Setting3,
-  ArrowDown2,
-  ArrowUp2,
-  DirectSend,
-  ExportSquare,
-} from "iconsax-react";
-
-import ErrorMessage from "../../Components/ErrorMessage";
-import { useHasPermission } from "../../Utils/Permission";
-import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import React from "react";
+import { useSelector } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import ApiPagination from "../../Components/ApiPagination";
 
 function VendorPaymentHistory() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();s
 
   const vendorPaymentMadeHistory =
     state.ComplianceList?.vendorOverviewExpensePaymentList?.payments || [];
 
   return (
     <>
-      {vendorPaymentMadeHistory.length > 0 ? (
+      {vendorPaymentMadeHistory?.length > 0 ? (
         <div className="bg-white    rounded-xl px-4  ">
           <div
             id="tableContainer"
