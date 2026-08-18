@@ -57,7 +57,7 @@ function VendorOverView({
     });
   }, [selectedVendorId, selectedMonth]);
 
-  console.log("selectedVendorId", selectedVendorId);
+  // console.log("selectedVendorId", selectedVendorId);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;

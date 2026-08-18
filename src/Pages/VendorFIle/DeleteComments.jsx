@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 function DeleteComments({ open, onClose, selectedCommentId }) {
-  if (!open) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ function DeleteComments({ open, onClose, selectedCommentId }) {
       setDeleteLoading(false);
     }
   }, [state.ComplianceList?.deleteCommentsVendorstatusCode]);
-
+  if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" />
@@ -71,5 +71,9 @@ function DeleteComments({ open, onClose, selectedCommentId }) {
     </div>
   );
 }
-
+DeleteComments.propTypes = {
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
+  selectedCommentId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default DeleteComments;

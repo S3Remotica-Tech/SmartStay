@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
-import Form from "react-bootstrap/Form";
+// import Modal from "react-bootstrap/Modal";
+// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+// import Image from "react-bootstrap/Image";
+// import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
+// import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
-import { InputGroup, FormControl } from "react-bootstrap";
-import { CloseCircle, Add } from "iconsax-react";
-import PropTypes from "prop-types";
+// import Button from "react-bootstrap/Button";
+// import { InputGroup, FormControl } from "react-bootstrap";
+import { Add } from "iconsax-react";
+// import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import VendorOverView from "./VendorOverView";
+// import VendorOverView from "./VendorOverView";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -275,12 +275,12 @@ function AddVendorNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
   // const [first_Name, setFirst_Name] = useState("");
   const [vendorName, setVendorName] = useState("");
   const [vendorNameError, setVendorNameError] = useState("");
   const vendorNameRef = useRef(null);
-  const [last_Name, setLast_Name] = useState("");
+  // const [last_Name, setLast_Name] = useState("");
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [vendorCategory, setVendorCategory] = useState(null);
   // console.log("vendorCategory", vendorCategory);
@@ -296,10 +296,10 @@ function AddVendorNew() {
   // const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
   const location = useLocation();
-  const [initialVendorData, setInitialVendorData] = useState(null);
-  const [check, setCheck] = useState(null);
-  const [generalError, setGeneralError] = useState("");
-  const [firstNameError, setFirstNameError] = useState("");
+  // const [initialVendorData, setInitialVendorData] = useState(null);
+  // const [check, setCheck] = useState(null);
+  // const [generalError, setGeneralError] = useState("");
+  // const [firstNameError, setFirstNameError] = useState("");
   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -310,20 +310,20 @@ function AddVendorNew() {
   const [countryCode, setCountryCode] = useState();
   const [businessCountryCode, setBusinessCountryCode] = useState();
 
-  const [isChangedError, setIsChangedError] = useState("");
-  const [countryError, setCountryError] = useState("");
+  // const [isChangedError, setIsChangedError] = useState("");
+  // const [countryError, setCountryError] = useState("");
   const [pinCodeError, setPinCodeError] = useState("");
 
   const [businessMobile, setBusinessMobile] = useState("");
   // const [vendorPhoneError, setVendorPhoneError] = useState("");
-  const [vendorEmailError, setVendorEmailError] = useState("");
+  // const [vendorEmailError, setVendorEmailError] = useState("");
 
   // const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [contactPersonName, setContactPersonName] = useState("");
-  const [contactPersonNameError, setContactPersonNameError] = useState("");
+  // const [contactPersonNameError, setContactPersonNameError] = useState("");
   const contactPersonNameRef = useRef(null);
   // const firstNameRef = useRef(null);
   const mobileRef = useRef(null);
@@ -331,7 +331,7 @@ function AddVendorNew() {
   const cityRef = useRef(null);
   const pinCodeRef = useRef(null);
   const stateRef = useRef(null);
-  const countryRef = useRef(null);
+  // const countryRef = useRef(null);
   const [gstNumber, setGstNumber] = useState("");
   const [panNumber, setPanNumber] = useState("");
   // const [vendorCode, setVendorCode] = useState("");
@@ -344,12 +344,12 @@ function AddVendorNew() {
   const emailRef = useRef(null);
   const houseNoRef = useRef(null);
   const landmarkRef = useRef(null);
-  const streetRef = useRef(null);
+  // const streetRef = useRef(null);
   const vendorCategoryRef = useRef(null);
   const businessCountryCodeRef = useRef(null);
   const businessMobileRef = useRef(null);
-  const contactPersonRef = useRef(null);
-  const descriptionRef = useRef(null);
+  // const contactPersonRef = useRef(null);
+  // const descriptionRef = useRef(null);
   const [noChanges, setNochanges] = useState("");
   const [vendorCategoryError, setVendorCategoryError] = useState("");
 
@@ -408,25 +408,25 @@ function AddVendorNew() {
     }
   }, [state.login.selectedHostel_Id]);
 
-  const focusFirstError = (() => {
-    let focused = false;
+  // const focusFirstError = (() => {
+  //   let focused = false;
 
-    return (ref) => {
-      if (!focused && ref?.current) {
-        ref.current.focus();
-        focused = true;
-      }
-    };
-  })();
+  //   return (ref) => {
+  //     if (!focused && ref?.current) {
+  //       ref.current.focus();
+  //       focused = true;
+  //     }
+  //   };
+  // })();
 
   const currentItem = location.state?.currentItem || {};
   const checkMode = location.state?.check;
 
   useEffect(() => {
     return () => {
-      setGeneralError("");
+      // setGeneralError("");
 
-      setFirstNameError("");
+      // setFirstNameError("");
       // setLastNameError("");
 
       setVendorCategoryError("");
@@ -435,7 +435,7 @@ function AddVendorNew() {
       setBusinessCountryCodeError("");
       setBusinessMobileError("");
 
-      setContactPersonNameError("");
+      // setContactPersonNameError("");
 
       setCountryCodeError("");
       setMobileError("");
@@ -447,7 +447,7 @@ function AddVendorNew() {
 
       setCityError("");
       setStateNameError("");
-      setCountryError("");
+      // setCountryError("");
       setPinCodeError("");
 
       setDescriptionError("");
@@ -525,10 +525,10 @@ function AddVendorNew() {
       setPanError("");
     }
   };
-  const handleStateChange = (selectedOption) => {
-    setNochanges("");
-    setStateName(selectedOption);
-  };
+  // const handleStateChange = (selectedOption) => {
+  //   setNochanges("");
+  //   setStateName(selectedOption);
+  // };
 
   const handleCreditLimitChange = (e) => {
     setNochanges("");
@@ -562,7 +562,7 @@ function AddVendorNew() {
     const value = e.target.value.replace(/[^A-Za-z ]/g, "");
 
     setContactPersonName(value);
-    setContactPersonNameError("");
+    // setContactPersonNameError("");
   };
   const handleBusinessMobileChange = (e) => {
     dispatch({ type: "CLEAR_VENDOR_MOBILE_ERROR" });
@@ -588,8 +588,8 @@ function AddVendorNew() {
       setPinCodeError("");
     }
 
-    setGeneralError("");
-    setIsChangedError("");
+    // setGeneralError("");
+    // setIsChangedError("");
   };
 
   // const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
@@ -606,8 +606,8 @@ function AddVendorNew() {
 
     setHouseNo(value);
     setHouseNoError("");
-    setGeneralError("");
-    setIsChangedError("");
+    // setGeneralError("");
+    // setIsChangedError("");
   };
 
   const handleLandmark = (e) => {
@@ -619,8 +619,8 @@ function AddVendorNew() {
     }
     setLandmark(value);
 
-    setGeneralError("");
-    setIsChangedError("");
+    // setGeneralError("");
+    // setIsChangedError("");
   };
 
   const handleCity = (e) => {
@@ -630,8 +630,8 @@ function AddVendorNew() {
     if (regex.test(value)) {
       setCity(value);
       setCityError("");
-      setGeneralError("");
-      setIsChangedError("");
+      // setGeneralError("");
+      // setIsChangedError("");
     }
   };
 
@@ -641,7 +641,7 @@ function AddVendorNew() {
     navigate(`/vendor/${state.login.selectedHostel_Id}`);
 
     // setVendorPhoneError("");
-    setVendorEmailError("");
+    // setVendorEmailError("");
     dispatch({ type: "CLEAR_VENDOR_EMAIL_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
@@ -650,8 +650,8 @@ function AddVendorNew() {
   const handleBusinessChange = (e) => {
     setNochanges("");
     const value = e.target.value;
-    setGeneralError("");
-    setIsChangedError("");
+    // setGeneralError("");
+    // setIsChangedError("");
     setBusinessNameError("");
     setBusinessName(value);
   };
@@ -672,19 +672,19 @@ function AddVendorNew() {
     } else {
       setMobileError("");
     }
-    setGeneralError("");
+    // setGeneralError("");
     setCountryCodeError("");
-    setIsChangedError("");
+    // setIsChangedError("");
   };
 
   const handleEmailChange = (e) => {
     setNochanges("");
     const email = e.target.value.toLowerCase();
     setEmail_Id(email);
-    setGeneralError("");
-    setIsChangedError("");
+    // setGeneralError("");
+    // setIsChangedError("");
     setEmailError("");
-    setVendorEmailError("");
+    // setVendorEmailError("");
     dispatch({ type: "CLEAR_VENDOR_EMAIL_ERROR" });
 
     if (email) {
@@ -704,11 +704,11 @@ function AddVendorNew() {
     setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
 
-    setFirstNameError("");
+    // setFirstNameError("");
     setVendorCategoryError("");
     setBusinessMobileError("");
     setBusinessCountryCodeError("");
-    setContactPersonNameError("");
+    // setContactPersonNameError("");
     setMobileError("");
     setCountryCodeError("");
     setEmailError("");
@@ -719,8 +719,8 @@ function AddVendorNew() {
     setDescriptionError("");
     setBusinessNameError("");
     setVendorNameError("");
-    setCountryError("");
-    setGeneralError("");
+    // setCountryError("");
+    // setGeneralError("");
 
     let isValid = true;
     const focusedRef = { current: false };
@@ -896,38 +896,38 @@ function AddVendorNew() {
     }
 
     if (checkMode === "EDIT") {
-      const currentData = {
-        vendorName: vendorName || "",
-        businessName: businessName || "",
-        businessMobile: businessMobile || "",
-        businessMobileCode: businessCountryCode?.value || "",
-        email: email_Id || "",
-        houseNo: house_no || "",
-        landmark: landmark || "",
-        city: city || "",
-        state: state_name || "",
-        pinCode: pinCode || "",
-        contactPerson: contactPersonName || "",
-        contactPersonMobile: vendor_Mobile || "",
-        contactPersonMobileCode: countryCode?.value || "",
-        description: description || "",
-        gst: gstNumber || "",
-        pan: panNumber || "",
-        allowCredit: allowCreditPurchase,
-        creditLimit: creditLimit || "",
-        creditPeriod: creditPeriod || "",
-        vendorCategory: vendorCategory || null,
-      };
-      const normalize = (obj) =>
-        Object.fromEntries(
-          Object.entries(obj).map(([key, value]) => [
-            key,
-            value === null || value === undefined ? "" : String(value).trim(),
-          ]),
-        );
+      // const currentData = {
+      //   vendorName: vendorName || "",
+      //   businessName: businessName || "",
+      //   businessMobile: businessMobile || "",
+      //   businessMobileCode: businessCountryCode?.value || "",
+      //   email: email_Id || "",
+      //   houseNo: house_no || "",
+      //   landmark: landmark || "",
+      //   city: city || "",
+      //   state: state_name || "",
+      //   pinCode: pinCode || "",
+      //   contactPerson: contactPersonName || "",
+      //   contactPersonMobile: vendor_Mobile || "",
+      //   contactPersonMobileCode: countryCode?.value || "",
+      //   description: description || "",
+      //   gst: gstNumber || "",
+      //   pan: panNumber || "",
+      //   allowCredit: allowCreditPurchase,
+      //   creditLimit: creditLimit || "",
+      //   creditPeriod: creditPeriod || "",
+      //   vendorCategory: vendorCategory || null,
+      // };
+      // const normalize = (obj) =>
+      //   Object.fromEntries(
+      //     Object.entries(obj).map(([key, value]) => [
+      //       key,
+      //       value === null || value === undefined ? "" : String(value).trim(),
+      //     ]),
+      //   );
 
-      const hasChanges =
-        JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
+      // const hasChanges =
+      //   JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
 
       // if (!hasChanges) {
       //   setNochanges("No changes detected");
@@ -937,11 +937,11 @@ function AddVendorNew() {
       dispatch({
         type: "UPDATEVENDOR",
         payload: {
-          profilePic: file,
+          profilePic: "",
           updateVendor: {
             vendorId: currentItem?.apiCall?.vendorId,
             firstName: vendorName,
-            lastName: last_Name,
+            lastName: "",
             mobile: businessMobile,
             businessMobileCode: businessCountryCode?.value || "",
             contactPersonMobile: vendor_Mobile,
@@ -970,10 +970,10 @@ function AddVendorNew() {
       dispatch({
         type: "ADDVENDOR",
         payload: {
-          profilePic: file,
+          profilePic: "",
           payLoads: {
             firstName: vendorName,
-            lastName: last_Name,
+            lastName: "",
             mobile: businessMobile,
             businessMobileCode: businessCountryCode?.value || "",
             contactPersonMobileCode: countryCode?.value || "",
@@ -1066,13 +1066,13 @@ function AddVendorNew() {
       setAllowCreditPurchase(vendorOverView.allowCredit ?? false);
 
       setCreditLimit(
-        vendorOverView.creditLimit != null
+        vendorOverView.creditLimit !== null
           ? String(vendorOverView.creditLimit)
           : "",
       );
 
       setCreditPeriod(
-        vendorOverView.creditPeriod != null
+        vendorOverView.creditPeriod !== null
           ? String(vendorOverView.creditPeriod)
           : "",
       );
@@ -1093,44 +1093,44 @@ function AddVendorNew() {
         setVendorCategory(null);
       }
 
-      const initialData = {
-        vendorName: vendorOverView.fullName || "",
-        businessName: vendorOverView.businessName || "",
-        businessMobile: vendorOverView.mobile || "",
-        businessMobileCode: vendorOverView.businessMobileCode || "91",
+      // const initialData = {
+      //   vendorName: vendorOverView.fullName || "",
+      //   businessName: vendorOverView.businessName || "",
+      //   businessMobile: vendorOverView.mobile || "",
+      //   businessMobileCode: vendorOverView.businessMobileCode || "91",
 
-        email: vendorOverView.emailId || "",
+      //   email: vendorOverView.emailId || "",
 
-        houseNo: vendorOverView.houseNo || "",
-        landmark: vendorOverView.landMark || "",
-        city: vendorOverView.city || "",
-        state: vendorOverView.state || "",
-        pinCode: vendorOverView.pinCode ? String(vendorOverView.pinCode) : "",
+      //   houseNo: vendorOverView.houseNo || "",
+      //   landmark: vendorOverView.landMark || "",
+      //   city: vendorOverView.city || "",
+      //   state: vendorOverView.state || "",
+      //   pinCode: vendorOverView.pinCode ? String(vendorOverView.pinCode) : "",
 
-        contactPerson: vendorOverView.contactPerson || "",
-        contactPersonMobile: vendorOverView.contactPersonMobile || "",
-        contactPersonMobileCode: vendorOverView.contactPersonMobileCode || "91",
+      //   contactPerson: vendorOverView.contactPerson || "",
+      //   contactPersonMobile: vendorOverView.contactPersonMobile || "",
+      //   contactPersonMobileCode: vendorOverView.contactPersonMobileCode || "91",
 
-        description: vendorOverView.description || "",
-        gst: vendorOverView.gst || "",
-        pan: vendorOverView.pan || "",
+      //   description: vendorOverView.description || "",
+      //   gst: vendorOverView.gst || "",
+      //   pan: vendorOverView.pan || "",
 
-        allowCredit: vendorOverView.allowCredit ?? false,
+      //   allowCredit: vendorOverView.allowCredit ?? false,
 
-        creditLimit:
-          vendorOverView.creditLimit != null
-            ? String(vendorOverView.creditLimit)
-            : "",
+      //   creditLimit:
+      //     vendorOverView.creditLimit !== null
+      //       ? String(vendorOverView.creditLimit)
+      //       : "",
 
-        creditPeriod:
-          vendorOverView.creditPeriod != null
-            ? String(vendorOverView.creditPeriod)
-            : "",
+      //   creditPeriod:
+      //     vendorOverView.creditPeriod !== null
+      //       ? String(vendorOverView.creditPeriod)
+      //       : "",
 
-        vendorCategory: vendorOverView.vendorCategoryId ?? null,
-      };
+      //   vendorCategory: vendorOverView.vendorCategoryId ?? null,
+      // };
 
-      setInitialVendorData(initialData);
+      // setInitialVendorData(initialData);
     }
   }, [checkMode, state.ComplianceList?.vendorOverview]);
 
@@ -1649,7 +1649,7 @@ function AddVendorNew() {
                   </div>
                   <div>
                     <label className="text-[11px] text-[#8A8A8A]">
-                      It's like similar to debt purchase and will pay later
+                      Its like similar to debt purchase and will pay later
                     </label>
                   </div>
                 </div>

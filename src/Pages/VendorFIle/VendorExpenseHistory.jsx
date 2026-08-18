@@ -239,7 +239,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
               size={16}
               onClick={() => {
                 if (canReadExpense) {
-                  setIsFilterOpen(true);
+                  // setIsFilterOpen(true);
                 }
               }}
               className={`transition-opacity duration-300 ${

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MessageText,
   Send2,
@@ -15,7 +15,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import { Edit2, Trash } from "iconsax-react";
 import DeleteComments from "./DeleteComments";
 import { useHasPermission } from "../../Utils/Permission";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 const quillStyle = {
   height: "100px",
@@ -23,7 +23,7 @@ const quillStyle = {
   marginBottom: "42px",
 };
 
-function VendorComments({ selectedVendorId }) {
+function VendorComments() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -44,7 +44,7 @@ function VendorComments({ selectedVendorId }) {
   const [page, setPage] = useState(1);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState("");
-  const textareaRef = useRef(null);
+  // const textareaRef = useRef(null);
 
   // const applyFormat = (type) => {
   //   const textarea = textareaRef.current;
@@ -336,7 +336,7 @@ function VendorComments({ selectedVendorId }) {
     </div>
   );
 }
-VendorComments.propTypes = {
-  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
+// VendorComments.propTypes = {
+//   selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+// };
 export default VendorComments;
