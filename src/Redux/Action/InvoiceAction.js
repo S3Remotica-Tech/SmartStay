@@ -206,11 +206,11 @@ export async function getReceiptList(receipt) {
   if (receipt.paymentMode?.length) params.paymentMode = receipt.paymentMode;
   if (receipt.collectedBy?.length) params.collectedBy = receipt.collectedBy;
 
-  if (receipt.minAmount !== "" && receipt.minAmount != null) {
+  if (receipt.minAmount !== "" && receipt.minAmount !== null) {
     params.minAmount = receipt.minAmount;
   }
 
-  if (receipt.maxAmount !== "" && receipt.maxAmount != null) {
+  if (receipt.maxAmount !== "" && receipt.maxAmount !== null) {
     params.maxAmount = receipt.maxAmount;
   }
 

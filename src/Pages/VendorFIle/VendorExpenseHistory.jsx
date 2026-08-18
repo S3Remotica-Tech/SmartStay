@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Select from "react-select";
-import { TiTick } from "react-icons/ti";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+// import { TiTick } from "react-icons/ti";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
-  CloseCircle,
+  // CloseCircle,
   SearchNormal1,
-  ArrowDown,
+  // ArrowDown,
   Filter,
-  Setting3,
+  // Setting3,
   ArrowDown2,
   ArrowUp2,
-  DirectSend,
+  // DirectSend,
   ExportSquare,
 } from "iconsax-react";
 
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+// import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 
@@ -114,7 +114,7 @@ const CustomStyles = {
 
 function VendorExpenseHistory() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const vendorExpenseList =
     state.ComplianceList?.vendorOverviewExpenseList?.expenses || [];
 
@@ -149,7 +149,7 @@ function VendorExpenseHistory() {
     // setCurrentPage(1);
   };
   const {
-    canWriteModule: canWriteExpense,
+    // canWriteModule: canWriteExpense,
     canReadModule: canReadExpense,
     // canUpdateModule: canUpdateElectricity,
     // canDeleteModule: canDeleteElectricity,
@@ -159,7 +159,7 @@ function VendorExpenseHistory() {
   const [page, setPage] = useState(1);
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
-  const listRef = useRef(null);
+  // const listRef = useRef(null);
   const currentPage =
     state.ComplianceList?.vendorOverviewExpenseList?.currentPage ?? 1;
 
@@ -190,9 +190,9 @@ function VendorExpenseHistory() {
     };
   }, []);
 
-  useEffect(() => {
-    setPage(1);
-  }, [state.ComplianceList?.vendorFilters]);
+  // useEffect(() => {
+  //   setPage(1);
+  // }, [state.ComplianceList?.vendorFilters]);
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -203,36 +203,36 @@ function VendorExpenseHistory() {
     setSize(sizeValue);
   };
 
-  useEffect(() => {
-    const container = tableContainerRef.current;
-    if (!container) return;
+  // useEffect(() => {
+  //   const container = tableContainerRef.current;
+  //   if (!container) return;
 
-    const handleScroll = () => {
-      const current = container.scrollLeft;
-      if (current === 0) {
-        setIsScrolling(false);
-        lastScrollLeftRef.current = current;
-        return;
-      }
+  //   const handleScroll = () => {
+  //     const current = container.scrollLeft;
+  //     if (current === 0) {
+  //       setIsScrolling(false);
+  //       lastScrollLeftRef.current = current;
+  //       return;
+  //     }
 
-      if (Math.abs(current - lastScrollLeftRef.current) < 2) {
-        return;
-      }
-      if (current > lastScrollLeftRef.current) {
-        setIsScrolling(true);
-      } else {
-        setIsScrolling(true);
-      }
+  //     if (Math.abs(current - lastScrollLeftRef.current) < 2) {
+  //       return;
+  //     }
+  //     if (current > lastScrollLeftRef.current) {
+  //       setIsScrolling(true);
+  //     } else {
+  //       setIsScrolling(true);
+  //     }
 
-      lastScrollLeftRef.current = current;
-    };
+  //     lastScrollLeftRef.current = current;
+  //   };
 
-    container.addEventListener("scroll", handleScroll);
+  //   container.addEventListener("scroll", handleScroll);
 
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     container.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <div className="px-4 bg-white">
@@ -249,7 +249,7 @@ function VendorExpenseHistory() {
               isDisabled={canReadExpense}
               menuPlacement="auto"
               classNamePrefix="custom"
-              onChange={(e) => handleStatusFilter(e)}
+              // onChange={(e) => handleStatusFilter(e)}
               value={
                 selectOptions.find((opt) => opt.value === statusfilter) || null
               }
