@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Card, Button, Row, Col, Table } from "react-bootstrap";
-import PaginationList from "../../Components/PaginationList";
+// import { Card, Button, Row, Col, Table } from "react-bootstrap";
+// import PaginationList from "../../Components/PaginationList";
 import { Calendar, Crown } from "iconsax-react";
 import { TbCheck } from "react-icons/tb";
 import { MdPayment } from "react-icons/md";
@@ -215,7 +215,7 @@ function SubscriptionCard() {
 
               <tbody className="text-[12px] align-middle">
                 {currentPlan?.billingHistory?.length > 0 ? (
-                  currentPlan.billingHistory.map((item, index) => (
+                  currentPlan.billingHistory.map((item) => (
                     <tr key={item.historyId} className="border-b">
                       <td className="px-5 py-2 whitespace-nowrap">
                         {item.subscriptionNumber || "-"}

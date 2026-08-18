@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useState, useEffect, useRef } from "react";
-import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
+import { useState, useEffect } from "react";
+// import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useDispatch, useSelector } from "react-redux";
 // import crown from "../../Assets/Images/New_images/crown.png";
-import { Button, Form, FormControl, Image } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
-import Select from "react-select";
-import DeleteIcon from "../../Assets/Images/Delete_red.png";
+// import { Button, Form, FormControl, Image } from "react-bootstrap";
+// import { Modal } from "react-bootstrap";
+// import Select from "react-select";
+// import DeleteIcon from "../../Assets/Images/Delete_red.png";
 import Expire from "../../Assets/Images/New_images/subscriptionexpire.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // import { MdError } from "react-icons/md";
-import { CloseCircle } from "iconsax-react";
+// import { CloseCircle } from "iconsax-react";
 import {
   // ArrowUp2, ArrowDown2,
   Calendar,
@@ -20,21 +20,21 @@ import {
 // import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 // import PaginationList from '../../Components/PaginationList';
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import Cookies from 'universal-cookie';
 // import axios from 'axios'
-import { Card, Row, Col } from "react-bootstrap";
+// import { Card, Row, Col } from "react-bootstrap";
 import { TbCheck } from "react-icons/tb";
-import { FaSquareCheck } from "react-icons/fa6";
-import { MdArrowRightAlt } from "react-icons/md";
+// import { FaSquareCheck } from "react-icons/fa6";
+// import { MdArrowRightAlt } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import BasicPlan from "../SubscriptionFile/BasicPlan";
-import PremiumPlan from "./PremiumPlan";
-import ComingSoon from "../../Utils/ComingSoon";
-import { Connect } from "../../WebService/SocketConfig";
+// import PremiumPlan from "./PremiumPlan";
+// import ComingSoon from "../../Utils/ComingSoon";
+// import { Connect } from "../../WebService/SocketConfig";
 import AllPlans from "./AllPlans";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
@@ -42,22 +42,22 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 function SettingSubscription() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [plan, setPlan] = useState(false);
-  const [changePlan, setChangePlan] = useState(false);
-  const [planCode, setPlanCode] = useState("");
-  const [amount, setAmount] = useState("");
-  const [selectedPlan, setSelectedPlan] = useState("");
-  const [hostelCount, setHostelCount] = useState("0");
-  const [selectedPlanError, setSelectedPlanError] = useState("");
-  const [hostelCountError, setHostelCountError] = useState("");
-  const [hostelError, setHostelError] = useState("");
-  const [getPlanActive, setGetPlanActive] = useState([]);
-  const [selectedHostels, setSelectedHostels] = useState([]);
-  const modalRef = useRef();
+  // const [plan, setPlan] = useState(false);
+  // const [changePlan, setChangePlan] = useState(false);
+  // const [planCode, setPlanCode] = useState("");
+  // const [amount, setAmount] = useState("");
+  // const [selectedPlan, setSelectedPlan] = useState("");
+  // const [hostelCount, setHostelCount] = useState("0");
+  // const [selectedPlanError, setSelectedPlanError] = useState("");
+  // const [hostelCountError, setHostelCountError] = useState("");
+  // const [hostelError, setHostelError] = useState("");
+  // const [getPlanActive, setGetPlanActive] = useState([]);
+  // const [selectedHostels, setSelectedHostels] = useState([]);
+  // const modalRef = useRef();
   const [formLoading, setFormLoading] = useState(false);
 
   const {
-    canWriteModule: canWriteSubscription,
+    // canWriteModule: canWriteSubscription,
     canReadModule: canReadSubscription,
     // canUpdateModule: canUpdateSubscription,
     // canDeleteModule: canDeleteSubscription,
@@ -110,23 +110,23 @@ function SettingSubscription() {
     state.Settings.statusCodeForCurrentPlanSubcripition,
   ]);
 
-  useEffect(() => {
-    if (selectedHostels) {
-      setHostelCount(selectedHostels.length);
-    }
-  }, [selectedHostels]);
+  // useEffect(() => {
+  //   if (selectedHostels) {
+  //     setHostelCount(selectedHostels.length);
+  //   }
+  // }, [selectedHostels]);
 
-  const [hostelIds, setHostelIds] = useState([]);
+  // const [hostelIds, setHostelIds] = useState([]);
 
-  useEffect(() => {
-    const ids = selectedHostels.map((item) => item.value);
-    setHostelIds(ids);
-  }, [selectedHostels]);
+  // useEffect(() => {
+  //   const ids = selectedHostels.map((item) => item.value);
+  //   setHostelIds(ids);
+  // }, [selectedHostels]);
 
-  useEffect(() => {
-    setHostelCount("0");
-    setAmount(Number(selectedPlan) || 0);
-  }, [selectedPlan]);
+  // useEffect(() => {
+  //   setHostelCount("0");
+  //   // setAmount(Number(selectedPlan) || 0);
+  // }, [selectedPlan]);
 
   // const handlePlanChange = (price) => {
   //   setSelectedPlan(price);
@@ -143,44 +143,37 @@ function SettingSubscription() {
   //   }
   // };
 
-  useEffect(() => {
-    setAmount(hostelCount * (Number(selectedPlan) || 0));
-  }, [selectedPlan, hostelCount]);
+  // useEffect(() => {
+  //   // setAmount(hostelCount * (Number(selectedPlan) || 0));
+  // }, [selectedPlan, hostelCount]);
 
+  // useEffect(() => {
+  //   if (changePlan && modalRef.current) {
+  //     const modal = new bootstrap.Modal(modalRef.current);
+  //     modal.show();
+  //   }
+  // }, [changePlan]);
 
-
-
-
-
-
-  
-  useEffect(() => {
-    if (changePlan && modalRef.current) {
-      const modal = new bootstrap.Modal(modalRef.current);
-      modal.show();
-    }
-  }, [changePlan]);
-
-  const handleClosePlanChange = () => {
-    setPlan(false);
-    setHostelCountError("");
-    setSelectedHostels([]);
-  };
+  // const handleClosePlanChange = () => {
+  //   // setPlan(false);
+  //   // setHostelCountError("");
+  //   setSelectedHostels([]);
+  // };
 
   // const handleCurrentPlan = () => {
   //   setChangePlan(true);
   // };
 
-  useEffect(() => {
-    if (changePlan) {
-      handleClosePlanChange();
-    }
-  }, [changePlan]);
+  // useEffect(() => {
+  //   if (changePlan) {
+  //     handleClosePlanChange();
+  //   }
+  // }, [changePlan]);
 
-  const handleCloseCurrentPlan = () => {
-    setChangePlan(false);
-    setHostelCountError("");
-  };
+  // const handleCloseCurrentPlan = () => {
+  //   setChangePlan(false);
+  //   // setHostelCountError("");
+  // };
 
   const currentPlan = state?.Settings?.currentPlanDetails;
 
