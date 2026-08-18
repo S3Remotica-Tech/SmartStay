@@ -17,6 +17,7 @@ import {
   Trash,
   TickCircle,
   MinusCirlce,
+  AddCircle,
 } from "iconsax-react";
 import { toast } from "react-toastify";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -39,6 +40,7 @@ import Approve from "./Approve";
 import Deny from "./Deny";
 import BedChangeRequestOverview from "./BedChangeRequestOverview";
 import { triggerPG } from "../../Redux/Action/LoginAction";
+import DeleteRequest from "./DeleteRequest";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -146,6 +148,7 @@ function Request() {
   const [activeRow, setActiveRow] = useState(null);
   const [showAssignAmenity, setShowAssignAmenity] = useState(false);
   const [showDeny, setShowDeny] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
   // const [customizeItems, setCustomizeItems] = useState([]);
@@ -211,6 +214,34 @@ function Request() {
       top: rect.bottom,
       left: rect.left,
     });
+  };
+
+  const handleShowDotsCompleted = (id, event) => {
+    setActiveRow((prev) => (prev === id ? null : id));
+
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    const popupHeight = 120;
+    const spaceBelow = window.innerHeight - rect.bottom;
+
+    if (spaceBelow < popupHeight) {
+      setShowAbove(true);
+    } else {
+      setShowAbove(false);
+    }
+
+    setPopupPosition({
+      top: rect.bottom,
+      left: rect.left,
+    });
+  };
+
+  const handleDeleteRequest = () => {
+    setShowDelete(true);
+  };
+
+  const handleCloseDeleteRequest = () => {
+    setShowDelete(false);
   };
 
   const customizeItems = [
@@ -432,7 +463,7 @@ function Request() {
   return (
     <>
       <div className="bg-white font-gilroy">
-        <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
+        <div className="sticky top-0 z-50 bg-white p-2 flex justify-between items-center flex-wrap  font-gilroy min-h-[60px] sm:min-h-[60px]">
           <div>
             <label className="text-[18px] font-semibold font-gilroy text-black">
               Request
@@ -471,9 +502,9 @@ function Request() {
                 onClick={handleShow}
                 className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
                rounded-md px-4 py-2  whitespace-nowrap font-gilroy
-               disabled:opacity-50 disabled:cursor-not-allowed "
+               disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                Add
+                <AddCircle size="16" /> Add
               </button>
             </div>
           </div>
@@ -514,7 +545,7 @@ function Request() {
           )} */}
 
             <div
-              className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 
+              className="w-full my-1 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 
                         flex flex-wrap items-center gap-12 sm:gap-12 md:gap-12 font-gilroy"
             >
               {stats.map((item, index) => (
@@ -556,7 +587,7 @@ function Request() {
               ))}
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-2">
               <div className="flex ">
                 <button
                   onClick={() => setActiveTab("current")}
@@ -653,7 +684,7 @@ function Request() {
                 </div>
               </div>
             </div>
-            <div className="mt-4">
+            <div className="my-2">
               {activeTab === "current" && (
                 <div>
                   {formattedData?.length > 0 ? (
@@ -880,7 +911,187 @@ function Request() {
 
               {activeTab === "completed" && (
                 <div>
-                  <p>Completed Content</p>
+                  {formattedData?.length > 0 ? (
+                    <div className="bg-white rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3">
+                      <div
+                        id="tableContainer"
+                        ref={tableContainerRef}
+                        className="overflow-auto relative h-[calc(100vh-140px)] rounded-xl show-scrolls"
+                      >
+                        <table className="w-full font-gilroy">
+                          <thead className="bg-[#F9FAFB] sticky top-0 z-30 text-[#6B7280] text-xs">
+                            <tr className="h-9">
+                              <th className="sticky left-0 z-40 bg-[#F9FAFB] px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                                Request Type
+                              </th>
+                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                                Description
+                              </th>
+                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                                Raised By
+                              </th>
+                              <th className="px-4 py-2.5 text-start uppercase">
+                                Status
+                              </th>
+                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                                Raised On
+                              </th>
+                              <th className="px-4 py-2.5 text-start uppercase whitespace-nowrap">
+                                Stay Area
+                              </th>
+                              <th className="sticky right-0 z-20 bg-[#F9FAFB] px-4 py-2.5 text-center uppercase">
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {data.map((user, index) => (
+                              <tr
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (user.requestType === "Bed Change") {
+                                    handleBedChangeOverview();
+                                  }
+                                }}
+                                key={index}
+                                className="text-sm border-b border-[#E8E8E8] h-10 cursor-pointer group hover:bg-gray-50 "
+                              >
+                                <td
+                                  className={`sticky left-0 px-4   hover:!bg-gray-50 group-hover:!bg-gray-50  ${
+                                    isScrolling ? "!bg-white" : "!bg-white"
+                                  }`}
+                                >
+                                  <div className="relative group w-[120px]">
+                                    <span className="block truncate whitespace-nowrap ">
+                                      {user.requestType}
+                                    </span>
+
+                                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 hidden group-hover:block bg-gray-500 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
+                                      {user.requestType}
+                                    </div>
+                                  </div>
+                                </td>
+
+                                <td className="px-4 whitespace-nowrap">
+                                  {user.description}
+                                </td>
+
+                                <td className="px-4">
+                                  <div className="flex items-center gap-3">
+                                    {user.profilePic ? (
+                                      <img
+                                        src={user.profilePic}
+                                        alt={user.raisedBy}
+                                        className="w-8 h-8 rounded-full object-cover"
+                                      />
+                                    ) : (
+                                      <div className="w-8 h-8 rounded-full bg-[#E8E8E8] text-[#344054] flex items-center justify-center text-xs font-semibold">
+                                        {user.raisedBy
+                                          ?.split(" ")
+                                          .map((name) => name[0])
+                                          .join("")
+                                          .toUpperCase()}
+                                      </div>
+                                    )}
+
+                                    <span className="truncate">
+                                      {user.raisedBy}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="px-4">
+                                  <span
+                                    className="inline-flex items-center gap-2 rounded-lg px-2 py-0.5 text-xs whitespace-nowrap"
+                                    style={{
+                                      backgroundColor:
+                                        statusStyles[user.status]?.bg || "#EEE",
+                                    }}
+                                  >
+                                    <span
+                                      className="h-2 w-2 rounded-full whitespace-nowrap"
+                                      style={{
+                                        backgroundColor:
+                                          statusStyles[user.status]?.text ||
+                                          "#333",
+                                      }}
+                                    />
+                                    {user.status}
+                                  </span>
+                                </td>
+
+                                <td className="px-4">{user.raisedOn}</td>
+
+                                <td className="px-4">
+                                  <div className="text-[#111928] text-sm whitespace-nowrap">
+                                    {user.floor}
+                                  </div>
+
+                                  <span className="text-[#64748B] text-xs whitespace-nowrap">
+                                    {user.room} - {user.bed}
+                                  </span>
+                                </td>
+
+                                <td
+                                  className={`sticky  left-0 z-20  hover:!bg-gray-50 group-hover:!bg-gray-50  right-0 px-4 text-center ${
+                                    isScrolling ? "!bg-white" : "bg-white"
+                                  }`}
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    className="h-5 w-5 rotate-90 cursor-pointer mx-auto"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleShowDotsCompleted(index, e);
+                                    }}
+                                  />
+
+                                  {activeRow === index && (
+                                    <div
+                                      ref={popupRef}
+                                      className="rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] p-2 w-fit shadow-md z-[9999] "
+                                      style={{
+                                        top: showAbove
+                                          ? popupPosition.top -
+                                            (popupRef.current?.offsetHeight ||
+                                              120) -
+                                            10
+                                          : popupPosition.top + 5,
+                                        left: popupPosition.left - 250,
+                                        position: "fixed",
+                                      }}
+                                    >
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleDeleteRequest();
+                                        }}
+                                        className="w-full flex items-center gap-2 px-3 py-2 rounded-md hover:bg-red-50 text-[#ff0000]"
+                                      >
+                                        <Trash size="18" color="#FF0000" />
+                                        Delete
+                                      </button>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ) : (
+                    <NoDataMessage
+                      label="Vendor"
+                      isSearching={isSearching}
+                      isClearSearch={true}
+                      handleClear={() => {
+                        setSearchQuery("");
+                        setCategoryFilter("");
+                        setPaymentStatus("");
+                        handleReset();
+                      }}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -908,6 +1119,9 @@ function Request() {
           show={showBedChangeOverview}
           handleClose={handleCloseBedChangeOverview}
         />
+      )}
+      {showDelete && (
+        <DeleteRequest open={showDelete} onClose={handleCloseDeleteRequest} />
       )}
     </>
   );
