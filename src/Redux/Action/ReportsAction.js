@@ -121,7 +121,16 @@ export async function ReportsInvoicePDF(invoice) {
       params: {
         startDate: invoice.startDate,
         endDate: invoice.endDate,
-        period: invoice.period,
+        search: invoice.search,
+        paymentStatus: invoice.paymentStatus,
+        invoiceModes: invoice.invoiceModes,
+        invoiceTypes: invoice.invoiceTypes,
+        createdBy: invoice.createdBy,
+        period: invoice?.period,
+        minPaidAmount: invoice?.minPaidAmount,
+        maxPaidAmount: invoice?.maxPaidAmount,
+        minOutstandingAmount: invoice?.minOutstandingAmount,
+        maxOutstandingAmount: invoice?.maxOutstandingAmount,
       },
     },
   );

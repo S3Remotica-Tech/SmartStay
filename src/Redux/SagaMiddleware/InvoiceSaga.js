@@ -2496,6 +2496,7 @@ function* InvoiceSaga() {
   );
   yield takeEvery("GETPARTICULARBILLSDETAILS", handleGetParticularBillsDetails);
   yield takeEvery("ALL_BILLS_LIST_SAGA", handleGetAllBills);
+
   yield takeEvery("GETFINALSETTLEMENT", handleGetFinalSettlementList);
   yield takeEvery("INVOICEITEM", handleinvoicelist);
   yield takeEvery("INVOICELIST", handleInvoiceList);

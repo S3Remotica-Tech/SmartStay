@@ -232,7 +232,6 @@ const InvoiceReducer = (state = initialState, action) => {
     case "REMOVE_ALL_BILLS_LIST_REDUCER":
       return {
         ...state,
-        getAllBillsList: action.payload.response,
         getAllBillsListStatusCode: 0,
       };
 

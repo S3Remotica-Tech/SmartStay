@@ -1,14 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import {
-  CloseCircle,
-  Add,
-  Flash,
-  Call,
-  Location,
-  Warning2,
-  AddCircle,
-} from "iconsax-react";
+import React, { useState, useEffect } from "react";
+import { Add, Flash, Call, Location, Warning2, AddCircle } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import VendorExpenseHistory from "./VendorExpenseHistory";
@@ -17,6 +9,7 @@ import VendorPaymentHistory from "./VendorPaymentHistory";
 import VendorDetailsOverview from "./VendorDetailsOverview";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function VendorOverView({
   show,
@@ -64,25 +57,7 @@ function VendorOverView({
     });
   }, [selectedVendorId, selectedMonth]);
 
-  useEffect(() => {
-    if (!selectedVendorId) return;
-
-    if (activeTab === "expenses") {
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
-    } else if (activeTab === "payments") {
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-        },
-      });
-    }
-  }, [selectedVendorId, activeTab]);
+  // console.log("selectedVendorId", selectedVendorId);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;
@@ -324,9 +299,13 @@ function VendorOverView({
             <VendorDetailsOverview handleSelected={handleSelected} />
           )}
 
-          {activeTab === "payments" && <VendorPaymentHistory />}
+          {activeTab === "payments" && (
+            <VendorPaymentHistory selectedVendorId={selectedVendorId} />
+          )}
 
-          {activeTab === "expenses" && <VendorExpenseHistory />}
+          {activeTab === "expenses" && (
+            <VendorExpenseHistory selectedVendorId={selectedVendorId} />
+          )}
 
           {activeTab === "comments" && (
             <VendorComments selectedVendorId={selectedVendorId} />
@@ -336,5 +315,12 @@ function VendorOverView({
     </div>
   );
 }
+VendorOverView.propTypes = {
+  show: PropTypes.bool,
+  onClose: PropTypes.func,
+  handleShowSettlement: PropTypes.func,
+  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  trigger: PropTypes.any,
+};
 
 export default VendorOverView;

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 function DeleteVendorCategory({ show, handleClose, deleteId }) {
@@ -11,7 +11,7 @@ function DeleteVendorCategory({ show, handleClose, deleteId }) {
 
   const handleDelete = () => {
     dispatch({ type: "REMOVE_DELETE_VENDOR_CATEGORY_ERROR" });
-    
+
     if (deleteId) {
       dispatch({
         type: "DELETE_VENDOR_CATEGORY_SAGA",

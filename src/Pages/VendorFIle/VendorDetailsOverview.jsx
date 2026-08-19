@@ -9,7 +9,7 @@ import {
   Calendar,
   ArrowDown2,
 } from "iconsax-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   ResponsiveContainer,
   BarChart,
@@ -19,10 +19,11 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import PropTypes from "prop-types";
 
 function VendorDetailsOverview({ handleSelected }) {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const VendorOverView = state.ComplianceList?.vendorOverview || {};
 
@@ -41,7 +42,7 @@ function VendorDetailsOverview({ handleSelected }) {
     if (selectedPeriod) {
       handleSelected(selectedPeriod);
     }
-  }, [selectedPeriod]);
+  }, [selectedPeriod, handleSelected]);
 
   const chartData =
     VendorOverView?.monthSummary?.map((item) => ({
@@ -64,8 +65,9 @@ function VendorDetailsOverview({ handleSelected }) {
     {
       label: "Business Mobile No",
       value:
-        ` ${VendorOverView.businessMobileCode} ${VendorOverView.mobile}` ||
-        "---",
+        `${VendorOverView.businessMobileCode || ""} ${
+          VendorOverView.mobile || ""
+        }`.trim() || "---",
       icon: <Call size={16} />,
     },
     {
@@ -352,5 +354,7 @@ function VendorDetailsOverview({ handleSelected }) {
     </div>
   );
 }
-
+VendorDetailsOverview.propTypes = {
+  handleSelected: PropTypes.func,
+};
 export default VendorDetailsOverview;

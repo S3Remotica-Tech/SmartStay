@@ -8,7 +8,6 @@ import {
   Setting3,
   SearchNormal1,
   ArrowDown2,
-  ProfileCircle,
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from "antd";
@@ -232,7 +231,6 @@ function TenantsRegister() {
   }, [apiStart, apiEnd]);
 
   const handleDateChange = (dates) => {
-    
     if (!dates) {
       setSelectedRange(null);
       dispatch({
@@ -680,7 +678,8 @@ function TenantsRegister() {
 
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="datepicker-wrapper" style={{ position: "relative" }}>
-            <RangePicker  allowClear={false}
+            <RangePicker
+              allowClear={false}
               style={{
                 width: "100%",
                 height: "100%",

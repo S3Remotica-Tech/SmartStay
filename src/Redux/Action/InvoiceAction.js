@@ -1,4 +1,3 @@
-// import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 import qs from "qs";
 
@@ -14,14 +13,6 @@ export function invoiceList() {
   });
 }
 
-// v1
-// export async function UpdateInvoice(datum) {
-//   return await AxiosConfig.post('/transaction/list', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function RecordPayment(hostelId, invoiceId, data) {
   return await AxiosConfigV2.post(
     `/v2/transaction/${hostelId}/${invoiceId}`,
@@ -85,17 +76,7 @@ export function AddRecurringBill() {
   });
 }
 
-// v1
-// export async function GetManualInvoices(datum) {
-//   return await AxiosConfig.post('/get_bill_details', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function GetManualInvoices() {
-  // return await AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
-  // })
   new Promise((resolve) => {
     resolve({ status: 200 });
   });
@@ -120,7 +101,6 @@ export async function GetFilterInvoices(hostelId, filters = {}) {
 }
 
 export async function getAllBills(hostelId, filters = {}) {
-  console.log("hostelId", hostelId, "filters", filters);
   return AxiosConfigV2.get(`/v2/bills/basic-list/${hostelId}`, {
     params: {
       startDate: filters.startDate,
@@ -210,14 +190,6 @@ export function DeleteRecurrBills() {
   });
 }
 
-// v1
-// export async function GetReceiptData(receipt) {
-//   return await AxiosConfig.post('/receipts/all_receipts', receipt, {
-//     data: receipt
-//   })
-// }
-
-// v2
 export async function GetReceiptData(hostelId) {
   return await AxiosConfigV2.get(`/v2/bills/receipts/${hostelId}`, {});
 }
@@ -234,11 +206,11 @@ export async function getReceiptList(receipt) {
   if (receipt.paymentMode?.length) params.paymentMode = receipt.paymentMode;
   if (receipt.collectedBy?.length) params.collectedBy = receipt.collectedBy;
 
-  if (receipt.minAmount !== "" && receipt.minAmount != null) {
+  if (receipt.minAmount !== "" && receipt.minAmount !== null) {
     params.minAmount = receipt.minAmount;
   }
 
-  if (receipt.maxAmount !== "" && receipt.maxAmount != null) {
+  if (receipt.maxAmount !== "" && receipt.maxAmount !== null) {
     params.maxAmount = receipt.maxAmount;
   }
 
@@ -325,13 +297,6 @@ export async function InvoicePDf(bill) {
   );
 }
 
-// v1
-// export async function GetAmenities(datum) {
-//   return await AxiosConfig.post('/list/amenities-list', datum, {
-//     data: datum
-//   })
-// }
-
 export async function GetAmenities(hostelId) {
   return await AxiosConfigV2.get(`/v2/amenity/${hostelId}`, {
     headers: {
@@ -340,14 +305,6 @@ export async function GetAmenities(hostelId) {
   });
 }
 
-// v1
-// export async function UpdateAmenities(datum) {
-//   return await AxiosConfig.post('/amenities/amnityUpdate', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function UpdateAmenities(hostelId, amenityId, datum) {
   return await AxiosConfigV2.put(
     `/v2/amenity/${hostelId}/${amenityId}`,
@@ -395,46 +352,14 @@ export function InvoiceSettings() {
   new Promise((resolve) => {
     resolve({ status: 200 });
   });
-
-  // const formData = new FormData();
-  // if (params.profile) formData.append("profile", params.profile);
-  // formData.append("hostel_Id", params.hostel_Id);
-  // if (params.prefix) formData.append("prefix", params.prefix);
-  // if (params.suffix) formData.append("suffix", params.suffix);
-  // if (params.inv_date) formData.append("inv_date", params.inv_date);
-  // if (params.due_date) formData.append("due_date", params.due_date);
-
-  // try {
-  //   const response = await AxiosConfig.post('/invoice/settings', formData, {
-  //     headers: {
-  //       "Content-type": "multipart/form-data",
-  //     },
-  //     timeout: 100000000,
-
-  //   });
-  //   return response.data;
-  // } catch (error) {
-  //   console.error("Axios Error", error);
-  // }
 }
 
 export function InvoiceRecurringsettings() {
   new Promise((resolve) => {
     resolve({ status: 200 });
   });
-  // return await AxiosConfig.post('/settings/add_recuring', datum, {
-  //   data: datum
-  // })
 }
 
-// v1
-// export async function DeleteUser(datum) {
-//   return await AxiosConfig.post('/staffs/delete_staff', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function DeleteUser(user) {
   return await AxiosConfigV2.delete(
     `/v2/profile/delete-user/${user.hostelId}/${user.userId}`,
@@ -446,14 +371,6 @@ export async function DeleteUser(user) {
   );
 }
 
-// v1
-// export async function DeleteAmenities(datum) {
-//   return await AxiosConfig.post('/amenities/delete', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function DeleteAmenities(amenityId, hostelId) {
   return await AxiosConfigV2.delete(`/v2/amenity/${amenityId}/${hostelId}`, {
     headers: {
@@ -484,14 +401,6 @@ export async function RefuseInvoiceDiscount(data) {
   );
 }
 
-// v1
-// export async function AssignAmenities(datum) {
-//   return await AxiosConfig.post('/settings/assign_amenity', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function AssignAmenities(hostelId, amenityId, customers) {
   return await AxiosConfigV2.put(
     `/v2/amenity/assign/${hostelId}/${amenityId}`,
@@ -503,13 +412,6 @@ export async function AssignAmenities(hostelId, amenityId, customers) {
     },
   );
 }
-
-// v1
-// export async function UnAssignAmenities(datum) {
-//   return await AxiosConfig.post('/settings/remove_assigned_amenitie', datum, {
-//     data: datum
-//   })
-// }
 
 export async function UnAssignAmenities(hostelId, amenityId, customers) {
   return await AxiosConfigV2.put(
@@ -523,14 +425,6 @@ export async function UnAssignAmenities(hostelId, amenityId, customers) {
   );
 }
 
-// v1
-// export async function GetAssignAmenities(datum) {
-//   return await AxiosConfig.post('/settings/all_customer_list', datum, {
-//     data: datum
-//   })
-// }
-
-// v2
 export async function ParticularAmentityList(hostelId, amenityId) {
   return await AxiosConfigV2.get(`/v2/amenity/${hostelId}/${amenityId}`, {
     headers: {
@@ -560,23 +454,18 @@ export async function UnAssignAmenitiesForTenant(datum) {
 }
 
 export function GetBillsPdfDetails() {
-  // return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
   new Promise((resolve) => {
     resolve({ status: 200 });
   });
 }
 
 export function ReceiptPDFNewChanges() {
-  // return await AxiosConfig.get('/get_receipt_details/' + params.id);
   new Promise((resolve) => {
     resolve({ status: 200 });
   });
 }
 
 export function CustomerRecurringEnableDisable() {
-  // return await AxiosConfig.post('/add_recuring_bill_enabled', recur, {
-  //   data: recur
-  // })
   new Promise((resolve) => {
     resolve({ status: 200 });
   });

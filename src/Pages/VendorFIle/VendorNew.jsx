@@ -1,35 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { FormControl, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-// import AddVendor from "./AddVendor";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import SettlementPayment from "./SettlementPayment";
 import {
-  CloseCircle,
   SearchNormal1,
-  ArrowDown,
   Filter,
   Setting3,
-  ArrowDown2,
   Chart21,
   Edit2,
   Trash,
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-import { useMediaQuery, useTheme } from "@mui/material";
+// import { useTheme } from "@mui/material";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import SmarstayLogo from "../../Assets/Images/get.png";
 import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
@@ -45,6 +37,7 @@ import AddVendorNew from "./AddVendorNew";
 import { useNavigate } from "react-router-dom";
 import VendorOverView from "./VendorOverView";
 import ApiPagination from "../../Components/ApiPagination";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -151,19 +144,15 @@ function Vendor() {
   const [showAbove, setShowAbove] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentItem, setCurrentItem] = useState("");
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const location = useLocation();
-  const [showDropDown, setShowDropDown] = useState(false);
-  const [showFilterData, setShowFilterData] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteVendor, setShowDeleteVendor] = useState(false);
   const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState("");
   const [open, setOpen] = useState(false);
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  // const [statusfilter, setStatusFilter] = useState("ALL");
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
-  const listRef = useRef(null);
-  const tableRef = useRef(null);
+
   const [showOverview, setShowOverview] = useState(false);
   const [selectedVendorId, setSelectedVendorId] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -171,9 +160,7 @@ function Vendor() {
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  // const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  // const theme = useTheme();
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -195,8 +182,7 @@ function Vendor() {
 
   console.log("NavigateTOselectedVendorId", NavigateTOselectedVendorId);
 
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const monthOptions = [];
+  // const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [paymentStatus, setPaymentStatus] = useState("");
@@ -307,7 +293,6 @@ function Vendor() {
       value: status,
       label: status,
     })) || [];
-  const [selectedMonth, setSelectedMonth] = useState();
 
   const stats = [
     {
@@ -357,14 +342,6 @@ function Vendor() {
       clearTimeout(timeout);
     };
   }, []);
-
-  const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
-  };
-
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
 
   useEffect(() => {
     setShow(isVendorForm);
@@ -1004,7 +981,7 @@ function Vendor() {
               <div className="flex flex-wrap items-center gap-3">
                 <div
                   className={`border border-gray-300 rounded-lg w-36 ${
-                    statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
+                    categoryFilter ? "bg-gray-100 text-gray-700" : "bg-white"
                   }`}
                 >
                   <Select
@@ -1048,7 +1025,7 @@ function Vendor() {
                     size={16}
                     onClick={() => {
                       if (canReadVendor) {
-                        setIsFilterOpen(true);
+                        // setIsFilterOpen(true);
                       }
                     }}
                     className={`transition-opacity duration-300 ${
@@ -1671,5 +1648,11 @@ function Vendor() {
     </>
   );
 }
-
+Vendor.propTypes = {
+  item: PropTypes.shape({
+    key: PropTypes.string,
+    selected: PropTypes.bool,
+    fieldName: PropTypes.string,
+  }),
+};
 export default withErrorBoundary(Vendor);

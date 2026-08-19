@@ -3,17 +3,17 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  AddCircle,
+  // AddCircle,
   Edit,
-  Edit2,
-  Message,
+  // Edit2,
+  // Message,
   Messages3,
   Trash,
 } from "iconsax-react";
-import ErrorMessage from "../../../Components/ErrorMessage";
+// import ErrorMessage from "../../../Components/ErrorMessage";
 import { useHasPermission } from "../../../Utils/Permission";
 import { toast } from "react-toastify";
-import withErrorBoundary from "../../../Hoc/WithErrorBountry";
+// import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
@@ -212,8 +212,13 @@ function VendorCategory() {
         </>
       ) : (
         <div className=" mt-2">
-          {categoryList && categoryList.length > 0 ? (
+          {categoryList && categoryList?.length > 0 ? (
             <div className="container show-scrolls relative h-[500px] overflow-y-auto">
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-transparent z-[9999]">
+                  <div className="w-[40px] h-[40px] rounded-full border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent animate-spin" />
+                </div>
+              )}
               <div className="flex flex-wrap -mx-2">
                 {categoryList.map((u, i) => (
                   <div

@@ -1,36 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import {
   Filter,
-  Export, ArrowLeft,
-  ArrowSwapVertical, Setting3, SearchNormal1,
+  Export,
+  ArrowLeft,
+  ArrowSwapVertical,
+  Setting3,
+  SearchNormal1,
   // ArrowDown,
-  ArrowDown2
-
+  ArrowDown2,
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { 
-  // useDispatch, 
-  useSelector } from "react-redux";
-
+import {
+  // useDispatch,
+  useSelector,
+} from "react-redux";
 
 function BankTransactionRegister() {
-
-
-
   const navigate = useNavigate();
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
   const { RangePicker } = DatePicker;
-  const [invoiceFilter, setInvoiceFilter] = useState(false)
+  // const [invoiceFilter, setInvoiceFilter] = useState(false);
   const dropdownRef = useRef(null);
   const [selectedRange, setSelectedRange] = useState(null);
-  const [register, setRegister] = useState(false)
+  const [register, setRegister] = useState(false);
   const [open, setOpen] = useState(false);
-
-
 
   useEffect(() => {
     setSelectedRange({
@@ -39,13 +36,9 @@ function BankTransactionRegister() {
     });
   }, []);
 
-
   useEffect(() => {
     function handleClickOutside(event) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setRegister(false);
       }
     }
@@ -58,7 +51,6 @@ function BankTransactionRegister() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [register]);
-
 
   const reportCards = [
     { title: "Receipt Register" },
@@ -75,45 +67,49 @@ function BankTransactionRegister() {
   ];
 
   const handleNavigateReports = () => {
-    navigate(`/reports/${state.login.selectedHostel_Id}`)
-  }
+    navigate(`/reports/${state.login.selectedHostel_Id}`);
+  };
 
   const handleNavigateRegister = (item) => {
-    setRegister(false)
-     if (item?.title === "Tenant Register") {
-      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`)
+    setRegister(false);
+    if (item?.title === "Tenant Register") {
+      navigate(`/reports/tenant-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Receipt Register") {
-      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/receipt-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Bank Transaction Register") {
-      navigate(`/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/bank-transaction-register/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.title === "Occupancy") {
-      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/occupancy-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Expense Register") {
-      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/expense-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Vendor Ledger") {
-      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/vendor-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Electricity Billing Register") {
-      navigate(`/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/electricity-billing-register/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.title === "Complaint Register") {
-      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/complaint-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Request Register") {
-      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`)
+      navigate(`/reports/request-register/${state.login?.selectedHostel_Id}`);
     } else if (item?.title === "Final Settlement") {
-      navigate(`/reports/final-settlement-register/${state.login?.selectedHostel_Id}`)
+      navigate(
+        `/reports/final-settlement-register/${state.login?.selectedHostel_Id}`,
+      );
     } else if (item?.title === "Invoice Register") {
       navigate(`/reports/invoice-register/${state.login?.selectedHostel_Id}`);
     }
-  }
+  };
 
   const handleClickFilter = () => {
-    setInvoiceFilter(true)
-  }
+    // setInvoiceFilter(true)
+  };
 
   // const handleCloseFilterBills = () => {
   //   setInvoiceFilter(false)
   // }
-
-
 
   const stats = [
     { title: "Total Credits", value: "32000" },
@@ -143,7 +139,6 @@ function BankTransactionRegister() {
       due: "₹2,000",
       status: "partial",
     },
-
   ];
 
   const options = [
@@ -159,25 +154,35 @@ function BankTransactionRegister() {
 
   return (
     <div className="h-screen flex flex-col font-gilroy p-2">
-
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
-        <div className='flex items-center gap-2'>
-          <ArrowLeft onClick={handleNavigateReports}
+        <div className="flex items-center gap-2">
+          <ArrowLeft
+            onClick={handleNavigateReports}
             size="20"
-            color="#4A5565" className='cursor-pointer'
+            color="#4A5565"
+            className="cursor-pointer"
           />
           <div>
-            <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
-              <h1 className="text-lg font-semibold my-0 text-[#222222]">Bank Transaction Register</h1>
-              <div className='rounded-none border-0'>
+            <div
+              className="flex items-center gap-2 relative w-fit"
+              onClick={() => setRegister(!register)}
+            >
+              <h1 className="text-lg font-semibold my-0 text-[#222222]">
+                Bank Transaction Register
+              </h1>
+              <div className="rounded-none border-0">
                 <ArrowDown2
                   size="18"
                   color="#1E45E1"
-                  className={`cursor-pointer transition-transform duration-200 ${register ? "rotate-180" : ""
-                    }`}
+                  className={`cursor-pointer transition-transform duration-200 ${
+                    register ? "rotate-180" : ""
+                  }`}
                 />
                 {register && (
-                  <div ref={dropdownRef} className="absolute z-50 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]">
+                  <div
+                    ref={dropdownRef}
+                    className="absolute z-50 mt-2 w-64 bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E5E7EB]"
+                  >
                     {reportCards.map((item, index) => {
                       const isFirst = index === 0;
                       const isLast = index === reportCards.length - 1;
@@ -186,8 +191,7 @@ function BankTransactionRegister() {
                         <div
                           key={index}
                           onClick={() => {
-                            handleNavigateRegister(item)
-
+                            handleNavigateRegister(item);
                           }}
                           className={`
                 px-4 py-2 text-sm text-[#222] cursor-pointer
@@ -213,18 +217,13 @@ function BankTransactionRegister() {
         </div>
 
         <div className="flex flex-wrap gap-3 items-stretch">
-
-          <div
-            className="datepicker-wrapper"
-            style={{ position: "relative", }}
-          >
+          <div className="datepicker-wrapper" style={{ position: "relative" }}>
             <RangePicker
               style={{
                 width: "100%",
                 height: "100%",
                 cursor: "pointer",
                 fontFamily: "Gilroy",
-
               }}
               format="DD/MM/YYYY"
               placeholder={["From date", "To date"]}
@@ -234,7 +233,6 @@ function BankTransactionRegister() {
                   : null
               }
               onChange={(dates) => {
-
                 if (dates) {
                   setSelectedRange({
                     from: dates[0].toDate(),
@@ -251,40 +249,34 @@ function BankTransactionRegister() {
                   current < dayjs(selectedRange.from).startOf("day")
                 );
               }}
-
               getPopupContainer={(triggerNode) =>
                 triggerNode.closest(".datepicker-wrapper")
               }
             />
           </div>
 
-          <button onClick={handleClickFilter}
+          <button
+            onClick={handleClickFilter}
             className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
           >
             <Filter size="16" />
             Filter
           </button>
-          <button
-            className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
-          >
+          <button className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy">
             <Export size="16" />
             Export
           </button>
         </div>
       </div>
 
-
       <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-full flex flex-col overflow-hidden">
-
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
           {stats.map((item, i) => (
             <div
               key={i}
               className="bg-white rounded-xl p-3 shadow-sm border border-[#E5E7EB] h-[130px]"
             >
-              <div className='flex justify-between '>
-
+              <div className="flex justify-between ">
                 <label className="text-sm font-semibold text-[#4A5565]">
                   {item.title}
                 </label>
@@ -304,8 +296,6 @@ function BankTransactionRegister() {
                 <h2 className="text-2xl font-semibold text-[#101828]">
                   {item.value}
                 </h2>
-
-
               </div>
               {item.link && (
                 <p className="text-xs text-[#155DFC]  cursor-pointer">
@@ -316,16 +306,11 @@ function BankTransactionRegister() {
           ))}
         </div>
 
-
         <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
-
           <div className="overflow-x-auto relative show-scrolls">
             <table className="w-full  text-[12px] font-gilroy">
-
               <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
                 <tr className="border-b border-[#E8E8E8]">
-
-
                   <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px]">
                     <Setting3
                       onClick={() => setOpen(!open)}
@@ -335,64 +320,49 @@ function BankTransactionRegister() {
                     />
                   </th>
 
-
                   <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
                     date
                   </th>
-
 
                   <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] uppercase ">
                     Reference
                   </th>
 
-
                   <th className="px-4 py-2.5 text-center font-semibold  uppercase">
-                    
-                     Bank Acc
-                     
+                    Bank Acc
                   </th>
-
 
                   <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase">
-                   Mode
+                    Mode
                   </th>
-
 
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     Description
                   </th>
 
-
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     <div className="flex justify-center items-center gap-1">
-                     Credit
+                      Credit
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
 
-
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     <div className="flex justify-center items-center gap-1">
-                     Debit
+                      Debit
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
                     </div>
                   </th>
-
 
                   <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     STATUS
                   </th>
-
                 </tr>
               </thead>
 
-
               <tbody>
                 {invoices.map((row, i) => (
-                  <tr
-                    key={i}
-                    className="border-b last:border-none  transition"
-                  >
+                  <tr key={i} className="border-b last:border-none  transition">
                     <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
                     <td
                       className="px-4 py-3 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky left-[40px] z-20 bg-white w-[140px]"
@@ -400,7 +370,6 @@ function BankTransactionRegister() {
                     >
                       {row.no}
                     </td>
-
 
                     <td className="px-4 py-3 sticky left-[170px] z-20 bg-white w-[200px]">
                       <div className="flex items-center gap-2">
@@ -418,50 +387,41 @@ function BankTransactionRegister() {
                       </div>
                     </td>
 
-
-                    <td className="px-4 py-3 text-center font-semibold truncate whitespace-nowrap"
-                      title={row.type}>
+                    <td
+                      className="px-4 py-3 text-center font-semibold truncate whitespace-nowrap"
+                      title={row.type}
+                    >
                       {row.type}
                     </td>
-
 
                     <td className="px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap">
                       {row.date}
                     </td>
 
-
                     <td className="px-4 py-3 text-center  text-[#6B7280] truncate font-medium">
                       {row.dueDate}
                     </td>
-
 
                     <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
                       ₹ {row.amount}
                     </td>
 
-
                     <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
                       ₹ {row.due}
                     </td>
 
-
-                    <td className="px-4 py-3 text-center">
-
-                    </td>
+                    <td className="px-4 py-3 text-center"></td>
                   </tr>
                 ))}
               </tbody>
-
             </table>
           </div>
           {open && (
             <>
-
               <div
                 className="fixed inset-0 bg-black/20 z-40 "
                 onClick={() => setOpen(false)}
               />
-
 
               <div
                 className={`
@@ -473,11 +433,6 @@ function BankTransactionRegister() {
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
               >
-
-
-
-
-
                 <div className="p-3 border-b">
                   <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
                     <SearchNormal1 size={16} color="#98A2B3" />
@@ -487,7 +442,6 @@ function BankTransactionRegister() {
                     />
                   </div>
                 </div>
-
 
                 <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
                   {options.map((item) => (
@@ -500,40 +454,26 @@ function BankTransactionRegister() {
                         defaultChecked={item.checked}
                         className="w-4 h-4 accent-[#1E45E1] rounded"
                       />
-                      <span className="text-[#101828]">
-                        {item.label}
-                      </span>
+                      <span className="text-[#101828]">{item.label}</span>
                     </label>
                   ))}
                 </div>
 
-
                 <div className="p-3 border-t flex gap-2">
-                  <button
-                    className="flex-1 py-2 text-sm border rounded-lg text-[#344054]"
-                  >
+                  <button className="flex-1 py-2 text-sm border rounded-lg text-[#344054]">
                     Reset
                   </button>
-                  <button
-                    className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg"
-                  >
+                  <button className="flex-1 py-2 text-sm bg-[#1E45E1] text-white rounded-lg">
                     Apply Filters
                   </button>
                 </div>
-
               </div>
             </>
           )}
-
         </div>
-
-
       </div>
-
-
-
     </div>
-  )
+  );
 }
 
-export default BankTransactionRegister
+export default BankTransactionRegister;

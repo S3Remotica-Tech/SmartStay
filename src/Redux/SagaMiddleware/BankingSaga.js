@@ -25,6 +25,8 @@ import {
   getAllPaymentMethod,
   selfTranferInitializeV3,
   AllTransaction,
+  creditCardInitialize,
+  tenantPaymentInitialize,
 } from "../Action/BankingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +50,50 @@ function* handleApiError(error) {
       type: "ACCESS_RESTRICTION_ERROR",
       payload: "Access Restricted",
     });
+  }
+}
+
+function* handleCreditCardInitialize(action) {
+  try {
+    const response = yield call(creditCardInitialize, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_CREDIT_CARD_INITIALIZE_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+function* handleTenantPaymentInitialize(action) {
+  try {
+    const response = yield call(tenantPaymentInitialize, action.payload);
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_TENANT_PAYMENT_INITIALIZE_REDUCER",
+        payload: {
+          response: response.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
   }
 }
 
@@ -1027,6 +1073,14 @@ function refreshToken(response) {
 }
 
 function* CreateBankingSaga() {
+  yield takeEvery(
+    "GET_CREDIT_CARD_INITIALIZE_SAGA",
+    handleCreditCardInitialize,
+  );
+  yield takeEvery(
+    "GET_TENANT_PAYMENT_INITIALIZE_SAGA",
+    handleTenantPaymentInitialize,
+  );
   yield takeEvery("TENANT_PAYMENT_SAGA", handleTenantPayment);
   yield takeEvery("CREDIT_CARD_PAYMENT_SAGA", handleCreditCardPayment);
   yield takeEvery("GET_BANKING_LEDGER_SAGA", handleGetBankingLedger);

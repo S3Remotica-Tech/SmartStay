@@ -320,10 +320,6 @@ function InvoiceRegisterFilter({
     label: PropTypes.string.isRequired,
   };
 
-  const isAllSelectedDrop =
-    selectedBillStatusOptions?.length === 1 &&
-    selectedBillStatusOptions[0]?.value === "ALL";
-
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
     if (
@@ -520,9 +516,6 @@ function InvoiceRegisterFilter({
                 styles={CustomStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
-                // isOptionDisabled={(option) =>
-                //   isAllSelectedDrop && option.value !== "ALL"
-                // }
                 isOptionSelected={(option) =>
                   billStatus.includes("ALL")
                     ? true

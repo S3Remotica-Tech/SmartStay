@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MessageText,
   Send2,
-  TextBold,
-  TextItalic,
-  TextUnderline,
+  // TextBold,
+  // TextItalic,
+  // TextUnderline,
 } from "iconsax-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -15,6 +15,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import { Edit2, Trash } from "iconsax-react";
 import DeleteComments from "./DeleteComments";
 import { useHasPermission } from "../../Utils/Permission";
+// import PropTypes from "prop-types";
 
 const quillStyle = {
   height: "100px",
@@ -22,7 +23,7 @@ const quillStyle = {
   marginBottom: "42px",
 };
 
-function VendorComments({ selectedVendorId }) {
+function VendorComments() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -43,44 +44,44 @@ function VendorComments({ selectedVendorId }) {
   const [page, setPage] = useState(1);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState("");
-  const textareaRef = useRef(null);
+  // const textareaRef = useRef(null);
 
-  const applyFormat = (type) => {
-    const textarea = textareaRef.current;
+  // const applyFormat = (type) => {
+  //   const textarea = textareaRef.current;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
+  //   const start = textarea.selectionStart;
+  //   const end = textarea.selectionEnd;
 
-    const selectedText = comment.substring(start, end);
+  //   const selectedText = comment.substring(start, end);
 
-    let formattedText = selectedText;
+  //   let formattedText = selectedText;
 
-    switch (type) {
-      case "bold":
-        formattedText = `**${selectedText}**`;
-        break;
+  //   switch (type) {
+  //     case "bold":
+  //       formattedText = `**${selectedText}**`;
+  //       break;
 
-      case "italic":
-        formattedText = `*${selectedText}*`;
-        break;
+  //     case "italic":
+  //       formattedText = `*${selectedText}*`;
+  //       break;
 
-      case "underline":
-        formattedText = `__${selectedText}__`;
-        break;
+  //     case "underline":
+  //       formattedText = `__${selectedText}__`;
+  //       break;
 
-      default:
-        break;
-    }
+  //     default:
+  //       break;
+  //   }
 
-    const newValue =
-      comment.substring(0, start) + formattedText + comment.substring(end);
+  //   const newValue =
+  //     comment.substring(0, start) + formattedText + comment.substring(end);
 
-    setComment(newValue);
-  };
+  //   setComment(newValue);
+  // };
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
+  // const handleCommentChange = (e) => {
+  //   setComment(e.target.value);
+  // };
 
   const handleAddComment = () => {
     const plainText = comment.replace(/<[^>]+>/g, "").trim();
@@ -335,5 +336,7 @@ function VendorComments({ selectedVendorId }) {
     </div>
   );
 }
-
+// VendorComments.propTypes = {
+//   selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+// };
 export default VendorComments;

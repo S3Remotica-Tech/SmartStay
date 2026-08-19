@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaSquareCheck } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { Connect } from "../../WebService/SocketConfig";
 import { MdArrowRightAlt } from "react-icons/md";
 
 function AllPlans() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const { hostelId } = useParams();
+  // const { hostelId } = useParams();
 
   const [formLoading, setFormLoading] = useState(false);
   const [paymentLoading, setPaymentLoading] = useState(false);

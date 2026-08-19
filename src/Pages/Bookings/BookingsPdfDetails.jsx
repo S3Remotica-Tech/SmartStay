@@ -77,33 +77,6 @@ function BookingsPdfDetails() {
     "Joining Date": "joiningDate",
   };
 
-  const formattedData = (
-    state?.Booking?.tenantBookingList?.bookingsList || []
-  ).map((row) => {
-    const obj = {};
-
-    (state?.Booking?.tenantBookingList?.tableHeaders || []).forEach(
-      (header, index) => {
-        const key = headerKeyMap[header];
-        const value = row[index];
-
-        if (key) {
-          obj[key] = value ?? "-";
-        }
-      },
-    );
-
-    const apiData = row[row.length - 1];
-
-    obj.apiCall = {
-      invoiceId: apiData?.invoiceId || null,
-      canApply: apiData?.canApply || null,
-      availableAmount: apiData?.availableAmount || 0,
-    };
-
-    return obj;
-  });
-
   const statusStyles = {
     Paid: {
       bg: "#EFFFF2",
@@ -111,7 +84,22 @@ function BookingsPdfDetails() {
     },
   };
 
-  console.log("formattedData", formattedData);
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    const filters = {
+      searchKey: value.trim() || undefined,
+    };
+
+    dispatch({
+      type: "ALL_RETAINER_INVOICE_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        filters,
+      },
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen  font-gilroy">
@@ -145,7 +133,7 @@ function BookingsPdfDetails() {
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search..."
                 className="w-full pl-4 py-2 font-gilroy border border-[#D9D9D9] rounded-xl text-sm  outline-none"
               />
@@ -154,21 +142,19 @@ function BookingsPdfDetails() {
         </div>
 
         <div className="show-scrolls p-2 mt-1 h-[calc(100vh-30px)] overflow-y-auto overflow-x-visible">
-          {formattedData?.length > 0 ? (
-            formattedData?.map((item) => (
+          {state?.Booking?.getAllRetainerList?.length > 0 ? (
+            state?.Booking?.getAllRetainerList?.map((item) => (
               <div
                 onClick={() => {
-                  setSelectedInvoiceId(item.apiCall?.invoiceId);
-                  handleDisplayInvoiceDownload(item.apiCall?.invoiceId);
+                  setSelectedInvoiceId(item?.invoiceId);
+                  handleDisplayInvoiceDownload(item?.invoiceId);
                 }}
-                key={item.apiCall?.invoiceId}
-                ref={(el) =>
-                  (invoiceRefs.current[item.apiCall?.invoiceId] = el)
-                }
+                key={item?.invoiceId}
+                ref={(el) => (invoiceRefs.current[item?.invoiceId] = el)}
                 className={`mb-3 shadow-sm rounded p-[10px_16px] cursor-pointer
         transition-all duration-300 ease-in-out hover:bg-gray-100
         ${
-          String(selectedInvoiceId) === String(item.apiCall?.invoiceId)
+          String(selectedInvoiceId) === String(item?.invoiceId)
             ? "bg-[#F7F8FC]"
             : "bg-white"
         }`}
@@ -183,7 +169,7 @@ function BookingsPdfDetails() {
                       />
                     ) : (
                       <div className="h-10 w-10 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-sm uppercase font-gilroy">
-                        {item?.tenantName?.charAt(0) || "NA"}
+                        {item?.initials || "NA"}
                       </div>
                     )}
                   </div>
@@ -194,28 +180,28 @@ function BookingsPdfDetails() {
                         className="font-gilroy text-sm text-[#1E45E1] font-semibold 
                 max-w-[100px] truncate overflow-hidden whitespace-nowrap"
                       >
-                        {item.tenantName}
+                        {item.customerName}
                       </div>
 
                       <div className="font-gilroy text-base text-[#222] font-semibold">
-                        {item.amount}
+                        ₹ {item.invoiceAmount}
                       </div>
 
                       <span
                         className="absolute hidden group-hover:block top-full left-0 mb-1
                 bg-gray-300 text-black text-xs rounded px-2 py-1 whitespace-nowrap z-[9999]"
                       >
-                        {item.tenantName}
+                        {item.customerName}
                       </span>
                     </div>
 
                     <div className="flex justify-between gap-3 mb-1">
                       <div className="font-gilroy text-xs text-[#222] font-semibold">
-                        {item.invNo || "-"}
+                        {item.invoiceNumber || "-"}
                       </div>
-                      {item.joiningDate && (
+                      {item.invoiceDate && (
                         <div className="font-gilroy text-xs text-[#222] font-medium">
-                          {item.joiningDate || "-"}
+                          {item.invoiceDate || "-"}
                         </div>
                       )}
                     </div>
@@ -247,7 +233,7 @@ function BookingsPdfDetails() {
           ) : (
             <div className="flex flex-col items-center justify-center py-12 bg-white rounded-xl border border-gray-200">
               <h3 className="text-sm font-semibold text-gray-700 mb-1 font-gilroy">
-                No bills available
+                No Bills available
               </h3>
             </div>
           )}

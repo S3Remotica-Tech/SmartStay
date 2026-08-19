@@ -1,7 +1,5 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-//////////////////////////////////////////////////////////////
-
 export async function AddBanking(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
 }
@@ -162,6 +160,18 @@ export async function tenantPayment(datum) {
 
 export async function creditCardPayment(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
+}
+
+export async function creditCardInitialize(hostel) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/creditCard/initialize/${hostel.hostelId}`,
+  );
+}
+
+export async function tenantPaymentInitialize(hostel) {
+  return await AxiosConfigV2.get(
+    `/v3/bank/creditCard/initialize/${hostel.hostelId}`,
+  );
 }
 
 /////////////////////////////////////////////////////////////////

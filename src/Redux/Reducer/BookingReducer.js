@@ -39,6 +39,8 @@ export const initialState = {
     maxPaidAmount: "",
     paymentMode: [],
   },
+  getAllRetainerList: [],
+  getAllRetainerListStatusCode: 0,
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -49,6 +51,19 @@ const BookingReducer = (state = initialState, action) => {
       return {
         ...state,
         statusCodeForAddBooking: action.payload.statusCode,
+      };
+
+    case "ALL_RETAINER_INVOICE_REDUCER":
+      return {
+        ...state,
+        getAllRetainerList: action.payload.response,
+        getAllRetainerListStatusCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_ALL_RETAINER_INVOICE_REDUCER":
+      return {
+        ...state,
+        getAllRetainerListStatusCode: 0,
       };
     case "SAVE_NAVIGATE_RETAINER":
       return { ...state, toNavigateRetainerTap: action.payload };

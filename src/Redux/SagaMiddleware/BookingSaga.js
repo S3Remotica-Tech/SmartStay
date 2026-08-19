@@ -12,6 +12,7 @@ import {
   bookingCustomizeData,
   getRetainerInvoice,
   ApplyRetainerInvoice,
+  getAllRetainerInvoice,
 } from "../Action/BookingAction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -140,6 +141,17 @@ function* handleApplyAdvanceInvoice(action) {
       yield put({
         type: "APPLY_ADVANCE_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Updated Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
       });
     }
 
@@ -452,6 +464,21 @@ function* handleBookingCustomizeData(action) {
     yield* handleApiError(error);
   }
 }
+function* handleGetAllRetainerInvoice(action) {
+  try {
+    const { hostelId, filters } = action.payload;
+    const response = yield call(getAllRetainerInvoice, hostelId, filters);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "ALL_RETAINER_INVOICE_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
 
 function* handleBookingInActive(action) {
   try {
@@ -521,6 +548,7 @@ function refreshToken(response) {
 }
 
 function* CreateBookinSaga() {
+  yield takeEvery("ALL_RETAINER_INVOICE_SAGA", handleGetAllRetainerInvoice);
   yield takeEvery("APPLY_RETAINER_SAGA", handleApplyRetainerInvoice);
   yield takeEvery("GET_RETAINER_INVOICE_SAGA", handleGetRetainerInvoice);
   yield takeEvery(

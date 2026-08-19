@@ -2,15 +2,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import {
-  ArrowLeft2,
+  // ArrowLeft2,
   Calendar,
   DocumentUpload,
-  CloseCircle,
+  // CloseCircle,
   ArrowDown2,
   Add,
   Bank,
-  Wallet2,
-  ArrowRight,
+  // Wallet2,
+  // ArrowRight,
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -18,6 +18,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -120,36 +121,6 @@ const CustomStyles = {
   }),
 };
 
-// const paymentOptions = [
-//   {
-//     label: "Bank Accounts",
-//     options: [
-//       {
-//         value: "sbi",
-//         label: "SBI Bank",
-//         type: "Bank",
-//         icon: <Bank size={18} color="#1E45E1" />,
-//       },
-//     ],
-//   },
-//   {
-//     label: "Linked Payment Methods",
-//     options: [
-//       {
-//         value: "gpay",
-//         label: "Google Pay",
-//         type: "UPI",
-//         icon: <Wallet2 size={18} color="#1E45E1" />,
-//       },
-//       {
-//         value: "phonepe",
-//         label: "PhonePe",
-//         type: "UPI",
-//         icon: <Wallet2 size={18} color="#1E45E1" />,
-//       },
-//     ],
-//   },
-// ];
 const Option = (props) => {
   const { data } = props;
 
@@ -174,6 +145,13 @@ const Option = (props) => {
     </components.Option>
   );
 };
+Option.propTypes = {
+  data: PropTypes.shape({
+    icon: PropTypes.node,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+  }).isRequired,
+};
 
 const SingleValue = (props) => {
   const { data } = props;
@@ -188,11 +166,22 @@ const SingleValue = (props) => {
   );
 };
 
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    icon: PropTypes.node,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+  }).isRequired,
+};
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
+
+DropdownIndicator.propTypes = {
+  children: PropTypes.node,
+};
 
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
@@ -201,17 +190,19 @@ const GroupHeading = (props) => (
     </div>
   </components.GroupHeading>
 );
-
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
-  if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const VendorOverView = state.ComplianceList?.vendorOverview;
 
   const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
-  const expenses = vendorInitialize?.expenses || [];
-  // console.log("vendorInitialize", vendorInitialize);
+  // const expenses = vendorInitialize?.expenses || [];
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -220,7 +211,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
   const [transactionId, setTransactionId] = useState("");
   const [description, setDescription] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const [vendorError, setVendorError] = useState("");
+  // const [vendorError, setVendorError] = useState("");
   const [paidAmountError, setPaidAmountError] = useState("");
   const [paidDateError, setPaidDateError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
@@ -238,8 +229,6 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
   const fileInputRef = useRef(null);
 
   const [expenseList, setExpenseList] = useState([]);
-
-  // console.log("expenseList", expenseList);
 
   useEffect(() => {
     setExpenseList(vendorInitialize?.expenses || []);
@@ -299,12 +288,11 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleVendorChange = (selected) => {
-    setSelectedVendor(selected);
-    setVendorError("");
-  };
+  // const handleVendorChange = (selected) => {
+  //   setSelectedVendor(selected);
+  //   setVendorError("");
+  // };
 
-  // console.log("VendorOverView", VendorOverView);
   useEffect(() => {
     setSelectedVendor(VendorOverView?.fullName);
   }, [VendorOverView?.fullName]);
@@ -326,10 +314,10 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     setPaidDateError("");
   };
 
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-    setPaymentMethodError("");
-  };
+  // const handlePaymentMethodChange = (e) => {
+  //   setPaymentMethod(e.target.value);
+  //   setPaymentMethodError("");
+  // };
 
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
@@ -480,8 +468,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
       },
     });
   }, [state.login.selectedHostel_Id, selectedVendorId]);
-  console.log("selectedVendorId", selectedVendorId);
 
+  if (!show) return null;
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
@@ -523,9 +511,9 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 />
               </div>
 
-              {vendorError && (
+              {/* {vendorError && (
                 <ErrorMessage message={vendorError} type="error" />
-              )}
+              )} */}
             </div>
 
             <div className="mb-2">
@@ -950,5 +938,10 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
     </>
   );
 }
-
+SettlementPayment.propTypes = {
+  show: PropTypes.bool,
+  handleClose: PropTypes.func,
+  isBanking: PropTypes.bool,
+  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default SettlementPayment;
