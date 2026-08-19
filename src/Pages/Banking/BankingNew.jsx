@@ -401,7 +401,7 @@ function BankingNew() {
   }, [state?.bankingDetails?.createTenantPaymentSuccessCode]);
 
   useEffect(() => {
-    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 201) {
+    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 200) {
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -416,23 +416,6 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -1233,7 +1216,8 @@ function BankingNew() {
                     </button>
 
                     <button
-                      disabled={!canWriteInvoice}
+                      disabled
+                      // disabled={!canWriteInvoice}
                       onClick={() => handleTenantPayment()}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >

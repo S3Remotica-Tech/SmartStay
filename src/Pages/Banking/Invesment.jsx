@@ -121,37 +121,6 @@ const CustomStyles = {
   }),
 };
 
-// const paymentOptions = [
-//   {
-//     label: "Bank Accounts",
-//     options: [
-//       {
-//         value: "sbi",
-//         label: "SBI Bank",
-//         type: "Bank",
-//         icon: <Bank size={18} color="#1E45E1" />,
-//       },
-//     ],
-//   },
-//   {
-//     label: "Linked Payment Methods",
-//     options: [
-//       {
-//         value: "gpay",
-//         label: "Google Pay",
-//         type: "UPI",
-//         icon: <Wallet2 size={18} color="#1E45E1" />,
-//       },
-//       {
-//         value: "phonepe",
-//         label: "PhonePe",
-//         type: "UPI",
-//         icon: <Wallet2 size={18} color="#1E45E1" />,
-//       },
-//     ],
-//   },
-// ];
-
 const Option = (props) => {
   const { data } = props;
 
@@ -275,7 +244,7 @@ function Invesment({ show, handleClose, bankDetails }) {
   };
 
   const paymentOptions =
-    state?.bankingDetails?.newBankingList?.banks?.map((bank) => ({
+    state?.bankingDetails?.newBankingList?.map((bank) => ({
       value: bank.bankId,
       label: bank.displayName,
       subLabel:
@@ -295,12 +264,12 @@ function Invesment({ show, handleClose, bankDetails }) {
   useEffect(() => {
     if (bankDetails && paymentOptions.length) {
       const selected = paymentOptions.find(
-        (option) => option.value === bankDetails,
+        (option) => option.value === String(bankDetails),
       );
 
       setPaymentMethod(selected || null);
     }
-  }, [bankDetails, paymentOptions]);
+  }, [bankDetails]);
 
   console.log("bankDetails", bankDetails);
 

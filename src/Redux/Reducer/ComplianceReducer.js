@@ -46,7 +46,7 @@ export const initialState = {
   updateCommentsVendorstatusCode: 0,
   getVendorCommentsList: "",
   getVendorCommentsListSuccess: 0,
-   vendorRemoveError: "",
+  vendorRemoveError: "",
   vendorEmailError: "",
   vendorMobileError: "",
 
@@ -214,6 +214,11 @@ const ComplianceReducer = (state = initialState, action) => {
       return {
         ...state,
         vendorSettlementInitialize: action.payload.response,
+      };
+    case "REMOVE_VENDOR_SETTLE_INITIALIZE_REDUCER":
+      return {
+        ...state,
+        vendorSettlementInitialize: "",
       };
 
     case "ADD_VENDOR_COMMENTS_REDUCER":

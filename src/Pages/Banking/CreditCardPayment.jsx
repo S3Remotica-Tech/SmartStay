@@ -18,6 +18,9 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Works from "./Works";
+import dayjs from "dayjs";
+import PropTypes from "prop-types";
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -119,37 +122,6 @@ const CustomStyles = {
   }),
 };
 
-const paymentOptions = [
-  {
-    label: "Bank Accounts",
-    options: [
-      {
-        value: "sbi",
-        label: "SBI Bank",
-        type: "Bank",
-        icon: <Bank size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-  {
-    label: "Linked Payment Methods",
-    options: [
-      {
-        value: "gpay",
-        label: "Google Pay",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-      {
-        value: "phonepe",
-        label: "PhonePe",
-        type: "UPI",
-        icon: <Wallet2 size={18} color="#1E45E1" />,
-      },
-    ],
-  },
-];
-
 const Option = (props) => {
   const { data } = props;
 
@@ -221,7 +193,7 @@ const GroupHeading = (props) => (
   </components.GroupHeading>
 );
 
-function CreditCardPayment({ show, handleClose }) {
+function CreditCardPayment({ show, handleClose, bankId }) {
   if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -248,6 +220,35 @@ function CreditCardPayment({ show, handleClose }) {
   const amountRef = useRef(null);
   const paymentDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
+
+  const creditCardOptions =
+    state?.bankingDetails?.getCreditCardinitializeList?.creditCards?.map(
+      (view) =>
+        ({
+          value: view?.paymentMethodId,
+          label: ` ${view?.displayName} - ${view?.paymentMethod}`,
+        }) || [],
+    );
+
+  const paymentOptions =
+    state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods?.map(
+      (bank) => ({
+        value: bank.bankId,
+        label: bank.displayName,
+        subLabel:
+          bank.accountType === "BANK"
+            ? `${bank.bankName} `
+            : `${bank.cashAccountType} `,
+        type: bank.accountType,
+        icon:
+          bank.accountType === "BANK" ? (
+            <Bank color="#1E45E1" size="16" />
+          ) : (
+            <Wallet2 color="#038C3D" size="16" />
+          ),
+        data: bank,
+      }),
+    ) || [];
 
   const handleCreditCardAccountChange = (selected) => {
     setCreditCardAccount(selected);
@@ -282,7 +283,7 @@ function CreditCardPayment({ show, handleClose }) {
     let isValid = true;
     let firstErrorRef = null;
 
-    if (!creditCardAccount) {
+    if (!creditCardAccount?.value) {
       setCreditCardAccountError("Please Select Credit Card Account");
       if (!firstErrorRef) firstErrorRef = creditCardAccountRef;
       isValid = false;
@@ -300,7 +301,7 @@ function CreditCardPayment({ show, handleClose }) {
       isValid = false;
     }
 
-    if (!paymentMethod) {
+    if (!paymentMethod?.value) {
       setPaymentMethodError("Please Select Payment Method");
       if (!firstErrorRef) firstErrorRef = paymentMethodRef;
       isValid = false;
@@ -314,10 +315,25 @@ function CreditCardPayment({ show, handleClose }) {
   const handleSubmit = () => {
     if (!validateForm()) return;
     setLoading(true);
+
+    dispatch({
+      type: "CREDIT_CARD_PAYMENT_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        creditCardAccount: creditCardAccount?.value,
+        paymentMethod: paymentMethod?.value,
+        transactionId: transactionId,
+        amount: Number(amount),
+        settlementDate: paymentDate
+          ? dayjs(paymentDate).format("YYYY-MM-DD")
+          : "",
+        description: description,
+      },
+    });
   };
 
   useEffect(() => {
-    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 201) {
+    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 200) {
       setLoading(false);
       handleClose();
     }
@@ -329,13 +345,29 @@ function CreditCardPayment({ show, handleClose }) {
     }
   }, [state?.bankingDetails?.creditCardPaymentError]);
 
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      dispatch({
+        type: "GET_CREDIT_CARD_INITIALIZE_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
+    }
+  }, [state.login?.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (bankId && paymentOptions?.length) {
+      const selected = paymentOptions.find((option) => option.value === bankId);
+      setPaymentMethod(selected || null);
+    }
+  }, [bankId]);
+
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-fit bg-white rounded-lg shadow-xl z-50 flex flex-col"
+        className="fixed inset-y-2 right-2 w-fit bg-white rounded-lg shadow-xl border-2 border-gray-100 z-50 flex flex-col"
       >
         <div
           className="sticky top-0 z-50 flex items-center  justify-between gap-4   
@@ -380,7 +412,7 @@ function CreditCardPayment({ show, handleClose }) {
                   ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
-                  // options={creditCardOptions}
+                  options={creditCardOptions}
                   placeholder="Select Credit Card"
                   className="text-sm"
                   styles={CustomStyles}
@@ -399,6 +431,7 @@ function CreditCardPayment({ show, handleClose }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
+                isDisabled={bankId}
                 ref={paymentMethodRef}
                 value={paymentMethod}
                 onChange={handlePaymentMethodChange}
@@ -471,7 +504,7 @@ function CreditCardPayment({ show, handleClose }) {
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
-                  className="w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 pr-10 focus:outline-none"
+                  className="w-full h-[50px] text-sm rounded-[8px] border border-[#D9D9D9] px-3 pr-10 focus:outline-none"
                 />
 
                 <Calendar
@@ -532,5 +565,9 @@ function CreditCardPayment({ show, handleClose }) {
     </>
   );
 }
-
+CreditCardPayment.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  bankId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 export default CreditCardPayment;

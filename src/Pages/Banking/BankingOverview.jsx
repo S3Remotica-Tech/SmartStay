@@ -32,6 +32,7 @@ function BankingOverview({ show, onClose }) {
   const [showTransactionMenu, setShowTransactionMenu] = useState(false);
   const [showInvestmentForm, seShowInvestmentForm] = useState(false);
   const [showSettlementForm, setShowSettlementForm] = useState(false);
+  const [showCreditCardForm, seShowCreditCardForm] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [showMenu, setShowMenu] = useState(false);
   const [period, setPeriod] = useState("THIS_MONTH");
@@ -42,7 +43,7 @@ function BankingOverview({ show, onClose }) {
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
 
-  // console.log("OverviewBankDetails", OverviewDetails);
+  console.log("OverviewBankDetails", OverviewDetails);
 
   const tabs = isBankAccount
     ? [
@@ -111,6 +112,15 @@ function BankingOverview({ show, onClose }) {
 
   const handleCloseSettlement = () => {
     setShowSettlementForm(false);
+  };
+
+  const handleCreditPayment = () => {
+    setShowTransactionMenu(false);
+    seShowCreditCardForm(true);
+  };
+
+  const handleCloseCreditPayment = () => {
+    seShowCreditCardForm(false);
   };
 
   useEffect(() => {
@@ -222,6 +232,20 @@ function BankingOverview({ show, onClose }) {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
+  useEffect(() => {
+    if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 200) {
+      dispatch({
+        type: "GET_BANKING_OVERVIEW_SAGA",
+        payload: {
+          hostelId: OverviewDetails?.hostelId,
+          bankId: OverviewDetails?.bankId,
+          dateFilter: period,
+        },
+      });
+      dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER" });
+    }
+  }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
+
   return (
     <div className="font-gilroy">
       <div
@@ -298,8 +322,9 @@ function BankingOverview({ show, onClose }) {
                   </button>
 
                   <button
+                    disabled
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
-                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     // onClick={handleTenantPayment}
                   >
                     Tenant Payment
@@ -320,7 +345,7 @@ function BankingOverview({ show, onClose }) {
                   <button
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                    // onClick={handleCreditCardPayment}
+                    onClick={handleCreditPayment}
                   >
                     Credit Card Payment
                   </button>
@@ -464,6 +489,14 @@ function BankingOverview({ show, onClose }) {
           show={selfTranfer}
           handleClose={handleCloseSelfTransfer}
           selfDetails={selfDetails}
+        />
+      )}
+
+      {showCreditCardForm && (
+        <CreditCardPayment
+          show={showCreditCardForm}
+          handleClose={handleCloseCreditPayment}
+          bankId={OverviewDetails?.bankId}
         />
       )}
     </div>

@@ -155,11 +155,15 @@ export async function AllTransaction(transaction) {
 }
 
 export async function tenantPayment(datum) {
-  return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
+  return await AxiosConfigV2.put(`/v3/bank/${datum.hostelId}`, datum);
 }
 
 export async function creditCardPayment(datum) {
-  return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
+  console.log("datum", datum);
+  return await AxiosConfigV2.put(
+    `/v3/bank/creditCard/payment/${datum.hostelId}`,
+    datum,
+  );
 }
 
 export async function creditCardInitialize(hostel) {

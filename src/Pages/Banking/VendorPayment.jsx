@@ -200,7 +200,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
   const expenses = vendorInitialize?.expenses || [];
-  // console.log("vendorInitialize", vendorInitialize);
+  console.log("vendorInitialize", vendorInitialize);
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -266,7 +266,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   // const balanceAmount = Number(paidAmount || 0) - totalApplied;
 
-  const finalOutstanding = VendorOverView?.summary?.outstanding - paidAmount;
+  const finalOutstanding = vendorInitialize?.totalDueAmount - paidAmount;
 
   const paymentOptions =
     vendorInitialize?.allPaymentMethods?.map((bank) => ({
@@ -322,7 +322,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
   };
 
   const handleSetAmount = () => {
-    const dueAmount = VendorOverView?.summary?.outstanding || 0;
+    const dueAmount = vendorInitialize?.totalDueAmount || 0;
 
     setPaidAmount(dueAmount);
     setPaidAmountError("");
@@ -358,7 +358,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
       paidAmountRef.current?.focus();
       isValid = false;
     }
-    if (Number(paidAmount) > Number(VendorOverView?.summary?.outstanding)) {
+    if (Number(paidAmount) > Number(vendorInitialize?.totalDueAmount)) {
       setPaidAmountError("Paid Amount cannot exceed Outstanding Amount.");
       isValid = false;
     }
@@ -473,6 +473,12 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     }
   }, [OverviewDetails, paymentOptions]);
 
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_VENDOR_SETTLE_INITIALIZE_REDUCER" });
+    };
+  }, []);
+
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
@@ -540,7 +546,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 <p className="mt-1 text-right text-xs text-gray-600 mb-0">
                   Due Amount{" "}
                   <span className="font-semibold  text-base text-[#E27625]">
-                    ₹ {VendorOverView?.summary?.outstanding}
+                    ₹ {vendorInitialize?.totalDueAmount || 0}
                   </span>
                 </p>
               </label>
@@ -576,7 +582,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
               </label>
               <input
                 type="text"
-                value={finalOutstanding}
+                value={finalOutstanding || 0}
                 readOnly
                 className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700"
               />
@@ -908,12 +914,15 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   </span>
                   <span
                     className={
-                      finalOutstanding > 0
+                      Number(finalOutstanding) > 0
                         ? "text-yellow-300"
                         : "text-green-300"
                     }
                   >
-                    ₹ {finalOutstanding.toFixed(2)}
+                    ₹{" "}
+                    {Number.isFinite(Number(finalOutstanding))
+                      ? Number(finalOutstanding).toFixed(2)
+                      : "0.00"}
                   </span>
                 </div>
               </div>
@@ -930,10 +939,10 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
           </button>
 
           <button
+            disabled={vendorInitialize?.totalDueAmount === 0 || formLoading}
             type="submit"
-            disabled={formLoading}
             onClick={handleSubmit}
-            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
+            className={`disabled:opacity-70 bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
               formLoading ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >
