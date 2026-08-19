@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { Button, Form, Offcanvas } from "react-bootstrap";
+// import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { components } from "react-select";
 import { FaCheck } from "react-icons/fa6";
@@ -118,7 +118,7 @@ function ReceiptFilter({ show, handleClose, size }) {
 
   const [formLoading, setFormLoading] = useState(false);
 
-  const [selectedAmount, setSelectedAmount] = useState(null);
+  // const [selectedAmount, setSelectedAmount] = useState(null);
 
   const filterOptionsData = useSelector(
     (state) => state.InvoiceList?.getCustomizeReceiptList?.filterOptions,
@@ -252,7 +252,7 @@ function ReceiptFilter({ show, handleClose, size }) {
     };
 
     const hasFilters = Object.values(filterPayload).some((value) =>
-      Array.isArray(value) ? value.length > 0 : value !== "" && value != null,
+      Array.isArray(value) ? value.length > 0 : value !== "" && value !== null,
     );
 
     if (!hasFilters) {
@@ -270,8 +270,6 @@ function ReceiptFilter({ show, handleClose, size }) {
       minAmount: minAmount || "",
       maxAmount: maxAmount || "",
     };
-
-    
 
     dispatch({
       type: "SET_RECEIPT_FILTERS",
@@ -313,6 +311,8 @@ function ReceiptFilter({ show, handleClose, size }) {
       }, 100);
     }
   }, [state.InvoiceList.getReceiptSucessStatus]);
+
+  if (!show) return null;
 
   return (
     <>

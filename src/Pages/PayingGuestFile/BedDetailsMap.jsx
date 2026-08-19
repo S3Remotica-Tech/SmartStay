@@ -11,7 +11,7 @@ import AddBedUI from "./AddBed";
 import PropTypes from "prop-types";
 import EmptyBed from "./EmptyBed";
 import BedDetails from "./ReservedBed/BedDetails";
-import Check_In from "../PayingGuestFile/ReservedBed/Check_In";
+// import Check_In from "../PayingGuestFile/ReservedBed/Check_In";
 import MakeAsInactive from "../CustomerFile/MakeAsInactive";
 import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
 import ChangeBedTenantWay from "../CustomerFile/ChangeBedTenantWay";

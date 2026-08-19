@@ -164,11 +164,11 @@ export async function ReportsExpensePDF(invoice) {
         startDate: invoice.startDate,
         endDate: invoice.endDate,
         period: invoice.period,
-        categoryId: filters?.category,
-        subCategoryId: filters?.subCategory,
-        paymentMode: filters?.paymentMode,
-        createdBy: filters?.createdBy,
-        paidTo: filters?.paidTo,
+        categoryId: invoice?.category,
+        subCategoryId: invoice?.subCategory,
+        paymentMode: invoice?.paymentMode,
+        createdBy: invoice?.createdBy,
+        paidTo: invoice?.paidTo,
       },
       paramsSerializer: (params) =>
         qs.stringify(params, {

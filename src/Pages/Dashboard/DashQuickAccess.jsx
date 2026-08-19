@@ -46,8 +46,6 @@ function DashQuickAccess({ handleTriggerFilter }) {
     trend: `${QuickAccess?.billingSummary?.fromLastMonth || ""} from last month`,
   };
 
-
-
   const dateOptions =
     QuickAccess?.filters?.map((item) => ({
       label: item,

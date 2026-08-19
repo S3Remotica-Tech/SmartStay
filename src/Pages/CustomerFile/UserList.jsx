@@ -48,7 +48,7 @@ import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import AddCustomer from "../PayingGuestFile/AddCustomerPG";
-import BookedCheckIn from "./BookedCheckIn";
+// import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
 // import FinalSettlement from "./FinalSettlement";
 import PaginationList from "../../Components/PaginationList";
