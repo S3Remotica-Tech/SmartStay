@@ -456,7 +456,7 @@ function ElectricityRule() {
               {selectedType === "included" && (
                 <label className="text-[11px] text-[#1E45E1] mt-2 flex gap-1  ">
                   <AiOutlineExclamationCircle color="#1E45E1" size="14" />{" "}
-                  Electricity charges will not depend on usage. No separate
+                  Electricity charges will not depend on usage. No separate
                   charge will be applied
                 </label>
               )}

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Green from "../../Assets/Images/New_images/Frame.png";
 import White from "../../Assets/Images/New_images/empty_bed.png";
-import { FaSquarePlus } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+// import { FaSquarePlus } from "react-icons/fa6";
+// import { useNavigate } from "react-router-dom";
 import Tick from "../../Assets/v2Images/Tick.svg";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
@@ -12,16 +12,16 @@ import overDude from "../../Assets/Images/New_images/overDue.png";
 import { MessageMinus } from "iconsax-react";
 import ConfirmChangeBed from "../../Pages/PayingGuestFile/NoticePeriod/ConfirmChangedBed";
 import Deny from "./Deny";
-
+import PropTypes from "prop-types";
 function BedView({ room, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [hoveredBedId, setHoveredBedId] = useState(null);
   const [changeBedClicked, setChangedBedClicked] = useState("");
-  const [clickedBed, setClickedBed] = useState("");
+  // const [clickedBed, setClickedBed] = useState("");
   const [customer, setCustomer] = useState([]);
-  const [filteredBeds, setFilteredBeds] = useState([]);
+  // const [filteredBeds, setFilteredBeds] = useState([]);
   const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] =
     useState(false);
 
@@ -151,18 +151,21 @@ function BedView({ room, selectedBed, setSelectedBed }) {
                           <div className="absolute -top-[2px] -right-[10px]">
                             {bed.isBooked && (
                               <img
+                                alt="Image"
                                 src={recerverimg}
                                 className="w-[20px] h-[20px] flex-shrink-0"
                               />
                             )}
                             {bed.onNotice && (
                               <img
+                                alt="Image"
                                 src={noticeimg}
                                 className="w-[20px] h-[20px] flex-shrink-0"
                               />
                             )}
                             {bed.overDue && (
                               <img
+                                alt="Image"
                                 src={overDude}
                                 className="w-[20px] h-[20px] flex-shrink-0"
                               />
@@ -186,18 +189,21 @@ function BedView({ room, selectedBed, setSelectedBed }) {
                             >
                               {bed.isBooked && (
                                 <img
+                                  alt="Image"
                                   src={recerverimg}
                                   className="w-[18px] h-[18px] flex-shrink-0"
                                 />
                               )}
                               {bed.onNotice && (
                                 <img
+                                  alt="Image"
                                   src={noticeimg}
                                   className="w-[18px] h-[18px] flex-shrink-0"
                                 />
                               )}
                               {bed.overDue && (
                                 <img
+                                  alt="Image"
                                   src={overDude}
                                   className="w-[18px] h-[18px] flex-shrink-0"
                                 />
@@ -286,14 +292,31 @@ function BedView({ room, selectedBed, setSelectedBed }) {
         <ConfirmChangeBed
           show={showConfirmChangeBedModal}
           handleClose={handleCloseChangedBed}
-          previousBed={clickedBed}
+          // previousBed={clickedBed}
           currentBed={changeBedClicked}
           customer={customer}
         />
       )}
-      {showDeny && <Deny show={showDeny} handleClose={handleCloseDeny} heading="Notify Tenant" />}
+      {showDeny && (
+        <Deny
+          show={showDeny}
+          handleClose={handleCloseDeny}
+          heading="Notify Tenant"
+        />
+      )}
     </div>
   );
 }
+BedView.propTypes = {
+  room: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  }).isRequired,
 
+  selectedBed: PropTypes.shape({
+    bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    roomId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+
+  setSelectedBed: PropTypes.func.isRequired,
+};
 export default BedView;

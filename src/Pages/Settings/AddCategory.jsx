@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+// import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
+// import Modal from "react-bootstrap/Modal";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
@@ -99,6 +99,8 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
     }
   }, [state.Settings?.alreadycategoryerror]);
 
+  if (!show) return null;
+
   return (
     <div className="fixed inset-0 z-[9999]">
       <div className="absolute inset-0 bg-black/50" />
@@ -176,6 +178,7 @@ AddCategory.propTypes = {
   handleCloseForm: PropTypes.func.isRequired,
   editCategory: PropTypes.shape({
     categoryName: PropTypes.string,
+    categoryId: PropTypes.string,
   }),
 };
 export default AddCategory;

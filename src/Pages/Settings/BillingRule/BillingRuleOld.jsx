@@ -10,7 +10,7 @@ import { ArrowSwapHorizontal } from "iconsax-react";
 // import { FaCheck } from "react-icons/fa";
 import { useHasPermission } from "../../../Utils/Permission";
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-import ErrorMessage from "../../../Components/ErrorMessage";
+// import ErrorMessage from "../../../Components/ErrorMessage";
 // import "../../Pages/Settings/SettingsBills.css";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import Form from "react-bootstrap/Form";
@@ -22,7 +22,7 @@ function BillingRuleOld() {
   const [checked, setChecked] = useState(true);
 
   const [formLoading, setFormLoading] = useState(false);
-  const [showShortStay, setShowShortStay] = useState(false);
+  // const [showShortStay, setShowShortStay] = useState(false);
   const [showLongStay, setShowLongStay] = useState(false);
 
   const handleShowLongStay = () => setShowLongStay(true);
@@ -31,8 +31,8 @@ function BillingRuleOld() {
     setShowLongStay(false);
   };
 
-  const handleShowShortStay = () => setShowShortStay(true);
-  const handleCloseShortStay = () => setShowShortStay(false);
+  // const handleShowShortStay = () => setShowShortStay(true);
+  // const handleCloseShortStay = () => setShowShortStay(false);
 
   // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
   // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
@@ -135,8 +135,6 @@ function BillingRuleOld() {
               }}
             >
               <img src={Emptystate} alt="Empty State" />
-
-             
             </div>
           </>
         ) : (
@@ -372,7 +370,7 @@ function BillingRuleOld() {
                   </Card.Text>
                   <Button
                     disabled
-                    onClick={handleShowShortStay}
+                    // onClick={handleShowShortStay}
                     style={{
                       marginTop: "10px",
                       fontSize: "14px",

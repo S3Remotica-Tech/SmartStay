@@ -1,13 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
+import React, { useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 function DeleteRequest({ open, onClose }) {
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const state = useSelector((state) => state);
+  // const dispatch = useDispatch();
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const handleConfirmDelete = () => {};
+  const handleConfirmDelete = () => {
+    setDeleteLoading(false);
+  };
+
+  if (!open) return null;
 
   return (
     <div>
@@ -56,5 +60,8 @@ function DeleteRequest({ open, onClose }) {
     </div>
   );
 }
-
+DeleteRequest.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 export default DeleteRequest;

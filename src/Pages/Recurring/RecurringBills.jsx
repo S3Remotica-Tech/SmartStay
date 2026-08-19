@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from "react";
-import { InputGroup, Table, FormControl } from "react-bootstrap";
+// import { InputGroup, Table, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Select from "react-select";
@@ -12,18 +12,18 @@ import "../Bills/Invoices.css";
 import "flatpickr/dist/themes/material_blue.css";
 // import useMediaQuery from "@mui/material/useMediaQuery";
 // import { useTheme } from "@mui/material/styles";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
-import { CloseCircle } from "iconsax-react";
+// import { CloseCircle } from "iconsax-react";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import "../OthersComponent/BillPdfModal.css";
 // import AxiosConfig from "../../WebService/AxiosConfig";
 // import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 // import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 // import { useNavigate } from "react-router-dom";
@@ -142,10 +142,6 @@ function RecurringBills() {
 
   // const [dropdownValue, setDropdownValue] = useState("");
 
-  const sortedDataRecure = React.useMemo(() => {
-    return Array.isArray(recurringbills) ? recurringbills : [];
-  }, [recurringbills]);
-
   const handleDeleteRecurringbills = (item) => {
     if (item) {
       dispatch({
@@ -250,17 +246,6 @@ function RecurringBills() {
   //     document.removeEventListener("mousedown", handleClickOutside);
   //   };
   // }, []);
-
-  const headerStyle = {
-    textAlign: "start",
-    fontFamily: "Gilroy",
-    color: "rgb(147, 147, 147)",
-    fontSize: 14,
-    fontWeight: 500,
-    lineHeight: "1.4",
-    padding: 8,
-    verticalAlign: "middle",
-  };
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -410,7 +395,6 @@ function RecurringBills() {
           (!recurringbills || recurringbills.length === 0) &&
           activeStay === "long_stay" ? (
             <div className="my-2">
-              
               <NoDataMessage label="Long Stay" />
             </div>
           ) : !recurLoader && activeStay === "short_stay" ? (

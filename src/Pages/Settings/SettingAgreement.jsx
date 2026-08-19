@@ -9,10 +9,10 @@ import { CloseCircle } from "iconsax-react";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import ComingSoon from "../../Utils/ComingSoon";
 import { useHasPermission } from "../../Utils/Permission";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+// import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 
 function SettingAgreement() {
   const [isEditable, setIsEditable] = useState(false);

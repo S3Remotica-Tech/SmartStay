@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useHasPermission } from "../../Utils/Permission";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
+// import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
+import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import Group from "../../Assets/Images/Group.png";
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import { useNavigate } from "react-router-dom";
-import NoData from "../../Assets/v2Images/NoData.svg";
-import BedDetailsMap from "../PayingGuestFile/BedDetailsMap";
-import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
+// import NoData from "../../Assets/v2Images/NoData.svg";
+// import BedDetailsMap from "../PayingGuestFile/BedDetailsMap";
+// import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import RoomView from "./RoomView";
 
 function ChangeBedPgView() {
@@ -23,20 +23,20 @@ function ChangeBedPgView() {
   const navigate = useNavigate();
   const CustomerOverView = state.UsersList?.customerdetails;
   const [loading, setLoading] = useState(false);
-  const [key, setKey] = useState("1");
+  // const [key, setKey] = useState("1");
   const [floorList, setFloorList] = useState([]);
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
   const [visibleRange, setVisibleRange] = useState([0, 2]);
-  const [roomList, setRoomList] = useState([]);
-  const [filteredBeds, setFilteredBeds] = useState([]);
-  const [selectedBed, setSelectedBed] = useState(null);
+  // const [roomList, setRoomList] = useState([]);
+  // const [filteredBeds, setFilteredBeds] = useState([]);
+  // const [selectedBed, setSelectedBed] = useState(null);
 
   const {
-    canWriteModule: canWritePayingGuests,
+    // canWriteModule: canWritePayingGuests,
     canReadModule: canReadPayingGuests,
-    canUpdateModule: canUpdatePayingGuests,
-    canDeleteModule: canDeletePayingGuests,
+    // canUpdateModule: canUpdatePayingGuests,
+    // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function ChangeBedPgView() {
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
-      setRoomList(state.PgList?.roomsList);
+      // setRoomList(state.PgList?.roomsList);
       setLoading(false);
       dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
     }
@@ -85,7 +85,7 @@ function ChangeBedPgView() {
 
   const handleFloorClick = (floorNumber, floorName) => {
     setFloorClick(floorNumber);
-    setKey(floorNumber.toString());
+    // setKey(floorNumber.toString());
     setFloorName(floorName);
   };
 
@@ -99,7 +99,7 @@ function ChangeBedPgView() {
       if (prevFloorIndex >= 0) {
         const prevFloor = floorList[prevFloorIndex];
 
-        setKey(prevFloor.id.toString());
+        // setKey(prevFloor.id.toString());
         setFloorClick(prevFloor.id);
         setFloorName(prevFloor.name);
 
@@ -116,7 +116,7 @@ function ChangeBedPgView() {
     if (floorIndex !== -1 && floorIndex < floorList?.length - 1) {
       const nextFloor = floorList[floorIndex + 1];
 
-      setKey(nextFloor.id.toString());
+      // setKey(nextFloor.id.toString());
       setFloorClick(nextFloor.id);
       setFloorName(nextFloor.name);
 
@@ -151,7 +151,6 @@ function ChangeBedPgView() {
                 className="h-16 w-16 rounded-full object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = Profiles;
                 }}
               />
             ) : (

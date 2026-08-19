@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -22,7 +21,6 @@ import SecurityDepositInvoiceTemplate from "../BillsTemplates/SecurityDepositInv
 import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import {
   Location,
   Call,
@@ -32,7 +30,6 @@ import {
   DocumentUpload,
 } from "iconsax-react";
 import { IoBed } from "react-icons/io5";
-import { Row, Col, Table, Card } from "react-bootstrap";
 import AdvanceCustomizeSettings from "../BillsTemplates/AdvanceCustomizeSettings";
 import ReceiptCustomize from "../BillsTemplates/ReceiptCustomize";
 import { FiArrowRight } from "react-icons/fi";
@@ -41,7 +38,6 @@ import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-// import { NutFill } from "react-bootstrap-icons";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 function SettingInvoice({ hostelid, handleFormPage }) {
   const dispatch = useDispatch();

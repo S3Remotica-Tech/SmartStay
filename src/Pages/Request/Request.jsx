@@ -1,45 +1,48 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  // useDispatch,
+  useSelector,
+} from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
-import { TiTick } from "react-icons/ti";
+// import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
-  CloseCircle,
+  // CloseCircle,
   SearchNormal1,
-  ArrowDown,
+  // ArrowDown,
   Filter,
   Setting3,
-  ArrowDown2,
+  // ArrowDown2,
   Chart21,
-  Edit2,
+  // Edit2,
   Trash,
   TickCircle,
   MinusCirlce,
   AddCircle,
 } from "iconsax-react";
 import { toast } from "react-toastify";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { useLocation } from "react-router-dom";
+// import withErrorBoundary from "../../Hoc/WithErrorBountry";
+// import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import {
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-  arrayMove,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+// import { DndContext, closestCenter } from "@dnd-kit/core";
+// import {
+//   SortableContext,
+//   useSortable,
+//   verticalListSortingStrategy,
+//   arrayMove,
+// } from "@dnd-kit/sortable";
+// import { CSS } from "@dnd-kit/utilities";
 import { useNavigate } from "react-router-dom";
-import ApiPagination from "../../Components/ApiPagination";
+// import ApiPagination from "../../Components/ApiPagination";
 import Approve from "./Approve";
 import Deny from "./Deny";
 import BedChangeRequestOverview from "./BedChangeRequestOverview";
-import { triggerPG } from "../../Redux/Action/LoginAction";
+// import { triggerPG } from "../../Redux/Action/LoginAction";
 import DeleteRequest from "./DeleteRequest";
 
 const CustomStyles = {
@@ -137,14 +140,15 @@ const CustomStyles = {
 
 function Request() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const location = useLocation();
+  // const dispatch = useDispatch();
+  // const location = useLocation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("current");
   const [loading, setLoading] = useState(false);
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  // const [statusfilter, setStatusFilter] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
-  const [chips, setChips] = useState([]);
+  // const [chips, setChips] = useState([]);
+  //  const isSearching = chips.length > 0 || filterInput?.trim() !== "";
   const [activeRow, setActiveRow] = useState(null);
   const [showAssignAmenity, setShowAssignAmenity] = useState(false);
   const [showDeny, setShowDeny] = useState(false);
@@ -152,23 +156,23 @@ function Request() {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
   // const [customizeItems, setCustomizeItems] = useState([]);
-  const [error, setError] = useState("");
-  const [customizeLoading, setCustomizeLoading] = useState(false);
-  const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  // const [error, setError] = useState("");
+  // const [customizeLoading, setCustomizeLoading] = useState(false);
+  // const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
+  // const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
   const [showBedChangeOverview, setShowBedChangeOverview] = useState(false);
   const popupRef = useRef(null);
 
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
-  const listRef = useRef(null);
+  // const listRef = useRef(null);
   const {
     canWriteModule: canWriteComplaints,
     canReadModule: canReadComplaints,
-    canDeleteModule: canDeleteComplaints,
-    canUpdateModule: canUpdateComplaints,
+    // canDeleteModule: canDeleteComplaints,
+    // canUpdateModule: canUpdateComplaints,
   } = useHasPermission("Complaints");
 
   const handleCloseAssignAmenity = () => {
@@ -244,23 +248,23 @@ function Request() {
     setShowDelete(false);
   };
 
-  const customizeItems = [
-    { fieldName: "Request Type", selected: true },
-    { fieldName: "Description", selected: true },
-    { fieldName: "Raised On", selected: true },
-    { fieldName: "Raised By", selected: true },
-    { fieldName: "Status", selected: true },
-    { fieldName: "Stay Area", selected: true },
-  ];
+  // const customizeItems = [
+  //   { fieldName: "Request Type", selected: true },
+  //   { fieldName: "Description", selected: true },
+  //   { fieldName: "Raised On", selected: true },
+  //   { fieldName: "Raised By", selected: true },
+  //   { fieldName: "Status", selected: true },
+  //   { fieldName: "Stay Area", selected: true },
+  // ];
 
-  const filteredCustomizeItems = customizeItems.filter((item) =>
-    item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  // const filteredCustomizeItems = customizeItems.filter((item) =>
+  //   item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
+  // );
 
-  const selectedColumns = (customizeItems || []).filter((col) => col.selected);
+  // const selectedColumns = (customizeItems || []).filter((col) => col.selected);
 
-  const allSelected =
-    Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
+  // const allSelected =
+  //   Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
   const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
@@ -332,26 +336,26 @@ function Request() {
     },
   };
 
-  const headerKeyMap = {
-    "Request Type": "requestType",
-    Description: "description",
-    "Raised by": "raisedBy",
-    Status: "status",
-    "Raised on": "raisedOn",
-    Room: "room",
-    Floor: "floor",
-    Bed: "bed",
-    "Stay Area": "stayArea",
-  };
+  // const headerKeyMap = {
+  //   "Request Type": "requestType",
+  //   Description: "description",
+  //   "Raised by": "raisedBy",
+  //   Status: "status",
+  //   "Raised on": "raisedOn",
+  //   Room: "room",
+  //   Floor: "floor",
+  //   Bed: "bed",
+  //   "Stay Area": "stayArea",
+  // };
 
-  const columnStyles = {
-    "Request Type": "px-4 whitespace-nowrap",
-    Description: "px-4 whitespace-nowrap",
-    "Raised by": "px-4 whitespace-nowrap",
-    Status: "px-4 whitespace-nowrap",
-    "Raised on": "px-4 whitespace-nowrap",
-    room: "px-4 whitespace-nowrap",
-  };
+  // const columnStyles = {
+  //   "Request Type": "px-4 whitespace-nowrap",
+  //   Description: "px-4 whitespace-nowrap",
+  //   "Raised by": "px-4 whitespace-nowrap",
+  //   Status: "px-4 whitespace-nowrap",
+  //   "Raised on": "px-4 whitespace-nowrap",
+  //   room: "px-4 whitespace-nowrap",
+  // };
 
   //   const formattedData = (filteredData?.vendors || []).map((row) => {
   //     const obj = {};
@@ -459,6 +463,10 @@ function Request() {
     navigate(`/change-bed/${state.login?.selectedHostel_Id}`);
     // dispatch(triggerPG(true));
   };
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   return (
     <>
@@ -621,7 +629,7 @@ function Request() {
                       size={16}
                       onClick={() => {
                         if (canReadComplaints) {
-                          setIsFilterOpen(true);
+                          // setIsFilterOpen(true);
                         }
                       }}
                       className={`transition-opacity duration-300 ${
@@ -631,11 +639,7 @@ function Request() {
                       }`}
                     />
                   </div>
-                  <div
-                    className={`border border-gray-300 rounded-lg w-36 ${
-                      statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-                    }`}
-                  >
+                  <div className={`border border-gray-300 rounded-lg w-36 `}>
                     <Select
                       styles={CustomStyles}
                       isDisabled={!canReadComplaints}
@@ -896,13 +900,10 @@ function Request() {
                   ) : (
                     <NoDataMessage
                       label="Vendor"
-                      isSearching={isSearching}
+                      // isSearching={isSearching}
                       isClearSearch={true}
                       handleClear={() => {
-                        setSearchQuery("");
-                        setCategoryFilter("");
-                        setPaymentStatus("");
-                        handleReset();
+                        // handleReset();
                       }}
                     />
                   )}
@@ -1082,13 +1083,13 @@ function Request() {
                   ) : (
                     <NoDataMessage
                       label="Vendor"
-                      isSearching={isSearching}
+                      // isSearching={isSearching}
                       isClearSearch={true}
                       handleClear={() => {
-                        setSearchQuery("");
-                        setCategoryFilter("");
-                        setPaymentStatus("");
-                        handleReset();
+                        // setSearchQuery("");
+                        // setCategoryFilter("");
+                        // setPaymentStatus("");
+                        // handleReset();
                       }}
                     />
                   )}

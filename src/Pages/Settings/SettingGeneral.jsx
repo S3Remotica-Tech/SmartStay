@@ -7,7 +7,7 @@ import img2 from "../../Assets/Images/New_images/settingeye.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Select from "react-select";
 // import "../Pages/Settings/Settings.css";
@@ -22,9 +22,9 @@ import { CloseCircle, PasswordCheck, ArrowSwapHorizontal } from "iconsax-react";
 import "../Settings/SettingGeneral.css";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { Card } from "react-bootstrap";
+// import { Card } from "react-bootstrap";
 import {
   Call,
   Sms,
@@ -128,13 +128,13 @@ function SettingGeneral() {
     canDeleteModule: canDeleteProfile,
   } = useHasPermission("Profile");
 
-  const firstNameRef = useRef(null);
-  const emailRef = useRef(null);
-  const phoneRef = useRef(null);
-  const passwordRef = useRef(null);
-  const cityRef = useRef(null);
-  const pincodeRef = useRef(null);
-  const stateRef = useRef(null);
+  // const firstNameRef = useRef(null);
+  // const emailRef = useRef(null);
+  // const phoneRef = useRef(null);
+  // const passwordRef = useRef(null);
+  // const cityRef = useRef(null);
+  // const pincodeRef = useRef(null);
+  // const stateRef = useRef(null);
 
   const handleCloseShowVerify = () => {
     setShowVerify(false);
@@ -1179,7 +1179,7 @@ function SettingGeneral() {
                           </span>
                         </div>
 
-                        <div class="relative -mt-4">
+                        <div className="relative -mt-4">
                           <div
                             onClick={() => setOpenMenu(!openMenu)}
                             className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${
@@ -1194,7 +1194,9 @@ function SettingGeneral() {
                               >
                                 <div
                                   onClick={() => {
-                                    canUpdateProfile && handleAdminEdit();
+                                    if (canUpdateProfile) {
+                                      handleAdminEdit();
+                                    }
                                   }}
                                   className={`flex items-center gap-2 p-2.5 w-full   rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
@@ -1221,8 +1223,9 @@ function SettingGeneral() {
 
                                 <div
                                   onClick={() => {
-                                    canUpdateProfile &&
+                                    if (canUpdateProfile) {
                                       handleOpenAdminProfile(account);
+                                    }
                                   }}
                                   className={`flex items-center gap-2 p-2.5 w-full rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
@@ -1249,8 +1252,9 @@ function SettingGeneral() {
                                 {isDev && (
                                   <div
                                     onClick={() => {
-                                      canUpdateProfile &&
+                                      if (canUpdateProfile) {
                                         handleResetPin(account);
+                                      }
                                     }}
                                     className={`flex items-center gap-2 p-2.5 w-full   rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}

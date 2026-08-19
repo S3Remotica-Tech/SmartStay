@@ -1,12 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { FormControl } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
-import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
 import ErrorMessage from "../../../Components/ErrorMessage";
 
@@ -28,17 +25,6 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
   });
 
   const [formLoading, setFormLoading] = useState(false);
-
-  // const handleCheckboxChange = (rowName, index) => {
-  //     setErrorIsChanged("")
-  //     setErrorPermission("")
-  //     setCheckboxValues(prev => ({
-  //         ...prev,
-  //         [rowName]: prev[rowName].map((val, i) =>
-  //             i === index ? !val : val
-  //         )
-  //     }));
-  // };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);

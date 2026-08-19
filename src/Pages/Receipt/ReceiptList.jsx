@@ -28,7 +28,7 @@ const Receipt = (props) => {
     // canWriteModule: canWriteReceipt,s
     canReadModule: canReadReceipt,
     canDeleteModule: canDeleteReceipt,
-    canUpdateModule: canUpdateReceipt,
+    // canUpdateModule: canUpdateReceipt,
   } = useHasPermission("Receipt");
 
   const isValidSubscription =
@@ -90,9 +90,9 @@ const Receipt = (props) => {
     }
   }, [state.InvoiceList?.receiptDeleteError]);
 
-  const handleEdit = (item) => {
-    props.onhandleEdit(item);
-  };
+  // const handleEdit = (item) => {
+  //   props.onhandleEdit(item);
+  // };
 
   const handleInvoicepdf = (item) => {
     props.OnHandleshowInvoicePdf(item);

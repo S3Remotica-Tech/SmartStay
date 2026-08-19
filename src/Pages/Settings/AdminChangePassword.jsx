@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Eye, EyeSlash } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import PropTypes from "prop-types";
+import Cookies from "universal-cookie";
+import CryptoJS from "crypto-js";
 
 function AdminChangePassword({ show, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const cookies = new Cookies();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -17,7 +21,6 @@ function AdminChangePassword({ show, handleClose }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const account = state.createAccount?.accountList;
-  if (!show) return null;
 
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#])[A-Za-z\d@$!%*?&^#]{8,}$/;
@@ -106,7 +109,7 @@ function AdminChangePassword({ show, handleClose }) {
     state.createAccount.passwordUpdateError,
     state.createAccount?.networkError,
   ]);
-
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-[9999]">
       <div className="absolute inset-0 bg-black/50" />
@@ -289,5 +292,8 @@ function AdminChangePassword({ show, handleClose }) {
     </div>
   );
 }
-
+AdminChangePassword.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default AdminChangePassword;

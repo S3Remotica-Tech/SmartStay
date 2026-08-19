@@ -1,34 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from '../../Assets/Images/Delete_red.png';
+import Delete from "../../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 // import { FaCheck } from "react-icons/fa";
 // import { useSelector } from 'react-redux';
-import { useHasPermission } from '../../Utils/Permission';
-
-
+import { useHasPermission } from "../../Utils/Permission";
 
 const RecurringBillList = (props) => {
   // const state = useSelector((state) => state);
   // const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
-  const [deleteShow, setDeleteShow] = useState(false)
+  const [deleteShow, setDeleteShow] = useState(false);
   // const dispatch = useDispatch()
 
   const handleDeleteForm = () => {
-    setDeleteShow(true)
-  }
+    setDeleteShow(true);
+  };
 
   const handleCloseDelete = () => {
-    setDeleteShow(false)
-  }
-
-
-
-
-
+    setDeleteShow(false);
+  };
 
   // useEffect(() => {
   //   const userType = props.billrolePermission[0]?.user_details?.user_type;
@@ -42,8 +35,6 @@ const RecurringBillList = (props) => {
   //   }
 
   // }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
-
-
 
   // useEffect(() => {
   //   const billPermission = props.billrolePermission[0]?.role_permissions?.find(
@@ -62,31 +53,21 @@ const RecurringBillList = (props) => {
   //   }
   // }, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
-
-
-  const [showDots, setShowDots] = useState('')
+  const [showDots, setShowDots] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (event) => {
-    setShowDots(!showDots)
+    setShowDots(!showDots);
     const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
+    const popupTop = top + height / 2;
     const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-  }
-
+  };
 
   const handleDelete = () => {
-
     props.handleDeleteRecurringbills(props.item);
-
-  }
-
-
-
-
-
+  };
 
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -96,31 +77,25 @@ const RecurringBillList = (props) => {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-
   const {
     canDeleteModule: canDeleteRecurring,
-    canUpdateModule: canUpdateRecurring
+    // canUpdateModule: canUpdateRecurring,
   } = useHasPermission("Recurring bills");
 
-
-
   return (
-
     <>
-
-     
-      <tr key={props.item.customerId} className="text-sm font-gilroy border-b border-[#E8E8E8] h-10">
-
+      <tr
+        key={props.item.customerId}
+        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10"
+      >
         <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-          <div className="flex items-center">
-              {props.item?.fullName}
-          </div>
+          <div className="flex items-center">{props.item?.fullName}</div>
         </td>
         <td className="w-[230px] px-2 py-1 whitespace-nowrap">
           {props?.item?.lastInvoiceNumber || "-"}
@@ -163,9 +138,11 @@ const RecurringBillList = (props) => {
                 >
                   <div className="w-full rounded-lg">
                     <div
-                      className={`flex items-center gap-2 p-2 rounded-lg ${canDeleteRecurring
+                      className={`flex items-center gap-2 p-2 rounded-lg ${
+                        canDeleteRecurring
                           ? "cursor-pointer opacity-100"
-                          : "cursor-not-allowed opacity-50"}`}
+                          : "cursor-not-allowed opacity-50"
+                      }`}
                       onClick={() => {
                         if (canDeleteRecurring) {
                           handleDeleteForm();
@@ -185,7 +162,6 @@ const RecurringBillList = (props) => {
         </td>
       </tr>
 
-
       <Modal
         show={deleteShow}
         onHide={handleCloseDelete}
@@ -193,7 +169,6 @@ const RecurringBillList = (props) => {
         backdrop="static"
         dialogClassName="custom-delete-modal"
       >
-
         <Modal.Header className="border-0">
           <Modal.Title className="w-full text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
             Delete Recurring Bill?
@@ -221,17 +196,14 @@ const RecurringBillList = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
     </>
-  )
-}
+  );
+};
 RecurringBillList.propTypes = {
   item: PropTypes.func.isRequired,
   billrolePermission: PropTypes.func.isRequired,
   handleDeleteRecurringbills: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
-  checked: PropTypes.func.isRequired
+  checked: PropTypes.func.isRequired,
 };
 export default RecurringBillList;

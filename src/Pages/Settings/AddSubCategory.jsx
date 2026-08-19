@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+// import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
+// import Modal from "react-bootstrap/Modal";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
@@ -69,7 +69,7 @@ function AddSubCategory({
       dispatch({
         type: "EDITSUBCATEGORYSAGA",
         payload: {
-          subCategoryId: editSubCategory.subCategoryId,
+          subCategoryId: editSubCategory?.subCategoryId,
           hostelId: state.login.selectedHostel_Id,
           newSubCategoryName: trimmedSubCategory,
         },
@@ -106,6 +106,8 @@ function AddSubCategory({
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-[9999]">
@@ -189,6 +191,7 @@ AddSubCategory.propTypes = {
   AddSubCategory: PropTypes.func.isRequired,
   editSubCategory: PropTypes.shape({
     subCategoryName: PropTypes.string,
+    subCategoryId: PropTypes.string,
   }),
   categoryId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
