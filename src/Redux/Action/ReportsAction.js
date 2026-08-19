@@ -97,7 +97,16 @@ export async function ReportsTenantRegisterPDF(tenant) {
       startDate: tenant.startDate,
       endDate: tenant.endDate,
       period: tenant.period,
+      status: tenant.status,
+      floor: tenant?.floor,
+      room: tenant?.room,
+      search: tenant?.search,
+      sharingType: tenant?.sharingType,
     },
+    paramsSerializer: (params) =>
+      qs.stringify(params, {
+        arrayFormat: "repeat",
+      }),
   });
 }
 
@@ -109,7 +118,14 @@ export async function ReportsReceiptsPDF(receipt) {
         startDate: receipt.startDate,
         endDate: receipt.endDate,
         period: receipt.period,
+        invoiceType: receipt.invoiceType,
+        collectedBy: receipt.collectedBy,
+        paymentMode: receipt.paymentMode,
       },
+      paramsSerializer: (params) =>
+        qs.stringify(params, {
+          arrayFormat: "repeat",
+        }),
     },
   );
 }
@@ -132,6 +148,10 @@ export async function ReportsInvoicePDF(invoice) {
         minOutstandingAmount: invoice?.minOutstandingAmount,
         maxOutstandingAmount: invoice?.maxOutstandingAmount,
       },
+      paramsSerializer: (params) =>
+        qs.stringify(params, {
+          arrayFormat: "repeat",
+        }),
     },
   );
 }
@@ -144,7 +164,16 @@ export async function ReportsExpensePDF(invoice) {
         startDate: invoice.startDate,
         endDate: invoice.endDate,
         period: invoice.period,
+        categoryId: filters?.category,
+        subCategoryId: filters?.subCategory,
+        paymentMode: filters?.paymentMode,
+        createdBy: filters?.createdBy,
+        paidTo: filters?.paidTo,
       },
+      paramsSerializer: (params) =>
+        qs.stringify(params, {
+          arrayFormat: "repeat",
+        }),
     },
   );
 }

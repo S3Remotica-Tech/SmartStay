@@ -371,7 +371,12 @@ function TenantsRegister() {
           hostelId: state.login.selectedHostel_Id,
           startDate: startDate,
           endDate: endDate,
+          status: savedFilters?.tenantStatus,
           period: savedFilters?.period,
+          floor: savedFilters?.floorId,
+          room: savedFilters?.roomId,
+          search: savedFilters?.search,
+          sharingType: savedFilters?.sharingType,
         },
       });
       setLoading(true);
