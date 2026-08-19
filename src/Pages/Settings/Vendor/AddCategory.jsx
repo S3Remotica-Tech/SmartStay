@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import { Add } from "iconsax-react";
-
+import PropTypes from "prop-types";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,8 +11,6 @@ function AddCategory({ show, onClose, updateDetails }) {
   const [categoryName, setCategoryName] = useState("");
   const [categoryError, setCategoryError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  console.log("updateDetails", updateDetails);
 
   const categoryRef = useRef(null);
 
@@ -82,8 +80,6 @@ function AddCategory({ show, onClose, updateDetails }) {
     }
   };
 
-  if (!open) return null;
-
   useEffect(() => {
     if (
       state.Settings?.createVendorCategorySuccessStatus === 201 ||
@@ -106,7 +102,7 @@ function AddCategory({ show, onClose, updateDetails }) {
       setCategoryError("");
     };
   }, []);
-
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-[9999]">
       <div className="absolute inset-0 bg-black/50" />
@@ -174,5 +170,15 @@ function AddCategory({ show, onClose, updateDetails }) {
     </div>
   );
 }
-
+AddCategory.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  updateDetails: PropTypes.shape({
+    id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    categoryName: PropTypes.string,
+  }).isRequired,
+};
 export default AddCategory;

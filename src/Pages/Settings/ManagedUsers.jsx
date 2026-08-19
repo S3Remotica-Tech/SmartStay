@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Shield } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import AddUser from "../../Pages/UserFile/AddUser";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import DeleteStaff from "./DeleteStaff";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
@@ -57,12 +57,12 @@ function ManagedUsers() {
   const { canUpdateModule: canUpdateUser, canDeleteModule: canDeleteUser } =
     useHasPermission("User");
 
-  const ellipsisStyle = {
-    maxWidth: 160,
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  };
+  // const ellipsisStyle = {
+  //   maxWidth: 160,
+  //   whiteSpace: "nowrap",
+  //   overflow: "hidden",
+  //   textOverflow: "ellipsis",
+  // };
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

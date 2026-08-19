@@ -498,12 +498,17 @@ function ReceiptRegister() {
   const handleDownload = () => {
     if (state.login.selectedHostel_Id) {
       const receiptFilters = state.reports?.receiptRegisterFilters;
+console.log("receiptFilters", receiptFilters)
+
       dispatch({
         type: "REPORTS_RECEIPT_REGISTER_PDFSAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           startDate: startDate,
           endDate: endDate,
+          invoiceType: receiptFilters?.invoiceType,
+          paymentMode: receiptFilters?.paymentMode,
+          collectedBy: receiptFilters?.collectedBy,
           period: receiptFilters?.period,
         },
       });

@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Add, CloseCircle, Crown1 } from "iconsax-react";
+import { Add, Crown1 } from "iconsax-react";
 
 const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [password, setPassword] = useState("");
 
@@ -16,7 +16,7 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
 
   const handleSubmit = () => {
     //  if (!password.trim()) return;
-    
+
     onVerifySuccess(true);
   };
 
@@ -106,6 +106,8 @@ const ConfirmIdentity = ({ show, handleClose, onVerifySuccess }) => {
   );
 };
 ConfirmIdentity.propTypes = {
+  show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  onVerifySuccess: PropTypes.func,
 };
 export default ConfirmIdentity;

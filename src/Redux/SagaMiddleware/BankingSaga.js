@@ -164,12 +164,12 @@ function* handleCreditCardPayment(action) {
       padding: "10px",
     };
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "CREDIT_CARD_PAYMENT_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
-      toast.success(`Created Successfully`, {
+      toast.success(`Updated Successfully`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -181,16 +181,12 @@ function* handleCreditCardPayment(action) {
         style: toastStyle,
       });
     }
-
-    if (response) {
-      refreshToken(response);
-    }
   } catch (error) {
     yield* handleApiError(error);
     if (error) {
       yield put({
         type: "CREDIT_CARD_PAYMENT_REDUCER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }

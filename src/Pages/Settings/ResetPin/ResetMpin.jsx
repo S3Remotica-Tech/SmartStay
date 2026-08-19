@@ -1,15 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useRef } from "react";
+// import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Add, Lock } from "iconsax-react";
+import { Add } from "iconsax-react";
 
 const ResetMpin = ({ show, handleClose }) => {
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const account = state?.createAccount?.accountList;
-
-  if (!show) return null;
+  // const state = useSelector((state) => state);
+  // const dispatch = useDispatch();
+  // const account = state?.createAccount?.accountList;
 
   const [mpin, setMpin] = useState(["", "", "", ""]);
   const [confirm, setConfirm] = useState(["", "", "", ""]);
@@ -48,19 +46,19 @@ const ResetMpin = ({ show, handleClose }) => {
     }
   };
 
-  const isMismatch = mpin.join("") !== confirm.join("");
-  const isComplete = mpin.every(Boolean) && confirm.every(Boolean);
+  // const isMismatch = mpin.join("") !== confirm.join("");
+  // const isComplete = mpin.every(Boolean) && confirm.every(Boolean);
 
-  const handleSubmit = () => {};
-
+  // const handleSubmit = () => {};
+  if (!show) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-gilroy ">
       <div className="bg-white w-fit rounded-2xl p-6 relative shadow-lg">
         <Add
-                   size="26"
-                   className="absolute right-4 top-4 cursor-pointer text-red-500 rotate-45"
-                   onClick={handleClose}
-                 />
+          size="26"
+          className="absolute right-4 top-4 cursor-pointer text-red-500 rotate-45"
+          onClick={handleClose}
+        />
 
         <div className="flex items-center gap-2 mb-1">
           <h2 className="text-[20px] font-semibold mb-2 text-[#1F2633] ">
@@ -137,6 +135,10 @@ const ResetMpin = ({ show, handleClose }) => {
       </div>
     </div>
   );
+};
+ResetMpin.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default ResetMpin;

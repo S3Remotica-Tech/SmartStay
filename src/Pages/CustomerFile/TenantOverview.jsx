@@ -89,7 +89,7 @@ import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import WalletHistory from "./WalletHistory";
-import BookedCheckIn from "./BookedCheckIn";
+// import BookedCheckIn from "./BookedCheckIn";
 import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
 import ChangeBedTenantWay from "./ChangeBedTenantWay";
 import MakeAsInactive from "./MakeAsInactive";

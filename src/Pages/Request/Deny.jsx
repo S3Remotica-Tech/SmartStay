@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import ErrorMessage from "../../Components/ErrorMessage";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+// import ErrorMessage from "../../Components/ErrorMessage";
+// import { useDispatch, useSelector } from "react-redux";
 import { Add } from "iconsax-react";
-
+import PropTypes from "prop-types";
 import Select from "react-select";
 
 const CustomStyles = {
@@ -186,5 +186,9 @@ function Deny({ show, handleClose, heading }) {
     </>
   );
 }
-
+Deny.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  heading: PropTypes.string.isRequired,
+};
 export default Deny;

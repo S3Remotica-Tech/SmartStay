@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Add, Crown1 } from "iconsax-react";
+import { Add } from "iconsax-react";
 
 const VerifyOtp = ({ show, handleClose, onConfirmSuccess }) => {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  if (!show) return null;
+  // const dispatch = useDispatch();
+
   const account = state?.createAccount?.accountList;
   const [otp, setOtp] = useState("");
 
@@ -22,10 +22,10 @@ const VerifyOtp = ({ show, handleClose, onConfirmSuccess }) => {
 
   const handleSubmit = () => {
     //  if (!password.trim()) return;
-   
+
     onConfirmSuccess(true);
   };
-
+  if (!show) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999] font-gilroy">
       <div className="bg-white w-fit rounded-xl p-6 relative">
@@ -84,6 +84,8 @@ const VerifyOtp = ({ show, handleClose, onConfirmSuccess }) => {
   );
 };
 VerifyOtp.propTypes = {
+  show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  onConfirmSuccess: PropTypes.func.isRequired,
 };
 export default VerifyOtp;

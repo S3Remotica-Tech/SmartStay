@@ -509,6 +509,10 @@ function ExpenseRegister() {
           hostelId: state.login.selectedHostel_Id,
           startDate: startDate,
           endDate: endDate,
+          category: expenseFilters?.category,
+          subCategory: expenseFilters?.subCategory,
+          paymentMode: expenseFilters?.paymentMode,
+          createdBy: expenseFilters?.createdBy,
           period: expenseFilters?.period,
         },
       });

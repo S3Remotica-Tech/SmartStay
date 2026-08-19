@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "react-toastify/dist/ReactToastify.css";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import { Edit, Trash } from "iconsax-react";
+// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+// import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
-import { useHasPermission } from "../../Utils/Permission";
-import NoData from "../../Assets/v2Images/NoData.svg";
+// import { useHasPermission } from "../../Utils/Permission";
+// import NoData from "../../Assets/v2Images/NoData.svg";
 import BedView from "./BedView";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
@@ -40,7 +40,7 @@ function RoomView(props) {
     <div className="lg:px-4  ">
       {roomList?.length > 0 ? (
         <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 overflow-y-auto max-h-[400px] show-scrolls">
-          {roomList?.map((room, index) => {
+          {roomList?.map((room) => {
             // console.log("room:", room);
 
             return (
@@ -80,5 +80,8 @@ function RoomView(props) {
     </div>
   );
 }
-
+RoomView.propTypes = {
+  floorID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default RoomView;

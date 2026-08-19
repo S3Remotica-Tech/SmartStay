@@ -6,18 +6,18 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "flatpickr/dist/themes/material_blue.css";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-import AddReceiptForm from "../Receipt/AddReceipt";
-import { toast } from "react-toastify";
-import { CloseCircle, SearchNormal1, Setting3 } from "iconsax-react";
+// import AddReceiptForm from "../Receipt/AddReceipt";
+// import { toast } from "react-toastify";
+import { SearchNormal1, Setting3 } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import { FiSearch } from "react-icons/fi";
-import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+// import { FiSearch } from "react-icons/fi";
+// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
@@ -25,15 +25,14 @@ function Receipt() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   // const pdfOpenedRef = useRef(false);
-  const [receiptformShow, setReceiptFormShow] = useState(false);
-  const [search, setSearch] = useState(false);
+  // const [receiptformShow, setReceiptFormShow] = useState(false);
+  // const [search, setSearch] = useState(false);
   const [receiptData, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const tableContainerRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const { canWriteModule: canWriteReceipt, canReadModule: canReadReceipt } =
-    useHasPermission("Receipt");
+  const { canReadModule: canReadReceipt } = useHasPermission("Receipt");
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
@@ -67,20 +66,20 @@ function Receipt() {
     }
   }, [state.InvoiceList.updateTenantRecurringStatusCode]);
 
-  const handleReceiptShow = () => {
-    if (!state.login.selectedHostel_Id) {
-      toast.error("Please add a hostel before adding receipt information.", {
-        hideProgressBar: true,
-        autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
-      });
-      return;
-    }
-  };
+  // const handleReceiptShow = () => {
+  //   if (!state.login.selectedHostel_Id) {
+  //     toast.error("Please add a hostel before adding receipt information.", {
+  //       hideProgressBar: true,
+  //       autoClose: 1500,
+  //       style: {
+  //         color: "#000",
+  //         borderBottom: "5px solid red",
+  //         fontFamily: "Gilroy",
+  //       },
+  //     });
+  //     return;
+  //   }
+  // };
 
   const [pdfLoading, setPdfLoading] = useState(false);
 
@@ -127,25 +126,25 @@ function Receipt() {
     }
   }, [state.InvoiceList.statusCodeForReceiptPDf]);
 
-  const [editvalue, setEditvalue] = useState("");
-  const [receiptedit, setReceiptEdit] = useState(false);
+  // const [editvalue, setEditvalue] = useState("");
+  // const [receiptedit, setReceiptEdit] = useState(false);
 
-  const handleEditReceipt = (item) => {
-    setReceiptFormShow(true);
-    setEditvalue(item);
-    setReceiptEdit(true);
+  const handleEditReceipt = () => {
+    // setReceiptFormShow(true);
+    // setEditvalue(item);
+    // setReceiptEdit(true);
   };
 
   const handleBackBill = () => {
     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
-    setReceiptFormShow(false);
+    // setReceiptFormShow(false);
 
-    setEditvalue("");
-    setReceiptEdit(false);
+    // setEditvalue("");
+    // setReceiptEdit(false);
   };
 
   const handleDisplayReceiptDownload = () => {
-    setSearch(false);
+    // setSearch(false);
   };
 
   useEffect(() => {
@@ -156,22 +155,22 @@ function Receipt() {
     }
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode]);
 
-  const handleSearch = () => {
-    setSearch(!search);
-    dispatch({
-      type: "SET_INVOICE_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
-      },
-    });
-  };
+  // const handleSearch = () => {
+  //   setSearch(!search);
+  //   dispatch({
+  //     type: "SET_INVOICE_FILTERS",
+  //     payload: {
+  //       startDate: undefined,
+  //       endDate: undefined,
+  //       type: [],
+  //       createdBy: [],
+  //       createdByLabels: [],
+  //       modes: [],
+  //       paymentStatus: [],
+  //       search: "",
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

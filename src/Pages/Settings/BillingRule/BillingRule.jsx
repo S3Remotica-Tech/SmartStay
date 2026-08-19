@@ -5,8 +5,8 @@ import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowRight2 } from "iconsax-react";
 import { useHasPermission } from "../../../Utils/Permission";
-import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-import ErrorMessage from "../../../Components/ErrorMessage";
+// import Emptystate from "../../../Assets/Images/Empty-State.jpg";
+// import ErrorMessage from "../../../Components/ErrorMessage";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
@@ -18,7 +18,7 @@ function BillingRule() {
 
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
-  const [shortStayChecked, setShortStayChecked] = useState(false);
+  // const [shortStayChecked, setShortStayChecked] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [showShortStay, setShowShortStay] = useState(false);
   // const [showLongStay, setShowLongStay] = useState(false);
