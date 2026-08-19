@@ -60,6 +60,7 @@ export const initialState = {
     page: "",
   },
   getCreditCardinitializeList: "",
+  getTenantPaymentInitializeList: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -154,6 +155,12 @@ const BankingReducer = (state = initialState, action) => {
 
     case "GET_CREDIT_CARD_INITIALIZE_REDUCER":
       return { ...state, getCreditCardinitializeList: action.payload.response };
+
+    case "GET_TENANT_PAYMENT_INITIALIZE_REDUCER":
+      return {
+        ...state,
+        getTenantPaymentInitializeList: action.payload.response,
+      };
 
     case "TENANT_PAYMENT_REDUCER_ERROR":
       return { ...state, tenantPaymentError: action.payload };

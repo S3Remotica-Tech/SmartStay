@@ -680,7 +680,33 @@ function InvoiceRegister() {
           hostelId: state.login.selectedHostel_Id,
           startDate: startDate,
           endDate: endDate,
-          period: invoiceFilters?.period,
+          search: invoiceFilters?.search || undefined,
+
+          paymentStatus: invoiceFilters?.paymentStatus?.length
+            ? invoiceFilters.paymentStatus
+            : undefined,
+
+          invoiceModes: invoiceFilters?.invoiceModes?.length
+            ? invoiceFilters.invoiceModes
+            : undefined,
+
+          invoiceTypes: invoiceFilters?.invoiceTypes?.length
+            ? invoiceFilters.invoiceTypes
+            : undefined,
+
+          createdBy: invoiceFilters?.createdBy?.length
+            ? invoiceFilters.createdBy
+            : undefined,
+
+          period: invoiceFilters?.period || "",
+
+          minPaidAmount: invoiceFilters?.minPaidAmount || undefined,
+          maxPaidAmount: invoiceFilters?.maxPaidAmount || undefined,
+
+          minOutstandingAmount:
+            invoiceFilters?.minOutstandingAmount || undefined,
+          maxOutstandingAmount:
+            invoiceFilters?.maxOutstandingAmount || undefined,
         },
       });
       setLoading(true);

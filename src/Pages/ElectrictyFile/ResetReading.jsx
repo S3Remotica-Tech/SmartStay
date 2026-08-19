@@ -347,7 +347,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
 
-              <label className="flex items-center gap-2 text-xs text-[#667085] cursor-pointer">
+              {/* <label className="flex items-center gap-2 text-xs text-[#667085] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={continueExisting}
@@ -357,7 +357,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                   }}
                 />
                 Continue from existing calculation
-              </label>
+              </label> */}
             </div>
 
             <div className="relative">
