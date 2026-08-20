@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 import { DatePicker } from "antd";
@@ -7,31 +8,32 @@ import {
   Add,
   AddCircle,
   CloseCircle,
-  Trash,
-  Edit,
-  Setting3,
-  MessageQuestion,
+  // Trash,
+  // Edit,
+  // Setting3,
+  // MessageQuestion,
   Edit2,
   ArrowRight,
   InfoCircle,
-  ArrowUp2,
-  ArrowDown2,
+  // ArrowUp2,
+  // ArrowDown2,
   ArrowRight2,
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "./PgLayoutView";
 import FormComingSoon from "../../Utils/FormComingSoon";
+import PropTypes from "prop-types";
 
 const reasonOptions = [
   { value: "maintenance", label: "Maintenance" },
   { value: "others", label: "Others" },
 ];
 
-const options = [
-  { label: "Groundfloor", value: "ground" },
-  { label: "First Floor", value: "first" },
-];
+// const options = [
+//   { label: "Groundfloor", value: "ground" },
+//   { label: "First Floor", value: "first" },
+// ];
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -137,9 +139,9 @@ const CustomStyles = {
 function AddTenantBookingCheckin({
   handleClose,
   handleNextStep,
-  mobile,
-  firstname,
-  draftTenantId,
+  // mobile,
+  // firstname,
+  // draftTenantId,
   newTenant,
   bookingOnly,
 }) {
@@ -162,9 +164,9 @@ function AddTenantBookingCheckin({
   const [availableBed, setAvailableBed] = useState("");
   const [availableCheckinBed, setAvailableCheckinBed] = useState("");
   const [bookingBed, setBookingBed] = useState(null);
-  const [totalRent, setTotalRent] = useState("");
+  // const [totalRent, setTotalRent] = useState("");
   const [errors, setErrors] = useState([]);
-  const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
+  // const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
   const [fields, setFields] = useState([]);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [pgLayout, setPgLatyout] = useState(false);
@@ -177,16 +179,14 @@ function AddTenantBookingCheckin({
   const [bedWarning, setBedWarning] = useState("");
   const [rentAmount, setRentAmount] = useState("");
   const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
-  const [ebReading, setEbReading] = useState("");
+  // const [ebReading, setEbReading] = useState("");
   const [transactionId, setTransactionId] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [reading, setReading] = useState("");
-  const [advanceAmountError, setAdvanceAmountError] = useState("");
-  const [rentAmountError, setRentAmountError] = useState("");
+  // const [isEditing, setIsEditing] = useState(false);
+  // const [reading, setReading] = useState("");
+  // const [advanceAmountError, setAdvanceAmountError] = useState("");
+  // const [rentAmountError, setRentAmountError] = useState("");
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
   const [stayType, setStayType] = useState("long");
-
-  
 
   // booking
 
@@ -196,9 +196,9 @@ function AddTenantBookingCheckin({
   const [floorError, setFloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
-  const [rentError, setRentError] = useState("");
+  // const [rentError, setRentError] = useState("");
   const [paymentError, setPaymentError] = useState("");
-  const [transactionError, setTransactionError] = useState("");
+  // const [transactionError, setTransactionError] = useState("");
 
   //  check in
 
@@ -216,9 +216,9 @@ function AddTenantBookingCheckin({
   const floorRef = useRef(null);
   const roomRef = useRef(null);
   const bedRef = useRef(null);
-  const rentRef = useRef(null);
+  // const rentRef = useRef(null);
   const paymentRef = useRef(null);
-  const transactionRef = useRef(null);
+  // const transactionRef = useRef(null);
   const rentAmountRef = useRef(null);
   const advanceAmountRef = useRef(null);
   const CheckinJoiningDateRef = useRef(null);
@@ -228,23 +228,23 @@ function AddTenantBookingCheckin({
   const [checkinAction, setCheckinAction] = useState("");
 
   const [collectFullRent, setCollectFullRent] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [oneTimePayments, setOneTimePayments] = useState([]);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
 
   // const [errorsOneTime, setErrorsOneTime] = useState([]);
-  const hasGracePeriod =
-    state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
+  // const hasGracePeriod =
+  //   state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
 
-  const gracePeriodDays = Number(
-    state?.Settings?.SettingsBillsGetRecurring?.gracePeriod || 0,
-  );
-  const joiningDay = dayjs(joiningDate).date();
+  // const gracePeriodDays = Number(
+  //   state?.Settings?.SettingsBillsGetRecurring?.gracePeriod || 0,
+  // );
+  // const joiningDay = dayjs(joiningDate).date();
 
-  const isGracePeriodApplicable =
-    hasGracePeriod && joiningDay <= gracePeriodDays;
+  // const isGracePeriodApplicable =
+  //   hasGracePeriod && joiningDay <= gracePeriodDays;
 
   const isjoiningBased =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
@@ -264,31 +264,31 @@ function AddTenantBookingCheckin({
     state?.UsersList?.UpdateDraftTenantDetails?.customerId ||
     state?.UsersList?.alreadyAvailableDraftTenantGetList?.customerId;
 
-  const stayTypes = [
-    { value: "SHORT", label: "Short Stay" },
-    { value: "LONG", label: "Long Stay" },
-    { value: "DAY", label: "Day Stay" },
-  ];
-  const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
+  // const stayTypes = [
+  //       { value: "SHORT", label: "Short Stay" },
+  //     { value: "LONG", label: "Long Stay" },
+  //     { value: "DAY", label: "Day Stay" },
+  //   ];
+  // const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
 
-  const [selectedStayType, setSelectedStayType] = useState(null);
-  const [stay_typenameErrmsg, setStay_typenameErrmsg] = useState("");
+  // const [selectedStayType, setSelectedStayType] = useState(null);
+  // const [stay_typenameErrmsg, setStay_typenameErrmsg] = useState("");
 
-  const handleStayTypeChange = (selectedOption) => {
-    setSelectedStayType(selectedOption);
+  // const handleStayTypeChange = (selectedOption) => {
+  //   setSelectedStayType(selectedOption);
 
-    if (!selectedOption) {
-      setStay_typenameErrmsg("Please select stay type");
-      return;
-    }
+  //   if (!selectedOption) {
+  //     setStay_typenameErrmsg("Please select stay type");
+  //     return;
+  //   }
 
-    setStay_typenameErrmsg("");
-  };
+  //   setStay_typenameErrmsg("");
+  // };
 
-  const total = fields?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const total = fields?.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
@@ -473,7 +473,7 @@ function AddTenantBookingCheckin({
       .filter((item) => item.type !== "" || item.amount !== "");
 
     setErrors(fieldErrors);
-    setOneTimePaymentErrors(oneTimePaymentErrors);
+    // setOneTimePaymentErrors(oneTimePaymentErrors);
 
     if (isHasError) {
       return;
@@ -692,10 +692,10 @@ function AddTenantBookingCheckin({
     }
   };
 
-  const handleTotalRentChange = (e) => {
-    setTotalRent(e.target.value);
-    setRentError("");
-  };
+  // const handleTotalRentChange = (e) => {
+  //   setTotalRent(e.target.value);
+  //   setRentError("");
+  // };
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
     setModeOfPayment(selectedOption);
@@ -719,9 +719,9 @@ function AddTenantBookingCheckin({
     setFloorError("");
     setRoomError("");
     setBedError("");
-    setRentError("");
+    // setRentError("");
     setPaymentError("");
-    setTransactionError("");
+    // setTransactionError("");
 
     let firstInvalidRef = null;
 
@@ -841,8 +841,6 @@ function AddTenantBookingCheckin({
   const DraftTenantDetails =
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
-  
-
   useEffect(() => {
     if (DraftTenantDetails && !newTenant) {
       setBookingDate(
@@ -862,7 +860,7 @@ function AddTenantBookingCheckin({
       setBookingRoom(DraftTenantDetails?.hostelInfo?.roomId || "");
       setBookingBed(DraftTenantDetails?.hostelInfo?.bedId || "");
 
-      setTotalRent(DraftTenantDetails?.hostelInfo?.monthlyRent || "");
+      // setTotalRent(DraftTenantDetails?.hostelInfo?.monthlyRent || "");
       setAdvanceAmount(DraftTenantDetails?.hostelInfo?.advanceAmount || "");
 
       setModeOfPayment(DraftTenantDetails?.bankId || "");
@@ -914,7 +912,7 @@ function AddTenantBookingCheckin({
       setBookingFloor("");
       setBookingRoom("");
       setBookingBed("");
-      setTotalRent("");
+      // setTotalRent("");
       setAdvanceAmount("");
       setModeOfPayment("");
       setTransactionId("");
@@ -939,7 +937,6 @@ function AddTenantBookingCheckin({
       ]);
     }
   }, [DraftTenantDetails, newTenant]);
-
 
   const handleBookingSaveDraft = () => {
     const formatDate = (date) => {
@@ -1134,27 +1131,27 @@ function AddTenantBookingCheckin({
     }
   }, [state.UsersList?.bedError]);
 
-  const resetBookingForm = () => {
-    setBookingDate(null);
-    setBookingAmount("");
-    setBookingJoiningDate(null);
-    setBookingFloor("");
-    setBookingRoom("");
-    setBookingBed("");
-    setTotalRent("");
-    setModeOfPayment("");
-    setTransactionId("");
-    setIsConfirmChecked(false);
-    setBookingDateError("");
-    setBookingAmountError("");
-    setJoiningDateError("");
-    setFloorError("");
-    setRoomError("");
-    setBedError("");
-    setRentError("");
-    setPaymentError("");
-    setBedWarning("");
-  };
+  // const resetBookingForm = () => {
+  //   setBookingDate(null);
+  //   setBookingAmount("");
+  //   setBookingJoiningDate(null);
+  //   setBookingFloor("");
+  //   setBookingRoom("");
+  //   setBookingBed("");
+  //   // setTotalRent("");
+  //   setModeOfPayment("");
+  //   setTransactionId("");
+  //   setIsConfirmChecked(false);
+  //   setBookingDateError("");
+  //   setBookingAmountError("");
+  //   setJoiningDateError("");
+  //   setFloorError("");
+  //   setRoomError("");
+  //   setBedError("");
+  //   setRentError("");
+  //   setPaymentError("");
+  //   setBedWarning("");
+  // };
 
   useEffect(() => {
     if (state.UsersList?.updateSaveDreaftTenantStatus === 200) {
@@ -1303,48 +1300,48 @@ function AddTenantBookingCheckin({
       }))
     : [];
 
-  const handleInputChangeOneTime = (index, field, value) => {
-    const updatedFields = [...oneTimePayments];
-    const updatedErrors = [...errors];
+  // const handleInputChangeOneTime = (index, field, value) => {
+  //   const updatedFields = [...oneTimePayments];
+  //   const updatedErrors = [...errors];
 
-    if (field === "reason" || field === "customReason") {
-      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+  //   if (field === "reason" || field === "customReason") {
+  //     const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-      if (field === "reason") {
-        if (cleanedValue.toLowerCase() === "others") {
-          updatedFields[index].showInput = true;
-          updatedFields[index].reason_name = "others";
-          updatedFields[index].customReason = "";
-        } else {
-          updatedFields[index].showInput = false;
-          updatedFields[index].reason = cleanedValue;
-          updatedFields[index].reason_name = cleanedValue;
-          updatedFields[index].customReason = "";
-        }
-      } else if (field === "customReason") {
-        updatedFields[index].customReason = cleanedValue;
-      }
+  //     if (field === "reason") {
+  //       if (cleanedValue.toLowerCase() === "others") {
+  //         updatedFields[index].showInput = true;
+  //         updatedFields[index].reason_name = "others";
+  //         updatedFields[index].customReason = "";
+  //       } else {
+  //         updatedFields[index].showInput = false;
+  //         updatedFields[index].reason = cleanedValue;
+  //         updatedFields[index].reason_name = cleanedValue;
+  //         updatedFields[index].customReason = "";
+  //       }
+  //     } else if (field === "customReason") {
+  //       updatedFields[index].customReason = cleanedValue;
+  //     }
 
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-      let numericValue = value.replace(/[^0-9.]/g, "");
+  //     if (updatedErrors[index]) updatedErrors[index].reason = "";
+  //   } else if (field === "amount") {
+  //     let numericValue = value.replace(/[^0-9.]/g, "");
 
-      if (numericValue.startsWith("0")) {
-        numericValue = numericValue.replace(/^0+/, "");
-      }
+  //     if (numericValue.startsWith("0")) {
+  //       numericValue = numericValue.replace(/^0+/, "");
+  //     }
 
-      if (numericValue === "") {
-        numericValue = "";
-      }
+  //     if (numericValue === "") {
+  //       numericValue = "";
+  //     }
 
-      updatedFields[index].amount = numericValue;
+  //     updatedFields[index].amount = numericValue;
 
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
+  //     if (updatedErrors[index]) updatedErrors[index].amount = "";
+  //   }
 
-    setOneTimePayments(updatedFields);
-    setOneTimePaymentErrors(updatedErrors);
-  };
+  //   setOneTimePayments(updatedFields);
+  //   // setOneTimePaymentErrors(updatedErrors);
+  // };
 
   const handleCustomRentChange = (e) => {
     const value = e.target.value;
@@ -1370,34 +1367,32 @@ function AddTenantBookingCheckin({
     }
   };
 
-  const handleAccordionToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
+  // const handleAccordionToggle = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
 
- 
+  // const handleAddOneTimePayment = () => {
+  //   setOneTimePayments([
+  //     ...oneTimePayments,
+  //     {
+  //       reason: "",
+  //       reason_name: "",
+  //       customReason: "",
+  //       amount: "",
+  //       showInput: false,
+  //     },
+  //   ]);
+  // };
 
-  const handleAddOneTimePayment = () => {
-    setOneTimePayments([
-      ...oneTimePayments,
-      {
-        reason: "",
-        reason_name: "",
-        customReason: "",
-        amount: "",
-        showInput: false,
-      },
-    ]);
-  };
+  // const handleRemoveFieldOneTime = (index) => {
+  //   const updatedFields = [...oneTimePayments];
+  //   updatedFields.splice(index, 1);
+  //   setOneTimePayments(updatedFields);
 
-  const handleRemoveFieldOneTime = (index) => {
-    const updatedFields = [...oneTimePayments];
-    updatedFields.splice(index, 1);
-    setOneTimePayments(updatedFields);
-
-    const updatedErrors = [...errors];
-    updatedErrors.splice(index, 1);
-    setOneTimePaymentErrors(updatedErrors);
-  };
+  //   const updatedErrors = [...errors];
+  //   updatedErrors.splice(index, 1);
+  //   setOneTimePaymentErrors(updatedErrors);
+  // };
 
   // useEffect(() => {
   //   if (bookingFloor || checkinFloor) {
@@ -1573,52 +1568,48 @@ function AddTenantBookingCheckin({
     ? dayjs(joiningDate).isBefore(dayjs(), "month")
     : false;
 
-  
+  // const deductionsTotal = fields?.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
-  const deductionsTotal = fields?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const oneTimeDeductionTotal = oneTimePayments?.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
+  // const [proRateRent, setProRateRent] = useState(0);
 
-  const oneTimeDeductionTotal = oneTimePayments?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
-  const [proRateRent, setProRateRent] = useState(0);
+  // useEffect(() => {
+  //   if (!joiningDate || !rentAmount) {
+  //     setProRateRent(0);
+  //     return;
+  //   }
 
-  useEffect(() => {
-    if (!joiningDate || !rentAmount) {
-      setProRateRent(0);
-      return;
-    }
+  //   const date = dayjs(joiningDate);
+  //   const totalDays = date.daysInMonth();
+  //   const remainingDays = totalDays - date.date() + 1;
 
-    const date = dayjs(joiningDate);
-    const totalDays = date.daysInMonth();
-    const remainingDays = totalDays - date.date() + 1;
+  //   const amount = Math.round((Number(rentAmount) / totalDays) * remainingDays);
 
-    const amount = Math.round((Number(rentAmount) / totalDays) * remainingDays);
+  //   setProRateRent(amount);
+  // }, [joiningDate, rentAmount, customRentEnable]);
 
-    setProRateRent(amount);
-  }, [joiningDate, rentAmount, customRentEnable]);
+  // const summaryRent =
+  //   customRentEnable && Number(customRent) > 0
+  //     ? Number(customRent)
+  //     : isGracePeriodApplicable
+  //       ? Number(rentAmount || 0)
+  //       : collectFullRent
+  //         ? Number(rentAmount || 0)
+  //         : isjoiningBased
+  //           ? Number(rentAmount || 0)
+  //           : Number(proRateRent || 0);
 
-  const summaryRent =
-    customRentEnable && Number(customRent) > 0
-      ? Number(customRent)
-      : isGracePeriodApplicable
-        ? Number(rentAmount || 0)
-        : collectFullRent
-          ? Number(rentAmount || 0)
-          : isjoiningBased
-            ? Number(rentAmount || 0)
-            : Number(proRateRent || 0);
-
- 
-
-  const totalSummary =
-    Number(advanceAmount || 0) +
-    deductionsTotal +
-    oneTimeDeductionTotal +
-    summaryRent;
+  // const totalSummary =
+  //   Number(advanceAmount || 0) +
+  //   deductionsTotal +
+  //   oneTimeDeductionTotal +
+  //   summaryRent;
 
   return (
     <div className="bg-white w-full">
@@ -2234,7 +2225,7 @@ function AddTenantBookingCheckin({
                             setFields([]);
                           }
 
-                          setAdvanceAmountError("");
+                          // setAdvanceAmountError("");
                         }}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
                           isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
@@ -2903,5 +2894,11 @@ function AddTenantBookingCheckin({
     </div>
   );
 }
+AddTenantBookingCheckin.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  handleNextStep: PropTypes.func.isRequired,
+  newTenant: PropTypes.bool,
+  bookingOnly: PropTypes.bool,
+};
 
 export default AddTenantBookingCheckin;

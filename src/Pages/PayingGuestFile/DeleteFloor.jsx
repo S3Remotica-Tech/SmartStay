@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-import ErrorMessage from "../../Components/ErrorMessage";
 
 function DeleteFloor({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -24,19 +22,15 @@ function DeleteFloor({ show, handleClose, currentItem }) {
     }
   };
 
-  
   useEffect(() => {
     if (state.UsersList?.deleteFloorError) {
       setDeleteLoading(false);
-      
     }
   }, [state.UsersList?.deleteFloorError]);
 
-  
-
   const handleCloseFormFloor = () => {
     handleClose();
-    setDeleteFloor("");
+    // setDeleteFloor("");
     dispatch({ type: "CLEAR_DELETE_FLOOR_ERROR" });
   };
 

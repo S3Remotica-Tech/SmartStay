@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
 import React, { useEffect, useState, useRef } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
 import building from "/src/Assets/Images/New_images/building1.svg";
 import Frame from "/src/Assets/Images/New_images/Frame.svg";
@@ -70,8 +70,6 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
       setNewRoomRent("");
     }
   };
-
-  
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
@@ -196,6 +194,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
       current.isBefore(compareDate, "day") || current.isAfter(today, "day")
     );
   };
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
