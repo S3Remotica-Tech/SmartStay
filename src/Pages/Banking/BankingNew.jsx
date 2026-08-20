@@ -231,8 +231,7 @@ function BankingNew() {
   const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  // console.log("banking", banking);
-
+ 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const monthOptions = [];
   const selectOptions = [{ value: "ALL", label: "All" }];
@@ -1117,8 +1116,7 @@ function BankingNew() {
   const currentPageTransaction =
     state.bankingDetails?.allTransactionList?.currentPage ?? 1;
 
-  // console.log("currentPageTransaction", currentPageTransaction);
-
+ 
   const totalPagesTransaction =
     state.bankingDetails?.allTransactionList?.totalPages ?? 1;
 

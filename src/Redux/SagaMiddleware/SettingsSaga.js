@@ -583,7 +583,7 @@ function* handleDeleteExpencescategory(action) {
 function* handleDeleteVendorCategory(action) {
   try {
     const response = yield call(DeleteVendorCategoryList, action.payload);
-    // console.log("responseeeee", response);
+   
     if (response?.status === 200 || response?.statusCode === 200) {
       yield put({
         type: "DELETE_VENDOR_CATEGORY_REDUCER",
@@ -1750,7 +1750,7 @@ function* handleDeleteGenerlPage(action) {
 function* handleUpgradePlan(action) {
   try {
     const response = yield call(upgradePlan, action.payload);
-    // console.log("response",response )
+    
     if (response?.status === 200) {
       yield put({
         type: "UPGRADE_PLAN_REDUCER",

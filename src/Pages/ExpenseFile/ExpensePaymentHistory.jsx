@@ -9,8 +9,7 @@ function ExpensePaymentHistory() {
   const [activeTab, setActiveTab] = useState("payments");
   const expenseOverView = state.ExpenseList?.expenseOverview;
   const expensePayments = expenseOverView?.expensePayments || [];
-  // console.log("expenseOverView", expenseOverView);
-
+ 
   return (
     <div>
       {expensePayments?.length > 0 ? (
@@ -18,7 +17,7 @@ function ExpensePaymentHistory() {
           <div className="bg-white    rounded-xl  mx-1 my-3 ">
             <div
               id="tableContainer"
-              //   ref={tableContainerRef}
+              
               className="overflow-auto relative h-[250px]  show-scrolls"
             >
               <table className=" w-full font-gilroy ">

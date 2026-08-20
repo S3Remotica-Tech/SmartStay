@@ -331,8 +331,7 @@ function Credit({ handleClose }) {
     setIsSaving(true);
   };
 
-  // console.log("cardNetwork", cardNetwork);
-
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (

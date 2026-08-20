@@ -132,7 +132,7 @@ function PayingGuestMap(props) {
     setHoverPgCard(false);
   };
 
-  // console.log("state.PgList", state.PgList.deletePgError);
+ 
 
   return (
     <>

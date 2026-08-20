@@ -5,7 +5,7 @@ import { Bank, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
-  // console.log("selfDetailsselfDetails", selfDetails);
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -91,7 +91,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  // console.log("state", state.bankingDetails?.selfTransferInitialize);
+  
 
   const bankDetails = state.bankingDetails?.selfTransferInitialize;
 

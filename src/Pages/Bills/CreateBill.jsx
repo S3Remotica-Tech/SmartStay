@@ -46,7 +46,7 @@ function CreateBill() {
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
   const joiningDate = state.UsersList?.customerdetails?.hostelInfo?.joiningDate;
-  // console.log("joiningDate", joiningDate);
+
   const [tableErrmsg, setTableErrmsg] = useState("");
   const [tableErrmsgAmount, setTableErrmsgAmount] = useState("");
   const [tableErrmsgDes, setTableErrmsgDes] = useState("");

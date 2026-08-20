@@ -80,7 +80,7 @@ function NoticeBedStatusDetails({
 
   const handleShowDots = (type, tenant) => {
     setActiveMenu((prev) => (prev === type ? null : type));
-    // console.log("tenant", tenant)
+    
     setSelectedTenant(tenant);
   };
 
@@ -89,9 +89,7 @@ function NoticeBedStatusDetails({
     setSelectedTenant(tenant);
   };
 
-  // const handleChangeBed = () => {
-  //   handleOpenChangeBed(true)
-  // }
+  
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setActiveMenu(null);
@@ -105,22 +103,18 @@ function NoticeBedStatusDetails({
 
   const handleRecheckInBed = (tenant) => {
     handleOpenCancelCheckout(true, tenant);
-    // setBacktoCheckInForm(true)
-    // setRecheckin(true)
+    
   };
 
   const handleNewBooking = (tenant) => {
     showBooking(true, tenant);
   };
 
-  // console.log("currentItem", currentItem)
+ 
 
   const handleCheckout = (tenantDetails) => {
     showNoticeperiodCheckout(true, tenantDetails);
-    // dispatch({
-    //   type: "GETCONFIRMCHECKOUTCUSTOMER",
-    //   // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
-    // });
+   
   };
 
   const matchedDataStatus =
@@ -202,7 +196,7 @@ function NoticeBedStatusDetails({
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
   const handleReAssignBed = (currentItem) => {
-    // console.log("currentItem", currentItem);
+   
     handleShowReassignBed(true, currentItem);
   };
 
@@ -262,7 +256,7 @@ function NoticeBedStatusDetails({
     ) &&
     currentItem?.currentTenantInfo?.some((t) => t.currentStatus === "NOTICE");
 
-  // console.log("hasCheckinAndNotice", hasCheckinAndNotice);
+  
   return (
     <>
       <div className="modal show block static font-gilroy">

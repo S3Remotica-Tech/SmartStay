@@ -18,7 +18,7 @@ function SelfTransferGlobal({ show, handleClose }) {
   const [notes, setNotes] = useState("");
   const [selectedFromBank, setSelectedFromBank] = useState(null);
 
-  console.log("selectedFromBank", selectedFromBank);
+ 
 
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
@@ -31,7 +31,7 @@ function SelfTransferGlobal({ show, handleClose }) {
     }
   };
 
-  // console.log("selectedBankId", selectedBankId);
+ 
 
   const handleTransfer = () => {
     setError("");
@@ -68,7 +68,7 @@ function SelfTransferGlobal({ show, handleClose }) {
     setLoading(true);
   };
 
-  // console.log("selectedDate", selectedDate);
+  
 
   if (!show) return null;
 
@@ -117,7 +117,7 @@ function SelfTransferGlobal({ show, handleClose }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  // console.log("state", state.bankingDetails?.selfTransferInitialize);
+ 
 
   const bankDetails = state.bankingDetails?.selfTransferInitializeV3;
 

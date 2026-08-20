@@ -32,9 +32,6 @@ function SubscriptionCard() {
     }
   };
 
-  useEffect(() => {
-    console.log("openMenu changed:", openMenu);
-  }, [openMenu]);
 
   const handleDownload = (item) => {
     setOpenMenu(null);

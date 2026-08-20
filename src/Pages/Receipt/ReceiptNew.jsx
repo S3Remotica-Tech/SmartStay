@@ -433,8 +433,7 @@ function ReceiptNew() {
 
   useEffect(() => {
     const receiptFilters = state.InvoiceList?.receiptFilters;
-    console.log("receiptFilters", receiptFilters);
-
+   
     const filterData = [];
 
     if (receiptFilters?.search) {
@@ -569,25 +568,7 @@ function ReceiptNew() {
     }
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode]);
 
-  // const handleSearch = () => {
-  //   setSearch(!search);
-  //   dispatch({
-  //     type: "SET_RECEIPT_FILTERS",
-  //     payload: {
-  //       type: "",
-  //       collectedBy: [],
-  //       collectedBYLabels: [],
-  //       modes: [],
-  //       period: "",
-  //       search: "",
-  //       minAmount: "",
-  //       maxAmount: "",
-  //       paymentLabels: [],
-  //     },
-  //   });
-  // };
-
-  // console.log("state", state);
+ 
 
   const stats = [
     {
@@ -780,67 +761,9 @@ function ReceiptNew() {
     };
   }, []);
 
-  //   const filteredCustomizeItems = customizeItems.filter((item) =>
-  //     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
-  //   );
+ 
 
-  //   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
 
-  //   const allSelected =
-  //     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
-
-  // const statusStyles = {
-  //   "Fully Settled": {
-  //     bg: "#EFFFF2",
-  //     text: "#038C3D",
-  //   },
-  //   "Partially Paid": {
-  //     bg: "#FFF4E5",
-  //     text: "#F79009",
-  //   },
-  //   "Not Paid": {
-  //     bg: "#FEE4E2",
-  //     text: "#D92D20",
-  //   },
-  //   "No Transaction": {
-  //     bg: "#F2F4F7",
-  //     text: "#667085",
-  //   },
-  // };
-  // const headerKeyMap = {
-  //   "Receipt No": "receiptNo",
-  //   "Full Name": "name",
-  //   "Reference Id": "referenceId",
-  //   "Invoice Number": "invoiceNo",
-  //   " Payment Date": "date",
-  //   Type: "type",
-  //   "Payment Mode": "paymentMode",
-  //   Amount: "amount",
-  // };
-
-  //   const formattedData = (filteredData?.vendors || []).map((row) => {
-  //     const obj = {};
-
-  //     (filteredData?.tableHeaders || []).forEach((header, index) => {
-  //       const key = headerKeyMap[header];
-  //       const value = row[index];
-
-  //       if (key) {
-  //         obj[key] = value ?? "-";
-  //       }
-  //     });
-
-  //     const apiData = row[row.length - 1];
-
-  //     obj.apiCall = {
-  //       vendorId: apiData?.vendorId || null,
-  //       status: apiData?.status || null,
-  //     };
-
-  //     return obj;
-  //   });
-
-  // console.log("formattedData", formattedData);
 
   const formattedData =
     receiptData?.listReceipts?.map((item) => ({
@@ -908,21 +831,10 @@ function ReceiptNew() {
     });
   };
 
-  //   useEffect(() => {
-  //     const cols = filteredData?.columnList || [];
-
-  //     const formatted = cols.map((col) => ({
-  //       ...col,
-  //       key: col.fieldName,
-  //       selected: col.selected,
-  //     }));
-
-  //     setCustomizeItems(formatted);
-  //     setInitialCustomizeItems(formatted);
-  //   }, [filteredData?.columnList]);
+ 
 
   const handleReceiptClick = (item) => {
-    // console.log("callledffffffffff");
+   
     if (item?.transactionId && state.login.selectedHostel_Id) {
       dispatch({
         type: "RECEIPTPDF_NEWCHANGES",

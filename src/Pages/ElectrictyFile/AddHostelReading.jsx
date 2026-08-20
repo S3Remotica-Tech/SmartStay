@@ -69,7 +69,6 @@ function AddHostelReading({
     }
   }, [editHostelReading]);
 
-  // console.log("editHostelReading", editHostelReading)
 
   const handleSubmit = () => {
     setChangesError("");

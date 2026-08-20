@@ -24,16 +24,15 @@ function DeleteFloor({ show, handleClose, currentItem }) {
     }
   };
 
-  // const [deleteFloorForm, setDeleteFloor] = useState("");
-
+  
   useEffect(() => {
     if (state.UsersList?.deleteFloorError) {
       setDeleteLoading(false);
-      // setDeleteFloor(state.UsersList?.deleteFloorError);
+      
     }
   }, [state.UsersList?.deleteFloorError]);
 
-  // console.log("state.UsersList?.deleteFloorError", state);
+  
 
   const handleCloseFormFloor = () => {
     handleClose();

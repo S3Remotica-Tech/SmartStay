@@ -152,22 +152,7 @@ function ReceiptFilter({ show, handleClose, size }) {
     "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
     "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
 
-  // const filters = state.InvoiceList?.receiptFilters;
-
-  // console.log("filters", filters);
-
-  // useEffect(() => {
-  //   if (show && filters) {
-  //     setSelectedInvoiceType(filters.invoiceType);
-  //     setSelectedPaymentMode(filters.paymentMode || []);
-  //     setSelectedCollectedBy(filters.collectedBy || []);
-
-  //     const selectedPeriodOption = periodOptions.find(
-  //       (opt) => opt.value === filters.period,
-  //     );
-  //     setSelectedPeriod(selectedPeriodOption || null);
-  //   }
-  // }, [show]);
+  
 
   const handleInvoiceTypeChange = (selected) => {
     setSelectedInvoiceType(selected?.value || "");

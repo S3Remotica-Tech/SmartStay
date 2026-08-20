@@ -32,10 +32,10 @@ function BookingsPdfDetails() {
     setSelectedInvoiceId(rowData);
   }, [rowData]);
 
-  // console.log("rowData", rowData)
+  
 
   const handleDisplayInvoiceDownload = (item) => {
-    // console.log("calleddddddd", item);
+    
     setRowDatas(item);
     setSelectedInvoiceId(item);
     if (item && state.login.selectedHostel_Id) {
@@ -49,8 +49,7 @@ function BookingsPdfDetails() {
     }
   };
 
-  // console.log("state", state.InvoiceList)
-
+ 
   useEffect(() => {
     if (rowData) {
       setSelectedInvoiceId(rowData);

@@ -43,7 +43,7 @@ function VendorOverView({
     setSelectedMonth(selectedPeriod?.type);
   };
 
-  // console.log("selectedMonth", selectedMonth);
+  
 
   useEffect(() => {
     if (!selectedVendorId) return;
@@ -57,8 +57,7 @@ function VendorOverView({
     });
   }, [selectedVendorId, selectedMonth]);
 
-  // console.log("selectedVendorId", selectedVendorId);
-
+ 
   useEffect(() => {
     if (!state.login.selectedHostel_Id && !selectedVendorId) return;
     dispatch({

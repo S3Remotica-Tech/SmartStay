@@ -353,7 +353,7 @@ function Booking() {
     return obj;
   });
 
-  console.log("formattedData", formattedData);
+ 
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",

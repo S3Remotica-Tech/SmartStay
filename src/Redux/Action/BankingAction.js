@@ -8,7 +8,6 @@ export async function AddBanking(datum) {
 export async function AddPaymentMethod(datum) {
   const formData = new FormData();
 
-  console.log("datum", datum);
 
   formData.append("qrImage", datum.qrImage || "");
 
@@ -75,7 +74,7 @@ export async function getBankingOverview(hostel) {
 //  banking Ledger
 
 export async function getBankingLedger(bank) {
-  console.log("bank", bank);
+ 
   const params = {};
   if (bank.dateFilter) params.dateFilter = bank.dateFilter;
   if (bank.source) params.source = bank.source;
@@ -159,7 +158,7 @@ export async function tenantPayment(datum) {
 }
 
 export async function creditCardPayment(datum) {
-  console.log("datum", datum);
+
   return await AxiosConfigV2.put(
     `/v3/bank/creditCard/payment/${datum.hostelId}`,
     datum,

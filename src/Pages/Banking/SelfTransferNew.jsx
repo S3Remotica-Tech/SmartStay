@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 
 function SelfTransferNew({ show, handleClose, selfDetails }) {
-  // console.log("selfDetailsselfDetails", selfDetails);
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -29,7 +29,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
   };
 
-  // console.log("selectedBankId", selectedBankId);
+  
 
   const handleTransfer = () => {
     setError("");
@@ -66,7 +66,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     setLoading(true);
   };
 
-  // console.log("selectedDate", selectedDate);
+  
 
   if (!show) return null;
 
@@ -104,7 +104,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  // console.log("state", state.bankingDetails?.selfTransferInitialize);
+  
 
   const bankDetails = state.bankingDetails?.selfTransferInitializeV3;
 

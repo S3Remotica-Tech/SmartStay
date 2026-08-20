@@ -135,7 +135,7 @@ const RoomReadingTable = () => {
     setRoomDetail(true);
   };
   const handleTenantsDetailsPage = (tenant) => {
-    // console.log("")
+   
     setSelectedTenant(tenant);
     setTenantsDetail(true);
   };
@@ -156,7 +156,7 @@ const RoomReadingTable = () => {
   };
 
   const handleReadingDelete = (row) => {
-    // console.log("delete", row)
+    
     setShowDelete(true);
     setDeleteDetails(row);
     setShowDotsRoom("");
@@ -348,7 +348,7 @@ const RoomReadingTable = () => {
   };
 
   const handleEditRoomReading = (rowData) => {
-    // console.log("rowData", rowData)
+    
     setShowModal(true);
     setEditRoomReading(rowData);
     setShowDotsRoom("");
@@ -448,21 +448,9 @@ const RoomReadingTable = () => {
     };
   });
 
-  // const totals = formattedRoomReadings?.reduce(
-  //   (acc, item) => {
-  //     acc.totalUnits += item.totalUnits;
-  //     acc.totalAmount += item.totalPrice;
-  //     acc.totalCurrentReading += item.currentReading;
-  //     return acc;
-  //   },
-  //   {
-  //     totalUnits: 0,
-  //     totalAmount: 0,
-  //     totalCurrentReading: 0,
-  //   }
-  // );
+ 
 
-  // console.log("mathu", roomReadingList);
+  
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);

@@ -171,19 +171,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
-    // setNetPaymentError("")
+    
 
     if (/^\d*\.?\d*$/.test(value)) {
       setTotalPrice(value);
     }
   };
-  // const handleKeyDown = (e) => {
-  //   if (e.key === "." || e.key === "e" || e.key === "-") {
-  //     e.preventDefault();
-  //   }
-  // };
-
-  // console.log("currentItem", currentItem)
+ 
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;

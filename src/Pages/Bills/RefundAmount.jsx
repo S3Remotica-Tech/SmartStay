@@ -113,7 +113,7 @@ const CustomStyles = {
   }),
 };
 function RefundAmount({ show, handleClose, refundDetails }) {
-  // console.log("refundDetails", refundDetails)
+
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -142,7 +142,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }
   }, []);
 
-  // console.log("refundDetails", refundDetails);
+  
 
   const bankOptions =
     state.InvoiceList?.refundDetails?.listBanks?.map((bank) => ({
@@ -246,7 +246,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }
   }, [state.createAccount?.networkError, state.InvoiceList.refundableError]);
 
-  // console.log("refundDetails", refundDetails);
+
 
   return (
     <div className="fixed inset-0 z-50">

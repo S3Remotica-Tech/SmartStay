@@ -112,7 +112,6 @@ function VendorExpenseHistory({ selectedVendorId }) {
 
   const [openExpense, setOpenExpense] = useState(null);
 
-  console.log("selectedVendorId", selectedVendorId);
 
   const monthOptions = [
     { value: "this_month", label: "This Month" },

@@ -17,8 +17,7 @@ const WebNotification = ({ title, message }) => {
 
     }, []);
 
-    // const audio = new Audio("/new-notification.mp3");
-// console.log("audio",audio)
+    
     return (
         <div
             style={{

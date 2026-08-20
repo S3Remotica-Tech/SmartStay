@@ -156,7 +156,7 @@ function FinalSettlement() {
   const [showRetainer, setShowRetainer] = useState(false);
 
   const [showDetails, setShowDetails] = useState(false);
-  // console.log("customRent", customRent);
+ 
   const [showInvoices, setShowInvoices] = React.useState(false);
   const [showRentDetails, setShowRentDetails] = React.useState(false);
   const [collectFullRent, setCollectFullRent] = useState(false);
@@ -185,7 +185,7 @@ function FinalSettlement() {
   const [discount, setDiscount] = useState("");
   const [tempDiscount, setTempDiscount] = useState(discount);
 
-  // console.log("finalAmountSetClicked", finalAmountSetClicked);
+  
 
   const handleSet = () => {
     setDiscount(tempDiscount === "" ? 0 : Number(tempDiscount));
@@ -206,7 +206,7 @@ function FinalSettlement() {
     setShowRoomReading(false);
   };
 
-  // console.log("ReturnAmount", ReturnAmount);
+  
 
   const customerId =
     data?.apiCall?.customerId || data?.customerId || data?.tenetId;
@@ -365,7 +365,7 @@ function FinalSettlement() {
     }
   };
 
-  // console.log("data", data);
+  
   useEffect(() => {
     if (state.UsersList.conformChekoutError) {
       setFormLoading(false);

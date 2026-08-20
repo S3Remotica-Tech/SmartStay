@@ -22,11 +22,8 @@ const EBTenantOverview = ({ tenant, onBack }) => {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("customer");
-  // const [loading, setLoading] = useState(false);
 
   const [tenantReadingList, setTenantreadingList] = useState([]);
-
-  // console.log("tenant called", tenant);
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id && tenant?.customerId) {
@@ -37,7 +34,6 @@ const EBTenantOverview = ({ tenant, onBack }) => {
           customerId: tenant.customerId,
         },
       });
-      // setLoading(true)
     }
   }, [tenant?.customerId, state.login?.selectedHostel_Id]);
 

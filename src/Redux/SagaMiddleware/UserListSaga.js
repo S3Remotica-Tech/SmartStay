@@ -119,7 +119,7 @@ function* handleApiError(error) {
 function* handleSettlementPayemntExpense(settle) {
   try {
     const response = yield call(settlePaymentExpense, settle.payload);
-    // console.log("response", response)
+    
 
     if (response?.status === 200) {
       yield put({
@@ -156,7 +156,7 @@ function* handleSettlementPayemntExpense(settle) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    // console.log("errorrrrrr", error)
+    
     if (error) {
       yield put({
         type: "EXPENSE_SETTLEMENT_ERROR",
@@ -345,7 +345,7 @@ function* handleRemoveRentRevision(rent) {
 
 function* handleSettlementPayemnt(settle) {
   try {
-    // console.log("Saga Payload:", settle.payload);
+   
     const response = yield call(settlePayment, settle.payload);
 
     if (response?.status === 200) {
@@ -407,7 +407,7 @@ function* handleSaveDraft(draft) {
   try {
     const response = yield call(SaveDraftTenant, draft.payload);
 
-    // console.log("response", response);
+   
 
     if (response?.status === 201) {
       yield put({
@@ -446,7 +446,7 @@ function* handleSaveDraft(draft) {
     yield* handleApiError(error);
 
     if (error) {
-      console.log("errorrr", error);
+     
       if (error.code === "ERR_BAD_REQUEST") {
         if (error.response.data.emailStatus !== "") {
           yield put({
@@ -505,7 +505,7 @@ function* handleUpdateSaveDraft(draft) {
     yield* handleApiError(error);
 
     if (error) {
-      console.log("errorrr", error);
+     
       if (error.code === "ERR_BAD_REQUEST") {
         if (error.response.data.emailStatus !== "") {
           yield put({
@@ -1976,9 +1976,6 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
   try {
     const response = yield call(addUser, datum.payload);
-
-    // console.log("response88888", response);
-
     if (response?.status === 201) {
       yield put({
         type: "ADD_USER",

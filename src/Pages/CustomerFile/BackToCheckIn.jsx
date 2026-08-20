@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-// import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 import PropTypes from "prop-types";
@@ -16,7 +15,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
   const state = useSelector((state) => state);
 
-  // console.log("checkInDetails", checkInDetails, "pgDetails", pgDetails)
+  
 
   const [activeTab, setActiveTab] = useState("LONG");
   const [reason, setReason] = useState("");
@@ -54,7 +53,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
       type: "CUSTOMERDETAILS",
       payload: { customerId: customerId },
     });
-    // console.log("executeddddddddddd");
+   
     dispatch({
       type: "INITIALIZECANCELCHECKOUT",
       payload: {
@@ -64,13 +63,13 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     });
   }, [customerId]);
 
-  // console.log("customerId", customerId);
+
 
   const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
 
   const noticeDayjs = noticeDate ? dayjs(noticeDate, "DD/MM/YYYY") : null;
 
-  // console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
+  
 
   const handleSaveBacktoCheckin = () => {
     let isValid = true;
@@ -112,8 +111,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     }
   };
 
-  // console.log("checkInDetails", checkInDetails);
-
+ 
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
       setFormLoading(false);

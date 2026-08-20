@@ -180,10 +180,9 @@ function Vendor() {
   const NavigateTOselectedVendorId =
     location.state?.navigateToVendorOverviewSelectedVendorId;
 
-  console.log("NavigateTOselectedVendorId", NavigateTOselectedVendorId);
+ 
 
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [paymentStatus, setPaymentStatus] = useState("");
   const [trigger, setTrigger] = useState(false);
@@ -516,7 +515,7 @@ function Vendor() {
   useEffect(() => {
     const vendorFilters = state.ComplianceList?.vendorFilters;
 
-    // console.log("vendorFilters", vendorFilters);
+    
 
     const filterData = [];
 
@@ -650,7 +649,7 @@ function Vendor() {
     setShowDeleteVendor(false);
   };
 
-  // console.log("showDeleteVendorDetails", showDeleteVendorDetails)
+ 
 
   const ConfirmDeleteVendor = () => {
     dispatch({ type: "REMOVE_DELETE_VENDOR_ERROR" });
@@ -759,7 +758,7 @@ function Vendor() {
     return obj;
   });
 
-  // console.log("formattedData", formattedData);
+  
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -858,13 +857,11 @@ function Vendor() {
 
   const totalRecords = filteredData?.totalVendors ?? 0;
 
-  // useEffect(() => {
-  //   setPage(1);
-  // }, [state.ComplianceList?.vendorFilters]);
+ 
 
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log("setPage", page);
+   
   };
 
   const handleSizeChange = (sizeValue) => {

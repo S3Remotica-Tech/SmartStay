@@ -71,7 +71,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
     );
   };
 
-  // console.log("label", label);
+  
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -86,7 +86,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
 
   const initializeDetails = state?.Booking?.advanceInitialize;
 
-  // console.log("initializeDetails", initializeDetails);
+  
 
   const bookingAmount = Number(
     initializeDetails?.advanceInfo?.availableBalance || 0,
@@ -98,9 +98,7 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
   );
   const remainingBalance = bookingAmount - totalApplied;
 
-  // useEffect(() => {
-  //   // console.log("advanceDetails", advanceDetails);
-  // }, [advanceDetails]);
+  
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });

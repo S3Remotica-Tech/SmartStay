@@ -101,7 +101,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
   const MobileNumber = `${phone}`;
 
-  // console.log("basicDetails",basicDetails)
+  
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_ALREADY_MOBILE_BASIC_ERROR" });

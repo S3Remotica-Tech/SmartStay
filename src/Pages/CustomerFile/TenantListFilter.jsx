@@ -290,7 +290,7 @@ function TenantListFilter({ show, handleClose, size }) {
     setFormLoading(true);
   };
 
-  // console.log("selectedTenantStatusOptions", selectedTenantStatusOptions);
+ 
 
   useEffect(() => {
     if (state.createAccount?.networkError) {

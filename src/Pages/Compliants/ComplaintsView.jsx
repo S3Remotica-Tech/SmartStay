@@ -21,7 +21,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 
 function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
-    // console.log("complaintsDetails", complaintsDetails)
+    
 
 
     const state = useSelector((state) => state);
@@ -86,8 +86,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
 
-        // console.log("state ",state.ComplianceList.complaintsView)
-
+      
 
 
 

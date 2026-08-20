@@ -308,7 +308,7 @@ function Expenses() {
 
   const handleShowDots = (event, id) => {
     setShowDots((prev) => (prev === id ? null : id));
-    // console.log(id);
+    
     const rect = event.currentTarget?.getBoundingClientRect();
 
     const popupHeight = 120;
@@ -325,7 +325,7 @@ function Expenses() {
       left: rect.left,
     });
   };
-  // console.log(showDots, "showDots");
+ 
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
@@ -929,13 +929,11 @@ function Expenses() {
 
   const totalRecords = getData?.totalExpenses ?? 0;
 
-  // useEffect(() => {
-  //   setPage(1);
-  // }, [state.ComplianceList?.vendorFilters]);
+ 
 
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log("setPage", page);
+    
   };
 
   const handleSizeChange = (sizeValue) => {

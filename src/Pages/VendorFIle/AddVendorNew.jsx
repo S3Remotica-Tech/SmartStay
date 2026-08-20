@@ -275,32 +275,23 @@ function AddVendorNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [file, setFile] = useState(null);
-  // const [first_Name, setFirst_Name] = useState("");
-  const [vendorName, setVendorName] = useState("");
+   const [vendorName, setVendorName] = useState("");
   const [vendorNameError, setVendorNameError] = useState("");
   const vendorNameRef = useRef(null);
-  // const [last_Name, setLast_Name] = useState("");
+  
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [vendorCategory, setVendorCategory] = useState(null);
-  // console.log("vendorCategory", vendorCategory);
-  // const [address, setAddress] = useState("");
+ 
   const [house_no, setHouseNo] = useState("");
-  // const [street, setStreet] = useState("");
+ 
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
   const [businessName, setBusinessName] = useState("");
-  // const [id, setId] = useState("");
-  // const [country, setCountry] = useState("");
-  const [pinCode, setPinCode] = useState("");
+    const [pinCode, setPinCode] = useState("");
   const location = useLocation();
-  // const [initialVendorData, setInitialVendorData] = useState(null);
-  // const [check, setCheck] = useState(null);
-  // const [generalError, setGeneralError] = useState("");
-  // const [firstNameError, setFirstNameError] = useState("");
-  const [countryCodeError, setCountryCodeError] = useState("");
+   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [gstError, setGstError] = useState("");
@@ -310,31 +301,27 @@ function AddVendorNew() {
   const [countryCode, setCountryCode] = useState();
   const [businessCountryCode, setBusinessCountryCode] = useState();
 
-  // const [isChangedError, setIsChangedError] = useState("");
-  // const [countryError, setCountryError] = useState("");
+  
   const [pinCodeError, setPinCodeError] = useState("");
 
   const [businessMobile, setBusinessMobile] = useState("");
-  // const [vendorPhoneError, setVendorPhoneError] = useState("");
-  // const [vendorEmailError, setVendorEmailError] = useState("");
-
-  // const [streetError, setStreetError] = useState("");
+  
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [contactPersonName, setContactPersonName] = useState("");
-  // const [contactPersonNameError, setContactPersonNameError] = useState("");
+  
   const contactPersonNameRef = useRef(null);
-  // const firstNameRef = useRef(null);
+  
   const mobileRef = useRef(null);
   const businessNameRef = useRef(null);
   const cityRef = useRef(null);
   const pinCodeRef = useRef(null);
   const stateRef = useRef(null);
-  // const countryRef = useRef(null);
+ 
   const [gstNumber, setGstNumber] = useState("");
   const [panNumber, setPanNumber] = useState("");
-  // const [vendorCode, setVendorCode] = useState("");
+  
   const [allowCreditPurchase, setAllowCreditPurchase] = useState(false);
   const [creditLimit, setCreditLimit] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
@@ -344,12 +331,11 @@ function AddVendorNew() {
   const emailRef = useRef(null);
   const houseNoRef = useRef(null);
   const landmarkRef = useRef(null);
-  // const streetRef = useRef(null);
+  
   const vendorCategoryRef = useRef(null);
   const businessCountryCodeRef = useRef(null);
   const businessMobileRef = useRef(null);
-  // const contactPersonRef = useRef(null);
-  // const descriptionRef = useRef(null);
+ 
   const [noChanges, setNochanges] = useState("");
   const [vendorCategoryError, setVendorCategoryError] = useState("");
 
@@ -358,7 +344,7 @@ function AddVendorNew() {
   const [businessMobileError, setBusinessMobileError] = useState("");
 
   const [houseNoError, setHouseNoError] = useState("");
-  // const [landmarkError, setLandmarkError] = useState("");
+ 
 
   useEffect(() => {
     if (state?.Settings?.vendorCategorySuccessCode === 200) {
@@ -698,17 +684,17 @@ function AddVendorNew() {
     }
   };
 
-  // console.log("vendorCategory", vendorCategory);
+ 
 
   const handleAddVendor = () => {
     setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
 
-    // setFirstNameError("");
+
     setVendorCategoryError("");
     setBusinessMobileError("");
     setBusinessCountryCodeError("");
-    // setContactPersonNameError("");
+   
     setMobileError("");
     setCountryCodeError("");
     setEmailError("");
@@ -1164,7 +1150,7 @@ function AddVendorNew() {
     state.ComplianceList.vendorMobileError,
   ]);
 
-  // console.log("alreadyVendorHere", state.ComplianceList?.alreadyVendorHere);
+ 
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -1175,7 +1161,7 @@ function AddVendorNew() {
     }
   }, [state.createAccount?.networkError]);
 
-  console.log("state", state);
+
 
   return (
     <div className="block relative font-gilroy ">

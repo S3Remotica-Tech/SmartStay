@@ -19,7 +19,7 @@ function UnPaidInvoice({ show, handleClose, selectedInvoice }) {
     const dispatch = useDispatch();
     const [formLoading, setFormLoading] = useState(false);
 
-// console.log("selectedInvoice",selectedInvoice)
+
     const confirmUnpaid = () => {
         if (selectedInvoice) {
             dispatch({

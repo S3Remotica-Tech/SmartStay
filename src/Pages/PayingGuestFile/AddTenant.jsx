@@ -264,7 +264,7 @@ function AddTenant({
   const vehicleNumberRef = useRef(null);
   const parkingSpaceRef = useRef(null);
 
-  // console.log("bookingOnly", bookingOnly);
+  
 
   const vehicleTypeOptions = [
     {

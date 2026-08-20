@@ -186,7 +186,7 @@ function AddTenantBookingCheckin({
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
   const [stayType, setStayType] = useState("long");
 
-  // console.log("activeTab", activeTab);
+  
 
   // booking
 
@@ -841,7 +841,7 @@ function AddTenantBookingCheckin({
   const DraftTenantDetails =
     state?.UsersList?.alreadyAvailableDraftTenantGetList;
 
-  // console.log("DraftTenantDetails", DraftTenantDetails);
+  
 
   useEffect(() => {
     if (DraftTenantDetails && !newTenant) {
@@ -940,7 +940,6 @@ function AddTenantBookingCheckin({
     }
   }, [DraftTenantDetails, newTenant]);
 
-  console.log("DraftTenantDetails", DraftTenantDetails);
 
   const handleBookingSaveDraft = () => {
     const formatDate = (date) => {
@@ -1375,9 +1374,7 @@ function AddTenantBookingCheckin({
     setIsOpen((prev) => !prev);
   };
 
-  const handleAdd = () => {
-    console.log("Add clicked");
-  };
+ 
 
   const handleAddOneTimePayment = () => {
     setOneTimePayments([
@@ -1576,8 +1573,7 @@ function AddTenantBookingCheckin({
     ? dayjs(joiningDate).isBefore(dayjs(), "month")
     : false;
 
-  // console.log("isPastMonth, ", isPastMonth);
-  // console.log("isCurrentOrPastMonth", isCurrentOrPastMonth);
+  
 
   const deductionsTotal = fields?.reduce(
     (sum, item) => sum + Number(item.amount || 0),
@@ -1616,7 +1612,7 @@ function AddTenantBookingCheckin({
             ? Number(rentAmount || 0)
             : Number(proRateRent || 0);
 
-  // console.log("summaryRent", summaryRent);
+ 
 
   const totalSummary =
     Number(advanceAmount || 0) +
