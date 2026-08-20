@@ -5,11 +5,8 @@ import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from "/src/Assets/Images/New_images/building1.svg";
-import Ellipse1 from "../../Assets/Images/Profile.jpg";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
-import { Table } from "react-bootstrap";
 import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";

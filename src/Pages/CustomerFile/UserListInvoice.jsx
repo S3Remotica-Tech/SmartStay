@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import PaginationList from "../../Components/PaginationList";
@@ -25,7 +25,7 @@ import DiscountInvoice from "../PDF/DiscountInvoice";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
-function UserListInvoice(props) {
+function UserListInvoice() {
   const state = useSelector((state) => state);
 
   const navigate = useNavigate();
@@ -49,8 +49,6 @@ function UserListInvoice(props) {
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
-
- 
 
   const handleShowDots = (item, event) => {
     if (activeId === item.invoiceId) {
@@ -96,7 +94,6 @@ function UserListInvoice(props) {
   const isExportAllow = isValidSubscription && canReadInvoice;
 
   const handleInvoicepdf = (rowData) => {
-   
     if (rowData.invoiceId) {
       dispatch({
         type: "INVOICEPDF",
@@ -105,7 +102,7 @@ function UserListInvoice(props) {
           invoiceId: rowData.invoiceId,
         },
       });
-      setLoading(true);
+      // setLoading(true);
     }
   };
 
@@ -120,7 +117,6 @@ function UserListInvoice(props) {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const handleRecordPayment = (item) => {
-    
     setShowform(true);
     setSelectedUserId(CustomerOverView?.customerId);
     setInvoiceList({

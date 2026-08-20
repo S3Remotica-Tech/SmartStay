@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 function ResetNotify({ show, handleClose }) {
   const state = useSelector((state) => state);
 
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
       <div className="w-[420px] rounded-2xl bg-white p-6 shadow-xl">
@@ -39,5 +41,8 @@ function ResetNotify({ show, handleClose }) {
     </div>
   );
 }
-
+ResetNotify.propTypes = {
+  show: PropTypes.bool,
+  handleClose: PropTypes.func,
+};
 export default ResetNotify;

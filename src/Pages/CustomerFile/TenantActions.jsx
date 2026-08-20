@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { CloseCircle, ArrowRight2, Add, Send2 } from "iconsax-react";
+import { Add, Send2 } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
 
 function TenantActions({ show, handleClose }) {
-  if (!show) return null;
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -43,6 +41,8 @@ function TenantActions({ show, handleClose }) {
       setFormLoading(false);
     }
   }, [state.UsersList.kycReminderError]);
+
+  if (!show) return null;
 
   return (
     <>

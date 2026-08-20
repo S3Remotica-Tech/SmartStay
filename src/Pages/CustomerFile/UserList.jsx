@@ -3,47 +3,47 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 // import "./UserList.css";
-import { Table, Button, Form, FormControl } from "react-bootstrap";
+import { Button, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import Image from "react-bootstrap/Image";
-import UserlistForm from "./UserlistForm";
+// import Image from "react-bootstrap/Image";
+// import UserlistForm from "./UserlistForm";
 
 import Modal from "react-bootstrap/Modal";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import closecircle from "../../Assets/Images/New_images/close-circle.png";
+// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import ChangeBedTenantWay from "./ChangeBedTenantWay";
-import { AddCircle, Trash, ArrowDown2, ArrowUp2 } from "iconsax-react";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
+import { AddCircle, ArrowDown2, ArrowUp2 } from "iconsax-react";
+// import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import TabPanel from "@mui/lab/TabPanel";
-import TabContext from "@mui/lab/TabContext";
-import UserlistBookings from "./UserlistBookings";
+// import TabPanel from "@mui/lab/TabPanel";
+// import TabContext from "@mui/lab/TabContext";
+// import UserlistBookings from "./UserlistBookings";
 import UserlistCheckout from "./UserlistCheckout";
 import UserlistWalkin from "./UserlistWalkin";
 import Addbooking from "./Addbookingform";
 import CheckOutForm from "./UserListCheckoutForm";
 import UserlistWalkinForm from "./UserlistWalkinForm";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
+// import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
-import Closebtn from "../../Assets/Images/CloseCircle.png";
+// import Closebtn from "../../Assets/Images/CloseCircle.png";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import moment from "moment";
+// import moment from "moment";
 import Filters from "../../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import leftarrow from "../../Assets/Images/arrow-left.png";
+// import leftarrow from "../../Assets/Images/arrow-left.png";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
@@ -51,21 +51,21 @@ import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 // import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
 // import FinalSettlement from "./FinalSettlement";
-import PaginationList from "../../Components/PaginationList";
+// import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from "../../Components/ErrorMessage";
 import BackToCheckIn from "./BackToCheckIn";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { Tabs, Tab } from "react-bootstrap";
+// import { Tabs, Tab } from "react-bootstrap";
 import FinalOld from "./FinalOld";
-import { FiSearch } from "react-icons/fi";
+// import { FiSearch } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import {
   Filter,
-  Export,
-  ArrowLeft,
-  ArrowSwapVertical,
+  // Export,
+  // ArrowLeft,
+  // ArrowSwapVertical,
   Setting3,
   SearchNormal1,
   Buildings,
@@ -85,9 +85,9 @@ import { TiTick } from "react-icons/ti";
 // import zIndex from "@mui/material/styles/zIndex";
 import TenantListFilter from "./TenantListFilter";
 import ApiPagination from "../../Components/ApiPagination";
-import { ButtonGroupButtonContext } from "@mui/material";
-import NoData from "../../Assets/v2Images/NoData.svg";
-import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+// import { ButtonGroupButtonContext } from "@mui/material";
+// import NoData from "../../Assets/v2Images/NoData.svg";
+// import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import AddTenant from "../PayingGuestFile/AddTenant";
@@ -97,16 +97,16 @@ function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
   const [chips, setChips] = useState([]);
-  const { RangePicker } = DatePicker;
-  const [searchParams] = useSearchParams();
+  // const { RangePicker } = DatePicker;
+  // const [searchParams] = useSearchParams();
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  // const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [value, setValue] = React.useState("1");
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -123,7 +123,7 @@ function UserList(props) {
   const [deleteShow, setDeleteShow] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState();
   const [customername, setCustomerName] = useState("");
-  const [invoicenumber, setInvoiceNumber] = useState("");
+  // const [invoicenumber, setInvoiceNumber] = useState("");
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
@@ -131,7 +131,7 @@ function UserList(props) {
   const [status, setStatus] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
-  const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
+  // const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
@@ -173,7 +173,7 @@ function UserList(props) {
   const location = useLocation();
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-  
+
   const [isScrolling, setIsScrolling] = useState(false);
 
   const [view, setView] = useState("List");
@@ -182,17 +182,17 @@ function UserList(props) {
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
   const listRef = useRef(null);
-  const tableRef = useRef(null);
+  // const tableRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [DraftTenantDetails, setDraftTenantDetails] = useState("");
 
   const dropdownRef = useRef(null);
-  
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
-    canDeleteModule: canDeleteTenant,
+    // canDeleteModule: canDeleteTenant,
     // canUpdateModule: canUpdateTenant
   } = useHasPermission("Customers");
 
@@ -200,7 +200,7 @@ function UserList(props) {
     useHasPermission("Walk in");
 
   const {
-    canReadModule: canReadCheckout,
+    // canReadModule: canReadCheckout,
     canWriteModule: canWriteCheckout,
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
@@ -263,9 +263,9 @@ function UserList(props) {
     setStatusFilter(selected?.value || "");
   };
 
-  const handleInvoiceNumber = (e) => {
-    setInvoiceNumber(e.target.value);
-  };
+  // const handleInvoiceNumber = (e) => {
+  //   setInvoiceNumber(e.target.value);
+  // };
 
   useEffect(() => {
     if (state.AssetList.accessRestricted) {
@@ -278,8 +278,6 @@ function UserList(props) {
       setLoading(false);
     }
   }, [canReadTenant]);
-
-  
 
   const options = [
     { key: "Name", label: "Name" },
@@ -442,7 +440,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
-      setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
+      // setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
       dispatch({
         type: "USERLIST",
         payload: {
@@ -626,7 +624,7 @@ function UserList(props) {
     setSelectedTypes("");
     setRoomDetail(true);
     // setCustomerName("");
-    setInvoiceNumber("");
+    // setInvoiceNumber("");
     setInvoiceDate("");
     setInvoiceDueDate("");
 
@@ -678,14 +676,9 @@ function UserList(props) {
     }
   }, [state.UsersList?.Users]);
 
- 
-
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
-      
       setRoomDetail(false);
-
-      
     }
   }, [state.UsersList.userRoomfor]);
 
@@ -955,13 +948,11 @@ function UserList(props) {
     return () => clearTimeout(timer);
   }, [filterInput]);
 
-  
-
-  const handleCloseSearch = () => {
-    setSearch(false);
-    setFilterInput("");
-    setDropdownVisible(false);
-  };
+  // const handleCloseSearch = () => {
+  //   setSearch(false);
+  //   setFilterInput("");
+  //   setDropdownVisible(false);
+  // };
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
       dispatch({ type: "INVOICELIST" });
@@ -1100,7 +1091,6 @@ function UserList(props) {
   };
 
   const handleShowAddTenant = (isWhat) => {
-    
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails("");
@@ -1788,7 +1778,6 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
-      
     }
 
     setTimeout(() => {
@@ -1796,10 +1785,8 @@ function UserList(props) {
     }, 500);
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
-  
-
   const handleCheckoutGenrateNew = (item) => {
-       navigate(`/tenant/final-settlement/${item?.apiCall?.customerId}`, {
+    navigate(`/tenant/final-settlement/${item?.apiCall?.customerId}`, {
       state: {
         data: item,
       },
@@ -2085,8 +2072,6 @@ function UserList(props) {
     return obj;
   });
 
- 
-
   const filterOptionsData = useSelector(
     (state) => state.UsersList?.Users?.filterOptions,
   );
@@ -2118,12 +2103,9 @@ function UserList(props) {
     setInitialCustomizeItems(formatted);
   }, [state?.UsersList?.Users?.columnList]);
 
-  
-
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
-
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -3520,7 +3502,7 @@ function UserList(props) {
         />
       )}
 
-      {(advanceForm || showAssignMenu) && (
+      {/* {(advanceForm || showAssignMenu) && (
         <UserlistForm
           // setShowMenu={setShowMenu}
           advanceForm={advanceForm}
@@ -3549,7 +3531,7 @@ function UserList(props) {
           // bactocheckinForm={bactocheckinForm}
           // setBacktoCheckInForm={setBacktoCheckInForm}
         />
-      )}
+      )} */}
 
       {finalsettlepage && (
         <FinalOld

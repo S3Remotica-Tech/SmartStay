@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { CloseCircle, DocumentText } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import Select from "react-select";
 import { Add } from "iconsax-react";
-import { PiDnaFill } from "react-icons/pi";
+import PropTypes from "prop-types";
 
 function DiscountInvoice({
   show,
@@ -31,7 +30,6 @@ function DiscountInvoice({
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
-
 
   const handleDiscountChange = (e) => {
     const value = e.target.value;
@@ -110,7 +108,7 @@ function DiscountInvoice({
   const baseAmount = TenantDetails?.invoiceInfo?.invoiceAmount;
 
   const total = parseFloat(TenantDetails?.invoiceInfo?.invoiceAmount) || 0;
-  const discount = parseFloat(discountInput) || 0;
+  // const discount = parseFloat(discountInput) || 0;
   const calculatedDiscount =
     discountType === "percent"
       ? (total * discountPercent) / 100
@@ -220,7 +218,7 @@ function DiscountInvoice({
       selectedReason?.value === "other" ? customReason : selectedReason?.label;
 
     const discountValue = parseFloat(discountInput) || 0;
-    const total = parseFloat(TenantDetails?.invoiceInfo?.invoiceAmount) || 0;
+    // const total = parseFloat(TenantDetails?.invoiceInfo?.invoiceAmount) || 0;
 
     setDiscountInputError("");
     setReasonError("");
@@ -632,5 +630,14 @@ function DiscountInvoice({
     </div>
   );
 }
+DiscountInvoice.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  editData: PropTypes.object,
+  isEdit: PropTypes.bool.isRequired,
+  discountDetails: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+};
 
 export default DiscountInvoice;

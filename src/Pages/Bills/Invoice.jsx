@@ -149,8 +149,6 @@ const InvoicePage = () => {
     { key: "Room View", label: "Room", img: Buildings },
   ];
 
- 
-
   useEffect(() => {
     const container = tableContainerRef.current;
     if (!container) return;
@@ -581,7 +579,6 @@ const InvoicePage = () => {
   };
 
   const handleStatusFilter = (selectedOption) => {
- 
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
@@ -1106,8 +1103,6 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
   };
 
-  
-
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -1195,15 +1190,13 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    
-
     const filterData = [];
 
     if (invoiceFilters?.paymentStatus?.length) {
@@ -1361,6 +1354,10 @@ const InvoicePage = () => {
     {
       label: "Overdue Amount",
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.overDueAmount || 0}`,
+    },
+    {
+      label: "Refund Amount",
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.refundAmount || 0}`,
     },
   ];
 

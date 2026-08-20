@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
-  if (!show) return null;
+import PropTypes from "prop-types";
 
+function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -33,6 +33,8 @@ function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
       setDeleteLoading(false);
     }
   }, [state.ExpenseList?.expenseRemoveError]);
+
+  if (!show) return null;
 
   return (
     <div
@@ -85,5 +87,10 @@ function DeleteExpense({ show, handleClose, deleteExpenseRowData }) {
     </div>
   );
 }
+DeleteExpense.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  deleteExpenseRowData: PropTypes.object,
+};
 
 export default DeleteExpense;

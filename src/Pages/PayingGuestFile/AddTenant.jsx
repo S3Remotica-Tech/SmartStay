@@ -1252,9 +1252,10 @@ function AddTenant({
       setFormLoading(false);
       if (step === 1) {
         setStep(2);
-      } else if (step === 1) {
-        handleClose();
       }
+      // else if (step === 1) {
+      //   handleClose();
+      // }
 
       dispatch({
         type: "DRAFT_TENANT_LIST_SAGA",

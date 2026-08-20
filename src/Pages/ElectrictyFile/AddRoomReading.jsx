@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import electricity from "../../Assets/Images/New_images/electricity.svg";
@@ -69,10 +69,8 @@ function AddRoomReading({
     dispatch({ type: "REMOVE_ROOM_READING_ERROR" });
     setReadingDate(date ? date : null);
     setDateError("");
-    
   };
 
-  
   const formatToInputDate = (dateStr) => {
     if (!dateStr) return "";
     const [dd, mm, yyyy] = dateStr.split("/");

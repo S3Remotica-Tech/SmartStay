@@ -9,23 +9,23 @@ import Mail from "../../Assets/Images/gmail.png";
 import Mail_white from "../../Assets/Images/gmail_white.png";
 import Message_text from "../../Assets/Images/message-text.png";
 import Message_text_white from "../../Assets/Images/message-white.png";
-import Logo from "../../Assets/Images/New_images/Group_Logo.png";
+// import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-import { Row, Col, Table } from "react-bootstrap";
+// import { Row, Col, Table } from "react-bootstrap";
 import {
-  Location,
-  Call,
-  Profile,
+  // Location,
+  // Call,
+  // Profile,
   DocumentDownload,
   Edit,
   RefreshSquare,
   Link21,
 } from "iconsax-react";
-import { IoBed } from "react-icons/io5";
+// import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Add } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
 import { useHasPermission } from "../../Utils/Permission";
@@ -62,7 +62,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const InvoiceId = pdfDetails?.invoiceId || pdfDetails?.invoiceInfo?.invoiceId;
 
-  const bookingCreditDetails = state?.Booking?.advanceInitialize;
+  // const bookingCreditDetails = state?.Booking?.advanceInitialize;
 
   const menuItems = [
     {
@@ -91,7 +91,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [label, setLabel] = useState("");
   const [bookingModal, setBookingModal] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
-  const [applyBookingInvoice, setBookingApplyInvoice] = useState(false);
+  // const [applyBookingInvoice, setBookingApplyInvoice] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState("");
 
@@ -107,7 +107,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   // const [showEditModal, setShowEditModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState(null);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  // const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const handleCloseForm = () => {
     setShowform(false);
@@ -122,7 +122,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const handleDownload = (rowData) => {
     if (rowData) {
-    
       dispatch({
         type: "INVOICEPDF",
         payload: {
@@ -310,54 +309,53 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
   const isExportAllow = isValidSubscription && canReadInvoice;
 
-  const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
+  // const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
-  const templateColor = pdfDetails?.configurations?.templateColor;
-  const isGradient = templateColor?.includes("linear-gradient");
+  // const templateColor = pdfDetails?.configurations?.templateColor;
+  // const isGradient = templateColor?.includes("linear-gradient");
 
-  const textStyle = isGradient
-    ? {
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        background: templateColor,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      }
-    : {
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        color: templateColor || "#1E45E1",
-      };
+  // const textStyle = isGradient
+  //   ? {
+  //       fontFamily: "Gilroy",
+  //       fontWeight: 600,
+  //       background: templateColor,
+  //       WebkitBackgroundClip: "text",
+  //       WebkitTextFillColor: "transparent",
+  //     }
+  //   : {
+  //       fontFamily: "Gilroy",
+  //       fontWeight: 600,
+  //       color: templateColor || "#1E45E1",
+  //     };
 
-  const getIconStyle = (templateColor) => {
-    const isGradient = templateColor?.includes("linear-gradient");
+  // const getIconStyle = (templateColor) => {
+  //   const isGradient = templateColor?.includes("linear-gradient");
 
-    return isGradient
-      ? {
-          background: templateColor,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }
-      : { color: templateColor || "#4B4B4B" };
-  };
+  //   return isGradient
+  //     ? {
+  //         background: templateColor,
+  //         WebkitBackgroundClip: "text",
+  //         WebkitTextFillColor: "transparent",
+  //         display: "inline-flex",
+  //         alignItems: "center",
+  //         justifyContent: "center",
+  //       }
+  //     : { color: templateColor || "#4B4B4B" };
+  // };
 
-  const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
-  const showRentalPeriod =
-    pdfDetails?.configurations?.invoiceType === "Rent" &&
-    pdfDetails?.invoiceType !== "SETTLEMENT";
+  // const showRentalPeriod =
+  //   pdfDetails?.configurations?.invoiceType === "Rent" &&
+  //   pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
-   
     setShowform(true);
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
-    
+
     setInvoiceList({
       balanceDue:
         pdfDetails?.invoiceInfo?.finalAmount ||
@@ -472,8 +470,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     isPending &&
     (isRentInvoice || isSettlement) &&
     isNotDiscounted;
-
- 
 
   const hasPayments = pdfDetails?.paymentHistory?.length > 0;
   const hasRefunds = pdfDetails?.refundHistory?.length > 0;
@@ -897,7 +893,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       onClick={() => {
                         setShowRefuseModal(true);
                         setOpenMenu(false);
-                        setSelectedInvoice(pdfDetails);
+                        // setSelectedInvoice(pdfDetails);
                       }}
                       className={`
     w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition

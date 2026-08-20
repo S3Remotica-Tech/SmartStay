@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../Bills/Invoices.css";
-import DownLoad from "../../Assets/Images/New_images/searchss.png";
+
 import Whatsapp from "../../Assets/Images/whatsapp.png";
 import Whatsapp_blue from "../../Assets/Images/whatsapp_blue.png";
 import Whatsapp_white from "../../Assets/Images/whatsapp_white.png";
@@ -57,8 +57,6 @@ const InvoiceCard = ({ rowData }) => {
   ];
 
   const [isVisible, setIsVisible] = useState(true);
-  // const [idforwhats, setIdForWhats] = useState("");
-  const cardRef = useRef(null);
 
   const { canReadModule: canReadReceipt } = useHasPermission("Receipt");
 
@@ -975,15 +973,15 @@ const InvoiceCard = ({ rowData }) => {
 
                 <div className="w-full md:w-4/12 flex flex-col h-fit  ">
                   <img
-    src={
-      currentConfig?.label === "Booking Receipt" &&
-      pdfDetails?.paymentStatus === "Refunded"
-        ? currentConfig?.image2
-        : currentConfig?.image
-    }
-    alt={currentConfig?.label}
-    className="w-full h-fit"
-  />
+                    src={
+                      currentConfig?.label === "Booking Receipt" &&
+                      pdfDetails?.paymentStatus === "Refunded"
+                        ? currentConfig?.image2
+                        : currentConfig?.image
+                    }
+                    alt={currentConfig?.label}
+                    className="w-full h-fit"
+                  />
                 </div>
               </div>
 

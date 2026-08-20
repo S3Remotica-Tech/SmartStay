@@ -1,39 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import "../Bills/Invoices.css";
-import Whatsapp from "../../Assets/Images/whatsapp.png";
-import Whatsapp_blue from "../../Assets/Images/whatsapp_blue.png";
-import Whatsapp_white from "../../Assets/Images/whatsapp_white.png";
-import Mail from "../../Assets/Images/gmail.png";
-import Mail_white from "../../Assets/Images/gmail_white.png";
-import Message_text from "../../Assets/Images/message-text.png";
-import Message_text_white from "../../Assets/Images/message-white.png";
+
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import PropTypes from "prop-types";
-import { IoClose } from "react-icons/io5";
-import { Row, Col, Table } from "react-bootstrap";
-import {
-  Location,
-  Call,
-  Profile,
-  DocumentDownload,
-  Edit,
-  RefreshSquare,
-  Link21,
-} from "iconsax-react";
+
+import { Location, Call, Profile } from "iconsax-react";
 import { IoBed } from "react-icons/io5";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { useNavigate } from "react-router-dom";
-import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
-import RecordPayment from "../../Pages/Bills/RecordPayment";
-import RefundAmount from "../Bills/RefundAmount";
-import { useHasPermission } from "../../Utils/Permission";
-import DiscountInvoice from "./DiscountInvoice";
-import WaiveOFFConfirm from "./WaiveOFFConfirm";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import ApplyBookingModal from "../../Pages/Bookings/ApplyInvoices";
-import { TiTick } from "react-icons/ti";
 
 function AdvanceInvoicePDF() {
   const state = useSelector((state) => state);
@@ -44,10 +17,10 @@ function AdvanceInvoicePDF() {
     pdfDetails?.configurations?.invoiceType === "Rent" &&
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
-  const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
   const textStyle = isGradient
     ? {
@@ -78,7 +51,7 @@ function AdvanceInvoicePDF() {
       : { color: templateColor || "#4B4B4B" };
   };
 
-  const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
+  // const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
   return (
     <div>

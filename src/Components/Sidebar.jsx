@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Container } from "react-bootstrap";
+// import { Container } from "react-bootstrap";
 import { StoreSelectedHostelAction } from "../Redux/Action/LoginAction";
 import "../Components/Sidebar.css";
-import Dashboards from "../Pages/Dashboard/Dashboard";
+// import Dashboards from "../Pages/Dashboard/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
 import UserLists from "../Pages/CustomerFile/UserList";
 import EbHostel from "../Pages/ElectrictyFile/EB_Hostel";
@@ -17,7 +17,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import Assets from "../Pages/AssetFile/Asset";
-import Expenses from "../Pages/ExpenseFile/Expense";
+// import Expenses from "../Pages/ExpenseFile/Expense";
 import Banking from "../Pages/Banking/Banking";
 import {
   ArrowUp2,
@@ -25,9 +25,9 @@ import {
   Chart2,
   DocumentText,
   Buildings,
-  Calendar,
+  // Calendar,
   Messages1,
-  Chart21,
+  // Chart21,
   Chart1,
 } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
@@ -44,7 +44,7 @@ import TenantOverview from "../Pages/CustomerFile/TenantOverview";
 import CheckoutProfile from "../Pages/CustomerFile/CheckoutProfile";
 import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
 import SettingIntergration from "../Pages/Settings/SettingIntergration";
-import SettingElectricity from "../Pages/Settings/SettingElectricity";
+// import SettingElectricity from "../Pages/Settings/SettingElectricity";
 import SettingInvoice from "../Pages/Settings/SettingInvoice";
 import SettingExpenses from "../Pages/Settings/SettingExpenses";
 import SettingCompliance from "../Pages/Settings/SettingCompliance";
@@ -79,7 +79,7 @@ import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
 import Booking from "../Pages/Bookings/Booking";
 import RecurringBills from "../Pages/Recurring/RecurringBills";
-import Receipts from "../Pages/Receipt/Receipt";
+// import Receipts from "../Pages/Receipt/Receipt";
 import BillsPdfDetails from "../Pages/Bills/BillsPdfDetails";
 import ReceiptPdfDetails from "../Pages/Receipt/ReceiptPdfDetails";
 import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
@@ -97,7 +97,7 @@ import ExpenseRegister from "../Reports/ExpenseRegister/ExpenseRegister";
 import OccupancyRegister from "../Reports/OccupancyRegister/OccupancyRegister";
 import BankTransactionRegister from "../Reports/BankTransactionRegister/BankTransactionRegister";
 import ReceiptRegister from "../Reports/ReceiptRegister/ReceiptRegister";
-import DashboardOld from "../Pages/Dashboard/DashboardOld";
+// import DashboardOld from "../Pages/Dashboard/DashboardOld";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import AnalyticalCollectedOutstanding from "../Reports/AnalyticalCollectedVsOutstanding.jsx/AnalyticalCollectedOutstanding";
 import AnalyticalMonthRevenue from "../Reports/AnalyticalMonthRevenue/AnalyticalMonthRevenue";
@@ -107,13 +107,13 @@ import AnalyticalInvoiceTrend from "../Reports/AnalyticalInvoiceTrend/Analytical
 import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolved/AnalyticalComplaintsResolved";
 import GraphQL from "../Pages/Dashboard/GraphQL";
 import LongStayRecurringModal from "../Pages/Settings/BillingRule/LongStay";
-import BillingRuleOld from "../Pages/Settings/BillingRule/BillingRuleOld";
+// import BillingRuleOld from "../Pages/Settings/BillingRule/BillingRuleOld";
 import SettingsElectricityNew from "../Pages/Settings/ElectricityRule/SettingsElectricityNew";
 import ElectricityRule from "../Pages/Settings/ElectricityRule/ElectricityRule";
 import AllPlans from "../Pages/SubscriptionFile/AllPlans";
 import VendorNew from "../Pages/VendorFIle/VendorNew";
 import AddVendorNew from "../Pages/VendorFIle/AddVendorNew";
-import VendorOverView from "../Pages/VendorFIle/VendorOverView";
+// import VendorOverView from "../Pages/VendorFIle/VendorOverView";
 import ExpenseNew from "../Pages/ExpenseFile/ExpenseNew";
 import AddExpenseNew from "../Pages/ExpenseFile/AddExpenseNew";
 import BankingNew from "../Pages/Banking/BankingNew";

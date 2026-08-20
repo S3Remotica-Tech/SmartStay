@@ -1,37 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+// import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
+// import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
-import AddExpenses from "./AddExpenses";
-import ExpensesListTable from "./ExpensesListTable";
+// import AddExpenses from "./AddExpenses";
+// import ExpensesListTable from "./ExpensesListTable";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
-import Filters from "../../Assets/Images/Filters.svg";
-import Image from "react-bootstrap/Image";
-import { useMediaQuery, useTheme } from "@mui/material";
-import PaginationList from "../../Components/PaginationList";
+// import { DatePicker } from "antd";
+// import dayjs from "dayjs";
+// import Filters from "../../Assets/Images/Filters.svg";
+// import Image from "react-bootstrap/Image";
+// import { useTheme } from "@mui/material";
+// import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DeleteExpense from "./DeleteExpense";
 import ApiPagination from "../../Components/ApiPagination";
 import { IoMdMenu } from "react-icons/io";
 import {
-  CloseCircle,
+  // CloseCircle,
   SearchNormal1,
-  ArrowDown,
+  // ArrowDown,
   Filter,
   Setting3,
-  ArrowDown2,
+  // ArrowDown2,
   Chart21,
   Edit,
   Trash,
@@ -50,8 +50,9 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import SettlementPayment from "../VendorFIle/SettlementPayment";
+// import SettlementPayment from "../VendorFIle/SettlementPayment";
 import ExpenseSettlement from "./ExpenseSettlement";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -147,77 +148,77 @@ const CustomStyles = {
 };
 
 function Expenses() {
-  const location = useLocation();
+  // const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const filterRef = useRef(null);
   const navigate = useNavigate();
-  const { RangePicker } = DatePicker;
+  // const { RangePicker } = DatePicker;
   const [getData, setGetData] = useState([]);
-  const selectedPriceRange = "All";
-  const [showModal, setShowModal] = useState(null);
+  // const selectedPriceRange = "All";
+  // const [showModal, setShowModal] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
-  const [showTagAsset, setshowTagAsset] = useState(false);
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [categoryValue, setCategoryValue] = useState("");
-  const [assetValue, setAssetValue] = useState("");
-  const [vendorValue, setVendorValue] = useState("");
-  const [modeValue, setModeValue] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
-  const [amountValue, setAmountValue] = useState("");
-  const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
-  const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
-  const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState("");
-  const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
-  const [ExcelFilterDates, setExcelFilterDates] = useState([]);
-  const [excelDownload, setExcelDownload] = useState("");
-  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
+  // const [showTagAsset, setshowTagAsset] = useState(false);
+  // const [showDeletePopup, setShowDeletePopup] = useState(false);
+  // const [categoryValue, setCategoryValue] = useState("");
+  // const [assetValue, setAssetValue] = useState("");
+  // const [vendorValue, setVendorValue] = useState("");
+  // const [modeValue, setModeValue] = useState("");
+  // const [selectedValue, setSelectedValue] = useState("");
+  // const [amountValue, setAmountValue] = useState("");
+  // const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
+  // const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
+  // const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState("");
+  // const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
+  // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
+  // const [excelDownload, setExcelDownload] = useState("");
+  // const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   // const [dates, setDates] = useState([]);
-  const [pickerKey, setPickerKey] = useState(0);
-  const [filterInput, setFilterInput] = useState("");
+  // const [pickerKey, setPickerKey] = useState(0);
+  // const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  // const [hoveredIndex, setHoveredIndex] = useState(null);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  // const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const tableContainerRef = useRef(null);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const lastScrollLeftRef = useRef(0);
-  const listRef = useRef(null);
-  const tableRef = useRef(null);
+  // const listRef = useRef(null);
+  // const tableRef = useRef(null);
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
   const [isScrolling, setIsScrolling] = useState(false);
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [activeRow, setActiveRow] = useState(null);
+  // const theme = useTheme();
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
   const [showExpenseDelete, setShowExpenseDelete] = useState(false);
   const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  // const [deleteLoading, setDeleteLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  // const [statusfilter, setStatusFilter] = useState("ALL");
   const popupRef = useRef(null);
-  const monthOptions = [];
-  const selectOptions = [{ value: "ALL", label: "All" }];
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const monthOptions = [];
+  // const selectOptions = [{ value: "ALL", label: "All" }];
+  // const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
   const [selectedExpenseId, setSelectedExpenseId] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState();
+  // const [selectedMonth, setSelectedMonth] = useState();
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [showDots, setShowDots] = useState(null);
-  const [showCategory, setShowCategory] = useState(false);
-  const [showPaymentMode, setShowPaymentMode] = useState(false);
-  const [showAmount, setShowAmount] = useState(false);
-  const [showFilterExpense, setShowFilterExpense] = useState(false);
+  // const [showCategory, setShowCategory] = useState(false);
+  // const [showPaymentMode, setShowPaymentMode] = useState(false);
+  // const [showAmount, setShowAmount] = useState(false);
+  // const [showFilterExpense, setShowFilterExpense] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [chips, setChips] = useState([]);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
-  const [showDropDown, setShowDropDown] = useState(false);
+  // const [showDropDown, setShowDropDown] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("");
   const stats = [
     {
@@ -246,13 +247,13 @@ function Expenses() {
       label: item.name,
     })) || [];
 
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
+  // const handleMonthChange = (selectedOption) => {
+  //   setSelectedMonth(selectedOption);
+  // };
 
-  const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
-  };
+  // const handleStatusFilter = (selected) => {
+  //   setStatusFilter(selected?.value || "");
+  // };
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
@@ -276,7 +277,7 @@ function Expenses() {
     }
   }, [canReadExpense]);
 
-  const isExpenseForm = location.state?.isExpenseForm || false;
+  // const isExpenseForm = location.state?.isExpenseForm || false;
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
@@ -308,7 +309,7 @@ function Expenses() {
 
   const handleShowDots = (event, id) => {
     setShowDots((prev) => (prev === id ? null : id));
-    
+
     const rect = event.currentTarget?.getBoundingClientRect();
 
     const popupHeight = 120;
@@ -325,7 +326,7 @@ function Expenses() {
       left: rect.left,
     });
   };
- 
+
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
@@ -406,9 +407,13 @@ function Expenses() {
     };
   }, []);
 
-  useEffect(() => {
-    setShowModal(isExpenseForm);
-  }, [isExpenseForm]);
+  // useEffect(() => {
+  //   navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+  //     state: {
+  //       currentItem: "",
+  //     },
+  //   });
+  // }, [isExpenseForm]);
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -439,9 +444,7 @@ function Expenses() {
     if (
       showDots &&
       popupRef.current &&
-      !popupRef.current.contains(event.target) &&
-      !showTagAsset &&
-      !showDeletePopup
+      !popupRef.current.contains(event.target)
     ) {
       setShowDots(null);
     }
@@ -453,7 +456,7 @@ function Expenses() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showFilter, showDots, showTagAsset, showDeletePopup]);
+  }, [showFilter, showDots]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -471,7 +474,7 @@ function Expenses() {
 
     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
-        currentItem: currentItem,
+        currentItem: "",
       },
     });
   };
@@ -487,21 +490,21 @@ function Expenses() {
     });
   };
 
-  const handleAmountValueChange = (e) => {
-    setSelectedValue(null);
-    const value = e.target.getAttribute("value");
-    setAmountValue(value);
-    setShowFilter(false);
-    const amountRange = value;
-    const [minAmount, maxAmount] = amountRange.split("-").map(Number);
-    // setMinAmount(minAmount);
-    // setMaxAmount(maxAmount);
-    setExcelFilterMinAmount(minAmount);
-    setExcelFilterMaxAmount(maxAmount);
-    setShowAmount(false);
-  };
+  // const handleAmountValueChange = (e) => {
+  //   setSelectedValue(null);
+  //   const value = e.target.getAttribute("value");
+  //   setAmountValue(value);
+  //   setShowFilter(false);
+  //   const amountRange = value;
+  //   const [minAmount, maxAmount] = amountRange.split("-").map(Number);
+  //   // setMinAmount(minAmount);
+  //   // setMaxAmount(maxAmount);
+  //   // setExcelFilterMinAmount(minAmount);
+  //   setExcelFilterMaxAmount(maxAmount);
+  //   setShowAmount(false);
+  // };
 
-  const [currentItem, setCurrentItem] = useState("");
+  // const [currentItem, setCurrentItem] = useState("");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -628,9 +631,9 @@ function Expenses() {
           size: size,
         },
       });
-      setShowModal(false);
+      // setShowModal(false);
       setShowExpenseDelete(false);
-      setDeleteLoading(false);
+      // setDeleteLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_EXPENSE" });
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
@@ -660,49 +663,49 @@ function Expenses() {
     setShowExpenseDelete(false);
   };
 
-  const ConfirmDeleteExpense = () => {
-    if (deleteExpenseRowData) {
-      dispatch({
-        type: "DELETEEXPENSE",
-        payload: {
-          expenseId: deleteExpenseRowData,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-      setDeleteLoading(true);
-    }
-  };
+  // const ConfirmDeleteExpense = () => {
+  //   if (deleteExpenseRowData) {
+  //     dispatch({
+  //       type: "DELETEEXPENSE",
+  //       payload: {
+  //         expenseId: deleteExpenseRowData,
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //     setDeleteLoading(true);
+  //   }
+  // };
 
-  const handleCatogoryChange = (e) => {
-    setSelectedValue(null);
-    setCategoryValue(e.target.getAttribute("value"));
-    setExcelFilterCategoryValue(e.target.getAttribute("value"));
-    setShowFilter(false);
-    setShowCategory(false);
-  };
+  // const handleCatogoryChange = (e) => {
+  //   setSelectedValue(null);
+  //   setCategoryValue(e.target.getAttribute("value"));
+  //   setExcelFilterCategoryValue(e.target.getAttribute("value"));
+  //   setShowFilter(false);
+  //   setShowCategory(false);
+  // };
 
-  const handleModeValueChange = (e) => {
-    setSelectedValue(null);
-    setModeValue(e.target.getAttribute("value"));
-    setExcelFilterPaymentmode(e.target.getAttribute("value"));
-    setShowFilter(false);
-    setShowPaymentMode(false);
-  };
-  const handleExpenseAll = (event) => {
-    const value = event.target.getAttribute("value");
-    setSelectedValue(value);
-    setShowFilter(false);
-  };
+  // const handleModeValueChange = (e) => {
+  //   setSelectedValue(null);
+  //   setModeValue(e.target.getAttribute("value"));
+  //   setExcelFilterPaymentmode(e.target.getAttribute("value"));
+  //   setShowFilter(false);
+  //   setShowPaymentMode(false);
+  // };
+  // const handleExpenseAll = (event) => {
+  //   const value = event.target.getAttribute("value");
+  //   setSelectedValue(value);
+  //   setShowFilter(false);
+  // };
 
-  const handleShowSearch = () => {
-    setShowFilterExpense(!showFilterExpense);
-  };
+  // const handleShowSearch = () => {
+  //   setShowFilterExpense(!showFilterExpense);
+  // };
 
-  const handleCloseSearch = () => {
-    setShowFilterExpense(false);
-    setGetData(state.ExpenseList.expenseList);
-    setSearchQuery("");
-  };
+  // const handleCloseSearch = () => {
+  //   setShowFilterExpense(false);
+  //   setGetData(state.ExpenseList.expenseList);
+  //   setSearchQuery("");
+  // };
 
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
@@ -725,26 +728,26 @@ function Expenses() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.ExpenseList.expenseList &&
-        state.ExpenseList.expenseList.filter(
-          (user) =>
-            user.category_Name &&
-            user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
+  // const handleDropDown = (value) => {
+  //   const searchItem = value;
+  //   setSearchQuery(searchItem);
+  //   if (searchItem !== "") {
+  //     const filteredItems =
+  //       state.ExpenseList.expenseList &&
+  //       state.ExpenseList.expenseList.filter(
+  //         (user) =>
+  //           user.category_Name &&
+  //           user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
+  //       );
 
-      setGetData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setGetData(state.ExpenseList.expenseList);
-    }
-    // setCurrentPage(1);
-    setShowDropDown(false);
-  };
+  //     setGetData(filteredItems);
+  //     setShowDropDown(true);
+  //   } else {
+  //     setGetData(state.ExpenseList.expenseList);
+  //   }
+  //   // setCurrentPage(1);
+  //   setShowDropDown(false);
+  // };
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -766,26 +769,26 @@ function Expenses() {
     }
   }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1440) {
-        setPageSize(20);
-      } else {
-        setPageSize(10);
-      }
-      setPage(1);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth >= 1440) {
+  //       setPageSize(20);
+  //     } else {
+  //       setPageSize(10);
+  //     }
+  //     setPage(1);
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+  // const startIndex = (page - 1) * pageSize;
+  // const endIndex = startIndex + pageSize;
 
-  const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-  };
+  // const handlefilterInput = (e) => {
+  //   setFilterInput(e.target.value);
+  // };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
@@ -912,16 +915,22 @@ function Expenses() {
       </label>
     );
   };
-
-  const handleEditExpense = (item) => {
-    if (item) {
-      navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
-        state: {
-          currentItem: item,
-        },
-      });
-    }
+  SortableItem.propTypes = {
+    item: PropTypes.shape({
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      selected: PropTypes.bool.isRequired,
+      fieldName: PropTypes.string.isRequired,
+    }).isRequired,
   };
+  // const handleEditExpense = (item) => {
+  //   if (item) {
+  //     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
+  //       state: {
+  //         currentItem: item,
+  //       },
+  //     });
+  //   }
+  // };
 
   const currentPage = getData?.currentPage ?? 1;
 
@@ -929,11 +938,8 @@ function Expenses() {
 
   const totalRecords = getData?.totalExpenses ?? 0;
 
- 
-
   const handlePageChange = (page) => {
     setPage(page);
-    
   };
 
   const handleSizeChange = (sizeValue) => {
@@ -997,11 +1003,7 @@ function Expenses() {
           <div className="relative">
             <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
               <div className="flex flex-wrap items-center gap-3">
-                <div
-                  className={`border border-gray-300 rounded-lg w-36 ${
-                    statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-                  }`}
-                >
+                <div className={`border border-gray-300 rounded-lg w-36 `}>
                   <Select
                     options={categoryOptions}
                     styles={CustomStyles}
@@ -1038,7 +1040,7 @@ function Expenses() {
                     size={16}
                     onClick={() => {
                       if (canReadExpense) {
-                        setIsFilterOpen(true);
+                        // setIsFilterOpen(true);
                       }
                     }}
                     className={`transition-opacity duration-300 ${
@@ -1328,14 +1330,6 @@ function Expenses() {
                                       </td>
                                     );
 
-                                    return (
-                                      <td
-                                        key={col.fieldName}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
-                                      >
-                                        {user.bookingAmount}
-                                      </td>
-                                    );
                                   default:
                                     return (
                                       <td key={col.key} className={finalClass}>
@@ -1642,15 +1636,6 @@ function Expenses() {
         <div className="absolute top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 border-t-4 border-r-4 border-blue-700 border-r-transparent rounded-full animate-spin"></div>
         </div>
-      )}
-
-      {showModal && (
-        <AddExpenses
-          hostelId={allPageHostel_Id}
-          show={showModal}
-          currentItem={currentItem}
-          setShowModal={setShowModal}
-        />
       )}
 
       {showExpenseDelete && (

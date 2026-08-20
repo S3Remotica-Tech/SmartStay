@@ -18,7 +18,7 @@ function DashExpenseProfit() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   // const [selected, setSelected] = useState("This Month");
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [slectedData, setSelectedData] = useState("This Month");
@@ -93,7 +93,7 @@ function DashExpenseProfit() {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
+        // setOpen(false);
         setCalendarOpen(false);
       }
     };

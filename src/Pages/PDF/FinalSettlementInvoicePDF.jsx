@@ -1,38 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import "../Bills/Invoices.css";
-import Whatsapp from "../../Assets/Images/whatsapp.png";
-import Whatsapp_blue from "../../Assets/Images/whatsapp_blue.png";
-import Whatsapp_white from "../../Assets/Images/whatsapp_white.png";
-import Mail from "../../Assets/Images/gmail.png";
-import Mail_white from "../../Assets/Images/gmail_white.png";
-import Message_text from "../../Assets/Images/message-text.png";
-import Message_text_white from "../../Assets/Images/message-white.png";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import PropTypes from "prop-types";
-import { IoClose } from "react-icons/io5";
-import { Row, Col, Table } from "react-bootstrap";
-import {
-  Location,
-  Call,
-  Profile,
-  DocumentDownload,
-  Edit,
-  RefreshSquare,
-  Link21,
-} from "iconsax-react";
-import { IoBed } from "react-icons/io5";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { useNavigate } from "react-router-dom";
-import { ArrowUp2, ArrowDown2, AddCircle, Add } from "iconsax-react";
-import RecordPayment from "../../Pages/Bills/RecordPayment";
-import RefundAmount from "../Bills/RefundAmount";
-import { useHasPermission } from "../../Utils/Permission";
-import DiscountInvoice from "./DiscountInvoice";
-import WaiveOFFConfirm from "./WaiveOFFConfirm";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import ApplyBookingModal from "../../Pages/Bookings/ApplyInvoices";
+
 import { TiTick } from "react-icons/ti";
 
 function FinalSettlementInvoicePDF() {
@@ -47,14 +18,6 @@ function FinalSettlementInvoicePDF() {
 
   const templateColor = pdfDetails?.configInfo?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
-  const showRentalPeriod =
-    pdfDetails?.configInfo?.invoiceType === "Rent" &&
-    pdfDetails?.invoiceType !== "SETTLEMENT";
-
-  const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
 
   const textStyle = isGradient
     ? {
@@ -69,23 +32,6 @@ function FinalSettlementInvoicePDF() {
         fontWeight: 600,
         color: templateColor || "#1E45E1",
       };
-
-  const getIconStyle = (templateColor) => {
-    const isGradient = templateColor?.includes("linear-gradient");
-
-    return isGradient
-      ? {
-          background: templateColor,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }
-      : { color: templateColor || "#4B4B4B" };
-  };
-
-  const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
   return (
     <div className="font-gilroy relative">
@@ -285,18 +231,23 @@ function FinalSettlementInvoicePDF() {
                   <h3 className="text-[11px] font-semibold text-[#1A1C21]">
                     Electricity Bill
                   </h3>
-                  {pdfDetails?.currentMonthEbInfo?.ebItemsList?.map((view) => (
-                    <div className="mt-1 space-y-2 text-[10px] text-[#6B7280] leading-5">
-                      <div>
-                        {" "}
-                        <span>
-                          {view.floorName || ""} {view.roomName || ""}
-                          {view.bedName || ""} &nbsp; &nbsp; ₹{" "}
-                          {view.totalAmount} ({view.consumption} Units)
-                        </span>
+                  {pdfDetails?.currentMonthEbInfo?.ebItemsList?.map(
+                    (view, index) => (
+                      <div
+                        key={index}
+                        className="mt-1 space-y-2 text-[10px] text-[#6B7280] leading-5"
+                      >
+                        <div>
+                          {" "}
+                          <span>
+                            {view.floorName || ""} {view.roomName || ""}
+                            {view.bedName || ""} &nbsp; &nbsp; ₹{" "}
+                            {view.totalAmount} ({view.consumption} Units)
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
 
                 <p className="text-[11px] font-semibold text-[#1A1C21] whitespace-nowrap">
@@ -479,8 +430,8 @@ function FinalSettlementInvoicePDF() {
                   Wallet
                 </h3>
                 <div className="mt-1 space-y-2 text-[10px] text-[#6B7280]">
-                  {pdfDetails?.walletInfo?.walletItems?.map((wal) => (
-                    <div>
+                  {pdfDetails?.walletInfo?.walletItems?.map((wal, index) => (
+                    <div key={index}>
                       <labell>{wal.name}</labell> <label>{wal.amount}</label>
                     </div>
                   ))}
