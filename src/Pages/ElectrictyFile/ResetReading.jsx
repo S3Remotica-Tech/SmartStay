@@ -131,7 +131,6 @@ function ResetReading({ show, handleClose, resetDetails }) {
   const [reading, setReading] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const [reasonError, setReasonError] = useState("");
   const [dateError, setDateError] = useState("");
   const [readingError, setReadingError] = useState("");
@@ -142,62 +141,55 @@ function ResetReading({ show, handleClose, resetDetails }) {
 
   if (!show) return null;
 
-  
+  // const validateForm = () => {
+  //   let isValid = true;
+  //   let firstErrorRef = null;
 
-  const validateForm = () => {
-    let isValid = true;
-    let firstErrorRef = null;
+  //   setReasonError("");
+  //   setDateError("");
+  //   setReadingError("");
 
-    setReasonError("");
-    setDateError("");
-    setReadingError("");
+  //   if (!reason && !reasonInput.trim()) {
+  //     setReasonError("Please select or enter a reason");
+  //     isValid = false;
 
-    if (!reason && !reasonInput.trim()) {
-      setReasonError("Please select or enter a reason");
-      isValid = false;
+  //     if (!firstErrorRef) {
+  //       firstErrorRef = reasonRef;
+  //     }
+  //   }
 
-      if (!firstErrorRef) {
-        firstErrorRef = reasonRef;
-      }
-    }
+  //   if (!date) {
+  //     setDateError("Please select a starting date");
+  //     isValid = false;
 
-    if (!date) {
-      setDateError("Please select a starting date");
-      isValid = false;
+  //     if (!firstErrorRef) {
+  //       firstErrorRef = dateRef;
+  //     }
+  //   }
 
-      if (!firstErrorRef) {
-        firstErrorRef = dateRef;
-      }
-    }
+  //   if (!reading?.trim()) {
+  //     setReadingError("Please enter meter reading");
+  //     isValid = false;
 
-    if (!reading?.trim()) {
-      setReadingError("Please enter meter reading");
-      isValid = false;
+  //     if (!firstErrorRef) {
+  //       firstErrorRef = readingRef;
+  //     }
+  //   }
 
-      if (!firstErrorRef) {
-        firstErrorRef = readingRef;
-      }
-    }
+  //   if (firstErrorRef?.current) {
+  //     if (firstErrorRef === dateRef) {
+  //       firstErrorRef.current.setFocus?.();
+  //     } else {
+  //       firstErrorRef.current.focus?.();
+  //     }
+  //   }
 
-    if (firstErrorRef?.current) {
-      if (firstErrorRef === dateRef) {
-        firstErrorRef.current.setFocus?.();
-      } else {
-        firstErrorRef.current.focus?.();
-      }
-    }
-
-    return isValid;
-  };
+  //   return isValid;
+  // };
 
   const handleSubmit = async () => {
     dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
-    if (!validateForm()) return;
-
-    const payload = {
-      // reason: reason?.label || reasonInput,
-      // continueExisting: continueExisting,
-    };
+    // if (!validateForm()) return;
 
     dispatch({
       type: "RESET_EB",
@@ -213,7 +205,8 @@ function ResetReading({ show, handleClose, resetDetails }) {
         hostelId: state.login.selectedHostel_Id,
         roomId: resetDetails?.roomId,
         resetOn: date ? dayjs(date).format("DD-MM-YYYY") : "",
-        startReading: Number(reading),
+        startReading: reading ? Number(reading) : "",
+        resetReason: reason?.label || reasonInput,
       },
     });
     setLoading(true);
@@ -272,7 +265,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
         <div className="px-4 flex-1 show-scrolls overflow-y-auto space-y-5">
           <div>
             <label className="text-sm font-medium text-[#344054]">
-              Reset Reason <span className="text-red-600 text-[20px]">*</span>
+              Reset Reason
             </label>
             <div ref={reasonRef}>
               <CreatableSelect
@@ -310,7 +303,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
 
           <div>
             <label className="text-sm font-medium text-[#344054]">
-              Starting Date <span className="text-red-600 text-[20px]">*</span>
+              Starting Date
             </label>
 
             <div className="relative" ref={dateRef}>
@@ -323,8 +316,8 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 }}
                 dateFormat="dd/MM/yyyy"
                 placeholder="DD/MM/YYYY"
-                minDate={new Date()}
                 placeholderText="Select Date"
+                maxDate={new Date()}
                 className={`w-full h-[50px] rounded-lg px-3 pr-10 text-sm outline-none border ${
                   dateError ? "border-red-500" : "border-[#D9D9D9]"
                 }`}
@@ -343,7 +336,6 @@ function ResetReading({ show, handleClose, resetDetails }) {
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-[#344054]">
                 New Meter Reading{" "}
-                <span className="text-red-600 text-[20px]">*</span>
               </label>
 
               {/* <label className="flex items-center gap-2 text-xs text-[#667085] cursor-pointer">
