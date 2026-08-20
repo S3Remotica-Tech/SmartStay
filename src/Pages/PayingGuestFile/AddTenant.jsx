@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InputGroup } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
-import Image from "react-bootstrap/Image";
+// import Modal from "react-bootstrap/Modal";
+// import Plus from "../../Assets/Images/New_images/add-circle.png";
+// import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,17 +21,17 @@ import {
   AddCircle,
   DocumentUpload,
   Trash,
-  ArrowForward,
+  // ArrowForward,
   DocumentText,
   TableDocument,
-  ArrowRight,
+  // ArrowRight,
   SearchNormal,
 } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import Flipbackward from "../../Assets/Images/flip-backward.png";
-import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
-import Store_Icon from "../../Assets/Images/store_icon.png";
-import { RiShoppingBag3Line } from "react-icons/ri";
+// import Flipbackward from "../../Assets/Images/flip-backward.png";
+// import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
+// import Store_Icon from "../../Assets/Images/store_icon.png";
+// import { RiShoppingBag3Line } from "react-icons/ri";
 import ErrorMessage from "../../Components/ErrorMessage";
 import AddTenantBookingCheckin from "./AddTenantBookingCheckin";
 
@@ -193,7 +193,7 @@ function AddTenant({
   const [lastname, setLastname] = useState("");
   const [Phone, setPhone] = useState("");
   const [step, setStep] = useState(1);
-  const [isDisabled, setIsDisabled] = useState(false);
+  // const [isDisabled, setIsDisabled] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [Email, setEmail] = useState("");
   const [house_no, setHouseNo] = useState("");
@@ -217,7 +217,7 @@ function AddTenant({
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const [hasVehicle, setHasVehicle] = useState(true);
+  // const [hasVehicle, setHasVehicle] = useState(true);
   const [guardians, setGuardians] = useState([
     {
       guardianFullName: "",
@@ -226,9 +226,9 @@ function AddTenant({
       mobileNo: "",
     },
   ]);
-  const [relationship, setRelationship] = useState(null);
-  const [occupation, setOccupation] = useState(null);
-  const [mobile, setMobile] = useState("");
+  // const [relationship, setRelationship] = useState(null);
+  // const [occupation, setOccupation] = useState(null);
+  // const [mobile, setMobile] = useState("");
   const [aadhaarFile, setAadhaarFile] = useState(null);
   const [panFile, setPanFile] = useState(null);
   const [employmentStatus, setEmploymentStatus] = useState(null);
@@ -249,33 +249,31 @@ function AddTenant({
   const emailRef = useRef(null);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef(null);
-  const aadhaarRef = useRef(null);
-  const panRef = useRef(null);
+  // const aadhaarRef = useRef(null);
+  // const panRef = useRef(null);
   const [draftTenantId, setDraftTenantId] = useState("");
-  const [vehicleType, setVehicleType] = useState(null);
-  const [vehicleNumber, setVehicleNumber] = useState("");
-  const [parkingSpace, setParkingSpace] = useState("");
+  // const [vehicleType, setVehicleType] = useState(null);
+  // const [vehicleNumber, setVehicleNumber] = useState("");
+  // const [parkingSpace, setParkingSpace] = useState("");
 
-  const [vehicleTypeError, setVehicleTypeError] = useState("");
-  const [vehicleNumberError, setVehicleNumberError] = useState("");
-  const [parkingSpaceError, setParkingSpaceError] = useState("");
+  // const [vehicleTypeError, setVehicleTypeError] = useState("");
+  // const [vehicleNumberError, setVehicleNumberError] = useState("");
+  // const [parkingSpaceError, setParkingSpaceError] = useState("");
 
-  const vehicleTypeRef = useRef(null);
-  const vehicleNumberRef = useRef(null);
-  const parkingSpaceRef = useRef(null);
+  // const vehicleTypeRef = useRef(null);
+  // const vehicleNumberRef = useRef(null);
+  // const parkingSpaceRef = useRef(null);
 
-  
-
-  const vehicleTypeOptions = [
-    {
-      value: "2_WHEELER",
-      label: "2-Wheeler",
-    },
-    {
-      value: "4_WHEELER",
-      label: "4-Wheeler",
-    },
-  ];
+  // const vehicleTypeOptions = [
+  //   {
+  //     value: "2_WHEELER",
+  //     label: "2-Wheeler",
+  //   },
+  //   {
+  //     value: "4_WHEELER",
+  //     label: "4-Wheeler",
+  //   },
+  // ];
 
   useEffect(() => {
     const customerId =
@@ -321,7 +319,7 @@ function AddTenant({
     return file.type.startsWith("image/");
   };
 
-  const isImage = (file) => file && file?.type?.startsWith("image/");
+  // const isImage = (file) => file && file?.type?.startsWith("image/");
   const [searchLoading, setSearchLoading] = useState(false);
   const handleDeleteAadhaar = () => setAadhaarFile(null);
   const handleDeletePan = () => setPanFile(null);
@@ -358,48 +356,48 @@ function AddTenant({
     ]);
   };
 
-  const handleVehicleNumberChange = (e) => {
-    const value = e.target.value.toUpperCase();
-    setVehicleNumberError("");
-    if (/^[A-Z0-9]*$/.test(value)) {
-      setVehicleNumber(value);
+  // const handleVehicleNumberChange = (e) => {
+  //   const value = e.target.value.toUpperCase();
+  //   setVehicleNumberError("");
+  //   if (/^[A-Z0-9]*$/.test(value)) {
+  //     setVehicleNumber(value);
 
-      if (value.trim()) {
-        setVehicleNumberError("");
-      }
-    }
-  };
+  //     if (value.trim()) {
+  //       setVehicleNumberError("");
+  //     }
+  //   }
+  // };
 
-  const handleParkingSpaceChange = (e) => {
-    const value = e.target.value;
+  // const handleParkingSpaceChange = (e) => {
+  //   const value = e.target.value;
 
-    if (/^[A-Za-z0-9 ]*$/.test(value)) {
-      setParkingSpace(value);
-      setParkingSpaceError("");
-    }
-  };
+  //   if (/^[A-Za-z0-9 ]*$/.test(value)) {
+  //     setParkingSpace(value);
+  //     setParkingSpaceError("");
+  //   }
+  // };
 
-  const handleVehicleTypeChange = (value) => {
-    setVehicleType(value);
+  // const handleVehicleTypeChange = (value) => {
+  //   setVehicleType(value);
 
-    if (value) {
-      setVehicleTypeError("");
-    }
-  };
+  //   if (value) {
+  //     setVehicleTypeError("");
+  //   }
+  // };
 
   const handleRemoveGuardian = (index) => {
     setGuardians(guardians.filter((_, i) => i !== index));
   };
 
-  const handleAadhaarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) setAadhaarFile(file);
-  };
+  // const handleAadhaarChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) setAadhaarFile(file);
+  // };
 
-  const handlePanChange = (e) => {
-    const file = e.target.files[0];
-    if (file) setPanFile(file);
-  };
+  // const handlePanChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) setPanFile(file);
+  // };
 
   const handleChange = (e) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 10);
@@ -1088,35 +1086,35 @@ function AddTenant({
     }
   };
 
-  const validateVehicle = () => {
-    setVehicleTypeError("");
-    setVehicleNumberError("");
-    let isValid = true;
+  // const validateVehicle = () => {
+  //   setVehicleTypeError("");
+  //   setVehicleNumberError("");
+  //   let isValid = true;
 
-    if (!hasVehicle) {
-      return true;
-    }
+  //   if (!hasVehicle) {
+  //     return true;
+  //   }
 
-    if (!vehicleType) {
-      setVehicleTypeError("Please Select Vehicle type");
+  //   if (!vehicleType) {
+  //     setVehicleTypeError("Please Select Vehicle type");
 
-      if (vehicleTypeRef.current) {
-        vehicleTypeRef.current.focus();
-      }
+  //     if (vehicleTypeRef.current) {
+  //       vehicleTypeRef.current.focus();
+  //     }
 
-      return false;
-    }
+  //     return false;
+  //   }
 
-    const vehicleRegex = /^[A-Z]{2}[0-9]{1,2}[A-Z]{1,3}[0-9]{1,4}$/;
+  //   const vehicleRegex = /^[A-Z]{2}[0-9]{1,2}[A-Z]{1,3}[0-9]{1,4}$/;
 
-    if (vehicleNumber && !vehicleRegex.test(vehicleNumber.replace(/\s/g, ""))) {
-      setVehicleNumberError("Enter a valid vehicle number.");
-      vehicleNumberRef.current?.focus();
-      return false;
-    }
+  //   if (vehicleNumber && !vehicleRegex.test(vehicleNumber.replace(/\s/g, ""))) {
+  //     setVehicleNumberError("Enter a valid vehicle number.");
+  //     vehicleNumberRef.current?.focus();
+  //     return false;
+  //   }
 
-    return isValid;
-  };
+  //   return isValid;
+  // };
 
   const validateGuardianMobile = (mobile) => {
     if (!mobile) return "";
@@ -1276,94 +1274,94 @@ function AddTenant({
     }
   }, [state.createAccount?.networkError]);
 
-  const handleNext = () => {
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    let hasError = false;
-    const focusedRef = { current: false };
-    if (
-      !validateField(
-        firstname,
-        "First Name",
-        firstnameRef,
-        setFirstnameError,
-        focusedRef,
-      )
-    )
-      hasError = true;
-    if (
-      !validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)
-    )
-      hasError = true;
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
+  // const handleNext = () => {
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
+  //   if (
+  //     !validateField(
+  //       firstname,
+  //       "First Name",
+  //       firstnameRef,
+  //       setFirstnameError,
+  //       focusedRef,
+  //     )
+  //   )
+  //     hasError = true;
+  //   if (
+  //     !validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)
+  //   )
+  //     hasError = true;
+  //   if (Phone && Phone.length !== 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //     if (!focusedRef.current && phoneRef?.current) {
+  //       phoneRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   } else if (Phone) {
+  //     setPhoneError("");
+  //     setPhoneErrorMessage("");
+  //   }
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-    if (hasError) {
-      return;
-    }
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
+  //   if (Email) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
+  //     if (!isValidEmail) {
+  //       setEmailError("Please Enter Valid Email ID");
+  //       if (!focusedRef.current) {
+  //         focusedRef.current = true;
+  //       }
+  //       hasError = true;
+  //     } else {
+  //       setEmailError("");
+  //     }
+  //   } else {
+  //     setEmailError("");
+  //   }
+  //   if (hasError) {
+  //     return;
+  //   }
+  //   const capitalizeFirstLetter = (str) => {
+  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
 
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
 
-    const basicAndAddressPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      customerInfo: {
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobileNumber: Phone,
-        emailId: Email,
-        idProofType: idProofType?.value || idProofType || "",
-        idProofNo: idProofNo,
-        type: 1,
-        address: {
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-        },
-      },
-    };
-    dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
+  //   const basicAndAddressPayload = {
+  //     profilePic: file,
+  //     hostelId: state.login.selectedHostel_Id,
+  //     customerInfo: {
+  //       firstName: capitalizedFirstname,
+  //       lastName: capitalizedLastname,
+  //       mobileNumber: Phone,
+  //       emailId: Email,
+  //       idProofType: idProofType?.value || idProofType || "",
+  //       idProofNo: idProofNo,
+  //       type: 1,
+  //       address: {
+  //         houseNo: house_no,
+  //         street: street,
+  //         landmark: landmark,
+  //         city: city,
+  //         pincode: pincode,
+  //         state: state_name,
+  //       },
+  //     },
+  //   };
+  //   dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
 
-    setStep(2);
-  };
+  //   setStep(2);
+  // };
 
   const handleNextStep = () => {
     setStep(3);
   };
-  const handlePrevious = () => {
-    setStep(1);
-  };
+  // const handlePrevious = () => {
+  //   setStep(1);
+  // };
 
   const handleDraftTenant = (customerId) => {
     if (customerId) {
@@ -1615,6 +1613,8 @@ function AddTenant({
       });
     }
   }, [step]);
+
+  if (!showMenu) return null;
 
   return (
     <>
@@ -2855,5 +2855,7 @@ AddTenant.propTypes = {
   onClick: PropTypes.func.isRequired,
   setShowAddCustomer: PropTypes.func.isRequired,
   onclickdata: PropTypes.func.isRequired,
+  alreadySaveDraftTenantDetails: PropTypes?.object,
+  bookingOnly: PropTypes?.bool,
 };
 export default AddTenant;

@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import {
   Add,
-  AddCircle,
-  CloseCircle,
-  Trash,
-  Edit,
-  Setting3,
-  MessageQuestion,
-  Edit2,
+  // AddCircle,
+  // CloseCircle,
+  // Trash,
+  // Edit,
+  // Setting3,
+  // MessageQuestion,
+  // Edit2,
 } from "iconsax-react";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import Green from "../../Assets/Images/New_images/Frame.png";
 import White from "../../Assets/Images/New_images/empty_bed.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
@@ -19,9 +19,10 @@ import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
 import Tick from "../../Assets/v2Images/Tick.svg";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import PropTypes from "prop-types";
 
 function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [selectedBed, setSelectedBed] = useState("");
   const [hoveredBedId, setHoveredBedId] = useState("");
@@ -259,18 +260,21 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                                             <div className="absolute -top-[2px] -right-[10px]">
                                               {bed.isBooked && (
                                                 <img
+                                                  alt="image"
                                                   src={recerverimg}
                                                   className="w-[20px] h-[20px] flex-shrink-0"
                                                 />
                                               )}
                                               {bed.onNotice && (
                                                 <img
+                                                  alt="image"
                                                   src={noticeimg}
                                                   className="w-[20px] h-[20px] flex-shrink-0"
                                                 />
                                               )}
                                               {bed.overDue && (
                                                 <img
+                                                  alt="image"
                                                   src={overDude}
                                                   className="w-[20px] h-[20px] flex-shrink-0"
                                                 />
@@ -299,18 +303,21 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                                               >
                                                 {bed.isBooked && (
                                                   <img
+                                                    alt="image"
                                                     src={recerverimg}
                                                     className="w-[18px] h-[18px] flex-shrink-0"
                                                   />
                                                 )}
                                                 {bed.onNotice && (
                                                   <img
+                                                    alt="image"
                                                     src={noticeimg}
                                                     className="w-[18px] h-[18px] flex-shrink-0"
                                                   />
                                                 )}
                                                 {bed.overDue && (
                                                   <img
+                                                    alt="image"
                                                     src={overDude}
                                                     className="w-[18px] h-[18px] flex-shrink-0"
                                                   />
@@ -383,5 +390,10 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
     </div>
   );
 }
-
+PgLayoutView.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  selectedBedDetails: PropTypes.object,
+  isWay: PropTypes.bool,
+};
 export default PgLayoutView;

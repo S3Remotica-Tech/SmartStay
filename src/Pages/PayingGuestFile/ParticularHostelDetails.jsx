@@ -5,7 +5,7 @@ import AddRoom from "./AddRoom";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from "./DeleteRoom";
 import "react-toastify/dist/ReactToastify.css";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./ParticularHostelDetails.css";

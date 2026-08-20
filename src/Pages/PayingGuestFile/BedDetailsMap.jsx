@@ -41,7 +41,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [emptybed, setEmptyBed] = useState(false);
   const [showReservedBed, setShowReservedBed] = useState(false);
   const [occupiedCustomer, setOccupiedCustomer] = useState(false);
-  const [showCheckIn, setShowCheckIn] = useState(false);
+  // const [showCheckIn, setShowCheckIn] = useState(false);
   const [showInactive, setShowInActive] = useState(false);
   const [Noticeperiod_booking, setNoticePeriodBooking] = useState(false);
   const [Noticeperiod_checkout, setNoticePeriodCheckout] = useState(false);
@@ -159,7 +159,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setOccubiedBed(false);
   };
 
-    const handleCloseCheck_In = () => {
+  const handleCloseCheck_In = () => {
     setShowbookingToCheckIn(false);
   };
 
@@ -258,7 +258,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setEmptyBed(false);
   };
 
-
   const [selectedTenant, setSelectedTenant] = useState(null);
 
   useEffect(() => {
@@ -339,7 +338,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   };
 
   const handleDisplayCheckInForm = () => {
-    setShowCheckIn(true);
+    // setShowCheckIn(true);
     setNoticePeriodBed(false);
   };
 
@@ -475,7 +474,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
       setFilteredBeds(bedsForRoom.filter((bed) => !bed.isOccupied));
     }
   }, [bedsForRoom, state.login.isTrigger]);
-  
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -790,18 +788,21 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
                           <div className="absolute -top-[2px] -right-[10px]">
                             {bed.isBooked && (
                               <img
+                                alt="image"
                                 src={recerverimg}
                                 className="w-[20px] h-[20px] flex-shrink-0"
                               />
                             )}
                             {bed.onNotice && (
                               <img
+                                alt="image"
                                 src={noticeimg}
                                 className="w-[20px] h-[20px] flex-shrink-0"
                               />
                             )}
                             {bed.overDue && (
                               <img
+                                alt="image"
                                 src={overDude}
                                 className="w-[20px] h-[20px] flex-shrink-0"
                               />
@@ -825,18 +826,21 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
                             >
                               {bed.isBooked && (
                                 <img
+                                  alt="image"
                                   src={recerverimg}
                                   className="w-[18px] h-[18px] flex-shrink-0"
                                 />
                               )}
                               {bed.onNotice && (
                                 <img
+                                  alt="image"
                                   src={noticeimg}
                                   className="w-[18px] h-[18px] flex-shrink-0"
                                 />
                               )}
                               {bed.overDue && (
                                 <img
+                                  alt="image"
                                   src={overDude}
                                   className="w-[18px] h-[18px] flex-shrink-0"
                                 />

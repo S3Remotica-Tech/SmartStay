@@ -19,10 +19,7 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
     dispatch({ type: "CLEAR_DELETE_ROOM_ERROR" });
   };
 
-
-
   const handleDeleteConfirm = () => {
-   
     if (
       (deleteDetails?.readingId || deleteDetails?.id) &&
       state.login.selectedHostel_Id
@@ -43,6 +40,13 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
       setDeleteLoading(false);
     }
   }, [state.UsersList?.deleteReadingStatusCode]);
+
+  useEffect(() => {
+    if (state?.UsersList?.deleteReadingError) {
+      setDeleteLoading(false);
+      dispatch({ type: "REMOVE_DELETE_READING_ERROR" });
+    }
+  }, [state?.UsersList?.deleteReadingError]);
 
   return (
     <div>

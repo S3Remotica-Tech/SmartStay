@@ -218,6 +218,7 @@ export const initialState = {
   CustomerListGetSuccessCode: 0,
   CustomerList: [],
   RentRevisionError: "",
+  deleteReadingError: "",
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -247,6 +248,11 @@ const UserListReducer = (state = initialState, action) => {
       return { ...state, accessRestrictionError: action.payload };
     case "ACCESS_RESTRICTION_ERROR_REMOVE":
       return { ...state, accessRestrictionError: "" };
+
+    case "DELETE_READING_ERROR":
+      return { ...state, deleteReadingError: action.payload };
+    case "REMOVE_DELETE_READING_ERROR":
+      return { ...state, deleteReadingError: "" };
 
     case "VENDOR_SETTLEMENT_ERROR":
       return { ...state, vendorSettleError: action.payload };

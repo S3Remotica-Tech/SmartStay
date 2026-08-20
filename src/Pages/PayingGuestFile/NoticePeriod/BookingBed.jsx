@@ -2,7 +2,7 @@
 import { Form, FormControl } from "react-bootstrap";
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
@@ -260,8 +260,6 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
     setFormLoading(true);
   };
 
-  
-
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false);
@@ -300,6 +298,9 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
       label: u.fullName,
     })) || [];
   const isComingSoon = false;
+
+  if (!show) return null;
+
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />

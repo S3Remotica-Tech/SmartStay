@@ -50,7 +50,7 @@ function OccupiedBedStatus({
   } = useHasPermission("Paying Guests");
 
   const {
-    canWriteModule: canWriteCheckout,
+    // canWriteModule: canWriteCheckout,
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
@@ -515,7 +515,7 @@ OccupiedBedStatus.propTypes = {
   handleShowReassignBed: PropTypes.func.isRequired,
   handleShowNoticePeriod: PropTypes.func.isRequired,
   showEditBed: PropTypes.func.isRequired,
-  // handleShowCheck_In: PropTypes.func.isRequired,
+  handleShowCheck_In: PropTypes.func.isRequired,
   handleShowInActiveForm: PropTypes.func.isRequired,
 };
 export default OccupiedBedStatus;

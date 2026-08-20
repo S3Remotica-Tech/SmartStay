@@ -13,7 +13,7 @@ import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
@@ -28,7 +28,7 @@ import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from "../../Redux/Action/LoginAction";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -44,7 +44,7 @@ function PgList() {
   // const [editPermissionError, setEditPermissionError] = useState("");
   // const [deletePermissionError, setDeletePermissionError] = useState("");
 
-  const [key, setKey] = useState("1");
+  // const [key, setKey] = useState("1");
 
   const [visibleRange, setVisibleRange] = useState([0, 2]);
 
@@ -212,7 +212,7 @@ function PgList() {
         const lastFloor = updatedFloors[updatedFloors.length - 1];
         const lastIndex = updatedFloors.length - 1;
         setFloorClick(lastFloor?.id || null);
-        setKey(lastFloor?.id?.toString() || "");
+        // setKey(lastFloor?.id?.toString() || "");
         setFloorName(lastFloor?.name || "");
 
         const newStart = Math.max(0, lastIndex - 2);
@@ -220,7 +220,7 @@ function PgList() {
         setVisibleRange([newStart, newEnd]);
       } else {
         setFloorClick(null);
-        setKey("");
+        // setKey("");
         setFloorName("");
       }
     }
@@ -254,16 +254,16 @@ function PgList() {
 
           if (firstVisibleFloor) {
             setFloorClick(firstVisibleFloor.id);
-            setKey(firstVisibleFloor.id);
+            // setKey(firstVisibleFloor.id);
             setFloorName(firstVisibleFloor.name);
           } else {
             setFloorClick(updatedFloors[0]?.id || null);
-            setKey(updatedFloors[0]?.id || "");
+            // setKey(updatedFloors[0]?.id || "");
             setFloorName(updatedFloors[0]?.name || "");
           }
         } else {
           setFloorClick(null);
-          setKey("");
+          // setKey("");
           setFloorName("");
         }
 
@@ -563,7 +563,7 @@ function PgList() {
       if (prevFloorIndex >= 0) {
         const prevFloor = floorList[prevFloorIndex];
 
-        setKey(prevFloor.id.toString());
+        // setKey(prevFloor.id.toString());
         setFloorClick(prevFloor.id);
         setFloorName(prevFloor.name);
 
@@ -580,7 +580,7 @@ function PgList() {
     if (floorIndex !== -1 && floorIndex < floorList?.length - 1) {
       const nextFloor = floorList[floorIndex + 1];
 
-      setKey(nextFloor.id.toString());
+      // setKey(nextFloor.id.toString());
       setFloorClick(nextFloor.id);
       setFloorName(nextFloor.name);
 
@@ -592,7 +592,7 @@ function PgList() {
 
   const handleFloorClick = (floorNumber, floorName) => {
     setFloorClick(floorNumber);
-    setKey(floorNumber.toString());
+    // setKey(floorNumber.toString());
     setFloorName(floorName);
   };
 

@@ -34,8 +34,7 @@ function BedDetails({
     // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Customers");
 
-  const { canWriteModule: canWriteBooking, canReadModule: canReadBooking } =
-    useHasPermission("Booking");
+  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
 
   const {
     canUpdateModule: canUpdatePayingGuests,

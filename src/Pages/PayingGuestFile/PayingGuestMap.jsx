@@ -10,16 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+// import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 function PayingGuestMap(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(false);
   const [hoverPgCard, setHoverPgCard] = useState(false);
-  const [pgDeleteError, setPgDeleteError] = useState("");
+  // const [pgDeleteError, setPgDeleteError] = useState("");
   const popupRef = useRef(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
@@ -29,7 +29,7 @@ function PayingGuestMap(props) {
 
   const {
     // canWriteModule: canWritePayingGuests,
-    canReadModule: canReadPayingGuests,
+    // canReadModule: canReadPayingGuests,
     canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
@@ -113,7 +113,7 @@ function PayingGuestMap(props) {
   }, [state.PgList?.deletePgError]);
   const handleClose = () => {
     setShow(false);
-    setPgDeleteError("");
+    // setPgDeleteError("");
     dispatch({ type: "CLEAR_DELETE_PG_ERROR" });
   };
 
@@ -131,8 +131,6 @@ function PayingGuestMap(props) {
   const handleMouseLeave = () => {
     setHoverPgCard(false);
   };
-
- 
 
   return (
     <>

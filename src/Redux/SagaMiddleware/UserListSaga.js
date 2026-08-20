@@ -119,7 +119,6 @@ function* handleApiError(error) {
 function* handleSettlementPayemntExpense(settle) {
   try {
     const response = yield call(settlePaymentExpense, settle.payload);
-    
 
     if (response?.status === 200) {
       yield put({
@@ -156,7 +155,7 @@ function* handleSettlementPayemntExpense(settle) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    
+
     if (error) {
       yield put({
         type: "EXPENSE_SETTLEMENT_ERROR",
@@ -345,7 +344,6 @@ function* handleRemoveRentRevision(rent) {
 
 function* handleSettlementPayemnt(settle) {
   try {
-   
     const response = yield call(settlePayment, settle.payload);
 
     if (response?.status === 200) {
@@ -407,8 +405,6 @@ function* handleSaveDraft(draft) {
   try {
     const response = yield call(SaveDraftTenant, draft.payload);
 
-   
-
     if (response?.status === 201) {
       yield put({
         type: "SAVE_DRAFT_REDUCER",
@@ -446,7 +442,6 @@ function* handleSaveDraft(draft) {
     yield* handleApiError(error);
 
     if (error) {
-     
       if (error.code === "ERR_BAD_REQUEST") {
         if (error.response.data.emailStatus !== "") {
           yield put({
@@ -505,7 +500,6 @@ function* handleUpdateSaveDraft(draft) {
     yield* handleApiError(error);
 
     if (error) {
-     
       if (error.code === "ERR_BAD_REQUEST") {
         if (error.response.data.emailStatus !== "") {
           yield put({
@@ -1742,6 +1736,10 @@ function* handleDeleteReading(reading) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400 || error.status === 403) {
+        yield put({
+          type: "DELETE_READING_ERROR",
+          payload: error.response.data,
+        });
         toast.error(`${error.response.data}`, {
           style: {
             fontFamily: "Gilroy",

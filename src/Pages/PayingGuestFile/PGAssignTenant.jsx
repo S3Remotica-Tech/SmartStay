@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl, Offcanvas } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 // import { MdError } from "react-icons/md";
@@ -10,19 +10,19 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import {
-  Add,
-  ArrowDown2,
-  ArrowUp2,
+  // Add,
+  // ArrowDown2,
+  // ArrowUp2,
   InfoCircle,
   ArrowRight2,
   Edit2,
   CloseCircle,
-  AddCircle,
+  // AddCircle,
   Trash,
 } from "iconsax-react";
 
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import { Row, Col } from "react-bootstrap";
+// import { Row, Col } from "react-bootstrap";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -137,7 +137,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
   const dispatch = useDispatch();
   const modeofRef = useRef();
-  const [activeTab, setActiveTab] = useState("SHORT");
+  const [activeTab, setActiveTab] = useState("CHECKIN");
   const [errors, setErrors] = useState([]);
   const [fields, setFields] = useState([]);
   const [advanceAmountError, setAdvanceAmountError] = useState("");
@@ -152,30 +152,30 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
 
   const [collectFullRent, setCollectFullRent] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
-  const [oneTimePayments, setOneTimePayments] = useState([]);
+  // const [oneTimePayments, setOneTimePayments] = useState([]);
 
-  const hasGracePeriod =
-    state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
+  // const hasGracePeriod =
+  //   state?.Settings?.SettingsBillsGetRecurring?.hasGracePeriod;
 
-  const gracePeriodDays = Number(
-    state?.Settings?.SettingsBillsGetRecurring?.gracePeriod || 0,
-  );
-  const joiningDay = dayjs(checkin_joiningDate).date();
+  // const gracePeriodDays = Number(
+  //   state?.Settings?.SettingsBillsGetRecurring?.gracePeriod || 0,
+  // );
+  // const joiningDay = dayjs(checkin_joiningDate).date();
 
-  const isGracePeriodApplicable =
-    hasGracePeriod && joiningDay <= gracePeriodDays;
+  // const isGracePeriodApplicable =
+  //   hasGracePeriod && joiningDay <= gracePeriodDays;
 
   const isjoiningBased =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
     "Joining Date Based";
 
-  const [proRateRent, setProRateRent] = useState(0);
+  // const [proRateRent, setProRateRent] = useState(0);
 
-  const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
+  // const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
 
   const handleCustomRentChange = (e) => {
     const value = e.target.value;
@@ -189,77 +189,77 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
       setCustomRent(amount);
     }
   };
-  const handleAddOneTimePayment = () => {
-    setOneTimePayments([
-      ...oneTimePayments,
-      {
-        reason: "",
-        reason_name: "",
-        customReason: "",
-        amount: "",
-        showInput: false,
-      },
-    ]);
-  };
+  // const handleAddOneTimePayment = () => {
+  //   setOneTimePayments([
+  //     ...oneTimePayments,
+  //     {
+  //       reason: "",
+  //       reason_name: "",
+  //       customReason: "",
+  //       amount: "",
+  //       showInput: false,
+  //     },
+  //   ]);
+  // };
   const handleCheckboxChange = (e) => {
     setCollectFullRent(e.target.checked);
   };
 
-  const handleAccordionToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-  const handleInputChangeOneTime = (index, field, value) => {
-    const updatedFields = [...oneTimePayments];
-    const updatedErrors = [...errors];
+  // const handleAccordionToggle = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
+  // const handleInputChangeOneTime = (index, field, value) => {
+  //   const updatedFields = [...oneTimePayments];
+  //   const updatedErrors = [...errors];
 
-    if (field === "reason" || field === "customReason") {
-      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+  //   if (field === "reason" || field === "customReason") {
+  //     const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-      if (field === "reason") {
-        if (cleanedValue.toLowerCase() === "others") {
-          updatedFields[index].showInput = true;
-          updatedFields[index].reason_name = "others";
-          updatedFields[index].customReason = "";
-        } else {
-          updatedFields[index].showInput = false;
-          updatedFields[index].reason = cleanedValue;
-          updatedFields[index].reason_name = cleanedValue;
-          updatedFields[index].customReason = "";
-        }
-      } else if (field === "customReason") {
-        updatedFields[index].customReason = cleanedValue;
-      }
+  //     if (field === "reason") {
+  //       if (cleanedValue.toLowerCase() === "others") {
+  //         updatedFields[index].showInput = true;
+  //         updatedFields[index].reason_name = "others";
+  //         updatedFields[index].customReason = "";
+  //       } else {
+  //         updatedFields[index].showInput = false;
+  //         updatedFields[index].reason = cleanedValue;
+  //         updatedFields[index].reason_name = cleanedValue;
+  //         updatedFields[index].customReason = "";
+  //       }
+  //     } else if (field === "customReason") {
+  //       updatedFields[index].customReason = cleanedValue;
+  //     }
 
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-      let numericValue = value.replace(/[^0-9.]/g, "");
+  //     if (updatedErrors[index]) updatedErrors[index].reason = "";
+  //   } else if (field === "amount") {
+  //     let numericValue = value.replace(/[^0-9.]/g, "");
 
-      if (numericValue.startsWith("0")) {
-        numericValue = numericValue.replace(/^0+/, "");
-      }
+  //     if (numericValue.startsWith("0")) {
+  //       numericValue = numericValue.replace(/^0+/, "");
+  //     }
 
-      if (numericValue === "") {
-        numericValue = "";
-      }
+  //     if (numericValue === "") {
+  //       numericValue = "";
+  //     }
 
-      updatedFields[index].amount = numericValue;
+  //     updatedFields[index].amount = numericValue;
 
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
+  //     if (updatedErrors[index]) updatedErrors[index].amount = "";
+  //   }
 
-    setOneTimePayments(updatedFields);
-    setOneTimePaymentErrors(updatedErrors);
-  };
+  //   setOneTimePayments(updatedFields);
+  //   setOneTimePaymentErrors(updatedErrors);
+  // };
 
-  const handleRemoveFieldOneTime = (index) => {
-    const updatedFields = [...oneTimePayments];
-    updatedFields.splice(index, 1);
-    setOneTimePayments(updatedFields);
+  // const handleRemoveFieldOneTime = (index) => {
+  //   const updatedFields = [...oneTimePayments];
+  //   updatedFields.splice(index, 1);
+  //   setOneTimePayments(updatedFields);
 
-    const updatedErrors = [...errors];
-    updatedErrors.splice(index, 1);
-    setOneTimePaymentErrors(updatedErrors);
-  };
+  //   const updatedErrors = [...errors];
+  //   updatedErrors.splice(index, 1);
+  //   setOneTimePaymentErrors(updatedErrors);
+  // };
 
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -719,7 +719,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     let hasError = false;
 
     let newErrors = [];
-    let oneTimePaymentErrors = [];
+    // let oneTimePaymentErrors = [];
 
     if (!validateField(checkin_customername, "checkin_customername"))
       hasError = true;
@@ -782,48 +782,49 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
       .filter((item) => item.type !== "" || item.amount !== "");
 
     setErrors(newErrors);
+    const formattedReasonsOneTimePayments = [];
 
-    const formattedReasonsOneTimePayments = oneTimePayments
-      ?.map((item) => {
-        let reason_name = "";
+    // const formattedReasonsOneTimePayments = oneTimePayments
+    //   ?.map((item) => {
+    //     let reason_name = "";
 
-        if (
-          item.reason?.toLowerCase() === "others" ||
-          item.reason_name?.toLowerCase() === "others"
-        ) {
-          reason_name = item.customReason || item["custom Reason"] || "";
-        } else {
-          reason_name = item.reason || item.reason_name || "";
-        }
+    //     if (
+    //       item.reason?.toLowerCase() === "others" ||
+    //       item.reason_name?.toLowerCase() === "others"
+    //     ) {
+    //       reason_name = item.customReason || item["custom Reason"] || "";
+    //     } else {
+    //       reason_name = item.reason || item.reason_name || "";
+    //     }
 
-        const error = { reason: "", amount: "" };
+    //     const error = { reason: "", amount: "" };
 
-        if (
-          reason_name &&
-          (!item.amount || item.amount.toString().trim() === "")
-        ) {
-          error.amount = "Please enter amount";
-          isHasError = true;
-        }
+    //     if (
+    //       reason_name &&
+    //       (!item.amount || item.amount.toString().trim() === "")
+    //     ) {
+    //       error.amount = "Please enter amount";
+    //       isHasError = true;
+    //     }
 
-        if (
-          (!reason_name || reason_name.toString().trim() === "") &&
-          item.amount
-        ) {
-          error.reason = "Please enter reason";
-          isHasError = true;
-        }
+    //     if (
+    //       (!reason_name || reason_name.toString().trim() === "") &&
+    //       item.amount
+    //     ) {
+    //       error.reason = "Please enter reason";
+    //       isHasError = true;
+    //     }
 
-        oneTimePaymentErrors.push(error);
+    //     oneTimePaymentErrors.push(error);
 
-        return {
-          type: reason_name,
-          amount: Number(item.amount) || "",
-        };
-      })
-      .filter((item) => item.type !== "" || item.amount !== "");
+    //     return {
+    //       type: reason_name,
+    //       amount: Number(item.amount) || "",
+    //     };
+    //   })
+    //   .filter((item) => item.type !== "" || item.amount !== "");
 
-    setOneTimePaymentErrors(oneTimePaymentErrors);
+    // setOneTimePaymentErrors(oneTimePaymentErrors);
 
     if (hasReasonAmountError) return;
 
@@ -873,7 +874,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
           joiningDate: formattedDate,
           refundableAmount: Number(!isAdvanceRefused ? AdvanceAmount : 0),
           rentalAmount: RoomRent,
-          stayType: activeTab,
+          stayType: stay_typename,
           deductions: !isAdvanceRefused ? formattedReasons : null,
           shouldCollectFullRent: collectFullRent,
           customRent: Number(customRent),
@@ -919,15 +920,15 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     ? dayjs(checkin_joiningDate).isBefore(dayjs(), "month")
     : false;
 
-  const deductionsTotal = fields.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const deductionsTotal = fields.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
-  const oneTimeDeductionTotal = oneTimePayments.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const oneTimeDeductionTotal = oneTimePayments.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -940,33 +941,34 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
   useEffect(() => {
     if (!checkin_joiningDate || !RoomRent) {
-      setProRateRent(0);
+      // setProRateRent(0);
       return;
     }
-    const date = dayjs(checkin_joiningDate);
-    const totalDays = date.daysInMonth();
-    const remainingDays = totalDays - date.date() + 1;
-    const amount = Math.round((Number(RoomRent) / totalDays) * remainingDays);
-    setProRateRent(amount);
+    // const date = dayjs(checkin_joiningDate);
+    // const totalDays = date.daysInMonth();
+    // const remainingDays = totalDays - date.date() + 1;
+    // const amount = Math.round((Number(RoomRent) / totalDays) * remainingDays);
+    // setProRateRent(amount);
   }, [checkin_joiningDate, RoomRent, customRentEnable]);
 
-  const summaryRent =
-    customRentEnable && Number(customRent) > 0
-      ? Number(customRent)
-      : isGracePeriodApplicable
-        ? Number(RoomRent || 0)
-        : collectFullRent
-          ? Number(RoomRent || 0)
-          : isjoiningBased
-            ? Number(RoomRent || 0)
-            : Number(proRateRent || 0);
+  // const summaryRent =
+  //   customRentEnable && Number(customRent) > 0
+  //     ? Number(customRent)
+  //     : isGracePeriodApplicable
+  //       ? Number(RoomRent || 0)
+  //       : collectFullRent
+  //         ? Number(RoomRent || 0)
+  //         : isjoiningBased
+  //           ? Number(RoomRent || 0)
+  //           : Number(proRateRent || 0);
 
+  // const totalSummary =
+  //   Number(AdvanceAmount || 0) +
+  //   deductionsTotal +
+  //   oneTimeDeductionTotal +
+  //   summaryRent;
 
-  const totalSummary =
-    Number(AdvanceAmount || 0) +
-    deductionsTotal +
-    oneTimeDeductionTotal +
-    summaryRent;
+  if (!show) return null;
 
   return (
     <>
@@ -1002,9 +1004,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
             <div className="bg-blue-50 rounded-md w-full p-1 mt-2">
               <div className="flex justify-between gap-2 w-full">
                 <button
-                  onClick={() => setActiveTab("SHORT")}
+                  onClick={() => setActiveTab("CHECKIN")}
                   className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${
-                    activeTab === "SHORT"
+                    activeTab === "CHECKIN"
                       ? "bg-blue-700 text-white"
                       : "bg-blue-50 text-black"
                   }`}
@@ -1013,9 +1015,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 </button>
 
                 <button
-                  onClick={() => setActiveTab("LONG")}
+                  onClick={() => setActiveTab("BOOKING")}
                   className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${
-                    activeTab === "LONG"
+                    activeTab === "BOOKING"
                       ? "bg-blue-700 text-white"
                       : "bg-blue-50 text-black"
                   }`}
@@ -1026,7 +1028,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
             </div>
           </div>
 
-          {activeTab === "LONG" ? (
+          {activeTab === "BOOKING" ? (
             !isComingSoon ? (
               <>
                 <div className="flex-1 overflow-y-auto  show-scrolls max-h-[500px]">
@@ -1306,7 +1308,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
             ) : (
               <FormComingSoon />
             )
-          ) : activeTab === "SHORT" ? (
+          ) : activeTab === "CHECKIN" ? (
             <>
               <div className="max-h-[500px] overflow-y-auto px-4 me-1 show-scrolls">
                 <div className="grid grid-cols-12 gap-x-4 gap-y-2 items-stretch">
