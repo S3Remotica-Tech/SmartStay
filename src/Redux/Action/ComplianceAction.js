@@ -64,7 +64,7 @@ export async function complaintsViewUpdates(complaint) {
 }
 
 export async function vendorSettlementInitialize(vendor) {
-  console.log("vendor", vendor);
+
   return await AxiosConfigV2.get(
     `/v2/vendors/initialize/${vendor.hostelId}/${vendor.vendorId}`,
   );

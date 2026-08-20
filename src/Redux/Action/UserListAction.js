@@ -71,7 +71,7 @@ export async function SaveDraftTenant(tenant) {
 }
 
 export async function UpdateSaveDraftTenant(tenant) {
-  console.log("tenant", tenant);
+ 
 
   const formData = new FormData();
 

@@ -122,7 +122,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   const handleDownload = (rowData) => {
     if (rowData) {
-      // console.log("rowData", rowData);
+    
       dispatch({
         type: "INVOICEPDF",
         payload: {
@@ -354,10 +354,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
-    console.log("pdfDetails", pdfDetails);
+   
     setShowform(true);
     setSelectedUserId(pdfDetails?.customerInfo?.customerId);
-    // setInvoiceValue(pdfDetails)
+    
     setInvoiceList({
       balanceDue:
         pdfDetails?.invoiceInfo?.finalAmount ||
@@ -473,7 +473,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     (isRentInvoice || isSettlement) &&
     isNotDiscounted;
 
-  // console.log("isPayableTenant", isPayableTenant);
+ 
 
   const hasPayments = pdfDetails?.paymentHistory?.length > 0;
   const hasRefunds = pdfDetails?.refundHistory?.length > 0;

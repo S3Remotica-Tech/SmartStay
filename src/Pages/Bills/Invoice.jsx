@@ -149,8 +149,7 @@ const InvoicePage = () => {
     { key: "Room View", label: "Room", img: Buildings },
   ];
 
-  // console.log("statusfilter after reset:", statusfilter);
-  // console.log("invoiceFilters:", invoiceFilters);
+ 
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -582,7 +581,7 @@ const InvoicePage = () => {
   };
 
   const handleStatusFilter = (selectedOption) => {
-    // console.log("selectedOption", selectedOption);
+ 
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
@@ -1107,7 +1106,7 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
   };
 
-  console.log("statusfilter", statusfilter);
+  
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
@@ -1196,15 +1195,14 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      // setFormLoading(false)
-      setTimeout(() => {
+           setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    // console.log("invoiceFilters", invoiceFilters);
+    
 
     const filterData = [];
 

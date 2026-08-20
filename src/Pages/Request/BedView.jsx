@@ -43,14 +43,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
 
   const bedList = state.PgList?.bedList || {};
 
-  // console.log("bedList", bedList);
 
-  // const hasAvailableBedInAnyRoom = Object.values(bedList).some(
-  //   (beds) =>
-  //     Array.isArray(beds) && beds.some((bed) => bed.isOccupied === false),
-  // );
-
-  // console.log("HAS AVAILABLE BED IN ANY ROOM:", hasAvailableBedInAnyRoom);
 
   const availableBedsInSelectedFloor = state.PgList?.roomsList?.flatMap(
     (room) => {
@@ -66,9 +59,7 @@ function BedView({ room, selectedBed, setSelectedBed }) {
 
   const noBedsAvailable = availableBedsInSelectedFloor.length === 0;
 
-  console.log("noBedsAvailable", noBedsAvailable);
-  console.log("hasAvailableBed", hasAvailableBed);
-
+ 
   const handleclickBedForChangeBed = (bed) => {
     if (selectedBed?.bedId === bed.id) {
       setSelectedBed(null);

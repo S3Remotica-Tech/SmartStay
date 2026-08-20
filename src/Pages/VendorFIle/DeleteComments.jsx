@@ -19,8 +19,7 @@ function DeleteComments({ open, onClose, selectedCommentId }) {
     }
   };
 
-  // console.log("selectedCommentId", selectedCommentId);
-
+  
   useEffect(() => {
     if (state.ComplianceList?.deleteCommentsVendorstatusCode === 200) {
       setDeleteLoading(false);

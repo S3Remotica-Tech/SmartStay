@@ -492,7 +492,6 @@ function BookingModal(props) {
 
   const isComingSoon = false;
 
-  console.log("props.userDetail", props.userDetail);
 
   return (
     <div className="fixed inset-0 z-50">

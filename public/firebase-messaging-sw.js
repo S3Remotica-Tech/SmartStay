@@ -17,7 +17,6 @@ const messaging = firebase.messaging();
 
 // App CLOSED / Background
 messaging.onBackgroundMessage((payload) => {
-  // console.log('SW Background message received', payload);
 
   const notificationTitle = payload.data?.title || 'New Notification';
   const notificationOptions = {
@@ -30,19 +29,4 @@ messaging.onBackgroundMessage((payload) => {
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
-
-
-// self.addEventListener('notificationclick', function (event) {
-//   console.log('Notification clicked', event);
-
-//   event.notification.close();
-
-//   const redirectUrl = event.notification.data?.url || 'https://dev.qbatz.com/';
-
-//   event.waitUntil(
-//     clients.openWindow(redirectUrl)
-//   );
-// });
-
-
 

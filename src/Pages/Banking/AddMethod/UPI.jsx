@@ -112,7 +112,7 @@ function UPI({ handleClose }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  console.log("OverviewDetails", OverviewDetails);
+ 
 
   const upiOptions =
     state?.bankingDetails?.getUpiCardTypes?.map((view) => ({

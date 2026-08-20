@@ -158,13 +158,11 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const [dateError, setDateError] = useState("");
 
   const canCheckIn = state.UsersList?.bookedDetails?.canCheckIn ?? false;
-  // console.log("tenantDetails", tenantDetails);
-
-  // console.log("canCheckIn", canCheckIn);
+  
 
   const [errors, setErrors] = useState([]);
   const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
-  // const [errorsOneTime, setErrorsOneTime] = useState([]);
+  
 
   const [activeTab, setActiveTab] = useState("LONG");
 
@@ -226,9 +224,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     setIsOpen((prev) => !prev);
   };
 
-  const handleAdd = () => {
-    console.log("Add clicked");
-  };
+
 
   // const roomOptions =
   //   state.PgList?.roomsList?.map((item) => ({
@@ -346,7 +342,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
         },
       );
 
-      console.log("filteredBed", filteredBed);
+     
 
       setAvailableBed(filteredBed);
     }
@@ -416,7 +412,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  // console.log("tenantDetails", tenantDetails);
+  
 
   const CustomerOverView = state.UsersList?.bookedDetails;
   const bookingDate = CustomerOverView?.bookedDate
@@ -455,16 +451,14 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [canCheckIn, CustomerOverView]);
 
-  // console.log("canCheckIn", canCheckIn);
 
-  // console.log("rooms", Rooms, "Floor", Floor, "Bed", Bed);
 
   const tenantId =
     tenantDetails?.customerId ||
     tenantDetails?.apiCall?.customerId ||
     tenantDetails?.tenetId;
 
-  // console.log("tenantDetails", tenantDetails);
+ 
 
   useEffect(() => {
     if (tenantId) {
@@ -817,7 +811,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     }
   }, []);
 
-  // console.log("state.UsersList?.bookedDetails", state.UsersList?.bookedDetails);
+ 
 
   useEffect(() => {
     if (selectedDate) {
@@ -900,7 +894,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
     0,
   );
 
-  // console.log("selectedDate", selectedDate);
+ 
 
   useEffect(() => {
     if (!selectedDate || !RoomRent) {
@@ -926,7 +920,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
             ? Number(RoomRent || 0)
             : Number(proRateRent || 0);
 
-  // console.log("summaryRent", summaryRent);
+ 
 
   const totalSummary =
     Number(AdvanceAmount || 0) +

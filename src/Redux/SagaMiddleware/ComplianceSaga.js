@@ -164,7 +164,6 @@ function* handleAddCommentVendor(action) {
 function* handleVendorSettlementInitialize(action) {
   try {
     const response = yield call(vendorSettlementInitialize, action.payload);
-    // console.log("Saga triggered", action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
@@ -345,7 +344,6 @@ function* handlecompliancelist(action) {
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
-      // console.log(hostelId,"***hostelId****")
     }
 
     if (response?.status === 200) {
@@ -562,13 +560,9 @@ function* handleAddVendor(action) {
         style: toastStyle,
       });
     }
-
-    if (response) {
-      refreshToken(response);
-    }
   } catch (error) {
     yield* handleApiError(error);
-    console.log("error", error);
+
     if (error) {
       yield put({
         type: "ALREADY_VENDOR_ERROR",

@@ -42,7 +42,7 @@ function BillsPdfDetails() {
     setStatusShowfilter(!statusShowfilter);
   };
 
-  // console.log("rowData Tenant Overview", rowData)
+  
 
   useEffect(() => {
     if (rowData?.invoiceId) {
@@ -168,7 +168,7 @@ function BillsPdfDetails() {
     }
   }, [rowData]);
 
-  console.log("rowData", rowData);
+
 
   useEffect(() => {
     if (isReportsInvoiceRegisterWay) {

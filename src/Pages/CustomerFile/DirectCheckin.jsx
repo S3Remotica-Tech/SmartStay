@@ -185,7 +185,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const isGracePeriodApplicable =
     hasGracePeriod && joiningDay <= gracePeriodDays;
 
-  console.log("isGracePeriodApplicable", isGracePeriodApplicable);
+
 
   const isjoiningBased =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
@@ -223,10 +223,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     setIsOpen((prev) => !prev);
   };
 
-  const handleAdd = () => {
-    console.log("Add clicked");
-  };
-
+ 
   const roomOptions = [
     ...new Map(
       (state.UsersList?.availableBedList?.listBeds || [])
@@ -382,7 +379,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  // console.log("tenantDetails", tenantDetails);
+  
 
   useEffect(() => {
     if (tenantDetails?.customerId) {
@@ -803,7 +800,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     0,
   );
 
-  // console.log("selectedDate", selectedDate);
 
   useEffect(() => {
     if (!selectedDate || !RoomRent) {
@@ -829,7 +825,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
             ? Number(RoomRent || 0)
             : Number(proRateRent || 0);
 
-  // console.log("summaryRent", summaryRent);
+ 
 
   const totalSummary =
     Number(AdvanceAmount || 0) +

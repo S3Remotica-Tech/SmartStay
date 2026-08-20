@@ -197,9 +197,7 @@ function TenantRetainerInvoice() {
     });
   };
 
-  // console.log("CustomerOverView", CustomerOverView);
-  // const isComingSoon =
-  //   import.meta.env.MODE === "production" || import.meta.env.MODE === "qa";
+  
 
   const handleApplyInvoicesRetainer = (item) => {
     setApplyInvoiceRetainer(true);

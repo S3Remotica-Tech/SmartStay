@@ -77,7 +77,6 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
     );
   };
 
-  console.log("applyAmountForInvoice", applyAmountForInvoice);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
@@ -86,8 +85,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: retainerDetails?.invoiceId,
-        // type: label === "booking" ? "Credit" : "",
-      },
+              },
     });
   }, [state.login.selectedHostel_Id]);
 

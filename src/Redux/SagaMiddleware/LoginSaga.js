@@ -148,7 +148,7 @@ function* handleFCM_Token(args) {
 function* handleLogoutAdmin(args) {
   try {
     const response = yield call(LogoutAdmin, args.payload);
-    // console.log("response",response)
+   
     if (response?.status === 200) {
       yield put({
         type: "LOGOUT_ADMIN",

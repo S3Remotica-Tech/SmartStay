@@ -74,8 +74,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
   const [editBedMode, setEditBedMode] = useState(false);
 
-  console.log("clickedBed", clickedBed);
-
   const { canWriteModule: canWritePayingGuests } =
     useHasPermission("Paying Guests");
 
@@ -161,8 +159,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setOccubiedBed(false);
   };
 
-  // console.log("showCheckIn", showbookingToCheckIn);
-  const handleCloseCheck_In = () => {
+    const handleCloseCheck_In = () => {
     setShowbookingToCheckIn(false);
   };
 
@@ -261,7 +258,6 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     setEmptyBed(false);
   };
 
-  console.log("state.login.isTrigger", state.login.isTrigger);
 
   const [selectedTenant, setSelectedTenant] = useState(null);
 
@@ -479,7 +475,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
       setFilteredBeds(bedsForRoom.filter((bed) => !bed.isOccupied));
     }
   }, [bedsForRoom, state.login.isTrigger]);
-  // console.log("filteredBeds", filteredBeds);
+  
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {

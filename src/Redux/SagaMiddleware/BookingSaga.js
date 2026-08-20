@@ -176,7 +176,7 @@ function* handleApplyInvoice(action) {
   try {
     const response = yield call(ApplyInvoice, action.payload);
 
-    // console.log("response", response);
+   
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",

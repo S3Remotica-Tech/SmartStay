@@ -128,7 +128,6 @@ function Banking() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
-  // console.log('state.bankingDetails?.bankingList?', state.bankingDetails?.bankingList)
 
   useEffect(() => {
     setLoader(false);
@@ -374,40 +373,9 @@ function Banking() {
     setFormLoading(true);
   };
 
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+  
 
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return transactionFilterddata;
-
-  //   const sorted = [...transactionFilterddata].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
-  //       return sortConfig.direction === 'asc'
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [transactionFilterddata, sortConfig]);
-
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
-
-  // const sortedData = React.useMemo(() => {
-  //   return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
-  // }, [transactionFilterddata]);
-
-  // console.log("sortedData",sortedData)
 
   useEffect(() => {
     if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {

@@ -200,7 +200,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
   const expenses = vendorInitialize?.expenses || [];
-  console.log("vendorInitialize", vendorInitialize);
+ 
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -230,8 +230,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  console.log("OverviewDetails", OverviewDetails);
-
+ 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -314,8 +313,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
       label: view.vendorName,
     })) || [];
 
-  // console.log("VendorOverView", VendorOverView);
-
+  
   const handlePaidAmountChange = (e) => {
     setPaidAmount(e.target.value);
     setPaidAmountError("");

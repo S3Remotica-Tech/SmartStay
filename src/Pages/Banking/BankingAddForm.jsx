@@ -56,7 +56,7 @@ function BankingAddForm(props) {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-  // console.log("props",props)
+ 
 
   const handleAccountName = (e) => {
     const value = e.target.value;
@@ -207,7 +207,7 @@ function BankingAddForm(props) {
     }).isRequired,
   };
 
-  // console.log("props.editAddBank", props.editAddBank)
+ 
 
   useEffect(() => {
     if (props.editAddBank && props.editAddBank.bankingId) {
@@ -564,8 +564,7 @@ function BankingAddForm(props) {
       return;
     }
 
-    // console.log("accountName", accountName, "description", description)
-    // console.log("initialStateAssign", initialStateAssign)
+
     if (props.edit) {
       const isChanged =
         accountName !== initialStateAssign.accountName ||

@@ -173,8 +173,7 @@ function UserList(props) {
   const location = useLocation();
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-  // console.log("pageeeeeeeeeeeeeee", page);
-
+  
   const [isScrolling, setIsScrolling] = useState(false);
 
   const [view, setView] = useState("List");
@@ -188,7 +187,7 @@ function UserList(props) {
   const [DraftTenantDetails, setDraftTenantDetails] = useState("");
 
   const dropdownRef = useRef(null);
-  // console.log("isScrolling", isScrolling);
+  
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
     canWriteModule: canWriteTenant,
@@ -280,7 +279,7 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
-  // console.log("state", state);
+  
 
   const options = [
     { key: "Name", label: "Name" },
@@ -679,14 +678,14 @@ function UserList(props) {
     }
   }, [state.UsersList?.Users]);
 
-  // console.log("state.UsersList.Users", state.UsersList.Users);
+ 
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
-      // setIsEditing(true);
+      
       setRoomDetail(false);
 
-      // dispatch({ type: "USERROOMAVAILABLEFALSE" });
+      
     }
   }, [state.UsersList.userRoomfor]);
 
@@ -956,7 +955,7 @@ function UserList(props) {
     return () => clearTimeout(timer);
   }, [filterInput]);
 
-  // console.log("selectedMonth **********", selectedMonth);
+  
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1101,7 +1100,7 @@ function UserList(props) {
   };
 
   const handleShowAddTenant = (isWhat) => {
-    // console.log("isWhat", isWhat);
+    
     setShowMenuNewTenant(true);
     setShowDropdown(false);
     setDraftTenantDetails("");
@@ -1789,7 +1788,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
-      // setDueCustomerShow(true);
+      
     }
 
     setTimeout(() => {
@@ -1797,21 +1796,10 @@ function UserList(props) {
     }, 500);
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
-  // const handleCheckoutGenrate = (item) => {
-  //   setFinalsettledData(item)
-  //   console.log("item", item)
-  //   setFinalSettlePage(true)
-  //   setDueCustomerShow(false);
-
-  //   dispatch({
-  //     type: "GETCONFIRMCHECKOUTCUSTOMER",
-  //     payload: { id: item?.customerId, hostel_id: item?.Hostel_Id },
-  //   });
-  // }
+  
 
   const handleCheckoutGenrateNew = (item) => {
-    // console.log("/tenant/final-settlement", item);
-    navigate(`/tenant/final-settlement/${item?.apiCall?.customerId}`, {
+       navigate(`/tenant/final-settlement/${item?.apiCall?.customerId}`, {
       state: {
         data: item,
       },
@@ -2097,8 +2085,7 @@ function UserList(props) {
     return obj;
   });
 
-  // console.log("formattedData", formattedData);
-  // console.log("userListDetail", userListDetail);
+ 
 
   const filterOptionsData = useSelector(
     (state) => state.UsersList?.Users?.filterOptions,
@@ -2131,15 +2118,12 @@ function UserList(props) {
     setInitialCustomizeItems(formatted);
   }, [state?.UsersList?.Users?.columnList]);
 
-  // console.log("statusfilter", statusfilter);
+  
 
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
     Array.isArray(customizeItems) && customizeItems.every((i) => i.selected);
 
-  // useEffect(() => {
-  //   console.log("formattedData", formattedData);
-  // }, [formattedData]);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",

@@ -131,7 +131,6 @@ function ResetReading({ show, handleClose, resetDetails }) {
   const [reading, setReading] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log("resetDetails", resetDetails);
 
   const [reasonError, setReasonError] = useState("");
   const [dateError, setDateError] = useState("");
@@ -143,7 +142,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
 
   if (!show) return null;
 
-  console.log("date, date", date);
+  
 
   const validateForm = () => {
     let isValid = true;

@@ -21,7 +21,7 @@ const GET_LOCATIONS = gql`
 
  const { loading, error, data } = useQuery(GET_LOCATIONS);
 
- console.log("data",data)
+
 
  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

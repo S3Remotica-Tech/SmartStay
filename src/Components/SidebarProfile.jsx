@@ -26,13 +26,13 @@ function SidebarProfile({
 }) {
   const state = useSelector((state) => state);
 
-  // console.log("state.UsersList.hostelList", state.UsersList.hostelList)
+  
   return (
     <Offcanvas
       show={showProfileCard}
       onHide={() => setShowProfileCard(false)}
       placement="end"
-      // backdrop="static"
+    
       ref={profileCardRef}
       style={{
         width: 350,

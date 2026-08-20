@@ -29,55 +29,16 @@ const RentalReceiptPdfTemplate = ({
   const innerScrollRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  // const [notes_errmsg, setNotesErrMsg] = useState('')
-  // const [terms_errmsg, setTermsErrMsg] = useState('')
+  
   const [showFullView, setShowFullView] = useState(false);
-  // const [editErrmsg, setEditErrMessage] = useState('')
+ 
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
   const [useGradient, setUseGradient] = useState(true);
   const defaultGradient = "rgba(0,163, 46, 1)";
 
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
-  // const {
-  //   // canWriteModule: canWriteInvoice,
-  //   // canReadModule: canReadReceipt,
-  //   canUpdateModule: canUpdateInvoice,
-  //   // canDeleteModule: canDeleteInvoice,
-  // } = useHasPermission("Bills");
 
-  // const handleColorChange = (newColor) => {
-  //   setColor(newColor);
-  //   setUseGradient(false);
-  //   setEditErrMessage("")
-  // };
-
-  // const presetColors = [
-  //   "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
-  //   "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
-  // ];
-
-  // const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
-  // const alphaValue = Math.round(color.a * 100);
-
-  // const handleNotesChange = (e) => {
-  //   const Value = e.target.value
-  //   setNotes(Value)
-  //   setEditErrMessage("")
-  //   if (Value.trim() !== "") {
-  //     setNotesErrMsg("");
-  //   }
-  // }
-
-  // const handleTermsChange = (e) => {
-  //   const Value = e.target.value
-  //   setTerms(Value)
-  //   setEditErrMessage("")
-  //   if (Value.trim() !== "") {
-  //     setTermsErrMsg("");
-  //   }
-  // }
 
   const [notes, setNotes] = useState(
     '"Your comfort is our priority – See you again at Smart Stay!"',
@@ -87,122 +48,25 @@ const RentalReceiptPdfTemplate = ({
     "Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.",
   );
 
-  // const [allowImageUpload, setAllowImageUpload] = useState(false);
-  // const [allowEditFields, setAllowEditFields] = useState({
-  //   contact: false,
-  //   email: false,
-  //   hostelLogo: false,
-  //   digitalSignature: false,
-  // });
-  // const [contactnumberform, setContactNumberForm] = useState(false)
-
-  // const fileInputRef = useRef(null);
+  
   const [signature, setSignature] = useState(null);
   const [signaturePreview, setSignaturePreview] = useState(null);
-  // const [signature_errmsg, setSignatureErrMsg] = useState("")
-  // const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
+  
 
-  // const handleFileSignatureChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setSignature(file);
-  //     setSignaturePreview(URL.createObjectURL(file));
-  //     setSignatureErrMsg("");
-  //     setEditErrMessage('')
-  //     setIsSignatureConfirmed(false);
-  //   }
-  // };
+ 
 
-  // const handleClear = () => {
-  //   setSignature(null);
-  //   setSignaturePreview(null)
-  //   setSignatureErrMsg("");
-  //   setEditErrMessage('')
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.value = '';
-  //   }
-  // };
-
-  // const handleSignatureDone = () => {
-  //   if (!signature) {
-  //     setSignatureErrMsg("Please select a signature file.");
-  //   } else {
-  //     setSignatureErrMsg("");
-  //     setEditErrMessage('')
-  //     setIsSignatureConfirmed(true);
-  //   }
-  // };
-
-  // const handleShowContactNumberForm = () => {
-  //   setContactNumberForm(true);
-  //   setAllowImageUpload(false);
-  // };
-
-  // const handleCloseContactNumberForm = () => {
-  //   setContactNumberForm(false);
-  //   setAllowImageUpload(false);
-  //   setAllowEditFields({
-  //     contact: false,
-  //     email: false,
-  //     hostelLogo: false,
-  //     digitalSignature: false,
-  //   });
-  // };
-
-  // const handleEditAnyway = () => {
-  //   setAllowImageUpload(true);
-  //   setAllowEditFields({
-  //     contact: true,
-  //     email: true,
-  //     hostelLogo: true,
-  //     digitalSignature: true,
-  //   });
-  //   setContactNumberForm(false);
-  // };
+ 
 
   const [mobilenum, setMobileNum] = useState("");
-  // const [MobileError, setMobileError] = useState("")
+  
   const [email, setEmail] = useState("");
-  // const [emailError, setEmailError] = useState("")
+  
 
-  // const handleMobile = (e) => {
-  //   const input = e.target.value.replace(/\D/g, "");
-  //   setMobileNum(input);
-  //   setEditErrMessage('')
-  //   if (input.length === 0) {
-  //     setMobileError("");
-  //   } else if (input.length < 10) {
-  //     setMobileError(" Please Enter Valid Mobile Number");
-  //   } else if (input.length === 10) {
-  //     setMobileError("");
-  //   } else if (input.length > 10) {
-  //     setMobileError(" Please Enter Valid Mobile Number");
-  //   }
-  // };
-
-  // const handleEmail = (e) => {
-  //   const emailValue = e.target.value.toLowerCase();
-  //   setEmail(emailValue);
-  //   setEditErrMessage('')
-  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-  //   const isValidEmail = emailRegex.test(emailValue);
-  //   if (!emailValue) {
-  //     setEmailError("");
-
-  //   } else if (!isValidEmail) {
-
-  //     setEmailError("Please Enter  Valid Email Id");
-  //   } else {
-  //     setEmailError("");
-
-  //   }
-
-  // };
+  
 
   const [logoPreview, setLogoPreview] = useState(null);
   const [hostel_logo, setHostelLogo] = useState(null);
 
-  // console.log("logoPreview", logoPreview);
 
   useEffect(() => {
     const appearOptions = {

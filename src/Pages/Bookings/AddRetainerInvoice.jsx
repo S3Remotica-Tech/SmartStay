@@ -345,7 +345,7 @@ function AddRetainerInvoice() {
 
   const { isTenantOverviewWay, customerId } = location.state || {};
 
-  // console.log("customerId", customerId);
+ 
 
   const [amountErrmsg, setAmountErrmsg] = useState("");
   const customerRef = useRef(null);
@@ -747,7 +747,7 @@ function AddRetainerInvoice() {
     return isValid;
   };
 
-  // console.log("selectedCustomer", selectedCustomer);
+ 
 
   return (
     <div className="block relative font-gilroy ">

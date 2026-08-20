@@ -70,7 +70,7 @@ const InvoiceCard = ({ rowData }) => {
 
   const innerScrollRef = useRef(null);
 
-  // console.log("rowData", rowData);
+ 
 
   const handleDownload = async () => {
     if (rowData || pdfDetails?.hostelId) {
@@ -167,7 +167,7 @@ const InvoiceCard = ({ rowData }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
-  // console.log("pdfDetails", pdfDetails);
+  
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
   const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;

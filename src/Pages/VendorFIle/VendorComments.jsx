@@ -162,7 +162,7 @@ function VendorComments() {
 
   const vendorComments = state.ComplianceList?.getVendorCommentsList;
 
-  // console.log("vendorComments", vendorComments);
+  
   const currentPage = vendorComments?.currentPage ?? 1;
 
   const totalPages = vendorComments?.totalPages ?? 1;
@@ -171,7 +171,7 @@ function VendorComments() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log("clicked ddddddd", page);
+    
   };
 
   const handleSizeChange = (sizeValue) => {
@@ -179,7 +179,7 @@ function VendorComments() {
   };
 
   const handleEdit = (item) => {
-    // console.log("Edit", item);
+    
     setComment(item.comment);
     setSelectedCommentId(item.id);
     setEdit(true);

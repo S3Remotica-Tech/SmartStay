@@ -15,40 +15,22 @@ function SettingAllPages({ isVisibleSidebar }) {
   const navigate = useNavigate();
 
   const state = useSelector((state) => state);
-  // const [hostel_Id, setHostel_Id] = useState('')
+
   const [activePage, setActivePage] = useState("general");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
-  // useEffect(() => {
-  //   const path = location.pathname;
-
-  //   const lastSegment = path.split("/").pop();
-  // console.log("lastSegment",lastSegment)
-  //   if (lastSegment) {
-  //     setActivePage(
-  //       lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1)
-  //     );
-  //   }
-  // }, [location.pathname]);
-
+  
   useEffect(() => {
     const path = location.pathname;
     const lastSegment = path.split("/").pop();
-    // console.log("lastSegment", lastSegment)
+    
     if (lastSegment) {
       setActivePage(lastSegment);
     }
   }, [location.pathname]);
 
-  // console.log("active page", activePage)
-
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     setHostel_Id(state.login.selectedHostel_Id)
-  //   }
-
-  // }, [state?.login?.selectedHostel_Id]);
+  
 
   useEffect(() => {
     if (state.PgList?.isManageEnable) {

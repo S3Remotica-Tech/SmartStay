@@ -31,8 +31,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
 
-  // console.log("currentItem", currentItem?.assignmentStatus === "Assigned");
-
+ 
   const [initialState, setInitialState] = useState({
     pglist: "",
     room: "",

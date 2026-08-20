@@ -260,7 +260,7 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
     setFormLoading(true);
   };
 
-  // console.log("currentItem", currentItem);
+  
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {

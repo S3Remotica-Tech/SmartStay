@@ -32,7 +32,6 @@ function DiscountInvoice({
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
 
-  console.log("editData", editData);
 
   const handleDiscountChange = (e) => {
     const value = e.target.value;

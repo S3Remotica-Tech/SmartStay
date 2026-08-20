@@ -52,9 +52,6 @@ function InvoiceRegister() {
 
   const isExportAllow = isValidSubscription && canReadReports;
 
-  // console.log("canReadReports",canReadReports)
-  // console.log("isValidSubscription",isValidSubscription)
-
   useEffect(() => {
     if (state.reports.getInvoiceRegisterSuccess === 200) {
       setLoading(false);
@@ -631,16 +628,6 @@ function InvoiceRegister() {
     setLoading(true);
   }, [state.login?.selectedHostel_Id, size, page]);
 
-  console.log("Render", page);
-
-  useEffect(() => {
-    console.log("Mounted");
-  }, []);
-
-  useEffect(() => {
-    console.log("Page effect", page);
-  }, [page]);
-
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
 
   const totalPages = state?.reports?.getInvoiceRegister?.totalPages ?? 1;
@@ -648,10 +635,7 @@ function InvoiceRegister() {
   const totalRecords = state?.reports?.getInvoiceRegister?.totalInvoices ?? 0;
 
   const handlePageChange = (newPage) => {
-    console.log("Current:", page, "New:", newPage);
-
     if (page === newPage) {
-      console.log("Same page, no state update");
       return;
     }
 

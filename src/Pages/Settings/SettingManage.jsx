@@ -61,7 +61,7 @@ function SettingManage() {
     state.createAccount?.accountList?.roleId === 1 ||
     state.createAccount?.accountList?.roleId === 2;
 
-  console.log("RoleAccess", RoleAccess);
+ 
 
   const isEnable = canWritePayingGuests && RoleAccess;
 

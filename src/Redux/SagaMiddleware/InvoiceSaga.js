@@ -1330,13 +1330,10 @@ function* handleGetAmenities(action) {
   try {
     const response = yield call(GetAmenities, action.payload);
 
-    // console.log("response", response)
-    const hostelId = GlobalHostelId(response);
+       const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+          }
 
     if (response?.status === 200) {
       yield put({

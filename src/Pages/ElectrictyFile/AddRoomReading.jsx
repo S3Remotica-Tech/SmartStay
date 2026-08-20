@@ -69,10 +69,10 @@ function AddRoomReading({
     dispatch({ type: "REMOVE_ROOM_READING_ERROR" });
     setReadingDate(date ? date : null);
     setDateError("");
-    // document.body.style.overflow = "hidden";
+    
   };
 
-  // console.log("editRoomReading", editRoomReading)
+  
   const formatToInputDate = (dateStr) => {
     if (!dateStr) return "";
     const [dd, mm, yyyy] = dateStr.split("/");

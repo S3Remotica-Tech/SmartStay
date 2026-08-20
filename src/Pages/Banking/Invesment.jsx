@@ -271,15 +271,11 @@ function Invesment({ show, handleClose, bankDetails }) {
     }
   }, [bankDetails]);
 
-  console.log("bankDetails", bankDetails);
-
+  
   const validateForm = () => {
     let isValid = true;
 
-    // if (!investment) {
-    //   setInvestmentError("Please Enter Investment Name");
-    //   isValid = false;
-    // }
+   
 
     if (!amount) {
       setAmountError("Please Enter Amount");

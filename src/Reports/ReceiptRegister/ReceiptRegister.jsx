@@ -470,21 +470,7 @@ function ReceiptRegister() {
     setSize(sizeValue);
   };
 
-  // const handleNavigateReceiptPdf = (item) =>{
-
-  //   console.log("item",item)
-
-  //   if (item?.transactionId && state.login.selectedHostel_Id) {
-  //       dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: item.transactionId } })
-  //       navigate(`/receipts/details/${item.transactionId}`, {
-  //         state: {
-  //           rowData: item
-  //         },
-  //       });
-
-  //     }
-
-  // }
+  
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -498,7 +484,7 @@ function ReceiptRegister() {
   const handleDownload = () => {
     if (state.login.selectedHostel_Id) {
       const receiptFilters = state.reports?.receiptRegisterFilters;
-console.log("receiptFilters", receiptFilters)
+
 
       dispatch({
         type: "REPORTS_RECEIPT_REGISTER_PDFSAGA",

@@ -1556,7 +1556,7 @@ function TenantOverview(props) {
     }
   };
 
-  // console.log("CustomerOverView", CustomerOverView)
+  
 
   const imageUrl =
     CustomerOverView?.profilePic ||
@@ -1706,7 +1706,7 @@ function TenantOverview(props) {
     }
   }, [state.UsersList?.bookingToCheckinSuccessCode]);
 
-  // console.log("MODE:", import.meta.env.MODE);
+ 
 
   const handleShowBookingToCheckin = () => {
     setBookingAssignForm(true);

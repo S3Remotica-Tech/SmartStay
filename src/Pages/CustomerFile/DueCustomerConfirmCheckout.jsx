@@ -198,7 +198,6 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     return null;
   };
 
-  // console.log("data", data);
 
   return (
     <div className="fixed inset-0 z-50">

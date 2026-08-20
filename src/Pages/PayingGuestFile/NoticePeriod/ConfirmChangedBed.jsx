@@ -71,16 +71,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     }
   };
 
-  // console.log("CustomerOverView", CustomerOverView);
-
-  // useEffect(() => {
-  //   if (isPreviousBed?.currentTenantInfo?.[0]?.tenetId) {
-  //     dispatch({
-  //       type: "CUSTOMERDETAILS",
-  //       payload: { customerId: isPreviousBed?.currentTenantInfo?.[0]?.tenetId },
-  //     });
-  //   }
-  // }, [isPreviousBed]);
+  
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });

@@ -47,10 +47,10 @@ function ReceiptPdfDetails() {
     });
   }, [receiptId, state.login.selectedHostel_Id]);
 
-  // console.log("rowData",rowData)
+  
 
   const handleDisplayInvoiceDownload = (item) => {
-    // console.log("itemmmmm", item)
+   
     setRowDatas(item);
     setSelectedInvoiceId(item.transactionId);
     navigate(`/receipts/details/${item.transactionId}`, {
@@ -69,11 +69,7 @@ function ReceiptPdfDetails() {
     }
   };
 
-  // console.log("state", state.InvoiceList)
-
-  // const handleShowStatusFilter = () => {
-  //     setStatusShowfilter(!statusShowfilter)
-  // }
+  
 
   useEffect(() => {
     if (rowData?.transactionId) {

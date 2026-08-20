@@ -179,9 +179,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
 
   const expenseOverView = state.ExpenseList?.expenseOverview;
 
-  // console.log("expenseOverView", expenseOverView);
-
-  // const [selected, setSelectedVendor] = useState(null);
+ 
   const [paidAmount, setPaidAmount] = useState("");
   const [paidDate, setPaidDate] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -215,7 +213,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
   const transactionDate = parseDate(expenseOverView?.transactionDate);
   const initializaExpense = state.ExpenseList.getInitializeExpenseList;
 
-  // console.log("initializaExpense", initializaExpense);
+  
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

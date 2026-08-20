@@ -27,7 +27,7 @@ function ExpenseOverview({
   const [activeTab, setActiveTab] = useState("payments");
   const expenseOverView = state.ExpenseList?.expenseOverview;
 
-  // console.log("expenseOverView", expenseOverView);
+ 
 
   useEffect(() => {
     if (selectedExpenseId) {

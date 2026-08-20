@@ -19,10 +19,10 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
     dispatch({ type: "CLEAR_DELETE_ROOM_ERROR" });
   };
 
-  // console.log("deleteDetails", deleteDetails)
+
 
   const handleDeleteConfirm = () => {
-    // console.log("calledddd")
+   
     if (
       (deleteDetails?.readingId || deleteDetails?.id) &&
       state.login.selectedHostel_Id

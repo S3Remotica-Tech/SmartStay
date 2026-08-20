@@ -283,7 +283,7 @@ function* handleGetAllPaymentMethod(action) {
 
 function* handleGetUPIAndCardTypes(action) {
   try {
-    console.log("actinnnn", action);
+   
     const response = yield call(getUPIAndCardTypes, action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
@@ -384,8 +384,7 @@ function* handleAddPaymentMethod(action) {
   try {
     const response = yield call(AddPaymentMethod, action.payload);
 
-    console.log("response", response);
-
+  
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -419,12 +418,10 @@ function* handleAddPaymentMethod(action) {
       });
     }
 
-    if (response) {
-      refreshToken(response);
-    }
+   
   } catch (error) {
     yield* handleApiError(error);
-    console.log("errror", error);
+   
     if (error) {
       yield put({
         type: "ADD_PAYEMNT_METHOD_BANKING_ERROR",

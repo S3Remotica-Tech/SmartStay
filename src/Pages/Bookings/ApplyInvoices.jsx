@@ -122,7 +122,7 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     setFormLoading(true);
   };
 
-  console.log("advanceDetails", advanceDetails);
+ 
 
   useEffect(() => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {

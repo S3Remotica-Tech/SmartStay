@@ -414,7 +414,7 @@ function Request() {
 
   const formattedData = data;
 
-  // console.log("formattedData", formattedData);
+  
 
   const stats = [
     {

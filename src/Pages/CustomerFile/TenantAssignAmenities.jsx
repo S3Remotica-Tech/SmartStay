@@ -125,7 +125,7 @@ function TenantAmenities({ show, handleClose }) {
   const CustomerOverView = state?.UsersList?.customerdetails;
   const { canWriteModule: canWriteAmenities } = useHasPermission("Amenities");
 
-  console.log("CustomerOverView", CustomerOverView);
+
 
   const [isTrigger, setIsTrigger] = useState(false);
 

@@ -340,7 +340,7 @@ function AddExpenseNew() {
   const paidAmountRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
-  // console.log("amount", amount);
+ 
 
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
@@ -348,7 +348,7 @@ function AddExpenseNew() {
   const [balanceAmountError, setBalanceAmountError] = useState("");
   const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
 
-  // console.log("attachments", attachments);
+
 
   useEffect(() => {
     const balance = Number(amount || 0) - Number(paidAmount || 0);
@@ -377,13 +377,7 @@ function AddExpenseNew() {
     isDisabled: selectedVendorId && option.value !== Number(selectedVendorId),
   }));
 
-  // console.log("vendorOptions", vendorOptions.length);
-
-  // const unitOptions =
-  //   state.ExpenseList?.unitList?.map((exp) => ({
-  //     value: exp.id,
-  //     label: exp.unitName,
-  //   })) || [];
+  
 
   const unitOptions = [
     { value: "Nos", label: "Nos" },
@@ -600,12 +594,12 @@ function AddExpenseNew() {
   );
 
   const taxAmount = (subTotal * Number(tax || 0)) / 100;
-  // console.log("taxAmount", taxAmount);
+  
   const discountAmount =
     discountType === "percent"
       ? (subTotal * Number(discount || 0)) / 100
       : Number(discount || 0);
-  //   const discountAmount = (subTotal * Number(discount || 0)) / 100;
+ 
 
   const totalAmount = subTotal + taxAmount - discountAmount;
 
@@ -977,31 +971,7 @@ function AddExpenseNew() {
     state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
   ]);
 
-  // useEffect(() => {
-  //   if (category) {
-  //     const selectedCat =
-  //       state.ExpenseList?.getInitializeExpenseList?.listExpenses?.find(
-  //         (cat) => cat.categoryId === category,
-  //       );
-
-  //     setSubCategoryList(
-  //       selectedCat?.subCategories?.map((sub) => ({
-  //         value: sub.subCategoryId,
-  //         label: sub.subCategoryName,
-  //       })) || [],
-  //     );
-  //     const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
-  //     console.log("categoryHasSubCategory", categoryHasSubCategory);
-
-  //     if (categoryHasSubCategory && !subCategory) {
-  //       setSubCategoryError("Please Select SubCategory");
-  //     } else {
-  //       setSubCategoryError("");
-  //     }
-
-  //     // setSubCategory("");
-  //   }
-  // }, [category]);
+  
 
   useEffect(() => {
     if (!category) return;

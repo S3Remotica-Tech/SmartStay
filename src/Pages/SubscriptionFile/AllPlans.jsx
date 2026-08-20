@@ -16,7 +16,7 @@ function AllPlans() {
   const [paymentLoading, setPaymentLoading] = useState(false);
   // if (message.body === "failed")
   const onMessageReceived = (message) => {
-    console.log("Payment update:", message);
+   
     if (message.body === "success") {
       setPaymentLoading(false);
       window.location.reload();
@@ -69,7 +69,7 @@ function AllPlans() {
     }
   };
 
-  // console.log("plans", plans);
+
 
   useEffect(() => {
     if (state.createAccount?.networkError || state.Settings?.upgradePlanError) {

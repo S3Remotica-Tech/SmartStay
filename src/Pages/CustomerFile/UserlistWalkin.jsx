@@ -36,12 +36,9 @@ function UserlistWalkin() {
   const [dotsButton, setDotsButton] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // console.log("state", state);
-
   const {
-    // canWriteModule: canWriteWalkin,
     canReadModule: canReadWalkin,
-    // canUpdateModule: canUpdateWalkin,
+
     canDeleteModule: canDeleteWalkin,
   } = useHasPermission("Walk in");
 
@@ -132,8 +129,6 @@ function UserlistWalkin() {
     }
   }, [state.UsersList.deleteWalkInCustomerStatusCode]);
 
-  // console.log("state.UsersList?.TenantList", state.UsersList?.TenantList);
-
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleDotsClick = (id, event) => {
@@ -197,8 +192,7 @@ function UserlistWalkin() {
   // }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
-    // console.log("user", user);
-    setDeleteShow(true);
+       setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
   const handleCloseDelete = () => {
@@ -227,8 +221,7 @@ function UserlistWalkin() {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-  // console.log("deleteDetails", deleteDetails);
-
+  
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
       dispatch({
