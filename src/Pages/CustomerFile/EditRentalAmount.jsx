@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Form, Button, FormControl } from "react-bootstrap";
+import { Form, Button, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { CloseCircle, MessageQuestion } from "iconsax-react";
 import Select from "react-select";
@@ -27,7 +27,7 @@ function EditRentalAmount({ show, handleClose }) {
   const [typeError, setTypeError] = useState("");
 
   const CustomerOverView = state.UsersList.customerdetails;
-  
+
   const type = [
     { value: "Edit-Rent", label: "Edit Rent" },
     { value: "Rent-Revision", label: "Rent Revision" },
@@ -156,13 +156,13 @@ function EditRentalAmount({ show, handleClose }) {
     }
   }, [state?.UsersList.editAmountSuccessStatusCode]);
 
-  const billStartDate =
-    state?.Settings?.SettingsBillsGetRecurring?.billStartDate;
+  // const billStartDate =
+  //   state?.Settings?.SettingsBillsGetRecurring?.billStartDate;
 
-  const billDueDate = state?.Settings?.SettingsBillsGetRecurring?.billDueDate;
+  // const billDueDate = state?.Settings?.SettingsBillsGetRecurring?.billDueDate;
 
-  const typeOfBilling =
-    state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling;
+  // const typeOfBilling =
+  //   state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling;
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -178,6 +178,7 @@ function EditRentalAmount({ show, handleClose }) {
       dayjs(item.type, "MM-YYYY").format("MM-YYYY"),
     ) || [];
 
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />

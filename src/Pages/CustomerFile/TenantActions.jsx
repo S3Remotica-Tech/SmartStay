@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Add, Send2 } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { TiTick } from "react-icons/ti";
+import PropTypes from "prop-types";
 
 function TenantActions({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -89,7 +90,7 @@ function TenantActions({ show, handleClose }) {
               </div>
 
               <p className="mt-1 text-[13px] leading-5 text-[#4B4B4B]">
-                Verify the tenant's KYC through the Smartstay Tenant App.
+                Verify the tenants KYC through the Smartstay Tenant App.
               </p>
 
               <div className="mt-5 flex justify-end">
@@ -157,5 +158,8 @@ function TenantActions({ show, handleClose }) {
     </>
   );
 }
-
+TenantActions.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default TenantActions;

@@ -16,12 +16,12 @@ function TenantListFilter({ show, handleClose, size }) {
   const dispatch = useDispatch();
   const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
     useState([]);
-  const [tenantStatus, setTenantStatus] = useState([]);
+  // const [tenantStatus, setTenantStatus] = useState([]);
 
   const [period, setPeriod] = useState(null);
   const [sharingType, setSharingType] = useState(null);
-  const [floor, setFloor] = useState([]);
-  const [room, setRoom] = useState([]);
+  // const [floor, setFloor] = useState([]);
+  // const [room, setRoom] = useState([]);
 
   const [tenantName, setTenantName] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -30,7 +30,7 @@ function TenantListFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (show && savedFilters) {
       setTenantName(savedFilters.search || "");
-      setTenantStatus(savedFilters.status || []);
+      // setTenantStatus(savedFilters.status || []);
       const selectedStatusOptions = tenantStatusOptions.filter((option) =>
         savedFilters.status?.includes(option.value),
       );
@@ -168,7 +168,7 @@ function TenantListFilter({ show, handleClose, size }) {
   };
 
   useEffect(() => {
-    setFloor(null);
+    // setFloor(null);
   }, [sharingType]);
 
   const CheckboxOption = (props) => {
@@ -215,7 +215,7 @@ function TenantListFilter({ show, handleClose, size }) {
   const handleTenantStatusChange = (selectedOptions) => {
     if (!selectedOptions || selectedOptions.length === 0) {
       setSelectedTenantStatusOptions([]);
-      setTenantStatus([]);
+      // setTenantStatus([]);
       return;
     }
 
@@ -224,10 +224,10 @@ function TenantListFilter({ show, handleClose, size }) {
     if (isAllSelected) {
       const allOption = selectedOptions.find((opt) => opt.value === "ALL");
       setSelectedTenantStatusOptions([allOption]);
-      setTenantStatus(["ALL"]);
+      // setTenantStatus(["ALL"]);
     } else {
       setSelectedTenantStatusOptions(selectedOptions);
-      setTenantStatus(selectedOptions.map((opt) => opt.value));
+      // setTenantStatus(selectedOptions.map((opt) => opt.value));
     }
   };
 
@@ -289,8 +289,6 @@ function TenantListFilter({ show, handleClose, size }) {
 
     setFormLoading(true);
   };
-
- 
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -501,11 +499,11 @@ function TenantListFilter({ show, handleClose, size }) {
         >
           <Button
             onClick={() => {
-              setTenantStatus([]);
+              // setTenantStatus([]);
               setPeriod(null);
               setSharingType(null);
-              setFloor([]);
-              setRoom([]);
+              // setFloor([]);
+              // setRoom([]);
               setTenantName("");
               setSelectedTenantStatusOptions([]);
             }}
@@ -537,6 +535,7 @@ function TenantListFilter({ show, handleClose, size }) {
 TenantListFilter.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  size: PropTypes.any.isRequired,
 };
 
 export default withErrorBoundary(TenantListFilter);

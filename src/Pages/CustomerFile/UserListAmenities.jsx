@@ -17,7 +17,7 @@ import { useHasPermission } from "../../Utils/Permission";
 // import Image from "react-bootstrap/Image";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
-function UserListAmenities(props) {
+function UserListAmenities() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   // const [formLoading, setFormLoading] = useState(false);

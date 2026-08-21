@@ -3,29 +3,22 @@ import React, { useState } from "react";
 import { Call, Edit, ArrowDown2 } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import Landamrkimage from "../../Assets/Images/landmark.png";
-import { useHasPermission } from '../../Utils/Permission';
-
-
+import { useHasPermission } from "../../Utils/Permission";
+import PropTypes from "prop-types";
 
 function ParentsGuardian({ additionalContact }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleToggle = (index) => {
-    setActiveIndex(prev => (prev === index ? null : index));
+    setActiveIndex((prev) => (prev === index ? null : index));
   };
 
-  const {
-
-    canUpdateModule: canUpdateTenant,
-  } = useHasPermission("Customers");
-
+  const { canUpdateModule: canUpdateTenant } = useHasPermission("Customers");
 
   return (
     <>
       {additionalContact?.map((contact, index) => (
         <div key={contact.contactId} className="mb-2">
-
-
           <div
             className=" bg-gray-100 px-4 py-1.5 rounded-xl cursor-pointer"
             onClick={() => handleToggle(index)}
@@ -33,9 +26,10 @@ function ParentsGuardian({ additionalContact }) {
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex items-center gap-4 relative group">
-
-                  <p className="font-semibold text-black text-md mb-2 capitalize 
-                max-w-[180px] truncate overflow-hidden whitespace-nowrap">
+                  <p
+                    className="font-semibold text-black text-md mb-2 capitalize 
+                max-w-[180px] truncate overflow-hidden whitespace-nowrap"
+                  >
                     {contact.fullName}
                   </p>
 
@@ -44,71 +38,74 @@ function ParentsGuardian({ additionalContact }) {
                   </span>
 
                   {/* {contact?.fullName && contact.fullName.length > 10 && ( */}
-                    <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
-      bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
-                      {contact.fullName}
-                    </span>
+                  <span
+                    className="absolute hidden group-hover:block bottom-full left-0 mb-1 
+      bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50"
+                  >
+                    {contact.fullName}
+                  </span>
                   {/* )} */}
                 </div>
 
                 <p className="text-sm text-gray-500 flex items-center">
-                  <Call size="18"
-                    color="#5e5b5b" /> +{contact.country} {contact.mobile}
+                  <Call size="18" color="#5e5b5b" /> +{contact.country}{" "}
+                  {contact.mobile}
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-
-
-                <button disabled
-                  onClick={() => {
-                    if (canUpdateTenant) {
-                    }
-                  }}
+                <button
+                  disabled
+                  // onClick={() => {
+                  //   if (canUpdateTenant) {
+                  //   }
+                  // }}
                   className={`flex justify-center items-center h-8 w-8 rounded-full 
                                        disabled:cursor-not-allowed 
       disabled:opacity-50
             ${canUpdateTenant ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed opacity-50"}`}
                 >
-                  <Edit size="22" color={canUpdateTenant ? "#1E45E1" : "#CCCCCC"} />
+                  <Edit
+                    size="22"
+                    color={canUpdateTenant ? "#1E45E1" : "#CCCCCC"}
+                  />
                 </button>
-
 
                 <ArrowDown2
                   size="20"
-                  className={`transition-transform duration-300 ${activeIndex === index ? "rotate-180" : ""
-                    }`}
+                  className={`transition-transform duration-300 ${
+                    activeIndex === index ? "rotate-180" : ""
+                  }`}
                 />
-
               </div>
             </div>
             {activeIndex === index && (
               <div className="mt-3 p-3 border rounded-xl bg-white">
-
                 <div className="mb-[10px]">
-
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
                     <div className="flex flex-col items-start">
                       <p className="text-[12px] font-medium font-gilroy">
                         Guardian Occupation
                       </p>
                       <div className="flex gap-2 mt-1 relative group">
-                        <img src={Landamrkimage} alt="landmark" className="w-4 h-4" />
+                        <img
+                          src={Landamrkimage}
+                          alt="landmark"
+                          className="w-4 h-4"
+                        />
                         <span className="text-[14px] font-semibold font-gilroy">
                           {contact?.occupation || ""}
                         </span>
                         {/* {contact?.occupation && contact.occupation.length > 10 && ( */}
-                          <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
-    bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
-                            {contact.occupation}
-                          </span>
+                        <span
+                          className="absolute hidden group-hover:block bottom-full left-0 mb-1 
+    bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50"
+                        >
+                          {contact.occupation}
+                        </span>
                         {/* )} */}
                       </div>
                     </div>
-
 
                     <div className="flex flex-col items-start">
                       <p className="text-[12px] font-medium font-gilroy">
@@ -120,34 +117,26 @@ function ParentsGuardian({ additionalContact }) {
                           {contact?.relationship || ""}
                         </span>
                         {/* {contact?.relationship && contact.relationship.length > 10 && ( */}
-                          <span className="absolute hidden group-hover:block bottom-full left-0 mb-1 
-    bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50">
-                            {contact.relationship}
-                          </span>
+                        <span
+                          className="absolute hidden group-hover:block bottom-full left-0 mb-1 
+    bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50"
+                        >
+                          {contact.relationship}
+                        </span>
                         {/* )} */}
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
-
               </div>
             )}
-
           </div>
-
         </div>
       ))}
-
-
-
-
     </>
   );
 }
-
-
-
+ParentsGuardian.propTypes = {
+  additionalContact: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};
 export default ParentsGuardian;

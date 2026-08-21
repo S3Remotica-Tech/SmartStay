@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
@@ -20,7 +20,7 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
   const [Phone, setPhone] = useState("");
 
   const [phoneError, setPhoneError] = useState("");
-  const [countryCode, setCountryCode] = useState("91");
+  const countryCode = "91";
   // const [contactId, setContactId] = useState("");
   const [formError, setFormError] = useState("");
   const [userNameError, setUserNameError] = useState("");
@@ -201,6 +201,8 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerCoatact]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-[9999] ">
@@ -495,11 +497,11 @@ function UserAdditionalContact({ show, handleClose, customerId }) {
 }
 
 UserAdditionalContact.propTypes = {
-  contactEdit: PropTypes.func.isRequired,
-  id: PropTypes.func.isRequired,
-  setAdditionalForm: PropTypes.func.isRequired,
-  additionalForm: PropTypes.func.isRequired,
-  editAdditional: PropTypes.func.isRequired,
+  show: PropTypes?.bool.isRequired,
+  handleClose: PropTypes?.func.isRequired,
+
+  customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
 };
 
 export default UserAdditionalContact;

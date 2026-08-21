@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+// import Tab from "@mui/material/Tab";
+// import TabContext from "@mui/lab/TabContext";
+// import TabList from "@mui/lab/TabList";
+// import TabPanel from "@mui/lab/TabPanel";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch, useSelector } from "react-redux";
 // import { Button } from "react-bootstrap";
 // import Modal from "react-bootstrap/Modal";
 import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
 import { Call, Sms, House, DocumentUpload, AddCircle } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
@@ -22,11 +22,11 @@ import LinkImage from "../../Assets/Images/home-link.png";
 import Group from "../../Assets/Images/Group.png";
 // import MoneyImage from "../../Assets/Images/Money.png";
 import Stayhistory from "../../Assets/Images/stay_history.png";
-import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
+// import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
 import StayHistory from "./StayHistory";
 import PropTypes from "prop-types";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+// import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import repeat from "../../Assets/Images/repeate-one.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import UserEb from "./UserListEb";
@@ -49,7 +49,7 @@ function CustomerProfile(props) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [details, setDetails] = useState("");
+  // const [details, setDetails] = useState("");
   // const [deductionDetails, setDeductionDetails] = useState("")
   const [value, setValue] = useState("1");
   // const [show, setShow] = useState(false);
@@ -64,9 +64,9 @@ function CustomerProfile(props) {
 
   const { isBillWay } = location.state || {};
 
-  const handleChangesupload = (event, newValue) => {
-    setDocumentValue(newValue);
-  };
+  // const handleChangesupload = (event, newValue) => {
+  //   setDocumentValue(newValue);
+  // };
 
   const handleShowStayHistory = () => {
     setStayDetailsShow(true);
@@ -75,51 +75,51 @@ function CustomerProfile(props) {
     setStayDetailsShow(false);
   };
 
-  const [documents, setDocuments] = useState([]);
+  // const [documents, setDocuments] = useState([]);
 
-  useEffect(() => {
-    setDocuments([]);
-  }, []);
+  // useEffect(() => {
+  //   setDocuments([]);
+  // }, []);
 
-  const getFileName = (url) => {
-    if (!url) return "";
-    try {
-      return decodeURIComponent(url.split("/").pop());
-    } catch (e) {
-      console.error("Error decoding file name:", e);
-      return url;
-    }
-  };
-  const handleFileOpen = (url) => {
-    if (!url) return;
+  // const getFileName = (url) => {
+  //   if (!url) return "";
+  //   try {
+  //     return decodeURIComponent(url.split("/").pop());
+  //   } catch (e) {
+  //     console.error("Error decoding file name:", e);
+  //     return url;
+  //   }
+  // };
+  // const handleFileOpen = (url) => {
+  //   if (!url) return;
 
-    const lowerUrl = url.toLowerCase();
+  //   const lowerUrl = url.toLowerCase();
 
-    if (
-      lowerUrl.endsWith(".pdf") ||
-      lowerUrl.endsWith(".jpg") ||
-      lowerUrl.endsWith(".jpeg") ||
-      lowerUrl.endsWith(".png")
-    ) {
-      // setPreviewUrl(url);
-      // setShow(true);
-    } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-      window.open(viewerUrl, "_blank");
-    } else {
-      window.open(url, "_blank");
-    }
-  };
+  //   if (
+  //     lowerUrl.endsWith(".pdf") ||
+  //     lowerUrl.endsWith(".jpg") ||
+  //     lowerUrl.endsWith(".jpeg") ||
+  //     lowerUrl.endsWith(".png")
+  //   ) {
+  //     // setPreviewUrl(url);
+  //     // setShow(true);
+  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+  //     window.open(viewerUrl, "_blank");
+  //   } else {
+  //     window.open(url, "_blank");
+  //   }
+  // };
 
-  const cleanFileName = (url) => {
-    const fullName = getFileName(url);
-    const parts = fullName.split("_");
-    return parts.slice(2).join("_");
-  };
+  // const cleanFileName = (url) => {
+  //   const fullName = getFileName(url);
+  //   const parts = fullName.split("_");
+  //   return parts.slice(2).join("_");
+  // };
 
   useEffect(() => {
     if (state.UsersList.StatuscodeforCheckoutProfile) {
-      setDetails(state.UsersList.checkoutprofileDetails.hostelData);
+      // setDetails(state.UsersList.checkoutprofileDetails.hostelData);
       // setDeductionDetails(state.UsersList.checkoutprofileDetails.deduction_details)
       setTimeout(() => {
         dispatch({ type: "REMOVE_CHECKOUT_PROFILE_DETAILS" });

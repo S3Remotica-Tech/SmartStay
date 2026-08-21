@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Form, Button, FormControl } from "react-bootstrap";
+import { Form, Button, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { CloseCircle } from "iconsax-react";
 // import Select from "react-select";
@@ -109,6 +109,8 @@ function EditJoiningDate({ show, handleClose }) {
     }
     return false;
   };
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">

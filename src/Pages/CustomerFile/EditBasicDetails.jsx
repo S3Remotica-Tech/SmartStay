@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Button, InputGroup } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 // import { MdError } from "react-icons/md";
@@ -101,8 +101,6 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
   const MobileNumber = `${phone}`;
 
-  
-
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_ALREADY_MOBILE_BASIC_ERROR" });
 
@@ -198,6 +196,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     state.UsersList.editBasicSuccessStatusCode,
     state.UsersList?.alreadyMobileBasicError,
   ]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">

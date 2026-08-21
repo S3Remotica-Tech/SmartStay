@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { CloseCircle, ArrowRight2, Add, Send2 } from "iconsax-react";
-import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "antd";
+import React from "react";
+import { Add } from "iconsax-react";
+import { useSelector } from "react-redux";
+// import { Modal } from "antd";
 import { Profile } from "iconsax-react";
+import PropTypes from "prop-types";
 
 function KYCTenantDetails({ show, handleClose }) {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const kycInfo = state?.UsersList?.customerdetails?.kycInfo;
 
@@ -33,10 +34,11 @@ function KYCTenantDetails({ show, handleClose }) {
     {
       label: "Mobile",
       value:
-        `+ ${state?.UsersList?.customerdetails?.countryCode} ${state?.UsersList?.customerdetails?.mobileNo}` ||
-        "-",
+        state?.UsersList?.customerdetails?.countryCode &&
+        state?.UsersList?.customerdetails?.mobileNo
+          ? `+ ${state.UsersList.customerdetails.countryCode} ${state.UsersList.customerdetails.mobileNo}`
+          : "-",
     },
-
     {
       label: "Address",
       value: kycInfo?.currentAddress?.fullAddress || "-",
@@ -46,6 +48,8 @@ function KYCTenantDetails({ show, handleClose }) {
       value: kycInfo?.permanentAddress?.fullAddress || "-",
     },
   ];
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-4 overflow-y-auto">
@@ -105,5 +109,8 @@ function KYCTenantDetails({ show, handleClose }) {
     </div>
   );
 }
-
+KYCTenantDetails.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default KYCTenantDetails;

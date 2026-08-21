@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import ErrorMessage from "../../Components/ErrorMessage";
-import { CloseCircle } from "iconsax-react";
+import PropTypes from "prop-types";
+// import ErrorMessage from "../../Components/ErrorMessage";
+// import { CloseCircle } from "iconsax-react";
 
 const RemoveRentRevision = ({ open, onClose }) => {
-  if (!open) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -47,6 +46,8 @@ const RemoveRentRevision = ({ open, onClose }) => {
       }, 300);
     }
   }, [state.createAccount?.networkError]);
+
+  if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -94,5 +95,8 @@ const RemoveRentRevision = ({ open, onClose }) => {
     </div>
   );
 };
-
+RemoveRentRevision.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 export default RemoveRentRevision;

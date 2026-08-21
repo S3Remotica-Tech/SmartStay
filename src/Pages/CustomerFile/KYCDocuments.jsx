@@ -4,6 +4,7 @@ import Documents from "../../Assets/v2Images/doc.png";
 import { Eye, DocumentDownload, Trash } from "iconsax-react";
 import DeleteTenantDocument from "./DeleteTenantDocument";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 function KYCDocuments({ documents }) {
   const state = useSelector((state) => state);
@@ -142,5 +143,14 @@ function KYCDocuments({ documents }) {
     </div>
   );
 }
-
+KYCDocuments.propTypes = {
+  documents: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      name: PropTypes.string,
+      documentName: PropTypes.string,
+      documentUrl: PropTypes.string,
+    }),
+  ).isRequired,
+};
 export default KYCDocuments;

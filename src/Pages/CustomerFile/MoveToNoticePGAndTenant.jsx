@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 // import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
@@ -382,18 +382,30 @@ MoveToNoticePGAndTenant.propTypes = {
   Room_Name: PropTypes.string,
   bed_no: PropTypes.string,
   bed_amount: PropTypes.number,
-  bedData: PropTypes.shape({
-    customerId: PropTypes.string.isRequired,
-    hostelId: PropTypes.string.isRequired,
 
+  bedData: PropTypes.shape({
+    customerId: PropTypes.string,
+    hostelId: PropTypes.string,
+
+    joiningDate: PropTypes.string,
+    floorName: PropTypes.string,
+    roomName: PropTypes.string,
+    bedName: PropTypes.string,
     actualJoining: PropTypes.string,
     initials: PropTypes.string,
     profilePic: PropTypes.string,
     fullName: PropTypes.string,
 
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
+    hostelInfo: PropTypes.shape({
+      joiningDate: PropTypes.string,
+      floorName: PropTypes.string,
+      roomName: PropTypes.string,
+      bedName: PropTypes.string,
+    }),
+
+    apiCall: PropTypes.shape({
+      customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
 
     currentTenantInfo: PropTypes.arrayOf(
       PropTypes.shape({
@@ -418,5 +430,3 @@ MoveToNoticePGAndTenant.propTypes = {
 };
 
 export default MoveToNoticePGAndTenant;
-
-

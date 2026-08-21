@@ -266,6 +266,8 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
     });
   };
 
+  if (!show) return null;
+
   return (
     <div className="fixed inset-0 z-[9999]">
       <div className="absolute inset-0 bg-black/50" />

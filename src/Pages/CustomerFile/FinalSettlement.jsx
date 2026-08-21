@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
@@ -13,10 +13,10 @@ import {
   ArrowLeft,
   Edit2,
   InfoCircle,
-  TickSquare,
+  // TickSquare,
 } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import { Trash } from "iconsax-react";
+// import { Trash } from "iconsax-react";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 // import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 import { Tooltip } from "bootstrap";
@@ -156,7 +156,7 @@ function FinalSettlement() {
   const [showRetainer, setShowRetainer] = useState(false);
 
   const [showDetails, setShowDetails] = useState(false);
- 
+
   const [showInvoices, setShowInvoices] = React.useState(false);
   const [showRentDetails, setShowRentDetails] = React.useState(false);
   const [collectFullRent, setCollectFullRent] = useState(false);
@@ -185,8 +185,6 @@ function FinalSettlement() {
   const [discount, setDiscount] = useState("");
   const [tempDiscount, setTempDiscount] = useState(discount);
 
-  
-
   const handleSet = () => {
     setDiscount(tempDiscount === "" ? 0 : Number(tempDiscount));
     setIsEditing(false);
@@ -205,8 +203,6 @@ function FinalSettlement() {
     dispatch({ type: "REMOVE_ROOM_READING_ERROR" });
     setShowRoomReading(false);
   };
-
-  
 
   const customerId =
     data?.apiCall?.customerId || data?.customerId || data?.tenetId;
@@ -365,7 +361,6 @@ function FinalSettlement() {
     }
   };
 
-  
   useEffect(() => {
     if (state.UsersList.conformChekoutError) {
       setFormLoading(false);
@@ -497,14 +492,14 @@ function FinalSettlement() {
 
       let updatedAmountToBePaid = amountTobePaid;
       let finalAmount = 0;
-      let balanceRent = 0;
+      // let balanceRent = 0;
 
-      const currentMonthOtherItems =
-        finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems;
-      const totalOtherItemsAmount = currentMonthOtherItems?.reduce(
-        (sum, item) => sum + Number(item.amount || 0),
-        0,
-      );
+      // const currentMonthOtherItems =
+      //   finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems;
+      // const totalOtherItemsAmount = currentMonthOtherItems?.reduce(
+      //   (sum, item) => sum + Number(item.amount || 0),
+      //   0,
+      // );
 
       if (collectFullRent) {
         if (!finalAmountSetClicked) {
@@ -672,15 +667,15 @@ function FinalSettlement() {
     dispatch({ type: "REMOVE_FINAL_SETTLMENT_ERROR" });
     dispatch({ type: "REMOVE_FINAL_GENERATE_ERROR" });
     if (!validateFields()) return;
-    const apiDeductions =
-      finalSettlementList?.deductionsInfo?.listDeductions || [];
+    // const apiDeductions =
+    //   finalSettlementList?.deductionsInfo?.listDeductions || [];
 
-    const apiMap = new Map(
-      apiDeductions.map((item) => [
-        item.item?.toLowerCase(),
-        Number(item.pendingAmount) || 0,
-      ]),
-    );
+    // const apiMap = new Map(
+    //   apiDeductions.map((item) => [
+    //     item.item?.toLowerCase(),
+    //     Number(item.pendingAmount) || 0,
+    //   ]),
+    // );
 
     const Finalsettelmenntdata = fields
       .filter((f) => f.reason_name && f.amount)
@@ -2383,7 +2378,6 @@ function FinalSettlement() {
 
             <div className="flex items-center gap-6 h-fit">
               <button
-                variant=""
                 onClick={handleClose}
                 className="text-base font-normal font-gilroy"
               >
