@@ -126,33 +126,33 @@ function CreateBill() {
         state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
 
       if (SelectedCustomerRoomRent && customername) {
-        setNewRows((prevRows) => {
-          const roomRentIndex = prevRows.findIndex(
-            (row) => row.am_name === "Room Rent",
-          );
+        // setNewRows((prevRows) => {
+        //   const roomRentIndex = prevRows.findIndex(
+        //     (row) => row.am_name === "Room Rent",
+        //   );
 
-          if (roomRentIndex !== -1) {
-            const updatedRows = [...prevRows];
-            updatedRows[roomRentIndex].amount =
-              SelectedCustomerRoomRent.toString();
-            return updatedRows;
-          } else {
-            return [
-              ...prevRows,
-              {
-                am_name: "Room Rent",
-                amount: SelectedCustomerRoomRent.toString(),
-              },
-            ];
-          }
-        });
+        //   if (roomRentIndex !== -1) {
+        //     const updatedRows = [...prevRows];
+        //     updatedRows[roomRentIndex].amount =
+        //       SelectedCustomerRoomRent.toString();
+        //     return updatedRows;
+        //   } else {
+        //     return [
+        //       ...prevRows,
+        //       {
+        //         am_name: "Room Rent",
+        //         amount: SelectedCustomerRoomRent.toString(),
+        //       },
+        //     ];
+        //   }
+        // });
 
-        setSelectedTypes((prev) => {
-          const updated = prev.includes("RoomRent")
-            ? prev
-            : [...prev, "RoomRent"];
-          return updated;
-        });
+        // setSelectedTypes((prev) => {
+        //   const updated = prev.includes("RoomRent")
+        //     ? prev
+        //     : [...prev, "RoomRent"];
+        //   return updated;
+        // });
 
         setTimeout(() => {
           dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });

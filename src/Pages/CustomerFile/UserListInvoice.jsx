@@ -384,7 +384,7 @@ function UserListInvoice() {
                             {view.invoiceNumber}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2 relative">
+                          <td className="w-[230px] py-4 px-2 relative">
                             <div className="flex items-center gap-2 group w-fit">
                               <span className="truncate max-w-[150px]">
                                 {view.invoiceType}
@@ -416,8 +416,40 @@ function UserListInvoice() {
                             {view?.dueDate}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2">
-                            {view?.totalAmount}
+                          <td className="w-[230px] py-1 px-2 relative align-middle">
+                            <div className="relative inline-block">
+                              <span className="leading-5">
+                                ₹ {view?.totalAmount}
+                              </span>
+
+                              {(view.isDiscounted ||
+                                view.isInvoicesApplied) && (
+                                <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
+                                  {view.isDiscounted && (
+                                    <span>
+                                      Discount Applied : ₹
+                                      <span className="text-[11px] font-semibold">
+                                        {Number(
+                                          view?.discountAmount || 0,
+                                        ).toLocaleString("en-IN")}
+                                      </span>
+                                    </span>
+                                  )}
+
+                                  {view.isInvoicesApplied && (
+                                    <span className="">
+                                      Adjusted Amount : ₹
+                                      <span className="text-[11px] font-semibold">
+                                        {Number(
+                                          props.view?.invoicesApplied
+                                            ?.amountApplied || 0,
+                                        ).toLocaleString("en-IN")}
+                                      </span>
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           </td>
 
                           <td className="w-[230px] py-1 px-2">
