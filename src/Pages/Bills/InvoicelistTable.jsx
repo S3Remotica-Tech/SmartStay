@@ -20,7 +20,7 @@ import ApplyAdvance from "./ApplyAdvance";
 import ApplyRetainerToInvoice from "./ApplyRetainerToInvoice";
 
 const InvoiceTable = (props) => {
-  const { item, selectedRows, handleRowSelect } = props;
+  // const { item, selectedRows, handleRowSelect } = props;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const InvoiceTable = (props) => {
   const [showAbove, setShowAbove] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
 
-  const invoiceFilters = state.InvoiceList.invoiceFilters;
+  // const invoiceFilters = state.InvoiceList.invoiceFilters;
 
   const [label, setLabel] = useState("");
   const {
@@ -96,10 +96,10 @@ const InvoiceTable = (props) => {
     setShowDots(false);
   };
 
-  const handleWriteOffFrom = () => {
-    setWriteOffForm(true);
-    setPayableForm(false);
-  };
+  // const handleWriteOffFrom = () => {
+  //   setWriteOffForm(true);
+  //   setPayableForm(false);
+  // };
   const handleCloseWriteOffForm = () => {
     setWriteOffForm(false);
   };
@@ -216,11 +216,11 @@ const InvoiceTable = (props) => {
     }
   }, [state.UsersList?.CustomerdetailsgetStatuscode, navigation]);
 
-  const handleApplyInvoices = (item) => {
-    setApplyInvoice(true);
-    setAdvanceDetails(item);
-    setShowDots(false);
-  };
+  // const handleApplyInvoices = (item) => {
+  //   setApplyInvoice(true);
+  //   setAdvanceDetails(item);
+  //   setShowDots(false);
+  // };
   const handleCloseApplyInvoices = () => {
     setApplyInvoice(false);
   };
@@ -232,7 +232,7 @@ const InvoiceTable = (props) => {
     setLabel("Advance");
   };
 
-  const handleCloseBookingApplyRedeem = (item) => {
+  const handleCloseBookingApplyRedeem = () => {
     setApplyAdvance(false);
   };
 

@@ -1,33 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "flatpickr/dist/themes/material_blue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import Filters from "../../Assets/Images/Filters.svg";
-import { FiSearch } from "react-icons/fi";
+// import { FiSearch } from "react-icons/fi";
 
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Compliants/Compliance.css";
 // import '../../../Pages/Complaints/Compliance.css'
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
+// import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
+// import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import ComplianceList from "../Compliants/ComplianceList";
 import "react-datepicker/dist/react-datepicker.css";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
-import Select from "react-select";
+// import Select from "react-select";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle } from "iconsax-react";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import { CloseCircle } from "iconsax-react";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
@@ -39,25 +39,25 @@ const Compliance = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const { RangePicker } = DatePicker;
-  const initialValuesRef = useRef({});
-  const [formLoading, setFormLoading] = useState(false);
-  const [Assign, setAssign] = useState("");
-  const [Status, setStatus] = useState("");
+  // const initialValuesRef = useRef({});
+  // const [formLoading, setFormLoading] = useState(false);
+  // const [Assign, setAssign] = useState("");
+  // const [Status, setStatus] = useState("");
   const [hosId, setHosId] = useState("");
   const [loading, setLoading] = useState(false);
   const [filterInput, setFilterInput] = useState("");
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  // const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [search, setSearch] = useState(false);
+  // const [search, setSearch] = useState(false);
   const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [filterStatus, setFilterStatus] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
   const location = useLocation();
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  // const [hoveredIndex, setHoveredIndex] = useState(null);
   const [show, setShow] = useState(false);
-  const [Assignpopupshow, setAssignpopupshow] = useState(false);
+  // const [Assignpopupshow, setAssignpopupshow] = useState(false);
   const [edit, setEdit] = useState(false);
   const [ComplaintData, setComplaintdata] = useState("");
 
@@ -66,9 +66,9 @@ const Compliance = () => {
     canReadModule: canReadComplaints,
   } = useHasPermission("Complaints");
 
-  const complaintList = useSelector(
-    (state) => state.Settings.Complainttypelist,
-  );
+  // const complaintList = useSelector(
+  //   (state) => state.Settings.Complainttypelist,
+  // );
 
   useEffect(() => {
     if (!canReadComplaints) {
@@ -259,15 +259,15 @@ const Compliance = () => {
 
   // const [hostelname, setHostelName] = useState("");
 
-  const handleCloseSearch = () => {
-    setSearch(false);
-    setFilterInput("");
-    setDropdownVisible(false);
-  };
+  // const handleCloseSearch = () => {
+  //   setSearch(false);
+  //   setFilterInput("");
+  //   setDropdownVisible(false);
+  // };
 
-  const handleSearch = () => {
-    setSearch(!search);
-  };
+  // const handleSearch = () => {
+  //   setSearch(!search);
+  // };
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
@@ -279,21 +279,21 @@ const Compliance = () => {
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
+    // setDropdownVisible(e.target.value.length > 0);
   };
 
-  const handleUserSelect = (user) => {
-    setFilterInput(user.customerName);
-    dispatch({
-      type: "COMPLIANCE-LIST",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        customerName: user.customerName,
-      },
-    });
+  // const handleUserSelect = (user) => {
+  //   setFilterInput(user.customerName);
+  //   dispatch({
+  //     type: "COMPLIANCE-LIST",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       customerName: user.customerName,
+  //     },
+  //   });
 
-    setDropdownVisible(false);
-  };
+  //   // setDropdownVisible(false);
+  // };
 
   // useEffect(() => {
   //   if (!filterInput) {
@@ -405,14 +405,14 @@ const Compliance = () => {
     }
   }, [state.UsersList.UserListStatusCode]);
 
-  const handleCheckoutChange = (selectedOption) => {
-    setSelectedUserName(selectedOption?.value || "");
-    if (!selectedOption) {
-      setUserErrmsg("Please Select Name");
-    } else {
-      setUserErrmsg("");
-    }
-  };
+  // const handleCheckoutChange = (selectedOption) => {
+  //   setSelectedUserName(selectedOption?.value || "");
+  //   if (!selectedOption) {
+  //     setUserErrmsg("Please Select Name");
+  //   } else {
+  //     setUserErrmsg("");
+  //   }
+  // };
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -445,12 +445,12 @@ const Compliance = () => {
     setEdit(false);
   };
 
-  const handleAssignShow = () => {
-    setAssignpopupshow(true);
-  };
-  const handleAssignClose = () => {
-    setAssignpopupshow(false);
-  };
+  // const handleAssignShow = () => {
+  //   setAssignpopupshow(true);
+  // };
+  // const handleAssignClose = () => {
+  //   setAssignpopupshow(false);
+  // };
 
   const handleEditcomplaint = (Complaintdata) => {
     setComplaintdata(Complaintdata);
@@ -534,30 +534,30 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false);
+      // setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
 
-  const uniqueCompliance = Array.isArray(state.ComplianceList?.Compliance)
-    ? state.ComplianceList.Compliance.filter(
-        (item, index, self) =>
-          index === self.findIndex((t) => t.customerId === item.customerId),
-      )
-    : [];
+  // const uniqueCompliance = Array.isArray(state.ComplianceList?.Compliance)
+  //   ? state.ComplianceList.Compliance.filter(
+  //       (item, index, self) =>
+  //         index === self.findIndex((t) => t.customerId === item.customerId),
+  //     )
+  //   : [];
 
-  const filterUsers = uniqueCompliance?.filter((user) =>
-    user?.customerName?.toLowerCase().includes(filterInput.toLowerCase()),
-  );
+  // const filterUsers = uniqueCompliance?.filter((user) =>
+  //   user?.customerName?.toLowerCase().includes(filterInput.toLowerCase()),
+  // );
 
-  const blockedStatus = [
-    "Vacated",
-    "Booked",
-    "Inactive",
-    "Settlement Generated",
-  ];
+  // const blockedStatus = [
+  //   "Vacated",
+  //   "Booked",
+  //   "Inactive",
+  //   "Settlement Generated",
+  // ];
 
   return (
     <>
@@ -739,7 +739,7 @@ const Compliance = () => {
                   <ComplianceList
                     complaints={complaints}
                     onEditComplaints={handleEditcomplaint}
-                    onAssignshow={handleAssignShow}
+                    // onAssignshow={handleAssignShow}
                     disableActions={state?.login?.planStatus === 0}
                   />
                 </div>
@@ -761,92 +761,6 @@ const Compliance = () => {
           edit={edit}
           ComplaintData={ComplaintData}
         />
-      )}
-
-      {Assignpopupshow && (
-        <div className="modal show block static !font-gilroy">
-          <Modal show={Assignpopupshow} onHide={handleAssignClose} centered>
-            <Modal.Dialog className="w-full m-0 p-0 md:w-1/3">
-              <Modal.Header closeButton closeLabel="close-button">
-                <Modal.Title
-                  style={{
-                    fontSize: 20,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                  }}
-                >
-                  {" "}
-                  Assign Complaint
-                </Modal.Title>
-              </Modal.Header>
-
-              <Modal.Body>
-                <div className="row mt-4">
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Assignee
-                      </Form.Label>
-                      <Form.Select
-                        className="border"
-                        selected
-                        value={selectedUsername}
-                        onChange={handleCheckoutChange}
-                        style={{
-                          fontSize: 14,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                      >
-                        <option value="">Select Assignee</option>
-                        <option>John</option>
-                        <option>Ruban</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </div>
-                </div>
-              </Modal.Body>
-
-              {/* {state.createAccount?.networkError ?
-                  <div className="d-flex justify-content-center mt-1 mb-1">
-                    <ErrorMessage message={state.createAccount?.networkError} type="error" /></div>
-                  : null} */}
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  className="w-100"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 600,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                  }}
-                  onClick={handleAddcomplaint}
-                >
-                  Add complaint
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
       )}
     </>
   );

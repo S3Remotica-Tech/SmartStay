@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 // import Questionimage from '../../Assets/Images/question.png';
@@ -241,25 +241,25 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
     }
   };
 
-  const handleClear = () => {
-    setSignature(null);
-    setSignaturePreview(null);
-    setSignatureErrMsg("");
-    setEditErrMessage("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
+  // const handleClear = () => {
+  //   setSignature(null);
+  //   setSignaturePreview(null);
+  //   setSignatureErrMsg("");
+  //   setEditErrMessage("");
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = "";
+  //   }
+  // };
 
-  const handleSignatureDone = () => {
-    if (!signature) {
-      setSignatureErrMsg("Please select a signature file.");
-    } else {
-      setEditErrMessage("");
-      setSignatureErrMsg("");
-      setIsSignatureConfirmed(true);
-    }
-  };
+  // const handleSignatureDone = () => {
+  //   if (!signature) {
+  //     setSignatureErrMsg("Please select a signature file.");
+  //   } else {
+  //     setEditErrMessage("");
+  //     setSignatureErrMsg("");
+  //     setIsSignatureConfirmed(true);
+  //   }
+  // };
 
   useEffect(() => {
     const appearOptions = {
@@ -784,8 +784,9 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
                           <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
                             <select
-                              className={`border-none bg-transparent font-inherit text-inherit font-medium pr-4 appearance-none cursor-pointer outline-none 
-              bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E')] bg-no-repeat bg-right-center bg-[length:10px]`}
+                              className={`border-none bg-transparent font-inherit text-inherit font-medium pr-4 appearance-none cursor-pointer outline-none
+    bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%23666" stroke-width="2"/%3E%3C/svg%3E')]
+    bg-no-repeat bg-right-center bg-[length:10px]`}
                               disabled={!allowEditFields.contact}
                             >
                               <option value="+91">+91</option>
@@ -989,7 +990,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
             Form Specific Details
           </p>
           <p className="font-gilroy font-normal text-[#1232b4] text-sm">
-            Fill the form with details you'd like to customize.
+            Fill the form with details you&apos;d like to customize.
           </p>
 
           <div className="border rounded-[10px] p-3 mb-3 max-h-[500px] overflow-y-auto w-full">
@@ -1390,9 +1391,16 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   );
 };
 AdvanceCustomizeSettings.propTypes = {
-  hostelid: PropTypes.func.isRequired,
+  hostelid: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+
   onTemplateChange: PropTypes.func.isRequired,
+
   BillsTemplateList: PropTypes.shape({
+    hostelId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    templateId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     mobile: PropTypes.string,
     emailId: PropTypes.string,
 

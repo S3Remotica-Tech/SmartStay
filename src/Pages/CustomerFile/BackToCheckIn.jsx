@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { Form, FormControl } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -14,8 +14,6 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
   const dispatch = useDispatch();
 
   const state = useSelector((state) => state);
-
-  
 
   const [activeTab, setActiveTab] = useState("LONG");
   const [reason, setReason] = useState("");
@@ -53,7 +51,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
       type: "CUSTOMERDETAILS",
       payload: { customerId: customerId },
     });
-   
+
     dispatch({
       type: "INITIALIZECANCELCHECKOUT",
       payload: {
@@ -63,13 +61,9 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     });
   }, [customerId]);
 
-
-
   const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
 
   const noticeDayjs = noticeDate ? dayjs(noticeDate, "DD/MM/YYYY") : null;
-
-  
 
   const handleSaveBacktoCheckin = () => {
     let isValid = true;
@@ -111,7 +105,6 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     }
   };
 
- 
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
       setFormLoading(false);
@@ -138,6 +131,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
       : profilePic
     : null;
 
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
@@ -341,18 +335,30 @@ BackToCheckIn.propTypes = {
 
   checkInDetails: PropTypes.shape({
     customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    tenantId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     profilePic: PropTypes.string,
     initials: PropTypes.string,
     tenantInitials: PropTypes.string,
-
-    fullName: PropTypes.string,
-    tenantFullName: PropTypes.string,
     floorName: PropTypes.string,
     roomName: PropTypes.string,
     bedName: PropTypes.string,
-    bedId: PropTypes.string,
+    fullName: PropTypes.string,
+    tenantFullName: PropTypes.string,
+
+    apiCall: PropTypes.shape({
+      customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+
+    hostelInfo: PropTypes.shape({
+      bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      floorName: PropTypes.string,
+      roomName: PropTypes.string,
+      bedName: PropTypes.string,
+    }),
   }).isRequired,
 
   pgDetails: PropTypes.shape({

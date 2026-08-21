@@ -441,7 +441,7 @@ function UserListInvoice() {
                                       Adjusted Amount : ₹
                                       <span className="text-[11px] font-semibold">
                                         {Number(
-                                          props.view?.invoicesApplied
+                                          view?.invoicesApplied
                                             ?.amountApplied || 0,
                                         ).toLocaleString("en-IN")}
                                       </span>

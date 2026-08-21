@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Bills/Invoices.css";
 import "flatpickr/dist/themes/material_blue.css";
-// import BillPdfModal from "../PDF/BillPdfModal";
 import BillPDFModalNew from "../PDF/BillPDFModalNew";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,7 +13,8 @@ import "../OthersComponent/BillPdfModal.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Add, SearchNormal1, TextalignLeft } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
-import Select from "react-select";
+
+import { toast } from "react-toastify";
 
 function BillsPdfDetails() {
   const location = useLocation();
@@ -23,8 +22,8 @@ function BillsPdfDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [statusfilter, setStatusfilter] = useState("ALL");
-  const [statusShowfilter, setStatusShowfilter] = useState(false);
+  // const [statusfilter, setStatusfilter] = useState("ALL");
+  // const [statusShowfilter, setStatusShowfilter] = useState(false);
   // const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [rowDatas, setRowDatas] = useState("");
@@ -32,17 +31,14 @@ function BillsPdfDetails() {
 
   const searchTimeout = useRef();
 
-  const { canWriteModule: canWriteInvoice, canReadModule: canReadInvoice } =
-    useHasPermission("Bills");
+  const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
 
   const { rowData, isReportsInvoiceRegisterWay, isTenantWay } =
     location.state || {};
 
-  const handleShowStatusFilter = () => {
-    setStatusShowfilter(!statusShowfilter);
-  };
-
-  
+  // const handleShowStatusFilter = () => {
+  //   setStatusShowfilter(!statusShowfilter);
+  // };
 
   useEffect(() => {
     if (rowData?.invoiceId) {
@@ -68,92 +64,92 @@ function BillsPdfDetails() {
     }
   };
 
-  const CustomStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      cursor: "pointer",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
+  // const CustomStyles = {
+  //   control: (base) => ({
+  //     ...base,
+  //     height: "auto",
+  //     border: "1px solid #D9D9D9",
+  //     borderRadius: "8px",
+  //     fontSize: "14px",
+  //     color: "#4B4B4B",
+  //     fontFamily: "Gilroy, sans-serif",
+  //     fontWeight: 500,
+  //     boxShadow: "none",
+  //     cursor: "pointer",
+  //     outline: "none",
+  //     "&:hover": {
+  //       border: "1px solid #D9D9D9",
+  //     },
+  //   }),
+  //   valueContainer: (base) => ({
+  //     ...base,
+  //     maxHeight: "60px",
+  //     overflowY: "auto",
+  //     flexWrap: "wrap",
+  //   }),
+  //   multiValue: (base) => ({
+  //     ...base,
+  //     backgroundColor: "#FFF",
+  //     borderRadius: "6px",
+  //   }),
 
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
+  //   multiValueLabel: (base) => ({
+  //     ...base,
+  //     fontSize: "12px",
+  //     fontWeight: 600,
+  //     color: "#000000",
+  //   }),
 
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
+  //   multiValueRemove: (base) => ({
+  //     ...base,
+  //     cursor: "pointer",
+  //     borderRadius: 10,
+  //     color: "#FF0000",
+  //     ":hover": {
+  //       color: "#FF0000",
+  //     },
+  //   }),
 
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#1E45E1",
-      color: "#FFF",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: state.isFocused ? "#FFF" : "#000000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    clearIndicator: () => ({
-      display: "none",
-    }),
-  };
+  //   menu: (base) => ({
+  //     ...base,
+  //     backgroundColor: "#f8f9fa",
+  //     border: "1px solid #ced4da",
+  //     fontFamily: "Gilroy, sans-serif",
+  //     fontSize: "14px",
+  //   }),
+  //   menuList: (base) => ({
+  //     ...base,
+  //     backgroundColor: "#1E45E1",
+  //     color: "#FFF",
+  //     maxHeight: "120px",
+  //     padding: 0,
+  //     scrollbarWidth: "thin",
+  //     overflowY: "auto",
+  //     fontFamily: "Gilroy, sans-serif",
+  //     fontSize: "14px",
+  //   }),
+  //   placeholder: (base) => ({
+  //     ...base,
+  //     color: "#555",
+  //   }),
+  //   option: (base, state) => ({
+  //     ...base,
+  //     cursor: "pointer",
+  //     backgroundColor: state.isFocused ? "" : "white",
+  //     color: state.isFocused ? "#FFF" : "#000000",
+  //   }),
+  //   dropdownIndicator: (base) => ({
+  //     ...base,
+  //     color: "#555",
+  //     cursor: "pointer",
+  //   }),
+  //   indicatorSeparator: () => ({
+  //     display: "none",
+  //   }),
+  //   clearIndicator: () => ({
+  //     display: "none",
+  //   }),
+  // };
 
   useEffect(() => {
     if (rowData?.invoiceId) {
@@ -167,8 +163,6 @@ function BillsPdfDetails() {
       }, 100);
     }
   }, [rowData]);
-
-
 
   useEffect(() => {
     if (isReportsInvoiceRegisterWay) {

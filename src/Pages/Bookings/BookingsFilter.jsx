@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { components } from "react-select";
 import { FaCheck } from "react-icons/fa6";
 import { IoCloseOutline } from "react-icons/io5";
-// import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -14,9 +14,9 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 function BookingsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
-    useState([]);
-  const [tenantStatus, setTenantStatus] = useState([]);
+  // const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
+  //   useState([]);
+  // const [tenantStatus, setTenantStatus] = useState([]);
 
   const [period, setPeriod] = useState(null);
 
@@ -40,11 +40,11 @@ function BookingsFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (show && savedFilters) {
       setTenantName(savedFilters.search || "");
-      setTenantStatus(savedFilters.tenantStatus || []);
-      const selectedStatusOptions = tenantStatusOptions.filter((option) =>
-        savedFilters.tenantStatus?.includes(option.value),
-      );
-      setSelectedTenantStatusOptions(selectedStatusOptions);
+      // setTenantStatus(savedFilters.tenantStatus || []);
+      // const selectedStatusOptions = tenantStatusOptions.filter((option) =>
+      //   savedFilters.tenantStatus?.includes(option.value),
+      // );
+      // setSelectedTenantStatusOptions(selectedStatusOptions);
       const selectedPeriod = periodOptions.find(
         (option) => option.value === savedFilters.period,
       );
@@ -159,7 +159,7 @@ function BookingsFilter({ show, handleClose, size }) {
     selectedPaymentMode?.includes(opt.value),
   );
 
-  const tenantStatusOptions = [];
+  // const tenantStatusOptions = [];
   // filterOptionsData?.tenantStatus?.map(item => ({
   //     label: item.label,
   //     value: item.id
@@ -234,24 +234,24 @@ function BookingsFilter({ show, handleClose, size }) {
     label: PropTypes.string.isRequired,
   };
 
-  const handleTenantStatusChange = (selectedOptions) => {
-    if (!selectedOptions || selectedOptions.length === 0) {
-      setSelectedTenantStatusOptions([]);
-      setTenantStatus([]);
-      return;
-    }
+  // const handleTenantStatusChange = (selectedOptions) => {
+  //   if (!selectedOptions || selectedOptions.length === 0) {
+  //     setSelectedTenantStatusOptions([]);
+  //     setTenantStatus([]);
+  //     return;
+  //   }
 
-    const isAllSelected = selectedOptions.some((opt) => opt.value === "ALL");
+  //   const isAllSelected = selectedOptions.some((opt) => opt.value === "ALL");
 
-    if (isAllSelected) {
-      const allOption = selectedOptions.find((opt) => opt.value === "ALL");
-      setSelectedTenantStatusOptions([allOption]);
-      setTenantStatus(["ALL"]);
-    } else {
-      setSelectedTenantStatusOptions(selectedOptions);
-      setTenantStatus(selectedOptions.map((opt) => opt.value));
-    }
-  };
+  //   if (isAllSelected) {
+  //     const allOption = selectedOptions.find((opt) => opt.value === "ALL");
+  //     setSelectedTenantStatusOptions([allOption]);
+  //     setTenantStatus(["ALL"]);
+  //   } else {
+  //     setSelectedTenantStatusOptions(selectedOptions);
+  //     setTenantStatus(selectedOptions.map((opt) => opt.value));
+  //   }
+  // };
 
   const handlePaidMinChange = (e) => {
     setPaidAmountMin(e.target.value);
@@ -547,13 +547,13 @@ function BookingsFilter({ show, handleClose, size }) {
         >
           <Button
             onClick={() => {
-              setTenantStatus([]);
+              // setTenantStatus([]);
               setPeriod(null);
-              setSharingType(null);
+              // setSharingType(null);
               setFloor([]);
               setRoom([]);
               setTenantName("");
-              setSelectedTenantStatusOptions([]);
+              // setSelectedTenantStatusOptions([]);
             }}
             style={{
               backgroundColor: "transparent",

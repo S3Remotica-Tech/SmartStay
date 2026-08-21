@@ -3,18 +3,19 @@ import React, { useRef, useState, useEffect } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "flatpickr/dist/themes/material_blue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FiSearch } from "react-icons/fi";
+// import { FiSearch } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
+// import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -120,7 +121,7 @@ const CustomStyles = {
 function AddCompliants({ show, handleClose, edit, ComplaintData }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const { RangePicker } = DatePicker;
+  // const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
   const [formLoading, setFormLoading] = useState(false);
 
@@ -283,7 +284,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
       description: description || "",
       hostelId: state.login.selectedHostel_Id,
     };
-   
+
     if (edit) {
       dispatch({
         type: "EDIT_COMPLAINT",
@@ -350,6 +351,8 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
       setRooms(ComplaintData.Room);
     }
   }, [ComplaintData]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -628,5 +631,29 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
     </div>
   );
 }
+AddCompliants.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
 
+  ComplaintData: PropTypes.shape({
+    complaintId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    complaintTypeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    description: PropTypes.string,
+
+    complaintDate: PropTypes.string,
+
+    bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    bedName: PropTypes.string,
+
+    Floor_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    Room: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+};
 export default AddCompliants;

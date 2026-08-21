@@ -1,5 +1,6 @@
 import React from "react";
 import { MessageQuestion } from "iconsax-react";
+import PropTypes from "prop-types";
 
 function Works({ label }) {
   const paymentInfo = {
@@ -42,5 +43,7 @@ function Works({ label }) {
     </div>
   );
 }
-
+Works.propTypes = {
+  label: PropTypes.string,
+};
 export default Works;

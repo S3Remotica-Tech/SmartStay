@@ -14,16 +14,16 @@ import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 // import Gpay from '../../Assets/Images/gpay.png'
 // import Phonepe from '../../Assets/Images/phonepe.png'
 // import Paytm from '../../Assets/Images/paytm.png'
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-import { Row, Col, Table } from "react-bootstrap";
-import { Location, Call, Profile } from "iconsax-react";
-import { IoBed } from "react-icons/io5";
+// import { Row, Col, Table } from "react-bootstrap";
+// import { Location, Call, Profile } from "iconsax-react";
+// import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-import { ArrowUp2, ArrowDown2, AddCircle, Add, Link21 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Link21 } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import ApplyBookingModal from "./ApplyInvoices";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
@@ -60,7 +60,7 @@ const InvoiceCard = ({ rowData }) => {
 
   const [isVisible, setIsVisible] = useState(true);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
-  const cardRef = useRef(null);
+  // const cardRef = useRef(null);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
 
@@ -69,8 +69,6 @@ const InvoiceCard = ({ rowData }) => {
   }, [rowData]);
 
   const innerScrollRef = useRef(null);
-
- 
 
   const handleDownload = async () => {
     if (rowData || pdfDetails?.hostelId) {
@@ -124,7 +122,7 @@ const InvoiceCard = ({ rowData }) => {
     navigate(`/retainer-invoice/${state.login?.selectedHostel_Id}`);
   };
   const {
-    canWriteModule: canWriteBooking,
+    // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
     // canUpdateModule: canUpdateInvoice,
     // canDeleteModule: canDeleteTenant,
@@ -167,9 +165,7 @@ const InvoiceCard = ({ rowData }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
-  
-
-  const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
+  // const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
   const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
 
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
@@ -191,25 +187,25 @@ const InvoiceCard = ({ rowData }) => {
         color: templateColor || "#1E45E1",
       };
 
-  const getIconStyle = (templateColor) => {
-    const isGradient = templateColor?.includes("linear-gradient");
+  // const getIconStyle = (templateColor) => {
+  //   const isGradient = templateColor?.includes("linear-gradient");
 
-    return isGradient
-      ? {
-          background: templateColor,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }
-      : { color: templateColor || "#4B4B4B" };
-  };
+  //   return isGradient
+  //     ? {
+  //         background: templateColor,
+  //         WebkitBackgroundClip: "text",
+  //         WebkitTextFillColor: "transparent",
+  //         display: "inline-flex",
+  //         alignItems: "center",
+  //         justifyContent: "center",
+  //       }
+  //     : { color: templateColor || "#4B4B4B" };
+  // };
 
-  const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
-    (sum, item) => sum + Number(item.amount || 0),
-    0,
-  );
+  // const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
+  //   (sum, item) => sum + Number(item.amount || 0),
+  //   0,
+  // );
 
   const handleApplyInvoices = () => {
     setApplyInvoice(true);

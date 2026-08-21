@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
-function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
+function ApplyRetainerToInvoice({ show, handleClose, retainerDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -77,7 +77,6 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
     );
   };
 
-
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -85,7 +84,7 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
       payload: {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: retainerDetails?.invoiceId,
-              },
+      },
     });
   }, [state.login.selectedHostel_Id]);
 
@@ -172,6 +171,8 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
       dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -423,6 +424,9 @@ function ApplyRetainerToInvoice({ show, handleClose, retainerDetails, label }) {
 ApplyRetainerToInvoice.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  retainerDetails: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
 };
 
 export default ApplyRetainerToInvoice;

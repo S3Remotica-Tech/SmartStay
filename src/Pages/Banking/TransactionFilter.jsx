@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { components } from "react-select";
-import { FaCheck } from "react-icons/fa6";
-import { IoCloseOutline } from "react-icons/io5";
-// import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
 import { Add, Filter } from "iconsax-react";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
@@ -116,7 +110,7 @@ const CustomStyles = {
   }),
 };
 
-function TransactionFilter({ show, handleClose, size, page }) {
+function TransactionFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -201,6 +195,8 @@ function TransactionFilter({ show, handleClose, size, page }) {
       dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
     }
   }, [state.bankingDetails.allTransactionSuccess]);
+
+  if (!show) return null;
 
   return (
     <div>
@@ -327,5 +323,9 @@ function TransactionFilter({ show, handleClose, size, page }) {
     </div>
   );
 }
-
+TransactionFilter.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default TransactionFilter;

@@ -29,16 +29,11 @@ const RentalReceiptPdfTemplate = ({
   const innerScrollRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  
   const [showFullView, setShowFullView] = useState(false);
- 
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
   const [useGradient, setUseGradient] = useState(true);
   const defaultGradient = "rgba(0,163, 46, 1)";
-
-
-
 
   const [notes, setNotes] = useState(
     '"Your comfort is our priority – See you again at Smart Stay!"',
@@ -48,25 +43,15 @@ const RentalReceiptPdfTemplate = ({
     "Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.",
   );
 
-  
   const [signature, setSignature] = useState(null);
   const [signaturePreview, setSignaturePreview] = useState(null);
-  
-
- 
-
- 
 
   const [mobilenum, setMobileNum] = useState("");
-  
-  const [email, setEmail] = useState("");
-  
 
-  
+  const [email, setEmail] = useState("");
 
   const [logoPreview, setLogoPreview] = useState(null);
-  const [hostel_logo, setHostelLogo] = useState(null);
-
+  // const [hostel_logo, setHostelLogo] = useState(null);
 
   useEffect(() => {
     const appearOptions = {
@@ -217,7 +202,7 @@ const RentalReceiptPdfTemplate = ({
         : BillsTemplateList?.logo || "";
 
       setLogoPreview(logo);
-      setHostelLogo(logo);
+      // setHostelLogo(logo);
 
       setMobileNum(
         BillsTemplateList?.isMobileCustomized &&
@@ -275,7 +260,7 @@ const RentalReceiptPdfTemplate = ({
       if (templateReceiptThemes?.logoPreview) {
         setLogoPreview(templateReceiptThemes.logoPreview);
 
-        setHostelLogo(templateReceiptThemes.logoPreview);
+        // setHostelLogo(templateReceiptThemes.logoPreview);
       }
 
       if (templateReceiptThemes?.mobilenum) {
