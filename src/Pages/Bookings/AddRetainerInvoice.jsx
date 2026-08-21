@@ -1,33 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import Image from "react-bootstrap/Image";
-import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
-import Form from "react-bootstrap/Form";
+// import Modal from "react-bootstrap/Modal";
+// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+// import Image from "react-bootstrap/Image";
+// import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
+// import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
-import { InputGroup, FormControl } from "react-bootstrap";
-import { CloseCircle, Add, ArrowRight } from "iconsax-react";
-import PropTypes from "prop-types";
+// import Button from "react-bootstrap/Button";
+// import { InputGroup, FormControl } from "react-bootstrap";
+import { Add } from "iconsax-react";
+// import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
-import { components } from "react-select";
+// import { components } from "react-select";
 import { useNavigate, useLocation } from "react-router-dom";
 import UserAdditionalContact from "../CustomerFile/UserAdditionalContact";
 import { NavigateToBack } from "../../Redux/Action/BookingAction";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
-import NoData from "../../Assets/v2Images/NoData.svg";
+// import NoData from "../../Assets/v2Images/NoData.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   SearchNormal,
-  Setting3,
-  Filter,
-  More,
-  ArrowDown,
-  AddCircle,
-  Chart21,
+  // Setting3,
+  // Filter,
+  // More,
+  // ArrowDown,
+  // AddCircle,
+  // Chart21,
   Calendar,
 } from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
@@ -341,13 +341,11 @@ function AddRetainerInvoice() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchLoading, setSearchLoading] = useState(false);
+  // const [searchLoading, setSearchLoading] = useState(false);
 
-  const { isTenantOverviewWay, customerId } = location.state || {};
+  const { customerId } = location.state || {};
 
- 
-
-  const [amountErrmsg, setAmountErrmsg] = useState("");
+  // const [amountErrmsg, setAmountErrmsg] = useState("");
   const customerRef = useRef(null);
   const guardianRef = useRef(null);
   const invoiceDateRef = useRef(null);
@@ -357,7 +355,7 @@ function AddRetainerInvoice() {
   const retainertypeRef = useRef(null);
   const amountRef = useRef(null);
   const paymentMethodRef = useRef(null);
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const [expenseItem, setExpenseItem] = useState({
     itemName: "",
     retainertype: null,
@@ -374,19 +372,19 @@ function AddRetainerInvoice() {
   const [guardianName, setGuardianName] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [invoiceDate, setInvoiceDate] = useState(null);
-  const [referenceNumber, setReferenceNumber] = useState("");
-  const [receivedAccount, setReceivedAccount] = useState(null);
+  // const [referenceNumber, setReferenceNumber] = useState("");
+  // const [receivedAccount, setReceivedAccount] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [description, setDescription] = useState("");
   const [customerErrmsg, setCustomerErrmsg] = useState("");
   const [guardianErrmsg, setGuardianErrmsg] = useState("");
   const [invoiceDateErrmsg, setInvoiceDateErrmsg] = useState("");
-  const [receivedAccountErrmsg, setReceivedAccountErrmsg] = useState("");
+  // const [receivedAccountErrmsg, setReceivedAccountErrmsg] = useState("");
   const [paymentMethodErrmsg, setPaymentMethodErrmsg] = useState("");
   const [transactionId, setTransactionId] = useState("");
-  const [errors, setErrors] = useState({
-    totalAmount: "",
-  });
+  // const [errors, setErrors] = useState({
+  //   totalAmount: "",
+  // });
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
   };
@@ -451,9 +449,9 @@ function AddRetainerInvoice() {
     (c) => c.customerId === customername,
   );
 
-  const selectedGuardian = selectedCustomer?.guardiansList?.find(
-    (g) => g.guardianId === guardianName,
-  );
+  // const selectedGuardian = selectedCustomer?.guardiansList?.find(
+  //   (g) => g.guardianId === guardianName,
+  // );
 
   const joiningDate = selectedCustomer?.joiningDate
     ? dayjs(selectedCustomer.joiningDate, "DD/MM/YYYY").toDate()
@@ -464,18 +462,18 @@ function AddRetainerInvoice() {
       label: g.guardianName,
     })) || [];
 
-  const handleGuardianName = (selectedOption) => {
-    dispatch({
-      type: "REMOVE_CREATE_RETAINER_ADD_ERROR",
-    });
-    setGuardianName(selectedOption?.value || "");
+  // const handleGuardianName = (selectedOption) => {
+  //   dispatch({
+  //     type: "REMOVE_CREATE_RETAINER_ADD_ERROR",
+  //   });
+  //   setGuardianName(selectedOption?.value || "");
 
-    if (!selectedOption) {
-      setGuardianErrmsg("Please Select Received From");
-    } else {
-      setGuardianErrmsg("");
-    }
-  };
+  //   if (!selectedOption) {
+  //     setGuardianErrmsg("Please Select Received From");
+  //   } else {
+  //     setGuardianErrmsg("");
+  //   }
+  // };
 
   const handleItemChange = (field, value) => {
     setExpenseItem((prev) => ({
@@ -497,44 +495,44 @@ function AddRetainerInvoice() {
       label: bank.bankName,
     })) || [];
 
-  const handleAddGuardian = () => {
-    setAdditionalForm(true);
-  };
+  // const handleAddGuardian = () => {
+  //   setAdditionalForm(true);
+  // };
 
   const handleCloseAdditionalForm = () => {
     setAdditionalForm(false);
   };
 
-  const CustomNoOptionsMessage = (props) => {
-    return (
-      <components.NoOptionsMessage {...props}>
-        <div className="flex flex-row items-center justify-center ">
-          <img src={NoData} alt="No Guardian" className="w-20 h-20 mb-3" />
-          <div className="">
-            <p className="text-sm font-semibold text-[#1F2633] mb-1">
-              No Parents / Guardian Details are there!
-            </p>
+  // const CustomNoOptionsMessage = (props) => {
+  //   return (
+  //     <components.NoOptionsMessage {...props}>
+  //       <div className="flex flex-row items-center justify-center ">
+  //         <img src={NoData} alt="No Guardian" className="w-20 h-20 mb-3" />
+  //         <div className="">
+  //           <p className="text-sm font-semibold text-[#1F2633] mb-1">
+  //             No Parents / Guardian Details are there!
+  //           </p>
 
-            <p className="text-xs text-[#4A5565] mt-1 text-center mb-1">
-              Add Parents/Guardian details of the tenant for Emergency purposes
-            </p>
-            <div className="flex items-center justify-center">
-              <button
-                type="button"
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  handleAddGuardian();
-                }}
-                className="mt-2 flex items-center justify-center gap-1 rounded-md bg-[#1E45E1] px-4 py-2 text-white text-xs font-medium hover:bg-[#1738BB]"
-              >
-                Add New <ArrowRight size="14" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </components.NoOptionsMessage>
-    );
-  };
+  //           <p className="text-xs text-[#4A5565] mt-1 text-center mb-1">
+  //             Add Parents/Guardian details of the tenant for Emergency purposes
+  //           </p>
+  //           <div className="flex items-center justify-center">
+  //             <button
+  //               type="button"
+  //               onMouseDown={(e) => {
+  //                 e.preventDefault();
+  //                 handleAddGuardian();
+  //               }}
+  //               className="mt-2 flex items-center justify-center gap-1 rounded-md bg-[#1E45E1] px-4 py-2 text-white text-xs font-medium hover:bg-[#1738BB]"
+  //             >
+  //               Add New <ArrowRight size="14" />
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </components.NoOptionsMessage>
+  //   );
+  // };
 
   const handlePaymentMethod = (selectedOption) => {
     dispatch({
@@ -572,18 +570,18 @@ function AddRetainerInvoice() {
     }
   };
 
-  const handleReferenceChange = (e) => {
-    dispatch({
-      type: "REMOVE_CREATE_RETAINER_ADD_ERROR",
-    });
-    setReferenceNumber(e.target.value);
+  // const handleReferenceChange = (e) => {
+  //   dispatch({
+  //     type: "REMOVE_CREATE_RETAINER_ADD_ERROR",
+  //   });
+  //   setReferenceNumber(e.target.value);
 
-    if (!e.target.value.trim()) {
-      setReferenceNumberErrmsg("Please Enter Reference Number");
-    } else {
-      setReferenceNumberErrmsg("");
-    }
-  };
+  //   if (!e.target.value.trim()) {
+  //     setReferenceNumberErrmsg("Please Enter Reference Number");
+  //   } else {
+  //     setReferenceNumberErrmsg("");
+  //   }
+  // };
 
   const handleSaveAndGenerate = () => {
     dispatch({
@@ -640,8 +638,6 @@ function AddRetainerInvoice() {
       dispatch(NavigateToBack(true));
       // navigate(`/retainer-invoice/${state.login.selectedHostel_Id}`);
       navigate(-1);
-
-     
     }
   }, [state.UsersList.createRetainerInvoiceStatusCode]);
 
@@ -682,7 +678,7 @@ function AddRetainerInvoice() {
     setCustomerErrmsg("");
     setGuardianErrmsg("");
     setInvoiceDateErrmsg("");
-    setReceivedAccountErrmsg("");
+    // setReceivedAccountErrmsg("");
     setPaymentMethodErrmsg("");
 
     setExpenseItemError({
@@ -747,8 +743,6 @@ function AddRetainerInvoice() {
     return isValid;
   };
 
- 
-
   return (
     <div className="block relative font-gilroy ">
       <div className="relative w-full  bg-white  flex flex-col ">
@@ -801,17 +795,12 @@ function AddRetainerInvoice() {
 
                   <button
                     type="button"
-                    className={`h-[48px] w-14 flex items-center justify-center rounded-r-lg bg-[#1E45E1] transition-colors ${
-                      searchLoading
-                        ? "cursor-not-allowed opacity-80"
-                        : "hover:bg-[#1738BB]"
+                    className={`h-[48px] w-14 flex items-center justify-center rounded-r-lg bg-[#1E45E1] 
+                      transition-colors
+                        hover:bg-[#1738BB]"
                     }`}
                   >
-                    {searchLoading ? (
-                      <div className="w-4 h-4 border-2 border-white  border-t-transparent  animate-spin" />
-                    ) : (
-                      <SearchNormal size="20" color="#FFF" />
-                    )}
+                    <SearchNormal size="20" color="#FFF" />
                   </button>
                 </div>
                 {customerErrmsg && (
@@ -967,6 +956,7 @@ function AddRetainerInvoice() {
                   maxDate={new Date()}
                   minDate={joiningDate}
                   placeholderText="Select Date"
+                  wrapperClassName="w-full"
                   className="w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px] border-[#D9D9D9] focus:outline-none"
                 />
                 <Calendar
@@ -1101,9 +1091,9 @@ function AddRetainerInvoice() {
                 </div>
               </div>
 
-              {errors.totalAmount && (
+              {/* {errors.totalAmount && (
                 <ErrorMessage message={errors.totalAmount} type="error" />
-              )}
+              )} */}
               <div className="flex justify-between">
                 <div className="w-full">
                   <div className="flex justify-end  m-4 ">

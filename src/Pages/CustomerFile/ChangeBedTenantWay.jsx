@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
 // import { MdError } from "react-icons/md";
@@ -369,7 +369,7 @@ function ChangeBedTenantWay(props) {
   }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
   const [customerName, setCustomerName] = useState("");
-  const [customerProfile, setCustomerProfile] = useState("");
+  // const [customerProfile, setCustomerProfile] = useState("");
 
   useEffect(() => {
     if (props.reAssignDetail?.apiCall?.customerId) {
@@ -395,7 +395,7 @@ function ChangeBedTenantWay(props) {
       setCurrentBed(hostelInfo.bedName || "");
       setCurrentRoomRent(hostelInfo.monthlyRent || "");
       setUserId(customerData.customerId || "");
-      setCustomerProfile(customerData.profilePic || null);
+      // setCustomerProfile(customerData.profilePic || null);
 
       if (hostelInfo.joiningDate) {
         const [dd, mm, yyyy] = hostelInfo.joiningDate.split("/");
@@ -965,36 +965,61 @@ function ChangeBedTenantWay(props) {
 
 ChangeBedTenantWay.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+
   customerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
+
   setCustomerReAssign: PropTypes.func,
+
   reAssignDetail: PropTypes.shape({
     user_join_date: PropTypes.string,
+
     Floor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     Rooms: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     RoomRent: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     hstl_Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     room_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     floor_name: PropTypes.string,
     Name: PropTypes.string,
     profile: PropTypes.string,
+
+    // ADD THIS
+    apiCall: PropTypes.shape({
+      customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
   }),
 
   reAssignBedDetail: PropTypes.shape({
     user_join_date: PropTypes.string,
+
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     bed: PropTypes.shape({
       user_join_date: PropTypes.string,
+
       bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
       bed_amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
+
     room: PropTypes.shape({
       Room_Name: PropTypes.string,
+
       Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
       Room_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
       Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
   }),

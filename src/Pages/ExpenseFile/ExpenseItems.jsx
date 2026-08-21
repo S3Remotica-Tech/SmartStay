@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
 function ExpenseItems() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const expenseOverView = state.ExpenseList?.expenseOverview;
 

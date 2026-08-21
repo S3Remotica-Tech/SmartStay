@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import building from "/src/Assets/Images/New_images/building1.svg";
-import Profile from "../../Assets/Images/Profile.jpg";
-import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import PaginationList from "../../Components/PaginationList";

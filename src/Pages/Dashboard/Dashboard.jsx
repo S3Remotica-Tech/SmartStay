@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "chart.js/auto";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import drop from "../../Assets/Images/New_images/arrow-down.png";
+// import drop from "../../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
 import DashboardUpdates from "../../Pages/Dashboard/DashboardUpdates";
 // import Tab from "@mui/material/Tab";
@@ -14,10 +14,10 @@ import DashboardUpdates from "../../Pages/Dashboard/DashboardUpdates";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 // import Select from "react-select";
-import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+// import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 // import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
@@ -31,7 +31,7 @@ import {
   InfoCircle,
   ArrowUp2,
   ArrowDown2,
-  ArrowUp,
+  // ArrowUp,
   TrendUp,
   TrendDown,
 } from "iconsax-react";
@@ -52,18 +52,18 @@ function Dashboard() {
   const [openCards, setOpenCards] = useState({});
   const [showBreakdown, setShowBreakdown] = useState(false);
 
-  const [selectedMonth, setSelectedMonth] = useState([]);
+  // const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
-  const [selectedFilters, setSelectedFilters] = useState({
-    occupancy: "",
-    tenants: "",
-    advance: "",
-  });
+  // const [selectedFilters, setSelectedFilters] = useState({
+  //   occupancy: "",
+  //   tenants: "",
+  //   advance: "",
+  // });
 
   const dropdownRef = useRef(null);
   const dropdownSharingRef = useRef(null);
@@ -183,11 +183,11 @@ function Dashboard() {
     },
   ];
 
-  const dateOptions =
-    dashboardList?.filters?.map((item) => ({
-      label: item,
-      value: item,
-    })) || [];
+  // const dateOptions =
+  //   dashboardList?.filters?.map((item) => ({
+  //     label: item,
+  //     value: item,
+  //   })) || [];
 
   const toggleCard = (id) => {
     setOpenCards((prev) => ({
@@ -280,8 +280,6 @@ function Dashboard() {
   //     setLoading(true);
   //   }
   // }, [selectedFilters]);
-
-  
 
   const handleTabChange = (tab) => {
     setActiveTab(String(tab));

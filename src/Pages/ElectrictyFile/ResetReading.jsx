@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Select from "react-select";
+// import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Warning2,
   Calendar,
-  CloseCircle,
+  // CloseCircle,
   Add,
   ArrowRight2,
 } from "iconsax-react";
@@ -13,6 +14,7 @@ import CreatableSelect from "react-select/creatable";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
 const reasonOptions = [
   { value: "meter_replaced", label: "Meter Replaced" },
@@ -122,7 +124,7 @@ const CustomStyles = {
 };
 
 function ResetReading({ show, handleClose, resetDetails }) {
-  const [continueExisting, setContinueExisting] = useState(false);
+  // const [continueExisting, setContinueExisting] = useState(false);
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [reason, setReason] = useState(null);
@@ -138,8 +140,6 @@ function ResetReading({ show, handleClose, resetDetails }) {
   const reasonRef = useRef(null);
   const dateRef = useRef(null);
   const readingRef = useRef(null);
-
-  if (!show) return null;
 
   // const validateForm = () => {
   //   let isValid = true;
@@ -230,6 +230,9 @@ function ResetReading({ show, handleClose, resetDetails }) {
       dispatch({ type: "REMOVE_RESET_EB_METER_READING_ERROR" });
     };
   }, []);
+
+  if (!show) return null;
+
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[9999]" />
@@ -408,5 +411,11 @@ function ResetReading({ show, handleClose, resetDetails }) {
     </>
   );
 }
-
+ResetReading.propTypes = {
+  show: PropTypes.bool,
+  handleClose: PropTypes.func,
+  resetDetails: PropTypes.shape({
+    roomId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+};
 export default ResetReading;

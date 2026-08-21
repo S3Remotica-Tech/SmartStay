@@ -66,7 +66,7 @@ function TenantJobDetails() {
       {!hasJobDetails ? (
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center py-10">
-            <img src={Pngtree} />
+            <img src={Pngtree} alt="Image" />
           </div>
 
           <div className="flex items-center  flex-col justify-center py-10">

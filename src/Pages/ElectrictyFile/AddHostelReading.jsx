@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";
@@ -68,7 +68,6 @@ function AddHostelReading({
       });
     }
   }, [editHostelReading]);
-
 
   const handleSubmit = () => {
     setChangesError("");
@@ -148,6 +147,8 @@ function AddHostelReading({
       setLoading(false);
     }
   }, [state.UsersList?.roomReadingError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">

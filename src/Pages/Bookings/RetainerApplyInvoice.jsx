@@ -1,20 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Table, Form } from "react-bootstrap";
+// import { Modal, Button, Table, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { ArrowRight, ArrowRight2 } from "iconsax-react";
+import { ArrowRight } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-
   const [error, setError] = useState("");
   const [applyAmountForInvoice, setApplyAmountForInvoice] = useState([]);
   const [formLoading, setFormLoading] = useState(false);
   const [showRetainerBreakdown, setShowRetainerBreakdown] = useState(false);
+
+  useEffect(() => {
+    setShowRetainerBreakdown(false);
+  }, []);
 
   const handleApplyAmountChange = (index, value) => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
@@ -144,6 +147,8 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
       dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40 px-3 md:px-8">
@@ -426,6 +431,9 @@ function RetainerApplyInvoice({ show, handleClose, advanceDetails }) {
 RetainerApplyInvoice.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  advanceDetails: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
 };
 
 export default RetainerApplyInvoice;

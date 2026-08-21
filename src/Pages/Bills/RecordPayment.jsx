@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import { Form } from "react-bootstrap";
-import { Modal, Button } from "react-bootstrap";
+// import { Form } from "react-bootstrap";
+// import { Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -121,8 +121,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   const [amounterrormsg, setAmountErrmsg] = useState("");
   const [dateerrmsg, setDateErrmsg] = useState("");
   const [totalErrormsg, setTotalErrmsg] = useState("");
-  const [account, setAccount] = useState("");
-  const [accountError, setAccountError] = useState("");
+  // const [account, setAccount] = useState("");
+  // const [accountError, setAccountError] = useState("");
   const [name, setName] = useState("");
   const [floor_name, setFloorName] = useState("");
   const [room_name, setRoomName] = useState("");
@@ -180,17 +180,17 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     }
   }, [state.InvoiceList.payapleAmountError]);
 
-  const handleAccount = (selectedOption) => {
-    setAccount(selectedOption?.value || "");
-    setAccountError("");
-    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-  };
+  // const handleAccount = (selectedOption) => {
+  //   setAccount(selectedOption?.value || "");
+  //   setAccountError("");
+  //   dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  // };
 
   const handleTransaction = (selectedOption) => {
     setModeOfPayment(selectedOption);
-    setAccountError("");
+    // setAccountError("");
     setPaymodeErrmsg("");
-    setAccount("");
+    // setAccount("");
   };
 
   const handleChange = (e) => {
@@ -284,10 +284,10 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
       return;
     }
 
-    if (modeOfPayment === "Net Banking" && !account) {
-      setAccountError("Please Choose Bank Account");
-      return;
-    }
+    // if (modeOfPayment === "Net Banking" && !account) {
+    //   // setAccountError("Please Choose Bank Account");
+    //   return;
+    // }
 
     if (!payableAmount || !formatpaiddate || !modeOfPayment) {
       setTimeout(() => {
@@ -337,7 +337,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
     return `${year}-${month}-${day}`;
   };
-
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
@@ -454,7 +454,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                     value={selectedDate ? dayjs(selectedDate) : null}
                     onChange={(date) => {
                       setDateErrmsg("");
-                      setAccountError("");
+                      // setAccountError("");
                       setSelectedDate(date ? date.toDate() : null);
                     }}
                     disabledDate={(current) => {
@@ -572,12 +572,17 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 }
 RecordPayment.propTypes = {
   show: PropTypes.bool.isRequired,
+
   handleClose: PropTypes.func.isRequired,
+
   selectedUserId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   invoiceList: PropTypes.shape({
     balanceDue: PropTypes.number,
-    InvoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    invoiceDate: PropTypes.string,
   }),
 };
 

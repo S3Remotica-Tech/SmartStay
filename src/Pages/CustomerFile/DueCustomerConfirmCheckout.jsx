@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -198,7 +198,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     return null;
   };
 
-
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />

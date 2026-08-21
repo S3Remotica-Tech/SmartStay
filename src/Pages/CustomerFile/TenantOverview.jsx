@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
-import leftarrow from "../../Assets/Images/arrow-left.png";
-import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { NavigateToBack } from "../../Redux/Action/BookingAction";
 import "./UserList.css";
 import {
   Call,
@@ -17,7 +14,6 @@ import {
   LogoutCurve,
   AddCircle,
   Notification1,
-  Edit,
   DocumentText,
   ArrowUp,
   InfoCircle,
@@ -26,10 +22,6 @@ import {
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
-import imageCompression from "browser-image-compression";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -41,22 +33,13 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import "react-datepicker/dist/react-datepicker.css";
-import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Trash } from "iconsax-react";
-//  import { Call } from "iconsax-react";
 import PropTypes from "prop-types";
-import Select from "react-select";
-import { DatePicker } from "antd";
 import BookingToCheckin from "../CustomerFile/BookingToCheckin";
-import dayjs from "dayjs";
-import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
+import { DocumentUpload, WalletCheck } from "iconsax-react";
 import { Verify } from "iconsax-react";
-import { RightOutlined } from "@ant-design/icons";
-import timehalf from "../../Assets/Images/New_images/time-half past.png";
-import adhar from "../../Assets/Images/New_images/aadharimg.png";
 import EditImage from "../../Assets/Images/New_images/cus_edit.svg";
-import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Landamrkimage from "../../Assets/Images/landmark.png";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import PincodeImage from "../../Assets/Images/pin.png";
@@ -66,14 +49,11 @@ import RoomImage from "../../Assets/Images/room_icon.png";
 import LinkImage from "../../Assets/Images/home-link.png";
 import BackToCheckIn from "./BackToCheckIn";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
-import Stayhistory from "../../Assets/Images/stay_history.png";
 import EditBasicDetails from "./EditBasicDetails";
 import EditAddressDetails from "./EditAddressDetails";
 import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
-import Retry from "../../Assets/Images/New_images/reload.png";
 import FileAdd from "../../Assets/Images/New_images/file_add.svg";
-import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate, useLocation } from "react-router-dom";
 import EditRentalAmount from "./EditRentalAmount";
@@ -89,7 +69,6 @@ import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import WalletHistory from "./WalletHistory";
-// import BookedCheckIn from "./BookedCheckIn";
 import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
 import ChangeBedTenantWay from "./ChangeBedTenantWay";
 import MakeAsInactive from "./MakeAsInactive";
@@ -106,85 +85,31 @@ function TenantOverview(props) {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const calendarRef = useRef(null);
-  const [id, setId] = useState("");
-  const [file, setFile] = useState(null);
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [Phone, setPhone] = useState("");
-  const [hostel_Id, setHostel_Id] = useState("");
-  const [HostelName, setHostelName] = useState("");
-  const [Floor, setFloor] = useState("");
-  const [Rooms, setRooms] = useState("");
-  const [RoomId, setRoomId] = useState("");
-  const [BedId, setBedId] = useState("");
-  const [RoomRent, setRoomRent] = useState("");
-  const [BalanceDue, setBalanceDue] = useState("");
-  const [PaymentType, setPaymentType] = useState("");
-  const [AdvanceAmount, setAdvanceAmount] = useState("");
-  const [paid_advance, setPaidAdvance] = useState("");
-  const [paid_rent, setPaidrent] = useState("");
-  const [Address, setAddress] = useState("");
-  const [house_no, setHouseNo] = useState("");
-  const [street, setStreet] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("");
-  const [state_name, setStateName] = useState("");
-  const [Email, setEmail] = useState("");
-  const [AadharNo, setAadharNo] = useState("");
-  const [PancardNo, setPancardNo] = useState("");
-  const [licence, setLicence] = useState("");
-  const [Bednum, setBednum] = useState("");
-  const [formshow, setFormShow] = useState(false);
-  const [customerdetailShow, setcustomerdetailShow] = useState(false);
-  const [customerAsignBed, setcustomerAsignBed] = useState(false);
-  const [Editbed, seteditBed] = useState("");
+
   const [value, setValue] = useState("1");
-  const [countryCode, setCountryCode] = useState("91");
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [formError, setFormError] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
-  const [dateError, setDateError] = useState("");
-  const [editMode, seteditMode] = useState(false);
-  const [floorError, setfloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [advanceAmountError, setAdvanceAmountError] = useState("");
-  const [roomrentError, setRoomRentError] = useState("");
-  const [house_noError, setHouse_NoError] = useState("");
-  const [streetError, setStreetError] = useState("");
-  const [landmarkError, setLandmarkError] = useState("");
-  const [pincodeError, setPincodeError] = useState("");
-  const [cityError, setCityError] = useState("");
+
   const [activeTab, setActiveTab] = useState("kyc");
   const [showKYCModal, setShowKYCModal] = useState(false);
   const [inactiveForm, setInActiveForm] = useState(false);
   const [inActiveDetails, setInactiveDetails] = useState("");
-  const [kycdetailsForm, setKycDetailForm] = useState(false);
+
   const [additionalForm, setAdditionalForm] = useState(false);
   const [additionalContact, setAdditionalContact] = useState([]);
   const [editAdditional, setEditAdditional] = useState(false);
-  const [deleteAdditional, setDeleteAdditional] = useState(false);
-  const [advanceDate, setAdvanceDate] = useState("");
-  const [advanceDueDate, setAdvanceDueDate] = useState("");
+  // const [deleteAdditional, setDeleteAdditional] = useState(false);
 
-  const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
-  const [generateFormAdvance, setGenerateFormAdvance] = useState(false);
-  const [errors, setErrors] = useState([]);
   const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false);
   const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false);
   const [editStayDetailsShow, setEditStayDetailsShow] = useState(false);
   const [stayDetailsShow, setStayDetailsShow] = useState(false);
-  const [fields, setFields] = useState([]);
-  const [showDocModal, setShowDocModal] = useState(false);
-  const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
+
   const [documentvalue, setDocumentValue] = useState("1");
   const [showWalletHistory, setShowWalletHistory] = useState(false);
   const [BookingAssignForm, setBookingAssignForm] = useState(false);
 
-  const [showModal, setShowModal] = useState(false);
   const [basicDetails, setBasicDetails] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [advanceList, setAdvanceList] = useState("");
@@ -192,8 +117,7 @@ function TenantOverview(props) {
   const [openMenu, setOpenMenu] = useState(null);
   const [customerCheckoutpage, setCustomerCheckoutpage] = useState(false);
   const [customercheckoutdata, setCustomerCheckoutData] = useState("");
-  const [activeRow, setActiveRow] = useState(null);
-  const [initialReasonFields, setInitialReasonFields] = useState([]);
+
   const [showUpdateRentForm, setShowUpdateRentForm] = useState(false);
   const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false);
   const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false);
@@ -205,7 +129,7 @@ function TenantOverview(props) {
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
   const menuRef = useRef(null);
-  const [ProfilePic, setProfilepic] = useState(false);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
@@ -258,15 +182,12 @@ function TenantOverview(props) {
     isReceiptWay,
     isBookingWay,
     isTenantWay,
-    isTenantOverview,
+
     navigatePg,
     navigateTenant,
   } = location.state || {};
 
-  const kycPic = state.UsersList?.KycCustomerDetails?.pic;
-
   const CustomerOverView = state?.UsersList?.customerdetails;
-  const isDevelopment = import.meta.env.MODE === "development";
 
   const handleNavigateTenant = () => {
     if (isPgWay || navigatePg) {
@@ -296,17 +217,6 @@ function TenantOverview(props) {
       },
     });
   };
-
-  // useEffect(() => {
-  //   if (state.Booking?.toNavigateRetainerTap) {
-  //     setValue("5");
-
-  //     dispatch({
-  //       type: "CUSTOMERDETAILS",
-  //       payload: { customerId: CustomerOverView?.customerId },
-  //     });
-  //   }
-  // }, [state.Booking?.toNavigateRetainerTap]);
 
   useEffect(() => {
     if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
@@ -392,156 +302,19 @@ function TenantOverview(props) {
 
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
-      // setLoadingFile(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 500);
     }
   }, [state.UsersList?.CustomerdetailsgetStatuscode]);
 
-  const reasonOptions = [
-    { value: "maintenance", label: "Maintenance" },
-    { value: "others", label: "Others" },
-  ];
-
-  const [formLoading, setFormLoading] = useState(false);
-
-  const [loading, setLoading] = useState(false);
-
-  const handleOpenAdvance = () => {
-    setGenerateFormAdvance(true);
-  };
-  const handleCloseGenerateAdvance = () => {
-    setGenerateFormAdvance(false);
-    setAdvanceDate("");
-    setAdvanceDueDate("");
-  };
-
-  const indianStates = [
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
-    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-    { value: "Assam", label: "Assam" },
-    { value: "Bihar", label: "Bihar" },
-    { value: "Chhattisgarh", label: "Chhattisgarh" },
-    { value: "Goa", label: "Goa" },
-    { value: "Gujarat", label: "Gujarat" },
-    { value: "Haryana", label: "Haryana" },
-    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-    { value: "Jharkhand", label: "Jharkhand" },
-    { value: "Karnataka", label: "Karnataka" },
-    { value: "Kerala", label: "Kerala" },
-    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-    { value: "Maharashtra", label: "Maharashtra" },
-    { value: "Manipur", label: "Manipur" },
-    { value: "Meghalaya", label: "Meghalaya" },
-    { value: "Mizoram", label: "Mizoram" },
-    { value: "Nagaland", label: "Nagaland" },
-    { value: "Odisha", label: "Odisha" },
-    { value: "Punjab", label: "Punjab" },
-    { value: "Rajasthan", label: "Rajasthan" },
-    { value: "Sikkim", label: "Sikkim" },
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
-    { value: "Telangana", label: "Telangana" },
-    { value: "Tripura", label: "Tripura" },
-    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-    { value: "Uttarakhand", label: "Uttarakhand" },
-    { value: "West Bengal", label: "West Bengal" },
-    {
-      value: "Andaman and Nicobar Islands",
-      label: "Andaman and Nicobar Islands",
-    },
-    { value: "Chandigarh", label: "Chandigarh" },
-    {
-      value: "Dadra and Nagar Haveli and Daman and Diu",
-      label: "Dadra and Nagar Haveli and Daman and Diu",
-    },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-    { value: "Ladakh", label: "Ladakh" },
-    { value: "Lakshadweep", label: "Lakshadweep" },
-    { value: "Puducherry", label: "Puducherry" },
-  ];
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "KYCCUSTOMERDETAILS",
-  //     payload: { customer_id: props?.id },
-  //   });
-  // }, []);
-
-  useEffect(() => {
-    if (!Array.isArray(props?.userData) || props.userData.length === 0) return;
-
-    const user = props.userData[0];
-
-    const sanitize = (value) =>
-      value === null ||
-      value === undefined ||
-      value === "null" ||
-      value === "undefined"
-        ? ""
-        : value;
-
-    const phoneNumber = String(user?.Phone || "");
-    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-    const mobileNumber = phoneNumber.slice(-10);
-
-    setBednum(props.userData);
-    seteditBed("editbeddet");
-    setcustomerAsignBed(false);
-
-    setId(user?.ID || user?.customerId);
-    setFile(user?.profile === "0" ? null : user?.profile);
-
-    const value = user?.Name ? user.Name.split(" ") : ["", ""];
-    setFirstname(value[0]?.trim());
-    setLastname(value[1]?.trim() || "");
-
-    setAddress(user?.Address || "");
-    setAadharNo(user?.AadharNo || "");
-    setPancardNo(user?.PancardNo || "");
-    setLicence(user?.licence || "");
-    setPhone(mobileNumber);
-    setCountryCode(countryCode);
-    setEmail(user?.Email || "");
-    setHostelName(user?.HostelName || "");
-    setHostel_Id(user?.Hostel_Id || "");
-    setFloor(user?.Floor || "");
-    setRooms(user?.Rooms || "");
-    setRoomId(user?.room_id || "");
-    setBedId(user?.hstl_Bed || "");
-    setSelectedDate(user?.joining_Date || "");
-    setAdvanceAmount(user?.AdvanceAmount || "");
-    setRoomRent(user?.RoomRent || "");
-    setPaymentType(user?.PaymentType || "");
-    setBalanceDue(user?.BalanceDue || "");
-    setPaidAdvance(user?.paid_advance || "");
-    setPaidrent(user?.paid_rent || "");
-
-    setHouseNo(sanitize(user?.Address));
-    setStreet(sanitize(user?.area));
-    setLandmark(sanitize(user?.landmark));
-    setCity(sanitize(user?.city));
-    setPincode(sanitize(user?.pincode));
-    setStateName(sanitize(user?.state));
-  }, [props?.userData]);
-
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
-      setProfilepic(true);
-      setFile(state.UsersList?.KycCustomerDetails?.pic);
-
       setTimeout(() => {
         dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
-
-  const isFirstRun = useRef(true);
-  const MobileNumber = `${countryCode}${props.userData?.Phone}`;
-
-  const [advanceDetail, setAdvanceDetail] = useState("");
 
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
@@ -570,10 +343,6 @@ function TenantOverview(props) {
 
   useEffect(() => {
     if (state.UsersList.editBasicSuccessStatusCode === 200) {
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
@@ -625,15 +394,6 @@ function TenantOverview(props) {
     }
   }, [state.UsersList.isUsersListTrue]);
 
-  const handleEditItem = (item) => {
-    props?.onEditItem(item);
-  };
-  const handleAddItem = (item) => {
-    props?.onAddItem(item);
-  };
-  const handleDeleteItem = (items) => {
-    props.onDeleteItem(items);
-  };
   const handleEditRoomItem = (item) => {
     props?.onEditRoomItem(item);
   };
@@ -649,16 +409,6 @@ function TenantOverview(props) {
     props?.onDeleteRoomItem(user);
   };
 
-  // const handleContactEdit = (u) => {
-  //   setEditAdditional(true);
-  //   setContactEdit(u);
-  //   setAdditionalForm(true);
-  // };
-
-  const handleKYCSubmit = () => {
-    dispatch({ type: "KYCVERIFYINGNEW", payload: { customer_id: props.id } });
-  };
-
   const handleAdditionalForm = () => {
     setEditAdditional(false);
     setAdditionalForm(true);
@@ -670,20 +420,7 @@ function TenantOverview(props) {
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
-    setFormShow(false);
-    setKycDetailForm(false);
   };
-
-  const options = {
-    dateFormat: "Y/m/d",
-    maxDate: null,
-    minDate: null,
-  };
-  useEffect(() => {
-    if (calendarRef.current) {
-      calendarRef.current.flatpickr.set(options);
-    }
-  }, [selectedDate]);
 
   const handleCustomerReAssign = (reuser) => {
     if (reuser?.customerId) {
@@ -769,166 +506,6 @@ function TenantOverview(props) {
   }, [state?.UsersList.editAmountSuccessStatusCode]);
 
   useEffect(() => {
-    if (Bednum) {
-      if (Bednum[0]?.reasonData && Array.isArray(Bednum[0].reasonData)) {
-        const formattedFields = Bednum[0]?.reasonData?.map((entry) => {
-          const isCustom = String(entry.reason) !== "maintenance";
-
-          return {
-            reason_name: entry.reason,
-            amount: entry.amount || "",
-            showInput: isCustom,
-            customReason: isCustom ? entry.reason : "",
-            id: entry.id,
-          };
-        });
-
-        setInitialReasonFields(JSON.parse(JSON.stringify(formattedFields)));
-      }
-    }
-  }, [Bednum]);
-
-  useEffect(() => {
-    if (hostel_Id && Floor) {
-      dispatch({
-        type: "ROOMDETAILS",
-        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
-      });
-    }
-  }, [Floor]);
-
-  const handleFirstName = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setFirstname(value);
-    setFirstnameError("");
-    setFormError("");
-  };
-  const handleLastName = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setLastname(value);
-    setFormError("");
-  };
-
-  const handlePhone = (e) => {
-    const input = e.target.value.replace(/\D/g, "");
-    setPhone(input);
-
-    if (input.length === 0) {
-      setPhoneError("");
-    } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number");
-    } else if (input.length === 10) {
-      setPhoneError("");
-    }
-
-    setPhoneErrorMessage("");
-    setFormError("");
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-  };
-
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  useEffect(() => {
-    if (state.UsersList.emailError) {
-      setFormLoading(false);
-      setLoading(false);
-      setEmailErrorMessage(state.UsersList.emailError);
-    }
-  }, [state.UsersList.emailError]);
-  const handleEmail = (e) => {
-    const emailValue = e.target.value.toLowerCase();
-    setEmail(emailValue);
-
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(emailValue);
-
-    if (!emailValue) {
-      setEmailError("");
-      setEmailErrorMessage("");
-    } else if (!isValidEmail) {
-      setEmailErrorMessage("");
-      setEmailError("Invalid Email Id");
-    } else {
-      setEmailError("");
-      setEmailErrorMessage("");
-
-      setFormError("");
-    }
-
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  };
-
-  const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("");
-    setFormError("");
-  };
-
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-
-    setFormError("");
-  };
-
-  const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-    setFormError("");
-  };
-
-  const handlePinCodeChange = (e) => {
-    const value = e.target.value;
-    if (!/^\d{0,6}$/.test(value)) {
-      return;
-    }
-
-    setPincode(value);
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
-    setFormError("");
-  };
-
-  const handleCity = (e) => {
-    const value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(value)) {
-      setCity(value);
-      setCityError("");
-      setFormError("");
-    }
-  };
-
-  // const aadharInputRef = useRef(null);
-  // const otherDocInputRef = useRef(null);
-  const handleImageChange = async (event) => {
-    const fileImage = event.target.files[0];
-    if (fileImage) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
-      try {
-        const compressedFile = await imageCompression(fileImage, options);
-        setFile(compressedFile);
-      } catch (error) {
-        console.error("Image compression error:", error);
-      }
-    }
-  };
-  useEffect(() => {
     if (props.id) {
       dispatch({ type: "CONTACTALLDETAILS", payload: { user_id: props.id } });
     }
@@ -939,223 +516,10 @@ function TenantOverview(props) {
       type: "HOSTELDETAILLIST",
       payload: { hostel_Id: state.login.selectedHostel_Id },
     });
-  }, [hostel_Id]);
-
-  useEffect(() => {
-    const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList.filter(
-        (item) => item.id === state.login.selectedHostel_Id,
-      );
-    setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostel_Id(state.login.selectedHostel_Id);
-  }, []);
-
-  const handleFloor = (selectedOption) => {
-    if (selectedOption) {
-      setFloor(selectedOption.value);
-      setfloorError("");
-    } else {
-      setFloor("");
-      setfloorError("Please select a valid floor");
-    }
-
-    setRooms("");
-    setRoomId("");
-    setBedId("");
-    setRoomRent(0);
-    setFormError("");
-  };
-
-  useEffect(() => {
-    if (Rooms) {
-      dispatch({
-        type: "BEDNUMBERDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    }
-  }, [Rooms]);
-
-  const handleRooms = (selectedOption) => {
-    const roomIdValue = selectedOption?.value || "";
-    setRoomId(roomIdValue);
-
-    // dispatch({
-    //   type: "BEDNUMBERDETAILS",
-    //   payload: {
-    //     hostelId: state.login.selectedHostel_Id,
-    //   },
-    // });
-    if (roomIdValue === "Selected Room") {
-      setRoomError("Please select a valid Room");
-    } else {
-      setRoomError("");
-    }
-    setRoomError("");
-    setFormError("");
-    setBedId("");
-    setRoomRent(0);
-  };
-
-  const handleRoomRent = (e) => {
-    const roomRentValue = e.target.value;
-    if (!/^\d*$/.test(roomRentValue)) {
-      return;
-    }
-    setRoomRent(roomRentValue);
-    setRoomRentError("");
-    setFormError("");
-  };
-
-  const handleBed = (e) => {
-    const selectedBedId = e.target.value;
-    setBedId(selectedBedId);
-
-    const Bedfilter = state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(hostel_Id) &&
-        String(u.Floor_Id) === String(Floor) &&
-        String(u.Room_Id) === String(RoomId),
-    );
-
-    const Roomamountfilter =
-      Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(selectedBedId),
-      ) ?? [];
-
-    if (Roomamountfilter.length > 0) {
-      const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
-
-      if (
-        editMode &&
-        String(selectedBedId) === String(initialStateAssign.Bed)
-      ) {
-        setRoomRent(initialStateAssign.RoomRent);
-      } else {
-        setRoomRent(selectedRoomRent);
-      }
-    } else {
-      setRoomRent("");
-    }
-
-    if (selectedBedId === "Select a Bed") {
-      setBedError("Please select a valid Bed");
-    } else {
-      setBedError("");
-    }
-
-    setFormError("");
-    setRoomRentError("");
-  };
-
-  const bedOptions = [
-    { value: "", label: "Select a Bed" },
-    ...(Editbed === "editbeddet" && Bednum?.[0]?.Bed
-      ? [{ value: Bednum[0].hstl_Bed, label: Bednum[0].Bed }]
-      : []),
-    ...(state.UsersList?.bednumberdetails?.bed_details
-      ?.filter(
-        (item) =>
-          item.bed_no && item.bed_no !== "0" && item.bed_no !== "undefined",
-      )
-      .map((item) => ({
-        value: item.id,
-        label: item.bed_no,
-      })) || []),
-  ];
-
-  const handleAdvanceAmount = (e) => {
-    const advanceAmount = e.target.value;
-    if (!/^\d*$/.test(advanceAmount)) {
-      return;
-    }
-    setAdvanceAmount(advanceAmount);
-    setAdvanceAmountError("");
-    setFormError("");
-  };
+  }, [state.login.selectedHostel_Id]);
 
   const handleCloseEditcustomer = () => {
-    setFormShow(false);
-
-    setActiveRow(null);
-    setEmailErrorMessage("");
-    setJoingDateErrmsg("");
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  };
-
-  const [firstnameError, setFirstnameError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
-
-  const firstnameRef = useRef(null);
-  const phoneRef = useRef(null);
-  const emailRef = useRef(null);
-  const hostelRef = useRef(null);
-  const cityRef = useRef(null);
-  const pincodeRef = useRef(null);
-  const stateRef = useRef(null);
-  const nochangeRef = useRef(null);
-
-  const validateField = (value, fieldName, focusedRef, ref) => {
-    const stringValue = String(value).trim();
-
-    if (
-      fieldName === "Email" &&
-      ["n/a", "na"].includes(stringValue.toLowerCase())
-    ) {
-      setEmailError("");
-      return true;
-    }
-
-    if (!stringValue) {
-      switch (fieldName) {
-        case "First Name":
-          setFirstnameError("Please Enter First Name");
-          break;
-        case "Phone Number":
-          setPhoneError("Please Enter  Phone Number");
-          break;
-        case "Email":
-          setEmailError("Please Enter Email");
-          break;
-        case "Hostel ID":
-          setHostelIdError("Please Select Hostel ID");
-          break;
-
-        default:
-          break;
-      }
-
-      if (!focusedRef.current && ref?.current) {
-        ref.current.focus();
-        focusedRef.current = true;
-      }
-
-      return false;
-    }
-
-    switch (fieldName) {
-      case "First Name":
-        setFirstnameError("");
-        break;
-      case "Phone Number":
-        setPhoneError("");
-        break;
-      case "Email":
-        setEmailError("");
-        break;
-      case "Hostel ID":
-        setHostelIdError("");
-        break;
-
-      default:
-        break;
-    }
-
-    return true;
   };
 
   useEffect(() => {
@@ -1180,105 +544,6 @@ function TenantOverview(props) {
     }
   }, [state.UsersList.statusCodeForReassinBed]);
 
-  // const [generateForm, seGenerateForm] = useState(false);
-
-  // const handlegenerateForm = () => {
-  //   seGenerateForm(true);
-  // };
-
-  useEffect(() => {
-    if (state.UsersList.phoneError) {
-      setFormLoading(false);
-      setLoading(false);
-      setPhoneError(state.UsersList.phoneError);
-    }
-  }, [state.UsersList.phoneError]);
-
-  const initialState = {
-    firstname: "",
-    lastname: "",
-    Phone: "",
-    Email: "",
-    Address: "",
-    house_no: "",
-    street: "",
-    city: "",
-    landmark: "",
-    state: "",
-    pincode: "",
-    hostel_Id: "",
-    countryCode: "",
-    file: null,
-  };
-
-  const [initialStateAssign, setInitialStateAssign] = useState({
-    Floor: "",
-    Rooms: "",
-    Bed: "",
-    selectedDate: "",
-    AdvanceAmount: "",
-    RoomRent: "",
-  });
-
-  const validateAssignField = (value, fieldName) => {
-    const isValueEmpty =
-      (typeof value === "string" && value.trim() === "") ||
-      value === "undefined" ||
-      value === "null" ||
-      value === "0";
-
-    if (isValueEmpty) {
-      switch (fieldName) {
-        case "Floor":
-          setfloorError("Please Select Floor");
-          break;
-        case "RoomId":
-          setRoomError("Please Select Room ");
-          break;
-        case "BedId":
-          setBedError("Please Select Bed ");
-          break;
-        case "selectedDate":
-          setDateError("Please Select Date");
-          break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("Please Enter Advance Amount");
-          break;
-        case "RoomRent":
-          setRoomRentError("Please Enter Room Rent");
-          break;
-        default:
-          break;
-      }
-      return false;
-    }
-
-    switch (fieldName) {
-      case "Floor":
-        setfloorError("");
-        break;
-      case "RoomId":
-        setRoomError("");
-        break;
-      case "BedId":
-        setBedError("");
-        break;
-      case "selectedDate":
-        setDateError("");
-        break;
-      case "AdvanceAmount":
-        setAdvanceAmountError("");
-        break;
-      case "RoomRent":
-        setRoomRentError("");
-        break;
-      default:
-        break;
-    }
-
-    return true;
-  };
-
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
       dispatch({
@@ -1294,11 +559,7 @@ function TenantOverview(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser === 201) {
-      // dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
-      setFormLoading(false);
-      setLoading(false);
-
       handleCloseEditcustomer();
 
       setTimeout(() => {
@@ -1309,12 +570,6 @@ function TenantOverview(props) {
     state.UsersList.statusCodeForAddUser,
     state.UsersList.Users.listCustomers,
   ]);
-
-  useEffect(() => {
-    if (state.UsersList.customerdetails) {
-      setAdvanceDetail(state.UsersList.customerdetails);
-    }
-  }, [state.UsersList.customerdetails]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {
@@ -1342,23 +597,9 @@ function TenantOverview(props) {
     }
   }, [state.UsersList.statusCodeForOtherDocu]);
 
-  // const [contactDeleteId, setContactDeleteId] = useState("");
-
-  // const handleContactDelete = (v) => {
-  //   setDeleteAdditional(true);
-  //   setContactDeleteId(v.id);
-  // };
-  const handleCloseDelete = () => {
-    setDeleteAdditional(false);
-  };
-
-  const handleDeleteContact = () => {
-    // dispatch({ type: "CONTACTDELETE", payload: { id: contactDeleteId } });
-  };
-
   useEffect(() => {
     if (state.UsersList.statusCodeDeleteContact === 200) {
-      handleCloseDelete();
+      // handleCloseDelete();
       dispatch({ type: "CONTACTALLDETAILS", payload: { user_id: props.id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_CONTACT" });
@@ -1414,91 +655,23 @@ function TenantOverview(props) {
     }
   }, [state.UsersList.statusCodeForFinalSettlement]);
 
-  // useEffect(() => {
-  //   if (
-  //     state.UsersList.statusCodeForDueCustomer === 200 ||
-  //     state.UsersList.statusCodeAddConfirmCheckout === 200
-  //   ) {
-  //     handleNavigateTenant();
-  //     setTimeout(() => {
-  //       dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
-  //     }, 500);
-  //   }
-  // }, [
-  //   state.UsersList.statusCodeForDueCustomer,
-  //   state.UsersList.statusCodeAddConfirmCheckout,
-  // ]);
-
   useEffect(() => {
     if (state.UsersList.statuscodeForConformCheckout === 200) {
       handleNavigateTenant();
     }
   }, [state.UsersList.statuscodeForConformCheckout]);
 
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false);
-      setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
 
-  const handleAddField = () => {
-    setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
-  };
-
-  const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
-    const updatedErrors = [...errors];
-
-    if (field === "reason" || field === "customReason") {
-      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
-
-      if (field === "reason") {
-        if (cleanedValue.toLowerCase() === "others") {
-          updatedFields[index].showInput = true;
-          updatedFields[index].reason_name = "others";
-          updatedFields[index].customReason = "";
-        } else {
-          updatedFields[index].showInput = false;
-          updatedFields[index].reason = cleanedValue;
-          updatedFields[index].reason_name = cleanedValue;
-          updatedFields[index].customReason = "";
-        }
-      } else if (field === "customReason") {
-        updatedFields[index].customReason = cleanedValue;
-      }
-
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-      let numericValue = value.replace(/[^0-9.]/g, "");
-      updatedFields[index].amount = numericValue;
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
-
-    setFields(updatedFields);
-    setErrors(updatedErrors);
-  };
-
-  const handleRemoveField = (index) => {
-    const updatedFields = [...fields];
-    updatedFields[index] = {
-      ...updatedFields[index],
-      isDeleted: true,
-    };
-    setFields(updatedFields);
-  };
-
   const handleEditBasicDetails = (item) => {
     setBasicDetails(item);
     setEditBasicDetailsShow(true);
-    setCountryCode("91");
   };
   const handleCloseBasicDetails = () => {
     setEditBasicDetailsShow(false);
@@ -1512,13 +685,7 @@ function TenantOverview(props) {
   const handleCloseAddressDetails = () => {
     setEditAddressDetailsShow(false);
   };
-  // const [stayDetais, setStayDetails] = useState("")
 
-  // const handleEditStayDetails = (item) => {
-  //   setEditStayDetailsShow(true)
-  //   setStayDetails(item)
-
-  // };
   const handleCloseStayDetails = () => {
     setEditStayDetailsShow(false);
   };
@@ -1529,8 +696,6 @@ function TenantOverview(props) {
   const handleCloseStayHistory = () => {
     setStayDetailsShow(false);
   };
-
-  // const MobileNumberupload = `${props.userData?.Phone}`;
 
   const handleImageUpload = async (event) => {
     const fileImage = event.target.files[0];
@@ -1555,8 +720,6 @@ function TenantOverview(props) {
       console.error("Image compression error:", error);
     }
   };
-
-  
 
   const imageUrl =
     CustomerOverView?.profilePic ||
@@ -1705,8 +868,6 @@ function TenantOverview(props) {
       dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
     }
   }, [state.UsersList?.bookingToCheckinSuccessCode]);
-
- 
 
   const handleShowBookingToCheckin = () => {
     setBookingAssignForm(true);
@@ -1866,6 +1027,7 @@ function TenantOverview(props) {
                       }}
                     >
                       <img
+                        alt="image"
                         src={EditImage}
                         className="w-5 h-5 bg-white p-1 rounded-full"
                       />
@@ -1985,7 +1147,7 @@ function TenantOverview(props) {
             </div>
 
             <div className="flex gap-4 items-center">
-              <div className="mb-1.5" onClick={() => setShowPdf(true)}>
+              <div className="mb-1.5">
                 <ExportCurve size="20" color="black" variant="Outline" />
               </div>
 
@@ -3100,19 +2262,7 @@ function TenantOverview(props) {
 
                     <div className="p-4 font-gilroy flex flex-col gap-4">
                       <div className="w-full">
-                        <UserListAmenities
-                          id={props.id}
-                          setcustomerUser_Id={props?.setcustomerUser_Id}
-                          customerUser_Id={customerId}
-                          setHostelIds={props.setHostelIds}
-                          hostelIds={props.hostelIds}
-                          hostelName={props.hostelName}
-                          sethosName={props.sethosName}
-                          statusAmni={props.statusAmni}
-                          customerAdd={props.customerAddPermission}
-                          customerEdit={props.customerEditPermission}
-                          customerDelete={props.customerDeletePermission}
-                        />
+                        <UserListAmenities />
                       </div>
 
                       <div ref={amenitiesRef} className="mt-1 w-full">
@@ -3139,90 +2289,6 @@ function TenantOverview(props) {
             </>
           </TabPanel>
 
-          <Modal
-            show={deleteAdditional}
-            onHide={handleCloseDelete}
-            centered
-            backdrop="static"
-            style={{
-              width: 388,
-              height: 250,
-              marginLeft: "500px",
-              marginTop: "200px",
-            }}
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  fontWeight: 600,
-                  color: "#222222",
-                  flex: 1,
-                }}
-              >
-                Delete Contact?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-                textAlign: "center",
-                marginTop: "-20px",
-              }}
-            >
-              Are you sure you want to Delete Contact?
-            </Modal.Body>
-
-            <Modal.Footer
-              style={{
-                justifyContent: "center",
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  marginRight: 10,
-                }}
-                onClick={handleCloseDelete}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleDeleteContact}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
           <TabPanel value="2" className="w-full max-w-full px-2 sm:px-0">
             <UserEb
               id={customerId}
@@ -3233,15 +2299,7 @@ function TenantOverview(props) {
             />
           </TabPanel>
           <TabPanel value="3" className="w-full max-w-full px-2 sm:px-0">
-            <UserListInvoice
-              id={customerId}
-              handleEditItem={handleEditItem}
-              handleDeleteItem={handleDeleteItem}
-              handleAddItem={handleAddItem}
-              customerAdd={props.customerAddPermission}
-              customerEdit={props.customerEditPermission}
-              customerDelete={props.customerDeletePermission}
-            />
+            <UserListInvoice />
           </TabPanel>
 
           <TabPanel value="4">
@@ -3388,10 +2446,6 @@ TenantOverview.propTypes = {
   onClick: PropTypes.func,
   handleBack: PropTypes.func,
   onAddItem: PropTypes.func,
-
-  customerEditPermission: PropTypes.bool,
-  customerAddPermission: PropTypes.bool,
-  customerDeletePermission: PropTypes.bool,
 
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hostelIds: PropTypes.array,

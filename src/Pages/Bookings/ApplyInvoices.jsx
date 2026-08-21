@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Table, Form } from "react-bootstrap";
+// import { Modal, Button, Table, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { ArrowRight } from "iconsax-react";
@@ -122,8 +122,6 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
     setFormLoading(true);
   };
 
- 
-
   useEffect(() => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       setFormLoading(false);
@@ -144,6 +142,8 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
       dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -353,6 +353,11 @@ function ApplyBookingModal({ show, handleClose, advanceDetails, label }) {
 ApplyBookingModal.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  advanceDetails: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+
+  label: PropTypes.string.isRequired,
 };
 
 export default ApplyBookingModal;

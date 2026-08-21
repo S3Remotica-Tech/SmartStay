@@ -3,31 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ComingSoon from "../../Utils/ComingSoon";
 
 function DashboardUpdates() {
-  const updates = [
-    {
-      date: "01 September 2024",
-      title: "August 2024 . Smarty Stay Version update",
-      content:
-        "Lorem ipsum dolor sit amet consectetur. Tellus sed libero commodo leo scelerisque turpis in gravida. Et facilisi eget id consequat maecenas diam velit eget accumsan. Nam suspendisse lectus vitae elementum integer. Velit sem nec eget id ac. Sagittis sit mauris massa eget vel integer mattis pulvinar. Eget aliquet",
-    },
-    {
-      date: "02 September 2024",
-      title: "August 2024 . Monthly Report",
-      content:
-        "Lorem ipsum dolor sit amet consectetur. Tellus sed libero commodo leo scelerisque turpis in gravida. Et facilisi eget id consequat maecenas diam velit eget accumsan. Nam suspendisse lectus vitae elementum integer. Velit sem nec eget id ac. Sagittis sit mauris massa eget vel integer mattis pulvinar. Eget aliquet",
-    },
-    {
-      date: "03 September 2024",
-      title: "August 2024 . Summary Review",
-      content:
-        "Lorem ipsum dolor sit amet consectetur. Tellus sed libero commodo leo scelerisque turpis in gravida. Et facilisi eget id consequat maecenas diam velit eget accumsan. Nam suspendisse lectus vitae elementum integer. Velit sem nec eget id ac. Sagittis sit mauris massa eget vel integer mattis pulvinar. Eget aliquet",
-    },
-  ]
-
   return (
-    <div >
-      
-        {/* <div className="col-lg-7 mb-4">
+    <div>
+      {/* <div className="col-lg-7 mb-4">
           <div className="card-body">
 
 
@@ -102,14 +80,9 @@ function DashboardUpdates() {
           </div>
         </div> */}
 
-       
-          <ComingSoon/>
- 
-     
+      <ComingSoon />
     </div>
   );
 }
 
 export default DashboardUpdates;
-
-

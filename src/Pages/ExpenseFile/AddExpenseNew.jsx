@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseCircle, Add, More, DocumentUpload } from "iconsax-react";
+import { Add, More, DocumentUpload } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-import { Warning2 } from "iconsax-react";
+// import { Warning2 } from "iconsax-react";
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -219,61 +219,61 @@ const CustomStylesCode = {
   }),
 };
 
-const indianStates = [
-  { value: "Tamil Nadu", label: "Tamil Nadu" },
-  { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-  { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-  { value: "Assam", label: "Assam" },
-  { value: "Bihar", label: "Bihar" },
-  { value: "Chhattisgarh", label: "Chhattisgarh" },
-  { value: "Goa", label: "Goa" },
-  { value: "Gujarat", label: "Gujarat" },
-  { value: "Haryana", label: "Haryana" },
-  { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-  { value: "Jharkhand", label: "Jharkhand" },
-  { value: "Karnataka", label: "Karnataka" },
-  { value: "Kerala", label: "Kerala" },
-  { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-  { value: "Maharashtra", label: "Maharashtra" },
-  { value: "Manipur", label: "Manipur" },
-  { value: "Meghalaya", label: "Meghalaya" },
-  { value: "Mizoram", label: "Mizoram" },
-  { value: "Nagaland", label: "Nagaland" },
-  { value: "Odisha", label: "Odisha" },
-  { value: "Punjab", label: "Punjab" },
-  { value: "Rajasthan", label: "Rajasthan" },
-  { value: "Sikkim", label: "Sikkim" },
-  { value: "Telangana", label: "Telangana" },
-  { value: "Tripura", label: "Tripura" },
-  { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-  { value: "Uttarakhand", label: "Uttarakhand" },
-  { value: "West Bengal", label: "West Bengal" },
-  {
-    value: "Andaman and Nicobar Islands",
-    label: "Andaman and Nicobar Islands",
-  },
-  { value: "Chandigarh", label: "Chandigarh" },
-  {
-    value: "Dadra and Nagar Haveli and Daman and Diu",
-    label: "Dadra and Nagar Haveli and Daman and Diu",
-  },
-  { value: "Delhi", label: "Delhi" },
-  { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-  { value: "Ladakh", label: "Ladakh" },
-  { value: "Lakshadweep", label: "Lakshadweep" },
-  { value: "Puducherry", label: "Puducherry" },
-];
+// const indianStates = [
+//   { value: "Tamil Nadu", label: "Tamil Nadu" },
+//   { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+//   { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+//   { value: "Assam", label: "Assam" },
+//   { value: "Bihar", label: "Bihar" },
+//   { value: "Chhattisgarh", label: "Chhattisgarh" },
+//   { value: "Goa", label: "Goa" },
+//   { value: "Gujarat", label: "Gujarat" },
+//   { value: "Haryana", label: "Haryana" },
+//   { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+//   { value: "Jharkhand", label: "Jharkhand" },
+//   { value: "Karnataka", label: "Karnataka" },
+//   { value: "Kerala", label: "Kerala" },
+//   { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+//   { value: "Maharashtra", label: "Maharashtra" },
+//   { value: "Manipur", label: "Manipur" },
+//   { value: "Meghalaya", label: "Meghalaya" },
+//   { value: "Mizoram", label: "Mizoram" },
+//   { value: "Nagaland", label: "Nagaland" },
+//   { value: "Odisha", label: "Odisha" },
+//   { value: "Punjab", label: "Punjab" },
+//   { value: "Rajasthan", label: "Rajasthan" },
+//   { value: "Sikkim", label: "Sikkim" },
+//   { value: "Telangana", label: "Telangana" },
+//   { value: "Tripura", label: "Tripura" },
+//   { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+//   { value: "Uttarakhand", label: "Uttarakhand" },
+//   { value: "West Bengal", label: "West Bengal" },
+//   {
+//     value: "Andaman and Nicobar Islands",
+//     label: "Andaman and Nicobar Islands",
+//   },
+//   { value: "Chandigarh", label: "Chandigarh" },
+//   {
+//     value: "Dadra and Nagar Haveli and Daman and Diu",
+//     label: "Dadra and Nagar Haveli and Daman and Diu",
+//   },
+//   { value: "Delhi", label: "Delhi" },
+//   { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+//   { value: "Ladakh", label: "Ladakh" },
+//   { value: "Lakshadweep", label: "Lakshadweep" },
+//   { value: "Puducherry", label: "Puducherry" },
+// ];
 
-const paidThroughOptions = [
-  {
-    value: "sbi",
-    label: "SBI Bank (Navaur Branch)",
-  },
-  {
-    value: "hdfc",
-    label: "HDFC Bank",
-  },
-];
+// const paidThroughOptions = [
+//   {
+//     value: "sbi",
+//     label: "SBI Bank (Navaur Branch)",
+//   },
+//   {
+//     value: "hdfc",
+//     label: "HDFC Bank",
+//   },
+// ];
 
 function AddExpenseNew() {
   const state = useSelector((state) => state);
@@ -296,7 +296,7 @@ function AddExpenseNew() {
   const [expenseItemErrors, setExpenseItemErrors] = useState([]);
   const [tax, setTax] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [paidThroughError, setPaidThroughError] = useState("");
+  // const [paidThroughError, setPaidThroughError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
   const [expenseTitle, setExpenseTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -305,7 +305,7 @@ function AddExpenseNew() {
   const [purchaseDate, setPurchaseDate] = useState(null);
   const [purchaseDateError, setPurchaseDateError] = useState("");
   const [linkVendor, setLinkVendor] = useState(true);
-  const [paidThrough, setPaidThrough] = useState("");
+  // const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [description, setDescription] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -340,15 +340,11 @@ function AddExpenseNew() {
   const paidAmountRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
- 
-
   const [hoveredImage, setHoveredImage] = useState(null);
   const fileInputRef = useRef(null);
   const [balanceAmount, setBalanceAmount] = useState("");
-  const [balanceAmountError, setBalanceAmountError] = useState("");
-  const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
-
-
+  // const [balanceAmountError, setBalanceAmountError] = useState("");
+  // const balanceAmountFor = Number(amount || 0) - Number(paidAmount || 0);
 
   useEffect(() => {
     const balance = Number(amount || 0) - Number(paidAmount || 0);
@@ -376,8 +372,6 @@ function AddExpenseNew() {
     ...option,
     isDisabled: selectedVendorId && option.value !== Number(selectedVendorId),
   }));
-
-  
 
   const unitOptions = [
     { value: "Nos", label: "Nos" },
@@ -462,22 +456,22 @@ function AddExpenseNew() {
     }));
   };
 
-  const handleBalanceAmountChange = (e) => {
-    dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
-    const value = e.target.value;
+  // const handleBalanceAmountChange = (e) => {
+  //   dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
+  //   const value = e.target.value;
 
-    setBalanceAmount(value);
+  //   setBalanceAmount(value);
 
-    if (!value.trim()) {
-      setBalanceAmountError("Balance amount is required");
-    } else {
-      setBalanceAmountError("");
-    }
-    setErrors((prev) => ({
-      ...prev,
-      balanceAmount: "",
-    }));
-  };
+  //   if (!value.trim()) {
+  //     setBalanceAmountError("Balance amount is required");
+  //   } else {
+  //     setBalanceAmountError("");
+  //   }
+  //   setErrors((prev) => ({
+  //     ...prev,
+  //     balanceAmount: "",
+  //   }));
+  // };
 
   const handleClose = () => {
     dispatch({ type: "REMOVE_BANK_INSUFFICIANT_FUND_ERROR" });
@@ -594,14 +588,13 @@ function AddExpenseNew() {
   );
 
   const taxAmount = (subTotal * Number(tax || 0)) / 100;
-  
+
   const discountAmount =
     discountType === "percent"
       ? (subTotal * Number(discount || 0)) / 100
       : Number(discount || 0);
- 
 
-  const totalAmount = subTotal + taxAmount - discountAmount;
+  // const totalAmount = subTotal + taxAmount - discountAmount;
 
   const validate = () => {
     setPaymentMethodError("");
@@ -749,10 +742,10 @@ function AddExpenseNew() {
     const paid = Number(paidAmount || 0);
     const balance = total - paid;
 
-    const itemsTotal = expenseItems?.reduce(
-      (sum, item) => sum + Number(item.amount || 0),
-      0,
-    );
+    // const itemsTotal = expenseItems?.reduce(
+    //   (sum, item) => sum + Number(item.amount || 0),
+    //   0,
+    // );
 
     if (taxAmount && taxAmount < 0) {
       setErrors((prev) => ({
@@ -971,8 +964,6 @@ function AddExpenseNew() {
     state.ExpenseList.StatusCodeForUpdateExpenseSuccess,
   ]);
 
-  
-
   useEffect(() => {
     if (!category) return;
 
@@ -1175,6 +1166,7 @@ function AddExpenseNew() {
                   dateFormat="dd/MM/yyyy"
                   maxDate={new Date()}
                   placeholderText="Select Date"
+                  wrapperClassName="w-full"
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
       ${
         purchaseDateError ? "border-red-500" : "border-[#D9D9D9]"

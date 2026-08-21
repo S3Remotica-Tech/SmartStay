@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  CloseCircle,
+  // CloseCircle,
   Add,
-  Flash,
-  Call,
+  // Flash,
+  // Call,
   Location,
-  Warning2,
-  AddCircle,
+  // Warning2,
+  // AddCircle,
   ExportSquare,
 } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpensePaymentHistory from "./ExpensePaymentHistory";
 import ExpenseItems from "./ExpenseItems";
+import PropTypes from "prop-types";
 
 function ExpenseOverview({
   show,
@@ -26,8 +27,6 @@ function ExpenseOverview({
 
   const [activeTab, setActiveTab] = useState("payments");
   const expenseOverView = state.ExpenseList?.expenseOverview;
-
- 
 
   useEffect(() => {
     if (selectedExpenseId) {
@@ -181,5 +180,10 @@ function ExpenseOverview({
     </div>
   );
 }
-
+ExpenseOverview.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  handleShowSettlement: PropTypes.func.isRequired,
+  selectedExpenseId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default ExpenseOverview;

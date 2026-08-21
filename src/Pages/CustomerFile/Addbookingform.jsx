@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Form, Button, FormControl } from "react-bootstrap";
+import { Form, Button, FormControl } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
@@ -491,7 +491,6 @@ function BookingModal(props) {
   }, [state.createAccount?.networkError]);
 
   const isComingSoon = false;
-
 
   return (
     <div className="fixed inset-0 z-50">
@@ -1093,23 +1092,14 @@ function BookingModal(props) {
 BookingModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleCloseAddBooking: PropTypes.func.isRequired,
-  add_bookingshow: PropTypes.func.isRequired,
+
   assignBooking: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
-  ID: PropTypes.string,
-  Phone: PropTypes.string,
-  Email: PropTypes.string,
-  profile: PropTypes.string,
-  Name: PropTypes.string,
 
   userDetail: PropTypes.shape({
-    ID: PropTypes.string,
-    Phone: PropTypes.string,
-    Email: PropTypes.string,
-    profile: PropTypes.string,
-    Name: PropTypes.string,
+    mobile: PropTypes.string,
     customerId: PropTypes.string,
     profilePic: PropTypes.string,
     firstName: PropTypes.string,

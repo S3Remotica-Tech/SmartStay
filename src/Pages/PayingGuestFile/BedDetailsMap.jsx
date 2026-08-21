@@ -29,7 +29,7 @@ import ConfirmChangeBed from "./NoticePeriod/ConfirmChangedBed";
 import { useHasPermission } from "../../Utils/Permission";
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
 import { clickedBedForChange } from "../../Redux/Action/LoginAction";
-import FinalOld from "../CustomerFile/FinalOld";
+// import FinalOld from "../CustomerFile/FinalOld";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import BookingToCheckin from "../CustomerFile/BookingToCheckin";
@@ -66,7 +66,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [showBed, setShowBed] = useState(false);
   const [details, setDetails] = useState("");
   const [makeasinactive, setMakeasInactive] = useState(false);
-  const [finalsettlepage, setFinalSettlePage] = useState(false);
+  // const [finalsettlepage, setFinalSettlePage] = useState(false);
   const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] =
     useState(false);
   const [clickedBed, setClickedBed] = useState("");
@@ -91,9 +91,9 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     });
   };
 
-  const handleClosefinalsettelment = () => {
-    setFinalSettlePage(false);
-  };
+  // const handleClosefinalsettelment = () => {
+  //   setFinalSettlePage(false);
+  // };
   const handleShowReservedBed = () => {
     setShowReservedBed(true);
   };
@@ -741,14 +741,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           );
         })()}
 
-      {finalsettlepage && (
+      {/* {finalsettlepage && (
         <FinalOld
           show={finalsettlepage}
           handleClose={handleClosefinalsettelment}
           data={selectedTenant}
           pgDetails={customer}
         />
-      )}
+      )} */}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
         {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (

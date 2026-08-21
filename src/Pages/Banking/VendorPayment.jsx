@@ -1,16 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-
 import {
-  ArrowLeft2,
   Calendar,
   DocumentUpload,
-  CloseCircle,
   ArrowDown2,
   Add,
   Bank,
   Wallet2,
-  ArrowRight,
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -18,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -157,6 +154,14 @@ const Option = (props) => {
     </components.Option>
   );
 };
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    icon: PropTypes.node,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+  }).isRequired,
+};
 
 const SingleValue = (props) => {
   const { data } = props;
@@ -176,13 +181,24 @@ const SingleValue = (props) => {
     </components.SingleValue>
   );
 };
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    icon: PropTypes.node,
+    label: PropTypes.string,
+  }).isRequired,
+};
 
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
-
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
     <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
@@ -190,17 +206,20 @@ const GroupHeading = (props) => (
     </div>
   </components.GroupHeading>
 );
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 
-function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
-  if (!show) return null;
+function VendorPayment({ show, handleClose, isBanking }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const VendorOverView = state.ComplianceList?.vendorOverview;
+  // const VendorOverView = state.ComplianceList?.vendorOverview;
 
   const vendorInitialize = state.ComplianceList?.vendorSettlementInitialize;
-  const expenses = vendorInitialize?.expenses || [];
- 
+  // const expenses = vendorInitialize?.expenses || [];
 
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [paidAmount, setPaidAmount] = useState("");
@@ -230,7 +249,6 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
- 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -313,7 +331,6 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
       label: view.vendorName,
     })) || [];
 
-  
   const handlePaidAmountChange = (e) => {
     setPaidAmount(e.target.value);
     setPaidAmountError("");
@@ -331,10 +348,10 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     setPaidDateError("");
   };
 
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-    setPaymentMethodError("");
-  };
+  // const handlePaymentMethodChange = (e) => {
+  //   setPaymentMethod(e.target.value);
+  //   setPaymentMethodError("");
+  // };
 
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
@@ -477,6 +494,7 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     };
   }, []);
 
+  if (!show) return null;
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
@@ -960,5 +978,11 @@ function VendorPayment({ show, handleClose, isBanking, selectedVendorId }) {
     </>
   );
 }
+VendorPayment.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  isBanking: PropTypes.bool,
 
+  selectedVendorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default VendorPayment;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
-import AddExpenses from "../Pages/ExpenseFile/AddExpenses";
+
 import { useSelector } from "react-redux";
 function SidebarQuickActions({
   showMenuModal,

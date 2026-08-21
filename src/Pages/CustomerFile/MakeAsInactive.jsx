@@ -5,9 +5,7 @@ import "./UserList.css";
 import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "react-bootstrap/Modal";
-// import Profile from "../../Assets/Images/New_images/profile-picture.png";
-// import { MdError } from "react-icons/md";
+
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
@@ -43,7 +41,6 @@ function MakeAsInactive({
       setTransactionId(value);
     }
   };
-  
 
   const handleInActiveReason = (e) => {
     setInActiveComments(e.target.value);
@@ -166,8 +163,6 @@ function MakeAsInactive({
     }
   }, [inActiveDetails]);
 
-  
-
   const profilePic = inActiveDetails?.profilePic;
 
   const isValidImage =
@@ -176,6 +171,8 @@ function MakeAsInactive({
     (profilePic.startsWith("http") ||
       profilePic.startsWith("data:image") ||
       profilePic.startsWith("/9j/"));
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -449,7 +446,9 @@ MakeAsInactive.propTypes = {
   inActiveDetails: PropTypes.shape({
     customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
+    floorName: PropTypes.string,
+    roomName: PropTypes.string,
+    bedName: PropTypes.string,
     profilePic: PropTypes.string,
     initials: PropTypes.string,
     tenantInitials: PropTypes.string,
@@ -457,12 +456,18 @@ MakeAsInactive.propTypes = {
     fullName: PropTypes.string,
     tenantFullName: PropTypes.string,
 
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
-
     firstName: PropTypes.string,
     bookedAt: PropTypes.string,
+
+    apiCall: PropTypes.shape({
+      customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+
+    hostelInfo: PropTypes.shape({
+      floorName: PropTypes.string,
+      roomName: PropTypes.string,
+      bedName: PropTypes.string,
+    }),
   }).isRequired,
 };
 

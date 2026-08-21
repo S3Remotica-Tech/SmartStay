@@ -123,25 +123,25 @@ const RentalReceiptPdfTemplate = ({
     }
   };
 
-  const handleClear = () => {
-    setSignature(null);
-    setSignaturePreview(null);
-    setSignatureErrMsg("");
-    setEditErrMessage("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
+  // const handleClear = () => {
+  //   setSignature(null);
+  //   setSignaturePreview(null);
+  //   setSignatureErrMsg("");
+  //   setEditErrMessage("");
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = "";
+  //   }
+  // };
 
-  const handleSignatureDone = () => {
-    if (!signature) {
-      setSignatureErrMsg("Please select a signature file.");
-    } else {
-      setSignatureErrMsg("");
-      setEditErrMessage("");
-      setIsSignatureConfirmed(true);
-    }
-  };
+  // const handleSignatureDone = () => {
+  //   if (!signature) {
+  //     setSignatureErrMsg("Please select a signature file.");
+  //   } else {
+  //     setSignatureErrMsg("");
+  //     setEditErrMessage("");
+  //     setIsSignatureConfirmed(true);
+  //   }
+  // };
 
   const handleShowContactNumberForm = () => {
     setContactNumberForm(true);
@@ -792,7 +792,7 @@ const RentalReceiptPdfTemplate = ({
             Form Specific Details
           </p>
           <p className="font-gilroy text-sm font-normal text-[#9700a3]">
-            Fill the form with details you'd like to customize.
+            Fill the form with details you&apos;d like to customize.
           </p>
 
           <div className="p-3 mb-3 border border-gray-300 col-span-12 rounded-lg">
@@ -953,6 +953,10 @@ RentalReceiptPdfTemplate.propTypes = {
   onTemplateReceiptChange: PropTypes.func,
 
   BillsTemplateList: PropTypes.shape({
+    hostelId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    templateId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     mobile: PropTypes.string,
     emailId: PropTypes.string,
     logo: PropTypes.string,

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-
+import PropTypes from "prop-types";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -239,7 +239,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
     setNoChanges("");
     const existing = CustomerOverView?.jobDetails || {};
 
-    const currentShiftTiming = `${fromTime || ""}:${toTime || ""}`;
+    // const currentShiftTiming = `${fromTime || ""}:${toTime || ""}`;
 
     const existingData = {
       employmentStatus: existing.employmentStatus || "",
@@ -292,6 +292,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
     }
   }, [state.UsersList?.updateJobDetailsSuccessCode]);
 
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
@@ -429,5 +430,9 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
     </div>
   );
 }
-
+AddAndUpdateJobDetails.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
+};
 export default AddAndUpdateJobDetails;

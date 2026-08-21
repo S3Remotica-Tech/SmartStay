@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Modal, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import "./UserlistWalkin.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Trash } from "iconsax-react";
@@ -10,17 +10,17 @@ import { Trash } from "iconsax-react";
 // import { MdError } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 // import moment from "moment";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 // import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
-import UserlistForm from "./UserlistForm";
+// import UserlistForm from "./UserlistForm";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DirectCheckin from "./DirectCheckin";
@@ -30,7 +30,7 @@ function UserlistWalkin() {
   const [tenantDetails, setTenantDetails] = useState("");
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const [showFormCheckIn, setShowFormCheckIn] = useState(false);
+  // const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [showFormCheckInNew, setShowFormCheckInNew] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
@@ -52,7 +52,7 @@ function UserlistWalkin() {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
   const [deleteShow, setDeleteShow] = useState(false);
-  const isDev = import.meta.env.MODE === "development";
+  // const isDev = import.meta.env.MODE === "development";
   const calledOnceRef = useRef(false);
 
   useEffect(() => {
@@ -156,20 +156,20 @@ function UserlistWalkin() {
     setSelectedCustomer(null);
   };
 
-  const handleCheckIn = (data) => {
-    setShowFormCheckIn(true);
-    setTenantDetails(data);
-    // setCheckInNew(false)
-  };
+  // const handleCheckIn = (data) => {
+  //   setShowFormCheckIn(true);
+  //   setTenantDetails(data);
+  //   // setCheckInNew(false)
+  // };
 
   const handleCheckInNew = (data) => {
     setShowFormCheckInNew(true);
     setTenantDetails(data);
   };
 
-  const handleCloseCheckInForm = () => {
-    setShowFormCheckIn(false);
-  };
+  // const handleCloseCheckInForm = () => {
+  //   setShowFormCheckIn(false);
+  // };
 
   const handleCloseCheckInFormNew = () => {
     setShowFormCheckInNew(false);
@@ -192,7 +192,7 @@ function UserlistWalkin() {
   // }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
-       setDeleteShow(true);
+    setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
   const handleCloseDelete = () => {
@@ -221,7 +221,6 @@ function UserlistWalkin() {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-  
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
       dispatch({
@@ -287,7 +286,7 @@ function UserlistWalkin() {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCheckInCustomer === 201) {
-      setShowFormCheckIn(false);
+      // setShowFormCheckIn(false);
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
@@ -573,13 +572,13 @@ function UserlistWalkin() {
         />
       )}
 
-      {showFormCheckIn && (
+      {/* {showFormCheckIn && (
         <UserlistForm
           EditObj={tenantDetails}
           showAssignMenu={showFormCheckIn}
           setShowAssignMenu={handleCloseCheckInForm}
         />
-      )}
+      )} */}
 
       {showFormCheckInNew && (
         <DirectCheckin

@@ -48,8 +48,8 @@ function CreateBill() {
   const joiningDate = state.UsersList?.customerdetails?.hostelInfo?.joiningDate;
 
   const [tableErrmsg, setTableErrmsg] = useState("");
-  const [tableErrmsgAmount, setTableErrmsgAmount] = useState("");
-  const [tableErrmsgDes, setTableErrmsgDes] = useState("");
+  // const [tableErrmsgAmount, setTableErrmsgAmount] = useState("");
+  // const [tableErrmsgDes, setTableErrmsgDes] = useState("");
   const [hostelId, setHostelId] = useState("");
 
   const [selectedTypes, setSelectedTypes] = useState([]);
@@ -126,33 +126,33 @@ function CreateBill() {
         state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
 
       if (SelectedCustomerRoomRent && customername) {
-        setNewRows((prevRows) => {
-          const roomRentIndex = prevRows.findIndex(
-            (row) => row.am_name === "Room Rent",
-          );
+        // setNewRows((prevRows) => {
+        //   const roomRentIndex = prevRows.findIndex(
+        //     (row) => row.am_name === "Room Rent",
+        //   );
 
-          if (roomRentIndex !== -1) {
-            const updatedRows = [...prevRows];
-            updatedRows[roomRentIndex].amount =
-              SelectedCustomerRoomRent.toString();
-            return updatedRows;
-          } else {
-            return [
-              ...prevRows,
-              {
-                am_name: "Room Rent",
-                amount: SelectedCustomerRoomRent.toString(),
-              },
-            ];
-          }
-        });
+        //   if (roomRentIndex !== -1) {
+        //     const updatedRows = [...prevRows];
+        //     updatedRows[roomRentIndex].amount =
+        //       SelectedCustomerRoomRent.toString();
+        //     return updatedRows;
+        //   } else {
+        //     return [
+        //       ...prevRows,
+        //       {
+        //         am_name: "Room Rent",
+        //         amount: SelectedCustomerRoomRent.toString(),
+        //       },
+        //     ];
+        //   }
+        // });
 
-        setSelectedTypes((prev) => {
-          const updated = prev.includes("RoomRent")
-            ? prev
-            : [...prev, "RoomRent"];
-          return updated;
-        });
+        // setSelectedTypes((prev) => {
+        //   const updated = prev.includes("RoomRent")
+        //     ? prev
+        //     : [...prev, "RoomRent"];
+        //   return updated;
+        // });
 
         setTimeout(() => {
           dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
@@ -207,7 +207,7 @@ function CreateBill() {
     setInvoiceDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    setTableErrmsgAmount("");
+    // setTableErrmsgAmount("");
     setNewRows([]);
     setDropdownValue("");
     if (state.UsersList.userRoomfor) {
@@ -469,9 +469,9 @@ function CreateBill() {
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    setTableErrmsgAmount("");
+    // setTableErrmsgAmount("");
     setDropdownValue("");
-    setTableErrmsgDes("");
+    // setTableErrmsgDes("");
   };
 
   const handleDeleteNewRow = (index) => {
@@ -496,8 +496,8 @@ function CreateBill() {
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    setTableErrmsgAmount("");
-    setTableErrmsgDes("");
+    // setTableErrmsgAmount("");
+    // setTableErrmsgDes("");
   };
 
   useEffect(() => {
@@ -590,7 +590,7 @@ function CreateBill() {
     setFormLoading(true);
   };
 
-  const [originalRows, setOriginalRows] = useState([]);
+  // const [originalRows, setOriginalRows] = useState([]);
 
   const CustomerOverView = state?.UsersList?.customerdetails;
 
@@ -617,10 +617,10 @@ function CreateBill() {
           isRent: item.description === "Rent",
         }));
 
-      setOriginalRows(formattedRows);
+      // setOriginalRows(formattedRows);
       setNewRows(formattedRows);
     } else {
-      setOriginalRows([]);
+      // setOrigisnalRows([]);
       setNewRows([]);
     }
   }, [billData, state.InvoiceList?.getInitializeRecurring?.invoiceItems]);
@@ -957,7 +957,7 @@ function CreateBill() {
             isSearchable={false}
             classNamePrefix="custom"
             styles={{
-              control: (base, state) => ({
+              control: (base) => ({
                 ...base,
                 border: "1px solid #D9D9D9",
                 borderRadius: "8px",

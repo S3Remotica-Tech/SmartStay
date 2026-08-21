@@ -2,15 +2,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import {
-  ArrowLeft2,
+  // ArrowLeft2,
   Calendar,
   DocumentUpload,
-  CloseCircle,
+  // CloseCircle,
   ArrowDown2,
   Add,
   Bank,
-  Wallet2,
-  ArrowRight,
+  // Wallet2,
+  // ArrowRight,
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -18,6 +18,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -144,6 +145,13 @@ const Option = (props) => {
     </components.Option>
   );
 };
+Option.propTypes = {
+  data: PropTypes.shape({
+    icon: PropTypes.node,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+  }).isRequired,
+};
 
 const SingleValue = (props) => {
   const { data } = props;
@@ -157,13 +165,21 @@ const SingleValue = (props) => {
     </components.SingleValue>
   );
 };
-
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    icon: PropTypes.node,
+    label: PropTypes.string,
+  }).isRequired,
+};
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
 
+DropdownIndicator.propTypes = {
+  selectProps: PropTypes.object,
+};
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
     <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
@@ -171,26 +187,29 @@ const GroupHeading = (props) => (
     </div>
   </components.GroupHeading>
 );
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 
 function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
-  if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const expenseOverView = state.ExpenseList?.expenseOverview;
 
- 
   const [paidAmount, setPaidAmount] = useState("");
   const [paidDate, setPaidDate] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [description, setDescription] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const [vendorError, setVendorError] = useState("");
+  // const [vendorError, setVendorError] = useState("");
   const [paidAmountError, setPaidAmountError] = useState("");
   const [paidDateError, setPaidDateError] = useState("");
   const [paymentMethodError, setPaymentMethodError] = useState("");
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const paidAmountRef = useRef(null);
   const paidDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
@@ -212,8 +231,6 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
 
   const transactionDate = parseDate(expenseOverView?.transactionDate);
   const initializaExpense = state.ExpenseList.getInitializeExpenseList;
-
-  
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -274,10 +291,10 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
     setPaidDateError("");
   };
 
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-    setPaymentMethodError("");
-  };
+  // const handlePaymentMethodChange = (e) => {
+  //   setPaymentMethod(e.target.value);
+  //   setPaymentMethodError("");
+  // };
 
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
@@ -292,7 +309,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
     setPaidAmountError("");
     setPaidDateError("");
     setPaymentMethodError("");
-    setError("");
+    // setError("");
 
     if (!paidAmount || Number(paidAmount) <= 0) {
       setPaidAmountError("Please enter Paid Amount");
@@ -359,7 +376,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
       setPaidAmountError("");
       setPaidDateError("");
       setPaymentMethodError("");
-      setError("");
+      // setError("");
       handleClose();
       setTimeout(() => {
         dispatch({ type: "REMOVE_EXPENSE_SETTLEMENT_PAYMENT_REDUCER" });
@@ -382,6 +399,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
       setFormLoading(false);
     }
   }, [state.UsersList.expenseSettleError]);
+  if (!show) return null;
 
   return (
     <>
@@ -766,4 +784,9 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
   );
 }
 
+ExpenseSettlement.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  selectedExpenseId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default ExpenseSettlement;

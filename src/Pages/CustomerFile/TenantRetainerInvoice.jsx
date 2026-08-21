@@ -3,38 +3,40 @@ import React from "react";
 // import LoaderComponent from "../LoaderComponent";
 import { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PaginationList from "../../Components/PaginationList";
+// import PaginationList from "../../Components/PaginationList";
 import { useSelector } from "react-redux";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import { useNavigate } from "react-router-dom";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import {
   Filter,
-  Export,
-  ArrowLeft,
-  ArrowUp2,
-  ArrowSwapVertical,
-  Setting3,
-  SearchNormal1,
-  Buildings,
-  ArrowDown2,
+  // Export,
+  // ArrowLeft,
+  // ArrowUp2,
+  // ArrowSwapVertical,
+  // Setting3,
+  // SearchNormal1,
+  // Buildings,
+  // ArrowDown2,
   ArrowDown,
-  CloseCircle,
-  Document,
-  Link21,
+  // CloseCircle,
+  // Document,
+  // Link21,
   AddCircle,
   More,
 } from "iconsax-react";
 import { toast } from "react-toastify";
-import ComingSoon from "../../Utils/ComingSoon";
-import FormComingSoon from "../../Utils/FormComingSoon";
+// import ComingSoon from "../../Utils/ComingSoon";
+// import FormComingSoon from "../../Utils/FormComingSoon";
 import RetainerApplyInvoice from "../Bookings/RetainerApplyInvoice";
 import ApplyBookingModal from "../Bookings/ApplyInvoices";
 
 function TenantRetainerInvoice() {
   const state = useSelector((state) => state);
+
+  const navigate = useNavigate();
   const CustomerOverView =
     state.UsersList?.customerdetails?.retainerInfo?.retainerList;
   const retainerSummary =
@@ -60,9 +62,9 @@ function TenantRetainerInvoice() {
     },
   };
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const navigate = useNavigate();
+  // const [page, setPage] = useState(1);
+  // const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+
   const [advanceDetails, setAdvanceDetails] = useState("");
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
@@ -128,19 +130,19 @@ function TenantRetainerInvoice() {
     state.UsersList.customerdetails?.customerCurrentStatus ===
       "SETTLEMENT_GENERATED";
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1440) {
-        setPageSize(20);
-      } else {
-        setPageSize(10);
-      }
-      setPage(1);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth >= 1440) {
+  //       setPageSize(20);
+  //     } else {
+  //       setPageSize(10);
+  //     }
+  //     setPage(1);
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
   // const startIndex = (page - 1) * pageSize;
   // const endIndex = startIndex + pageSize;
 
@@ -196,8 +198,6 @@ function TenantRetainerInvoice() {
       },
     });
   };
-
-  
 
   const handleApplyInvoicesRetainer = (item) => {
     setApplyInvoiceRetainer(true);

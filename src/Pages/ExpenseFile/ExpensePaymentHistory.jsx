@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
 function ExpensePaymentHistory() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("payments");
   const expenseOverView = state.ExpenseList?.expenseOverview;
   const expensePayments = expenseOverView?.expensePayments || [];
- 
+
   return (
     <div>
       {expensePayments?.length > 0 ? (
@@ -17,7 +16,6 @@ function ExpensePaymentHistory() {
           <div className="bg-white    rounded-xl  mx-1 my-3 ">
             <div
               id="tableContainer"
-              
               className="overflow-auto relative h-[250px]  show-scrolls"
             >
               <table className=" w-full font-gilroy ">

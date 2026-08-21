@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../OthersComponent/BillPdfModal.css";
 import { useLocation } from "react-router-dom";
 import BookingPdfModal from "./BookingPdfModal";
-import { Add, SearchNormal1, TextalignLeft } from "iconsax-react";
+import { SearchNormal1 } from "iconsax-react";
 
 function BookingsPdfDetails() {
   const location = useLocation();
@@ -32,10 +30,7 @@ function BookingsPdfDetails() {
     setSelectedInvoiceId(rowData);
   }, [rowData]);
 
-  
-
   const handleDisplayInvoiceDownload = (item) => {
-    
     setRowDatas(item);
     setSelectedInvoiceId(item);
     if (item && state.login.selectedHostel_Id) {
@@ -49,7 +44,6 @@ function BookingsPdfDetails() {
     }
   };
 
- 
   useEffect(() => {
     if (rowData) {
       setSelectedInvoiceId(rowData);
@@ -62,19 +56,6 @@ function BookingsPdfDetails() {
       }, 100);
     }
   }, [rowData]);
-
-  const headerKeyMap = {
-    "Inv No": "invNo",
-    "Booking Date": "bookingDate",
-    "Tenant Name": "tenantName",
-    "Mobile No": "mobile",
-    Floor: "floorName",
-    Room: "roomName",
-    Bed: "bedName",
-    Amount: "amount",
-    Status: "status",
-    "Joining Date": "joiningDate",
-  };
 
   const statusStyles = {
     Paid: {

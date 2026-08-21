@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 // import Select from "react-select";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import PaginationList from "../../Components/PaginationList";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -127,10 +127,10 @@ function UserEb(props) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+  // const startIndex = (page - 1) * pageSize;
+  // const endIndex = startIndex + pageSize;
 
-  const paginatedData = formattedTenantReadings.slice(startIndex, endIndex);
+  // const paginatedData = formattedTenantReadings.slice(startIndex, endIndex);
 
   return (
     <>
@@ -162,7 +162,10 @@ function UserEb(props) {
                   </thead>
                   <tbody>
                     {formattedTenantReadings?.map((row, i) => (
-                      <tr className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 align-middle">
+                      <tr
+                        key={i}
+                        className="text-sm font-gilroy border-b border-[#E8E8E8] h-10 align-middle"
+                      >
                         <td className="py-1 px-2">
                           <div
                             className="max-w-[150px] truncate"

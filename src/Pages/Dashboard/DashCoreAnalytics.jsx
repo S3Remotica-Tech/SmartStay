@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowDown, ArrowUp, Calendar, TrendDown, TrendUp } from "iconsax-react";
+import { Calendar, TrendDown, TrendUp } from "iconsax-react";
 
 import {
   ResponsiveContainer,
@@ -12,12 +12,10 @@ import {
   Tooltip,
   BarChart,
   Bar,
-
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
 
 function DashCoreAnalytics() {
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -25,14 +23,14 @@ function DashCoreAnalytics() {
   const [selected, setSelected] = useState("This Month");
   const dropdownRef = useRef(null);
 
-
   const occupancyData =
-    state.PgList?.dashboardList?.occupancyTrendSummary?.occupancyTrend?.map((item) => ({
-      label: item.date,
-      occupied: item.occupied,
-      vacant: item.vacant,
-    })) || [];
-
+    state.PgList?.dashboardList?.occupancyTrendSummary?.occupancyTrend?.map(
+      (item) => ({
+        label: item.date,
+        occupied: item.occupied,
+        vacant: item.vacant,
+      }),
+    ) || [];
 
   // const occupancyData = [
   //   { label: "Jan 1", occupied: 96, vacant: 22 },
@@ -44,7 +42,6 @@ function DashCoreAnalytics() {
   //   { label: "Today", occupied: 101, vacant: 19 },
   // ];
 
-
   // const revenueData = [
   //   { month: "Aug", collected: 12.5, outstanding: 1.2 },
   //   { month: "Sep", collected: 13.2, outstanding: 0.8 },
@@ -54,7 +51,6 @@ function DashCoreAnalytics() {
   //   { month: "Jan", collected: 3.1, outstanding: 12.8 },
   // ];
 
-
   const revenueData =
     state.PgList?.dashboardList?.revenueTrend?.map((item) => ({
       month: item.month,
@@ -62,27 +58,22 @@ function DashCoreAnalytics() {
       outstanding: item.outstanding,
     })) || [];
 
-
-
-
-
   const dateOptions =
     state.PgList?.dashboardList?.filters?.map((item) => ({
       label: item,
-      value: item
+      value: item,
     })) || [];
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-
       dispatch({
         type: "GET_DASHBOARD_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: {
-            occupancyFilter: selected
-          }
-        }
+            occupancyFilter: selected,
+          },
+        },
       });
 
       // setLoading(true);
@@ -91,11 +82,9 @@ function DashCoreAnalytics() {
 
   useEffect(() => {
     if (state.PgList?.dashboardList) {
-      setLoading(false)
-
+      setLoading(false);
     }
   }, [state.PgList?.dashboardList]);
-
 
   useState(() => {
     if (state.PgList.getDashboardSuccessStatus === 200) {
@@ -105,8 +94,6 @@ function DashCoreAnalytics() {
       }, 200);
     }
   }, [state.PgList.getDashboardSuccessStatus]);
-
-
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -118,9 +105,13 @@ function DashCoreAnalytics() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const percentage = state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.percentageChange || 0;
+  const percentage =
+    state.PgList?.dashboardList?.revenueSummary?.totalOutstanding
+      ?.percentageChange || 0;
 
-  const CollectedPercentage = state.PgList?.dashboardList?.revenueSummary?.totalCollected?.percentageChange || 0;
+  const CollectedPercentage =
+    state.PgList?.dashboardList?.revenueSummary?.totalCollected
+      ?.percentageChange || 0;
   // const avgOccupied = Math.round(
   //   occupancyData?.reduce((a, b) => a + b.occupied, 0) / occupancyData?.length
   // );
@@ -128,7 +119,6 @@ function DashCoreAnalytics() {
   // const avgVacant = Math.round(
   //   occupancyData?.reduce((a, b) => a + b.vacant, 0) / occupancyData?.length
   // );
-
 
   return (
     <div className="space-y-2 my-4">
@@ -143,7 +133,6 @@ function DashCoreAnalytics() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="rounded-xl border border-[#E5E7EB] bg-white p-3 lg:col-span-5">
-
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-semibold text-[#101828] font-[Gilroy] text-[16px]">
               Occupancy Trend
@@ -151,7 +140,8 @@ function DashCoreAnalytics() {
 
             <div className="relative inline-block">
               {/* Button */}
-              <button disabled
+              <button
+                disabled
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
    text-black border-gray-300
@@ -162,7 +152,10 @@ function DashCoreAnalytics() {
               </button>
 
               {open && (
-                <div ref={dropdownRef} className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                <div
+                  ref={dropdownRef}
+                  className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50"
+                >
                   {dateOptions.map((option) => (
                     <button
                       key={option.value}
@@ -181,7 +174,6 @@ function DashCoreAnalytics() {
                 </div>
               )}
             </div>
-
           </div>
 
           <ResponsiveContainer width="100%" height={300}>
@@ -203,12 +195,13 @@ function DashCoreAnalytics() {
                 domain={[0, "dataMax + 10"]}
               />
 
-              <Tooltip contentStyle={{
-                fontFamily: "Gilroy",
-                borderRadius: 8,
-                border: "1px solid #E5E7EB",
-              }} />
-
+              <Tooltip
+                contentStyle={{
+                  fontFamily: "Gilroy",
+                  borderRadius: 8,
+                  border: "1px solid #E5E7EB",
+                }}
+              />
 
               <Line
                 type="monotone"
@@ -218,7 +211,6 @@ function DashCoreAnalytics() {
                 dot={{ r: 5 }}
                 activeDot={{ r: 7 }}
               />
-
 
               <Line
                 type="monotone"
@@ -239,7 +231,10 @@ function DashCoreAnalytics() {
                 Avg Occupied
               </p>
               <p className="text-xl font-semibold text-[#16A34A] font-[Gilroy]">
-                {state.PgList?.dashboardList?.occupancyTrendSummary?.avgOccupied}
+                {
+                  state.PgList?.dashboardList?.occupancyTrendSummary
+                    ?.avgOccupied
+                }
               </p>
             </div>
             <div>
@@ -254,7 +249,6 @@ function DashCoreAnalytics() {
         </div>
 
         <div className="rounded-xl border border-[#E5E7EB] bg-white p-3 lg:col-span-7">
-
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-semibold text-[#101828] font-[Gilroy] text-[16px]">
               Revenue Trend
@@ -265,11 +259,11 @@ function DashCoreAnalytics() {
                 <span className="w-2 h-2 rounded-full bg-[#16A34A]" /> Collected
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[#F97316]" /> Outstanding
+                <span className="w-2 h-2 rounded-full bg-[#F97316]" />{" "}
+                Outstanding
               </span>
             </div>
           </div>
-
 
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
@@ -297,11 +291,12 @@ function DashCoreAnalytics() {
                 }}
               />
 
-              <Tooltip contentStyle={{
-                fontFamily: "Gilroy",
-                borderRadius: 8,
-                border: "1px solid #E5E7EB",
-              }}
+              <Tooltip
+                contentStyle={{
+                  fontFamily: "Gilroy",
+                  borderRadius: 8,
+                  border: "1px solid #E5E7EB",
+                }}
                 formatter={(value) => [`₹ ${value} `, ""]}
                 cursor={{ fill: "transparent" }}
               />
@@ -313,15 +308,12 @@ function DashCoreAnalytics() {
                 radius={[6, 6, 0, 0]}
               />
 
-
               <Bar
                 dataKey="outstanding"
                 fill="#F54900"
                 barSize={26}
                 radius={[6, 6, 0, 0]}
               />
-
-
             </BarChart>
           </ResponsiveContainer>
 
@@ -332,7 +324,11 @@ function DashCoreAnalytics() {
                 Total Collected
               </p>
               <p className="text-lg font-semibold text-[#00A63E] font-[Gilroy] mb-1">
-                ₹ {state.PgList?.dashboardList?.revenueSummary?.totalCollected?.amount}
+                ₹{" "}
+                {
+                  state.PgList?.dashboardList?.revenueSummary?.totalCollected
+                    ?.amount
+                }
               </p>
               <p
                 className={`text-xs font-[Gilroy] font-semibold flex items-center gap-1
@@ -343,8 +339,8 @@ function DashCoreAnalytics() {
                 ) : (
                   <TrendDown size="14" color="#E53935" />
                 )}
-
-                {CollectedPercentage} <span className="text-gray-500">% from last month</span>
+                {CollectedPercentage}{" "}
+                <span className="text-gray-500">% from last month</span>
               </p>
             </div>
 
@@ -353,7 +349,11 @@ function DashCoreAnalytics() {
                 Total Outstanding
               </p>
               <p className="text-lg font-semibold text-[#F54900] font-[Gilroy] mb-1">
-                ₹{state.PgList?.dashboardList?.revenueSummary?.totalOutstanding?.amount}
+                ₹
+                {
+                  state.PgList?.dashboardList?.revenueSummary?.totalOutstanding
+                    ?.amount
+                }
               </p>
               <p
                 className={`text-xs font-[Gilroy] font-semibold flex items-center gap-1
@@ -364,18 +364,15 @@ function DashCoreAnalytics() {
                 ) : (
                   <TrendDown size="14" color="#E53935" />
                 )}
-
-                {percentage} <span className="text-gray-500">% from last month</span>
+                {percentage}{" "}
+                <span className="text-gray-500">% from last month</span>
               </p>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
-
-  )
+  );
 }
 
-export default DashCoreAnalytics
+export default DashCoreAnalytics;

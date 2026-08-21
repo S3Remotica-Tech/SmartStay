@@ -1,291 +1,311 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar, ArrowDown2, MessageQuestion, ArrowRight, Messages2 } from "iconsax-react";
+import {
+  Calendar,
+  ArrowDown2,
+  MessageQuestion,
+  ArrowRight,
+  Messages2,
+} from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 
-
 function DashRequestAndComplaints() {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [showRequestFilter, setShowRequestFilter] = useState(false);
+  // const [showComplaintFilter, setShowComplaintFilter] = useState(false);
+  const [requestDate, setRequestDate] = useState("This Month");
+  // const [complaintDate, setComplaintDate] = useState("This Week");
+  const dropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
-    const state = useSelector((state) => state);
-    const dispatch = useDispatch();
-    const [showRequestFilter, setShowRequestFilter] = useState(false);
-    // const [showComplaintFilter, setShowComplaintFilter] = useState(false);
-    const [requestDate, setRequestDate] = useState("This Month");
-    // const [complaintDate, setComplaintDate] = useState("This Week");
-    const dropdownRef = useRef(null);
-    const [loading, setLoading] = useState(false);
+  const RequestComplaints = state.PgList?.dashboardList;
 
-    const RequestComplaints = state.PgList?.dashboardList
+  const requestStats = [
+    {
+      count: `${RequestComplaints?.tenantRequests?.pending || "0"}`,
+      label: "Pending",
+      bg: "bg-[#FFF7ED]",
+      text: "text-[#CA3500]",
+    },
+    {
+      count: `${RequestComplaints?.tenantRequests?.inprogress || "0"}`,
+      label: "In Progress",
+      bg: "bg-[#EFF6FF]",
+      text: "text-[#1447E6]",
+    },
+    {
+      count: `${RequestComplaints?.tenantRequests?.resolved || "0"}`,
+      label: "Resolved",
+      bg: "bg-[#F0FDF4]",
+      text: "text-[#008236]",
+    },
+  ];
 
-    const requestStats = [
-        { count: `${RequestComplaints?.tenantRequests?.pending || "0"}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: `${RequestComplaints?.tenantRequests?.inprogress || "0"}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
-        { count: `${RequestComplaints?.tenantRequests?.resolved || "0"}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" },
-    ];
+  // const requestList = [
+  //     {
+  //         name: "Rajesh Kumar",
+  //         room: "A-204",
+  //         title: "AC not working",
+  //         type: "Maintenance",
+  //         status: "Pending",
+  //         time: "2 hours ago",
+  //     },
+  //     {
+  //         name: "Priya Sharma",
+  //         room: "B-101",
+  //         title: "WiFi password reset",
+  //         type: "Amenity",
+  //         status: "In Progress",
+  //         time: "5 hours ago",
+  //     },
+  // ];
 
-    // const requestList = [
-    //     {
-    //         name: "Rajesh Kumar",
-    //         room: "A-204",
-    //         title: "AC not working",
-    //         type: "Maintenance",
-    //         status: "Pending",
-    //         time: "2 hours ago",
-    //     },
-    //     {
-    //         name: "Priya Sharma",
-    //         room: "B-101",
-    //         title: "WiFi password reset",
-    //         type: "Amenity",
-    //         status: "In Progress",
-    //         time: "5 hours ago",
-    //     },
-    // ];
+  const requestList =
+    RequestComplaints?.dashboardRequests?.map((item) => ({
+      id: item.requestId,
+      name: item.customerName || "-",
+      roomName: item.roomName || "",
+      title: item.description,
+      type: item.type,
+      status: item.status,
+      time: item.date,
+    })) || [];
 
-    const requestList =
-        RequestComplaints?.dashboardRequests?.map((item) => ({
-            id: item.requestId,
-            name: item.customerName || "-",
-            roomName: item.roomName || "",
-            title: item.description,
-            type: item.type,
-            status: item.status,
-            time: item.date
-        })) || [];
+  const complaintStats = [
+    {
+      count: `${RequestComplaints?.tenantComplaints?.pending || "0"}`,
+      label: "Pending",
+      bg: "bg-[#FFF7ED]",
+      text: "text-[#CA3500]",
+    },
+    {
+      count: `${RequestComplaints?.tenantComplaints?.inprogress || "0"}`,
+      label: "In Progress",
+      bg: "bg-[#EFF6FF]",
+      text: "text-[#1447E6]",
+    },
+    {
+      count: `${RequestComplaints?.tenantComplaints?.resolved || "0"}`,
+      label: "Resolved",
+      bg: "bg-[#F0FDF4]",
+      text: "text-[#008236]",
+    },
+  ];
 
+  const complaintList =
+    RequestComplaints?.tenantcomplaint?.map((item) => ({
+      tenantId: item.tenantId,
+      name: item.fullName || "-",
+      room: item.roomName,
+      title: item.complaintDescription,
+      type: item.complaintType,
+      status: item.status,
+      time: item.complaintDate,
+    })) || [];
 
+  // const statusStyle = {
+  //     Pending: "bg-orange-50 text-orange-500",
+  //     "In Progress": "bg-blue-50 text-blue-500",
+  //     Resolved: "bg-green-50 text-green-600",
+  //     OPEN: "bg-purple-50 text-purple-600",
+  // };
 
+  const statusStyle = {
+    pending: "bg-orange-50 text-orange-500",
+    "in progress": "bg-blue-50 text-blue-500",
+    resolved: "bg-green-50 text-green-600",
+    open: "bg-purple-50 text-purple-600",
+  };
 
-    const complaintStats = [
-        { count: `${RequestComplaints?.tenantComplaints?.pending || "0"}`, label: "Pending", bg: "bg-[#FFF7ED]", text: "text-[#CA3500]" },
-        { count: `${RequestComplaints?.tenantComplaints?.inprogress || "0"}`, label: "In Progress", bg: "bg-[#EFF6FF]", text: "text-[#1447E6]" },
-        { count: `${RequestComplaints?.tenantComplaints?.resolved || "0"}`, label: "Resolved", bg: "bg-[#F0FDF4]", text: "text-[#008236]" }
-    ];
+  const getStatusStyle = (status) => {
+    const key = status?.trim().toLowerCase();
+    return statusStyle[key] || "bg-gray-100 text-gray-500";
+  };
 
-    const complaintList =
-        RequestComplaints?.tenantcomplaint?.map((item) => ({
-            tenantId: item.tenantId,
-            name: item.fullName || "-",
-            room: item.roomName,
-            title: item.complaintDescription,
-            type: item.complaintType,
-            status: item.status,
-            time: item.complaintDate
-        })) || [];
-
-    // const statusStyle = {
-    //     Pending: "bg-orange-50 text-orange-500",
-    //     "In Progress": "bg-blue-50 text-blue-500",
-    //     Resolved: "bg-green-50 text-green-600",
-    //     OPEN: "bg-purple-50 text-purple-600",
-    // };
-
-    const statusStyle = {
-        pending: "bg-orange-50 text-orange-500",
-        "in progress": "bg-blue-50 text-blue-500",
-        resolved: "bg-green-50 text-green-600",
-        open: "bg-purple-50 text-purple-600",
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        // setOpen(false);
+      }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
+  const dateOptions =
+    state.PgList?.dashboardList?.filters?.map((item) => ({
+      label: item,
+      value: item,
+    })) || [];
 
-    const getStatusStyle = (status) => {
-        const key = status?.trim().toLowerCase();
-        return statusStyle[key] || "bg-gray-100 text-gray-500";
-    };
+  // useEffect(() => {
+  //     if (state.login.selectedHostel_Id) {
 
+  //         dispatch({
+  //             type: "GET_DASHBOARD_SAGA",
+  //             payload: {
+  //                 hostelId: state.login.selectedHostel_Id,
+  //                 filters: {
+  //                     complaintRequestFilter: requestDate
+  //                 }
+  //             }
+  //         });
 
+  //         //   setLoading(true);
+  //     }
+  // }, [requestDate]);
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+  useEffect(() => {
+    if (state.PgList?.dashboardList) {
+      setLoading(false);
+    }
+  }, [state.PgList?.dashboardList]);
 
+  useState(() => {
+    if (state.PgList.getDashboardSuccessStatus === 200) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
+      }, 200);
+    }
+  }, [state.PgList.getDashboardSuccessStatus]);
 
-    const dateOptions =
-        state.PgList?.dashboardList?.filters?.map((item) => ({
-            label: item,
-            value: item
-        })) || [];
+  return (
+    <div className="space-y-2 my-4">
+      <div className="flex justify-between items-center mb-4">
+        {loading && (
+          <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+            <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+        <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
+          Tenant Requests & Complaints
+        </h2>
 
-    // useEffect(() => {
-    //     if (state.login.selectedHostel_Id) {
-
-    //         dispatch({
-    //             type: "GET_DASHBOARD_SAGA",
-    //             payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //                 filters: {
-    //                     complaintRequestFilter: requestDate
-    //                 }
-    //             }
-    //         });
-
-    //         //   setLoading(true);
-    //     }
-    // }, [requestDate]);
-
-    useEffect(() => {
-        if (state.PgList?.dashboardList) {
-            setLoading(false)
-
-        }
-    }, [state.PgList?.dashboardList]);
-
-
-    useState(() => {
-        if (state.PgList.getDashboardSuccessStatus === 200) {
-            setLoading(false);
-            setTimeout(() => {
-                dispatch({ type: "REMOVE_GET_DASHBOARD_REDUCER" });
-            }, 200);
-        }
-    }, [state.PgList.getDashboardSuccessStatus]);
-
-
-
-
-
-
-    return (
-        <div className="space-y-2 my-4">
-
-            <div className="flex justify-between items-center mb-4">
-
-                {loading && (
-                    <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
-                        <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-                    </div>
-                )}
-                <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
-                    Tenant Requests & Complaints
-                </h2>
-
-                <div className="relative">
-                    <button disabled
-                        onClick={() => setShowRequestFilter(!showRequestFilter)}
-                        className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
+        <div className="relative">
+          <button
+            disabled
+            onClick={() => setShowRequestFilter(!showRequestFilter)}
+            className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 font-[Gilroy] whitespace-nowrap 
    text-black border-gray-300
   disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                        <Calendar size="16" color="#1E45E1" />
-                        {requestDate}
-                        <ArrowDown2 size="14" />
-                    </button>
+          >
+            <Calendar size="16" color="#1E45E1" />
+            {requestDate}
+            <ArrowDown2 size="14" />
+          </button>
 
-                    {showRequestFilter && (
-                        <div ref={dropdownRef} className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow">
-                            {dateOptions.map((item) => (
-                                <button
-                                    key={item.value}
-                                    onClick={() => {
-                                        setRequestDate(item.value);
-                                        setShowRequestFilter(false);
-                                    }}
-                                    className="
+          {showRequestFilter && (
+            <div
+              ref={dropdownRef}
+              className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow"
+            >
+              {dateOptions.map((item) => (
+                <button
+                  key={item.value}
+                  onClick={() => {
+                    setRequestDate(item.value);
+                    setShowRequestFilter(false);
+                  }}
+                  className="
             w-full text-left px-3 py-2 text-sm font-[Gilroy]
             hover:bg-gray-100
           "
-                                >
-                                    {item.label}
-                                </button>
-                            ))}
-
-                        </div>
-                    )}
-                </div>
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-[Gilroy]">
+          )}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-[Gilroy]">
+        <div className="border rounded-xl p-4 bg-white flex flex-col">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <div className="bg-[#F5F9FF] px-2 py-2 rounded-lg">
+                <MessageQuestion size="18" className="text-[#1E45E1]" />
+              </div>
 
-                <div className="border rounded-xl p-4 bg-white flex flex-col">
+              <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
+                Tenant Requests (
+                {`${RequestComplaints?.tenantRequests?.total || "0"}`})
+              </label>
+            </div>
+          </div>
 
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center gap-2">
-                            <div className="bg-[#F5F9FF] px-2 py-2 rounded-lg">
-                                <MessageQuestion size="18" className="text-[#1E45E1]" />
-                            </div>
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            {requestStats.map((item, index) => (
+              <div
+                key={index}
+                className={`text-center p-3  rounded-lg ${item.bg}`}
+              >
+                <div>
+                  <label className={`font-semibold  text-xl ${item.text}`}>
+                    {item.count}
+                  </label>
+                </div>
+                <div>
+                  <label className="text-xs text-[#4A5565] font-semibold">
+                    {item.label}
+                  </label>
+                </div>
+              </div>
+            ))}
+          </div>
 
-                            <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
-                                Tenant Requests ({`${RequestComplaints?.tenantRequests?.total || "0"}`})
-                            </label>
-                        </div>
-
-
-
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3 mb-4">
-                        {requestStats.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`text-center p-3  rounded-lg ${item.bg}`}
-                            >
-                                <div>
-                                    <label className={`font-semibold  text-xl ${item.text}`}>{item.count}</label>
-                                </div>
-                                <div>
-                                    <label className="text-xs text-[#4A5565] font-semibold">{item.label}</label>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-
-                    <div className="flex-1 overflow-y-auto max-h-64">
-                        {requestList?.length === 0 ? (
-                            <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
-                                No requests are there
-                            </div>
-                        ) : (
-                            requestList.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="flex py-3 border-b last:border-none w-full"
-                                >
-                                    <div className="w-full">
-                                        <div className="flex justify-between items-center w-full">
-                                            <p className="text-base font-semibold text-[#101828] flex items-center gap-8">
-                                                {item.name}
-                                                {item.roomName &&
-                                                    <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center gap-1.5">
-                                                        <span className="h-2 w-2 rounded-full bg-[#98A2B3] inline-block"></span>
-                                                        {item.roomName}
-                                                    </span>
-                                                }
-                                            </p>
-
-                                            <span
-                                                className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
-                                            >
-                                                {item.status}
-                                            </span>
-                                        </div>
-
-                                        <p className="text-sm text-[#4A5565] font-semibold">
-                                            {item.title}
-                                        </p>
-
-                                        <div className="flex justify-between w-full">
-                                            <p className="text-xs text-[#6A7282] font-semibold">
-                                                {item.type}
-                                            </p>
-                                            <p className="text-[10px] text-[#6A7282] font-semibold">
-                                                {item.time}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
+          <div className="flex-1 overflow-y-auto max-h-64">
+            {requestList?.length === 0 ? (
+              <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
+                No requests are there
+              </div>
+            ) : (
+              requestList.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex py-3 border-b last:border-none w-full"
+                >
+                  <div className="w-full">
+                    <div className="flex justify-between items-center w-full">
+                      <p className="text-base font-semibold text-[#101828] flex items-center gap-8">
+                        {item.name}
+                        {item.roomName && (
+                          <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center gap-1.5">
+                            <span className="h-2 w-2 rounded-full bg-[#98A2B3] inline-block"></span>
+                            {item.roomName}
+                          </span>
                         )}
+                      </p>
+
+                      <span
+                        className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
+                      >
+                        {item.status}
+                      </span>
                     </div>
 
-                    {
-                        import.meta.env.MODE === "development" &&
-                        <button disabled
-                            className=" 
+                    <p className="text-sm text-[#4A5565] font-semibold">
+                      {item.title}
+                    </p>
+
+                    <div className="flex justify-between w-full">
+                      <p className="text-xs text-[#6A7282] font-semibold">
+                        {item.type}
+                      </p>
+                      <p className="text-[10px] text-[#6A7282] font-semibold">
+                        {item.time}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {import.meta.env.MODE === "development" && (
+            <button
+              disabled
+              className=" 
     mt-3
     w-full
     flex
@@ -304,109 +324,106 @@ function DashRequestAndComplaints() {
     disabled:text-gray-400
     disabled:cursor-not-allowed
   "
-                        >
-                            View All Requests
-                            <ArrowRight size="16" color="#1E45E1" />
-                        </button>
-                    }
+            >
+              View All Requests
+              <ArrowRight size="16" color="#1E45E1" />
+            </button>
+          )}
+        </div>
+
+        <div className="border rounded-xl p-4 bg-white flex flex-col">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <div className="bg-[#FEF2F2] px-2 py-2 rounded-lg">
+                <Messages2 size="18" className="text-[#E7000B]" />
+              </div>
+
+              <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
+                Tenant Complaints (
+                {`${RequestComplaints?.tenantComplaints?.total || "0"}`})
+              </label>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            {complaintStats.map((item, index) => (
+              <div
+                key={index}
+                className={`text-center p-3  rounded-lg ${item.bg}`}
+              >
+                <div>
+                  <label className={`font-semibold  text-xl ${item.text}`}>
+                    {item.count}
+                  </label>
                 </div>
+                <div>
+                  <label className="text-xs text-[#4A5565] font-semibold">
+                    {item.label}
+                  </label>
+                </div>
+              </div>
+            ))}
+          </div>
 
+          <div className="flex-1 overflow-y-auto max-h-64">
+            {complaintList?.length === 0 ? (
+              <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
+                No complaints are there
+              </div>
+            ) : (
+              complaintList.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex py-3 border-b last:border-none w-full"
+                >
+                  <div className="w-full">
+                    <div className="flex justify-between w-full">
+                      <p className="text-base font-semibold text-[#101828] flex items-center gap-8">
+                        {item.name}
+                        {item.room && (
+                          <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center">
+                            <span className="mx-1 h-2 w-2 bg-gray-400 rounded-full inline-block"></span>
+                            {item.room}
+                          </span>
+                        )}
+                      </p>
 
-                <div className="border rounded-xl p-4 bg-white flex flex-col">
-
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center gap-2">
-                            <div className="bg-[#FEF2F2] px-2 py-2 rounded-lg">
-                                <Messages2 size="18" className="text-[#E7000B]" />
-                            </div>
-
-                            <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
-                                Tenant Complaints ({`${RequestComplaints?.tenantComplaints?.total || "0"}`})
-                            </label>
-                        </div>
-
-
-
-                    </div>
-
-
-                    <div className="grid grid-cols-3 gap-3 mb-4">
-                        {complaintStats.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`text-center p-3  rounded-lg ${item.bg}`}
-                            >
-                                <div>
-                                    <label className={`font-semibold  text-xl ${item.text}`}>{item.count}</label>
-                                </div>
-                                <div>
-                                    <label className="text-xs text-[#4A5565] font-semibold">{item.label}</label>
-                                </div>
-                            </div>
-
-                        ))}
-                    </div>
-
-
-                    <div className="flex-1 overflow-y-auto max-h-64">
-                        {complaintList?.length === 0 ? (
-                            <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
-                                No complaints are there
-                            </div>
-                        ) : (
-                            complaintList.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="flex py-3 border-b last:border-none w-full"
-                                >
-                                    <div className="w-full">
-                                        <div className="flex justify-between w-full">
-                                            <p className="text-base font-semibold text-[#101828] flex items-center gap-8">
-                                                {item.name}
-                                                {
-                                                    item.room && <span className="text-xs text-[#6A7282] font-semibold inline-flex items-center">
-                                                        <span className="mx-1 h-2 w-2 bg-gray-400 rounded-full inline-block"></span>
-                                                        {item.room}
-                                                    </span>
-                                                }
-
-                                            </p>
-
-                                            {/* <span
+                      {/* <span
                                                 className={`text-xs px-2 rounded font-semibold ${statusStyle[item.status]}`}
                                             >
                                                 {item.status}
                                             </span> */}
-                                            {
-                                                item.status &&
-
-                                                <span
-                                                    className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
-                                                >
-                                                    {item.status}
-                                                </span>
-                                            }
-                                        </div>
-
-                                        <p className="text-sm text-[#4A5565] font-semibold">{item.title}</p>
-
-                                        <div className="flex justify-between w-full">
-                                            <p className="text-xs text-[#6A7282] font-semibold">{item.type}</p>
-                                            <p className="text-[10px] text-[#6A7282] font-semibold">
-                                                {item.time}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
+                      {item.status && (
+                        <span
+                          className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
+                        >
+                          {item.status}
+                        </span>
+                      )}
                     </div>
 
-                    {
-                        import.meta.env.MODE === "development" &&
-                        <button
-                            disabled
-                            className=" 
+                    <p className="text-sm text-[#4A5565] font-semibold">
+                      {item.title}
+                    </p>
+
+                    <div className="flex justify-between w-full">
+                      <p className="text-xs text-[#6A7282] font-semibold">
+                        {item.type}
+                      </p>
+                      <p className="text-[10px] text-[#6A7282] font-semibold">
+                        {item.time}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {import.meta.env.MODE === "development" && (
+            <button
+              disabled
+              className=" 
     mt-3
     w-full
     flex
@@ -425,19 +442,17 @@ function DashRequestAndComplaints() {
     disabled:text-gray-400
     disabled:cursor-not-allowed
   "
-                        >
-                            View All Complaints
-                            <ArrowRight
-                                size="16"
-                                className="text-[#1E45E1] disabled:text-gray-400"
-                            />
-                        </button>
-
-                    }
-
-                </div>
-            </div>
+            >
+              View All Complaints
+              <ArrowRight
+                size="16"
+                className="text-[#1E45E1] disabled:text-gray-400"
+              />
+            </button>
+          )}
         </div>
-    );
+      </div>
+    </div>
+  );
 }
-export default DashRequestAndComplaints
+export default DashRequestAndComplaints;

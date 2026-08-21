@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
@@ -17,23 +17,23 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ApplyBookingModal from "./ApplyInvoices";
-import ComingSoon from "../../Utils/ComingSoon";
+// import ComingSoon from "../../Utils/ComingSoon";
 import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";
 import {
   Filter,
-  Export,
-  ArrowLeft,
-  ArrowUp2,
-  ArrowSwapVertical,
+  // Export,
+  // ArrowLeft,
+  // ArrowUp2,
+  // ArrowSwapVertical,
   Setting3,
   SearchNormal1,
-  Buildings,
-  ArrowDown2,
+  // Buildings,
+  // ArrowDown2,
   ArrowDown,
-  CloseCircle,
-  Document,
+  // CloseCircle,
+  // Document,
   Link21,
   AddCircle,
 } from "iconsax-react";
@@ -41,10 +41,11 @@ import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-import NoData from "../../Assets/v2Images/NoData.svg";
-import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+// import NoData from "../../Assets/v2Images/NoData.svg";
+// import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
+import PropTypes from "prop-types";
 
 function Booking() {
   const state = useSelector((state) => state);
@@ -53,16 +54,16 @@ function Booking() {
   const [chips, setChips] = useState([]);
 
   const [showBookingPdf, setShowBookingPdf] = useState(false);
-  const [search, setSearch] = useState(false);
+  // const [search, setSearch] = useState(false);
   const [bookingList, setBookingList] = useState([]);
-  const [statusfilter, setStatusfilter] = useState("");
+  // const [statusfilter, setStatusfilter] = useState("");
   const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  const selectOptions = [{ label: "All", value: "ALL" }];
-  const [selectedRows, setSelectedRows] = useState([]);
+  // const selectOptions = [{ label: "All", value: "ALL" }];
+  // const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [customizeItems, setCustomizeItems] = useState([]);
   const [error, setError] = useState("");
@@ -73,8 +74,8 @@ function Booking() {
   const tableContainerRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const lastScrollLeftRef = useRef(0);
-  const listRef = useRef(null);
-  const tableRef = useRef(null);
+  // const listRef = useRef(null);
+  // const tableRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
   const [showDots, setShowDots] = useState("");
@@ -102,7 +103,7 @@ function Booking() {
     }
   }, [canReadInvoice]);
 
-  const sortedData = [];
+  // const sortedData = [];
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -161,9 +162,9 @@ function Booking() {
     }
   }, [state?.Booking?.statusCodeGetBooking]);
 
-  const handleSearch = () => {
-    setSearch(!search);
-  };
+  // const handleSearch = () => {
+  //   setSearch(!search);
+  // };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
@@ -353,8 +354,6 @@ function Booking() {
     return obj;
   });
 
- 
-
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
     "Inv No": "px-4 whitespace-nowrap",
@@ -371,9 +370,9 @@ function Booking() {
     "Invoice Date": "px-4 whitespace-nowrap",
   };
 
-  const handleStatusFilter = (selectedOption) => {
-    setStatusfilter(selectedOption);
-  };
+  // const handleStatusFilter = (selectedOption) => {
+  //   setStatusfilter(selectedOption);
+  // };
 
   const handleShowFilterBills = () => {
     setShowBillsFilter(true);
@@ -407,21 +406,21 @@ function Booking() {
 
   const isComingSoon = true;
 
-  const tableData = [];
+  // const tableData = [];
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedRows(tableData.map((item) => item.id));
-    } else {
-      setSelectedRows([]);
-    }
-  };
+  // const handleSelectAll = (e) => {
+  //   if (e.target.checked) {
+  //     setSelectedRows(tableData.map((item) => item.id));
+  //   } else {
+  //     setSelectedRows([]);
+  //   }
+  // };
 
-  const handleRowSelect = (id) => {
-    setSelectedRows((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
-    );
-  };
+  // const handleRowSelect = (id) => {
+  //   setSelectedRows((prev) =>
+  //     prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+  //   );
+  // };
 
   useEffect(() => {
     if (popupRef.current) {
@@ -507,7 +506,15 @@ function Booking() {
       </label>
     );
   };
+  SortableItem.propTypes = {
+    item: PropTypes.shape({
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 
+      selected: PropTypes.bool.isRequired,
+
+      fieldName: PropTypes.string.isRequired,
+    }).isRequired,
+  };
   useEffect(() => {
     let timeout;
 

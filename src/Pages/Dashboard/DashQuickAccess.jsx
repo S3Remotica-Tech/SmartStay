@@ -7,7 +7,7 @@ import RecordPayment from "../Bills/RecordPayment";
 import {
   ArrowUp2,
   ArrowDown2,
-  ArrowUp,
+  // ArrowUp,
   DocumentText,
   Calendar,
   ExportSquare,
@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useHasPermission } from "../../Utils/Permission";
 
-function DashQuickAccess({ handleTriggerFilter }) {
+function DashQuickAccess() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ function DashQuickAccess({ handleTriggerFilter }) {
   const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
   const [loading, setLoading] = useState(false);
   const [tenantDetails, setTenantDetails] = useState("");
-  const [showFormCheckIn, setShowFormCheckIn] = useState(false);
+  // const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [showform, setShowform] = useState(false);
   const QuickAccess = state.PgList?.dashboardList;
   // const [invoiceValue, setInvoiceValue] = useState("");

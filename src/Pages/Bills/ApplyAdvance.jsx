@@ -71,7 +71,6 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
     );
   };
 
-  
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
@@ -86,8 +85,6 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
 
   const initializeDetails = state?.Booking?.advanceInitialize;
 
-  
-
   const bookingAmount = Number(
     initializeDetails?.advanceInfo?.availableBalance || 0,
   );
@@ -97,8 +94,6 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
     0,
   );
   const remainingBalance = bookingAmount - totalApplied;
-
-  
 
   const handleApplySubmit = () => {
     dispatch({ type: "REMOVE_ERROR_APPLY_INVOICE" });
@@ -146,6 +141,8 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
       dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [state?.Booking?.applyRedeemError, state.createAccount?.networkError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -365,6 +362,11 @@ function ApplyAdvance({ show, handleClose, advanceDetails, label }) {
 ApplyAdvance.propTypes = {
   show: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  advanceDetails: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+
+  label: PropTypes.string.isRequired,
 };
 
 export default ApplyAdvance;

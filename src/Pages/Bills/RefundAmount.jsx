@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button, Form } from "react-bootstrap";
+// import { Modal, Button, Form } from "react-bootstrap";
 import { CloseCircle } from "iconsax-react";
-import Profile2 from "../../Assets/Images/New_images/bank.png";
+// import Profile2 from "../../Assets/Images/New_images/bank.png";
 // import homearrow from "../../Assets/Images/New_images/bank.png";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -113,8 +113,6 @@ const CustomStyles = {
   }),
 };
 function RefundAmount({ show, handleClose, refundDetails }) {
-
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -141,8 +139,6 @@ function RefundAmount({ show, handleClose, refundDetails }) {
       });
     }
   }, []);
-
-  
 
   const bankOptions =
     state.InvoiceList?.refundDetails?.listBanks?.map((bank) => ({
@@ -246,7 +242,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }
   }, [state.createAccount?.networkError, state.InvoiceList.refundableError]);
 
-
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -521,13 +517,22 @@ RefundAmount.propTypes = {
 
   refundDetails: PropTypes.shape({
     invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
     invoiceNumber: PropTypes.string,
     fullName: PropTypes.string,
     profilePic: PropTypes.string,
+    initials: PropTypes.string,
+
     invoiceDate: PropTypes.string,
+    invoiceGeneratedDate: PropTypes.string,
+
+    invoiceInfo: PropTypes.shape({
+      invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
 
     customerInfo: PropTypes.shape({
       fullName: PropTypes.string,
+      initials: PropTypes.string,
     }),
   }).isRequired,
 };

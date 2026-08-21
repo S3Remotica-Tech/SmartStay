@@ -251,15 +251,11 @@ function BillsFilter({ show, handleClose, size }) {
     label: PropTypes.string.isRequired,
   };
 
-  const periodOptions = [
-       { label: "Custom", value: "CUSTOM" },
-  ];
+  const periodOptions = [{ label: "Custom", value: "CUSTOM" }];
 
   const isAllSelectedDrop =
     selectedBillStatusOptions?.length === 1 &&
     selectedBillStatusOptions[0]?.value === "ALL";
-
-  
 
   const handleFilterBills = () => {
     if (!startDate && endDate) {
@@ -269,7 +265,6 @@ function BillsFilter({ show, handleClose, size }) {
 
     setDateError("");
 
-    
     const filters = {
       startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
       endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
@@ -284,7 +279,6 @@ function BillsFilter({ show, handleClose, size }) {
       size,
       page: 1,
     };
-
 
     dispatch({
       type: "SET_INVOICE_FILTERS",
@@ -767,6 +761,7 @@ function BillsFilter({ show, handleClose, size }) {
 BillsFilter.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  size: PropTypes.any,
 };
 
 export default BillsFilter;

@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
+// import Image from "react-bootstrap/Image";
 import {
   Setting3,
   Buildings,
@@ -21,24 +21,24 @@ import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../../Pages/Recurring/RecurringBills";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
+// import closecircle from "../../Assets/Images/New_images/close-circle.png";
+// import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import AddReceiptForm from "../Receipt/AddReceipt";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { Filter } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
-import PaginationList from "../../Components/PaginationList";
+// import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from "../../Pages/Bills/BillsFilter";
-import { FiSearch } from "react-icons/fi";
+// import { FiSearch } from "react-icons/fi";
 import RecordPayment from "./RecordPayment";
 import { useLocation } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
@@ -50,10 +50,10 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import Cell from "../../Assets/Images/New_images/Cell.svg";
-import listview from "../../Assets/Images/New_images/listview-rectangle.svg";
-import NoData from "../../Assets/v2Images/NoData.svg";
-import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+// import Cell from "../../Assets/Images/New_images/Cell.svg";
+// import listview from "../../Assets/Images/New_images/listview-rectangle.svg";
+// import NoData from "../../Assets/v2Images/NoData.svg";
+// import DataSearch from "../../Assets/v2Images/DataSearch.svg";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
@@ -99,8 +99,8 @@ const InvoicePage = () => {
   const [deleteId, setDeleteId] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const [debouncedInput, setDebouncedInput] = useState(filterInput);
-  const [search, setSearch] = useState(false);
-  const [hostelId, setHostelId] = useState("");
+  // const [search, setSearch] = useState(false);
+  // const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([]);
 
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
@@ -148,8 +148,6 @@ const InvoicePage = () => {
     { key: "List View", label: "List", img: Setting3 },
     { key: "Room View", label: "Room", img: Buildings },
   ];
-
- 
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -581,7 +579,6 @@ const InvoicePage = () => {
   };
 
   const handleStatusFilter = (selectedOption) => {
- 
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
@@ -811,7 +808,7 @@ const InvoicePage = () => {
   const handleDisplayInvoiceDownload = (isVisible) => {
     setDownloadInvoice(isVisible);
     setStatusfilter("");
-    setSearch("");
+    // setSearch("");
     // setSelectedInvoiceId(rowData.invoiceId);
   };
 
@@ -1106,8 +1103,6 @@ const InvoicePage = () => {
     setFilterInput(e.target.value);
   };
 
-  
-
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -1154,21 +1149,21 @@ const InvoicePage = () => {
     state.login?.selectedHostel_Id,
   ]);
 
-  const handleCloseSearch = () => {
-    setSearch(false);
-    setFilterInput("");
+  // const handleCloseSearch = () => {
+  //   setSearch(false);
+  //   setFilterInput("");
 
-    dispatch({
-      type: "INVOICESLISTFILTER",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: {
-          size,
-          page,
-        },
-      },
-    });
-  };
+  //   dispatch({
+  //     type: "INVOICESLISTFILTER",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       filters: {
+  //         size,
+  //         page,
+  //       },
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     if (bills?.length > 0 && originalBills?.length === 0) {
@@ -1176,34 +1171,32 @@ const InvoicePage = () => {
     }
   }, [bills]);
 
-  const handleSearch = () => {
-    setSearch(!search);
-    dispatch({
-      type: "SET_INVOICE_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
-      },
-    });
-  };
+  // const handleSearch = () => {
+  //   setSearch(!search);
+  //   dispatch({
+  //     type: "SET_INVOICE_FILTERS",
+  //     payload: {
+  //       startDate: undefined,
+  //       endDate: undefined,
+  //       type: [],
+  //       createdBy: [],
+  //       createdByLabels: [],
+  //       modes: [],
+  //       paymentStatus: [],
+  //       search: "",
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
 
   useEffect(() => {
-    
-
     const filterData = [];
 
     if (invoiceFilters?.paymentStatus?.length) {
@@ -1361,6 +1354,10 @@ const InvoicePage = () => {
     {
       label: "Overdue Amount",
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.overDueAmount || 0}`,
+    },
+    {
+      label: "Refund Amount",
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.refundAmount || 0}`,
     },
   ];
 

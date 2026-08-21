@@ -3,16 +3,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  ArrowLeft2,
   Calendar,
   DocumentUpload,
-  CloseCircle,
   ArrowDown2,
   Add,
-  Bank,
-  Wallet2,
-  ArrowRight,
-  MessageText1,
   MessageQuestion,
 } from "iconsax-react";
 import Select, { components } from "react-select";
@@ -20,6 +14,7 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Works from "./Works";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -160,6 +155,14 @@ const Option = (props) => {
     </components.Option>
   );
 };
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    icon: PropTypes.node,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+  }).isRequired,
+};
 
 const SingleValue = (props) => {
   const { data } = props;
@@ -179,13 +182,22 @@ const SingleValue = (props) => {
     </components.SingleValue>
   );
 };
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    icon: PropTypes.node,
+    label: PropTypes.string,
+  }).isRequired,
+};
 
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
-
+DropdownIndicator.propTypes = {
+  children: PropTypes.node,
+};
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
     <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
@@ -193,9 +205,12 @@ const GroupHeading = (props) => (
     </div>
   </components.GroupHeading>
 );
-
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 function TenantPayment({ show, handleClose }) {
-  if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [tenant, setTenant] = useState(null);
@@ -387,6 +402,8 @@ function TenantPayment({ show, handleClose }) {
       setLoading(false);
     }
   }, [state?.bankingDetails?.tenantPaymentError]);
+
+  if (!show) return null;
 
   return (
     <>
@@ -819,5 +836,8 @@ function TenantPayment({ show, handleClose }) {
     </>
   );
 }
-
+TenantPayment.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default TenantPayment;

@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import PaginationList from "../../Components/PaginationList";
@@ -25,7 +25,7 @@ import DiscountInvoice from "../PDF/DiscountInvoice";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
-function UserListInvoice(props) {
+function UserListInvoice() {
   const state = useSelector((state) => state);
 
   const navigate = useNavigate();
@@ -49,8 +49,6 @@ function UserListInvoice(props) {
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
-
- 
 
   const handleShowDots = (item, event) => {
     if (activeId === item.invoiceId) {
@@ -96,7 +94,6 @@ function UserListInvoice(props) {
   const isExportAllow = isValidSubscription && canReadInvoice;
 
   const handleInvoicepdf = (rowData) => {
-   
     if (rowData.invoiceId) {
       dispatch({
         type: "INVOICEPDF",
@@ -105,7 +102,7 @@ function UserListInvoice(props) {
           invoiceId: rowData.invoiceId,
         },
       });
-      setLoading(true);
+      // setLoading(true);
     }
   };
 
@@ -120,7 +117,6 @@ function UserListInvoice(props) {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const handleRecordPayment = (item) => {
-    
     setShowform(true);
     setSelectedUserId(CustomerOverView?.customerId);
     setInvoiceList({
@@ -388,7 +384,7 @@ function UserListInvoice(props) {
                             {view.invoiceNumber}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2 relative">
+                          <td className="w-[230px] py-4 px-2 relative">
                             <div className="flex items-center gap-2 group w-fit">
                               <span className="truncate max-w-[150px]">
                                 {view.invoiceType}
@@ -420,8 +416,40 @@ function UserListInvoice(props) {
                             {view?.dueDate}
                           </td>
 
-                          <td className="w-[230px] py-1 px-2">
-                            {view?.totalAmount}
+                          <td className="w-[230px] py-1 px-2 relative align-middle">
+                            <div className="relative inline-block">
+                              <span className="leading-5">
+                                ₹ {view?.totalAmount}
+                              </span>
+
+                              {(view.isDiscounted ||
+                                view.isInvoicesApplied) && (
+                                <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
+                                  {view.isDiscounted && (
+                                    <span>
+                                      Discount Applied : ₹
+                                      <span className="text-[11px] font-semibold">
+                                        {Number(
+                                          view?.discountAmount || 0,
+                                        ).toLocaleString("en-IN")}
+                                      </span>
+                                    </span>
+                                  )}
+
+                                  {view.isInvoicesApplied && (
+                                    <span className="">
+                                      Adjusted Amount : ₹
+                                      <span className="text-[11px] font-semibold">
+                                        {Number(
+                                          view?.invoicesApplied
+                                            ?.amountApplied || 0,
+                                        ).toLocaleString("en-IN")}
+                                      </span>
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           </td>
 
                           <td className="w-[230px] py-1 px-2">
