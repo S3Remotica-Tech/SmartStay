@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
+// import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
 import imageCompression from "browser-image-compression";
+import { useDispatch, useSelector } from "react-redux";
 import { InputGroup, FormControl } from "react-bootstrap";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";

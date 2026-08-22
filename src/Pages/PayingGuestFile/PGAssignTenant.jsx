@@ -9,17 +9,14 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import {
-,
   InfoCircle,
   ArrowRight2,
   Edit2,
   CloseCircle,
-
   Trash,
 } from "iconsax-react";
 
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import ErrorMessage from "../../Components/ErrorMessage";

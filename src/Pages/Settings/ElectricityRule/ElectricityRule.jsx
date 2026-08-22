@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/Settings/SettingElectricity.css";
-
+import ErrorMessage from "../../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Add, MessageText } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
