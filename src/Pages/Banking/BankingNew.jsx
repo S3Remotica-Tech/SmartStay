@@ -148,7 +148,7 @@ function BankingNew() {
   const [loader, setLoader] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
+  // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
 
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
@@ -404,24 +404,24 @@ function BankingNew() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleClickOutsideAccount = (event) => {
-      const clickedInside = event.target.closest(".account-type-wrapper");
-      if (!clickedInside) {
-        setShowAccountTypeOptions(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutsideAccount = (event) => {
+  //     const clickedInside = event.target.closest(".account-type-wrapper");
+  //     if (!clickedInside) {
+  //       // setShowAccountTypeOptions(null);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutsideAccount);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideAccount);
-    };
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutsideAccount);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutsideAccount);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    if (showAccountTypeOptions !== null) {
-    }
-  }, [showAccountTypeOptions]);
+  // useEffect(() => {
+  //   if (showAccountTypeOptions !== null) {
+  //   }
+  // }, [showAccountTypeOptions]);
 
   useEffect(() => {
     if (state?.bankingDetails?.addMoneySuccess === 200) {

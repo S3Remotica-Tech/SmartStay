@@ -121,7 +121,6 @@ function Credit({ handleClose }) {
       label: view.name,
     })) || [];
 
-
   const [description, setDescription] = useState("");
 
   const [displayName, setDisplayName] = useState("");
@@ -139,17 +138,14 @@ function Credit({ handleClose }) {
   const [creditLimitError, setCreditLimitError] = useState("");
 
   const [billingCycle, setBillingCycle] = useState(null);
-  
 
-  const billingPickerRef = useRef(null);
-
+  // const billingPickerRef = useRef(null);
 
   const cardNetworkRef = useRef(null);
   const cardHolderNameRef = useRef(null);
   const cardNumberRef = useRef(null);
   const displayNameRef = useRef(null);
   const creditLimitRef = useRef(null);
-
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
@@ -220,7 +216,6 @@ function Credit({ handleClose }) {
 
   const handleBillingCycleChange = (date) => {
     setBillingCycle(date);
-    
   };
 
   const handleSaveCredit = () => {
@@ -309,7 +304,7 @@ function Credit({ handleClose }) {
         cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
         creditLimit: creditLimit,
-               billingCycle: billingCycle
+        billingCycle: billingCycle
           ? dayjs(billingCycle).format("DD/MM/YYYY")
           : null,
       },
@@ -317,22 +312,22 @@ function Credit({ handleClose }) {
     setIsSaving(true);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        billingPickerRef.current &&
-        !billingPickerRef.current.contains(event.target)
-      ) {
-       
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (
+  //       billingPickerRef.current &&
+  //       !billingPickerRef.current.contains(event.target)
+  //     ) {
 
-    document.addEventListener("mousedown", handleClickOutside);
+  //     }
+  //   };
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutside);
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {

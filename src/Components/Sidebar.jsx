@@ -16,17 +16,6 @@ import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import Assets from "../Pages/AssetFile/Asset";
 import Banking from "../Pages/Banking/Banking";
-import {
-  ArrowUp2,
-  ArrowDown2,
-  Chart2,
-  DocumentText,
-  Buildings,
-  // Calendar,
-  Messages1,
-  // Chart21,
-  Chart1,
-} from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -67,6 +56,14 @@ import {
   Box,
   Profile2User,
   Location,
+  ArrowUp2,
+  ArrowDown2,
+  Chart2,
+  DocumentText,
+  Buildings,
+  Messages1,
+  Chart1,
+  SearchNormal1,
 } from "iconsax-react";
 import NotificationForm from "../Utils/Notification";
 import SidebarProfile from "./SidebarProfile";
@@ -140,6 +137,25 @@ function Sidebar() {
   const profileCardRef = useRef(null);
   const profileAreaRef = useRef(null);
   const cookies = new Cookies();
+  const [hostelListDetail, setHostelDetail] = useState([]);
+  const [profiles, setProfiles] = useState(null);
+  const [profilename, setProfileArray] = useState("");
+  const hostelId = state?.login?.selectedHostel_Id;
+  const [logoutformshow, setLogoutformshow] = useState(false);
+  const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [settignspgshow, setSettingsPGShow] = useState(false);
+  const [selectedProfileImage, setSelectedProfileImage] = useState("");
+  const [initials, setInitials] = useState("");
+  const [locationName, setLocationName] = useState("");
+  const [isMd, setIsMd] = React.useState(
+    window.innerWidth >= 768 && window.innerWidth < 1024,
+  );
+  const settingsPath = hostelId ? `/settings/${hostelId}` : `/settings`;
+  const cookieHostelId = cookies.get("selected_hostelId");
+  const tooltipTrigger = isMd ? ["hover", "focus"] : [];
+
+  const [hostelSearch, setHostelSearch] = useState("");
+  const isDevelopment = import.meta.env.MODE === "development";
 
   const pageMap = {
     // "/dashboard/:hostelId": "dashboard",
@@ -171,79 +187,113 @@ function Sidebar() {
     "/settings/:hostelId": "settingNewDesign",
   };
 
-  useEffect(() => {
-    const path = location.pathname;
-
-    const matchedPage = Object.keys(pageMap)
-      .sort((a, b) => b.length - a.length)
-      .find((route) => {
-        const regex = new RegExp(
-          "^" + route.replace("/:hostelId", "/[^/]+") + "$",
-        );
-        return regex.test(path);
-      });
-
-    if (matchedPage) {
-      setCurrentPage(pageMap[matchedPage]);
-      localStorage.setItem("lastPage", path);
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (
-      currentPage === "invoice" ||
-      currentPage === "booking" ||
-      currentPage === "recurring" ||
-      currentPage === "receipts" ||
-      currentPage === "receipts-new" ||
-      currentPage === "retainer-invoice"
-    ) {
-      setBillingOpen(true);
-    } else {
-      setBillingOpen(false);
-    }
-  }, [currentPage]);
-
-  // useEffect(()=>{
-  //   if(currentPage === "dashboard"){
-  //     navigate(`/dashboard`, { replace: true });
-
-  //   }
-  // },[currentPage])
-
-  // const LastPageIs = localStorage.getItem("lastPage")
-
-  useEffect(() => {
-    if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
-      if (isFirstLogin.current) {
-        navigate(`/dashboard/${state.login.selectedHostel_Id}`, {
-          replace: true,
-        });
-        isFirstLogin.current = false;
-      }
-    } else {
-      const lastPage = localStorage.getItem("lastPage");
-
-      if (lastPage) {
-        navigate(lastPage, { replace: true });
-      } else {
-        navigate(`/dashboard`);
-      }
-    }
-  }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
-  // const lastPage = localStorage.getItem("lastPage");
+  const handleSearchChange = (e) => {
+    setHostelSearch(e.target.value);
+  };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // const toggleSidebar = () => {
-  //   setIsSidebarOpen(!isSidebarOpen);
-  // };
   const closeSidebar = () => {
     setIsSidebarOpen(false);
     setCurrentPage("dashboard");
     localStorage.setItem("currentPage", "dashboard");
+  };
+
+  const handlePageClick = (page) => {
+    handleFormPage(false);
+    setCurrentPage(page);
+    setIsDropdownOpen(false);
+    setIsMdSidebarExpanded(false);
+    localStorage.setItem("currentPage", page);
+    setIsSidebarOpen(false);
+    dispatch(checkoutCustomerProfile(true));
+  };
+
+  const handleMouseEnter = (icon) => setHoveredIcon(icon);
+  const handleMouseLeave = () => setHoveredIcon(null);
+
+  const handleShowLogout = () => {
+    setLogoutformshow(true);
+  };
+
+  const handleCloseLogout = () => {
+    setLogoutformshow(false);
+  };
+
+  const handledisplaycompliace = () => {
+    setCurrentPage("compliance");
+    localStorage.setItem("currentPage", "compliance");
+    setIsSidebarOpen(false);
+  };
+
+  const handledisplaySettingsPG = () => {
+    setCurrentPage("settingNewDesign");
+    localStorage.setItem("currentPage", "settingNewDesign");
+    setSettingsPGShow(true);
+    setIsSidebarOpen(false);
+  };
+
+  const handleHostelId = (id, name, mainImage, initials, locations) => {
+    setLocationName(locations);
+    setInitials(initials);
+    setPayingGuestName(name);
+    setAllPageHostel_Id(id);
+    setSelectedProfileImage(
+      mainImage && mainImage !== "0" && mainImage !== ""
+        ? mainImage
+        : mainImage,
+    );
+    setIsDropdownOpen(false);
+    dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
+    dispatch(StoreSelectedHostelAction(id));
+    localStorage.setItem("selectedHostelName", name);
+    cookies.set("selected_hostelId", id, { path: "/" });
+    setIsSidebarOpen(false);
+    setHostelSearch("");
+  };
+
+  const handleShowsettingsGenaral = () => {
+    setShowProfileCard(false);
+    handlePageClick("settingNewDesign");
+    setSettingsPGShow(false);
+    const hostelId = state.login?.selectedHostel_Id;
+    if (hostelId) {
+      navigate(`/settings/${hostelId}`);
+    } else {
+      navigate(`/settings`);
+    }
+  };
+
+  const handleShowsettingsPG = (settingNewDesign) => {
+    const hostelId = state.login?.selectedHostel_Id;
+    if (hostelId) {
+      navigate(`/settings/${hostelId}`);
+    } else {
+      navigate(`/settings`);
+    }
+    handledisplaySettingsPG(settingNewDesign);
+    dispatch({ type: "MANAGE_PG" });
+    setIsSidebarOpen(false);
+  };
+
+  const handleFormPage = (isVisible) => {
+    setIsVisibleSidebar(isVisible);
+  };
+
+  const handleClose = () => {
+    setShowNotify(false);
+  };
+
+  const handleShowNotification = () => {
+    setShowNotify(true);
+  };
+
+  const withHostel = (path) => {
+    const finalPath = hostelId ? `${path}/${hostelId}` : path;
+
+    return finalPath;
   };
 
   useEffect(() => {
@@ -286,8 +336,57 @@ function Sidebar() {
     };
   }, []);
 
-  const [hostelListDetail, setHostelDetail] = useState("");
+  useEffect(() => {
+    const path = location.pathname;
 
+    const matchedPage = Object.keys(pageMap)
+      .sort((a, b) => b.length - a.length)
+      .find((route) => {
+        const regex = new RegExp(
+          "^" + route.replace("/:hostelId", "/[^/]+") + "$",
+        );
+        return regex.test(path);
+      });
+
+    if (matchedPage) {
+      setCurrentPage(pageMap[matchedPage]);
+      localStorage.setItem("lastPage", path);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (
+      currentPage === "invoice" ||
+      currentPage === "booking" ||
+      currentPage === "recurring" ||
+      currentPage === "receipts" ||
+      currentPage === "receipts-new" ||
+      currentPage === "retainer-invoice"
+    ) {
+      setBillingOpen(true);
+    } else {
+      setBillingOpen(false);
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
+      if (isFirstLogin.current) {
+        navigate(`/dashboard/${state.login.selectedHostel_Id}`, {
+          replace: true,
+        });
+        isFirstLogin.current = false;
+      }
+    } else {
+      const lastPage = localStorage.getItem("lastPage");
+
+      if (lastPage) {
+        navigate(lastPage, { replace: true });
+      } else {
+        navigate(`/dashboard`);
+      }
+    }
+  }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
@@ -379,9 +478,6 @@ function Sidebar() {
     }
   }, [stateData.statusCodeForAccountList]);
 
-  const [profiles, setProfiles] = useState(null);
-  const [profilename, setProfileArray] = useState("");
-
   useEffect(() => {
     if (stateData.accountList) {
       try {
@@ -406,8 +502,6 @@ function Sidebar() {
   //   setCurrentPage(localStorage.getItem("currentPage"));
   // }, [currentPage]);
 
-  const hostelId = state?.login?.selectedHostel_Id;
-
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -425,26 +519,18 @@ function Sidebar() {
       "electricity",
       "expense",
       "banking",
+      "banking-new",
       "settingNewDesign",
       "vendor",
       "asset",
       "booking",
+      "requests",
     ];
 
     if (validPages.includes(mainPage) && pathParts.length > 1) {
       navigate(`/${mainPage}/${hostelId}`, { replace: true });
     }
   }, [state.login?.selectedHostel_Id]);
-
-  const handlePageClick = (page) => {
-    handleFormPage(false);
-    setCurrentPage(page);
-    setIsDropdownOpen(false);
-    setIsMdSidebarExpanded(false);
-    localStorage.setItem("currentPage", page);
-    setIsSidebarOpen(false);
-    dispatch(checkoutCustomerProfile(true));
-  };
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
@@ -461,16 +547,6 @@ function Sidebar() {
       dispatch(StoreSelectedHostelAction(""));
     }
   }, [state.login?.isLoggedIn]);
-
-  const [logoutformshow, setLogoutformshow] = useState(false);
-
-  const handleShowLogout = () => {
-    setLogoutformshow(true);
-  };
-
-  const handleCloseLogout = () => {
-    setLogoutformshow(false);
-  };
 
   useEffect(() => {
     if (state.login?.logoutAdminStatusCode === 200) {
@@ -493,59 +569,6 @@ function Sidebar() {
       }, 1000);
     }
   }, [state.login?.logoutAdminStatusCode]);
-
-  const handledisplaycompliace = () => {
-    setCurrentPage("compliance");
-    localStorage.setItem("currentPage", "compliance");
-    setIsSidebarOpen(false);
-  };
-
-  const [settignspgshow, setSettingsPGShow] = useState(false);
-
-  const handledisplaySettingsPG = () => {
-    setCurrentPage("settingNewDesign");
-    localStorage.setItem("currentPage", "settingNewDesign");
-    setSettingsPGShow(true);
-    setIsSidebarOpen(false);
-  };
-
-  const [selectedProfileImage, setSelectedProfileImage] = useState("");
-  const [initials, setInitials] = useState("");
-  const [locationName, setLocationName] = useState("");
-
-  const handleHostelId = (id, name, mainImage, initials, locations) => {
-    setLocationName(locations);
-    setInitials(initials);
-    setPayingGuestName(name);
-    setAllPageHostel_Id(id);
-    setSelectedProfileImage(
-      mainImage && mainImage !== "0" && mainImage !== ""
-        ? mainImage
-        : mainImage,
-    );
-    setIsDropdownOpen(false);
-    dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
-    dispatch(StoreSelectedHostelAction(id));
-    localStorage.setItem("selectedHostelName", name);
-    cookies.set("selected_hostelId", id, { path: "/" });
-    setIsSidebarOpen(false);
-  };
-
-  const settingsPath = hostelId ? `/settings/${hostelId}` : `/settings`;
-
-  const handleShowsettingsGenaral = () => {
-    setShowProfileCard(false);
-    handlePageClick("settingNewDesign");
-    setSettingsPGShow(false);
-    const hostelId = state.login?.selectedHostel_Id;
-    if (hostelId) {
-      navigate(`/settings/${hostelId}`);
-    } else {
-      navigate(`/settings`);
-    }
-  };
-
-  const cookieHostelId = cookies.get("selected_hostelId");
 
   useEffect(() => {
     if (!hostelListDetail?.length || initials) return;
@@ -574,28 +597,17 @@ function Sidebar() {
     dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
   }, [hostelListDetail, cookieHostelId]);
 
+  const filteredHostels =
+    hostelListDetail &&
+    hostelListDetail?.filter((item) =>
+      item?.name?.toLowerCase().includes(hostelSearch.toLowerCase()),
+    );
+
   useEffect(() => {
     if (allPageHostel_Id) {
       dispatch(StoreSelectedHostelAction(allPageHostel_Id));
     }
   }, [allPageHostel_Id]);
-
-  const handleShowsettingsPG = (settingNewDesign) => {
-    const hostelId = state.login?.selectedHostel_Id;
-    if (hostelId) {
-      navigate(`/settings/${hostelId}`);
-    } else {
-      navigate(`/settings`);
-    }
-    handledisplaySettingsPG(settingNewDesign);
-    dispatch({ type: "MANAGE_PG" });
-    setIsSidebarOpen(false);
-  };
-
-  const [hoveredIcon, setHoveredIcon] = useState(null);
-
-  const handleMouseEnter = (icon) => setHoveredIcon(icon);
-  const handleMouseLeave = () => setHoveredIcon(null);
 
   useEffect(() => {
     if (state.createAccount?.accountList?.roleId) {
@@ -606,48 +618,6 @@ function Sidebar() {
     }
   }, [state.createAccount.accountList.roleId]);
 
-  const handleFormPage = (isVisible) => {
-    setIsVisibleSidebar(isVisible);
-  };
-
-  const handleClose = () => {
-    setShowNotify(false);
-  };
-
-  const handleShowNotification = () => {
-    setShowNotify(true);
-  };
-
-  const withHostel = (path) => {
-    const finalPath = hostelId ? `${path}/${hostelId}` : path;
-
-    return finalPath;
-  };
-
-  // const TooltipWrapper = ({ title, children }) => {
-  //   return (
-  //     <>
-  //       <div className="block lg:hidden">
-  //         <OverlayTrigger
-  //           trigger={tooltipTrigger}
-  //           placement="right"
-  //           container={document.body}
-  //           delay={{ show: 200, hide: 0 }}
-  //           overlay={<Tooltip className="custom-tooltip">{title}</Tooltip>}
-  //         >
-  //           {children}
-  //         </OverlayTrigger>
-  //       </div>
-
-  //       <div className="hidden lg:block">{children}</div>
-  //     </>
-  //   );
-  // };
-
-  const [isMd, setIsMd] = React.useState(
-    window.innerWidth >= 768 && window.innerWidth < 1024,
-  );
-
   React.useEffect(() => {
     const handleResize = () => {
       setIsMd(window.innerWidth >= 768 && window.innerWidth < 1024);
@@ -656,10 +626,6 @@ function Sidebar() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const tooltipTrigger = isMd ? ["hover", "focus"] : [];
-
-  const isDevelopment = import.meta.env.MODE === "development";
 
   return (
     <>
@@ -788,56 +754,104 @@ function Sidebar() {
 
                     {isDropdownOpen && (
                       <div
-                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 border rounded w-full md:w-[50px] lg:w-full z-50 max-h-48 overflow-y-auto
-                        overflow-x-visible 
-                         show-scrolls"
-                        style={{ overflow: "visible" }}
+                        className="absolute top-full mt-1 left-0 bg-white shadow-md border rounded
+      w-full md:w-[50px] lg:w-full z-50"
                       >
-                        <ul style={{ margin: 0, padding: 0 }}>
-                          {hostelListDetail.map((item) => (
-                            <li
-                              key={item.id}
-                              className="relative group inline-block hover:bg-gray-100 flex items-center 
-                              py-2 mx-2 px-2 rounded cursor-pointer text-blue-600  truncate align-middle overflow-visible"
-                              onClick={() =>
-                                handleHostelId(
-                                  item.hostelId,
-                                  item.name,
-                                  item.mainImage,
-                                  item.initials,
-                                  item.city,
-                                )
-                              }
-                            >
-                              {item.mainImage &&
-                              item.mainImage !== "0" &&
-                              item.mainImage !== "" ? (
-                                <img
-                                  src={item.mainImage}
-                                  className="w-6 h-6 md:w-7 md:h-7  rounded-full mr-2"
-                                  alt={item.initials || "Default Profile"}
-                                />
-                              ) : (
-                                <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
-                                  {item.initials}
-                                </div>
-                              )}
+                        <div className="px-2 py-2 border-b bg-gray-100">
+                          <div className="relative">
+                            <SearchNormal1
+                              size="16"
+                              color="#9C9C9C"
+                              variant="Linear"
+                              className="absolute left-2 top-1/2 -translate-y-1/2"
+                            />
 
-                              <span className="hidden lg:inline-block truncate ">
-                                {item.name}
-                              </span>
-                              <div
-                                className="absolute left-1/2 top-full mt-1
-    -translate-x-1/2
-    hidden group-hover:block transition-opacity duration-150
-    bg-[#1E45E1] text-white text-xs rounded px-2 py-1 whitespace-nowrap
-    z-[9999] "
-                              >
-                                {item.name}
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
+                            <input
+                              type="text"
+                              value={hostelSearch}
+                              onChange={handleSearchChange}
+                              placeholder="Search hostel"
+                              className="w-full h-9 pl-8 pr-2 text-xs
+            border border-gray-200 rounded-md
+            outline-none focus:border-[#1E45E1]"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+                        </div>
+                        <div className="max-h-48 overflow-y-auto overflow-x-hidden show-scrolls">
+                          <ul className="m-0 p-0">
+                            {filteredHostels?.length > 0 ? (
+                              filteredHostels?.map((item) => (
+                                <li
+                                  key={item.id}
+                                  className="relative group flex items-center
+              hover:bg-gray-100
+              py-2 mx-2 px-2 rounded cursor-pointer
+              text-blue-600"
+                                  onClick={() =>
+                                    handleHostelId(
+                                      item.hostelId,
+                                      item.name,
+                                      item.mainImage,
+                                      item.initials,
+                                      item.city,
+                                    )
+                                  }
+                                >
+                                  <div className="shrink-0">
+                                    {item.mainImage &&
+                                    item.mainImage !== "0" &&
+                                    item.mainImage !== "" ? (
+                                      <img
+                                        src={item.mainImage}
+                                        className="w-6 h-6 md:w-7 md:h-7 rounded-full mr-2"
+                                        alt={item.initials || "Default Profile"}
+                                      />
+                                    ) : (
+                                      <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
+                                        {item.initials}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="min-w-0">
+                                    <span className="hidden lg:inline-block truncate mb-0 max-w-[150px]">
+                                      {item.name}
+                                    </span>
+
+                                    <div
+                                      className="absolute left-1/2 top-full mt-1
+                  -translate-x-1/2
+                  hidden group-hover:block
+                  bg-[#1E45E1] text-white text-xs
+                  rounded px-2 py-1 whitespace-nowrap
+                  z-[9999] pointer-events-none"
+                                    >
+                                      {item.name}
+                                    </div>
+
+                                    <div className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px]">
+                                      <Location
+                                        className="mr-1 shrink-0"
+                                        size="16"
+                                        color="#FF8A65"
+                                        variant="Bold"
+                                      />
+
+                                      <span className="truncate min-w-0">
+                                        {item.city}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))
+                            ) : (
+                              <li className="px-3 py-3 text-center text-xs text-gray-400">
+                                No hostel found
+                              </li>
+                            )}
+                          </ul>
+                        </div>
                       </div>
                     )}
                   </li>
