@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Green from "../../Assets/Images/New_images/Frame.png";
 import White from "../../Assets/Images/New_images/empty_bed.png";
-import Tick from "../../Assets/v2Images/Thttps://www.gravatar.com/avatar/a156ee2d8e0f8734cb30a37b0a7bb515?s=64&d=robohashick.svg";
+import Tick from "../../Assets/v2Images/Tick.svg";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
