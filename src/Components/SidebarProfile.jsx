@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* global APP_VERSION, BUILD_NUMBER */
 import PropTypes from "prop-types";
 import React from "react";
 import { Image } from "react-bootstrap";
@@ -26,13 +27,11 @@ function SidebarProfile({
 }) {
   const state = useSelector((state) => state);
 
-  
   return (
     <Offcanvas
       show={showProfileCard}
       onHide={() => setShowProfileCard(false)}
       placement="end"
-    
       ref={profileCardRef}
       style={{
         width: 350,

@@ -238,15 +238,15 @@ function Sidebar() {
       }
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
-  const lastPage = localStorage.getItem("lastPage");
+  // const lastPage = localStorage.getItem("lastPage");
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  // const toggleSidebar = () => {
+  //   setIsSidebarOpen(!isSidebarOpen);
+  // };
   const closeSidebar = () => {
     setIsSidebarOpen(false);
     setCurrentPage("dashboard");
@@ -631,25 +631,25 @@ function Sidebar() {
     return finalPath;
   };
 
-  const TooltipWrapper = ({ title, children }) => {
-    return (
-      <>
-        <div className="block lg:hidden">
-          <OverlayTrigger
-            trigger={tooltipTrigger}
-            placement="right"
-            container={document.body}
-            delay={{ show: 200, hide: 0 }}
-            overlay={<Tooltip className="custom-tooltip">{title}</Tooltip>}
-          >
-            {children}
-          </OverlayTrigger>
-        </div>
+  // const TooltipWrapper = ({ title, children }) => {
+  //   return (
+  //     <>
+  //       <div className="block lg:hidden">
+  //         <OverlayTrigger
+  //           trigger={tooltipTrigger}
+  //           placement="right"
+  //           container={document.body}
+  //           delay={{ show: 200, hide: 0 }}
+  //           overlay={<Tooltip className="custom-tooltip">{title}</Tooltip>}
+  //         >
+  //           {children}
+  //         </OverlayTrigger>
+  //       </div>
 
-        <div className="hidden lg:block">{children}</div>
-      </>
-    );
-  };
+  //       <div className="hidden lg:block">{children}</div>
+  //     </>
+  //   );
+  // };
 
   const [isMd, setIsMd] = React.useState(
     window.innerWidth >= 768 && window.innerWidth < 1024,

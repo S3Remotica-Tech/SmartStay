@@ -17,24 +17,24 @@ import {
   ArrowSwapVertical,
 } from "iconsax-react";
 import { toast } from "react-toastify";
-import { DatePicker } from "antd";
-import Modal from "react-bootstrap/Modal";
-import { Button, Form, FormControl } from "react-bootstrap";
+// import { DatePicker } from "antd";
+// import Modal from "react-bootstrap/Modal";
+// import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
 import dayjs from "dayjs";
-import { CloseCircle, Filter } from "iconsax-react";
+import { Filter } from "iconsax-react";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import transArrow from "../../Assets/Images/New_images/arrow-transfer.png";
-import banklogo from "../../Assets/Images/New_images/bank_loga.png";
-import PaginationList from "../../Components/PaginationList";
+// import banklogo from "../../Assets/Images/New_images/bank_loga.png";
+// import PaginationList from "../../Components/PaginationList";
 import ApiPagination from "../../Components/ApiPagination";
-import ErrorMessage from "../../Components/ErrorMessage";
+// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
-import { Setting3, SearchNormal1 } from "iconsax-react";
+import { SearchNormal1 } from "iconsax-react";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import SelfTransferNew from "./SelfTransferNew";
@@ -148,21 +148,21 @@ function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { RangePicker } = DatePicker;
+  // const { RangePicker } = DatePicker;
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
 
   const [loader, setLoader] = useState(false);
-  const [search, setSearch] = useState(false);
+  // const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [deleteShow, setDeleteShow] = useState(false);
+  // const [deleteShow, setDeleteShow] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const [typeId, setTypeId] = useState(null);
+  // const [typeId, setTypeId] = useState(null);
   const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
-  const [showAddBalance, setshowAddBalance] = useState(false);
-  const [defaltType, setDefaultType] = useState("");
-  const [selectedAccountType, setSelectedAccountType] = useState("");
+  // const [showAddBalance, setshowAddBalance] = useState(false);
+  // const [defaltType, setDefaultType] = useState("");
+  // const [selectedAccountType, setSelectedAccountType] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -171,20 +171,20 @@ function BankingNew() {
   const popupRef2 = useRef(null);
   const iconRef = useRef(null);
   const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
-  const [AddBankName, setAddBankName] = useState("");
-  const [AddBankAmount, setAddBankAmount] = useState("");
-  const [deleteBankId, setDeleteBankId] = useState("");
+  // const [AddBankName, setAddBankName] = useState("");
+  // const [AddBankAmount, setAddBankAmount] = useState("");
+  // const [deleteBankId, setDeleteBankId] = useState("");
   const [filterInput, setFilterInput] = useState("");
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [filterStatus, setFilterStatus] = useState(false);
+  // const [isDropdownVisible, setDropdownVisible] = useState(false);
+  // const [filterStatus, setFilterStatus] = useState(false);
   // const [originalBills, setOriginalBills] = useState([]);
   // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, setTransactionFilterddata] = useState([]);
-  const [amountError, setAmountError] = useState("");
+  // const [amountError, setAmountError] = useState("");
   const [banking, setBanking] = useState([]);
-  const tableContainerRef = useRef(null);
-  const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  const [page, setPage] = useState(1);
+  // const tableContainerRef = useRef(null);
+  // const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+  // const [page, setPage] = useState(1);
   const [sizeTransaction, setSizeTransaction] = useState(
     window.innerWidth >= 1440 ? 20 : 10,
   );
@@ -193,8 +193,8 @@ function BankingNew() {
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfTranferGlobal, setSelfTransferGlobal] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
-  const [amount, setAmount] = useState("");
-  const [formLoading, setFormLoading] = useState(false);
+  // const [amount, setAmount] = useState("");
+  // const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
   const [showOverview, setShowOverview] = useState(false);
   const [bankingOverviewDetails, setBankingOverviewDetails] = useState("");
@@ -222,21 +222,20 @@ function BankingNew() {
   const {
     canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
-    canUpdateModule: canUpdateBanking,
-    canDeleteModule: canDeleteBanking,
+    // canUpdateModule: canUpdateBanking,
+    // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
-  const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
+  // const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
   const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
- 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const monthOptions = [];
-  const selectOptions = [{ value: "ALL", label: "All" }];
-  const [statusfilter, setStatusFilter] = useState("ALL");
-  const [selectedMonth, setSelectedMonth] = useState("");
+  // const monthOptions = [];
+  // const selectOptions = [{ value: "ALL", label: "All" }];
+  // const [statusfilter, setStatusFilter] = useState("ALL");
+  // const [selectedMonth, setSelectedMonth] = useState("");
 
   const handleCloseFilter = () => {
     setIsFilterOpen(false);
@@ -258,13 +257,13 @@ function BankingNew() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
-  };
+  // const handleStatusFilter = (selected) => {
+  //   setStatusFilter(selected?.value || "");
+  // };
 
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
+  // const handleMonthChange = (selectedOption) => {
+  //   setSelectedMonth(selectedOption);
+  // };
 
   const handleAddAccount = () => {
     setAddNewAccount(true);
@@ -502,9 +501,9 @@ function BankingNew() {
 
   useEffect(() => {
     if (showAccountTypeOptions !== null) {
-      setSelectedAccountType(defaltType);
+      // setSelectedAccountType(defaltType);
     }
-  }, [showAccountTypeOptions, defaltType]);
+  }, [showAccountTypeOptions]);
 
   // useEffect(() => {
   //   if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
@@ -560,7 +559,7 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-      setFormLoading(false);
+      // setFormLoading(false);
       // dispatch({
       //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
       //   payload: {
@@ -771,9 +770,10 @@ function BankingNew() {
     setSelfTransfer(true);
     setSelfDetails(item);
   };
-  const handleCloseSElfTransfer = () => {
-    setSelfTransfer(false);
-  };
+
+  // const handleCloseSElfTransfer = () => {
+  //   setSelfTransfer(false);
+  // };
 
   const handleOpenSelfTransferGlobal = () => {
     setSelfTransferGlobal(true);
@@ -783,12 +783,12 @@ function BankingNew() {
     setSelfTransferGlobal(false);
   };
 
-  const handleEditAddBank = (item) => {
-    setEdit(true);
-    setAddNewAccount(true);
-    setEditAddBank(item);
-    setOpenMenuId(false);
-  };
+  // const handleEditAddBank = (item) => {
+  //   setEdit(true);
+  //   setAddNewAccount(true);
+  //   setEditAddBank(item);
+  //   setOpenMenuId(false);
+  // };
 
   const handleShowForm = () => {
     if (!state.login.selectedHostel_Id) {
@@ -808,9 +808,9 @@ function BankingNew() {
     setEditAddBank("");
     setOpenMenuId(false);
   };
-  const handleDeleteForm = (v) => {
-    setDeleteBankId(v.id);
-    setDeleteShow(true);
+  const handleDeleteForm = () => {
+    // setDeleteBankId(v.id);
+    // setDeleteShow(true);
     setOpenMenuId(false);
   };
 
@@ -851,7 +851,7 @@ function BankingNew() {
   }, [state.bankingDetails.statusCodeDeleteBank]);
 
   const handleCloseDelete = () => {
-    setDeleteShow(false);
+    // setDeleteShow(false);
   };
 
   const handleCloseTransactionDelete = () => {};
@@ -921,44 +921,44 @@ function BankingNew() {
     }
   }, [state.UsersList.settlementPaymentSuccessCode]);
 
-  const handleShowAddBalance = (item) => {
-    setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
+  // const handleShowAddBalance = (item) => {
+  //   setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
 
-    setTypeId(item.bankingId);
-    setshowAddBalance(true);
-  };
+  //   setTypeId(item.bankingId);
+  //   setshowAddBalance(true);
+  // };
   const handleCloseAddBalance = () => {
-    setshowAddBalance(false);
-    setAddBankAmount("");
-    setAmountError("");
+    // setshowAddBalance(false);
+    // setAddBankAmount("");
+    // setAmountError("");
   };
 
-  const handleAddBankAmount = (e) => {
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) {
-      return;
-    }
-    if (/^0+$/.test(value)) {
-      return;
-    }
-    setAddBankAmount(value);
-    setAmountError("");
-  };
-  const handleAddAmountSubmit = () => {
-    if (!AddBankAmount.trim()) {
-      setAmountError("Please Enter Amount");
-      return;
-    }
-    const hostelId = state.login.selectedHostel_Id;
-    dispatch({
-      type: "ADDBANKAMOUNT",
-      payload: {
-        hostelId,
-        data: { bankId: typeId, balance: AddBankAmount },
-      },
-    });
-    setFormLoading(true);
-  };
+  // const handleAddBankAmount = (e) => {
+  //   const value = e.target.value;
+  //   if (!/^\d*$/.test(value)) {
+  //     return;
+  //   }
+  //   if (/^0+$/.test(value)) {
+  //     return;
+  //   }
+  //   setAddBankAmount(value);
+  //   setAmountError("");
+  // };
+  // const handleAddAmountSubmit = () => {
+  //   if (!AddBankAmount.trim()) {
+  //     setAmountError("Please Enter Amount");
+  //     return;
+  //   }
+  //   const hostelId = state.login.selectedHostel_Id;
+  //   dispatch({
+  //     type: "ADDBANKAMOUNT",
+  //     payload: {
+  //       hostelId,
+  //       data: { bankId: typeId, balance: AddBankAmount },
+  //     },
+  //   });
+  //   setFormLoading(true);
+  // };
 
   // useEffect(() => {
   //   if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
@@ -971,15 +971,15 @@ function BankingNew() {
     setFilterInput(input);
   };
 
-  useEffect(() => {
-    if (!filterStatus) {
-      setStatusFilter("All");
-    }
-  }, [filterStatus]);
+  // useEffect(() => {
+  //   if (!filterStatus) {
+  //     setStatusFilter("All");
+  //   }
+  // }, [filterStatus]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false);
+      // setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
@@ -1041,26 +1041,26 @@ function BankingNew() {
     seShowInvestmentForm(false);
   };
 
-  useEffect(() => {
-    let timeout;
+  // useEffect(() => {
+  //   let timeout;
 
-    const handleResize = () => {
-      clearTimeout(timeout);
+  //   const handleResize = () => {
+  //     clearTimeout(timeout);
 
-      timeout = setTimeout(() => {
-        setSize((prev) => {
-          const newSize = window.innerWidth >= 1440 ? 20 : 10;
-          return prev !== newSize ? newSize : prev;
-        });
-      }, 300);
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(timeout);
-    };
-  }, []);
+  //     timeout = setTimeout(() => {
+  //       setSize((prev) => {
+  //         const newSize = window.innerWidth >= 1440 ? 20 : 10;
+  //         return prev !== newSize ? newSize : prev;
+  //       });
+  //     }, 300);
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   handleResize();
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //     clearTimeout(timeout);
+  //   };
+  // }, []);
 
   useEffect(() => {
     let timeout;
@@ -1099,24 +1099,23 @@ function BankingNew() {
       value: item.type,
     })) || [];
 
-  const currentPage = state.bankingDetails?.newBankingList?.currentPage ?? 1;
+  // const currentPage = state.bankingDetails?.newBankingList?.currentPage ?? 1;
 
-  const totalPages = state.bankingDetails?.newBankingList?.totalPages ?? 1;
+  // const totalPages = state.bankingDetails?.newBankingList?.totalPages ?? 1;
 
-  const totalRecords = state.bankingDetails?.newBankingList?.totalRecords ?? 0;
+  // const totalRecords = state.bankingDetails?.newBankingList?.totalRecords ?? 0;
 
-  const handlePageChange = (page) => {
-    setPage(page);
-  };
+  // const handlePageChange = (page) => {
+  //   setPage(page);
+  // };
 
-  const handleSizeChange = (sizeValue) => {
-    setSize(sizeValue);
-  };
+  // const handleSizeChange = (sizeValue) => {
+  //   setSize(sizeValue);
+  // };
 
   const currentPageTransaction =
     state.bankingDetails?.allTransactionList?.currentPage ?? 1;
 
- 
   const totalPagesTransaction =
     state.bankingDetails?.allTransactionList?.totalPages ?? 1;
 
@@ -1721,11 +1720,7 @@ function BankingNew() {
               <div className=" my-2">
                 <div className="flex justify-between items-center gap-2 ">
                   <div className="flex flex-wrap items-center gap-3">
-                    <div
-                      className={`border border-gray-300 rounded-lg w-36 ${
-                        statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-                      }`}
-                    >
+                    <div className={`border border-gray-300 rounded-lg w-36 `}>
                       <Select
                         isDisabled={!canReadBanking}
                         styles={CustomStyles}
@@ -1841,7 +1836,7 @@ function BankingNew() {
                             {transactionFilterddata?.transactions?.map(
                               (user, index) => (
                                 <tr
-                                  key={user.index}
+                                  key={index}
                                   className="text-xs font-gilroy border-b border-[#E8E8E8] h-10"
                                 >
                                   <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">

@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { CloseCircle, Add } from "iconsax-react";
+// import { , Add } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar } from "iconsax-react";
+// import { Calendar } from "iconsax-react";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -120,8 +121,8 @@ function Debit({ handleClose }) {
       value: view.id,
       label: view.name,
     })) || [];
-  const [linkedBank, setLinkedBank] = useState(null);
-  const [linkedBankError, setLinkedBankError] = useState("");
+  // const [linkedBank, setLinkedBank] = useState(null);
+  // const [linkedBankError, setLinkedBankError] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -140,10 +141,10 @@ function Debit({ handleClose }) {
   const cardNumberRef = useRef(null);
   const displayNameRef = useRef(null);
 
-  const handleLinkedBankChange = (selected) => {
-    setLinkedBank(selected);
-    setLinkedBankError("");
-  };
+  // const handleLinkedBankChange = (selected) => {
+  //   setLinkedBank(selected);
+  //   setLinkedBankError("");
+  // };
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
@@ -451,5 +452,7 @@ function Debit({ handleClose }) {
     </div>
   );
 }
-
+Debit.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};
 export default Debit;

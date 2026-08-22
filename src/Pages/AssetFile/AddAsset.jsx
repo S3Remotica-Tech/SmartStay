@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
-import moment from "moment";
+// import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
 // import { MdError } from "react-icons/md";
@@ -175,7 +175,7 @@ function StaticExample({ show, setShow, currentItem }) {
     state.AssetList.updateAssetStatusCode,
   ]);
 
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  // const [isSelectOpen, setIsSelectOpen] = useState(false);
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -295,7 +295,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const nochangeRef = useRef(null);
 
-  const formattedDate = selectedDate ? selectedDate?.format("DD-MM-YYYY") : "";
+  // const formattedDate = selectedDate ? selectedDate?.format("DD-MM-YYYY") : "";
 
   const handleAddAsset = () => {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
@@ -785,8 +785,8 @@ function StaticExample({ show, setShow, currentItem }) {
                         onChange={(selectedOption) =>
                           handleModeOfPaymentChange(selectedOption?.value)
                         }
-                        onMenuOpen={() => setIsSelectOpen(true)}
-                        onMenuClose={() => setIsSelectOpen(false)}
+                        // onMenuOpen={() => setIsSelectOpen(true)}
+                        // onMenuClose={() => setIsSelectOpen(false)}
                         placeholder="Select Payment"
                         isDisabled={currentItem}
                         menuPlacement="top"

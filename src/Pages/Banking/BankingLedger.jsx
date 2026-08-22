@@ -1,26 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Filters from "../../Assets/Images/Filters.svg";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ArrowDown2,
-  Bank,
-  Edit,
-  Location,
-  MoneyRecive,
-  Profile,
-  Trash,
-  Wallet,
-  ArrowUp,
-  ArrowDown,
-  ArrowSwapVertical,
-} from "iconsax-react";
-import { CloseCircle, Filter } from "iconsax-react";
-import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from "../../Components/ErrorMessage";
-import { useLocation } from "react-router-dom";
-import { Setting3, SearchNormal1 } from "iconsax-react";
+import { ArrowUp, ArrowDown, ArrowSwapVertical } from "iconsax-react";
+import { Filter } from "iconsax-react";
+
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import Select from "react-select";
@@ -124,11 +108,7 @@ function BankingLedger() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const monthOptions = [];
-  const selectOptions = [{ value: "ALL", label: "All" }];
-  const [statusfilter, setStatusfilter] = useState("");
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
-  const [selectedMonth, setSelectedMonth] = useState();
   const [transactionFilterddata, setTransactionFilterddata] = useState([]);
   const [period, setPeriod] = useState("ALL");
   const [source, setSource] = useState(null);
@@ -148,23 +128,23 @@ function BankingLedger() {
   );
 
   const {
-    canWriteModule: canWriteBanking,
+    // canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
-    canUpdateModule: canUpdateBanking,
-    canDeleteModule: canDeleteBanking,
+    // canUpdateModule: canUpdateBanking,
+    // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
   const handleCloseFilter = () => {
     setIsFilterOpen(false);
   };
 
-  const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
-  };
+  // const handleStatusFilter = (selected) => {
+  //   setStatusFilter(selected?.value || "");
+  // };
 
-  const handleMonthChange = (selectedOption) => {
-    setSelectedMonth(selectedOption);
-  };
+  // const handleMonthChange = (selectedOption) => {
+  //   setSelectedMonth(selectedOption);
+  // };
 
   const filterOptionsData = useSelector(
     (state) => state.bankingDetails?.getBankingLedgerList?.filterOptions,
@@ -378,11 +358,7 @@ function BankingLedger() {
     <div className="px-4 py-4 h-full flex flex-col">
       <div className="flex justify-between items-center gap-2 ">
         <div className="flex flex-wrap items-center gap-3">
-          <div
-            className={`border border-gray-300 rounded-lg w-36 ${
-              statusfilter ? "bg-gray-100 text-gray-700" : "bg-white"
-            }`}
-          >
+          <div className={`border border-gray-300 rounded-lg w-36 `}>
             <Select
               isDisabled={!canReadBanking}
               styles={CustomStyles}
@@ -495,7 +471,7 @@ function BankingLedger() {
                 <tbody>
                   {transactionFilterddata?.transactions?.map((user, index) => (
                     <tr
-                      key={user.index}
+                      key={index}
                       className="text-xs font-gilroy border-b border-[#E8E8E8] h-10"
                     >
                       <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">

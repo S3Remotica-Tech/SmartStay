@@ -4,8 +4,8 @@ import {
   Bank,
   Location,
   Calendar,
-  ArrowUp2,
-  ArrowUp,
+  // ArrowUp2,
+  // ArrowUp,
   ArrowDown2,
   Add,
   ArrowSwapVertical,
@@ -19,13 +19,13 @@ import { useDispatch, useSelector } from "react-redux";
 import SelfTransferNew from "./SelfTransferNew";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
-import TenantPayment from "./TenantPayment";
+// import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";
 import VendorPayment from "./VendorPayment";
+import PropTypes from "prop-types";
 
 function BankingOverview({ show, onClose }) {
-  if (!show) return null;
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -43,7 +43,6 @@ function BankingOverview({ show, onClose }) {
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
 
-  
   const tabs = isBankAccount
     ? [
         { id: "overview", label: "Overview" },
@@ -55,8 +54,8 @@ function BankingOverview({ show, onClose }) {
         { id: "ledger", label: "Ledger" },
       ];
 
-  const LinkedPaymentMethodsList =
-    state?.bankingDetails?.linkedPaymentMethodsList;
+  // const LinkedPaymentMethodsList =
+  //   state?.bankingDetails?.linkedPaymentMethodsList;
 
   const dropdownRef = useRef(null);
 
@@ -70,9 +69,9 @@ function BankingOverview({ show, onClose }) {
 
   const {
     canWriteModule: canWriteBanking,
-    canReadModule: canReadBanking,
-    canUpdateModule: canUpdateBanking,
-    canDeleteModule: canDeleteBanking,
+    // canReadModule: canReadBanking,
+    // canUpdateModule: canUpdateBanking,
+    // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
@@ -244,7 +243,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER" });
     }
   }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
-
+  if (!show) return null;
   return (
     <div className="font-gilroy">
       <div
@@ -501,5 +500,8 @@ function BankingOverview({ show, onClose }) {
     </div>
   );
 }
-
+BankingOverview.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 export default BankingOverview;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { ArrowRight2, ArrowLeft2 } from "iconsax-react";
@@ -43,7 +44,7 @@ function PaginationList({
   if (totalItems <= minItemsToShowPagination) return null;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
 
   return (
     <div className="font-gilroy">

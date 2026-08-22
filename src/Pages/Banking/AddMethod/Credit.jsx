@@ -2,12 +2,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { CloseCircle, Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
+// import { CloseCircle, Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -121,10 +122,10 @@ function Credit({ handleClose }) {
       label: view.name,
     })) || [];
 
-  const [linkedBank, setLinkedBank] = useState(null);
-  const [linkedBankError, setLinkedBankError] = useState("");
+  // const [linkedBank, setLinkedBank] = useState(null);
+  // const [linkedBankError, setLinkedBankError] = useState("");
   const [description, setDescription] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
+  // const [descriptionError, setDescriptionError] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [displayNameError, setDisplayNameError] = useState("");
   const [cardNetwork, setCardNetwork] = useState(null);
@@ -140,12 +141,12 @@ function Credit({ handleClose }) {
   const [creditLimitError, setCreditLimitError] = useState("");
 
   const [billingCycle, setBillingCycle] = useState(null);
-  const [billingCycleError, setBillingCycleError] = useState("");
-  const [openBillingPicker, setOpenBillingPicker] = useState(false);
+  // const [billingCycleError, setBillingCycleError] = useState("");
+  // const [openBillingPicker, setOpenBillingPicker] = useState(false);
 
   const billingPickerRef = useRef(null);
 
-  const billingDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
+  // const billingDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const cardNetworkRef = useRef(null);
   const cardHolderNameRef = useRef(null);
@@ -153,10 +154,10 @@ function Credit({ handleClose }) {
   const displayNameRef = useRef(null);
   const creditLimitRef = useRef(null);
 
-  const handleLinkedBankChange = (selected) => {
-    setLinkedBank(selected);
-    setLinkedBankError("");
-  };
+  // const handleLinkedBankChange = (selected) => {
+  //   setLinkedBank(selected);
+  //   setLinkedBankError("");
+  // };
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
@@ -177,12 +178,6 @@ function Credit({ handleClose }) {
     const value = e.target.value;
 
     setDescription(value);
-
-    if (!value.trim()) {
-      setDescriptionError("");
-    } else {
-      setDescriptionError("");
-    }
   };
 
   const handleCardNetworkChange = (selected) => {
@@ -233,7 +228,7 @@ function Credit({ handleClose }) {
 
   const handleBillingCycleChange = (date) => {
     setBillingCycle(date);
-    setBillingCycleError("");
+    // setBillingCycleError("");
   };
 
   const handleSaveCredit = () => {
@@ -331,14 +326,13 @@ function Credit({ handleClose }) {
     setIsSaving(true);
   };
 
-  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         billingPickerRef.current &&
         !billingPickerRef.current.contains(event.target)
       ) {
-        setOpenBillingPicker(false);
+        // setOpenBillingPicker(false);
       }
     };
 
@@ -604,5 +598,7 @@ function Credit({ handleClose }) {
     </div>
   );
 }
-
+Credit.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};
 export default Credit;

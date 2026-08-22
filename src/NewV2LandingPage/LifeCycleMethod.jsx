@@ -1,89 +1,78 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import TenantIcon from "../Assets/v2LandingImages/Tenant_icon.svg";
 import Digital from "../Assets/v2LandingImages/Digital.svg";
 import Aadhaar from "../Assets/v2LandingImages/Aadhaar.svg";
 import Stays from "../Assets/v2LandingImages/Stay.svg";
 import Final from "../Assets/v2LandingImages/Final.svg";
 import { useNavigate } from "react-router-dom";
-import { Shield, TickCircle, ArrowRight } from 'iconsax-react'
-
+import { Shield, TickCircle, ArrowRight } from "iconsax-react";
+import PropTypes from "prop-types";
 import useInView from "./useInview";
 
-
-
-
 function LifeCycleMethod({ isFeatureWay }) {
+  let navigate = useNavigate();
+  const [ref] = useInView(0.3);
 
-    let navigate = useNavigate();
-    const [ref, isInView] = useInView(0.3);
+  const handleNavigateFeatures = () => {
+    navigate("/hostel-management-features");
+  };
 
+  const lifecycleCards = [
+    {
+      title: "Tenant Check-In",
+      description:
+        "Make onboarding fast, organized, and professional.Capture all required details in minutes and allocate rooms instantly",
+      icon: "user",
+      image: TenantIcon,
+    },
+    {
+      title: "Digital Rental Agreements",
+      description:
+        "Create legally structured rental agreements online.Avoid printing, signing, and storing physical papers.",
+      icon: "document-text",
+      image: Digital,
+    },
+    {
+      title: "KYC Verifications",
+      description:
+        "Upload ID proof digitally and verify tenant records instantly.",
+      icon: "shield-tick",
+      image: Aadhaar,
+      stats: [
+        "Upload ID proofs digitally",
+        "Secure encrypted storage",
+        "Verified tenant records",
+        "Instant document retrieval",
+      ],
+    },
+    {
+      title: "Stay Management",
+      description:
+        "Track the complete tenant stay with clarity.Monitor payments, complaints, and room history seamlessly.",
+      icon: "home",
+      image: Stays,
+    },
+    {
+      title: "Final Settlement & Exit",
+      description:
+        "Close tenant accounts professionally and transparently.Avoid financial disputes during exit.",
+      icon: "receipt",
+      image: Final,
+      fullWidth: true,
+      stats: [
+        "Automated rent calculation",
+        "EB bill adjustments",
+        "Deposit settlement tracking",
+        "Final settlement summary report",
+      ],
+    },
+  ];
 
-
-    const handleNavigateFeatures = () => {
-        navigate("/hostel-management-features");
-    };
-
-
-
-
-
-    const lifecycleCards = [
-        {
-            title: "Tenant Check-In",
-            description:
-                "Make onboarding fast, organized, and professional.Capture all required details in minutes and allocate rooms instantly",
-            icon: "user",
-            image: TenantIcon,
-        },
-        {
-            title: "Digital Rental Agreements",
-            description:
-                "Create legally structured rental agreements online.Avoid printing, signing, and storing physical papers.",
-            icon: "document-text",
-            image: Digital
-        },
-        {
-            title: "KYC Verifications",
-            description:
-                "Upload ID proof digitally and verify tenant records instantly.",
-            icon: "shield-tick",
-            image: Aadhaar,
-            stats: [
-                "Upload ID proofs digitally",
-                "Secure encrypted storage",
-                "Verified tenant records",
-                "Instant document retrieval"
-            ]
-        },
-        {
-            title: "Stay Management",
-            description:
-                "Track the complete tenant stay with clarity.Monitor payments, complaints, and room history seamlessly.",
-            icon: "home",
-            image: Stays,
-        },
-        {
-            title: "Final Settlement & Exit",
-            description:
-                "Close tenant accounts professionally and transparently.Avoid financial disputes during exit.",
-            icon: "receipt",
-            image: Final,
-            fullWidth: true,
-            stats: [
-                "Automated rent calculation",
-                "EB bill adjustments",
-                "Deposit settlement tracking",
-                "Final settlement summary report"
-            ]
-        }
-    ];
-
-
-    return (
-        <div className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}>
-
-
-            {/* <div className="max-w-7xl mx-auto mb-14">
+  return (
+    <div
+      className={`w-full ${isFeatureWay ? "bg-[#FFFFFF]" : "bg-[#1A1A1A]"}  py-[53px] px-[101px] font-tasa`}
+    >
+      {/* <div className="max-w-7xl mx-auto mb-14">
                 <div className='flex items-center justify-between'>
                     <h2 className={`text-3xl md:text-4xl font-semibold ${isFeatureWay ? "text-black" : "text-white"}  font-tesa`}>
                         Complete Tenant
@@ -100,41 +89,41 @@ function LifeCycleMethod({ isFeatureWay }) {
 
             </div> */}
 
-            <div className="max-w-7xl mx-auto mb-14">
-                <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto mb-14">
+        <div className="flex items-center justify-between">
+          <h2
+            className={`text-3xl md:text-4xl 2xl:text-5xl font-semibold ${isFeatureWay ? "text-black" : "text-white"} font-tesa`}
+          >
+            Complete Tenant
+            <span className="text-blue-500 block">Lifecycle Management</span>
+          </h2>
 
-                    <h2 className={`text-3xl md:text-4xl 2xl:text-5xl font-semibold ${isFeatureWay ? "text-black" : "text-white"} font-tesa`}>
-                        Complete Tenant
-                        <span className="text-blue-500 block">
-                            Lifecycle Management
-                        </span>
-                    </h2>
+          <div
+            className={`rounded-xl px-4 py-3 ${isFeatureWay ? "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}
+          >
+            <label className="text-xs 2xl:text-lg font-tasa">
+              Tenant Management
+            </label>
+          </div>
+        </div>
+      </div>
 
-                    <div className={`rounded-xl px-4 py-3 ${isFeatureWay ? "bg-[#2851F31A] text-[#1E45E1]" : "bg-[#FFF3EB33] text-[#FFA600]"} w-fit flex items-center`}>
-                        <label className="text-xs 2xl:text-lg font-tasa">Tenant Management</label>
-                    </div>
+      <div className="max-w-7xl mx-auto grid grid-cols-10 gap-4">
+        {lifecycleCards.map((card, index) => {
+          let span = "col-span-10";
 
-                </div>
-            </div>
+          if (!card.fullWidth) {
+            if (index === 0) span = "col-span-4";
+            if (index === 1) span = "col-span-6";
+            if (index === 2) span = "col-span-6";
+            if (index === 3) span = "col-span-4";
+          }
 
-
-            <div className="max-w-7xl mx-auto grid grid-cols-10 gap-4">
-
-                {lifecycleCards.map((card, index) => {
-
-                    let span = "col-span-10";
-
-                    if (!card.fullWidth) {
-                        if (index === 0) span = "col-span-4";
-                        if (index === 1) span = "col-span-6";
-                        if (index === 2) span = "col-span-6";
-                        if (index === 3) span = "col-span-4";
-                    }
-
-                    return (
-                        <div ref={ref}
-                            key={index}
-                            className={`
+          return (
+            <div
+              ref={ref}
+              key={index}
+              className={`
     bg-white animate-[fadeUp_0.6s_ease-out] 
     rounded-xl p-6 shadow-sm flex flex-col border border-gray-100 justify-between
     ${span}
@@ -142,125 +131,108 @@ function LifeCycleMethod({ isFeatureWay }) {
     hover:shadow-lg hover:-translate-y-2
     hover:border-blue-200
   `}
-                        >
+            >
+              <div>
+                {(card.icon === "user" || card.icon === "home") && (
+                  <>
+                    <h3 className="text-[24px] 2xl:text-[28px] font-semibold text-[#222222] mb-2 leading">
+                      {card.title}
+                    </h3>
 
-                            <div>
+                    <label className="text-base 2xl:text-lg text-[#2D2D2D] mb-6">
+                      {card.description}
+                    </label>
+                  </>
+                )}
 
-
-
-                                {
-                                    (card.icon === "user" || card.icon === "home") &&
-
-                                    <>
-
-
-                                        <h3 className="text-[24px] 2xl:text-[28px] font-semibold text-[#222222] mb-2 leading">
-                                            {card.title}
-                                        </h3>
-
-                                        <label className="text-base 2xl:text-lg text-[#2D2D2D] mb-6">
-                                            {card.description}
-                                        </label>
-                                    </>
-                                }
-
-
-                                {
-                                    (card.icon === "document-text" || card.icon === "shield-tick" || card.icon === "receipt") &&
-                                    <div className='grid md:grid-cols-2 gap-6 h-full'>
-                                        <div >
-                                            {/* <h3 className="text-[24px] font-semibold text-[#222222] mb-2 leading">
+                {(card.icon === "document-text" ||
+                  card.icon === "shield-tick" ||
+                  card.icon === "receipt") && (
+                  <div className="grid md:grid-cols-2 gap-6 h-full">
+                    <div>
+                      {/* <h3 className="text-[24px] font-semibold text-[#222222] mb-2 leading">
                                                 {card.title}
                                             </h3>
                                             <label className="text-base text-[#2D2D2D] mb-6">
                                                 {card.description}
                                             </label> */}
 
-                                            <h3 className="text-[24px] 2xl:text-[28px] font-semibold text-[#222222] mb-2 leading">
-                                                {card.title}
-                                            </h3>
+                      <h3 className="text-[24px] 2xl:text-[28px] font-semibold text-[#222222] mb-2 leading">
+                        {card.title}
+                      </h3>
 
-                                            <label className="text-base 2xl:text-lg text-[#2D2D2D] mb-6">
-                                                {card.description}
-                                            </label>
+                      <label className="text-base 2xl:text-lg text-[#2D2D2D] mb-6">
+                        {card.description}
+                      </label>
 
-                                            <div>
-                                                {
-                                                    card.stats?.map((item, i) => {
-                                                        return (
-                                                            <div key={i} className="mx-1 my-2 flex items-center gap-2">
-
-                                                                {/* {card.icon === "shield-tick" && i === 0 ? ( */}
-                                                                <TickCircle size="20" variant="Bold" color="#00A32E" />
-                                                                {/* ) : (
+                      <div>
+                        {card.stats?.map((item, i) => {
+                          return (
+                            <div
+                              key={i}
+                              className="mx-1 my-2 flex items-center gap-2"
+                            >
+                              {/* {card.icon === "shield-tick" && i === 0 ? ( */}
+                              <TickCircle
+                                size="20"
+                                variant="Bold"
+                                color="#00A32E"
+                              />
+                              {/* ) : (
                                                                     <TickCircle size="20" color="#1E45E1" />
                                                                 )} */}
 
-                                                                <label>{item}</label>
-
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-
-
-                                            </div>
-
-
-                                        </div>
-
-                                        <div className="">
-                                            <img
-                                                src={card.image}
-                                                alt={card.title}
-                                                className="h-full object-contain"
-                                            />
-                                        </div>
-                                    </div>
-                                }
-
+                              <label>{item}</label>
                             </div>
-                            {
-                                (card.icon === "user" || card.icon === "home") &&
-                                <div className="flex justify-center relative">
-                                    <img
-                                        src={card.image}
-                                        alt={card.title}
-                                        className="h-full object-cover"
-                                    />
-                                    {
-                                        card.icon === "user" &&
+                          );
+                        })}
+                      </div>
+                    </div>
 
-                                        <div className='absolute right-0  top-[-30px] whitespace-nowrap flex items-center gap-2 bg-white px-6 py-2 shadow rounded-lg'>
-                                            <Shield
-                                                size="16"
-                                                color="#00A32E"
-                                                variant="Bold" /> Checked In </div>}
-
-
-                                </div>
-                            }
-
-
-
-                        </div>
-                    )
-
-                })}
-            </div>
-            {
-                !isFeatureWay &&
-
-                <div className='max-w-7xl flex items-center justify-center'>
-                    <button onClick={handleNavigateFeatures} className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium 2xl:text-xl hover:bg-gray-100 hover:text-[#222222] transition">
-                        Explore Features
-                        <ArrowRight size="18" />
-                    </button>
+                    <div className="">
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+              {(card.icon === "user" || card.icon === "home") && (
+                <div className="flex justify-center relative">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="h-full object-cover"
+                  />
+                  {card.icon === "user" && (
+                    <div className="absolute right-0  top-[-30px] whitespace-nowrap flex items-center gap-2 bg-white px-6 py-2 shadow rounded-lg">
+                      <Shield size="16" color="#00A32E" variant="Bold" />{" "}
+                      Checked In{" "}
+                    </div>
+                  )}
                 </div>
-            }
-
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {!isFeatureWay && (
+        <div className="max-w-7xl flex items-center justify-center">
+          <button
+            onClick={handleNavigateFeatures}
+            className="font-dmsans flex items-center justidy-center mt-4 gap-2 px-6 py-2.5 border-1 border-[#FFFFFF] rounded-lg text-[#FFFFFF] font-medium 2xl:text-xl hover:bg-gray-100 hover:text-[#222222] transition"
+          >
+            Explore Features
+            <ArrowRight size="18" />
+          </button>
         </div>
-    )
+      )}
+    </div>
+  );
 }
-
-export default LifeCycleMethod
+LifeCycleMethod.propTypes = {
+  isFeatureWay: PropTypes.any,
+};
+export default LifeCycleMethod;

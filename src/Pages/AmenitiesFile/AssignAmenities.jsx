@@ -1,34 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
-import Modal from 'react-bootstrap/Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import Card from 'react-bootstrap/Card';
+import React, { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
+// import Card from 'react-bootstrap/Card';
 // import { MdError } from "react-icons/md";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { CloseCircle, Tag2, SearchNormal, Filter, ArrowDown, ArrowUp } from 'iconsax-react';
-import Form from 'react-bootstrap/Form';
-import Image from 'react-bootstrap/Image';
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  CloseCircle,
+  Tag2,
+  SearchNormal,
+  Filter,
+  ArrowDown,
+  ArrowUp,
+} from "iconsax-react";
+// import Form from 'react-bootstrap/Form';
+// import Image from 'react-bootstrap/Image';
 import PropTypes from "prop-types";
-import ErrorMessage from '../../Components/ErrorMessage';
-import './AssignAmenities.css';
+import ErrorMessage from "../../Components/ErrorMessage";
+import "./AssignAmenities.css";
 import { RiShareForwardFill } from "react-icons/ri";
 import { IoArrowUndoSharp } from "react-icons/io5";
 
 function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
-
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
-  const [unAssignedList, setUnassignedList] = useState([])
-  const [AssignedList, setAssignedList] = useState([])
+  const [unAssignedList, setUnassignedList] = useState([]);
+  const [AssignedList, setAssignedList] = useState([]);
   const [unAssignedCheckedUsers, setUnassignedCheckedUsers] = useState([]);
   const [assignedCheckedUsers, setAssignedCheckedUsers] = useState([]);
-  const [errorAssign, setErrorAssign] = useState('')
-  const [errorUnAssign, setUnErrorAssign] = useState('')
-  const [formLoading, setFormLoading] = useState(false)
+  const [errorAssign, setErrorAssign] = useState("");
+  const [errorUnAssign, setUnErrorAssign] = useState("");
+  const [formLoading, setFormLoading] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const [assignedSelectAll, setAssignedSelectAll] = useState(false);
-
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "-";
@@ -39,95 +44,77 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
     return date.toLocaleDateString("en-GB");
   };
 
-
   useEffect(() => {
     dispatch({
-      type: 'GET_PARTICULAR_AMENITIES',
+      type: "GET_PARTICULAR_AMENITIES",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         amenityId: assignAmenitiesDetails.amenityId,
       },
     });
-  }, [])
-
-
-
-
+  }, []);
 
   useEffect(() => {
     if (state.InvoiceList.getAssignAmenitiesSuccessStatusCode === 200) {
       setSelectAll(false);
-      setAssignedSelectAll(false)
-      setAssignedList(state?.InvoiceList?.GetAssignAmenitiesList || [])
-      setUnassignedList(state?.InvoiceList?.GetUnAssignAmenitiesList || [])
-
+      setAssignedSelectAll(false);
+      setAssignedList(state?.InvoiceList?.GetAssignAmenitiesList || []);
+      setUnassignedList(state?.InvoiceList?.GetUnAssignAmenitiesList || []);
     }
 
     setTimeout(() => {
-      dispatch({ type: 'REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE' })
-    }, 500)
-
-
-  }, [state.InvoiceList.getAssignAmenitiesSuccessStatusCode])
-
+      dispatch({ type: "REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE" });
+    }, 500);
+  }, [state.InvoiceList.getAssignAmenitiesSuccessStatusCode]);
 
   const handleGlobalSelectAll = () => {
     if (selectAll) {
       setAssignedCheckedUsers([]);
       setSelectAll(false);
     } else {
-
       const selectableUsers = unAssignedList
-        .filter(item => item.canAssign === true)
-        .map(item => item.customerId);
+        .filter((item) => item.canAssign === true)
+        .map((item) => item.customerId);
 
       setAssignedCheckedUsers(selectableUsers);
       setSelectAll(true);
     }
   };
 
-
   const handleAssignedGlobalSelectAll = () => {
     if (assignedSelectAll) {
       setUnassignedCheckedUsers([]);
       setAssignedSelectAll(false);
     } else {
-      const ids = AssignedList.map(item => item.customerId);
+      const ids = AssignedList.map((item) => item.customerId);
 
       setUnassignedCheckedUsers(ids);
       setAssignedSelectAll(true);
     }
   };
 
-
   useEffect(() => {
-
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
-      setFormLoading(false)
+      setFormLoading(false);
       dispatch({
-        type: 'GET_PARTICULAR_AMENITIES',
+        type: "GET_PARTICULAR_AMENITIES",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           amenityId: assignAmenitiesDetails.amenityId,
         },
       });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
-      }, 100)
-
-
+        dispatch({ type: "REMOVE_ASSIGN_AMENITIES_STATUS_CODE" });
+      }, 100);
     }
-    setAssignedCheckedUsers([])
-
-  }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
-
+    setAssignedCheckedUsers([]);
+  }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode]);
 
   useEffect(() => {
-
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       dispatch({
-        type: 'GET_PARTICULAR_AMENITIES',
+        type: "GET_PARTICULAR_AMENITIES",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           amenityId: assignAmenitiesDetails.amenityId,
@@ -135,21 +122,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
       });
 
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE' })
-      }, 100)
-
-
+        dispatch({ type: "REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE" });
+      }, 100);
     }
-    setUnassignedCheckedUsers([])
-
-  }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
-
-
-
-
+    setUnassignedCheckedUsers([]);
+  }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode]);
 
   const handleUnassignedCheckboxChange = (user_id) => {
-    setUnErrorAssign('')
+    setUnErrorAssign("");
     setUnassignedCheckedUsers((prev) => {
       let updated;
 
@@ -159,9 +139,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
         updated = [...prev, user_id];
       }
 
-      const totalAssignable = AssignedList
-        .filter(item => item.canAssign)
-        .map(item => item.customerId);
+      const totalAssignable = AssignedList.filter((item) => item.canAssign).map(
+        (item) => item.customerId,
+      );
 
       setAssignedSelectAll(updated.length === totalAssignable.length);
 
@@ -169,10 +149,8 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
     });
   };
 
-
-
   const handleAssignedCheckboxChange = (user_id) => {
-    setErrorAssign('');
+    setErrorAssign("");
 
     setAssignedCheckedUsers((prevChecked) => {
       let updated;
@@ -184,8 +162,8 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
       }
 
       const allAssignableIds = unAssignedList
-        .filter(item => item.canAssign === true)
-        .map(item => item.customerId);
+        .filter((item) => item.canAssign === true)
+        .map((item) => item.customerId);
 
       setSelectAll(updated.length === allAssignableIds.length);
 
@@ -193,79 +171,65 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
     });
   };
 
-
-
   const handleAssignUser = () => {
-    setUnErrorAssign('')
+    setUnErrorAssign("");
     if (!assignedCheckedUsers || assignedCheckedUsers.length === 0) {
-      setErrorAssign("Please Select at Least One User Before Assigning Amenities");
+      setErrorAssign(
+        "Please Select at Least One User Before Assigning Amenities",
+      );
       return;
     }
 
-
-
     dispatch({
-      type: 'ASSIGNAMENITIES',
+      type: "ASSIGNAMENITIES",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         amenityId: assignAmenitiesDetails.amenityId,
-        customers: assignedCheckedUsers
-
+        customers: assignedCheckedUsers,
       },
-    })
-    setFormLoading(true)
-
-  }
-
+    });
+    setFormLoading(true);
+  };
 
   const handleUnAssignUser = () => {
-    setErrorAssign('')
+    setErrorAssign("");
     if (!unAssignedCheckedUsers || unAssignedCheckedUsers.length === 0) {
-      setUnErrorAssign("Please Select at Least One User Before Unassigning Amenities");
+      setUnErrorAssign(
+        "Please Select at Least One User Before Unassigning Amenities",
+      );
       return;
     }
 
     dispatch({
-      type: 'UNASSIGNAMENITIES',
+      type: "UNASSIGNAMENITIES",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         amenityId: assignAmenitiesDetails.amenityId,
-        customers: unAssignedCheckedUsers
-
+        customers: unAssignedCheckedUsers,
       },
-    })
-    setFormLoading(true)
-  }
-
+    });
+    setFormLoading(true);
+  };
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      setFormLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
+        dispatch({ type: "CLEAR_NETWORK_ERROR" });
+      }, 3000);
     }
-
-  }, [state.createAccount?.networkError])
-
-  const ellipsisStyle = {
-    maxWidth: "180px",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    display: "block",
-  };
-
+  }, [state.createAccount?.networkError]);
 
   return (
-
-    <Modal show={show} onHide={handleClose}
-      centered backdrop="static"
+    <Modal
+      show={show}
+      onHide={handleClose}
+      centered
+      backdrop="static"
       dialogClassName="responsive-modal-fix"
       className="!border-none"
     >
       <Modal.Dialog className="m-0 p-0 min-w-[850px] pr-2 rounded-[35px]">
-
         <Modal.Header className="border-2 border-gray-200">
           <Modal.Title className="w-full">
             <div className="flex items-center gap-3">
@@ -298,12 +262,11 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
           />
         </Modal.Header>
 
-        <Modal.Body className='border-0 pt-2'>
+        <Modal.Body className="border-0 pt-2">
           {errorAssign && (
             <div className="mb-2 mt-0">
               <ErrorMessage message={errorAssign} type="error" />
             </div>
-
           )}
 
           {errorUnAssign && (
@@ -732,7 +695,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                 </div>
 
                 <div className="flex justify-between items-center bg-[#E7F1FF] text-gray-900 font-gilroy font-semibold px-3 py-2 rounded-tl-xl rounded-tr-xl">
-                  <div className="text-gray-900 font-bold text-sm">Unassigned</div>
+                  <div className="text-gray-900 font-bold text-sm">
+                    Unassigned
+                  </div>
                   <div>
                     <input
                       type="checkbox"
@@ -746,7 +711,10 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                 <div className="overflow-y-auto max-h-[350px] p-1 pe-2 ps-2 show-scrolls">
                   {unAssignedList.length > 0 &&
                     unAssignedList.map((list) => (
-                      <div key={list.customerId} className="mb-3 flex justify-between pb-2">
+                      <div
+                        key={list.customerId}
+                        className="mb-3 flex justify-between pb-2"
+                      >
                         <div className="flex gap-3">
                           <div>
                             {list?.profilePic && list?.profilePic !== "0" ? (
@@ -770,10 +738,19 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                               >
                                 {list.customerName}
                               </label>
-                              {
-                                list.isBooked ?  <ArrowUp size={16} color="#1E45E1" className="mb-1" /> : 
-                                list.onNotice ? <ArrowDown size={16} color="#FF0000" className="mb-1" /> : null
-                              }
+                              {list.isBooked ? (
+                                <ArrowUp
+                                  size={16}
+                                  color="#1E45E1"
+                                  className="mb-1"
+                                />
+                              ) : list.onNotice ? (
+                                <ArrowDown
+                                  size={16}
+                                  color="#FF0000"
+                                  className="mb-1"
+                                />
+                              ) : null}
                               {/* {list?.canAssign === false ? (
                                 <ArrowDown size={16} color="#FF0000" className="mb-1" />
                               ) : (
@@ -782,10 +759,10 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             </div>
 
                             {list?.canAssign === false ? (
-                              <label
-                                className="text-gray-600 text-sm font-medium font-gilroy truncate"
-                              >
-                                {list?.mobile ? `${list.countryCode} ${list.mobile}` : "-"}
+                              <label className="text-gray-600 text-sm font-medium font-gilroy truncate">
+                                {list?.mobile
+                                  ? `${list.countryCode} ${list.mobile}`
+                                  : "-"}
                               </label>
                             ) : (
                               <div className="flex flex-wrap gap-3">
@@ -820,8 +797,12 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                           {list?.canAssign !== false && (
                             <input
                               type="checkbox"
-                              checked={assignedCheckedUsers.includes(list.customerId)}
-                              onChange={() => handleAssignedCheckboxChange(list.customerId)}
+                              checked={assignedCheckedUsers.includes(
+                                list.customerId,
+                              )}
+                              onChange={() =>
+                                handleAssignedCheckboxChange(list.customerId)
+                              }
                               className="cursor-pointer mt-3.5"
                               disabled={list?.ending}
                             />
@@ -867,7 +848,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                 </div>
 
                 <div className="flex justify-between items-center bg-[#E7F1FF] text-gray-900 font-gilroy font-semibold px-2 py-2 rounded-tl-xl rounded-tr-xl">
-                  <div className="text-gray-900 font-bold text-sm">Assigned</div>
+                  <div className="text-gray-900 font-bold text-sm">
+                    Assigned
+                  </div>
                   <div>
                     <input
                       type="checkbox"
@@ -883,8 +866,11 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                     AssignedList.map((list) => (
                       <div
                         key={list.customerId}
-                        className={`mb-3 ${list.ending ? "bg-red-50 border border-red-300 rounded-lg p-2 pb-2" : ""
-                          }`}
+                        className={`mb-3 ${
+                          list.ending
+                            ? "bg-red-50 border border-red-300 rounded-lg p-2 pb-2"
+                            : ""
+                        }`}
                       >
                         <div className="flex justify-between items-start">
                           <div className="flex gap-3">
@@ -948,7 +934,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                           <div>
                             <input
                               type="checkbox"
-                              checked={unAssignedCheckedUsers.includes(list.customerId)}
+                              checked={unAssignedCheckedUsers.includes(
+                                list.customerId,
+                              )}
                               onChange={() =>
                                 handleUnassignedCheckboxChange(list.customerId)
                               }
@@ -963,44 +951,38 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
               </div>
             </div>
           </div>
-
         </Modal.Body>
 
-
-
-        {formLoading &&
+        {formLoading && (
           <div
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
               opacity: 0.75,
               zIndex: 10,
             }}
           >
             <div
               style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
               }}
             ></div>
           </div>
-        }
-
-
+        )}
       </Modal.Dialog>
     </Modal>
-
-  )
+  );
 }
 AssignAmenities.propTypes = {
   show: PropTypes.func.isRequired,
@@ -1008,5 +990,4 @@ AssignAmenities.propTypes = {
   assignAmenitiesDetails: PropTypes.func.isRequired,
 };
 
-
-export default AssignAmenities
+export default AssignAmenities;

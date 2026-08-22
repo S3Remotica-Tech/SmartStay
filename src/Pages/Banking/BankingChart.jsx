@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -9,18 +9,19 @@ import {
   Tooltip,
 } from "recharts";
 import {
-  Bank,
-  Location,
-  Calendar,
+  // Bank,
+  // Location,
+  // Calendar,
   ArrowUp2,
   ArrowUp,
-  ArrowDown2,
-  Add,
-  ArrowSwapVertical,
-  Wallet,
+  // ArrowDown2,
+  // Add,
+  // ArrowSwapVertical,
+  // Wallet,
 } from "iconsax-react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload?.length) {
@@ -41,10 +42,19 @@ const CustomTooltip = ({ active, payload, label }) => {
 
   return null;
 };
+CustomTooltip.propTypes = {
+  active: PropTypes.bool,
+  payload: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    }),
+  ),
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 function BankingChart() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const bankingChart = state?.bankingDetails?.getBankingOverviewList;
 
@@ -95,7 +105,10 @@ function BankingChart() {
       balance: item.currentBalance,
     })) || [];
 
-  const maxBalance = Math.max(...chartData?.map((item) => item?.balance), 0);
+  const maxBalance = Math.max(
+    ...(chartData ?? []).map((item) => Number(item?.balance) || 0),
+    0,
+  );
 
   const roundedMax = Math.ceil(maxBalance / 10000) * 10000 || 10000;
 

@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Bank, Card, CloseCircle } from "iconsax-react";
+import { Add, Bank, Card } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
 function SelfTransferNew({ show, handleClose, selfDetails }) {
-  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -28,8 +28,6 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
       setAmount(value);
     }
   };
-
-  
 
   const handleTransfer = () => {
     setError("");
@@ -66,10 +64,6 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     setLoading(true);
   };
 
-  
-
-  if (!show) return null;
-
   useEffect(() => {
     return () => {
       setError("");
@@ -104,8 +98,6 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  
-
   const bankDetails = state.bankingDetails?.selfTransferInitializeV3;
 
   const availableBalance = Number(bankDetails?.fromBank?.balance || 0);
@@ -123,6 +115,8 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
       dispatch({ type: "CLEAR_SELF_REDUCER" });
     }
   }, [state.bankingDetails?.selfInitializeError]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -388,5 +382,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     </div>
   );
 }
-
+SelfTransferNew.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  selfDetails: PropTypes.any,
+};
 export default SelfTransferNew;
