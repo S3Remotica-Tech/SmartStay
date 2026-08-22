@@ -119,9 +119,6 @@ function UPI({ handleClose }) {
       label: view.name,
     })) || [];
 
-  // const [linkedBank, setLinkedBank] = useState(null);
-  // const [linkedBankError, setLinkedBankError] = useState("");
-
   const [upiApp, setUpiApp] = useState(null);
   const [upiAppError, setUpiAppError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -132,7 +129,6 @@ function UPI({ handleClose }) {
   const [displayNameError, setDisplayNameError] = useState("");
 
   const [description, setDescription] = useState("");
-  // const [descriptionError, setDescriptionError] = useState("");
 
   const [qrImage, setQrImage] = useState(null);
   const [qrImagePreview, setQrImagePreview] = useState("");
@@ -145,11 +141,6 @@ function UPI({ handleClose }) {
   const upiIdRef = useRef(null);
   const displayNameRef = useRef(null);
   const qrImageRef = useRef(null);
-
-  // const handleLinkedBankChange = (selected) => {
-  //   setLinkedBank(selected);
-  //   setLinkedBankError("");
-  // };
 
   const handleUpiAppChange = (selected) => {
     setUpiApp(selected);

@@ -46,6 +46,9 @@ export const initialState = {
     categoryLabel: [],
     subCategory: [],
     subCategoryLabel: [],
+    vendorId: "",
+    vendorName: "",
+    paymentStatus: "",
   },
 
   receiptRegisterFilters: {

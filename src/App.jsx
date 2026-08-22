@@ -19,7 +19,7 @@ import Cookies from "universal-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StoreSelectedHostelAction } from "./Redux/Action/LoginAction";
-import ThankYou from "./NewLandingPage/ThankYou";
+import ThankYou from "./NewV2LandingPage/ThankYou";
 import Sidebar from "./Components/Sidebar";
 import { messaging, onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
@@ -31,10 +31,10 @@ function App() {
   const state = useSelector((state) => state);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [notification, setNotification] = useState(null);
   const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
-
+  const token = cookies.get("v2-token");
   useEffect(() => {
     try {
       if (login) {
@@ -107,28 +107,6 @@ function App() {
     }
   }, [state.login?.isLoggedIn]);
 
-  const [notification, setNotification] = useState(null);
-
-  // const showBrowserNotification = (title, body, type) => {
-  //   if (!("Notification" in window)) {
-
-  //     return;
-  //   }
-
-  //   if (Notification.permission === "granted") {
-  //     new Notification(title, {
-  //       body,
-  //       // icon: "/firebase-logo.png" // optional
-  //     });
-  //   } else if (Notification.permission !== "denied") {
-  //     Notification.requestPermission().then((permission) => {
-  //       if (permission === "granted") {
-  //         new Notification(title, { body });
-  //       }
-  //     });
-  //   }
-  // };
-
   useEffect(() => {
     const unsubscribe = onMessageListener((payload) => {
       const title = payload?.data?.title || "New Notification";
@@ -145,7 +123,6 @@ function App() {
     };
   }, []);
 
-  const token = cookies.get("v2-token");
   useEffect(() => {
     if (!token) {
       dispatch({ type: "LOG_OUT" });
@@ -165,10 +142,6 @@ function App() {
       // cookies.remove('selected_hostelId', { path: '/' });
     }
   }, [state.login?.isLoggedIn]);
-
-  // if (loading) {
-  //   return <LoaderComponent />;
-  // }
 
   useEffect(() => {
     if (state.login?.logoutLoading) {

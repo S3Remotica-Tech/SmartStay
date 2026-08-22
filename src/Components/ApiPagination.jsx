@@ -76,7 +76,6 @@ function ApiPagination({
               menu: (base) => ({
                 ...base,
                 left: 0,
-                // width: "150px",
                 marginTop: 4,
                 zIndex: 9999,
               }),

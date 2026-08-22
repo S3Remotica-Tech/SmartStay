@@ -6,9 +6,8 @@ import {
   Export,
   ArrowLeft,
   ArrowSwapVertical,
-  Setting3,
-  SearchNormal1,
-  // ArrowDown,
+  // Setting3,
+  // SearchNormal1,
   ArrowDown2,
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,7 +25,7 @@ function ExpenseRegister() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const { RangePicker } = DatePicker;
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [register, setRegister] = useState(false);
   const [invoiceFilter, setInvoiceFilter] = useState(false);
@@ -90,6 +89,9 @@ function ExpenseRegister() {
         categoryLabel: [],
         subCategory: [],
         subCategoryLabel: [],
+        vendorId: "",
+        vendorName: "",
+        paymentStatus: "",
       },
     });
     dispatch({
@@ -182,6 +184,9 @@ function ExpenseRegister() {
         categoryLabel: [],
         subCategory: [],
         subCategoryLabel: [],
+        vendorId: "",
+        vendorName: "",
+        paymentStatus: "",
       },
     });
   };
@@ -190,16 +195,16 @@ function ExpenseRegister() {
     setInvoiceFilter(true);
   };
 
-  const options = [
-    { key: "sharing", label: "Sharing", checked: true },
-    { key: "checkin", label: "Check-in Date", checked: true },
-    { key: "checkout", label: "Checkout date", checked: true },
-    { key: "stay", label: "Stay Duration", checked: false },
-    { key: "room", label: "Room", checked: true },
-    { key: "bed", label: "Bed", checked: false },
-    { key: "status", label: "Status", checked: true },
-    { key: "payment", label: "Last Payment", checked: true },
-  ];
+  // const options = [
+  //   { key: "sharing", label: "Sharing", checked: true },
+  //   { key: "checkin", label: "Check-in Date", checked: true },
+  //   { key: "checkout", label: "Checkout date", checked: true },
+  //   { key: "stay", label: "Stay Duration", checked: false },
+  //   { key: "room", label: "Room", checked: true },
+  //   { key: "bed", label: "Bed", checked: false },
+  //   { key: "status", label: "Status", checked: true },
+  //   { key: "payment", label: "Last Payment", checked: true },
+  // ];
   const reportCards = [
     { title: "Invoice Register" },
     { title: "Receipt Register" },
@@ -214,6 +219,20 @@ function ExpenseRegister() {
     { title: "Final Settlement" },
   ];
 
+  const statusStyles = {
+    Full: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+    Partial: {
+      bg: "#FFF4E5",
+      text: "#F79009",
+    },
+    Pending: {
+      bg: "#FEE4E2",
+      text: "#D92D20",
+    },
+  };
   const isInitialLoad = useRef(true);
   const apiStart = state?.reports?.getExpenseRegister?.summary?.startDate;
   const apiEnd = state?.reports?.getExpenseRegister?.summary?.endDate;
@@ -246,6 +265,9 @@ function ExpenseRegister() {
           categoryLabel: [],
           subCategory: [],
           subCategoryLabel: [],
+          vendorId: "",
+          vendorName: "",
+          paymentStatus: "",
         },
       });
       dispatch({
@@ -280,7 +302,11 @@ function ExpenseRegister() {
       paymentMode: expenseFilters?.paymentMode,
       createdBy: expenseFilters?.createdBy,
       period: expenseFilters?.period,
+      vendorId: expenseFilters?.vendorId,
+      vendorName: expenseFilters?.vendorName,
+      paymentStatus: expenseFilters?.paymentStatus,
     };
+
     dispatch({
       type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
       payload: {
@@ -311,6 +337,9 @@ function ExpenseRegister() {
           categoryLabel: [],
           subCategory: [],
           subCategoryLabel: [],
+          vendorId: "",
+          vendorName: "",
+          paymentStatus: "",
         },
       });
 
@@ -349,6 +378,9 @@ function ExpenseRegister() {
       paymentMode: expenseFilters?.paymentMode,
       createdBy: expenseFilters?.createdBy,
       period: expenseFilters?.period,
+      vendorId: expenseFilters?.vendorId,
+      vendorName: expenseFilters?.vendorName,
+      paymentStatus: expenseFilters?.paymentStatus,
     };
     dispatch({
       type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
@@ -406,6 +438,9 @@ function ExpenseRegister() {
         categoryLabel: [],
         subCategory: [],
         subCategoryLabel: [],
+        vendorId: "",
+        vendorName: "",
+        paymentStatus: "",
       },
     });
   };
@@ -423,10 +458,6 @@ function ExpenseRegister() {
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
   };
-
-  // useEffect(() => {
-  //   setPage(0);
-  // }, [state.reports?.expenseRegisterFilters]);
 
   useEffect(() => {
     const invoiceFilters = state.reports.expenseRegisterFilters;
@@ -479,6 +510,22 @@ function ExpenseRegister() {
         value: invoiceFilters?.period,
       });
     }
+    if (invoiceFilters?.vendorName) {
+      filterData.push({
+        key: "vendor",
+        label: "Vendor  is",
+        type: "vendor",
+        value: invoiceFilters?.vendorName,
+      });
+    }
+    if (invoiceFilters?.paymentStatus) {
+      filterData.push({
+        key: "paymentStatus",
+        label: "PaymentStatus  is",
+        type: "paymentStatus",
+        value: invoiceFilters?.paymentStatus,
+      });
+    }
 
     if (invoiceFilters?.paymentMode?.length) {
       filterData.push({
@@ -514,6 +561,9 @@ function ExpenseRegister() {
           paymentMode: expenseFilters?.paymentMode,
           createdBy: expenseFilters?.createdBy,
           period: expenseFilters?.period,
+          vendorId: expenseFilters?.vendorId,
+          vendorName: expenseFilters?.vendorName,
+          paymentStatus: expenseFilters?.paymentStatus,
         },
       });
       setLoading(true);
@@ -738,13 +788,14 @@ function ExpenseRegister() {
               <table className="w-full  text-[12px] font-gilroy">
                 <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
                   <tr className="border-b border-[#E8E8E8]">
-                    <th className="px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
-                      <Setting3
+                    <th className="px-4 py-2.5 text-left font-semibold  uppercase whitespace-nowrap sticky left-0 z-40 bg-[#F9FAFB] w-[40px] rounded-tl-xl">
+                      {/* <Setting3
                         // onClick={() => setOpen(!open)}
                         className="cursor-pointer"
                         size="18"
                         color="#4B4B4B"
-                      />
+                      /> */}
+                      Expense No
                     </th>
 
                     <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
@@ -757,21 +808,34 @@ function ExpenseRegister() {
                     <th className="px-4 py-2.5 text-left font-semibold sticky left-[150px] z-30 bg-[#F9FAFB] w-[200px]  uppercase whitespace-nowrap">
                       Sub Category
                     </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      Expense Title
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      Status
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      Payment mode
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      Total Amount
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      Paid Amount
+                    </th>
+                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                      Balance Amount
+                    </th>
+
                     <th className="px-4 py-2.5 text-center font-semibold uppercase">
                       Description
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] whitespace-nowrap">
+                    {/* <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] whitespace-nowrap">
                       <div className="flex justify-center items-center gap-1">
                         unit count
                         <ArrowSwapVertical size="16" color="#4B4B4B" />
                       </div>
-                    </th>
-                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[230px] ">
-                      <div className="flex justify-center items-center gap-1">
-                        Amount
-                        <ArrowSwapVertical size="16" color="#4B4B4B" />
-                      </div>
-                    </th>
+                    </th> */}
 
                     <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[250px] whitespace-nowrap">
                       <div className="flex justify-center items-center gap-1">
@@ -798,7 +862,9 @@ function ExpenseRegister() {
                         key={i}
                         className="border-b last:border-none  transition"
                       >
-                        <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px]"></td>
+                        <td className="px-4 py-2.5 sticky left-0 z-20 bg-white w-[40px] text-[#1E45E1] font-semibold truncate whitespace-nowrap">
+                          {row.expenseNumber}
+                        </td>
                         <td
                           className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky
                        left-[42px] z-20 bg-white w-[140px]"
@@ -839,10 +905,6 @@ function ExpenseRegister() {
                           </div>
                         </td>
 
-                        {/* <td className="px-4 py-2.5 text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
-                      {row.expenseSubCategory || "-"}
-                    </td> */}
-
                         <td className="px-4 py-2.5 text-[#6B7280] min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
                           <div className="flex items-center gap-2">
                             <span
@@ -874,6 +936,60 @@ function ExpenseRegister() {
                                 )}
                             </span>
                           </div>
+                        </td>
+
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                        >
+                          {row.expenseTitle || "-"}
+                        </td>
+
+                        <td
+                          className={`px-4 py-2.5 text-center font-medium transition-colors whitespace-nowrap ${
+                            isScrolled ? "bg-gray-100" : "bg-white"
+                          }`}
+                        >
+                          <span
+                            className="inline-flex items-center justify-center rounded-full px-3 py-1  font-medium"
+                            style={{
+                              backgroundColor:
+                                statusStyles[row.status]?.bg || "#F3F4F6",
+                              color:
+                                statusStyles[row.status]?.text || "#6B7280",
+                            }}
+                          >
+                            {row.status || "-"}
+                          </span>
+                        </td>
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                        >
+                          {row.paymentMode || "-"}
+                        </td>
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                        >
+                          {row.amount || "-"}
+                        </td>
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                        >
+                          {row.paidAmount || "-"}
+                        </td>
+                        <td
+                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
+    ${isScrolled ? "bg-gray-100" : "bg-white"}
+  `}
+                        >
+                          {row.balanceAmount || "-"}
                         </td>
 
                         <td
@@ -910,20 +1026,13 @@ function ExpenseRegister() {
                           </span>
                         </td>
 
-                        <td
-                          className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
-    ${isScrolled ? "bg-gray-100" : "bg-white"}
-  `}
-                        >
-                          {row.counts || 0}
-                        </td>
-                        <td
+                        {/* <td
                           className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                         >
                           ₹{row.amount || 0}
-                        </td>
+                        </td> */}
                         <td
                           className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
@@ -988,7 +1097,7 @@ function ExpenseRegister() {
               </table>
             </div>
 
-            {open && (
+            {/* {open && (
               <>
                 <div
                   className="fixed inset-0 bg-black/20 z-40 "
@@ -1041,7 +1150,7 @@ function ExpenseRegister() {
                   </div>
                 </div>
               </>
-            )}
+            )} */}
           </div>
         ) : (
           <div className="my-2">

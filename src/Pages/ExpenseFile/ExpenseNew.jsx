@@ -132,77 +132,50 @@ const CustomStyles = {
 };
 
 function Expenses() {
-  // const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const filterRef = useRef(null);
   const navigate = useNavigate();
-  // const { RangePicker } = DatePicker;
+
   const [getData, setGetData] = useState([]);
-  // const selectedPriceRange = "All";
-  // const [showModal, setShowModal] = useState(null);
+
   const [showFilter, setShowFilter] = useState(false);
-  // const [showTagAsset, setshowTagAsset] = useState(false);
-  // const [showDeletePopup, setShowDeletePopup] = useState(false);
-  // const [categoryValue, setCategoryValue] = useState("");
-  // const [assetValue, setAssetValue] = useState("");
-  // const [vendorValue, setVendorValue] = useState("");
-  // const [modeValue, setModeValue] = useState("");
-  // const [selectedValue, setSelectedValue] = useState("");
-  // const [amountValue, setAmountValue] = useState("");
-  // const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
-  // const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
-  // const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState("");
-  // const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
-  // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
-  // const [excelDownload, setExcelDownload] = useState("");
-  // const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  // const [dates, setDates] = useState([]);
-  // const [pickerKey, setPickerKey] = useState(0);
-  // const [filterInput, setFilterInput] = useState("");
+
   const [loading, setLoading] = useState(false);
-  // const [hoveredIndex, setHoveredIndex] = useState(null);
+
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-  // const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
+
   const tableContainerRef = useRef(null);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const lastScrollLeftRef = useRef(0);
-  // const listRef = useRef(null);
-  // const tableRef = useRef(null);
+
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
   const [isScrolling, setIsScrolling] = useState(false);
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  // const theme = useTheme();
-  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  // const [activeRow, setActiveRow] = useState(null);
+
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
   const [showExpenseDelete, setShowExpenseDelete] = useState(false);
   const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
-  // const [deleteLoading, setDeleteLoading] = useState(false);
+
   const [open, setOpen] = useState(false);
-  // const [statusfilter, setStatusFilter] = useState("ALL");
+
   const popupRef = useRef(null);
-  // const monthOptions = [];
-  // const selectOptions = [{ value: "ALL", label: "All" }];
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
+
   const [showOverview, setShowOverview] = useState(false);
   const [selectedExpenseId, setSelectedExpenseId] = useState("");
-  // const [selectedMonth, setSelectedMonth] = useState();
+
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [showDots, setShowDots] = useState(null);
-  // const [showCategory, setShowCategory] = useState(false);
-  // const [showPaymentMode, setShowPaymentMode] = useState(false);
-  // const [showAmount, setShowAmount] = useState(false);
-  // const [showFilterExpense, setShowFilterExpense] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [chips, setChips] = useState([]);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
-  // const [showDropDown, setShowDropDown] = useState(false);
+
   const [categoryFilter, setCategoryFilter] = useState("");
   const stats = [
     {
@@ -231,17 +204,8 @@ function Expenses() {
       label: item.name,
     })) || [];
 
-  // const handleMonthChange = (selectedOption) => {
-  //   setSelectedMonth(selectedOption);
-  // };
-
-  // const handleStatusFilter = (selected) => {
-  //   setStatusFilter(selected?.value || "");
-  // };
-
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
-    // setShowOverview(false);
   };
 
   const handleCloseSettlement = () => {
@@ -391,14 +355,6 @@ function Expenses() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
-  //     state: {
-  //       currentItem: "",
-  //     },
-  //   });
-  // }, [isExpenseForm]);
-
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
       setLoading(false);
@@ -473,22 +429,6 @@ function Expenses() {
       },
     });
   };
-
-  // const handleAmountValueChange = (e) => {
-  //   setSelectedValue(null);
-  //   const value = e.target.getAttribute("value");
-  //   setAmountValue(value);
-  //   setShowFilter(false);
-  //   const amountRange = value;
-  //   const [minAmount, maxAmount] = amountRange.split("-").map(Number);
-  //   // setMinAmount(minAmount);
-  //   // setMaxAmount(maxAmount);
-  //   // setExcelFilterMinAmount(minAmount);
-  //   setExcelFilterMaxAmount(maxAmount);
-  //   setShowAmount(false);
-  // };
-
-  // const [currentItem, setCurrentItem] = useState("");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -615,9 +555,9 @@ function Expenses() {
           size: size,
         },
       });
-      // setShowModal(false);
+
       setShowExpenseDelete(false);
-      // setDeleteLoading(false);
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_EXPENSE" });
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
@@ -647,57 +587,12 @@ function Expenses() {
     setShowExpenseDelete(false);
   };
 
-  // const ConfirmDeleteExpense = () => {
-  //   if (deleteExpenseRowData) {
-  //     dispatch({
-  //       type: "DELETEEXPENSE",
-  //       payload: {
-  //         expenseId: deleteExpenseRowData,
-  //         hostelId: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //     setDeleteLoading(true);
-  //   }
-  // };
-
-  // const handleCatogoryChange = (e) => {
-  //   setSelectedValue(null);
-  //   setCategoryValue(e.target.getAttribute("value"));
-  //   setExcelFilterCategoryValue(e.target.getAttribute("value"));
-  //   setShowFilter(false);
-  //   setShowCategory(false);
-  // };
-
-  // const handleModeValueChange = (e) => {
-  //   setSelectedValue(null);
-  //   setModeValue(e.target.getAttribute("value"));
-  //   setExcelFilterPaymentmode(e.target.getAttribute("value"));
-  //   setShowFilter(false);
-  //   setShowPaymentMode(false);
-  // };
-  // const handleExpenseAll = (event) => {
-  //   const value = event.target.getAttribute("value");
-  //   setSelectedValue(value);
-  //   setShowFilter(false);
-  // };
-
-  // const handleShowSearch = () => {
-  //   setShowFilterExpense(!showFilterExpense);
-  // };
-
-  // const handleCloseSearch = () => {
-  //   setShowFilterExpense(false);
-  //   setGetData(state.ExpenseList.expenseList);
-  //   setSearchQuery("");
-  // };
-
   const handleInputChange = (e) => {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
   };
 
   useEffect(() => {
-    // setLoading(true);
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
     }, 1500);
@@ -711,27 +606,6 @@ function Expenses() {
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
-
-  // const handleDropDown = (value) => {
-  //   const searchItem = value;
-  //   setSearchQuery(searchItem);
-  //   if (searchItem !== "") {
-  //     const filteredItems =
-  //       state.ExpenseList.expenseList &&
-  //       state.ExpenseList.expenseList.filter(
-  //         (user) =>
-  //           user.category_Name &&
-  //           user.category_Name.toLowerCase().includes(searchItem.toLowerCase()),
-  //       );
-
-  //     setGetData(filteredItems);
-  //     setShowDropDown(true);
-  //   } else {
-  //     setGetData(state.ExpenseList.expenseList);
-  //   }
-  //   // setCurrentPage(1);
-  //   setShowDropDown(false);
-  // };
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -752,27 +626,6 @@ function Expenses() {
       }, 1000);
     }
   }, [state.ExpenseList.nodataGetExpenseStatusCode]);
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (window.innerWidth >= 1440) {
-  //       setPageSize(20);
-  //     } else {
-  //       setPageSize(10);
-  //     }
-  //     setPage(1);
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
-
-  // const startIndex = (page - 1) * pageSize;
-  // const endIndex = startIndex + pageSize;
-
-  // const handlefilterInput = (e) => {
-  //   setFilterInput(e.target.value);
-  // };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
@@ -906,15 +759,6 @@ function Expenses() {
       fieldName: PropTypes.string.isRequired,
     }).isRequired,
   };
-  // const handleEditExpense = (item) => {
-  //   if (item) {
-  //     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
-  //       state: {
-  //         currentItem: item,
-  //       },
-  //     });
-  //   }
-  // };
 
   const currentPage = getData?.currentPage ?? 1;
 

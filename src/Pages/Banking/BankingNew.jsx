@@ -79,7 +79,7 @@ const CustomStyles = {
       position: "relative",
       fontSize: 13,
       padding: "6px 12px",
-      // margin: "2px 10px",
+
       backgroundColor: isSelected
         ? "#EEF2FF"
         : state.isFocused
@@ -141,21 +141,15 @@ function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { RangePicker } = DatePicker;
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
 
   const [loader, setLoader] = useState(false);
-  // const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  // const [deleteShow, setDeleteShow] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  // const [typeId, setTypeId] = useState(null);
-  const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
-  // const [showAddBalance, setshowAddBalance] = useState(false);
-  // const [defaltType, setDefaultType] = useState("");
-  // const [selectedAccountType, setSelectedAccountType] = useState("");
+  // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
+
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -164,20 +158,12 @@ function BankingNew() {
   const popupRef2 = useRef(null);
   const iconRef = useRef(null);
   const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
-  // const [AddBankName, setAddBankName] = useState("");
-  // const [AddBankAmount, setAddBankAmount] = useState("");
-  // const [deleteBankId, setDeleteBankId] = useState("");
+
   const [filterInput, setFilterInput] = useState("");
-  // const [isDropdownVisible, setDropdownVisible] = useState(false);
-  // const [filterStatus, setFilterStatus] = useState(false);
-  // const [originalBills, setOriginalBills] = useState([]);
-  // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
+
   const [transactionFilterddata, setTransactionFilterddata] = useState([]);
-  // const [amountError, setAmountError] = useState("");
   const [banking, setBanking] = useState([]);
-  // const tableContainerRef = useRef(null);
-  // const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
-  // const [page, setPage] = useState(1);
+
   const [sizeTransaction, setSizeTransaction] = useState(
     window.innerWidth >= 1440 ? 20 : 10,
   );
@@ -186,8 +172,7 @@ function BankingNew() {
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfTranferGlobal, setSelfTransferGlobal] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
-  // const [amount, setAmount] = useState("");
-  // const [formLoading, setFormLoading] = useState(false);
+
   const location = useLocation();
   const [showOverview, setShowOverview] = useState(false);
   const [bankingOverviewDetails, setBankingOverviewDetails] = useState("");
@@ -212,23 +197,15 @@ function BankingNew() {
     setSource(selected);
   };
 
-  const {
-    canWriteModule: canWriteBanking,
-    canReadModule: canReadBanking,
-    // canUpdateModule: canUpdateBanking,
-    // canDeleteModule: canDeleteBanking,
-  } = useHasPermission("Banking");
+  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking } =
+    useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
-  // const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
+
   const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const monthOptions = [];
-  // const selectOptions = [{ value: "ALL", label: "All" }];
-  // const [statusfilter, setStatusFilter] = useState("ALL");
-  // const [selectedMonth, setSelectedMonth] = useState("");
 
   const handleCloseFilter = () => {
     setIsFilterOpen(false);
@@ -249,14 +226,6 @@ function BankingNew() {
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  // const handleStatusFilter = (selected) => {
-  //   setStatusFilter(selected?.value || "");
-  // };
-
-  // const handleMonthChange = (selectedOption) => {
-  //   setSelectedMonth(selectedOption);
-  // };
 
   const handleAddAccount = () => {
     setAddNewAccount(true);
@@ -304,30 +273,6 @@ function BankingNew() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     setLoader(true);
-  //     // dispatch({
-  //     //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-  //     //   payload: {
-  //     //     hostelId: state.login.selectedHostel_Id,
-  //     //     // page: page,
-  //     //     // size: size,
-  //     //   },
-  //     // });
-  //     // dispatch({
-  //     //   type: "BANKING_LIST_SAGA",
-  //     //   payload: {
-  //     //     hostelId: state.login.selectedHostel_Id,
-  //     //     page: page,
-  //     //     size: size,
-  //     //   },
-  //     // });
-  //   } else {
-  //     setLoader(false);
-  //   }
-  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -422,25 +367,6 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
-  // useEffect(() => {
-  //   setLoader(false);
-  //   if (state.bankingDetails.getAllPaymentsSuccessCode === 200) {
-  //     // setBanking(state.bankingDetails?.newBankingList?.banks);
-  //     setBanking(state.bankingDetails?.getAllPaymentMethodList);
-
-  //     dispatch({ type: "REMOVE_GET_ALL_PAYMENTS_METHODS_REDUCER" });
-  //   }
-  // }, [state.bankingDetails.getAllPaymentsSuccessCode]);
-
-  // useEffect(() => {
-  //   if (state.bankingDetails.getBankingSuccessCode === 200) {
-  //     setLoader(false);
-  //     setBanking(state.bankingDetails?.newBankingList?.banks);
-
-  //     dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
-  //   }
-  // }, [state.bankingDetails.getBankingSuccessCode]);
-
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setTransactionFilterddata(state.bankingDetails?.allTransactionList || []);
@@ -478,65 +404,27 @@ function BankingNew() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleClickOutsideAccount = (event) => {
-      const clickedInside = event.target.closest(".account-type-wrapper");
-      if (!clickedInside) {
-        setShowAccountTypeOptions(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutsideAccount = (event) => {
+  //     const clickedInside = event.target.closest(".account-type-wrapper");
+  //     if (!clickedInside) {
+  //       // setShowAccountTypeOptions(null);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutsideAccount);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideAccount);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (showAccountTypeOptions !== null) {
-      // setSelectedAccountType(defaltType);
-    }
-  }, [showAccountTypeOptions]);
+  //   document.addEventListener("mousedown", handleClickOutsideAccount);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutsideAccount);
+  //   };
+  // }, []);
 
   // useEffect(() => {
-  //   if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-  //     setFormLoading(false);
-  //     setShowAccountTypeOptions(null);
-  //     // dispatch({
-  //     //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-  //     //   payload: {
-  //     //     hostelId: state.login.selectedHostel_Id,
-  //     //     // page: page,
-  //     //     // size: size,
-  //     //   },
-  //     // });
-
-  //     // dispatch({
-  //     //   type: "BANKING_LIST_SAGA",
-  //     //   payload: {
-  //     //     hostelId: state.login.selectedHostel_Id,
-  //     //     page: page,
-  //     //     size: size,
-  //     //   },
-  //     // });
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
-  //     }, 1000);
+  //   if (showAccountTypeOptions !== null) {
   //   }
-  // }, [state.bankingDetails.statusCodeForDefaultAccount]);
+  // }, [showAccountTypeOptions]);
 
   useEffect(() => {
     if (state?.bankingDetails?.addMoneySuccess === 200) {
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
-
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -552,25 +440,6 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-      // setFormLoading(false);
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
-
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -580,7 +449,6 @@ function BankingNew() {
         },
       });
 
-      handleCloseAddBalance();
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 100);
@@ -589,23 +457,6 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForCreateBanking === 201) {
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
-
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -621,24 +472,6 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForEditBanking === 200) {
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
-
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -764,10 +597,6 @@ function BankingNew() {
     setSelfDetails(item);
   };
 
-  // const handleCloseSElfTransfer = () => {
-  //   setSelfTransfer(false);
-  // };
-
   const handleOpenSelfTransferGlobal = () => {
     setSelfTransferGlobal(true);
   };
@@ -775,13 +604,6 @@ function BankingNew() {
   const handleCloseSelfTransferGlobal = () => {
     setSelfTransferGlobal(false);
   };
-
-  // const handleEditAddBank = (item) => {
-  //   setEdit(true);
-  //   setAddNewAccount(true);
-  //   setEditAddBank(item);
-  //   setOpenMenuId(false);
-  // };
 
   const handleShowForm = () => {
     if (!state.login.selectedHostel_Id) {
@@ -802,31 +624,12 @@ function BankingNew() {
     setOpenMenuId(false);
   };
   const handleDeleteForm = () => {
-    // setDeleteBankId(v.id);
-    // setDeleteShow(true);
     setOpenMenuId(false);
   };
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeDeleteBank === 200) {
       handleCloseDelete();
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
 
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
@@ -843,32 +646,13 @@ function BankingNew() {
     }
   }, [state.bankingDetails.statusCodeDeleteBank]);
 
-  const handleCloseDelete = () => {
-    // setDeleteShow(false);
-  };
+  const handleCloseDelete = () => {};
 
   const handleCloseTransactionDelete = () => {};
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
-      // dispatch({
-      //   type: "GET_ALL_PAYMENTS_METHODS_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     // page: page,
-      //     // size: size,
-      //   },
-      // });
-
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     page: page,
-      //     size: size,
-      //   },
-      // });
 
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
@@ -914,65 +698,13 @@ function BankingNew() {
     }
   }, [state.UsersList.settlementPaymentSuccessCode]);
 
-  // const handleShowAddBalance = (item) => {
-  //   setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
-
-  //   setTypeId(item.bankingId);
-  //   setshowAddBalance(true);
-  // };
-  const handleCloseAddBalance = () => {
-    // setshowAddBalance(false);
-    // setAddBankAmount("");
-    // setAmountError("");
-  };
-
-  // const handleAddBankAmount = (e) => {
-  //   const value = e.target.value;
-  //   if (!/^\d*$/.test(value)) {
-  //     return;
-  //   }
-  //   if (/^0+$/.test(value)) {
-  //     return;
-  //   }
-  //   setAddBankAmount(value);
-  //   setAmountError("");
-  // };
-  // const handleAddAmountSubmit = () => {
-  //   if (!AddBankAmount.trim()) {
-  //     setAmountError("Please Enter Amount");
-  //     return;
-  //   }
-  //   const hostelId = state.login.selectedHostel_Id;
-  //   dispatch({
-  //     type: "ADDBANKAMOUNT",
-  //     payload: {
-  //       hostelId,
-  //       data: { bankId: typeId, balance: AddBankAmount },
-  //     },
-  //   });
-  //   setFormLoading(true);
-  // };
-
-  // useEffect(() => {
-  //   if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
-  //     setOriginalBills(transactionFilterddata);
-  //   }
-  // }, [transactionFilterddata]);
-
   const handlefilterInput = (e) => {
     const input = e.target.value;
     setFilterInput(input);
   };
 
-  // useEffect(() => {
-  //   if (!filterStatus) {
-  //     setStatusFilter("All");
-  //   }
-  // }, [filterStatus]);
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      // setFormLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
@@ -1034,27 +766,6 @@ function BankingNew() {
     seShowInvestmentForm(false);
   };
 
-  // useEffect(() => {
-  //   let timeout;
-
-  //   const handleResize = () => {
-  //     clearTimeout(timeout);
-
-  //     timeout = setTimeout(() => {
-  //       setSize((prev) => {
-  //         const newSize = window.innerWidth >= 1440 ? 20 : 10;
-  //         return prev !== newSize ? newSize : prev;
-  //       });
-  //     }, 300);
-  //   };
-  //   window.addEventListener("resize", handleResize);
-  //   handleResize();
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //     clearTimeout(timeout);
-  //   };
-  // }, []);
-
   useEffect(() => {
     let timeout;
 
@@ -1091,20 +802,6 @@ function BankingNew() {
       label: item.name,
       value: item.type,
     })) || [];
-
-  // const currentPage = state.bankingDetails?.newBankingList?.currentPage ?? 1;
-
-  // const totalPages = state.bankingDetails?.newBankingList?.totalPages ?? 1;
-
-  // const totalRecords = state.bankingDetails?.newBankingList?.totalRecords ?? 0;
-
-  // const handlePageChange = (page) => {
-  //   setPage(page);
-  // };
-
-  // const handleSizeChange = (sizeValue) => {
-  //   setSize(sizeValue);
-  // };
 
   const currentPageTransaction =
     state.bankingDetails?.allTransactionList?.currentPage ?? 1;
@@ -1164,16 +861,6 @@ function BankingNew() {
                   </div>
                 </div>
               </div>
-
-              {/* <div className="mx-2">
-                <button
-                  disabled={!canWriteBanking}
-                  onClick={handleShowForm}
-                  className="!font-gilroy text-[14px] !bg-[#1e45e1] text-white !font-semibold rounded-[8px] p-2 mb-2.5 w-[146px] whitespace-nowrap"
-                >
-                  + Add
-                </button>
-              </div> */}
 
               <div className="relative mx-2">
                 <button
@@ -1237,6 +924,7 @@ function BankingNew() {
                     </button>
 
                     <button
+                      disabled={!canWriteBanking}
                       onClick={() => handleCreditPayment()}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >

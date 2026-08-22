@@ -13,13 +13,7 @@ import Message_text_white from "../../Assets/Images/message-white.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 
-import {
-
-  DocumentDownload,
-  Edit,
-  RefreshSquare,
-  Link21,
-} from "iconsax-react";
+import { DocumentDownload, Edit, RefreshSquare, Link21 } from "iconsax-react";
 
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
@@ -956,7 +950,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               <div
                 onClick={() => {
                   setActiveTab("payments");
-                  // setIsOpenPayment(true);
+                  setIsOpenPayment(true);
                 }}
                 className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${
                   activeTab === "payments"
@@ -972,7 +966,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               <div
                 onClick={() => {
                   setActiveTab("invoices");
-                  // setIsOpenPayment(true);
+                  setIsOpenPayment(true);
                 }}
                 className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${
                   activeTab === "invoices"
