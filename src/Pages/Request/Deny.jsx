@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-// import ErrorMessage from "../../Components/ErrorMessage";
-// import { useDispatch, useSelector } from "react-redux";
 import { Add } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";

@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import './ContactUs.css';
 import {Form} from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { send } from 'emailjs-com';
-// import { MdError } from "react-icons/md";
-// import Footer from './Footer';
-// import NeedFooter from './Need_Footer';
 import { Styles } from '../Styles/ContactUsStyles';
 import ErrorMessage from '../Components/ErrorMessage'
 function ContactUs() {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-bootstrap/Modal";
-import { FormControl, Nav } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
@@ -55,8 +55,6 @@ function BankingAddForm(props) {
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
-
- 
 
   const handleAccountName = (e) => {
     const value = e.target.value;
@@ -206,8 +204,6 @@ function BankingAddForm(props) {
       onAddBank: PropTypes.func,
     }).isRequired,
   };
-
- 
 
   useEffect(() => {
     if (props.editAddBank && props.editAddBank.bankingId) {
@@ -563,7 +559,6 @@ function BankingAddForm(props) {
       setError("Please Enter Benificiary Name");
       return;
     }
-
 
     if (props.edit) {
       const isChanged =

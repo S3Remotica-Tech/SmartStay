@@ -1,18 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Filters from "../../Assets/Images/Filters.svg";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import "./Banking.css";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "../Banking/BankingAddForm";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import { Edit, Trash } from "iconsax-react";
 import money from "../../Assets/Images/New_images/Amount.png";
 import { toast } from "react-toastify";
@@ -22,7 +18,6 @@ import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import transArrow from "../../Assets/Images/New_images/arrow-transfer.png";
-import banklogo from "../../Assets/Images/New_images/bank_loga.png";
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
@@ -41,7 +36,7 @@ function Banking() {
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
   const [loader, setLoader] = useState(true);
-  const [search, setSearch] = useState(false);
+  // const [search, setSearch] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false);
   const [typeId, setTypeId] = useState(null);
@@ -55,9 +50,9 @@ function Banking() {
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
-    const [hostel_id, setHostel_Id] = useState("");
+  const [hostel_id, setHostel_Id] = useState("");
   const [filterInput, setFilterInput] = useState("");
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  // const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
   const [originalBills, setOriginalBills] = useState([]);
   const [statusfilter, setStatusfilter] = useState("");
@@ -67,17 +62,16 @@ function Banking() {
   const tableContainerRef = useRef(null);
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
-  const [amount, setAmount] = useState("");
+  // const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const location = useLocation();
   const {
     canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
     canUpdateModule: canUpdateBanking,
-    canDeleteModule: canDeleteBanking,
+    // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
- 
   useEffect(() => {
     if (!canReadBanking) {
       setLoader(false);
@@ -127,7 +121,6 @@ function Banking() {
       dispatch({ type: "REMOVE_SELF_TRANSFER_REDUCER" });
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
-
 
   useEffect(() => {
     setLoader(false);
@@ -209,12 +202,12 @@ function Banking() {
     };
   }, []);
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setAmount(value);
-    }
-  };
+  // const handleChange = (e) => {
+  //   const value = e.target.value;
+  //   if (/^\d*$/.test(value)) {
+  //     setAmount(value);
+  //   }
+  // };
 
   const handleAccountTypeSelection = (e) => {
     const selectedValue = parseInt(e.target.value);
@@ -257,9 +250,9 @@ function Banking() {
     setSelfTransfer(true);
     setSelfDetails(item);
   };
-  const handleCloseSElfTransfer = () => {
-    setSelfTransfer(false);
-  };
+  // const handleCloseSElfTransfer = () => {
+  //   setSelfTransfer(false);
+  // };
 
   const handleEditAddBank = (item) => {
     setEdit(true);
@@ -373,26 +366,22 @@ function Banking() {
     setFormLoading(true);
   };
 
-  
-  
-
-
   useEffect(() => {
     if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
       setOriginalBills(transactionFilterddata);
     }
   }, [transactionFilterddata]);
 
-  const handleCloseSearch = () => {
-    setSearch(false);
-    setFilterInput("");
-    settransactionFilterddata(originalBills);
-    setDropdownVisible(false);
-  };
+  // const handleCloseSearch = () => {
+  //   setSearch(false);
+  //   setFilterInput("");
+  //   settransactionFilterddata(originalBills);
+  //   setDropdownVisible(false);
+  // };
 
-  const handleSearch = () => {
-    setSearch(!search);
-  };
+  // const handleSearch = () => {
+  //   setSearch(!search);
+  // };
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
@@ -402,7 +391,7 @@ function Banking() {
   const handlefilterInput = (e) => {
     const input = e.target.value;
     setFilterInput(input);
-    setDropdownVisible(input.length > 0);
+    // setDropdownVisible(input.length > 0);
 
     if (input.trim() === "") {
       settransactionFilterddata(originalBillsFilter);
@@ -414,16 +403,16 @@ function Banking() {
     }
   };
 
-  const handleUserSelect = (user) => {
-    setFilterInput(user.benificiary_name);
+  // const handleUserSelect = (user) => {
+  //   setFilterInput(user.benificiary_name);
 
-    const selectedUserData = originalBillsFilter?.filter(
-      (item) => item.benificiary_name === user.benificiary_name,
-    );
-    settransactionFilterddata(selectedUserData);
+  //   const selectedUserData = originalBillsFilter?.filter(
+  //     (item) => item.benificiary_name === user.benificiary_name,
+  //   );
+  //   settransactionFilterddata(selectedUserData);
 
-    setDropdownVisible(false);
-  };
+  //   setDropdownVisible(false);
+  // };
 
   const [dateRange, setDateRange] = useState(null);
 

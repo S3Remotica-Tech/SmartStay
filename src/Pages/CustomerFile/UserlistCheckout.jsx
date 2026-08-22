@@ -3,20 +3,18 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
-// import Addbtn from "../../Assets/Images/New_images/add-circle.png"
-// import { Edit, Trash } from "iconsax-react";
-// import { ArrowUp2, ArrowDown2, } from "iconsax-react";
+
 import { useDispatch, useSelector } from "react-redux";
 import CheckOutForm from "./UserListCheckoutForm";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+
 import CustomerProfile from "./CheckoutProfile";
 import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
-// import { Table } from "react-bootstrap";
+
 import PropTypes from "prop-types";
 import "./UserlistCheckout.css";
 import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";

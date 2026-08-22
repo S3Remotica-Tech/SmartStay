@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, Bank, Card, CloseCircle } from "iconsax-react";
+import { Add, Bank, Card } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { Calendar, Wallet } from "iconsax-react";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
 function SelfTransferGlobal({ show, handleClose }) {
   const state = useSelector((state) => state);
@@ -18,8 +19,6 @@ function SelfTransferGlobal({ show, handleClose }) {
   const [notes, setNotes] = useState("");
   const [selectedFromBank, setSelectedFromBank] = useState(null);
 
- 
-
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
@@ -30,8 +29,6 @@ function SelfTransferGlobal({ show, handleClose }) {
       setAmount(value);
     }
   };
-
- 
 
   const handleTransfer = () => {
     setError("");
@@ -67,10 +64,6 @@ function SelfTransferGlobal({ show, handleClose }) {
 
     setLoading(true);
   };
-
-  
-
-  if (!show) return null;
 
   useEffect(() => {
     return () => {
@@ -117,8 +110,6 @@ function SelfTransferGlobal({ show, handleClose }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
- 
-
   const bankDetails = state.bankingDetails?.selfTransferInitializeV3;
 
   const availableBalance = Number(bankDetails?.fromBank?.balance || 0);
@@ -136,7 +127,7 @@ function SelfTransferGlobal({ show, handleClose }) {
       dispatch({ type: "CLEAR_SELF_REDUCER" });
     }
   }, [state.bankingDetails?.selfInitializeError]);
-
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/50" />
@@ -417,5 +408,8 @@ function SelfTransferGlobal({ show, handleClose }) {
     </div>
   );
 }
-
+SelfTransferGlobal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default SelfTransferGlobal;

@@ -1,26 +1,22 @@
-import React,{ useEffect, useRef, useState } from "react";
+import React from "react";
 import Business from "../Assets/v2LandingImages/business.svg";
 import useInView from "./useInview";
-
-
 
 function BusinessChallenges() {
   const [ref, isInView] = useInView(0.3);
 
   return (
-    <div ref={ref} className="w-full h-fit bg-[linear-gradient(to_bottom,#FDFDFD_0%,#0565FF1A_80%)] 
-    flex flex-col items-center justify-start pt-4 relative overflow-hidden ">
-
-
-
+    <div
+      ref={ref}
+      className="w-full h-fit bg-[linear-gradient(to_bottom,#FDFDFD_0%,#0565FF1A_80%)] 
+    flex flex-col items-center justify-start pt-4 relative overflow-hidden "
+    >
       <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-[48px] font-semibold text-[#000000] text-center font-gilroy">
-  Are you facing these <br />
-  <span className="text-[#0565FF]">Business Challenges?</span>
-</h2>
-
+        Are you facing these <br />
+        <span className="text-[#0565FF]">Business Challenges?</span>
+      </h2>
 
       <div className="relative mt-36">
-
         <img
           src={Business}
           alt="statue"
@@ -35,7 +31,6 @@ function BusinessChallenges() {
           Room Availability Confusion?
         </div>
 
-
         <div
           className={`absolute top-16 -left-64 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
@@ -43,7 +38,6 @@ function BusinessChallenges() {
         >
           No Clear Income Visibility?
         </div>
-
 
         <div
           className={`absolute top-[184px] -left-72 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
@@ -53,7 +47,6 @@ function BusinessChallenges() {
           Monthly Rent Follow-Ups?
         </div>
 
-
         <div
           className={`absolute top-16 -right-64 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
@@ -62,7 +55,6 @@ function BusinessChallenges() {
           Paper Registers Everywhere?
         </div>
 
-
         <div
           className={`absolute top-44 -right-72 bg-white px-4 py-1.5 rounded-full shadow text-base 2xl:text-lg text-[#090909] font-tasa whitespace-nowrap font-medium
       ${isInView ? "animate-fadeUp" : "opacity-0"}`}
@@ -70,11 +62,9 @@ function BusinessChallenges() {
         >
           Tenants Calling For Small Issues?
         </div>
-
-       
       </div>
     </div>
-  )
+  );
 }
 
-export default BusinessChallenges
+export default BusinessChallenges;

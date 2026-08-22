@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import Select from "react-select";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Warning2,
   Calendar,
-  // CloseCircle,
+  
   Add,
   ArrowRight2,
 } from "iconsax-react";

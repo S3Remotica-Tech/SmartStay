@@ -4,7 +4,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
@@ -18,8 +17,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
   const [bedError, setBedError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [generalError, setGeneralError] = useState("");
-  // const [bedAlreadyBooked, setBedAlreadyBooked] = useState("")
-  const [formLoading, setFormLoading] = useState(false)
+    const [formLoading, setFormLoading] = useState(false)
 const bedRef = useRef(null);
 
 

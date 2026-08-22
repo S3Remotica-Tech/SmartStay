@@ -1,35 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import Modal from "react-bootstrap/Modal";
-// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-// import Image from "react-bootstrap/Image";
-// import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
-// import Form from "react-bootstrap/Form";
+
 import { useDispatch, useSelector } from "react-redux";
-// import Button from "react-bootstrap/Button";
-// import { InputGroup, FormControl } from "react-bootstrap";
+
 import { Add } from "iconsax-react";
-// import PropTypes from "prop-types";
+
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
-// import { components } from "react-select";
+
 import { useNavigate, useLocation } from "react-router-dom";
 import UserAdditionalContact from "../CustomerFile/UserAdditionalContact";
 import { NavigateToBack } from "../../Redux/Action/BookingAction";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
-// import NoData from "../../Assets/v2Images/NoData.svg";
+
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  SearchNormal,
-  // Setting3,
-  // Filter,
-  // More,
-  // ArrowDown,
-  // AddCircle,
-  // Chart21,
-  Calendar,
-} from "iconsax-react";
+import { SearchNormal, Calendar } from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 

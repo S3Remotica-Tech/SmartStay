@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Bank, CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
+import PropTypes from "prop-types";
 
 function SelfTransfer({ show, handleClose, selfDetails }) {
-  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
@@ -55,8 +55,6 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     setLoading(true);
   };
 
-  if (!show) return null;
-
   useEffect(() => {
     return () => {
       setError("");
@@ -91,8 +89,6 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     }
   }, [state.createAccount?.networkError, state?.bankingDetails?.selfError]);
 
-  
-
   const bankDetails = state.bankingDetails?.selfTransferInitialize;
 
   const availableBalance = Number(bankDetails?.fromBank?.accountBalance || 0);
@@ -104,6 +100,7 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     setSelectedBank(item);
   };
 
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
       <div className="w-full max-w-[600px] rounded-2xl bg-white shadow-xl overflow-hidden">
@@ -257,5 +254,9 @@ function SelfTransfer({ show, handleClose, selfDetails }) {
     </div>
   );
 }
-
+SelfTransfer.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  selfDetails: PropTypes.any,
+};
 export default SelfTransfer;

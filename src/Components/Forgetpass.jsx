@@ -4,15 +4,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Forgetpass.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Forgot from "../Assets/Images/New_images/forgot.png";
 import Logo from "../Assets/Images/New_images/Group.png";
 import { Eye, EyeSlash } from "iconsax-react";
 import ForgotOtp from "../Pages/OthersComponent/ForgotOtp";
-// import { IoIosCheckmark } from "react-icons/io";
-// import { MdError } from "react-icons/md";
 import LoaderComponent from "../Pages/OthersComponent/LoaderComponent";
 import ErrorMessage from "../Components/ErrorMessage";
 
@@ -33,7 +30,7 @@ function ForgetPasswordPage() {
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [generalError, setGeneralError] = useState("");
-  const [sendEmailError, setSendMailError] = useState("");
+  // const [sendEmailError, setSendMailError] = useState("");
   const [loading, setLoading] = useState(false);
   const inputRefs = [
     useRef(null),
@@ -59,7 +56,7 @@ function ForgetPasswordPage() {
     dispatch({ type: "CLEAR_ERROR" });
     setGeneralError("");
     setEmail(email);
-    setSendMailError("");
+    // setSendMailError("");
 
     if (!emailRegex.test(email)) {
       setEmailError("Please Enter  Valid Email ID");
@@ -237,7 +234,6 @@ function ForgetPasswordPage() {
     }
   }, [state.NewPass.statusCodeForgotOtp]);
 
- 
   useEffect(() => {
     if (state.NewPass?.emailError) {
       setShowLoader(false);

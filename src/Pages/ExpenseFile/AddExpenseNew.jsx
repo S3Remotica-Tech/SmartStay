@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-// import { Warning2 } from "iconsax-react";
+
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

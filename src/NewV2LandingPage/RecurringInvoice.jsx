@@ -1,43 +1,30 @@
-import React from 'react'
+import React from "react";
 import Recurring from "../Assets/v2LandingImages/Recurring.svg";
-import { TickCircle } from 'iconsax-react'
+import { TickCircle } from "iconsax-react";
 import BillDetails from "../Assets/v2LandingImages/BillDetails.svg";
 import Payment from "../Assets/v2LandingImages/paymentmade.svg";
 import HostelImage from "../Assets/v2LandingImages/HostelImage.svg";
 import BedImage from "../Assets/v2LandingImages/Bed.svg";
 
-
-
 function RecurringInvoice() {
-
   const features = [
     "Auto-generated monthly invoices",
     "Payment history records",
     "Clear rent summaries",
-    "Due tracking & reminders"
+    "Due tracking & reminders",
   ];
-
 
   const featuresHostel = [
     "Real-time vacancy tracking",
     "Floor-wise occupancy view",
     "Bed-level allocation control",
-    "Easy Bed/room transfers"
+    "Easy Bed/room transfers",
   ];
-
-
-
-
-
-
 
   return (
     <>
       <div className="w-full bg-[#FDFDFD] py-[40px] md:py-[53px] px-[20px] md:px-[101px] font-tasa">
-
         <div className=" mx-auto grid md:grid-cols-10 items-center border border-gray-200 rounded-lg p-4 md:p-8 gap-10">
-
-
           <div className="w-full md:col-span-6 flex items-center  ">
             <div>
               {/* <h2 className="text-2xl md:text-4xl font-semibold text-[#000000] leading-tight">
@@ -50,15 +37,13 @@ function RecurringInvoice() {
                 Get paid on time, every time.
               </p> */}
               <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-semibold text-[#000000] leading-tight">
-  Recurring Rent Invoices
-</h2>
+                Recurring Rent Invoices
+              </h2>
 
-<p className="text-[#2D2D2D] mt-4 max-w-md text-base md:text-xl 2xl:text-2xl font-normal">
-  Automate your monthly rent collection process.
-  No more manual reminders or calculation mistakes.
-  Get paid on time, every time.
-</p>
-
+              <p className="text-[#2D2D2D] mt-4 max-w-md text-base md:text-xl 2xl:text-2xl font-normal">
+                Automate your monthly rent collection process. No more manual
+                reminders or calculation mistakes. Get paid on time, every time.
+              </p>
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {features.map((item, index) => (
@@ -78,42 +63,30 @@ function RecurringInvoice() {
             </div>
           </div>
 
-
-
           <div
             className="md:col-span-4 relative w-full flex justify-center bg-cover bg-bottom bg-no-repeat h-[320px] md:h-[450px]"
             style={{ backgroundImage: `url(${Recurring})` }}
           >
-
-            <img
+            <img alt="image"
               src={BillDetails}
               className="absolute top-[-30px] md:top-[-50px] w-[75%]"
             />
 
-            <img
+            <img alt="image"
               src={Payment}
               className="absolute top-[170px] md:top-[200px] right-0 w-[70%]"
             />
-
           </div>
-
         </div>
-
       </div>
 
-
-
       <div className="w-full bg-[#FDFDFD] font-tasa py-[40px] md:py-[53px] px-[20px] md:px-[101px]">
-
         <div
           style={{ backgroundImage: `url(${Recurring})` }}
           className="bg-cover bg-bottom bg-no-repeat  mx-auto grid md:grid-cols-5
            border border-gray-200 rounded-lg gap-8 p-4 md:p-8"
         >
-
-
           <div className="w-full md:col-span-6 flex flex-col">
-
             <div className="flex  gap-4">
               <h2 className="text-2xl md:text-4xl 2xl:text-4xl font-semibold text-[#000000] leading-tight">
                 Bed & Floor-Wise Management
@@ -121,10 +94,10 @@ function RecurringInvoice() {
 
               <p className="text-[#2D2D2D] text-sm md:text-base 2xl:text-lg font-normal">
                 Track rooms, beds, and floors in real time & avoid allocation
-                confusions. Know availability instantly without checking registers.
+                confusions. Know availability instantly without checking
+                registers.
               </p>
             </div>
-
 
             <div className="mt-6 flex flex-wrap gap-4">
               {featuresHostel?.map((item, index) => (
@@ -142,26 +115,23 @@ function RecurringInvoice() {
               ))}
             </div>
 
-
             <div className="w-full relative mt-8 bg-">
-              <img
+              <img alt="image"
                 src={HostelImage}
                 className="w-full object-cover rounded-lg"
               />
 
               <img
+                alt="image"
                 src={BedImage}
                 className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-[40%]"
               />
             </div>
-
           </div>
-
         </div>
-
       </div>
     </>
-  )
+  );
 }
 
-export default RecurringInvoice
+export default RecurringInvoice;

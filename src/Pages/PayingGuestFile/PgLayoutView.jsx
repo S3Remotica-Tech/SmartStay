@@ -3,15 +3,9 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
   Add,
-  // AddCircle,
-  // CloseCircle,
-  // Trash,
-  // Edit,
-  // Setting3,
-  // MessageQuestion,
-  // Edit2,
+
 } from "iconsax-react";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import Green from "../../Assets/Images/New_images/Frame.png";
 import White from "../../Assets/Images/New_images/empty_bed.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
@@ -22,7 +16,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import PropTypes from "prop-types";
 
 function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
-  // const dispatch = useDispatch();
+ 
   const state = useSelector((state) => state);
   const [selectedBed, setSelectedBed] = useState("");
   const [hoveredBedId, setHoveredBedId] = useState("");

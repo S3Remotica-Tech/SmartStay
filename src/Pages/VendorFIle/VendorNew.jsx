@@ -18,7 +18,7 @@ import {
 } from "iconsax-react";
 import { IoMdMenu } from "react-icons/io";
 import { toast } from "react-toastify";
-// import { useTheme } from "@mui/material";
+
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";

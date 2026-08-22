@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-// import Tab from "@mui/material/Tab";
-// import TabContext from "@mui/lab/TabContext";
-// import TabList from "@mui/lab/TabList";
-// import TabPanel from "@mui/lab/TabPanel";
+
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch, useSelector } from "react-redux";
-// import { Button } from "react-bootstrap";
-// import Modal from "react-bootstrap/Modal";
+
 import { useTheme } from "@mui/material/styles";
-// import Box from "@mui/material/Box";
+
 import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
 import { Call, Sms, House, DocumentUpload, AddCircle } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
@@ -20,22 +16,21 @@ import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import LinkImage from "../../Assets/Images/home-link.png";
 import Group from "../../Assets/Images/Group.png";
-// import MoneyImage from "../../Assets/Images/Money.png";
+
 import Stayhistory from "../../Assets/Images/stay_history.png";
-// import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
+
 import StayHistory from "./StayHistory";
 import PropTypes from "prop-types";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-// import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import repeat from "../../Assets/Images/repeate-one.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import UserEb from "./UserListEb";
 import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
 import TransactionHistory from "./TransactionHistory";
-// import RequestedAmenities from "./RequestedAmenities";
+
 import { useHasPermission } from "../../Utils/Permission";
-// import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
+
 import FileAdd from "../../Assets/Images/New_images/file_add.svg";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";

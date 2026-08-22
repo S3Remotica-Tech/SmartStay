@@ -13,13 +13,13 @@ import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
-// import { MdError } from "react-icons/md";
+
 import "./PgList.css";
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -28,7 +28,7 @@ import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from "../../Redux/Action/LoginAction";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -38,22 +38,12 @@ function PgList() {
   const state = useSelector((state) => state);
 
   const [showHostelDetails, setShowHostelDetails] = useState("");
-  // const [rolePermission, setRolePermission] = useState("");
-  // const [permissionError, setPermissionError] = useState("");
-  // const [addPermissionError, setAddPermissionError] = useState("");
-  // const [editPermissionError, setEditPermissionError] = useState("");
-  // const [deletePermissionError, setDeletePermissionError] = useState("");
-
-  // const [key, setKey] = useState("1");
+ 
 
   const [visibleRange, setVisibleRange] = useState([0, 2]);
 
   const popupRef = useRef(null);
 
-  // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
-  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
   const {
     canWriteModule: canWritePayingGuests,

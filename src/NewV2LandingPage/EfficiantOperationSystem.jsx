@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Expenseinte from "../Assets/v2LandingImages/expense1.svg";
 import Assetfeature from "../Assets/v2LandingImages/Assetfeature.svg";
@@ -9,22 +9,24 @@ import PaymentFeature from "../Assets/v2LandingImages/paymentFeature.svg";
 import RecurringFeature from "../Assets/v2LandingImages/RecurringFeature.svg";
 
 function EfficientOperationSystem() {
-  const [scrollDir, setScrollDir] = useState("down");
-  const lastScrollY = useRef(0);
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { margin: "100px" });
+  // const [scrollDir, setScrollDir] = useState("down");
+  // const lastScrollY = useRef(0);
 
-  useEffect(() => {
-    const updateScrollDir = () => {
-      const scrollY = window.scrollY;
-      if (scrollY > lastScrollY.current) {
-        setScrollDir("down");
-      } else if (scrollY < lastScrollY.current) {
-        setScrollDir("up");
-      }
-      lastScrollY.current = scrollY;
-    };
-    window.addEventListener("scroll", updateScrollDir);
-    return () => window.removeEventListener("scroll", updateScrollDir);
-  }, []);
+  // useEffect(() => {
+  //   const updateScrollDir = () => {
+  //     const scrollY = window.scrollY;
+  //     if (scrollY > lastScrollY.current) {
+  //       setScrollDir("down");
+  //     } else if (scrollY < lastScrollY.current) {
+  //       setScrollDir("up");
+  //     }
+  //     lastScrollY.current = scrollY;
+  //   };
+  //   window.addEventListener("scroll", updateScrollDir);
+  //   return () => window.removeEventListener("scroll", updateScrollDir);
+  // }, []);
 
   const features = [
     {
@@ -87,8 +89,6 @@ function EfficientOperationSystem() {
 
         <div className="relative mt-20 space-y-20">
           {features.map((item, index) => {
-            const cardRef = useRef(null);
-            const isInView = useInView(cardRef, { margin: "100px" });
             // const showAnimation = isInView && scrollDir === "down";
             const showAnimation = isInView;
             return (

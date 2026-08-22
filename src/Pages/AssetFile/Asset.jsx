@@ -1,21 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-import { FormControl, InputGroup, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import AddAsset from "./AddAsset";
 import AssetListTable from "../../Pages/AssetFile/AssetListTable";
-import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import { CloseCircle, SearchNormal1, Sort, Setting3 } from "iconsax-react";
+import { SearchNormal1, Setting3 } from "iconsax-react";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from "react-toastify";
-import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import Select from "react-select";
+
 import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
@@ -25,20 +22,20 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 function Asset() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const { RangePicker } = DatePicker;
+  // const { RangePicker } = DatePicker;
   const [getData, setGetData] = useState([]);
-  const [selectedPriceRange, setSelectedPriceRange] = useState("All");
+  // const [selectedPriceRange, setSelectedPriceRange] = useState("All");
   const [show, setShow] = useState(null);
-  const [showFilter, setShowFilter] = useState(null);
+  // const [showFilter, setShowFilter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showDropDown, setShowDropDown] = useState(false);
-  const [showFilterData, setShowFilterData] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [ExcelFilterDates, setExcelFilterDates] = useState([]);
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const [showDropDown, setShowDropDown] = useState(false);
+  // const [showFilterData, setShowFilterData] = useState(false);
+  // const [hoveredIndex, setHoveredIndex] = useState(null);
+  // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([]);
   const [filterexcelprice, setFilterExcelPrice] = useState("");
   const [filterInput, setFilterInput] = useState("");
@@ -221,120 +218,120 @@ function Asset() {
     setLoading(false);
   }, [state.AssetList.assetList]);
 
-  const [selectedDateRange, setSelectedDateRange] = useState([]);
+  // const [selectedDateRange, setSelectedDateRange] = useState([]);
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
 
-  const filterByPriceRange = (data) => {
-    switch (selectedPriceRange) {
-      case "0-100":
-        return data.filter((item) => item.total_price <= 100);
-      case "100-500":
-        return data.filter(
-          (item) => item.total_price > 100 && item.total_price <= 500,
-        );
-      case "500-1000":
-        return data.filter(
-          (item) => item.total_price > 500 && item.total_price <= 1000,
-        );
-      case "1000+":
-        return data.filter((item) => item.total_price > 1000);
-      case "date":
-        if (selectedDateRange?.length === 2) {
-          const [start, end] = selectedDateRange;
-          return data.filter(
-            (item) =>
-              dayjs(item.purchase_date).isSameOrAfter(start, "day") &&
-              dayjs(item.purchase_date).isSameOrBefore(end, "day"),
-          );
-        }
+  // const filterByPriceRange = (data) => {
+  //   switch (selectedPriceRange) {
+  //     case "0-100":
+  //       return data.filter((item) => item.total_price <= 100);
+  //     case "100-500":
+  //       return data.filter(
+  //         (item) => item.total_price > 100 && item.total_price <= 500,
+  //       );
+  //     case "500-1000":
+  //       return data.filter(
+  //         (item) => item.total_price > 500 && item.total_price <= 1000,
+  //       );
+  //     case "1000+":
+  //       return data.filter((item) => item.total_price > 1000);
+  //     case "date":
+  //       if (selectedDateRange?.length === 2) {
+  //         const [start, end] = selectedDateRange;
+  //         return data.filter(
+  //           (item) =>
+  //             dayjs(item.purchase_date).isSameOrAfter(start, "day") &&
+  //             dayjs(item.purchase_date).isSameOrBefore(end, "day"),
+  //         );
+  //       }
 
-        return data;
-      case "All":
-      default:
-        return data;
-    }
-  };
+  //       return data;
+  //     case "All":
+  //     default:
+  //       return data;
+  //   }
+  // };
 
-  const handleDateChange = (dates) => {
-    if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
-      setSelectedDateRange([]);
-      setSelectedPriceRange("All");
-      if (state.login.selectedHostel_Id) {
-        dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-      }
+  // const handleDateChange = (dates) => {
+  //   if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+  //     setSelectedDateRange([]);
+  //     setSelectedPriceRange("All");
+  //     if (state.login.selectedHostel_Id) {
+  //       dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
+  //     }
 
-      return;
-    }
+  //     return;
+  //   }
 
-    setSelectedDateRange(dates);
+  //   setSelectedDateRange(dates);
 
-    const newStartDate = dayjs(dates[0]).startOf("day");
-    const newEndDate = dayjs(dates[1]).endOf("day");
-    setExcelFilterDates([newStartDate, newEndDate]);
-    setExcelDownloadDates([newStartDate, newEndDate]);
+  //   const newStartDate = dayjs(dates[0]).startOf("day");
+  //   const newEndDate = dayjs(dates[1]).endOf("day");
+  //   setExcelFilterDates([newStartDate, newEndDate]);
+  //   setExcelDownloadDates([newStartDate, newEndDate]);
 
-    setSelectedPriceRange("date");
-  };
+  //   setSelectedPriceRange("date");
+  // };
 
-  const handlePriceRangeChange = (value) => {
-    setSelectedPriceRange(value);
-    setFilterExcelPrice(value);
+  // const handlePriceRangeChange = (value) => {
+  //   setSelectedPriceRange(value);
+  //   setFilterExcelPrice(value);
 
-    if (value === "All" && state.login.selectedHostel_Id) {
-      dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-    } else if (value === "date" && state.login.selectedHostel_Id) {
-      dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-      setExcelFilterDates([]);
-      setSelectedDateRange([]);
-      setExcelDownloadDates([]);
-    } else if (value && state.login.selectedHostel_Id) {
-      dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-    }
-  };
+  //   if (value === "All" && state.login.selectedHostel_Id) {
+  //     dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
+  //   } else if (value === "date" && state.login.selectedHostel_Id) {
+  //     dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
+  //     setExcelFilterDates([]);
+  //     setSelectedDateRange([]);
+  //     setExcelDownloadDates([]);
+  //   } else if (value && state.login.selectedHostel_Id) {
+  //     dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
+  //   }
+  // };
 
-  useEffect(() => {
-    if (
-      selectedPriceRange === "date" &&
-      ExcelFilterDates.length === 2 &&
-      state.login.selectedHostel_Id
-    ) {
-      dispatch({
-        type: "ASSETLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD"),
-        },
-      });
-    }
-  }, [selectedPriceRange, ExcelFilterDates]);
+  // useEffect(() => {
+  //   if (
+  //     selectedPriceRange === "date" &&
+  //     ExcelFilterDates.length === 2 &&
+  //     state.login.selectedHostel_Id
+  //   ) {
+  //     dispatch({
+  //       type: "ASSETLIST",
+  //       payload: {
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+  //         end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD"),
+  //       },
+  //     });
+  //   }
+  // }, [selectedPriceRange, ExcelFilterDates]);
 
-  useEffect(() => {
-    if (!showFilter && showFilter !== null) {
-      if (state.login.selectedHostel_Id) {
-        dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-      }
+  // useEffect(() => {
+  //   if (!showFilter && showFilter !== null) {
+  //     if (state.login.selectedHostel_Id) {
+  //       dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
+  //     }
 
-      setSelectedPriceRange("All");
-      setSelectedDateRange([]);
-      setExcelFilterDates([]);
-      setExcelDownloadDates([]);
-    }
-  }, [showFilter]);
+  //     setSelectedPriceRange("All");
+  //     // setSelectedDateRange([]);
+  //     setExcelFilterDates([]);
+  //     setExcelDownloadDates([]);
+  //   }
+  // }, [showFilter]);
 
-  const handleFilterByPrice = () => {
-    const newShowFilter = !showFilter;
-    setShowFilter(newShowFilter);
+  // const handleFilterByPrice = () => {
+  //   const newShowFilter = !showFilter;
+  //   setShowFilter(newShowFilter);
 
-    if (!showFilter) {
-      setSelectedPriceRange("All");
-      setSelectedDateRange([]);
-      setExcelFilterDates([]);
-      setExcelDownloadDates([]);
-      setGetData(state.AssetList.assetList);
-    }
-  };
+  //   if (!showFilter) {
+  //     setSelectedPriceRange("All");
+  //     // setSelectedDateRange([]);
+  //     setExcelFilterDates([]);
+  //     setExcelDownloadDates([]);
+  //     setGetData(state.AssetList.assetList);
+  //   }
+  // };
 
   // const filteredData = filterByPriceRange(getData);
 
@@ -343,53 +340,53 @@ function Asset() {
     setCurrentItem(item);
   };
 
-  const handleShowSearch = () => {
-    setShowFilterData(!showFilterData);
-  };
+  // const handleShowSearch = () => {
+  //   setShowFilterData(!showFilterData);
+  // };
 
-  const handleCloseSearch = () => {
-    setShowFilterData(false);
-    setGetData(state.AssetList?.assetList);
-    setSearchQuery("");
-  };
+  // const handleCloseSearch = () => {
+  //   setShowFilterData(false);
+  //   setGetData(state.AssetList?.assetList);
+  //   setSearchQuery("");
+  // };
 
-  const handleInputChange = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.AssetList.assetList &&
-        state.AssetList.assetList.filter(
-          (user) =>
-            user.asset_name &&
-            user.asset_name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
+  // const handleInputChange = (e) => {
+  //   const searchItem = e.target.value;
+  //   setSearchQuery(searchItem);
+  //   if (searchItem !== "") {
+  //     const filteredItems =
+  //       state.AssetList.assetList &&
+  //       state.AssetList.assetList.filter(
+  //         (user) =>
+  //           user.asset_name &&
+  //           user.asset_name.toLowerCase().includes(searchItem.toLowerCase()),
+  //       );
 
-      setGetData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setGetData(state.AssetList.assetList);
-    }
-  };
+  //     setGetData(filteredItems);
+  //     setShowDropDown(true);
+  //   } else {
+  //     setGetData(state.AssetList.assetList);
+  //   }
+  // };
 
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.AssetList.assetList &&
-        state.AssetList.assetList.filter(
-          (user) =>
-            user.asset_name &&
-            user.asset_name.toLowerCase().includes(searchItem.toLowerCase()),
-        );
+  // const handleDropDown = (value) => {
+  //   const searchItem = value;
+  //   setSearchQuery(searchItem);
+  //   if (searchItem !== "") {
+  //     const filteredItems =
+  //       state.AssetList.assetList &&
+  //       state.AssetList.assetList.filter(
+  //         (user) =>
+  //           user.asset_name &&
+  //           user.asset_name.toLowerCase().includes(searchItem.toLowerCase()),
+  //       );
 
-      setGetData(filteredItems);
-    } else {
-      setGetData(state.AssetList.assetList);
-    }
-    setShowDropDown(false);
-  };
+  //     setGetData(filteredItems);
+  //   } else {
+  //     setGetData(state.AssetList.assetList);
+  //   }
+  //   setShowDropDown(false);
+  // };
 
   useEffect(() => {
     const appearOptions = {

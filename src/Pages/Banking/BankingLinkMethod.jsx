@@ -1,46 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Wallet3, Card, More, Add } from "iconsax-react";
 import AddMethod from "../Banking/AddMethod/AddMethod";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { useHasPermission } from "../../Utils/Permission";
 
-const paymentMethods = [
-  {
-    id: 1,
-    name: "Gpay UPI",
-    subTitle: "smartstories@oksbi",
-    type: "UPI",
-    icon: "gpay",
-  },
-  {
-    id: 2,
-    name: "Phonepe UPI",
-    subTitle: "smartstories@oksbi",
-    type: "UPI",
-    icon: "phonepe",
-  },
-  {
-    id: 3,
-    name: "SBI Debit Card",
-    subTitle: "3247 **** **** 9878",
-    type: "Debit Card",
-    icon: "debit",
-  },
-  {
-    id: 4,
-    name: "Heman Credit Card",
-    subTitle: "6487 **** **** 5476",
-    type: "Credit Card",
-    payable: "₹18,160",
-    icon: "credit",
-  },
-];
-
 function BankingLinkMethod() {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const {
     canWriteModule: canWriteBanking,
@@ -59,12 +27,6 @@ function BankingLinkMethod() {
   };
   const handleCloseAddMethod = () => {
     setShowAddMethodForm(false);
-  };
-
-  const cardNetworks = {
-    7: "RuPay",
-    8: "Visa",
-    9: "Mastercard",
   };
 
   return (

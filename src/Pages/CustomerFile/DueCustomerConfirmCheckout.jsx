@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+
 import { Tooltip } from "bootstrap";
 import ErrorMessage from "../../Components/ErrorMessage";
 

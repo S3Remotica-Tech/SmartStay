@@ -1,11 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import PaginationList from "../../Components/PaginationList";

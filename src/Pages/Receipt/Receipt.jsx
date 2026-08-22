@@ -6,27 +6,19 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "flatpickr/dist/themes/material_blue.css";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-// import AddReceiptForm from "../Receipt/AddReceipt";
-// import { toast } from "react-toastify";
 import { SearchNormal1, Setting3 } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
 import PaginationList from "../../Components/PaginationList";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-// import { FiSearch } from "react-icons/fi";
-// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
 function Receipt() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const pdfOpenedRef = useRef(false);
-  // const [receiptformShow, setReceiptFormShow] = useState(false);
-  // const [search, setSearch] = useState(false);
+
   const [receiptData, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
   const [filterInput, setFilterInput] = useState("");

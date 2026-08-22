@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-// import { Table } from "react-bootstrap";
-// import { Offcanvas, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
@@ -9,8 +7,7 @@ import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
 import {
   CloseCircle,
-  // ArrowUp2,
-  // ArrowDown2,
+  
   Flash,
   Refresh,
 } from "iconsax-react";
@@ -20,9 +17,7 @@ import EB_TenantOverview from "./EB_TenantOverview";
 import { useDispatch, useSelector } from "react-redux";
 import AddRoomReading from "./AddRoomReading";
 import { useHasPermission } from "../../Utils/Permission";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
-// import ErrorMessage from "../../Components/ErrorMessage";
-// import Select from "react-select";
+
 import AddHostelReading from "./AddHostelReading";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -41,11 +36,7 @@ const RoomReadingTable = () => {
   const [activeTab, setActiveTab] = useState("room");
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-  // const canReadElectricity = useHasPermission("Electricity", "canRead")
-  // const canWriteElectricity = useHasPermission("Electricity", "canWrite");
-  // const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
-  // const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
-
+ 
   const {
     canWriteModule: canWriteElectricity,
     canReadModule: canReadElectricity,

@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 
 import React, { useEffect, useState } from "react";
-// import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from "/src/Assets/Images/New_images/building1.svg";
 import "bootstrap/dist/css/bootstrap.min.css";

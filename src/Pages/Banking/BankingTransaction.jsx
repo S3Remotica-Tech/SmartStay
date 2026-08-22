@@ -4,7 +4,6 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-// import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import moment from "moment";
 import PropTypes from "prop-types";

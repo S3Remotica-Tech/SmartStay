@@ -1,45 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import ReceiptList from "../../Pages/Receipt/ReceiptList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "flatpickr/dist/themes/material_blue.css";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-// import AddReceiptForm from "../Receipt/AddReceipt";
-// import { toast } from "react-toastify";
-import {
-  // CloseCircle,
-  SearchNormal1,
-  Setting3,
-  Filter,
-  ArrowDown,
-} from "iconsax-react";
+import { SearchNormal1, Setting3, Filter, ArrowDown } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
-// import PaginationList from "../../Components/PaginationList";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-// import { FiSearch } from "react-icons/fi";
-// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import Select from "react-select";
-// import { DndContext, closestCenter } from "@dnd-kit/core";
+
 import Delete from "../../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Download from "../../Assets/Images/New_images/download.png";
-// import {
-//   SortableContext,
-//   // useSortable,
-//   verticalListSortingStrategy,
-//   arrayMove,
-// } from "@dnd-kit/sortable";
-// import { CSS } from "@dnd-kit/utilities";
+
 import ReceiptFilter from "./ReceiptFilter";
 
 const CustomStyles = {
@@ -138,25 +118,22 @@ const CustomStyles = {
 function ReceiptNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const pdfOpenedRef = useRef(false);
+
   const navigate = useNavigate();
-  // const [receiptformShow, setReceiptFormShow] = useState(false);
-  // const [search, setSearch] = useState(false);
+
   const [receiptData, setReceiptData] = useState();
   const [receiptLoader, setReceiptLoader] = useState(false);
-  // const [filterInput, setFilterInput] = useState("");
+
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
-  // const [open, setOpen] = useState(false);
-  // const [editvalue, setEditvalue] = useState("");
-  // const [receiptedit, setReceiptEdit] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [receiptFilter, setReceiptFilter] = useState(false);
   const [chips, setChips] = useState([]);
   const tableContainerRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
-  // const listRef = useRef(null);
+
   const [isScrolling, setIsScrolling] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
@@ -164,28 +141,13 @@ function ReceiptNew() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
   const [receiptType, setReceiptType] = useState("");
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const [searchText, setSearchText] = useState("");
-  // const [customizeItems, setCustomizeItems] = useState([]);
-  // const [error, setError] = useState("");
-  // const [customizeLoading, setCustomizeLoading] = useState(false);
-  // const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
+
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteitem, setDeleteItem] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const popupRef = useRef(null);
-  const {
-    // canWriteModule: canWriteReceipt,
-    canReadModule: canReadReceipt,
-    canDeleteModule: canDeleteReceipt,
-    // canUpdateModule: canUpdateReceipt,
-  } = useHasPermission("Receipt");
-
-  // const receiptTypeOptions = [
-  //   { value: "Booking", label: "Booking" },
-  //   { value: "Advance", label: "Advance" },
-  //   { value: "Rent", label: "Rent" },
-  // ];
+  const { canReadModule: canReadReceipt, canDeleteModule: canDeleteReceipt } =
+    useHasPermission("Receipt");
 
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
@@ -221,10 +183,6 @@ function ReceiptNew() {
   const handleCloseDelete = () => {
     setDeleteShow(false);
   };
-
-  // const handlefilterInput = (e) => {
-  //   setFilterInput(e.target.value);
-  // };
 
   useEffect(() => {
     if (popupRef.current) {
@@ -272,82 +230,6 @@ function ReceiptNew() {
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
-
-  //   useEffect(() => {
-  //     if (state.InvoiceList.updateTenantRecurringStatusCode) {
-  //       dispatch({
-  //         type: "RECURRING-BILLS-LIST",
-  //         payload: state.login?.selectedHostel_Id,
-  //       });
-
-  //       setTimeout(() => {
-  //         dispatch({ type: "REMOVE_UPDATE_TENANT_RECURRING" });
-  //       }, 100);
-  //     }
-  //   }, [state.InvoiceList.updateTenantRecurringStatusCode]);
-
-  // const handleReceiptShow = () => {
-  //   if (!state.login.selectedHostel_Id) {
-  //     toast.error("Please add a hostel before adding receipt information.", {
-  //       hideProgressBar: true,
-  //       autoClose: 1500,
-  //       style: {
-  //         color: "#000",
-  //         borderBottom: "5px solid red",
-  //         fontFamily: "Gilroy",
-  //       },
-  //     });
-  //     return;
-  //   }
-  // };
-  // const handleResetCustomize = () => {
-  //   // setCustomizeItems([...initialCustomizeItems]);
-  //   // setError("");
-  // };
-
-  // const handleSave = () => {
-  //   setError("");
-  //   const hasSelected = customizeItems.some((item) => item.selected);
-  //   if (!hasSelected) {
-  //     setError("Please select at least one column");
-  //     return;
-  //   }
-  //   const payload = customizeItems.map((item, index) => ({
-  //     fieldName: item.key,
-  //     isSelected: item.selected,
-  //     order: index + 1,
-  //   }));
-
-  //   if (payload) {
-  //     dispatch({
-  //       type: "CUSTOMIZE_RECEIPT_COLUMNS_SAGA",
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         customize: payload,
-  //       },
-  //     });
-  //     setCustomizeLoading(true);
-  //   }
-  // };
-
-  //   useEffect(() => {
-  //     if (state.ComplianceList?.updateCustomizationSuccess === 200) {
-  //       dispatch({
-  //         type: "VENDORLIST",
-  //         payload: {
-  //           hostelId: state.login.selectedHostel_Id,
-  //           page: page,
-  //           size: size,
-  //         },
-  //       });
-  //       setOpen(false);
-  //       setCustomizeLoading(false);
-
-  //       setTimeout(() => {
-  //         dispatch({ type: "REMOVE_CUSTOMIZE_VENDOR_REDUCER" });
-  //       }, 100);
-  //     }
-  //   }, [state.ComplianceList?.updateCustomizationSuccess]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -433,7 +315,7 @@ function ReceiptNew() {
 
   useEffect(() => {
     const receiptFilters = state.InvoiceList?.receiptFilters;
-   
+
     const filterData = [];
 
     if (receiptFilters?.search) {
@@ -529,8 +411,6 @@ function ReceiptNew() {
   useEffect(() => {
     if (state.InvoiceList.statusCodeForReceiptPDf === 200) {
       if (!state.InvoiceList.ReceiptPDF) return;
-      // if (pdfOpenedRef.current) return;
-      // pdfOpenedRef.current = true;
       setPdfLoading(false);
       window.open(state.InvoiceList.ReceiptPDF, "_blank");
 
@@ -542,23 +422,10 @@ function ReceiptNew() {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
   };
-  // const handleEditReceipt = (item) => {
-  //   // setReceiptFormShow(true);
-  //   setEditvalue(item);
-  //   setReceiptEdit(true);
-  // };
 
   const handleBackBill = () => {
     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
-    // setReceiptFormShow(false);
-
-    // setEditvalue("");
-    // setReceiptEdit(false);
   };
-
-  // const handleDisplayReceiptDownload = () => {
-  //   setSearch(false);
-  // };
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -567,8 +434,6 @@ function ReceiptNew() {
       }, 500);
     }
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode]);
-
- 
 
   const stats = [
     {
@@ -761,10 +626,6 @@ function ReceiptNew() {
     };
   }, []);
 
- 
-
-
-
   const formattedData =
     receiptData?.listReceipts?.map((item) => ({
       transactionId: item.transactionId,
@@ -831,10 +692,7 @@ function ReceiptNew() {
     });
   };
 
- 
-
   const handleReceiptClick = (item) => {
-   
     if (item?.transactionId && state.login.selectedHostel_Id) {
       dispatch({
         type: "RECEIPTPDF_NEWCHANGES",

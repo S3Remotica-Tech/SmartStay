@@ -10,7 +10,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-// import { MdError } from "react-icons/md";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';

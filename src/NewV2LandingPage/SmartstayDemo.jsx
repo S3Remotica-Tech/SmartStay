@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Mobile, Sms, TickCircle, DocumentText, Calendar, Home } from "iconsax-react";
+import { TickCircle, DocumentText, Calendar, Home } from "iconsax-react";
 import BottomImage from "../Assets/v2Images/bottom_image.svg";
 import SmartstayWhiteLogo from "../Assets/v2LandingImages/SmartstayWhiteLogo.svg";
 import { useDispatch, useSelector } from "react-redux";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from "../Components/ErrorMessage";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -26,7 +26,7 @@ function SmartstayDemo() {
   const [stateName, setStateName] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
   const [errors, setErrors] = useState({});
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
   const nameRef = useRef(null);
   const cityRef = useRef(null);
   const demoDateRef = useRef(null);
@@ -79,15 +79,12 @@ function SmartstayDemo() {
     },
   ];
 
-
   const countryOptions = [
     { value: "91", label: "+91" },
     { value: "1", label: "+1" },
     { value: "44", label: "+44" },
-    { value: "61", label: "+61" }
+    { value: "61", label: "+61" },
   ];
-
-
 
   const stateOptions = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -118,9 +115,15 @@ function SmartstayDemo() {
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
     { value: "Uttarakhand", label: "Uttarakhand" },
     { value: "West Bengal", label: "West Bengal" },
-    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands", },
+    {
+      value: "Andaman and Nicobar Islands",
+      label: "Andaman and Nicobar Islands",
+    },
     { value: "Chandigarh", label: "Chandigarh" },
-    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+    {
+      value: "Dadra and Nagar Haveli and Daman and Diu",
+      label: "Dadra and Nagar Haveli and Daman and Diu",
+    },
     { value: "Delhi", label: "Delhi" },
     { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
     { value: "Ladakh", label: "Ladakh" },
@@ -128,10 +131,7 @@ function SmartstayDemo() {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-
-
   const handleDemoReuquest = () => {
-
     let newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!name) {
@@ -188,19 +188,19 @@ function SmartstayDemo() {
       city: city || "",
       state: stateName || "",
       requestedDate: formatDate(demoDate),
-      requestedTime: demoTime || ""
+      requestedTime: demoTime || "",
     };
 
     dispatch({
       type: "DEMOREQUESTSAGA",
-      payload
+      payload,
     });
-    setFormLoading(true)
+    setFormLoading(true);
   };
 
   useEffect(() => {
     if (state.login?.demoSuccess === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       setContactNumber("");
       setEmail("");
       setOrganizationName("");
@@ -215,57 +215,46 @@ function SmartstayDemo() {
       setCountryCode("+91");
       setErrors({});
     }
-
-  }, [state.login?.demoSuccess])
-
+  }, [state.login?.demoSuccess]);
 
   useEffect(() => {
     if (state.login?.demoEror) {
-      setFormLoading(false)
+      setFormLoading(false);
     }
-
-  }, [state.login?.demoEror])
+  }, [state.login?.demoEror]);
 
   return (
     <>
       <div className="relative bg-white py-[80px] font-tasa">
-
         <div className=" max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[60px] items-start px-[40px]">
-
-
           <div className="rounded-2xl p-10 text-white bg-gradient-to-b from-[#5272F0] to-[#0F2169] ">
-
-
             <div className="flex items-center gap-2 mb-6">
               <img src={SmartstayWhiteLogo} alt="logo" />
             </div>
-
 
             <div className="inline-block text-xs bg-white/20 px-3 py-1 rounded-full mb-6 text-white">
               Digitally verify your tenants with ease and security
             </div>
 
-
             <h3 className="text-[36px] font-semibold leading-[44px] mb-4 font-tasa">
               See Smartstay in Action
             </h3>
 
-
             <p className="text-[15px] text-white/90 mb-8 leading-relaxed">
-              Discover How Smartstay can streamline your Hostel,
-              From Check-in to Check-Out
+              Discover How Smartstay can streamline your Hostel, From Check-in
+              to Check-Out
             </p>
-
 
             <h4 className="text-[32px] font-bold mb-5 text-white">
               What’s include in Demo!
             </h4>
 
-
             <div className="space-y-4 text-sm">
               <div className="flex items-start gap-3">
                 <TickCircle size="20" variant="Bold" color="#FF9D00" />
-                <p className="text-white">A live walkthrough of the platform.</p>
+                <p className="text-white">
+                  A live walkthrough of the platform.
+                </p>
               </div>
 
               <div className="flex items-start gap-3">
@@ -281,11 +270,8 @@ function SmartstayDemo() {
                   Help choosing the right pricing plan for you.
                 </p>
               </div>
-
             </div>
           </div>
-
-
 
           <div className="relative bg-white px-[20px] py-[30px] rounded-xl shadow-sm border border-[#D3D3D3] z-50 font-gilroy">
             {formLoading && (
@@ -297,14 +283,14 @@ function SmartstayDemo() {
               Get your personalized Demo
             </h2>
             <div className="max-h-[450px] overflow-y-auto  show-scrolls relative">
-
               <div className="me-2">
                 <div className="mb-3">
                   <label className="text-sm font-normal">
                     Name <span className="text-red-500">*</span>
                   </label>
 
-                  <input ref={nameRef}
+                  <input
+                    ref={nameRef}
                     type="text"
                     value={name}
                     onChange={(e) => {
@@ -330,9 +316,9 @@ function SmartstayDemo() {
                   </label>
 
                   <div className="w-full mt-1 flex items-center border border-[#DCDCDC] rounded-md">
-
                     <div className="w-[120px]">
-                      <Select ref={countryCodeRef}
+                      <Select
+                        ref={countryCodeRef}
                         options={countryOptions}
                         // defaultValue={countryOptions[0]}
                         onChange={(option) => setCountryCode(option?.value)}
@@ -360,13 +346,15 @@ function SmartstayDemo() {
 
                           menu: (base) => ({
                             ...base,
-                            zIndex: 9999
+                            zIndex: 9999,
                           }),
 
                           option: (base, state) => ({
                             ...base,
                             cursor: "pointer",
-                            backgroundColor: state.isFocused ? "lightblue" : "white",
+                            backgroundColor: state.isFocused
+                              ? "lightblue"
+                              : "white",
                             color: "#000",
                             fontFamily: "Gilroy",
                             fontWeight: state.isSelected ? 600 : 400,
@@ -418,11 +406,11 @@ function SmartstayDemo() {
                   )}
                 </div>
 
-
                 <div className="mb-3">
                   <label className="text-sm font-normal">Mail ID</label>
 
-                  <input ref={emailRef}
+                  <input
+                    ref={emailRef}
                     type="email"
                     placeholder="Enter Mail ID"
                     value={email}
@@ -436,9 +424,10 @@ function SmartstayDemo() {
                   )}
                 </div>
 
-
                 <div className="mb-3">
-                  <label className="text-sm font-normal">Organization Name</label>
+                  <label className="text-sm font-normal">
+                    Organization Name
+                  </label>
 
                   <input
                     type="text"
@@ -482,13 +471,14 @@ function SmartstayDemo() {
                   />
                 </div>
 
-
                 <div className="grid grid-cols-2 gap-4 mb-3">
-
                   <div>
-                    <label className="text-sm font-normal">City <span className="text-red-500">*</span></label>
+                    <label className="text-sm font-normal">
+                      City <span className="text-red-500">*</span>
+                    </label>
 
-                    <input ref={cityRef}
+                    <input
+                      ref={cityRef}
                       type="text"
                       placeholder="Enter City"
                       value={city}
@@ -523,15 +513,11 @@ function SmartstayDemo() {
     ${country ? "font-semibold text-black" : "font-normal"}
   `}
                     />
-
                   </div>
-
                 </div>
 
                 <div className="mb-3">
-                  <label className="text-sm font-normal">
-                    State
-                  </label>
+                  <label className="text-sm font-normal">State</label>
 
                   <Select
                     options={stateOptions}
@@ -547,26 +533,26 @@ function SmartstayDemo() {
                         minHeight: "40px",
                         height: "40px",
                         fontSize: "14px",
-                         cursor:"pointer"
+                        cursor: "pointer",
                       }),
                       valueContainer: (base) => ({
                         ...base,
-                        padding: "0 8px"
+                        padding: "0 8px",
                       }),
-                       option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
                       singleValue: (base) => ({
                         ...base,
                         fontWeight: 600,
-                        color: "#1E1E1E"
+                        color: "#1E1E1E",
                       }),
                       placeholder: (base) => ({
                         ...base,
-                        fontWeight: 400
+                        fontWeight: 400,
                       }),
                       menu: (base) => ({
                         ...base,
@@ -574,19 +560,18 @@ function SmartstayDemo() {
                         border: "1px solid #E5E7EB",
                         borderRadius: "8px",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-                        cursor:"pointer"
+                        cursor: "pointer",
                       }),
                       menuList: (base) => ({
-      ...base,
-      maxHeight: "150px",     
-      overflowY: "auto",    
-      cursor: "pointer",
-    }),
+                        ...base,
+                        maxHeight: "150px",
+                        overflowY: "auto",
+                        cursor: "pointer",
+                      }),
                     }}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-3">
-
                   <div>
                     <label className="text-sm font-normal">
                       Demo Date <span className="text-red-500">*</span>
@@ -631,39 +616,23 @@ function SmartstayDemo() {
   `}
                     />
                   </div>
-
                 </div>
-
               </div>
-              <button onClick={handleDemoReuquest} className="w-full bg-[#1E45E1] text-white py-2 rounded-md font-medium hover:opacity-90">
+              <button
+                onClick={handleDemoReuquest}
+                className="w-full bg-[#1E45E1] text-white py-2 rounded-md font-medium hover:opacity-90"
+              >
                 Submit
               </button>
             </div>
           </div>
-
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 z-10">
           <img src={BottomImage} alt="bottom" className="w-full object-cover" />
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
       <section className="py-2 mb-4 bg-white font-tasa">
-
-
         <div className="text-center mb-12 px-4">
           <h2 className="text-[52px] font-bold mt-4 inline-block bg-gradient-to-r from-[#1E45E1] to-[#05A7FF] bg-clip-text text-transparent">
             How it Works...?
@@ -674,39 +643,31 @@ function SmartstayDemo() {
           </p>
         </div>
 
-
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 px-6">
-
           {steps.map((step) => (
-            <div key={step.id} className="text-center flex flex-col items-center">
-
-
+            <div
+              key={step.id}
+              className="text-center flex flex-col items-center"
+            >
               <div className="relative mb-4">
-
                 <div className="w-14 h-14 bg-[#EEF2FF] rounded-xl flex items-center justify-center">
                   {step.icon}
                 </div>
 
-
                 <span className="absolute -top-2 -right-2 bg-[#FF9500] text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-semibold">
                   {step.id}
                 </span>
-
               </div>
-
 
               <h3 className="font-semibold text-[#222] text-[28px] font-medium">
                 {step.title}
               </h3>
 
-
               <p className="text-[#444444] text-base mt-1 max-w-[220px] font-medium">
                 {step.desc}
               </p>
-
             </div>
           ))}
-
         </div>
       </section>
     </>

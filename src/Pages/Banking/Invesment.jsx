@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
-  ArrowLeft2,
+  // ArrowLeft2,
   Calendar,
-  DocumentUpload,
-  CloseCircle,
+  // DocumentUpload,
+  // CloseCircle,
   ArrowDown2,
   Add,
   Bank,
@@ -18,7 +18,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { Wallet3, Card } from "iconsax-react";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -158,6 +157,14 @@ const Option = (props) => {
     </components.Option>
   );
 };
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
 
 const SingleValue = (props) => {
   const { data } = props;
@@ -177,13 +184,22 @@ const SingleValue = (props) => {
     </components.SingleValue>
   );
 };
-
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
-
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
     <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
@@ -191,14 +207,16 @@ const GroupHeading = (props) => (
     </div>
   </components.GroupHeading>
 );
-
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 function Invesment({ show, handleClose, bankDetails }) {
-  if (!show) return null;
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [investment, setInvestment] = useState("");
-  const [investmentError, setInvestmentError] = useState("");
+  // const [investmentError, setInvestmentError] = useState("");
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
@@ -210,13 +228,13 @@ function Invesment({ show, handleClose, bankDetails }) {
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
   const [transactionId, setTransactionId] = useState("");
-  const [transactionIdError, setTransactionIdError] = useState("");
+  // const [transactionIdError, setTransactionIdError] = useState("");
 
   const [description, setDescription] = useState("");
 
   const handleInvestmentChange = (e) => {
     setInvestment(e.target.value);
-    setInvestmentError("");
+    // setInvestmentError("");
   };
 
   const handleAmountChange = (e) => {
@@ -236,7 +254,7 @@ function Invesment({ show, handleClose, bankDetails }) {
 
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
-    setTransactionIdError("");
+    // setTransactionIdError("");
   };
 
   const handleDescriptionChange = (e) => {
@@ -271,11 +289,8 @@ function Invesment({ show, handleClose, bankDetails }) {
     }
   }, [bankDetails]);
 
-  
   const validateForm = () => {
     let isValid = true;
-
-   
 
     if (!amount) {
       setAmountError("Please Enter Amount");
@@ -335,6 +350,7 @@ function Invesment({ show, handleClose, bankDetails }) {
     }
   }, [state?.bankingDetails?.addMoneySuccess]);
 
+  if (!show) return null;
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />
@@ -527,5 +543,9 @@ function Invesment({ show, handleClose, bankDetails }) {
     </>
   );
 }
-
+Invesment.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  bankDetails: PropTypes.any,
+};
 export default Invesment;

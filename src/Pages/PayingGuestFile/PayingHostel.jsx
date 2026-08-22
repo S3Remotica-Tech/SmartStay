@@ -7,7 +7,6 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./PayingHostel.css";

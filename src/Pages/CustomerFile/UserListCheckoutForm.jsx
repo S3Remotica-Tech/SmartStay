@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
-// import Closecircle from "../../Assets/Images/close-circle.svg";
+
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
+
 import moment from "moment";
 import Image from "react-bootstrap/Image";
 import People from "../../Assets/Images/New_images/profile-picture.png";
@@ -16,9 +16,7 @@ import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-// import addcircle from "../../Assets/Images/New_images/add-circle.png";
-// import { Trash } from 'iconsax-react';
-// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+
 import ErrorMessage from "../../Components/ErrorMessage";
 
 const CheckOutForm = ({

@@ -7,7 +7,6 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import FrontPage from "./NewLandingPage/Topbar";
 import MainLandingPage from "./NewV2LandingPage/MainLandingPage";
 import LoginPage from "./Components/LoginPage";
 import CreateAccount from "./Components/CreateAccount";
@@ -20,15 +19,12 @@ import Cookies from "universal-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StoreSelectedHostelAction } from "./Redux/Action/LoginAction";
-import LoaderComponent from "./Pages/OthersComponent/LoaderComponent";
 import ThankYou from "./NewLandingPage/ThankYou";
 import Sidebar from "./Components/Sidebar";
-// import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
-// import { onMessage } from "firebase/messaging";
 import { messaging, onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
-// import { toast } from 'react-toastify';
 import WebNotification from "./Utils/WebNotification";
+
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -91,7 +87,6 @@ function App() {
     if (state.login?.isLoggedIn) {
       const askPermission = async () => {
         const permission = await Notification.requestPermission();
-       
 
         if (permission === "granted") {
           const token = await getToken(messaging, {
@@ -112,13 +107,11 @@ function App() {
     }
   }, [state.login?.isLoggedIn]);
 
-  
-
   const [notification, setNotification] = useState(null);
 
   // const showBrowserNotification = (title, body, type) => {
   //   if (!("Notification" in window)) {
- 
+
   //     return;
   //   }
 
@@ -138,7 +131,7 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = onMessageListener((payload) => {
-           const title = payload?.data?.title || "New Notification";
+      const title = payload?.data?.title || "New Notification";
       const message = payload?.data?.description || "You have a new message";
 
       setNotification({

@@ -2,15 +2,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  ArrowLeft2,
+  // ArrowLeft2,
   Calendar,
-  DocumentUpload,
-  CloseCircle,
+  // DocumentUpload,
+  // CloseCircle,
   ArrowDown2,
   Add,
   Bank,
   Wallet2,
-  ArrowRight,
+  // ArrowRight,
   MessageQuestion,
 } from "iconsax-react";
 import Select, { components } from "react-select";
@@ -159,7 +159,14 @@ const Option = (props) => {
     </components.Option>
   );
 };
-
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
 const SingleValue = (props) => {
   const { data } = props;
 
@@ -178,12 +185,22 @@ const SingleValue = (props) => {
     </components.SingleValue>
   );
 };
-
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
 
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
@@ -192,9 +209,12 @@ const GroupHeading = (props) => (
     </div>
   </components.GroupHeading>
 );
-
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 function CreditCardPayment({ show, handleClose, bankId }) {
-  if (!show) return null;
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const workRef = useRef(null);
@@ -206,7 +226,7 @@ function CreditCardPayment({ show, handleClose, bankId }) {
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
   const [transactionId, setTransactionId] = useState("");
-  const [transactionIdError, setTransactionIdError] = useState("");
+  // const [transactionIdError, setTransactionIdError] = useState("");
 
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
@@ -221,14 +241,12 @@ function CreditCardPayment({ show, handleClose, bankId }) {
   const paymentDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
-  const creditCardOptions =
-    state?.bankingDetails?.getCreditCardinitializeList?.creditCards?.map(
-      (view) =>
-        ({
-          value: view?.paymentMethodId,
-          label: ` ${view?.displayName} - ${view?.paymentMethod}`,
-        }) || [],
-    );
+  const creditCardOptions = (
+    state?.bankingDetails?.getCreditCardinitializeList?.creditCards ?? []
+  ).map((view) => ({
+    value: view?.paymentMethodId,
+    label: `${view?.displayName} - ${view?.paymentMethod}`,
+  }));
 
   const paymentOptions =
     state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods?.map(
@@ -262,7 +280,7 @@ function CreditCardPayment({ show, handleClose, bankId }) {
 
   const handleTransactionIdChange = (e) => {
     setTransactionId(e.target.value);
-    setTransactionIdError("");
+    // setTransactionIdError("");
   };
 
   const handleAmountChange = (e) => {
@@ -361,6 +379,7 @@ function CreditCardPayment({ show, handleClose, bankId }) {
     }
   }, [bankId]);
 
+  if (!show) return null;
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[40]" />

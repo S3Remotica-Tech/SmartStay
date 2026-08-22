@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useHasPermission } from "../../Utils/Permission";
-// import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
@@ -12,9 +11,6 @@ import RoomImage from "../../Assets/Images/room_icon.png";
 import Group from "../../Assets/Images/Group.png";
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import { useNavigate } from "react-router-dom";
-// import NoData from "../../Assets/v2Images/NoData.svg";
-// import BedDetailsMap from "../PayingGuestFile/BedDetailsMap";
-// import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import RoomView from "./RoomView";
 
 function ChangeBedPgView() {
@@ -23,28 +19,17 @@ function ChangeBedPgView() {
   const navigate = useNavigate();
   const CustomerOverView = state.UsersList?.customerdetails;
   const [loading, setLoading] = useState(false);
-  // const [key, setKey] = useState("1");
+
   const [floorList, setFloorList] = useState([]);
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
   const [visibleRange, setVisibleRange] = useState([0, 2]);
-  // const [roomList, setRoomList] = useState([]);
-  // const [filteredBeds, setFilteredBeds] = useState([]);
-  // const [selectedBed, setSelectedBed] = useState(null);
 
-  const {
-    // canWriteModule: canWritePayingGuests,
-    canReadModule: canReadPayingGuests,
-    // canUpdateModule: canUpdatePayingGuests,
-    // canDeleteModule: canDeletePayingGuests,
-  } = useHasPermission("Paying Guests");
+  const { canReadModule: canReadPayingGuests } =
+    useHasPermission("Paying Guests");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      // dispatch({
-      //   type: "PARTICULAR_HOSTEL_DETAILS",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
       dispatch({
         type: "ALLFLOORLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -55,7 +40,6 @@ function ChangeBedPgView() {
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
-      // setRoomList(state.PgList?.roomsList);
       setLoading(false);
       dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
     }

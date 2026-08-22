@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+
 import PropTypes from "prop-types";
 function DeleteRequest({ open, onClose }) {
   // const state = useSelector((state) => state);

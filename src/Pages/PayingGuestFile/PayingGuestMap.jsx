@@ -2,35 +2,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
-// import Vendors from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-// import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+
 function PayingGuestMap(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(false);
   const [hoverPgCard, setHoverPgCard] = useState(false);
-  // const [pgDeleteError, setPgDeleteError] = useState("");
+
   const popupRef = useRef(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
-  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+  
 
   const {
-    // canWriteModule: canWritePayingGuests,
-    // canReadModule: canReadPayingGuests,
-    canUpdateModule: canUpdatePayingGuests,
+       canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 

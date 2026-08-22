@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
-import { CloseCircle, Add } from "iconsax-react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Add } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import UPI from "./UPI";
 import Credit from "./Credit";
 import Debit from "./Debit";
+import PropTypes from "prop-types";
 
-function AddPaymentMethod({ show, handleClose }) {
-  const state = useSelector((state) => state);
+function AddPaymentMethod({ handleClose }) {
+  // const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [paymentType, setPaymentType] = useState("UPI");
@@ -89,11 +89,13 @@ function AddPaymentMethod({ show, handleClose }) {
 
           {paymentType === "Debit Card" && <Debit handleClose={handleClose} />}
 
-          {paymentType === "QR Code" && <QRCode handleClose={handleClose} />}
+          {/* {paymentType === "QR Code" && <QRCode handleClose={handleClose} />} */}
         </div>
       </div>
     </div>
   );
 }
-
+AddPaymentMethod.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};
 export default AddPaymentMethod;

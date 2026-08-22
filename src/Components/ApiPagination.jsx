@@ -1,6 +1,6 @@
 // new api pagination
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Select from "react-select";
 import PropTypes from "prop-types";
@@ -15,8 +15,6 @@ function ApiPagination({
   size,
 }) {
   const sizeOptions = [10, 20, 50, 100];
-  const [pageSize, setPageSize] = useState(sizeOptions[0]);
-  const [open, setOpen] = useState(false);
 
   const handleChangePage = (page) => {
     const p = Math.max(1, Math.min(page, totalPages));
@@ -27,47 +25,10 @@ function ApiPagination({
     }
   };
 
-  const getPages = () => {
-    const pages = [];
-    const delta = 1;
-
-    pages.push(1);
-
-    if (currentPage - delta > 2) pages.push("...");
-
-    for (
-      let i = Math.max(2, currentPage - delta);
-      i <= Math.min(totalPages - 1, currentPage + delta);
-      i++
-    ) {
-      pages.push(i);
-    }
-
-    if (currentPage + delta < totalPages - 1) pages.push("...");
-
-    if (totalPages > 1) pages.push(totalPages);
-
-    return pages;
-  };
-
-  const handleSizeChange = (option) => {
-    setPageSize(option);
-    onPageChange(1);
-
-    if (typeof onSizeChange === "function") {
-      onSizeChange(option?.value);
-    }
-  };
-
-  const selectedSizeOption =
-    sizeOptions.find((opt) => opt.value === size) || sizeOptions[0];
-
   const displayPage = isTenantPagination ? currentPage : currentPage + 1;
 
-  const safePage = totalRecords === 0 ? 0 : displayPage;
-
   const startIndex = totalRecords === 0 ? 0 : (displayPage - 1) * size;
-  const endIndex = totalRecords === 0 ? 0 : displayPage * size;
+
   const uiPage = isTenantPagination ? currentPage : currentPage + 1;
 
   return (

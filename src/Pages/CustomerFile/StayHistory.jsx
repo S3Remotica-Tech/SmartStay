@@ -5,7 +5,7 @@ import {
   Table
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
+
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";

@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { CloseCircle, Add, DocumentUpload } from "iconsax-react";
+import { Add, DocumentUpload } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
+import PropTypes from "prop-types";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -112,16 +113,14 @@ function UPI({ handleClose }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
- 
-
   const upiOptions =
     state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
       value: view.id,
       label: view.name,
     })) || [];
 
-  const [linkedBank, setLinkedBank] = useState(null);
-  const [linkedBankError, setLinkedBankError] = useState("");
+  // const [linkedBank, setLinkedBank] = useState(null);
+  // const [linkedBankError, setLinkedBankError] = useState("");
 
   const [upiApp, setUpiApp] = useState(null);
   const [upiAppError, setUpiAppError] = useState("");
@@ -133,7 +132,7 @@ function UPI({ handleClose }) {
   const [displayNameError, setDisplayNameError] = useState("");
 
   const [description, setDescription] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
+  // const [descriptionError, setDescriptionError] = useState("");
 
   const [qrImage, setQrImage] = useState(null);
   const [qrImagePreview, setQrImagePreview] = useState("");
@@ -147,10 +146,10 @@ function UPI({ handleClose }) {
   const displayNameRef = useRef(null);
   const qrImageRef = useRef(null);
 
-  const handleLinkedBankChange = (selected) => {
-    setLinkedBank(selected);
-    setLinkedBankError("");
-  };
+  // const handleLinkedBankChange = (selected) => {
+  //   setLinkedBank(selected);
+  //   setLinkedBankError("");
+  // };
 
   const handleUpiAppChange = (selected) => {
     setUpiApp(selected);
@@ -193,12 +192,6 @@ function UPI({ handleClose }) {
     const value = e.target.value;
 
     setDescription(value);
-
-    if (!value.trim()) {
-      setDescriptionError("");
-    } else {
-      setDescriptionError("");
-    }
   };
 
   const handleQrImageChange = (e) => {
@@ -349,9 +342,9 @@ function UPI({ handleClose }) {
                 className="w-full mt-2 h-11 px-3 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
               />
 
-              {linkedBankError && (
+              {/* {linkedBankError && (
                 <ErrorMessage message={linkedBankError} type="error" />
-              )}
+              )} */}
             </div>
 
             <div>
@@ -538,5 +531,7 @@ function UPI({ handleClose }) {
     </div>
   );
 }
-
+UPI.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};
 export default UPI;

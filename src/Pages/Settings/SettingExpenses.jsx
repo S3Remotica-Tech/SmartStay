@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import Button from "react-bootstrap/Button";
+
 import Editbtn from "../../Assets/Images/Edit-blue.png";
 import Closebtn from "../../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-// import { Card } from "react-bootstrap";
+
 import "../../Pages/Settings/Settingexpense.css";
 import PropTypes from "prop-types";
 import { AddCircle } from "iconsax-react";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import AddCategory from "../Settings/AddCategory";
 import { toast } from "react-toastify";
 import AddSubCategory from "../Settings/AddSubCategory";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 

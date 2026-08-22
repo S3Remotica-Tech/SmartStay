@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-// import { Table } from "react-bootstrap";
+
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Shield } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,42 +8,12 @@ import { useHasPermission } from "../../Utils/Permission";
 import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import AddUser from "../../Pages/UserFile/AddUser";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+
 import DeleteStaff from "./DeleteStaff";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
 function ManagedUsers() {
-  // const users = [
-  //     {
-  //         name: "Raja",
-  //         role: "Co Admin",
-  //         email: "raja@smartstay.com",
-  //         mobile: "+91 78564 98322",
-  //         description: "Manage all except Banking"
-  //     },
-  //     {
-  //         name: "Priya M",
-  //         role: "Warden",
-  //         email: "priya@smartstay.com",
-  //         mobile: "+91 78564 98322",
-  //         description: "Read access for tenants and rooms"
-  //     },
-  //     {
-  //         name: "Gowtham",
-  //         role: "Receptionist",
-  //         email: "gowtham@smartstay.com",
-  //         mobile: "+91 78564 98322",
-  //         description: "Can manage tenants, bookings"
-  //     },
-  //     {
-  //         name: "Sanjay L",
-  //         role: "Accountant",
-  //         email: "sanjay@smartstay.com",
-  //         mobile: "+91 78564 98322",
-  //         description: "Manages billing, invoices, collections"
-  //     }
-  // ];
-
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
@@ -57,12 +27,7 @@ function ManagedUsers() {
   const { canUpdateModule: canUpdateUser, canDeleteModule: canDeleteUser } =
     useHasPermission("User");
 
-  // const ellipsisStyle = {
-  //   maxWidth: 160,
-  //   whiteSpace: "nowrap",
-  //   overflow: "hidden",
-  //   textOverflow: "ellipsis",
-  // };
+  
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

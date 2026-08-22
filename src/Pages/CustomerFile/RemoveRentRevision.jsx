@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-// import ErrorMessage from "../../Components/ErrorMessage";
-// import { CloseCircle } from "iconsax-react";
+
 
 const RemoveRentRevision = ({ open, onClose }) => {
   const state = useSelector((state) => state);

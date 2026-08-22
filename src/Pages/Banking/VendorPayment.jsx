@@ -194,10 +194,9 @@ const DropdownIndicator = (props) => (
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
-GroupHeading.propTypes = {
-  data: PropTypes.shape({
-    label: PropTypes.string,
-  }).isRequired,
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
 };
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>

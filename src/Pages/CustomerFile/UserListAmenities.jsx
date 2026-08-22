@@ -1,20 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import { Table } from "react-bootstrap";
+
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
-// import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
-// import Modal from "react-bootstrap/Modal";
-// import { Button, Form } from "react-bootstrap";
-// import cross from "../../Assets/Images/cross.png";
+
 import PropTypes from "prop-types";
-// import Select from "react-select";
+
 import "./UserList.css";
 import { Tag2 } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
-// import ErrorMessage from "../../Components/ErrorMessage";
-// import Image from "react-bootstrap/Image";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 function UserListAmenities() {

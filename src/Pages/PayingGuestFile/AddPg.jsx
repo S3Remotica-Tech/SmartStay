@@ -7,7 +7,6 @@ import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
 import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
-// import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";

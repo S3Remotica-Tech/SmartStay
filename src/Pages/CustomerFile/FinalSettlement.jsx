@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { Button } from "react-bootstrap";
+
 import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
@@ -13,12 +13,11 @@ import {
   ArrowLeft,
   Edit2,
   InfoCircle,
-  // TickSquare,
+ 
 } from "iconsax-react";
-// import addcircle from "../../Assets/Images/New_images/add-circle.png";
-// import { Trash } from "iconsax-react";
+
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-// import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
+
 import { Tooltip } from "bootstrap";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { DatePicker } from "antd";

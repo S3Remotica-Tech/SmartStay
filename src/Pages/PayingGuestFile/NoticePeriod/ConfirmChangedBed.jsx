@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
 import building from "/src/Assets/Images/New_images/building1.svg";
 import Frame from "/src/Assets/Images/New_images/Frame.svg";
-// import Group from "/src/Assets/Images/New_images/Group.png";
+
 import repeatOne from "/src/Assets/Images/New_images/repeate-one.svg";
 import { FormControl } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
@@ -29,7 +29,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     currentBed: PropTypes.func.isRequired,
   };
 
-  // const selectedDateRef = useRef(null);
+ 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 

@@ -4,8 +4,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
-import { CloseCircle, Add } from "iconsax-react";
-import Select, { components } from "react-select";
+import { Add } from "iconsax-react";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 
 const CustomStyles = {
@@ -130,8 +130,6 @@ function AddNewAccount({ show, handleClose }) {
   const [responsiblePerson, setResponsiblePerson] = useState(null);
   const [cashOpeningBalance, setCashOpeningBalance] = useState("");
   const [cashDescription, setCashDescription] = useState("");
-
-  const [errors, setErrors] = useState({});
 
   const [bankDisplayNameError, setBankDisplayNameError] = useState("");
   const [bankNameError, setBankNameError] = useState("");
@@ -981,5 +979,8 @@ function AddNewAccount({ show, handleClose }) {
     </>
   );
 }
-
+AddNewAccount.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default AddNewAccount;
