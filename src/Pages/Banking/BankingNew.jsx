@@ -17,20 +17,13 @@ import {
   ArrowSwapVertical,
 } from "iconsax-react";
 import { toast } from "react-toastify";
-// import { DatePicker } from "antd";
-// import Modal from "react-bootstrap/Modal";
-// import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { Table } from "react-bootstrap";
 import dayjs from "dayjs";
 import { Filter } from "iconsax-react";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import transArrow from "../../Assets/Images/New_images/arrow-transfer.png";
-// import banklogo from "../../Assets/Images/New_images/bank_loga.png";
-// import PaginationList from "../../Components/PaginationList";
 import ApiPagination from "../../Components/ApiPagination";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";

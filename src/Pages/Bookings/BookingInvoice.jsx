@@ -11,9 +11,7 @@ import Mail_white from '../../Assets/Images/gmail_white.png'
 import Message_text from '../../Assets/Images/message-text.png'
 import Message_text_white from '../../Assets/Images/message-white.png'
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-// import Gpay from '../../Assets/Images/gpay.png'
-// import Phonepe from '../../Assets/Images/phonepe.png'
-// import Paytm from '../../Assets/Images/paytm.png'
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";

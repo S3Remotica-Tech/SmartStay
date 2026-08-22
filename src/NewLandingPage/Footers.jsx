@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
 import SmartstayLogo from '../Assets/Images/New_images/Samrtstay_logo.png';
 import Facebook from '../Assets/Images/New_images/facebook_icon.png';
-// import Twitter from '../Assets/Images/New_images/twitter.png';
-// import Linkedin from '../Assets/Images/New_images/linkedin.png';
 import Instagram from '../Assets/Images/New_images/instagram.png';
-// import {useNavigate } from "react-router-dom";
-// import { useDispatch} from "react-redux";
 import { Link } from "react-scroll";
 import PropTypes from "prop-types";
 

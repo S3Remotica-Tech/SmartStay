@@ -1,48 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import {
-  // useDispatch,
-  useSelector,
-} from "react-redux";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
-// import { TiTick } from "react-icons/ti";
+
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
-  // CloseCircle,
   SearchNormal1,
-  // ArrowDown,
   Filter,
   Setting3,
-  // ArrowDown2,
   Chart21,
-  // Edit2,
   Trash,
   TickCircle,
   MinusCirlce,
   AddCircle,
 } from "iconsax-react";
 import { toast } from "react-toastify";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
-// import withErrorBoundary from "../../Hoc/WithErrorBountry";
-// import { useLocation } from "react-router-dom";
+
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
-// import { DndContext, closestCenter } from "@dnd-kit/core";
-// import {
-//   SortableContext,
-//   useSortable,
-//   verticalListSortingStrategy,
-//   arrayMove,
-// } from "@dnd-kit/sortable";
-// import { CSS } from "@dnd-kit/utilities";
+
 import { useNavigate } from "react-router-dom";
-// import ApiPagination from "../../Components/ApiPagination";
+
 import Approve from "./Approve";
 import Deny from "./Deny";
 import BedChangeRequestOverview from "./BedChangeRequestOverview";
-// import { triggerPG } from "../../Redux/Action/LoginAction";
+
 import DeleteRequest from "./DeleteRequest";
 
 const CustomStyles = {
@@ -413,8 +398,6 @@ function Request() {
   ];
 
   const formattedData = data;
-
-  
 
   const stats = [
     {

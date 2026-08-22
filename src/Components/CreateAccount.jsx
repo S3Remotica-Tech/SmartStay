@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import './CreateAccount.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Logo from '../Assets/Images/New_images/Group.png'
 import CreateAccount from '../Assets/Images/New_images/createAccount.png'
@@ -11,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
-// import { MdError } from "react-icons/md";
+
 import ErrorMessage from '../Components/ErrorMessage'
 import Cookies from 'universal-cookie';
 

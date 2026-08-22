@@ -5,22 +5,17 @@ import { Modal, Button } from "react-bootstrap";
 import "./UserlistWalkin.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Trash } from "iconsax-react";
-// import CustomerForm from "./UserlistWalkinForm";
-// import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-// import { MdError } from "react-icons/md";
+
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-// import PropTypes from "prop-types";
-// import moment from "moment";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
-// import { ArrowUp2, ArrowDown2, } from "iconsax-react";
+
 import PaginationList from "../../Components/PaginationList";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
-// import UserlistForm from "./UserlistForm";
+
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DirectCheckin from "./DirectCheckin";
@@ -30,7 +25,7 @@ function UserlistWalkin() {
   const [tenantDetails, setTenantDetails] = useState("");
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  // const [showFormCheckIn, setShowFormCheckIn] = useState(false);
+
   const [showFormCheckInNew, setShowFormCheckInNew] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
@@ -52,7 +47,7 @@ function UserlistWalkin() {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
   const [deleteShow, setDeleteShow] = useState(false);
-  // const isDev = import.meta.env.MODE === "development";
+
   const calledOnceRef = useRef(false);
 
   useEffect(() => {

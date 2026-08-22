@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TickCircle, Add, Minus } from "iconsax-react";
 import Phone from "../Assets/v2LandingImages/whychoose.svg";
-// import FAQSection from "./FAQSection";
 import HostelTrial from "./HostelTrial";
 
 function WhyChooseWithFAQ() {

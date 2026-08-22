@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import Accordion from 'react-bootstrap/Accordion'
-// import Card from 'react-bootstrap/Card';
 import Smart from '../Assets/Images/get.png'
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 

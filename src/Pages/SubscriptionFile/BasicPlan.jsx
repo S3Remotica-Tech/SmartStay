@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import { Card, Button, Row, Col, Table } from "react-bootstrap";
-// import PaginationList from "../../Components/PaginationList";
+
 import { Calendar, Crown } from "iconsax-react";
 import { TbCheck } from "react-icons/tb";
 import { MdPayment } from "react-icons/md";

@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 
 function DeleteTenantDocument({

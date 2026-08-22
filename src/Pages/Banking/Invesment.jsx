@@ -18,7 +18,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-// import { Wallet3, Card } from "iconsax-react";
 
 const CustomStyles = {
   control: (base, state) => ({

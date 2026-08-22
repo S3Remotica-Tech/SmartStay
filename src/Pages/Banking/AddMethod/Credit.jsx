@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-// import { CloseCircle, Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

@@ -1,35 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-// import LoaderComponent from "../LoaderComponent";
+
 import { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import PaginationList from "../../Components/PaginationList";
+
 import { useSelector } from "react-redux";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import { useNavigate } from "react-router-dom";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import {
   Filter,
-  // Export,
-  // ArrowLeft,
-  // ArrowUp2,
-  // ArrowSwapVertical,
-  // Setting3,
-  // SearchNormal1,
-  // Buildings,
-  // ArrowDown2,
+ 
   ArrowDown,
-  // CloseCircle,
-  // Document,
-  // Link21,
+ 
   AddCircle,
   More,
 } from "iconsax-react";
 import { toast } from "react-toastify";
-// import ComingSoon from "../../Utils/ComingSoon";
-// import FormComingSoon from "../../Utils/FormComingSoon";
+
 import RetainerApplyInvoice from "../Bookings/RetainerApplyInvoice";
 import ApplyBookingModal from "../Bookings/ApplyInvoices";
 

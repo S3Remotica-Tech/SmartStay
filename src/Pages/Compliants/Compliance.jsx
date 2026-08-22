@@ -1,33 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+
 import "flatpickr/dist/themes/material_blue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import Filters from "../../Assets/Images/Filters.svg";
-// import { FiSearch } from "react-icons/fi";
 
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Compliants/Compliance.css";
-// import '../../../Pages/Complaints/Compliance.css'
-// import Profile from "../../Assets/Images/New_images/profile-picture.png";
+
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
+
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
-// import closecircle from "../../Assets/Images/New_images/close-circle.png";
+
 import ComplianceList from "../Compliants/ComplianceList";
 import "react-datepicker/dist/react-datepicker.css";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
-// import Select from "react-select";
+
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-// import { CloseCircle } from "iconsax-react";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
@@ -39,25 +36,22 @@ const Compliance = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const { RangePicker } = DatePicker;
-  // const initialValuesRef = useRef({});
-  // const [formLoading, setFormLoading] = useState(false);
-  // const [Assign, setAssign] = useState("");
-  // const [Status, setStatus] = useState("");
+
   const [hosId, setHosId] = useState("");
   const [loading, setLoading] = useState(false);
   const [filterInput, setFilterInput] = useState("");
-  // const [isDropdownVisible, setDropdownVisible] = useState(false);
+
   const [filteredUsers, setFilteredUsers] = useState([]);
-  // const [search, setSearch] = useState(false);
+
   const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   const [filterStatus, setFilterStatus] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
   const location = useLocation();
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  // const [hoveredIndex, setHoveredIndex] = useState(null);
+
   const [show, setShow] = useState(false);
-  // const [Assignpopupshow, setAssignpopupshow] = useState(false);
+
   const [edit, setEdit] = useState(false);
   const [ComplaintData, setComplaintdata] = useState("");
 
@@ -65,10 +59,6 @@ const Compliance = () => {
     canWriteModule: canWriteComplaints,
     canReadModule: canReadComplaints,
   } = useHasPermission("Complaints");
-
-  // const complaintList = useSelector(
-  //   (state) => state.Settings.Complainttypelist,
-  // );
 
   useEffect(() => {
     if (!canReadComplaints) {

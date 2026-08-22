@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-// import Form from "react-bootstrap/Form";
+
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-// import Questionimage from '../../Assets/Images/question.png';
+
 import EditICon from "../../Assets/Images/New_images/edit.png";
 import TextAreaICon from "../../Assets/Images/textarea.png";
 import BankICon from "../../Assets/Images/bank_white.png";

@@ -3,7 +3,7 @@ import { Form, FormControl, Image } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
-// import Modal from "react-bootstrap/Modal";
+
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
@@ -12,16 +12,13 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { AddCircle, CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
-// import { Trash } from "iconsax-react";
-// import addcircle from "../../Assets/Images/New_images/add-circle.png";
+
 import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "../PayingGuestFile/PgLayoutView";
 import {
-  // Add,
-  // ArrowDown2,
-  // ArrowUp2,
+  
   InfoCircle,
   ArrowRight2,
   Edit2,

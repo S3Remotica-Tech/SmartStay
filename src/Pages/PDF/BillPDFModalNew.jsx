@@ -9,20 +9,18 @@ import Mail from "../../Assets/Images/gmail.png";
 import Mail_white from "../../Assets/Images/gmail_white.png";
 import Message_text from "../../Assets/Images/message-text.png";
 import Message_text_white from "../../Assets/Images/message-white.png";
-// import Logo from "../../Assets/Images/New_images/Group_Logo.png";
+
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-// import { Row, Col, Table } from "react-bootstrap";
+
 import {
-  // Location,
-  // Call,
-  // Profile,
+
   DocumentDownload,
   Edit,
   RefreshSquare,
   Link21,
 } from "iconsax-react";
-// import { IoBed } from "react-icons/io5";
+
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import { ArrowUp2, ArrowDown2, Add } from "iconsax-react";

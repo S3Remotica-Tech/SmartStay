@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
-// import Modal from "react-bootstrap/Modal";
+
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
-// import { useHasPermission } from "../../Utils/Permission";
+
 
 function AddCategory({ show, handleCloseForm, editCategory }) {
   const state = useSelector((state) => state);

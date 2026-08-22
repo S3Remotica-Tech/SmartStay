@@ -3,25 +3,17 @@ import React, { useState, useEffect, useRef } from "react";
 import "chart.js/auto";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-// import drop from "../../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
 import DashboardUpdates from "../../Pages/Dashboard/DashboardUpdates";
-// import Tab from "@mui/material/Tab";
-// import TabContext from "@mui/lab/TabContext";
-// import TabList from "@mui/lab/TabList";
-// import TabPanel from "@mui/lab/TabPanel";
-// import Box from "@mui/material/Box";
+
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-// import Select from "react-select";
-// import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
-// import LoaderComponent from "../OthersComponent/LoaderComponent";
+
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-// import { Tabs, Tab } from "react-bootstrap";
+
 import { useHasPermission } from "../../Utils/Permission";
 import {
   Buildings,
@@ -31,7 +23,6 @@ import {
   InfoCircle,
   ArrowUp2,
   ArrowDown2,
-  // ArrowUp,
   TrendUp,
   TrendDown,
 } from "iconsax-react";
@@ -45,35 +36,24 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const [data, setData] = useState([]);
+
   const [dashboardList, setDashboardList] = useState("");
   const [activeTab, setActiveTab] = useState("1");
 
   const [openCards, setOpenCards] = useState({});
   const [showBreakdown, setShowBreakdown] = useState(false);
 
-  // const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
-  // const [selectedFilters, setSelectedFilters] = useState({
-  //   occupancy: "",
-  //   tenants: "",
-  //   advance: "",
-  // });
 
   const dropdownRef = useRef(null);
   const dropdownSharingRef = useRef(null);
 
-  const {
-    // canWriteModule: canWriteComplaints,
-    canReadModule: canReadDashboard,
-    // canUpdateModule: canUpdateComplaints,
-    // canDeleteModule: canDeleteComplaints,
-  } = useHasPermission("Dashboard");
+  const { canReadModule: canReadDashboard } = useHasPermission("Dashboard");
 
   useEffect(() => {
     if (!canReadDashboard) {

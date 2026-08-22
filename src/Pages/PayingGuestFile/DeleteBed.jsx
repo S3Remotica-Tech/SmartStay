@@ -3,16 +3,11 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import Nav from "react-bootstrap/Nav";
+
 import AddCustomer from "./AddCustomerPG";
-// import { MdError } from "react-icons/md";
+
 import PropTypes from "prop-types";
-// import { CloseCircle } from "iconsax-react";
-// import { DatePicker } from "antd";
-// import { Form } from "react-bootstrap";
-// import dayjs from "dayjs";
-// import moment from "moment";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 
 function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const state = useSelector((state) => state);

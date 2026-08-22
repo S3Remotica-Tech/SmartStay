@@ -1,21 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-// import { FormControl, InputGroup, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import AddAsset from "./AddAsset";
 import AssetListTable from "../../Pages/AssetFile/AssetListTable";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { SearchNormal1, Setting3 } from "iconsax-react";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from "react-toastify";
-// import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-// import Select from "react-select";
+
 import PaginationList from "../../Components/PaginationList";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";

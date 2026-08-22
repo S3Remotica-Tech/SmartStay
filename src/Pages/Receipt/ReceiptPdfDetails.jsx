@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import "../OthersComponent/BillPdfModal.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-// import Select from "react-select";
+
 import { SearchNormal1 } from "iconsax-react";
 
 function ReceiptPdfDetails() {
@@ -20,7 +20,7 @@ function ReceiptPdfDetails() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [statusShowfilter, setStatusShowfilter] = useState(false);
+  
   const { receiptId } = useParams();
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [rowDatas, setRowDatas] = useState("");

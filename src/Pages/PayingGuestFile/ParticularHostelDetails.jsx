@@ -5,7 +5,7 @@ import AddRoom from "./AddRoom";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from "./DeleteRoom";
 import "react-toastify/dist/ReactToastify.css";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./ParticularHostelDetails.css";
@@ -20,7 +20,6 @@ function ParticularHostelDetails(props) {
   const [roomList, setRoomList] = useState([]);
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [loader, setLoader] = useState(false);
-  // const [loaderTrigger, setLoaderTrigger] = useState(true);
   const [showRoom, setShowRoom] = useState(false);
   const [hostelDetails, setHostelDetails] = useState({
     room: null,

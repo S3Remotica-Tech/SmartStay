@@ -9,24 +9,21 @@ import { CloseCircle } from "iconsax-react";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import ComingSoon from "../../Utils/ComingSoon";
 import { useHasPermission } from "../../Utils/Permission";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-// import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+
 
 function SettingAgreement() {
   const [isEditable, setIsEditable] = useState(false);
 
-  //  const canReadAgreement = useHasPermission("Agreement", "canRead")
-  //   const canWriteAgreement = useHasPermission("Agreement", "canWrite");
-  //   const canUpdateAgreement = useHasPermission("Agreement", "canUpdate");
-  // const canDeleteAgreement = useHasPermission("Agreement", "canDelete");
+
 
   const {
     canWriteModule: canWriteAgreement,
     canReadModule: canReadAgreement,
     canUpdateModule: canUpdateAgreement,
-    // canDeleteModule: canDeleteAgreement,
+    
   } = useHasPermission("Agreement");
 
   const execCmd = (command, value = null) => {

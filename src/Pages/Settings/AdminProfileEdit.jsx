@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Edit2, Camera, User, CloseCircle } from "iconsax-react";
-// import AdminProfile from "../../Assets/v2Images/adminprofile.png";
+
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
 

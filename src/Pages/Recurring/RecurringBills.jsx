@@ -1,34 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from "react";
-// import { InputGroup, Table, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-// import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Bills/Invoices.css";
-// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import { useTheme } from "@mui/material/styles";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
-// import { CloseCircle } from "iconsax-react";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import "../OthersComponent/BillPdfModal.css";
-// import AxiosConfig from "../../WebService/AxiosConfig";
-// import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-// import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-// import { useNavigate } from "react-router-dom";
-// import withErrorBoundary from "../../Hoc/WithErrorBountry";
-// import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -40,9 +26,9 @@ function RecurringBills() {
   const dispatch = useDispatch();
   const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
-  //  const dropdownRef = useRef(null);
+ 
   const [recurringbills, setRecurringBills] = useState([]);
-  //  const [isDropdownVisible, setDropdownVisible] = useState(false);
+ 
   const [search, setSearch] = useState(false);
   const [originalRecuiring, setOriginalRecuiring] = useState([]);
   const [checkedRows, setCheckedRows] = useState({});

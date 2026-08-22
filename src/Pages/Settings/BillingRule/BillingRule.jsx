@@ -5,8 +5,6 @@ import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowRight2 } from "iconsax-react";
 import { useHasPermission } from "../../../Utils/Permission";
-// import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-// import ErrorMessage from "../../../Components/ErrorMessage";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
@@ -18,13 +16,11 @@ function BillingRule() {
 
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
-  // const [shortStayChecked, setShortStayChecked] = useState(false);
+
   const [formLoading, setFormLoading] = useState(false);
   const [showShortStay, setShowShortStay] = useState(false);
-  // const [showLongStay, setShowLongStay] = useState(false);
 
   const handleShowLongStay = (tabName) => {
-    // setShowLongStay(true)
     const hostelId = state.login?.selectedHostel_Id;
     if (hostelId) {
       navigate(`/settings/${hostelId}/${tabName}`);
@@ -33,16 +29,8 @@ function BillingRule() {
     }
   };
 
-  // const handleCloseLongStay = () => {
-  //   dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
-  //   setShowLongStay(false)
-  // }
-
   const handleShowShortStay = () => setShowShortStay(true);
   const handleCloseShortStay = () => setShowShortStay(false);
-
-  // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
-  // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
 
   const { canWriteModule: canWriteBills, canReadModule: canReadBills } =
     useHasPermission("Bills");

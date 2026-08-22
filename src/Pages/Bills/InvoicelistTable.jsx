@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import Edit from "../../Assets/Images/Edit-blue.png";
+
 import Delete from "../../Assets/Images/Delete_red.png";
 import Assign from "../../Assets/Images/MoneyAdd-Linear-32px.png";
 import Download from "../../Assets/Images/New_images/download.png";
@@ -20,7 +20,7 @@ import ApplyAdvance from "./ApplyAdvance";
 import ApplyRetainerToInvoice from "./ApplyRetainerToInvoice";
 
 const InvoiceTable = (props) => {
-  // const { item, selectedRows, handleRowSelect } = props;
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();

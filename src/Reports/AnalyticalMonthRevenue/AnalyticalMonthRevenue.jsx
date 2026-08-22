@@ -2,11 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import {
-  // Filter,
-  // Export, 
+ 
   ArrowLeft,
   ArrowDown2,
-  // TrendUp
+ 
 
 } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,9 +13,9 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { 
-  // useDispatch, 
+  
   useSelector } from "react-redux";
-// import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+
 import { FaArrowTrendUp } from "react-icons/fa6";
 import {
   PieChart,

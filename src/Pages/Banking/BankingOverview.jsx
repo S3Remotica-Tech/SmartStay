@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from "react-redux";
 import SelfTransferNew from "./SelfTransferNew";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
-// import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";
 import VendorPayment from "./VendorPayment";

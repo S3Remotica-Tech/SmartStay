@@ -1,12 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-// import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-// import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
-// import Select from "react-select";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import PaginationList from "../../Components/PaginationList";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -17,40 +12,9 @@ function UserEb(props) {
 
   const dispatch = useDispatch();
 
-  // const [EbrowsPerPage, setEbrowsPerPage] = useState(4);
-  // const [EbcurrentPage, setEbCurrentPage] = useState(1);
-  // const [EbFilterddata, setEbFilterddata] = useState([]);
   const [tenantReadingList, setTenantreadingList] = useState([]);
-  // const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
-  // const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
 
-  // const [selectedHostel, setSelectedHostel] = useState("");
-
-  // const handleEbPageChange = (EbpageNumber) => {
-  //   setEbCurrentPage(EbpageNumber);
-
-  // }
-
-  // const ebOptions = [
-  //   { value: 4, label: "4" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
-
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const canReadElectricity = useHasPermission("Electricity", "canRead")
-  //   const canWriteElectricity = useHasPermission("Electricity", "canWrite");
-  //   const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
-  //   const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
-
-  const {
-    // canWriteModule: canWriteElectricity,
-    canReadModule: canReadElectricity,
-    // canUpdateModule: canUpdateElectricity,
-    // canDeleteModule: canDeleteElectricity,
-  } = useHasPermission("Electricity");
+  const { canReadModule: canReadElectricity } = useHasPermission("Electricity");
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id && props?.id) {
@@ -66,7 +30,6 @@ function UserEb(props) {
 
   useEffect(() => {
     if (state.UsersList.getParticularCustomerReadingStatus === 200) {
-      // setLoading(false)
       setTenantreadingList(state.UsersList?.getParticularCustomerReadingList);
       setTimeout(() => {
         dispatch({ type: "REMOVE_GET_PARTICULAR_CUSTOMER_READING" });

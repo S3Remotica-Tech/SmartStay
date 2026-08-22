@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { send } from 'emailjs-com';
-// import { MdError } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import ErrorMessage from '../Components/ErrorMessage'
 import { Mobile, Sms } from "iconsax-react";
-// import { CiMail } from "react-icons/ci";
 import BottomImage from "../Assets/v2Images/bottom_image.svg";
 
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-// import "../../Pages/Dashboard/Dashboard.css";
+
 import "sweetalert2/dist/sweetalert2.min.css";
 import PayingGuest from "../../Pages/PayingGuestFile/PayingGuestMap";
 import AddPg from "../../Pages/PayingGuestFile/AddPg";
@@ -17,16 +17,13 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "../../Pages/PayingGuestFile/DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-// import "../../Pages/Settings/Settings.css";
 import PropTypes from "prop-types";
-// import '../../Pages/Settings/SettingManage.css';
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import ParticularHostelDetails from "../PayingGuestFile/ParticularHostelDetails";
-// import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -36,19 +33,12 @@ function SettingManage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");
-  // const [rolePermission, setRolePermission] = useState("");
-  // const [permissionError, setPermissionError] = useState("");
-  // const [addPermissionError, setAddPermissionError] = useState("");
-  // const [editPermissionError, setEditPermissionError] = useState("");
-  // const [deletePermissionError, setDeletePermissionError] = useState("");
+ 
   const [loading, setLoading] = useState(false);
 
   const popupRef = useRef(null);
 
-  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
-  // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead")
+ 
 
   const {
     canWriteModule: canWritePayingGuests,

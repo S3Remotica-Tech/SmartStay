@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import Select from "react-select";
 import { Add } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import UPI from "./UPI";

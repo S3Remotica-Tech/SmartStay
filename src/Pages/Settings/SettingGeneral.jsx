@@ -7,14 +7,12 @@ import img2 from "../../Assets/Images/New_images/settingeye.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Select from "react-select";
-// import "../Pages/Settings/Settings.css";
-// import "../Settings/Settings.css";
+
 import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
-// import Edit from "../../Assets/Images/Edit-blue.png";
+
 import Delete from "../../Assets/Images/Delete_red.png";
 import "../Settings/SettingAll.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -22,9 +20,7 @@ import { CloseCircle, PasswordCheck, ArrowSwapHorizontal } from "iconsax-react";
 import "../Settings/SettingGeneral.css";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-// import { Card } from "react-bootstrap";
 import {
   Call,
   Sms,

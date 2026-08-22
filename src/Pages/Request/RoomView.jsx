@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "react-toastify/dist/ReactToastify.css";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-// import { Edit, Trash } from "iconsax-react";
+
 import PropTypes from "prop-types";
-// import { useHasPermission } from "../../Utils/Permission";
-// import NoData from "../../Assets/v2Images/NoData.svg";
+
 import BedView from "./BedView";
 import NoDataMessage from "../../Utils/NoDataMessage";
 

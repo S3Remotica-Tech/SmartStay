@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect, useState } from "react";
-// import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
@@ -36,7 +35,6 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
   useEffect(() => {
     if (state.UsersList.getParticularCustomerReadingStatus === 200) {
-      // setLoading(false)
       setTenantreadingList(state.UsersList?.getParticularCustomerReadingList);
       setTimeout(() => {
         dispatch({ type: "REMOVE_GET_PARTICULAR_CUSTOMER_READING" });

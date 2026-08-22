@@ -13,8 +13,7 @@ import Message_text_white from "../../Assets/Images/message-white.png";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-// import Payment from '../../Assets/Images/New_images/Mask-group.png'
-// import Refund from '../../Assets/Images/New_images/Refund.png';
+
 import { Location, Call, Profile, DocumentDownload } from "iconsax-react";
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -30,7 +29,7 @@ const InvoiceCard = ({ rowData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  // const pdfOpenedRef = useRef(false);
+
   const modalRef = useRef(null);
 
   const [hoveredItem, setHoveredItem] = useState(null);

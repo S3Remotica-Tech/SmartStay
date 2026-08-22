@@ -9,7 +9,7 @@ import { HelmetProvider } from "react-helmet-async";
 import "./Utils/FirebaseNotification";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-// import { setContext } from "@apollo/client/link/context";
+
 
 const client = new ApolloClient({
   link: new HttpLink({

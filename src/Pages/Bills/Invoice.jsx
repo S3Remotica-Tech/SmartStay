@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
-// import Image from "react-bootstrap/Image";
+
 import {
   Setting3,
   Buildings,
@@ -21,24 +21,23 @@ import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../../Pages/Recurring/RecurringBills";
-// import closecircle from "../../Assets/Images/New_images/close-circle.png";
-// import searchteam from "../../Assets/Images/New_images/Search Team.png";
+
 import AddReceiptForm from "../Receipt/AddReceipt";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { Filter } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
-// import PaginationList from "../../Components/PaginationList";
+
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from "../../Pages/Bills/BillsFilter";
-// import { FiSearch } from "react-icons/fi";
+
 import RecordPayment from "./RecordPayment";
 import { useLocation } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
@@ -50,10 +49,7 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-// import Cell from "../../Assets/Images/New_images/Cell.svg";
-// import listview from "../../Assets/Images/New_images/listview-rectangle.svg";
-// import NoData from "../../Assets/v2Images/NoData.svg";
-// import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";

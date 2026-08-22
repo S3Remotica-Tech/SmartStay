@@ -2,13 +2,13 @@
 import React from "react";
 import { Add } from "iconsax-react";
 import { useSelector } from "react-redux";
-// import { Modal } from "antd";
+
 import { Profile } from "iconsax-react";
 import PropTypes from "prop-types";
 
 function KYCTenantDetails({ show, handleClose }) {
   const state = useSelector((state) => state);
-  // const dispatch = useDispatch();
+ 
 
   const kycInfo = state?.UsersList?.customerdetails?.kycInfo;
 

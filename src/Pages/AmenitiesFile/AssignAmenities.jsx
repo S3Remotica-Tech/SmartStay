@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import Card from 'react-bootstrap/Card';
-// import { MdError } from "react-icons/md";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   CloseCircle,
@@ -13,8 +12,7 @@ import {
   ArrowDown,
   ArrowUp,
 } from "iconsax-react";
-// import Form from 'react-bootstrap/Form';
-// import Image from 'react-bootstrap/Image';
+
 import PropTypes from "prop-types";
 import ErrorMessage from "../../Components/ErrorMessage";
 import "./AssignAmenities.css";

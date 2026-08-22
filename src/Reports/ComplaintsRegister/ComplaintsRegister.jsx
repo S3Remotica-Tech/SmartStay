@@ -16,7 +16,6 @@
 // import ComingSoon from "../../Utils/ComingSoon";
 // // import ApiPagination from "../../Components/ApiPagination";
 
-
 // function ComplaintsRegister() {
 //   const dispatch = useDispatch()
 //   const navigate = useNavigate();
@@ -41,7 +40,6 @@
 //     });
 //   }, []);
 
-
 //   useEffect(() => {
 //     function handleClickOutside(event) {
 //       if (
@@ -60,7 +58,6 @@
 //       document.removeEventListener("mousedown", handleClickOutside);
 //     };
 //   }, [register]);
-
 
 //   const reportCards = [
 //     { title: "Receipt Register" },
@@ -111,8 +108,6 @@
 //     setInvoiceFilter(true)
 //   }
 
-
-
 //   // const handleCloseFilterBills = () => {
 //   //   setInvoiceFilter(false)
 //   // }
@@ -143,7 +138,6 @@
 
 //     const [from, to] = dates;
 
-
 //     setSelectedRange({
 //       from: from ? from.toDate() : null,
 //       to: to ? to.toDate() : null,
@@ -161,13 +155,11 @@
 //       payload: filters
 //     });
 
-
 //   };
 
 //   const handlePageChange = (page) => {
 //     setPage(page)
 //   };
-
 
 //   const handleSizeChange = (sizeValue) => {
 //     setSize(sizeValue)
@@ -186,16 +178,12 @@
 //     return () => el.removeEventListener("scroll", handleScroll);
 //   }, []);
 
-
 //   const stats = [
 //     { title: "Total Complaints", value: "" },
 //     { title: "Resolved", value: "",link: true },
 //     { title: "In Progress", value: "", link: true },
-    
+
 //   ];
-
-
-
 
 //   const handleReset = () => {
 //     dispatch({
@@ -225,11 +213,6 @@
 //       }
 //     })
 //   }
-
-
-
-
-
 
 //   return (
 //     <div className="h-screen flex flex-col font-gilroy p-2">
@@ -336,13 +319,12 @@
 //         </div>
 //       </div>
 //       <div className="w-full col-span-full flex justify-center items-center" >
-//                    <ComingSoon /> 
+//                    <ComingSoon />
 //                   </div>
 
 //       {/* <div className="px-1 pb-[20px] bg-[#F9FAFB] rounded-lg h-fit py-0 flex flex-col ">
 //         {chips?.length > 0 && (
 //           <div className="me-3 ms-3 mt-3 flex items-start gap-3 p-3 rounded-[10px] bg-[#FFFFFF] border border-[#E5E7EB] font-[Gilroy,sans-serif]">
-
 
 //             <div className="flex flex-1 gap-2 flex-wrap overflow-y-auto min-w-0">
 //               {chips?.map((chip) => (
@@ -357,7 +339,6 @@
 //               ))}
 //             </div>
 
-
 //             <span
 //               onClick={handleReset}
 //               className="text-[#1E45E1] text-[13px] font-medium cursor-pointer whitespace-nowrap"
@@ -366,7 +347,6 @@
 //             </span>
 //           </div>
 //         )}
-
 
 //         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
 //           {stats.map((item, i) => (
@@ -396,7 +376,6 @@
 //                   {item.value}
 //                 </h2>
 
-
 //               </div>
 //               {item.link && (
 //                 <p className="text-xs text-[#155DFC]  cursor-pointer" onClick={handleClickFilter}>
@@ -407,9 +386,6 @@
 //           ))}
 //         </div>
 
-
-
-
 //         <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
 
 //           <div ref={tableRef} className=" overflow-y-auto relative max-h-[400px] rounded-xl ">
@@ -417,7 +393,6 @@
 
 //               <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-30 rounded-tl-xl  rounded-tr-xl">
 //                 <tr className="border-b border-[#E8E8E8]">
-
 
 //                   <th className=" px-4 py-2.5 text-left font-semibold sticky left-0 z-40 bg-[#F9FAFB] w-[30px]  rounded-tl-xl">
 //                     <Setting3
@@ -428,35 +403,30 @@
 //                     />
 //                   </th>
 
-
 //                   <th className="px-4 py-2.5 text-left font-semibold  sticky left-[42px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
-                 
+
 //                    <div className="flex justify-center items-center gap-1">
 //                        Complaint Type
 //                       <ArrowSwapVertical size="16" color="#4B4B4B" />
 //                     </div>
 //                   </th>
 
-
 //                   <th className="px-4 py-2.5 text-left font-semibold sticky left-[135px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
-                  
+
 //                     <div className="flex justify-center items-center gap-1">
 //                         Description
 //                       <ArrowSwapVertical size="16" color="#4B4B4B" />
 //                     </div>
 //                   </th>
 
-
 //                   <th className="px-4 py-2.5 text-center font-semibold  uppercase">
 //                     Raised by
-                      
-//                   </th>
 
+//                   </th>
 
 //                   <th className="px-4 py-2.5 text-center font-semibold w-[200px]  uppercase">
 //                    STATUS
 //                   </th>
-
 
 //                   <th className="px-4 py-2.5 text-center font-semibold uppercase ">
 //                    <div className="flex justify-center items-center gap-1">
@@ -465,17 +435,14 @@
 //                     </div>
 //                   </th>
 
-
 //                   <th className="px-4 py-2.5 text-center font-semibold  uppercase">
 //                     Raised on
-                     
-//                   </th>
 
+//                   </th>
 
 //                   <th className="px-4 py-2.5 text-center font-semibold  uppercase">
 //                     ROOM
 //                   </th>
-
 
 //                   <th className="px-4 py-2.5 text-center font-semibold rounded-tr-xl  uppercase">
 //                     STATUS
@@ -483,7 +450,6 @@
 
 //                 </tr>
 //               </thead>
-
 
 //               <tbody>
 
@@ -502,7 +468,6 @@
 //                       >
 //                         {row.invoiceNumber}
 //                       </td>
-
 
 //                       <td className="px-4 py-1.5 sticky left-[135px] z-20 bg-white w-[200px]">
 //                         <div className="flex items-center gap-2">
@@ -529,32 +494,26 @@
 
 //                       </td>
 
-
 //                       <td className={`px-4 py-1.5 text-center font-semibold truncate whitespace-nowrap   ${isScrolled ? "bg-gray-100" : "bg-white"}`}
 //                         title={row.invoiceType}>
 //                         {row.invoiceType}
 //                       </td>
 
-
 //                       <td className={`px-4 py-1.5 text-center text-[#6B7280] truncate whitespace-nowrap ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
 //                         {row.invoiceDate}
 //                       </td>
-
 
 //                       <td className={`px-4 py-1.5 text-center  text-[#6B7280] truncate font-medium ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
 //                         {row.dueDate}
 //                       </td>
 
-
 //                       <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"} `}>
 //                         ₹ {row.invoiceAmount}
 //                       </td>
 
-
 //                       <td className={`px-4 py-1.5 text-center font-semibold truncate text-[#222222] ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
 //                         ₹ {row.dueAmount}
 //                       </td>
-
 
 //                       <td className={`px-4 py-1.5 text-center ${isScrolled ? "bg-gray-100" : "bg-white"}`}>
 //                         <span
@@ -605,7 +564,6 @@
 //                 onClick={() => setOpen(false)}
 //               />
 
-
 //               <div
 //                 className={`
 //                           fixed top-[250px] left-[250px] h-fit w-[280px]
@@ -617,10 +575,6 @@
 //                         `}
 //               >
 
-
-
-
-
 //                 <div className="p-3 border-b">
 //                   <div className="flex items-center gap-2 px-3 py-2 border rounded-lg">
 //                     <SearchNormal1 size={16} color="#98A2B3" />
@@ -630,7 +584,6 @@
 //                     />
 //                   </div>
 //                 </div>
-
 
 //                 <div className="max-h-[220px] overflow-y-auto px-3 py-2 space-y-2 show-scrolls">
 //                   {options.map((item) => (
@@ -649,7 +602,6 @@
 //                     </label>
 //                   ))}
 //                 </div>
-
 
 //                 <div className="p-3 border-t flex gap-2">
 //                   <button
@@ -670,9 +622,6 @@
 
 //         </div>
 
-
-
-
 //       </div> */}
 //     </div>
 //   )
@@ -680,12 +629,10 @@
 
 // export default ComplaintsRegister
 
-import React from 'react'
+import React from "react";
 
 function ComplaintsRegister() {
-  return (
-    <div>ComplaintsRegister</div>
-  )
+  return <div>ComplaintsRegister</div>;
 }
 
-export default ComplaintsRegister
+export default ComplaintsRegister;

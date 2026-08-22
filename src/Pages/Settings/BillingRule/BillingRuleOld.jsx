@@ -4,14 +4,12 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import LongStayold from "../BillingRule/LongStayOld";
-// import ShortStayRecurringModal from "./ShortStay";
+
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowSwapHorizontal } from "iconsax-react";
-// import { FaCheck } from "react-icons/fa";
 import { useHasPermission } from "../../../Utils/Permission";
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-// import ErrorMessage from "../../../Components/ErrorMessage";
-// import "../../Pages/Settings/SettingsBills.css";
+
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 import Form from "react-bootstrap/Form";
 
@@ -22,7 +20,6 @@ function BillingRuleOld() {
   const [checked, setChecked] = useState(true);
 
   const [formLoading, setFormLoading] = useState(false);
-  // const [showShortStay, setShowShortStay] = useState(false);
   const [showLongStay, setShowLongStay] = useState(false);
 
   const handleShowLongStay = () => setShowLongStay(true);

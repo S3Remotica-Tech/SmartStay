@@ -2,15 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { Edit } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
-// import EmptyState from "../../../Assets/Images/New_images/empty_image.png";
-// import electricity from "../../../Assets/Images/New_images/electricity.svg";
-// import Select from "react-select";
-// import PropTypes from "prop-types";
+
 import "../../../Pages/Settings/SettingElectricity.css";
-// import ErrorMessage from "../../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../../Utils/Permission";
-// import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-// import withErrorBoundary from "../../../Hoc/WithErrorBountry";
+
 import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 

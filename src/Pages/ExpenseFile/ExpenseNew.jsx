@@ -1,37 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-// import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
-// import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
-// import AddExpenses from "./AddExpenses";
-// import ExpensesListTable from "./ExpensesListTable";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-// import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { DatePicker } from "antd";
-// import dayjs from "dayjs";
-// import Filters from "../../Assets/Images/Filters.svg";
-// import Image from "react-bootstrap/Image";
-// import { useTheme } from "@mui/material";
-// import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-// import { useLocation } from "react-router-dom";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import DeleteExpense from "./DeleteExpense";
 import ApiPagination from "../../Components/ApiPagination";
 import { IoMdMenu } from "react-icons/io";
 import {
-  // CloseCircle,
   SearchNormal1,
-  // ArrowDown,
   Filter,
   Setting3,
-  // ArrowDown2,
   Chart21,
   Edit,
   Trash,
@@ -50,7 +35,6 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import SettlementPayment from "../VendorFIle/SettlementPayment";
 import ExpenseSettlement from "./ExpenseSettlement";
 import PropTypes from "prop-types";
 

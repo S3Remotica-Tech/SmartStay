@@ -3,9 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   MessageText,
   Send2,
-  // TextBold,
-  // TextItalic,
-  // TextUnderline,
+ 
 } from "iconsax-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -15,7 +13,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import { Edit2, Trash } from "iconsax-react";
 import DeleteComments from "./DeleteComments";
 import { useHasPermission } from "../../Utils/Permission";
-// import PropTypes from "prop-types";
+
 
 const quillStyle = {
   height: "100px",

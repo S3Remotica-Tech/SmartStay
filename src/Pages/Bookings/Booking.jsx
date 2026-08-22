@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
@@ -17,23 +15,18 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ApplyBookingModal from "./ApplyInvoices";
-// import ComingSoon from "../../Utils/ComingSoon";
+
 import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";
 import {
   Filter,
-  // Export,
-  // ArrowLeft,
-  // ArrowUp2,
-  // ArrowSwapVertical,
+ 
   Setting3,
   SearchNormal1,
-  // Buildings,
-  // ArrowDown2,
+  
   ArrowDown,
-  // CloseCircle,
-  // Document,
+ 
   Link21,
   AddCircle,
 } from "iconsax-react";
@@ -41,8 +34,7 @@ import ApiPagination from "../../Components/ApiPagination";
 import BookingsFilter from "./BookingsFilter";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-// import NoData from "../../Assets/v2Images/NoData.svg";
-// import DataSearch from "../../Assets/v2Images/DataSearch.svg";
+
 import NoDataMessage from "../../Utils/NoDataMessage";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
 import PropTypes from "prop-types";

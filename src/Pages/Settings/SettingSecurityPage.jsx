@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
 import Form from "react-bootstrap/Form";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import { useTheme } from '@mui/material/styles';
 import Button from "react-bootstrap/Button";
 import "../../Pages/Settings/SettingSecurityPage.css";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";

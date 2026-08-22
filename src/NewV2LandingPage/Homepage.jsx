@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-// import "./Homepage.css"
 import { ArrowRight } from "iconsax-react";
 import BgImage from "../Assets/v2LandingImages/Landing_Background_Image.svg";
 import Dashboard from "../Assets/v2LandingImages/Dashboard.svg";

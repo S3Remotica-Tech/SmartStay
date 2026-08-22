@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-// import ErrorMessage from '../../Components/ErrorMessage'
+
 
 function DeleteReading({ show, handleClose, deleteDetails }) {
   const state = useSelector((state) => state);

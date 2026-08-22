@@ -2,11 +2,9 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Table } from "react-bootstrap";
-// import { Button } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-// import emptyimg from "../../Assets/Images/New_images/empty_image.png";
-// import { ArrowUp2, ArrowDown2 } from "iconsax-react";
+
 import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import AddUser from "../../Pages/UserFile/AddUser";
@@ -14,10 +12,10 @@ import { toast } from "react-toastify";
 import "../../Pages/Settings/SettingUsers.css";
 import PaginationList from "../../Components/PaginationList";
 import { useHasPermission } from "../../Utils/Permission";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import DeleteStaff from "./DeleteStaff";
-// import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
+
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
@@ -35,11 +33,6 @@ function SettingNewUser() {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [edit, setEdit] = useState(false);
   const [showAbove, setShowAbove] = useState(false);
-
-  // const canReadUser = useHasPermission("User", "canRead")
-  // const canWriteUser = useHasPermission("User", "canWrite");
-  // const canUpdateUser = useHasPermission("User", "canUpdate");
-  // const canDeleteUser = useHasPermission("User", "canDelete");
 
   const {
     canWriteModule: canWriteUser,

@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-// import LoaderComponent from "../LoaderComponent";
+
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PaginationList from "../../Components/PaginationList";
 import { useSelector } from "react-redux";
-// import ErrorMessage from "../../Components/ErrorMessage";
+
 import { useHasPermission } from "../../Utils/Permission";
-// import emptyimg from "../../Assets/Images/New_images/empty_image.png";
+
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 

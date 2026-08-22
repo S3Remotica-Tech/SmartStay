@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-// import TotalExpense from "../Assets/v2LandingImages/expense1.svg";
 import Expenseinte from "../Assets/v2LandingImages/ExpenseIntelligence.svg";
 import RecurringBill from "../Assets/v2LandingImages/Billing3.svg";
 import AssetImage from "../Assets/v2LandingImages/Asset2.svg";

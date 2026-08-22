@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Green from "../../Assets/Images/New_images/Frame.png";
 import White from "../../Assets/Images/New_images/empty_bed.png";
-// import { FaSquarePlus } from "react-icons/fa6";
-// import { useNavigate } from "react-router-dom";
-import Tick from "../../Assets/v2Images/Tick.svg";
+import Tick from "../../Assets/v2Images/Thttps://www.gravatar.com/avatar/a156ee2d8e0f8734cb30a37b0a7bb515?s=64&d=robohashick.svg";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
@@ -16,12 +14,12 @@ import PropTypes from "prop-types";
 function BedView({ room, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  // const navigate = useNavigate();
+
   const [hoveredBedId, setHoveredBedId] = useState(null);
   const [changeBedClicked, setChangedBedClicked] = useState("");
-  // const [clickedBed, setClickedBed] = useState("");
+
   const [customer, setCustomer] = useState([]);
-  // const [filteredBeds, setFilteredBeds] = useState([]);
+
   const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] =
     useState(false);
 
@@ -43,8 +41,6 @@ function BedView({ room, selectedBed, setSelectedBed }) {
 
   const bedList = state.PgList?.bedList || {};
 
-
-
   const availableBedsInSelectedFloor = state.PgList?.roomsList?.flatMap(
     (room) => {
       const beds = bedList[String(room.id)] || [];
@@ -59,7 +55,6 @@ function BedView({ room, selectedBed, setSelectedBed }) {
 
   const noBedsAvailable = availableBedsInSelectedFloor.length === 0;
 
- 
   const handleclickBedForChangeBed = (bed) => {
     if (selectedBed?.bedId === bed.id) {
       setSelectedBed(null);

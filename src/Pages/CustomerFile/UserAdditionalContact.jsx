@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import Modal from "react-bootstrap/Modal";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
 import { InputGroup } from "react-bootstrap";
-// import { MdError } from "react-icons/md";
+
 import PropTypes from "prop-types";
 import { CloseCircle, Trash } from "iconsax-react";
 import Select from "react-select";
