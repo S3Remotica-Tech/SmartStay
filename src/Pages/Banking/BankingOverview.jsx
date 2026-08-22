@@ -340,6 +340,7 @@ function BankingOverview({ show, onClose }) {
                   </button>
 
                   <button
+                    disabled={!canWriteBanking}
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     onClick={handleCreditPayment}

@@ -39,19 +39,6 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
     }
   }, [editDetails]);
 
-  // const handleAmenityChange = (e) => {
-  //   const value = e.target.value;
-  //   const pattern = /^[a-zA-Z\s]*$/;
-  //   if (!pattern.test(value)) {
-  //     return;
-  //   }
-  //   setAmenity(value);
-  //   setErrorAmenity("");
-  //   setIsChangedError("");
-  //   setAmnitiesError("")
-  //   dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
-  // };
-
   const handleAmenityChange = (e) => {
     let value = e.target.value;
 
@@ -66,7 +53,6 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
     setAmenity(value);
     setErrorAmenity("");
     setIsChangedError("");
-    // setAmnitiesError("");
     dispatch({ type: "REMOVE_ERROR_AMENITIES_SETTINGS" });
   };
 
@@ -82,14 +68,13 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
 
   const handleCloseForm = () => {
     handleClose();
-    // setAmnitiesError("")
+
     dispatch({ type: "REMOVE_ERROR_AMENITIES_SETTINGS" });
   };
 
   useEffect(() => {
     if (state.InvoiceList.amnitiessAddError) {
       setFormLoading(false);
-      // setAmnitiesError(state.InvoiceList.amnitiessAddError)
     }
   }, [state.InvoiceList.amnitiessAddError]);
 
@@ -106,14 +91,6 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
       isValid = false;
     }
 
-    // if (!amount) {
-    //   setErrorAmount("Please Enter Amount");
-    //   isValid = false;
-    // } else if (isNaN(amount)) {
-    //   setErrorAmount("Amount must be a Number");
-    //   isValid = false;
-    // }
-
     if (!amount) {
       setErrorAmount("Please Enter Amount");
       isValid = false;
@@ -125,17 +102,7 @@ function AddAmenities({ handleClose, hostelid, editDetails }) {
       isValid = false;
     }
 
-    // if (initialState) {
-    //   const isChanged =
-    //     initialState.amenity !== amenity ||
-    //     initialState.amount !== amount ||
-    //     initialState.isChecked !== isChecked;
-
-    //   if (!isChanged) {
-    //     setIsChangedError("No Changes Detected");
-    //     isValid = false;
-    //   }
-    // }
+    
 
     if (initialState) {
       const oldAmount = Number(initialState.amount);

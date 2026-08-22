@@ -789,7 +789,10 @@ const InvoiceCard = ({ rowData }) => {
         <div className="flex justify-between items-center px-4 py-2 !cursor-pointer ">
           <div className="flex  gap-4 cursor-pointer">
             <div
-              onClick={() => setActiveTab("payments")}
+              onClick={() => {
+                setIsOpenPayment(true);
+                setActiveTab("payments");
+              }}
               className={`px-1 py-2 cursor-pointer text-sm font-medium ${
                 activeTab === "payments"
                   ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
@@ -800,14 +803,17 @@ const InvoiceCard = ({ rowData }) => {
             </div>
 
             <div
-              onClick={() => setActiveTab("invoices")}
+              onClick={() => {
+                setIsOpenPayment(true);
+                setActiveTab("invoices");
+              }}
               className={`px-1 py-2 cursor-pointer text-sm font-medium ${
                 activeTab === "invoices"
                   ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
                   : "text-black border-0"
               }`}
             >
-              Applied Invoices
+              Retainer adjusted Invoices
             </div>
           </div>
 

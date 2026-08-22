@@ -19,7 +19,7 @@ import Cookies from "universal-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StoreSelectedHostelAction } from "./Redux/Action/LoginAction";
-import ThankYou from "./NewLandingPage/ThankYou";
+import ThankYou from "./NewV2LandingPage/ThankYou";
 import Sidebar from "./Components/Sidebar";
 import { messaging, onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";

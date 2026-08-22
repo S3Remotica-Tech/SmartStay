@@ -46,16 +46,12 @@ function Booking() {
   const [chips, setChips] = useState([]);
 
   const [showBookingPdf, setShowBookingPdf] = useState(false);
-  // const [search, setSearch] = useState(false);
   const [bookingList, setBookingList] = useState([]);
-  // const [statusfilter, setStatusfilter] = useState("");
-  const [showBillsFilter, setShowBillsFilter] = useState(false);
+    const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  // const selectOptions = [{ label: "All", value: "ALL" }];
-  // const [selectedRows, setSelectedRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [customizeItems, setCustomizeItems] = useState([]);
   const [error, setError] = useState("");
@@ -66,8 +62,6 @@ function Booking() {
   const tableContainerRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const lastScrollLeftRef = useRef(0);
-  // const listRef = useRef(null);
-  // const tableRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
   const [showDots, setShowDots] = useState("");
@@ -95,8 +89,7 @@ function Booking() {
     }
   }, [canReadInvoice]);
 
-  // const sortedData = [];
-
+  
   useEffect(() => {
     const container = tableContainerRef.current;
     if (!container) return;
@@ -132,19 +125,7 @@ function Booking() {
     setShowBookingPdf(false);
   }, []);
 
-  // useEffect(() => {
-  //   if (!state.login.selectedHostel_Id) return;
-  //   setPage(1);
-  //   dispatch({
-  //     type: "GET_BOOKING_LIST",
-  //     payload: {
-  //       hostelId: state.login.selectedHostel_Id,
-  //       page: page,
-  //       size: size,
-  //     },
-  //   });
-  //   setLoading(true);
-  // }, [state.login.selectedHostel_Id]);
+  
 
   useEffect(() => {
     if (state?.Booking?.statusCodeGetBooking) {
@@ -154,9 +135,7 @@ function Booking() {
     }
   }, [state?.Booking?.statusCodeGetBooking]);
 
-  // const handleSearch = () => {
-  //   setSearch(!search);
-  // };
+  
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),

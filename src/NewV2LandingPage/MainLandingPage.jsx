@@ -10,7 +10,7 @@ import Contact from "../NewV2LandingPage/Contact";
 import Condition from "../NewV2LandingPage/Terms";
 import Policy from "../NewV2LandingPage/PrivacyPolicy";
 import CookiesPolicy from "../NewV2LandingPage/CookiesPolicy";
-import Refundpolicy from '../NewV2LandingPage/Refundpolicy'
+import Refundpolicy from "../NewV2LandingPage/Refundpolicy";
 import BusinessChallenges from "./BusinessChallenges";
 import WhyChoose from "./WhyChoose";
 import LifeCycleMethod from "./LifeCycleMethod";
@@ -21,11 +21,11 @@ import Pricing from "./Pricing";
 import MobileApp from "./MobileApp";
 import FAQSection from "./FAQSection";
 import PricingPlans from "./PricingPlans";
-import ActiveCustomer from './ActiveCustomer';
-import HostelTrial from './HostelTrial';
-import WhyChooseWithFAQ from './WhyChooseWithFAQ';
+import ActiveCustomer from "./ActiveCustomer";
+import HostelTrial from "./HostelTrial";
+import WhyChooseWithFAQ from "./WhyChooseWithFAQ";
 import { ArrowUp, CloseCircle, Send2 } from "iconsax-react";
-import FeaturesKey from './FeaturesKey'
+import FeaturesKey from "./FeaturesKey";
 import HowItsWorking from "./HowItsWorking";
 import NativeBuilt from "./NativeBuilt";
 import EfficiantOperationSystem from "./EfficiantOperationSystem";
@@ -39,7 +39,6 @@ function FrontPage() {
   }, []);
 
   const [showPromoPopup, setShowPromoPopup] = useState(false);
-
 
   let navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
@@ -55,7 +54,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-    setShowPromoPopup(false)
+    setShowPromoPopup(false);
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
@@ -84,34 +83,37 @@ function FrontPage() {
     }
   };
 
-
   const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname;
     if (path === "/hostel-management-features") {
       setActiveSection("keyFeature");
-      scroll.scrollTo(document.getElementById("keyFeature")?.offsetTop - 70 || 0);
+      scroll.scrollTo(
+        document.getElementById("keyFeature")?.offsetTop - 70 || 0,
+      );
     } else if (path === "/hostel-software-pricing") {
       setActiveSection("Pricing");
       scroll.scrollTo(document.getElementById("Pricing")?.offsetTop - 70 || 0);
-    }
-    else if (path === "/pg-software-contact") {
+    } else if (path === "/pg-software-contact") {
       setActiveSection("Contact_us");
-      scroll.scrollTo(document.getElementById("Contact_us")?.offsetTop - 70 || 0);
-    }
-    else if (path === "/privacy-policy") {
+      scroll.scrollTo(
+        document.getElementById("Contact_us")?.offsetTop - 70 || 0,
+      );
+    } else if (path === "/privacy-policy") {
       setActiveSection("privacy_policy");
-      scroll.scrollTo(document.getElementById("privacy_policy")?.offsetTop - 70 || 0);
-    }
-    else if (path === "/refund_policy") {
+      scroll.scrollTo(
+        document.getElementById("privacy_policy")?.offsetTop - 70 || 0,
+      );
+    } else if (path === "/refund_policy") {
       setActiveSection("refund_policy");
-      scroll.scrollTo(document.getElementById("refund_policy")?.offsetTop - 70 || 0);
+      scroll.scrollTo(
+        document.getElementById("refund_policy")?.offsetTop - 70 || 0,
+      );
     } else if (path === "/demo") {
       setActiveSection("demo");
       scroll.scrollTo(document.getElementById("demo")?.offsetTop - 70 || 0);
-    }
-    else {
+    } else {
       setActiveSection("firstPage");
       scroll.scrollTo(0);
     }
@@ -130,30 +132,15 @@ function FrontPage() {
 
     const events = ["mousemove", "keydown", "scroll", "click"];
 
-    events.forEach((event) =>
-      window.addEventListener(event, resetTimer)
-    );
+    events.forEach((event) => window.addEventListener(event, resetTimer));
 
     resetTimer();
 
     return () => {
       clearTimeout(idleTimer);
-      events.forEach((event) =>
-        window.removeEventListener(event, resetTimer)
-      );
+      events.forEach((event) => window.removeEventListener(event, resetTimer));
     };
   }, []);
-
-
-
-
-
-
-
-
-
-
-
 
   const linkStyle = (isActive) => ({
     cursor: "pointer",
@@ -169,14 +156,21 @@ function FrontPage() {
     setActiveSection("firstPage");
   };
 
-
-
   return (
     <div className="relative">
-      <Navbar collapseOnSelect expand="lg" fixed="top" style={{ backgroundColor: "#FFFFFF" }}>
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        fixed="top"
+        style={{ backgroundColor: "#FFFFFF" }}
+      >
         <Container fluid className="px-lg-5 px-md-4 px-sm-3">
           <Navbar.Brand onClick={handleBrandClick}>
-            <img src={Logo} alt="SmartStay hostel management software logo for PG and hostel booking platform" style={{ width: 176.45, height: 33, cursor: "pointer" }} />
+            <img
+              src={Logo}
+              alt="SmartStay hostel management software logo for PG and hostel booking platform"
+              style={{ width: 176.45, height: 33, cursor: "pointer" }}
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -236,7 +230,16 @@ function FrontPage() {
               </Nav.Link>
             </Nav>
             <Nav className="d-flex align-items-center justify-content-center gap-3 mt-lg-0 mt-3">
-              <Nav.Link style={{ fontSize: 16, fontWeight: 500, color: "#000", fontFamily: "Montserrat", marginRight: 20 }} onClick={handleSignIn}>
+              <Nav.Link
+                style={{
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: "#000",
+                  fontFamily: "Montserrat",
+                  marginRight: 20,
+                }}
+                onClick={handleSignIn}
+              >
                 Sign in
               </Nav.Link>
               <Button
@@ -254,7 +257,11 @@ function FrontPage() {
                 }}
               >
                 Get Started
-                <img src={RightArrow} alt="Arrow Icon" style={{ width: "15px" }} />
+                <img
+                  src={RightArrow}
+                  alt="Arrow Icon"
+                  style={{ width: "15px" }}
+                />
               </Button>
             </Nav>
           </Navbar.Collapse>
@@ -262,7 +269,14 @@ function FrontPage() {
       </Navbar>
 
       {activeSection === "firstPage" && (
-        <Element name="firstPage" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="firstPage"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <HomePage />
           <ActiveCustomer />
           <BusinessChallenges />
@@ -275,12 +289,18 @@ function FrontPage() {
           <MobileApp />
           <HostelTrial />
           <FAQSection />
-
         </Element>
       )}
 
       {activeSection === "keyFeature" && (
-        <Element name="keyFeature" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="keyFeature"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <FeaturesKey />
           <LifeCycleMethod isFeatureWay={true} />
           <HowItsWorking />
@@ -288,12 +308,18 @@ function FrontPage() {
           <NativeBuilt />
           <EfficiantOperationSystem />
           <HostelTrial />
-
         </Element>
       )}
 
       {activeSection === "Pricing" && (
-        <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="Pricing"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <PricingPlans />
           <ActiveCustomer />
           <WhyChooseWithFAQ />
@@ -301,40 +327,79 @@ function FrontPage() {
       )}
 
       {activeSection === "Contact_us" && (
-        <Element name="Contact_us" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="Contact_us"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Contact />
         </Element>
       )}
 
       {activeSection === "terms_use" && (
-        <Element name="terms_use" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="terms_use"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Condition />
         </Element>
       )}
 
-
       {activeSection === "cookies" && (
-        <Element name="cookies" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="cookies"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <CookiesPolicy />
         </Element>
       )}
 
-
       {activeSection === "privacy_policy" && (
-        <Element name="privacy_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="privacy_policy"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Policy />
         </Element>
       )}
 
-
       {activeSection === "refund_policy" && (
-        <Element name="refund_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="refund_policy"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Refundpolicy />
         </Element>
       )}
 
       {activeSection === "demo" && (
-        <Element name="demo" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+        <Element
+          name="demo"
+          style={{
+            paddingTop: "70px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <SmartstayDemo />
         </Element>
       )}
@@ -342,43 +407,36 @@ function FrontPage() {
       <Element name="footer">
         <Footers handleLinkName={handleSetActive} />
       </Element>
-      {
-        activeSection !== "demo" &&
-
+      {activeSection !== "demo" && (
         <div
           className="fixed right-10 bottom-0 -translate-y-1/2 flex items-center flex-col  gap-2  z-[9999]"
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
         >
-
           <div
             className={`absolute right-14 z-[9999] bg-blue-700 font-tasa text-white text-xs px-3 py-2 rounded-md whitespace-nowrap
         transition-all duration-300
-        ${showTooltip
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-2 pointer-events-none"
-              }`}
+        ${
+          showTooltip
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-2 pointer-events-none"
+        }`}
           >
             Request Demo
           </div>
 
-
-          <div onClick={() => handleSetActive("demo")}
+          <div
+            onClick={() => handleSetActive("demo")}
             className={`bg-[#1E45E1] hover:bg-[#061759] p-3 rounded-full shadow-md cursor-pointer
         transition-transform duration-300
         ${showTooltip ? "scale-110" : "scale-100"}`}
           >
             <Send2 size="14" color="#FFFFFF" variant="Bold" />
           </div>
-
-
-
         </div>
-      }
+      )}
 
-      <div
-        className="fixed right-10 bottom-14 -translate-y-1/2 flex items-center flex-col gap-2 z-[9999]"
-      >
+      <div className="fixed right-10 bottom-14 -translate-y-1/2 flex items-center flex-col gap-2 z-[9999]">
         <div
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="bg-gradient-to-r from-[#1E45E1] to-[#05A7FF] hover:opacity-90 p-3 rounded-full shadow-md cursor-pointer transition-all duration-300 hover:scale-110"
@@ -388,10 +446,9 @@ function FrontPage() {
       </div>
       {showPromoPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-
-
           <div className="absolute inset-0 bg-black/30  animate-fadeIn"></div>
-          <div className="
+          <div
+            className="
       relative
   bg-gradient-to-r from-[#FFFFFF] to-[#FFEFCF]
   rounded-xl shadow-lg p-6 border font-tasa
@@ -399,7 +456,8 @@ function FrontPage() {
   overflow-hidden
   transform transition-all duration-300 ease-out
   scale-100 opacity-100 animate-[popup_0.35s_ease-out]
-    ">
+    "
+          >
             <img
               src={back}
               className="absolute right-[-50px] bottom-0 top-0 w-[280px] opacity-10 pointer-events-none select-none"
@@ -414,13 +472,7 @@ function FrontPage() {
             </button>
 
             <div className="flex flex-col gap-4">
-
-
-
-
-
               <div className="flex justify-between items-center">
-
                 <div>
                   <h2 className="text-[32px] sm:text-[32px] font-semibold text-[#555555]">
                     Stop Losing Time.
@@ -431,32 +483,38 @@ function FrontPage() {
                   </h2>
 
                   <p className="text-sm text-gray-600 mt-2 text-wrap">
-                    Experience SmartStay risk-free and see <br /> the difference in just a few days.
+                    Experience SmartStay risk-free and see <br /> the difference
+                    in just a few days.
                   </p>
                 </div>
 
                 <div className="bg-white z-20 rounded-md px-3 py-1 text-xs shadow w-fit h-fit flex items-center gap-2 animate-[floatY_3s_ease-in-out_infinite]">
                   <div className="bg-[#FFEFCF] rounded-md w-fit flex items-center px-1 py-1">
-                    <Star1 size="14"
-                      color="#FF8A65"
-                      variant="Bold" />
+                    <Star1 size="14" color="#FF8A65" variant="Bold" />
                   </div>
                   <div>
-                    <div className="text-[#222222] text-sm">  Saves 40+ hours </div>
-                    <div className="text-[#515151] text-xs"> Every month per property </div>
+                    <div className="text-[#222222] text-sm">
+                      {" "}
+                      Saves 40+ hours{" "}
+                    </div>
+                    <div className="text-[#515151] text-xs">
+                      {" "}
+                      Every month per property{" "}
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full">
-                {
-                  activeSection !== "demo" &&
-
-                  <button onClick={() => handleSetActive("demo")} className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium bg-white hover:bg-gray-100 transition w-full sm:w-auto">
+                {activeSection !== "demo" && (
+                  <button
+                    onClick={() => handleSetActive("demo")}
+                    className="font-dmsans flex items-center justify-center gap-2 px-5 py-2.5 border border-[#CACACA] rounded-lg text-[#222222] font-medium bg-white hover:bg-gray-100 transition w-full sm:w-auto"
+                  >
                     Request Demo
                     <ArrowRight size="18" />
                   </button>
-                }
+                )}
                 <button
                   onClick={handleSignUp}
                   className="font-dmsans flex items-center z-20  justify-center gap-2 px-5 py-2.5 bg-[#FF9500] text-white rounded-lg font-medium hover:bg-orange-600 transition shadow-md w-full sm:w-auto"
@@ -464,12 +522,10 @@ function FrontPage() {
                   30 Day Free Trial
                   <ArrowRight size="18" />
                 </button>
-
               </div>
             </div>
           </div>
         </div>
-
       )}
     </div>
   );

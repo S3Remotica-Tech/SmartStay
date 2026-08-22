@@ -121,10 +121,9 @@ function Credit({ handleClose }) {
       label: view.name,
     })) || [];
 
-  // const [linkedBank, setLinkedBank] = useState(null);
-  // const [linkedBankError, setLinkedBankError] = useState("");
+
   const [description, setDescription] = useState("");
-  // const [descriptionError, setDescriptionError] = useState("");
+
   const [displayName, setDisplayName] = useState("");
   const [displayNameError, setDisplayNameError] = useState("");
   const [cardNetwork, setCardNetwork] = useState(null);
@@ -140,12 +139,10 @@ function Credit({ handleClose }) {
   const [creditLimitError, setCreditLimitError] = useState("");
 
   const [billingCycle, setBillingCycle] = useState(null);
-  // const [billingCycleError, setBillingCycleError] = useState("");
-  // const [openBillingPicker, setOpenBillingPicker] = useState(false);
+  
 
   const billingPickerRef = useRef(null);
 
-  // const billingDaysOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const cardNetworkRef = useRef(null);
   const cardHolderNameRef = useRef(null);
@@ -153,10 +150,6 @@ function Credit({ handleClose }) {
   const displayNameRef = useRef(null);
   const creditLimitRef = useRef(null);
 
-  // const handleLinkedBankChange = (selected) => {
-  //   setLinkedBank(selected);
-  //   setLinkedBankError("");
-  // };
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
@@ -227,7 +220,7 @@ function Credit({ handleClose }) {
 
   const handleBillingCycleChange = (date) => {
     setBillingCycle(date);
-    // setBillingCycleError("");
+    
   };
 
   const handleSaveCredit = () => {
@@ -316,8 +309,7 @@ function Credit({ handleClose }) {
         cardNetwork: cardNetwork?.value,
         cardHolderName: cardHolderName,
         creditLimit: creditLimit,
-        // billingCycle: billingCycle,
-        billingCycle: billingCycle
+               billingCycle: billingCycle
           ? dayjs(billingCycle).format("DD/MM/YYYY")
           : null,
       },
@@ -331,7 +323,7 @@ function Credit({ handleClose }) {
         billingPickerRef.current &&
         !billingPickerRef.current.contains(event.target)
       ) {
-        // setOpenBillingPicker(false);
+       
       }
     };
 

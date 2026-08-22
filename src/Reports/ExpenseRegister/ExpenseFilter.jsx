@@ -115,13 +115,15 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   const [period, setPeriod] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [paymentMode, setPaymentMode] = useState([]);
-  // const [paidTo, setPaidTo] = useState([]);
   const [createdBy, setCreatedBy] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
+  const [selectedVendor, setSelectedVendor] = useState(null);
+  const [selectedBillStatus, setSelectedBillStatus] = useState(null);
   const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState(
     [],
   );
+
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
 
@@ -134,6 +136,19 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       label: item.categoryName,
       value: item.categoryId,
     })) || [];
+
+  const vendorOptions =
+    filterOptionsData?.vendors?.map((item) => ({
+      label: item.label,
+      value: item.id,
+    })) || [];
+
+  const paymentStatus =
+    filterOptionsData?.paymentStatus?.map((item) => ({
+      label: item.label,
+      value: item.id,
+    })) || [];
+
   const subCategoryOptions =
     filterOptionsData?.subCategory?.map((item) => ({
       label: item.subCategoryName,
@@ -274,6 +289,9 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       size: size,
       startDate: period ? undefined : startDate,
       endDate: period ? undefined : endDate,
+      vendorId: selectedVendor?.value,
+      vendorName: selectedVendor?.label,
+      paymentStatus: selectedBillStatus?.value,
     };
 
     dispatch({
@@ -334,57 +352,37 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
         <Offcanvas.Body className="pt-0">
           <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
-            {/* <Form.Group className="mt-2 mb-3">
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    width: '100%',
-                                    marginBottom: 5
-                                }}
-                            >
-                                <Form.Label
-                                    style={{
-                                        fontFamily: 'Gilroy',
-                                        fontWeight: 500,
-                                        fontStyle: 'normal',
-                                        fontSize: '12px',
-                                        letterSpacing: '0',
-                                        marginBottom: 0,
-                                        padding: 0, color: "#4B4B4B"
+            <Form.Group className="mb-3">
+              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                Vendor
+              </Form.Label>
 
-                                    }}
-                                >
-                                    Tenant
-                                </Form.Label>
+              <Select
+                closeMenuOnSelect={false}
+                hideSelectedOptions={false}
+                options={vendorOptions}
+                styles={selectStyles}
+                placeholder="Select Vendor"
+                value={selectedVendor}
+                onChange={(selected) => setSelectedVendor(selected)}
+              />
+            </Form.Group>
 
+            <Form.Group className="mb-3">
+              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                Payment Status
+              </Form.Label>
 
-                            </div>
-
-                            <Form.Control
-                                style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
-                                type="text"
-                                placeholder="Enter Tenant Name"
-
-                                value={tenantName}
-                                onChange={handleTenantChange}
-                            />
-
-
-
-
-
-
-                        </Form.Group> */}
-
-            <div className="mb-3">
-              <label
-                style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}
-              >
-                System Filter
-              </label>
-            </div>
+              <Select
+                closeMenuOnSelect={false}
+                hideSelectedOptions={false}
+                options={paymentStatus}
+                styles={selectStyles}
+                placeholder="Select Status"
+                value={selectedBillStatus}
+                onChange={(selected) => setSelectedBillStatus(selected)}
+              />
+            </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
@@ -519,6 +517,8 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
               // setPaidTo([]);
               setCreatedBy([]);
               setCategory([]);
+              setSelectedVendor("");
+              setSelectedBillStatus("");
             }}
             style={{
               backgroundColor: "transparent",

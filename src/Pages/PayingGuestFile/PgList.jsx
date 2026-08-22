@@ -56,7 +56,7 @@ function PgList() {
   const [floorName, setFloorName] = useState("");
   const [selectedHostel, setSelectedHostel] = useState(true);
 
-  // const [filteredData, setFilteredData] = useState([]);
+
 
   const [showAddPg, setShowAddPg] = useState(false);
   const [floorList, setFloorList] = useState([]);

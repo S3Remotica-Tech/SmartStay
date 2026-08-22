@@ -120,8 +120,7 @@ function Debit({ handleClose }) {
       value: view.id,
       label: view.name,
     })) || [];
-  // const [linkedBank, setLinkedBank] = useState(null);
-  // const [linkedBankError, setLinkedBankError] = useState("");
+ 
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -140,10 +139,7 @@ function Debit({ handleClose }) {
   const cardNumberRef = useRef(null);
   const displayNameRef = useRef(null);
 
-  // const handleLinkedBankChange = (selected) => {
-  //   setLinkedBank(selected);
-  //   setLinkedBankError("");
-  // };
+ 
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
@@ -320,8 +316,7 @@ function Debit({ handleClose }) {
             <input
               value={OverviewDetails?.bankName}
               disabled
-              // onChange={handleLinkedBankChange}
-              placeholder=""
+                           placeholder=""
               className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
             />
           </div>

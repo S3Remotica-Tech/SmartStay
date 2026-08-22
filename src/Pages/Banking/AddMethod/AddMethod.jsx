@@ -9,7 +9,6 @@ import Debit from "./Debit";
 import PropTypes from "prop-types";
 
 function AddPaymentMethod({ handleClose }) {
-  // const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [paymentType, setPaymentType] = useState("UPI");
