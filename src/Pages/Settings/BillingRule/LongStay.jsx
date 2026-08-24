@@ -189,6 +189,8 @@ function LongStayRecurringModal() {
     setFlatFeeAmount(e.target.value);
   };
 
+  // console.log("isDisabledType", isDisabledType)
+
   const handleSave = () => {
     dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
     const newErrors = {};
@@ -421,6 +423,12 @@ function LongStayRecurringModal() {
   }, []);
 
   useEffect(() => {
+    if (billingMethod === "joining_date_based") {
+      setBillingPeriod("prepaid");
+    }
+  }, [billingMethod]);
+
+  useEffect(() => {
     if (state.Settings.SettingsRecurringAddSuccess === 200) {
       setFormLoading(false);
       dispatch({
@@ -490,7 +498,7 @@ function LongStayRecurringModal() {
             <ArrowLeft
               size={24}
               color="#292D32"
-              className="cursor-pointer -ml-1"
+              className="cursor-pointer"
               onClick={() => handleNavigateBillingRule("billing-rule")}
             />{" "}
             Billing Rule
@@ -700,7 +708,10 @@ function LongStayRecurringModal() {
 
             <div className="flex grid grid-cols-1 md:grid-cols-2  gap-4 my-2">
               <div
-                onClick={() => handleChangePaid("prepaid")}
+                onClick={() => {
+                  if (isDisabledType) return;
+                  handleChangePaid("prepaid");
+                }}
                 className={`cursor-pointer flex items-center max-h-[150px] gap-3 p-2 rounded-lg border w-full transition
     
     ${
@@ -714,7 +725,10 @@ function LongStayRecurringModal() {
                   name="billingPeriod"
                   value="prepaid"
                   checked={billingPeriod === "prepaid"}
-                  // disabled={isDisabled}
+                  disabled={
+                    billingMethod === "joining_date_based" ||
+                    !state.UsersList.hotelDetailsinPg?.canModifyBilling
+                  }
                   className="mt-1 accent-[#4E61F6] cursor-pointer disabled:cursor-not-allowed"
                 />
 
@@ -734,7 +748,10 @@ function LongStayRecurringModal() {
 
               <div
                 onClick={() => {
-                  if (billingMethod !== "joining_date_based") {
+                  if (
+                    billingMethod !== "joining_date_based" &&
+                    !isDisabledType
+                  ) {
                     handleChangePaid("postpaid");
                   }
                 }}
@@ -755,7 +772,10 @@ function LongStayRecurringModal() {
                   name="billingPeriod"
                   value="postpaid"
                   checked={billingPeriod === "postpaid"}
-                  disabled={billingMethod === "joining_date_based"}
+                  disabled={
+                    billingMethod === "joining_date_based" ||
+                    !state.UsersList.hotelDetailsinPg?.canModifyBilling
+                  }
                   className="mt-1 accent-[#1E45E1] disabled:accent-[#DBDBDB] disabled:cursor-not-allowed"
                 />
 

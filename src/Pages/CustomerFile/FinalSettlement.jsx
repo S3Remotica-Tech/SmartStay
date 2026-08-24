@@ -6,14 +6,12 @@ import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import PropTypes from "prop-types";
 import {
   ArrowDown2,
   ArrowUp2,
   ArrowLeft,
   Edit2,
   InfoCircle,
- 
 } from "iconsax-react";
 
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
@@ -2453,15 +2451,5 @@ function FinalSettlement() {
     </div>
   );
 }
-FinalSettlement.propTypes = {
-  // show: PropTypes.func.isRequired,
-  // handleClose: PropTypes.func.isRequired,
-  data: PropTypes.func.isRequired,
-  customerID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  pgDetails: PropTypes.shape({
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
-  }).isRequired,
-};
+
 export default FinalSettlement;

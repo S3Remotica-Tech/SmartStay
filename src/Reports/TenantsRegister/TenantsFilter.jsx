@@ -38,12 +38,14 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
         (option) => option.value === savedFilters.period,
       );
       setPeriod(selectedPeriod || null);
+
       const selectedFloorOptions = floorOptions.filter((option) =>
-        savedFilters.floor?.includes(option.label),
+        (savedFilters.floorId || []).includes(option.value),
       );
+
       setFloor(selectedFloorOptions);
       const selectedRoomOptions = roomOptions.filter((option) =>
-        savedFilters.room?.includes(option.label),
+        savedFilters.roomId?.includes(option.value),
       );
       setRoom(selectedRoomOptions);
 
@@ -202,10 +204,6 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     setTenantName(e.target.value);
   };
 
-  useEffect(() => {
-    setFloor(null);
-  }, [sharingType]);
-
   const CheckboxOption = (props) => {
     const { isSelected, label } = props;
 
@@ -268,6 +266,8 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
 
   const handleChangeSharingType = (selectedOptions) => {
     setSharingType(selectedOptions);
+    // setFloor([]);
+    // setRoom([]);
   };
 
   const selectedSharingOptions =
@@ -295,7 +295,9 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
         endDate: period?.value ? undefined : endDate,
         period: period?.value || null,
         floor: floor?.map((f) => f.label),
+        floorId: floor?.map((f) => f.value),
         room: room?.map((r) => r.label),
+        roomId: room?.map((r) => r.value),
         search: tenantName,
         tenantStatus: tenantStatus,
         tenantStatusLabel: selectedTenantStatusOptions?.map((s) => s.label),

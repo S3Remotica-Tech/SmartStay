@@ -521,7 +521,7 @@ function ExpenseRegister() {
     if (invoiceFilters?.paymentStatus) {
       filterData.push({
         key: "paymentStatus",
-        label: "PaymentStatus  is",
+        label: "Payment Status  is",
         type: "paymentStatus",
         value: invoiceFilters?.paymentStatus,
       });

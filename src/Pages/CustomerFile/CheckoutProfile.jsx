@@ -1,11 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useTheme } from "@mui/material/styles";
-
 import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
 import { Call, Sms, House, DocumentUpload, AddCircle } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
@@ -16,9 +13,7 @@ import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import LinkImage from "../../Assets/Images/home-link.png";
 import Group from "../../Assets/Images/Group.png";
-
 import Stayhistory from "../../Assets/Images/stay_history.png";
-
 import StayHistory from "./StayHistory";
 import PropTypes from "prop-types";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -28,9 +23,7 @@ import UserEb from "./UserListEb";
 import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
 import TransactionHistory from "./TransactionHistory";
-
 import { useHasPermission } from "../../Utils/Permission";
-
 import FileAdd from "../../Assets/Images/New_images/file_add.svg";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
@@ -1131,9 +1124,7 @@ function CustomerProfile(props) {
   );
 }
 CustomerProfile.propTypes = {
-  setcheckoutTableShow: PropTypes.func.isRequired,
-  handleCloseCheckoutProfile: PropTypes.func.isRequired,
-  CheckoutProfile: PropTypes.func.isRequired,
-  checkoutWithoutPay: PropTypes.func.isRequired,
+  setcheckoutTableShow: PropTypes.func,
+  handleCloseCheckoutProfile: PropTypes.func,
 };
 export default CustomerProfile;

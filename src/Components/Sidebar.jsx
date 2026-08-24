@@ -773,7 +773,7 @@ function Sidebar() {
                               placeholder="Search hostel"
                               className="w-full h-9 pl-8 pr-2 text-xs
             border border-gray-200 rounded-md
-            outline-none focus:border-[#1E45E1]"
+            outline-none focus:border-[#1E45E1] text-[#222222]"
                               onClick={(e) => e.stopPropagation()}
                             />
                           </div>

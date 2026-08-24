@@ -297,20 +297,25 @@ SidebarProfile.propTypes = {
   setShowProfileCard: PropTypes.func.isRequired,
   handleShowLogout: PropTypes.func.isRequired,
   handleShowsettingsGenaral: PropTypes.func.isRequired,
+
   profileCardRef: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.shape({ current: PropTypes.any }),
+    PropTypes.shape({
+      current: PropTypes.any,
+    }),
   ]),
 
   stateData: PropTypes.shape({
-    accountList: PropTypes.shape({
-      initial: PropTypes.string,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      roleName: PropTypes.string,
-      mailId: PropTypes.string,
-      mobileNo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    }),
+    accountList: PropTypes.arrayOf(
+      PropTypes.shape({
+        initial: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        roleName: PropTypes.string,
+        mailId: PropTypes.string,
+        mobileNo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      }),
+    ),
   }),
 };
 
