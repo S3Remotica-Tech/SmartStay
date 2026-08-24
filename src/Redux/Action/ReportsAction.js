@@ -48,6 +48,8 @@ export async function getExpenseRegister(hostelId, filters = {}) {
       paidTo: filters?.paidTo,
       page: filters?.page,
       size: filters?.size,
+      vendorId: filters?.vendorId,
+      paymentStatus: filters?.paymentStatus,
     },
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
@@ -169,6 +171,8 @@ export async function ReportsExpensePDF(invoice) {
         paymentMode: invoice?.paymentMode,
         createdBy: invoice?.createdBy,
         paidTo: invoice?.paidTo,
+        vendorId: invoice?.vendorId,
+        paymentStatus: invoice?.paymentStatus,
       },
       paramsSerializer: (params) =>
         qs.stringify(params, {
