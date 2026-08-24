@@ -45,7 +45,7 @@ export async function getExpenseRegister(hostelId, filters = {}) {
       subCategoryId: filters?.subCategory,
       paymentMode: filters?.paymentMode,
       createdBy: filters?.createdBy,
-      paidTo: filters?.paidTo,
+      // paidTo: filters?.paidTo,
       page: filters?.page,
       size: filters?.size,
       paidTo: filters?.vendorId,

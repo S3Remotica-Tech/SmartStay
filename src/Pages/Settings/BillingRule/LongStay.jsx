@@ -189,7 +189,7 @@ function LongStayRecurringModal() {
     setFlatFeeAmount(e.target.value);
   };
 
-  // console.log("isDisabledType", isDisabledType)
+  
 
   const handleSave = () => {
     dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });

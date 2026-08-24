@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CloseCircle } from "iconsax-react";
+import PropTypes from "prop-types";
 
 function CreateBill() {
   const navigate = useNavigate();
@@ -281,6 +282,10 @@ function CreateBill() {
     );
   });
   CustomStartDateInput.displayName = "CustomStartDateInput";
+  CustomStartDateInput.propTypes = {
+    value: PropTypes.string,
+    onClick: PropTypes.func,
+  };
 
   const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
@@ -330,6 +335,10 @@ function CreateBill() {
   });
 
   CustomEndDateInput.displayName = "CustomEndDateInput";
+  CustomEndDateInput.propTypes = {
+    value: PropTypes.string,
+    onClick: PropTypes.func,
+  };
 
   const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
     return (
@@ -378,6 +387,11 @@ function CreateBill() {
     );
   });
   CustomInvoiceDateInput.displayName = "CustomInvoiceDateInput";
+  CustomInvoiceDateInput.propTypes = {
+    value: PropTypes.string,
+    onClick: PropTypes.func,
+  };
+
   const CustomInvoiceDueDateInput = React.forwardRef(
     ({ value, onClick }, ref) => {
       return (
@@ -428,6 +442,11 @@ function CreateBill() {
   );
 
   CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
+
+  CustomInvoiceDueDateInput.propTypes = {
+    value: PropTypes.string,
+    onClick: PropTypes.func,
+  };
 
   const handleNewRowChange = (index, field, value) => {
     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });

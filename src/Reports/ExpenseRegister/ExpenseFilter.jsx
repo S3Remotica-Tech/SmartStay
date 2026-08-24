@@ -174,7 +174,6 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
     })) || [];
 
   const filters = state.reports?.expenseRegisterFilters;
-  console.log("filters", filters);
 
   useEffect(() => {
     if (show && filters) {
