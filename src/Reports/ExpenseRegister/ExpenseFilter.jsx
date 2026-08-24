@@ -174,6 +174,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
     })) || [];
 
   const filters = state.reports?.expenseRegisterFilters;
+  console.log("filters", filters);
 
   useEffect(() => {
     if (show && filters) {
@@ -181,6 +182,16 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       setPaymentMode(filters.paymentMode || []);
       setCreatedBy(filters.createdBy || []);
       setPeriod(filters.period || null);
+      const selectedVendorOption = vendorOptions?.find(
+        (option) => String(option.value) === String(filters.vendorId),
+      );
+      setSelectedVendor(selectedVendorOption);
+
+      const selectedPaymentStaus = paymentStatus?.find(
+        (option) => String(option.value) === String(filters.paymentStatus),
+      );
+
+      setSelectedBillStatus(selectedPaymentStaus);
     }
   }, [show]);
 

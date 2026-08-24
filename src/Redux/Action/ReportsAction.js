@@ -48,7 +48,7 @@ export async function getExpenseRegister(hostelId, filters = {}) {
       paidTo: filters?.paidTo,
       page: filters?.page,
       size: filters?.size,
-      vendorId: filters?.vendorId,
+      paidTo: filters?.vendorId,
       paymentStatus: filters?.paymentStatus,
     },
     paramsSerializer: (params) =>
@@ -170,8 +170,8 @@ export async function ReportsExpensePDF(invoice) {
         subCategoryId: invoice?.subCategory,
         paymentMode: invoice?.paymentMode,
         createdBy: invoice?.createdBy,
-        paidTo: invoice?.paidTo,
-        vendorId: invoice?.vendorId,
+        // paidTo: invoice?.paidTo,
+        paidTo: invoice?.vendorId,
         paymentStatus: invoice?.paymentStatus,
       },
       paramsSerializer: (params) =>
