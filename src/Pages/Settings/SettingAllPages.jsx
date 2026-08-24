@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import blueArrow from "../../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../../Assets/Images/New_images/arrow-leftblack.png";
-
 import { useSelector } from "react-redux";
 import { ArrowRight2, ArrowLeft2 } from "iconsax-react";
-
 import { useNavigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -19,17 +17,14 @@ function SettingAllPages({ isVisibleSidebar }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
-  
   useEffect(() => {
     const path = location.pathname;
     const lastSegment = path.split("/").pop();
-    
+
     if (lastSegment) {
       setActivePage(lastSegment);
     }
   }, [location.pathname]);
-
-  
 
   useEffect(() => {
     if (state.PgList?.isManageEnable) {
@@ -198,6 +193,6 @@ function SettingAllPages({ isVisibleSidebar }) {
   );
 }
 SettingAllPages.propTypes = {
-  isVisibleSidebar: PropTypes.func.isRequired,
+  isVisibleSidebar: PropTypes.bool.isRequired,
 };
 export default SettingAllPages;

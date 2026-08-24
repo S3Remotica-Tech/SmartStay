@@ -9,22 +9,16 @@ import Filters from "../../Assets/Images/Filters.svg";
 
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Compliants/Compliance.css";
-
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
-
 import ComplianceList from "../Compliants/ComplianceList";
 import "react-datepicker/dist/react-datepicker.css";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import PropTypes from "prop-types";
-
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
@@ -756,8 +750,4 @@ const Compliance = () => {
   );
 };
 
-Compliance.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-};
 export default withErrorBoundary(Compliance);

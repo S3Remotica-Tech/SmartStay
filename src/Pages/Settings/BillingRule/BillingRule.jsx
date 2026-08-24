@@ -112,7 +112,7 @@ function BillingRule() {
   return (
     <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy">
       <div className="sticky top-0 left-0 right-0 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap font-gilroy">
-        <label className="text-black font-semibold text-[18px] font-gilroy -ml-2">
+        <label className="text-black font-semibold text-[18px] font-gilroy ">
           Billing Rule
         </label>
       </div>

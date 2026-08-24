@@ -12,7 +12,6 @@ import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import "react-datepicker/dist/react-datepicker.css";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -1150,10 +1149,5 @@ function CreateBill() {
     </div>
   );
 }
-
-CreateBill.propTypes = {
-  value: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-};
 
 export default CreateBill;

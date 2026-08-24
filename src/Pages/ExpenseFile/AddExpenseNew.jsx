@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Add, More, DocumentUpload } from "iconsax-react";
-import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
@@ -218,62 +217,6 @@ const CustomStylesCode = {
     display: "none",
   }),
 };
-
-// const indianStates = [
-//   { value: "Tamil Nadu", label: "Tamil Nadu" },
-//   { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-//   { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-//   { value: "Assam", label: "Assam" },
-//   { value: "Bihar", label: "Bihar" },
-//   { value: "Chhattisgarh", label: "Chhattisgarh" },
-//   { value: "Goa", label: "Goa" },
-//   { value: "Gujarat", label: "Gujarat" },
-//   { value: "Haryana", label: "Haryana" },
-//   { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-//   { value: "Jharkhand", label: "Jharkhand" },
-//   { value: "Karnataka", label: "Karnataka" },
-//   { value: "Kerala", label: "Kerala" },
-//   { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-//   { value: "Maharashtra", label: "Maharashtra" },
-//   { value: "Manipur", label: "Manipur" },
-//   { value: "Meghalaya", label: "Meghalaya" },
-//   { value: "Mizoram", label: "Mizoram" },
-//   { value: "Nagaland", label: "Nagaland" },
-//   { value: "Odisha", label: "Odisha" },
-//   { value: "Punjab", label: "Punjab" },
-//   { value: "Rajasthan", label: "Rajasthan" },
-//   { value: "Sikkim", label: "Sikkim" },
-//   { value: "Telangana", label: "Telangana" },
-//   { value: "Tripura", label: "Tripura" },
-//   { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-//   { value: "Uttarakhand", label: "Uttarakhand" },
-//   { value: "West Bengal", label: "West Bengal" },
-//   {
-//     value: "Andaman and Nicobar Islands",
-//     label: "Andaman and Nicobar Islands",
-//   },
-//   { value: "Chandigarh", label: "Chandigarh" },
-//   {
-//     value: "Dadra and Nagar Haveli and Daman and Diu",
-//     label: "Dadra and Nagar Haveli and Daman and Diu",
-//   },
-//   { value: "Delhi", label: "Delhi" },
-//   { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-//   { value: "Ladakh", label: "Ladakh" },
-//   { value: "Lakshadweep", label: "Lakshadweep" },
-//   { value: "Puducherry", label: "Puducherry" },
-// ];
-
-// const paidThroughOptions = [
-//   {
-//     value: "sbi",
-//     label: "SBI Bank (Navaur Branch)",
-//   },
-//   {
-//     value: "hdfc",
-//     label: "HDFC Bank",
-//   },
-// ];
 
 function AddExpenseNew() {
   const state = useSelector((state) => state);
@@ -1937,9 +1880,5 @@ function AddExpenseNew() {
     </div>
   );
 }
-
-AddExpenseNew.propTypes = {
-  show: PropTypes.func.isRequired,
-};
 
 export default AddExpenseNew;
