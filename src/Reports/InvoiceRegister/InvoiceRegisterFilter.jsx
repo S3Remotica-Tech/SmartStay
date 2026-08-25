@@ -215,22 +215,55 @@ function InvoiceRegisterFilter({
     setOutstandingMax(e.target.value);
   };
 
-  const handleBillStatusChange = (selectedOptions) => {
-    if (!selectedOptions) {
-      setSelectedBillStatusOptions([]);
-      setBillStatus([]);
+  // const handleBillStatusChange = (selectedOptions) => {
+  //   if (!selectedOptions) {
+  //     setSelectedBillStatusOptions([]);
+  //     setBillStatus([]);
+  //     return;
+  //   }
+
+  //   const hasAll = selectedOptions?.some((opt) => opt.value === "ALL");
+
+  //   if (hasAll) {
+  //     const allOption = selectedOptions.find((opt) => opt.value === "ALL");
+  //     setSelectedBillStatusOptions([allOption]);
+  //     setBillStatus(["ALL"]);
+  //   } else {
+  //     setSelectedBillStatusOptions(selectedOptions);
+  //     setBillStatus(selectedOptions.map((opt) => opt.value));
+  //   }
+  // };
+
+  const handleBillStatusChange = (selectedOptions, actionMeta) => {
+    const allOption = billStatusOptions.find(
+      (option) => option.value === "ALL",
+    );
+    const individualOptions = billStatusOptions.filter(
+      (option) => option.value !== "ALL",
+    );
+    if (actionMeta.option?.value === "ALL") {
+      if (actionMeta.action === "select-option") {
+        setSelectedBillStatusOptions([allOption, ...individualOptions]);
+        setBillStatus(["ALL"]);
+      } else if (actionMeta.action === "deselect-option") {
+        setSelectedBillStatusOptions([]);
+        setBillStatus([]);
+      }
+
       return;
     }
+    const selectedWithoutAll = (selectedOptions || []).filter(
+      (option) => option.value !== "ALL",
+    );
+    const isAllSelected =
+      selectedWithoutAll.length === individualOptions.length;
 
-    const hasAll = selectedOptions?.some((opt) => opt.value === "ALL");
-
-    if (hasAll) {
-      const allOption = selectedOptions.find((opt) => opt.value === "ALL");
-      setSelectedBillStatusOptions([allOption]);
+    if (isAllSelected) {
+      setSelectedBillStatusOptions([allOption, ...individualOptions]);
       setBillStatus(["ALL"]);
     } else {
-      setSelectedBillStatusOptions(selectedOptions);
-      setBillStatus(selectedOptions.map((opt) => opt.value));
+      setSelectedBillStatusOptions(selectedWithoutAll);
+      setBillStatus(selectedWithoutAll.map((option) => option.value));
     }
   };
 
@@ -519,7 +552,7 @@ function InvoiceRegisterFilter({
                 isOptionSelected={(option) =>
                   billStatus.includes("ALL")
                     ? true
-                    : selectedBillStatusOptions.some(
+                    : selectedBillStatusOptions?.some(
                         (selected) => selected.value === option.value,
                       )
                 }
