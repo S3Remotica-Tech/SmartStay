@@ -1428,7 +1428,7 @@ const InvoicePage = () => {
             <PermissionDeniedMessage />
           ) : (
             <>
-              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 font-gilroy">
+              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-around font-gilroy">
                 {stats.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
                     {item.highlight && (

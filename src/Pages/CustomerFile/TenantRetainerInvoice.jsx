@@ -10,14 +10,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import { useNavigate } from "react-router-dom";
 import NoDataMessage from "../../Utils/NoDataMessage";
-import {
-  Filter,
- 
-  ArrowDown,
- 
-  AddCircle,
-  More,
-} from "iconsax-react";
+import { Filter, ArrowDown, AddCircle, More } from "iconsax-react";
 import { toast } from "react-toastify";
 
 import RetainerApplyInvoice from "../Bookings/RetainerApplyInvoice";
@@ -232,8 +225,8 @@ function TenantRetainerInvoice() {
             // <FormComingSoon />
             <div>
               <div
-                className="w-full my-6 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between
-               gap-4 sm:gap-6 md:gap-10 font-gilroy"
+                className="w-full my-6 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap 
+              items-center justify-between font-gilroy"
               >
                 {stats.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
