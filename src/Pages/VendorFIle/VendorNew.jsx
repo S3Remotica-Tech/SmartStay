@@ -180,9 +180,7 @@ function Vendor() {
   const NavigateTOselectedVendorId =
     location.state?.navigateToVendorOverviewSelectedVendorId;
 
- 
-
-   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [paymentStatus, setPaymentStatus] = useState("");
   const [trigger, setTrigger] = useState(false);
@@ -515,8 +513,6 @@ function Vendor() {
   useEffect(() => {
     const vendorFilters = state.ComplianceList?.vendorFilters;
 
-    
-
     const filterData = [];
 
     if (vendorFilters?.search) {
@@ -649,8 +645,6 @@ function Vendor() {
     setShowDeleteVendor(false);
   };
 
- 
-
   const ConfirmDeleteVendor = () => {
     dispatch({ type: "REMOVE_DELETE_VENDOR_ERROR" });
     if (showDeleteVendorDetails) {
@@ -758,8 +752,6 @@ function Vendor() {
     return obj;
   });
 
-  
-
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
     "Full Name": "px-4 whitespace-nowrap",
@@ -857,11 +849,8 @@ function Vendor() {
 
   const totalRecords = filteredData?.totalVendors ?? 0;
 
- 
-
   const handlePageChange = (page) => {
     setPage(page);
-   
   };
 
   const handleSizeChange = (sizeValue) => {
@@ -932,8 +921,8 @@ function Vendor() {
             )}
 
             <div
-              className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 
-            flex flex-wrap items-center gap-12 sm:gap-12 md:gap-12 font-gilroy"
+              className="w-full my-2 bg-[#F9F9F9] rounded-xl  py-3 
+            flex flex-wrap items-center justify-between px-4 font-gilroy"
             >
               {stats.map((item, index) => (
                 <div key={index} className="flex items-center gap-3">

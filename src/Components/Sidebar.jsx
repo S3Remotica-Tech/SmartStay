@@ -112,6 +112,7 @@ import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
 import Request from "../Pages/Request/Request";
 import ChangeBedPgView from "../Pages/Request/ChangeBedPgView";
+import TenantAppControls from "../Pages/Settings/TenantAppControls";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -629,95 +630,110 @@ function Sidebar() {
 
   return (
     <>
-      {showNotify && (
-        <NotificationForm show={showNotify} handleClose={handleClose} />
-      )}
+      {currentPage === "settingNewDesign" ? (
+        <>
+          <Routes>
+            <Route
+              path="/settings/:hostelId?/*"
+              element={
+                <div>
+                  <SettingAllPages
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                    payingGuestName={payingGuestName}
+                    settignspgshow={settignspgshow}
+                    onhandleShowsettingsPG={handleShowsettingsPG}
+                    isVisibleSidebar={isVisibleSidebar}
+                  />
+                </div>
+              }
+            >
+              <Route index element={<Navigate to="general" replace />} />
+              <Route path="general" element={<SettingGeneral />} />
+              <Route path="manage-pg" element={<SettingManage />} />
+              <Route path="security" element={<SettingSecurity />} />
+              <Route path="subscription" element={<SettingSubscription />} />
+              <Route path="allplans" element={<AllPlans />} />
 
-      <div className="w-full p-0">
-        <div className="flex w-full h-screen overflow-y-hidden flex-row">
-          <div
-            className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`}
-          >
-            <div>
-              <div className="p-3 flex-shrink-0 mt-1.5">
-                <img
-                  src={Smartstay}
-                  alt="smartstay"
-                  className="sidebar-logo Title mb-1 w-36 h-6 hidden lg:block"
-                  onClick={() => handlePageClick("dashboard")}
-                />
+              <Route path="integration" element={<SettingIntergration />} />
+              <Route path="electricity" element={<SettingsElectricityNew />} />
+              {/* <Route path="electricity-old" element={<SettingElectricity />} /> */}
+              <Route path="electricity-rule" element={<ElectricityRule />} />
+              {/* <Route path="billing-rule-old" element={<BillingRuleOld />} /> */}
+              <Route path="billing-rule" element={<BillingRule />} />
 
-                <button
-                  onClick={closeSidebar}
-                  className={`bg-transparent border-none textbase cursor-pointer md:hidden ${
-                    isSidebarOpen ? "block" : "hidden"
-                  }`}
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 18L18 6M6 6L18 18"
-                      stroke="#000000"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
+              <Route
+                path="long-stay-recurring"
+                element={<LongStayRecurringModal />}
+              />
+              <Route path="notifications" element={<SettingsNotifications />} />
+              <Route
+                path="invoice"
+                element={<SettingInvoice handleFormPage={handleFormPage} />}
+              />
+              <Route path="expenses" element={<SettingExpenses />} />
+              <Route path="vendor-category" element={<VendorCategory />} />
+              <Route path="complaints" element={<SettingCompliance />} />
+              <Route path="amenities" element={<SettingAmenities />} />
+              <Route path="user" element={<SettingNewUser />} />
+              <Route path="role" element={<SettingNewRole />} />
+              <Route path="agreement" element={<SettingAgreement />} />
+              <Route
+                path="tenant-app-controls"
+                element={<TenantAppControls />}
+              />
+            </Route>
+          </Routes>
+        </>
+      ) : (
+        <div className="w-full p-0">
+          <div className="flex w-full h-screen overflow-y-hidden flex-row">
+            <div
+              className={`sidebar-left w-20 min-w-20 md:w-20 md:min-w-20 lg:w-64 lg:min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md ${isMdSidebarExpanded ? "md-expanded" : ""}`}
+            >
+              <div>
+                <div className="p-3 flex-shrink-0 mt-1.5">
+                  <img
+                    src={Smartstay}
+                    alt="smartstay"
+                    className="sidebar-logo Title mb-1 w-36 h-6 hidden lg:block"
+                    onClick={() => handlePageClick("dashboard")}
+                  />
 
-                {hostelListDetail && hostelListDetail?.length > 0 && (
-                  <li
-                    ref={dropdownRef}
-                    onClick={toggleDropdown}
-                    className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${
-                      currentPage === "settingNewDesign" ? "active" : ""
+                  <button
+                    onClick={closeSidebar}
+                    className={`bg-transparent border-none textbase cursor-pointer md:hidden ${
+                      isSidebarOpen ? "block" : "hidden"
                     }`}
                   >
-                    {selectedProfileImage &&
-                    selectedProfileImage !== null &&
-                    selectedProfileImage !== "" ? (
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        overlay={
-                          <Tooltip className="custom-tooltip">
-                            {payingGuestName} {locationName}
-                          </Tooltip>
-                        }
-                      >
-                        <img
-                          src={selectedProfileImage}
-                          className="h-9 w-9 rounded-full mr-2"
-                          alt="Selected Profile"
-                        />
-                      </OverlayTrigger>
-                    ) : (
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        overlay={
-                          <Tooltip className="custom-tooltip">
-                            {payingGuestName} {locationName}
-                          </Tooltip>
-                        }
-                      >
-                        <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 md:-ml-0.5 uppercase leading-none">
-                          {initials}
-                        </div>
-                      </OverlayTrigger>
-                    )}
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 18L18 6M6 6L18 18"
+                        stroke="#000000"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
 
-                    <span className="sidebar-label hidden lg:inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer">
-                      {payingGuestName}
-
-                      <div>
+                  {hostelListDetail && hostelListDetail?.length > 0 && (
+                    <li
+                      ref={dropdownRef}
+                      onClick={toggleDropdown}
+                      className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${
+                        currentPage === "settingNewDesign" ? "active" : ""
+                      }`}
+                    >
+                      {selectedProfileImage &&
+                      selectedProfileImage !== null &&
+                      selectedProfileImage !== "" ? (
                         <OverlayTrigger
                           trigger={tooltipTrigger}
                           placement="right"
@@ -728,304 +744,313 @@ function Sidebar() {
                             </Tooltip>
                           }
                         >
-                          <span className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px] cursor-pointer">
-                            <Location
-                              className="mr-1 shrink-0"
-                              size="16"
-                              color="#FF8A65"
-                              variant="Bold"
-                            />
-
-                            <span className="truncate min-w-0">
-                              {locationName}
-                            </span>
-                          </span>
+                          <img
+                            src={selectedProfileImage}
+                            className="h-9 w-9 rounded-full mr-2"
+                            alt="Selected Profile"
+                          />
                         </OverlayTrigger>
-                      </div>
-                    </span>
-
-                    <span className="ms-auto hidden lg:inline-flex">
-                      {isDropdownOpen ? (
-                        <ArrowUp2 size="16" color="#4B4B4B" />
                       ) : (
-                        <ArrowDown2 size="16" color="#4B4B4B" />
+                        <OverlayTrigger
+                          trigger={tooltipTrigger}
+                          placement="right"
+                          container={document.body}
+                          overlay={
+                            <Tooltip className="custom-tooltip">
+                              {payingGuestName} {locationName}
+                            </Tooltip>
+                          }
+                        >
+                          <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 md:-ml-0.5 uppercase leading-none">
+                            {initials}
+                          </div>
+                        </OverlayTrigger>
                       )}
-                    </span>
 
-                    {isDropdownOpen && (
-                      <div
-                        className="absolute top-full mt-1 left-0 bg-white shadow-md border rounded
+                      <span className="sidebar-label hidden lg:inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer">
+                        {payingGuestName}
+
+                        <div>
+                          <OverlayTrigger
+                            trigger={tooltipTrigger}
+                            placement="right"
+                            container={document.body}
+                            overlay={
+                              <Tooltip className="custom-tooltip">
+                                {payingGuestName} {locationName}
+                              </Tooltip>
+                            }
+                          >
+                            <span className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px] cursor-pointer">
+                              <Location
+                                className="mr-1 shrink-0"
+                                size="16"
+                                color="#FF8A65"
+                                variant="Bold"
+                              />
+
+                              <span className="truncate min-w-0">
+                                {locationName}
+                              </span>
+                            </span>
+                          </OverlayTrigger>
+                        </div>
+                      </span>
+
+                      <span className="ms-auto hidden lg:inline-flex">
+                        {isDropdownOpen ? (
+                          <ArrowUp2 size="16" color="#4B4B4B" />
+                        ) : (
+                          <ArrowDown2 size="16" color="#4B4B4B" />
+                        )}
+                      </span>
+
+                      {isDropdownOpen && (
+                        <div
+                          className="absolute top-full mt-1 left-0 bg-white shadow-md border rounded
       w-full md:w-[50px] lg:w-full z-50"
-                      >
-                        <div className="px-2 py-2 border-b bg-gray-100">
-                          <div className="relative">
-                            <SearchNormal1
-                              size="16"
-                              color="#9C9C9C"
-                              variant="Linear"
-                              className="absolute left-2 top-1/2 -translate-y-1/2"
-                            />
+                        >
+                          <div className="px-2 py-2 border-b bg-gray-100">
+                            <div className="relative">
+                              <SearchNormal1
+                                size="16"
+                                color="#9C9C9C"
+                                variant="Linear"
+                                className="absolute left-2 top-1/2 -translate-y-1/2"
+                              />
 
-                            <input
-                              type="text"
-                              value={hostelSearch}
-                              onChange={handleSearchChange}
-                              placeholder="Search hostel"
-                              className="w-full h-9 pl-8 pr-2 text-xs
+                              <input
+                                type="text"
+                                value={hostelSearch}
+                                onChange={handleSearchChange}
+                                placeholder="Search hostel"
+                                className="w-full h-9 pl-8 pr-2 text-xs
             border border-gray-200 rounded-md
             outline-none focus:border-[#1E45E1] text-[#222222]"
-                              onClick={(e) => e.stopPropagation()}
-                            />
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="max-h-48 overflow-y-auto overflow-x-hidden show-scrolls">
-                          <ul className="m-0 p-0">
-                            {filteredHostels?.length > 0 ? (
-                              filteredHostels?.map((item) => (
-                                <li
-                                  key={item.id}
-                                  className="relative group flex items-center
+                          <div className="max-h-48 overflow-y-auto overflow-x-hidden show-scrolls">
+                            <ul className="m-0 p-0">
+                              {filteredHostels?.length > 0 ? (
+                                filteredHostels?.map((item) => (
+                                  <li
+                                    key={item.id}
+                                    className="relative group flex items-center
               hover:bg-gray-100
               py-2 mx-2 px-2 rounded cursor-pointer
               text-blue-600"
-                                  onClick={() =>
-                                    handleHostelId(
-                                      item.hostelId,
-                                      item.name,
-                                      item.mainImage,
-                                      item.initials,
-                                      item.city,
-                                    )
-                                  }
-                                >
-                                  <div className="shrink-0">
-                                    {item.mainImage &&
-                                    item.mainImage !== "0" &&
-                                    item.mainImage !== "" ? (
-                                      <img
-                                        src={item.mainImage}
-                                        className="w-6 h-6 md:w-7 md:h-7 rounded-full mr-2"
-                                        alt={item.initials || "Default Profile"}
-                                      />
-                                    ) : (
-                                      <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
-                                        {item.initials}
-                                      </div>
-                                    )}
-                                  </div>
+                                    onClick={() =>
+                                      handleHostelId(
+                                        item.hostelId,
+                                        item.name,
+                                        item.mainImage,
+                                        item.initials,
+                                        item.city,
+                                      )
+                                    }
+                                  >
+                                    <div className="shrink-0">
+                                      {item.mainImage &&
+                                      item.mainImage !== "0" &&
+                                      item.mainImage !== "" ? (
+                                        <img
+                                          src={item.mainImage}
+                                          className="w-6 h-6 md:w-7 md:h-7 rounded-full mr-2"
+                                          alt={
+                                            item.initials || "Default Profile"
+                                          }
+                                        />
+                                      ) : (
+                                        <div className="shrink-0 min-w-6 w-6 h-6 md:w-7 md:h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase">
+                                          {item.initials}
+                                        </div>
+                                      )}
+                                    </div>
 
-                                  <div className="min-w-0">
-                                    <span className="hidden lg:inline-block truncate mb-0 max-w-[150px]">
-                                      {item.name}
-                                    </span>
+                                    <div className="min-w-0">
+                                      <span className="hidden lg:inline-block truncate mb-0 max-w-[150px]">
+                                        {item.name}
+                                      </span>
 
-                                    <div
-                                      className="absolute left-1/2 top-full mt-1
+                                      <div
+                                        className="absolute left-1/2 top-full mt-1
                   -translate-x-1/2
                   hidden group-hover:block
                   bg-[#1E45E1] text-white text-xs
                   rounded px-2 py-1 whitespace-nowrap
                   z-[9999] pointer-events-none"
-                                    >
-                                      {item.name}
-                                    </div>
+                                      >
+                                        {item.name}
+                                      </div>
 
-                                    <div className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px]">
-                                      <Location
-                                        className="mr-1 shrink-0"
-                                        size="16"
-                                        color="#FF8A65"
-                                        variant="Bold"
-                                      />
+                                      <div className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px]">
+                                        <Location
+                                          className="mr-1 shrink-0"
+                                          size="16"
+                                          color="#FF8A65"
+                                          variant="Bold"
+                                        />
 
-                                      <span className="truncate min-w-0">
-                                        {item.city}
-                                      </span>
+                                        <span className="truncate min-w-0">
+                                          {item.city}
+                                        </span>
+                                      </div>
                                     </div>
-                                  </div>
+                                  </li>
+                                ))
+                              ) : (
+                                <li className="px-3 py-3 text-center text-xs text-gray-400">
+                                  No hostel found
                                 </li>
-                              ))
-                            ) : (
-                              <li className="px-3 py-3 text-center text-xs text-gray-400">
-                                No hostel found
-                              </li>
-                            )}
-                          </ul>
+                              )}
+                            </ul>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </li>
-                )}
-
-                {!(hostelListDetail ?? []).length && (
-                  <NavLink
-                    to={settingsPath}
-                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
-                    onClick={() => {
-                      handledisplaySettingsPG("manage-pg", "Manage PG");
-                      dispatch({ type: "MANAGE_PG" });
-                      setIsSidebarOpen(false);
-                    }}
-                  >
-                    + Add PG
-                  </NavLink>
-                )}
-              </div>
-              <div className="show-scrolls-sidebar overflow-y-auto overflow-x-hidden h-[calc(100vh-130px)] p-1">
-                <ul className="flex-1 min-h-0 overflow-y-auto list-none p-0.5 mb-0 w-full">
-                  <li className="list-none flex items-center">
-                    <NavLink
-                      to={withHostel("/dashboard")}
-                      className={({ isActive }) =>
-                        `flex items-center list-Item focus:outline-none focus:ring-0  ${isActive ? "active" : ""}`
-                      }
-                      onClick={() => handlePageClick("dashboard")}
-                    >
-                      <Chart2 size="20" variant="Bold" />
-                      <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1">
-                        Home
-                      </span>
-                    </NavLink>
-                  </li>
-
-                  <li
-                    className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded collapsible-header
-    ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
-                    onClick={() => {
-                      const next = !manageOpen;
-                      setManageOpen(next);
-                      setBillingOpen(false);
-                      setIsMdSidebarExpanded(next);
-                      localStorage.setItem("manageOpen", !manageOpen);
-                    }}
-                  >
-                    <Setting2 size={20} variant="Bold" className="mt-1" />
-                    <span className="sidebar-label hidden lg:inline-block mt-1.5 font-gilroy font-semibold text-sm">
-                      Manage
-                    </span>
-                    <span className="ml-auto mt-1.5 inline-flex">
-                      {manageOpen ? (
-                        <ArrowUp2 size={16} color="#4B4B4B" />
-                      ) : (
-                        <ArrowDown2 size={16} color="#4B4B4B" />
                       )}
-                    </span>
-                  </li>
-
-                  {manageOpen && (
-                    <div className={`mx-4 submenu ${manageOpen ? "open" : ""}`}>
-                      <ul className="pl-2 relative p-1.5">
-                        <li className="list-none flex">
-                          <NavLink
-                            to={withHostel("/paying-guest")}
-                            className={({ isActive }) =>
-                              `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
-                            }
-                            onClick={() => handlePageClick("pg-list")}
-                          >
-                            <Buildings size="20" variant="Bold" />
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Paying Guest
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none">
-                          <NavLink
-                            to={withHostel("/tenant")}
-                            className={({ isActive }) =>
-                              `list-sub-Item no-underline d-flex align-items-center ${
-                                isActive || currentPage === "user-details"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("user-list")}
-                          >
-                            <Profile2User size="20" variant="Bold" />
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Tenant
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none">
-                          <NavLink
-                            to={withHostel("/asset")}
-                            className={({ isActive }) =>
-                              `align-items-center list-sub-Item no-underline d-flex ${
-                                isActive || currentPage === "asset"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("asset")}
-                          >
-                            <Box size="20" variant="Bold" />
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Assets
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none">
-                          <NavLink
-                            to={withHostel("/vendor")}
-                            className={({ isActive }) =>
-                              `align-items-center list-sub-Item no-underline d-flex ${
-                                isActive || currentPage === "vendor"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("vendor")}
-                          >
-                            <Shop size="20" variant="Bold" />
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Vendor
-                            </span>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
+                    </li>
                   )}
 
-                  <li
-                    className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
-                  >
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">Banking</Tooltip>
-                      }
+                  {!(hostelListDetail ?? []).length && (
+                    <NavLink
+                      to={settingsPath}
+                      className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
+                      onClick={() => {
+                        handledisplaySettingsPG("manage-pg", "Manage PG");
+                        dispatch({ type: "MANAGE_PG" });
+                        setIsSidebarOpen(false);
+                      }}
                     >
+                      + Add PG
+                    </NavLink>
+                  )}
+                </div>
+                <div className="show-scrolls-sidebar overflow-y-auto overflow-x-hidden h-[calc(100vh-130px)] p-1">
+                  <ul className="flex-1 min-h-0 overflow-y-auto list-none p-0.5 mb-0 w-full">
+                    <li className="list-none flex items-center">
                       <NavLink
-                        to={withHostel("/banking")}
+                        to={withHostel("/dashboard")}
                         className={({ isActive }) =>
-                          `align-items-center list-Item  d-flex ${
-                            isActive || currentPage === "banking"
-                              ? "active"
-                              : ""
-                          }`
+                          `flex items-center list-Item focus:outline-none focus:ring-0  ${isActive ? "active" : ""}`
                         }
-                        onClick={() => handlePageClick("banking")}
+                        onClick={() => handlePageClick("dashboard")}
                       >
-                        <Bank size="20" variant="Bold" className="-mt-1" />
-
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Banking
+                        <Chart2 size="20" variant="Bold" />
+                        <span className="sidebar-label hidden lg:inline-block text-sm font-semibold font-gilroy Title mt-1">
+                          Home
                         </span>
                       </NavLink>
-                    </OverlayTrigger>
-                  </li>
-                  {isDevelopment && (
+                    </li>
+
+                    <li
+                      className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded collapsible-header
+    ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                      onClick={() => {
+                        const next = !manageOpen;
+                        setManageOpen(next);
+                        setBillingOpen(false);
+                        setIsMdSidebarExpanded(next);
+                        localStorage.setItem("manageOpen", !manageOpen);
+                      }}
+                    >
+                      <Setting2 size={20} variant="Bold" className="mt-1" />
+                      <span className="sidebar-label hidden lg:inline-block mt-1.5 font-gilroy font-semibold text-sm">
+                        Manage
+                      </span>
+                      <span className="ml-auto mt-1.5 inline-flex">
+                        {manageOpen ? (
+                          <ArrowUp2 size={16} color="#4B4B4B" />
+                        ) : (
+                          <ArrowDown2 size={16} color="#4B4B4B" />
+                        )}
+                      </span>
+                    </li>
+
+                    {manageOpen && (
+                      <div
+                        className={`mx-4 submenu ${manageOpen ? "open" : ""}`}
+                      >
+                        <ul className="pl-2 relative p-1.5">
+                          <li className="list-none flex">
+                            <NavLink
+                              to={withHostel("/paying-guest")}
+                              className={({ isActive }) =>
+                                `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                              }
+                              onClick={() => handlePageClick("pg-list")}
+                            >
+                              <Buildings size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Paying Guest
+                              </span>
+                            </NavLink>
+                          </li>
+
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/tenant")}
+                              className={({ isActive }) =>
+                                `list-sub-Item no-underline d-flex align-items-center ${
+                                  isActive || currentPage === "user-details"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("user-list")}
+                            >
+                              <Profile2User size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Tenant
+                              </span>
+                            </NavLink>
+                          </li>
+
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/asset")}
+                              className={({ isActive }) =>
+                                `align-items-center list-sub-Item no-underline d-flex ${
+                                  isActive || currentPage === "asset"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("asset")}
+                            >
+                              <Box size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Assets
+                              </span>
+                            </NavLink>
+                          </li>
+
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/vendor")}
+                              className={({ isActive }) =>
+                                `align-items-center list-sub-Item no-underline d-flex ${
+                                  isActive || currentPage === "vendor"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("vendor")}
+                            >
+                              <Shop size="20" variant="Bold" />
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Vendor
+                              </span>
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+
                     <li
                       className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                     >
@@ -1039,281 +1064,27 @@ function Sidebar() {
                         }
                       >
                         <NavLink
-                          to={withHostel("/banking/new")}
+                          to={withHostel("/banking")}
                           className={({ isActive }) =>
                             `align-items-center list-Item  d-flex ${
-                              isActive || currentPage === "banking-new"
+                              isActive || currentPage === "banking"
                                 ? "active"
                                 : ""
                             }`
                           }
-                          onClick={() => handlePageClick("banking-new")}
+                          onClick={() => handlePageClick("banking")}
                         >
                           <Bank size="20" variant="Bold" className="-mt-1" />
 
                           <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Banking New
+                            Banking
                           </span>
                         </NavLink>
                       </OverlayTrigger>
                     </li>
-                  )}
-                  <li
-                    className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
-    ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
-                    onClick={() => {
-                      const next = !billingOpen;
-                      setBillingOpen(next);
-                      setManageOpen(false);
-                      setIsMdSidebarExpanded(next);
-                    }}
-                  >
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">
-                          Billing & Payments
-                        </Tooltip>
-                      }
-                    >
-                      <DocumentText
-                        size={21}
-                        variant="Bold"
-                        className="-mt-1"
-                      />
-                    </OverlayTrigger>
-
-                    <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
-                      Billing & Payments
-                    </span>
-
-                    <span className="ml-auto inline-flex">
-                      {billingOpen ? (
-                        <ArrowUp2 size={16} />
-                      ) : (
-                        <ArrowDown2 size={16} />
-                      )}
-                    </span>
-                  </li>
-
-                  {billingOpen && (
-                    <div
-                      className={`mx-4 submenu ${billingOpen ? "open" : ""}`}
-                      style={{}}
-                    >
-                      <ul className="p-1 relative">
-                        <li
-                          className={`list-none ${billingOpen ? "mt-0.5" : "mt-2.5"}`}
-                        >
-                          <NavLink
-                            to={withHostel("/invoice")}
-                            className={({ isActive }) =>
-                              `align-items-center list-sub-Item d-flex ${
-                                isActive || currentPage === "invoice"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("invoice")}
-                            style={{ textDecoration: "none" }}
-                          >
-                            <OverlayTrigger
-                              trigger={tooltipTrigger}
-                              placement="right"
-                              container={document.body}
-                              delay={{ show: 200, hide: 0 }}
-                              overlay={
-                                <Tooltip className="custom-tooltip">
-                                  Bills
-                                </Tooltip>
-                              }
-                            >
-                              <Receipt
-                                size="22"
-                                variant="Bold"
-                                className="ml-1 -mt-1"
-                              />
-                            </OverlayTrigger>
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Bills
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none rounded-md">
-                          <NavLink
-                            to={withHostel("/retainer-invoice")}
-                            className={({ isActive }) =>
-                              `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                isActive || currentPage === "booking"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("retainer-invoice")}
-                          >
-                            <OverlayTrigger
-                              trigger={tooltipTrigger}
-                              placement="right"
-                              container={document.body}
-                              delay={{ show: 200, hide: 0 }}
-                              overlay={
-                                <Tooltip className="custom-tooltip">
-                                  Retainer Invoice
-                                </Tooltip>
-                              }
-                            >
-                              <CalendarAdd
-                                variant="Bold"
-                                size="22"
-                                className="-mt-1"
-                              />
-                            </OverlayTrigger>
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Retainer Invoice
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none">
-                          <NavLink
-                            to={withHostel("/recurring")}
-                            className={({ isActive }) =>
-                              `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                isActive || currentPage === "recurring"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("recurring")}
-                          >
-                            <OverlayTrigger
-                              trigger={tooltipTrigger}
-                              placement="right"
-                              container={document.body}
-                              delay={{ show: 200, hide: 0 }}
-                              overlay={
-                                <Tooltip className="custom-tooltip">
-                                  Recurring bills
-                                </Tooltip>
-                              }
-                            >
-                              <RulerPen
-                                variant="Bold"
-                                size="22"
-                                className="-mt-1"
-                              />
-                            </OverlayTrigger>
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Recurring bills
-                            </span>
-                          </NavLink>
-                        </li>
-
-                        <li className="list-none">
-                          <NavLink
-                            to={withHostel("/receipts")}
-                            className={({ isActive }) =>
-                              `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                isActive || currentPage === "receipts"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("receipts")}
-                          >
-                            <OverlayTrigger
-                              trigger={tooltipTrigger}
-                              placement="right"
-                              container={document.body}
-                              delay={{ show: 200, hide: 0 }}
-                              overlay={
-                                <Tooltip className="custom-tooltip">
-                                  Receipts
-                                </Tooltip>
-                              }
-                            >
-                              <DocumentText
-                                variant="Bold"
-                                size="22"
-                                className="-mt-1"
-                              />
-                            </OverlayTrigger>
-
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Receipts
-                            </span>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-
-                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">
-                          Electricity
-                        </Tooltip>
-                      }
-                    >
-                      <NavLink
-                        to={withHostel("/electricity")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "eb" ? "active" : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("eb")}
-                      >
-                        <Flash size="22" variant="Bold" />
-
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Electricity
-                        </span>
-                      </NavLink>
-                    </OverlayTrigger>
-                  </li>
-
-                  <li
-                    className={`flex relative list-none mt-[${serviceDesk ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
-    ${serviceDesk ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
-                    onClick={() => {
-                      const next = !serviceDesk;
-                      setServiceDesk(next);
-                      setManageOpen(false);
-                      // setIsMdSidebarExpanded(next);
-                    }}
-                  >
-                    <Messages1 size="20" variant="Bold" className="-mt-1" />
-
-                    <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
-                      Service Desk
-                    </span>
-
-                    <span className="ml-auto inline-flex">
-                      {serviceDesk ? (
-                        <ArrowUp2 size={16} />
-                      ) : (
-                        <ArrowDown2 size={16} />
-                      )}
-                    </span>
-                  </li>
-
-                  {serviceDesk && (
-                    <>
+                    {isDevelopment && (
                       <li
-                        className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                        className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                       >
                         <OverlayTrigger
                           trigger={tooltipTrigger}
@@ -1322,30 +1093,288 @@ function Sidebar() {
                           delay={{ show: 200, hide: 0 }}
                           overlay={
                             <Tooltip className="custom-tooltip">
-                              Compliants
+                              Banking
                             </Tooltip>
                           }
                         >
                           <NavLink
-                            to={withHostel("/compliance")}
+                            to={withHostel("/banking/new")}
                             className={({ isActive }) =>
-                              `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                                isActive || currentPage === "compliance"
+                              `align-items-center list-Item  d-flex ${
+                                isActive || currentPage === "banking-new"
                                   ? "active"
                                   : ""
                               }`
                             }
-                            onClick={() => handlePageClick("compliance")}
+                            onClick={() => handlePageClick("banking-new")}
                           >
-                            <MessageQuestion size="22" variant="Bold" />
+                            <Bank size="20" variant="Bold" className="-mt-1" />
 
                             <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Compliants
+                              Banking New
                             </span>
                           </NavLink>
                         </OverlayTrigger>
                       </li>
-                      {isDevelopment && (
+                    )}
+                    <li
+                      className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
+    ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                      onClick={() => {
+                        const next = !billingOpen;
+                        setBillingOpen(next);
+                        setManageOpen(false);
+                        setIsMdSidebarExpanded(next);
+                      }}
+                    >
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        delay={{ show: 200, hide: 0 }}
+                        overlay={
+                          <Tooltip className="custom-tooltip">
+                            Billing & Payments
+                          </Tooltip>
+                        }
+                      >
+                        <DocumentText
+                          size={21}
+                          variant="Bold"
+                          className="-mt-1"
+                        />
+                      </OverlayTrigger>
+
+                      <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
+                        Billing & Payments
+                      </span>
+
+                      <span className="ml-auto inline-flex">
+                        {billingOpen ? (
+                          <ArrowUp2 size={16} />
+                        ) : (
+                          <ArrowDown2 size={16} />
+                        )}
+                      </span>
+                    </li>
+
+                    {billingOpen && (
+                      <div
+                        className={`mx-4 submenu ${billingOpen ? "open" : ""}`}
+                        style={{}}
+                      >
+                        <ul className="p-1 relative">
+                          <li
+                            className={`list-none ${billingOpen ? "mt-0.5" : "mt-2.5"}`}
+                          >
+                            <NavLink
+                              to={withHostel("/invoice")}
+                              className={({ isActive }) =>
+                                `align-items-center list-sub-Item d-flex ${
+                                  isActive || currentPage === "invoice"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("invoice")}
+                              style={{ textDecoration: "none" }}
+                            >
+                              <OverlayTrigger
+                                trigger={tooltipTrigger}
+                                placement="right"
+                                container={document.body}
+                                delay={{ show: 200, hide: 0 }}
+                                overlay={
+                                  <Tooltip className="custom-tooltip">
+                                    Bills
+                                  </Tooltip>
+                                }
+                              >
+                                <Receipt
+                                  size="22"
+                                  variant="Bold"
+                                  className="ml-1 -mt-1"
+                                />
+                              </OverlayTrigger>
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Bills
+                              </span>
+                            </NavLink>
+                          </li>
+
+                          <li className="list-none rounded-md">
+                            <NavLink
+                              to={withHostel("/retainer-invoice")}
+                              className={({ isActive }) =>
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
+                                  isActive || currentPage === "booking"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() =>
+                                handlePageClick("retainer-invoice")
+                              }
+                            >
+                              <OverlayTrigger
+                                trigger={tooltipTrigger}
+                                placement="right"
+                                container={document.body}
+                                delay={{ show: 200, hide: 0 }}
+                                overlay={
+                                  <Tooltip className="custom-tooltip">
+                                    Retainer Invoice
+                                  </Tooltip>
+                                }
+                              >
+                                <CalendarAdd
+                                  variant="Bold"
+                                  size="22"
+                                  className="-mt-1"
+                                />
+                              </OverlayTrigger>
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Retainer Invoice
+                              </span>
+                            </NavLink>
+                          </li>
+
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/recurring")}
+                              className={({ isActive }) =>
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
+                                  isActive || currentPage === "recurring"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("recurring")}
+                            >
+                              <OverlayTrigger
+                                trigger={tooltipTrigger}
+                                placement="right"
+                                container={document.body}
+                                delay={{ show: 200, hide: 0 }}
+                                overlay={
+                                  <Tooltip className="custom-tooltip">
+                                    Recurring bills
+                                  </Tooltip>
+                                }
+                              >
+                                <RulerPen
+                                  variant="Bold"
+                                  size="22"
+                                  className="-mt-1"
+                                />
+                              </OverlayTrigger>
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Recurring bills
+                              </span>
+                            </NavLink>
+                          </li>
+
+                          <li className="list-none">
+                            <NavLink
+                              to={withHostel("/receipts")}
+                              className={({ isActive }) =>
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
+                                  isActive || currentPage === "receipts"
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                              onClick={() => handlePageClick("receipts")}
+                            >
+                              <OverlayTrigger
+                                trigger={tooltipTrigger}
+                                placement="right"
+                                container={document.body}
+                                delay={{ show: 200, hide: 0 }}
+                                overlay={
+                                  <Tooltip className="custom-tooltip">
+                                    Receipts
+                                  </Tooltip>
+                                }
+                              >
+                                <DocumentText
+                                  variant="Bold"
+                                  size="22"
+                                  className="-mt-1"
+                                />
+                              </OverlayTrigger>
+
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Receipts
+                              </span>
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+
+                    <li
+                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                    >
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        delay={{ show: 200, hide: 0 }}
+                        overlay={
+                          <Tooltip className="custom-tooltip">
+                            Electricity
+                          </Tooltip>
+                        }
+                      >
+                        <NavLink
+                          to={withHostel("/electricity")}
+                          className={({ isActive }) =>
+                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                              isActive || currentPage === "eb" ? "active" : ""
+                            }`
+                          }
+                          onClick={() => handlePageClick("eb")}
+                        >
+                          <Flash size="22" variant="Bold" />
+
+                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                            Electricity
+                          </span>
+                        </NavLink>
+                      </OverlayTrigger>
+                    </li>
+
+                    <li
+                      className={`flex relative list-none mt-[${serviceDesk ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
+    ${serviceDesk ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
+                      onClick={() => {
+                        const next = !serviceDesk;
+                        setServiceDesk(next);
+                        setManageOpen(false);
+                        // setIsMdSidebarExpanded(next);
+                      }}
+                    >
+                      <Messages1 size="20" variant="Bold" className="-mt-1" />
+
+                      <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
+                        Service Desk
+                      </span>
+
+                      <span className="ml-auto inline-flex">
+                        {serviceDesk ? (
+                          <ArrowUp2 size={16} />
+                        ) : (
+                          <ArrowDown2 size={16} />
+                        )}
+                      </span>
+                    </li>
+
+                    {serviceDesk && (
+                      <>
                         <li
                           className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
                         >
@@ -1356,210 +1385,248 @@ function Sidebar() {
                             delay={{ show: 200, hide: 0 }}
                             overlay={
                               <Tooltip className="custom-tooltip">
-                                Requests
+                                Compliants
                               </Tooltip>
                             }
                           >
                             <NavLink
-                              to={withHostel("/requests")}
+                              to={withHostel("/compliance")}
                               className={({ isActive }) =>
                                 `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                                  isActive || currentPage === "requests"
+                                  isActive || currentPage === "compliance"
                                     ? "active"
                                     : ""
                                 }`
                               }
-                              onClick={() => handlePageClick("requests")}
+                              onClick={() => handlePageClick("compliance")}
                             >
-                              <Chart1 size="22" variant="Bold" />
+                              <MessageQuestion size="22" variant="Bold" />
 
                               <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Requests
+                                Compliants
                               </span>
                             </NavLink>
                           </OverlayTrigger>
                         </li>
-                      )}
-                    </>
-                  )}
+                        {isDevelopment && (
+                          <li
+                            className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
+                          >
+                            <OverlayTrigger
+                              trigger={tooltipTrigger}
+                              placement="right"
+                              container={document.body}
+                              delay={{ show: 200, hide: 0 }}
+                              overlay={
+                                <Tooltip className="custom-tooltip">
+                                  Requests
+                                </Tooltip>
+                              }
+                            >
+                              <NavLink
+                                to={withHostel("/requests")}
+                                className={({ isActive }) =>
+                                  `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                                    isActive || currentPage === "requests"
+                                      ? "active"
+                                      : ""
+                                  }`
+                                }
+                                onClick={() => handlePageClick("requests")}
+                              >
+                                <Chart1 size="22" variant="Bold" />
 
-                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">Expenses</Tooltip>
-                      }
+                                <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                  Requests
+                                </span>
+                              </NavLink>
+                            </OverlayTrigger>
+                          </li>
+                        )}
+                      </>
+                    )}
+
+                    <li
+                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
-                      <NavLink
-                        to={withHostel("/expense")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "expenses"
-                              ? "active"
-                              : ""
-                          }`
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        delay={{ show: 200, hide: 0 }}
+                        overlay={
+                          <Tooltip className="custom-tooltip">Expenses</Tooltip>
                         }
-                        onClick={() => handlePageClick("expenses")}
                       >
-                        <MoneySend size="20" variant="Bold" />
+                        <NavLink
+                          to={withHostel("/expense")}
+                          className={({ isActive }) =>
+                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                              isActive || currentPage === "expenses"
+                                ? "active"
+                                : ""
+                            }`
+                          }
+                          onClick={() => handlePageClick("expenses")}
+                        >
+                          <MoneySend size="20" variant="Bold" />
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Expenses
-                        </span>
-                      </NavLink>
-                    </OverlayTrigger>
-                  </li>
+                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                            Expenses
+                          </span>
+                        </NavLink>
+                      </OverlayTrigger>
+                    </li>
 
-                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
-                    <OverlayTrigger
-                      trigger={tooltipTrigger}
-                      placement="right"
-                      container={document.body}
-                      delay={{ show: 200, hide: 0 }}
-                      overlay={
-                        <Tooltip className="custom-tooltip">Reports</Tooltip>
-                      }
+                    <li
+                      className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
-                      <NavLink
-                        to={withHostel("/reports")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "reports"
-                              ? "active"
-                              : ""
-                          }`
+                      <OverlayTrigger
+                        trigger={tooltipTrigger}
+                        placement="right"
+                        container={document.body}
+                        delay={{ show: 200, hide: 0 }}
+                        overlay={
+                          <Tooltip className="custom-tooltip">Reports</Tooltip>
                         }
-                        onClick={() => handlePageClick("reports")}
                       >
-                        <Chart size="20" variant="Bold" />
+                        <NavLink
+                          to={withHostel("/reports")}
+                          className={({ isActive }) =>
+                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                              isActive || currentPage === "reports"
+                                ? "active"
+                                : ""
+                            }`
+                          }
+                          onClick={() => handlePageClick("reports")}
+                        >
+                          <Chart size="20" variant="Bold" />
 
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Reports
-                        </span>
-                      </NavLink>
-                    </OverlayTrigger>
-                  </li>
-                </ul>
+                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                            Reports
+                          </span>
+                        </NavLink>
+                      </OverlayTrigger>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex-1 overflow-y-auto h-screen min-w-0">
-            <Routes>
-              <Route path="/payment-preview" element={<PaymentPreview />} />
-              <Route path="/graph" element={<GraphQL />} />
+            <div className="flex-1 overflow-y-auto h-screen min-w-0">
+              <Routes>
+                <Route path="/payment-preview" element={<PaymentPreview />} />
+                <Route path="/graph" element={<GraphQL />} />
 
-              <Route
-                path="/dashboard/:hostelId?"
-                element={
-                  <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
-                    <Dashboard
-                      displayCompliance={handledisplaycompliace}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
+                <Route
+                  path="/dashboard/:hostelId?"
+                  element={
+                    <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
+                      <Dashboard
+                        displayCompliance={handledisplaycompliace}
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/paying-guest/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <PgLists
-                      displaysettings={handledisplaySettingsPG}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
+                <Route
+                  path="/paying-guest/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <PgLists
+                        displaysettings={handledisplaySettingsPG}
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/tenant/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <UserLists
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
-              <Route
-                path="/tenant/final-settlement/:tenantId?"
-                element={
-                  <div>
-                    <FinalSettlement />
-                  </div>
-                }
-              />
+                <Route
+                  path="/tenant/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <UserLists
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/tenant/final-settlement/:tenantId?"
+                  element={
+                    <div>
+                      <FinalSettlement />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/invoice/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <Invoices
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
+                <Route
+                  path="/invoice/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <Invoices
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/retainer-invoice/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <Booking />
-                  </div>
-                }
-              />
-              <Route
-                path="/retainer-invoice/details/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <BookingsPdfDetails />
-                  </div>
-                }
-              />
+                <Route
+                  path="/retainer-invoice/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <Booking />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/retainer-invoice/details/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <BookingsPdfDetails />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/recurring/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <RecurringBills />
-                  </div>
-                }
-              />
-              <Route
-                path="/receipts/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <ReceiptNew />
-                  </div>
-                }
-              />
-              <Route
-                path="/receipts/details/:receiptId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <ReceiptPdfDetails />
-                  </div>
-                }
-              />
-              <Route
-                path="/invoice/details/:invoiceId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <BillsPdfDetails />
-                  </div>
-                }
-              />
-              {/* <Route
+                <Route
+                  path="/recurring/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <RecurringBills />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/receipts/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <ReceiptNew />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/receipts/details/:receiptId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <ReceiptPdfDetails />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/invoice/details/:invoiceId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <BillsPdfDetails />
+                    </div>
+                  }
+                />
+                {/* <Route
                 path="/vendor/:hostelId?"
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
@@ -1571,495 +1638,447 @@ function Sidebar() {
                 }
               /> */}
 
-              <Route
-                path="/vendor/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <VendorNew />
-                  </div>
-                }
-              />
+                <Route
+                  path="/vendor/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <VendorNew />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/add-expense/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <AddExpenseNew />
-                  </div>
-                }
-              />
+                <Route
+                  path="/add-expense/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <AddExpenseNew />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/add-vendor/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <AddVendorNew />
-                  </div>
-                }
-              />
+                <Route
+                  path="/add-vendor/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <AddVendorNew />
+                    </div>
+                  }
+                />
 
-              <Route
-                path="/add-retainer/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <AddRetainerInvoice />
-                  </div>
-                }
-              />
-              {isDevelopment && (
-                <>
-                  <Route
-                    path="/banking/new/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <BankingNew />
-                      </div>
-                    }
-                  />
-                  <Route
-                    path="/requests/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <Request />
-                      </div>
-                    }
-                  />
-
-                  <Route
-                    path="/change-bed/:hostelId?"
-                    element={
-                      <div className="mt-1 ml-2.5 mr-1">
-                        <ChangeBedPgView />
-                      </div>
-                    }
-                  />
-                </>
-              )}
-              <Route
-                path="/compliance/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <Compliances
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/asset/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <Assets allPageHostel_Id={allPageHostel_Id} />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-2.5">
-                    <Report
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
-              <Route
-                path="/electricity/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <EbHostel
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/expense/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <ExpenseNew />
-                  </div>
-                }
-              />
-              <Route
-                path="/banking/:hostelId?"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <Banking
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/create-bill"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <CreateBill />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/tenant/details/:tenantId"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <TenantOverview />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/tenant/checkout/details/:tenantId"
-                element={
-                  <div className="mt-1 ml-2.5 mr-1">
-                    <CheckoutProfile />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/reports/invoice-register/:hostelId"
-                element={
-                  <div>
-                    <InvoiceRegister />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/tenant-register/:hostelId"
-                element={
-                  <div>
-                    <TenantsRegister />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/receipt-register/:hostelId"
-                element={
-                  <div>
-                    <ReceiptRegister />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/expense-register/:hostelId"
-                element={
-                  <div>
-                    <ExpenseRegister />
-                  </div>
-                }
-              />
-
-              {import.meta.env.MODE === "development" ||
-                (import.meta.env.MODE === "qa" && (
+                <Route
+                  path="/add-retainer/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <AddRetainerInvoice />
+                    </div>
+                  }
+                />
+                {isDevelopment && (
                   <>
                     <Route
-                      path="/reports/bank-transaction-register/:hostelId"
+                      path="/banking/new/:hostelId?"
                       element={
-                        <div>
-                          <BankTransactionRegister />
+                        <div className="mt-1 ml-2.5 mr-1">
+                          <BankingNew />
+                        </div>
+                      }
+                    />
+                    <Route
+                      path="/requests/:hostelId?"
+                      element={
+                        <div className="mt-1 ml-2.5 mr-1">
+                          <Request />
                         </div>
                       }
                     />
 
                     <Route
-                      path="/reports/occupancy-register/:hostelId"
+                      path="/change-bed/:hostelId?"
                       element={
-                        <div>
-                          <OccupancyRegister />
-                        </div>
-                      }
-                    />
-
-                    <Route
-                      path="/reports/vendor-register/:hostelId"
-                      element={
-                        <div>
-                          <VendorRegister />
-                        </div>
-                      }
-                    />
-                    <Route
-                      path="/reports/electricity-billing-register/:hostelId"
-                      element={
-                        <div>
-                          <ElectricityRegister />
-                        </div>
-                      }
-                    />
-                    <Route
-                      path="/reports/request-register/:hostelId"
-                      element={
-                        <div>
-                          <RequestRegister />
-                        </div>
-                      }
-                    />
-                    <Route
-                      path="/reports/final-settlement-register/:hostelId"
-                      element={
-                        <div>
-                          <FinalSettlementRegister />
-                        </div>
-                      }
-                    />
-
-                    <Route
-                      path="/reports/complaint-register/:hostelId"
-                      element={
-                        <div>
-                          <ComplaintsRegister />
+                        <div className="mt-1 ml-2.5 mr-1">
+                          <ChangeBedPgView />
                         </div>
                       }
                     />
                   </>
-                ))}
-
-              <Route
-                path="/reports/month-revenue/:hostelId"
-                element={
-                  <div className="bg-[#FFFFFF] ">
-                    <AnalyticalMonthRevenue />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/reports/collected-outstanding/:hostelId"
-                element={
-                  <div className="bg-[#FFFFFF]">
-                    <AnalyticalCollectedOutstanding />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/reports/vacant-occupied/:hostelId"
-                element={
-                  <div>
-                    <AnalyticalVacantOcupied />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/reports/expense-trend/:hostelId"
-                element={
-                  <div>
-                    <AnalyticalExpenseTrend />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/overdue-invoice-trend/:hostelId"
-                element={
-                  <div>
-                    <AnalyticalInvoiceTrend />
-                  </div>
-                }
-              />
-              <Route
-                path="/reports/complaints-resolved/:hostelId"
-                element={
-                  <div>
-                    <AnalyticalComplaintsResolved />
-                  </div>
-                }
-              />
-              <Route
-                path="/settings/:hostelId?/*"
-                element={
-                  <div>
-                    <SettingAllPages
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                      payingGuestName={payingGuestName}
-                      settignspgshow={settignspgshow}
-                      onhandleShowsettingsPG={handleShowsettingsPG}
-                      isVisibleSidebar={isVisibleSidebar}
-                    />
-                  </div>
-                }
-              >
-                <Route index element={<Navigate to="general" replace />} />
-                <Route path="general" element={<SettingGeneral />} />
-                <Route path="manage-pg" element={<SettingManage />} />
-                <Route path="security" element={<SettingSecurity />} />
-                <Route path="subscription" element={<SettingSubscription />} />
-                <Route path="allplans" element={<AllPlans />} />
-
-                <Route path="integration" element={<SettingIntergration />} />
+                )}
                 <Route
-                  path="electricity"
-                  element={<SettingsElectricityNew />}
+                  path="/compliance/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <Compliances
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
                 />
-                {/* <Route path="electricity-old" element={<SettingElectricity />} /> */}
-                <Route path="electricity-rule" element={<ElectricityRule />} />
-                {/* <Route path="billing-rule-old" element={<BillingRuleOld />} /> */}
-                <Route path="billing-rule" element={<BillingRule />} />
 
                 <Route
-                  path="long-stay-recurring"
-                  element={<LongStayRecurringModal />}
+                  path="/asset/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <Assets allPageHostel_Id={allPageHostel_Id} />
+                    </div>
+                  }
                 />
                 <Route
-                  path="notifications"
-                  element={<SettingsNotifications />}
+                  path="/reports/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-2.5">
+                      <Report
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
                 />
                 <Route
-                  path="invoice"
-                  element={<SettingInvoice handleFormPage={handleFormPage} />}
+                  path="/electricity/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <EbHostel
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
                 />
-                <Route path="expenses" element={<SettingExpenses />} />
-                <Route path="vendor-category" element={<VendorCategory />} />
-                <Route path="complaints" element={<SettingCompliance />} />
-                <Route path="amenities" element={<SettingAmenities />} />
-                <Route path="user" element={<SettingNewUser />} />
-                <Route path="role" element={<SettingNewRole />} />
-                <Route path="agreement" element={<SettingAgreement />} />
-              </Route>
-            </Routes>
-          </div>
 
-          <div className="right-panel w-14 flex flex-col h-screen bg-slate-50 border-l border-slate-200 shadow-sm overflow-y-auto items-center flex-shrink-0">
-            <div
-              ref={profileAreaRef}
-              onClick={() => setShowProfileCard((s) => !s)}
-              role="button"
-              tabIndex={0}
-              className="flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
-            >
-              {profiles === "null" ||
-              profiles === null ||
-              profiles === undefined ||
-              profiles === "undefined" ||
-              profiles === "" ||
-              profiles === 0 ||
-              profiles === "0" ? (
-                <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
-                  {stateData?.accountList?.initial || ""}
-                </div>
-              ) : (
-                <Image
-                  src={profiles}
-                  alt="profile-image"
-                  roundedCircle
-                  className="h-12 w-12 object-cover flex-shrink-0"
+                <Route
+                  path="/expense/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <ExpenseNew />
+                    </div>
+                  }
                 />
-              )}
+                <Route
+                  path="/banking/:hostelId?"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <Banking
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/create-bill"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <CreateBill />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/tenant/details/:tenantId"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <TenantOverview />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/tenant/checkout/details/:tenantId"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <CheckoutProfile />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/reports/invoice-register/:hostelId"
+                  element={
+                    <div>
+                      <InvoiceRegister />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/reports/tenant-register/:hostelId"
+                  element={
+                    <div>
+                      <TenantsRegister />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/reports/receipt-register/:hostelId"
+                  element={
+                    <div>
+                      <ReceiptRegister />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/reports/expense-register/:hostelId"
+                  element={
+                    <div>
+                      <ExpenseRegister />
+                    </div>
+                  }
+                />
+
+                {import.meta.env.MODE === "development" ||
+                  (import.meta.env.MODE === "qa" && (
+                    <>
+                      <Route
+                        path="/reports/bank-transaction-register/:hostelId"
+                        element={
+                          <div>
+                            <BankTransactionRegister />
+                          </div>
+                        }
+                      />
+
+                      <Route
+                        path="/reports/occupancy-register/:hostelId"
+                        element={
+                          <div>
+                            <OccupancyRegister />
+                          </div>
+                        }
+                      />
+
+                      <Route
+                        path="/reports/vendor-register/:hostelId"
+                        element={
+                          <div>
+                            <VendorRegister />
+                          </div>
+                        }
+                      />
+                      <Route
+                        path="/reports/electricity-billing-register/:hostelId"
+                        element={
+                          <div>
+                            <ElectricityRegister />
+                          </div>
+                        }
+                      />
+                      <Route
+                        path="/reports/request-register/:hostelId"
+                        element={
+                          <div>
+                            <RequestRegister />
+                          </div>
+                        }
+                      />
+                      <Route
+                        path="/reports/final-settlement-register/:hostelId"
+                        element={
+                          <div>
+                            <FinalSettlementRegister />
+                          </div>
+                        }
+                      />
+
+                      <Route
+                        path="/reports/complaint-register/:hostelId"
+                        element={
+                          <div>
+                            <ComplaintsRegister />
+                          </div>
+                        }
+                      />
+                    </>
+                  ))}
+
+                <Route
+                  path="/reports/month-revenue/:hostelId"
+                  element={
+                    <div className="bg-[#FFFFFF] ">
+                      <AnalyticalMonthRevenue />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/reports/collected-outstanding/:hostelId"
+                  element={
+                    <div className="bg-[#FFFFFF]">
+                      <AnalyticalCollectedOutstanding />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/reports/vacant-occupied/:hostelId"
+                  element={
+                    <div>
+                      <AnalyticalVacantOcupied />
+                    </div>
+                  }
+                />
+
+                <Route
+                  path="/reports/expense-trend/:hostelId"
+                  element={
+                    <div>
+                      <AnalyticalExpenseTrend />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/reports/overdue-invoice-trend/:hostelId"
+                  element={
+                    <div>
+                      <AnalyticalInvoiceTrend />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/reports/complaints-resolved/:hostelId"
+                  element={
+                    <div>
+                      <AnalyticalComplaintsResolved />
+                    </div>
+                  }
+                />
+              </Routes>
             </div>
 
-            <button
-              onClick={() => setShowMenuModal(true)}
-              title="Quick Add"
-              className="w-8 h-8 rounded-lg bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-4 transition-colors leading-none pb-0.5"
-            >
-              +
-            </button>
-
-            <div className="flex flex-col items-center justify-start gap-4 mt-7">
+            <div className="right-panel w-14 flex flex-col h-screen bg-slate-50 border-l border-slate-200 shadow-sm overflow-y-auto items-center flex-shrink-0">
               <div
-                className="relative flex flex-col items-center gap-1 cursor-pointer"
-                title="Search"
+                ref={profileAreaRef}
+                onClick={() => setShowProfileCard((s) => !s)}
+                role="button"
+                tabIndex={0}
+                className="flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
               >
-                <img src={SearchVector} alt="Search" className="w-6 h-6" />
-              </div>
-
-              <div
-                onClick={handleShowNotification}
-                onMouseEnter={() => handleMouseEnter("notification")}
-                onMouseLeave={handleMouseLeave}
-                className="relative flex flex-col items-center gap-1 cursor-pointer"
-                title="Notifications"
-              >
-                <div className="relative">
-                  <Notification
-                    className="w-6 h-6"
-                    color={
-                      hoveredIcon === "notification" ? "#1E45E1" : "#64748B"
-                    }
-                    onClick={handleShowNotification}
+                {profiles === "null" ||
+                profiles === null ||
+                profiles === undefined ||
+                profiles === "undefined" ||
+                profiles === "" ||
+                profiles === 0 ||
+                profiles === "0" ? (
+                  <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
+                    {stateData?.accountList?.initial || ""}
+                  </div>
+                ) : (
+                  <Image
+                    src={profiles}
+                    alt="profile-image"
+                    roundedCircle
+                    className="h-12 w-12 object-cover flex-shrink-0"
                   />
-
-                  {state.UsersList.hotelDetailsinPg.unreadNotificationCount >
-                    0 && (
-                    <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
-                      {
-                        state.UsersList?.hotelDetailsinPg
-                          ?.unreadNotificationCount
-                      }
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
 
-              <NavLink
-                to={settingsPath}
-                onMouseEnter={() => handleMouseEnter("settings")}
-                onMouseLeave={handleMouseLeave}
-                onClick={() => {
-                  handlePageClick("settingNewDesign");
-                  setSettingsPGShow(false);
-                }}
-                className={({ isActive }) =>
-                  `settings-link ${isActive ? "active" : ""} cursor-pointer relative flex flex-col items-center gap-1 no-underline transition-transform`
-                }
-                title="Settings"
+              <button
+                onClick={() => setShowMenuModal(true)}
+                title="Quick Add"
+                className="w-8 h-8 rounded-lg bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-4 transition-colors leading-none pb-0.5"
               >
-                <img
-                  src={SettingIcon}
-                  alt="Settings Icon"
-                  className="w-6 h-6"
-                />
-              </NavLink>
+                +
+              </button>
 
-              <div
-                onMouseEnter={() => handleMouseEnter("helpVideo")}
-                onMouseLeave={handleMouseLeave}
-                className="relative flex flex-col items-center gap-1 cursor-pointer"
-                title="Help Video"
-              >
-                <img
-                  src={HelpVideoIcon}
-                  alt="Help Video Icon"
-                  className="w-6 h-6"
-                />
+              <div className="flex flex-col items-center justify-start gap-4 mt-7">
+                <div
+                  className="relative flex flex-col items-center gap-1 cursor-pointer"
+                  title="Search"
+                >
+                  <img src={SearchVector} alt="Search" className="w-6 h-6" />
+                </div>
+
+                <div
+                  onClick={handleShowNotification}
+                  onMouseEnter={() => handleMouseEnter("notification")}
+                  onMouseLeave={handleMouseLeave}
+                  className="relative flex flex-col items-center gap-1 cursor-pointer"
+                  title="Notifications"
+                >
+                  <div className="relative">
+                    <Notification
+                      className="w-6 h-6"
+                      color={
+                        hoveredIcon === "notification" ? "#1E45E1" : "#64748B"
+                      }
+                      onClick={handleShowNotification}
+                    />
+
+                    {state.UsersList.hotelDetailsinPg.unreadNotificationCount >
+                      0 && (
+                      <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
+                        {
+                          state.UsersList?.hotelDetailsinPg
+                            ?.unreadNotificationCount
+                        }
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <NavLink
+                  to={settingsPath}
+                  onMouseEnter={() => handleMouseEnter("settings")}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={() => {
+                    handlePageClick("settingNewDesign");
+                    setSettingsPGShow(false);
+                  }}
+                  className={({ isActive }) =>
+                    `settings-link ${isActive ? "active" : ""} cursor-pointer relative flex flex-col items-center gap-1 no-underline transition-transform`
+                  }
+                  title="Settings"
+                >
+                  <img
+                    src={SettingIcon}
+                    alt="Settings Icon"
+                    className="w-6 h-6"
+                  />
+                </NavLink>
+
+                <div
+                  onMouseEnter={() => handleMouseEnter("helpVideo")}
+                  onMouseLeave={handleMouseLeave}
+                  className="relative flex flex-col items-center gap-1 cursor-pointer"
+                  title="Help Video"
+                >
+                  <img
+                    src={HelpVideoIcon}
+                    alt="Help Video Icon"
+                    className="w-6 h-6"
+                  />
+                </div>
               </div>
             </div>
           </div>
+
+          <SidebarProfile
+            profiles={profiles}
+            stateData={stateData}
+            profilename={profilename}
+            payingGuestName={payingGuestName}
+            showProfileCard={showProfileCard}
+            setShowProfileCard={setShowProfileCard}
+            handleShowLogout={handleShowLogout}
+            navigate={navigate}
+            profileCardRef={profileCardRef}
+            handleShowsettingsGenaral={handleShowsettingsGenaral}
+          />
+
+          <SidebarQuickActions
+            showMenuModal={showMenuModal}
+            setShowMenuModal={setShowMenuModal}
+            navigate={navigate}
+            hostelId={allPageHostel_Id}
+          />
         </div>
-
-        <SidebarProfile
-          profiles={profiles}
-          stateData={stateData}
-          profilename={profilename}
-          payingGuestName={payingGuestName}
-          showProfileCard={showProfileCard}
-          setShowProfileCard={setShowProfileCard}
-          handleShowLogout={handleShowLogout}
-          navigate={navigate}
-          profileCardRef={profileCardRef}
-          handleShowsettingsGenaral={handleShowsettingsGenaral}
-        />
-
-        <SidebarQuickActions
-          showMenuModal={showMenuModal}
-          setShowMenuModal={setShowMenuModal}
-          navigate={navigate}
-          hostelId={allPageHostel_Id}
-        />
-      </div>
+      )}
 
       {logoutformshow && (
         <Logout show={logoutformshow} handleClose={handleCloseLogout} />
+      )}
+      {showNotify && (
+        <NotificationForm show={showNotify} handleClose={handleClose} />
       )}
     </>
   );

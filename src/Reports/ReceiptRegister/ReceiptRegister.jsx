@@ -330,6 +330,16 @@ function ReceiptRegister() {
     });
   }, [apiStart, apiEnd]);
 
+  useEffect(() => {
+    const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
+
+    setSelectedRange({
+      from: startOfMonth,
+      to: endOfMonth,
+    });
+  }, []);
+
   const startDate = selectedRange?.from
     ? dayjs(selectedRange.from).format("DD-MM-YYYY")
     : undefined;
@@ -445,16 +455,17 @@ function ReceiptRegister() {
       collectedBy: receiptFilters?.collectedBy,
       period: receiptFilters?.period,
     };
-
-    dispatch({
-      type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: filters,
-      },
-    });
-    setLoading(true);
-  }, [size, page, state.login?.selectedHostel_Id]);
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REPORTS_RECEIPT_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+      setLoading(true);
+    }
+  }, [size, page, state.login?.selectedHostel_Id, startDate, endDate]);
 
   const currentPage = state?.reports?.getReceiptRegister?.currentPage ?? 1;
 
@@ -470,8 +481,6 @@ function ReceiptRegister() {
     setSize(sizeValue);
   };
 
-  
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setLoading(false);
@@ -484,7 +493,6 @@ function ReceiptRegister() {
   const handleDownload = () => {
     if (state.login.selectedHostel_Id) {
       const receiptFilters = state.reports?.receiptRegisterFilters;
-
 
       dispatch({
         type: "REPORTS_RECEIPT_REGISTER_PDFSAGA",

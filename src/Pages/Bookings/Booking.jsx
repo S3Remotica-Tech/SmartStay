@@ -21,12 +21,9 @@ import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";
 import {
   Filter,
- 
   Setting3,
   SearchNormal1,
-  
   ArrowDown,
- 
   Link21,
   AddCircle,
 } from "iconsax-react";
@@ -47,7 +44,7 @@ function Booking() {
 
   const [showBookingPdf, setShowBookingPdf] = useState(false);
   const [bookingList, setBookingList] = useState([]);
-    const [showBillsFilter, setShowBillsFilter] = useState(false);
+  const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [filterInput, setFilterInput] = useState("");
@@ -89,7 +86,6 @@ function Booking() {
     }
   }, [canReadInvoice]);
 
-  
   useEffect(() => {
     const container = tableContainerRef.current;
     if (!container) return;
@@ -125,8 +121,6 @@ function Booking() {
     setShowBookingPdf(false);
   }, []);
 
-  
-
   useEffect(() => {
     if (state?.Booking?.statusCodeGetBooking) {
       setBookingList(state?.Booking?.tenantBookingList);
@@ -134,8 +128,6 @@ function Booking() {
       dispatch({ type: "CLEAR_BOOKING_LIST" });
     }
   }, [state?.Booking?.statusCodeGetBooking]);
-
-  
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
@@ -889,7 +881,10 @@ function Booking() {
         <PermissionDeniedMessage />
       ) : (
         <>
-          <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center gap-4 sm:gap-6 md:gap-10 font-gilroy">
+          <div
+            className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center 
+          justify-between font-gilroy"
+          >
             {stats.map((item, index) => (
               <div key={index} className="flex items-center gap-3">
                 {item.highlight && (

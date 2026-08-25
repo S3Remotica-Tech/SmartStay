@@ -270,23 +270,23 @@ function AddVendorNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-   const [vendorName, setVendorName] = useState("");
+  const [vendorName, setVendorName] = useState("");
   const [vendorNameError, setVendorNameError] = useState("");
   const vendorNameRef = useRef(null);
-  
+
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [vendorCategory, setVendorCategory] = useState(null);
- 
+
   const [house_no, setHouseNo] = useState("");
- 
+
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
   const [businessName, setBusinessName] = useState("");
-    const [pinCode, setPinCode] = useState("");
+  const [pinCode, setPinCode] = useState("");
   const location = useLocation();
-   const [countryCodeError, setCountryCodeError] = useState("");
+  const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [gstError, setGstError] = useState("");
@@ -296,27 +296,26 @@ function AddVendorNew() {
   const [countryCode, setCountryCode] = useState();
   const [businessCountryCode, setBusinessCountryCode] = useState();
 
-  
   const [pinCodeError, setPinCodeError] = useState("");
 
   const [businessMobile, setBusinessMobile] = useState("");
-  
+
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [contactPersonName, setContactPersonName] = useState("");
-  
+
   const contactPersonNameRef = useRef(null);
-  
+
   const mobileRef = useRef(null);
   const businessNameRef = useRef(null);
   const cityRef = useRef(null);
   const pinCodeRef = useRef(null);
   const stateRef = useRef(null);
- 
+
   const [gstNumber, setGstNumber] = useState("");
   const [panNumber, setPanNumber] = useState("");
-  
+
   const [allowCreditPurchase, setAllowCreditPurchase] = useState(false);
   const [creditLimit, setCreditLimit] = useState("");
   const [creditPeriod, setCreditPeriod] = useState("");
@@ -326,11 +325,11 @@ function AddVendorNew() {
   const emailRef = useRef(null);
   const houseNoRef = useRef(null);
   const landmarkRef = useRef(null);
-  
+
   const vendorCategoryRef = useRef(null);
   const businessCountryCodeRef = useRef(null);
   const businessMobileRef = useRef(null);
- 
+
   const [noChanges, setNochanges] = useState("");
   const [vendorCategoryError, setVendorCategoryError] = useState("");
 
@@ -339,7 +338,6 @@ function AddVendorNew() {
   const [businessMobileError, setBusinessMobileError] = useState("");
 
   const [houseNoError, setHouseNoError] = useState("");
- 
 
   useEffect(() => {
     if (state?.Settings?.vendorCategorySuccessCode === 200) {
@@ -679,17 +677,14 @@ function AddVendorNew() {
     }
   };
 
- 
-
   const handleAddVendor = () => {
     setNochanges("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
 
-
     setVendorCategoryError("");
     setBusinessMobileError("");
     setBusinessCountryCodeError("");
-   
+
     setMobileError("");
     setCountryCodeError("");
     setEmailError("");
@@ -1073,45 +1068,6 @@ function AddVendorNew() {
       } else {
         setVendorCategory(null);
       }
-
-      // const initialData = {
-      //   vendorName: vendorOverView.fullName || "",
-      //   businessName: vendorOverView.businessName || "",
-      //   businessMobile: vendorOverView.mobile || "",
-      //   businessMobileCode: vendorOverView.businessMobileCode || "91",
-
-      //   email: vendorOverView.emailId || "",
-
-      //   houseNo: vendorOverView.houseNo || "",
-      //   landmark: vendorOverView.landMark || "",
-      //   city: vendorOverView.city || "",
-      //   state: vendorOverView.state || "",
-      //   pinCode: vendorOverView.pinCode ? String(vendorOverView.pinCode) : "",
-
-      //   contactPerson: vendorOverView.contactPerson || "",
-      //   contactPersonMobile: vendorOverView.contactPersonMobile || "",
-      //   contactPersonMobileCode: vendorOverView.contactPersonMobileCode || "91",
-
-      //   description: vendorOverView.description || "",
-      //   gst: vendorOverView.gst || "",
-      //   pan: vendorOverView.pan || "",
-
-      //   allowCredit: vendorOverView.allowCredit ?? false,
-
-      //   creditLimit:
-      //     vendorOverView.creditLimit !== null
-      //       ? String(vendorOverView.creditLimit)
-      //       : "",
-
-      //   creditPeriod:
-      //     vendorOverView.creditPeriod !== null
-      //       ? String(vendorOverView.creditPeriod)
-      //       : "",
-
-      //   vendorCategory: vendorOverView.vendorCategoryId ?? null,
-      // };
-
-      // setInitialVendorData(initialData);
     }
   }, [checkMode, state.ComplianceList?.vendorOverview]);
 
@@ -1145,8 +1101,6 @@ function AddVendorNew() {
     state.ComplianceList.vendorMobileError,
   ]);
 
- 
-
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false);
@@ -1155,8 +1109,6 @@ function AddVendorNew() {
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
-
-
 
   return (
     <div className="block relative font-gilroy ">

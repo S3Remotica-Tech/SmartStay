@@ -230,6 +230,16 @@ function TenantsRegister() {
     });
   }, [apiStart, apiEnd]);
 
+  useEffect(() => {
+    const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
+
+    setSelectedRange({
+      from: startOfMonth,
+      to: endOfMonth,
+    });
+  }, []);
+
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
@@ -311,19 +321,6 @@ function TenantsRegister() {
           tenantStatusLabel: [],
         },
       });
-
-      // const filters = {
-      //   size: size,
-      //   page: page,
-      // };
-
-      // dispatch({
-      //   type: "GET_REPORTS_TENANT_REGISTER_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //     filters: filters,
-      //   },
-      // });
     };
   }, []);
 
@@ -351,16 +348,17 @@ function TenantsRegister() {
       search: savedFilters?.search,
       sharingType: savedFilters?.sharingType,
     };
-
-    dispatch({
-      type: "GET_REPORTS_TENANT_REGISTER_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: filters,
-      },
-    });
-    setLoading(true);
-  }, [size, page, state.login?.selectedHostel_Id]);
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REPORTS_TENANT_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+      setLoading(true);
+    }
+  }, [size, page, state.login?.selectedHostel_Id, startDate, endDate]);
 
   const handleDownload = () => {
     if (state.login.selectedHostel_Id && startDate && endDate) {
@@ -389,13 +387,7 @@ function TenantsRegister() {
       setLoading(false);
       if (pdfUrl) {
         window.open(pdfUrl, "_blank");
-        //  window.location.href = pdfUrl;
-        // const url = window.URL.createObjectURL(new Blob([pdfUrl]));
-        // const link = document.createElement('a');
-        // link.href = url;
-        // link.setAttribute('download', 'file.pdf');
-        // document.body.appendChild(link);
-        // link.click();
+
         dispatch({ type: "REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER" });
       }
     }
@@ -407,35 +399,6 @@ function TenantsRegister() {
       dispatch({ type: "REMOVE_REPORTS_PDF_EXPORT_ERROR" });
     }
   }, [state?.reports?.reportsPdfExportError]);
-
-  // useEffect(() => {
-  //   if (state?.reports?.reportsTenantsPdfSuccess === 200) {
-
-  //     const pdfUrl = state?.reports?.reportsTenantsPdf;
-  //     setLoading(false);
-
-  //     if (pdfUrl) {
-  //       fetch(pdfUrl)
-  //         .then(res => res.blob())
-  //         .then(blob => {
-  //           const url = window.URL.createObjectURL(blob);
-  //           const link = document.createElement("a");
-  //           link.href = url;
-  //           link.download = "file.pdf";
-  //           document.body.appendChild(link);
-  //           link.click();
-  //           document.body.removeChild(link);
-  //           window.URL.revokeObjectURL(url);
-  //         });
-
-  //       dispatch({ type: 'REMOVE_REPORTS_TENANT_REGISTER_PDF_REDUCER' });
-  //     }
-  //   }
-  // }, [state?.reports?.reportsTenantsPdf]);
-
-  // useEffect(() => {
-  //   setPage(0);
-  // }, [state.reports?.tenantRegisterFilters]);
 
   useEffect(() => {
     const filters = state.reports?.tenantRegisterFilters;

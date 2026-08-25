@@ -36,6 +36,7 @@ export async function getInvoiceRegister(hostelId, filters = {}) {
 }
 
 export async function getExpenseRegister(hostelId, filters = {}) {
+  console.log("start date",filters )
   return AxiosConfigV2.get(`/v2/reports/expense/${hostelId}`, {
     params: {
       startDate: filters.startDate,

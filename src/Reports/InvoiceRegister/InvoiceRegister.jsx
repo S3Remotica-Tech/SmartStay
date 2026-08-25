@@ -452,6 +452,16 @@ function InvoiceRegister() {
     });
   }, [apiStart, apiEnd]);
 
+  useEffect(() => {
+    const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
+
+    setSelectedRange({
+      from: startOfMonth,
+      to: endOfMonth,
+    });
+  }, []);
+
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
@@ -616,17 +626,18 @@ function InvoiceRegister() {
       minOutstandingAmount: invoiceFilters?.minOutstandingAmount || undefined,
       maxOutstandingAmount: invoiceFilters?.maxOutstandingAmount || undefined,
     };
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters,
+        },
+      });
 
-    dispatch({
-      type: "GET_REPORTS_INVOICE_REGISTER_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters,
-      },
-    });
-
-    setLoading(true);
-  }, [state.login?.selectedHostel_Id, size, page]);
+      setLoading(true);
+    }
+  }, [state.login?.selectedHostel_Id, size, page, startDate, endDate]);
 
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
 
