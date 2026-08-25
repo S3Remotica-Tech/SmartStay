@@ -173,14 +173,21 @@ function SettingAllPages({ isVisibleSidebar }) {
           <div className="w-[200px] min-w-[200px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
             <div className="p-3">
               <div className="relative">
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search..."
-                  className="w-full h-[40px] rounded-full border border-[#E5E7EB] bg-white px-3 pr-8 text-[14px] outline-none focus:border-[#1E45E1]"
-                />
-
+                <form autoComplete="off" role="search">
+                  <input
+                    type="search"
+                    name="settings-filter"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search..."
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    className="w-full h-[40px] rounded-full border border-[#E5E7EB] bg-white
+      px-3 pr-8 text-[14px] outline-none focus:border-[#1E45E1]"
+                  />
+                </form>
                 <SearchNormal1
                   size="13"
                   color="#4B5563"
