@@ -112,6 +112,7 @@ import ReceiptNew from "../Pages/Receipt/ReceiptNew";
 import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
 import Request from "../Pages/Request/Request";
 import ChangeBedPgView from "../Pages/Request/ChangeBedPgView";
+import TenantAppControls from "../Pages/Settings/TenantAppControls";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -677,6 +678,10 @@ function Sidebar() {
               <Route path="user" element={<SettingNewUser />} />
               <Route path="role" element={<SettingNewRole />} />
               <Route path="agreement" element={<SettingAgreement />} />
+              <Route
+                path="tenant-app-controls"
+                element={<TenantAppControls />}
+              />
             </Route>
           </Routes>
         </>

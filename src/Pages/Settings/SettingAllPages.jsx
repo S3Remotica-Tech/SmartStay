@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import blueArrow from "../../Assets/Images/New_images/arrow-leftblue.png";
-import blackArrow from "../../Assets/Images/New_images/arrow-leftblack.png";
+
 import { useSelector } from "react-redux";
 import {
   Setting2,
@@ -29,6 +28,8 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   const [search, setSearch] = useState("");
   const [activeMenu, setActiveMenu] = useState("general");
+
+  const directMenuIds = ["general", "tenant-app-controls"];
 
   const settingsMenu = [
     {
@@ -96,7 +97,7 @@ function SettingAllPages({ isVisibleSidebar }) {
     "tenant-app-controls": [["Tenant App Controls", "tenant-app-controls"]],
   };
 
-  const filteredMenu = settingsMenu.filter((item) =>
+  const filteredMenu = settingsMenu?.filter((item) =>
     item.label.toLowerCase().includes(search.toLowerCase()),
   );
 
@@ -198,10 +199,10 @@ function SettingAllPages({ isVisibleSidebar }) {
                     type="button"
                     onClick={() => {
                       setActiveMenu(item.id);
-
                       const firstMenu = settingsSubMenus[item.id]?.[0];
-
-                      if (firstMenu) {
+                      if (directMenuIds.includes(item.id)) {
+                        handleSettingsNavigate(item.id, item.id);
+                      } else if (firstMenu) {
                         handleSettingsNavigate(firstMenu[1], firstMenu[0]);
                       }
                     }}
@@ -227,7 +228,7 @@ function SettingAllPages({ isVisibleSidebar }) {
             </div>
           </div>
 
-          {!isInvoiceAddMode && (
+          {!isInvoiceAddMode && !directMenuIds.includes(activeMenu) && (
             <aside
               className={`
             px-3 bg-white h-full border-r border-[#EEEEEE] flex-shrink-0
@@ -239,20 +240,23 @@ function SettingAllPages({ isVisibleSidebar }) {
           `}
             >
               <div className="bg-white rounded-lg py-1.5 w-full">
-                {settingsSubMenus[activeMenu]?.map(
-                  ([label, route, pageKey = label]) => {
-                    const isActive =
-                      activePage === route ||
-                      (route === "billing-rule" &&
-                        ["long-stay-recurring"].includes(activePage)) ||
-                      (route === "electricity" &&
-                        ["electricity-rule"].includes(activePage));
+                {!directMenuIds.includes(activeMenu) &&
+                  settingsSubMenus[activeMenu]?.map(
+                    ([label, route, pageKey = label]) => {
+                      const isActive =
+                        activePage === route ||
+                        (route === "billing-rule" &&
+                          ["long-stay-recurring"].includes(activePage)) ||
+                        (route === "electricity" &&
+                          ["electricity-rule"].includes(activePage));
 
-                    return (
-                      <div key={route}>
-                        <p
-                          onClick={() => handleSettingsNavigate(route, pageKey)}
-                          className={`flex justify-between items-center font-gilroy
+                      return (
+                        <div key={route}>
+                          <p
+                            onClick={() =>
+                              handleSettingsNavigate(route, pageKey)
+                            }
+                            className={`flex justify-between items-center font-gilroy
                 font-medium cursor-pointer py-2.5 mb-0 px-3 rounded-xl
                 text-[14px] md:text-[14px] lg:text-[14px] whitespace-nowrap
                 transition-all
@@ -261,13 +265,13 @@ function SettingAllPages({ isVisibleSidebar }) {
                     ? "bg-[#EEF2FF] text-[#1E45E1]"
                     : "text-black hover:bg-white/60"
                 }`}
-                        >
-                          {label}
-                        </p>
-                      </div>
-                    );
-                  },
-                )}
+                          >
+                            {label}
+                          </p>
+                        </div>
+                      );
+                    },
+                  )}
               </div>
             </aside>
           )}

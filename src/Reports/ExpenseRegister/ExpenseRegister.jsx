@@ -248,6 +248,16 @@ function ExpenseRegister() {
     });
   }, [apiStart, apiEnd]);
 
+  useEffect(() => {
+    const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
+
+    setSelectedRange({
+      from: startOfMonth,
+      to: endOfMonth,
+    });
+  }, []);
+
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
@@ -365,6 +375,8 @@ function ExpenseRegister() {
     ? dayjs(selectedRange.to).format("DD-MM-YYYY")
     : undefined;
 
+  console.log("startDate", startDate, "endDate", endDate);
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
     const expenseFilters = state.reports?.expenseRegisterFilters;
@@ -382,15 +394,17 @@ function ExpenseRegister() {
       vendorName: expenseFilters?.vendorName,
       paymentStatus: expenseFilters?.paymentStatus,
     };
-    dispatch({
-      type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: filters,
-      },
-    });
-    setLoading(true);
-  }, [size, page, state.login?.selectedHostel_Id]);
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: filters,
+        },
+      });
+      setLoading(true);
+    }
+  }, [size, page, state.login?.selectedHostel_Id, startDate, endDate]);
 
   const handleNavigateRegister = (item) => {
     setRegister(false);
