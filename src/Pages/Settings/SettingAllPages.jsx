@@ -79,7 +79,7 @@ function SettingAllPages({ isVisibleSidebar }) {
       ["Billing Rule", "billing-rule", "Billing_Rule"],
       ["Notifications", "notifications", "SettingsNotifications"],
       ["Bill Templates", "invoice", "Invoice"],
-      ["Agreement & Policy", "agreement"],
+      ["Agreements & Policies", "agreement"],
     ],
 
     "lists-categories": [
@@ -255,7 +255,9 @@ function SettingAllPages({ isVisibleSidebar }) {
                         (route === "billing-rule" &&
                           ["long-stay-recurring"].includes(activePage)) ||
                         (route === "electricity" &&
-                          ["electricity-rule"].includes(activePage));
+                          ["electricity-rule"].includes(activePage)) ||
+                        (route === "agreement" &&
+                          ["add-template"].includes(activePage));
 
                       return (
                         <div key={route}>

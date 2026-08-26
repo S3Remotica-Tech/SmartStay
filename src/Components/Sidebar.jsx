@@ -37,7 +37,7 @@ import SettingAmenities from "../Pages/Settings/SettingAmenities";
 import SettingNewUser from "../Pages/Settings/SettingUserNew";
 import SettingNewRole from "../Pages/Settings/RoleFile/SettingNewRole";
 import SettingsNotifications from "../Pages/Settings/SettingsNotifications";
-import SettingAgreement from "../Pages/Settings/SettingAgreement";
+import SettingAgreement from "../Pages/Settings/Agreement/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
@@ -113,6 +113,7 @@ import AddRetainerInvoice from "../Pages/Bookings/AddRetainerInvoice";
 import Request from "../Pages/Request/Request";
 import ChangeBedPgView from "../Pages/Request/ChangeBedPgView";
 import TenantAppControls from "../Pages/Settings/TenantAppControls";
+import AddTemplate from "../Pages/Settings/Agreement/AddTemplate";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -678,6 +679,7 @@ function Sidebar() {
               <Route path="user" element={<SettingNewUser />} />
               <Route path="role" element={<SettingNewRole />} />
               <Route path="agreement" element={<SettingAgreement />} />
+              <Route path="add-template" element={<AddTemplate />} />
               <Route
                 path="tenant-app-controls"
                 element={<TenantAppControls />}
@@ -1054,67 +1056,45 @@ function Sidebar() {
                     <li
                       className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                     >
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        delay={{ show: 200, hide: 0 }}
-                        overlay={
-                          <Tooltip className="custom-tooltip">Banking</Tooltip>
+                      <NavLink
+                        to={withHostel("/banking")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item  d-flex ${
+                            isActive || currentPage === "banking"
+                              ? "active"
+                              : ""
+                          }`
                         }
+                        onClick={() => handlePageClick("banking")}
                       >
-                        <NavLink
-                          to={withHostel("/banking")}
-                          className={({ isActive }) =>
-                            `align-items-center list-Item  d-flex ${
-                              isActive || currentPage === "banking"
-                                ? "active"
-                                : ""
-                            }`
-                          }
-                          onClick={() => handlePageClick("banking")}
-                        >
-                          <Bank size="20" variant="Bold" className="-mt-1" />
+                        <Bank size="20" variant="Bold" className="-mt-1" />
 
-                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Banking
-                          </span>
-                        </NavLink>
-                      </OverlayTrigger>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Banking
+                        </span>
+                      </NavLink>
                     </li>
                     {isDevelopment && (
                       <li
                         className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                       >
-                        <OverlayTrigger
-                          trigger={tooltipTrigger}
-                          placement="right"
-                          container={document.body}
-                          delay={{ show: 200, hide: 0 }}
-                          overlay={
-                            <Tooltip className="custom-tooltip">
-                              Banking
-                            </Tooltip>
+                        <NavLink
+                          to={withHostel("/banking/new")}
+                          className={({ isActive }) =>
+                            `align-items-center list-Item  d-flex ${
+                              isActive || currentPage === "banking-new"
+                                ? "active"
+                                : ""
+                            }`
                           }
+                          onClick={() => handlePageClick("banking-new")}
                         >
-                          <NavLink
-                            to={withHostel("/banking/new")}
-                            className={({ isActive }) =>
-                              `align-items-center list-Item  d-flex ${
-                                isActive || currentPage === "banking-new"
-                                  ? "active"
-                                  : ""
-                              }`
-                            }
-                            onClick={() => handlePageClick("banking-new")}
-                          >
-                            <Bank size="20" variant="Bold" className="-mt-1" />
+                          <Bank size="20" variant="Bold" className="-mt-1" />
 
-                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                              Banking New
-                            </span>
-                          </NavLink>
-                        </OverlayTrigger>
+                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                            Banking New
+                          </span>
+                        </NavLink>
                       </li>
                     )}
                     <li
@@ -1127,23 +1107,11 @@ function Sidebar() {
                         setIsMdSidebarExpanded(next);
                       }}
                     >
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        delay={{ show: 200, hide: 0 }}
-                        overlay={
-                          <Tooltip className="custom-tooltip">
-                            Billing & Payments
-                          </Tooltip>
-                        }
-                      >
-                        <DocumentText
-                          size={21}
-                          variant="Bold"
-                          className="-mt-1"
-                        />
-                      </OverlayTrigger>
+                      <DocumentText
+                        size={21}
+                        variant="Bold"
+                        className="-mt-1"
+                      />
 
                       <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-[14px]">
                         Billing & Payments
@@ -1179,23 +1147,11 @@ function Sidebar() {
                               onClick={() => handlePageClick("invoice")}
                               style={{ textDecoration: "none" }}
                             >
-                              <OverlayTrigger
-                                trigger={tooltipTrigger}
-                                placement="right"
-                                container={document.body}
-                                delay={{ show: 200, hide: 0 }}
-                                overlay={
-                                  <Tooltip className="custom-tooltip">
-                                    Bills
-                                  </Tooltip>
-                                }
-                              >
-                                <Receipt
-                                  size="22"
-                                  variant="Bold"
-                                  className="ml-1 -mt-1"
-                                />
-                              </OverlayTrigger>
+                              <Receipt
+                                size="22"
+                                variant="Bold"
+                                className="ml-1 -mt-1"
+                              />
 
                               <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
                                 Bills
@@ -1217,23 +1173,11 @@ function Sidebar() {
                                 handlePageClick("retainer-invoice")
                               }
                             >
-                              <OverlayTrigger
-                                trigger={tooltipTrigger}
-                                placement="right"
-                                container={document.body}
-                                delay={{ show: 200, hide: 0 }}
-                                overlay={
-                                  <Tooltip className="custom-tooltip">
-                                    Retainer Invoice
-                                  </Tooltip>
-                                }
-                              >
-                                <CalendarAdd
-                                  variant="Bold"
-                                  size="22"
-                                  className="-mt-1"
-                                />
-                              </OverlayTrigger>
+                              <CalendarAdd
+                                variant="Bold"
+                                size="22"
+                                className="-mt-1"
+                              />
 
                               <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
                                 Retainer Invoice
@@ -1253,23 +1197,11 @@ function Sidebar() {
                               }
                               onClick={() => handlePageClick("recurring")}
                             >
-                              <OverlayTrigger
-                                trigger={tooltipTrigger}
-                                placement="right"
-                                container={document.body}
-                                delay={{ show: 200, hide: 0 }}
-                                overlay={
-                                  <Tooltip className="custom-tooltip">
-                                    Recurring bills
-                                  </Tooltip>
-                                }
-                              >
-                                <RulerPen
-                                  variant="Bold"
-                                  size="22"
-                                  className="-mt-1"
-                                />
-                              </OverlayTrigger>
+                              <RulerPen
+                                variant="Bold"
+                                size="22"
+                                className="-mt-1"
+                              />
 
                               <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
                                 Recurring bills
@@ -1289,23 +1221,11 @@ function Sidebar() {
                               }
                               onClick={() => handlePageClick("receipts")}
                             >
-                              <OverlayTrigger
-                                trigger={tooltipTrigger}
-                                placement="right"
-                                container={document.body}
-                                delay={{ show: 200, hide: 0 }}
-                                overlay={
-                                  <Tooltip className="custom-tooltip">
-                                    Receipts
-                                  </Tooltip>
-                                }
-                              >
-                                <DocumentText
-                                  variant="Bold"
-                                  size="22"
-                                  className="-mt-1"
-                                />
-                              </OverlayTrigger>
+                              <DocumentText
+                                variant="Bold"
+                                size="22"
+                                className="-mt-1"
+                              />
 
                               <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
                                 Receipts
@@ -1319,33 +1239,21 @@ function Sidebar() {
                     <li
                       className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        delay={{ show: 200, hide: 0 }}
-                        overlay={
-                          <Tooltip className="custom-tooltip">
-                            Electricity
-                          </Tooltip>
+                      <NavLink
+                        to={withHostel("/electricity")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                            isActive || currentPage === "eb" ? "active" : ""
+                          }`
                         }
+                        onClick={() => handlePageClick("eb")}
                       >
-                        <NavLink
-                          to={withHostel("/electricity")}
-                          className={({ isActive }) =>
-                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                              isActive || currentPage === "eb" ? "active" : ""
-                            }`
-                          }
-                          onClick={() => handlePageClick("eb")}
-                        >
-                          <Flash size="22" variant="Bold" />
+                        <Flash size="22" variant="Bold" />
 
-                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Electricity
-                          </span>
-                        </NavLink>
-                      </OverlayTrigger>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Electricity
+                        </span>
+                      </NavLink>
                     </li>
 
                     <li
@@ -1378,69 +1286,45 @@ function Sidebar() {
                         <li
                           className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
                         >
-                          <OverlayTrigger
-                            trigger={tooltipTrigger}
-                            placement="right"
-                            container={document.body}
-                            delay={{ show: 200, hide: 0 }}
-                            overlay={
-                              <Tooltip className="custom-tooltip">
-                                Compliants
-                              </Tooltip>
+                          <NavLink
+                            to={withHostel("/compliance")}
+                            className={({ isActive }) =>
+                              `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                                isActive || currentPage === "compliance"
+                                  ? "active"
+                                  : ""
+                              }`
                             }
+                            onClick={() => handlePageClick("compliance")}
                           >
-                            <NavLink
-                              to={withHostel("/compliance")}
-                              className={({ isActive }) =>
-                                `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                                  isActive || currentPage === "compliance"
-                                    ? "active"
-                                    : ""
-                                }`
-                              }
-                              onClick={() => handlePageClick("compliance")}
-                            >
-                              <MessageQuestion size="22" variant="Bold" />
+                            <MessageQuestion size="22" variant="Bold" />
 
-                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                Compliants
-                              </span>
-                            </NavLink>
-                          </OverlayTrigger>
+                            <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                              Compliants
+                            </span>
+                          </NavLink>
                         </li>
                         {isDevelopment && (
                           <li
                             className={`list-none mx-4 ${manageOpen ? "mt-0.5" : "mt-2"}`}
                           >
-                            <OverlayTrigger
-                              trigger={tooltipTrigger}
-                              placement="right"
-                              container={document.body}
-                              delay={{ show: 200, hide: 0 }}
-                              overlay={
-                                <Tooltip className="custom-tooltip">
-                                  Requests
-                                </Tooltip>
+                            <NavLink
+                              to={withHostel("/requests")}
+                              className={({ isActive }) =>
+                                `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                                  isActive || currentPage === "requests"
+                                    ? "active"
+                                    : ""
+                                }`
                               }
+                              onClick={() => handlePageClick("requests")}
                             >
-                              <NavLink
-                                to={withHostel("/requests")}
-                                className={({ isActive }) =>
-                                  `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                                    isActive || currentPage === "requests"
-                                      ? "active"
-                                      : ""
-                                  }`
-                                }
-                                onClick={() => handlePageClick("requests")}
-                              >
-                                <Chart1 size="22" variant="Bold" />
+                              <Chart1 size="22" variant="Bold" />
 
-                                <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                                  Requests
-                                </span>
-                              </NavLink>
-                            </OverlayTrigger>
+                              <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                                Requests
+                              </span>
+                            </NavLink>
                           </li>
                         )}
                       </>
@@ -1449,65 +1333,45 @@ function Sidebar() {
                     <li
                       className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        delay={{ show: 200, hide: 0 }}
-                        overlay={
-                          <Tooltip className="custom-tooltip">Expenses</Tooltip>
+                      <NavLink
+                        to={withHostel("/expense")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                            isActive || currentPage === "expenses"
+                              ? "active"
+                              : ""
+                          }`
                         }
+                        onClick={() => handlePageClick("expenses")}
                       >
-                        <NavLink
-                          to={withHostel("/expense")}
-                          className={({ isActive }) =>
-                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                              isActive || currentPage === "expenses"
-                                ? "active"
-                                : ""
-                            }`
-                          }
-                          onClick={() => handlePageClick("expenses")}
-                        >
-                          <MoneySend size="20" variant="Bold" />
+                        <MoneySend size="20" variant="Bold" />
 
-                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Expenses
-                          </span>
-                        </NavLink>
-                      </OverlayTrigger>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Expenses
+                        </span>
+                      </NavLink>
                     </li>
 
                     <li
                       className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                     >
-                      <OverlayTrigger
-                        trigger={tooltipTrigger}
-                        placement="right"
-                        container={document.body}
-                        delay={{ show: 200, hide: 0 }}
-                        overlay={
-                          <Tooltip className="custom-tooltip">Reports</Tooltip>
+                      <NavLink
+                        to={withHostel("/reports")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
+                            isActive || currentPage === "reports"
+                              ? "active"
+                              : ""
+                          }`
                         }
+                        onClick={() => handlePageClick("reports")}
                       >
-                        <NavLink
-                          to={withHostel("/reports")}
-                          className={({ isActive }) =>
-                            `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                              isActive || currentPage === "reports"
-                                ? "active"
-                                : ""
-                            }`
-                          }
-                          onClick={() => handlePageClick("reports")}
-                        >
-                          <Chart size="20" variant="Bold" />
+                        <Chart size="20" variant="Bold" />
 
-                          <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Reports
-                          </span>
-                        </NavLink>
-                      </OverlayTrigger>
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Reports
+                        </span>
+                      </NavLink>
                     </li>
                   </ul>
                 </div>

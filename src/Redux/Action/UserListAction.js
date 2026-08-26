@@ -71,8 +71,6 @@ export async function SaveDraftTenant(tenant) {
 }
 
 export async function UpdateSaveDraftTenant(tenant) {
- 
-
   const formData = new FormData();
 
   if (tenant.profilePic) {
@@ -885,5 +883,11 @@ export async function CreateRetainerInvoice(retainer) {
     {
       data: retainer,
     },
+  );
+}
+
+export async function deleteDraftTenant(hostel) {
+  return await AxiosConfigV2.delete(
+    `/v3/customers/draft/${hostel.hostelId}/${hostel.customerId}`,
   );
 }

@@ -1,5 +1,3 @@
-
-
 export const initialState = {
   Users: [],
   removeRentRevisionSuccess: 0,
@@ -219,6 +217,7 @@ export const initialState = {
   CustomerList: [],
   RentRevisionError: "",
   deleteReadingError: "",
+  deleteDraftTenantSuccessCode: 0,
 };
 
 const UserListReducer = (state = initialState, action) => {
@@ -269,6 +268,18 @@ const UserListReducer = (state = initialState, action) => {
       return {
         ...state,
         kycRemindeSuccess: 0,
+      };
+
+    case "DELETE_DRAFT_TENANT_REDUCER":
+      return {
+        ...state,
+        deleteDraftTenantSuccessCode: action.payload.statusCode,
+      };
+
+    case "REMOVE_DELETE_DRAFT_TENANT_REDUCER":
+      return {
+        ...state,
+        deleteDraftTenantSuccessCode: 0,
       };
 
     case "KEY_REMAINDER_ERROR":
