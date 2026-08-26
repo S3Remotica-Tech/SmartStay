@@ -4,8 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import ChangeBedTenantWay from "./ChangeBedTenantWay";
-import { AddCircle, ArrowDown2, ArrowUp2 } from "iconsax-react";
-
+import { AddCircle, ArrowDown2, ArrowUp2, Trash } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import UserlistCheckout from "./UserlistCheckout";
 import UserlistWalkin from "./UserlistWalkin";
@@ -16,7 +15,6 @@ import MoveToNoticePGAndTenant from "./MoveToNoticePGAndTenant";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
-
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -26,7 +24,6 @@ import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 import MakeAsInactive from "./MakeAsInactive";
-
 import ErrorMessage from "../../Components/ErrorMessage";
 import BackToCheckIn from "./BackToCheckIn";
 import { useHasPermission } from "../../Utils/Permission";
@@ -45,15 +42,13 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TiTick } from "react-icons/ti";
-
 import TenantListFilter from "./TenantListFilter";
 import ApiPagination from "../../Components/ApiPagination";
-
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import AddTenant from "../PayingGuestFile/AddTenant";
-
 import BookingToCheckin from "./BookingToCheckin";
+import DeleteDraftTenant from "./DeleteDraftTenant";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -165,6 +160,7 @@ function UserList(props) {
   const [customerReassign, setCustomerReAssign] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
+  const [deleteDraftTenant, setDeleteDraftTenant] = useState(false);
   const [bookingOnly, setBookingOnly] = useState(false);
   const [EditObj, setEditObj] = useState("");
   const [activeRow, setActiveRow] = useState(null);
@@ -195,8 +191,11 @@ function UserList(props) {
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const dropdownRef = useRef(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { canWriteModule: canWriteTenant, canReadModule: canReadTenant } =
-    useHasPermission("Customers");
+  const {
+    canWriteModule: canWriteTenant,
+    canReadModule: canReadTenant,
+    canDeleteModule: canDeleteTenant,
+  } = useHasPermission("Customers");
   const { canWriteModule: canWriteWalkin } = useHasPermission("Walk in");
   const {
     canWriteModule: canWriteCheckout,
@@ -663,6 +662,22 @@ function UserList(props) {
   }, [state.Booking.StatusCodeInactiveCode]);
 
   useEffect(() => {
+    if (state.UsersList?.deleteDraftTenantSuccessCode === 204) {
+      setDeleteDraftTenant(false);
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          page: page,
+          size: size,
+        },
+      });
+
+      dispatch({ type: "REMOVE_DELETE_DRAFT_TENANT_REDUCER" });
+    }
+  }, [state.UsersList?.deleteDraftTenantSuccessCode]);
+
+  useEffect(() => {
     if (
       state.UsersList?.bookingToCheckinStatusCode === 200 ||
       state.UsersList?.bookingToCheckinStatusCode === 201
@@ -982,6 +997,15 @@ function UserList(props) {
     setShowDropdown(false);
     setDraftTenantDetails(user);
     setBookingOnly(false);
+  };
+
+  const handleDeleteTenant = (user) => {
+    setDeleteDraftTenant(true);
+    setDraftTenantDetails(user.apiCall?.customerId);
+  };
+
+  const handleCloseDeleteDraftTenant = () => {
+    setDeleteDraftTenant(false);
   };
 
   const handleChange = (key) => {
@@ -2118,23 +2142,58 @@ function UserList(props) {
                                               )}
 
                                               {user.status === "Draft" && (
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteTenant &&
-                                                    handleShowDraftTenant(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                                                <>
+                                                  <div
+                                                    onClick={() =>
+                                                      canWriteTenant &&
+                                                      handleShowDraftTenant(
+                                                        user,
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
                   ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                >
-                                                  <img
-                                                    alt="image"
-                                                    src={Addbook}
-                                                    className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Draft Continue
-                                                  </span>
-                                                </div>
+                                                  >
+                                                    <img
+                                                      alt="image"
+                                                      src={Addbook}
+                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                    />
+                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                      Draft Continue
+                                                    </span>
+                                                  </div>
+
+                                                  <button
+                                                    type="button"
+                                                    disabled={!canDeleteTenant}
+                                                    onClick={() =>
+                                                      handleDeleteTenant(user)
+                                                    }
+                                                    className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${
+      canDeleteTenant
+        ? "cursor-pointer hover:bg-red-50"
+        : "cursor-not-allowed opacity-60"
+    }`}
+                                                  >
+                                                    <Trash
+                                                      size={16}
+                                                      variant="Linear"
+                                                      color={
+                                                        canDeleteTenant
+                                                          ? "#EF4444"
+                                                          : "#9CA3AF"
+                                                      }
+                                                    />
+
+                                                    <span
+                                                      className="text-sm font-medium font-gilroy 
+                                                    whitespace-nowrap text-[#EF4444]"
+                                                    >
+                                                      Delete
+                                                    </span>
+                                                  </button>
+                                                </>
                                               )}
                                             </div>
                                           </div>
@@ -2413,6 +2472,14 @@ function UserList(props) {
           show={DueCustomerShow}
           data={CheckOutDetails}
           handleClose={handleCloseDuePopup}
+        />
+      )}
+
+      {deleteDraftTenant && (
+        <DeleteDraftTenant
+          open={deleteDraftTenant}
+          onClose={handleCloseDeleteDraftTenant}
+          deleteTenantId={DraftTenantDetails}
         />
       )}
     </div>

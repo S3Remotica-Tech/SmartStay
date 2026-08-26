@@ -834,6 +834,7 @@ function InvoiceRegisterFilter({
               setPaidAmountMax("");
               setOutstandingMin("");
               setOutstandingMax("");
+              setPeriod("");
             }}
             style={{
               backgroundColor: "transparent",

@@ -304,6 +304,8 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       paymentStatus: selectedBillStatus?.value,
     };
 
+    console.log("expnseFilter", expnseFilter);
+
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",
       payload: expnseFilter,
@@ -522,7 +524,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
         >
           <Button
             onClick={() => {
-              setPeriod([]);
+              setPeriod("");
               setPaymentMode([]);
               // setPaidTo([]);
               setCreatedBy([]);

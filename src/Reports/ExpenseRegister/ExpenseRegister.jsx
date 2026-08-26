@@ -828,9 +828,9 @@ function ExpenseRegister() {
                     <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
                       Status
                     </th>
-                    <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
+                    {/* <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
                       Payment mode
-                    </th>
+                    </th> */}
                     <th className="px-4 py-2.5 text-center font-semibold uppercase whitespace-nowrap">
                       Total Amount
                     </th>
@@ -977,13 +977,13 @@ function ExpenseRegister() {
                             {row.status || "-"}
                           </span>
                         </td>
-                        <td
+                        {/* <td
                           className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                         >
                           {row.paymentMode || "-"}
-                        </td>
+                        </td> */}
                         <td
                           className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
@@ -1074,7 +1074,7 @@ function ExpenseRegister() {
                             setCollectedTooltip(i);
                           }}
                           onMouseLeave={() => setCollectedTooltip(null)}
-                          className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap
+                          className={`px-4 py-2.5 text-center font-semibold text-[#222222] transition-colors min-w-0 max-w-[100px] whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                         >

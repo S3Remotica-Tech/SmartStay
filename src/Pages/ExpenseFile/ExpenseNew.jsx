@@ -179,10 +179,14 @@ function Expenses() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const stats = [
     {
-      label: "Total Expense Amount",
-      value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
+      label: "Total Expenses",
+      value: getData?.totalExpenses ?? 0,
       icon: true,
       highlight: true,
+    },
+    {
+      label: "Total Expense Amount",
+      value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
     },
     {
       label: "Paid",
