@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 import ComingSoon from "../../../Utils/ComingSoon";
 import { useHasPermission } from "../../../Utils/Permission";
@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 function SettingAgreement() {
-  const state = useSelector((state) => state);
+  // const state = useSelector((state) => state);
 
   const navigate = useNavigate();
 

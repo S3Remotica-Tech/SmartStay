@@ -282,9 +282,9 @@ function BillsFilter({ show, handleClose, size }) {
 
   const periodOptions = [{ label: "Custom", value: "CUSTOM" }];
 
-  const isAllSelectedDrop =
-    selectedBillStatusOptions?.length === 1 &&
-    selectedBillStatusOptions[0]?.value === "ALL";
+  // const isAllSelectedDrop =
+  //   selectedBillStatusOptions?.length === 1 &&
+  //   selectedBillStatusOptions[0]?.value === "ALL";
 
   const handleFilterBills = () => {
     if (!startDate && endDate) {

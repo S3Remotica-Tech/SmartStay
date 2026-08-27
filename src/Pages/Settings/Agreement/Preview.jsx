@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import { ArrowLeft2, DocumentDownload, Export } from "iconsax-react";
 
 function Preview({ handleClose, content }) {
@@ -89,5 +89,9 @@ function Preview({ handleClose, content }) {
     </div>
   );
 }
+Preview.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  content: PropTypes.string,
+};
 
 export default Preview;
