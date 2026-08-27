@@ -170,7 +170,7 @@ function SettingAllPages({ isVisibleSidebar }) {
         </div>
 
         <div className="flex flex-1 min-h-0 overflow-hidden">
-          <div className="w-[200px] min-w-[200px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
+          <div className="w-[200px] lg:w-[220px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
             <div className="p-3">
               <div className="relative">
                 <form autoComplete="off" role="search">
@@ -237,14 +237,20 @@ function SettingAllPages({ isVisibleSidebar }) {
 
           {!isInvoiceAddMode && !directMenuIds.includes(activeMenu) && (
             <aside
+              //     className={`
+              //   px-3 bg-white h-full border-r border-[#EEEEEE] flex-shrink-0
+              //   ${
+              //     isSidebarOpen
+              //       ? "block w-[15%] md:w-[15%]"
+              //       : "hidden md:block md:w-[15%]"
+              //   }
+              // `}
+
               className={`
-            px-3 bg-white h-full border-r border-[#EEEEEE] flex-shrink-0
-            ${
-              isSidebarOpen
-                ? "block w-[15%] md:w-[15%]"
-                : "hidden md:block md:w-[15%]"
-            }
-          `}
+      w-[200px] lg:w-[200px] xl:w-[200px]
+      px-3 bg-white h-full border-r border-[#EEEEEE] flex-shrink-0
+      hidden md:block
+    `}
             >
               <div className="bg-white rounded-lg py-1.5 w-full">
                 {!directMenuIds.includes(activeMenu) &&
@@ -261,22 +267,22 @@ function SettingAllPages({ isVisibleSidebar }) {
 
                       return (
                         <div key={route}>
-                          <p
+                          <button
+                            type="button"
                             onClick={() =>
                               handleSettingsNavigate(route, pageKey)
                             }
-                            className={`flex justify-between items-center font-gilroy
-                font-medium cursor-pointer py-2.5 mb-0 px-3 rounded-xl
-                text-[14px] md:text-[14px] lg:text-[14px] whitespace-nowrap
-                transition-all
-                ${
-                  isActive
-                    ? "bg-[#EEF2FF] text-[#1E45E1]"
-                    : "text-black hover:bg-white/60"
-                }`}
+                            className={`w-full flex items-center font-gilroy font-medium
+                  cursor-pointer py-2.5 px-3 rounded-xl text-left
+                  text-[13px] lg:text-[14px] whitespace-nowrap transition-all
+                  ${
+                    isActive
+                      ? "bg-[#EEF2FF] text-[#1E45E1]"
+                      : "text-black hover:bg-[#F8F9FC]"
+                  }`}
                           >
                             {label}
-                          </p>
+                          </button>
                         </div>
                       );
                     },
@@ -285,12 +291,7 @@ function SettingAllPages({ isVisibleSidebar }) {
             </aside>
           )}
 
-          <main
-            className={`
-          flex-1 min-w-0 min-h-0 overflow-y-auto px-2
-          ${isSidebarOpen ? "hidden md:block" : ""}
-        `}
-          >
+          <main className="flex-1 min-w-0 min-h-0 overflow-y-auto bg-white">
             <Outlet />
           </main>
         </div>

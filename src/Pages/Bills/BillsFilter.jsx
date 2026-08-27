@@ -146,28 +146,57 @@ function BillsFilter({ show, handleClose, size }) {
       value: item.userId,
     })) || [];
 
-  // const handleBillStatusChange = (selected) => {
-  //     setBillStatus(selected.map(opt => opt.value))
+  // const handleBillStatusChange = (selectedOptions) => {
+  //   if (!selectedOptions) {
+  //     setSelectedBillStatusOptions([]);
+  //     setBillStatus([]);
+  //     return;
+  //   }
+
+  //   const hasAll = selectedOptions.some((opt) => opt.value === "ALL");
+
+  //   if (hasAll) {
+  //     // If ALL is selected → keep ONLY ALL
+  //     const allOption = selectedOptions.find((opt) => opt.value === "ALL");
+  //     setSelectedBillStatusOptions([allOption]);
+  //     setBillStatus(["ALL"]);
+  //   } else {
+  //     // Normal multi-select (without ALL)
+  //     setSelectedBillStatusOptions(selectedOptions);
+  //     setBillStatus(selectedOptions.map((opt) => opt.value));
+  //   }
   // };
 
-  const handleBillStatusChange = (selectedOptions) => {
-    if (!selectedOptions) {
-      setSelectedBillStatusOptions([]);
-      setBillStatus([]);
+  const handleBillStatusChange = (selectedOptions, actionMeta) => {
+    const allOption = billStatusOptions.find(
+      (option) => option.value === "ALL",
+    );
+    const individualOptions = billStatusOptions.filter(
+      (option) => option.value !== "ALL",
+    );
+    if (actionMeta.option?.value === "ALL") {
+      if (actionMeta.action === "select-option") {
+        setSelectedBillStatusOptions([allOption, ...individualOptions]);
+        setBillStatus(["ALL"]);
+      } else if (actionMeta.action === "deselect-option") {
+        setSelectedBillStatusOptions([]);
+        setBillStatus([]);
+      }
+
       return;
     }
+    const selectedWithoutAll = (selectedOptions || []).filter(
+      (option) => option.value !== "ALL",
+    );
+    const isAllSelected =
+      selectedWithoutAll.length === individualOptions.length;
 
-    const hasAll = selectedOptions.some((opt) => opt.value === "ALL");
-
-    if (hasAll) {
-      // If ALL is selected → keep ONLY ALL
-      const allOption = selectedOptions.find((opt) => opt.value === "ALL");
-      setSelectedBillStatusOptions([allOption]);
+    if (isAllSelected) {
+      setSelectedBillStatusOptions([allOption, ...individualOptions]);
       setBillStatus(["ALL"]);
     } else {
-      // Normal multi-select (without ALL)
-      setSelectedBillStatusOptions(selectedOptions);
-      setBillStatus(selectedOptions.map((opt) => opt.value));
+      setSelectedBillStatusOptions(selectedWithoutAll);
+      setBillStatus(selectedWithoutAll.map((option) => option.value));
     }
   };
 
@@ -424,8 +453,12 @@ function BillsFilter({ show, handleClose, size }) {
                 styles={CustomStyles}
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Status"
-                isOptionDisabled={(option) =>
-                  isAllSelectedDrop && option.value !== "ALL"
+                isOptionSelected={(option) =>
+                  billStatus.includes("ALL")
+                    ? true
+                    : selectedBillStatusOptions?.some(
+                        (selected) => selected.value === option.value,
+                      )
                 }
               />
             </Form.Group>

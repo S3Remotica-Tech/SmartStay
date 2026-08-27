@@ -33,12 +33,10 @@ function SettingManage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");
- 
+
   const [loading, setLoading] = useState(false);
 
   const popupRef = useRef(null);
-
- 
 
   const {
     canWriteModule: canWritePayingGuests,
@@ -50,8 +48,6 @@ function SettingManage() {
   const RoleAccess =
     state.createAccount?.accountList?.roleId === 1 ||
     state.createAccount?.accountList?.roleId === 2;
-
- 
 
   const isEnable = canWritePayingGuests && RoleAccess;
 
@@ -605,7 +601,7 @@ function SettingManage() {
           ) : (
             // <div className="mt-4 h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto overflow-x-hidden flex flex-col show-scrolls">
             <div
-              className={`mt-4 
+              className={`mt-4  mx-2
   ${filteredData?.length > 0 ? "h-[512px] lg:h-[512px] xl:h-[512px] 2xl:h-[820px] 3xl:h-[820px] overflow-y-auto show-scrolls" : ""}
   overflow-x-hidden flex flex-col`}
             >

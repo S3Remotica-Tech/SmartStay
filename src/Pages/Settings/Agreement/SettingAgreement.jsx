@@ -111,7 +111,7 @@ function SettingAgreement() {
                   : "cursor-not-allowed border-gray-300 text-gray-400"
               }`}
             >
-              <AddCircle />
+              <AddCircle size="16" />
               New Template
             </button>
           </div>
