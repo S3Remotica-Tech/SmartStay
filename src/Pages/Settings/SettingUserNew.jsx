@@ -411,7 +411,12 @@ function SettingNewUser() {
               </div>
             </div>
           ) : (
-            !loading && <NoDataMessage label="Staff" />
+            !loading && (
+              <div className="p-2 w-full">
+                {" "}
+                <NoDataMessage label="Staff" />{" "}
+              </div>
+            )
           )}
         </div>
       )}

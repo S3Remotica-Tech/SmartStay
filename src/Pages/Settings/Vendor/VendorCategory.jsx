@@ -2,13 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-
-  Edit,
-  
-  Messages3,
-  Trash,
-} from "iconsax-react";
+import { Edit, Messages3, Trash } from "iconsax-react";
 
 import { useHasPermission } from "../../../Utils/Permission";
 import { toast } from "react-toastify";
@@ -311,7 +305,12 @@ function VendorCategory() {
             </div>
           ) : (
             categoryList.length === 0 &&
-            canReadVendor && <NoDataMessage label="Vendor Category" />
+            canReadVendor && (
+              <div className="p-2 w-full">
+                {" "}
+                <NoDataMessage label="Vendor Category" />{" "}
+              </div>
+            )
           )}
         </div>
       )}

@@ -118,17 +118,19 @@ function TenantAppControls() {
 
   return (
     <div className="font-gilroy mx-4 my-2">
-      <div>
-        <label className="text-[18px] font-semibold text-[#222222]">
-          Tenant App Controls
-        </label>
-      </div>
+      <div className="sticky top-0 bg-white z-50">
+        <div>
+          <label className="text-[18px] font-semibold text-[#222222]">
+            Tenant App Controls
+          </label>
+        </div>
 
-      <div>
-        <label className="text-[13px] font-semibold text-[#7C7C7C]">
-          Manage what requests tenants can make from the tenant app and
-          configure notice periods.
-        </label>
+        <div>
+          <label className="text-[13px] font-semibold text-[#7C7C7C]">
+            Manage what requests tenants can make from the tenant app and
+            configure notice periods.
+          </label>
+        </div>
       </div>
       {isDev ? (
         <div className="bg-gray-100 min-h-screen px-4 py-2 rounded my-2">

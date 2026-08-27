@@ -538,7 +538,12 @@ function SettingCompliance() {
           ) : (
             !loading &&
             complianceFilterddata.length === 0 &&
-            canReadComplaints && <NoDataMessage label="Complaints" />
+            canReadComplaints && (
+              <div className="p-2">
+                {" "}
+                <NoDataMessage label="Complaints" />{" "}
+              </div>
+            )
           )}
         </div>
       )}

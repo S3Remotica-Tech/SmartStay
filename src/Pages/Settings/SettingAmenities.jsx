@@ -476,7 +476,12 @@ function SettingAmenities() {
                     </div>
                   </div>
                 ))
-              : !loading && <NoDataMessage label="Amenities" />}
+              : !loading && (
+                  <div className="p-2 w-full">
+                    {" "}
+                    <NoDataMessage label="Amenities" />{" "}
+                  </div>
+                )}
           </div>
 
           {loading && (

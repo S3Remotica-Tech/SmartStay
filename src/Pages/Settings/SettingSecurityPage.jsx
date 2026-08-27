@@ -12,21 +12,19 @@ const Profile_Security = () => {
   const dispatch = useDispatch();
 
   const LoginId = localStorage.getItem("loginId");
-    const Loginemail = localStorage.getItem("emilidd");
-  
+  const Loginemail = localStorage.getItem("emilidd");
+
   const [email_IdForLoginUser, setEmail_IdForLoginUser] = useState("");
 
   useEffect(() => {
     if (LoginId) {
       try {
-        
         const decryptedDataemail = CryptoJS.AES.decrypt(Loginemail, "abcd");
         const decryptedStringemail = decryptedDataemail.toString(
           CryptoJS.enc.Utf8,
         );
-                setEmail_IdForLoginUser(decryptedStringemail);
-
-              } catch (error) {
+        setEmail_IdForLoginUser(decryptedStringemail);
+      } catch (error) {
         console.error("Error decrypting LoginId:", error);
       }
     }
@@ -94,7 +92,7 @@ const Profile_Security = () => {
   // const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <div className="overflow-hidden w-full">
+    <div className="overflow-hidden w-full p-2">
       <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center mt-2 w-full">
         <label className="text-black font-gilroy font-semibold text-lg w-full md:w-auto">
           Security

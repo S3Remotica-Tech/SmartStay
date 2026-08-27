@@ -1147,7 +1147,7 @@ function SettingGeneral() {
             </>
           ) : (
             // <div className="sticky top-0 bg-white z-[900] ">
-            <div className="sticky top-0 bg-white z-[40] flex flex-col h-full">
+            <div className="sticky top-0 bg-white z-[40] flex flex-col h-full p-2">
               {account?.roleId === 1 && (
                 <div className="bg-white rounded-lg border border-gray-300 p-4 md:p-2 font-gilroy">
                   <div className="flex w-full gap-4 md:gap-3">
