@@ -39,7 +39,7 @@ function DashQuickAccess() {
     title: "Billing Summary",
     invoices: QuickAccess?.billingSummary?.totalInvoiceGenerated || 0,
     totalAmount: QuickAccess?.billingSummary?.totalAmount || 0,
-    collected: ` ${QuickAccess?.billingSummary?.totalPaid || 0}`,
+    collected: ` ${QuickAccess?.billingSummary?.paidThisMonth || 0}`,
     refunded: ` ${QuickAccess?.billingSummary?.refundedAmount || 0}`,
     outstanding: `${QuickAccess?.billingSummary?.totalPending || 0}`,
     collectionRate: `${QuickAccess?.billingSummary?.collectionRate || 0}`,
