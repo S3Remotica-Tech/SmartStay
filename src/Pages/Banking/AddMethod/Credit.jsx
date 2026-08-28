@@ -465,6 +465,7 @@ function Credit({ handleClose }) {
                 onChange={handleBillingCycleChange}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Select Date"
+                wrapperClassName="w-full"
                 className={`w-full h-11 rounded-[8px] border px-3 pr-10 text-[13px]
                   focus:outline-none`}
               />

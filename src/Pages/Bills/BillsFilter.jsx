@@ -113,7 +113,6 @@ function BillsFilter({ show, handleClose, size }) {
   const [dateError, setDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const previousFilters = state.InvoiceList.invoiceFilters || {};
-  console.log("previousFilters", previousFilters);
 
   const filterOptionsData = useSelector(
     (state) => state.InvoiceList?.billsList?.filterOptions,
