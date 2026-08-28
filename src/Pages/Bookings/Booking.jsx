@@ -36,6 +36,107 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
 import PropTypes from "prop-types";
 
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "32px",
+    height: "32px",
+    width: "100%",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "12px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#F4F4F4"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 13,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "32px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
 function Booking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -48,6 +149,7 @@ function Booking() {
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [filterInput, setFilterInput] = useState("");
+  const [debouncedInput, setDebouncedInput] = useState(filterInput);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [customizeItems, setCustomizeItems] = useState([]);
@@ -60,7 +162,29 @@ function Booking() {
   const [isScrolling, setIsScrolling] = useState(false);
   const lastScrollLeftRef = useRef(0);
   const [loading, setLoading] = useState(false);
+  const statusStyles = {
+    Redeemed: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
 
+    "Partially Redeemed": {
+      bg: "#FFF4E5",
+      text: "#F59E0B",
+    },
+    "Fully Adjusted": {
+      bg: "#EEF4FF",
+      text: "#1E45E1",
+    },
+    "Partially Adjusted": {
+      bg: "#FFF4E5",
+      text: "#F59E0B",
+    },
+    Available: {
+      bg: "#EFFFF2",
+      text: "#038C3D",
+    },
+  };
   const [showDots, setShowDots] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
@@ -70,6 +194,38 @@ function Booking() {
 
   const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Bills");
+
+  const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
+
+  const stats = [
+    {
+      label: "Total Retainer Amount",
+      value: `₹ ${retainerSummary?.totalRetainerAmount || 0}`,
+      icon: true,
+      highlight: true,
+    },
+    {
+      label: "Booking",
+      value: `₹ ${retainerSummary?.totalBookingAmount || 0}`,
+    },
+    {
+      label: "Advance",
+      value: `₹ ${retainerSummary?.totalAdvanceAmount || 0}`,
+    },
+    {
+      label: "Available Retainer Amount",
+      value: `₹ ${retainerSummary?.totalRentAmount || 0}`,
+    },
+    {
+      label: "EB",
+      value: `₹ ${retainerSummary?.totalEbAmount || 0}`,
+    },
+    {
+      label: "General",
+      value: `₹ ${retainerSummary?.otherAmount || 0}`,
+      icon: false,
+    },
+  ];
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -153,107 +309,6 @@ function Booking() {
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
-  };
-
-  const CustomStyles = {
-    control: (base, state) => ({
-      ...base,
-      minHeight: "32px",
-      height: "32px",
-      width: "100%",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "12px",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-
-      cursor: state.isDisabled ? "not-allowed" : "pointer",
-      backgroundColor: state.isDisabled
-        ? "#F3F4F6"
-        : state.hasValue
-          ? "#F4F4F4"
-          : "#fff",
-      opacity: state.isDisabled ? 0.7 : 1,
-    }),
-
-    singleValue: (base, state) => ({
-      ...base,
-      color: state.isDisabled ? "#9CA3AF" : "#333",
-      fontWeight: 500,
-    }),
-
-    placeholder: (base, state) => ({
-      ...base,
-      color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-    }),
-
-    option: (base, state) => {
-      const isSelected = state.isSelected;
-
-      return {
-        ...base,
-        position: "relative",
-        fontSize: 13,
-        padding: "6px 12px",
-        backgroundColor: isSelected
-          ? "#EEF2FF"
-          : state.isFocused
-            ? "#F3F4F6"
-            : "#fff",
-        color: "#111827",
-        cursor: "pointer",
-
-        whiteSpace: "nowrap",
-        overflow: "visible",
-
-        paddingLeft: isSelected ? "9px" : "12px",
-
-        ...(isSelected && {
-          borderLeft: "3px solid #1E45E1",
-          fontWeight: 500,
-        }),
-      };
-    },
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#fff",
-      border: "1px solid #E5E7EB",
-      borderRadius: "8px",
-      padding: "6px 0",
-      zIndex: 9999,
-      width: "max-content",
-      minWidth: "100%",
-    }),
-
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "100px",
-      padding: 0,
-      overflowY: "auto",
-    }),
-
-    valueContainer: (base) => ({
-      ...base,
-      padding: "0 8px",
-    }),
-
-    indicatorsContainer: (base) => ({
-      ...base,
-      height: "32px",
-    }),
-
-    dropdownIndicator: (base, state) => ({
-      ...base,
-      padding: "4px",
-      color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-      cursor: state.isDisabled ? "not-allowed" : "pointer",
-    }),
-
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
   };
 
   useEffect(() => {
@@ -368,22 +423,6 @@ function Booking() {
   };
 
   const isComingSoon = true;
-
-  // const tableData = [];
-
-  // const handleSelectAll = (e) => {
-  //   if (e.target.checked) {
-  //     setSelectedRows(tableData.map((item) => item.id));
-  //   } else {
-  //     setSelectedRows([]);
-  //   }
-  // };
-
-  // const handleRowSelect = (id) => {
-  //   setSelectedRows((prev) =>
-  //     prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
-  //   );
-  // };
 
   useEffect(() => {
     if (popupRef.current) {
@@ -530,27 +569,53 @@ function Booking() {
   }, []);
 
   useEffect(() => {
+    if (filterInput.trim() === "") {
+      setDebouncedInput("");
+
+      dispatch({
+        type: "SET_BOOKING_FILTERS",
+        payload: {
+          search: "",
+        },
+      });
+      return;
+    }
+    const timer = setTimeout(() => {
+      setDebouncedInput(filterInput);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [filterInput]);
+
+  useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
+
+    const filters = state.Booking?.bookingFilters;
+
     dispatch({
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        name: filterInput || "",
+        name: debouncedInput || filters?.search || "",
         page: page,
         size: size,
         // period: selectedMonth?.value,
+        floor: filters?.floorId,
+        room: filters?.roomId,
+        minAmount: filters?.minPaidAmount,
+        maxAmount: filters?.maxPaidAmount,
       },
     });
 
     dispatch({
       type: "SET_BOOKING_FILTERS",
       payload: {
-        search: filterInput,
+        search: debouncedInput,
       },
     });
 
     setLoading(true);
-  }, [page, size, filterInput, state.login.selectedHostel_Id]);
+  }, [page, size, debouncedInput, state.login.selectedHostel_Id]);
 
   const handleReset = () => {
     dispatch({
@@ -558,11 +623,13 @@ function Booking() {
       payload: {
         period: [],
         search: "",
-        floor: [],
-        room: [],
+        floor: "",
+        room: "",
         minPaidAmount: "",
         maxPaidAmount: "",
         paymentMode: [],
+        floorId: "",
+        roomId: "",
       },
     });
     dispatch({
@@ -585,11 +652,13 @@ function Booking() {
         payload: {
           period: [],
           search: "",
-          floor: [],
-          room: [],
+          floor: "",
+          room: "",
           minPaidAmount: "",
           maxPaidAmount: "",
           paymentMode: [],
+          floorId: "",
+          roomId: "",
         },
       });
     };
@@ -601,6 +670,8 @@ function Booking() {
 
   useEffect(() => {
     const filters = state.Booking?.bookingFilters;
+    console.log("main", filters);
+
     const filterData = [];
 
     if (filters?.period?.length) {
@@ -672,6 +743,7 @@ function Booking() {
 
     setChips(filterData);
   }, [state.Booking?.bookingFilters]);
+
   useEffect(() => {
     if (state?.Booking?.applyinvoiceSuccessCode === 201) {
       dispatch({
@@ -769,30 +841,6 @@ function Booking() {
     }
   }, [state.createAccount?.networkError]);
 
-  const statusStyles = {
-    Redeemed: {
-      bg: "#EFFFF2",
-      text: "#038C3D",
-    },
-
-    "Partially Redeemed": {
-      bg: "#FFF4E5",
-      text: "#F59E0B",
-    },
-    "Fully Adjusted": {
-      bg: "#EEF4FF",
-      text: "#1E45E1",
-    },
-    "Partially Adjusted": {
-      bg: "#FFF4E5",
-      text: "#F59E0B",
-    },
-    Available: {
-      bg: "#EFFFF2",
-      text: "#038C3D",
-    },
-  };
-
   useEffect(() => {
     if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
       dispatch({
@@ -800,38 +848,6 @@ function Booking() {
       });
     }
   }, [state.UsersList.createRetainerInvoiceStatusCode]);
-
-  const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
-
-  const stats = [
-    {
-      label: "Total Retainer Amount",
-      value: `₹ ${retainerSummary?.totalRetainerAmount || 0}`,
-      icon: true,
-      highlight: true,
-    },
-    {
-      label: "Booking",
-      value: `₹ ${retainerSummary?.totalBookingAmount || 0}`,
-    },
-    {
-      label: "Advance",
-      value: `₹ ${retainerSummary?.totalAdvanceAmount || 0}`,
-    },
-    {
-      label: "Available Retainer Amount",
-      value: `₹ ${retainerSummary?.totalRentAmount || 0}`,
-    },
-    {
-      label: "EB",
-      value: `₹ ${retainerSummary?.totalEbAmount || 0}`,
-    },
-    {
-      label: "General",
-      value: `₹ ${retainerSummary?.otherAmount || 0}`,
-      icon: false,
-    },
-  ];
 
   return (
     <div className="relative bg-white font-gilroy  mr-2 ">
@@ -1592,6 +1608,20 @@ function Booking() {
                     isClearSearch={true}
                     handleClear={() => {
                       setFilterInput("");
+                      dispatch({
+                        type: "SET_BOOKING_FILTERS",
+                        payload: {
+                          period: [],
+                          search: "",
+                          floor: "",
+                          room: "",
+                          minPaidAmount: "",
+                          maxPaidAmount: "",
+                          paymentMode: [],
+                          floorId: "",
+                          roomId: "",
+                        },
+                      });
                     }}
                   />
                 )}

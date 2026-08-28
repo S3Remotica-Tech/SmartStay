@@ -23,7 +23,7 @@ function SettingAgreement() {
 
   const [search, setSearch] = useState("");
   const {
-    // canWriteModule: canWriteAgreement,
+    canWriteModule: canWriteAgreement,
     canReadModule: canReadAgreement,
     // canUpdateModule: canUpdateAgreement,
   } = useHasPermission("Agreement");
@@ -103,10 +103,10 @@ function SettingAgreement() {
               />
             </div>
             <button
-              disabled={!canReadAgreement}
+              disabled={!canWriteAgreement}
               onClick={handleAddTemplate}
               className={`flex items-center gap-2 whitespace-nowrap rounded-md border px-3 py-2 text-sm font-medium transition ${
-                canReadAgreement
+                canWriteAgreement
                   ? "border-[#1E45E1] text-white bg-[#1E45E1]"
                   : "cursor-not-allowed border-gray-300 text-gray-400"
               }`}

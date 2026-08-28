@@ -12,6 +12,90 @@ import { Filter } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
+const CustomStyles = {
+  control: (base) => ({
+    ...base,
+    height: "auto",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    color: "#4B4B4B",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    outline: "none",
+    "&:hover": {
+      border: "1px solid #D9D9D9",
+    },
+  }),
+  valueContainer: (base) => ({
+    ...base,
+    maxHeight: "60px",
+    overflowY: "auto",
+    flexWrap: "wrap",
+  }),
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: "#FFF",
+    borderRadius: "6px",
+  }),
+
+  multiValueLabel: (base) => ({
+    ...base,
+    fontSize: "12px",
+    fontWeight: 600,
+    color: "#000000",
+  }),
+
+  multiValueRemove: (base) => ({
+    ...base,
+    cursor: "pointer",
+    borderRadius: 10,
+    color: "#FF0000",
+    ":hover": {
+      color: "#FF0000",
+    },
+  }),
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #ced4da",
+    fontFamily: "Gilroy, sans-serif",
+    fontSize: "14px",
+  }),
+  menuList: (base) => ({
+    ...base,
+    backgroundColor: "#f8f9fa",
+    maxHeight: "120px",
+    padding: 0,
+    scrollbarWidth: "thin",
+    overflowY: "auto",
+    fontFamily: "Gilroy, sans-serif",
+    fontSize: "14px",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#555",
+  }),
+  option: (base, state) => ({
+    ...base,
+    cursor: "pointer",
+    backgroundColor: state.isFocused ? "" : "white",
+    color: "#000",
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#555",
+    cursor: "pointer",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+  clearIndicator: () => ({
+    display: "none",
+  }),
+};
 function BillsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -28,91 +112,8 @@ function BillsFilter({ show, handleClose, size }) {
   );
   const [dateError, setDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-
-  const CustomStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
-
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
-
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: "#000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    clearIndicator: () => ({
-      display: "none",
-    }),
-  };
+  const previousFilters = state.InvoiceList.invoiceFilters || {};
+  console.log("previousFilters", previousFilters);
 
   const filterOptionsData = useSelector(
     (state) => state.InvoiceList?.billsList?.filterOptions,
@@ -200,19 +201,6 @@ function BillsFilter({ show, handleClose, size }) {
     }
   };
 
-  useEffect(() => {
-    if (state.InvoiceList.billsListStatusCode === 200) {
-      setFormLoading(false);
-    }
-  }, [state.InvoiceList.billsListStatusCode]);
-
-  useEffect(() => {
-    const selectedOptions = billStatusOptions.filter((opt) =>
-      billStatus.includes(opt.value),
-    );
-    setSelectedBillStatusOptions(selectedOptions);
-  }, [billStatus]);
-
   const handleInvoiceTypeChange = (selected) => {
     setInvoiceType(selected.map((opt) => opt.value));
   };
@@ -282,10 +270,6 @@ function BillsFilter({ show, handleClose, size }) {
 
   const periodOptions = [{ label: "Custom", value: "CUSTOM" }];
 
-  // const isAllSelectedDrop =
-  //   selectedBillStatusOptions?.length === 1 &&
-  //   selectedBillStatusOptions[0]?.value === "ALL";
-
   const handleFilterBills = () => {
     if (!startDate && endDate) {
       setDateError("Please Select Start Date");
@@ -303,7 +287,10 @@ function BillsFilter({ show, handleClose, size }) {
         ? createdBy.map((c) => c.label)
         : undefined,
       modes: invoiceMode?.length ? invoiceMode : undefined,
-      paymentStatus: billStatus?.length ? billStatus : undefined,
+      paymentStatus:
+        billStatus?.length && !billStatus.includes("ALL")
+          ? billStatus
+          : undefined,
       search: tenantName?.trim() ? tenantName : undefined,
       size,
       page: 1,
@@ -338,6 +325,51 @@ function BillsFilter({ show, handleClose, size }) {
     setFormLoading(true);
     handleClose();
   };
+
+  useEffect(() => {
+    if (state.InvoiceList.billsListStatusCode === 200) {
+      setFormLoading(false);
+    }
+  }, [state.InvoiceList.billsListStatusCode]);
+
+  useEffect(() => {
+    const selectedOptions = billStatusOptions.filter((opt) =>
+      billStatus.includes(opt.value),
+    );
+    setSelectedBillStatusOptions(selectedOptions);
+  }, [billStatus]);
+
+  useEffect(() => {
+    if (show && previousFilters) {
+      setTenantName(previousFilters.search || "");
+      setBillStatus(previousFilters.paymentStatus || []);
+      setInvoiceType(previousFilters.type || []);
+      setInvoiceMode(previousFilters.modes || []);
+
+      const selectedCreatedBy = createdByOptions.filter((option) =>
+        previousFilters.createdBy?.includes(option.value),
+      );
+      setCreatedBy(selectedCreatedBy);
+
+      if (previousFilters.startDate || previousFilters.endDate) {
+        setPeriod({ label: "Custom", value: "CUSTOM" });
+        setStartDate(
+          previousFilters.startDate
+            ? dayjs(previousFilters.startDate, "DD/MM/YYYY")
+            : null,
+        );
+        setEndDate(
+          previousFilters.endDate
+            ? dayjs(previousFilters.endDate, "DD/MM/YYYY")
+            : null,
+        );
+      } else {
+        setPeriod(null);
+        setStartDate(null);
+        setEndDate(null);
+      }
+    }
+  }, [show, previousFilters]);
 
   return (
     <div>
@@ -765,6 +797,9 @@ function BillsFilter({ show, handleClose, size }) {
               setInvoiceType([]);
               setInvoiceMode([]);
               setCreatedBy([]);
+              setTenantName("");
+              setStartDate("");
+              setEndDate("");
             }}
             style={{
               backgroundColor: "transparent",

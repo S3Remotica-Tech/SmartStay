@@ -329,21 +329,29 @@ function UserList(props) {
   }, [value, state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    const statusValue = statusfilter === "ALL" ? "" : statusfilter;
+    const tenantFilters = state.UsersList?.tenantFilters;
+    const statusValue1 = statusfilter === "ALL" ? "" : statusfilter;
+    const statusValue2 = tenantFilters?.status?.includes("ALL")
+      ? ""
+      : tenantFilters?.status || [];
+
     const shouldResetPage =
-      !!debouncedInput || !!statusValue || !!selectedMonth?.value;
+      !!debouncedInput || !!statusValue1 || !!selectedMonth?.value;
     if (state.login.selectedHostel_Id && value === "1") {
       dispatch({
         type: "USERLIST",
         payload: {
           hostel_id: state.login.selectedHostel_Id,
-          name: debouncedInput || "",
-          type: statusValue,
+          name: debouncedInput || tenantFilters?.search,
+          type: statusValue1 || statusValue2,
           page: shouldResetPage ? 1 : page,
           size: size,
-          period: selectedMonth?.value,
+          period: selectedMonth?.value || tenantFilters?.period,
+          sharingType: tenantFilters?.sharingType,
+          sharingTypeLabel: tenantFilters?.sharingTypeLabel,
         },
       });
+
       setLoading(true);
     }
 
@@ -498,6 +506,18 @@ function UserList(props) {
   }, [state.UsersList.cancelCheckoutStatusCode]);
 
   useEffect(() => {
+    if (filterInput.trim() === "") {
+      setDebouncedInput("");
+
+      dispatch({
+        type: "SET_TENANT_TABLE_FILTERS",
+        payload: {
+          search: "",
+          type: "",
+        },
+      });
+      return;
+    }
     const timer = setTimeout(() => {
       setDebouncedInput(filterInput);
     }, 500);
@@ -2352,6 +2372,26 @@ function UserList(props) {
                       isClearSearch={true}
                       handleClear={() => {
                         setFilterInput("");
+                        dispatch({
+                          type: "SET_TENANT_TABLE_FILTERS",
+                          payload: {
+                            status: [],
+                            tenantStatusLabel: [],
+                            search: "",
+                            period: [],
+                            periodLabel: [],
+                            sharingType: "",
+                            sharingTypeLabel: "",
+                          },
+                        });
+                        dispatch({
+                          type: "USERLIST",
+                          payload: {
+                            hostel_id: state.login.selectedHostel_Id,
+                            page: page,
+                            size: size,
+                          },
+                        });
                       }}
                     />
                   )}

@@ -24,6 +24,11 @@ export async function GetBooking(book) {
 
   return await AxiosConfigV2.get(`/v2/bills/advances/${book.hostelId}`, {
     params,
+    paramsSerializer: (params) =>
+      qs.stringify(params, {
+        arrayFormat: "repeat",
+        skipNulls: true,
+      }),
   });
 }
 

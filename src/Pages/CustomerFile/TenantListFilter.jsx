@@ -16,12 +16,11 @@ function TenantListFilter({ show, handleClose, size }) {
   const dispatch = useDispatch();
   const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
     useState([]);
-  // const [tenantStatus, setTenantStatus] = useState([]);
+ 
 
   const [period, setPeriod] = useState(null);
   const [sharingType, setSharingType] = useState(null);
-  // const [floor, setFloor] = useState([]);
-  // const [room, setRoom] = useState([]);
+ 
 
   const [tenantName, setTenantName] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -30,7 +29,7 @@ function TenantListFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (show && savedFilters) {
       setTenantName(savedFilters.search || "");
-      // setTenantStatus(savedFilters.status || []);
+     
       const selectedStatusOptions = tenantStatusOptions.filter((option) =>
         savedFilters.status?.includes(option.value),
       );
@@ -39,14 +38,7 @@ function TenantListFilter({ show, handleClose, size }) {
         (option) => option.value === savedFilters.period,
       );
       setPeriod(selectedPeriod || null);
-      // const selectedFloorOptions = floorOptions.filter((option) =>
-      //   savedFilters.floor?.includes(option.label),
-      // );
-      // setFloor(selectedFloorOptions);
-      // const selectedRoomOptions = roomOptions.filter((option) =>
-      //   savedFilters.room?.includes(option.label),
-      // );
-      // setRoom(selectedRoomOptions);
+      
 
       const selecteSharingType = SharingTypeOptions.find(
         (option) => option.value === savedFilters?.sharingType,
@@ -62,10 +54,10 @@ function TenantListFilter({ show, handleClose, size }) {
       height: "auto",
       border: "1px solid #D9D9D9",
       borderRadius: "8px",
-      fontSize: "14px",
+      fontSize: "12px",
       color: "#4B4B4B",
       fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
+      fontWeight: 600,
       boxShadow: "none",
       outline: "none",
       "&:hover": {
@@ -215,7 +207,7 @@ function TenantListFilter({ show, handleClose, size }) {
   const handleTenantStatusChange = (selectedOptions) => {
     if (!selectedOptions || selectedOptions.length === 0) {
       setSelectedTenantStatusOptions([]);
-      // setTenantStatus([]);
+     
       return;
     }
 
@@ -224,10 +216,10 @@ function TenantListFilter({ show, handleClose, size }) {
     if (isAllSelected) {
       const allOption = selectedOptions.find((opt) => opt.value === "ALL");
       setSelectedTenantStatusOptions([allOption]);
-      // setTenantStatus(["ALL"]);
+      
     } else {
       setSelectedTenantStatusOptions(selectedOptions);
-      // setTenantStatus(selectedOptions.map((opt) => opt.value));
+      
     }
   };
 

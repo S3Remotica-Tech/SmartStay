@@ -132,11 +132,9 @@ function AddTemplate() {
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
-  const [form, setForm] = useState({
-    title: "Standard Long Stay Agreement",
-    code: "TEMP 001",
-    description: "",
-  });
+  const [title, setTitle] = useState("");
+  const [code, setCode] = useState("");
+  const [description, setDescription] = useState("");
 
   const [signature, setSignature] = useState({
     tenant: true,
@@ -187,7 +185,7 @@ function AddTemplate() {
   });
 
   const handleSave = (type) => {
-    console.log({ form, signature, content, type });
+    console.log({ signature, content, type });
   };
 
   useEffect(() => {
@@ -272,10 +270,9 @@ function AddTemplate() {
                     Template Title
                   </label>
                   <input
-                    value={form.title}
-                    onChange={(e) =>
-                      setForm({ ...form, title: e.target.value })
-                    }
+                    value={title}
+                    placeholder="Enter Title"
+                    onChange={(e) => setTitle(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border text-[12px] outline-none focus:border-indigo-500"
                   />
                 </div>
@@ -284,8 +281,9 @@ function AddTemplate() {
                     Template Code
                   </label>
                   <input
-                    value={form.code}
-                    onChange={(e) => setForm({ ...form, code: e.target.value })}
+                    value={code}
+                    placeholder="Enter Code"
+                    onChange={(e) => setCode(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border bg-[#f6f6ff] text-[12px] outline-none"
                   />
                 </div>
@@ -293,18 +291,20 @@ function AddTemplate() {
                   <label className="text-[11px] font-semibold text-[#1E293B]">
                     Meta description
                   </label>
-                  <textarea
-                    placeholder="Enter your description for Template.."
-                    value={form.description}
-                    onChange={(e) =>
-                      setForm({ ...form, description: e.target.value })
-                    }
-                    rows={4}
-                    className="w-full px-3 py-2 rounded-lg border text-[12px] outline-none resize-none focus:border-indigo-500"
-                  />
-                  <label className="text-[10px] text-gray-400">
-                    {form.description.length}/500
-                  </label>
+                  <div className="relative">
+                    <textarea
+                      placeholder="Enter your description for Template.."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      maxLength={500}
+                      rows={4}
+                      className="w-full px-3 py-2 pb-6 rounded-lg border text-[12px] outline-none resize-none focus:border-indigo-500"
+                    />
+
+                    <span className="absolute bottom-2 right-3 text-[10px] text-gray-400">
+                      {description.length}/500
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
