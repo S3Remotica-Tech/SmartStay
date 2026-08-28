@@ -23,7 +23,7 @@ function SettingAllPages({ isVisibleSidebar }) {
   const state = useSelector((state) => state);
 
   const [activePage, setActivePage] = useState("general");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
   const [search, setSearch] = useState("");
@@ -120,7 +120,7 @@ function SettingAllPages({ isVisibleSidebar }) {
   const handleTabClick = (itemName) => {
     setActivePage(itemName);
     if (window.innerWidth < 768) {
-      setIsSidebarOpen(false);
+      // setIsSidebarOpen(false);
     }
   };
 
@@ -136,10 +136,10 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   useEffect(() => {
     if (isVisibleSidebar) {
-      setIsSidebarOpen(false);
+      // setIsSidebarOpen(false);
       setIsInvoiceAddMode(true);
     } else {
-      setIsSidebarOpen(true);
+      // setIsSidebarOpen(true);
       setIsInvoiceAddMode(false);
     }
   }, [isVisibleSidebar]);

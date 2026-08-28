@@ -33,17 +33,20 @@ export const initialState = {
   bookingFilters: {
     period: [],
     search: "",
-    floor: [],
-    room: [],
+    floor: "",
+    room: "",
     minPaidAmount: "",
     maxPaidAmount: "",
     paymentMode: [],
+    floorId: "",
+    roomId: "",
   },
   getAllRetainerList: [],
   getAllRetainerListStatusCode: 0,
 };
 
 const BookingReducer = (state = initialState, action) => {
+  console.log("Redcu", action.type);
   switch (action.type) {
     case "RESET_ALL":
       return initialState;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 import ComingSoon from "../../../Utils/ComingSoon";
 import { useHasPermission } from "../../../Utils/Permission";
@@ -17,13 +17,13 @@ import {
 import { useNavigate } from "react-router-dom";
 
 function SettingAgreement() {
-  const state = useSelector((state) => state);
+  // const state = useSelector((state) => state);
 
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
   const {
-    // canWriteModule: canWriteAgreement,
+    canWriteModule: canWriteAgreement,
     canReadModule: canReadAgreement,
     // canUpdateModule: canUpdateAgreement,
   } = useHasPermission("Agreement");
@@ -103,10 +103,10 @@ function SettingAgreement() {
               />
             </div>
             <button
-              disabled={!canReadAgreement}
+              disabled={!canWriteAgreement}
               onClick={handleAddTemplate}
               className={`flex items-center gap-2 whitespace-nowrap rounded-md border px-3 py-2 text-sm font-medium transition ${
-                canReadAgreement
+                canWriteAgreement
                   ? "border-[#1E45E1] text-white bg-[#1E45E1]"
                   : "cursor-not-allowed border-gray-300 text-gray-400"
               }`}

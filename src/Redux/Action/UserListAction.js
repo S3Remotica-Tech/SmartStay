@@ -1,17 +1,23 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
+import qs from "qs";
 
 export async function userlist(users) {
   const params = {};
 
   if (users.name) params.name = users.name;
   if (users.type) params.type = users.type;
-  if (users.page) params.page = users.page;
-  if (users.size) params.size = users.size;
+  if (users.page !== undefined) params.page = users.page;
+  if (users.size !== undefined) params.size = users.size;
   if (users.period) params.period = users.period;
   if (users.sharingType) params.sharingType = users.sharingType;
 
   return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`, {
     params,
+    paramsSerializer: (params) =>
+      qs.stringify(params, {
+        arrayFormat: "repeat",
+        skipNulls: true,
+      }),
   });
 }
 

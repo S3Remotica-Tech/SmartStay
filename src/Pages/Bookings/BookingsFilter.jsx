@@ -11,6 +11,90 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
+const selectStyles = {
+  control: (base) => ({
+    ...base,
+    height: "auto",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    color: "#4B4B4B",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    outline: "none",
+    "&:hover": {
+      border: "1px solid #D9D9D9",
+    },
+  }),
+  valueContainer: (base) => ({
+    ...base,
+    maxHeight: "60px",
+    overflowY: "auto",
+    flexWrap: "wrap",
+  }),
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: "#FFF",
+    borderRadius: "6px",
+  }),
+
+  multiValueLabel: (base) => ({
+    ...base,
+    fontSize: "12px",
+    fontWeight: 600,
+    color: "#000000",
+  }),
+
+  multiValueRemove: (base) => ({
+    ...base,
+    cursor: "pointer",
+    borderRadius: 10,
+    color: "#FF0000",
+    ":hover": {
+      color: "#FF0000",
+    },
+  }),
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #ced4da",
+    fontFamily: "Gilroy, sans-serif",
+    fontSize: "14px",
+  }),
+  menuList: (base) => ({
+    ...base,
+    backgroundColor: "#f8f9fa",
+    maxHeight: "120px",
+    padding: 0,
+    scrollbarWidth: "thin",
+    overflowY: "auto",
+    fontFamily: "Gilroy, sans-serif",
+    fontSize: "14px",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#555",
+  }),
+  option: (base, state) => ({
+    ...base,
+    cursor: "pointer",
+    backgroundColor: state.isFocused ? "" : "white",
+    color: "#000",
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#555",
+    cursor: "pointer",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+  clearIndicator: () => ({
+    display: "none",
+  }),
+};
 function BookingsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -27,7 +111,10 @@ function BookingsFilter({ show, handleClose, size }) {
 
   const [tenantName, setTenantName] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const savedFilters = state.reports?.tenantRegisterFilters;
+  const previousFilters = state.Booking?.bookingFilters;
+
+  console.log("previousFilters", previousFilters);
+
   const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
 
   const handlePaymentModeChange = (selected) => {
@@ -37,113 +124,6 @@ function BookingsFilter({ show, handleClose, size }) {
   const inputClass =
     "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
     "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
-  useEffect(() => {
-    if (show && savedFilters) {
-      setTenantName(savedFilters.search || "");
-      // setTenantStatus(savedFilters.tenantStatus || []);
-      // const selectedStatusOptions = tenantStatusOptions.filter((option) =>
-      //   savedFilters.tenantStatus?.includes(option.value),
-      // );
-      // setSelectedTenantStatusOptions(selectedStatusOptions);
-      const selectedPeriod = periodOptions.find(
-        (option) => option.value === savedFilters.period,
-      );
-      setPeriod(selectedPeriod || null);
-      const selectedFloorOptions = floorOptions.filter((option) =>
-        savedFilters.floor?.includes(option.label),
-      );
-      setFloor(selectedFloorOptions);
-      const selectedRoomOptions = roomOptions.filter((option) =>
-        savedFilters.room?.includes(option.label),
-      );
-      setRoom(selectedRoomOptions);
-    }
-  }, [show]);
-
-  const selectStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
-
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
-
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: "#000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    clearIndicator: () => ({
-      display: "none",
-    }),
-  };
 
   const filterOptionsData = useSelector(
     (state) => state?.Booking?.tenantBookingList?.filterOptions,
@@ -234,25 +214,6 @@ function BookingsFilter({ show, handleClose, size }) {
     label: PropTypes.string.isRequired,
   };
 
-  // const handleTenantStatusChange = (selectedOptions) => {
-  //   if (!selectedOptions || selectedOptions.length === 0) {
-  //     setSelectedTenantStatusOptions([]);
-  //     setTenantStatus([]);
-  //     return;
-  //   }
-
-  //   const isAllSelected = selectedOptions.some((opt) => opt.value === "ALL");
-
-  //   if (isAllSelected) {
-  //     const allOption = selectedOptions.find((opt) => opt.value === "ALL");
-  //     setSelectedTenantStatusOptions([allOption]);
-  //     setTenantStatus(["ALL"]);
-  //   } else {
-  //     setSelectedTenantStatusOptions(selectedOptions);
-  //     setTenantStatus(selectedOptions.map((opt) => opt.value));
-  //   }
-  // };
-
   const handlePaidMinChange = (e) => {
     setPaidAmountMin(e.target.value);
   };
@@ -268,12 +229,14 @@ function BookingsFilter({ show, handleClose, size }) {
       type: "SET_BOOKING_FILTERS",
       payload: {
         search: tenantName,
-        period: period?.value || null,
+        // period: period?.value || null,
         floor: floor?.map((f) => f.label),
         room: room?.map((r) => r.label),
+        floorId: floor?.map((f) => f.value),
+        roomId: room?.map((r) => r.value),
         minPaidAmount: paidAmountMin,
         maxPaidAmount: paidAmountMax,
-        paymentMode: selectedPaymentMode,
+        // paymentMode: selectedPaymentMode,
       },
     });
 
@@ -284,7 +247,7 @@ function BookingsFilter({ show, handleClose, size }) {
         page: 1,
         size: size,
         name: tenantName,
-        period: period?.value || null,
+        // period: period?.value || null,
         floor: floor?.map((f) => f.value),
         room: room?.map((r) => r.value),
         minAmount: paidAmountMin,
@@ -309,6 +272,30 @@ function BookingsFilter({ show, handleClose, size }) {
       handleClose();
     }
   }, [state?.Booking?.statusCodeGetBooking]);
+
+  useEffect(() => {
+    if (show && previousFilters) {
+      setTenantName(previousFilters.search || "");
+      setPaidAmountMin(previousFilters.minPaidAmount || "");
+      setPaidAmountMax(previousFilters.maxPaidAmount || "");
+      // setSelectedPaymentMode(previousFilters.paymentMode || []);
+
+      // const selectedPeriod = periodOptions.find(
+      //   (option) => option.value === previousFilters.period,
+      // );
+      // setPeriod(selectedPeriod || null);
+
+      const selectedFloors = floorOptions.filter((option) =>
+        previousFilters.floor?.includes(option.label),
+      );
+      setFloor(selectedFloors);
+
+      const selectedRooms = roomOptions.filter((option) =>
+        previousFilters.room?.includes(option.label),
+      );
+      setRoom(selectedRooms);
+    }
+  }, [show]);
 
   return (
     <div>
@@ -554,6 +541,8 @@ function BookingsFilter({ show, handleClose, size }) {
               setRoom([]);
               setTenantName("");
               // setSelectedTenantStatusOptions([]);
+              setPaidAmountMin("");
+              setPaidAmountMax("");
             }}
             style={{
               backgroundColor: "transparent",
