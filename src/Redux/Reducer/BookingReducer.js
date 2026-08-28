@@ -46,7 +46,6 @@ export const initialState = {
 };
 
 const BookingReducer = (state = initialState, action) => {
-  console.log("Redcu", action.type);
   switch (action.type) {
     case "RESET_ALL":
       return initialState;

@@ -330,6 +330,7 @@ function UserList(props) {
 
   useEffect(() => {
     const tenantFilters = state.UsersList?.tenantFilters;
+    console.log("tenantFilters", tenantFilters);
     const statusValue1 = statusfilter === "ALL" ? "" : statusfilter;
     const statusValue2 = tenantFilters?.status?.includes("ALL")
       ? ""
@@ -509,13 +510,13 @@ function UserList(props) {
     if (filterInput.trim() === "") {
       setDebouncedInput("");
 
-      dispatch({
-        type: "SET_TENANT_TABLE_FILTERS",
-        payload: {
-          search: "",
-          type: "",
-        },
-      });
+       dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: {
+        ...state.UsersList?.tenantFilters,
+        search: "",
+      },
+    });
       return;
     }
     const timer = setTimeout(() => {

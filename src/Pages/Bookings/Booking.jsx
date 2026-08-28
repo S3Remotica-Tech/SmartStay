@@ -575,6 +575,7 @@ function Booking() {
       dispatch({
         type: "SET_BOOKING_FILTERS",
         payload: {
+          ...state.Booking?.bookingFilters,
           search: "",
         },
       });

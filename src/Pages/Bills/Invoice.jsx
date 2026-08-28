@@ -676,6 +676,7 @@ const InvoicePage = () => {
       dispatch({
         type: "SET_INVOICE_FILTERS",
         payload: {
+          ...state.InvoiceList.invoiceFilters,
           search: "",
         },
       });
@@ -1059,10 +1060,10 @@ const InvoicePage = () => {
     }
   }, [startdate, enddate, invoicedate, invoiceduedate]);
 
+  const previousFilters = state.InvoiceList.invoiceFilters || {};
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
-
-    const previousFilters = state.InvoiceList.invoiceFilters || {};
 
     const filters = {
       startDate: previousFilters.startDate,
