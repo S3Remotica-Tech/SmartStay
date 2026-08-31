@@ -334,9 +334,14 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
     }
   }, [state.reports.getTenantRegisterSuccess]);
 
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   return (
     <div>
-      <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{

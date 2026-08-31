@@ -334,6 +334,16 @@ function Reports() {
     });
   }, [apiStart, apiEnd]);
 
+  useEffect(() => {
+    const startOfMonth = dayjs().startOf("month").toDate();
+    const endOfMonth = dayjs().endOf("month").toDate();
+
+    setSelectedRange({
+      from: startOfMonth,
+      to: endOfMonth,
+    });
+  }, []);
+
   const handleDateChange = (dates) => {
     if (!dates) {
       setSelectedRange(null);
@@ -354,16 +364,16 @@ function Reports() {
       to: to ? to.toDate() : null,
     });
 
-    dispatch({
-      type: "GET_REEPORTS_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: {
-          startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
-          endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
-        },
-      },
-    });
+    // dispatch({
+    //   type: "GET_REEPORTS_SAGA",
+    //   payload: {
+    //     hostelId: state.login.selectedHostel_Id,
+    //     filters: {
+    //       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
+    //       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
+    //     },
+    //   },
+    // });
   };
 
   const startDate = useMemo(() => {
@@ -380,19 +390,20 @@ function Reports() {
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
-
-    dispatch({
-      type: "GET_REEPORTS_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: {
-          startDate: startDate,
-          endDate: endDate,
+    if (startDate && endDate) {
+      dispatch({
+        type: "GET_REEPORTS_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            startDate: startDate,
+            endDate: endDate,
+          },
         },
-      },
-    });
-    setLoading(true);
-  }, [state.login?.selectedHostel_Id]);
+      });
+      setLoading(true);
+    }
+  }, [state.login?.selectedHostel_Id, startDate, endDate]);
 
   useEffect(() => {
     return () => {
