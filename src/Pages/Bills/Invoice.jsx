@@ -600,6 +600,7 @@ const InvoicePage = () => {
       },
     });
     setStatusfilter("ALL");
+    setFilterInput("");
   };
 
   const handlePageChange = (page) => {
