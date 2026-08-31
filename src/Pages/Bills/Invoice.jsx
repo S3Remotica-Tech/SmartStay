@@ -206,7 +206,7 @@ const InvoicePage = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState("List");
-
+  const isDev = import.meta.env.MODE === "development";
   const tableContainerRef = useRef(null);
   const listRef = useRef(null);
   const lastScrollLeftRef = useRef(0);
@@ -355,6 +355,25 @@ const InvoicePage = () => {
     setShowAllBill(false);
 
     navigate("/create-bill");
+    dispatch({ type: "USERROOMAVAILABLEFALSE" });
+  };
+
+  const handleCreateNewInvoice = () => {
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding bill information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
+    setShowAllBill(false);
+
+    navigate("/create-invoice");
     dispatch({ type: "USERROOMAVAILABLEFALSE" });
   };
 
@@ -1271,6 +1290,15 @@ const InvoicePage = () => {
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
                 </Button>
+                {isDev && (
+                  <Button
+                    disabled={!canWriteInvoice}
+                    onClick={handleCreateNewInvoice}
+                    className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
+                  >
+                    {DownloadInvoice ? "+ " : "+ Create Invoice New"}
+                  </Button>
+                )}
               </div>
             </div>
           </div>

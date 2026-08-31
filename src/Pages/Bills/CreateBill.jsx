@@ -81,14 +81,14 @@ function CreateBill() {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, [hostelId]);
+  // useEffect(() => {
+  //   if (hostelId) {
+  //     dispatch({
+  //       type: "INVOICESLISTFILTER",
+  //       payload: { hostelId: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, [hostelId]);
 
   useEffect(() => {
     if (billData) {

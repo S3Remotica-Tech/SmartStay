@@ -1568,8 +1568,8 @@ function AddTenantBookingCheckin({
   //   ? dayjs(joiningDate).isBefore(dayjs(), "month")
   //   : false;
 
-  const isPastMonth = selectedDate
-    ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
+  const isPastMonth = joiningDate
+    ? dayjs(joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
     : false;
 
   // const deductionsTotal = fields?.reduce(

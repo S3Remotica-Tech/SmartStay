@@ -914,8 +914,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   //   ? dayjs(checkin_joiningDate).isBefore(dayjs(), "month")
   //   : false;
 
-  const isPastMonth = selectedDate
-    ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
+  const isPastMonth = checkin_joiningDate
+    ? dayjs(checkin_joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
     : false;
 
   // const deductionsTotal = fields.reduce(
