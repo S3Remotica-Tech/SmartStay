@@ -13,7 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
-import { CloseCircle, Add } from "iconsax-react";
+import { CloseCircle, Add, More } from "iconsax-react";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -239,6 +239,7 @@ function NewInvoice() {
   const [newRows, setNewRows] = useState([
     {
       itemType: "",
+      am_name: "",
       amount: "0",
       description: "",
       isFromApi: false,
@@ -536,6 +537,78 @@ function NewInvoice() {
     setRowErrors([]);
   };
 
+  const optionsone = {
+    dateFormat: "d/m/Y",
+    defaultDate: null,
+    minDate: null,
+  };
+
+  const handleDuplicateRow = (index) => {
+    setNewRows((prev) => {
+      const row = prev[index];
+
+      if (["RoomRent", "advance", "EB"].includes(row.itemType)) {
+        return prev;
+      }
+
+      const duplicatedRow = {
+        ...row,
+        isFromApi: false,
+      };
+
+      const updatedRows = [...prev];
+
+      updatedRows.splice(index + 1, 0, duplicatedRow);
+
+      return updatedRows;
+    });
+  };
+  const getItemOptions = (currentIndex) => {
+    const options = [];
+
+    const advanceAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "advance",
+    );
+
+    if (advanceAlreadySelected) {
+      return [];
+    }
+
+    const roomRentAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "RoomRent",
+    );
+
+    const ebAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "EB",
+    );
+
+    if (!billData && !roomRentAlreadySelected) {
+      options.push({
+        value: "RoomRent",
+        label: "Room Rent",
+      });
+    }
+
+    options.push({
+      value: "advance",
+      label: "Advance",
+    });
+
+    if (!isApiEBPresent && !ebAlreadySelected) {
+      options.push({
+        value: "EB",
+        label: "EB",
+      });
+    }
+
+    options.push({
+      value: "Other",
+      label: "Other",
+    });
+
+    return options;
+  };
+
   useEffect(() => {
     if (id || billData?.customerId) {
       const selectedCustomer = state.UsersList.TenantList.customersLists?.find(
@@ -648,12 +721,6 @@ function NewInvoice() {
     state.InvoiceList.manualInvoiceEditStatusCode,
   ]);
 
-  const optionsone = {
-    dateFormat: "d/m/Y",
-    defaultDate: null,
-    minDate: null,
-  };
-
   useEffect(() => {
     if (startRef.current) {
       startRef.current.flatpickr.set(options);
@@ -668,52 +735,6 @@ function NewInvoice() {
       dueRef.current.flatpickr.set(optionsone);
     }
   }, [startdate, enddate, invoicedate]);
-
-  const getItemOptions = (currentIndex) => {
-    const options = [];
-
-    const advanceAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "advance",
-    );
-
-    if (advanceAlreadySelected) {
-      return [];
-    }
-
-    const roomRentAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "RoomRent",
-    );
-
-    const ebAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "EB",
-    );
-
-    if (!billData && !roomRentAlreadySelected) {
-      options.push({
-        value: "RoomRent",
-        label: "Room Rent",
-      });
-    }
-
-    options.push({
-      value: "advance",
-      label: "Advance",
-    });
-
-    if (!isApiEBPresent && !ebAlreadySelected) {
-      options.push({
-        value: "EB",
-        label: "EB",
-      });
-    }
-
-    options.push({
-      value: "Other",
-      label: "Other",
-    });
-
-    return options;
-  };
 
   useEffect(() => {
     const advanceIndex = newRows.findIndex((row) => row.itemType === "advance");
@@ -944,11 +965,11 @@ function NewInvoice() {
                               <input
                                 type="text"
                                 autoFocus
-                                value={u.itemType || ""}
+                                value={u.am_name || ""}
                                 onChange={(e) => {
                                   handleNewRowChange(
                                     index,
-                                    "itemType",
+                                    "am_name",
                                     e.target.value,
                                   );
 
@@ -979,6 +1000,7 @@ function NewInvoice() {
                                 type="button"
                                 onClick={() => {
                                   handleNewRowChange(index, "itemType", "");
+                                  handleNewRowChange(index, "am_name", "");
                                 }}
                                 className="text-[#999999] text-[12px]"
                               >
@@ -1013,7 +1035,13 @@ function NewInvoice() {
                                         "itemType",
                                         value,
                                       );
-
+                                      if (value !== "Other") {
+                                        handleNewRowChange(
+                                          index,
+                                          "am_name",
+                                          "",
+                                        );
+                                      }
                                       setRowErrors((prev) => {
                                         const updated = [...prev];
 
@@ -1067,7 +1095,7 @@ function NewInvoice() {
                           )}
                         </td>
 
-                        <td className="px-1 py-1 border-l border-[#EEEEEE]">
+                        <td className="px-1 py-3 border-l border-[#EEEEEE] align-top">
                           <input
                             type="number"
                             onWheel={(e) => e.target.blur()}
@@ -1102,7 +1130,7 @@ function NewInvoice() {
                           />
                         </td>
 
-                        <td className="px-1 py-1 border-l border-[#EEEEEE]">
+                        <td className="px-1 py-3 border-l border-[#EEEEEE]  align-top">
                           <div className="flex items-center justify-center gap-2">
                             <CloseCircle
                               onClick={() =>
@@ -1115,6 +1143,17 @@ function NewInvoice() {
                                   : "text-red-500 cursor-pointer"
                               }
                             />
+
+                            <span>
+                              <More
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDuplicateRow(index);
+                                }}
+                                className="rotate-90 cursor-pointer"
+                                size="16"
+                              />
+                            </span>
                           </div>
                         </td>
                       </tr>
