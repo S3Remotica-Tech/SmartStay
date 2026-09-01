@@ -1230,6 +1230,7 @@ function NewInvoice() {
                   </div>
                   <input
                     type="number"
+                    onWheel={(e) => e.target.blur()}
                     min="0"
                     value={discount}
                     onChange={(e) => {
