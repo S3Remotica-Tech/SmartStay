@@ -1326,13 +1326,13 @@ const InvoicePage = () => {
                         {item.label}
 
                         <div className="relative group w-fit">
-                          {item.label !== "Notice Period" && (
+                         
                             <Filter
                               size="14"
                               color="#9CA3AF"
                               className="cursor-pointer"
                             />
-                          )}
+                         
 
                           <div
                             className="absolute left-1/2 -translate-x-1/2 mt-2 

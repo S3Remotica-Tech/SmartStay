@@ -833,19 +833,27 @@ function UserList(props) {
 
   useEffect(() => {
     const tenantFilters = state.UsersList?.tenantFilters;
+
     const filterData = [];
+
     if (
-      tenantFilters?.status?.length &&
-      !tenantFilters.status.includes("ALL")
+      tenantFilters?.status &&
+      !(Array.isArray(tenantFilters.status)
+        ? tenantFilters.status.includes("ALL")
+        : tenantFilters.status === "ALL")
     ) {
-      filterData.push({
-        key: "status",
-        label: "Status is",
-        type: "status",
-        value:
-          tenantFilters.tenantStatusLabel?.join(", ") ||
-          tenantFilters.status.join(", "),
-      });
+      const statusLabel = Array.isArray(tenantFilters.tenantStatusLabel)
+        ? tenantFilters.tenantStatusLabel.join(", ")
+        : tenantFilters.tenantStatusLabel || tenantFilters.status;
+
+      if (statusLabel) {
+        filterData.push({
+          key: "status",
+          label: "Status is",
+          type: "status",
+          value: statusLabel,
+        });
+      }
     }
 
     if (tenantFilters?.search) {
@@ -1532,11 +1540,28 @@ function UserList(props) {
                         )}
 
                         <div>
-                          <div className="text-xs text-[#6B7280] flex items-center gap-1">
-                            {item.label}
+                          <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
+                            {item.label}{" "}
+                            <div className="relative group w-fit">
+                              <Filter
+                                size="14"
+                                color="#9CA3AF"
+                                className="cursor-pointer"
+                              />
+
+                              <div
+                                className="absolute left-1/2 -translate-x-1/2 mt-2 
+                                        hidden group-hover:flex
+                                        px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
+                                        items-center gap-1 whitespace-nowrap z-50"
+                              >
+                                <Filter size="14" color="#fff" />
+                                Click to Filter
+                              </div>
+                            </div>
                           </div>
 
-                          <div className="text-lg font-semibold text-[#111827]">
+                          <div className="text-lg font-semibold text-[#111827] whitespace-nowrap">
                             {item.value}
                           </div>
                         </div>
