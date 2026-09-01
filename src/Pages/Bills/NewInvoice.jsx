@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Bills/Invoices.css";
 import { DatePicker } from "antd";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
+
 import "flatpickr/dist/themes/material_blue.css";
 import "react-datepicker/dist/react-datepicker.css";
-import leftarrow from "../../Assets/Images/arrow-left.png";
+
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -228,20 +228,19 @@ function NewInvoice() {
   const { id, billData, isDisabledOverview } = location.state || {};
 
   const [formLoading, setFormLoading] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState("");
+
   const [customername, setCustomerName] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [invoicenumber, setInvoiceNumber] = useState("");
   const [startdate, setStartDate] = useState(null);
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
-  //   const [totalAmount, setTotalAmount] = useState("");
   const [termsAndConditions, setTermsAndConditions] = useState("");
   const [newRows, setNewRows] = useState([
     {
       itemType: "",
-      am_name: "",
       amount: "0",
+      description: "",
       isFromApi: false,
     },
   ]);
@@ -257,13 +256,11 @@ function NewInvoice() {
   const joiningDate = selectedCustomer?.joiningDate;
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
-  // const [tax, setTax] = useState(18);
   const [discountType, setDiscountType] = useState("%");
 
   console.log("newRows", newRows);
 
   const [tableErrmsg, setTableErrmsg] = useState("");
-  // const [selectedTypes, setSelectedTypes] = useState([]);
 
   const subTotal = newRows.reduce((total, row) => {
     return total + Number(row.amount || row.rate || 0);
@@ -273,10 +270,6 @@ function NewInvoice() {
     discountType === "%"
       ? (subTotal * Number(discount || 0)) / 100
       : Number(discount || 0);
-
-  // const taxableAmount = subTotal - discountAmount;
-
-  // const taxAmount = (taxableAmount * Number(tax || 0)) / 100;
 
   const totalAmount = subTotal - discountAmount;
 
@@ -290,15 +283,6 @@ function NewInvoice() {
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
-
-  //   useEffect(() => {
-  //     if (hostelId) {
-  //       dispatch({
-  //         type: "INVOICESLISTFILTER",
-  //         payload: { hostelId: state.login.selectedHostel_Id },
-  //       });
-  //     }
-  //   }, [hostelId]);
 
   useEffect(() => {
     if (billData) {
@@ -331,7 +315,6 @@ function NewInvoice() {
     }
     setStartDate("");
     setEndDate("");
-    // setTotalAmount("");
   };
 
   const handleBackBill = () => {
@@ -343,13 +326,11 @@ function NewInvoice() {
     setStartDate("");
     setEndDate("");
     setInvoiceDate("");
-    // setTotalAmount("");
     setCustomerErrmsg("");
     setInvoiceDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("");
     setNewRows([]);
-    setDropdownValue("");
     if (state.UsersList.userRoomfor) {
       navigate(`/tenant/details/${customername}`, {
         state: {
@@ -388,33 +369,20 @@ function NewInvoice() {
   };
 
   const isApiEBPresent = newRows.some(
-    (row) => row.isFromApi && row.am_name === "EB",
+    (row) => row.isFromApi && row.itemType === "EB",
   );
 
   const handleDeleteNewRow = (index) => {
     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
     setNewRows((prevRows) => {
-      const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
-
-      if (deletedRow.am_name === "Room Rent") {
-        // setSelectedTypes((prevTypes) =>
-        //   prevTypes.filter((type) => type !== "RoomRent"),
-        // );
-      } else if (deletedRow.am_name === "EB") {
-        // setSelectedTypes((prevTypes) =>
-        //   prevTypes.filter((type) => type !== "EB"),
-        // );
-      }
 
       return updatedRows;
     });
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    // setTableErrmsgAmount("");
-    // setTableErrmsgDes("");
   };
 
   const handleCreateBill = () => {
@@ -443,7 +411,7 @@ function NewInvoice() {
 
     const errors = newRows.map((row) => {
       return {
-        am_name: !row.am_name?.trim() ? "Please Select or Search Item" : "",
+        itemType: !row.itemType?.trim() ? "Please Select or Search Item" : "",
         amount:
           !row.amount || row.amount === "0" || isNaN(Number(row.amount))
             ? "Please Enter Amount"
@@ -451,7 +419,7 @@ function NewInvoice() {
       };
     });
 
-    const hasRowError = errors.some((err) => err.am_name || err.amount);
+    const hasRowError = errors.some((err) => err.itemType || err.amount);
 
     if (hasRowError) {
       setRowErrors(errors);
@@ -486,7 +454,7 @@ function NewInvoice() {
         invoiceNumber: invoicenumber,
         total_amount: totalAmount,
         items: newRows.map((row) => ({
-          invoiceItem: row.am_name,
+          invoiceItem: row.itemType,
           amount: parseFloat(row.amount) || 0,
         })),
       },
@@ -511,7 +479,7 @@ function NewInvoice() {
 
     const errors = newRows.map((row) => {
       return {
-        am_name: !row.am_name?.trim() ? "Please Select or Search Item" : "",
+        itemType: !row.itemType?.trim() ? "Please Select or Search Item" : "",
         amount:
           !row.amount || row.amount === "0" || isNaN(Number(row.amount))
             ? "Please Enter Amount"
@@ -519,7 +487,7 @@ function NewInvoice() {
       };
     });
 
-    const hasRowError = errors.some((err) => err.am_name || err.amount);
+    const hasRowError = errors.some((err) => err.itemType || err.amount);
 
     if (hasRowError) {
       setRowErrors(errors);
@@ -539,7 +507,7 @@ function NewInvoice() {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: billData?.invoiceId,
         payload: newRows?.map((row) => ({
-          type: row.am_name,
+          type: row.itemType,
           amount: parseFloat(row.amount),
         })),
       });
@@ -551,12 +519,17 @@ function NewInvoice() {
   };
 
   const handleAddNewRow = () => {
+    const hasAdvance = newRows.some((row) => row.itemType === "advance");
+
+    if (hasAdvance) {
+      return;
+    }
     setNewRows((prev) => [
       ...prev,
       {
         itemType: "",
-        am_name: "",
         amount: "0",
+        description: "",
         isFromApi: false,
       },
     ]);
@@ -584,24 +557,6 @@ function NewInvoice() {
     }
   }, [state.createAccount?.networkError]);
 
-  // useEffect(() => {
-  //   if (!customername) {
-  //     // setSelectedTypes([]);
-  //     //   setNewRows([]);
-  //   }
-  // }, [customername]);
-
-  // useEffect(() => {
-  //   const types = [];
-  //   newRows.forEach((row) => {
-  //     if (row.am_name === "Room Rent") types.push("RoomRent");
-  //     else if (row.am_name === "EB") types.push("EB");
-  //   });
-  //   // setSelectedTypes(types);
-  // }, []);
-
-  // const [originalRows, setOriginalRows] = useState([]);
-
   useEffect(() => {
     if (!billData) return;
     setCustomerName(billData.customerId || CustomerOverView?.customerId || id);
@@ -612,14 +567,13 @@ function NewInvoice() {
         "DD/MM/YYYY",
       ),
     );
-    // setTotalAmount(billData.baseAmount);
 
     if (
       Array.isArray(state.InvoiceList?.getInitializeRecurring?.invoiceItems)
     ) {
       const formattedRows =
         state.InvoiceList.getInitializeRecurring.invoiceItems.map((item) => ({
-          am_name: item.description || "",
+          itemType: item.description || "",
           amount: String(item.amount || ""),
           isFromApi: true,
           isRent: item.description === "Rent",
@@ -715,40 +669,24 @@ function NewInvoice() {
     }
   }, [startdate, enddate, invoicedate]);
 
-  //   useEffect(() => {
-  //     if (newRows) {
-  //       const allRows = newRows
-  //         .map((detail) => ({
-  //           am_name: detail.am_name,
-  //           amount: Number(detail.amount),
-  //         }))
-  //         .filter((detail) => detail.am_name && detail.amount);
-
-  //       const Total_amout = allRows.reduce(
-  //         (sum, item) => sum + parseFloat(item.amount || 0),
-  //         0,
-  //       );
-
-  //       setTotalAmount(Total_amout);
-  //     }
-  //   }, [newRows]);
-
-  // const EXCLUDED_STATUSES = ["Booked", "Settlement Generated"];
-
   const getItemOptions = (currentIndex) => {
     const options = [];
 
-    const otherRows = newRows.filter((_, index) => index !== currentIndex);
-
-    const roomRentAlreadySelected = otherRows.some(
-      (row) => row.itemType === "RoomRent",
+    const advanceAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "advance",
     );
 
-    const advanceAlreadySelected = otherRows.some(
-      (row) => row.itemType === "advance",
+    if (advanceAlreadySelected) {
+      return [];
+    }
+
+    const roomRentAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "RoomRent",
     );
 
-    const ebAlreadySelected = otherRows.some((row) => row.itemType === "EB");
+    const ebAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "EB",
+    );
 
     if (!billData && !roomRentAlreadySelected) {
       options.push({
@@ -757,12 +695,10 @@ function NewInvoice() {
       });
     }
 
-    if (!advanceAlreadySelected) {
-      options.push({
-        value: "advance",
-        label: "Advance",
-      });
-    }
+    options.push({
+      value: "advance",
+      label: "Advance",
+    });
 
     if (!isApiEBPresent && !ebAlreadySelected) {
       options.push({
@@ -778,6 +714,20 @@ function NewInvoice() {
 
     return options;
   };
+
+  useEffect(() => {
+    const advanceIndex = newRows.findIndex((row) => row.itemType === "advance");
+
+    if (advanceIndex === -1 || newRows.length === 1) {
+      return;
+    }
+
+    setNewRows((prev) => {
+      const advanceRow = prev.find((row) => row.itemType === "advance");
+
+      return advanceRow ? [advanceRow] : prev;
+    });
+  }, [newRows]);
 
   return (
     <div className=" relative font-gilroy flex flex-col">
@@ -969,7 +919,7 @@ function NewInvoice() {
             <div className="mt-3  w-full border border-[#DCDCDC] rounded-[8px] overflow-hidden font-gilroy">
               <table className="   table-fixed border-collapse">
                 <thead>
-                  <tr className="bg-[#F7F7F7] border-b border-[#E5E5E5]">
+                  <tr className="bg-[#F7F7F7] border">
                     <th className="w-[27%] px-3 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
                       Item Details
                     </th>
@@ -988,17 +938,17 @@ function NewInvoice() {
                   {newRows?.map((u, index) => (
                     <React.Fragment key={index}>
                       <tr className="border-b border-[#EEEEEE] text-[14px]">
-                        <td className="px-3 py-1.5">
+                        <td className="px-1 py-1">
                           {u.itemType === "Other" ? (
                             <div className="flex items-center gap-1">
                               <input
                                 type="text"
                                 autoFocus
-                                value={u.am_name || ""}
+                                value={u.itemType || ""}
                                 onChange={(e) => {
                                   handleNewRowChange(
                                     index,
-                                    "am_name",
+                                    "itemType",
                                     e.target.value,
                                   );
 
@@ -1006,7 +956,7 @@ function NewInvoice() {
                                     const updated = [...prev];
 
                                     if (updated[index]) {
-                                      updated[index].am_name = "";
+                                      updated[index].itemType = "";
                                     }
 
                                     return updated;
@@ -1029,7 +979,6 @@ function NewInvoice() {
                                 type="button"
                                 onClick={() => {
                                   handleNewRowChange(index, "itemType", "");
-                                  handleNewRowChange(index, "am_name", "");
                                 }}
                                 className="text-[#999999] text-[12px]"
                               >
@@ -1037,64 +986,88 @@ function NewInvoice() {
                               </button>
                             </div>
                           ) : (
-                            <Select
-                              value={
-                                u.itemType
-                                  ? {
-                                      value: u.itemType,
-                                      label:
-                                        u.itemType === "RoomRent"
-                                          ? "Room Rent"
-                                          : u.itemType === "EB"
-                                            ? "EB"
-                                            : u.itemType === "advance"
-                                              ? "Advance"
-                                              : "Other",
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center gap-1">
+                                <div className="flex-1">
+                                  <Select
+                                    value={
+                                      u.itemType
+                                        ? {
+                                            value: u.itemType,
+                                            label:
+                                              u.itemType === "RoomRent"
+                                                ? "Room Rent"
+                                                : u.itemType === "EB"
+                                                  ? "EB"
+                                                  : u.itemType === "advance"
+                                                    ? "Advance"
+                                                    : "Other",
+                                          }
+                                        : null
                                     }
-                                  : null
-                              }
-                              onChange={(selected) => {
-                                const value = selected?.value || "";
+                                    onChange={(selected) => {
+                                      const value = selected?.value || "";
 
-                                handleNewRowChange(index, "itemType", value);
+                                      handleNewRowChange(
+                                        index,
+                                        "itemType",
+                                        value,
+                                      );
 
-                                if (value !== "Other") {
-                                  handleNewRowChange(
-                                    index,
-                                    "am_name",
-                                    value === "RoomRent"
-                                      ? "Room Rent"
-                                      : value === "EB"
-                                        ? "EB"
-                                        : value === "advance"
-                                          ? "Advance"
-                                          : "",
-                                  );
-                                }
+                                      setRowErrors((prev) => {
+                                        const updated = [...prev];
 
-                                setRowErrors((prev) => {
-                                  const updated = [...prev];
+                                        if (updated[index]) {
+                                          updated[index].itemType = "";
+                                        }
 
-                                  if (updated[index]) {
-                                    updated[index].am_name = "";
-                                  }
+                                        return updated;
+                                      });
+                                    }}
+                                    placeholder="Select or Search the Item"
+                                    options={getItemOptions(index)}
+                                    isSearchable
+                                    isDisabled={u.isFromApi}
+                                    classNamePrefix="custom"
+                                    menuPlacement="auto"
+                                    menuPortalTarget={document.body}
+                                    styles={CustomStylesTable}
+                                  />
 
-                                  return updated;
-                                });
-                              }}
-                              placeholder="Select or Search the Item"
-                              options={getItemOptions(index)}
-                              isSearchable
-                              isDisabled={u.isFromApi}
-                              classNamePrefix="custom"
-                              menuPlacement="auto"
-                              menuPortalTarget={document.body}
-                              styles={CustomStylesTable}
-                            />
+                                  {["RoomRent", "advance", "EB"].includes(
+                                    u.itemType,
+                                  ) && (
+                                    <input
+                                      type="text"
+                                      value={u.description || ""}
+                                      onChange={(e) =>
+                                        handleNewRowChange(
+                                          index,
+                                          "description",
+                                          e.target.value,
+                                        )
+                                      }
+                                      placeholder="Add a description to your item"
+                                      className="
+            w-full
+            h-[28px]
+            px-2 py-4 rounded
+            text-[12px]
+            text-[#0A0A0A80]
+            border-0
+            outline-none
+            bg-[#F9F9F9] font-semibold
+            placeholder:text-[#0A0A0A80]
+          "
+                                    />
+                                  )}
+                                </div>
+                              </div>
+                            </div>
                           )}
                         </td>
 
-                        <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
+                        <td className="px-1 py-1 border-l border-[#EEEEEE]">
                           <input
                             type="number"
                             onWheel={(e) => e.target.blur()}
@@ -1129,7 +1102,7 @@ function NewInvoice() {
                           />
                         </td>
 
-                        <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
+                        <td className="px-1 py-1 border-l border-[#EEEEEE]">
                           <div className="flex items-center justify-center gap-2">
                             <CloseCircle
                               onClick={() =>
@@ -1146,13 +1119,13 @@ function NewInvoice() {
                         </td>
                       </tr>
 
-                      {(rowErrors[index]?.am_name ||
+                      {(rowErrors[index]?.itemType ||
                         rowErrors[index]?.amount) && (
                         <tr className="border-b border-[#EEEEEE]">
                           <td className="px-3 pb-2">
-                            {rowErrors[index]?.am_name && (
+                            {rowErrors[index]?.itemType && (
                               <ErrorMessage
-                                message={rowErrors[index].am_name}
+                                message={rowErrors[index].itemType}
                                 type="error"
                               />
                             )}
