@@ -187,6 +187,16 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   const isjoiningBased =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
     "Joining Date Based";
+
+  const isPastMonth = selectedDate
+    ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
+    : false;
+
+  const IsPostPaid =
+    state?.Settings?.SettingsBillsGetRecurring?.billingModel === "POSTPAID";
+
+  const hideByPostPaidHostel = IsPostPaid && isPastMonth;
+
   useEffect(() => {
     setOneTimePayments([]);
   }, []);
@@ -824,9 +834,6 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   // const isPastMonth = selectedDate
   //   ? dayjs(selectedDate).isBefore(dayjs(), "month")
   //   : false;
-  const isPastMonth = selectedDate
-    ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
-    : false;
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -1498,7 +1505,7 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
             </div>
             {!isjoiningBased && (
               <div className="w-full max-w-[680px] bg-white">
-                {!isPastMonth && (
+                {!hideByPostPaidHostel && (
                   <div>
                     <div className="flex items-center gap-2 px-1 py-3">
                       <div className="flex items-center gap-2 ">

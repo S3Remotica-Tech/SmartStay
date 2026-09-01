@@ -250,6 +250,15 @@ function AddTenantBookingCheckin({
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
     "Joining Date Based";
 
+  const isPastMonth = joiningDate
+    ? dayjs(joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
+    : false;
+
+  const IsPostPaid =
+    state?.Settings?.SettingsBillsGetRecurring?.billingModel === "POSTPAID";
+
+  const hideByPostPaidHostel = IsPostPaid && isPastMonth;
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -1568,10 +1577,6 @@ function AddTenantBookingCheckin({
   //   ? dayjs(joiningDate).isBefore(dayjs(), "month")
   //   : false;
 
-  const isPastMonth = joiningDate
-    ? dayjs(joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
-    : false;
-
   // const deductionsTotal = fields?.reduce(
   //   (sum, item) => sum + Number(item.amount || 0),
   //   0,
@@ -2469,7 +2474,7 @@ function AddTenantBookingCheckin({
               </div>
               {!isjoiningBased && (
                 <div className="w-full max-w-[680px] bg-white">
-                  {!isPastMonth && (
+                  {!hideByPostPaidHostel && (
                     <div>
                       <div className="flex items-center  justify-between px-1 py-3">
                         <div className="flex items-center gap-2 ">

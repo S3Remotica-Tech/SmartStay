@@ -125,7 +125,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
-  // const [lastname, setLastname] = useState("");
   const [pgLayout, setPgLatyout] = useState(false);
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
@@ -176,6 +175,15 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
 
   // const isGracePeriodApplicable =
   //   hasGracePeriod && joiningDay <= gracePeriodDays;
+
+  const isPastMonth = selectedDate
+    ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
+    : false;
+
+  const IsPostPaid =
+    state?.Settings?.SettingsBillsGetRecurring?.billingModel === "POSTPAID";
+
+  const hideByPostPaidHostel = IsPostPaid && isPastMonth;
 
   const isjoiningBased =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
@@ -736,10 +744,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
   // const isPastMonth = selectedDate
   //   ? dayjs(selectedDate).isBefore(dayjs(), "month")
   //   : false;
-
-  const isPastMonth = selectedDate
-    ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
-    : false;
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -1389,7 +1393,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
               </div>
               {!isjoiningBased && (
                 <div className="w-full max-w-[680px] bg-white">
-                  {!isPastMonth && (
+                  {!hideByPostPaidHostel && (
                     <div>
                       <div className="flex items-center gap-2 px-1 py-3">
                         <div className="flex items-center gap-2 ">

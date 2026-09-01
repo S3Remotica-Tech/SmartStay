@@ -403,7 +403,7 @@ function AddRetainerInvoice() {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
     dispatch({
-      type: "CUSTOMER_LIST_SAGA",
+      type: "TENANT_LIST_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         purpose: "ADVANCE_HOLDING",
@@ -412,7 +412,7 @@ function AddRetainerInvoice() {
   }, [state.login.selectedHostel_Id]);
 
   const customerOptions =
-    state.UsersList?.CustomerList?.customersLists?.map((u) => ({
+    state.UsersList?.TenantList?.customersLists?.map((u) => ({
       value: u.customerId,
       label: u.fullName,
     })) || [];
@@ -431,7 +431,7 @@ function AddRetainerInvoice() {
     setGuardianName("");
   };
 
-  const selectedCustomer = state.UsersList?.CustomerList?.customersLists?.find(
+  const selectedCustomer = state.UsersList?.TenantList?.customersLists?.find(
     (c) => c.customerId === customername,
   );
 
@@ -476,7 +476,7 @@ function AddRetainerInvoice() {
   const subTotal = Number(expenseItem.amount || 0);
 
   const accountOptions =
-    state.UsersList?.CustomerList?.listBanks?.map((bank) => ({
+    state.UsersList?.TenantList?.listBanks?.map((bank) => ({
       value: bank.bankId,
       label: bank.bankName,
     })) || [];
@@ -631,7 +631,7 @@ function AddRetainerInvoice() {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
       setAdditionalForm(false);
       dispatch({
-        type: "CUSTOMER_LIST_SAGA",
+        type: "TENANT_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           purpose: "ADVANCE_HOLDING",
@@ -811,7 +811,7 @@ function AddRetainerInvoice() {
                         className="w-11 h-11 rounded-full object-cover border border-gray-200"
                       />
                     ) : (
-                      <div className="w-11 h-11 rounded-full bg-[#1E45E1] text-white flex items-center justify-center text-sm font-semibold uppercase">
+                      <div className="w-11 h-11 rounded-full bg-[#1E45E1] text-white flex flex-shrink-0 items-center justify-center text-sm font-semibold uppercase">
                         {selectedCustomer?.initials ||
                           selectedCustomer?.fullName?.charAt(0)}
                       </div>

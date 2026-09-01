@@ -167,6 +167,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
     "Joining Date Based";
 
+  const isPastMonth = checkin_joiningDate
+    ? dayjs(checkin_joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
+    : false;
+  const IsPostPaid =
+    state?.Settings?.SettingsBillsGetRecurring?.billingModel === "POSTPAID";
+
+  const hideByPostPaidHostel = IsPostPaid && isPastMonth;
+
   // const [proRateRent, setProRateRent] = useState(0);
 
   // const [oneTimePaymentErrors, setOneTimePaymentErrors] = useState([]);
@@ -913,10 +921,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   // const isPastMonth = checkin_joiningDate
   //   ? dayjs(checkin_joiningDate).isBefore(dayjs(), "month")
   //   : false;
-
-  const isPastMonth = checkin_joiningDate
-    ? dayjs(checkin_joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
-    : false;
 
   // const deductionsTotal = fields.reduce(
   //   (sum, item) => sum + Number(item.amount || 0),
@@ -1738,7 +1742,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                 </div>
                 {!isjoiningBased && (
                   <div className="max-w-5xl bg-white">
-                    {!isPastMonth && (
+                    {!hideByPostPaidHostel && (
                       <div>
                         <div className="flex items-center gap-2 px-1 py-3">
                           <div className="flex items-center gap-2 ">

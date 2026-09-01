@@ -241,10 +241,6 @@ function NewInvoice() {
     {
       itemType: "",
       am_name: "",
-      rate: "0",
-      discount: "0",
-      discountType: "₹",
-      tax: "",
       amount: "0",
       isFromApi: false,
     },
@@ -260,14 +256,32 @@ function NewInvoice() {
   const dueRef = useRef(null);
   const joiningDate = selectedCustomer?.joiningDate;
   const CustomerOverView = state?.UsersList?.customerdetails;
+  const [discount, setDiscount] = useState("");
+  // const [tax, setTax] = useState(18);
+  const [discountType, setDiscountType] = useState("%");
 
   console.log("newRows", newRows);
 
   const [tableErrmsg, setTableErrmsg] = useState("");
-  const [selectedTypes, setSelectedTypes] = useState([]);
+  // const [selectedTypes, setSelectedTypes] = useState([]);
+
+  const subTotal = newRows.reduce((total, row) => {
+    return total + Number(row.amount || row.rate || 0);
+  }, 0);
+
+  const discountAmount =
+    discountType === "%"
+      ? (subTotal * Number(discount || 0)) / 100
+      : Number(discount || 0);
+
+  // const taxableAmount = subTotal - discountAmount;
+
+  // const taxAmount = (taxableAmount * Number(tax || 0)) / 100;
+
+  const totalAmount = subTotal - discountAmount;
 
   const customerOptions =
-    state.UsersList?.TenantList?.map((u) => ({
+    state.UsersList?.TenantList?.customersLists?.map((u) => ({
       value: u.customerId,
       label: u.fullName,
       details: u,
@@ -377,33 +391,6 @@ function NewInvoice() {
     (row) => row.isFromApi && row.am_name === "EB",
   );
 
-  //   const handleRowTypeSelect = (type) => {
-  //     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
-  //     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
-  //     // let newRow = {
-  //     //   am_name: "",
-  //     //   amount: "0",
-  //     //   isFromApi: false,
-  //     // };
-
-  //     // if (type === "RoomRent") {
-  //     //   newRow.am_name = "Room Rent";
-  //     // } else if (type === "EB") {
-  //     //   newRow.am_name = "EB";
-  //     // }
-
-  //     // setNewRows((prev) => [...prev, newRow]);
-
-  //     if (type !== "Other" && !selectedTypes.includes(type)) {
-  //       setSelectedTypes((prev) => [...prev, type]);
-  //     }
-
-  //     setAllFieldErrmsg("");
-  //     setTableErrmsg("");
-
-  //     setDropdownValue("");
-  //   };
-
   const handleDeleteNewRow = (index) => {
     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
     dispatch({ type: "CLEAR_UNABLE_ADD_INVOICE_DETAILS" });
@@ -412,13 +399,13 @@ function NewInvoice() {
       const updatedRows = prevRows.filter((_, i) => i !== index);
 
       if (deletedRow.am_name === "Room Rent") {
-        setSelectedTypes((prevTypes) =>
-          prevTypes.filter((type) => type !== "RoomRent"),
-        );
+        // setSelectedTypes((prevTypes) =>
+        //   prevTypes.filter((type) => type !== "RoomRent"),
+        // );
       } else if (deletedRow.am_name === "EB") {
-        setSelectedTypes((prevTypes) =>
-          prevTypes.filter((type) => type !== "EB"),
-        );
+        // setSelectedTypes((prevTypes) =>
+        //   prevTypes.filter((type) => type !== "EB"),
+        // );
       }
 
       return updatedRows;
@@ -456,7 +443,7 @@ function NewInvoice() {
 
     const errors = newRows.map((row) => {
       return {
-        am_name: !row.am_name?.trim() ? "Please Enter Description" : "",
+        am_name: !row.am_name?.trim() ? "Please Select or Search Item" : "",
         amount:
           !row.amount || row.amount === "0" || isNaN(Number(row.amount))
             ? "Please Enter Amount"
@@ -524,7 +511,7 @@ function NewInvoice() {
 
     const errors = newRows.map((row) => {
       return {
-        am_name: !row.am_name?.trim() ? "Please Enter Description" : "",
+        am_name: !row.am_name?.trim() ? "Please Select or Search Item" : "",
         amount:
           !row.amount || row.amount === "0" || isNaN(Number(row.amount))
             ? "Please Enter Amount"
@@ -569,19 +556,16 @@ function NewInvoice() {
       {
         itemType: "",
         am_name: "",
-        rate: "0",
-        discount: "0",
-        discountType: "₹",
-        tax: "",
         amount: "0",
         isFromApi: false,
       },
     ]);
+    setRowErrors([]);
   };
 
   useEffect(() => {
     if (id || billData?.customerId) {
-      const selectedCustomer = state.UsersList.TenantList.find(
+      const selectedCustomer = state.UsersList.TenantList.customersLists?.find(
         (u) => u.customerId === (id || billData?.customerId),
       );
 
@@ -589,7 +573,7 @@ function NewInvoice() {
         setCustomerName(selectedCustomer.customerId);
       }
     }
-  }, [id, state.UsersList?.TenantList, billData]);
+  }, [id, state.UsersList?.TenantList?.customersLists, billData]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -600,21 +584,21 @@ function NewInvoice() {
     }
   }, [state.createAccount?.networkError]);
 
-  useEffect(() => {
-    if (!customername) {
-      setSelectedTypes([]);
-      //   setNewRows([]);
-    }
-  }, [customername]);
+  // useEffect(() => {
+  //   if (!customername) {
+  //     // setSelectedTypes([]);
+  //     //   setNewRows([]);
+  //   }
+  // }, [customername]);
 
-  useEffect(() => {
-    const types = [];
-    newRows.forEach((row) => {
-      if (row.am_name === "Room Rent") types.push("RoomRent");
-      else if (row.am_name === "EB") types.push("EB");
-    });
-    setSelectedTypes(types);
-  }, []);
+  // useEffect(() => {
+  //   const types = [];
+  //   newRows.forEach((row) => {
+  //     if (row.am_name === "Room Rent") types.push("RoomRent");
+  //     else if (row.am_name === "EB") types.push("EB");
+  //   });
+  //   // setSelectedTypes(types);
+  // }, []);
 
   // const [originalRows, setOriginalRows] = useState([]);
 
@@ -667,7 +651,7 @@ function NewInvoice() {
         type: "TENANT_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          purpose: "BILL",
+          purpose: "ADVANCE_HOLDING",
         },
       });
     }
@@ -754,18 +738,29 @@ function NewInvoice() {
   const getItemOptions = (currentIndex) => {
     const options = [];
 
-    const roomRentAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "RoomRent",
+    const otherRows = newRows.filter((_, index) => index !== currentIndex);
+
+    const roomRentAlreadySelected = otherRows.some(
+      (row) => row.itemType === "RoomRent",
     );
 
-    const ebAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "EB",
+    const advanceAlreadySelected = otherRows.some(
+      (row) => row.itemType === "advance",
     );
+
+    const ebAlreadySelected = otherRows.some((row) => row.itemType === "EB");
 
     if (!billData && !roomRentAlreadySelected) {
       options.push({
         value: "RoomRent",
         label: "Room Rent",
+      });
+    }
+
+    if (!advanceAlreadySelected) {
+      options.push({
+        value: "advance",
+        label: "Advance",
       });
     }
 
@@ -784,52 +779,8 @@ function NewInvoice() {
     return options;
   };
 
-  const calculateRowAmount = (row) => {
-    const rate = Number(row.rate) || 0;
-    const discount = Number(row.discount) || 0;
-
-    let discountAmount = 0;
-
-    if (row.discountType === "%") {
-      discountAmount = (rate * discount) / 100;
-    } else {
-      discountAmount = discount;
-    }
-
-    const taxableAmount = Math.max(rate - discountAmount, 0);
-
-    const taxAmount = row.tax === "GST" ? (taxableAmount * 18) / 100 : 0;
-
-    const finalAmount = taxableAmount + taxAmount;
-
-    return {
-      taxableAmount,
-      taxAmount,
-      finalAmount,
-    };
-  };
-
-  const invoiceSummary = newRows.reduce(
-    (acc, row) => {
-      const { taxableAmount, taxAmount, finalAmount } = calculateRowAmount(row);
-
-      acc.subTotal += taxableAmount;
-      acc.taxAmount += taxAmount;
-      acc.totalAmount += finalAmount;
-
-      return acc;
-    },
-    {
-      subTotal: 0,
-      taxAmount: 0,
-      totalAmount: 0,
-    },
-  );
-
-  const { subTotal, taxAmount, totalAmount } = invoiceSummary;
-
   return (
-    <div className="mt-1 pl-[5px] relative font-gilroy">
+    <div className=" relative font-gilroy flex flex-col">
       <div
         className="sticky top-0 left-0 z-[1000] w-full h-[40px] bg-white px-[5px] py-1 flex items-start
        justify-between whitespace-nowrap"
@@ -847,7 +798,7 @@ function NewInvoice() {
           Close
         </button>
       </div>
-      <div className="show-scrolls">
+      <div className="show-scrolls flex-1 overflow-y-auto max-h-[550px]">
         <div className="grid grid-cols-10  gap-4 mt-2 flex items-stretch ">
           <div className="col-span-8">
             <div className="mb-3">
@@ -879,18 +830,18 @@ function NewInvoice() {
         </div>
 
         {selectedCustomer && (
-          <div className="grid grid-cols-12 gap-4 my-2 font-gilroy">
-            <div className="col-span-12 md:col-span-10">
+          <div className="grid grid-cols-10 gap-4 my-2 font-gilroy">
+            <div className="col-span-12 md:col-span-8">
               <div className="bg-[#F8F9FC] rounded-xl px-4 py-4 flex flex-col md:flex-row md:justify-between md:items-start gap-5">
                 <div className="flex items-start gap-3">
                   {selectedCustomer?.profilePic ? (
                     <img
                       src={selectedCustomer.profilePic}
                       alt={selectedCustomer.fullName}
-                      className="w-11 h-11 rounded-full object-cover border border-gray-200"
+                      className="w-11 h-11 rounded-full object-cover border border-gray-200 flex-shrink-0"
                     />
                   ) : (
-                    <div className="w-11 h-11 rounded-full bg-[#1E45E1] text-white flex items-center justify-center text-sm font-semibold uppercase">
+                    <div className="w-11 h-11 rounded-full bg-[#1E45E1] text-white flex flex-shrink-0 items-center justify-center text-sm font-semibold uppercase">
                       {selectedCustomer?.initials ||
                         selectedCustomer?.fullName?.charAt(0)}
                     </div>
@@ -965,56 +916,46 @@ function NewInvoice() {
           </div>
         )}
 
-        <div className="grid grid-cols-10  gap-4 mt-2 flex items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
           <div className="col-span-4">
-            <div className="mb-1 mt-1">
-              <label className="font-[Gilroy] text-[12px] font-medium text-[#222]">
-                Invoice Number
-              </label>
+            <label className="font-[Gilroy] text-[12px] font-medium text-[#222]">
+              Invoice Number{" "}
+              <span className="text-transparent select-none text-[20px]">
+                *
+              </span>
+            </label>
 
-              <input
-                disabled={billData}
-                type="text"
-                placeholder="Enter Invoice Number"
-                value={invoicenumber || ""}
-                onChange={handleInvoiceChange}
-                className="w-full h-[48px] px-[10px] py-[12px] text-[16px] text-[#4B4B4B] font-[Gilroy] font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0"
-              />
+            <input
+              disabled={billData}
+              type="text"
+              placeholder="Enter Invoice Number"
+              value={invoicenumber || ""}
+              onChange={handleInvoiceChange}
+              className="w-full h-[48px] px-[10px] py-[12px] text-[14px] text-[#4B4B4B] font-[Gilroy] font-medium border border-[#D9D9D9] rounded-[8px] outline-none focus:ring-0"
+            />
 
-              {invoicenumbererrmsg.trim() !== "" && (
-                <ErrorMessage message={invoicenumbererrmsg} type="error" />
-              )}
-            </div>
+            {invoicenumbererrmsg.trim() !== "" && (
+              <ErrorMessage message={invoicenumbererrmsg} type="error" />
+            )}
           </div>
-          <div className="col-span-1 md:col-span-4">
-            <p className="mt-1 mb-1 text-[12px] text-[#222] font-[Gilroy] font-medium">
+          <div className="col-span-4">
+            <label className="font-[Gilroy] text-[12px] font-medium text-[#222]">
               Invoice Date <span className="text-red-500 text-[20px]">*</span>
-            </p>
+            </label>
 
             <div className="relative w-full datepicker-wrapper">
               <DatePicker
                 disabled={billData}
-                className="w-full h-[48px] cursor-pointer font-[Gilroy]"
+                className="w-full h-[48px] cursor-pointer font-[Gilroy] text-sm"
                 format="DD/MM/YYYY"
                 placeholder="DD/MM/YYYY"
                 value={invoicedate ? dayjs(invoicedate) : null}
                 onChange={(date) => handleInvoiceDate(date)}
-                getPopupContainer={(triggerNode) =>
-                  triggerNode.closest(".datepicker-wrapper")
-                }
                 disabledDate={(current) =>
                   current &&
                   (current < dayjs(joiningDate, "DD/MM/YYYY").startOf("day") ||
                     current > dayjs().endOf("day"))
                 }
-                dropdownAlign={{
-                  points: ["tl", "bl"],
-                  offset: [0, 4],
-                }}
-                popupStyle={{
-                  marginRight: 0,
-                  minWidth: "auto",
-                }}
               />
             </div>
 
@@ -1023,69 +964,58 @@ function NewInvoice() {
             )}
           </div>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-4 w-full">
+          <div className="col-span-1 md:col-span-8 min-w-0">
+            <div className="mt-3  w-full border border-[#DCDCDC] rounded-[8px] overflow-hidden font-gilroy">
+              <table className="   table-fixed border-collapse">
+                <thead>
+                  <tr className="bg-[#F7F7F7] border-b border-[#E5E5E5]">
+                    <th className="w-[27%] px-3 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
+                      Item Details
+                    </th>
 
-        <div className="mt-3 w-[90%] border border-[#DCDCDC] rounded-[8px] overflow-hidden font-gilroy">
-          <table className="w-full table-fixed border-collapse">
-            <thead>
-              <tr className="bg-[#F7F7F7] border-b border-[#E5E5E5]">
-                <th className="w-[27%] px-3 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
-                  Item Details
-                </th>
+                    <th className="w-[14%] px-2 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
+                      Amount
+                    </th>
 
-                <th className="w-[12%] px-2 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
-                  Rate
-                </th>
+                    <th className="w-[11%] px-2 py-2 text-center text-[12px] font-medium text-[#737373] uppercase">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
 
-                <th className="w-[12%] px-2 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
-                  Discount
-                </th>
+                <tbody className="max-h-[300px] overflow-y-auto">
+                  {newRows?.map((u, index) => (
+                    <React.Fragment key={index}>
+                      <tr className="border-b border-[#EEEEEE] text-[14px]">
+                        <td className="px-3 py-1.5">
+                          {u.itemType === "Other" ? (
+                            <div className="flex items-center gap-1">
+                              <input
+                                type="text"
+                                autoFocus
+                                value={u.am_name || ""}
+                                onChange={(e) => {
+                                  handleNewRowChange(
+                                    index,
+                                    "am_name",
+                                    e.target.value,
+                                  );
 
-                <th className="w-[12%] px-2 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
-                  Tax
-                </th>
+                                  setRowErrors((prev) => {
+                                    const updated = [...prev];
 
-                <th className="w-[14%] px-2 py-2 text-left text-[12px] font-medium text-[#737373] uppercase">
-                  Amount
-                </th>
+                                    if (updated[index]) {
+                                      updated[index].am_name = "";
+                                    }
 
-                <th className="w-[11%] px-2 py-2 text-center text-[12px] font-medium text-[#737373] uppercase">
-                  Action
-                </th>
-              </tr>
-            </thead>
-
-            <tbody className="max-h-[300px] overflow-y-auto">
-              {newRows?.map((u, index) => (
-                <React.Fragment key={index}>
-                  <tr className="border-b border-[#EEEEEE] text-[14px]">
-                    <td className="px-3 py-1.5">
-                      {u.itemType === "Other" ? (
-                        <div className="flex items-center gap-1">
-                          <input
-                            type="text"
-                            autoFocus
-                            value={u.am_name || ""}
-                            onChange={(e) => {
-                              handleNewRowChange(
-                                index,
-                                "am_name",
-                                e.target.value,
-                              );
-
-                              setRowErrors((prev) => {
-                                const updated = [...prev];
-
-                                if (updated[index]) {
-                                  updated[index].am_name = "";
-                                }
-
-                                return updated;
-                              });
-                            }}
-                            placeholder="Enter Item Name"
-                            className="
+                                    return updated;
+                                  });
+                                }}
+                                placeholder="Enter Item Name"
+                                className="
           w-full
-          h-[30px]
+          h-[45px]
           px-1
           text-[14px]
           border-0
@@ -1093,97 +1023,101 @@ function NewInvoice() {
           bg-transparent
           placeholder:text-[#A5A5A5]
         "
-                          />
+                              />
 
-                          <button
-                            type="button"
-                            onClick={() => {
-                              handleNewRowChange(index, "itemType", "");
-                              handleNewRowChange(index, "am_name", "");
-                            }}
-                            className="text-[#999999] text-[12px]"
-                          >
-                            <Add color="#ff0000" className="rotate-45" />
-                          </button>
-                        </div>
-                      ) : (
-                        <Select
-                          value={
-                            u.itemType
-                              ? {
-                                  value: u.itemType,
-                                  label:
-                                    u.itemType === "RoomRent"
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleNewRowChange(index, "itemType", "");
+                                  handleNewRowChange(index, "am_name", "");
+                                }}
+                                className="text-[#999999] text-[12px]"
+                              >
+                                <Add color="#ff0000" className="rotate-45" />
+                              </button>
+                            </div>
+                          ) : (
+                            <Select
+                              value={
+                                u.itemType
+                                  ? {
+                                      value: u.itemType,
+                                      label:
+                                        u.itemType === "RoomRent"
+                                          ? "Room Rent"
+                                          : u.itemType === "EB"
+                                            ? "EB"
+                                            : u.itemType === "advance"
+                                              ? "Advance"
+                                              : "Other",
+                                    }
+                                  : null
+                              }
+                              onChange={(selected) => {
+                                const value = selected?.value || "";
+
+                                handleNewRowChange(index, "itemType", value);
+
+                                if (value !== "Other") {
+                                  handleNewRowChange(
+                                    index,
+                                    "am_name",
+                                    value === "RoomRent"
                                       ? "Room Rent"
-                                      : u.itemType === "EB"
+                                      : value === "EB"
                                         ? "EB"
-                                        : "Other",
+                                        : value === "advance"
+                                          ? "Advance"
+                                          : "",
+                                  );
                                 }
-                              : null
-                          }
-                          onChange={(selected) => {
-                            const value = selected?.value || "";
 
-                            handleNewRowChange(index, "itemType", value);
+                                setRowErrors((prev) => {
+                                  const updated = [...prev];
 
-                            if (value !== "Other") {
-                              handleNewRowChange(
-                                index,
-                                "am_name",
-                                value === "RoomRent"
-                                  ? "Room Rent"
-                                  : value === "EB"
-                                    ? "EB"
-                                    : "",
-                              );
-                            }
+                                  if (updated[index]) {
+                                    updated[index].am_name = "";
+                                  }
 
-                            setRowErrors((prev) => {
-                              const updated = [...prev];
+                                  return updated;
+                                });
+                              }}
+                              placeholder="Select or Search the Item"
+                              options={getItemOptions(index)}
+                              isSearchable
+                              isDisabled={u.isFromApi}
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              menuPortalTarget={document.body}
+                              styles={CustomStylesTable}
+                            />
+                          )}
+                        </td>
 
-                              if (updated[index]) {
-                                updated[index].am_name = "";
+                        <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
+                          <input
+                            type="number"
+                            onWheel={(e) => e.target.blur()}
+                            value={u.rate !== "0" ? u.rate : ""}
+                            placeholder="₹ 0"
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (/^-?\d*\.?\d*$/.test(value)) {
+                                handleNewRowChange(index, "amount", value);
                               }
 
-                              return updated;
-                            });
-                          }}
-                          placeholder="Select or Search the Item"
-                          options={getItemOptions(index)}
-                          isSearchable
-                          isDisabled={u.isFromApi}
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          menuPortalTarget={document.body}
-                          styles={CustomStylesTable}
-                        />
-                      )}
-                    </td>
+                              setRowErrors((prev) => {
+                                const updated = [...prev];
 
-                    <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
-                      <input
-                        type="number"
-                        onWheel={(e) => e.target.blur()}
-                        value={u.rate !== "0" ? u.rate : ""}
-                        placeholder="₹ 0"
-                        onChange={(e) => {
-                          const value = e.target.value;
+                                if (updated[index]) {
+                                  updated[index].amount = "";
+                                }
 
-                          if (/^-?\d*\.?\d*$/.test(value)) {
-                            handleNewRowChange(index, "rate", value);
-                          }
-
-                          setRowErrors((prev) => {
-                            const updated = [...prev];
-
-                            if (updated[index]) {
-                              updated[index].amount = "";
-                            }
-
-                            return updated;
-                          });
-                        }}
-                        className="
+                                return updated;
+                              });
+                            }}
+                            className="
                       w-full
                       h-[30px]
                       px-1
@@ -1192,176 +1126,58 @@ function NewInvoice() {
                       outline-none
                       bg-transparent
                     "
-                      />
-                    </td>
-                    <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
-                      <div className="flex items-center gap-1">
-                        <input
-                          onWheel={(e) => e.target.blur()}
-                          type="number"
-                          value={u.discount || ""}
-                          onChange={(e) =>
-                            handleNewRowChange(
-                              index,
-                              "discount",
-                              e.target.value,
-                            )
-                          }
-                          className="
-                        w-full
-                        h-[28px]
-                        px-1
-                        text-[14px]
-                        border-0
-                        outline-none
-                        bg-transparent
-                      "
-                        />
+                          />
+                        </td>
 
-                        <div className="flex shrink-0 overflow-hidden rounded border-1 ">
-                          <button
-                            onClick={() =>
-                              handleNewRowChange(index, "discountType", "₹")
-                            }
-                            type="button"
-                            className={`
-          px-2.5
-      py-1
-          text-[10px]
-          ${
-            u.discountType === "₹"
-              ? "bg-[#315BEA] text-white border-[315BEA]"
-              : "bg-[#EEF2FF] text-[#315BEA]"
-          }
-        `}
-                          >
-                            ₹
-                          </button>
-
-                          <button
-                            onClick={() =>
-                              handleNewRowChange(index, "discountType", "%")
-                            }
-                            type="button"
-                            className={`
-         px-2.5
-           py-1
-          text-[10px] 
-          ${
-            u.discountType === "%"
-              ? "bg-[#315BEA] text-white  border-[315BEA]"
-              : "bg-[#EEF2FF] text-[#315BEA] "
-          }
-        `}
-                          >
-                            %
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
-                      <Select
-                        value={
-                          u.tax
-                            ? {
-                                value: u.tax,
-                                label: u.tax,
+                        <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
+                          <div className="flex items-center justify-center gap-2">
+                            <CloseCircle
+                              onClick={() =>
+                                !u.isFromApi && handleDeleteNewRow(index)
                               }
-                            : null
-                        }
-                        onChange={(selected) =>
-                          handleNewRowChange(
-                            index,
-                            "tax",
-                            selected?.value || "",
-                          )
-                        }
-                        placeholder="Select"
-                        options={[
-                          {
-                            value: "GST",
-                            label: "GST",
-                          },
-                          {
-                            value: "No Tax",
-                            label: "No Tax",
-                          },
-                        ]}
-                        isSearchable={false}
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        menuPortalTarget={document.body}
-                        styles={CustomStylesTable}
-                      />
-                    </td>
-                    <td className="px-3 py-1.5 border-l border-[#EEEEEE]">
-                      <span className="text-[14px] text-[#222222]">
-                        ₹{" "}
-                        {calculateRowAmount(u).finalAmount.toLocaleString(
-                          "en-IN",
-                          {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          },
-                        )}
-                      </span>
-                    </td>
-                    <td className="px-2 py-1.5 border-l border-[#EEEEEE]">
-                      <div className="flex items-center justify-center gap-2">
-                        <CloseCircle
-                          onClick={() =>
-                            !u.isFromApi && handleDeleteNewRow(index)
-                          }
-                          size="18"
-                          className={
-                            u.isFromApi
-                              ? "text-gray-400 cursor-not-allowed opacity-40"
-                              : "text-red-500 cursor-pointer"
-                          }
-                        />
+                              size="18"
+                              className={
+                                u.isFromApi
+                                  ? "text-gray-400 cursor-not-allowed opacity-40"
+                                  : "text-red-500 cursor-pointer"
+                              }
+                            />
+                          </div>
+                        </td>
+                      </tr>
 
-                        <span className="text-[#666666] text-[16px] cursor-pointer">
-                          ⋮
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
+                      {(rowErrors[index]?.am_name ||
+                        rowErrors[index]?.amount) && (
+                        <tr className="border-b border-[#EEEEEE]">
+                          <td className="px-3 pb-2">
+                            {rowErrors[index]?.am_name && (
+                              <ErrorMessage
+                                message={rowErrors[index].am_name}
+                                type="error"
+                              />
+                            )}
+                          </td>
 
-                  {(rowErrors[index]?.am_name || rowErrors[index]?.amount) && (
-                    <tr className="border-b border-[#EEEEEE]">
-                      <td />
-
-                      <td colSpan={2} className="px-3 pb-2">
-                        {rowErrors[index]?.am_name && (
-                          <ErrorMessage
-                            message={rowErrors[index].am_name}
-                            type="error"
-                          />
-                        )}
-                      </td>
-
-                      <td colSpan={2} className="px-3 pb-2">
-                        {rowErrors[index]?.amount && (
-                          <ErrorMessage
-                            message={rowErrors[index].amount}
-                            type="error"
-                          />
-                        )}
-                      </td>
-
-                      <td />
-
-                      <td />
-                    </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+                          <td colSpan={2} className="px-3 pb-2">
+                            {rowErrors[index]?.amount && (
+                              <ErrorMessage
+                                message={rowErrors[index].amount}
+                                type="error"
+                              />
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-11 mt-2">
-          <div className="col-span-5">
+        <div className="grid grid-cols-1 md:grid-cols-10 mt-2 gap-4">
+          <div className="col-span-4">
             <button
               type="button"
               onClick={handleAddNewRow}
@@ -1386,47 +1202,94 @@ function NewInvoice() {
             </button>
           </div>
 
-          <div className="col-span-5 flex justify-end">
-            <div className="w-[265px] overflow-hidden rounded-[4px]">
-              <div className="flex items-center justify-between px-3 py-2 bg-[#FAFAFA]">
-                <span className="text-[14px] text-[#4B4B4B]">
-                  Sub Total
-                  <span className="text-[10px] text-[#4B4B4B] ml-1">
-                    (Tax Inclusive)
-                  </span>
-                </span>
+          <div className="col-span-4">
+            <div className="w-full  overflow-hidden rounded-[4px]">
+              <div className="flex items-center justify-between px-3 py-1.5 bg-[#FAFAFA]">
+                <span className="text-[12px] text-[#4B4B4B]">Sub Total</span>
 
-                <span className="text-[11px] font-medium text-[#1E1E1E]">
+                <span className="text-[14px]  font-semibold  text-[#1E1E1E]">
                   {" "}
+                  ₹{" "}
                   {subTotal.toLocaleString("en-IN", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
                 </span>
               </div>
-
               <div className="flex items-center justify-between px-3 py-2 bg-[#FAFAFA]">
-                <span className="text-[14px] text-[#4B4B4B]">
-                  Tax Applied
-                  <span className="text-[10px] text-[#4B4B4B] ml-1">(18%)</span>
-                </span>
+                <span className="text-[12px] text-[#4B4B4B]">Discount</span>
 
-                <span className="text-[11px] font-medium text-[#1E1E1E]">
-                  {" "}
-                  ₹{" "}
-                  {taxAmount.toLocaleString("en-IN", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
+                <div className="flex items-center gap-1">
+                  <div className="flex shrink-0 overflow-hidden rounded border border-[#DCDCDC]">
+                    <button
+                      type="button"
+                      onClick={() => setDiscountType("₹")}
+                      className={`
+        px-2.5
+        py-1
+        text-[10px]
+        ${
+          discountType === "₹"
+            ? "bg-[#315BEA] text-white"
+            : "bg-[#EEF2FF] text-[#315BEA]"
+        }
+      `}
+                    >
+                      ₹
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setDiscountType("%")}
+                      className={`
+        px-2.5
+        py-1
+        text-[10px]
+        ${
+          discountType === "%"
+            ? "bg-[#315BEA] text-white"
+            : "bg-[#EEF2FF] text-[#315BEA]"
+        }
+      `}
+                    >
+                      %
+                    </button>
+                  </div>
+                  <input
+                    type="number"
+                    min="0"
+                    value={discount}
+                    onChange={(e) => {
+                      let value = e.target.value;
+
+                      if (discountType === "%" && Number(value) > 100) {
+                        value = "100";
+                      }
+
+                      setDiscount(value);
+                    }}
+                    placeholder="0"
+                    className="
+      w-[55px]
+      h-[26px]
+      px-1
+      text-[12px]
+      text-right font-semibold
+      border border-[#DCDCDC]
+      rounded-[3px]
+      outline-none
+      bg-white
+    "
+                  />
+                </div>
               </div>
 
               <div className="flex items-center justify-between px-3 py-2.5 bg-[#F2F4F6]">
-                <span className="text-[14px] font-semibold text-[#505F76]">
+                <span className="text-[14px] font-bold text-[#505F76]">
                   TOTAL AMOUNT
                 </span>
 
-                <span className="text-[13px] font-semibold text-[#1E1E1E]">
+                <span className="text-[16px] font-bold text-[#1E1E1E]">
                   ₹{" "}
                   {Number(totalAmount || 0).toLocaleString("en-IN", {
                     minimumFractionDigits: 2,
@@ -1438,17 +1301,18 @@ function NewInvoice() {
           </div>
         </div>
 
-        <div className="mt-5 w-[90%]">
-          <label className="block mb-1.5 text-[12px] font-medium text-[#444444]">
-            Terms & Conditions
-          </label>
+        <div className="grid grid-cols-1 md:grid-cols-10 mt-2 gap-4">
+          <div className="col-span-1 md:col-span-8 min-w-0">
+            <label className="block mb-1.5 text-[12px] font-medium text-[#444444]">
+              Terms & Conditions
+            </label>
 
-          <textarea
-            value={termsAndConditions}
-            onChange={(e) => setTermsAndConditions(e.target.value)}
-            rows={4}
-            placeholder="Enter the terms & conditions for this invoice"
-            className="
+            <textarea
+              value={termsAndConditions}
+              onChange={(e) => setTermsAndConditions(e.target.value)}
+              rows={4}
+              placeholder="Enter the terms & conditions for this invoice"
+              className="
       w-full
  
       resize-none
@@ -1463,69 +1327,70 @@ function NewInvoice() {
       placeholder:text-[#A5A5A5]
       focus:border-[#B8C4E8]
     "
-          />
+            />
+          </div>
         </div>
 
-        <div className="flex items-center w-[90%] justify-between mt-4">
-          <p className="m-0 text-[14px] text-[#505F76]">
-            Note: Each Description will generates as Separate Invoices.
-          </p>
+        <div>
+          {allfielderrmsg.trim() !== "" && (
+            <ErrorMessage message={allfielderrmsg} type="error" />
+          )}
+          {tableErrmsg.trim() !== "" && (
+            <ErrorMessage message={tableErrmsg} type="error" />
+          )}
+          {state.InvoiceList.unableAddInvoiceDetailsError && (
+            <ErrorMessage
+              message={state.InvoiceList.unableAddInvoiceDetailsError}
+              type="error"
+            />
+          )}
 
-          <div className="flex items-center gap-5">
-            <button
-              onClick={handleBackBill}
-              type="button"
-              className="
+          {state.InvoiceList.recurringEditError && (
+            <div className="flex justify-center my-1">
+              <ErrorMessage
+                message={state.InvoiceList.recurringEditError}
+                type="error"
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <p className="m-0 text-[14px] text-[#505F76]">
+          Note: Each Description will generates as Separate Invoices.
+        </p>
+
+        <div className="flex items-center gap-5">
+          <button
+            onClick={handleBackBill}
+            type="button"
+            className="
         text-[10px]
         text-[#333333]
         hover:text-black text-[16px] font-[Gilroy] 
       "
-            >
-              Cancel
-            </button>
+          >
+            Cancel
+          </button>
 
-            <button
-              disabled={formLoading}
-              onClick={billData ? handleEditBill : handleCreateBill}
-              className="w-fit  bg-[#1E45E1] text-white px-5 font-medium h-[40px] 
+          <button
+            disabled={formLoading}
+            onClick={billData ? handleEditBill : handleCreateBill}
+            className="w-fit  bg-[#1E45E1] text-white px-5 font-medium h-[40px] 
                     rounded-[8px] text-[16px] font-[Gilroy] 
                      disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"
-            >
-              {billData ? "Save Changes" : "Save & Generate"}
-            </button>
-          </div>
+          >
+            {billData ? "Save Changes" : "Save & Generate"}
+          </button>
         </div>
       </div>
+
       {formLoading && (
         <div className="absolute top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
           <div className="w-[40px] h-[40px] border-t-4 border-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
         </div>
       )}
-
-      <div>
-        {allfielderrmsg.trim() !== "" && (
-          <ErrorMessage message={allfielderrmsg} type="error" />
-        )}
-        {tableErrmsg.trim() !== "" && (
-          <ErrorMessage message={tableErrmsg} type="error" />
-        )}
-        {state.InvoiceList.unableAddInvoiceDetailsError && (
-          <ErrorMessage
-            message={state.InvoiceList.unableAddInvoiceDetailsError}
-            type="error"
-          />
-        )}
-
-        {state.InvoiceList.recurringEditError && (
-          <div className="flex justify-center my-1">
-            <ErrorMessage
-              message={state.InvoiceList.recurringEditError}
-              type="error"
-            />
-          </div>
-        )}
-      </div>
-      <div className="mb-3"></div>
     </div>
   );
 }
