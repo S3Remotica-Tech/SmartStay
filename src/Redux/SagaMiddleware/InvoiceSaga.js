@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  createManualInvoice,
   getInitializeRecordPayment,
   getInitializeMakeDiscount,
   getAllBills,
@@ -1330,10 +1331,10 @@ function* handleGetAmenities(action) {
   try {
     const response = yield call(GetAmenities, action.payload);
 
-       const hostelId = GlobalHostelId(response);
+    const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
-          }
+    }
 
     if (response?.status === 200) {
       yield put({
@@ -1681,6 +1682,53 @@ function* handleManualInvoiceAdd(params) {
           payload: error.response.data,
         });
       }
+    }
+  }
+}
+
+function* handleCreateManualInvoice(params) {
+  try {
+    const response = yield call(createManualInvoice, params.payload);
+
+    if (response?.status === 201) {
+      yield put({
+        type: "CREATE_MANUAL_BILL_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "UNABLE_ADD_INVOICE_DETAILS",
+        payload: error.response.data,
+      });
     }
   }
 }
@@ -2508,6 +2556,7 @@ function* InvoiceSaga() {
   yield takeEvery("GET-MANUAL-INVOICE-AMOUNTS", handleManualInvoiceGetData);
   yield takeEvery("GET-RECURRING-BILL-AMOUNTS", handleRecurrbillamountData);
   yield takeEvery("MANUAL-INVOICE-ADD", handleManualInvoiceAdd);
+  yield takeEvery("CREATE_MANUAL_BILL_SAGA", handleCreateManualInvoice);
   yield takeEvery("MANUAL-INVOICE-EDIT", handleManualInvoiceEdit);
   yield takeEvery("MANUAL-INVOICE-DELETE", handleManualInvoiceDelete);
   yield takeEvery("RECURRING-BILLS-ADD", handleRecurrBillsAdd);

@@ -60,6 +60,16 @@ export async function AddManualInvoiceBill(manualinvoice) {
   );
 }
 
+export async function createManualInvoice(manualinvoice) {
+  return await AxiosConfigV2.post(
+    `/v2/bills/manual/${manualinvoice.customerId}`,
+    manualinvoice,
+    {
+      data: manualinvoice,
+    },
+  );
+}
+
 export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
   return AxiosConfigV2.put(`/v2/bills/${hostelId}/${invoiceId}`, items);
 }

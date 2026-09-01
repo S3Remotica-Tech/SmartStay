@@ -277,9 +277,14 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     }
   }, [state.createAccount?.networkError]);
 
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   return (
     <div>
-      <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{

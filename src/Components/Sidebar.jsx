@@ -114,6 +114,7 @@ import Request from "../Pages/Request/Request";
 import ChangeBedPgView from "../Pages/Request/ChangeBedPgView";
 import TenantAppControls from "../Pages/Settings/TenantAppControls";
 import AddTemplate from "../Pages/Settings/Agreement/AddTemplate";
+import NewInvoice from "../Pages/Bills/NewInvoice";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1637,7 +1638,14 @@ function Sidebar() {
                     </div>
                   }
                 />
-
+                <Route
+                  path="/create-invoice"
+                  element={
+                    <div className="mt-1 ml-2.5 mr-1">
+                      <NewInvoice />
+                    </div>
+                  }
+                />
                 <Route
                   path="/tenant/details/:tenantId"
                   element={

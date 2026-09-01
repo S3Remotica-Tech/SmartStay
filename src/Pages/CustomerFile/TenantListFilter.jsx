@@ -16,11 +16,9 @@ function TenantListFilter({ show, handleClose, size }) {
   const dispatch = useDispatch();
   const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
     useState([]);
- 
 
   const [period, setPeriod] = useState(null);
   const [sharingType, setSharingType] = useState(null);
- 
 
   const [tenantName, setTenantName] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -29,7 +27,7 @@ function TenantListFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (show && savedFilters) {
       setTenantName(savedFilters.search || "");
-     
+
       const selectedStatusOptions = tenantStatusOptions.filter((option) =>
         savedFilters.status?.includes(option.value),
       );
@@ -38,7 +36,6 @@ function TenantListFilter({ show, handleClose, size }) {
         (option) => option.value === savedFilters.period,
       );
       setPeriod(selectedPeriod || null);
-      
 
       const selecteSharingType = SharingTypeOptions.find(
         (option) => option.value === savedFilters?.sharingType,
@@ -207,7 +204,7 @@ function TenantListFilter({ show, handleClose, size }) {
   const handleTenantStatusChange = (selectedOptions) => {
     if (!selectedOptions || selectedOptions.length === 0) {
       setSelectedTenantStatusOptions([]);
-     
+
       return;
     }
 
@@ -216,10 +213,8 @@ function TenantListFilter({ show, handleClose, size }) {
     if (isAllSelected) {
       const allOption = selectedOptions.find((opt) => opt.value === "ALL");
       setSelectedTenantStatusOptions([allOption]);
-      
     } else {
       setSelectedTenantStatusOptions(selectedOptions);
-      
     }
   };
 
@@ -297,9 +292,14 @@ function TenantListFilter({ show, handleClose, size }) {
     }
   }, [state.UsersList?.UserListStatusCode]);
 
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   return (
     <div>
-      <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{

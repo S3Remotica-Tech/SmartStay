@@ -113,7 +113,7 @@ function BookingsFilter({ show, handleClose, size }) {
   const [formLoading, setFormLoading] = useState(false);
   const previousFilters = state.Booking?.bookingFilters;
 
-  console.log("previousFilters", previousFilters);
+  // console.log("previousFilters", previousFilters);
 
   const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
 
@@ -297,9 +297,14 @@ function BookingsFilter({ show, handleClose, size }) {
     }
   }, [show]);
 
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   return (
     <div>
-      <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{

@@ -11,6 +11,90 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
+const CustomStyles = {
+  control: (base) => ({
+    ...base,
+    height: "auto",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    color: "#4B4B4B",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    outline: "none",
+    "&:hover": {
+      border: "1px solid #D9D9D9",
+    },
+  }),
+  valueContainer: (base) => ({
+    ...base,
+    maxHeight: "60px",
+    overflowY: "auto",
+    flexWrap: "wrap",
+  }),
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: "#FFF",
+    borderRadius: "6px",
+  }),
+
+  multiValueLabel: (base) => ({
+    ...base,
+    fontSize: "12px",
+    fontWeight: 600,
+    color: "#000000",
+  }),
+
+  multiValueRemove: (base) => ({
+    ...base,
+    cursor: "pointer",
+    borderRadius: 10,
+    color: "#FF0000",
+    ":hover": {
+      color: "#FF0000",
+    },
+  }),
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #ced4da",
+    fontFamily: "Gilroy, sans-serif",
+    fontSize: "14px",
+  }),
+  menuList: (base) => ({
+    ...base,
+    backgroundColor: "#f8f9fa",
+    maxHeight: "120px",
+    padding: 0,
+    scrollbarWidth: "thin",
+    overflowY: "auto",
+    fontFamily: "Gilroy, sans-serif",
+    fontSize: "14px",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#555",
+  }),
+  option: (base, state) => ({
+    ...base,
+    cursor: "pointer",
+    backgroundColor: state.isFocused ? "" : "white",
+    color: "#000",
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#555",
+    cursor: "pointer",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+  clearIndicator: () => ({
+    display: "none",
+  }),
+};
 function InvoiceRegisterFilter({
   show,
   handleClose,
@@ -38,91 +122,6 @@ function InvoiceRegisterFilter({
 
   const [outstandingMin, setOutstandingMin] = useState("");
   const [outstandingMax, setOutstandingMax] = useState("");
-
-  const CustomStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }),
-    multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
-
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
-
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif",
-      fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: "#000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    clearIndicator: () => ({
-      display: "none",
-    }),
-  };
 
   const filterOptionsData = useSelector(
     (state) => state?.reports?.getInvoiceRegister?.filterOptions,
@@ -398,11 +397,20 @@ function InvoiceRegisterFilter({
       type: "SET_INVOICE_REGISTER_FILTERS",
       payload: InvoiceFilter,
     });
-    const hasFilters = Object.values(InvoiceFilter).some(
-      (v) => v !== undefined && v !== 0,
-    );
 
-    if (!hasFilters) return;
+    // const hasFilters =
+    //   Boolean(tenantName?.trim()) ||
+    //   billStatus?.length > 0 ||
+    //   invoiceMode?.length > 0 ||
+    //   invoiceType?.length > 0 ||
+    //   createdBy?.length > 0 ||
+    //   Boolean(period?.value) ||
+    //   Boolean(paidAmountMin) ||
+    //   Boolean(paidAmountMax) ||
+    //   Boolean(outstandingMin) ||
+    //   Boolean(outstandingMax);
+
+    // // if (!hasFilters) return;
 
     const isOnlyAllStatus =
       Array.isArray(billStatus) &&
@@ -438,9 +446,14 @@ function InvoiceRegisterFilter({
   const outstandingMinVal = Number(outstandingMin);
   const outstandingMaxVal = Number(outstandingMax);
 
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   return (
     <div>
-      <Offcanvas show={show} onHide={handleClose} placement="end">
+      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
         <Offcanvas.Header>
           <Offcanvas.Title
             style={{

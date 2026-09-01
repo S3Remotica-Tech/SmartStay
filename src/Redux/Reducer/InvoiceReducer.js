@@ -536,6 +536,14 @@ const InvoiceReducer = (state = initialState, action) => {
     case "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD":
       return { ...state, manualInvoiceAddStatusCode: 0 };
 
+    case "CREATE_MANUAL_BILL_REDUCER":
+      return {
+        ...state,
+        manualInvoiceAddStatusCode: action.payload.statusCode,
+      };
+    case "REMOVE_STATUS_CODE_CREATE_MANUAL_BILL_REDUCER":
+      return { ...state, manualInvoiceAddStatusCode: 0 };
+
     case "MANUAL_BILL_UPDATE_UNPAID_REDUCER":
       return {
         ...state,
