@@ -77,33 +77,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const A4_HEIGHT = 1123;
   const previewContainerRef = useRef(null);
 
-  // useEffect(() => {
-  //   const calculateFitWidth = () => {
-  //     if (!previewContainerRef.current) return;
-
-  //     const containerWidth = previewContainerRef.current.clientWidth;
-
-  //     // Keep some space around the A4
-  //     const horizontalPadding = 30;
-
-  //     const availableWidth = containerWidth - horizontalPadding;
-
-  //     const newZoom = availableWidth / A4_WIDTH;
-
-  //     setZoom(newZoom);
-  //   };
-
-  //   calculateFitWidth();
-
-  //   window.addEventListener("resize", calculateFitWidth);
-
-  //   return () => {
-  //     window.removeEventListener("resize", calculateFitWidth);
-  //   };
-  // }, []);
-
-  // const bookingCreditDetails = state?.Booking?.advanceInitialize;
-
   useEffect(() => {
     const updateScale = () => {
       if (!previewContainerRef.current) return;

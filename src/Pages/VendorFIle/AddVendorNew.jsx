@@ -1021,7 +1021,7 @@ function AddVendorNew() {
       if (!vendorOverView) return;
 
       setVendorName(vendorOverView.fullName || "");
-      setBusinessMobile(vendorOverView.mobile || "");
+      setBusinessMobile(vendorOverView.mobile?.replace(/^\+91\s?/, "") || "");
       setBusinessName(vendorOverView.businessName || "");
       setEmail_Id(vendorOverView.emailId || "");
 
