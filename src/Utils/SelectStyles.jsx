@@ -1,55 +1,140 @@
+export const CustomStyles = {
+  control: (base, state) => {
+    const selectedValue = state.getValue()?.[0]?.value;
 
-export const customSelectStyles = (fontWeightCondition) => ({
-  control: (base) => ({
-    ...base,
-    fontSize: "16px",
-    color: "#4B4B4B",
-    fontFamily: "Gilroy",
-    fontWeight: fontWeightCondition ? 600 : 500,
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    boxShadow: "none",
-    height: "50px",
-  }),
+    const isActualSelected =
+      state.hasValue && selectedValue && selectedValue !== "ALL";
+
+    return {
+      ...base,
+      minHeight: "32px",
+      height: "32px",
+      width: "100%",
+      border: `1px solid ${
+        state.isFocused ? "#5865F2" : isActualSelected ? "#5865F2" : "#E5E5E5"
+      }`,
+      borderRadius: "8px",
+      fontSize: "12px",
+      fontFamily: "Gilroy, sans-serif",
+      fontWeight: 500,
+      boxShadow: "none",
+      cursor: "pointer",
+
+      backgroundColor: isActualSelected
+        ? "#1E45E1"
+        : state.isFocused
+          ? "#FFFFFF"
+          : "#F7F7F7",
+
+      "&:hover": {
+        borderColor: state.isFocused
+          ? "#5865F2"
+          : isActualSelected
+            ? "#5865F2"
+            : "#D1D5DB",
+
+        backgroundColor: isActualSelected
+          ? "#5865F2"
+          : state.isFocused
+            ? "#FFFFFF"
+            : "#F0F0F0",
+      },
+    };
+  },
+
+  singleValue: (base, state) => {
+    const selectedValue = state.getValue()?.[0]?.value;
+
+    const isActualSelected = selectedValue && selectedValue !== "ALL";
+
+    return {
+      ...base,
+      color: isActualSelected ? "#FFFFFF" : "#6B7280",
+      fontWeight: 500,
+    };
+  },
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: "13px",
+      padding: "6px 12px",
+
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#FFFFFF",
+
+      color: "#111827",
+      cursor: "pointer",
+      whiteSpace: "nowrap",
+      overflow: "visible",
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #5865F2",
+        fontWeight: 500,
+      }),
+
+      "&:hover": {
+        backgroundColor: "#F3F4F6",
+      },
+    };
+  },
 
   menu: (base) => ({
     ...base,
-    backgroundColor: "#f8f9fa",
-    border: "1px solid #ced4da",
-    fontFamily: "Gilroy",
+    backgroundColor: "#FFFFFF",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
   }),
 
   menuList: (base) => ({
     ...base,
-    backgroundColor: "#f8f9fa",
-    maxHeight: "120px",
+    maxHeight: "100px",
     padding: 0,
-    scrollbarWidth: "thin",
     overflowY: "auto",
-    fontFamily: "Gilroy",
   }),
 
-  placeholder: (base) => ({
+  valueContainer: (base) => ({
     ...base,
-    color: "#9aa0a6",
-    fontWeight: 500,
-    opacity: 1,
+    padding: "0 8px",
   }),
 
-  dropdownIndicator: (base) => ({
+  indicatorsContainer: (base) => ({
     ...base,
-    color: "#555",
-    cursor: "pointer",
+    height: "32px",
   }),
 
-  option: (base, state) => ({
-    ...base,
-    cursor: "pointer",
-    backgroundColor: state.isFocused ? "lightblue" : "white",
-    color: "#000",
-  }),
+  dropdownIndicator: (base, state) => {
+    const selectedValue = state.getValue()?.[0]?.value;
+
+    const isActualSelected = selectedValue && selectedValue !== "ALL";
+
+    return {
+      ...base,
+      padding: "4px",
+      color: isActualSelected
+        ? "#FFFFFF"
+        : state.isFocused
+          ? "#5865F2"
+          : "#6B7280",
+
+      "&:hover": {
+        color: isActualSelected ? "#FFFFFF" : "#5865F2",
+      },
+    };
+  },
 
   indicatorSeparator: () => ({
     display: "none",
   }),
-});
+};
