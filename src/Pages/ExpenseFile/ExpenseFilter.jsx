@@ -9,6 +9,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+
 const selectStyles = {
   control: (base, state) => ({
     ...base,
@@ -116,7 +117,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   const [formLoading, setFormLoading] = useState(false);
   const [paymentMode, setPaymentMode] = useState([]);
   const [createdBy, setCreatedBy] = useState([]);
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [selectedBillStatus, setSelectedBillStatus] = useState(null);
@@ -128,13 +129,13 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
 
   const filterOptionsData = useSelector(
-    (state) => state.reports?.getExpenseRegister?.filtersData,
+    (state) => state.ExpenseList.expenseList?.filterOptions,
   );
 
   const categoryOptions =
     filterOptionsData?.category?.map((item) => ({
-      label: item.categoryName,
-      value: item.categoryId,
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const vendorOptions =
@@ -173,11 +174,12 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       value: item.id,
     })) || [];
 
-  const filters = state.reports?.expenseRegisterFilters;
+  const filters = state.ExpenseList?.expenseFilters;
 
   useEffect(() => {
     if (show && filters) {
-      setCategory(filters.category || []);
+      setCategory(filters.categoryId || "");
+
       setPaymentMode(filters.paymentMode || []);
       setCreatedBy(filters.createdBy || []);
       setPeriod(filters.period || null);
@@ -250,13 +252,12 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   };
 
   const handleCategoryChange = (selected) => {
-    setCategory(selected.map((opt) => opt.value));
-    setSelectedCategory(selected.map((opt) => opt.label));
+    setCategory(selected?.value || "");
+    setSelectedCategory(selected.label);
   };
 
-  const selectedCategoryOptions = categoryOptions?.filter((opt) =>
-    category?.includes(opt.value),
-  );
+  const selectedCategoryOption =
+    categoryOptions?.find((opt) => opt.value === category) || null;
 
   const handleSubCategoryChange = (selected) => {
     setSubCategory(selected.map((opt) => opt.value));
@@ -282,7 +283,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
     if (!state.login?.selectedHostel_Id) return;
 
     const expnseFilter = {
-      category: category?.length ? category : undefined,
+      categoryId: category?.length ? category : undefined,
       categoryLabel: selectedCategory?.length ? selectedCategory : undefined,
       subCategory: subCategory?.length ? subCategory : undefined,
       subCategoryLabel: selectedSubCategory?.length
@@ -295,8 +296,6 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       period: period ? period : "",
       createdByLabels: selectedCollectedBylabels,
 
-      page: page,
-      size: size,
       startDate: period ? undefined : startDate,
       endDate: period ? undefined : endDate,
       vendorId: selectedVendor?.value,
@@ -304,24 +303,23 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
       paymentStatus: selectedBillStatus?.value,
     };
 
-    // console.log("expnseFilter", expnseFilter);
+    console.log("expnseFilter", expnseFilter);
 
     dispatch({
-      type: "SET_EXPENSE_REGISTER_FILTERS",
-      payload: expnseFilter,
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
+        categoryName: selectedCategory?.length ? selectedCategory : undefined,
+        categoryId: category?.length ? category : undefined,
+      },
     });
 
-    const hasFilters = Object.values(expnseFilter).some(
-      (v) => v !== undefined && v !== "" && v !== 0,
-    );
-
-    if (!hasFilters) return;
-
     dispatch({
-      type: "GET_REPORTS_EXPENSE_REGISTER_SAGA",
+      type: "EXPENSELIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        filters: expnseFilter,
+        categoryId: category?.length ? category : undefined,
+        page: 1,
+        size: size,
       },
     });
 
@@ -344,37 +342,43 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
   return (
     <div>
-      <Offcanvas show={show} onHide={handleFilterClose} placement="end">
-        <Offcanvas.Header>
-          <Offcanvas.Title
-            style={{
-              color: "#222222",
-              fontSize: 20,
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            <Filter className="me-2" size="20" color="#364153" />
+      {show && (
+        <div
+          className="fixed inset-0 bg-black/30 z-[1040]"
+          onClick={handleFilterClose}
+        />
+      )}
+
+      <div
+        className={`
+      fixed top-0 right-0 h-screen w-[400px] max-w-[90vw]
+      bg-white shadow-xl z-[1050]
+      flex flex-col
+      transition-transform duration-300 ease-in-out
+      ${show ? "translate-x-0" : "translate-x-full"}
+    `}
+      >
+        <div className="flex items-center justify-between px-4 py-4 border-b border-[#E0E0E0] flex-shrink-0">
+          <div className="flex items-center text-[#222222] text-[20px] font-semibold font-gilroy">
+            <Filter className="mr-2" size="20" color="#364153" />
             Filter
-          </Offcanvas.Title>
+          </div>
 
           <IoCloseOutline
             onClick={handleClose}
-            style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }}
+            className="text-[#FF0000] text-[20px] cursor-pointer"
           />
-        </Offcanvas.Header>
+        </div>
 
-        <Offcanvas.Body className="pt-0">
-          <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+        <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls">
+          <div className="mb-3 font-gilroy">
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Vendor
-              </Form.Label>
+              </label>
 
               <Select
+                isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={vendorOptions}
@@ -383,14 +387,15 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                 value={selectedVendor}
                 onChange={(selected) => setSelectedVendor(selected)}
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Payment Status
-              </Form.Label>
+              </label>
 
               <Select
+                isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={paymentStatus}
@@ -399,166 +404,167 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
                 value={selectedBillStatus}
                 onChange={(selected) => setSelectedBillStatus(selected)}
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Category
-              </Form.Label>
+              </label>
 
               <Select
-                isMulti
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={categoryOptions}
-                value={selectedCategoryOptions}
+                value={selectedCategoryOption}
                 onChange={handleCategoryChange}
                 styles={selectStyles}
-                components={{ Option: CheckboxOption }}
                 placeholder="Select Category"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Sub Category
-              </Form.Label>
+              </label>
 
               <Select
-                isMulti
+                isDisabled
+                // isMulti isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={subCategoryOptions}
                 value={selectedSubCategoryOptions}
                 onChange={handleSubCategoryChange}
                 styles={selectStyles}
-                components={{ Option: CheckboxOption }}
+                components={{
+                  Option: CheckboxOption,
+                }}
                 placeholder="Select Sub Category"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Period
-              </Form.Label>
+              </label>
+
               <Select
+                isDisabled
                 styles={selectStyles}
                 value={selectedPeriodOption}
                 onChange={handlePeriodChange}
                 options={periodOptions}
-                placeholder="Select Period "
+                placeholder="Select Period"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Payment Mode
-              </Form.Label>
+              </label>
 
               <Select
                 isMulti
+                isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 options={paymentModeOptions}
                 value={selectedPaymentModeOptions}
                 onChange={handlePaymentMode}
                 styles={selectStyles}
-                components={{ Option: CheckboxOption }}
+                components={{
+                  Option: CheckboxOption,
+                }}
                 placeholder="Select Payment Mode"
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group className="mb-3">
-              <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Created By
-              </Form.Label>
+              </label>
+
               <Select
                 isMulti
+                isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
                 styles={selectStyles}
                 value={selectedCreatedByOption}
                 onChange={handleCreatedByChange}
                 options={createdByOptions}
-                components={{ Option: CheckboxOption }}
+                components={{
+                  Option: CheckboxOption,
+                }}
                 placeholder="Select"
               />
-            </Form.Group>
+            </div>
           </div>
-        </Offcanvas.Body>
+        </div>
 
         {formLoading && (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "transparent",
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
+          <div className="absolute inset-0 z-[1060] flex items-center justify-center bg-white/20">
             <div
-              style={{
-                borderTop: "4px solid #1E45E1",
-                borderRight: "4px solid transparent",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                animation: "spin 1s linear infinite",
-              }}
-            ></div>
+              className="
+            w-10 h-10
+            border-4 border-[#1E45E1]
+            border-r-transparent
+            rounded-full
+            animate-spin
+          "
+            />
           </div>
         )}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "15px 20px",
-            borderTop: "1px solid #e0e0e0",
-            position: "sticky",
-            bottom: 0,
-            background: "#fff",
-            zIndex: 10,
-          }}
-        >
-          <Button
+        <div className="flex-shrink-0 flex items-center justify-between gap-3 px-5 py-[15px] border-t border-[#E0E0E0] bg-white z-10">
+          <button
+            type="button"
             onClick={() => {
               setPeriod("");
               setPaymentMode([]);
-              // setPaidTo([]);
               setCreatedBy([]);
-              setCategory([]);
+              setCategory("");
               setSelectedVendor("");
               setSelectedBillStatus("");
             }}
-            style={{
-              backgroundColor: "transparent",
-              border: "1px solid #D9D9D9",
-              color: "black",
-              fontFamily: "Gilroy",
-              width: "48%",
-            }}
+            className="
+          w-1/2
+          h-[38px]
+          rounded-md
+          border border-[#D9D9D9]
+          bg-transparent
+          text-black
+          font-gilroy
+          text-[14px]
+          font-medium
+          hover:bg-[#F5F5F5]
+          transition-colors
+        "
           >
             Reset
-          </Button>
-          <Button
+          </button>
+
+          <button
+            type="button"
             onClick={handleFilterBills}
-            style={{
-              backgroundColor: "#1E45E1",
-              width: "48%",
-              fontFamily: "Gilroy",
-            }}
+            className="
+          w-1/2
+          h-[38px]
+          rounded-md
+          border border-[#1E45E1]
+          bg-[#1E45E1]
+          text-white
+          font-gilroy
+          text-[14px]
+          font-medium
+          hover:bg-[#1638B5]
+          transition-colors
+        "
           >
             Apply
-          </Button>
+          </button>
         </div>
-      </Offcanvas>
+      </div>
     </div>
   );
 }

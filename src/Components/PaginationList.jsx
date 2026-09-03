@@ -43,8 +43,11 @@ function PaginationList({
   const minItemsToShowPagination = 10;
   if (totalItems <= minItemsToShowPagination) return null;
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  // const endIndex = startIndex + itemsPerPage;
+  const startIndex =
+    totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+
+  const endIndex =
+    totalItems === 0 ? 0 : Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
     <div className="font-gilroy">
@@ -77,12 +80,7 @@ function PaginationList({
             <ArrowLeft2 size="16" color="#1E45E1" />
           </button>
           <span className="text-sm text-[#374151] whitespace-nowrap px-2">
-            {totalItems === 0
-              ? "0-0"
-              : `${currentPage} - ${Math.min(
-                  itemsPerPage,
-                  totalItems - startIndex,
-                )}`}
+            {`${startIndex} - ${endIndex}`}
           </span>
 
           <button

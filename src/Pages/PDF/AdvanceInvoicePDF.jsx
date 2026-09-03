@@ -73,11 +73,11 @@ function AdvanceInvoicePDF() {
           </div>
 
           <div className="mt-2 sm:pl-4">
-            <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
+            <div className="text-[16px] font-semibold text-[#2B2B2B] font-gilroy">
               {pdfDetails?.stayInfo?.hostelName}
             </div>
 
-            <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
+            <div className="text-[12px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
               {pdfDetails?.configurations?.address}
             </div>
           </div>
@@ -481,33 +481,39 @@ function AdvanceInvoicePDF() {
           </p>
         </div>
       </div>
-
-      <hr
-        className="mb-2"
+      <div
+        className="absolute left-0 right-0 bottom-4"
         style={{
-          border: "none",
-          height: "1px",
-          background: templateColor,
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          borderRadius: "2px",
+          background: "#FFFFFF",
         }}
-      />
-      <div className="px-5">
-        <div className="flex items-center justify-between text-center rounded-t-[38px]">
-          <p className="mb-0 text-[13px] font-gilroy font-medium text-[#4B4B4B]">
-            Email:{" "}
-            <span className="text-[13px] font-gilroy font-semibold text-[#222222]">
-              {pdfDetails?.emailId}
-            </span>
-          </p>
+      >
+        <hr
+          className="mb-2"
+          style={{
+            border: "none",
+            height: "1px",
+            background: templateColor,
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            borderRadius: "2px",
+          }}
+        />
+        <div className="px-5">
+          <div className="flex items-center justify-between text-center rounded-t-[38px]">
+            <p className="mb-0 text-[13px] font-gilroy font-medium text-[#4B4B4B]">
+              Email:{" "}
+              <span className="text-[13px] font-gilroy font-semibold text-[#222222]">
+                {pdfDetails?.emailId}
+              </span>
+            </p>
 
-          <p className="mb-0 text-[13px] font-gilroy font-medium text-[#4B4B4B]">
-            Contact:{" "}
-            <span className="text-[13px] font-gilroy font-semibold text-[#222222]">
-              {pdfDetails?.mobile &&
-                `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
-            </span>
-          </p>
+            <p className="mb-0 text-[13px] font-gilroy font-medium text-[#4B4B4B]">
+              Contact:{" "}
+              <span className="text-[13px] font-gilroy font-semibold text-[#222222]">
+                {pdfDetails?.mobile &&
+                  `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

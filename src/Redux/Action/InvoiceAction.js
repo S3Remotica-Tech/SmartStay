@@ -62,7 +62,7 @@ export async function AddManualInvoiceBill(manualinvoice) {
 
 export async function createManualInvoice(manualinvoice) {
   return await AxiosConfigV2.post(
-    `/v2/bills/manual/${manualinvoice.customerId}`,
+    `/v2/bills/manual/${manualinvoice.hostelId}/${manualinvoice.customerId}`,
     manualinvoice,
     {
       data: manualinvoice,

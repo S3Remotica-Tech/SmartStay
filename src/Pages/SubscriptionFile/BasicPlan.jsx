@@ -31,7 +31,6 @@ function SubscriptionCard() {
     }
   };
 
-
   const handleDownload = (item) => {
     setOpenMenu(null);
     if (item) {
@@ -101,7 +100,7 @@ function SubscriptionCard() {
   }, [state.InvoiceList?.subscriptionPdfError]);
 
   return (
-    <div className="mt-4 mb-12 max-h-[500px] overflow-y-auto font-gilroy show-scrolls relative">
+    <div className="mt-0 max-h-[500px] overflow-y-auto font-gilroy show-scrolls relative">
       <div className="p-4 mb-4 mr-2 rounded-[14px] bg-[#F8F9FF] border-2 border-[#1E45E1]">
         <div className="flex justify-between">
           <div className="flex gap-3 mb-3">
@@ -191,8 +190,8 @@ function SubscriptionCard() {
         Billing History
       </h5>
       {currentPlan?.billingHistory?.length > 0 ? (
-        <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] mt-4 ">
-          <div className="max-h-[200px] overflow-y-auto  rounded-xl border-[#E8E8E8] show-scrolls">
+        <div className="bg-white  rounded-xl shadow-sm border border-[#E8E8E8] my-4 ">
+          <div className="max-h-[400px] overflow-y-auto  rounded-xl border-[#E8E8E8] show-scrolls">
             <table className="w-full text-sm text-[#222]">
               <thead className="bg-gray-50 sticky top-0 z-40 text-[#6B7280] text-xs">
                 <tr className="h-8">

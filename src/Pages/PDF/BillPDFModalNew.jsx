@@ -9,12 +9,9 @@ import Mail from "../../Assets/Images/gmail.png";
 import Mail_white from "../../Assets/Images/gmail_white.png";
 import Message_text from "../../Assets/Images/message-text.png";
 import Message_text_white from "../../Assets/Images/message-white.png";
-
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-
 import { DocumentDownload, Edit, RefreshSquare, Link21 } from "iconsax-react";
-
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 import { ArrowUp2, ArrowDown2, Add } from "iconsax-react";
@@ -42,19 +39,90 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState("");
+
   const modalRef = useRef(null);
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
-  const innerScrollRef = useRef(null);
+  // const innerScrollRef = useRef(null);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showWaiveModal, setShowWaiveModal] = useState(false);
   const [activeTab, setActiveTab] = useState("payments");
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
 
   const InvoiceId = pdfDetails?.invoiceId || pdfDetails?.invoiceInfo?.invoiceId;
+  const [isOpen, setIsOpen] = useState(false);
+  const [applyInvoice, setApplyInvoice] = useState(false);
+  const [applyRetainer, setApplyRetainer] = useState(false);
+  const [label, setLabel] = useState("");
+  const [bookingModal, setBookingModal] = useState(false);
+  const [advanceDetails, setAdvanceDetails] = useState("");
+  const [isVisible, setIsVisible] = useState(true);
+  const [selectedUserId, setSelectedUserId] = useState("");
 
-  // const bookingCreditDetails = state?.Booking?.advanceInitialize;
+  const [invoiceList, setInvoiceList] = useState({
+    balanceDue: "",
+    invoiceId: "",
+    invoiceDate: "",
+  });
+
+  const [openMenu, setOpenMenu] = useState(false);
+  const [showRefuseModal, setShowRefuseModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [zoom, setZoom] = useState(1);
+  const A4_WIDTH = 794;
+  const A4_HEIGHT = 1123;
+  const [contentHeight, setContentHeight] = useState(A4_HEIGHT);
+  const previewContainerRef = useRef(null);
+  const pdfContentRef = useRef(null);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (!previewContainerRef.current) return;
+
+      const containerWidth = previewContainerRef.current.clientWidth;
+
+      const padding = 40;
+
+      const availableWidth = Math.max(containerWidth - padding, 0);
+
+      const fitScale = availableWidth / A4_WIDTH;
+
+      const scale = Math.min(fitScale, 1);
+
+      setZoom(scale);
+    };
+
+    updateScale();
+
+    const observer = new ResizeObserver(updateScale);
+
+    observer.observe(previewContainerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pdfContentRef.current) return;
+
+    const updateHeight = () => {
+      setContentHeight(pdfContentRef.current.scrollHeight);
+    };
+
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+
+    observer.observe(pdfContentRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [pdfDetails]);
 
   const menuItems = [
     {
@@ -76,30 +144,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       key: "whatsapp",
     },
   ];
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [applyInvoice, setApplyInvoice] = useState(false);
-  const [applyRetainer, setApplyRetainer] = useState(false);
-  const [label, setLabel] = useState("");
-  const [bookingModal, setBookingModal] = useState(false);
-  const [advanceDetails, setAdvanceDetails] = useState("");
-  // const [applyBookingInvoice, setBookingApplyInvoice] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [selectedUserId, setSelectedUserId] = useState("");
-
-  const [invoiceList, setInvoiceList] = useState({
-    balanceDue: "",
-    invoiceId: "",
-    invoiceDate: "",
-  });
-
-  const [openMenu, setOpenMenu] = useState(false);
-  const [showRefuseModal, setShowRefuseModal] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-  // const [showEditModal, setShowEditModal] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [editData, setEditData] = useState(null);
-  // const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const handleCloseForm = () => {
     setShowform(false);
@@ -212,22 +256,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     state.InvoiceList?.sharePdfError,
   ]);
 
-  // useEffect(() => {
-  //   if (state.InvoiceList?.makeInvoiceDiscountStatus === 200) {
-
-  //     dispatch({
-  //       type: "GETPARTICULARBILLSDETAILS",
-  //       payload: {
-  //         hostelId: pdfDetails?.hostelId,
-  //         invoiceId: pdfDetails?.invoiceId,
-  //       },
-  //     });
-  //     setTimeout(() => {
-  //       dispatch({ type: "REMOVE_INVOICE_DISCOUNT_REDUCER" });
-  //     });
-  //   }
-  // }, [state.InvoiceList?.makeInvoiceDiscountStatus]);
-
   useEffect(() => {
     if (state.InvoiceList.sharePdfSuccess) {
       setPdfLoading(false);
@@ -300,49 +328,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
   const isExportAllow = isValidSubscription && canReadInvoice;
-
-  // const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
-
-  // const templateColor = pdfDetails?.configurations?.templateColor;
-  // const isGradient = templateColor?.includes("linear-gradient");
-
-  // const textStyle = isGradient
-  //   ? {
-  //       fontFamily: "Gilroy",
-  //       fontWeight: 600,
-  //       background: templateColor,
-  //       WebkitBackgroundClip: "text",
-  //       WebkitTextFillColor: "transparent",
-  //     }
-  //   : {
-  //       fontFamily: "Gilroy",
-  //       fontWeight: 600,
-  //       color: templateColor || "#1E45E1",
-  //     };
-
-  // const getIconStyle = (templateColor) => {
-  //   const isGradient = templateColor?.includes("linear-gradient");
-
-  //   return isGradient
-  //     ? {
-  //         background: templateColor,
-  //         WebkitBackgroundClip: "text",
-  //         WebkitTextFillColor: "transparent",
-  //         display: "inline-flex",
-  //         alignItems: "center",
-  //         justifyContent: "center",
-  //       }
-  //     : { color: templateColor || "#4B4B4B" };
-  // };
-
-  // const totalDeductions = pdfDetails?.invoiceInfo?.listDeductions?.reduce(
-  //   (sum, item) => sum + Number(item.amount || 0),
-  //   0,
-  // );
-
-  // const showRentalPeriod =
-  //   pdfDetails?.configurations?.invoiceType === "Rent" &&
-  //   pdfDetails?.invoiceType !== "SETTLEMENT";
 
   const handleNavigateRecordPayment = (pdfDetails) => {
     setShowform(true);
@@ -432,8 +417,6 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     (totalAmount < 0 && paymentStatus === "Pending");
 
   const isSettlement = pdfDetails?.configInfo?.invoiceType === "Rent";
-  // const isRent =
-  //   pdfDetails?.invoiceInfo?.invoiceItems?.[0]?.description === "Rent";
 
   const isNotDiscounted = pdfDetails?.invoiceInfo?.isDiscounted === false;
 
@@ -782,28 +765,52 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           </div>
         </div>
 
-        <div className="relative h-[calc(120vh-80px)] overflow-y-auto bg-[#F7F8FC] py-[10px]   flex justify-center p-3 show-scrolls">
+        <div
+          className="relative h-[calc(120vh-80px)] overflow-y-auto bg-[#F7F8FC] py-[10px] 
+          flex justify-center p-3 show-scrolls"
+        >
+          {isVisible && (
+            <div
+              ref={previewContainerRef}
+              className="relative flex-1 overflow-auto bg-[#F7F8FC] show-scrolls"
+            >
+              <div className="min-h-full flex justify-center items-start ">
+                <div
+                  style={{
+                    width: `${A4_WIDTH * zoom}px`,
+                    height: `${contentHeight * zoom}px`,
+                    flexShrink: 0,
+                  }}
+                >
+                  <div
+                    ref={pdfContentRef}
+                    className="bg-white shadow-md rounded"
+                    style={{
+                      width: `${A4_WIDTH}px`,
+                      minHeight: `${A4_HEIGHT}px`,
+                      height: "auto",
+                      transform: `scale(${zoom})`,
+                      transformOrigin: "top left",
+                    }}
+                  >
+                    {pdfDetails?.configurations?.invoiceType === "Advance" ? (
+                      <AdvanceInvoicePDF />
+                    ) : pdfDetails?.configurations?.invoiceType === "Rent" ? (
+                      <RentInvoicePDF />
+                    ) : pdfDetails?.invoiceInfo?.isNewPattern ? (
+                      <FinalSettlementInvoicePDF />
+                    ) : (
+                      <FinalSettlementOldPDF />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {pdfLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10">
               <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
-          {isVisible && (
-            <div className="w-[90%] rounded-lg mb-5">
-              <div
-                ref={innerScrollRef}
-                className="bg-white rounded-lg  shadow-md"
-              >
-                {pdfDetails?.configurations?.invoiceType === "Advance" ? (
-                  <AdvanceInvoicePDF />
-                ) : pdfDetails?.configurations?.invoiceType === "Rent" ? (
-                  <RentInvoicePDF />
-                ) : pdfDetails?.invoiceInfo?.isNewPattern ? (
-                  <FinalSettlementInvoicePDF />
-                ) : (
-                  <FinalSettlementOldPDF />
-                )}
-              </div>
             </div>
           )}
         </div>

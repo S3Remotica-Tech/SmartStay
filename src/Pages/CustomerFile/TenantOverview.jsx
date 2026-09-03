@@ -19,6 +19,7 @@ import {
   InfoCircle,
   ArrowLeft,
   Timer1,
+  CalendarTick,
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,7 +79,8 @@ import KYCTenantDetails from "./KYCTenantDetails";
 import TenantJobDetails from "./TenantJobDetails";
 import RemoveRentRevision from "./RemoveRentRevision";
 import TenantRetainerInvoice from "./TenantRetainerInvoice";
-
+import AddTenant from "../PayingGuestFile/AddTenant";
+import DeleteDraftTenant from "../CustomerFile/DeleteDraftTenant";
 function TenantOverview(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -129,10 +131,11 @@ function TenantOverview(props) {
   const [CheckOutDetails, setCheckOutDetails] = useState("");
   const [EditObj, setEditObj] = useState("");
   const menuRef = useRef(null);
-
+  const [showMenuNewTenant, setShowMenuNewTenant] = useState(false);
+  const [deleteDraftTenant, setDeleteDraftTenant] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-
+  const [DraftTenantDetails, setDraftTenantDetails] = useState("");
   const handleShowActions = () => {
     setShowAction(true);
   };
@@ -156,7 +159,7 @@ function TenantOverview(props) {
 
   const {
     canWriteModule: canWriteTenant,
-
+    canDeleteModule: canDeleteTenant,
     canUpdateModule: canUpdateTenant,
   } = useHasPermission("Customers");
 
@@ -217,6 +220,52 @@ function TenantOverview(props) {
       },
     });
   };
+
+  const handleShowDraftTenant = (item) => {
+    setShowMenuNewTenant(true);
+    setDraftTenantDetails(item);
+  };
+  const handleCloseAddTenant = () => {
+    setShowMenuNewTenant(false);
+  };
+
+  const handleDeleteTenant = (item) => {
+    setDeleteDraftTenant(true);
+    setDraftTenantDetails(item?.customerId);
+  };
+
+  const handleCloseDeleteDraftTenant = () => {
+    setDeleteDraftTenant(false);
+  };
+
+  useEffect(() => {
+    if (state.UsersList?.deleteDraftTenantSuccessCode === 204) {
+      setDeleteDraftTenant(false);
+      handleNavigateTenant();
+      dispatch({ type: "REMOVE_DELETE_DRAFT_TENANT_REDUCER" });
+    }
+  }, [state.UsersList?.deleteDraftTenantSuccessCode]);
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+
+      dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForDirectCheckInCustomer === 201) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: CustomerOverView?.customerId },
+      });
+      dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
+    }
+  }, [state.UsersList?.statusCodeForDirectCheckInCustomer]);
 
   useEffect(() => {
     if (state.UsersList.createRetainerInvoiceStatusCode === 201) {
@@ -1348,6 +1397,62 @@ function TenantOverview(props) {
                         </button>
                       </>
                     )}
+
+                    {state.UsersList.customerdetails?.customerCurrentStatus ===
+                      "DRAFT" && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (canWriteTenant) {
+                              handleShowDraftTenant(CustomerOverView);
+                            }
+                          }}
+                          disabled={!canWriteTenant}
+                          className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${
+      canWriteTenant
+        ? "cursor-pointer hover:bg-blue-100"
+        : "cursor-not-allowed opacity-60"
+    }`}
+                        >
+                          <CalendarTick
+                            size={16}
+                            variant="Linear"
+                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                          />
+
+                          <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                            Draft Continue
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={!canDeleteTenant}
+                          onClick={() => handleDeleteTenant(CustomerOverView)}
+                          className={`flex items-center gap-2 px-3 py-2 transition rounded-md w-full
+    ${
+      canDeleteTenant
+        ? "cursor-pointer hover:bg-red-50"
+        : "cursor-not-allowed opacity-60"
+    }`}
+                        >
+                          <Trash
+                            size={16}
+                            variant="Linear"
+                            color={canDeleteTenant ? "#EF4444" : "#9CA3AF"}
+                          />
+
+                          <span
+                            className="text-sm font-medium font-gilroy 
+                                                    whitespace-nowrap text-[#EF4444]"
+                          >
+                            Delete
+                          </span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
@@ -2434,6 +2539,23 @@ function TenantOverview(props) {
         <RemoveRentRevision
           open={showDeletePopup}
           onClose={() => setShowDeletePopup(false)}
+        />
+      )}
+
+      {showMenuNewTenant && (
+        <AddTenant
+          showMenu={showMenuNewTenant}
+          handleClose={handleCloseAddTenant}
+          alreadySaveDraftTenantDetails={DraftTenantDetails}
+          bookingOnly={false}
+        />
+      )}
+
+      {deleteDraftTenant && (
+        <DeleteDraftTenant
+          open={deleteDraftTenant}
+          onClose={handleCloseDeleteDraftTenant}
+          deleteTenantId={DraftTenantDetails}
         />
       )}
     </>

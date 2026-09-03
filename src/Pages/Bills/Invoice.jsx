@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FormControl } from "react-bootstrap";
+// import { FormControl } from "react-bootstrap";
 
 import {
   Setting3,
@@ -19,7 +19,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
+// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -54,98 +54,7 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "32px",
-    height: "32px",
-    width: "100%",
-    border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
-    borderRadius: "8px",
-    fontSize: "12px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: "pointer",
-    backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
-
-    "&:hover": {
-      borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
-    },
-  }),
-
-  singleValue: (base) => ({
-    ...base,
-    color: "#FFF",
-    fontWeight: 500,
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      // margin: "2px 10px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "32px",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: "4px",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
+import { CustomStyles } from "../../Utils/SelectStyles";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -244,26 +153,32 @@ const InvoicePage = () => {
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.outstandingAmount || 0}`,
       icon: true,
       highlight: true,
+      search: "",
     },
     {
       label: "Total Invoices",
       value: `${state.InvoiceList.billsList?.invoiceSummary?.totalInvoices || 0}`,
+      search: "ALL",
     },
     {
       label: "Collected This Month",
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.collectedThisMonth || 0}`,
+      search: "",
     },
     {
       label: "Due Today",
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.todaysDue || 0} `,
+      search: "",
     },
     {
       label: "Overdue Amount",
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.overDueAmount || 0}`,
+      search: "",
     },
     {
       label: "Refund Amount",
       value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.refundAmount || 0}`,
+      search: "PENDING_REFUND",
     },
   ];
 
@@ -480,101 +395,6 @@ const InvoicePage = () => {
     setInvoiceDate("");
     setInvoiceDueDate("");
   };
-
-  const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    return (
-      <div className="date-input-container w-100 relative" onClick={onClick}>
-        <FormControl
-          type="text"
-          value={value || "DD/MM/YYYY"}
-          readOnly
-          ref={ref}
-          className={`date_input w-full h-[50px] border border-[#D9D9D9] rounded-lg p-[9px] text-sm font-gilroy ${
-            value ? "font-semibold" : "font-medium"
-          } bg-white cursor-pointer shadow-none box-border`}
-        />
-        <img
-          src={Calendars}
-          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
-          alt="Calendar"
-          onClick={onClick}
-        />
-      </div>
-    );
-  });
-  CustomStartDateInput.displayName = "CustomStartDateInput";
-
-  const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    return (
-      <div className="date-input-container w-100 relative" onClick={onClick}>
-        <FormControl
-          type="text"
-          value={value || "DD/MM/YYYY"}
-          readOnly
-          ref={ref}
-          className={`date_input w-full h-12 border border-gray-300 rounded-lg p-2.5 text-sm font-gilroy ${
-            value ? "font-semibold" : "font-medium"
-          } bg-white cursor-pointer box-border shadow-none`}
-        />
-        <img
-          src={Calendars}
-          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
-          alt="Calendar"
-          onClick={onClick}
-        />
-      </div>
-    );
-  });
-
-  CustomEndDateInput.displayName = "CustomEndDateInput";
-
-  const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
-    return (
-      <div className="date-input-container w-100 relative" onClick={onClick}>
-        <FormControl
-          type="text"
-          value={value || "DD/MM/YYYY"}
-          readOnly
-          ref={ref}
-          className={`date_input w-full h-12 border border-gray-300 rounded-lg p-2.5 text-sm font-gilroy ${
-            value ? "font-semibold" : "font-medium"
-          } bg-white cursor-pointer box-border shadow-none`}
-        />
-        <img
-          src={Calendars}
-          className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
-          alt="Calendar"
-          onClick={onClick}
-        />
-      </div>
-    );
-  });
-  CustomInvoiceDateInput.displayName = "CustomInvoiceDateInput";
-  const CustomInvoiceDueDateInput = React.forwardRef(
-    ({ value, onClick }, ref) => {
-      return (
-        <div className="date-input-container w-100 relative" onClick={onClick}>
-          <FormControl
-            type="text"
-            value={value || "DD/MM/YYYY"}
-            readOnly
-            ref={ref}
-            className={`date_input w-full h-12 border border-gray-300 rounded-lg p-2.5 text-sm font-gilroy ${
-              value ? "font-semibold" : "font-medium"
-            } bg-white cursor-pointer box-border shadow-none`}
-          />
-          <img
-            src={Calendars}
-            className="w-6 h-6 ml-2.5 right-2.5 cursor-pointer absolute top-1/2 -translate-y-1/2"
-            alt="Calendar"
-            onClick={onClick}
-          />
-        </div>
-      );
-    },
-  );
-
-  CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
 
   const handleDisplayInvoiceDownload = (isVisible) => {
     setDownloadInvoice(isVisible);
@@ -1326,13 +1146,12 @@ const InvoicePage = () => {
                         {item.label}
 
                         <div className="relative group w-fit">
-                         
-                            <Filter
-                              size="14"
-                              color="#9CA3AF"
-                              className="cursor-pointer"
-                            />
-                         
+                          <Filter
+                            onClick={() => setStatusfilter(item.search)}
+                            size="14"
+                            color="#9CA3AF"
+                            className="cursor-pointer"
+                          />
 
                           <div
                             className="absolute left-1/2 -translate-x-1/2 mt-2 

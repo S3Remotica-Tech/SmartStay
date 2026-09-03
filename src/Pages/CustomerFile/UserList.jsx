@@ -49,99 +49,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import AddTenant from "../PayingGuestFile/AddTenant";
 import BookingToCheckin from "./BookingToCheckin";
 import DeleteDraftTenant from "./DeleteDraftTenant";
-
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "32px",
-    height: "32px",
-    width: "100%",
-    border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
-    borderRadius: "8px",
-    fontSize: "12px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: "pointer",
-    backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
-
-    "&:hover": {
-      borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
-    },
-  }),
-
-  singleValue: (base) => ({
-    ...base,
-    color: "#FFF",
-    fontWeight: 500,
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      // margin: "2px 10px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "32px",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: "4px",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
+import { CustomStyles } from "../../Utils/SelectStyles";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -977,26 +885,32 @@ function UserList(props) {
       value: `${userListDetail?.tenantSummary?.totalTenantsCount || 0}`,
       icon: true,
       highlight: true,
+      search: "ALL",
     },
     {
       label: "Active",
       value: `${userListDetail?.tenantSummary?.checkedInCounts || 0}`,
+      search: "CHECK_IN",
     },
     {
       label: "Booked",
       value: `${userListDetail?.tenantSummary?.bookedCounts || 0}`,
+      search: "BOOKED",
     },
     {
       label: "Notice Period",
       value: `${userListDetail?.tenantSummary?.noticePeriodCounts || 0}`,
+      search: "NOTICE",
     },
     {
       label: "Settlement Generate",
       value: `${userListDetail?.tenantSummary?.settlementGenerated || 0}`,
+      search: "SETTLEMENT_GENERATED",
     },
     {
       label: "Check out",
       value: `${userListDetail?.tenantSummary?.vacatedCount || 0}`,
+      search: "VACATED",
     },
   ];
 
@@ -1524,49 +1438,58 @@ function UserList(props) {
                 <PermissionDeniedMessage />
               ) : (
                 <div className="">
-                  <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
-                    {stats?.map((item, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        {item.highlight && (
-                          <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
-                            {item.icon && (
-                              <ArrowDown
-                                color="#FF9500"
-                                size="18"
-                                className="rotate-[310deg]"
-                              />
-                            )}
-                          </div>
-                        )}
+                  <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 font-gilroy">
+                    <div className="flex flex-wrap gap-y-4 gap-x-6 lg:gap-x-12">
+                      {stats?.map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-3 w-full sm:w-[48%] lg:w-auto lg:flex-1"
+                        >
+                          {item.highlight && (
+                            <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center shrink-0">
+                              {item.icon && (
+                                <ArrowDown
+                                  color="#FF9500"
+                                  size="18"
+                                  className="rotate-[310deg]"
+                                />
+                              )}
+                            </div>
+                          )}
 
-                        <div>
-                          <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
-                            {item.label}{" "}
-                            <div className="relative group w-fit">
-                              <Filter
-                                size="14"
-                                color="#9CA3AF"
-                                className="cursor-pointer"
-                              />
+                          <div className="min-w-0">
+                            <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                              <span className="truncate">{item.label}</span>
 
-                              <div
-                                className="absolute left-1/2 -translate-x-1/2 mt-2 
-                                        hidden group-hover:flex
-                                        px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-                                        items-center gap-1 whitespace-nowrap z-50"
-                              >
-                                <Filter size="14" color="#fff" />
-                                Click to Filter
-                              </div>
+                              {item.label !== "Total" && (
+                                <div className="relative group">
+                                  <Filter
+                                    onClick={() => setStatusFilter(item.search)}
+                                    size="14"
+                                    color="#9CA3AF"
+                                    className="cursor-pointer shrink-0"
+                                  />
+
+                                  <div
+                                    className="absolute left-1/2 -translate-x-1/2 mt-2
+                             hidden group-hover:flex px-3 py-1.5
+                             bg-[#4B5563] text-white text-xs rounded-md
+                             items-center gap-1 whitespace-nowrap z-50"
+                                  >
+                                    <Filter size="14" color="#fff" />
+                                    Click to Filter
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="text-lg font-semibold text-[#111827]">
+                              {item.value}
                             </div>
                           </div>
-
-                          <div className="text-lg font-semibold text-[#111827] whitespace-nowrap">
-                            {item.value}
-                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
@@ -2192,25 +2115,33 @@ function UserList(props) {
 
                                               {user.status === "Draft" && (
                                                 <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleShowDraftTenant(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                      if (canWriteTenant) {
+                                                        handleShowDraftTenant(
+                                                          user,
+                                                        );
+                                                      }
+                                                    }}
+                                                    disabled={!canWriteTenant}
+                                                    className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${
+      canWriteTenant
+        ? "cursor-pointer hover:bg-blue-100"
+        : "cursor-not-allowed opacity-60"
+    }`}
                                                   >
                                                     <img
                                                       alt="image"
                                                       src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                      className={`h-4 w-4 ${!canWriteTenant ? "grayscale" : ""}`}
                                                     />
+
                                                     <span className="text-sm font-medium font-gilroy whitespace-nowrap">
                                                       Draft Continue
                                                     </span>
-                                                  </div>
+                                                  </button>
 
                                                   <button
                                                     type="button"

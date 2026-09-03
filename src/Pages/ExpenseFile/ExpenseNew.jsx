@@ -37,99 +37,9 @@ import { TiTick } from "react-icons/ti";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpenseSettlement from "./ExpenseSettlement";
 import PropTypes from "prop-types";
+import ExpenseFilter from "./ExpenseFilter";
 
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "32px",
-    height: "32px",
-    width: "100%",
-    border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
-    borderRadius: "8px",
-    fontSize: "12px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: "pointer",
-    backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
-
-    "&:hover": {
-      borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
-    },
-  }),
-
-  singleValue: (base) => ({
-    ...base,
-    color: "#FFF",
-    fontWeight: 500,
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      // margin: "2px 10px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "32px",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: "4px",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
+import { CustomStyles } from "../../Utils/SelectStyles";
 
 function Expenses() {
   const state = useSelector((state) => state);
@@ -436,11 +346,13 @@ function Expenses() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+      const shouldResetPage = !!debouncedSearch || !!categoryFilter;
+
       dispatch({
         type: "EXPENSELIST",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
+          page: shouldResetPage ? 1 : page,
           size: size,
           categoryId: categoryFilter,
           name: debouncedSearch,
@@ -528,19 +440,6 @@ function Expenses() {
     setChips(filterData);
   }, [state.ExpenseList?.expenseFilters]);
 
-  const { getExpenseStatusCode } = state.ExpenseList;
-
-  useEffect(() => {
-    if (getExpenseStatusCode === 200) {
-      setLoading(false);
-      setGetData(state.ExpenseList.expenseList);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
-      }, 4000);
-    }
-  }, [getExpenseStatusCode, state.ExpenseList.expenseList]);
-
   useEffect(() => {
     setLoading(false);
   }, [state.ExpenseList.expenseList]);
@@ -595,6 +494,14 @@ function Expenses() {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
   };
+  const [expenseFilter, setExpenseFilter] = useState(false);
+
+  const handleClickFilter = () => {
+    setExpenseFilter(true);
+  };
+  const handleCloseFilterBills = () => {
+    setExpenseFilter(false);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -615,6 +522,7 @@ function Expenses() {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
       setGetData(state.ExpenseList.expenseList || []);
       setLoading(false);
+      setExpenseFilter(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
       }, 1000);
@@ -872,7 +780,7 @@ function Expenses() {
                     size={16}
                     onClick={() => {
                       if (canReadExpense) {
-                        // setIsFilterOpen(true);
+                        handleClickFilter();
                       }
                     }}
                     className={`transition-opacity duration-300 ${
@@ -1491,6 +1399,15 @@ function Expenses() {
           show={showSettlementForm}
           handleClose={handleCloseSettlement}
           selectedExpenseId={selectedExpenseId}
+        />
+      )}
+
+      {expenseFilter && (
+        <ExpenseFilter
+          show={expenseFilter}
+          handleClose={handleCloseFilterBills}
+          size={size}
+          page={page}
         />
       )}
     </>

@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
-import {
-  Add,
-
-} from "iconsax-react";
+import { Add } from "iconsax-react";
 
 import Green from "../../Assets/Images/New_images/Frame.png";
 import White from "../../Assets/Images/New_images/empty_bed.png";
@@ -16,7 +13,6 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import PropTypes from "prop-types";
 
 function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
- 
   const state = useSelector((state) => state);
   const [selectedBed, setSelectedBed] = useState("");
   const [hoveredBedId, setHoveredBedId] = useState("");
@@ -205,7 +201,7 @@ function PgLayoutView({ show, handleClose, selectedBedDetails, isWay }) {
                       >
                         <div className="bg-[#E0ECFF] border-b border-[#E6E6E6] rounded-t-xl p-2">
                           <div className="text-[14px] font-semibold text-[#222222] truncate">
-                            Room no. {room.name}
+                            {room.name}
                           </div>
                           <div className="text-xs text-[#7C7C7C]">
                             {room?.sharingType}{" "}

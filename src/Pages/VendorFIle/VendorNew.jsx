@@ -38,99 +38,7 @@ import { useNavigate } from "react-router-dom";
 import VendorOverView from "./VendorOverView";
 import ApiPagination from "../../Components/ApiPagination";
 import PropTypes from "prop-types";
-
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "32px",
-    height: "32px",
-    width: "100%",
-    border: `1px solid ${state.hasValue ? "#1E45E1" : "#D1D5DB"}`,
-    borderRadius: "8px",
-    fontSize: "12px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: "pointer",
-    backgroundColor: state.hasValue ? "#1E45E1" : "#fff",
-
-    "&:hover": {
-      borderColor: state.hasValue ? "#1E45E1" : "#D1D5DB",
-    },
-  }),
-
-  singleValue: (base) => ({
-    ...base,
-    color: "#FFF",
-    fontWeight: 500,
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      // margin: "2px 10px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "32px",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: "4px",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
+import { CustomStyles } from "../../Utils/SelectStyles";
 
 function Vendor() {
   const state = useSelector((state) => state);
@@ -164,6 +72,9 @@ function Vendor() {
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const [categoryFilter, setCategoryFilter] = useState("ALL");
+  console.log("categoryFilter", categoryFilter);
+
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
   const popupRef = useRef(null);
@@ -203,10 +114,9 @@ function Vendor() {
       },
     });
   };
-  const [categoryFilter, setCategoryFilter] = useState("");
 
   const handleCategoryFilter = (selected) => {
-    setCategoryFilter(selected?.value || "");
+    setCategoryFilter(selected?.value || "ALL");
 
     dispatch({
       type: "SET_VENDOR_FILTERS",
@@ -279,11 +189,16 @@ function Vendor() {
     }
   }, [popupPosition]);
 
-  const categoryOptions =
-    filteredData?.filterOptions?.category?.map((item) => ({
+  const categoryOptions = [
+    { value: "ALL", label: "All" },
+    ...(filteredData?.filterOptions?.category?.map((item) => ({
       value: item.type,
       label: item.name,
-    })) || [];
+    })) || []),
+  ];
+
+  const selectedCategoryOption =
+    categoryOptions.find((option) => option.value === categoryFilter) || null;
 
   const paymentStatusOptions =
     filteredData?.filterOptions?.paymentStatus?.map((status) => ({
@@ -297,10 +212,12 @@ function Vendor() {
       value: filteredData?.vendorSummary?.totalVendors ?? 0,
       highlight: true,
       icon: true,
+      search: "All",
     },
     {
       label: "Total Purchase",
       value: `₹ ${filteredData?.vendorSummary?.totalPurchase ?? 0}`,
+      search: "All",
     },
     {
       label: "Total Paid",
@@ -309,6 +226,7 @@ function Vendor() {
     {
       label: "Outstanding (Payable)",
       value: `₹ ${filteredData?.vendorSummary?.outstandingAmount ?? 0}`,
+      search: "Partially  Paid",
     },
   ];
 
@@ -435,13 +353,16 @@ function Vendor() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+      const shouldResetPage =
+        !!debouncedSearch || !!categoryFilter || !!paymentStatus;
+      const categoryFilterBy = categoryFilter === "ALL" ? "" : categoryFilter;
       dispatch({
         type: "VENDORLIST",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: page,
+          page: shouldResetPage ? 1 : page,
           size: size,
-          categoryId: categoryFilter,
+          categoryId: categoryFilterBy,
           paymentStatus: String(paymentStatus),
           name: debouncedSearch,
         },
@@ -480,7 +401,7 @@ function Vendor() {
       setChips([]);
       setSearchQuery("");
       setPaymentStatus("");
-      setCategoryFilter("");
+      setCategoryFilter("ALL");
     };
   }, []);
 
@@ -507,7 +428,7 @@ function Vendor() {
     setChips([]);
     setSearchQuery("");
     setPaymentStatus("");
-    setCategoryFilter("");
+    setCategoryFilter("ALL");
   };
 
   useEffect(() => {
@@ -941,18 +862,25 @@ function Vendor() {
                   <div>
                     <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
                       {item.label}
-
-                      <div className="relative group w-fit">
-                        <div
-                          className="absolute left-1/2 -translate-x-1/2 mt-2 
+                      {item.label !== "Total Paid" && (
+                        <div className="relative group w-fit">
+                          <Filter
+                            onClick={() => setPaymentStatus(item.search)}
+                            size="14"
+                            color="#9CA3AF"
+                            className="cursor-pointer"
+                          />
+                          <div
+                            className="absolute left-1/2 -translate-x-1/2 mt-2 
                           hidden group-hover:flex
                           px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
                           items-center gap-1 whitespace-nowrap z-50"
-                        >
-                          <Filter size="14" color="#fff" />
-                          Click to Filter
+                          >
+                            <Filter size="14" color="#fff" />
+                            Click to Filter
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
 
                     <div className="text-lg font-semibold text-[#111827]">
@@ -977,11 +905,7 @@ function Vendor() {
                     menuPlacement="auto"
                     classNamePrefix="custom"
                     onChange={handleCategoryFilter}
-                    value={
-                      categoryOptions.find(
-                        (opt) => opt.value === categoryFilter,
-                      ) || null
-                    }
+                    value={selectedCategoryOption}
                     id="statusselect"
                   />
                 </div>
@@ -1538,7 +1462,7 @@ function Vendor() {
                 isClearSearch={true}
                 handleClear={() => {
                   setSearchQuery("");
-                  setCategoryFilter("");
+                  setCategoryFilter("ALL");
                   setPaymentStatus("");
                   handleReset();
                 }}

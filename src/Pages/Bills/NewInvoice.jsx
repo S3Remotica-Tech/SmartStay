@@ -223,7 +223,7 @@ function NewInvoice() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const errorRef = useRef(null);
   const location = useLocation();
   const { id, billData, isDisabledOverview } = location.state || {};
 
@@ -236,6 +236,7 @@ function NewInvoice() {
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [termsAndConditions, setTermsAndConditions] = useState("");
+  const [addRowError, setAddRowError] = useState("");
   const [newRows, setNewRows] = useState([
     {
       itemType: "",
@@ -245,6 +246,8 @@ function NewInvoice() {
       isFromApi: false,
     },
   ]);
+
+  console.log("newRows", newRows);
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
@@ -257,14 +260,14 @@ function NewInvoice() {
   const joiningDate = selectedCustomer?.joiningDate;
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
-  const [discountType, setDiscountType] = useState("%");
+  const [discountType, setDiscountType] = useState("₹");
 
-  console.log("newRows", newRows);
+  console.log("discount", discount);
 
   const [tableErrmsg, setTableErrmsg] = useState("");
 
   const subTotal = newRows.reduce((total, row) => {
-    return total + Number(row.amount || row.rate || 0);
+    return total + Number(row.amount || 0);
   }, 0);
 
   const discountAmount =
@@ -275,7 +278,7 @@ function NewInvoice() {
   const totalAmount = subTotal - discountAmount;
 
   const customerOptions =
-    state.UsersList?.TenantList?.customersLists?.map((u) => ({
+    state.UsersList?.TenantList?.map((u) => ({
       value: u.customerId,
       label: u.fullName,
       details: u,
@@ -284,18 +287,6 @@ function NewInvoice() {
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
-
-  useEffect(() => {
-    if (billData) {
-      dispatch({
-        type: "GETINITIALIZEEDITRECURRING",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          invoiceId: billData?.invoiceId,
-        },
-      });
-    }
-  }, [billData]);
 
   const options = {
     dateFormat: "d/m/Y",
@@ -369,7 +360,7 @@ function NewInvoice() {
     setTableErrmsg("");
   };
 
-  const isApiEBPresent = newRows.some(
+  const isApiEBPresent = newRows?.some(
     (row) => row.isFromApi && row.itemType === "EB",
   );
 
@@ -448,14 +439,17 @@ function NewInvoice() {
 
     const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
     dispatch({
-      type: "MANUAL-INVOICE-ADD",
+      type: "CREATE_MANUAL_BILL_SAGA",
       payload: {
         customerId: customername,
+        hostelId: state.login.selectedHostel_Id,
         invoiceDate: formatinvoicedate,
         invoiceNumber: invoicenumber,
-        total_amount: totalAmount,
-        items: newRows.map((row) => ({
-          invoiceItem: row.itemType,
+        isDiscounted: Number(discount) > 0,
+        discountAmount: discount,
+        notes: termsAndConditions,
+        invoiceItems: newRows.map((row) => ({
+          invoiceItem: row.itemType === "Other" ? row.am_name : row.itemType,
           amount: parseFloat(row.amount) || 0,
         })),
       },
@@ -523,6 +517,13 @@ function NewInvoice() {
     const hasAdvance = newRows.some((row) => row.itemType === "advance");
 
     if (hasAdvance) {
+      setAddRowError(
+        "Advance type is already selected. Other items cannot be created",
+      );
+
+      setTimeout(() => {
+        setAddRowError("");
+      }, 3000);
       return;
     }
     setNewRows((prev) => [
@@ -610,8 +611,20 @@ function NewInvoice() {
   };
 
   useEffect(() => {
+    if (billData) {
+      dispatch({
+        type: "GETINITIALIZEEDITRECURRING",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: billData?.invoiceId,
+        },
+      });
+    }
+  }, [billData]);
+
+  useEffect(() => {
     if (id || billData?.customerId) {
-      const selectedCustomer = state.UsersList.TenantList.customersLists?.find(
+      const selectedCustomer = state.UsersList.TenantList?.find(
         (u) => u.customerId === (id || billData?.customerId),
       );
 
@@ -619,7 +632,7 @@ function NewInvoice() {
         setCustomerName(selectedCustomer.customerId);
       }
     }
-  }, [id, state.UsersList?.TenantList?.customersLists, billData]);
+  }, [id, state.UsersList?.TenantList, billData]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -673,12 +686,23 @@ function NewInvoice() {
   ]);
 
   useEffect(() => {
+    if (state.InvoiceList.unableAddInvoiceDetailsError) {
+      errorRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      errorRef.current?.focus();
+    }
+  }, [state.InvoiceList.unableAddInvoiceDetailsError]);
+
+  useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          purpose: "ADVANCE_HOLDING",
+          purpose: "BILL",
         },
       });
     }
@@ -837,9 +861,7 @@ function NewInvoice() {
                       Billed to
                     </p>
                   </div>
-                  <p className="text-[12px] text-[#555] mb-0">
-                    {selectedCustomer?.addressInfo?.houseNo || "Address"},
-                  </p>
+
                   {selectedCustomer?.addressInfo?.houseNo && (
                     <p className="text-[12px] text-[#555] mb-0">
                       {selectedCustomer?.addressInfo?.houseNo},
@@ -861,26 +883,27 @@ function NewInvoice() {
                   <div className="flex gap-1 ">
                     {selectedCustomer?.addressInfo?.city && (
                       <p className="text-[12px] text-[#555] mb-0 capitalize">
-                        {selectedCustomer.addressInfo.city || "City"} ,
+                        {selectedCustomer.addressInfo.city || ""},
                       </p>
                     )}
                     {selectedCustomer?.addressInfo?.pincode !== 0 && (
                       <p className="text-[12px] text-[#555] mb-0">
-                        {selectedCustomer?.addressInfo?.pincode || "pincode"},
+                        {selectedCustomer?.addressInfo?.pincode || ""},
                       </p>
                     )}
                   </div>
 
                   {selectedCustomer?.addressInfo?.state && (
                     <p className="text-[12px] text-[#555] mb-0 capitalize">
-                      {selectedCustomer.addressInfo.state || "State"}
+                      {selectedCustomer.addressInfo.state || ""},
                     </p>
                   )}
-
-                  <p className="mt-1 text-[12px] text-[#555] mb-0">
-                    + {selectedCustomer?.country || "country"}{" "}
-                    {selectedCustomer?.mobile || "mobile No"}
-                  </p>
+                  {selectedCustomer?.mobile && (
+                    <p className="mt-1 text-[12px] text-[#555] mb-0">
+                      + {selectedCustomer?.country || ""}{" "}
+                      {selectedCustomer?.mobile || ""}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -1099,7 +1122,7 @@ function NewInvoice() {
                           <input
                             type="number"
                             onWheel={(e) => e.target.blur()}
-                            value={u.rate !== "0" ? u.rate : ""}
+                            value={u.amount !== "0" ? u.amount : ""}
                             placeholder="₹ 0"
                             onChange={(e) => {
                               const value = e.target.value;
@@ -1189,7 +1212,7 @@ function NewInvoice() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-10 mt-2 gap-4">
-          <div className="col-span-4">
+          <div className="col-span-4 relative">
             <button
               type="button"
               onClick={handleAddNewRow}
@@ -1212,6 +1235,27 @@ function NewInvoice() {
               <Add size="12" color="#315BEA" />
               Add New Row
             </button>
+
+            {addRowError && (
+              <div
+                className="
+        absolute
+        left-0
+        bottom-full
+        mb-2
+        z-50
+        px-3
+        py-2
+        bg-gray-500 text-white
+        text-xs
+        rounded-md
+        whitespace-nowrap
+        shadow-md
+      "
+              >
+                {addRowError}
+              </div>
+            )}
           </div>
 
           <div className="col-span-4">
@@ -1352,10 +1396,12 @@ function NewInvoice() {
             <ErrorMessage message={tableErrmsg} type="error" />
           )}
           {state.InvoiceList.unableAddInvoiceDetailsError && (
-            <ErrorMessage
-              message={state.InvoiceList.unableAddInvoiceDetailsError}
-              type="error"
-            />
+            <div ref={errorRef}>
+              <ErrorMessage
+                message={state.InvoiceList.unableAddInvoiceDetailsError}
+                type="error"
+              />{" "}
+            </div>
           )}
 
           {state.InvoiceList.recurringEditError && (
