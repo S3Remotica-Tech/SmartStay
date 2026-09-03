@@ -34,7 +34,7 @@ function FinalSettlementInvoicePDF() {
       };
 
   return (
-    <div className="font-gilroy relative">
+    <div className="font-gilroy relative  h-screen">
       <div className="p-2 rounded-t-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 items-center px-3 gap-4">
           <div className=" justify-start">
@@ -85,10 +85,7 @@ function FinalSettlementInvoicePDF() {
           Final Settlement Invoice
         </h5>
       </div>
-      <div
-        className="mx-4 rounded-lg px-3 py-3"
-        style={{ border: "1px solid #D7DAE0" }}
-      >
+      <div className="mx-4 rounded-lg px-3 py-3  border-1 border-[#D7DAE0] ">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4  mt-1 font-gilroy">
           <div className="md:col-span-5 mb-3 text-[13px] text-[#222]">
             <div className="mb-2 text-[10px] font-semibold " style={textStyle}>

@@ -72,32 +72,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState(null);
   const [zoom, setZoom] = useState(1);
-
   const A4_WIDTH = 794;
   const A4_HEIGHT = 1123;
+  const [contentHeight, setContentHeight] = useState(A4_HEIGHT);
   const previewContainerRef = useRef(null);
-
-  // useEffect(() => {
-  //   const updateScale = () => {
-  //     if (!previewContainerRef.current) return;
-
-  //     const containerWidth = previewContainerRef.current.clientWidth;
-
-  //     const padding = 40;
-
-  //     const scale = (containerWidth - padding) / A4_WIDTH;
-
-  //     setZoom(scale);
-  //   };
-
-  //   updateScale();
-
-  //   window.addEventListener("resize", updateScale);
-
-  //   return () => {
-  //     window.removeEventListener("resize", updateScale);
-  //   };
-  // }, []);
+  const pdfContentRef = useRef(null);
 
   useEffect(() => {
     const updateScale = () => {
@@ -126,6 +105,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!pdfContentRef.current) return;
+
+    const updateHeight = () => {
+      setContentHeight(pdfContentRef.current.scrollHeight);
+    };
+
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+
+    observer.observe(pdfContentRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [pdfDetails]);
 
   const menuItems = [
     {
@@ -781,15 +778,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 <div
                   style={{
                     width: `${A4_WIDTH * zoom}px`,
-                    height: `${A4_HEIGHT * zoom}px`,
+                    height: `${contentHeight * zoom}px`,
                     flexShrink: 0,
                   }}
                 >
                   <div
-                    className="bg-white shadow-md origin-top-left rounded"
+                    ref={pdfContentRef}
+                    className="bg-white shadow-md rounded"
                     style={{
                       width: `${A4_WIDTH}px`,
-                      height: `${A4_HEIGHT}px`,
+                      minHeight: `${A4_HEIGHT}px`,
+                      height: "auto",
                       transform: `scale(${zoom})`,
                       transformOrigin: "top left",
                     }}
