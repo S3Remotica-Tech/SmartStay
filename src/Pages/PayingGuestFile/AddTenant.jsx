@@ -18,10 +18,8 @@ import {
   AddCircle,
   DocumentUpload,
   Trash,
-  
   DocumentText,
   TableDocument,
- 
   SearchNormal,
 } from "iconsax-react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
@@ -416,10 +414,15 @@ function AddTenant({
 
   useEffect(() => {
     if (alreadySaveDraftTenantDetails) {
-      if (alreadySaveDraftTenantDetails?.apiCall?.customerId) {
+      if (
+        alreadySaveDraftTenantDetails?.apiCall?.customerId ||
+        alreadySaveDraftTenantDetails?.customerId
+      ) {
         dispatch({
           type: "DRAFT_TENANT_LIST_SAGA",
-          payload: alreadySaveDraftTenantDetails?.apiCall?.customerId,
+          payload:
+            alreadySaveDraftTenantDetails?.apiCall?.customerId ||
+            alreadySaveDraftTenantDetails?.customerId,
         });
         setNewTenant(false);
       }
@@ -1246,9 +1249,6 @@ function AddTenant({
       if (step === 1) {
         setStep(2);
       }
-      // else if (step === 1) {
-      //   handleClose();
-      // }
 
       dispatch({
         type: "DRAFT_TENANT_LIST_SAGA",
@@ -1268,94 +1268,9 @@ function AddTenant({
     }
   }, [state.createAccount?.networkError]);
 
-  // const handleNext = () => {
-  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
-  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  //   let hasError = false;
-  //   const focusedRef = { current: false };
-  //   if (
-  //     !validateField(
-  //       firstname,
-  //       "First Name",
-  //       firstnameRef,
-  //       setFirstnameError,
-  //       focusedRef,
-  //     )
-  //   )
-  //     hasError = true;
-  //   if (
-  //     !validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)
-  //   )
-  //     hasError = true;
-  //   if (Phone && Phone.length !== 10) {
-  //     setPhoneError("Please Enter Valid Mobile Number");
-  //     if (!focusedRef.current && phoneRef?.current) {
-  //       phoneRef.current.focus();
-  //       focusedRef.current = true;
-  //     }
-  //     hasError = true;
-  //   } else if (Phone) {
-  //     setPhoneError("");
-  //     setPhoneErrorMessage("");
-  //   }
-
-  //   if (Email) {
-  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
-  //     if (!isValidEmail) {
-  //       setEmailError("Please Enter Valid Email ID");
-  //       if (!focusedRef.current) {
-  //         focusedRef.current = true;
-  //       }
-  //       hasError = true;
-  //     } else {
-  //       setEmailError("");
-  //     }
-  //   } else {
-  //     setEmailError("");
-  //   }
-  //   if (hasError) {
-  //     return;
-  //   }
-  //   const capitalizeFirstLetter = (str) => {
-  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //   };
-
-  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-  //   const basicAndAddressPayload = {
-  //     profilePic: file,
-  //     hostelId: state.login.selectedHostel_Id,
-  //     customerInfo: {
-  //       firstName: capitalizedFirstname,
-  //       lastName: capitalizedLastname,
-  //       mobileNumber: Phone,
-  //       emailId: Email,
-  //       idProofType: idProofType?.value || idProofType || "",
-  //       idProofNo: idProofNo,
-  //       type: 1,
-  //       address: {
-  //         houseNo: house_no,
-  //         street: street,
-  //         landmark: landmark,
-  //         city: city,
-  //         pincode: pincode,
-  //         state: state_name,
-  //       },
-  //     },
-  //   };
-  //   dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
-
-  //   setStep(2);
-  // };
-
   const handleNextStep = () => {
     setStep(3);
   };
-  // const handlePrevious = () => {
-  //   setStep(1);
-  // };
 
   const handleDraftTenant = (customerId) => {
     if (customerId) {
@@ -1613,7 +1528,7 @@ function AddTenant({
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="w-full h-full flex items-center justify-end p-2 ">
+        <div className="w-full h-full flex items-center justify-end p-2 font-gilroy">
           <div className="w-full max-w-[900px] h-[95vh] bg-white rounded-[20px] flex overflow-hidden shadow-lg">
             <div className="w-[250px] min-w-[240px] bg-[#f4f8ff] p-4">
               <h5 className="mb-4 font-gilroy">

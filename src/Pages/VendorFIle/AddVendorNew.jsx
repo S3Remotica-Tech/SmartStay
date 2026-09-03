@@ -872,44 +872,6 @@ function AddVendorNew() {
     }
 
     if (checkMode === "EDIT") {
-      // const currentData = {
-      //   vendorName: vendorName || "",
-      //   businessName: businessName || "",
-      //   businessMobile: businessMobile || "",
-      //   businessMobileCode: businessCountryCode?.value || "",
-      //   email: email_Id || "",
-      //   houseNo: house_no || "",
-      //   landmark: landmark || "",
-      //   city: city || "",
-      //   state: state_name || "",
-      //   pinCode: pinCode || "",
-      //   contactPerson: contactPersonName || "",
-      //   contactPersonMobile: vendor_Mobile || "",
-      //   contactPersonMobileCode: countryCode?.value || "",
-      //   description: description || "",
-      //   gst: gstNumber || "",
-      //   pan: panNumber || "",
-      //   allowCredit: allowCreditPurchase,
-      //   creditLimit: creditLimit || "",
-      //   creditPeriod: creditPeriod || "",
-      //   vendorCategory: vendorCategory || null,
-      // };
-      // const normalize = (obj) =>
-      //   Object.fromEntries(
-      //     Object.entries(obj).map(([key, value]) => [
-      //       key,
-      //       value === null || value === undefined ? "" : String(value).trim(),
-      //     ]),
-      //   );
-
-      // const hasChanges =
-      //   JSON.stringify(currentData) !== JSON.stringify(initialVendorData);
-
-      // if (!hasChanges) {
-      //   setNochanges("No changes detected");
-      //   return;
-      // }
-
       dispatch({
         type: "UPDATEVENDOR",
         payload: {

@@ -71,11 +71,33 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState(null);
-  const [zoom, setZoom] = useState(0.8);
+  const [zoom, setZoom] = useState(1);
 
   const A4_WIDTH = 794;
   const A4_HEIGHT = 1123;
   const previewContainerRef = useRef(null);
+
+  // useEffect(() => {
+  //   const updateScale = () => {
+  //     if (!previewContainerRef.current) return;
+
+  //     const containerWidth = previewContainerRef.current.clientWidth;
+
+  //     const padding = 40;
+
+  //     const scale = (containerWidth - padding) / A4_WIDTH;
+
+  //     setZoom(scale);
+  //   };
+
+  //   updateScale();
+
+  //   window.addEventListener("resize", updateScale);
+
+  //   return () => {
+  //     window.removeEventListener("resize", updateScale);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const updateScale = () => {
@@ -85,17 +107,23 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
       const padding = 40;
 
-      const scale = (containerWidth - padding) / A4_WIDTH;
+      const availableWidth = Math.max(containerWidth - padding, 0);
+
+      const fitScale = availableWidth / A4_WIDTH;
+
+      const scale = Math.min(fitScale, 1);
 
       setZoom(scale);
     };
 
     updateScale();
 
-    window.addEventListener("resize", updateScale);
+    const observer = new ResizeObserver(updateScale);
+
+    observer.observe(previewContainerRef.current);
 
     return () => {
-      window.removeEventListener("resize", updateScale);
+      observer.disconnect();
     };
   }, []);
 

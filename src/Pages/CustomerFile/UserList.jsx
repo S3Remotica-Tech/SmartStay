@@ -1438,52 +1438,58 @@ function UserList(props) {
                 <PermissionDeniedMessage />
               ) : (
                 <div className="">
-                  <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-6 py-3 flex items-center gap-24 font-gilroy ">
-                    {stats?.map((item, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        {item.highlight && (
-                          <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
-                            {item.icon && (
-                              <ArrowDown
-                                color="#FF9500"
-                                size="18"
-                                className="rotate-[310deg]"
-                              />
-                            )}
-                          </div>
-                        )}
-
-                        <div>
-                          <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
-                            {item.label}{" "}
-                            {item.label !== "Total" && (
-                              <div className="relative group w-fit">
-                                <Filter
-                                  onClick={() => setStatusFilter(item.search)}
-                                  size="14"
-                                  color="#9CA3AF"
-                                  className="cursor-pointer"
+                  <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 font-gilroy">
+                    <div className="flex flex-wrap gap-y-4 gap-x-6 lg:gap-x-12">
+                      {stats?.map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-3 w-full sm:w-[48%] lg:w-auto lg:flex-1"
+                        >
+                          {item.highlight && (
+                            <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center shrink-0">
+                              {item.icon && (
+                                <ArrowDown
+                                  color="#FF9500"
+                                  size="18"
+                                  className="rotate-[310deg]"
                                 />
+                              )}
+                            </div>
+                          )}
 
-                                <div
-                                  className="absolute left-1/2 -translate-x-1/2 mt-2 
-                                        hidden group-hover:flex
-                                        px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-                                        items-center gap-1 whitespace-nowrap z-50"
-                                >
-                                  <Filter size="14" color="#fff" />
-                                  Click to Filter
+                          <div className="min-w-0">
+                            <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                              <span className="truncate">{item.label}</span>
+
+                              {item.label !== "Total" && (
+                                <div className="relative group">
+                                  <Filter
+                                    onClick={() => setStatusFilter(item.search)}
+                                    size="14"
+                                    color="#9CA3AF"
+                                    className="cursor-pointer shrink-0"
+                                  />
+
+                                  <div
+                                    className="absolute left-1/2 -translate-x-1/2 mt-2
+                             hidden group-hover:flex px-3 py-1.5
+                             bg-[#4B5563] text-white text-xs rounded-md
+                             items-center gap-1 whitespace-nowrap z-50"
+                                  >
+                                    <Filter size="14" color="#fff" />
+                                    Click to Filter
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </div>
+                              )}
+                            </div>
 
-                          <div className="text-lg font-semibold text-[#111827] whitespace-nowrap">
-                            {item.value}
+                            <div className="text-lg font-semibold text-[#111827]">
+                              {item.value}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
@@ -2109,25 +2115,33 @@ function UserList(props) {
 
                                               {user.status === "Draft" && (
                                                 <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleShowDraftTenant(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                      if (canWriteTenant) {
+                                                        handleShowDraftTenant(
+                                                          user,
+                                                        );
+                                                      }
+                                                    }}
+                                                    disabled={!canWriteTenant}
+                                                    className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${
+      canWriteTenant
+        ? "cursor-pointer hover:bg-blue-100"
+        : "cursor-not-allowed opacity-60"
+    }`}
                                                   >
                                                     <img
                                                       alt="image"
                                                       src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                      className={`h-4 w-4 ${!canWriteTenant ? "grayscale" : ""}`}
                                                     />
+
                                                     <span className="text-sm font-medium font-gilroy whitespace-nowrap">
                                                       Draft Continue
                                                     </span>
-                                                  </div>
+                                                  </button>
 
                                                   <button
                                                     type="button"

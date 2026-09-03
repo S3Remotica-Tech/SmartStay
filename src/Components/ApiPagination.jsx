@@ -27,7 +27,10 @@ function ApiPagination({
 
   const displayPage = isTenantPagination ? currentPage : currentPage + 1;
 
-  const startIndex = totalRecords === 0 ? 0 : (displayPage - 1) * size;
+  const startIndex = totalRecords === 0 ? 0 : (displayPage - 1) * size + 1;
+
+  const endIndex =
+    totalRecords === 0 ? 0 : Math.min(displayPage * size, totalRecords);
 
   const uiPage = isTenantPagination ? currentPage : currentPage + 1;
 
@@ -108,9 +111,10 @@ function ApiPagination({
             </button>
 
             <span className="text-sm text-[#374151] whitespace-nowrap px-2">
-              {totalRecords === 0
+              {/* {totalRecords === 0
                 ? "0-0"
-                : `${uiPage} - ${Math.min(size, totalRecords - startIndex)}`}
+                : `${uiPage} - ${Math.min(size, totalRecords - startIndex)}`} */}
+              {`${startIndex} - ${endIndex}`}
             </span>
             <button
               onClick={() => handleChangePage(uiPage + 1)}

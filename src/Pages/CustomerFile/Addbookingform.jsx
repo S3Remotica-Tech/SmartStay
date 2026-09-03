@@ -106,14 +106,6 @@ function BookingModal(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false);
 
-      // dispatch({
-      //   type: "GET_BOOKING_LIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
 
