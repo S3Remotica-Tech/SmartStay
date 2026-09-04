@@ -1,33 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useSelector } from "react-redux";
-import "../Bills/Invoices.css";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import { TiTick } from "react-icons/ti";
 
 function RentInvoicePDF() {
   const state = useSelector((state) => state);
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
-  const templateColor = pdfDetails?.configurations?.templateColor;
-  // const isGradient = templateColor?.includes("linear-gradient");
+
   const showRentalPeriod =
     pdfDetails?.configurations?.invoiceType === "Rent" &&
     pdfDetails?.invoiceType !== "SETTLEMENT";
-  // const textStyle = isGradient
-  //   ? {
-  //       fontFamily: "Gilroy",
-  //       fontWeight: 600,
-  //       background: templateColor,
-  //       WebkitBackgroundClip: "text",
-  //       WebkitTextFillColor: "transparent",
-  //     }
-  //   : {
-  //       fontFamily: "Gilroy",
-  //       fontWeight: 600,
-  //       color: templateColor || "#1E45E1",
-  //     };
 
-  // const getIconStyle = (templateColor) => {
   //   const isGradient = templateColor?.includes("linear-gradient");
 
   //   return isGradient
@@ -106,7 +90,7 @@ function RentInvoicePDF() {
           Rental Invoice
         </h5>
       </div>
-      <div className="bg-white rounded-lg border-1 border-[#D7DAE0] mx-4 py-4   position-relative ">
+      <div className="bg-white  border-1 border-[#D7DAE0] rounded-lg mx-4 py-4   position-relative ">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4  font-gilroy">
           <div className="md:col-span-6 mb-3 text-[13px] text-[#222]">
             <div className="mb-2 text-[12px] font-semibold italic text-[#5E6470]">
@@ -202,7 +186,7 @@ function RentInvoicePDF() {
 
         <div className="px-4 my-4 ">
           <div className="font-gilroy">
-            <div className="grid grid-cols-12 border-b border-[#DFDFDF] rounded-lg overflow-hidden">
+            <div className="grid grid-cols-12 border-b border-[#DFDFDF]  overflow-hidden">
               <div
                 className={`${pdfDetails?.invoiceInfo?.listDeductions?.length > 0 ? "col-span-12 md:col-span-6  border-r border-[#DFDFDF]" : "col-span-12 md:col-span-12"} flex flex-col`}
               >
@@ -382,7 +366,7 @@ function RentInvoicePDF() {
                   Account No:
                 </label>{" "}
                 <span className="text-[14px] font-medium text-[#171717] font-gilroy">
-                  {pdfDetails?.accountDetails?.accountNo || "N/A"}
+                  {pdfDetails?.accountDetails?.accountNo || ""}
                 </span>
               </div>
 
@@ -391,7 +375,7 @@ function RentInvoicePDF() {
                   IFSC Code:
                 </label>{" "}
                 <span className="text-[14px] font-medium text-[#171717] font-gilroy">
-                  {pdfDetails?.accountDetails?.ifscCode || "N/A"}
+                  {pdfDetails?.accountDetails?.ifscCode || ""}
                 </span>
               </div>
 
@@ -400,7 +384,7 @@ function RentInvoicePDF() {
                   Bank Name:
                 </label>{" "}
                 <span className="text-[14px] font-medium text-[#171717] font-gilroy">
-                  {pdfDetails?.accountDetails?.bankName || "N/A"}
+                  {pdfDetails?.accountDetails?.bankName || ""}
                 </span>
               </div>
 
@@ -409,7 +393,7 @@ function RentInvoicePDF() {
                   UPI Details:
                 </label>{" "}
                 <span className="text-[14px] font-medium text-[#171717] font-gilroy">
-                  {pdfDetails?.accountDetails?.upiId || "N/A"}
+                  {pdfDetails?.accountDetails?.upiId || ""}
                 </span>
               </div>
             </div>

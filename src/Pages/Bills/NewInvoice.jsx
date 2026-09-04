@@ -1434,22 +1434,30 @@ function NewInvoice() {
           </button>
 
           <button
+            type="button"
             disabled={formLoading}
             onClick={billData ? handleEditBill : handleCreateBill}
-            className="w-fit  bg-[#1E45E1] text-white px-5 font-medium h-[40px] 
-                    rounded-[8px] text-[16px] font-[Gilroy] 
-                     disabled:!bg-gray-300 disabled:!text-gray-500 disabled:!cursor-not-allowed disabled:!opacity-70"
+            className={`w-fit px-5 font-medium h-[40px] rounded-[8px] text-[16px] font-[Gilroy]
+    flex items-center justify-center gap-2
+    ${
+      formLoading
+        ? "bg-[#1E45E1] text-white cursor-not-allowed opacity-70"
+        : "bg-[#1E45E1] text-white"
+    }`}
           >
-            {billData ? "Save Changes" : "Save & Generate"}
+            {formLoading ? (
+              <>
+                <span className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin" />
+                Saving...
+              </>
+            ) : billData ? (
+              "Save Changes"
+            ) : (
+              "Save & Generate"
+            )}
           </button>
         </div>
       </div>
-
-      {formLoading && (
-        <div className="absolute top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center opacity-75 z-10">
-          <div className="w-[40px] h-[40px] border-t-4 border-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
     </div>
   );
 }
