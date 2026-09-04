@@ -55,14 +55,15 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
   const handlePhoneChange = (e) => {
     dispatch({ type: "REMOVE_ALREADY_MOBILE_BASIC_ERROR" });
+
     const input = e.target.value.replace(/\D/g, "");
     setPhone(input);
 
     if (input.length === 0) {
       setPhoneError("");
-    } else if (input.length < 10) {
-      setPhoneError("Please Enter Mobile Number");
-    } else if (input.length === 10) {
+    } else if (!/^[1-9][0-9]{9}$/.test(input)) {
+      setPhoneError("Please Enter Valid Mobile Number");
+    } else {
       setPhoneError("");
     }
 
@@ -99,7 +100,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     }
   }, [state.createAccount?.networkError]);
 
-  const MobileNumber = `${phone}`;
+  // const MobileNumber = `${phone}`;
 
   const handleSubmit = () => {
     dispatch({ type: "REMOVE_ALREADY_MOBILE_BASIC_ERROR" });
@@ -111,10 +112,23 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     if (phoneError === "Please Enter Mobile Number") {
       return;
     }
-    if (!phone) {
+
+    const normalizedPhone = (phone || "").replace(/\D/g, "");
+
+    if (!normalizedPhone) {
       setPhoneError("Please Enter Mobile Number");
       return;
     }
+
+    if (
+      normalizedPhone.length !== 10 ||
+      !/^[1-9][0-9]{9}$/.test(normalizedPhone) ||
+      /^0{10}$/.test(normalizedPhone)
+    ) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      return;
+    }
+
     if (emailError) {
       return;
     }
@@ -128,7 +142,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
     const capitalizedFirstname = capitalizeFirstLetter(firstName ?? "");
     const capitalizedLastname = capitalizeFirstLetter(lastName ?? "");
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+    const normalizedPhoneNumber = normalizedPhone;
 
     const currentValues = {
       profile: basicDetails?.profilePic,

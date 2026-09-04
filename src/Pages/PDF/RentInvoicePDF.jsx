@@ -84,7 +84,7 @@ function RentInvoicePDF() {
 
       <div className="text-center py-2">
         <h5
-          className="text-[18px] font-gilroy font-semibold text-[#171717"
+          className="text-[18px] font-gilroy font-semibold text-[#171717]"
           // style={textStyle}
         >
           Rental Invoice

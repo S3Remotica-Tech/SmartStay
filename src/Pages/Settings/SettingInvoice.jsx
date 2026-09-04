@@ -1137,7 +1137,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
       {showform && (
         <>
-          <div className="grid grid-cols-12 h-screen">
+          <div className="grid grid-cols-12 h-screen px-2">
             <div className="col-span-12 md:col-span-4">
               <div className="bg-white sticky top-0 z-10 pb-2 h-[75px]">
                 <h4 className="mb-2 pt-2 font-gilroy text-[22px] md:text-lg text-[#222222] font-semibold whitespace-nowrap">
@@ -2557,7 +2557,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
         cardshow && (
           <>
             {global ? (
-              <div className="h-[580px] lg:h-[650px] 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
+              <div className="h-[580px] lg:h-[650px] px-2 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
                 <div className="bg-white sticky top-0 z-10 pb-2 h-20">
                   <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
                     <label className="font-gilroy text-[18px] text-[#222] font-semibold">
@@ -2963,7 +2963,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 </div>
               </div>
             ) : (
-              <div>
+              <div className="px-2">
                 <div className="bg-white sticky top-0 z-10 pb-2 h-auto shrink-0 mt-2">
                   <label className="text-[18px] font-semibold text-[#222] font-gilroy">
                     Bill Templates
