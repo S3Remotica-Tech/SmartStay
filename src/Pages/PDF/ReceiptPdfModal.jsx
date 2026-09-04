@@ -210,7 +210,7 @@ const InvoiceCard = ({ rowData }) => {
     return str.trim() + " Rupees Only.";
   }
 
-  const innerScrollRef = useRef(null);
+  // const innerScrollRef = useRef(null);s
 
   const [pdfLoading, setPdfLoading] = useState(false);
 
