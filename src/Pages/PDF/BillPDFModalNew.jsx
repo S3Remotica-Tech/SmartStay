@@ -84,7 +84,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
       const containerWidth = previewContainerRef.current.clientWidth;
 
-      const padding = 40;
+      const padding = 20;
 
       const availableWidth = Math.max(containerWidth - padding, 0);
 
@@ -97,12 +97,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
     updateScale();
 
-    const observer = new ResizeObserver(updateScale);
-
-    observer.observe(previewContainerRef.current);
+    window.addEventListener("resize", updateScale);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("resize", updateScale);
     };
   }, []);
 
@@ -110,7 +108,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     if (!pdfContentRef.current) return;
 
     const updateHeight = () => {
-      setContentHeight(pdfContentRef.current.scrollHeight);
+      const height = pdfContentRef.current.scrollHeight;
+
+      setContentHeight((prev) => {
+        if (prev === height) return prev;
+        return height;
+      });
     };
 
     updateHeight();
@@ -818,58 +821,61 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
       <div
         className={`fixed  right-14 ${isOpenPayment ? "bottom-[200px]" : "bottom-16"} z-50 flex flex-col gap-3 items-end`}
-      >
-        {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
-          // (pdfDetails?.invoiceInfo?.paymentStatus === "Pending" ||
-          //   pdfDetails?.invoiceInfo?.status === "PENDING") &&
-          !showDiscountInvoice && (
-            <div className=" animate-slideIn">
-              <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
-                <div className="flex items-center gap-3">
-                  <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                    <span className="text-[16px]">
-                      {" "}
-                      <TiTick className="text-base" />{" "}
-                    </span>
-                  </span>
+      ></div>
 
-                  <div className="flex flex-col">
-                    <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                      Discount Applied
+      {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
+        <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
+          {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
+            !showDiscountInvoice && (
+              <div className=" animate-slideIn">
+                <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2  border-b min-w-[220px]">
+                  <div className="flex items-center gap-3">
+                    <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                      <span className="text-[16px]">
+                        {" "}
+                        <TiTick className="text-base" />{" "}
+                      </span>
                     </span>
 
-                    <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
-                      ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
-                      <span className="pl-2">Were applied on this invoice</span>
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                        Discount Applied
+                      </span>
+
+                      <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
+                        ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
+                        <span className="pl-2">
+                          Were applied on this invoice
+                        </span>
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <PiDotsThreeOutlineVerticalFill
-                  className="cursor-pointer text-gray-600"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenMenu(!openMenu);
-                  }}
-                />
+                  <PiDotsThreeOutlineVerticalFill
+                    className="cursor-pointer text-gray-600"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenu(!openMenu);
+                    }}
+                  />
 
-                {openMenu && (
-                  <div
-                    className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <button
-                      disabled={!canUpdateInvoice}
-                      onClick={() => {
-                        setIsEdit(true);
-                        setEditData(
-                          pdfDetails?.discountDetails ||
-                            pdfDetails?.invoiceInfo,
-                        );
-                        setShowDiscountInvoice(true);
-                        setOpenMenu(false);
-                      }}
-                      className={`
+                  {openMenu && (
+                    <div
+                      className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        disabled={!canUpdateInvoice}
+                        onClick={() => {
+                          setIsEdit(true);
+                          setEditData(
+                            pdfDetails?.discountDetails ||
+                              pdfDetails?.invoiceInfo,
+                          );
+                          setShowDiscountInvoice(true);
+                          setOpenMenu(false);
+                        }}
+                        className={`
     w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
     ${
       canUpdateInvoice
@@ -877,24 +883,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
     }
   `}
-                    >
-                      <Edit
-                        size={16}
-                        className={canUpdateInvoice ? "" : "opacity-50"}
-                      />
-                      Edit
-                    </button>
+                      >
+                        <Edit
+                          size={16}
+                          className={canUpdateInvoice ? "" : "opacity-50"}
+                        />
+                        Edit
+                      </button>
 
-                    <div className="h-px bg-gray-200 mx-2" />
+                      <div className="h-px bg-gray-200 mx-2" />
 
-                    <button
-                      disabled={!canDeleteInvoice}
-                      onClick={() => {
-                        setShowRefuseModal(true);
-                        setOpenMenu(false);
-                        // setSelectedInvoice(pdfDetails);
-                      }}
-                      className={`
+                      <button
+                        disabled={!canDeleteInvoice}
+                        onClick={() => {
+                          setShowRefuseModal(true);
+                          setOpenMenu(false);
+                          // setSelectedInvoice(pdfDetails);
+                        }}
+                        className={`
     w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
     ${
       canDeleteInvoice
@@ -902,56 +908,54 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
     }
   `}
-                    >
-                      <IoClose
-                        className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
-                      />
-                      Refuse with invoice
-                    </button>
-                  </div>
-                )}
+                      >
+                        <IoClose
+                          className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
+                        />
+                        Refuse with invoice
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        {pdfDetails?.invoiceInfo?.canRedeem > 0 && (
-          <div className=" animate-slideIn">
-            <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2 rounded-md shadow-lg min-w-[220px]">
-              <div className="flex items-center gap-1">
-                <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                  <span className="text-[16px]">
-                    <TiTick className="text-base" />
+            )}
+
+          {pdfDetails?.invoiceInfo?.canRedeem > 0 && (
+            <div className=" animate-slideIn">
+              <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2  border-b min-w-[220px]">
+                <div className="flex items-center gap-1">
+                  <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                    <span className="text-[16px]">
+                      <TiTick className="text-base" />
+                    </span>
                   </span>
-                </span>
-                <div className="flex flex-col">
-                  <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                    Credits Available :{" "}
-                    {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
-                    <span
-                      className={`font-semibold text-sm transition-all duration-150
+                  <div className="flex flex-col">
+                    <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                      Credits Available :{" "}
+                      {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
+                      <span
+                        className={`font-semibold text-sm transition-all duration-150
     ${
       !canUpdateInvoice
         ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
         : "text-[#1E45E1] cursor-pointer"
     }`}
-                      onClick={(e) => {
-                        if (!canUpdateInvoice) return;
+                        onClick={(e) => {
+                          if (!canUpdateInvoice) return;
 
-                        e.stopPropagation();
-                        handleApplyInvoices("booking");
-                      }}
-                    >
-                      Apply Now
+                          e.stopPropagation();
+                          handleApplyInvoices("booking");
+                        }}
+                      >
+                        Apply Now
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
 
-      {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
-        <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
           <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
             <div className="flex  gap-4">
               <div

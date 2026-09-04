@@ -8,6 +8,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -101,6 +103,7 @@ const CustomStyles = {
 function ReceiptFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [dateError, setDateError] = useState("");
   const [selectedInvoiceType, setSelectedInvoiceType] = useState("");
   const [selectedPaymentMode, setSelectedPaymentMode] = useState([]);
   const [selectedCollectedBy, setSelectedCollectedBy] = useState([]);
@@ -113,7 +116,8 @@ function ReceiptFilter({ show, handleClose, size }) {
 
   const [minAmount, setMinAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState("");
-
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
 
   // const [selectedAmount, setSelectedAmount] = useState(null);
@@ -132,6 +136,7 @@ function ReceiptFilter({ show, handleClose, size }) {
     filterOptionsData?.period?.map((item) => ({
       label: item.name,
       value: item.type,
+      isDisabled: item.type === "CUSTOM",
     })) || [];
 
   const paymentModeOptions =
@@ -149,8 +154,6 @@ function ReceiptFilter({ show, handleClose, size }) {
   const inputClass =
     "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
     "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
-
-  
 
   const handleInvoiceTypeChange = (selected) => {
     setSelectedInvoiceType(selected?.value || "");
@@ -179,6 +182,10 @@ function ReceiptFilter({ show, handleClose, size }) {
 
   const handlePeriodChange = (selected) => {
     setSelectedPeriod(selected);
+    if (selected?.value !== "CUSTOM") {
+      setStartDate(null);
+      setEndDate(null);
+    }
   };
 
   const CheckboxOption = (props) => {
@@ -224,12 +231,20 @@ function ReceiptFilter({ show, handleClose, size }) {
 
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
+    if (!startDate && endDate) {
+      setDateError("Please Select Start Date");
+      return;
+    }
+
+    setDateError("");
 
     const filterPayload = {
+      startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
+      endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
       invoiceType: selectedInvoiceType,
       paymentMode: selectedPaymentMode,
       collectedBy: selectedCollectedBy,
-      period: selectedPeriod?.value,
+      period: selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.value,
       minAmount,
       maxAmount,
     };
@@ -248,10 +263,12 @@ function ReceiptFilter({ show, handleClose, size }) {
       invoiceType: selectedInvoiceType || "",
       paymentMode: selectedPaymentMode,
       collectedBy: selectedCollectedBy,
-      period: selectedPeriod?.value || "",
+      period: selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.value,
       // createdByLabels: selectedCollectedBylabels,
       minAmount: minAmount || "",
       maxAmount: maxAmount || "",
+      startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
+      endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
     };
 
     dispatch({
@@ -261,7 +278,8 @@ function ReceiptFilter({ show, handleClose, size }) {
         modes: selectedPaymentMode,
         collectedBy: selectedCollectedBy,
         collectedBYLabels: selectedCollectedBylabels,
-        period: selectedPeriod?.value || "",
+        period:
+          selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.value,
         minAmount,
         maxAmount,
         paymentLabels: selectedPaymentLabel,
@@ -301,7 +319,7 @@ function ReceiptFilter({ show, handleClose, size }) {
     <>
       <div className="fixed inset-0 z-40 bg-black/40" onClick={handleClose} />
       <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white shadow-2xl flex flex-col font-gilroy">
-        <div className="flex items-center justify-between border-b px-4 py-4">
+        <div className="flex items-center justify-between border-b px-4 py-3">
           <div className="flex items-center gap-2">
             <Filter size={20} color="#364153" />
             <h2 className="text-xl font-semibold text-[#222222] mb-0">
@@ -318,7 +336,7 @@ function ReceiptFilter({ show, handleClose, size }) {
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 py-4">
-          <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
+          <div className="">
             <div className="mb-3">
               <label
                 style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}
@@ -346,12 +364,79 @@ function ReceiptFilter({ show, handleClose, size }) {
                 Period
               </label>
               <Select
+                // isDisabled={selectedPeriod?.value === "CUSTOM"}
                 styles={CustomStyles}
                 placeholder="Select Period"
                 value={selectedPeriod}
                 onChange={handlePeriodChange}
                 options={periodOptions}
               />
+
+              {selectedPeriod?.value === "CUSTOM" && (
+                <div className="grid grid-cols-2 gap-2 my-3">
+                  <div className="">
+                    <label className="mb-2 block text-xs font-medium text-gray-500">
+                      Start Date
+                    </label>
+
+                    <DatePicker
+                      style={{
+                        width: "100%",
+                        height: 39,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                        fontSize: 11,
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="Start Date"
+                      value={startDate ? dayjs(startDate) : null}
+                      onChange={(date) => {
+                        setStartDate(date);
+                        setEndDate(null);
+                        setDateError("");
+                      }}
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf("day")
+                      }
+                      getPopupContainer={(triggerNode) =>
+                        triggerNode.closest(".datepicker-wrapper")
+                      }
+                    />
+                  </div>
+
+                  <div className="">
+                    <label className="mb-2 block text-xs font-medium text-gray-500">
+                      End Date
+                    </label>
+
+                    <DatePicker
+                      style={{
+                        width: "100%",
+                        height: 39,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                        fontSize: 12,
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="End Date"
+                      value={endDate ? dayjs(endDate) : null}
+                      onChange={(date) => setEndDate(date)}
+                      disabledDate={(current) =>
+                        current &&
+                        (current > dayjs().endOf("day") ||
+                          (startDate &&
+                            current < dayjs(startDate).startOf("day")))
+                      }
+                      getPopupContainer={(triggerNode) =>
+                        triggerNode.closest(".datepicker-wrapper")
+                      }
+                    />
+                  </div>
+                  {dateError && (
+                    <ErrorMessage message={dateError} type="error" />
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="mb-4">
