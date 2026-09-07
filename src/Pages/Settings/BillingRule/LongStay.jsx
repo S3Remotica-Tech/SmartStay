@@ -189,8 +189,6 @@ function LongStayRecurringModal() {
     setFlatFeeAmount(e.target.value);
   };
 
-  
-
   const handleSave = () => {
     dispatch({ type: "REMOVE_BILLING_RULE_ERROR" });
     const newErrors = {};
@@ -548,7 +546,7 @@ function LongStayRecurringModal() {
                 disabled={isDisabledType}
               />
 
-              <div>
+              <div className="flex flex-col">
                 <label className="text-sm font-semibold text-[#222222]">
                   Monthly Recurring
                 </label>
@@ -581,7 +579,7 @@ function LongStayRecurringModal() {
                 className="mt-1 accent-[#1E45E1] scale-100"
               />
 
-              <div>
+              <div className="flex flex-col">
                 <label className="text-sm font-semibold text-[#222222] cursor-pointer ">
                   Tenant Joining Based
                 </label>

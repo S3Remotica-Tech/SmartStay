@@ -91,6 +91,7 @@ import {
   BookingToCheckInV3,
   CustomerListGet,
   CreateRetainerInvoice,
+  KYCReminderAgain,
 } from "../Action/UserListAction";
 import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from "universal-cookie";
@@ -169,6 +170,65 @@ function* handleSettlementPayemntExpense(settle) {
 function* handleKYCReminder(kyc) {
   try {
     const response = yield call(KYCReminder, kyc.payload);
+
+    if (response?.status === 200) {
+      yield put({
+        type: "KYC_REMINDER_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Send Successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "KEY_REMAINDER_ERROR",
+        payload: error.response.data,
+      });
+
+      toast.error(`${error.response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+}
+
+function* handleKYCReminderAgain(kyc) {
+  try {
+    const response = yield call(KYCReminderAgain, kyc.payload);
 
     if (response?.status === 200) {
       yield put({
@@ -4059,6 +4119,7 @@ function* UserListSaga() {
     "EXPENSE_SETTLEMENT_PAYMENT_SAGA",
     handleSettlementPayemntExpense,
   );
+  yield takeEvery("KYC_REMINDER_AGAIN_SAGA", handleKYCReminderAgain);
   yield takeEvery("KYC_REMINDER_SAGA", handleKYCReminder);
   yield takeEvery("SETTLEMENT_PAYMENT_SAGA", handleSettlementPayemnt);
   yield takeEvery("DRAFT_TENANT_LIST_SAGA", handleDraftTenantSearch);

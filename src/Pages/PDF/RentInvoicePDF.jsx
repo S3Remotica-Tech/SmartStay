@@ -242,7 +242,7 @@ function RentInvoicePDF() {
                   </table>
                 </div>
 
-                {/* <div className="flex items-center justify-between  px-3 py-2 text-[14px] font-semibold text-[#2D2D2D]">
+                <div className="flex items-center justify-between  px-3 py-2 text-[14px] bg-[#F9F9F9] font-semibold text-[#2D2D2D]">
                   <span>Total</span>
 
                   <span>
@@ -251,7 +251,7 @@ function RentInvoicePDF() {
                       pdfDetails?.invoiceInfo?.total1 || 0,
                     ).toLocaleString("en-IN")}
                   </span>
-                </div> */}
+                </div>
               </div>
               {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 && (
                 <div className="col-span-12 md:col-span-6 flex flex-col">

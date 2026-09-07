@@ -254,10 +254,17 @@ function AddTenantBookingCheckin({
     ? dayjs(joiningDate).isBefore(dayjs().subtract(1, "month"), "month")
     : false;
 
+  const isPastMonthPrePaid = joiningDate
+    ? dayjs(joiningDate).isBefore(dayjs(), "month")
+    : false;
+
   const IsPostPaid =
     state?.Settings?.SettingsBillsGetRecurring?.billingModel === "POSTPAID";
+  const IsPrePaid =
+    state?.Settings?.SettingsBillsGetRecurring?.billingModel === "PREPAID";
 
-  const hideByPostPaidHostel = IsPostPaid && isPastMonth;
+  const hideByPostPaidHostel =
+    (IsPostPaid && isPastMonth) || (IsPrePaid && isPastMonthPrePaid);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

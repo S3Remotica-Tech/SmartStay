@@ -149,6 +149,7 @@ function FinalSettlement() {
   const [finalSettlementList, setFinalSettlementList] = useState();
   const [showWallet, setShowWallet] = useState(false);
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
+  const [showAdditionalAdvance, setShowAdditionalAdvance] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   const [showRetainer, setShowRetainer] = useState(false);
 
@@ -1728,6 +1729,104 @@ function FinalSettlement() {
                 </div>
               </div>
 
+              <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
+                <div
+                  className="flex items-start justify-between px-3 py-3 cursor-pointer"
+                  onClick={() => setShowAdditionalAdvance((prev) => !prev)}
+                >
+                  <div className="flex items-center gap-2">
+                    {showAdditionalAdvance ? (
+                      <ArrowUp2 size="16" color="#1E45E1" />
+                    ) : (
+                      <ArrowDown2 size="16" color="#1E45E1" />
+                    )}
+
+                    <span className="text-sm font-semibold text-[#222222]">
+                      Addtitional Advance
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-end">
+                    <span className="text-[15px] font-semibold text-[#222222]">
+                      ₹{" "}
+                      {finalSettlementList?.additionalAdvanceItems
+                        ?.advanceBalances || 0}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    showAdditionalAdvance ? "max-h-[500px]" : "max-h-0"
+                  }`}
+                >
+                  {showAdditionalAdvance && (
+                    <>
+                      <hr className="m-0 border-[#E5E7EB]" />
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead className="bg-[#FAFAFA]">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                inv No
+                              </th>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                invoice Amount
+                              </th>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                paid Amount
+                              </th>
+
+                              <th className="px-4 py-3 text-right text-[11px] font-semibold uppercase text-[#6B7280]">
+                                invoice Balance
+                              </th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {finalSettlementList?.additionalAdvanceItems
+                              ?.listInvoices?.length > 0 ? (
+                              finalSettlementList?.additionalAdvanceItems?.listInvoices?.map(
+                                (txn, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-t border-[#E5E7EB]"
+                                  >
+                                    <td className="px-4 py-3 text-[13px] font-medium text-[#1E45E1] underline">
+                                      {txn.invoiceNumber}
+                                    </td>
+                                    <td className="px-4 py-3 text-[13px] text-[#222222]">
+                                      {txn.invoiceAmount}
+                                    </td>
+                                    <td className="px-4 py-3 text-[13px] text-[#666666]">
+                                      {txn.paidAmount}
+                                    </td>
+
+                                    <td className="px-4 py-3 text-right text-[13px] font-medium text-[#222222]">
+                                      ₹ {txn.invoiceBalance}
+                                    </td>
+                                  </tr>
+                                ),
+                              )
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={3}
+                                  className="px-4 py-4 text-center text-sm text-[#AA6805] "
+                                >
+                                  No refundable advance transactions available
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
               {/* Booking */}
 
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
@@ -2302,6 +2401,17 @@ function FinalSettlement() {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Retainer Invoice</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        ₹{" "}
+                        {finalSettlementList?.settlementInfo?.retainerBalance ||
+                          0}
+                      </p>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <p className="text-sm text-gray-600">
+                        Additional Advance
+                      </p>
                       <p className="text-sm font-medium text-gray-900">
                         ₹{" "}
                         {finalSettlementList?.settlementInfo?.retainerBalance ||

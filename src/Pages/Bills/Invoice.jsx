@@ -176,8 +176,13 @@ const InvoicePage = () => {
       search: "",
     },
     {
-      label: "Refund Amount",
-      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.refundAmount || 0}`,
+      label: "Refunded Amount",
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.refundedAmount || 0}`,
+      search: "REFUNDED",
+    },
+    {
+      label: "Pending Refund Amount",
+      value: `₹ ${state.InvoiceList.billsList?.invoiceSummary?.pendingRefund || 0}`,
       search: "PENDING_REFUND",
     },
   ];

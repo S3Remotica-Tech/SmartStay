@@ -12,7 +12,6 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { AddCircle, CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
-
 import ErrorMessage from "../../Components/ErrorMessage";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import { IoBedOutline } from "react-icons/io5";
@@ -180,10 +179,17 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     ? dayjs(selectedDate).isBefore(dayjs().subtract(1, "month"), "month")
     : false;
 
+  const isPastMonthPrePaid = selectedDate
+    ? dayjs(selectedDate).isBefore(dayjs(), "month")
+    : false;
+
   const IsPostPaid =
     state?.Settings?.SettingsBillsGetRecurring?.billingModel === "POSTPAID";
+  const IsPrePaid =
+    state?.Settings?.SettingsBillsGetRecurring?.billingModel === "PREPAID";
 
-  const hideByPostPaidHostel = IsPostPaid && isPastMonth;
+  const hideByPostPaidHostel =
+    (IsPostPaid && isPastMonth) || (IsPrePaid && isPastMonthPrePaid);
 
   const isjoiningBased =
     state?.Settings?.SettingsBillsGetRecurring?.typeOfBilling ===
@@ -741,10 +747,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
     }
   }, [selectedDate]);
 
-  // const isPastMonth = selectedDate
-  //   ? dayjs(selectedDate).isBefore(dayjs(), "month")
-  //   : false;
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -1103,7 +1105,6 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                   </div>
                 </div>
               </div>
-
               <div className="grid grid-cols-12 gap-x-4">
                 <div className="col-span-12">
                   <Form.Group>
@@ -1391,6 +1392,7 @@ function DirectCheckin({ tenantDetails, show, handleClose }) {
                   <ErrorMessage message={roomrentError} type="error" />
                 )}
               </div>
+
               {!isjoiningBased && (
                 <div className="w-full max-w-[680px] bg-white">
                   {!hideByPostPaidHostel && (

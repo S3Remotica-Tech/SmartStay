@@ -270,6 +270,8 @@ const UserListReducer = (state = initialState, action) => {
         kycRemindeSuccess: 0,
       };
 
+    
+
     case "DELETE_DRAFT_TENANT_REDUCER":
       return {
         ...state,

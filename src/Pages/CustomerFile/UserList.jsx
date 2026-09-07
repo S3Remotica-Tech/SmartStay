@@ -825,7 +825,8 @@ function UserList(props) {
     const formatted = cols.map((col) => ({
       ...col,
       key: col.fieldName,
-      selected: col.selected,
+      selected:
+        col.fieldName === "Status" && hasStatusCode ? true : col.selected,
     }));
 
     setCustomizeItems(formatted);
@@ -1115,6 +1116,8 @@ function UserList(props) {
       transition,
     };
 
+    const isStatus = item.fieldName === "Status";
+
     return (
       <label
         ref={setNodeRef}
@@ -1133,7 +1136,11 @@ function UserList(props) {
           type="checkbox"
           checked={item.selected}
           className="w-4 h-4 accent-[#1E45E1] rounded"
+          disabled={isStatus}
           onChange={() => {
+            if (item.fieldName === "Status" && item.selected) {
+              return;
+            }
             setCustomizeItems((prev = []) =>
               prev.map((i) =>
                 i.key === item.key ? { ...i, selected: !i.selected } : i,
@@ -1193,6 +1200,8 @@ function UserList(props) {
     });
 
     const apiData = row[row.length - 1];
+    obj.status = apiData?.status || "-";
+    obj.statusCode = apiData?.statusCode || "";
 
     obj.apiCall = {
       customerId: apiData?.customerId || null,
@@ -1201,6 +1210,8 @@ function UserList(props) {
 
     return obj;
   });
+
+  const hasStatusCode = formattedData?.some((user) => user.statusCode);
 
   const filterOptionsData = useSelector(
     (state) => state.UsersList?.Users?.filterOptions,
@@ -2214,7 +2225,10 @@ function UserList(props) {
                                         setCustomizeItems((prev) =>
                                           prev.map((i) => ({
                                             ...i,
-                                            selected: !allSelected,
+                                            selected:
+                                              i.fieldName === "Status"
+                                                ? true
+                                                : !allSelected,
                                           })),
                                         );
 

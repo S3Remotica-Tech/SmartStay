@@ -15,14 +15,24 @@ function TenantActions({ show, handleClose }) {
 
   const handleSendReminder = () => {
     dispatch({ type: "REMOVE_KEY_REMAINDER_ERROR" });
-    if (CustomerOverView?.customerId) {
+
+    if (!CustomerOverView?.customerId) return;
+
+    const canRequestAgain = CustomerOverView?.kycInfo?.canRequestAgain;
+
+    if (canRequestAgain) {
+      dispatch({
+        type: "KYC_REMINDER_AGAIN_SAGA",
+        payload: CustomerOverView.customerId,
+      });
+    } else {
       dispatch({
         type: "KYC_REMINDER_SAGA",
-        payload: CustomerOverView?.customerId,
+        payload: CustomerOverView.customerId,
       });
-
-      setFormLoading(true);
     }
+
+    setFormLoading(true);
   };
 
   useEffect(() => {
@@ -112,7 +122,11 @@ function TenantActions({ show, handleClose }) {
                       </>
                     ) : (
                       <>
-                        <span>Send Reminder</span>
+                        <span>
+                          {CustomerOverView?.kycInfo?.canRequestAgain
+                            ? "Reminder Again"
+                            : "Send Reminder"}
+                        </span>
                         <Send2 size={15} color="#fff" />
                       </>
                     )}
