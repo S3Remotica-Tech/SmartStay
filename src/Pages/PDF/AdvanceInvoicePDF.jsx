@@ -177,7 +177,7 @@ function AdvanceInvoicePDF() {
 
         <div className="px-4 my-4 ">
           <div className="font-gilroy">
-            <div className="grid grid-cols-12 border-b border-[#DFDFDF]  rounded-lg  overflow-hidden">
+            <div className="grid grid-cols-12 border-b border-[#DFDFDF]    overflow-hidden">
               <div
                 className={`${pdfDetails?.invoiceInfo?.listDeductions?.length > 0 ? "col-span-12 md:col-span-6  border-r border-[#DFDFDF]" : "col-span-12 md:col-span-12"} flex flex-col`}
               >
@@ -233,16 +233,16 @@ function AdvanceInvoicePDF() {
                   </table>
                 </div>
 
-                {/* <div className="flex items-center justify-between  px-3 py-2 text-[14px] font-semibold text-[#2D2D2D]">
-                     <span>Total</span>
-   
-                     <span>
-                       ₹{" "}
-                       {Number(
-                         pdfDetails?.invoiceInfo?.total1 || 0,
-                       ).toLocaleString("en-IN")}
-                     </span>
-                   </div> */}
+                <div className="flex items-center justify-between  px-3 py-2 text-[14px] bg-[#F9F9F9] font-semibold text-[#2D2D2D]">
+                  <span>Total</span>
+
+                  <span>
+                    ₹{" "}
+                    {Number(
+                      pdfDetails?.invoiceInfo?.total1 || 0,
+                    ).toLocaleString("en-IN")}
+                  </span>
+                </div>
               </div>
               {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 && (
                 <div className="col-span-12 md:col-span-6 flex flex-col">

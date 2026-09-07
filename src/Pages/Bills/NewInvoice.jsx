@@ -237,6 +237,16 @@ function NewInvoice() {
   const [invoicedate, setInvoiceDate] = useState(null);
   const [termsAndConditions, setTermsAndConditions] = useState("");
   const [addRowError, setAddRowError] = useState("");
+
+  const hasBillingInfo =
+    selectedCustomer?.addressInfo?.houseNo ||
+    selectedCustomer?.addressInfo?.street ||
+    selectedCustomer?.addressInfo?.landmark ||
+    selectedCustomer?.addressInfo?.city ||
+    selectedCustomer?.addressInfo?.state ||
+    (selectedCustomer?.addressInfo?.pincode &&
+      selectedCustomer?.addressInfo?.pincode !== 0) ||
+    selectedCustomer?.mobile;
   const [newRows, setNewRows] = useState([
     {
       itemType: "",
@@ -262,7 +272,7 @@ function NewInvoice() {
   const [discount, setDiscount] = useState("");
   const [discountType, setDiscountType] = useState("₹");
 
-  console.log("discount", discount);
+  // console.log("discount", discount);
 
   const [tableErrmsg, setTableErrmsg] = useState("");
 
@@ -360,9 +370,9 @@ function NewInvoice() {
     setTableErrmsg("");
   };
 
-  const isApiEBPresent = newRows?.some(
-    (row) => row.isFromApi && row.itemType === "EB",
-  );
+  // const isApiEBPresent = newRows?.some(
+  //   (row) => row.isFromApi && row.itemType === "EB",
+  // );
 
   const handleDeleteNewRow = (index) => {
     dispatch({ type: "REMOVE_MANUAL_INVOICE_ERROR" });
@@ -446,10 +456,11 @@ function NewInvoice() {
         invoiceDate: formatinvoicedate,
         invoiceNumber: invoicenumber,
         isDiscounted: Number(discount) > 0,
-        discountAmount: discount,
+        discountAmount: discountType === "%" ? "" : discount,
+        discountPercentage: discountType === "%" ? discount : "",
         notes: termsAndConditions,
         invoiceItems: newRows.map((row) => ({
-          invoiceItem: row.itemType === "Other" ? row.am_name : row.itemType,
+          invoiceItem: row.itemType === "OTHER" ? row.am_name : row.itemType,
           amount: parseFloat(row.amount) || 0,
         })),
       },
@@ -514,7 +525,9 @@ function NewInvoice() {
   };
 
   const handleAddNewRow = () => {
-    const hasAdvance = newRows.some((row) => row.itemType === "advance");
+    const hasAdvance = newRows.some(
+      (row) => row.itemType === "ADDITIONAL_ADVANCE",
+    );
 
     if (hasAdvance) {
       setAddRowError(
@@ -548,7 +561,7 @@ function NewInvoice() {
     setNewRows((prev) => {
       const row = prev[index];
 
-      if (["RoomRent", "advance", "EB"].includes(row.itemType)) {
+      if (["RENT", "ADDITIONAL_ADVANCE"].includes(row.itemType)) {
         return prev;
       }
 
@@ -564,46 +577,35 @@ function NewInvoice() {
       return updatedRows;
     });
   };
+
   const getItemOptions = (currentIndex) => {
     const options = [];
 
     const advanceAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "advance",
+      (row, index) =>
+        index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
     );
 
-    if (advanceAlreadySelected) {
-      return [];
-    }
-
-    const roomRentAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "RoomRent",
+    const rentAlreadySelected = newRows.some(
+      (row, index) => index !== currentIndex && row.itemType === "RENT",
     );
 
-    const ebAlreadySelected = newRows.some(
-      (row, index) => index !== currentIndex && row.itemType === "EB",
-    );
-
-    if (!billData && !roomRentAlreadySelected) {
+    if (!billData && !rentAlreadySelected) {
       options.push({
-        value: "RoomRent",
+        value: "RENT",
         label: "Room Rent",
       });
     }
 
-    options.push({
-      value: "advance",
-      label: "Advance",
-    });
-
-    if (!isApiEBPresent && !ebAlreadySelected) {
+    if (!advanceAlreadySelected) {
       options.push({
-        value: "EB",
-        label: "EB",
+        value: "ADDITIONAL_ADVANCE",
+        label: "Advance",
       });
     }
 
     options.push({
-      value: "Other",
+      value: "OTHER",
       label: "Other",
     });
 
@@ -761,14 +763,18 @@ function NewInvoice() {
   }, [startdate, enddate, invoicedate]);
 
   useEffect(() => {
-    const advanceIndex = newRows.findIndex((row) => row.itemType === "advance");
+    const advanceIndex = newRows.findIndex(
+      (row) => row.itemType === "ADDITIONAL_ADVANCE",
+    );
 
     if (advanceIndex === -1 || newRows.length === 1) {
       return;
     }
 
     setNewRows((prev) => {
-      const advanceRow = prev.find((row) => row.itemType === "advance");
+      const advanceRow = prev.find(
+        (row) => row.itemType === "ADDITIONAL_ADVANCE",
+      );
 
       return advanceRow ? [advanceRow] : prev;
     });
@@ -854,57 +860,58 @@ function NewInvoice() {
                     </p>
                   </div>
                 </div>
-
-                <div className="min-w-[500px]">
-                  <div className="flex items-center gap-1 mb-1">
-                    <p className="text-[12px] font-semibold text-[#222222] mb-0">
-                      Billed to
-                    </p>
-                  </div>
-
-                  {selectedCustomer?.addressInfo?.houseNo && (
-                    <p className="text-[12px] text-[#555] mb-0">
-                      {selectedCustomer?.addressInfo?.houseNo},
-                    </p>
-                  )}
-                  <div className="flex gap-1 ">
-                    {selectedCustomer?.addressInfo?.street && (
-                      <p className="text-[12px] text-[#555] mb-0 capitalize">
-                        {selectedCustomer.addressInfo.street},
+                {hasBillingInfo && (
+                  <div className="min-w-[500px]">
+                    <div className="flex items-center gap-1 mb-1">
+                      <p className="text-[12px] font-semibold text-[#222222] mb-0">
+                        Billed to
                       </p>
-                    )}
+                    </div>
 
-                    {selectedCustomer?.addressInfo?.landmark && (
-                      <p className="text-[12px] text-[#555] mb-0 capitalize">
-                        {selectedCustomer.addressInfo.landmark},
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex gap-1 ">
-                    {selectedCustomer?.addressInfo?.city && (
-                      <p className="text-[12px] text-[#555] mb-0 capitalize">
-                        {selectedCustomer.addressInfo.city || ""},
-                      </p>
-                    )}
-                    {selectedCustomer?.addressInfo?.pincode !== 0 && (
+                    {selectedCustomer?.addressInfo?.houseNo && (
                       <p className="text-[12px] text-[#555] mb-0">
-                        {selectedCustomer?.addressInfo?.pincode || ""},
+                        {selectedCustomer?.addressInfo?.houseNo},
+                      </p>
+                    )}
+                    <div className="flex gap-1 ">
+                      {selectedCustomer?.addressInfo?.street && (
+                        <p className="text-[12px] text-[#555] mb-0 capitalize">
+                          {selectedCustomer.addressInfo.street},
+                        </p>
+                      )}
+
+                      {selectedCustomer?.addressInfo?.landmark && (
+                        <p className="text-[12px] text-[#555] mb-0 capitalize">
+                          {selectedCustomer.addressInfo.landmark},
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex gap-1 ">
+                      {selectedCustomer?.addressInfo?.city && (
+                        <p className="text-[12px] text-[#555] mb-0 capitalize">
+                          {selectedCustomer.addressInfo.city || ""},
+                        </p>
+                      )}
+                      {selectedCustomer?.addressInfo?.pincode !== 0 && (
+                        <p className="text-[12px] text-[#555] mb-0">
+                          {selectedCustomer?.addressInfo?.pincode || ""},
+                        </p>
+                      )}
+                    </div>
+
+                    {selectedCustomer?.addressInfo?.state && (
+                      <p className="text-[12px] text-[#555] mb-0 capitalize">
+                        {selectedCustomer.addressInfo.state || ""},
+                      </p>
+                    )}
+                    {selectedCustomer?.mobile && (
+                      <p className="mt-1 text-[12px] text-[#555] mb-0">
+                        + {selectedCustomer?.country || ""}{" "}
+                        {selectedCustomer?.mobile || ""}
                       </p>
                     )}
                   </div>
-
-                  {selectedCustomer?.addressInfo?.state && (
-                    <p className="text-[12px] text-[#555] mb-0 capitalize">
-                      {selectedCustomer.addressInfo.state || ""},
-                    </p>
-                  )}
-                  {selectedCustomer?.mobile && (
-                    <p className="mt-1 text-[12px] text-[#555] mb-0">
-                      + {selectedCustomer?.country || ""}{" "}
-                      {selectedCustomer?.mobile || ""}
-                    </p>
-                  )}
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -983,7 +990,7 @@ function NewInvoice() {
                     <React.Fragment key={index}>
                       <tr className="border-b border-[#EEEEEE] text-[14px]">
                         <td className="px-1 py-1">
-                          {u.itemType === "Other" ? (
+                          {u.itemType === "OTHER" ? (
                             <div className="flex items-center gap-1">
                               <input
                                 type="text"
@@ -1007,16 +1014,7 @@ function NewInvoice() {
                                   });
                                 }}
                                 placeholder="Enter Item Name"
-                                className="
-          w-full
-          h-[45px]
-          px-1
-          text-[14px]
-          border-0
-          outline-none
-          bg-transparent
-          placeholder:text-[#A5A5A5]
-        "
+                                className="w-full h-[45px] px-1 text-[14px] border-0 outline-none bg-transparent placeholder:text-[#A5A5A5]"
                               />
 
                               <button
@@ -1025,95 +1023,73 @@ function NewInvoice() {
                                   handleNewRowChange(index, "itemType", "");
                                   handleNewRowChange(index, "am_name", "");
                                 }}
-                                className="text-[#999999] text-[12px]"
                               >
                                 <Add color="#ff0000" className="rotate-45" />
                               </button>
                             </div>
                           ) : (
                             <div className="flex flex-col gap-1">
-                              <div className="flex items-center gap-1">
-                                <div className="flex-1">
-                                  <Select
-                                    value={
-                                      u.itemType
-                                        ? {
-                                            value: u.itemType,
-                                            label:
-                                              u.itemType === "RoomRent"
-                                                ? "Room Rent"
-                                                : u.itemType === "EB"
-                                                  ? "EB"
-                                                  : u.itemType === "advance"
-                                                    ? "Advance"
-                                                    : "Other",
-                                          }
-                                        : null
+                              <Select
+                                value={
+                                  u.itemType
+                                    ? {
+                                        value: u.itemType,
+                                        label:
+                                          u.itemType === "RENT"
+                                            ? "Room Rent"
+                                            : u.itemType ===
+                                                "ADDITIONAL_ADVANCE"
+                                              ? "Advance"
+                                              : "Other",
+                                      }
+                                    : null
+                                }
+                                onChange={(selected) => {
+                                  const value = selected?.value || "";
+
+                                  handleNewRowChange(index, "itemType", value);
+
+                                  if (value !== "OTHER") {
+                                    handleNewRowChange(index, "am_name", "");
+                                  }
+
+                                  setRowErrors((prev) => {
+                                    const updated = [...prev];
+
+                                    if (updated[index]) {
+                                      updated[index].itemType = "";
                                     }
-                                    onChange={(selected) => {
-                                      const value = selected?.value || "";
 
-                                      handleNewRowChange(
-                                        index,
-                                        "itemType",
-                                        value,
-                                      );
-                                      if (value !== "Other") {
-                                        handleNewRowChange(
-                                          index,
-                                          "am_name",
-                                          "",
-                                        );
-                                      }
-                                      setRowErrors((prev) => {
-                                        const updated = [...prev];
+                                    return updated;
+                                  });
+                                }}
+                                placeholder="Select or Search the Item"
+                                options={getItemOptions(index)}
+                                isSearchable
+                                isDisabled={u.isFromApi}
+                                classNamePrefix="custom"
+                                menuPlacement="auto"
+                                menuPortalTarget={document.body}
+                                styles={CustomStylesTable}
+                              />
 
-                                        if (updated[index]) {
-                                          updated[index].itemType = "";
-                                        }
-
-                                        return updated;
-                                      });
-                                    }}
-                                    placeholder="Select or Search the Item"
-                                    options={getItemOptions(index)}
-                                    isSearchable
-                                    isDisabled={u.isFromApi}
-                                    classNamePrefix="custom"
-                                    menuPlacement="auto"
-                                    menuPortalTarget={document.body}
-                                    styles={CustomStylesTable}
-                                  />
-
-                                  {["RoomRent", "advance", "EB"].includes(
-                                    u.itemType,
-                                  ) && (
-                                    <input
-                                      type="text"
-                                      value={u.description || ""}
-                                      onChange={(e) =>
-                                        handleNewRowChange(
-                                          index,
-                                          "description",
-                                          e.target.value,
-                                        )
-                                      }
-                                      placeholder="Add a description to your item"
-                                      className="
-            w-full
-            h-[28px]
-            px-2 py-4 rounded
-            text-[12px]
-            text-[#0A0A0A80]
-            border-0
-            outline-none
-            bg-[#F9F9F9] font-semibold
-            placeholder:text-[#0A0A0A80]
-          "
-                                    />
-                                  )}
-                                </div>
-                              </div>
+                              {["RENT", "ADDITIONAL_ADVANCE"].includes(
+                                u.itemType,
+                              ) && (
+                                <input
+                                  type="text"
+                                  value={u.description || ""}
+                                  onChange={(e) =>
+                                    handleNewRowChange(
+                                      index,
+                                      "description",
+                                      e.target.value,
+                                    )
+                                  }
+                                  placeholder="Add a description to your item"
+                                  className="w-full h-[28px] px-2 py-4 rounded text-[12px] text-[#0A0A0A80] border-0 outline-none bg-[#F9F9F9] font-semibold"
+                                />
+                              )}
                             </div>
                           )}
                         </td>

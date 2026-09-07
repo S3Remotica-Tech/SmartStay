@@ -90,7 +90,6 @@ const InvoiceCard = ({ rowData }) => {
     setIsVisible(true);
   }, [rowData]);
 
-  const innerScrollRef = useRef(null);
 
   const handleDownload = async () => {
     if (rowData || pdfDetails?.hostelId) {

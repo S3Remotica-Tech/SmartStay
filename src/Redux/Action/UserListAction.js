@@ -136,6 +136,10 @@ export async function KYCReminder(customerId) {
   return await AxiosConfigV2.post(`/v2/kyc/request/${customerId}`);
 }
 
+export async function KYCReminderAgain(customerId) {
+  return await AxiosConfigV2.post(`/v2/kyc/re-request/${customerId}`);
+}
+
 export async function cancelCheckoutInitialize(customer) {
   return await AxiosConfigV2.get(
     `/v2/customers/cancel-checkout/initialize/${customer.hostelId}/${customer.customerId}`,

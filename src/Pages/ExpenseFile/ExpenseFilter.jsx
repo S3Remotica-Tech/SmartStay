@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { Button, Form, Offcanvas } from "react-bootstrap";
+// import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { components } from "react-select";
 import { FaCheck } from "react-icons/fa6";
@@ -110,7 +110,7 @@ const selectStyles = {
     display: "none",
   }),
 };
-function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
+function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [period, setPeriod] = useState(null);
