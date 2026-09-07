@@ -405,7 +405,10 @@ function TenantOverview(props) {
   }, [state.UsersList.editBasicSuccessStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.kycRemindeSuccess === 200) {
+    if (
+      state.UsersList.kycRemindeSuccess === 200 ||
+      state.UsersList.kycRemindeSuccess === 201
+    ) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
