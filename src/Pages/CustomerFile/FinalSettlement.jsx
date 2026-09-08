@@ -1714,7 +1714,7 @@ function FinalSettlement() {
                             ) : (
                               <tr>
                                 <td
-                                  colSpan={3}
+                                  colSpan={4}
                                   className="px-4 py-4 text-center text-sm text-[#AA6805] "
                                 >
                                   No refundable advance transactions available
@@ -1812,10 +1812,10 @@ function FinalSettlement() {
                             ) : (
                               <tr>
                                 <td
-                                  colSpan={3}
+                                  colSpan={4}
                                   className="px-4 py-4 text-center text-sm text-[#AA6805] "
                                 >
-                                  No refundable advance transactions available
+                                  No addtitional advance available
                                 </td>
                               </tr>
                             )}
@@ -2401,17 +2401,6 @@ function FinalSettlement() {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Retainer Invoice</p>
-                      <p className="text-sm font-medium text-gray-900">
-                        ₹{" "}
-                        {finalSettlementList?.settlementInfo?.retainerBalance ||
-                          0}
-                      </p>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <p className="text-sm text-gray-600">
-                        Additional Advance
-                      </p>
                       <p className="text-sm font-medium text-gray-900">
                         ₹{" "}
                         {finalSettlementList?.settlementInfo?.retainerBalance ||
