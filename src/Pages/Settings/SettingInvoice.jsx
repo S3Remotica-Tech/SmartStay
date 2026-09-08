@@ -88,13 +88,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [noChangesDetectedMsg, setNoChangesDetectedMsg] = useState("");
   const [BillsTemplateList, setBillsTemplateList] = useState([]);
 
-  // const canReadInvoice = useHasPermission("Bills", "canRead")
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-
   const {
-    // canWriteModule: canWriteProfile,
+    canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
-    canUpdateModule: canUpdateInvoice,
+
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
 
@@ -2046,10 +2043,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                         <div className="flex justify-end mt-4 lg:col-span-10">
                           <button
-                            disabled={!canUpdateInvoice}
+                            disabled={!canWriteInvoice}
                             onClick={handleSaveRentalTemplate}
                             className={`w-[160px] h-[42px] rounded-[10px] px-4 py-2 font-gilroy text-[14px] font-semibold text-white ${
-                              !canUpdateInvoice
+                              !canWriteInvoice
                                 ? "bg-gray-300 cursor-not-allowed"
                                 : "bg-[#1E45E1] hover:bg-blue-700"
                             }`}
@@ -2659,7 +2656,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                           <div
                             className={`flex flex-col ${
-                              !canUpdateInvoice
+                              !canWriteInvoice
                                 ? "opacity-60 pointer-events-none"
                                 : ""
                             }`}
@@ -2667,12 +2664,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             <div>
                               <label
                                 className={`font-gilroy text-sm font-normal ${
-                                  canUpdateInvoice
+                                  canWriteInvoice
                                     ? "text-[rgba(30,69,225,1)] cursor-pointer"
                                     : "text-gray-400 cursor-not-allowed"
                                 }`}
                                 onClick={(e) => {
-                                  if (!canUpdateInvoice) e.preventDefault();
+                                  if (!canWriteInvoice) e.preventDefault();
                                 }}
                               >
                                 Choose file
@@ -2681,7 +2678,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   accept="image/*"
                                   className="hidden"
                                   onChange={handleFileChange}
-                                  disabled={!canUpdateInvoice}
+                                  disabled={!canWriteInvoice}
                                 />
                               </label>
 
@@ -2878,12 +2875,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             <label
                               className={`font-gilroy text-sm font-normal
       ${
-        canUpdateInvoice
+        canWriteInvoice
           ? "text-[rgba(30,69,225,1)] cursor-pointer"
           : "text-gray-400 cursor-not-allowed"
       }`}
                               onClick={(e) => {
-                                if (!canUpdateInvoice) e.preventDefault();
+                                if (!canWriteInvoice) e.preventDefault();
                               }}
                             >
                               Choose file
@@ -2893,7 +2890,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 className="hidden"
                                 ref={fileInputRef}
                                 onChange={handleFileSignatureChange}
-                                disabled={!canUpdateInvoice}
+                                disabled={!canWriteInvoice}
                               />
                             </label>
 
@@ -2938,7 +2935,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                   {savebuttonshow && (
                     <div className="flex justify-end mb-4">
                       <button
-                        disabled={!canUpdateInvoice}
+                        disabled={!canWriteInvoice}
                         type="button"
                         onClick={handleReset}
                         className="!border !border-black text-black !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50 mr-8"
@@ -2947,7 +2944,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                       </button>
 
                       <button
-                        disabled={!canUpdateInvoice}
+                        disabled={!canWriteInvoice}
                         type="button"
                         onClick={handleSaveTemplate}
                         className="bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50"

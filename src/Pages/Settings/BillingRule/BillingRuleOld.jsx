@@ -35,7 +35,7 @@ function BillingRuleOld() {
   // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
 
   const { canWriteModule: canWriteBills, canReadModule: canReadRecurring } =
-    useHasPermission("Bills");
+    useHasPermission("Invoice");
 
   //  Future needed this function so don't delete this command line.............
 

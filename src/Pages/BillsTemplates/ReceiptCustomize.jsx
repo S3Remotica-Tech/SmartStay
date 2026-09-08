@@ -33,12 +33,7 @@ const RentalReceiptPdfTemplate = ({
   const defaultGradient =
     "linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))";
 
-  const {
-    // canWriteModule: canWriteInvoice,
-    // canReadModule: canReadReceipt,
-    canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+  const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
@@ -932,10 +927,10 @@ const RentalReceiptPdfTemplate = ({
 
           <div className="flex justify-end mt-2 col-span-10">
             <button
-              disabled={!canUpdateInvoice}
+              disabled={!canWriteInvoice}
               onClick={handleSaveTemplate}
               className={`w-40 h-10 rounded-lg px-4 bg-[#1E45E1] text-white font-gilroy font-semibold text-sm ${
-                !canUpdateInvoice
+                !canWriteInvoice
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-blue-700"
               }`}

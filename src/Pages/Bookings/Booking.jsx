@@ -37,7 +37,6 @@ import RetainerApplyInvoice from "./RetainerApplyInvoice";
 import PropTypes from "prop-types";
 import { CustomStyles } from "../../Utils/SelectStyles";
 
-
 function Booking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -94,7 +93,7 @@ function Booking() {
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
   const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
-    useHasPermission("Bills");
+    useHasPermission("Invoice");
 
   const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
 

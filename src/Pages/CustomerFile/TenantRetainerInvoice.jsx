@@ -91,7 +91,7 @@ function TenantRetainerInvoice() {
     canUpdateModule: canUpdateInvoice,
     canReadModule: canReadInvoice,
     canWriteModule: canWriteInvoice,
-  } = useHasPermission("Bills");
+  } = useHasPermission("Invoice");
 
   const isDisabledButton =
     !canWriteInvoice ||

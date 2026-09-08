@@ -326,7 +326,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+  } = useHasPermission("Invoice");
 
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
@@ -1010,9 +1010,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               {canShowRecordPayment && (
                 <div className="relative inline-flex">
                   <button
-                    disabled={!canWriteInvoice}
+                    disabled={!canUpdateInvoice}
                     onClick={() => {
-                      if (canWriteInvoice)
+                      if (canUpdateInvoice)
                         handleNavigateRecordPayment(pdfDetails);
                     }}
                     className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm whitespace-nowrap px-4 py-2 
@@ -1140,9 +1140,9 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         {ShowMakeDiscount && (
                           <button
                             onClick={handleMakeDiscount}
-                            disabled={!canWriteInvoice}
+                            disabled={!canUpdateInvoice}
                             className={`w-full text-left px-4 py-2 text-sm rounded-md  whitespace-nowrap 
-        ${canWriteInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
+        ${canUpdateInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
                           >
                             Make Discount

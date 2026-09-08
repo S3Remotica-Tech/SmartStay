@@ -41,7 +41,7 @@ function UserListInvoice() {
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+  } = useHasPermission("Invoice");
 
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
@@ -532,13 +532,13 @@ function UserListInvoice() {
 
                                         {view.canUnpaid && (
                                           <button
-                                            disabled={!canWriteInvoice}
+                                            disabled={!canUpdateInvoice}
                                             onClick={() =>
-                                              canWriteInvoice &&
+                                              canUpdateInvoice &&
                                               handleUnpaid(view)
                                             }
                                             className={`flex items-center gap-2 w-full px-3 py-2 text-left 
-        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                           >
                                             <Edit size="16" color="#1E45E1" />
                                             Unpaid
@@ -555,13 +555,13 @@ function UserListInvoice() {
                                             view?.invoiceType ===
                                               "Reassign Rent") && (
                                             <button
-                                              disabled={!canWriteInvoice}
+                                              disabled={!canUpdateInvoice}
                                               onClick={() =>
-                                                canWriteInvoice &&
+                                                canUpdateInvoice &&
                                                 handleMakeDiscount(view)
                                               }
                                               className={`flex items-center gap-2 w-full px-3 py-2 text-left  
-        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                             >
                                               <DiscountCircle
                                                 size="16"
@@ -594,13 +594,13 @@ function UserListInvoice() {
                                           view?.paymentStatus !== "Paid" && (
                                             <button
                                               onClick={() => {
-                                                if (canWriteInvoice) {
+                                                if (canUpdateInvoice) {
                                                   handleRecordPayment(view);
                                                 }
                                               }}
-                                              disabled={!canWriteInvoice}
+                                              disabled={!canUpdateInvoice}
                                               className={`flex items-center gap-2 px-3 py-2 
-        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                             >
                                               <ReceiptEdit
                                                 size="16"
