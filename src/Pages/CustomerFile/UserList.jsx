@@ -110,7 +110,9 @@ function UserList(props) {
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
+  const { canWriteModule: canWriteBooking, canUpdateModule: canUpdateBooking } =
+    useHasPermission("Booking");
+
   const isTenantForm = location.state?.isTenantForm || false;
   const isCheckoutWay = location.state?.isCheckoutWay || false;
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
@@ -1999,18 +2001,18 @@ function UserList(props) {
 
                                                   <div
                                                     onClick={() =>
-                                                      canWriteTenant &&
+                                                      canUpdateBooking &&
                                                       handleCustomerReAssign(
                                                         user,
                                                       )
                                                     }
                                                     className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                  ${canUpdateBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                   >
                                                     <img
                                                       alt="image"
                                                       src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                      className={`h-4 w-4 ${!canUpdateBooking && "grayscale"}`}
                                                     />
                                                     <span className="text-sm font-medium font-gilroy whitespace-nowrap">
                                                       Change Bed

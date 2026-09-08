@@ -54,7 +54,8 @@ function OccupiedBedStatus({
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canReadModule: canReadBooking } = useHasPermission("Booking");
+  const { canReadModule: canReadBooking, canUpdateModule: canUpdateBooking } =
+    useHasPermission("Booking");
 
   const handleEditBed = () => {
     showEditBed(true);
@@ -217,22 +218,22 @@ function OccupiedBedStatus({
                             >
                               <div
                                 onClick={() =>
-                                  canWriteCustomers && handleReAssignBed(tenant)
+                                  canUpdateBooking && handleReAssignBed(tenant)
                                 }
                                 className={`flex gap-2 items-center p-2 rounded-t-[10px]
-            ${canWriteCustomers ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}
+            ${canUpdateBooking ? "cursor-pointer hover:bg-[#F0F4FF]" : "cursor-not-allowed opacity-60"}
           `}
                               >
                                 <FiCalendar
                                   size={16}
                                   color={
-                                    canWriteCustomers ? "#1E45E1" : "#A9A9A9"
+                                    canUpdateBooking ? "#1E45E1" : "#A9A9A9"
                                   }
                                   className="ml-1"
                                 />
                                 <label
                                   className={`text-[13px] font-medium font-gilroy mb-0
-            ${canWriteCustomers ? "text-[#222222] cursor-pointer" : "text-[#A9A9A9]"}
+            ${canUpdateBooking ? "text-[#222222] cursor-pointer" : "text-[#A9A9A9]"}
           `}
                                 >
                                   Change Bed
