@@ -36,7 +36,10 @@ function TenantActions({ show, handleClose }) {
   };
 
   useEffect(() => {
-    if (state.UsersList.kycRemindeSuccess === 200) {
+    if (
+      state.UsersList.kycRemindeSuccess === 200 ||
+      state.UsersList.kycRemindeSuccess === 201
+    ) {
       setFormLoading(false);
       //   dispatch({
       //     type: "CUSTOMERDETAILS",

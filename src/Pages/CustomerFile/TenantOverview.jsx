@@ -168,7 +168,8 @@ function TenantOverview(props) {
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
+  const { canWriteModule: canWriteBooking, canUpdateModule: canUpdateBooking } =
+    useHasPermission("Booking");
 
   const { canWriteModule: canWriteAmenities } = useHasPermission("Amenities");
 
@@ -405,7 +406,10 @@ function TenantOverview(props) {
   }, [state.UsersList.editBasicSuccessStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.kycRemindeSuccess === 200) {
+    if (
+      state.UsersList.kycRemindeSuccess === 200 ||
+      state.UsersList.kycRemindeSuccess === 201
+    ) {
       dispatch({
         type: "CUSTOMERDETAILS",
         payload: { customerId: CustomerOverView?.customerId },
@@ -1240,9 +1244,9 @@ function TenantOverview(props) {
                         </button>
 
                         <button
-                          disabled={!canWriteTenant}
+                          disabled={!canUpdateBooking}
                           onClick={() => {
-                            if (canWriteTenant) {
+                            if (canUpdateBooking) {
                               handleCustomerReAssign(CustomerOverView);
                               setOpenMenu(false);
                             }
@@ -1251,7 +1255,7 @@ function TenantOverview(props) {
                         >
                           <ArrowSwapHorizontal
                             size={16}
-                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                            color={canUpdateBooking ? "#1E45E1" : "#9CA3AF"}
                           />
                           Change Bed
                         </button>

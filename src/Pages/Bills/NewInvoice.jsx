@@ -1073,7 +1073,7 @@ function NewInvoice() {
                                 styles={CustomStylesTable}
                               />
 
-                              {["RENT", "ADDITIONAL_ADVANCE"].includes(
+                              {/* {["RENT", "ADDITIONAL_ADVANCE"].includes(
                                 u.itemType,
                               ) && (
                                 <input
@@ -1089,7 +1089,7 @@ function NewInvoice() {
                                   placeholder="Add a description to your item"
                                   className="w-full h-[28px] px-2 py-4 rounded text-[12px] text-[#0A0A0A80] border-0 outline-none bg-[#F9F9F9] font-semibold"
                                 />
-                              )}
+                              )} */}
                             </div>
                           )}
                         </td>

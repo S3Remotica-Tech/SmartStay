@@ -230,7 +230,7 @@ function* handleKYCReminderAgain(kyc) {
   try {
     const response = yield call(KYCReminderAgain, kyc.payload);
 
-    if (response?.status === 200) {
+    if (response?.status === 201) {
       yield put({
         type: "KYC_REMINDER_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
