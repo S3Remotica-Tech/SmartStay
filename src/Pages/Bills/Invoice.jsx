@@ -245,7 +245,7 @@ const InvoicePage = () => {
   };
 
   const { canWriteModule: canWriteInvoice, canReadModule: canReadInvoice } =
-    useHasPermission("Bills");
+    useHasPermission("Invoice");
 
   const handleShowFilterBills = () => {
     setShowBillsFilter(true);

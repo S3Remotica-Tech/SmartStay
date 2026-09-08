@@ -815,8 +815,19 @@ function TenantOverview(props) {
       "SETTLEMENT_GENERATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
-  const isDisabledButton =
-    !canWriteTenant ||
+  // const isDisabledButton =
+  //   !canWriteTenant ||
+  //   state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+  //   state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
+  //     "CANCELLED" ||
+  //   state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+  //   state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
+  //   state.UsersList.customerdetails?.customerCurrentStatus ===
+  //     "SETTLEMENT_GENERATED" ||
+  //   state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
+
+  const isDisabledButtonForUpdate =
+    !canUpdateTenant ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
       "CANCELLED" ||
@@ -2210,7 +2221,7 @@ function TenantOverview(props) {
                   {documentvalue === "1" &&
                     CustomerOverView?.files?.kycDoc?.length > 0 && (
                       <button
-                        disabled={isDisabledButton}
+                        disabled={isDisabledButtonForUpdate}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         onClick={handlePreviewKYC}
                       >
@@ -2221,7 +2232,7 @@ function TenantOverview(props) {
                   {documentvalue === "2" &&
                     CustomerOverView?.files?.otherDoc?.length > 0 && (
                       <button
-                        disabled={isDisabledButton}
+                        disabled={isDisabledButtonForUpdate}
                         className="bg-green-600  disabled:bg-blue-700/60 disabled:cursor-not-allowed rounded-full p-2 cursor-pointer shadow hover:scale-105 transition absolute bottom-4 right-4"
                         onClick={handlePreview}
                       >
@@ -2246,7 +2257,7 @@ function TenantOverview(props) {
 
                               <button
                                 onClick={handlePreviewKYC}
-                                disabled={isDisabledButton}
+                                disabled={isDisabledButtonForUpdate}
                                 className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
               disabled:bg-blue-700/60 disabled:cursor-not-allowed"
                               >
@@ -2275,7 +2286,7 @@ function TenantOverview(props) {
 
                               <button
                                 onClick={handlePreview}
-                                disabled={isDisabledButton}
+                                disabled={isDisabledButtonForUpdate}
                                 className="mt-2 bg-blue-700 text-white font-medium rounded-xl text-sm font-gilroy py-2 px-3 flex items-center gap-2 mx-auto
               disabled:bg-blue-700/60 disabled:cursor-not-allowed"
                               >
@@ -2299,12 +2310,12 @@ function TenantOverview(props) {
                       {additionalContact?.length > 0 && (
                         <div className="flex items-center gap-3">
                           <button
-                            disabled={isDisabledButton}
+                            disabled={isDisabledButtonForUpdate}
                             type="button"
                             onClick={handleAdditionalForm}
                             className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
     ${
-      !isDisabledButton
+      !isDisabledButtonForUpdate
         ? "bg-[#1E45E1] text-white cursor-pointer"
         : "bg-gray-100 text-gray-400 cursor-not-allowed"
     }
@@ -2312,7 +2323,11 @@ function TenantOverview(props) {
                           >
                             <AddCircle
                               size="20"
-                              color={!isDisabledButton ? "#FFFFFF" : "#CCCCCC"}
+                              color={
+                                !isDisabledButtonForUpdate
+                                  ? "#FFFFFF"
+                                  : "#CCCCCC"
+                              }
                             />{" "}
                             Additional
                           </button>
@@ -2330,7 +2345,7 @@ function TenantOverview(props) {
                           <p className="mb-1">No Contact Details are there!</p>
                           <button
                             type="button"
-                            disabled={isDisabledButton}
+                            disabled={isDisabledButtonForUpdate}
                             onClick={handleAdditionalForm}
                             className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-base font-semibold text-white bg-[#1E45E1] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
                           >

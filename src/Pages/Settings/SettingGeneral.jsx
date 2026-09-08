@@ -122,15 +122,7 @@ function SettingGeneral() {
     canReadModule: canReadProfile,
     canUpdateModule: canUpdateProfile,
     canDeleteModule: canDeleteProfile,
-  } = useHasPermission("Profile");
-
-  // const firstNameRef = useRef(null);
-  // const emailRef = useRef(null);
-  // const phoneRef = useRef(null);
-  // const passwordRef = useRef(null);
-  // const cityRef = useRef(null);
-  // const pincodeRef = useRef(null);
-  // const stateRef = useRef(null);
+  } = useHasPermission("User");
 
   const handleCloseShowVerify = () => {
     setShowVerify(false);

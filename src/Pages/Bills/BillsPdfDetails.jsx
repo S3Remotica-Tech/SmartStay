@@ -31,7 +31,7 @@ function BillsPdfDetails() {
 
   const searchTimeout = useRef();
 
-  const { canWriteModule: canWriteInvoice } = useHasPermission("Bills");
+  const { canWriteModule: canWriteInvoice } = useHasPermission("Invoice");
 
   const { rowData, isReportsInvoiceRegisterWay, isTenantWay } =
     location.state || {};

@@ -68,11 +68,8 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   }, []);
 
   const {
-    // canWriteModule: canWriteInvoice,
-    // canReadModule: canReadReceipt,
-    canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+    canWriteModule: canWriteInvoice,
+      } = useHasPermission("Bills");
 
   const handleCloseForm = () => {
     setBankAccountForm(false);
@@ -1367,11 +1364,11 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
           <div className="flex justify-end mt-4 lg:col-span-10">
             <button
-              disabled={!canUpdateInvoice}
+              disabled={!canWriteInvoice}
               onClick={handleSaveTemplate}
               className={`w-40 h-10 px-4 rounded-lg font-gilroy font-semibold text-sm
       text-white bg-[#1E45E1] 
-      ${!canUpdateInvoice ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"}`}
+      ${!canWriteInvoice ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"}`}
             >
               Save Template
             </button>

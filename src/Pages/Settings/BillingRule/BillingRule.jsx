@@ -32,8 +32,8 @@ function BillingRule() {
   const handleShowShortStay = () => setShowShortStay(true);
   const handleCloseShortStay = () => setShowShortStay(false);
 
-  const { canWriteModule: canWriteBills, canReadModule: canReadBills } =
-    useHasPermission("Bills");
+  const { canReadModule: canReadBills, canUpdateModule: canUpdateBills } =
+    useHasPermission("Paying Guests");
 
   //  Future needed this function so don't delete this command line.............
 
@@ -128,7 +128,7 @@ function BillingRule() {
               <div
                 className={`col-span-12 md:col-span-12 cursor-pointer`}
                 onClick={() => {
-                  if (canWriteBills) handleShowLongStay("long-stay-recurring");
+                  if (canUpdateBills) handleShowLongStay("long-stay-recurring");
                 }}
               >
                 <div className="h-full rounded-lg  shadow-md bg-white">
@@ -173,7 +173,7 @@ function BillingRule() {
                           color="#28303F"
                           size="14"
                           className={`${
-                            !canWriteBills
+                            !canUpdateBills
                               ? "opacity-40 cursor-not-allowed pointer-events-none"
                               : "cursor-pointer"
                           }`}

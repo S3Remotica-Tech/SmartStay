@@ -50,7 +50,7 @@ const InvoiceCard = ({ rowData }) => {
       key: "whatsapp",
     },
   ];
-  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Bills");
+  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Invoice");
 
   const [isVisible, setIsVisible] = useState(true);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
@@ -89,7 +89,6 @@ const InvoiceCard = ({ rowData }) => {
   useEffect(() => {
     setIsVisible(true);
   }, [rowData]);
-
 
   const handleDownload = async () => {
     if (rowData || pdfDetails?.hostelId) {

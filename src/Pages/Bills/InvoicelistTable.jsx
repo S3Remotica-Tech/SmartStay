@@ -20,7 +20,6 @@ import ApplyAdvance from "./ApplyAdvance";
 import ApplyRetainerToInvoice from "./ApplyRetainerToInvoice";
 
 const InvoiceTable = (props) => {
-  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,7 +50,7 @@ const InvoiceTable = (props) => {
     canReadModule: canReadInvoice,
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+  } = useHasPermission("Invoice");
 
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
@@ -728,16 +727,16 @@ const InvoiceTable = (props) => {
 
                   {props.item.canUnpaid && (
                     <button
-                      disabled={!canWriteInvoice}
+                      disabled={!canUpdateInvoice}
                       onClick={() =>
-                        canWriteInvoice && handleUnpaid(props.item)
+                        canUpdateInvoice && handleUnpaid(props.item)
                       }
                       className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
-        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                     >
                       <Edit
                         size="16"
-                        color={canWriteInvoice ? "#1E45E1" : "#A9A9A9"}
+                        color={canUpdateInvoice ? "#1E45E1" : "#A9A9A9"}
                         variant="Linear"
                       />
                       <span className="text-sm font-medium text-[#222]">
@@ -753,12 +752,12 @@ const InvoiceTable = (props) => {
                       props.item?.invoiceType === "Settlement" ||
                       props.item?.invoiceType === "Reassign-Rent") && (
                       <button
-                        disabled={!canWriteInvoice}
+                        disabled={!canUpdateInvoice}
                         onClick={() =>
-                          canWriteInvoice && handleMakeDiscount(props.item)
+                          canUpdateInvoice && handleMakeDiscount(props.item)
                         }
                         className={`flex items-center gap-2 w-full px-3 py-2 text-left border-b border-[#EBEBEB]
-        ${canWriteInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                       >
                         <DiscountCircle size="16" color="#ec400c" />
                         <span className="text-sm font-medium text-[#222]">
@@ -785,14 +784,16 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus !== "Cancelled" &&
                     props.item?.paymentStatus !== "Paid" && (
                       <div
-                        onClick={() => canWriteInvoice && handleShowform(props)}
+                        onClick={() =>
+                          canUpdateInvoice && handleShowform(props)
+                        }
                         className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
-        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img
                           src={Assign}
                           alt="Record"
-                          className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`}
+                          className={`h-4 w-4 ${!canUpdateInvoice && "grayscale"}`}
                         />
                         <span className="text-sm font-medium text-[#222]">
                           Record Payment
