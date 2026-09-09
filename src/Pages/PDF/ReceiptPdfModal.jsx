@@ -478,352 +478,363 @@ const InvoiceCard = ({ rowData }) => {
                               : "Final Settlement Receipt"}
                       </h5>
                     </div>
+                    <div className="bg-white  rounded-lg mx-4 py-4   position-relative ">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4 mt-1">
+                        <div className="md:col-span-5 text-[#222] text-[13px] font-[Gilroy]">
+                          <div className="mb-2 text-[12px] italic font-normal">
+                            Receipt to :
+                          </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4 mt-1">
-                      <div className="md:col-span-5 text-[#222] text-[13px] font-[Gilroy]">
-                        <div className="mb-2 text-[12px] italic font-normal">
-                          Receipt to :
-                        </div>
-
-                        <div className="flex items-center mb-1">
-                          {/* <span style={getIconStyle(templateColor)}>
+                          <div className="flex items-center mb-1">
+                            {/* <span style={getIconStyle(templateColor)}>
                             <Profile size="16" variant="Bold" />
                           </span> */}
-                          <span className="ml-1 text-[14px] font-semibold text-[#171717]">
-                            {pdfDetails?.customerInfo?.fullName}
-                          </span>
-                        </div>
+                            <span className="ml-1 text-[14px] font-semibold text-[#171717]">
+                              {pdfDetails?.customerInfo?.fullName}
+                            </span>
+                          </div>
 
-                        <div className="flex mb-1">
-                          {/* <span style={getIconStyle(templateColor)}>
+                          <div className="flex mb-1">
+                            {/* <span style={getIconStyle(templateColor)}>
                             <Call size="16" variant="Bold" />
                           </span> */}
-                          <span className="ml-1 text-[14px] text-[#171717]">
-                            {" "}
-                            {pdfDetails?.customerInfo?.customerMobileNo &&
-                            pdfDetails.customerInfo.customerMobileNo !==
-                              "undefined"
-                              ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
-                              : ""}
-                          </span>
-                        </div>
-                        <div className="flex">
-                          <div className="ml-1 text-[12px] text-[#171717]">
-                            {pdfDetails?.customerInfo?.fullAddress}
-                          </div>
-                        </div>
-                        <div className="flex mb-1">
-                          <div>
-                            <div className="text-[#4B4B4B] text-[12px]  ">
-                              Stay Details
-                            </div>
-                            <span className="ml-1 text-[14px] flex items-center font-semibold text-[#171717]">
-                              {pdfDetails?.stayInfo?.floorName && (
-                                <> {pdfDetails.stayInfo.floorName}, </>
-                              )}
-                              {pdfDetails?.stayInfo?.roomName && (
-                                <>{pdfDetails.stayInfo.roomName} </>
-                              )}
-                              - {pdfDetails?.stayInfo?.bedName}
+                            <span className="ml-1 text-[14px] text-[#171717]">
+                              {" "}
+                              {pdfDetails?.customerInfo?.customerMobileNo &&
+                              pdfDetails.customerInfo.customerMobileNo !==
+                                "undefined"
+                                ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
+                                : ""}
                             </span>
                           </div>
+                          <div className="flex">
+                            <div className="ml-1 text-[12px] text-[#171717]">
+                              {pdfDetails?.customerInfo?.fullAddress}
+                            </div>
+                          </div>
+                          <div className="flex mb-1">
+                            <div>
+                              <div className="text-[#4B4B4B] text-[12px]  ">
+                                Stay Details
+                              </div>
+                              <span className="ml-1 text-[14px] flex items-center font-semibold text-[#171717]">
+                                {pdfDetails?.stayInfo?.floorName && (
+                                  <> {pdfDetails.stayInfo.floorName}, </>
+                                )}
+                                {pdfDetails?.stayInfo?.roomName && (
+                                  <>{pdfDetails.stayInfo.roomName} </>
+                                )}
+                                - {pdfDetails?.stayInfo?.bedName}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="md:col-span-7 grid grid-cols-2 gap-y-1 mt-2 md:pl-6">
+                          {[
+                            [
+                              "Receipt No :",
+                              pdfDetails?.receiptInfo?.receiptNumber,
+                            ],
+                            [
+                              "Date :",
+                              pdfDetails?.receiptInfo?.transactionDate,
+                            ],
+                            [
+                              "Time :",
+                              pdfDetails?.receiptInfo?.transactionTime,
+                            ],
+                            [
+                              "Payment Mode :",
+                              pdfDetails?.accountDetails?.bankName,
+                            ],
+                            [
+                              "Transaction ID :",
+                              pdfDetails?.receiptInfo?.transactionId,
+                            ],
+
+                            ...(pdfDetails?.rentalPeriod
+                              ? [["Rental Period :", pdfDetails.rentalPeriod]]
+                              : []),
+                          ].map(([label, value], i) => (
+                            <React.Fragment key={i}>
+                              <div className="text-right text-[11px] text-[#4B4B4B] whitespace-nowrap overflow-hidden text-ellipsis">
+                                {label}
+                              </div>
+                              <div className="text-left ms-2 text-[14px] font-semibold text-[#171717] whitespace-nowrap overflow-hidden text-ellipsis">
+                                {value}
+                              </div>
+                            </React.Fragment>
+                          ))}
                         </div>
                       </div>
 
-                      <div className="md:col-span-7 grid grid-cols-2 gap-y-1 mt-2 md:pl-6">
-                        {[
-                          [
-                            "Receipt No :",
-                            pdfDetails?.receiptInfo?.receiptNumber,
-                          ],
-                          ["Date :", pdfDetails?.receiptInfo?.transactionDate],
-                          ["Time :", pdfDetails?.receiptInfo?.transactionTime],
-                          [
-                            "Payment Mode :",
-                            pdfDetails?.accountDetails?.bankName,
-                          ],
-                          [
-                            "Transaction ID :",
-                            pdfDetails?.receiptInfo?.transactionId,
-                          ],
-
-                          ...(pdfDetails?.rentalPeriod
-                            ? [["Rental Period :", pdfDetails.rentalPeriod]]
-                            : []),
-                        ].map(([label, value], i) => (
-                          <React.Fragment key={i}>
-                            <div className="text-right text-[11px] text-[#4B4B4B] whitespace-nowrap overflow-hidden text-ellipsis">
-                              {label}
-                            </div>
-                            <div className="text-left ms-2 text-[14px] font-semibold text-[#171717] whitespace-nowrap overflow-hidden text-ellipsis">
-                              {value}
-                            </div>
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="px-4 mt-3">
-                      <div className="flex flex-col md:flex-row border border-[#E6E6E6] rounded-[10px] overflow-hidden items-center">
-                        <div
-                          className="md:w-1/3 w-full p-[10px] font-semibold 
+                      <div className="px-4 mt-3">
+                        <div className="flex flex-col md:flex-row border border-[#E6E6E6] rounded-[10px] overflow-hidden items-center">
+                          <div
+                            className="md:w-1/3 w-full p-[10px] font-semibold 
                         text-[13px] text-black border-b md:border-b-0 md:border-r border-[#E6E6E6] capitalize"
-                        >
-                          {Number(pdfDetails?.invoiceAmount) > 0
-                            ? "TOTAL PAID AMOUNT"
-                            : "TOTAL REFUNDED AMOUNT"}
-                          <br />
+                          >
+                            {Number(pdfDetails?.invoiceAmount) > 0
+                              ? "TOTAL PAID AMOUNT"
+                              : "TOTAL REFUNDED AMOUNT"}
+                            <br />
 
-                          {(pdfDetails?.configurations?.receiptType ===
-                            "Booking" ||
-                            pdfDetails?.configurations?.receiptType ===
-                              "Advance") && (
-                            <span className="text-[12px] text-[#64748B] font-[Gilroy]">
-                              Security Deposit (Advance)
-                            </span>
-                          )}
-                          {pdfDetails?.configurations?.receiptType ===
-                            "Settlement" &&
-                            (Number(pdfDetails?.invoiceAmount) > 0 ? (
-                              <span className="flex items-center gap-2 text-[#64748B]">
-                                Tenant <ArrowRight size={14} /> Owner
+                            {(pdfDetails?.configurations?.receiptType ===
+                              "Booking" ||
+                              pdfDetails?.configurations?.receiptType ===
+                                "Advance") && (
+                              <span className="text-[12px] text-[#64748B] font-[Gilroy]">
+                                Security Deposit (Advance)
                               </span>
-                            ) : (
-                              <span className="flex items-center gap-2 text-[#64748B]">
-                                Owner <ArrowRight size={14} /> Tenant
-                              </span>
-                            ))}
-                        </div>
-
-                        <div className="md:w-2/3 w-full">
-                          <div className="flex items-center gap-2 bg-[#F1FFF5] p-[10px] text-[18px] font-semibold text-black">
-                            <div className="h-[24px] w-[3px] bg-[#00A651]" />₹{" "}
-                            {pdfDetails?.receiptInfo?.paidAmount}
-                          </div>
-
-                          <div className="text-[12px] text-[#4B4B4B] p-[10px]">
-                            {convertNumberToWords(
-                              pdfDetails?.receiptInfo?.paidAmount || 0,
                             )}
+                            {pdfDetails?.configurations?.receiptType ===
+                              "Settlement" &&
+                              (Number(pdfDetails?.invoiceAmount) > 0 ? (
+                                <span className="flex items-center gap-2 text-[#64748B]">
+                                  Tenant <ArrowRight size={14} /> Owner
+                                </span>
+                              ) : (
+                                <span className="flex items-center gap-2 text-[#64748B]">
+                                  Owner <ArrowRight size={14} /> Tenant
+                                </span>
+                              ))}
+                          </div>
+
+                          <div className="md:w-2/3 w-full">
+                            <div className="flex items-center gap-2 bg-[#F1FFF5] p-[10px] text-[18px] font-semibold text-black">
+                              <div className="h-[24px] w-[3px] bg-[#00A651]" />₹{" "}
+                              {pdfDetails?.receiptInfo?.paidAmount}
+                            </div>
+
+                            <div className="text-[12px] text-[#4B4B4B] p-[10px]">
+                              {convertNumberToWords(
+                                pdfDetails?.receiptInfo?.paidAmount || 0,
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap justify-between  items-center my-10 px-5">
-                    <div className="w-full md:w-8/12 p-0  flex items-center">
-                      <div>
-                        <h4 className="text-[13px] font-[Gilroy] font-medium text-[#4B4B4B]">
-                          Acknowledgment
-                        </h4>
 
-                        <p className="whitespace-pre-line text-[14px] font-[Gilroy] font-semibold text-[#3D3D3D] pr-[100px] text-justify">
-                          {pdfDetails?.configurations?.termAndCondition}
-                        </p>
+                      <div className="flex flex-wrap justify-between  items-center my-10 px-5">
+                        <div className="w-full md:w-8/12 p-0  flex items-center">
+                          <div>
+                            <h4 className="text-[13px] font-[Gilroy] font-medium text-[#4B4B4B]">
+                              Acknowledgment
+                            </h4>
+
+                            <p className="whitespace-pre-line text-[14px] font-[Gilroy] font-semibold text-[#3D3D3D] pr-[100px] text-justify">
+                              {pdfDetails?.configurations?.termAndCondition}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="w-full md:w-4/12 flex flex-col justify-end items-end p-0 mt-4 md:mt-0">
+                          {pdfDetails?.configurations?.signatureUrl && (
+                            <img
+                              src={pdfDetails?.configurations?.signatureUrl}
+                              alt="Digital Signature"
+                              className="h-[60px] w-[130px] pl-5"
+                            />
+                          )}
+
+                          <p className="text-[13px] font-[Gilroy] font-semibold text-[#2C2C2C]">
+                            Authorized Signature
+                          </p>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="w-full md:w-4/12 flex flex-col justify-end items-end p-0 mt-4 md:mt-0">
-                      {pdfDetails?.configurations?.signatureUrl && (
-                        <img
-                          src={pdfDetails?.configurations?.signatureUrl}
-                          alt="Digital Signature"
-                          className="h-[60px] w-[130px] pl-5"
-                        />
-                      )}
+                      <div className="flex flex-wrap justify-between my-12 px-5">
+                        <div className="w-full md:w-8/12 p-0 flex items-center ">
+                          <p className="whitespace-pre-line  text-[14px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[100px]">
+                            {pdfDetails?.configurations?.receiptNotes}
+                          </p>
+                        </div>
 
-                      <p className="text-[13px] font-[Gilroy] font-semibold text-[#2C2C2C]">
-                        Authorized Signature
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap justify-between my-12 px-5">
-                    <div className="w-full md:w-8/12 p-0 flex items-center ">
-                      <p className="whitespace-pre-line  text-[14px] font-[Gilroy] font-medium text-[#3D3D3D] pr-[100px]">
-                        {pdfDetails?.configurations?.receiptNotes}
-                      </p>
-                    </div>
-
-                    <div className="w-full md:w-4/12 flex flex-col h-fit  ">
-                      <img
-                        src={
-                          currentConfig?.label === "Booking Receipt" &&
-                          pdfDetails?.paymentStatus === "Refunded"
-                            ? currentConfig?.image2
-                            : currentConfig?.image
-                        }
-                        alt={currentConfig?.label}
-                        className="w-full h-fit"
-                      />
-                    </div>
-                  </div>
-                  <div className="my-12">
-                    {pdfDetails?.configurations?.receiptType === "Advance" ||
-                    pdfDetails?.configurations?.receiptType === "Booking" ? (
-                      <div className="table-responsive row justify-content-between   px-5 font-[Gilroy,sans-serif]">
-                        <table
-                          className="w-full border-separate border-spacing-0 border border-[#dee2e6] rounded-[12px]
+                        <div className="w-full md:w-4/12 flex flex-col h-fit  ">
+                          <img
+                            src={
+                              currentConfig?.label === "Booking Receipt" &&
+                              pdfDetails?.paymentStatus === "Refunded"
+                                ? currentConfig?.image2
+                                : currentConfig?.image
+                            }
+                            alt={currentConfig?.label}
+                            className="w-full h-fit"
+                          />
+                        </div>
+                      </div>
+                      <div className="my-12">
+                        {pdfDetails?.configurations?.receiptType ===
+                          "Advance" ||
+                        pdfDetails?.configurations?.receiptType ===
+                          "Booking" ? (
+                          <div className="table-responsive row justify-content-between   px-5 font-[Gilroy,sans-serif]">
+                            <table
+                              className="w-full border-separate border-spacing-0 border border-[#dee2e6] rounded-[12px]
                        overflow-hidden font-[Gilroy,sans-serif] p-0"
-                        >
-                          <thead>
-                            <tr>
-                              <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
-                                Invoice Number
-                              </th>
+                            >
+                              <thead>
+                                <tr>
+                                  <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
+                                    Invoice Number
+                                  </th>
 
-                              <th className="w-[60%] border-b border-[#dee2e6] px-[14px] py-[10px] text-center text-[13px] font-semibold text-black">
-                                DESCRIPTION
-                              </th>
+                                  <th className="w-[60%] border-b border-[#dee2e6] px-[14px] py-[10px] text-center text-[13px] font-semibold text-black">
+                                    DESCRIPTION
+                                  </th>
 
-                              <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
-                                AMOUNT / INR
-                              </th>
-                            </tr>
-                          </thead>
+                                  <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
+                                    AMOUNT / INR
+                                  </th>
+                                </tr>
+                              </thead>
 
-                          <tbody>
-                            <tr className="bg-white">
-                              <td className="w-[20%] px-[14px] py-[10px] text-left align-middle text-[13px] font-medium">
-                                {pdfDetails?.invoiceNumber}
-                              </td>
+                              <tbody>
+                                <tr className="bg-white">
+                                  <td className="w-[20%] px-[14px] py-[10px] text-left align-middle text-[13px] font-medium">
+                                    {pdfDetails?.invoiceNumber}
+                                  </td>
 
-                              <td className="w-[60%] px-[14px] py-[10px] text-center align-middle text-[13px] font-medium text-[#444]">
-                                Security Deposit (Advance) - Deductions
-                              </td>
+                                  <td className="w-[60%] px-[14px] py-[10px] text-center align-middle text-[13px] font-medium text-[#444]">
+                                    Security Deposit (Advance) - Deductions
+                                  </td>
 
-                              <td className="w-[20%]  text-right align-middle text-[13px] font-medium text-[#444]">
-                                Rs.{" "}
-                                {pdfDetails?.invoiceAmount?.toLocaleString(
-                                  "en-IN",
-                                )}
-                              </td>
-                            </tr>
+                                  <td className="w-[20%]  text-right align-middle text-[13px] font-medium text-[#444]">
+                                    Rs.{" "}
+                                    {pdfDetails?.invoiceAmount?.toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </td>
+                                </tr>
 
-                            <tr className="bg-[#F9F9F9] font-semibold">
-                              <td
-                                colSpan={2}
-                                className="px-[14px] py-[10px] text-left text-[13px] text-black"
-                              >
-                                Total
-                              </td>
+                                <tr className="bg-[#F9F9F9] font-semibold">
+                                  <td
+                                    colSpan={2}
+                                    className="px-[14px] py-[10px] text-left text-[13px] text-black"
+                                  >
+                                    Total
+                                  </td>
 
-                              <td className="px-[14px] py-[10px] text-right text-[13px] text-black">
-                                ₹{" "}
-                                {pdfDetails?.invoiceAmount?.toLocaleString(
-                                  "en-IN",
-                                )}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                  <td className="px-[14px] py-[10px] text-right text-[13px] text-black">
+                                    ₹{" "}
+                                    {pdfDetails?.invoiceAmount?.toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        ) : pdfDetails?.configurations?.receiptType ===
+                          "Rent" ? (
+                          <div className=" w-full px-5 font-[Gilroy,sans-serif]">
+                            <table className="w-full border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-[#dee2e6] font-[Gilroy,sans-serif]">
+                              <thead>
+                                <tr>
+                                  <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
+                                    INVOICE NO.
+                                  </th>
+
+                                  <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
+                                    INV DATE
+                                  </th>
+
+                                  <th className="w-[30%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
+                                    INVOICE AMOUNT
+                                  </th>
+
+                                  <th className="w-[30%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
+                                    PAYMENT AMOUNT
+                                  </th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr className="border-b border-[#dee2e6] bg-white">
+                                  <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium text-[#1E80E1] underline">
+                                    {pdfDetails?.invoiceNumber}
+                                  </td>
+
+                                  <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium text-[#444]">
+                                    {pdfDetails?.invoiceDate}
+                                  </td>
+
+                                  <td className="px-[14px] py-[10px] text-right align-middle text-[13px] font-medium text-[#444]">
+                                    ₹{" "}
+                                    {pdfDetails?.invoiceAmount?.toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </td>
+
+                                  <td className="px-[14px] py-[10px] text-right align-middle text-[13px] font-medium text-[#444]">
+                                    ₹{" "}
+                                    {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        ) : (
+                          <div className=" w-full px-5 font-[Gilroy,sans-serif]">
+                            <table className="w-full border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-[#dee2e6] font-[Gilroy,sans-serif]">
+                              <thead>
+                                <tr>
+                                  <th className="w-[10%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
+                                    S.NO
+                                  </th>
+
+                                  <th className="w-[60%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
+                                    DESCRIPTION
+                                  </th>
+
+                                  <th className="w-[30%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
+                                    AMOUNT / INR
+                                  </th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr className="bg-white">
+                                  <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium">
+                                    1
+                                  </td>
+
+                                  <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium text-[#444]">
+                                    {pdfDetails?.configurations?.receiptType}
+                                  </td>
+
+                                  <td className="px-[14px] py-[10px] text-right align-middle text-[13px] font-medium text-[#444]">
+                                    Rs.{" "}
+                                    {pdfDetails?.invoiceAmount?.toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </td>
+                                </tr>
+
+                                <tr className="bg-[#F9F9F9] font-semibold">
+                                  <td
+                                    colSpan={2}
+                                    className="px-[14px] py-[10px] text-left text-[13px] text-black"
+                                  >
+                                    Total
+                                  </td>
+
+                                  <td className="px-[14px] py-[10px] text-right text-[13px] text-black">
+                                    ₹{" "}
+                                    {pdfDetails?.invoiceAmount?.toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
                       </div>
-                    ) : pdfDetails?.configurations?.receiptType === "Rent" ? (
-                      <div className=" w-full px-5 font-[Gilroy,sans-serif]">
-                        <table className="w-full border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-[#dee2e6] font-[Gilroy,sans-serif]">
-                          <thead>
-                            <tr>
-                              <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
-                                INVOICE NO.
-                              </th>
-
-                              <th className="w-[20%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
-                                INV DATE
-                              </th>
-
-                              <th className="w-[30%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
-                                INVOICE AMOUNT
-                              </th>
-
-                              <th className="w-[30%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
-                                PAYMENT AMOUNT
-                              </th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            <tr className="border-b border-[#dee2e6] bg-white">
-                              <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium text-[#1E80E1] underline">
-                                {pdfDetails?.invoiceNumber}
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium text-[#444]">
-                                {pdfDetails?.invoiceDate}
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-right align-middle text-[13px] font-medium text-[#444]">
-                                ₹{" "}
-                                {pdfDetails?.invoiceAmount?.toLocaleString(
-                                  "en-IN",
-                                )}
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-right align-middle text-[13px] font-medium text-[#444]">
-                                ₹{" "}
-                                {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString(
-                                  "en-IN",
-                                )}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    ) : (
-                      <div className=" w-full px-5 font-[Gilroy,sans-serif]">
-                        <table className="w-full border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-[#dee2e6] font-[Gilroy,sans-serif]">
-                          <thead>
-                            <tr>
-                              <th className="w-[10%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
-                                S.NO
-                              </th>
-
-                              <th className="w-[60%] border-b border-[#dee2e6] px-[14px] py-[10px] text-left text-[13px] font-semibold text-black">
-                                DESCRIPTION
-                              </th>
-
-                              <th className="w-[30%] border-b border-[#dee2e6] px-[14px] py-[10px] text-right text-[13px] font-semibold text-black">
-                                AMOUNT / INR
-                              </th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            <tr className="bg-white">
-                              <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium">
-                                1
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-left align-middle text-[13px] font-medium text-[#444]">
-                                {pdfDetails?.configurations?.receiptType}
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-right align-middle text-[13px] font-medium text-[#444]">
-                                Rs.{" "}
-                                {pdfDetails?.invoiceAmount?.toLocaleString(
-                                  "en-IN",
-                                )}
-                              </td>
-                            </tr>
-
-                            <tr className="bg-[#F9F9F9] font-semibold">
-                              <td
-                                colSpan={2}
-                                className="px-[14px] py-[10px] text-left text-[13px] text-black"
-                              >
-                                Total
-                              </td>
-
-                              <td className="px-[14px] py-[10px] text-right text-[13px] text-black">
-                                ₹{" "}
-                                {pdfDetails?.invoiceAmount?.toLocaleString(
-                                  "en-IN",
-                                )}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
+                    </div>
                   </div>
                   <div
                     className="absolute left-0 right-0 bottom-4"
