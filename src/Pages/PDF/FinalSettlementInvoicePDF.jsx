@@ -73,10 +73,10 @@ function FinalSettlementInvoicePDF() {
             <div className="text-[13px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
               {pdfDetails?.configInfo?.address}
             </div>
-            <div className="text-[#222222] text-[13px] font-medium  ">
+            {/* <div className="text-[#222222] text-[13px] font-medium  ">
               <span>GST IN : </span>{" "}
               <span>{pdfDetails?.headerInfo?.gstNumber}</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
