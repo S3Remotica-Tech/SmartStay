@@ -192,8 +192,6 @@ const {
 
             </div>
           </Modal.Body>
-
-
         </Modal>
 
       </div>

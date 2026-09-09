@@ -73,10 +73,10 @@ function FinalSettlementInvoicePDF() {
             <div className="text-[13px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
               {pdfDetails?.configInfo?.address}
             </div>
-            <div className="text-[#222222] text-[13px] font-medium  ">
+            {/* <div className="text-[#222222] text-[13px] font-medium  ">
               <span>GST IN : </span>{" "}
               <span>{pdfDetails?.headerInfo?.gstNumber}</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -291,7 +291,33 @@ function FinalSettlementInvoicePDF() {
             </div>
           )}
 
-          {/* Rteianer invoice */}
+          <div className="py-3 border-b border-[#E5E7EB]">
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <h3 className="text-[12px] font-semibold text-[#1A1C21]">
+                  Additional Advance
+                </h3>
+
+                <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
+                  {/* {pdfDetails?.retainerInfo?.retainerItems?.map(
+                    (item, index) => (
+                      <div key={item.invoiceId || index}>
+                        <span className="mb-1 block">
+                          {item.invoiceNo} - ₹ {item.appliedAmount}
+                        </span>
+                      </div>
+                    ),
+                  )} */}
+                </div>
+              </div>
+
+              <p className="text-[13px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                {/* ₹ {pdfDetails?.retainerInfo?.totalRetainerAmount || 0} */} ₹
+                0
+              </p>
+            </div>
+          </div>
 
           {/* {pdfDetails?.advanceItems && ( */}
           <div className="py-3 border-b border-[#E5E7EB]">

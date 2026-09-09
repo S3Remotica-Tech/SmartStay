@@ -160,7 +160,8 @@ function FinalSettlement() {
   const [collectFullRent, setCollectFullRent] = useState(false);
   const [showEbMissed, setShowEbMissed] = useState(false);
   const [showOtherCharges, setShowOtherCharges] = useState(false);
-
+  const customerId =
+    data?.apiCall?.customerId || data?.customerId || data?.tenetId;
   const [showRoomReading, setShowRoomReading] = useState(false);
   const [showDeductions, setShowDeductions] = useState(false);
 
@@ -176,6 +177,7 @@ function FinalSettlement() {
     isPgWayTrigger,
     isTenantWayTrigger,
   } = location.state || {};
+  const quillRef = useRef(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [finalAmountSetClicked, setFinalAmountSetClicked] = useState(false);
@@ -188,10 +190,6 @@ function FinalSettlement() {
     setIsEditing(false);
   };
 
-  useEffect(() => {
-    setDiscount(finalSettlementList?.currentMonthRentInfo?.discountAmount);
-  }, [finalSettlementList?.currentMonthRentInfo]);
-
   const handleRoomReading = (item) => {
     setShowRoomReading(true);
     setSelectedRowDetails(item);
@@ -201,70 +199,6 @@ function FinalSettlement() {
     dispatch({ type: "REMOVE_ROOM_READING_ERROR" });
     setShowRoomReading(false);
   };
-
-  const customerId =
-    data?.apiCall?.customerId || data?.customerId || data?.tenetId;
-
-  useEffect(() => {
-    if (!customerId) return;
-
-    const payload = {
-      customerId: customerId,
-    };
-
-    if (checkoutDate) {
-      payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
-    }
-
-    dispatch({ type: "GETFINALSETTLEMENT", payload });
-    setFormLoading(true);
-  }, [customerId, checkoutDate]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        isEditingDate &&
-        datePickerRef.current &&
-        !datePickerRef.current.contains(event.target)
-      ) {
-        setIsEditingDate(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isEditingDate]);
-
-  useEffect(() => {
-    if (state.InvoiceList.finalSettlementGetStatusCode === 200) {
-      setFormLoading(false);
-      setFinalSettlementList(state.InvoiceList?.finalSettlementDetails);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_FINAL_SETTLEMENT" });
-      }, []);
-    }
-  }, [state.InvoiceList.finalSettlementGetStatusCode]);
-
-  useEffect(() => {
-    if (state.UsersList.StatusCodeForDateUpdate === 200) {
-      dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE" });
-    }
-  }, [state.UsersList.StatusCodeForDateUpdate]);
-
-  useEffect(() => {
-    if (state.UsersList?.finalError) {
-      setFormLoading(false);
-    }
-  }, [state.UsersList?.finalError]);
-
-  useEffect(() => {
-    return () => {
-      dispatch({ type: "REMOVE_FINAL_GENERATE_ERROR" });
-    };
-  }, []);
 
   const reasonOptions = [
     { value: "DueAmount", label: "Due Amount" },
@@ -360,12 +294,75 @@ function FinalSettlement() {
   };
 
   useEffect(() => {
+    setDiscount(finalSettlementList?.currentMonthRentInfo?.discountAmount);
+  }, [finalSettlementList?.currentMonthRentInfo]);
+
+  useEffect(() => {
+    if (!customerId) return;
+
+    const payload = {
+      customerId: customerId,
+    };
+
+    if (checkoutDate) {
+      payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
+    }
+
+    dispatch({ type: "GETFINALSETTLEMENT", payload });
+    setFormLoading(true);
+  }, [customerId, checkoutDate]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isEditingDate &&
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target)
+      ) {
+        setIsEditingDate(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isEditingDate]);
+
+  useEffect(() => {
+    if (state.InvoiceList.finalSettlementGetStatusCode === 200) {
+      setFormLoading(false);
+      setFinalSettlementList(state.InvoiceList?.finalSettlementDetails);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GET_FINAL_SETTLEMENT" });
+      }, []);
+    }
+  }, [state.InvoiceList.finalSettlementGetStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList.StatusCodeForDateUpdate === 200) {
+      dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE" });
+    }
+  }, [state.UsersList.StatusCodeForDateUpdate]);
+
+  useEffect(() => {
+    if (state.UsersList?.finalError) {
+      setFormLoading(false);
+    }
+  }, [state.UsersList?.finalError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_FINAL_GENERATE_ERROR" });
+    };
+  }, []);
+
+  useEffect(() => {
     if (state.UsersList.conformChekoutError) {
       setFormLoading(false);
     }
   }, [state.UsersList.conformChekoutError]);
-
-  const quillRef = useRef(null);
 
   useEffect(() => {
     return () => {
@@ -1714,7 +1711,7 @@ function FinalSettlement() {
                             ) : (
                               <tr>
                                 <td
-                                  colSpan={3}
+                                  colSpan={4}
                                   className="px-4 py-4 text-center text-sm text-[#AA6805] "
                                 >
                                   No refundable advance transactions available
@@ -1728,6 +1725,7 @@ function FinalSettlement() {
                   )}
                 </div>
               </div>
+              {/* additional advance */}
 
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
                 <div
@@ -1812,10 +1810,10 @@ function FinalSettlement() {
                             ) : (
                               <tr>
                                 <td
-                                  colSpan={3}
+                                  colSpan={4}
                                   className="px-4 py-4 text-center text-sm text-[#AA6805] "
                                 >
-                                  No refundable advance transactions available
+                                  No addtitional advance available
                                 </td>
                               </tr>
                             )}
@@ -2401,17 +2399,6 @@ function FinalSettlement() {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Retainer Invoice</p>
-                      <p className="text-sm font-medium text-gray-900">
-                        ₹{" "}
-                        {finalSettlementList?.settlementInfo?.retainerBalance ||
-                          0}
-                      </p>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <p className="text-sm text-gray-600">
-                        Additional Advance
-                      </p>
                       <p className="text-sm font-medium text-gray-900">
                         ₹{" "}
                         {finalSettlementList?.settlementInfo?.retainerBalance ||
