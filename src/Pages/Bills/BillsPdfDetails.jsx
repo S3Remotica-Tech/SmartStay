@@ -234,6 +234,10 @@ ${
                       <div className="font-gilroy text-xs text-[#222] font-semibold">
                         {item.invoiceNumber || "0.00"}
                       </div>
+                      {/* <span className="inline-block h-4 w-[1px] bg-gray-400"></span>
+                      <div className="text-[#4B4B4B] text-xs font-medium ">
+                        {item.invoiceType}
+                      </div> */}
                       <div className="font-gilroy text-xs text-[#222] font-medium">
                         {item.invoiceDate}
                       </div>

@@ -418,7 +418,7 @@ const InvoiceCard = ({ rowData }) => {
                 }}
               >
                 <div
-                  className="bg-white shadow-md origin-top-left rounded"
+                  className="bg-white shadow-md origin-top-left rounded font-gilroy"
                   style={{
                     width: `${A4_WIDTH}px`,
                     height: `${A4_HEIGHT}px`,
@@ -428,7 +428,7 @@ const InvoiceCard = ({ rowData }) => {
                 >
                   <div className="p-2 relative rounded-t-[8px]">
                     <div className="flex justify-between items-center px-3">
-                      <div className="w-1/2">
+                      <div className="flex gap-2 justify-start">
                         <img
                           src={
                             pdfDetails?.configurations?.hostelLogo
@@ -442,6 +442,23 @@ const InvoiceCard = ({ rowData }) => {
                               : "h-[25px]"
                           }`}
                         />
+
+                        <div>
+                          <div className="py-1">
+                            <div className="text-[#222222] text-[14px] font-medium ">
+                              {pdfDetails?.emailId &&
+                              pdfDetails.emailId !== "null"
+                                ? pdfDetails.emailId
+                                : ""}
+                            </div>
+                          </div>
+                          <div className="py-1">
+                            <div className="text-[#222222] text-[14px] font-medium  ">
+                              {pdfDetails?.mobile &&
+                                `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="mt-2 w-[45%] pl-4 pr-0">
@@ -842,7 +859,7 @@ const InvoiceCard = ({ rowData }) => {
                       background: "#FFFFFF",
                     }}
                   >
-                    <hr className="border-1 border-[#D7DAE0] " />
+                    <hr className="border-2 border-[#D7DAE0] " />
 
                     <div className="px-5">
                       <div className="flex flex-col md:flex-row md:justify-between items-center text-center md:text-left rounded-t-[38px]">
