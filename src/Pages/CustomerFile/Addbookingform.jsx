@@ -152,15 +152,6 @@ function BookingModal(props) {
       }))
     : [];
 
-  // useEffect(() => {
-  //   if (state.UsersList?.availableBedList) {
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_BANKING_LIST" });
-  //     }, 200);
-  //   }
-  // }, [state.UsersList?.availableBedList]);
-
   const handleModeOfPaymentChange = (selectedOption) => {
     setBedWarning("");
     if (!selectedOption) return;
