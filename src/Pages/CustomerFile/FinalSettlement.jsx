@@ -160,8 +160,7 @@ function FinalSettlement() {
   const [collectFullRent, setCollectFullRent] = useState(false);
   const [showEbMissed, setShowEbMissed] = useState(false);
   const [showOtherCharges, setShowOtherCharges] = useState(false);
-  const customerId =
-    data?.apiCall?.customerId || data?.customerId || data?.tenetId;
+
   const [showRoomReading, setShowRoomReading] = useState(false);
   const [showDeductions, setShowDeductions] = useState(false);
 
@@ -177,6 +176,8 @@ function FinalSettlement() {
     isPgWayTrigger,
     isTenantWayTrigger,
   } = location.state || {};
+  const customerId =
+    data?.apiCall?.customerId || data?.customerId || data?.tenetId;
   const quillRef = useRef(null);
 
   const [isEditing, setIsEditing] = useState(false);
