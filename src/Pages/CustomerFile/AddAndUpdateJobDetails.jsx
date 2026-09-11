@@ -119,6 +119,19 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   const [saveLoading, setSaveLoading] = useState(false);
   const [noChanges, setNoChanges] = useState("");
 
+  const getEmptyJob = () => ({
+    employmentStatus: "",
+    organizationName: "",
+    role: "",
+    workLocation: "",
+    shiftType: "",
+    shiftStartsFrom: "",
+    shiftEndsAt: "",
+  });
+
+  const [jobDetails, setJobDetails] = useState([getEmptyJob()]);
+  const [editingIndex, setEditingIndex] = useState(null);
+
   const shiftTypeOptions = [
     { value: "Day Shift", label: "Day Shift" },
     { value: "Night Shift", label: "Night Shift" },
@@ -158,106 +171,167 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
     { value: "Other", label: "Other" },
   ];
 
-  const handleEmploymentStatusChange = (selected) => {
-    setEmploymentStatus(selected);
+  // const handleEmploymentStatusChange = (selected) => {
+  //   setEmploymentStatus(selected);
+  // };
+
+  // const handleOrganizationNameChange = (e) => {
+  //   setOrganizationName(e.target.value);
+  //   setNoChanges("");
+  // };
+
+  // const handleJobRoleChange = (selected) => {
+  //   setJobRole(selected);
+  //   setNoChanges("");
+  // };
+
+  // const handleWorkLocationChange = (e) => {
+  //   setWorkLocation(e.target.value);
+  //   setNoChanges("");
+  // };
+
+  // const handleShiftTypeChange = (selected) => {
+  //   setShiftType(selected);
+  //   setNoChanges("");
+  // };
+
+  // const handleFromTimeChange = (e) => {
+  //   setFromTime(e.target.value);
+  //   setNoChanges("");
+  // };
+
+  // const handleToTimeChange = (e) => {
+  //   setToTime(e.target.value);
+  //   setNoChanges("");
+  // };
+
+  const handleJobChange = (index, field, value) => {
+    setJobDetails((prev) =>
+      prev.map((job, i) =>
+        i === index
+          ? {
+              ...job,
+              [field]: value,
+            }
+          : job,
+      ),
+    );
+
     setNoChanges("");
   };
 
-  const handleOrganizationNameChange = (e) => {
-    setOrganizationName(e.target.value);
+  const handleAddJob = () => {
     setNoChanges("");
+    setJobDetails((prev) => [...prev, getEmptyJob()]);
   };
 
-  const handleJobRoleChange = (selected) => {
-    setJobRole(selected);
-    setNoChanges("");
-  };
+  const handleDeleteJob = (index) => {
+    setJobDetails((prev) => {
+      if (prev.length === 1) {
+        return [getEmptyJob()];
+      }
 
-  const handleWorkLocationChange = (e) => {
-    setWorkLocation(e.target.value);
-    setNoChanges("");
-  };
-
-  const handleShiftTypeChange = (selected) => {
-    setShiftType(selected);
-    setNoChanges("");
-  };
-
-  const handleFromTimeChange = (e) => {
-    setFromTime(e.target.value);
-    setNoChanges("");
-  };
-
-  const handleToTimeChange = (e) => {
-    setToTime(e.target.value);
-    setNoChanges("");
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
   useEffect(() => {
-    const jobDetails = CustomerOverView?.jobDetails;
+    if (CustomerOverView?.jobDetails && editMode) {
+      const existingJobs = Array.isArray(CustomerOverView.jobDetails)
+        ? CustomerOverView.jobDetails
+        : [CustomerOverView.jobDetails];
 
-    if (jobDetails && editMode) {
-      setEmploymentStatus(
-        jobDetails.employmentStatus
-          ? {
-              value: jobDetails.employmentStatus,
-              label: jobDetails.employmentStatus,
-            }
-          : null,
+      setJobDetails(
+        existingJobs.map((job) => ({
+          employmentStatus: job.employmentStatus || "",
+          organizationName: job.organizationName || "",
+          role: job.role || "",
+          workLocation: job.workLocation || "",
+          shiftType: job.shiftType || "",
+          shiftStartsFrom: job.shiftStartsFrom || job.shiftStartTime || "",
+          shiftEndsAt: job.shiftEndsAt || job.shiftEndTime || "",
+        })),
       );
-
-      setOrganizationName(jobDetails.organizationName?.trim() || "");
-
-      setJobRole(
-        jobDetails.role
-          ? {
-              value: jobDetails.role,
-              label: jobDetails.role,
-            }
-          : null,
-      );
-
-      setWorkLocation(jobDetails.workLocation || "");
-
-      setShiftType(
-        jobDetails.shiftType
-          ? {
-              value: jobDetails.shiftType,
-              label: jobDetails.shiftType,
-            }
-          : null,
-      );
-
-      // const [from = "", to = ""] = (jobDetails.shiftTiming || "").split(":");
-
-      setFromTime(jobDetails?.shiftStartTime);
-      setToTime(jobDetails?.shiftEndTime);
     }
   }, [CustomerOverView, editMode]);
 
+  // const handleSave = () => {
+  //   setNoChanges("");
+  //   const existing = CustomerOverView?.jobDetails || {};
+
+  //   // const currentShiftTiming = `${fromTime || ""}:${toTime || ""}`;
+
+  //   const existingData = {
+  //     employmentStatus: existing.employmentStatus || "",
+  //     organizationName: (existing.organizationName || "").trim(),
+  //     role: existing.role || "",
+  //     workLocation: existing.workLocation || "",
+  //     shiftType: existing.shiftType || "",
+  //     shiftTiming: existing.shiftTiming || "",
+  //   };
+
+  //   const currentData = {
+  //     employmentStatus: employmentStatus?.value || "",
+  //     organizationName: organizationName.trim(),
+  //     role: jobRole?.value || "",
+  //     workLocation,
+  //     shiftType: shiftType?.value || "",
+  //     shiftTiming: `${fromTime}:${toTime}`,
+  //   };
+
+  //   const isJobDetailsChanged =
+  //     JSON.stringify(existingData) !== JSON.stringify(currentData);
+
+  //   if (!isJobDetailsChanged) {
+  //     setNoChanges("No changes detected");
+  //     return;
+  //   }
+
+  //   dispatch({
+  //     type: "JOB_UPDATE_SAGA",
+  //     payload: {
+  //       hostelId: state?.login?.selectedHostel_Id,
+  //       customerId: CustomerOverView?.customerId,
+  //       employmentStatus: employmentStatus?.value || "",
+  //       organizationName: organizationName || "",
+  //       role: jobRole?.value || "",
+  //       workLocation: workLocation || "",
+  //       shiftType: shiftType?.value || "",
+  //       shiftStartsFrom: fromTime || "",
+  //       shiftEndsAt: toTime || "",
+  //     },
+  //   });
+  //   setSaveLoading(true);
+  // };
+
   const handleSave = () => {
     setNoChanges("");
-    const existing = CustomerOverView?.jobDetails || {};
 
-    // const currentShiftTiming = `${fromTime || ""}:${toTime || ""}`;
+    const existingJobDetails = Array.isArray(CustomerOverView?.jobDetails)
+      ? CustomerOverView.jobDetails
+      : CustomerOverView?.jobDetails
+        ? [CustomerOverView.jobDetails]
+        : [];
 
-    const existingData = {
-      employmentStatus: existing.employmentStatus || "",
-      organizationName: (existing.organizationName || "").trim(),
-      role: existing.role || "",
-      workLocation: existing.workLocation || "",
-      shiftType: existing.shiftType || "",
-      shiftTiming: existing.shiftTiming || "",
-    };
+    const existingData = existingJobDetails.map((job) => ({
+      employmentStatus: job.employmentStatus || "",
+      organizationName: (job.organizationName || "").trim(),
+      role: job.role || "",
+      workLocation: job.workLocation || "",
+      shiftType: job.shiftType || "",
+      shiftStartsFrom: job.shiftStartsFrom || job.shiftStartTime || "",
+      shiftEndsAt: job.shiftEndsAt || job.shiftEndTime || "",
+    }));
 
-    const currentData = {
-      employmentStatus: employmentStatus?.value || "",
-      organizationName: organizationName.trim(),
-      role: jobRole?.value || "",
-      workLocation,
-      shiftType: shiftType?.value || "",
-      shiftTiming: `${fromTime}:${toTime}`,
-    };
+    const currentData = jobDetails.map((job) => ({
+      employmentStatus: job.employmentStatus || "",
+      organizationName: job.organizationName?.trim() || "",
+      role: job.role || "",
+      workLocation: job.workLocation || "",
+      shiftType: job.shiftType || "",
+      shiftStartsFrom: job.shiftStartsFrom || "",
+      shiftEndsAt: job.shiftEndsAt || "",
+    }));
 
     const isJobDetailsChanged =
       JSON.stringify(existingData) !== JSON.stringify(currentData);
@@ -272,15 +346,10 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
       payload: {
         hostelId: state?.login?.selectedHostel_Id,
         customerId: CustomerOverView?.customerId,
-        employmentStatus: employmentStatus?.value || "",
-        organizationName: organizationName || "",
-        role: jobRole?.value || "",
-        workLocation: workLocation || "",
-        shiftType: shiftType?.value || "",
-        shiftStartsFrom: fromTime || "",
-        shiftEndsAt: toTime || "",
+        jobDetails: currentData,
       },
     });
+
     setSaveLoading(true);
   };
 
@@ -310,94 +379,172 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
             className="cursor-pointer"
           />
         </div>
-        <div className="flex-1 overflow-y-auto px-3 py-3 show-scrolls max-h-[500px]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
-                Employment Status
-              </label>
-              <Select
-                options={jobOptions}
-                value={employmentStatus}
-                onChange={handleEmploymentStatusChange}
-                placeholder="Employment Status"
-                styles={CustomStyles}
-              />
-            </div>
+        <div className="flex-1 overflow-y-auto px-3 py-2 show-scrolls max-h-[500px]">
+          {jobDetails.map((job, index) => (
+            <div
+              key={index}
+              className="border border-[#E5E7EB] rounded-xl p-3 mb-2"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-[16px] font-semibold text-[#222222]">
+                  Job Details {index + 1}
+                </h4>
 
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy ">
-                Company / College
-              </label>
-              <input
-                value={organizationName}
-                onChange={handleOrganizationNameChange}
-                className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
-                placeholder="Company / College"
-              />
-            </div>
+                {jobDetails.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteJob(index)}
+                    className="flex items-center gap-1 text-red-500 text-sm font-medium"
+                  >
+                    <CloseCircle size="20" />
+                  </button>
+                )}
+              </div>
 
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
-                Job Role
-              </label>
-              <Select
-                options={jobRoleOptions}
-                value={jobRole}
-                onChange={handleJobRoleChange}
-                placeholder="Job Role"
-                styles={CustomStyles}
-              />
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    Employment Status
+                  </label>
 
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy ">
-                Work Location
-              </label>
-              <input
-                value={workLocation}
-                onChange={handleWorkLocationChange}
-                className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
-                placeholder="Work Location"
-              />
-            </div>
+                  <Select
+                    options={jobOptions}
+                    value={
+                      job.employmentStatus
+                        ? {
+                            value: job.employmentStatus,
+                            label: job.employmentStatus,
+                          }
+                        : null
+                    }
+                    onChange={(selected) =>
+                      handleJobChange(
+                        index,
+                        "employmentStatus",
+                        selected?.value || "",
+                      )
+                    }
+                    placeholder="Employment Status"
+                    styles={CustomStyles}
+                  />
+                </div>
 
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy ">
-                Shift Type
-              </label>
-              <Select
-                options={shiftTypeOptions}
-                value={shiftType}
-                onChange={handleShiftTypeChange}
-                placeholder="Shift Type"
-                styles={CustomStyles}
-              />
-            </div>
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    Company / College
+                  </label>
 
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy ">
-                From Time
-              </label>
-              <input
-                type="time"
-                value={fromTime}
-                onChange={handleFromTimeChange}
-                className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
-              />
-            </div>
+                  <input
+                    value={job.organizationName}
+                    onChange={(e) =>
+                      handleJobChange(index, "organizationName", e.target.value)
+                    }
+                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                    placeholder="Company / College"
+                  />
+                </div>
 
-            <div>
-              <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy ">
-                To Time
-              </label>
-              <input
-                type="time"
-                value={toTime}
-                onChange={handleToTimeChange}
-                className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
-              />
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    Job Role
+                  </label>
+
+                  <Select
+                    options={jobRoleOptions}
+                    value={
+                      job.role
+                        ? {
+                            value: job.role,
+                            label: job.role,
+                          }
+                        : null
+                    }
+                    onChange={(selected) =>
+                      handleJobChange(index, "role", selected?.value || "")
+                    }
+                    placeholder="Job Role"
+                    styles={CustomStyles}
+                  />
+                </div>
+
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    Work Location
+                  </label>
+
+                  <input
+                    value={job.workLocation}
+                    onChange={(e) =>
+                      handleJobChange(index, "workLocation", e.target.value)
+                    }
+                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                    placeholder="Work Location"
+                  />
+                </div>
+
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    Shift Type
+                  </label>
+
+                  <Select
+                    options={shiftTypeOptions}
+                    value={
+                      job.shiftType
+                        ? {
+                            value: job.shiftType,
+                            label: job.shiftType,
+                          }
+                        : null
+                    }
+                    onChange={(selected) =>
+                      handleJobChange(index, "shiftType", selected?.value || "")
+                    }
+                    placeholder="Shift Type"
+                    styles={CustomStyles}
+                  />
+                </div>
+
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    From Time
+                  </label>
+
+                  <input
+                    type="time"
+                    value={job.shiftStartsFrom}
+                    onChange={(e) =>
+                      handleJobChange(index, "shiftStartsFrom", e.target.value)
+                    }
+                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                  />
+                </div>
+
+                <div>
+                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy">
+                    To Time
+                  </label>
+
+                  <input
+                    type="time"
+                    value={job.shiftEndsAt}
+                    onChange={(e) =>
+                      handleJobChange(index, "shiftEndsAt", e.target.value)
+                    }
+                    className="w-full mt-1 border rounded-lg px-3 py-2 outline-none focus:border-[#1E45E1]"
+                  />
+                </div>
+              </div>
             </div>
+          ))}
+          <div className="flex justify-end gap-3  px-6 py-4">
+            <button
+              type="button"
+              onClick={handleAddJob}
+              className="border-1 px-4 py-2  border-[#1E45E1] text-white bg-[#1E45E1] hover:bg-[#1739b8] rounded-lg   text-sm font-medium "
+            >
+              + Add Job Details
+            </button>
           </div>
         </div>
         {noChanges && <ErrorMessage message={noChanges} type="error" />}
