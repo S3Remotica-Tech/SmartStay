@@ -373,9 +373,26 @@ function CustomerProfile(props) {
                           Email
                         </p>
 
-                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1">
-                          <Sms size="16" color="#1E45E1" />
-                          {CustomerOverView?.emailId || "N/A"}
+                        <p className="text-[14px] font-[Gilroy] font-semibold flex items-center gap-1 min-w-0">
+                          <Sms
+                            size="16"
+                            color="#1E45E1"
+                            className="flex-shrink-0"
+                          />
+
+                          <span className="relative group min-w-0">
+                            <span className="block truncate cursor-pointer">
+                              {CustomerOverView?.emailId || "N/A"}
+                            </span>
+
+                            <span
+                              className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-50
+                             w-max max-w-[300px] rounded-md bg-gray-200 px-3 py-2 text-[12px] 
+                             font-medium text-black break-all shadow-md"
+                            >
+                              {CustomerOverView?.emailId || "N/A"}
+                            </span>
+                          </span>
                         </p>
                       </div>
                       <div>

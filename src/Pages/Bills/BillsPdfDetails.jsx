@@ -64,7 +64,7 @@ function BillsPdfDetails() {
     }
   };
 
-  console.log("rowData", rowData);
+  // console.log("rowData", rowData);
   useEffect(() => {
     if (rowData?.invoiceId) {
       setSelectedInvoiceId(rowData.invoiceId);

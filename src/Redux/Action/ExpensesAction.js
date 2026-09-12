@@ -17,6 +17,16 @@ export async function GetExpense(exp) {
 
   if (exp.name) params.name = exp.name;
   if (exp.categoryId) params.categoryId = exp.categoryId;
+  if (exp.paymentStatus) params.paymentStatus = exp.paymentStatus;
+  if (exp.vendorId) params.vendorId = exp.vendorId;
+  if (exp.subCategoryId) params.subCategoryId = exp.subCategoryId;
+  if (exp.paymentMode) params.paymentMode = exp.paymentMode;
+  if (exp.createdBy) params.createdBy = exp.createdBy;
+  if (exp.minAmount) params.minAmount = exp.minAmount;
+  if (exp.maxAmount) params.maxAmount = exp.maxAmount;
+  if (exp.startDate) params.startDate = exp.startDate;
+  if (exp.endDate) params.endDate = exp.endDate;
+   if (exp.period) params.period = exp.period;
   if (exp.page) params.page = exp.page;
   if (exp.size) params.size = exp.size;
 

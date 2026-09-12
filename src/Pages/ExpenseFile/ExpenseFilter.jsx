@@ -9,6 +9,9 @@ import { IoCloseOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const selectStyles = {
   control: (base, state) => ({
@@ -17,7 +20,7 @@ const selectStyles = {
     height: "30px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
-    fontSize: "15px",
+    fontSize: "14px",
     fontFamily: "Gilroy, sans-serif",
     fontWeight: 500,
     boxShadow: "none",
@@ -49,7 +52,7 @@ const selectStyles = {
     return {
       ...base,
       position: "relative",
-      fontSize: 14,
+      fontSize: 12,
       padding: "6px 12px",
       backgroundColor: isSelected
         ? "#EEF2FF"
@@ -110,23 +113,41 @@ const selectStyles = {
     display: "none",
   }),
 };
-function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
+function ExpenseFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [selectedPeriodOption, setSelectedPeriodOption] = useState(null);
+
   const [period, setPeriod] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
-  const [paymentMode, setPaymentMode] = useState([]);
-  const [createdBy, setCreatedBy] = useState([]);
+  const [selectedPaymentModeOptions, setSelectedPaymentModeOptions] =
+    useState(null);
+
+  const [paymentMode, setPaymentMode] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
+  const [selectedCreatedByOption, setSelectedCreatedByOption] = useState(null);
+
   const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const [startDateError, setStartDateError] = useState("");
+  const [endDateError, setEndDateError] = useState("");
+  const [minAmount, setMinAmount] = useState("");
+  const [maxAmount, setMaxAmount] = useState("");
+  const [selectedSubCategoryOptions, setSelectedSubCategoryOptions] =
+    useState(null);
+  const [subCategory, setSubCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [selectedBillStatus, setSelectedBillStatus] = useState(null);
-  const [selectedCollectedBylabels, setSelectedCollectedBylabels] = useState(
-    [],
-  );
+  const [minAmountError, setMinAmountError] = useState("");
+  const [maxAmountError, setMaxAmountError] = useState("");
+  const inputClass =
+    " w-full rounded-md border border-gray-300 px-3 py-2.5 text-sm font-semibold text-gray-700 " +
+    "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
 
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState([]);
 
   const filterOptionsData = useSelector(
     (state) => state.ExpenseList.expenseList?.filterOptions,
@@ -138,62 +159,124 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
       value: item.type,
     })) || [];
 
-  const vendorOptions =
-    filterOptionsData?.vendors?.map((item) => ({
-      label: item.label,
-      value: item.id,
-    })) || [];
-
-  const paymentStatus =
-    filterOptionsData?.paymentStatus?.map((item) => ({
-      label: item.label,
-      value: item.id,
-    })) || [];
-
   const subCategoryOptions =
     filterOptionsData?.subCategory?.map((item) => ({
-      label: item.subCategoryName,
-      value: item.subCategoryId,
+      label: item.name,
+      value: item.type,
+      // categoryId: item.categoryId,
+    })) || [];
+
+  const vendorOptions =
+    filterOptionsData?.vendor?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const paymentModeOptions =
     filterOptionsData?.paymentMode?.map((item) => ({
-      label: item,
-      value: item,
+      label: `${item.accountName || ""} - ${item.paymentMode}  `,
+      value: item.bankId,
     })) || [];
 
   const createdByOptions =
     filterOptionsData?.createdBy?.map((item) => ({
-      label: item.userName,
-      value: item.userId,
+      label: item.name,
+      value: item.type,
     })) || [];
 
-  const periodOptions =
-    filterOptionsData?.period?.map((item) => ({
-      label: item.label,
-      value: item.id,
+  const paymentStatusOptions =
+    filterOptionsData?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
     })) || [];
+
+  const periodOptions = [
+    ...(filterOptionsData?.period?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
+    {
+      label: "Custom",
+      value: "CUSTOM",
+    },
+  ];
 
   const filters = state.ExpenseList?.expenseFilters;
 
   useEffect(() => {
-    if (show && filters) {
-      setCategory(filters.categoryId || "");
+    if (!show || !filters) return;
 
-      setPaymentMode(filters.paymentMode || []);
-      setCreatedBy(filters.createdBy || []);
-      setPeriod(filters.period || null);
-      const selectedVendorOption = vendorOptions?.find(
+    // console.log("Stored Filters:", filters);
+
+    // const categoryOption =
+    //   categoryOptions.find(
+    //     (option) => String(option.value) === String(filters.categoryId),
+    //   ) || null;
+
+    setCategory(filters.categoryId || "");
+    setSelectedCategory(filters.categoryLabel || "");
+
+    const subCategoryOption =
+      subCategoryOptions.find(
+        (option) => String(option.value) === String(filters.subCategoryId),
+      ) || null;
+
+    setSubCategory(filters.subCategoryId || "");
+    setSelectedSubCategory(filters.subCategoryLabel || "");
+    setSelectedSubCategoryOptions(subCategoryOption);
+
+    const paymentModeOption =
+      paymentModeOptions.find(
+        (option) => String(option.value) === String(filters.paymentMode),
+      ) || null;
+
+    setPaymentMode(filters.paymentMode || "");
+    setSelectedPaymentModeOptions(paymentModeOption);
+
+    const createdByOption =
+      createdByOptions.find(
+        (option) => String(option.value) === String(filters.createdBy),
+      ) || null;
+
+    setCreatedBy(createdByOption);
+    setSelectedCreatedByOption(createdByOption);
+
+    const vendorOption =
+      vendorOptions.find(
         (option) => String(option.value) === String(filters.vendorId),
-      );
-      setSelectedVendor(selectedVendorOption);
+      ) || null;
 
-      const selectedPaymentStaus = paymentStatus?.find(
+    setSelectedVendor(vendorOption);
+
+    const paymentStatusOption =
+      paymentStatusOptions.find(
         (option) => String(option.value) === String(filters.paymentStatus),
-      );
+      ) || null;
 
-      setSelectedBillStatus(selectedPaymentStaus);
+    setSelectedBillStatus(paymentStatusOption);
+
+    const periodOption =
+      periodOptions.find(
+        (option) => String(option.value) === String(filters.period),
+      ) || null;
+
+    setPeriod(periodOption);
+    setSelectedPeriodOption(periodOption);
+
+    if (filters.startDate) {
+      setStartDate(dayjs(filters.startDate, "DD-MM-YYYY"));
+    } else {
+      setStartDate(null);
     }
+
+    if (filters.endDate) {
+      setEndDate(dayjs(filters.endDate, "DD-MM-YYYY"));
+    } else {
+      setEndDate(null);
+    }
+
+    setMinAmount(filters.minAmount ?? "");
+    setMaxAmount(filters.maxAmount ?? "");
   }, [show]);
 
   const CheckboxOption = (props) => {
@@ -238,17 +321,24 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
   };
 
   const handlePeriodChange = (opt) => {
-    setPeriod(opt?.value);
+    setSelectedPeriodOption(opt);
+    setPeriod(opt);
+
+    setStartDate(null);
+    setEndDate(null);
   };
+
   const handlePaymentMode = (selected) => {
-    setPaymentMode(selected.map((opt) => opt.value));
+    setSelectedPaymentModeOptions(selected);
+    setPaymentMode(selected?.value || "");
   };
 
   // const handlePaidChange = (opt) => setPaidTo(opt?.value);
 
   const handleCreatedByChange = (selected) => {
-    setCreatedBy(selected.map((opt) => opt.value));
-    setSelectedCollectedBylabels(selected.map((opt) => opt.label));
+    setCreatedBy(selected);
+    // setSelectedCollectedBylabels(selected);
+    setSelectedCreatedByOption(selected);
   };
 
   const handleCategoryChange = (selected) => {
@@ -260,67 +350,141 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
     categoryOptions?.find((opt) => opt.value === category) || null;
 
   const handleSubCategoryChange = (selected) => {
-    setSubCategory(selected.map((opt) => opt.value));
-    setSelectedSubCategory(selected.map((opt) => opt.label));
+    setSelectedSubCategoryOptions(selected);
+    setSubCategory(selected?.value || "");
+    setSelectedSubCategory(selected?.label || "");
   };
 
-  const selectedSubCategoryOptions = subCategoryOptions?.filter((opt) =>
-    subCategory?.includes(opt.value),
-  );
+  const handleReset = () => {
+    setSelectedPeriodOption(null);
+    setPeriod(null);
 
-  const selectedPaymentModeOptions = paymentModeOptions?.filter((opt) =>
-    paymentMode?.includes(opt.value),
-  );
+    setSelectedPaymentModeOptions(null);
+    setPaymentMode("");
 
-  const selectedPeriodOption =
-    periodOptions?.find((opt) => opt.value === period) || null;
+    setCreatedBy("");
+    setSelectedCreatedByOption(null);
 
-  const selectedCreatedByOption = createdByOptions?.filter((opt) =>
-    createdBy?.includes(opt.value),
-  );
+    setCategory("");
+    setSelectedCategory([]);
+
+    setSubCategory("");
+    setSelectedSubCategory("");
+    setSelectedSubCategoryOptions(null);
+
+    setSelectedVendor(null);
+    setSelectedBillStatus(null);
+
+    setStartDate(null);
+    setEndDate(null);
+
+    setMinAmount("");
+    setMaxAmount("");
+
+    setStartDateError("");
+    setEndDateError("");
+    setMinAmountError("");
+    setMaxAmountError("");
+  };
+
+  const validateFilters = () => {
+    let isValid = true;
+
+    setEndDateError("");
+    setStartDateError("");
+    setMinAmountError("");
+    setMaxAmountError("");
+
+    if (period?.value === "CUSTOM") {
+      if (!startDate) {
+        setStartDateError("Please select start date");
+        isValid = false;
+      }
+
+      if (!endDate) {
+        setEndDateError("Please select end date");
+        isValid = false;
+      }
+    }
+
+    if (minAmount !== "" && Number(minAmount) <= 0) {
+      setMinAmountError("Enter valid amount");
+      isValid = false;
+    }
+
+    if (maxAmount !== "" && Number(maxAmount) <= 0) {
+      setMaxAmountError("Enter valid amount");
+      isValid = false;
+    }
+
+    if (
+      minAmount !== "" &&
+      maxAmount !== "" &&
+      Number(minAmount) > 0 &&
+      Number(maxAmount) > 0 &&
+      Number(maxAmount) < Number(minAmount)
+    ) {
+      setMaxAmountError("Enter valid amount");
+      isValid = false;
+    }
+
+    return isValid;
+  };
 
   const handleFilterBills = () => {
     if (!state.login?.selectedHostel_Id) return;
 
-    const expnseFilter = {
-      categoryId: category?.length ? category : undefined,
-      categoryLabel: selectedCategory?.length ? selectedCategory : undefined,
-      subCategory: subCategory?.length ? subCategory : undefined,
-      subCategoryLabel: selectedSubCategory?.length
-        ? selectedSubCategory
-        : undefined,
-      paymentMode: paymentMode?.length ? paymentMode : undefined,
+    if (!validateFilters()) {
+      return;
+    }
 
-      createdBy: createdBy?.length ? createdBy : undefined,
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
 
-      period: period ? period : "",
-      createdByLabels: selectedCollectedBylabels,
+      categoryId: category || "",
+      categoryLabel: selectedCategory || "",
 
-      startDate: period ? undefined : startDate,
-      endDate: period ? undefined : endDate,
-      vendorId: selectedVendor?.value,
-      vendorName: selectedVendor?.label,
-      paymentStatus: selectedBillStatus?.value,
+      subCategoryId: subCategory || "",
+      subCategoryLabel: selectedSubCategory || "",
+
+      paymentMode: paymentMode || "",
+
+      createdBy: createdBy?.value || "",
+      createdByLabel: createdBy?.label || "",
+
+      period: period?.value && period?.value !== "CUSTOM" ? period.value : "",
+
+      startDate:
+        period?.value === "CUSTOM" && startDate
+          ? dayjs(startDate).format("DD-MM-YYYY")
+          : "",
+
+      endDate:
+        period?.value === "CUSTOM" && endDate
+          ? dayjs(endDate).format("DD-MM-YYYY")
+          : "",
+
+      minAmount: minAmount ? Number(minAmount) : "",
+
+      maxAmount: maxAmount ? Number(maxAmount) : "",
+
+      vendorId: selectedVendor?.value || "",
+      vendorName: selectedVendor?.label || "",
+
+      paymentStatus: selectedBillStatus?.value || "",
+
+      page: 1,
+      size: size,
     };
-
-    console.log("expnseFilter", expnseFilter);
 
     dispatch({
       type: "SET_EXPENSE_FILTERS",
-      payload: {
-        categoryName: selectedCategory?.length ? selectedCategory : undefined,
-        categoryId: category?.length ? category : undefined,
-      },
+      payload,
     });
 
     dispatch({
       type: "EXPENSELIST",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        categoryId: category?.length ? category : undefined,
-        page: 1,
-        size: size,
-      },
+      payload,
     });
 
     setFormLoading(true);
@@ -372,14 +536,14 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
 
         <div className="flex-1 overflow-y-auto px-4 py-2 show-scrolls">
           <div className="mb-3 font-gilroy">
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Vendor
               </label>
 
               <Select
-                isDisabled
-                closeMenuOnSelect={false}
+                // isDisabled
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={vendorOptions}
                 styles={selectStyles}
@@ -389,16 +553,16 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Payment Status
               </label>
 
               <Select
-                isDisabled
-                closeMenuOnSelect={false}
+                // isDisabled
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
-                options={paymentStatus}
+                options={paymentStatusOptions}
                 styles={selectStyles}
                 placeholder="Select Status"
                 value={selectedBillStatus}
@@ -406,13 +570,13 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Category
               </label>
 
               <Select
-                closeMenuOnSelect={false}
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={categoryOptions}
                 value={selectedCategoryOption}
@@ -422,82 +586,186 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Sub Category
               </label>
 
               <Select
-                isDisabled
-                // isMulti isDisabled
-                closeMenuOnSelect={false}
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={subCategoryOptions}
                 value={selectedSubCategoryOptions}
                 onChange={handleSubCategoryChange}
                 styles={selectStyles}
-                components={{
-                  Option: CheckboxOption,
-                }}
                 placeholder="Select Sub Category"
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Period
               </label>
 
               <Select
-                isDisabled
                 styles={selectStyles}
                 value={selectedPeriodOption}
                 onChange={handlePeriodChange}
                 options={periodOptions}
                 placeholder="Select Period"
               />
+
+              {period?.value === "CUSTOM" && (
+                <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                  <div className="flex-1 mb-3">
+                    <label className="block font-gilroy font-medium text-[12px] text-[#4B4B4B] mb-1.5">
+                      Start Date
+                    </label>
+
+                    <div className="datepicker-wrapper relative w-full text-[12px]">
+                      <DatePicker
+                        className="w-full !h-[39px] cursor-pointer font-gilroy text-[12px]"
+                        format="DD/MM/YYYY"
+                        placeholder="Start Date"
+                        value={startDate ? dayjs(startDate) : null}
+                        onChange={(date) => {
+                          setStartDate(date);
+                          setEndDate(null);
+                          setStartDateError("");
+                        }}
+                        disabledDate={(current) =>
+                          current && current > dayjs().endOf("day")
+                        }
+                        getPopupContainer={(triggerNode) =>
+                          triggerNode.closest(".datepicker-wrapper")
+                        }
+                      />
+                    </div>
+
+                    {startDateError && (
+                      <ErrorMessage message={startDateError} type="error" />
+                    )}
+                  </div>
+
+                  <div className="flex-1 mb-3">
+                    <label className="block font-gilroy font-medium text-[12px] text-[#4B4B4B] mb-1.5">
+                      End Date
+                    </label>
+
+                    <div className="datepicker-wrapper relative w-full">
+                      <DatePicker
+                        className="w-full !h-[39px] cursor-pointer font-gilroy text-[12px]"
+                        format="DD/MM/YYYY"
+                        placeholder="End Date"
+                        value={endDate ? dayjs(endDate) : null}
+                        onChange={(date) => {
+                          setEndDate(date);
+                          setEndDateError("");
+                        }}
+                        disabledDate={(current) =>
+                          current &&
+                          (current > dayjs().endOf("day") ||
+                            (startDate &&
+                              current < dayjs(startDate).startOf("day")))
+                        }
+                        getPopupContainer={(triggerNode) =>
+                          triggerNode.closest(".datepicker-wrapper")
+                        }
+                      />
+                    </div>
+
+                    {endDateError && (
+                      <div className="flex justify-center my-2">
+                        <ErrorMessage message={endDateError} type="warning" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Payment Mode
               </label>
 
               <Select
-                isMulti
-                isDisabled
-                closeMenuOnSelect={false}
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 options={paymentModeOptions}
                 value={selectedPaymentModeOptions}
                 onChange={handlePaymentMode}
                 styles={selectStyles}
-                components={{
-                  Option: CheckboxOption,
-                }}
                 placeholder="Select Payment Mode"
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="block mb-2 text-[12px] text-[#6B7280] font-gilroy">
                 Created By
               </label>
 
               <Select
-                isMulti
-                isDisabled
-                closeMenuOnSelect={false}
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
                 styles={selectStyles}
                 value={selectedCreatedByOption}
                 onChange={handleCreatedByChange}
                 options={createdByOptions}
-                components={{
-                  Option: CheckboxOption,
-                }}
                 placeholder="Select"
               />
+            </div>
+
+            <div className="mb-2">
+              <label
+                style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}
+              >
+                Other Filter
+              </label>
+            </div>
+
+            <div className="mt-1 mb-3">
+              <div className="flex gap-2">
+                <div className="w-1/2">
+                  <input
+                    type="number"
+                    placeholder="₹Min"
+                    min="0"
+                    value={minAmount}
+                    onChange={(e) => {
+                      setMinAmount(e.target.value);
+                      setMinAmountError("");
+                    }}
+                    className={inputClass}
+                  />
+
+                  {minAmountError && (
+                    <div className="mt-1">
+                      <ErrorMessage message={minAmountError} type="error" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="w-1/2">
+                  <input
+                    type="number"
+                    placeholder="₹Max"
+                    min={minAmount || "0"}
+                    value={maxAmount}
+                    onChange={(e) => {
+                      setMaxAmount(e.target.value);
+                      setMaxAmountError("");
+                    }}
+                    className={inputClass}
+                  />
+
+                  {maxAmountError && (
+                    <div className="mt-1">
+                      <ErrorMessage message={maxAmountError} type="error" />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -519,14 +787,7 @@ function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
         <div className="flex-shrink-0 flex items-center justify-between gap-3 px-5 py-[15px] border-t border-[#E0E0E0] bg-white z-10">
           <button
             type="button"
-            onClick={() => {
-              setPeriod("");
-              setPaymentMode([]);
-              setCreatedBy([]);
-              setCategory("");
-              setSelectedVendor("");
-              setSelectedBillStatus("");
-            }}
+            onClick={handleReset}
             className="
           w-1/2
           h-[38px]

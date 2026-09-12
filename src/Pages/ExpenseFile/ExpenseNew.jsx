@@ -38,7 +38,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpenseSettlement from "./ExpenseSettlement";
 import PropTypes from "prop-types";
 import ExpenseFilter from "./ExpenseFilter";
-
+import dayjs from "dayjs";
 import { CustomStyles } from "../../Utils/SelectStyles";
 
 function Expenses() {
@@ -87,36 +87,61 @@ function Expenses() {
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
 
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [selectedBillStatus, setSelectedBillStatus] = useState("");
+
+  // console.log("selectedBillStatus", selectedBillStatus);
+
   const stats = [
     {
       label: "Total Expenses",
       value: getData?.totalExpenses ?? 0,
       icon: true,
       highlight: true,
+      search: "",
     },
     {
       label: "Total Expense Amount",
       value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
+      search: "",
     },
     {
       label: "Paid",
       value: getData?.expenseSummary?.totalPaidAmount ?? 0,
+      search: "Full",
     },
     {
       label: "Unpaid (Credit)",
       value: getData?.expenseSummary?.totalUnPaidAmount ?? 0,
+      search: "Pending",
     },
     {
       label: "Partially Paid",
       value: getData?.expenseSummary?.totalPartialPaidAmount ?? 0,
+      search: "Partial",
     },
   ];
 
-  const categoryOptions =
-    getData?.filterOptions?.category?.map((item) => ({
+  const categoryOptions = [
+    {
+      value: "",
+      label: "All",
+    },
+    ...(getData?.filterOptions?.category?.map((item) => ({
       value: item.type,
       label: item.name,
-    })) || [];
+    })) || []),
+  ];
+
+  const paymentStatusOptions = [
+    {
+      value: "",
+      label: "All",
+    },
+    ...(getData?.filterOptions?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
+  ];
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
@@ -339,7 +364,7 @@ function Expenses() {
     dispatch({
       type: "SET_EXPENSE_FILTERS",
       payload: {
-        categoryName: selected.label,
+        categoryLabel: selected.label,
       },
     });
   };
@@ -348,22 +373,48 @@ function Expenses() {
     if (state.login.selectedHostel_Id) {
       const shouldResetPage = !!debouncedSearch || !!categoryFilter;
 
+      const expenseFilters = state.ExpenseList?.expenseFilters || {};
+
+      const paymentStatus =
+        selectedBillStatus !== null
+          ? selectedBillStatus
+          : expenseFilters?.paymentStatus || "";
+
+      const categoryId =
+        categoryFilter !== null
+          ? categoryFilter || ""
+          : expenseFilters?.categoryId || "";
+
+      const payload = {
+        ...expenseFilters,
+
+        hostelId: state.login.selectedHostel_Id,
+        page: shouldResetPage ? 1 : page,
+        size: size,
+
+        name: debouncedSearch || "",
+        search: debouncedSearch || "",
+
+        paymentStatus: paymentStatus,
+
+        categoryId: categoryId,
+      };
+
       dispatch({
         type: "EXPENSELIST",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          page: shouldResetPage ? 1 : page,
-          size: size,
-          categoryId: categoryFilter,
-          name: debouncedSearch,
-        },
+        payload,
       });
+
       setLoading(true);
+
       dispatch({
         type: "SET_EXPENSE_FILTERS",
         payload: {
-          search: searchQuery,
-          categoryId: categoryFilter,
+          ...expenseFilters,
+
+          search: debouncedSearch || "",
+          paymentStatus: paymentStatus,
+          categoryId: categoryId,
         },
       });
     }
@@ -373,6 +424,7 @@ function Expenses() {
     size,
     categoryFilter,
     debouncedSearch,
+    selectedBillStatus,
   ]);
 
   useEffect(() => {
@@ -381,13 +433,27 @@ function Expenses() {
         type: "SET_EXPENSE_FILTERS",
         payload: {
           search: "",
-          categoryName: "",
           categoryId: "",
+          categoryLabel: "",
+          subCategoryId: "",
+          subCategoryLabel: "",
+          paymentMode: "",
+          createdBy: "",
+          createdByLabel: "",
+          period: "",
+          startDate: "",
+          endDate: "",
+          minAmount: "",
+          maxAmount: "",
+          vendorId: "",
+          vendorName: "",
+          paymentStatus: "",
         },
       });
 
       setSearchQuery("");
       setCategoryFilter("");
+      setSelectedBillStatus("");
     };
   }, []);
 
@@ -396,8 +462,21 @@ function Expenses() {
       type: "SET_EXPENSE_FILTERS",
       payload: {
         search: "",
-        categoryName: "",
         categoryId: "",
+        categoryLabel: "",
+        subCategoryId: "",
+        subCategoryLabel: "",
+        paymentMode: "",
+        createdBy: "",
+        createdByLabel: "",
+        period: "",
+        startDate: "",
+        endDate: "",
+        minAmount: "",
+        maxAmount: "",
+        vendorId: "",
+        vendorName: "",
+        paymentStatus: "",
       },
     });
     dispatch({
@@ -412,14 +491,25 @@ function Expenses() {
     setChips([]);
     setSearchQuery("");
     setCategoryFilter("");
+    setSelectedBillStatus("");
   };
 
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
 
+    console.log("expenseFilters", expenseFilters);
+
     const filterData = [];
 
-    if (expenseFilters?.search) {
+    const hasValue = (value) => {
+      if (Array.isArray(value)) {
+        return value.length > 0;
+      }
+
+      return value !== undefined && value !== null && value !== "";
+    };
+
+    if (hasValue(expenseFilters?.search)) {
       filterData.push({
         key: "search",
         label: "Expense Title",
@@ -428,12 +518,110 @@ function Expenses() {
       });
     }
 
-    if (expenseFilters?.categoryName) {
+    if (hasValue(expenseFilters?.categoryLabel)) {
       filterData.push({
         key: "category",
         label: "Category",
         type: "category",
-        value: expenseFilters.categoryName,
+        value: Array.isArray(expenseFilters.categoryLabel)
+          ? expenseFilters.categoryLabel.join(", ")
+          : expenseFilters.categoryLabel,
+      });
+    }
+
+    if (hasValue(expenseFilters?.subCategoryLabel)) {
+      filterData.push({
+        key: "subCategory",
+        label: "Sub Category",
+        type: "subCategory",
+        value: expenseFilters.subCategoryLabel,
+      });
+    }
+
+    if (hasValue(expenseFilters?.vendorName)) {
+      filterData.push({
+        key: "vendor",
+        label: "Vendor",
+        type: "vendor",
+        value: expenseFilters.vendorName,
+      });
+    }
+
+    if (hasValue(expenseFilters?.paymentMode)) {
+      filterData.push({
+        key: "paymentMode",
+        label: "Payment Mode",
+        type: "paymentMode",
+        value: Array.isArray(expenseFilters.paymentMode)
+          ? expenseFilters.paymentMode.join(", ")
+          : expenseFilters.paymentMode,
+      });
+    }
+
+    if (hasValue(expenseFilters?.createdByLabel)) {
+      filterData.push({
+        key: "createdBy",
+        label: "Created By",
+        type: "createdBy",
+        value: expenseFilters.createdByLabel,
+      });
+    }
+
+    if (hasValue(expenseFilters?.paymentStatus)) {
+      filterData.push({
+        key: "paymentStatus",
+        label: "Payment Status",
+        type: "paymentStatus",
+        value: expenseFilters.paymentStatus,
+      });
+    }
+
+    if (hasValue(expenseFilters?.period)) {
+      filterData.push({
+        key: "period",
+        label: "Period",
+        type: "period",
+        value: expenseFilters.period,
+      });
+    }
+
+    if (
+      hasValue(expenseFilters?.startDate) &&
+      hasValue(expenseFilters?.endDate)
+    ) {
+      filterData.push({
+        key: "customDate",
+        label: "Date",
+        type: "date",
+        value: `${dayjs(expenseFilters.startDate).format(
+          "DD/MM/YYYY",
+        )} - ${dayjs(expenseFilters.endDate).format("DD/MM/YYYY")}`,
+      });
+    }
+
+    if (
+      expenseFilters?.minAmount !== "" &&
+      expenseFilters?.minAmount !== undefined &&
+      expenseFilters?.minAmount !== null
+    ) {
+      filterData.push({
+        key: "minAmount",
+        label: "Min Amount",
+        type: "amount",
+        value: `₹ ${expenseFilters.minAmount}`,
+      });
+    }
+
+    if (
+      expenseFilters?.maxAmount !== "" &&
+      expenseFilters?.maxAmount !== undefined &&
+      expenseFilters?.maxAmount !== null
+    ) {
+      filterData.push({
+        key: "maxAmount",
+        label: "Max Amount",
+        type: "amount",
+        value: `₹ ${expenseFilters.maxAmount}`,
       });
     }
 
@@ -760,18 +948,26 @@ function Expenses() {
                   />
                 </div>
 
-                {/* <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3">
                   <Select
-                    isDisabled={canReadExpense}
-                    options={monthOptions}
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
+                    // isDisabled
+                    closeMenuOnSelect={true}
+                    hideSelectedOptions={false}
+                    options={paymentStatusOptions}
                     styles={CustomStyles}
+                    placeholder="Select "
+                    menuPlacement="auto"
+                    classNamePrefix="custom"
+                    value={
+                      paymentStatusOptions.find(
+                        (option) => option.value === selectedBillStatus,
+                      ) || null
+                    }
+                    onChange={(selected) =>
+                      setSelectedBillStatus(selected?.value)
+                    }
                   />
-                </div> */}
+                </div>
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
@@ -842,11 +1038,18 @@ function Expenses() {
                       {item.label}
 
                       <div className="relative group w-fit">
+                        <Filter
+                          onClick={() => setSelectedBillStatus(item.search)}
+                          size="14"
+                          color="#9CA3AF"
+                          className="cursor-pointer"
+                        />
+
                         <div
                           className="absolute left-1/2 -translate-x-1/2 mt-2 
-                          hidden group-hover:flex
-                          px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-                          items-center gap-1 whitespace-nowrap z-50"
+                                    hidden group-hover:flex
+                                    px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
+                                    items-center gap-1 whitespace-nowrap z-50"
                         >
                           <Filter size="14" color="#fff" />
                           Click to Filter

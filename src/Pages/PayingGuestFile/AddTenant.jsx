@@ -217,18 +217,24 @@ function AddTenant({
       mobileNo: "",
     },
   ]);
+
+  const [jobDetails, setJobDetails] = useState([
+    {
+      employmentStatus: null,
+      organizationName: "",
+      role: null,
+      workLocation: "",
+      shiftType: null,
+      fromTime: "",
+      toTime: "",
+    },
+  ]);
   // const [relationship, setRelationship] = useState(null);
   // const [occupation, setOccupation] = useState(null);
   // const [mobile, setMobile] = useState("");
   const [aadhaarFile, setAadhaarFile] = useState(null);
   const [panFile, setPanFile] = useState(null);
-  const [employmentStatus, setEmploymentStatus] = useState(null);
-  const [companyName, setCompanyName] = useState("");
-  const [jobRole, setJobRole] = useState(null);
-  const [workLocation, setWorkLocation] = useState("");
-  const [shiftType, setShiftType] = useState(null);
-  const [fromTime, setFromTime] = useState("");
-  const [toTime, setToTime] = useState("");
+
   const countryCode = "91";
   const firstnameRef = useRef(null);
   const phoneRef = useRef(null);
@@ -345,6 +351,19 @@ function AddTenant({
         mobileNo: "",
       },
     ]);
+  };
+
+  const handleJobChange = (index, field, value) => {
+    setJobDetails((prev) =>
+      prev.map((job, i) =>
+        i === index
+          ? {
+              ...job,
+              [field]: value,
+            }
+          : job,
+      ),
+    );
   };
 
   // const handleVehicleNumberChange = (e) => {
@@ -1183,16 +1202,6 @@ function AddTenant({
         aadhaarPic: aadhaarFile || "",
         panPic: panFile || "",
         additionalData: {
-          jobDetails: {
-            employmentStatus: employmentStatus?.value || "",
-            companyName: companyName || "",
-            collegeName: companyName || " ",
-            jobRole: jobRole?.value || "",
-            workLocation: workLocation || "",
-            shiftType: shiftType?.value || "",
-            shiftFrom: fromTime || "",
-            shiftTo: toTime || "",
-          },
           guardians: guardians?.map((g) => ({
             guardianFullName: g.guardianFullName || "",
             relationshipToTenant:
@@ -1200,6 +1209,18 @@ function AddTenant({
             guardianOccupation:
               g.guardianOccupation?.value || g.guardianOccupation || "",
             mobileNo: g.mobileNo || "",
+          })),
+          customerJobs: jobDetails?.map((job) => ({
+            hostelId: state?.login?.selectedHostel_Id,
+            customerId: draftTenantId,
+            employmentStatus:
+              job.employmentStatus?.value || job.employmentStatus || "",
+            organizationName: job.organizationName?.trim() || "",
+            role: job.role?.value || job.role || "",
+            workLocation: job.workLocation?.trim() || "",
+            shiftType: job.shiftType?.value || job.shiftType || "",
+            shiftStartsFrom: job.fromTime || "",
+            shiftEndsAt: job.toTime || "",
           })),
         },
       },
@@ -1341,38 +1362,38 @@ function AddTenant({
       setAadhaarFile(DraftTenantDetails?.aadharPic || "");
       setPanFile(DraftTenantDetails?.panPic || "");
 
-      setEmploymentStatus(
-        DraftTenantDetails?.jobDetails?.employmentStatus
-          ? jobOptions.find(
-              (item) =>
-                item.value === DraftTenantDetails.jobDetails.employmentStatus,
-            ) || null
-          : null,
-      );
+      // setEmploymentStatus(
+      //   DraftTenantDetails?.jobDetails?.employmentStatus
+      //     ? jobOptions.find(
+      //         (item) =>
+      //           item.value === DraftTenantDetails.jobDetails.employmentStatus,
+      //       ) || null
+      //     : null,
+      // );
 
-      setCompanyName(DraftTenantDetails?.jobDetails?.companyName || "");
+      // setCompanyName(DraftTenantDetails?.jobDetails?.companyName || "");
       // setCollegeName(DraftTenantDetails?.jobDetails?.collegeName || "");
 
-      setJobRole(
-        DraftTenantDetails?.jobDetails?.jobRole
-          ? jobRoleOptions.find(
-              (item) => item.value === DraftTenantDetails.jobDetails.jobRole,
-            ) || null
-          : null,
-      );
+      // setJobRole(
+      //   DraftTenantDetails?.jobDetails?.jobRole
+      //     ? jobRoleOptions.find(
+      //         (item) => item.value === DraftTenantDetails.jobDetails.jobRole,
+      //       ) || null
+      //     : null,
+      // );
 
-      setWorkLocation(DraftTenantDetails?.jobDetails?.workLocation || "");
+      // setWorkLocation(DraftTenantDetails?.jobDetails?.workLocation || "");
 
-      setShiftType(
-        DraftTenantDetails?.jobDetails?.shiftType
-          ? shiftTypeOptions.find(
-              (item) => item.value === DraftTenantDetails.jobDetails.shiftType,
-            ) || null
-          : null,
-      );
+      // setShiftType(
+      //   DraftTenantDetails?.jobDetails?.shiftType
+      //     ? shiftTypeOptions.find(
+      //         (item) => item.value === DraftTenantDetails.jobDetails.shiftType,
+      //       ) || null
+      //     : null,
+      // );
 
-      setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
-      setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
+      // setFromTime(DraftTenantDetails?.jobDetails?.shiftFrom || "");
+      // setToTime(DraftTenantDetails?.jobDetails?.shiftTo || "");
 
       const mappedGuardians = (DraftTenantDetails?.guardians || [])
         .filter((g) => {
@@ -1434,14 +1455,6 @@ function AddTenant({
 
     setAadhaarFile("");
     setPanFile("");
-
-    setEmploymentStatus(null);
-    setCompanyName("");
-    setJobRole(null);
-    setWorkLocation("");
-    setShiftType(null);
-    setFromTime("");
-    setToTime("");
 
     setGuardians([
       {
@@ -2536,92 +2549,187 @@ function AddTenant({
                           <span className="w-1 h-5 bg-[#0038AC] rounded mr-2"></span>
                           Job Details
                         </h5>
-                        <div className="grid grid-cols-12 gap-3">
-                          <div className="col-span-12">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Employment Status
-                            </label>
-                            <Select
-                              options={jobOptions}
-                              value={employmentStatus}
-                              onChange={setEmploymentStatus}
-                              placeholder="Employment Status"
-                              styles={CustomStyles}
-                            />
-                          </div>
 
-                          <div className="col-span-12">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Company/College Name
-                            </label>
-                            <input
-                              value={companyName}
-                              onChange={(e) => setCompanyName(e.target.value)}
-                              placeholder="Company / College Name"
-                              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                            />
-                          </div>
+                        <div className="space-y-5">
+                          {jobDetails.map((job, index) => (
+                            <div
+                              key={index}
+                              className="border border-gray-200 rounded-xl p-4"
+                            >
+                              <div className="flex items-center justify-between mb-3">
+                                <h6 className="text-sm font-semibold text-[#222222] mb-0">
+                                  Job Details {index + 1}
+                                </h6>
 
-                          <div className="col-span-6">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Job Role
-                            </label>
-                            <Select
-                              options={jobRoleOptions}
-                              value={jobRole}
-                              onChange={setJobRole}
-                              placeholder="Job Role"
-                              styles={CustomStyles}
-                            />
-                          </div>
+                                {jobDetails.length > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setJobDetails((prev) =>
+                                        prev.filter((_, i) => i !== index),
+                                      )
+                                    }
+                                    className="text-red-500 text-sm font-medium"
+                                  >
+                                    <Add className="rotate-45" />
+                                  </button>
+                                )}
+                              </div>
 
-                          <div className="col-span-6">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Work Location
-                            </label>
-                            <input
-                              value={workLocation}
-                              onChange={(e) => setWorkLocation(e.target.value)}
-                              placeholder="Work Location"
-                              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                            />
-                          </div>
+                              <div className="grid grid-cols-12 gap-3">
+                                <div className="col-span-12">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    Employment Status
+                                  </label>
 
-                          <div className="col-span-12">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Shift Type
-                            </label>
-                            <Select
-                              options={shiftTypeOptions}
-                              value={shiftType}
-                              onChange={setShiftType}
-                              placeholder="Shift Type"
-                              styles={CustomStyles}
-                            />
-                          </div>
+                                  <Select
+                                    options={jobOptions}
+                                    value={job.employmentStatus}
+                                    onChange={(value) =>
+                                      handleJobChange(
+                                        index,
+                                        "employmentStatus",
+                                        value,
+                                      )
+                                    }
+                                    placeholder="Employment Status"
+                                    styles={CustomStyles}
+                                  />
+                                </div>
 
-                          <div className="col-span-6">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              Shift From
-                            </label>
-                            <input
-                              type="time"
-                              value={fromTime}
-                              onChange={(e) => setFromTime(e.target.value)}
-                              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                            />
-                          </div>
+                                <div className="col-span-12">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    Company/College Name
+                                  </label>
 
-                          <div className="col-span-6">
-                            <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
-                              To
-                            </label>
-                            <input
-                              type="time"
-                              value={toTime}
-                              onChange={(e) => setToTime(e.target.value)}
-                              className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none "
-                            />
+                                  <input
+                                    value={job.organizationName}
+                                    onChange={(e) =>
+                                      handleJobChange(
+                                        index,
+                                        "organizationName",
+                                        e.target.value,
+                                      )
+                                    }
+                                    placeholder="Company / College Name"
+                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                  />
+                                </div>
+
+                                <div className="col-span-6">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    Job Role
+                                  </label>
+
+                                  <Select
+                                    options={jobRoleOptions}
+                                    value={job.role}
+                                    onChange={(value) =>
+                                      handleJobChange(index, "role", value)
+                                    }
+                                    placeholder="Job Role"
+                                    styles={CustomStyles}
+                                  />
+                                </div>
+
+                                <div className="col-span-6">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    Work Location
+                                  </label>
+
+                                  <input
+                                    value={job.workLocation}
+                                    onChange={(e) =>
+                                      handleJobChange(
+                                        index,
+                                        "workLocation",
+                                        e.target.value,
+                                      )
+                                    }
+                                    placeholder="Work Location"
+                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                  />
+                                </div>
+
+                                <div className="col-span-12">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    Shift Type
+                                  </label>
+
+                                  <Select
+                                    options={shiftTypeOptions}
+                                    value={job.shiftType}
+                                    onChange={(value) =>
+                                      handleJobChange(index, "shiftType", value)
+                                    }
+                                    placeholder="Shift Type"
+                                    styles={CustomStyles}
+                                  />
+                                </div>
+
+                                <div className="col-span-6">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    Shift From
+                                  </label>
+
+                                  <input
+                                    type="time"
+                                    value={job.fromTime}
+                                    onChange={(e) =>
+                                      handleJobChange(
+                                        index,
+                                        "fromTime",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                  />
+                                </div>
+
+                                <div className="col-span-6">
+                                  <label className="mt-2 text-sm font-medium text-[#222222] font-gilroy mb-2">
+                                    To
+                                  </label>
+
+                                  <input
+                                    type="time"
+                                    value={job.toTime}
+                                    onChange={(e) =>
+                                      handleJobChange(
+                                        index,
+                                        "toTime",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="w-full h-[44px] px-3 border border-gray-200 rounded-lg text-sm outline-none"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+
+                          <div className="flex justify-end mt-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setJobDetails((prev) => [
+                                  ...prev,
+                                  {
+                                    employmentStatus: null,
+                                    organizationName: "",
+                                    role: null,
+                                    workLocation: "",
+                                    shiftType: null,
+                                    fromTime: "",
+                                    toTime: "",
+                                  },
+                                ])
+                              }
+                              className="font-gilroy text-sm bg-[#1E45E1] text-white font-semibold rounded-md px-2 py-2 mb-2 max-h-[45px] w-[146px] whitespace-nowrap flex items-center gap-2 disabled:opacity-50"
+                            >
+                              <AddCircle size="16" color="#FFFFFF" />
+                              <span>Additional Job</span>
+                            </button>
                           </div>
                         </div>
                       </div>

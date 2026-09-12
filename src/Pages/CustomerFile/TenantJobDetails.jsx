@@ -8,22 +8,29 @@ import { useHasPermission } from "../../Utils/Permission";
 function TenantJobDetails() {
   const state = useSelector((state) => state);
   const CustomerOverView = state?.UsersList?.customerdetails;
+
   const [showJobModal, setShowJobModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const jobDetails = CustomerOverView?.jobDetails;
+
+  const jobDetails = Array.isArray(CustomerOverView?.customerJobs)
+    ? CustomerOverView.customerJobs
+    : CustomerOverView?.customerJobs
+      ? [CustomerOverView.customerJobs]
+      : [];
 
   const { canWriteModule: canWriteTenant, canUpdateModule: canUpdateTenant } =
     useHasPermission("Customers");
 
-  const hasJobDetails =
-    jobDetails &&
-    (jobDetails.employmentStatus ||
-      jobDetails.organizationName ||
-      jobDetails.role ||
-      jobDetails.workLocation ||
-      jobDetails.shiftType ||
-      jobDetails.shiftStartTime ||
-      jobDetails?.shiftEndTime);
+  const hasJobDetails = jobDetails.some(
+    (job) =>
+      job?.employmentStatus ||
+      job?.organizationName ||
+      job?.role ||
+      job?.workLocation ||
+      job?.shiftType ||
+      job?.shiftStartTime ||
+      job?.shiftEndTime,
+  );
 
   const handleCloseShowModal = () => {
     setShowJobModal(false);
@@ -49,16 +56,13 @@ function TenantJobDetails() {
   return (
     <div className="w-full rounded-[14px] border border-gray-200 bg-white px-4 py-3 font-gilroy my-4">
       <div className="pb-2 border-b border-gray-100 flex items-center justify-between">
-        <h2 className="font-gilroy font-semibold text-black text-[16px] leading-[40px]  sm:mb-0">
+        <h2 className="font-gilroy font-semibold text-black text-[16px] leading-[40px] sm:mb-0">
           Job & Shift Details
         </h2>
+
         {!isDisabledButton && hasJobDetails && (
           <div>
-            <Edit
-              size="16"
-              className="cursor-pointer"
-              onClick={() => handleEdit()}
-            />
+            <Edit size="16" className="cursor-pointer" onClick={handleEdit} />
           </div>
         )}
       </div>
@@ -69,74 +73,88 @@ function TenantJobDetails() {
             <img src={Pngtree} alt="Image" />
           </div>
 
-          <div className="flex items-center  flex-col justify-center py-10">
+          <div className="flex items-center flex-col justify-center py-10">
             <p className="text-sm text-gray-500 font-medium">
               Job Details aren’t added yet!
             </p>
 
-            <div>
-              {" "}
-              <button
-                disabled={isDisabledButton}
-                onClick={() => {
-                  setShowJobModal(true);
-                  setEditMode(false);
-                }}
-                type="submit"
-                className="bg-[#1E45E1] disabled:bg-blue-700/60 disabled:cursor-not-allowed text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1 "
-              >
-                Add Now <ArrowRight size="14" color="#FFFFFF" />
-              </button>
-            </div>
+            <button
+              disabled={isDisabledButton}
+              onClick={() => {
+                setShowJobModal(true);
+                setEditMode(false);
+              }}
+              type="button"
+              className="bg-[#1E45E1] disabled:bg-blue-700/60 disabled:cursor-not-allowed text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-1"
+            >
+              Add Now
+              <ArrowRight size="14" color="#FFFFFF" />
+            </button>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-8 pt-4">
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Employment Status</p>
-            <p className="text-sm font-medium text-[#222222]">
-              {jobDetails?.employmentStatus || "N/A"}
-            </p>
-          </div>
+        <div className="pt-4 space-y-6 show-scrolls h-[200px]">
+          {jobDetails.map((job, index) => (
+            <div
+              key={index}
+              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-8 ${
+                index !== 0 ? "border-t border-gray-100 pt-6" : ""
+              }`}
+            >
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Employment Status</p>
+                <p className="text-sm font-medium text-[#222222]">
+                  {job?.employmentStatus || "N/A"}
+                </p>
+              </div>
 
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Company/College Name</p>
-            <p className="text-sm font-medium text-[#222222]">
-              {jobDetails?.organizationName || "N/A"}
-            </p>
-          </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">
+                  Company/College Name
+                </p>
+                <p className="text-sm font-medium text-[#222222]">
+                  {job?.organizationName || "N/A"}
+                </p>
+              </div>
 
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Job Role</p>
-            <p className="text-sm font-medium text-[#222222]">
-              {jobDetails?.role || "N/A"}
-            </p>
-          </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Job Role</p>
+                <p className="text-sm font-medium text-[#222222]">
+                  {job?.role || "N/A"}
+                </p>
+              </div>
 
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Work Location</p>
-            <div className="flex items-center gap-2">
-              <Location size="16" color="#1E45E1" />
-              <span className="text-sm font-medium text-[#222222]">
-                {jobDetails?.workLocation || "N/A"}
-              </span>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Work Location</p>
+
+                <div className="flex items-center gap-2">
+                  <Location size="16" color="#1E45E1" />
+
+                  <span className="text-sm font-medium text-[#222222]">
+                    {job?.workLocation || "N/A"}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Shift Type</p>
+
+                <p className="text-sm font-medium text-[#222222]">
+                  {job?.shiftType || "N/A"}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Shift Timing</p>
+
+                <p className="text-sm font-medium text-[#222222]">
+                  {job?.shiftStartsFrom && job?.shiftEndsAt
+                    ? `${job.shiftStartsFrom} - ${job.shiftEndsAt}`
+                    : "N/A"}
+                </p>
+              </div>
             </div>
-          </div>
-
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Shift Type</p>
-            <p className="text-sm font-medium text-[#222222]">
-              {jobDetails?.shiftType || "N/A"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Shift Timing</p>
-            <p className="text-sm font-medium text-[#222222]">
-              {jobDetails?.shiftStartTime || "N/A"} -{" "}
-              {jobDetails?.shiftEndTime || "N/A"}
-            </p>
-          </div>
+          ))}
         </div>
       )}
 
