@@ -21,6 +21,7 @@ import { ArrowUp2, ArrowDown2, Link21 } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import ApplyBookingModal from "./ApplyInvoices";
 import RetainerApplyInvoice from "./RetainerApplyInvoice";
+import { TiTick } from "react-icons/ti";
 
 const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);
@@ -188,22 +189,52 @@ const InvoiceCard = ({ rowData }) => {
 
   const [applyInvoiceRetainer, setApplyInvoiceRetainer] = useState(false);
   const [advanceDetails, setAdvanceDetails] = useState("");
-  const templateColor = pdfDetails?.configurations?.templateColor;
-  const isGradient = templateColor?.includes("linear-gradient");
+  // const templateColor = pdfDetails?.configurations?.templateColor;
+  // const isGradient = templateColor?.includes("linear-gradient");
 
-  const textStyle = isGradient
-    ? {
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        background: templateColor,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      }
-    : {
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        color: templateColor || "#1E45E1",
-      };
+  const statusClasses = {
+    Pending: {
+      bg: "bg-[#FFF1F1]",
+      dot: "bg-[#EF4444]",
+    },
+    "Partial Payment": {
+      bg: "bg-[#FFF1F1]",
+      dot: "bg-[#EF4444]",
+    },
+    Paid: {
+      bg: "bg-[#ECFDF5]",
+      dot: "bg-[#10B981]",
+    },
+    Refunded: {
+      bg: "bg-[#FFFBEB]",
+      dot: "bg-[#F59E0B]",
+    },
+    "Partially Refunded": {
+      bg: "bg-[#FFFBEB]",
+      dot: "bg-[#F59E0B]",
+    },
+    "Pending Refund": {
+      bg: "bg-[#FFF7ED]",
+      dot: "bg-[#FB923C]",
+    },
+    Cancelled: {
+      bg: "bg-[#F3F4F6]",
+      dot: "bg-[#6B7280]",
+    },
+  };
+  // const textStyle = isGradient
+  //   ? {
+  //       fontFamily: "Gilroy",
+  //       fontWeight: 600,
+  //       background: templateColor,
+  //       WebkitBackgroundClip: "text",
+  //       WebkitTextFillColor: "transparent",
+  //     }
+  //   : {
+  //       fontFamily: "Gilroy",
+  //       fontWeight: 600,
+  //       color: templateColor || "#1E45E1",
+  //     };
 
   // const getIconStyle = (templateColor) => {
   //   const isGradient = templateColor?.includes("linear-gradient");
@@ -272,22 +303,56 @@ const InvoiceCard = ({ rowData }) => {
           <div className="flex justify-between items-center w-full h-12 bg-white border-b border-[#E0E0E0] px-2">
             <div className="flex items-center gap-2">
               <div className="pl-1">
-                <label className="text-[14px] font-medium text-[#222222] font-gilroy">
+                <label className="text-[16px] text-black font-semibold font-gilroy">
                   {pdfDetails?.invoiceNumber}
                 </label>
               </div>
 
-              <div>
-                {rowData?.paymentStatus !== "Pending" ? (
-                  <span className="text-[10px] bg-[#D9FFD9] text-black rounded-[14px] px-3 py-2 font-gilroy">
-                    Paid
+              {(() => {
+                const invoice = pdfDetails?.invoiceInfo;
+
+                let status = invoice?.paymentStatus || invoice?.status;
+
+                switch (invoice?.status) {
+                  case "PENDING":
+                    status = "Pending";
+                    break;
+                  case "CANCELLED":
+                  case "Cancelled":
+                    status = "Cancelled";
+                    break;
+                  case "PENDING REFUND":
+                    status = "Pending Refund";
+                    break;
+                  case "PARTIAL_REFUND":
+                    status = "Partially Refunded";
+                    break;
+                  case "REFUNDED":
+                    status = "Refunded";
+                    break;
+                  case "PAID":
+                    status = "Paid";
+                    break;
+                  default:
+                    break;
+                }
+
+                if (!status) return null;
+
+                const styles = statusClasses[status] || {
+                  bg: "bg-gray-100",
+                  dot: "bg-gray-400",
+                };
+
+                return (
+                  <span
+                    className={`flex items-center gap-2 px-2 py-[2px] text-[10px] rounded-full font-gilroy w-fit ${styles.bg}`}
+                  >
+                    <span className={`h-2 w-2 rounded-full ${styles.dot}`} />
+                    {status}
                   </span>
-                ) : (
-                  <span className="text-[10px] bg-[#FFF0F0] text-[#EB2427] rounded-[14px] px-3 py-2 cursor-pointer font-gilroy">
-                    Unpaid
-                  </span>
-                )}
-              </div>
+                );
+              })()}
             </div>
 
             <div>
@@ -413,9 +478,9 @@ const InvoiceCard = ({ rowData }) => {
                       transformOrigin: "top left",
                     }}
                   >
-                    <div className="p-2 relative rounded-t-lg">
-                      <div className="flex justify-between items-center px-3">
-                        <div className="w-1/2">
+                    <div className="p-2 rounded-t-lg">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 items-center px-3 gap-4">
+                        <div className="flex gap-2 justify-start">
                           <img
                             src={
                               pdfDetails?.configurations?.hostelLogo
@@ -423,344 +488,363 @@ const InvoiceCard = ({ rowData }) => {
                                 : Logo
                             }
                             alt="logo"
+                            className="mt-2 max-w-[134px] rounded object-contain"
                             style={{
                               height: pdfDetails?.configurations?.hostelLogo
                                 ? 50
                                 : 25,
-                              maxWidth: 134,
                             }}
-                            className="mt-2 object-contain rounded"
                           />
+                          <div>
+                            <div className="py-1">
+                              <div className="text-[#222222] text-[14px] font-medium ">
+                                {pdfDetails?.emailId &&
+                                pdfDetails.emailId !== "null"
+                                  ? pdfDetails.emailId
+                                  : ""}
+                              </div>
+                            </div>
+                            <div className="py-1">
+                              <div className="text-[#222222] text-[14px] font-medium  ">
+                                {pdfDetails?.mobile &&
+                                  `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="mt-2 w-[45%] pl-4 pr-0">
-                          <div className="text-[14px] font-semibold text-[#2B2B2B] mr-5 font-gilroy">
+                        <div className="mt-2 sm:pl-4">
+                          <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
                             {pdfDetails?.stayInfo?.hostelName}
                           </div>
-                          <div className="flex flex-wrap text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] w-[220px] break-words overflow-hidden line-clamp-5 font-gilroy">
+
+                          <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
                             {pdfDetails?.configurations?.address}
                           </div>
+                          {/* <div className="text-[#222222] text-[10px] font-medium  ">
+                                 <span>GST IN : </span>{" "}
+                                 <span>{pdfDetails?.headerInfo?.gstNumber}</span>
+                               </div> */}
                         </div>
                       </div>
                     </div>
-
-                    <hr
-                      className="mb-2"
-                      style={{
-                        border: "none",
-                        height: "1px",
-                        background: templateColor,
-                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                        borderRadius: "2px",
-                      }}
-                    />
-
-                    <div className="w-full bg-white rounded-b-lg relative">
-                      <div className="text-center pt-2 pb-1">
-                        <h5
-                          className="text-[17px] font-semibold font-gilroy"
-                          style={textStyle}
-                        >
-                          Retainer Invoice
-                        </h5>
-                      </div>
-                      <div
-                        className="mb-2 text-[11px] font-semibold italic px-5 mt-2"
-                        style={textStyle}
+                    <div className="text-center pt-2 pb-1">
+                      <h5
+                        className="text-[17px] font-semibold font-gilroy"
+                        // style={textStyle}
                       >
-                        Bill to:
-                      </div>
-                      <div className="grid grid-cols-2 gap-4 px-5 mt-2">
-                        <div className="text-[13px] text-[#222] font-gilroy">
-                          <div className="grid grid-cols-[120px_10px_1fr] mb-1 items-center">
-                            <div className="text-[10px] text-[#4B4B4B] truncate ">
-                              Tenant Name
-                            </div>
-                            <div className="text-center">:</div>
-                            <div className="font-semibold text-[12px] text-[#171717]">
-                              {pdfDetails?.customerInfo?.fullName}
-                            </div>
+                        Retainer Invoice
+                      </h5>
+                    </div>
+                    <div className="bg-white  border-1 border-[#D7DAE0] rounded-lg mx-4 py-4   position-relative ">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4  font-gilroy">
+                        <div className="md:col-span-6 mb-3 text-[13px] text-[#222]">
+                          <div className="mb-2 text-[12px] font-semibold italic text-[#5E6470]">
+                            Bill to:
                           </div>
 
-                          <div className="grid grid-cols-[120px_10px_1fr] mb-1 items-center">
-                            <div className="text-[10px] text-[#4B4B4B] truncate">
-                              Mobile No
-                            </div>
-                            <div className="text-center">:</div>
-                            <div className="text-[12px] text-[#171717]">
+                          <div className="mb-1 flex items-center">
+                            <span className=" text-[14px] font-semibold text-[#171717]">
+                              {pdfDetails?.customerInfo?.fullName}
+                            </span>
+                          </div>
+
+                          <div className="mb-1 flex items-center">
+                            <span className=" text-[14px] text-[#5E6470]">
+                              {" "}
                               {pdfDetails?.customerInfo?.customerMobileNo &&
                               pdfDetails.customerInfo.customerMobileNo !==
                                 "undefined"
                                 ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
                                 : ""}
+                            </span>
+                          </div>
+
+                          <div className="flex">
+                            <div className="text-[14px] text-[#5E6470] break-words">
+                              {pdfDetails?.customerInfo?.fullAddress}
+                            </div>
+                          </div>
+                          <div className="my-2 flex items-center">
+                            <div>
+                              <div className="text-[#4B4B4B] text-[12px]  ">
+                                Stay Details
+                              </div>
+
+                              <span className=" flex items-center text-[14px] font-semibold text-[#171717]">
+                                {pdfDetails?.stayInfo?.floorName && (
+                                  <> {pdfDetails.stayInfo.floorName} </>
+                                )}
+                                {pdfDetails?.stayInfo?.roomName && (
+                                  <>{pdfDetails.stayInfo.roomName} </>
+                                )}
+                                - {pdfDetails?.stayInfo?.bedName}
+                              </span>
                             </div>
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-[140px_10px_1fr] flex items-center">
-                          {[
-                            ["Invoice", pdfDetails?.invoiceNumber],
-                            ["Invoice Date", pdfDetails?.invoiceDate],
-                          ].map(([label, value], i) => (
-                            <React.Fragment key={i}>
-                              <div className="text-right text-[10px] text-[#4B4B4B] truncate">
-                                {label}
-                              </div>
-                              <div className="text-center h-fit">:</div>
-                              <div className="text-left text-[12px] font-semibold text-[#171717] truncate">
-                                {value}
-                              </div>
-                            </React.Fragment>
-                          ))}
+                        <div className="md:col-span-6  flex justify-end items-center">
+                          <div className="grid grid-cols-2 gap-2 ">
+                            <div className="truncate text-right text-[11px] font-normal text-[#4B4B4B]">
+                              Invoice :
+                            </div>
+
+                            <div className="truncate text-left text-[14px] font-semibold text-[#171717]">
+                              {pdfDetails?.invoiceNumber}
+                            </div>
+
+                            <div className="truncate text-right text-[11px] font-normal text-[#4B4B4B]">
+                              Invoice Date :
+                            </div>
+
+                            <div className="truncate text-left text-[14px] font-semibold text-[#171717]">
+                              {pdfDetails?.invoiceDate}
+                            </div>
+
+                            <div className="truncate text-right text-[11px] font-normal text-[#4B4B4B]">
+                              Due date :
+                            </div>
+
+                            <div className="truncate text-left text-[14px] font-semibold text-[#171717]">
+                              {pdfDetails?.dueDate}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="mx-5 my-2">
-                      <div className="mb-1">
-                        <label
-                          className="text-[12px] font-semibold"
-                          style={{ fontFamily: "Gilroy", ...textStyle }}
-                        >
-                          Payment Summary
-                        </label>
+                      <div className="px-4 my-4">
+                        <div className="border border-[#DFDFDF] rounded-lg ">
+                          <div className="overflow-x-auto">
+                            <table className="w-full border-collapse">
+                              <thead className="bg-white text-[#6B7280] text-xs uppercase">
+                                <tr>
+                                  <th className="px-3 py-2 text-left text-[12px] font-semibold text-[#222]">
+                                    DESCRIPTION
+                                  </th>
+
+                                  <th className="px-3 py-2 text-right text-[12px] font-semibold text-[#222]">
+                                    AMOUNT / INR
+                                  </th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {pdfDetails?.invoiceInfo?.invoiceItems?.map(
+                                  (item, index) => (
+                                    <tr
+                                      key={index}
+                                      className="border-t border-[#F1F1F1] hover:bg-[#FAFBFF]"
+                                    >
+                                      <td className="px-3 py-2 text-[12px] text-[#2D2D2D] font-medium text-left">
+                                        {item.description}
+                                      </td>
+
+                                      <td className="px-3 py-2 text-[12px] font-semibold text-[#2D2D2D] text-right">
+                                        ₹{" "}
+                                        {Number(
+                                          item.amount || 0,
+                                        ).toLocaleString("en-IN")}
+                                      </td>
+                                    </tr>
+                                  ),
+                                )}
+
+                                <tr className="bg-[#F9F9F9] border-t border-[#DFDFDF]">
+                                  <td className="px-3 py-2 text-[14px] text-[#2D2D2D] font-medium text-left">
+                                    Total
+                                  </td>
+
+                                  <td className="px-3 py-2 text-right text-[14px] font-semibold text-[#2D2D2D]">
+                                    ₹{" "}
+                                    {Number(
+                                      pdfDetails?.invoiceInfo?.subTotal || 0,
+                                    ).toLocaleString("en-IN")}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div className="my-2 w-full flex justify-end">
+                          <div className="w-[260px] px-3 py-2 text-[13px] font-semibold">
+                            <div className="flex justify-between items-center mb-2 text-[13px]  text-[#1A1C21] font-semibold">
+                              <span className=" font-[Gilroy,sans-serif]">
+                                Grand Total
+                              </span>
+                              <span className=" font-[Gilroy,sans-serif]">
+                                ₹{" "}
+                                {Number(
+                                  pdfDetails?.invoiceInfo?.totalAmount || 0,
+                                )}
+                              </span>
+                            </div>
+
+                            <div className="flex justify-between items-center mb-2 text-[13px] font-semibold">
+                              <span className=" font-[Gilroy,sans-serif]">
+                                Payment Made
+                              </span>
+                              <span className=" text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
+                                ₹{" "}
+                                {Number(
+                                  pdfDetails?.invoiceInfo?.paidAmount || 0,
+                                )}
+                              </span>
+                            </div>
+
+                            <div className="flex justify-between items-center mb-2 text-[13px] text-[#1A1C21] font-semibold">
+                              <span className=" font-[Gilroy,sans-serif]">
+                                Discount Applied
+                              </span>
+                              <span className=" text-[#FF0000] font-[Gilroy,sans-serif]">
+                                ₹{" "}
+                                {Number(
+                                  pdfDetails?.invoiceInfo?.discountAmount || 0,
+                                )}
+                              </span>
+                            </div>
+
+                            <div className="flex justify-between items-center text-[13px] font-semibold">
+                              <span className="text-[#1A1C21] font-[Gilroy,sans-serif]">
+                                Balance Due
+                              </span>
+                              <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
+                                ₹{" "}
+                                {Number(
+                                  pdfDetails?.invoiceInfo?.balanceAmount || 0,
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="border border-[#DFDFDF] rounded-lg ">
-                        <div className="overflow-x-auto">
-                          <table className="w-full border-collapse">
-                            <thead className="bg-white text-[#6B7280] text-xs uppercase">
-                              <tr>
-                                <th className="px-3 py-2 text-left text-[12px] font-semibold text-[#222]">
-                                  INV NO
-                                </th>
-                                <th className="px-3 py-2 text-center text-[12px] font-semibold text-[#222]">
-                                  DESCRIPTION
-                                </th>
-                                <th className="px-3 py-2 text-right text-[12px] font-semibold text-[#222]">
-                                  AMOUNT / INR
-                                </th>
-                              </tr>
-                            </thead>
+                      <div className="px-4 my-2">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                          <div className="md:col-span-6">
+                            <h6 className="mb-3 text-[13px] font-bold font-gilroy">
+                              ACCOUNT DETAILS
+                            </h6>
 
-                            <tbody>
-                              {pdfDetails?.invoiceInfo?.invoiceItems?.map(
-                                (item, index) => (
-                                  <tr
-                                    key={index}
-                                    className="border-t border-[#F1F1F1] hover:bg-[#FAFBFF]"
-                                  >
-                                    <td className="px-3 py-2 text-[12px] text-[#2D2D2D] font-medium">
-                                      {item.invoiceNo}
-                                    </td>
-                                    <td className="px-3 py-2 text-[12px] text-[#2D2D2D] font-medium text-center">
-                                      {item.description}
-                                    </td>
-                                    <td className="px-3 py-2 text-[12px] font-semibold text-[#2D2D2D] text-right">
-                                      ₹{" "}
-                                      {Number(item.amount).toLocaleString(
-                                        "en-IN",
-                                      )}
-                                    </td>
-                                  </tr>
-                                ),
+                            <div className="mb-1">
+                              <label className="text-[12px] font-medium text-[#4B4B4B] font-gilroy">
+                                Account No:
+                              </label>{" "}
+                              <span className="text-[14px] font-medium text-[#171717] font-gilroy">
+                                {pdfDetails?.accountDetails?.accountNo || ""}
+                              </span>
+                            </div>
+
+                            <div className="mb-1">
+                              <label className="text-[12px] font-medium text-[#4B4B4B] font-gilroy">
+                                IFSC Code:
+                              </label>{" "}
+                              <span className="text-[14px] font-medium text-[#171717] font-gilroy">
+                                {pdfDetails?.accountDetails?.ifscCode || ""}
+                              </span>
+                            </div>
+
+                            <div className="mb-1">
+                              <label className="text-[12px] font-medium text-[#4B4B4B] font-gilroy">
+                                Bank Name:
+                              </label>{" "}
+                              <span className="text-[14px] font-medium text-[#171717] font-gilroy">
+                                {pdfDetails?.accountDetails?.bankName || ""}
+                              </span>
+                            </div>
+
+                            <div>
+                              <label className="text-[12px] font-medium text-[#4B4B4B] font-gilroy">
+                                UPI Details:
+                              </label>{" "}
+                              <span className="text-[14px] font-medium text-[#171717] font-gilroy">
+                                {pdfDetails?.accountDetails?.upiId || ""}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="md:col-span-2"></div>
+
+                          <div className="md:col-span-4 flex flex-col justify-between">
+                            <div className="flex justify-center mb-2">
+                              {pdfDetails?.accountDetails?.qrCode && (
+                                <img
+                                  src={pdfDetails?.accountDetails?.qrCode}
+                                  alt="Barcode"
+                                  className="max-w-[150px] h-auto rounded-sm object-contain"
+                                />
                               )}
-
-                              <tr className="bg-[#F9F9F9] border-t border-[#DFDFDF]">
-                                <td
-                                  colSpan={2}
-                                  className={`px-3 py-2 text-[14px] text-[#2D2D2D] font-medium  text-center
-            `}
-                                >
-                                  Total
-                                </td>
-                                <td className="px-3 py-2 text-right text-[14px] font-semibold text-[#2D2D2D]">
-                                  ₹{" "}
-                                  {Number(
-                                    pdfDetails?.invoiceInfo?.subTotal || 0,
-                                  ).toLocaleString("en-IN")}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                            </div>
+                            <div className="flex justify-center text-xs text-[#3D3D3D]">
+                              Scan QR for Payment
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="mb-3 mt-3 px-3 py-2 border rounded bg-[#FAFBFF] text-[13px] font-semibold">
-                        <div className="flex justify-between items-center mb-2">
-                          <div
-                            className="text-[#4B4B4B] text-[12px] font-semibold"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            Grand Total
-                          </div>
-                          <div
-                            className="text-[12px] font-semibold text-[#4B4B4B]"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            ₹{" "}
-                            {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
-                          </div>
-                        </div>
+                      <div className="flex flex-wrap justify-between  my-10 px-4">
+                        <div className="">
+                          {pdfDetails?.configurations?.signatureUrl && (
+                            <img
+                              src={pdfDetails?.configurations?.signatureUrl}
+                              alt="Digital Signature"
+                              className="h-[60px] w-[130px] pl-5"
+                            />
+                          )}
 
-                        <div className="flex justify-between items-center mb-2">
-                          <div
-                            className="text-[#4B4B4B] text-[12px] font-semibold"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            Payment Made
-                          </div>
-                          <div
-                            className="text-[12px] font-semibold text-[rgba(0,163,46,1)]"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
-                          </div>
+                          <p className="text-[14px] font-[Gilroy] font-semibold text-[#2C2C2C]">
+                            Authorized Signature
+                          </p>
                         </div>
-
-                        <div className="flex justify-between items-center mb-2">
-                          <div
-                            className="text-[#4B4B4B] text-[12px] font-semibold"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            Balance Due
+                        <div>
+                          <div className="text-[14px] flex items-center gap-2 my-1 text-gray-900 font-semibold">
+                            Status :
+                            <TiTick
+                              className={`${
+                                pdfDetails?.invoiceInfo?.paymentStatus ===
+                                "Pending"
+                                  ? "text-[#F59E0B]"
+                                  : pdfDetails?.invoiceInfo?.paymentStatus ===
+                                      "Paid"
+                                    ? "text-[#038C3D]"
+                                    : pdfDetails?.invoiceInfo?.paymentStatus ===
+                                        "Overdue"
+                                      ? "text-[#DC2626]"
+                                      : "text-[#6B7280]"
+                              }`}
+                            />
+                            <span
+                              className={`text-sm ${
+                                pdfDetails?.invoiceInfo?.paymentStatus ===
+                                "Pending"
+                                  ? "text-[#F59E0B]"
+                                  : pdfDetails?.invoiceInfo?.paymentStatus ===
+                                      "Paid"
+                                    ? "text-[#038C3D]"
+                                    : pdfDetails?.invoiceInfo?.paymentStatus ===
+                                        "Overdue"
+                                      ? "text-[#DC2626]"
+                                      : "text-[#6B7280]"
+                              }`}
+                            >
+                              {pdfDetails?.invoiceInfo?.paymentStatus}
+                            </span>
                           </div>
-                          <div
-                            className="text-[12px] font-semibold text-[#FF0000]"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            ₹{" "}
-                            {Number(
-                              pdfDetails?.invoiceInfo?.balanceAmount || 0,
-                            )}
+                          <div className="text-[14px] flex items-center font-semibold my-1 gap-2 text-gray-900 ">
+                            Thanks for your stay.
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="px-5 mt-1">
-                      <div className="grid grid-cols-12 gap-4">
-                        <div className="col-span-12 md:col-span-6 mb-1">
-                          <h6
-                            className="text-[11px] font-extrabold mb-[12px]"
-                            style={{ fontFamily: "Gilroy", ...textStyle }}
-                          >
-                            PAY ACCOUNT DETAILS
-                          </h6>
-
-                          <div className="mb-1">
-                            <label
-                              className="text-[11px] font-medium text-[#4B4B4B]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              Account No:
-                            </label>{" "}
-                            <span
-                              className="text-[12px] font-medium text-[#171717]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              {pdfDetails?.accountDetails?.accountNo || "N/A"}
-                            </span>
-                          </div>
-
-                          <div className="mb-1">
-                            <label
-                              className="text-[11px] font-medium text-[#4B4B4B]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              IFSC Code:
-                            </label>{" "}
-                            <span
-                              className="text-[12px] font-medium text-[#171717]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              {pdfDetails?.accountDetails?.ifscCode || "N/A"}
-                            </span>
-                          </div>
-
-                          <div className="mb-1">
-                            <label
-                              className="text-[11px] font-medium text-[#4B4B4B]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              Bank Name:
-                            </label>{" "}
-                            <span
-                              className="text-[12px] font-medium text-[#171717]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              {pdfDetails?.accountDetails?.bankName || "N/A"}
-                            </span>
-                          </div>
-
-                          <div>
-                            <label
-                              className="text-[11px] font-medium text-[#4B4B4B]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              UPI Details:
-                            </label>{" "}
-                            <span
-                              className="text-[12px] font-medium text-[#171717]"
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              {pdfDetails?.accountDetails?.upiId || "N/A"}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="hidden md:block md:col-span-2"></div>
-
-                        <div className="col-span-12 md:col-span-4 flex flex-col justify-between">
-                          <div className="flex justify-center mb-2">
-                            {pdfDetails?.accountDetails?.qrCode && (
-                              <img
-                                src={pdfDetails?.accountDetails?.qrCode}
-                                alt="Barcode"
-                                className="max-w-[150px] rounded-sm"
-                              />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-12 justify-between mt-4 mb-5 px-5">
-                      <div className="col-span-12 md:col-span-8">
-                        <h4
-                          className="text-[12px] font-semibold"
-                          style={{ fontFamily: "Gilroy", ...textStyle }}
-                        >
-                          Terms and Conditions
-                        </h4>
-
-                        <p
-                          className="text-[11px] font-medium text-[#3D3D3D] pr-[50px]"
-                          style={{
-                            whiteSpace: "pre-line",
-                            fontFamily: "Gilroy",
-                          }}
-                        >
+                    <div className={`w-full my-2 md:w-8/12 px-4 py-2`}>
+                      <h4 className="text-[14px] font-[Gilroy] font-semibold text-gray-600">
+                        T&C :{" "}
+                        <span className="whitespace-pre-line text-[14px] font-[Gilroy] font-semibold text-gray-900 pr-[50px]">
                           {pdfDetails?.configurations?.termAndCondition}
-                        </p>
-                      </div>
-
-                      <div className="col-span-12 md:col-span-4 flex flex-col justify-end items-end">
-                        {pdfDetails?.configurations?.signatureUrl && (
-                          <img
-                            src={pdfDetails?.configurations?.signatureUrl}
-                            alt="Digital Signature"
-                            className="h-[60px] w-[130px] pl-[20px]"
-                          />
-                        )}
-
-                        <p
-                          className="text-[13px] font-semibold text-[rgba(44,44,44,1)]"
-                          style={{ fontFamily: "Gilroy" }}
-                        >
-                          Authorized Signature
-                        </p>
-                      </div>
+                        </span>
+                      </h4>
                     </div>
                     <div
                       className="absolute left-0 right-0 bottom-4"
@@ -768,35 +852,22 @@ const InvoiceCard = ({ rowData }) => {
                         background: "#FFFFFF",
                       }}
                     >
-                      <hr
-                        className="mb-2"
-                        style={{
-                          border: "none",
-                          height: "1px",
-                          background: templateColor,
-                          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                          borderRadius: "2px",
-                        }}
-                      />
-
+                      <hr className="border-1 border-[#D7DAE0] " />
                       <div className="px-5">
-                        <div className="flex justify-between text-center rounded-b-[38px]">
-                          <p
-                            className="mb-0 text-[13px] font-medium text-[#4B4B4B]"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
+                        <div className="flex items-center justify-between text-center rounded-t-[38px]">
+                          <p className="mb-0 text-[14px] font-gilroy font-medium text-[#4B4B4B]">
                             Email:{" "}
-                            <span className="text-[13px] font-semibold text-[#222222]">
-                              {pdfDetails?.emailId}
+                            <span className="text-[14px] font-gilroy font-semibold text-[#222222]">
+                              {pdfDetails?.emailId &&
+                              pdfDetails.emailId !== "null"
+                                ? pdfDetails.emailId
+                                : ""}
                             </span>
                           </p>
 
-                          <p
-                            className="mb-0 text-[13px] font-medium text-[#4B4B4B]"
-                            style={{ fontFamily: "Gilroy" }}
-                          >
+                          <p className="mb-0 text-[14px] font-gilroy font-medium text-[#4B4B4B]">
                             Contact:{" "}
-                            <span className="text-[13px] font-semibold text-[#222222]">
+                            <span className="text-[14px] font-gilroy font-semibold text-[#222222]">
                               {pdfDetails?.mobile &&
                                 `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
                             </span>
