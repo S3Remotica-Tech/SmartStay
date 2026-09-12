@@ -109,13 +109,7 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const CustomerOverView = state?.UsersList?.customerdetails;
-  const [employmentStatus, setEmploymentStatus] = useState("");
-  const [organizationName, setOrganizationName] = useState("");
-  const [jobRole, setJobRole] = useState("");
-  const [workLocation, setWorkLocation] = useState("");
-  const [shiftType, setShiftType] = useState("");
-  const [fromTime, setFromTime] = useState("");
-  const [toTime, setToTime] = useState("");
+
   const [saveLoading, setSaveLoading] = useState(false);
   const [noChanges, setNoChanges] = useState("");
 
@@ -130,7 +124,6 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   });
 
   const [jobDetails, setJobDetails] = useState([getEmptyJob()]);
-  const [editingIndex, setEditingIndex] = useState(null);
 
   const shiftTypeOptions = [
     { value: "Day Shift", label: "Day Shift" },

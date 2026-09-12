@@ -61,36 +61,36 @@ function BookingsPdfDetails() {
     }
   }, [rowData]);
 
-  const statusStyles = {
-    Pending: {
-      bg: "bg-[#FFF1F1]",
-      dot: "bg-[#EF4444]",
-    },
-    "Partial Payment": {
-      bg: "bg-[#FFF1F1]",
-      dot: "bg-[#EF4444]",
-    },
-    Paid: {
-      bg: "bg-[#ECFDF5]",
-      dot: "bg-[#10B981]",
-    },
-    Refunded: {
-      bg: "bg-[#FFFBEB]",
-      dot: "bg-[#F59E0B]",
-    },
-    "Partially Refunded": {
-      bg: "bg-[#FFFBEB]",
-      dot: "bg-[#F59E0B]",
-    },
-    "Pending Refund": {
-      bg: "bg-[#FFF7ED]",
-      dot: "bg-[#FB923C]",
-    },
-    Cancelled: {
-      bg: "bg-[#F3F4F6]",
-      dot: "bg-[#6B7280]",
-    },
-  };
+  // const statusStyles = {
+  //   Pending: {
+  //     bg: "bg-[#FFF1F1]",
+  //     dot: "bg-[#EF4444]",
+  //   },
+  //   "Partial Payment": {
+  //     bg: "bg-[#FFF1F1]",
+  //     dot: "bg-[#EF4444]",
+  //   },
+  //   Paid: {
+  //     bg: "bg-[#ECFDF5]",
+  //     dot: "bg-[#10B981]",
+  //   },
+  //   Refunded: {
+  //     bg: "bg-[#FFFBEB]",
+  //     dot: "bg-[#F59E0B]",
+  //   },
+  //   "Partially Refunded": {
+  //     bg: "bg-[#FFFBEB]",
+  //     dot: "bg-[#F59E0B]",
+  //   },
+  //   "Pending Refund": {
+  //     bg: "bg-[#FFF7ED]",
+  //     dot: "bg-[#FB923C]",
+  //   },
+  //   Cancelled: {
+  //     bg: "bg-[#F3F4F6]",
+  //     dot: "bg-[#6B7280]",
+  //   },
+  // };
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
