@@ -242,12 +242,13 @@ export async function CheckIn(CheckIn) {
   );
 }
 
-export async function UpdateJobDetails(job) {
+export async function UpdateJobDetails(payload) {
+  const { hostelId, customerId, customerJobs } = payload;
+
   return await AxiosConfigV2.put(
-    `/v3/customers/job/${job.hostelId}/${job.customerId}`,
-    job,
+    `/v3/customers/job/${hostelId}/${customerId}`,
     {
-      data: job,
+      customerJobs,
     },
   );
 }

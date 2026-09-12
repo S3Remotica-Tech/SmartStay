@@ -821,20 +821,6 @@ function UserList(props) {
     }
   }, [state.UsersList?.successTenantCustomizeColumns]);
 
-  useEffect(() => {
-    const cols = state?.UsersList?.Users?.columnList || [];
-
-    const formatted = cols.map((col) => ({
-      ...col,
-      key: col.fieldName,
-      selected:
-        col.fieldName === "Status" && hasStatusCode ? true : col.selected,
-    }));
-
-    setCustomizeItems(formatted);
-    setInitialCustomizeItems(formatted);
-  }, [state?.UsersList?.Users?.columnList]);
-
   const handleResetCustomize = () => {
     setCustomizeItems([...initialCustomizeItems]);
     setError("");
@@ -1214,6 +1200,22 @@ function UserList(props) {
   });
 
   const hasStatusCode = formattedData?.some((user) => user.statusCode);
+
+  // console.log("hasStatusCode", hasStatusCode);
+
+  useEffect(() => {
+    const cols = state?.UsersList?.Users?.columnList || [];
+
+    const formatted = cols.map((col) => ({
+      ...col,
+      key: col.fieldName,
+      selected:
+        col.fieldName === "Status" && hasStatusCode ? true : col.selected,
+    }));
+
+    setCustomizeItems(formatted);
+    setInitialCustomizeItems(formatted);
+  }, [state?.UsersList?.Users?.columnList, hasStatusCode]);
 
   const filterOptionsData = useSelector(
     (state) => state.UsersList?.Users?.filterOptions,

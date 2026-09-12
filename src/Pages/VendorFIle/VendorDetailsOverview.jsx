@@ -74,11 +74,15 @@ function VendorDetailsOverview({ handleSelected }) {
     },
     {
       label: "Contact Person Mobile",
-      value:
-        VendorOverView.contactPersonMobileCode &&
-        VendorOverView.contactPersonMobile
-          ? ` ${VendorOverView.contactPersonMobileCode} ${VendorOverView.contactPersonMobile}`
-          : "---",
+      value: VendorOverView.contactPersonMobile
+        ? `${
+            VendorOverView.contactPersonMobileCode
+              ? VendorOverView.contactPersonMobileCode.startsWith("+")
+                ? VendorOverView.contactPersonMobileCode
+                : `+${VendorOverView.contactPersonMobileCode}`
+              : ""
+          } ${VendorOverView.contactPersonMobile}`
+        : "---",
       icon: <Call size={16} />,
     },
     {

@@ -9,7 +9,7 @@ import "flatpickr/dist/themes/material_blue.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "../OthersComponent/BillPdfModal.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BookingPdfModal from "./BookingPdfModal";
 import { SearchNormal1 } from "iconsax-react";
 
@@ -17,7 +17,7 @@ function BookingsPdfDetails() {
   const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [rowDatas, setRowDatas] = useState("");
@@ -33,6 +33,10 @@ function BookingsPdfDetails() {
   const handleDisplayInvoiceDownload = (item) => {
     setRowDatas(item);
     setSelectedInvoiceId(item);
+    navigate(`/retainer-invoice/details/${item}`, {
+      replace: false,
+      state: { ts: Date.now() },
+    });
     if (item && state.login.selectedHostel_Id) {
       dispatch({
         type: "GETPARTICULARBILLSDETAILS",

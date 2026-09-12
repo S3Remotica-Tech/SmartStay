@@ -42,7 +42,7 @@ function AdvanceInvoicePDF() {
             />
             <div>
               <div className="py-1">
-                <div className="text-[#222222] text-[14px] font-medium ">
+                <div className="text-[#222222] text-[14px] font-medium">
                   {pdfDetails?.emailId && pdfDetails.emailId !== "null"
                     ? pdfDetails.emailId
                     : ""}
@@ -57,7 +57,7 @@ function AdvanceInvoicePDF() {
             </div>
           </div>
 
-          <div className="mt-2 sm:pl-4">
+          <div className="mt-2 sm:text-center min-w-0">
             <div className="text-[14px] font-semibold text-[#2B2B2B] font-gilroy">
               {pdfDetails?.stayInfo?.hostelName}
             </div>
@@ -65,10 +65,6 @@ function AdvanceInvoicePDF() {
             <div className="text-[11px] font-medium text-[#4B4B4B] leading-[1.2rem] break-words line-clamp-5 font-gilroy">
               {pdfDetails?.configurations?.address}
             </div>
-            {/* <div className="text-[#222222] text-[10px] font-medium  ">
-              <span>GST IN : </span>{" "}
-              <span>{pdfDetails?.headerInfo?.gstNumber}</span>
-            </div> */}
           </div>
         </div>
       </div>

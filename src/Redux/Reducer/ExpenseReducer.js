@@ -23,8 +23,21 @@ export const initialState = {
   customizeExpenseSuccessCode: 0,
   expenseFilters: {
     search: "",
-    categoryName: "",
     categoryId: "",
+    categoryLabel: "",
+    subCategoryId: "",
+    subCategoryLabel: "",
+    paymentMode: "",
+    createdBy: "",
+    createdByLabel: "",
+    period: "",
+    startDate: "",
+    endDate: "",
+    minAmount: "",
+    maxAmount: "",
+    vendorId: "",
+    vendorName: "",
+    paymentStatus: "",
   },
 };
 

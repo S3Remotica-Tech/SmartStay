@@ -236,10 +236,10 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   };
 
   useEffect(() => {
-    if (CustomerOverView?.jobDetails && editMode) {
-      const existingJobs = Array.isArray(CustomerOverView.jobDetails)
-        ? CustomerOverView.jobDetails
-        : [CustomerOverView.jobDetails];
+    if (CustomerOverView?.customerJobs && editMode) {
+      const existingJobs = Array.isArray(CustomerOverView.customerJobs)
+        ? CustomerOverView.customerJobs
+        : [CustomerOverView.customerJobs];
 
       setJobDetails(
         existingJobs.map((job) => ({
@@ -307,10 +307,10 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
   const handleSave = () => {
     setNoChanges("");
 
-    const existingJobDetails = Array.isArray(CustomerOverView?.jobDetails)
-      ? CustomerOverView.jobDetails
-      : CustomerOverView?.jobDetails
-        ? [CustomerOverView.jobDetails]
+    const existingJobDetails = Array.isArray(CustomerOverView?.customerJobs)
+      ? CustomerOverView.customerJobs
+      : CustomerOverView?.customerJobs
+        ? [CustomerOverView.customerJobs]
         : [];
 
     const existingData = existingJobDetails.map((job) => ({
@@ -341,12 +341,19 @@ function AddAndUpdateJobDetails({ show, handleClose, editMode }) {
       return;
     }
 
+    const hostelId = state?.login?.selectedHostel_Id;
+    const customerId = CustomerOverView?.customerId;
+
     dispatch({
       type: "JOB_UPDATE_SAGA",
       payload: {
-        hostelId: state?.login?.selectedHostel_Id,
-        customerId: CustomerOverView?.customerId,
-        jobDetails: currentData,
+        hostelId,
+        customerId,
+        customerJobs: currentData.map((job) => ({
+          ...job,
+          hostelId,
+          customerId,
+        })),
       },
     });
 

@@ -26,6 +26,7 @@ export async function GetExpense(exp) {
   if (exp.maxAmount) params.maxAmount = exp.maxAmount;
   if (exp.startDate) params.startDate = exp.startDate;
   if (exp.endDate) params.endDate = exp.endDate;
+   if (exp.period) params.period = exp.period;
   if (exp.page) params.page = exp.page;
   if (exp.size) params.size = exp.size;
 

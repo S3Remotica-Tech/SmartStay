@@ -38,7 +38,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ExpenseSettlement from "./ExpenseSettlement";
 import PropTypes from "prop-types";
 import ExpenseFilter from "./ExpenseFilter";
-
+import dayjs from "dayjs";
 import { CustomStyles } from "../../Utils/SelectStyles";
 
 function Expenses() {
@@ -348,22 +348,36 @@ function Expenses() {
     if (state.login.selectedHostel_Id) {
       const shouldResetPage = !!debouncedSearch || !!categoryFilter;
 
+      const expenseFilters = state.ExpenseList?.expenseFilters || {};
+
+      const payload = {
+        ...expenseFilters,
+
+        hostelId: state.login.selectedHostel_Id,
+        page: shouldResetPage ? 1 : page,
+        size: size,
+
+        name: debouncedSearch || "",
+        search: debouncedSearch || "",
+
+        categoryId: categoryFilter || expenseFilters?.categoryId || "",
+      };
+
       dispatch({
         type: "EXPENSELIST",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          page: shouldResetPage ? 1 : page,
-          size: size,
-          categoryId: categoryFilter,
-          name: debouncedSearch,
-        },
+        payload,
       });
+
       setLoading(true);
+
       dispatch({
         type: "SET_EXPENSE_FILTERS",
         payload: {
-          search: searchQuery,
-          categoryId: categoryFilter,
+          ...expenseFilters,
+
+          search: debouncedSearch || "",
+
+          categoryId: categoryFilter || expenseFilters?.categoryId || "",
         },
       });
     }
@@ -381,8 +395,21 @@ function Expenses() {
         type: "SET_EXPENSE_FILTERS",
         payload: {
           search: "",
-          categoryName: "",
           categoryId: "",
+          categoryLabel: "",
+          subCategoryId: "",
+          subCategoryLabel: "",
+          paymentMode: "",
+          createdBy: "",
+          createdByLabel: "",
+          period: "",
+          startDate: "",
+          endDate: "",
+          minAmount: "",
+          maxAmount: "",
+          vendorId: "",
+          vendorName: "",
+          paymentStatus: "",
         },
       });
 
@@ -396,8 +423,21 @@ function Expenses() {
       type: "SET_EXPENSE_FILTERS",
       payload: {
         search: "",
-        categoryName: "",
         categoryId: "",
+        categoryLabel: "",
+        subCategoryId: "",
+        subCategoryLabel: "",
+        paymentMode: "",
+        createdBy: "",
+        createdByLabel: "",
+        period: "",
+        startDate: "",
+        endDate: "",
+        minAmount: "",
+        maxAmount: "",
+        vendorId: "",
+        vendorName: "",
+        paymentStatus: "",
       },
     });
     dispatch({
@@ -417,9 +457,19 @@ function Expenses() {
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
 
+    console.log("expenseFilters", expenseFilters);
+
     const filterData = [];
 
-    if (expenseFilters?.search) {
+    const hasValue = (value) => {
+      if (Array.isArray(value)) {
+        return value.length > 0;
+      }
+
+      return value !== undefined && value !== null && value !== "";
+    };
+
+    if (hasValue(expenseFilters?.search)) {
       filterData.push({
         key: "search",
         label: "Expense Title",
@@ -428,14 +478,114 @@ function Expenses() {
       });
     }
 
-    if (expenseFilters?.categoryName) {
+    if (hasValue(expenseFilters?.categoryLabel)) {
       filterData.push({
         key: "category",
         label: "Category",
         type: "category",
-        value: expenseFilters.categoryName,
+        value: Array.isArray(expenseFilters.categoryLabel)
+          ? expenseFilters.categoryLabel.join(", ")
+          : expenseFilters.categoryLabel,
       });
     }
+
+    if (hasValue(expenseFilters?.subCategoryLabel)) {
+      filterData.push({
+        key: "subCategory",
+        label: "Sub Category",
+        type: "subCategory",
+        value: expenseFilters.subCategoryLabel,
+      });
+    }
+
+    if (hasValue(expenseFilters?.vendorName)) {
+      filterData.push({
+        key: "vendor",
+        label: "Vendor",
+        type: "vendor",
+        value: expenseFilters.vendorName,
+      });
+    }
+
+    if (hasValue(expenseFilters?.paymentMode)) {
+      filterData.push({
+        key: "paymentMode",
+        label: "Payment Mode",
+        type: "paymentMode",
+        value: Array.isArray(expenseFilters.paymentMode)
+          ? expenseFilters.paymentMode.join(", ")
+          : expenseFilters.paymentMode,
+      });
+    }
+
+    if (hasValue(expenseFilters?.createdByLabel)) {
+      filterData.push({
+        key: "createdBy",
+        label: "Created By",
+        type: "createdBy",
+        value: expenseFilters.createdByLabel,
+      });
+    }
+
+    if (hasValue(expenseFilters?.paymentStatus)) {
+      filterData.push({
+        key: "paymentStatus",
+        label: "Payment Status",
+        type: "paymentStatus",
+        value: expenseFilters.paymentStatus,
+      });
+    }
+
+    if (hasValue(expenseFilters?.period)) {
+      filterData.push({
+        key: "period",
+        label: "Period",
+        type: "period",
+        value: expenseFilters.period,
+      });
+    }
+
+    if (
+      hasValue(expenseFilters?.startDate) &&
+      hasValue(expenseFilters?.endDate)
+    ) {
+      filterData.push({
+        key: "customDate",
+        label: "Date",
+        type: "date",
+        value: `${dayjs(expenseFilters.startDate).format(
+          "DD/MM/YYYY",
+        )} - ${dayjs(expenseFilters.endDate).format("DD/MM/YYYY")}`,
+      });
+    }
+
+    if (
+      expenseFilters?.minAmount !== "" &&
+      expenseFilters?.minAmount !== undefined &&
+      expenseFilters?.minAmount !== null
+    ) {
+      filterData.push({
+        key: "minAmount",
+        label: "Min Amount",
+        type: "amount",
+        value: `₹ ${expenseFilters.minAmount}`,
+      });
+    }
+
+    if (
+      expenseFilters?.maxAmount !== "" &&
+      expenseFilters?.maxAmount !== undefined &&
+      expenseFilters?.maxAmount !== null
+    ) {
+      filterData.push({
+        key: "maxAmount",
+        label: "Max Amount",
+        type: "amount",
+        value: `₹ ${expenseFilters.maxAmount}`,
+      });
+    }
+
+    console.log("Filter Chips:", filterData);
 
     setChips(filterData);
   }, [state.ExpenseList?.expenseFilters]);
