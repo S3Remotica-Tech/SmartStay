@@ -52,7 +52,7 @@ const selectStyles = {
     return {
       ...base,
       position: "relative",
-      fontSize: 14,
+      fontSize: 12,
       padding: "6px 12px",
       backgroundColor: isSelected
         ? "#EEF2FF"
@@ -174,9 +174,8 @@ function ExpenseFilter({ show, handleClose, size }) {
 
   const paymentModeOptions =
     filterOptionsData?.paymentMode?.map((item) => ({
-      label: item.paymentMode,
+      label: `${item.accountName || ""} - ${item.paymentMode}  `,
       value: item.bankId,
-      // bankId: item.bankId,
     })) || [];
 
   const createdByOptions =

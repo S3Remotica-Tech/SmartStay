@@ -87,36 +87,61 @@ function Expenses() {
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
 
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [selectedBillStatus, setSelectedBillStatus] = useState("");
+
+  // console.log("selectedBillStatus", selectedBillStatus);
+
   const stats = [
     {
       label: "Total Expenses",
       value: getData?.totalExpenses ?? 0,
       icon: true,
       highlight: true,
+      search: "",
     },
     {
       label: "Total Expense Amount",
       value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
+      search: "",
     },
     {
       label: "Paid",
       value: getData?.expenseSummary?.totalPaidAmount ?? 0,
+      search: "Full",
     },
     {
       label: "Unpaid (Credit)",
       value: getData?.expenseSummary?.totalUnPaidAmount ?? 0,
+      search: "Pending",
     },
     {
       label: "Partially Paid",
       value: getData?.expenseSummary?.totalPartialPaidAmount ?? 0,
+      search: "Partial",
     },
   ];
 
-  const categoryOptions =
-    getData?.filterOptions?.category?.map((item) => ({
+  const categoryOptions = [
+    {
+      value: "",
+      label: "All",
+    },
+    ...(getData?.filterOptions?.category?.map((item) => ({
       value: item.type,
       label: item.name,
-    })) || [];
+    })) || []),
+  ];
+
+  const paymentStatusOptions = [
+    {
+      value: "",
+      label: "All",
+    },
+    ...(getData?.filterOptions?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
+  ];
 
   const handleShowSettlement = () => {
     setShowSettlementForm(true);
@@ -339,7 +364,7 @@ function Expenses() {
     dispatch({
       type: "SET_EXPENSE_FILTERS",
       payload: {
-        categoryName: selected.label,
+        categoryLabel: selected.label,
       },
     });
   };
@@ -349,6 +374,16 @@ function Expenses() {
       const shouldResetPage = !!debouncedSearch || !!categoryFilter;
 
       const expenseFilters = state.ExpenseList?.expenseFilters || {};
+
+      const paymentStatus =
+        selectedBillStatus !== null
+          ? selectedBillStatus
+          : expenseFilters?.paymentStatus || "";
+
+      const categoryId =
+        categoryFilter !== null
+          ? categoryFilter || ""
+          : expenseFilters?.categoryId || "";
 
       const payload = {
         ...expenseFilters,
@@ -360,7 +395,9 @@ function Expenses() {
         name: debouncedSearch || "",
         search: debouncedSearch || "",
 
-        categoryId: categoryFilter || expenseFilters?.categoryId || "",
+        paymentStatus: paymentStatus,
+
+        categoryId: categoryId,
       };
 
       dispatch({
@@ -376,8 +413,8 @@ function Expenses() {
           ...expenseFilters,
 
           search: debouncedSearch || "",
-
-          categoryId: categoryFilter || expenseFilters?.categoryId || "",
+          paymentStatus: paymentStatus,
+          categoryId: categoryId,
         },
       });
     }
@@ -387,6 +424,7 @@ function Expenses() {
     size,
     categoryFilter,
     debouncedSearch,
+    selectedBillStatus,
   ]);
 
   useEffect(() => {
@@ -415,6 +453,7 @@ function Expenses() {
 
       setSearchQuery("");
       setCategoryFilter("");
+      setSelectedBillStatus("");
     };
   }, []);
 
@@ -452,6 +491,7 @@ function Expenses() {
     setChips([]);
     setSearchQuery("");
     setCategoryFilter("");
+    setSelectedBillStatus("");
   };
 
   useEffect(() => {
@@ -584,8 +624,6 @@ function Expenses() {
         value: `₹ ${expenseFilters.maxAmount}`,
       });
     }
-
-    console.log("Filter Chips:", filterData);
 
     setChips(filterData);
   }, [state.ExpenseList?.expenseFilters]);
@@ -910,18 +948,26 @@ function Expenses() {
                   />
                 </div>
 
-                {/* <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3">
                   <Select
-                    isDisabled={canReadExpense}
-                    options={monthOptions}
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
+                    // isDisabled
+                    closeMenuOnSelect={true}
+                    hideSelectedOptions={false}
+                    options={paymentStatusOptions}
                     styles={CustomStyles}
+                    placeholder="Select "
+                    menuPlacement="auto"
+                    classNamePrefix="custom"
+                    value={
+                      paymentStatusOptions.find(
+                        (option) => option.value === selectedBillStatus,
+                      ) || null
+                    }
+                    onChange={(selected) =>
+                      setSelectedBillStatus(selected?.value)
+                    }
                   />
-                </div> */}
+                </div>
 
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
@@ -992,11 +1038,18 @@ function Expenses() {
                       {item.label}
 
                       <div className="relative group w-fit">
+                        <Filter
+                          onClick={() => setSelectedBillStatus(item.search)}
+                          size="14"
+                          color="#9CA3AF"
+                          className="cursor-pointer"
+                        />
+
                         <div
                           className="absolute left-1/2 -translate-x-1/2 mt-2 
-                          hidden group-hover:flex
-                          px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-                          items-center gap-1 whitespace-nowrap z-50"
+                                    hidden group-hover:flex
+                                    px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
+                                    items-center gap-1 whitespace-nowrap z-50"
                         >
                           <Filter size="14" color="#fff" />
                           Click to Filter
