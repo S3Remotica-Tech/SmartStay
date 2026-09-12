@@ -355,6 +355,38 @@ function ExpenseFilter({ show, handleClose, size }) {
     setSelectedSubCategory(selected?.label || "");
   };
 
+  const handleReset = () => {
+    setSelectedPeriodOption(null);
+    setPeriod(null);
+
+    setSelectedPaymentModeOptions(null);
+    setPaymentMode("");
+
+    setCreatedBy("");
+    setSelectedCreatedByOption(null);
+
+    setCategory("");
+    setSelectedCategory([]);
+
+    setSubCategory("");
+    setSelectedSubCategory("");
+    setSelectedSubCategoryOptions(null);
+
+    setSelectedVendor(null);
+    setSelectedBillStatus(null);
+
+    setStartDate(null);
+    setEndDate(null);
+
+    setMinAmount("");
+    setMaxAmount("");
+
+    setStartDateError("");
+    setEndDateError("");
+    setMinAmountError("");
+    setMaxAmountError("");
+  };
+
   const validateFilters = () => {
     let isValid = true;
 
@@ -755,14 +787,7 @@ function ExpenseFilter({ show, handleClose, size }) {
         <div className="flex-shrink-0 flex items-center justify-between gap-3 px-5 py-[15px] border-t border-[#E0E0E0] bg-white z-10">
           <button
             type="button"
-            onClick={() => {
-              setPeriod("");
-              setPaymentMode([]);
-              setCreatedBy([]);
-              setCategory("");
-              setSelectedVendor("");
-              setSelectedBillStatus("");
-            }}
+            onClick={handleReset}
             className="
           w-1/2
           h-[38px]
