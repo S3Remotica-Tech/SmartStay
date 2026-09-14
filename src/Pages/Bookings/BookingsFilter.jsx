@@ -98,9 +98,6 @@ const selectStyles = {
 function BookingsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
-  //   useState([]);
-  // const [tenantStatus, setTenantStatus] = useState([]);
 
   const [period, setPeriod] = useState(null);
   const [selectedBillStatus, setSelectedBillStatus] = useState("");
@@ -115,11 +112,11 @@ function BookingsFilter({ show, handleClose, size }) {
 
   // console.log("previousFilters", previousFilters);
 
-  const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
+  // const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
 
-  const handlePaymentModeChange = (selected) => {
-    setSelectedPaymentMode(selected.map((opt) => opt.value));
-  };
+  // const handlePaymentModeChange = (selected) => {
+  //   setSelectedPaymentMode(selected.map((opt) => opt.value));
+  // };
 
   const inputClass =
     "mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 " +
@@ -129,15 +126,15 @@ function BookingsFilter({ show, handleClose, size }) {
     (state) => state?.Booking?.tenantBookingList?.filterOptions,
   );
 
-  const paymentModeOptions =
-    filterOptionsData?.paymentMode?.map((item) => ({
-      label: item.label,
-      value: item.id,
-    })) || [];
+  // const paymentModeOptions =
+  //   filterOptionsData?.paymentMode?.map((item) => ({
+  //     label: item.label,
+  //     value: item.id,
+  //   })) || [];
 
-  const selectedPaymentModeOptions = paymentModeOptions.filter((opt) =>
-    selectedPaymentMode?.includes(opt.value),
-  );
+  // const selectedPaymentModeOptions = paymentModeOptions.filter((opt) =>
+  //   selectedPaymentMode?.includes(opt.value),
+  // );
 
   const paymentStatusOptions = [
     ...(filterOptionsData?.status?.map((item) => ({
@@ -449,7 +446,7 @@ function BookingsFilter({ show, handleClose, size }) {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Payment Mode
               </Form.Label>
@@ -465,7 +462,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 components={{ Option: CheckboxOption }}
                 placeholder="Select Payment Mode"
               />{" "}
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group className="mb-3">
               <Form.Label className="text-muted text-[12px]">Floor</Form.Label>
