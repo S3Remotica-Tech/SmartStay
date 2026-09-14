@@ -95,6 +95,30 @@ function Booking() {
   const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Invoice");
 
+  const monthOptions = [
+    ...(state?.Booking?.tenantBookingList?.filterOptions?.period?.map(
+      (item) => ({
+        label: item.name,
+        value: item.type,
+      }),
+    ) || []),
+  ];
+
+  const paymentStatusOptions = [
+    {
+      value: "",
+      label: "All",
+    },
+    ...(state?.Booking?.tenantBookingList?.filterOptions?.status?.map(
+      (item) => ({
+        label: item.name,
+        value: item.type,
+      }),
+    ) || []),
+  ];
+
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedBillStatus, setSelectedBillStatus] = useState("");
   const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
 
   const stats = [
@@ -188,12 +212,6 @@ function Booking() {
   const filteredCustomizeItems = customizeItems.filter((item) =>
     item.fieldName.toLowerCase().includes(searchText.toLowerCase()),
   );
-
-  const monthOptions = [
-    { value: "this_month", label: "This Month" },
-    { value: "previous_month", label: "Previous Month" },
-  ];
-  const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
@@ -322,7 +340,7 @@ function Booking() {
     setFilterInput(e.target.value);
   };
 
-  const isComingSoon = true;
+  // const isComingSoon = true;
 
   useEffect(() => {
     if (popupRef.current) {
@@ -476,7 +494,7 @@ function Booking() {
         type: "SET_BOOKING_FILTERS",
         payload: {
           ...state.Booking?.bookingFilters,
-          search: "",
+          name: "",
         },
       });
       return;
@@ -489,18 +507,26 @@ function Booking() {
   }, [filterInput]);
 
   useEffect(() => {
+    setPage(1);
+  }, [debouncedInput, selectedBillStatus, selectedMonth?.value, size]);
+
+  useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
     const filters = state.Booking?.bookingFilters;
+
+    const paymentStatus =
+      selectedBillStatus !== null ? selectedBillStatus : filters?.status || "";
 
     dispatch({
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        name: debouncedInput || filters?.search || "",
+        name: debouncedInput || filters?.name || "",
         page: page,
         size: size,
-        // period: selectedMonth?.value,
+        period: selectedMonth?.value || filters?.period,
+        status: paymentStatus,
         floor: filters?.floorId,
         room: filters?.roomId,
         minAmount: filters?.minPaidAmount,
@@ -511,24 +537,38 @@ function Booking() {
     dispatch({
       type: "SET_BOOKING_FILTERS",
       payload: {
-        search: debouncedInput,
+        name: debouncedInput || filters?.name || "",
+        period: selectedMonth?.value || filters?.period,
+        status: paymentStatus,
+        floor: filters?.floorId,
+        room: filters?.roomId,
+        minAmount: filters?.minPaidAmount,
+        maxAmount: filters?.maxPaidAmount,
       },
     });
 
     setLoading(true);
-  }, [page, size, debouncedInput, state.login.selectedHostel_Id]);
+  }, [
+    page,
+    size,
+    debouncedInput,
+    state.login.selectedHostel_Id,
+    selectedMonth,
+    selectedBillStatus,
+  ]);
 
   const handleReset = () => {
     dispatch({
       type: "SET_BOOKING_FILTERS",
       payload: {
-        period: [],
-        search: "",
+        period: "",
+        status: "",
+        paymentMode: "",
+        name: "",
         floor: "",
         room: "",
         minPaidAmount: "",
         maxPaidAmount: "",
-        paymentMode: [],
         floorId: "",
         roomId: "",
       },
@@ -544,6 +584,8 @@ function Booking() {
 
     setChips([]);
     setFilterInput("");
+    setSelectedBillStatus("");
+    setSelectedMonth("");
   };
 
   useEffect(() => {
@@ -551,13 +593,14 @@ function Booking() {
       dispatch({
         type: "SET_BOOKING_FILTERS",
         payload: {
-          period: [],
-          search: "",
+          period: "",
+          status: "",
+          paymentMode: "",
+          name: "",
           floor: "",
           room: "",
           minPaidAmount: "",
           maxPaidAmount: "",
-          paymentMode: [],
           floorId: "",
           roomId: "",
         },
@@ -571,11 +614,24 @@ function Booking() {
 
   useEffect(() => {
     const filters = state.Booking?.bookingFilters;
-    console.log("main", filters);
+
+    if (!filters) {
+      setChips([]);
+      return;
+    }
 
     const filterData = [];
 
-    if (filters?.period?.length) {
+    if (filters?.status) {
+      filterData.push({
+        key: "status",
+        label: "Status",
+        type: "single",
+        value: filters.status,
+      });
+    }
+
+    if (filters?.period) {
       filterData.push({
         key: "period",
         label: "Period",
@@ -584,38 +640,52 @@ function Booking() {
       });
     }
 
-    if (filters?.search?.trim()) {
+    if (filters?.name?.trim() || filters?.search?.trim()) {
       filterData.push({
         key: "search",
         label: "Search",
         type: "text",
-        value: filters.search,
+        value: filters.name || filters.search,
       });
     }
 
-    if (filters?.floor?.length) {
+    if (Array.isArray(filters?.floor)) {
       filters.floor.forEach((floor) => {
         filterData.push({
           key: "floor",
           label: "Floor",
           type: "multi",
-          value: floor.label || floor,
+          value: floor?.label || floor,
         });
+      });
+    } else if (filters?.floor?.trim()) {
+      filterData.push({
+        key: "floor",
+        label: "Floor",
+        type: "single",
+        value: filters.floor,
       });
     }
 
-    if (filters?.room?.length) {
+    if (Array.isArray(filters?.room)) {
       filters.room.forEach((room) => {
         filterData.push({
           key: "room",
           label: "Room",
           type: "multi",
-          value: room.label || room,
+          value: room?.label || room,
         });
+      });
+    } else if (filters?.room?.trim()) {
+      filterData.push({
+        key: "room",
+        label: "Room",
+        type: "single",
+        value: filters.room,
       });
     }
 
-    if (filters?.minPaidAmount) {
+    if (filters?.minPaidAmount !== "" && filters?.minPaidAmount !== null) {
       filterData.push({
         key: "minPaidAmount",
         label: "Min Paid",
@@ -624,7 +694,7 @@ function Booking() {
       });
     }
 
-    if (filters?.maxPaidAmount) {
+    if (filters?.maxPaidAmount !== "" && filters?.maxPaidAmount !== null) {
       filterData.push({
         key: "maxPaidAmount",
         label: "Max Paid",
@@ -633,7 +703,25 @@ function Booking() {
       });
     }
 
-    if (filters?.paymentMode?.length) {
+    if (filters?.minAmount !== "" && filters?.minAmount !== null) {
+      filterData.push({
+        key: "minAmount",
+        label: "Min Amount",
+        type: "text",
+        value: `₹ ${filters.minAmount}`,
+      });
+    }
+
+    if (filters?.maxAmount !== "" && filters?.maxAmount !== null) {
+      filterData.push({
+        key: "maxAmount",
+        label: "Max Amount",
+        type: "text",
+        value: `₹ ${filters.maxAmount}`,
+      });
+    }
+
+    if (filters?.paymentMode?.trim()) {
       filterData.push({
         key: "paymentMode",
         label: "Payment Mode",
@@ -851,23 +939,30 @@ function Booking() {
 
           <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-50  bg-white h-[50px]">
             <div className="flex flex-wrap items-center gap-3">
-              {/* <div className="w-[150px]">
-              <Select
-                menuPlacement="auto"
-                isDisabled={isComingSoon}
-                options={selectOptions}
-                styles={CustomStyles}
-                disabled={!canReadInvoice}
-                onChange={(e) => handleStatusFilter(e)}
-                value={statusfilter}
-                aria-label="Select"
-                id="statusselect"
-              />
-            </div> */}
+              <div className="w-[150px]">
+                <Select
+                  // isDisabled
+                  closeMenuOnSelect={true}
+                  hideSelectedOptions={false}
+                  options={paymentStatusOptions}
+                  styles={CustomStyles}
+                  placeholder="Select "
+                  menuPlacement="auto"
+                  classNamePrefix="custom"
+                  value={
+                    paymentStatusOptions.find(
+                      (option) => option.value === selectedBillStatus,
+                    ) || null
+                  }
+                  onChange={(selected) =>
+                    setSelectedBillStatus(selected?.value)
+                  }
+                />
+              </div>
 
               <Select
                 menuPlacement="auto"
-                isDisabled={isComingSoon}
+                // isDisabled={isComingSoon}
                 options={monthOptions}
                 value={selectedMonth}
                 onChange={handleMonthChange}
@@ -1509,16 +1604,20 @@ function Booking() {
                     isClearSearch={true}
                     handleClear={() => {
                       setFilterInput("");
+                      setDebouncedInput("");
+                      setSelectedBillStatus("");
+                      setSelectedMonth("");
                       dispatch({
                         type: "SET_BOOKING_FILTERS",
                         payload: {
-                          period: [],
-                          search: "",
+                          period: "",
+                          status: "",
+                          paymentMode: "",
+                          name: "",
                           floor: "",
                           room: "",
                           minPaidAmount: "",
                           maxPaidAmount: "",
-                          paymentMode: [],
                           floorId: "",
                           roomId: "",
                         },

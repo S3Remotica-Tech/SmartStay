@@ -514,13 +514,6 @@ function StaticExample({ show, setShow, currentItem }) {
                   {assetError && (
                     <ErrorMessage message={assetError} type="error" />
                   )}
-
-                  {state.AssetList?.alreadyAssetNameHere && (
-                    <ErrorMessage
-                      message={state.AssetList?.alreadyAssetNameHere}
-                      type="error"
-                    />
-                  )}
                 </div>
 
                 <div className="col-span-12 lg:col-span-6">
@@ -858,6 +851,15 @@ function StaticExample({ show, setShow, currentItem }) {
                 className="flex items-center justify-center mt-1 mb-1"
               >
                 <ErrorMessage message={isChangedError} type="error" />
+              </div>
+            )}
+
+            {state.AssetList?.alreadyAssetNameHere && (
+              <div className="flex items-center justify-center mt-1 mb-1">
+                <ErrorMessage
+                  message={state.AssetList?.alreadyAssetNameHere}
+                  type="error"
+                />
               </div>
             )}
 

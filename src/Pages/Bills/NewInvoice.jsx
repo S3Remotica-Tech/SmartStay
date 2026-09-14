@@ -257,7 +257,6 @@ function NewInvoice() {
     },
   ]);
 
-  console.log("newRows", newRows);
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");

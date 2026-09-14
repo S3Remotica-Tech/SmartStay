@@ -89,7 +89,7 @@ function Expenses() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selectedBillStatus, setSelectedBillStatus] = useState("");
 
-  // console.log("selectedBillStatus", selectedBillStatus);
+
 
   const stats = [
     {
@@ -370,9 +370,11 @@ function Expenses() {
   };
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      const shouldResetPage = !!debouncedSearch || !!categoryFilter;
+    setPage(1);
+  }, [debouncedSearch, categoryFilter, selectedBillStatus]);
 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
       const expenseFilters = state.ExpenseList?.expenseFilters || {};
 
       const paymentStatus =
@@ -389,7 +391,7 @@ function Expenses() {
         ...expenseFilters,
 
         hostelId: state.login.selectedHostel_Id,
-        page: shouldResetPage ? 1 : page,
+        page: page,
         size: size,
 
         name: debouncedSearch || "",
@@ -497,7 +499,7 @@ function Expenses() {
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
 
-    console.log("expenseFilters", expenseFilters);
+  
 
     const filterData = [];
 

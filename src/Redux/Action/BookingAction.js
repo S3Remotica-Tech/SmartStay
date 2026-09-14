@@ -21,6 +21,7 @@ export async function GetBooking(book) {
   if (book.page) params.page = book.page;
   if (book.size) params.size = book.size;
   if (book.period) params.period = book.period;
+  if (book.status) params.status = book.status;
 
   return await AxiosConfigV2.get(`/v2/bills/advances/${book.hostelId}`, {
     params,
