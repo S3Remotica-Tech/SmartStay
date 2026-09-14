@@ -352,15 +352,17 @@ function Vendor() {
   }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, categoryFilter, paymentStatus]);
+
+  useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      const shouldResetPage =
-        !!debouncedSearch || !!categoryFilter || !!paymentStatus;
       const categoryFilterBy = categoryFilter === "ALL" ? "" : categoryFilter;
       dispatch({
         type: "VENDORLIST",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          page: shouldResetPage ? 1 : page,
+          page: page,
           size: size,
           categoryId: categoryFilterBy,
           paymentStatus: String(paymentStatus),

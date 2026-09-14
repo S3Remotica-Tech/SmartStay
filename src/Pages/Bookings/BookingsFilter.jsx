@@ -103,7 +103,7 @@ function BookingsFilter({ show, handleClose, size }) {
   // const [tenantStatus, setTenantStatus] = useState([]);
 
   const [period, setPeriod] = useState(null);
-
+  const [selectedBillStatus, setSelectedBillStatus] = useState("");
   const [floor, setFloor] = useState([]);
   const [room, setRoom] = useState([]);
   const [paidAmountMin, setPaidAmountMin] = useState("");
@@ -139,16 +139,16 @@ function BookingsFilter({ show, handleClose, size }) {
     selectedPaymentMode?.includes(opt.value),
   );
 
-  // const tenantStatusOptions = [];
-  // filterOptionsData?.tenantStatus?.map(item => ({
-  //     label: item.label,
-  //     value: item.id
-  // })) || [];
-
+  const paymentStatusOptions = [
+    ...(filterOptionsData?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
+  ];
   const periodOptions =
     filterOptionsData?.period?.map((item) => ({
-      label: item.label,
-      value: item.id,
+      label: item.name,
+      value: item.type,
     })) || [];
 
   const floorOptions =
@@ -228,8 +228,9 @@ function BookingsFilter({ show, handleClose, size }) {
     dispatch({
       type: "SET_BOOKING_FILTERS",
       payload: {
-        search: tenantName,
-        // period: period?.value || null,
+        name: tenantName,
+        period: period?.value || null,
+        status: selectedBillStatus,
         floor: floor?.map((f) => f.label),
         room: room?.map((r) => r.label),
         floorId: floor?.map((f) => f.value),
@@ -247,7 +248,8 @@ function BookingsFilter({ show, handleClose, size }) {
         page: 1,
         size: size,
         name: tenantName,
-        // period: period?.value || null,
+        period: period?.value || null,
+        status: selectedBillStatus,
         floor: floor?.map((f) => f.value),
         room: room?.map((r) => r.value),
         minAmount: paidAmountMin,
@@ -256,6 +258,41 @@ function BookingsFilter({ show, handleClose, size }) {
     });
     setFormLoading(true);
   };
+
+  useEffect(() => {
+    if (!show || !previousFilters) return;
+    if (show) {
+      setTenantName(previousFilters.name || "");
+      setPaidAmountMin(previousFilters.minPaidAmount || "");
+      setPaidAmountMax(previousFilters.maxPaidAmount || "");
+
+      const selectedStatus = paymentStatusOptions.find(
+        (option) => option.value === previousFilters.status,
+      );
+
+      setSelectedBillStatus(selectedStatus?.value || "");
+
+      const selectedPeriod = periodOptions.find(
+        (option) => option.value === previousFilters.period,
+      );
+
+      setPeriod(selectedPeriod || null);
+
+      const selectedFloors = floorOptions.filter((option) =>
+        previousFilters.floor?.includes(option.label),
+      );
+
+      setFloor(selectedFloors);
+
+      const selectedRooms = roomOptions.filter((option) =>
+        previousFilters.room?.includes(option.label),
+      );
+
+      setRoom(selectedRooms);
+
+      setSelectedPaymentMode(previousFilters.paymentMode || []);
+    }
+  }, [show]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -379,28 +416,31 @@ function BookingsFilter({ show, handleClose, size }) {
                 System Filter
               </label>
             </div>
-            {/* <Form.Group className="mb-3">
+            <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Status
               </Form.Label>
               <Select
-                isMulti
-                closeMenuOnSelect={false}
+                closeMenuOnSelect={true}
                 hideSelectedOptions={false}
-                options={tenantStatusOptions}
-                value={selectedTenantStatusOptions}
-                onChange={handleTenantStatusChange}
+                options={paymentStatusOptions}
                 styles={selectStyles}
-                components={{ Option: CheckboxOption }}
-                placeholder="Select Status"
+                placeholder="Select "
+                menuPlacement="auto"
+                classNamePrefix="custom"
+                value={
+                  paymentStatusOptions.find(
+                    (option) => option.value === selectedBillStatus,
+                  ) || null
+                }
+                onChange={(selected) => setSelectedBillStatus(selected?.value)}
               />
-            </Form.Group> */}
+            </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                 Period
               </Form.Label>
               <Select
-                isDisabled
                 styles={selectStyles}
                 placeholder="Select"
                 value={period}
@@ -414,7 +454,7 @@ function BookingsFilter({ show, handleClose, size }) {
                 Payment Mode
               </Form.Label>
               <Select
-                isMulti
+                // isMulti
                 isDisabled
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
@@ -539,13 +579,11 @@ function BookingsFilter({ show, handleClose, size }) {
         >
           <Button
             onClick={() => {
-              // setTenantStatus([]);
+              setSelectedBillStatus("");
               setPeriod(null);
-              // setSharingType(null);
               setFloor([]);
               setRoom([]);
               setTenantName("");
-              // setSelectedTenantStatusOptions([]);
               setPaidAmountMin("");
               setPaidAmountMax("");
             }}

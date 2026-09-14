@@ -239,15 +239,19 @@ function UserList(props) {
   }, [value, state.login.selectedHostel_Id]);
 
   useEffect(() => {
+    setPage(1);
+  }, [debouncedInput, statusfilter, selectedMonth?.value, size]);
+
+
+  
+  useEffect(() => {
     const tenantFilters = state.UsersList?.tenantFilters;
-    // console.log("tenantFilters", tenantFilters);
+
     const statusValue1 = statusfilter === "ALL" ? "" : statusfilter;
     const statusValue2 = tenantFilters?.status?.includes("ALL")
       ? ""
       : tenantFilters?.status || [];
 
-    const shouldResetPage =
-      !!debouncedInput || !!statusValue1 || !!selectedMonth?.value;
     if (state.login.selectedHostel_Id && value === "1") {
       dispatch({
         type: "USERLIST",
@@ -255,7 +259,7 @@ function UserList(props) {
           hostel_id: state.login.selectedHostel_Id,
           name: debouncedInput || tenantFilters?.search,
           type: statusValue1 || statusValue2,
-          page: shouldResetPage ? 1 : page,
+          page: page,
           size: size,
           period: selectedMonth?.value || tenantFilters?.period,
           sharingType: tenantFilters?.sharingType,
@@ -1309,6 +1313,7 @@ function UserList(props) {
   const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
 
   const handlePageChange = (page) => {
+    console.log("pageeeeee", page);
     setPage(page);
   };
 
