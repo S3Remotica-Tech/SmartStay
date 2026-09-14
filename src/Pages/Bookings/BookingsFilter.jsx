@@ -110,7 +110,7 @@ function BookingsFilter({ show, handleClose, size }) {
   const [formLoading, setFormLoading] = useState(false);
   const previousFilters = state.Booking?.bookingFilters;
 
-  // console.log("previousFilters", previousFilters);
+ 
 
   // const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
 

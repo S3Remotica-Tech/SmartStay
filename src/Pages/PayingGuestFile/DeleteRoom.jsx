@@ -22,6 +22,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   // }, [state.PgList.roomCount, deleteRoomDetails]);
 
   const handleDeleteRoomConfirm = () => {
+    dispatch({ type: "CLEAR_DELETE_ROOM_ERROR" });
     dispatch({
       type: "DELETEROOM",
       payload: {

@@ -448,6 +448,7 @@ const InvoicePage = () => {
   };
 
   const handlePageChange = (page) => {
+
     setPage(page);
   };
 

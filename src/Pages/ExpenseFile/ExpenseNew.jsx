@@ -89,7 +89,7 @@ function Expenses() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selectedBillStatus, setSelectedBillStatus] = useState("");
 
-  // console.log("selectedBillStatus", selectedBillStatus);
+
 
   const stats = [
     {
@@ -499,7 +499,7 @@ function Expenses() {
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
 
-    console.log("expenseFilters", expenseFilters);
+  
 
     const filterData = [];
 

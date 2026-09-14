@@ -13,14 +13,11 @@ import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
-
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
-
-import "./PgList.css";
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
@@ -28,7 +25,6 @@ import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from "../../Redux/Action/LoginAction";
-
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
@@ -38,12 +34,10 @@ function PgList() {
   const state = useSelector((state) => state);
 
   const [showHostelDetails, setShowHostelDetails] = useState("");
- 
 
   const [visibleRange, setVisibleRange] = useState([0, 2]);
 
   const popupRef = useRef(null);
-
 
   const {
     canWriteModule: canWritePayingGuests,
@@ -55,8 +49,6 @@ function PgList() {
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
   const [selectedHostel, setSelectedHostel] = useState(true);
-
-
 
   const [showAddPg, setShowAddPg] = useState(false);
   const [floorList, setFloorList] = useState([]);

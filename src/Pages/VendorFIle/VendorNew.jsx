@@ -68,12 +68,12 @@ function Vendor() {
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-  // const theme = useTheme();
+ 
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [categoryFilter, setCategoryFilter] = useState("ALL");
-  console.log("categoryFilter", categoryFilter);
+
 
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";

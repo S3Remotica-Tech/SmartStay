@@ -206,12 +206,7 @@ function ExpenseFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (!show || !filters) return;
 
-    // console.log("Stored Filters:", filters);
-
-    // const categoryOption =
-    //   categoryOptions.find(
-    //     (option) => String(option.value) === String(filters.categoryId),
-    //   ) || null;
+ 
 
     setCategory(filters.categoryId || "");
     setSelectedCategory(filters.categoryLabel || "");

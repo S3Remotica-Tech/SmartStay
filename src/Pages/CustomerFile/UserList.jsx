@@ -1205,7 +1205,7 @@ function UserList(props) {
 
   const hasStatusCode = formattedData?.some((user) => user.statusCode);
 
-  // console.log("hasStatusCode", hasStatusCode);
+
 
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
@@ -1313,7 +1313,7 @@ function UserList(props) {
   const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
 
   const handlePageChange = (page) => {
-    console.log("pageeeeee", page);
+    
     setPage(page);
   };
 

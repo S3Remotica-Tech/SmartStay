@@ -375,7 +375,6 @@ function ExpenseRegister() {
     ? dayjs(selectedRange.to).format("DD-MM-YYYY")
     : undefined;
 
-  console.log("startDate", startDate, "endDate", endDate);
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
