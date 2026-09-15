@@ -663,6 +663,7 @@ function BillsFilter({ show, handleClose, size }) {
                     }}
                   >
                     <DatePicker
+                      wrapperClassName="w-full"
                       style={{
                         width: "100%",
                         height: 39,

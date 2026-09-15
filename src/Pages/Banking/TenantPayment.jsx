@@ -505,6 +505,7 @@ function TenantPayment({ show, handleClose }) {
               </label>
               <div className="relative" ref={paymentDateRef}>
                 <DatePicker
+                  wrapperClassName="w-full"
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"

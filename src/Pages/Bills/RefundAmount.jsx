@@ -391,7 +391,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
               <div className="relative w-full">
                 <div className="datepicker-wrapper relative w-full">
-                  <DatePicker
+                  <DatePicker  wrapperClassName="w-full"
                     className="w-full font-gilroy"
                     style={{ height: 48 }}
                     format="DD/MM/YYYY"

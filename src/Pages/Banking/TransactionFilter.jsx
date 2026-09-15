@@ -251,11 +251,12 @@ function TransactionFilter({ show, handleClose, size }) {
             </label>
 
             <div className="relative">
-              <DatePicker
+              <DatePicker 
                 selected={fromDate}
                 onChange={handleFromDateChange}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Select Date"
+                wrapperClassName="w-full"
                 className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
               />
 
@@ -278,6 +279,7 @@ function TransactionFilter({ show, handleClose, size }) {
                 onChange={handleToDateChange}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Select Date"
+                wrapperClassName="w-full"
                 className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
               />
 

@@ -345,6 +345,7 @@ function SelfTransferGlobal({ show, handleClose }) {
 
               <div className="relative">
                 <DatePicker
+                  wrapperClassName="w-full"
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
                   dateFormat="dd/MM/yyyy"
