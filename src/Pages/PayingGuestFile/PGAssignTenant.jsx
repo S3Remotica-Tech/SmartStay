@@ -14,15 +14,14 @@ import {
   Edit2,
   CloseCircle,
   Trash,
+  AddCircle,
 } from "iconsax-react";
 
-import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import FormComingSoon from "../../Utils/FormComingSoon";
-
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -1432,49 +1431,54 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                       />
                     )}
                   </div>
+                </div>
+                <div className="flex items-center justify-between my-2.5">
+                  <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
+                    Total Advance/ Security deposit amount ₹ (INR)
+                    {!isAdvanceRefused && (
+                      <span className="text-red-500 text-xl">*</span>
+                    )}
+                  </Form.Label>
 
-                  <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
-                    <Form.Group>
-                      <div className="flex items-center justify-between ">
-                        <Form.Label className="text-sm text-gray-800 font-gilroy font-medium">
-                          Advance amount ₹ (INR)
-                          {!isAdvanceRefused && (
-                            <span className="text-red-500 text-xl">*</span>
-                          )}
-                        </Form.Label>
+                  <div className="flex items-center justify-between mt-1 gap-2  mb-2">
+                    <span className="text-xs text-gray-700 font-medium">
+                      Do you want to refuse advance amount?
+                    </span>
 
-                        <div className="flex items-center justify-between mt-1 gap-2  mb-2">
-                          <span className="text-xs text-gray-700 font-medium">
-                            Do you want to refuse advance amount?
-                          </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsAdvanceRefused(!isAdvanceRefused);
 
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsAdvanceRefused(!isAdvanceRefused);
+                        if (!isAdvanceRefused) {
+                          setAdvanceAmount("");
+                          setFields([]);
+                        }
 
-                              if (!isAdvanceRefused) {
-                                setAdvanceAmount("");
-                                setFields([]);
-                              }
+                        setAdvanceAmountError("");
+                      }}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                        isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                          isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
 
-                              setAdvanceAmountError("");
-                            }}
-                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                              isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                            }`}
-                          >
-                            <span
-                              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                                isAdvanceRefused
-                                  ? "translate-x-6"
-                                  : "translate-x-1"
-                              }`}
-                            />
-                          </button>
+                {!isAdvanceRefused && (
+                  <div className="grid grid-cols-12 gap-x-4 bg-[#F7F9FF]  border-1 border-[#F2F4F6]  px-3 py-2 rounded">
+                    <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
+                      <Form.Group>
+                        <div>
+                          <label className="text-sm font-gilroy font-medium mb-2 text-[#222222]">
+                            Refundable Amount
+                          </label>
                         </div>
-                      </div>
-                      {!isAdvanceRefused && (
                         <FormControl
                           type="text"
                           placeholder="Enter Amount"
@@ -1489,162 +1493,193 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                               : "border-gray-300"
                           }`}
                         />
+                      </Form.Group>
+                      {advanceAmountError && (
+                        <ErrorMessage
+                          message={advanceAmountError}
+                          type="error"
+                        />
                       )}
-                    </Form.Group>
-                    {advanceAmountError && (
-                      <ErrorMessage message={advanceAmountError} type="error" />
-                    )}
-                  </div>
-                </div>
 
-                {!isAdvanceRefused && (
-                  <div>
-                    <div className="bg-[#F7F9FF] rounded-lg pb-1 mt-2 mb-2">
-                      <div className="flex justify-between items-center p-4">
-                        <div>
-                          <label className="text-sm font-gilroy font-semibold">
-                            Non Refundable Amount
-                          </label>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleAddField}
-                            className="!flex !items-center !gap-1.5 !bg-blue-700 !text-white !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
-                          >
-                            <img
-                              src={addcircle}
-                              alt="Assign Bed"
-                              style={{
-                                height: 16,
-                                width: 16,
-                                filter: "brightness(0) invert(1)",
-                              }}
-                            />
-                            Add
-                          </Button>
-                        </div>
-                      </div>
+                      <div>
+                        <div className="my-2">
+                          <div>
+                            <label className="text-sm font-gilroy font-medium mb-2 text-[#222222]">
+                              Non Refundable Amount
+                            </label>
+                          </div>
+                          <div className="flex w-full ">
+                            <button
+                              disabled={isAdvanceRefused}
+                              onClick={handleAddField}
+                              className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF]
+                               !text-[#1E45E1]   disabled:bg-gray-100 disabled:text-gray-500
+                                                  disabled:cursor-not-allowed  !font-semibold !text-sm !rounded-lg 
+                                                  !px-6 !py-2.5 !mb-2 !font-gilroy"
+                            >
+                              <AddCircle color="#1E45E1" size="16" />
+                              Add
+                            </button>
+                          </div>
 
-                      {fields.map((item, index) => {
-                        const isMaintenanceSelected = fields.some(
-                          (field) => field.reason === "maintenance",
-                        );
+                          {fields.map((item, index) => {
+                            const isMaintenanceSelected = fields.some(
+                              (field) => field.reason === "maintenance",
+                            );
 
-                        const filteredOptions = reasonOptions.map((opt) => {
-                          if (opt.value === "maintenance") {
-                            return {
-                              ...opt,
-                              isDisabled:
-                                isMaintenanceSelected &&
-                                item.reason !== "maintenance",
-                            };
-                          }
-                          return opt;
-                        });
+                            const filteredOptions = reasonOptions.map((opt) => {
+                              if (opt.value === "maintenance") {
+                                return {
+                                  ...opt,
+                                  isDisabled:
+                                    isMaintenanceSelected &&
+                                    item.reason !== "maintenance",
+                                };
+                              }
+                              return opt;
+                            });
 
-                        return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-6">
-                              {!item.showInput ? (
-                                <Select
-                                  menuPlacement="top"
-                                  // menuPosition="fixed"
-                                  options={filteredOptions}
-                                  value={
-                                    filteredOptions.find(
-                                      (opt) => opt.value === item.reason_name,
-                                    ) || null
-                                  }
-                                  onChange={(selectedOption) => {
-                                    const selectedValue = selectedOption.value;
+                            return (
+                              <div className="row px-2 mb-3" key={index}>
+                                <div className="col-md-6">
+                                  {!item.showInput ? (
+                                    <Select
+                                      menuPlacement="top"
+                                      // menuPosition="fixed"
+                                      options={filteredOptions}
+                                      value={
+                                        filteredOptions.find(
+                                          (opt) =>
+                                            opt.value === item.reason_name,
+                                        ) || null
+                                      }
+                                      onChange={(selectedOption) => {
+                                        const selectedValue =
+                                          selectedOption.value;
 
-                                    if (selectedValue === "others") {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        "others",
-                                      );
-                                    } else {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        selectedValue,
-                                      );
-                                    }
-                                  }}
-                                  isDisabled={item.reason === "maintenance"}
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      display: "inline-block",
-                                      fill: "currentColor",
-                                      lineHeight: 1,
-                                      stroke: "currentColor",
-                                      strokeWidth: 0,
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: state.isDisabled
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      backgroundColor: state.isFocused
-                                        ? "#E7F1FF"
-                                        : state.isDisabled
-                                          ? "#f0f0f0"
-                                          : "#fff",
-                                      color: state.isDisabled ? "#aaa" : "#000",
-                                    }),
-                                  }}
-                                />
-                              ) : (
-                                <>
+                                        if (selectedValue === "others") {
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            "others",
+                                          );
+                                        } else {
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            selectedValue,
+                                          );
+                                        }
+                                      }}
+                                      isDisabled={item.reason === "maintenance"}
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "50px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          display: "inline-block",
+                                          fill: "currentColor",
+                                          lineHeight: 1,
+                                          stroke: "currentColor",
+                                          strokeWidth: 0,
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                        option: (base, state) => ({
+                                          ...base,
+                                          cursor: state.isDisabled
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          backgroundColor: state.isFocused
+                                            ? "#E7F1FF"
+                                            : state.isDisabled
+                                              ? "#f0f0f0"
+                                              : "#fff",
+                                          color: state.isDisabled
+                                            ? "#aaa"
+                                            : "#000",
+                                        }),
+                                      }}
+                                    />
+                                  ) : (
+                                    <>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter custom reason"
+                                        value={item.customReason}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "customReason",
+                                            e.target.value,
+                                          )
+                                        }
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </>
+                                  )}
+                                  {errors[index]?.reason && (
+                                    <ErrorMessage
+                                      message={errors[index]?.reason}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+
+                                <div className="col-md-5">
                                   <input
                                     type="text"
-                                    className="form-control"
-                                    placeholder="Enter custom reason"
-                                    value={item.customReason}
+                                    placeholder="Enter amount"
+                                    value={item.amount}
                                     onChange={(e) =>
                                       handleInputChange(
                                         index,
-                                        "customReason",
+                                        "amount",
                                         e.target.value,
                                       )
                                     }
+                                    className="form-control"
                                     style={{
                                       fontSize: 16,
                                       color: "#4B4B4B",
@@ -1656,74 +1691,35 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                       borderRadius: 8,
                                     }}
                                   />
-                                </>
-                              )}
-                              {errors[index]?.reason && (
-                                <ErrorMessage
-                                  message={errors[index]?.reason}
-                                  type="error"
-                                />
-                              )}
-                            </div>
+                                  {errors[index]?.amount && (
+                                    <ErrorMessage
+                                      message={errors[index]?.amount}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
 
-                            <div className="col-md-5">
-                              <input
-                                type="text"
-                                placeholder="Enter amount"
-                                value={item.amount}
-                                //                                  onKeyDown={(e) => {
-                                // if (e.key === "." || e.key === "e" || e.key === "-") {
-                                //   e.preventDefault();
-                                // }
-                                // }}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    index,
-                                    "amount",
-                                    e.target.value,
-                                  )
-                                }
-                                className="form-control"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
-                              />
-                              {errors[index]?.amount && (
-                                <ErrorMessage
-                                  message={errors[index]?.amount}
-                                  type="error"
-                                />
-                              )}
-                            </div>
-
-                            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-                              <Trash
-                                size="20"
-                                color="red"
-                                variant="Bold"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleRemoveField(index)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
+                                <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+                                  <Trash
+                                    size="20"
+                                    color="red"
+                                    variant="Bold"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleRemoveField(index)}
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <p className="text-[11px] text-gray-500 mt-2 px-2">
+                          Note: The total check-in advance / security deposit
+                          collected upfront under this single invoice only.
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-[11px] text-gray-500 mt-2">
-                      Note: These charges are deducted from the initial security
-                      deposit or collected at the time of check-in and are not
-                      refundable in any cost.
-                    </p>
                   </div>
                 )}
-
                 <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 mb-2">
                   <Form.Group>
                     <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">

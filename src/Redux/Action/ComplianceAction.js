@@ -17,13 +17,11 @@ export async function complianceList(compliance) {
   );
 }
 
-
 export async function Compliancedetails(formDetails) {
   return await AxiosConfigV2.post("/v2/complaint", formDetails, {
     data: formDetails,
   });
 }
-
 
 export async function EditComplaint(complaint) {
   return await AxiosConfigV2.put(`/v2/complaint/${complaint.complaintId}`, {
@@ -57,14 +55,12 @@ export async function complaintsView(complaintsId) {
 }
 
 export async function complaintsViewUpdates(complaint) {
-
   return await AxiosConfigV2.get(
     `/v2/complaint/updates/${complaint.hostelId}/${complaint.complaintsId}`,
   );
 }
 
 export async function vendorSettlementInitialize(vendor) {
-
   return await AxiosConfigV2.get(
     `/v2/vendors/initialize/${vendor.hostelId}/${vendor.vendorId}`,
   );
@@ -104,8 +100,9 @@ export async function VendorOverViewExpenseList(vendor) {
 
   if (vendor.page) params.page = vendor.page;
   if (vendor.size) params.size = vendor.size;
+  if (vendor.search) params.search = vendor.search;
 
-  return await AxiosConfigV2.get(`v2/vendors/expenses/${vendor.vendorId}`, {
+  return await AxiosConfigV2.get(`/v2/vendors/expenses/${vendor.vendorId}`, {
     params,
   });
 }
@@ -117,7 +114,7 @@ export async function VendorOverViewExpensePaymentList(vendor) {
   if (vendor.size) params.size = vendor.size;
 
   return await AxiosConfigV2.get(
-    `v2/vendors/expense-payments/${vendor.vendorId}`,
+    `/v2/vendors/expense-payments/${vendor.vendorId}`,
     {
       params,
     },
@@ -227,14 +224,11 @@ export async function UpdateVendorComments(comment) {
   );
 }
 
-
-
 export async function ComplianceChangeStatus({ complaintId, status }) {
   return await AxiosConfigV2.put(`/v2/complaint/update-status/${complaintId}`, {
     status,
   });
 }
-
 
 export async function complianceDelete(complaintId) {
   return await AxiosConfigV2.delete(
