@@ -110,8 +110,6 @@ function BookingsFilter({ show, handleClose, size }) {
   const [formLoading, setFormLoading] = useState(false);
   const previousFilters = state.Booking?.bookingFilters;
 
- 
-
   // const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
 
   // const handlePaymentModeChange = (selected) => {
@@ -287,7 +285,7 @@ function BookingsFilter({ show, handleClose, size }) {
 
       setRoom(selectedRooms);
 
-      setSelectedPaymentMode(previousFilters.paymentMode || []);
+      // setSelectedPaymentMode(previousFilters.paymentMode || []);
     }
   }, [show]);
 
