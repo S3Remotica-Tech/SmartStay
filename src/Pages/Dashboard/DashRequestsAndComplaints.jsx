@@ -254,7 +254,7 @@ function DashRequestAndComplaints() {
             ))}
           </div>
 
-          <div className="flex-1 overflow-y-auto max-h-64">
+          <div className="flex-1 overflow-y-auto max-h-64 show-scrolls">
             {requestList?.length === 0 ? (
               <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
                 No requests are there
@@ -278,7 +278,7 @@ function DashRequestAndComplaints() {
                       </p>
 
                       <span
-                        className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
+                        className={`text-xs px-2 py-1.5 rounded h-fit  font-semibold ${getStatusStyle(item.status)}`}
                       >
                         {item.status}
                       </span>
@@ -365,7 +365,7 @@ function DashRequestAndComplaints() {
             ))}
           </div>
 
-          <div className="flex-1 overflow-y-auto max-h-64">
+          <div className="flex-1 overflow-y-auto max-h-64 show-scrolls">
             {complaintList?.length === 0 ? (
               <div className="flex items-center justify-center h-40 text-sm text-[#6A7282] font-semibold">
                 No complaints are there
@@ -374,7 +374,7 @@ function DashRequestAndComplaints() {
               complaintList.map((item, index) => (
                 <div
                   key={index}
-                  className="flex py-3 border-b last:border-none w-full"
+                  className="flex py-3 border-b last:border-none w-full px-2"
                 >
                   <div className="w-full">
                     <div className="flex justify-between w-full">
@@ -395,7 +395,7 @@ function DashRequestAndComplaints() {
                                             </span> */}
                       {item.status && (
                         <span
-                          className={`text-xs px-2 rounded font-semibold ${getStatusStyle(item.status)}`}
+                          className={`text-xs px-2 py-1.5 rounded h-fit  font-semibold ${getStatusStyle(item.status)}`}
                         >
                           {item.status}
                         </span>

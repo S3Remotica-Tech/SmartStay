@@ -448,7 +448,6 @@ const InvoicePage = () => {
   };
 
   const handlePageChange = (page) => {
-
     setPage(page);
   };
 
@@ -1132,11 +1131,11 @@ const InvoicePage = () => {
             <PermissionDeniedMessage />
           ) : (
             <>
-              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-around font-gilroy">
-                {stats.map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
+              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-4 py-3 flex flex-wrap items-center justify-around gap-x-6 gap-y-4 font-gilroy">
+                {stats?.map((item, index) => (
+                  <div key={index} className="flex items-center gap-3 shrink-0">
                     {item.highlight && (
-                      <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold">
+                      <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center text-[#F97316] font-semibold shrink-0">
                         {item.icon && (
                           <ArrowDown
                             color="#FF9500"
@@ -1149,9 +1148,9 @@ const InvoicePage = () => {
 
                     <div>
                       <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
-                        {item.label}
+                        <span>{item.label}</span>
 
-                        <div className="relative group w-fit">
+                        <div className="relative group w-fit shrink-0">
                           <Filter
                             onClick={() => setStatusfilter(item.search)}
                             size="14"
@@ -1160,10 +1159,10 @@ const InvoicePage = () => {
                           />
 
                           <div
-                            className="absolute left-1/2 -translate-x-1/2 mt-2 
-              hidden group-hover:flex
-              px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-              items-center gap-1 whitespace-nowrap z-50"
+                            className="absolute left-1/2 top-full mt-2 -translate-x-1/2
+                hidden group-hover:flex
+                px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md
+                items-center gap-1 whitespace-nowrap z-50"
                           >
                             <Filter size="14" color="#fff" />
                             Click to Filter

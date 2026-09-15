@@ -242,8 +242,6 @@ function UserList(props) {
     setPage(1);
   }, [debouncedInput, statusfilter, selectedMonth?.value, size]);
 
-
-  
   useEffect(() => {
     const tenantFilters = state.UsersList?.tenantFilters;
 
@@ -1205,8 +1203,6 @@ function UserList(props) {
 
   const hasStatusCode = formattedData?.some((user) => user.statusCode);
 
-
-
   useEffect(() => {
     const cols = state?.UsersList?.Users?.columnList || [];
 
@@ -1313,7 +1309,6 @@ function UserList(props) {
   const totalRecords = state?.UsersList?.Users?.totalCustomers ?? 0;
 
   const handlePageChange = (page) => {
-    
     setPage(page);
   };
 
@@ -1458,12 +1453,12 @@ function UserList(props) {
                 <PermissionDeniedMessage />
               ) : (
                 <div className="">
-                  <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 font-gilroy">
-                    <div className="flex flex-wrap gap-y-4 gap-x-6 lg:gap-x-12">
+                  <div className="w-full my-2 rounded-xl bg-[#F9F9F9] px-4 sm:px-5 lg:px-6 py-3 font-gilroy">
+                    <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-x-6 gap-y-4 lg:gap-x-8">
                       {stats?.map((item, index) => (
                         <div
                           key={index}
-                          className="flex items-center gap-3 w-full sm:w-[48%] lg:w-auto lg:flex-1"
+                          className="flex min-w-0 items-center gap-3"
                         >
                           {item.highlight && (
                             <div className="w-10 h-10 rounded-full bg-[#FFEFE5] flex items-center justify-center shrink-0">
@@ -1477,24 +1472,24 @@ function UserList(props) {
                             </div>
                           )}
 
-                          <div className="min-w-0">
-                            <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1 text-xs text-[#6B7280]">
                               <span className="truncate">{item.label}</span>
 
                               {item.label !== "Total" && (
-                                <div className="relative group">
+                                <div className="relative group shrink-0">
                                   <Filter
                                     onClick={() => setStatusFilter(item.search)}
                                     size="14"
                                     color="#9CA3AF"
-                                    className="cursor-pointer shrink-0"
+                                    className="cursor-pointer"
                                   />
 
                                   <div
-                                    className="absolute left-1/2 -translate-x-1/2 mt-2
-                             hidden group-hover:flex px-3 py-1.5
-                             bg-[#4B5563] text-white text-xs rounded-md
-                             items-center gap-1 whitespace-nowrap z-50"
+                                    className="absolute left-1/2 top-full mt-2 -translate-x-1/2
+                    hidden group-hover:flex items-center gap-1
+                    whitespace-nowrap rounded-md bg-[#4B5563]
+                    px-3 py-1.5 text-xs text-white z-50"
                                   >
                                     <Filter size="14" color="#fff" />
                                     Click to Filter
