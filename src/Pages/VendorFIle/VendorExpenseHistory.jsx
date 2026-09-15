@@ -14,95 +14,7 @@ import { useHasPermission } from "../../Utils/Permission";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import PropTypes from "prop-types";
-
-const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "32px",
-    height: "32px",
-    width: "100%",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "12px",
-    fontFamily: "Gilroy, sans-serif",
-    fontWeight: 500,
-    boxShadow: "none",
-    cursor: "not-allowed",
-    backgroundColor: state.hasValue ? "#F4F4F4" : "#fff",
-  }),
-
-  singleValue: (base) => ({
-    ...base,
-    color: "#333",
-    fontWeight: 500,
-  }),
-
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 13,
-      padding: "6px 12px",
-      // margin: "2px 10px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
-
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "8px",
-    padding: "6px 0",
-    zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
-  }),
-
-  menuList: (base) => ({
-    ...base,
-    maxHeight: "100px",
-    padding: 0,
-    overflowY: "auto",
-  }),
-
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0 8px",
-  }),
-
-  indicatorsContainer: (base) => ({
-    ...base,
-    height: "32px",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: "4px",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
+import { CustomStyles } from "../../Utils/SelectStyles";
 
 function VendorExpenseHistory({ selectedVendorId }) {
   const state = useSelector((state) => state);
@@ -111,7 +23,6 @@ function VendorExpenseHistory({ selectedVendorId }) {
     state.ComplianceList?.vendorOverviewExpenseList?.expenses || [];
 
   const [openExpense, setOpenExpense] = useState(null);
-
 
   const monthOptions = [
     { value: "this_month", label: "This Month" },
@@ -180,6 +91,9 @@ function VendorExpenseHistory({ selectedVendorId }) {
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
   };
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (selectedVendorId) {
@@ -189,10 +103,11 @@ function VendorExpenseHistory({ selectedVendorId }) {
           vendorId: selectedVendorId,
           page: page,
           size: size,
+          search: searchQuery,
         },
       });
     }
-  }, [page, size, selectedVendorId]);
+  }, [page, size, selectedVendorId, searchQuery]);
 
   return (
     <div className="px-4 bg-white">
@@ -205,9 +120,10 @@ function VendorExpenseHistory({ selectedVendorId }) {
             className={`border border-gray-300 rounded-lg w-36 `}
           >
             <Select
+              isDisabled
               options={selectOptions}
               styles={CustomStyles}
-              isDisabled={canReadExpense}
+              // isDisabled={canReadExpense}
               menuPlacement="auto"
               classNamePrefix="custom"
               // onChange={(e) => handleStatusFilter(e)}
@@ -265,12 +181,12 @@ function VendorExpenseHistory({ selectedVendorId }) {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={handleInputChange}
-                disabled={canReadExpense}
-                className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] cursor-not-allowed "
+                disabled={!canReadExpense}
+                className="w-full  bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] cursor-pointer "
               />
               <SearchNormal1
                 size="18"
-                color={canReadExpense ? "#6B7280" : "#A0A0A0"}
+                color={!canReadExpense ? "#6B7280" : "#A0A0A0"}
                 className="mr-2"
               />
             </div>
@@ -337,7 +253,9 @@ function VendorExpenseHistory({ selectedVendorId }) {
                         {expense.transactionDate}
                       </td>
 
-                      <td className="px-4 py-2.5 text-sm">{expense.title}</td>
+                      <td className="px-4 py-2.5 text-sm">
+                        {expense.title || "-"}
+                      </td>
 
                       <td className="px-4 py-2.5 text-sm">
                         ₹ {expense.totalAmount}
@@ -409,7 +327,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                               {expense.expenseItems.map((item) => (
                                 <tr key={item.id} className="border-t">
                                   <td className="px-4 py-2  text-[11px]">
-                                    {item.item}
+                                    {item.item || "-"}
                                   </td>
 
                                   <td className="px-4 py-2  text-[11px]">
@@ -417,7 +335,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                                   </td>
 
                                   <td className="px-4 py-2  text-[11px]">
-                                    {item.unit}
+                                    {item.unit || "-"}
                                   </td>
 
                                   <td className="px-4 py-2  text-[11px]">

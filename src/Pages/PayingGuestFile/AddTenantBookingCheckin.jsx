@@ -2216,146 +2216,199 @@ function AddTenantBookingCheckin({
                 ) : null}
               </div>
 
-              <div className="grid grid-cols-12 gap-x-4">
-                <div className="col-span-12">
-                  <div className="flex items-center justify-between">
-                    <label className="text-sm text-gray-800 font-gilroy font-medium">
-                      Advance amount ₹ (INR)
-                      {!isAdvanceRefused && (
-                        <span className="text-red-500 text-xl">*</span>
-                      )}
-                    </label>
-
-                    <div className="flex items-center justify-between mt-1 gap-2 mb-2">
-                      <span className="text-xs text-gray-700 font-medium">
-                        Do you want to refuse advance amount?
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsAdvanceRefused(!isAdvanceRefused);
-
-                          if (!isAdvanceRefused) {
-                            setAdvanceAmount("");
-                            setFields([]);
-                          }
-
-                          // setAdvanceAmountError("");
-                        }}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                          isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                        }`}
-                      >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                            isAdvanceRefused ? "translate-x-6" : "translate-x-1"
-                          }`}
-                        />
-                      </button>
-                    </div>
-                  </div>
+              <div className="flex items-center justify-between my-2.5">
+                <label className="text-sm text-gray-800 font-gilroy font-medium">
+                  Total Advance/ Security deposit amount ₹ (INR)
                   {!isAdvanceRefused && (
-                    <input
-                      type="number"
-                      ref={advanceAmountRef}
-                      placeholder="Enter Amount"
-                      value={advanceAmount}
-                      onChange={handleAdvanceAmount}
-                      disabled={isAdvanceRefused}
-                      onWheel={(e) => e.target.blur()}
-                      className={`w-full text-[14px] text-gray-700 font-gilroy ${
-                        advanceAmount ? "font-semibold" : "font-medium"
-                      } shadow-none border h-12 rounded-md px-3 outline-none ${
-                        isAdvanceRefused
-                          ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                          : "border-gray-300"
+                    <span className="text-red-500 text-xl">*</span>
+                  )}
+                </label>
+
+                <div className="flex items-center justify-between mt-1 gap-2 ">
+                  <span className="text-xs text-gray-700 font-medium">
+                    Do you want to refuse advance amount?
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsAdvanceRefused(!isAdvanceRefused);
+
+                      if (!isAdvanceRefused) {
+                        setAdvanceAmount("");
+                        setFields([]);
+                      }
+
+                      // setAdvanceAmountError("");
+                    }}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                      isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                        isAdvanceRefused ? "translate-x-6" : "translate-x-1"
                       }`}
                     />
-                  )}
-
-                  {!isAdvanceRefused && checkInAdvanceAmountError && (
-                    <ErrorMessage
-                      message={checkInAdvanceAmountError}
-                      type="error"
-                    />
-                  )}
+                  </button>
                 </div>
               </div>
               {!isAdvanceRefused && (
                 <>
-                  <div className="border-1 rounded-lg border-[#F2F4F6]  bg-[#F7FAFF] my-3">
-                    <div className="p-2">
-                      <label className="text-sm font-gilroy font-medium  text-[#222222]">
-                        Non Refundable Amount
-                      </label>
-                    </div>
+                  <div className="grid grid-cols-12 gap-x-4 bg-[#F7F9FF]  border-1 border-[#F2F4F6]  px-3 py-2 rounded">
+                    <div className="col-span-12">
+                      <div className="">
+                        <label className="text-sm font-gilroy font-medium mb-2 text-[#222222]">
+                          Refundable Amount
+                        </label>
+                      </div>
+                      <input
+                        type="number"
+                        ref={advanceAmountRef}
+                        placeholder="Enter Amount"
+                        value={advanceAmount}
+                        onChange={handleAdvanceAmount}
+                        disabled={isAdvanceRefused}
+                        onWheel={(e) => e.target.blur()}
+                        className={`w-full text-[14px] text-gray-700 font-gilroy ${
+                          advanceAmount ? "font-semibold" : "font-medium"
+                        } shadow-none border h-12 rounded-md px-3 outline-none ${
+                          isAdvanceRefused
+                            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                            : "border-gray-300"
+                        }`}
+                      />
 
-                    <div className=" bg-[#F7FAFF] rounded-lg p-2 ">
-                      {fields?.map((item, index) => {
-                        const isMaintenanceSelected = fields.some(
-                          (field) => field.reason === "maintenance",
-                        );
+                      {!isAdvanceRefused && checkInAdvanceAmountError && (
+                        <ErrorMessage
+                          message={checkInAdvanceAmountError}
+                          type="error"
+                        />
+                      )}
 
-                        const filteredOptions = reasonOptions.map((opt) => {
-                          if (opt.value === "maintenance") {
-                            return {
-                              ...opt,
-                              isDisabled:
-                                isMaintenanceSelected &&
-                                item.reason !== "maintenance",
-                            };
-                          }
-                          return opt;
-                        });
+                      <div className="">
+                        <div className="my-2">
+                          <label className="text-sm font-gilroy font-medium mb-2  text-[#222222]">
+                            Non Refundable Amount
+                          </label>
+                        </div>
+                        <div className="flex w-full ">
+                          <button
+                            disabled={isAdvanceRefused}
+                            onClick={handleAddField}
+                            className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1]   disabled:bg-gray-100 disabled:text-gray-500
+                        disabled:cursor-not-allowed  !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
+                          >
+                            <AddCircle color="#1E45E1" size="16" />
+                            Add
+                          </button>
+                        </div>
+                        <div className=" bg-[#F7FAFF] rounded-lg  ">
+                          {fields?.map((item, index) => {
+                            const isMaintenanceSelected = fields.some(
+                              (field) => field.reason === "maintenance",
+                            );
 
-                        return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-6">
-                              {!item.showInput ? (
-                                <Select
-                                  menuPlacement="top"
-                                  // menuPosition="fixed"
-                                  options={filteredOptions}
-                                  value={
-                                    filteredOptions.find(
-                                      (opt) => opt.value === item.reason_name,
-                                    ) || null
-                                  }
-                                  onChange={(selectedOption) => {
-                                    const selectedValue = selectedOption.value;
+                            const filteredOptions = reasonOptions.map((opt) => {
+                              if (opt.value === "maintenance") {
+                                return {
+                                  ...opt,
+                                  isDisabled:
+                                    isMaintenanceSelected &&
+                                    item.reason !== "maintenance",
+                                };
+                              }
+                              return opt;
+                            });
 
-                                    if (selectedValue === "others") {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        "others",
-                                      );
-                                    } else {
-                                      handleInputChange(
-                                        index,
-                                        "reason",
-                                        selectedValue,
-                                      );
-                                    }
-                                  }}
-                                  isDisabled={item.reason === "maintenance"}
-                                  styles={CustomStyles}
-                                />
-                              ) : (
-                                <>
+                            return (
+                              <div className="row px-2 mb-3" key={index}>
+                                <div className="col-md-6">
+                                  {!item.showInput ? (
+                                    <Select
+                                      menuPlacement="top"
+                                      // menuPosition="fixed"
+                                      options={filteredOptions}
+                                      value={
+                                        filteredOptions.find(
+                                          (opt) =>
+                                            opt.value === item.reason_name,
+                                        ) || null
+                                      }
+                                      onChange={(selectedOption) => {
+                                        const selectedValue =
+                                          selectedOption.value;
+
+                                        if (selectedValue === "others") {
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            "others",
+                                          );
+                                        } else {
+                                          handleInputChange(
+                                            index,
+                                            "reason",
+                                            selectedValue,
+                                          );
+                                        }
+                                      }}
+                                      isDisabled={item.reason === "maintenance"}
+                                      styles={CustomStyles}
+                                    />
+                                  ) : (
+                                    <>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter custom reason"
+                                        value={item.customReason}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            index,
+                                            "customReason",
+                                            e.target.value,
+                                          )
+                                        }
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 45,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </>
+                                  )}
+                                  {errors[index]?.reason && (
+                                    <ErrorMessage
+                                      message={errors[index]?.reason}
+                                      type="error"
+                                    />
+                                  )}
+                                </div>
+
+                                <div className="col-md-5 relative">
                                   <input
                                     type="text"
-                                    className="form-control"
-                                    placeholder="Enter custom reason"
-                                    value={item.customReason}
+                                    placeholder="Enter amount"
+                                    value={item.amount}
+                                    //                                  onKeyDown={(e) => {
+                                    // if (e.key === "." || e.key === "e" || e.key === "-") {
+                                    //   e.preventDefault();
+                                    // }
+                                    // }}
                                     onChange={(e) =>
                                       handleInputChange(
                                         index,
-                                        "customReason",
+                                        "amount",
                                         e.target.value,
                                       )
                                     }
+                                    className="form-control"
                                     style={{
                                       fontSize: 16,
                                       color: "#4B4B4B",
@@ -2367,74 +2420,25 @@ function AddTenantBookingCheckin({
                                       borderRadius: 8,
                                     }}
                                   />
-                                </>
-                              )}
-                              {errors[index]?.reason && (
-                                <ErrorMessage
-                                  message={errors[index]?.reason}
-                                  type="error"
-                                />
-                              )}
-                            </div>
+                                  {errors[index]?.amount && (
+                                    <ErrorMessage
+                                      message={errors[index]?.amount}
+                                      type="error"
+                                    />
+                                  )}
+                                  <CloseCircle
+                                    variant="Bold"
+                                    size="20"
+                                    className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
+                                    onClick={() => handleRemoveField(index)}
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
 
-                            <div className="col-md-5 relative">
-                              <input
-                                type="text"
-                                placeholder="Enter amount"
-                                value={item.amount}
-                                //                                  onKeyDown={(e) => {
-                                // if (e.key === "." || e.key === "e" || e.key === "-") {
-                                //   e.preventDefault();
-                                // }
-                                // }}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    index,
-                                    "amount",
-                                    e.target.value,
-                                  )
-                                }
-                                className="form-control"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 45,
-                                  borderRadius: 8,
-                                }}
-                              />
-                              {errors[index]?.amount && (
-                                <ErrorMessage
-                                  message={errors[index]?.amount}
-                                  type="error"
-                                />
-                              )}
-                              <CloseCircle
-                                variant="Bold"
-                                size="20"
-                                className="absolute right-2 top-0 -translate-y-1/2 text-gray-400 cursor-pointer"
-                                onClick={() => handleRemoveField(index)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="flex w-full px-4">
-                      <button
-                        disabled={isAdvanceRefused}
-                        onClick={handleAddField}
-                        className="!flex !items-center justify-center !w-full !gap-1.5 !bg-[#EAEEFF] !text-[#1E45E1]   disabled:bg-gray-100 disabled:text-gray-500
-                        disabled:cursor-not-allowed  !font-semibold !text-sm !rounded-lg !px-6 !py-1.5 !mb-2 !font-gilroy"
-                      >
-                        <AddCircle color="#1E45E1" size="16" />
-                        Add
-                      </button>
-                    </div>
-                    {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
+                        {/* <div className="mt-2 bg-[#F2F4F6] p-2  flex justify-between font-semibold rounded-b-lg">
               <span className="text-[#505F76] text-xs ">
                 TOTAL FIXED CHARGES
               </span>
@@ -2442,17 +2446,18 @@ function AddTenantBookingCheckin({
                 ₹ {total.toLocaleString()}
               </span>
             </div> */}
-                  </div>
+                      </div>
 
-                  <div className="text-[#505F76] text-xs font-medium text-justify flex flex-wrap my-2 pe-16">
-                    Note: These charges are deducted from the initial security
-                    deposit or collected at the time of check-in and are
-                    non-adjustable.
+                      <div className="text-[#505F76] text-xs font-medium text-justify px-2 flex flex-wrap my-2 pe-16">
+                        Note: The total check-in advance / security deposit
+                        collected upfront under this single invoice only.
+                      </div>
+                    </div>
                   </div>
                 </>
               )}
 
-              <div className="grid grid-cols-1 gap-4 mb-2">
+              <div className="grid grid-cols-1 gap-4 my-2">
                 <div className="mb-2">
                   <label className="text-sm font-medium text-[#222222] mb-2 block">
                     Rental amount-Base ₹(INR){" "}
