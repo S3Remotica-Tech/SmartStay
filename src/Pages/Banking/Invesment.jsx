@@ -423,7 +423,7 @@ function Invesment({ show, handleClose, bankDetails }) {
                 Date <span className="text-red-500 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <DatePicker
+                <DatePicker   wrapperClassName="w-full"
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"

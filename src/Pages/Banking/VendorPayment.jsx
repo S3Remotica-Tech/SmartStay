@@ -609,8 +609,9 @@ function VendorPayment({ show, handleClose, isBanking }) {
               </label>
               <div className="relative">
                 <DatePicker
-                  // ref={paidDateRef}
+                  // ref={paidDateRef}  wrapperClassName="w-full"
                   selected={paidDate}
+                  wrapperClassName="w-full"
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"

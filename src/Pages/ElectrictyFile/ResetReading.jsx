@@ -3,13 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  Warning2,
-  Calendar,
-  
-  Add,
-  ArrowRight2,
-} from "iconsax-react";
+import { Warning2, Calendar, Add, ArrowRight2 } from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -320,6 +314,7 @@ function ResetReading({ show, handleClose, resetDetails }) {
                 dateFormat="dd/MM/yyyy"
                 placeholder="DD/MM/YYYY"
                 placeholderText="Select Date"
+                wrapperClassName="w-full"
                 maxDate={new Date()}
                 className={`w-full h-[50px] rounded-lg px-3 pr-10 text-sm outline-none border ${
                   dateError ? "border-red-500" : "border-[#D9D9D9]"

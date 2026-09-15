@@ -446,7 +446,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
               <div className="relative w-full">
                 <div className="datepicker-wrapper relative w-full">
-                  <DatePicker
+                  <DatePicker  wrapperClassName="w-full"
                     className="h-12 w-full font-gilroy"
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"

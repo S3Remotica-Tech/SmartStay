@@ -541,6 +541,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
 
                 <div className="datepicker-wrapper w-full relative">
                   <DatePicker
+                    wrapperClassName="w-full"
                     className="w-full h-12 cursor-pointer font-gilroy"
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"

@@ -295,6 +295,14 @@ function StaticExample({ show, setShow, currentItem }) {
 
   // const formattedDate = selectedDate ? selectedDate?.format("DD-MM-YYYY") : "";
 
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
+      dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
+      dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+    };
+  }, []);
+
   const handleAddAsset = () => {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
     dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
@@ -855,7 +863,10 @@ function StaticExample({ show, setShow, currentItem }) {
             )}
 
             {state.AssetList?.alreadyAssetNameHere && (
-              <div className="flex items-center justify-center mt-1 mb-1">
+              <div
+                ref={assetNameRef}
+                className="flex items-center justify-center mt-1 mb-1"
+              >
                 <ErrorMessage
                   message={state.AssetList?.alreadyAssetNameHere}
                   type="error"

@@ -580,6 +580,7 @@ function SmartstayDemo() {
                     <div className="datepicker-wrapper relative w-full mt-px">
                       <DatePicker
                         ref={demoDateRef}
+                        wrapperClassName="w-full"
                         className={`w-full mt-1 h-10 text-xs border border-[#DCDCDC] text-black rounded-md font-gilroy 
   ${demoDate ? "font-bold text-black" : "font-normal text-[#808092]"}
 `}
