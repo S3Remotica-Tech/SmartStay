@@ -68,12 +68,11 @@ function Vendor() {
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
- 
+
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [categoryFilter, setCategoryFilter] = useState("ALL");
-
 
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
@@ -843,10 +842,7 @@ function Vendor() {
               </div>
             )}
 
-            <div
-              className="w-full my-2 bg-[#F9F9F9] rounded-xl  py-3 
-            flex flex-wrap items-center justify-between px-4 font-gilroy"
-            >
+            <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy">
               {stats.map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   {item.highlight && (

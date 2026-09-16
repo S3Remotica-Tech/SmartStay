@@ -679,34 +679,32 @@ function ReceiptNew() {
           </>
         ) : (
           <div>
-            <div className="w-full my-2 rounded-xl bg-[#F9F9F9] px-4 sm:px-6 py-3 sm:py-4 font-gilroy">
-              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-4 lg:gap-x-8">
-                {stats?.map((item, index) => (
-                  <div key={index} className="flex min-w-0 items-center gap-3">
-                    {item.highlight && (
-                      <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                        {item.icon && (
-                          <ArrowDown
-                            color="#16A34A"
-                            size={18}
-                            className="rotate-[310deg]"
-                          />
-                        )}
-                      </div>
-                    )}
+            <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy">
+              {stats?.map((item, index) => (
+                <div key={index} className="flex min-w-0 items-center gap-3">
+                  {item.highlight && (
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                      {item.icon && (
+                        <ArrowDown
+                          color="#16A34A"
+                          size={18}
+                          className="rotate-[310deg]"
+                        />
+                      )}
+                    </div>
+                  )}
 
-                    <div className="min-w-0">
-                      <div className="text-xs text-[#6B7280] flex items-center gap-1">
-                        <span className="truncate">{item.title}</span>
-                      </div>
+                  <div className="min-w-0">
+                    <div className="text-xs text-[#6B7280] flex items-center gap-1">
+                      <span className="truncate">{item.title}</span>
+                    </div>
 
-                      <div className="text-lg font-semibold text-[#111827]">
-                        {item.value}
-                      </div>
+                    <div className="text-lg font-semibold text-[#111827]">
+                      {item.value}
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
 
             <div className="relative flex flex-col flex-1 min-h-0">
