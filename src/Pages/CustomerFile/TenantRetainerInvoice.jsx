@@ -224,10 +224,7 @@ function TenantRetainerInvoice() {
           ) : (
             // <FormComingSoon />
             <div>
-              <div
-                className="w-full my-6 bg-[#F9F9F9] rounded-xl px-4 sm:px-6 py-3 flex flex-wrap 
-              items-center justify-between font-gilroy"
-              >
+              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy">
                 {stats.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
                     {item.highlight && (

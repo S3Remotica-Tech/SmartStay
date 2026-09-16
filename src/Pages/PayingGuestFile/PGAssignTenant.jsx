@@ -917,12 +917,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     }
   }, [state.UsersList?.bedAvailableError, state.Booking?.bookingBedError]);
 
-  const tenantOptions =
-    state.UsersList?.TenantList?.map((u) => ({
-      value: u.customerId,
-      label: u.fullName,
-    })) || [];
-
+  const tenantOptions = Array.isArray(state.UsersList?.TenantList)
+    ? state.UsersList.TenantList.map((u) => ({
+        value: u.customerId,
+        label: u.fullName,
+      }))
+    : [];
   const isComingSoon = false;
 
   // const isPastMonth = checkin_joiningDate
@@ -1327,23 +1327,19 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         Tenant <span className="text-red-600 text-xl">*</span>
                       </Form.Label>
                       <Select
-                        options={
-                          state.UsersList?.TenantList?.length > 0
-                            ? state.UsersList.TenantList.map((u) => ({
-                                value: u.customerId,
-                                label: u.fullName,
-                              }))
-                            : []
-                        }
+                        options={tenantOptions}
                         onChange={handleCheckinCustomerName}
                         value={
                           checkin_customername
                             ? (() => {
-                                const selectedUser =
-                                  state.UsersList?.TenantList?.find(
-                                    (u) =>
-                                      u.customerId === checkin_customername,
-                                  );
+                                const selectedUser = Array.isArray(
+                                  state.UsersList?.TenantList,
+                                )
+                                  ? state.UsersList.TenantList.find(
+                                      (u) =>
+                                        u.customerId === checkin_customername,
+                                    )
+                                  : null;
 
                                 return selectedUser
                                   ? {

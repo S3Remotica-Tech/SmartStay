@@ -983,7 +983,7 @@ function AddVendorNew() {
       if (!vendorOverView) return;
 
       setVendorName(vendorOverView.fullName || "");
-      setBusinessMobile(vendorOverView.mobile?.replace(/^\+91\s?/, "") || "");
+      setBusinessMobile(vendorOverView.mobile || "");
       setBusinessName(vendorOverView.businessName || "");
       setEmail_Id(vendorOverView.emailId || "");
 
@@ -1015,10 +1015,14 @@ function AddVendorNew() {
           : "",
       );
 
-      setCountryCode({
-        value: vendorOverView.contactPersonMobileCode || "91",
-        label: `${vendorOverView.contactPersonMobileCode || "91"}`,
-      });
+      setCountryCode(
+        vendorOverView.contactPersonMobile
+          ? {
+              value: vendorOverView.contactPersonMobileCode || "91",
+              label: vendorOverView.contactPersonMobileCode || "91",
+            }
+          : null,
+      );
 
       setBusinessCountryCode({
         value: vendorOverView.businessMobileCode || "91",

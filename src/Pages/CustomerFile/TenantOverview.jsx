@@ -786,11 +786,11 @@ function TenantOverview(props) {
     setCustomerCheckoutData(item);
   };
 
-  useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
-      navigate(`/tenant/${state.login.selectedHostel_Id}`);
-    }
-  }, [state.UsersList.addCheckoutCustomerStatusCode]);
+  // useEffect(() => {
+  //   if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
+  //     navigate(`/tenant/${state.login.selectedHostel_Id}`);
+  //   }
+  // }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
   useEffect(() => {
     setAdvanceList(state.UsersList.customerdetails?.advanceInfo);

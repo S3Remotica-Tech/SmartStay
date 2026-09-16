@@ -12,6 +12,7 @@ import {
   ArrowDown2,
   ArrowDown,
   ArrowSwapVertical,
+  DocumentText,
 } from "iconsax-react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +56,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 
 import { CustomStyles } from "../../Utils/SelectStyles";
+import ReviewGenerateBillsDrawer from "./ReviewGenerateBillsDrawer.jsx";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -107,7 +109,7 @@ const InvoicePage = () => {
   ];
 
   const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
-
+  const [showReviewGenerateBill, setShowReviewGenerateBill] = useState(false);
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
   const [originalBills, setOriginalBills] = useState([]);
@@ -295,6 +297,10 @@ const InvoicePage = () => {
 
     navigate("/create-invoice");
     dispatch({ type: "USERROOMAVAILABLEFALSE" });
+  };
+
+  const handleShowReviewGenerateBill = () => {
+    setShowReviewGenerateBill(true);
   };
 
   const handleInvoiceDetail = (rowData) => {
@@ -1107,31 +1113,45 @@ const InvoicePage = () => {
                 </div>
               </div>
 
-              <div className="text-center">
-                <Button
+              <div className="text-center flex items-center">
+                <button
                   disabled={!canWriteInvoice}
                   onClick={handleManualShow}
-                  className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
+                  className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
-                </Button>
+                </button>
                 {isDev && (
-                  <Button
-                    disabled={!canWriteInvoice}
-                    onClick={handleCreateNewInvoice}
-                    className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
-                  >
-                    {DownloadInvoice ? "+ " : "+ Create Invoice New"}
-                  </Button>
+                  <>
+                    <button
+                      disabled={!canWriteInvoice}
+                      onClick={handleShowReviewGenerateBill}
+                      className="flex gap-2 items-center 
+                      font-semibold  rounded-lg !font-gilroy text-[#1E45E1] !bg-[#EFF6FF] border-1 border-[#EFF6FF] 
+                      px-4 py-1 min-w-[95px] mr-2"
+                    >
+                      <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
+                      <span className="px-2 py-1 h-fit bg-[#1E45E1] text-white rounded-xl">
+                        119
+                      </span>
+                    </button>
+                    <button
+                      disabled={!canWriteInvoice}
+                      onClick={handleCreateNewInvoice}
+                      className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
+                    >
+                      {DownloadInvoice ? "+ " : "+ Create Invoice New"}
+                    </button>
+                  </>
                 )}
               </div>
             </div>
           </div>
           {!canReadInvoice ? (
             <PermissionDeniedMessage />
-          ) : (
+          ) : (                           
             <>
-              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 sm:px-4 py-3 flex flex-wrap items-center justify-around gap-x-6 gap-y-4 font-gilroy">
+            <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy">
                 {stats?.map((item, index) => (
                   <div key={index} className="flex items-center gap-3 shrink-0">
                     {item.highlight && (
@@ -1713,6 +1733,13 @@ const InvoicePage = () => {
           selectedUserId={selectedUserId}
           // invoiceValue={invoiceValue}
           invoiceList={invoiceList}
+        />
+      )}
+
+      {showReviewGenerateBill && (
+        <ReviewGenerateBillsDrawer
+          open={showReviewGenerateBill}
+          onClose={() => setShowReviewGenerateBill(false)}
         />
       )}
     </div>
