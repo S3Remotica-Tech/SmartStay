@@ -12,6 +12,7 @@ import {
   ArrowDown2,
   ArrowDown,
   ArrowSwapVertical,
+  DocumentText,
 } from "iconsax-react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +56,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 
 import { CustomStyles } from "../../Utils/SelectStyles";
+import ReviewGenerateBillsDrawer from "./ReviewGenerateBillsDrawer.jsx";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -107,7 +109,7 @@ const InvoicePage = () => {
   ];
 
   const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
-
+  const [showReviewGenerateBill, setShowReviewGenerateBill] = useState(false);
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
 
   const [originalBills, setOriginalBills] = useState([]);
@@ -295,6 +297,10 @@ const InvoicePage = () => {
 
     navigate("/create-invoice");
     dispatch({ type: "USERROOMAVAILABLEFALSE" });
+  };
+
+  const handleShowReviewGenerateBill = () => {
+    setShowReviewGenerateBill(true);
   };
 
   const handleInvoiceDetail = (rowData) => {
@@ -1107,22 +1113,36 @@ const InvoicePage = () => {
                 </div>
               </div>
 
-              <div className="text-center">
-                <Button
+              <div className="text-center flex items-center">
+                <button
                   disabled={!canWriteInvoice}
                   onClick={handleManualShow}
-                  className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
+                  className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
-                </Button>
+                </button>
                 {isDev && (
-                  <Button
-                    disabled={!canWriteInvoice}
-                    onClick={handleCreateNewInvoice}
-                    className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-1 min-w-[95px] mr-2"
-                  >
-                    {DownloadInvoice ? "+ " : "+ Create Invoice New"}
-                  </Button>
+                  <>
+                    <button
+                      disabled={!canWriteInvoice}
+                      onClick={handleShowReviewGenerateBill}
+                      className="flex gap-2 items-center 
+                      font-semibold  rounded-lg !font-gilroy text-[#1E45E1] !bg-[#EFF6FF] border-1 border-[#EFF6FF] 
+                      px-4 py-1 min-w-[95px] mr-2"
+                    >
+                      <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
+                      <span className="px-2 py-1 h-fit bg-[#1E45E1] text-white rounded-xl">
+                        119
+                      </span>
+                    </button>
+                    <button
+                      disabled={!canWriteInvoice}
+                      onClick={handleCreateNewInvoice}
+                      className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
+                    >
+                      {DownloadInvoice ? "+ " : "+ Create Invoice New"}
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -1713,6 +1733,13 @@ const InvoicePage = () => {
           selectedUserId={selectedUserId}
           // invoiceValue={invoiceValue}
           invoiceList={invoiceList}
+        />
+      )}
+
+      {showReviewGenerateBill && (
+        <ReviewGenerateBillsDrawer
+          open={showReviewGenerateBill}
+          onClose={() => setShowReviewGenerateBill(false)}
         />
       )}
     </div>
