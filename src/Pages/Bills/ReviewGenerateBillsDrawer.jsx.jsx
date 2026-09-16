@@ -754,11 +754,11 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               />
             </div>
 
-            <div className="flex  border border-[#D0D5DD] rounded-lg overflow-hidden">
+            <div className="flex  border border-[#D0D5DD] rounded-lg overflow-hidden px-2 py-1 ">
               <button
                 type="button"
                 onClick={() => setViewMode("LIST")}
-                className={`px-2 flex items-center gap-1 text-[11px] ${
+                className={`px-2 flex items-center gap-1 text-[11px]  rounded-l shadow ${
                   viewMode === "LIST"
                     ? "bg-[#F2F4F7] text-[#1E45E1]"
                     : "text-[#667085]"
@@ -768,10 +768,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               </button>
 
               <button
-                disabled
+                // disabled
                 type="button"
                 onClick={() => setViewMode("ROOM")}
-                className={`px-2 flex items-center gap-1 text-[11px] ${
+                className={`px-2 flex items-center gap-1 text-[11px]   rounded-r shadow ${
                   viewMode === "ROOM"
                     ? "bg-[#F2F4F7] text-[#1E45E1]"
                     : "text-[#667085]"
@@ -1071,7 +1071,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                         </div>
 
                         <div className="px-2 py-3 space-y-2.5">
-                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-xl px-2">
+                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-lg px-2">
                             <span className="text-[14px] text-[#6B7280]">
                               Monthly Rent
                             </span>
@@ -1144,7 +1144,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           </div>
 
                           {/* Applicable Days */}
-                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-xl px-2">
+                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-lg px-2">
                             <div className="flex items-center gap-1.5">
                               <span className="text-[14px] text-[#6B7280]">
                                 Applicable Days
@@ -1225,7 +1225,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           </div>
 
                           {/* Prorated Rent */}
-                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-xl px-2">
+                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-lg px-2">
                             <span className="text-[14px] text-[#6B7280]">
                               Prorated Rent
                             </span>
@@ -1296,7 +1296,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                             )}
                           </div>
 
-                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-xl px-2">
+                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-lg px-2">
                             <div className="flex items-center gap-1.5">
                               <span className="text-[14px] text-[#6B7280]">
                                 Discount
@@ -1378,7 +1378,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           </div>
 
                           {/* Tax */}
-                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-xl px-2">
+                          <div className="flex items-center justify-between group relative min-h-[30px] hover:bg-blue-100 hover:rounded-lg px-2">
                             <div className="flex items-center gap-1.5">
                               <span className="text-[14px] text-[#6B7280]">
                                 Tax
@@ -1442,7 +1442,8 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                 <button
                                   type="button"
                                   onClick={() => handleEditField(item, "tax")}
-                                  className="absolute right-20 top-2 hidden group-hover:flex items-center  gap-1 text-[10px] font-medium text-[#1E45E1]"
+                                  className="absolute right-20 top-2 hidden group-hover:flex items-center  
+                                  gap-1 text-[12px] font-medium text-[#1E45E1]"
                                 >
                                   <Edit2 size="10" />
                                   Edit

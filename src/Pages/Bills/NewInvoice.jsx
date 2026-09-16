@@ -644,36 +644,69 @@ function NewInvoice() {
     }
   }, [state.createAccount?.networkError]);
 
+  console.log("billData", billData);
+
   useEffect(() => {
     if (!billData) return;
-    setCustomerName(billData.customerId || CustomerOverView?.customerId || id);
-    setInvoiceNumber(billData.invoiceNumber);
-    setInvoiceDate(
-      dayjs(
-        billData.invoiceDate || billData?.invoiceGeneratedDate,
-        "DD/MM/YYYY",
-      ),
+
+    setCustomerName(
+      billData.customerId || CustomerOverView?.customerId || id || "",
     );
 
-    if (
-      Array.isArray(state.InvoiceList?.getInitializeRecurring?.invoiceItems)
-    ) {
-      const formattedRows =
-        state.InvoiceList.getInitializeRecurring.invoiceItems.map((item) => ({
-          itemType: item.description || "",
-          amount: String(item.amount || ""),
-          isFromApi: true,
-          isRent: item.description === "Rent",
-        }));
+    setInvoiceNumber(billData.invoiceNumber || "");
 
-      // setOriginalRows(formattedRows);
+    const invoiceDateValue =
+      billData.invoiceDate || billData?.invoiceGeneratedDate;
+
+    setInvoiceDate(
+      invoiceDateValue
+        ? dayjs(invoiceDateValue, ["DD/MM/YYYY", "DD-MM-YYYY", "YYYY-MM-DD"])
+        : null,
+    );
+
+    const invoiceItems =
+      state.InvoiceList?.getInitializeRecurring?.invoiceItems;
+
+    if (Array.isArray(invoiceItems)) {
+      const formattedRows = invoiceItems.map((item) => {
+        const description = item.description?.trim() || "";
+
+        let itemType = "";
+        let am_name = "";
+
+        if (description.toLowerCase() === "rent") {
+          itemType = "RENT";
+        } else if (
+          description.toLowerCase() === "advance" ||
+          description.toLowerCase() === "additional advance"
+        ) {
+          itemType = "ADDITIONAL_ADVANCE";
+        } else {
+          itemType = "OTHER";
+          am_name = description;
+        }
+
+        return {
+          invoiceNo: item.invoiceNo || "",
+          itemType,
+          am_name,
+          amount: String(item.amount ?? ""),
+          description,
+          isFromApi: true,
+          isRent: itemType === "RENT",
+        };
+      });
+
       setNewRows(formattedRows);
     } else {
-      // setOrigisnalRows([]);
       setNewRows([]);
     }
-  }, [billData, state.InvoiceList?.getInitializeRecurring?.invoiceItems]);
-
+  }, [
+    billData,
+    CustomerOverView?.customerId,
+    id,
+    state.InvoiceList?.getInitializeRecurring?.invoiceItems,
+  ]);
   useEffect(() => {
     if (
       state.InvoiceList.recurringEditError ||
@@ -994,6 +1027,7 @@ function NewInvoice() {
                               <input
                                 type="text"
                                 autoFocus
+                                disabled={u.isFromApi}
                                 value={u.am_name || ""}
                                 onChange={(e) => {
                                   handleNewRowChange(
@@ -1017,13 +1051,20 @@ function NewInvoice() {
                               />
 
                               <button
+                                disabled={u.isFromApi}
                                 type="button"
                                 onClick={() => {
                                   handleNewRowChange(index, "itemType", "");
                                   handleNewRowChange(index, "am_name", "");
                                 }}
+                                className={
+                                  u.isFromApi ? " opacity-40" : "cursor-pointer"
+                                }
                               >
-                                <Add color="#ff0000" className="rotate-45" />
+                                <Add
+                                  color={u.isFromApi ? "#9CA3AF" : "#ff0000"}
+                                  className="rotate-45"
+                                />
                               </button>
                             </div>
                           ) : (
@@ -1065,7 +1106,7 @@ function NewInvoice() {
                                 placeholder="Select or Search the Item"
                                 options={getItemOptions(index)}
                                 isSearchable
-                                isDisabled={u.isFromApi}
+                                // isDisabled={u.isFromApi}
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
                                 menuPortalTarget={document.body}
@@ -1253,9 +1294,10 @@ function NewInvoice() {
                 <div className="flex items-center gap-1">
                   <div className="flex shrink-0 overflow-hidden rounded border border-[#DCDCDC]">
                     <button
+                      disabled={billData}
                       type="button"
                       onClick={() => setDiscountType("₹")}
-                      className={`
+                      className={`  disabled:bg-gray-200
         px-2.5
         py-1
         text-[10px]
@@ -1270,12 +1312,13 @@ function NewInvoice() {
                     </button>
 
                     <button
+                      disabled={billData}
                       type="button"
                       onClick={() => setDiscountType("%")}
                       className={`
         px-2.5
         py-1
-        text-[10px]
+        text-[10px]  disabled:bg-gray-200
         ${
           discountType === "%"
             ? "bg-[#315BEA] text-white"
@@ -1287,6 +1330,7 @@ function NewInvoice() {
                     </button>
                   </div>
                   <input
+                    disabled={billData}
                     type="number"
                     onWheel={(e) => e.target.blur()}
                     min="0"
@@ -1301,7 +1345,7 @@ function NewInvoice() {
                       setDiscount(value);
                     }}
                     placeholder="0"
-                    className="
+                    className=" disabled:bg-gray-100
       w-[55px]
       h-[26px]
       px-1
@@ -1310,7 +1354,7 @@ function NewInvoice() {
       border border-[#DCDCDC]
       rounded-[3px]
       outline-none
-      bg-white
+      
     "
                   />
                 </div>
@@ -1340,6 +1384,7 @@ function NewInvoice() {
             </label>
 
             <textarea
+              disabled={billData}
               value={termsAndConditions}
               onChange={(e) => setTermsAndConditions(e.target.value)}
               rows={4}

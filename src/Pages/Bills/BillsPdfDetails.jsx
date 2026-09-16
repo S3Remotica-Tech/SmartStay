@@ -64,7 +64,6 @@ function BillsPdfDetails() {
     }
   };
 
-
   useEffect(() => {
     if (rowData?.invoiceId) {
       setSelectedInvoiceId(rowData.invoiceId);
@@ -100,7 +99,7 @@ function BillsPdfDetails() {
       });
       return;
     }
-    navigate("/create-bill");
+    navigate("/create-invoice");
     dispatch({ type: "USERROOMAVAILABLEFALSE" });
   };
 
