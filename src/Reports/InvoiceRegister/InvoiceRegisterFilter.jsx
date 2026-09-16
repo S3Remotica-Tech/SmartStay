@@ -851,6 +851,7 @@ function InvoiceRegisterFilter({
               setOutstandingMin("");
               setOutstandingMax("");
               setPeriod("");
+              setTenantName("");
             }}
             style={{
               backgroundColor: "transparent",

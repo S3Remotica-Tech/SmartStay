@@ -64,7 +64,15 @@ function VendorDetailsOverview({ handleSelected }) {
     },
     {
       label: "Business Mobile No",
-      value: `  ${VendorOverView.mobile || ""}`.trim() || "---",
+      value: VendorOverView.businessMobileCode
+        ? `${
+            VendorOverView.businessMobileCode
+              ? VendorOverView.businessMobileCode.startsWith("+")
+                ? VendorOverView.businessMobileCode
+                : `+${VendorOverView.businessMobileCode}`
+              : ""
+          } ${VendorOverView.mobile}`
+        : "---",
       icon: <Call size={16} />,
     },
     {
