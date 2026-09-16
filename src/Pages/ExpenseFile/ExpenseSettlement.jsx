@@ -249,7 +249,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
       options:
         initializaExpense?.banks?.map((bank) => ({
           value: bank.bankId,
-          label: bank.bankName,
+          label: `${bank.holderName} - ${bank.bankName}`,
           holderName: bank.holderName,
           type: "Bank",
           icon: <Bank size={18} color="#1E45E1" />,
@@ -502,6 +502,7 @@ function ExpenseSettlement({ show, handleClose, selectedExpenseId }) {
               <div className="relative">
                 <DatePicker
                   // ref={paidDateRef}
+                  wrapperClassName="w-full"
                   selected={paidDate}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"

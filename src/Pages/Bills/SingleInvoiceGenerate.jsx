@@ -43,7 +43,7 @@ function SingleInvoiceGenerate({
               <ArrowLeft size="16" />
             </button>
 
-            <span className="text-[14px] font-semibold text-[#081021]">
+            <span className="text-[16px] font-semibold text-[#081021]">
               Generate {selectedIds.length} Invoice
               {selectedIds.length > 1 ? "s" : ""}?
             </span>
@@ -66,21 +66,21 @@ function SingleInvoiceGenerate({
 
           <div className="bg-[#F7F8FC] rounded-xl px-4 py-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[12px] text-[#667085]">
+              <span className="text-[14px] text-[#667085]">
                 Selected invoices
               </span>
 
-              <span className="text-[12px] font-medium text-[#344054]">
+              <span className="text-[14px] font-medium text-[#344054]">
                 {selectedIds.length}
               </span>
             </div>
 
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[12px] text-[#667085]">
+              <span className="text-[14px] text-[#667085]">
                 Ready to generate
               </span>
 
-              <span className="text-[12px] font-medium text-[#12B76A]">
+              <span className="text-[14px] font-medium text-[#12B76A]">
                 {selectedIds.length}
               </span>
             </div>
@@ -88,19 +88,19 @@ function SingleInvoiceGenerate({
             <div className="border-t border-[#E4E7EC] my-3" />
 
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[12px] font-semibold text-[#081021]">
+              <span className="text-[14px] font-semibold text-[#081021]">
                 Total Amount
               </span>
 
-              <span className="text-[12px] font-bold text-[#1E45E1]">
+              <span className="text-[14px] font-bold text-[#1E45E1]">
                 {/* {formatAmount(selectedTotalAmount)} */} 5000
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-[12px] text-[#667085]">Billing Period</span>
+              <span className="text-[14px] text-[#667085]">Billing Period</span>
 
-              <span className="text-[12px] font-semibold text-[#344054]">
+              <span className="text-[14px] font-semibold text-[#344054]">
                 {"01 Sep – 30 Sep 2026"}
               </span>
             </div>
@@ -114,7 +114,7 @@ function SingleInvoiceGenerate({
               className="w-4 h-4 accent-[#1E45E1] cursor-pointer"
             />
 
-            <span className="text-[12px] text-[#667085]">
+            <span className="text-[14px] text-[#667085]">
               I have reviewed the selected invoice calculations.
             </span>
           </label>

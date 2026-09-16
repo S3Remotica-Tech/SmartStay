@@ -719,11 +719,18 @@ function AddRetainerInvoice() {
     }
 
     if (firstErrorRef?.current) {
-      firstErrorRef.current.focus();
-      firstErrorRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+      const element = firstErrorRef.current;
+
+      if (typeof element.focus === "function") {
+        element.focus();
+      }
+
+      if (typeof element.scrollIntoView === "function") {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
     }
 
     return isValid;
@@ -935,7 +942,7 @@ function AddRetainerInvoice() {
               </label>
 
               <div className="relative" ref={invoiceDateRef}>
-                <DatePicker
+                <DatePicker 
                   selected={invoiceDate}
                   onChange={handleInvoiceDate}
                   dateFormat="dd/MM/yyyy"

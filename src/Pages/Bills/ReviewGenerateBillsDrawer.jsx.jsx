@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   CloseCircle,
   SearchNormal1,
@@ -14,7 +14,6 @@ import {
   Trash,
   // Eye,
   // Firstline,
-  ArrowLeft,
   Add,
 } from "iconsax-react";
 import { TiTick } from "react-icons/ti";
@@ -217,8 +216,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const [editingField, setEditingField] = useState(null);
   const [editingValue, setEditingValue] = useState("");
   const [showGenerateModal, setShowGenerateModal] = useState(false);
-
-  console.log("itemsitemsitems", items);
+  const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
 
   const handleGenerateSelected = () => {
     if (selectedIds.length === 0) {
@@ -1074,7 +1072,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                 </div>
                               );
                             })}
-                          <div className=" flex items-center justify-">
+                          <div className=" flex items-center justify-end">
                             <button
                               type="button"
                               onClick={() => handleAddInvoiceItem(item)}
@@ -1157,6 +1155,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
                       <div className="flex w-full mt-3">
                         <button
+                          onClick={() => setIsGeneratingInvoice(true)}
                           type="button"
                           className="h-8 w-full px-4 rounded-lg bg-[#1E45E1] border-1 border-[#1E45E1] 
                             text-white text-[12px] font-semibold flex justify-center 
@@ -1201,6 +1200,27 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
           selectedIds={selectedIds}
           onClose={() => setShowGenerateModal(false)}
         />
+      )}
+      {isGeneratingInvoice && (
+        <div className="fixed  font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col font-gilroy">
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center mb-4">
+              <div className="w-6 h-6 border-4 border-[#D0D5DD] border-t-[#1E45E1] rounded-full animate-spin" />
+            </div>
+
+            <span className="text-[18px] font-semibold text-[#081021]">
+              Generating invoices...
+            </span>
+
+            <span className="text-[14px] text-[#98A2B3] mt-1">
+              Processing counts for Sep 2026
+            </span>
+
+            <div className="w-[334px] max-w-[80vw] h-[5px] bg-[#EAECF0] rounded-full mt-4 overflow-hidden">
+              <div className="h-full w-[70%] bg-[#1E45E1] rounded-full" />
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

@@ -290,6 +290,8 @@ function Booking() {
     return obj;
   });
 
+  console.log("formattedData", formattedData);
+
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
     "Inv No": "px-4 whitespace-nowrap",
@@ -435,6 +437,7 @@ function Booking() {
       fieldName: PropTypes.string.isRequired,
     }).isRequired,
   };
+
   useEffect(() => {
     let timeout;
 
@@ -509,6 +512,9 @@ function Booking() {
   useEffect(() => {
     setPage(1);
   }, [debouncedInput, selectedBillStatus, selectedMonth?.value, size]);
+
+  console.log("selectedMonth", selectedMonth);
+  console.log("page", page);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
