@@ -518,8 +518,8 @@ function CreditCardPayment({ show, handleClose, bankId }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <div className="relative" ref={paymentDateRef}>
-                <DatePicker
-                  selected={paymentDate}
+                <DatePicker wrapperClassName="w-full"
+                  selected={paymentDate} 
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"

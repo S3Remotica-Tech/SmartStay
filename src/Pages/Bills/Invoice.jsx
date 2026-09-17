@@ -261,24 +261,24 @@ const InvoicePage = () => {
     setSelectedMonth(selectedOption);
   };
 
-  const handleManualShow = () => {
-    if (!state.login.selectedHostel_Id) {
-      toast.error("Please add a hostel before adding bill information.", {
-        hideProgressBar: true,
-        autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
-      });
-      return;
-    }
-    setShowAllBill(false);
+  // const handleManualShow = () => {
+  //   if (!state.login.selectedHostel_Id) {
+  //     toast.error("Please add a hostel before adding bill information.", {
+  //       hideProgressBar: true,
+  //       autoClose: 1500,
+  //       style: {
+  //         color: "#000",
+  //         borderBottom: "5px solid red",
+  //         fontFamily: "Gilroy",
+  //       },
+  //     });
+  //     return;
+  //   }
+  //   setShowAllBill(false);
 
-    navigate("/create-bill");
-    dispatch({ type: "USERROOMAVAILABLEFALSE" });
-  };
+  //   navigate("/create-bill");
+  //   dispatch({ type: "USERROOMAVAILABLEFALSE" });
+  // };
 
   const handleCreateNewInvoice = () => {
     if (!state.login.selectedHostel_Id) {
@@ -329,7 +329,7 @@ const InvoicePage = () => {
   };
 
   const handleEdit = (props) => {
-    navigate("/create-bill", {
+    navigate("/create-invoice", {
       state: {
         billData: props,
       },
@@ -648,7 +648,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (isBillsForm) {
-      navigate("/create-bill");
+      navigate("/create-invoice");
     }
   }, [isBillsForm]);
 
@@ -1114,9 +1114,16 @@ const InvoicePage = () => {
               </div>
 
               <div className="text-center flex items-center">
-                <button
+                {/* <button
                   disabled={!canWriteInvoice}
                   onClick={handleManualShow}
+                  className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
+                >
+                  {DownloadInvoice ? "+ " : "+ Create Invoice"}
+                </button> */}
+                <button
+                  disabled={!canWriteInvoice}
+                  onClick={handleCreateNewInvoice}
                   className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
@@ -1135,13 +1142,6 @@ const InvoicePage = () => {
                         119
                       </span>
                     </button>
-                    <button
-                      disabled={!canWriteInvoice}
-                      onClick={handleCreateNewInvoice}
-                      className="flex justify-center rounded-lg !font-gilroy text-white !bg-[#1E45E1] px-4 py-2 min-w-[95px] mr-2"
-                    >
-                      {DownloadInvoice ? "+ " : "+ Create Invoice New"}
-                    </button>
                   </>
                 )}
               </div>
@@ -1149,9 +1149,9 @@ const InvoicePage = () => {
           </div>
           {!canReadInvoice ? (
             <PermissionDeniedMessage />
-          ) : (                           
+          ) : (
             <>
-            <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy">
+              <div className="w-full my-2 bg-[#F9F9F9] rounded-xl px-4 py-3 flex flex-nowrap items-center justify-between gap-x-6 overflow-x-auto show-scrolls font-gilroy">
                 {stats?.map((item, index) => (
                   <div key={index} className="flex items-center gap-3 shrink-0">
                     {item.highlight && (

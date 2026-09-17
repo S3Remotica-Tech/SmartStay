@@ -80,7 +80,7 @@ function UserListInvoice() {
   }, []);
 
   const handleAddBill = () => {
-    navigate("/create-bill", {
+    navigate("/create-invoice", {
       state: { id: CustomerOverView?.customerId, isDisabledOverview: true },
     });
     dispatch({ type: "USERROOMAVAILABLETRUE" });
@@ -135,7 +135,7 @@ function UserListInvoice() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const handleEdit = (data) => {
-    navigate("/create-bill", {
+    navigate("/create-invoice", {
       state: {
         billData: data,
       },

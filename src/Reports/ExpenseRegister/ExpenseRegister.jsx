@@ -166,6 +166,22 @@ function ExpenseRegister() {
       value: state?.reports?.getExpenseRegister?.summary?.totalAmount,
       isCurrency: true,
     },
+    {
+      title: "Paid",
+      value: state?.reports?.getExpenseRegister?.summary?.totalPaidAmount,
+      isCurrency: true,
+    },
+    {
+      title: "Unpaid",
+      value: state?.reports?.getExpenseRegister?.summary?.totalUnPaidAmount,
+      isCurrency: true,
+    },
+    {
+      title: "Partially paid",
+      value:
+        state?.reports?.getExpenseRegister?.summary?.totalPartialPaidAmount,
+      isCurrency: true,
+    },
   ];
 
   const handleNavigateReports = () => {
@@ -374,7 +390,6 @@ function ExpenseRegister() {
   const endDate = selectedRange?.to
     ? dayjs(selectedRange.to).format("DD-MM-YYYY")
     : undefined;
-
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
