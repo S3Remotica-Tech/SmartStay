@@ -81,7 +81,8 @@ function ExpenseRegister() {
         startDate: undefined,
         endDate: undefined,
         category: [],
-        period: undefined,
+        period: [],
+        periodLabel: [],
         paymentMode: [],
         paidTo: [],
         createdBy: [],
@@ -192,7 +193,8 @@ function ExpenseRegister() {
         startDate: undefined,
         endDate: undefined,
         category: [],
-        period: undefined,
+        period: [],
+        periodLabel: [],
         paymentMode: [],
         paidTo: [],
         createdBy: [],
@@ -283,7 +285,8 @@ function ExpenseRegister() {
           startDate: undefined,
           endDate: undefined,
           category: [],
-          period: undefined,
+          period: [],
+          periodLabel: [],
           paymentMode: [],
           paidTo: [],
           createdBy: [],
@@ -355,7 +358,8 @@ function ExpenseRegister() {
           startDate: undefined,
           endDate: undefined,
           category: [],
-          period: undefined,
+          period: [],
+          periodLabel: [],
           paymentMode: [],
           paidTo: [],
           createdBy: [],
@@ -458,7 +462,8 @@ function ExpenseRegister() {
         startDate: undefined,
         endDate: undefined,
         category: [],
-        period: undefined,
+        period: [],
+        periodLabel: [],
         paymentMode: [],
         paidTo: [],
         createdBy: [],
@@ -489,6 +494,7 @@ function ExpenseRegister() {
 
   useEffect(() => {
     const invoiceFilters = state.reports.expenseRegisterFilters;
+    console.log("invoiceFilters", invoiceFilters);
     const filterData = [];
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
@@ -535,7 +541,7 @@ function ExpenseRegister() {
         key: "period",
         label: "Period  is",
         type: "period",
-        value: invoiceFilters?.period,
+        value: invoiceFilters?.periodLabel,
       });
     }
     if (invoiceFilters?.vendorName) {

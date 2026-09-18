@@ -219,23 +219,23 @@ function Receipt() {
     state.InvoiceList.ReceiptEditsuccessStatuscode,
   ]);
 
-  useEffect(() => {
-    return () => {
-      dispatch({
-        type: "SET_INVOICE_FILTERS",
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
-          type: [],
-          createdBy: [],
-          createdByLabels: [],
-          modes: [],
-          paymentStatus: [],
-          search: "",
-        },
-      });
-    };
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({
+  //       type: "SET_INVOICE_FILTERS",
+  //       payload: {
+  //         startDate: undefined,
+  //         endDate: undefined,
+  //         type: [],
+  //         createdBy: [],
+  //         createdByLabels: [],
+  //         modes: [],
+  //         paymentStatus: [],
+  //         paymentStatusLabel: "",
+  //       },
+  //     });
+  //   };
+  // }, [state.login.selectedHostel_Id]);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(window.innerWidth >= 1440 ? 20 : 10);

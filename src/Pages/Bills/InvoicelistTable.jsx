@@ -558,14 +558,18 @@ const InvoiceTable = (props) => {
                   }}
                 >
                   {props.item.canEdit && (
-                    <div
+                    <button
+                      type="button"
                       onClick={() => canUpdateInvoice && handleEdit(props)}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-t-[10px] border-b border-[#EBEBEB]
-      ${
-        canUpdateInvoice
-          ? "cursor-pointer hover:bg-[#EDF2FF]"
-          : "cursor-not-allowed opacity-50"
-      }`}
+                      // disabled={!canUpdateInvoice}
+                      disabled
+                      className={`w-full disabled:bg-gray-200 disabled:opacity-70  disabled:cursor-not-allowed
+                        flex items-center gap-2 px-3 py-2 rounded-t-[10px] border-b border-[#EBEBEB]
+    ${
+      canUpdateInvoice
+        ? "cursor-pointer hover:bg-[#EDF2FF]"
+        : "cursor-not-allowed opacity-50"
+    }`}
                     >
                       <Edit
                         size="16"
@@ -573,10 +577,10 @@ const InvoiceTable = (props) => {
                         variant="Linear"
                       />
 
-                      <span className="text-sm font-medium text-[#222]">
+                      <span className="text-sm font-medium text-[#222] disabled:text-[#A9A9A9] ">
                         Edit
                       </span>
-                    </div>
+                    </button>
                   )}
 
                   {props.item.canRedeem ? (

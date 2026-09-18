@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
+function TenantsFilter({ show, handleClose, startDate, endDate, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] =
@@ -282,7 +282,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
       room: room?.map((r) => r.value),
       search: tenantName,
       size: size,
-      page: page,
+      page: 1,
       startDate: period?.value ? undefined : startDate,
       endDate: period?.value ? undefined : endDate,
       sharingType: sharingType?.value,
@@ -294,6 +294,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size, page }) {
         startDate: period?.value ? undefined : startDate,
         endDate: period?.value ? undefined : endDate,
         period: period?.value || null,
+        periodLabel: period?.label || null,
         floor: floor?.map((f) => f.label),
         floorId: floor?.map((f) => f.value),
         room: room?.map((r) => r.label),

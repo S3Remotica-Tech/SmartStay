@@ -72,7 +72,10 @@ const InvoicePage = () => {
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
-  const [statusfilter, setStatusfilter] = useState("ALL");
+  const [statusfilter, setStatusFilter] = useState({
+    value: "ALL",
+    label: "All",
+  });
 
   const [selectedUserId, setSelectedUserId] = useState("");
   const [customername, setCustomerName] = useState("");
@@ -321,11 +324,11 @@ const InvoicePage = () => {
       type: "SET_INVOICE_FILTERS",
       payload: {
         ...invoiceFilters,
-        paymentStatus: selectedOption ? [selectedOption.value] : [],
+        paymentStatusLabel: selectedOption ? [selectedOption.label] : [],
       },
     });
 
-    setStatusfilter(selectedOption?.value || "");
+    setStatusFilter(selectedOption || "");
   };
 
   const handleEdit = (props) => {
@@ -409,7 +412,7 @@ const InvoicePage = () => {
 
   const handleDisplayInvoiceDownload = (isVisible) => {
     setDownloadInvoice(isVisible);
-    setStatusfilter("");
+    setStatusFilter("");
     // setSearch("");
     // setSelectedInvoiceId(rowData.invoiceId);
   };
@@ -431,10 +434,13 @@ const InvoicePage = () => {
         startDate: undefined,
         endDate: undefined,
         type: [],
+        typeLabel: [],
         createdBy: [],
         createdByLabels: [],
         modes: [],
+        modesLabel: [],
         paymentStatus: [],
+        paymentStatusLabel: "",
         search: "",
       },
     });
@@ -449,7 +455,10 @@ const InvoicePage = () => {
         },
       },
     });
-    setStatusfilter("ALL");
+    setStatusFilter({
+      value: "ALL",
+      label: "All",
+    });
     setFilterInput("");
   };
 
@@ -920,16 +929,26 @@ const InvoicePage = () => {
       startDate: previousFilters.startDate,
       endDate: previousFilters.endDate,
       type: previousFilters.type,
+      typeLabel: previousFilters?.typeLabel,
       createdBy: previousFilters.createdBy,
       createdByLabels: previousFilters.createdByLabels,
       modes: previousFilters.modes,
-      paymentStatus: statusfilter
-        ? statusfilter === "ALL"
+      modesLabel: previousFilters.modesLabel,
+      paymentStatus: statusfilter?.value
+        ? statusfilter?.value === "ALL"
           ? ""
-          : [statusfilter]
+          : [statusfilter?.value]
         : previousFilters?.paymentStatus?.includes("ALL")
           ? ""
           : previousFilters?.paymentStatus || [],
+
+      paymentStatusLabel: statusfilter?.label
+        ? statusfilter?.label === "ALL"
+          ? ""
+          : [statusfilter?.label]
+        : previousFilters?.paymentStatusLabel?.includes("ALL")
+          ? ""
+          : previousFilters?.paymentStatusLabel || [],
       search: debouncedInput?.trim()
         ? debouncedInput.trim()
         : previousFilters.search,
@@ -952,7 +971,7 @@ const InvoicePage = () => {
     setLoading(true);
   }, [
     debouncedInput,
-    statusfilter,
+    statusfilter?.value,
     size,
     page,
     state.login?.selectedHostel_Id,
@@ -975,30 +994,36 @@ const InvoicePage = () => {
   useEffect(() => {
     const filterData = [];
 
-    if (invoiceFilters?.paymentStatus?.length) {
+    if (
+      Array.isArray(invoiceFilters?.paymentStatusLabel) &&
+      invoiceFilters.paymentStatusLabel.length > 0 &&
+      !(
+        invoiceFilters.paymentStatusLabel.length === 1 &&
+        invoiceFilters.paymentStatusLabel[0] === "All"
+      )
+    ) {
       filterData.push({
         key: "payment-status",
         label: "Status is",
         type: "paymentStatus",
-        value: invoiceFilters.paymentStatus.join(", "),
+        value: invoiceFilters.paymentStatusLabel.join(", "),
       });
     }
-
-    if (invoiceFilters?.type?.length) {
+    if (invoiceFilters?.typeLabel?.length) {
       filterData.push({
         key: "type",
         label: "Type is",
         type: "type",
-        value: invoiceFilters.type.join(", "),
+        value: invoiceFilters.typeLabel.join(", "),
       });
     }
 
-    if (invoiceFilters?.modes?.length) {
+    if (invoiceFilters?.modesLabel?.length) {
       filterData.push({
         key: "modes",
         label: "Mode is",
         type: "modes",
-        value: invoiceFilters.modes.join(", "),
+        value: invoiceFilters.modesLabel.join(", "),
       });
     }
 
@@ -1043,10 +1068,13 @@ const InvoicePage = () => {
           startDate: undefined,
           endDate: undefined,
           type: [],
+          typeLabel: [],
           createdBy: [],
           createdByLabels: [],
           modes: [],
+          modesLabel: [],
           paymentStatus: [],
+          paymentStatusLabel: "",
           search: "",
         },
       });
@@ -1172,7 +1200,7 @@ const InvoicePage = () => {
 
                         <div className="relative group w-fit shrink-0">
                           <Filter
-                            onClick={() => setStatusfilter(item.search)}
+                            onClick={() => setStatusFilter(item.search)}
                             size="14"
                             color="#9CA3AF"
                             className="cursor-pointer"
@@ -1208,7 +1236,7 @@ const InvoicePage = () => {
                       onChange={(e) => handleStatusFilter(e)}
                       value={
                         selectOptions.find(
-                          (opt) => opt.value === statusfilter,
+                          (opt) => opt.value === statusfilter?.value,
                         ) || null
                       }
                       id="statusselect"
@@ -1623,10 +1651,13 @@ const InvoicePage = () => {
                               startDate: undefined,
                               endDate: undefined,
                               type: [],
+                              typeLabel: [],
                               createdBy: [],
                               createdByLabels: [],
                               modes: [],
+                              modesLabel: [],
                               paymentStatus: [],
+                              paymentStatusLabel: "",
                               search: "",
                             },
                           });

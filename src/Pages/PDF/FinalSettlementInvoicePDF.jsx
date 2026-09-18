@@ -300,22 +300,21 @@ function FinalSettlementInvoicePDF() {
                   </h3>
 
                   <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
-                    {/* {pdfDetails?.retainerInfo?.retainerItems?.map(
-                    (item, index) => (
-                      <div key={item.invoiceId || index}>
-                        <span className="mb-1 block">
-                          {item.invoiceNo} - ₹ {item.appliedAmount}
-                        </span>
-                      </div>
-                    ),
-                  )} */}
+                    {pdfDetails?.additionalAdvanceItems?.additionalAdvanceItems?.map(
+                      (item, index) => (
+                        <div key={item.invoiceId || index}>
+                          <span className="mb-1 block">
+                            {item.invoiceNumber} - ₹ {item.amount}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </div>
 
                 <p className="text-[13px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
                   <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
-                  {/* ₹ {pdfDetails?.retainerInfo?.totalRetainerAmount || 0} */}{" "}
-                  ₹ 0
+                  ₹ {pdfDetails?.additionalAdvanceItems?.balanceAmount || 0}
                 </p>
               </div>
             </div>

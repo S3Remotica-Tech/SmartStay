@@ -100,8 +100,11 @@ function BillsFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [billStatus, setBillStatus] = useState([]);
+  const [billStatusLabels, setBillStatusLabels] = useState([]);
   const [invoiceType, setInvoiceType] = useState([]);
+  const [invoiceTypeLabels, setInvoiceTypeLabels] = useState([]);
   const [invoiceMode, setInvoiceMode] = useState([]);
+  const [invoiceModeLabel, setInvoiceModeLabel] = useState([]);
   const [createdBy, setCreatedBy] = useState([]);
   const [period, setPeriod] = useState(null);
   const [startDate, setStartDate] = useState("");
@@ -110,6 +113,8 @@ function BillsFilter({ show, handleClose, size }) {
   const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState(
     [],
   );
+
+  console.log("billStatus", billStatus);
   const [dateError, setDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const previousFilters = state.InvoiceList.invoiceFilters || {};
@@ -146,6 +151,42 @@ function BillsFilter({ show, handleClose, size }) {
       value: item.userId,
     })) || [];
 
+  // const handleBillStatusChange = (selectedOptions, actionIs) => {
+  //   const allOption = billStatusOptions.find(
+  //     (option) => option.value === "ALL",
+  //   );
+
+  //   const individualOptions = billStatusOptions.filter(
+  //     (option) => option.value !== "ALL",
+  //   );
+  //   const individualValues = individualOptions.map((option) => option.value);
+  //   if (actionIs.option?.value === "ALL") {
+  //     if (actionIs.action === "select-option") {
+  //       setBillStatus(individualValues);
+  //       setSelectedBillStatusOptions([allOption, ...individualOptions]);
+  //     } else {
+  //       setBillStatus([]);
+  //       setSelectedBillStatusOptions([]);
+  //     }
+  //     return;
+  //   }
+  //   const selectedWithoutAll = (selectedOptions || []).filter(
+  //     (option) => option.value !== "ALL",
+  //   );
+
+  //   const selectedValues = selectedWithoutAll.map((option) => option.value);
+
+  //   const isAllSelected = selectedValues.length === individualOptions.length;
+
+  //   if (isAllSelected) {
+  //     setBillStatus(individualValues);
+  //     setSelectedBillStatusOptions([allOption, ...individualOptions]);
+  //   } else {
+  //     setBillStatus(selectedValues);
+  //     setSelectedBillStatusOptions(selectedWithoutAll);
+  //   }
+  // };
+
   const handleBillStatusChange = (selectedOptions, actionIs) => {
     const allOption = billStatusOptions.find(
       (option) => option.value === "ALL",
@@ -154,36 +195,54 @@ function BillsFilter({ show, handleClose, size }) {
     const individualOptions = billStatusOptions.filter(
       (option) => option.value !== "ALL",
     );
+
     const individualValues = individualOptions.map((option) => option.value);
+
     if (actionIs.option?.value === "ALL") {
       if (actionIs.action === "select-option") {
         setBillStatus(individualValues);
+
         setSelectedBillStatusOptions([allOption, ...individualOptions]);
+
+        setBillStatusLabels(individualOptions.map((option) => option.label));
       } else {
         setBillStatus([]);
         setSelectedBillStatusOptions([]);
+        setBillStatusLabels([]);
       }
+
       return;
     }
+
     const selectedWithoutAll = (selectedOptions || []).filter(
       (option) => option.value !== "ALL",
     );
 
     const selectedValues = selectedWithoutAll.map((option) => option.value);
 
+    const selectedLabels = selectedWithoutAll.map((option) => option.label);
+
     const isAllSelected = selectedValues.length === individualOptions.length;
 
     if (isAllSelected) {
       setBillStatus(individualValues);
+
       setSelectedBillStatusOptions([allOption, ...individualOptions]);
+
+      setBillStatusLabels(individualOptions.map((option) => option.label));
     } else {
       setBillStatus(selectedValues);
       setSelectedBillStatusOptions(selectedWithoutAll);
+      setBillStatusLabels(selectedLabels);
     }
   };
 
   const handleInvoiceTypeChange = (selected) => {
-    setInvoiceType(selected.map((opt) => opt.value));
+    const selectedOptions = selected || [];
+
+    setInvoiceType(selectedOptions.map((opt) => opt.value));
+
+    setInvoiceTypeLabels(selectedOptions.map((opt) => opt.label));
   };
 
   const selectedTypeOptions = typeOptions.filter((opt) =>
@@ -192,6 +251,7 @@ function BillsFilter({ show, handleClose, size }) {
 
   const handleInvoiceModeChange = (selected) => {
     setInvoiceMode(selected.map((opt) => opt.value));
+    setInvoiceModeLabel(selected?.map((opt) => opt.label) || []);
   };
 
   const selectedModeOptions = modeOptions.filter((opt) =>
@@ -263,20 +323,22 @@ function BillsFilter({ show, handleClose, size }) {
       startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
       endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
       type: invoiceType?.length ? invoiceType : undefined,
+      typeLabel: invoiceTypeLabels?.length ? invoiceTypeLabels : undefined,
       createdBy: createdBy?.length ? createdBy.map((c) => c.value) : undefined,
       createdByLabels: createdBy?.length
         ? createdBy.map((c) => c.label)
         : undefined,
       modes: invoiceMode?.length ? invoiceMode : undefined,
+      modesLabel: invoiceModeLabel?.length ? invoiceModeLabel : undefined,
       paymentStatus:
         billStatus?.length && !billStatus.includes("ALL")
           ? billStatus
           : undefined,
+      paymentStatusLabel: billStatusLabels,
       search: tenantName?.trim() ? tenantName : undefined,
       size,
       page: 1,
     };
-
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: filters,

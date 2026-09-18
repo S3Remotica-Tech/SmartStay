@@ -22,23 +22,34 @@ export const initialState = {
   invoiceRegisterFilters: {
     startDate: undefined,
     endDate: undefined,
+
     invoiceTypes: [],
+    invoiceTypeLabels: [],
+
     createdBy: [],
     createdByLabels: [],
+
     invoiceModes: [],
+    invoiceModeLabels: [],
+
     paymentStatus: [],
+    paymentStatusLabels: [],
+
     search: "",
     minPaidAmount: "",
     maxPaidAmount: "",
     minOutstandingAmount: "",
     maxOutstandingAmount: "",
+
     period: [],
+    periodLabel: "",
   },
   expenseRegisterFilters: {
     startDate: undefined,
     endDate: undefined,
     category: [],
     period: [],
+    periodLabel: [],
     paymentMode: [],
     paidTo: [],
     createdBy: [],
@@ -55,15 +66,19 @@ export const initialState = {
     startDate: undefined,
     endDate: undefined,
     invoiceType: [],
+    invoiceTypeLabels: [],
     collectedBy: [],
     createdByLabels: [],
     period: [],
+    periodLabel: "",
     paymentMode: [],
+    paymentModeLabels: [],
   },
   tenantRegisterFilters: {
     startDate: undefined,
     endDate: undefined,
     period: [],
+    periodLabel: "",
     search: "",
     tenantStatus: [],
     floor: [],

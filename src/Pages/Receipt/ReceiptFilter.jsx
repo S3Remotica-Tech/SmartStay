@@ -157,11 +157,11 @@ function ReceiptFilter({ show, handleClose, size }) {
     "focus:border-[#1E45E1] focus:outline-none focus:ring-1 focus:ring-[#1E45E1]";
 
   const handleInvoiceTypeChange = (selected) => {
-    setSelectedInvoiceType(selected?.value || "");
+    setSelectedInvoiceType(selected || "");
   };
 
   const selectedTypeOption =
-    typeOptions.find((opt) => opt.value === selectedInvoiceType) || null;
+    typeOptions.find((opt) => opt.value === selectedInvoiceType?.value) || null;
 
   const handlePaymentModeChange = (selected) => {
     setSelectedPaymentMode(selected.map((opt) => opt.value));
@@ -242,7 +242,7 @@ function ReceiptFilter({ show, handleClose, size }) {
     const filterPayload = {
       startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
       endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
-      invoiceType: selectedInvoiceType,
+      invoiceType: selectedInvoiceType?.value,
       paymentMode: selectedPaymentMode,
       collectedBy: selectedCollectedBy,
       period: selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.value,
@@ -261,7 +261,7 @@ function ReceiptFilter({ show, handleClose, size }) {
       hostelId: state.login.selectedHostel_Id,
       page: 1,
       size,
-      invoiceType: selectedInvoiceType || "",
+      invoiceType: selectedInvoiceType?.value || "",
       paymentMode: selectedPaymentMode,
       collectedBy: selectedCollectedBy,
       period: selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.value,
@@ -275,12 +275,12 @@ function ReceiptFilter({ show, handleClose, size }) {
     dispatch({
       type: "SET_RECEIPT_FILTERS",
       payload: {
-        type: selectedInvoiceType || "",
+        type: selectedInvoiceType?.label || "",
         modes: selectedPaymentMode,
         collectedBy: selectedCollectedBy,
         collectedBYLabels: selectedCollectedBylabels,
         period:
-          selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.value,
+          selectedPeriod?.value === "CUSTOM" ? " " : selectedPeriod?.label,
         minAmount,
         maxAmount,
         paymentLabels: selectedPaymentLabel,
@@ -314,6 +314,38 @@ function ReceiptFilter({ show, handleClose, size }) {
     }
   }, [state.InvoiceList.getReceiptSucessStatus]);
 
+  useEffect(() => {
+    if (!show) return;
+
+    const filters = state.InvoiceList?.receiptFilters;
+
+    if (!filters) return;
+
+    const selectedType =
+      typeOptions.find((option) => option.label === filters.type) || null;
+
+    setSelectedInvoiceType(selectedType);
+
+    const selectedPeriod =
+      periodOptions.find((option) => option.label === filters.period) || null;
+
+    setSelectedPeriod(selectedPeriod);
+
+    setSelectedPaymentMode(filters.modes || []);
+
+    const selectedPaymentModes = paymentModeOptions.filter((option) =>
+      filters.modes?.includes(option.value),
+    );
+
+    setSelectedPaymentLabel(selectedPaymentModes.map((option) => option.label));
+
+    setSelectedCollectedBy(filters.collectedBy || []);
+    setSelectedCollectedBylabels(filters.collectedBYLabels || []);
+
+    setMinAmount(filters.minAmount || "");
+    setMaxAmount(filters.maxAmount || "");
+  }, [show, state.InvoiceList?.receiptFilters]);
+
   if (!show) return null;
 
   return (
@@ -338,15 +370,7 @@ function ReceiptFilter({ show, handleClose, size }) {
 
         <div className="flex-1 overflow-y-auto px-4 py-4">
           <div className="">
-            <div className="mb-3">
-              <label
-                style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}
-              >
-                System Filter
-              </label>
-            </div>
-
-            <div className="mb-4">
+            <div className="mb-2">
               <label className="mb-2 block text-xs font-medium text-gray-500">
                 Invoice Type
               </label>

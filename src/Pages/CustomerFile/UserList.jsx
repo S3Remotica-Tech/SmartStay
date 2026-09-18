@@ -117,7 +117,11 @@ function UserList(props) {
   const isCheckoutWay = location.state?.isCheckoutWay || false;
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
   const [debouncedInput, setDebouncedInput] = useState(filterInput);
-  const [statusfilter, setStatusFilter] = useState("ALL");
+  const [statusfilter, setStatusFilter] = useState({
+    value: "ALL",
+    label: "All",
+  });
+
   const [userListDetail, setUserListDetail] = useState([]);
 
   const [search, setSearch] = useState(false);
@@ -137,7 +141,7 @@ function UserList(props) {
   };
 
   const handleStatusFilter = (selected) => {
-    setStatusFilter(selected?.value || "");
+    setStatusFilter(selected || "");
   };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
@@ -240,15 +244,24 @@ function UserList(props) {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedInput, statusfilter, selectedMonth?.value, size]);
+  }, [debouncedInput, statusfilter?.value, selectedMonth?.value, size]);
 
   useEffect(() => {
     const tenantFilters = state.UsersList?.tenantFilters;
 
-    const statusValue1 = statusfilter === "ALL" ? "" : statusfilter;
-    const statusValue2 = tenantFilters?.status?.includes("ALL")
-      ? ""
-      : tenantFilters?.status || [];
+    const isStatusSelected = Boolean(statusfilter?.value);
+
+    const statusValue = isStatusSelected
+      ? statusfilter.value === "ALL"
+        ? ""
+        : statusfilter.value
+      : tenantFilters?.status || "";
+
+    const statusLabel = isStatusSelected
+      ? statusfilter.value === "ALL"
+        ? ""
+        : statusfilter.label
+      : tenantFilters?.tenantStatusLabel || "";
 
     if (state.login.selectedHostel_Id && value === "1") {
       dispatch({
@@ -256,7 +269,7 @@ function UserList(props) {
         payload: {
           hostel_id: state.login.selectedHostel_Id,
           name: debouncedInput || tenantFilters?.search,
-          type: statusValue1 || statusValue2,
+          type: statusValue,
           page: page,
           size: size,
           period: selectedMonth?.value || tenantFilters?.period,
@@ -270,8 +283,8 @@ function UserList(props) {
 
     const filters = {
       search: debouncedInput || tenantFilters?.search,
-      status: statusValue1 || statusValue2,
-      tenantStatusLabel: statusValue1 || statusValue2,
+      status: statusValue,
+      tenantStatusLabel: statusLabel,
       period: selectedMonth?.value || tenantFilters?.period,
       periodLabel: selectedMonth?.label || tenantFilters?.periodLabel,
       sharingType: tenantFilters?.sharingType,
@@ -1271,7 +1284,10 @@ function UserList(props) {
         size: size,
       },
     });
-    setStatusFilter("ALL");
+    setStatusFilter({
+      value: "ALL",
+      label: "All",
+    });
     setChips([]);
     setSelectedMonth("");
     setFilterInput("");
@@ -1478,7 +1494,12 @@ function UserList(props) {
                             {item.label !== "Total" && (
                               <div className="relative group shrink-0">
                                 <Filter
-                                  onClick={() => setStatusFilter(item.search)}
+                                  onClick={() =>
+                                    setStatusFilter({
+                                      value: item.search,
+                                      label: item.label,
+                                    })
+                                  }
                                   size="14"
                                   color="#9CA3AF"
                                   className="cursor-pointer"
@@ -1509,7 +1530,7 @@ function UserList(props) {
                     <div className="flex flex-wrap items-center gap-3">
                       <div
                         className={`border border-gray-300 rounded-lg w-36 ${
-                          statusfilter
+                          statusfilter?.value
                             ? "bg-gray-100 text-gray-700"
                             : "bg-white"
                         }`}
@@ -1523,7 +1544,7 @@ function UserList(props) {
                           onChange={(e) => handleStatusFilter(e)}
                           value={
                             selectOptions.find(
-                              (opt) => opt.value === statusfilter,
+                              (opt) => opt.value === statusfilter.value,
                             ) || null
                           }
                           id="statusselect"

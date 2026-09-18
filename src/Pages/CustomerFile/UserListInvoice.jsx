@@ -517,8 +517,9 @@ function UserListInvoice() {
                                               canUpdateInvoice &&
                                               handleEdit(view)
                                             }
-                                            disabled={!canUpdateInvoice}
-                                            className={`flex items-center gap-2 px-3 py-2 
+                                            disabled
+                                            // disabled={!canUpdateInvoice}
+                                            className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
       ${
         canUpdateInvoice
           ? "cursor-pointer hover:bg-[#EDF2FF]"

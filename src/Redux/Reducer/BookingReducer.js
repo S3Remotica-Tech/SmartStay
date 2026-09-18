@@ -32,7 +32,9 @@ export const initialState = {
   toNavigateRetainerTap: "",
   bookingFilters: {
     period: "",
+    periodLabel: "",
     status: "",
+    statusLabel: "",
     paymentMode: "",
     name: "",
     floor: "",

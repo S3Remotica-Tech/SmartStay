@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
+function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -22,6 +22,12 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
     [],
   );
   const [formLoading, setFormLoading] = useState(false);
+  const [selectedInvoiceTypeLabels, setSelectedInvoiceTypeLabels] = useState(
+    [],
+  );
+  const [selectedPaymentModeLabels, setSelectedPaymentModeLabels] = useState(
+    [],
+  );
 
   const selectStyles = {
     control: (base) => ({
@@ -153,6 +159,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
 
   const handleInvoiceTypeChange = (selected) => {
     setSelectedInvoiceType(selected.map((opt) => opt.value));
+    setSelectedInvoiceTypeLabels(selected?.map((opt) => opt.label) || []);
   };
 
   const selectedTypeOptions = typeOptions.filter((opt) =>
@@ -161,6 +168,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
 
   const handlePaymentModeChange = (selected) => {
     setSelectedPaymentMode(selected.map((opt) => opt.value));
+    setSelectedPaymentModeLabels(selected?.map((opt) => opt.label) || []);
   };
 
   const selectedPaymentModeOptions = paymentModeOptions.filter((opt) =>
@@ -229,20 +237,35 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
         ? selectedInvoiceType
         : undefined,
 
+      invoiceTypeLabels: selectedInvoiceTypeLabels?.length
+        ? selectedInvoiceTypeLabels
+        : undefined,
+
       paymentMode: selectedPaymentMode?.length
         ? selectedPaymentMode
         : undefined,
+
+      paymentModeLabels: selectedPaymentModeLabels?.length
+        ? selectedPaymentModeLabels
+        : undefined,
+
+      period: selectedPeriod?.value ? selectedPeriod.value : "",
+
+      periodLabel: selectedPeriod?.label ? selectedPeriod.label : "",
 
       collectedBy: selectedCollectedBy?.length
         ? selectedCollectedBy
         : undefined,
 
-      period: selectedPeriod?.value ? selectedPeriod.value : "",
-      createdByLabels: selectedCollectedBylabels,
+      createdByLabels: selectedCollectedBylabels?.length
+        ? selectedCollectedBylabels
+        : undefined,
 
-      page: page,
+      page: 1,
       size: size,
+
       startDate: selectedPeriod?.value ? undefined : startDate,
+
       endDate: selectedPeriod?.value ? undefined : endDate,
     };
 

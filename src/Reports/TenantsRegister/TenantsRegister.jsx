@@ -137,6 +137,7 @@ function TenantsRegister() {
         startDate: undefined,
         endDate: undefined,
         period: [],
+        periodLabel: "",
         search: "",
         tenantStatus: [],
         floor: [],
@@ -170,6 +171,7 @@ function TenantsRegister() {
         startDate: undefined,
         endDate: undefined,
         period: [],
+        periodLabel: "",
         search: "",
         tenantStatus: [],
         floor: [],
@@ -308,6 +310,7 @@ function TenantsRegister() {
           startDate: undefined,
           endDate: undefined,
           period: [],
+          periodLabel: "",
           search: "",
           tenantStatus: [],
           floor: [],
@@ -421,7 +424,7 @@ function TenantsRegister() {
         key: "period",
         label: "Period",
         type: "single",
-        value: filters.period,
+        value: filters.periodLabel,
       });
     }
     if (filters?.sharingTypeLabel?.length) {
@@ -516,6 +519,7 @@ function TenantsRegister() {
         startDate: undefined,
         endDate: undefined,
         period: [],
+        periodLabel: "",
         search: "",
         tenantStatus: [],
         floor: [],
