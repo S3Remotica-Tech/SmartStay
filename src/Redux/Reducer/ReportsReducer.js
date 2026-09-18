@@ -78,6 +78,7 @@ export const initialState = {
     startDate: undefined,
     endDate: undefined,
     period: [],
+    periodLabel: "",
     search: "",
     tenantStatus: [],
     floor: [],

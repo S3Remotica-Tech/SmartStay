@@ -434,13 +434,14 @@ const InvoicePage = () => {
         startDate: undefined,
         endDate: undefined,
         type: [],
+        typeLabel: [],
         createdBy: [],
         createdByLabels: [],
         modes: [],
         modesLabel: [],
         paymentStatus: [],
         paymentStatusLabel: "",
-        typeLabel: [],
+        search: "",
       },
     });
 
@@ -1067,13 +1068,14 @@ const InvoicePage = () => {
           startDate: undefined,
           endDate: undefined,
           type: [],
+          typeLabel: [],
           createdBy: [],
           createdByLabels: [],
           modes: [],
           modesLabel: [],
           paymentStatus: [],
           paymentStatusLabel: "",
-          typeLabel: [],
+          search: "",
         },
       });
     };
@@ -1656,7 +1658,7 @@ const InvoicePage = () => {
                               modesLabel: [],
                               paymentStatus: [],
                               paymentStatusLabel: "",
-                              typeLabel: [],
+                              search: "",
                             },
                           });
                           dispatch({

@@ -294,6 +294,7 @@ function TenantsFilter({ show, handleClose, startDate, endDate, size }) {
         startDate: period?.value ? undefined : startDate,
         endDate: period?.value ? undefined : endDate,
         period: period?.value || null,
+        periodLabel: period?.label || null,
         floor: floor?.map((f) => f.label),
         floorId: floor?.map((f) => f.value),
         room: room?.map((r) => r.label),

@@ -183,6 +183,10 @@ const InvoiceCard = ({ rowData }) => {
   }, [state.InvoiceList?.sharePdfError]);
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
+  const mappingTableData =
+    pdfDetails.invoiceInfo?.amountSettled?.redeemdList ||
+    pdfDetails.invoiceInfo?.retainerApplied?.redeemdList ||
+    [];
 
   // const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
   const isRedeemAvailable = pdfDetails?.invoiceInfo?.canRedeem;
@@ -1118,25 +1122,22 @@ const InvoiceCard = ({ rowData }) => {
                     </thead>
 
                     <tbody>
-                      {pdfDetails.invoiceInfo?.redemptionInfo?.redeemdList
-                        ?.length > 0 ? (
-                        pdfDetails.invoiceInfo?.redemptionInfo?.redeemdList?.map(
-                          (item, index) => (
-                            <tr key={index} className="border-t">
-                              <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                                {item.redeemedOn || "-"}
-                              </td>
+                      {mappingTableData?.length > 0 ? (
+                        mappingTableData?.map((item, index) => (
+                          <tr key={index} className="border-t">
+                            <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                              {item.redeemedOn || "-"}
+                            </td>
 
-                              <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                                {item.invoiceNo || "-"}
-                              </td>
+                            <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                              {item.invoiceNo || "-"}
+                            </td>
 
-                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                                {item.amount}
-                              </td>
-                            </tr>
-                          ),
-                        )
+                            <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                              {item.amount}
+                            </td>
+                          </tr>
+                        ))
                       ) : (
                         <tr>
                           <td
