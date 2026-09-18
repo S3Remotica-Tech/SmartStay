@@ -139,10 +139,13 @@ function ReceiptRegister() {
         startDate: undefined,
         endDate: undefined,
         invoiceType: [],
+        invoiceTypeLabels: [],
         collectedBy: [],
-        period: [],
-        paymentMode: [],
         createdByLabels: [],
+        period: [],
+        periodLabel: "",
+        paymentMode: [],
+        paymentModeLabels: [],
       },
     });
   };
@@ -184,10 +187,13 @@ function ReceiptRegister() {
         startDate: undefined,
         endDate: undefined,
         invoiceType: [],
+        invoiceTypeLabels: [],
         collectedBy: [],
-        period: [],
-        paymentMode: [],
         createdByLabels: [],
+        period: [],
+        periodLabel: "",
+        paymentMode: [],
+        paymentModeLabels: [],
       },
     });
   };
@@ -198,6 +204,7 @@ function ReceiptRegister() {
 
   const handleCloseFilterBills = () => {
     setInvoiceFilter(false);
+    // setPage(1);
   };
 
   const stats = [
@@ -246,10 +253,13 @@ function ReceiptRegister() {
         startDate: undefined,
         endDate: undefined,
         invoiceType: [],
+        invoiceTypeLabels: [],
         collectedBy: [],
-        period: [],
-        paymentMode: [],
         createdByLabels: [],
+        period: [],
+        periodLabel: "",
+        paymentMode: [],
+        paymentModeLabels: [],
       },
     });
     dispatch({
@@ -265,59 +275,61 @@ function ReceiptRegister() {
   };
 
   useEffect(() => {
-    const invoiceFilters = state.reports?.receiptRegisterFilters;
+    const receiptFilters = state.reports?.receiptRegisterFilters;
     const filterData = [];
 
-    if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+    console.log("receiptFilters", receiptFilters);
+
+    if (receiptFilters?.startDate || receiptFilters?.endDate) {
       filterData.push({
         key: "date-range",
         label: "Date Range is",
         type: "date",
         value:
-          invoiceFilters.startDate && invoiceFilters.endDate
-            ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-            : invoiceFilters.startDate || invoiceFilters.endDate,
+          receiptFilters.startDate && receiptFilters.endDate
+            ? `${receiptFilters.startDate} - ${receiptFilters.endDate}`
+            : receiptFilters.startDate || receiptFilters.endDate,
       });
     }
 
-    if (invoiceFilters?.invoiceType?.length) {
+    if (receiptFilters?.invoiceType?.length) {
       filterData.push({
         key: "type",
         label: "Type is",
         type: "type",
-        value: invoiceFilters.invoiceType.join(", "),
+        value: receiptFilters.invoiceTypeLabels?.join(", ") || "",
       });
     }
 
-    if (invoiceFilters?.createdByLabels?.length) {
+    if (receiptFilters?.createdByLabels?.length) {
       filterData.push({
         key: "collected",
-        label: "Collected By  is",
+        label: "Collected By is",
         type: "collected",
-        value: invoiceFilters.createdByLabels.join(", "),
+        value: receiptFilters.createdByLabels?.join(", ") || "",
       });
     }
 
-    if (invoiceFilters?.period?.length) {
+    if (receiptFilters?.periodLabel) {
       filterData.push({
         key: "period",
-        label: "Period  is",
+        label: "Period is",
         type: "period",
-        value: invoiceFilters?.period,
+        value: receiptFilters.periodLabel || receiptFilters.period,
       });
     }
 
-    if (invoiceFilters?.paymentMode?.length) {
+    if (receiptFilters?.paymentMode?.length) {
       filterData.push({
         key: "payment",
-        label: "PaymentMode  is",
+        label: "Payment Mode is",
         type: "payment",
-        value: invoiceFilters.paymentMode.join(", "),
+        value: receiptFilters.paymentModeLabels?.join(", ") || "",
       });
     }
 
     setChips(filterData);
-  }, [state.reports.receiptRegisterFilters]);
+  }, [state.reports?.receiptRegisterFilters]);
 
   useEffect(() => {
     if (!apiStart || !apiEnd || !isInitialLoad.current) return;
@@ -390,7 +402,7 @@ function ReceiptRegister() {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
       endDate: to ? dayjs(to).format("DD-MM-YYYY") : undefined,
       size: size,
-      page: 1,
+      page: page,
       invoiceType: receiptFilters?.invoiceType,
       paymentMode: receiptFilters?.paymentMode,
       collectedBy: receiptFilters?.collectedBy,
@@ -419,10 +431,13 @@ function ReceiptRegister() {
           startDate: undefined,
           endDate: undefined,
           invoiceType: [],
+          invoiceTypeLabels: [],
           collectedBy: [],
-          period: [],
-          paymentMode: [],
           createdByLabels: [],
+          period: [],
+          periodLabel: "",
+          paymentMode: [],
+          paymentModeLabels: [],
         },
       });
 
@@ -475,6 +490,7 @@ function ReceiptRegister() {
 
   const handlePageChange = (page) => {
     setPage(page);
+    console.log("pageeee", page);
   };
 
   const handleSizeChange = (sizeValue) => {
