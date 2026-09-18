@@ -437,6 +437,7 @@ const InvoicePage = () => {
         createdBy: [],
         createdByLabels: [],
         modes: [],
+        modesLabel: [],
         paymentStatus: [],
         paymentStatusLabel: "",
         typeLabel: [],
@@ -931,6 +932,7 @@ const InvoicePage = () => {
       createdBy: previousFilters.createdBy,
       createdByLabels: previousFilters.createdByLabels,
       modes: previousFilters.modes,
+      modesLabel: previousFilters.modesLabel,
       paymentStatus: statusfilter?.value
         ? statusfilter?.value === "ALL"
           ? ""
@@ -1015,12 +1017,12 @@ const InvoicePage = () => {
       });
     }
 
-    if (invoiceFilters?.modes?.length) {
+    if (invoiceFilters?.modesLabel?.length) {
       filterData.push({
         key: "modes",
         label: "Mode is",
         type: "modes",
-        value: invoiceFilters.modes.join(", "),
+        value: invoiceFilters.modesLabel.join(", "),
       });
     }
 
@@ -1068,6 +1070,7 @@ const InvoicePage = () => {
           createdBy: [],
           createdByLabels: [],
           modes: [],
+          modesLabel: [],
           paymentStatus: [],
           paymentStatusLabel: "",
           typeLabel: [],
@@ -1650,6 +1653,7 @@ const InvoicePage = () => {
                               createdBy: [],
                               createdByLabels: [],
                               modes: [],
+                              modesLabel: [],
                               paymentStatus: [],
                               paymentStatusLabel: "",
                               typeLabel: [],

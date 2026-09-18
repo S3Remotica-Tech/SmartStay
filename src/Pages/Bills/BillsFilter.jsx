@@ -104,6 +104,7 @@ function BillsFilter({ show, handleClose, size }) {
   const [invoiceType, setInvoiceType] = useState([]);
   const [invoiceTypeLabels, setInvoiceTypeLabels] = useState([]);
   const [invoiceMode, setInvoiceMode] = useState([]);
+  const [invoiceModeLabel, setInvoiceModeLabel] = useState([]);
   const [createdBy, setCreatedBy] = useState([]);
   const [period, setPeriod] = useState(null);
   const [startDate, setStartDate] = useState("");
@@ -250,6 +251,7 @@ function BillsFilter({ show, handleClose, size }) {
 
   const handleInvoiceModeChange = (selected) => {
     setInvoiceMode(selected.map((opt) => opt.value));
+    setInvoiceModeLabel(selected?.map((opt) => opt.label) || []);
   };
 
   const selectedModeOptions = modeOptions.filter((opt) =>
@@ -327,6 +329,7 @@ function BillsFilter({ show, handleClose, size }) {
         ? createdBy.map((c) => c.label)
         : undefined,
       modes: invoiceMode?.length ? invoiceMode : undefined,
+      modesLabel: invoiceModeLabel?.length ? invoiceModeLabel : undefined,
       paymentStatus:
         billStatus?.length && !billStatus.includes("ALL")
           ? billStatus
@@ -336,7 +339,6 @@ function BillsFilter({ show, handleClose, size }) {
       size,
       page: 1,
     };
-    console.log("filters", filters);
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: filters,
