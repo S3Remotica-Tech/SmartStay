@@ -141,7 +141,13 @@ function ReceiptNew() {
   }, [state.UsersList?.accessRestrictionError]);
 
   useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, receiptType]);
+
+  useEffect(() => {
     if (state.login.selectedHostel_Id) {
+      const receiptFilters = state.InvoiceList?.receiptFilters;
+
       setReceiptLoader(true);
       dispatch({
         type: "CUSTOMIZE_RECEIPTS_LIST_SAGA",
@@ -149,10 +155,10 @@ function ReceiptNew() {
           hostelId: state.login.selectedHostel_Id,
           keyword: debouncedSearch,
           size: size,
-          page: debouncedSearch || receiptType ? 1 : page,
+          page: page,
           period: "",
           bankIds: [],
-          invoiceType: receiptType,
+          invoiceType: receiptType?.value,
           collectedBy: [],
           minAmount: "",
           maxAmount: "",
@@ -162,7 +168,14 @@ function ReceiptNew() {
         type: "SET_RECEIPT_FILTERS",
         payload: {
           search: debouncedSearch,
-          type: receiptType,
+          type: receiptType?.label || "",
+          modes: receiptFilters?.modes,
+          collectedBy: receiptFilters?.collectedBy,
+          collectedBYLabels: receiptFilters?.collectedBYLabels,
+          period: receiptFilters?.period,
+          minAmount: receiptFilters?.minAmount,
+          maxAmount: receiptFilters?.maxAmount,
+          paymentLabels: receiptFilters?.paymentLabels,
         },
       });
     }
@@ -224,6 +237,7 @@ function ReceiptNew() {
 
   useEffect(() => {
     const receiptFilters = state.InvoiceList?.receiptFilters;
+    console.log("receiptFilters", receiptFilters);
 
     const filterData = [];
 
@@ -724,7 +738,9 @@ function ReceiptNew() {
                 <div className="flex flex-wrap items-center gap-3">
                   <div
                     className={`border border-gray-300 rounded-lg w-36 ${
-                      receiptType ? "bg-gray-100 text-gray-700" : "bg-white"
+                      receiptType?.value
+                        ? "bg-gray-100 text-gray-700"
+                        : "bg-white"
                     }`}
                   >
                     <Select
@@ -736,11 +752,11 @@ function ReceiptNew() {
                       options={typeOptions}
                       value={
                         typeOptions.find(
-                          (option) => option.value === receiptType,
+                          (option) => option.value === receiptType?.value,
                         ) || null
                       }
                       placeholder="Select  Type"
-                      onChange={(option) => setReceiptType(option?.value || "")}
+                      onChange={(option) => setReceiptType(option || "")}
                     />
                   </div>
 

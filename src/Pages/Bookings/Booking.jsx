@@ -106,7 +106,7 @@ function Booking() {
 
   const paymentStatusOptions = [
     {
-      value: "",
+      value: "ALL",
       label: "All",
     },
     ...(state?.Booking?.tenantBookingList?.filterOptions?.status?.map(
@@ -118,7 +118,10 @@ function Booking() {
   ];
 
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedBillStatus, setSelectedBillStatus] = useState("");
+  const [selectedBillStatus, setSelectedBillStatus] = useState({
+    value: "ALL",
+    label: "All",
+  });
   const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
 
   const stats = [
@@ -290,7 +293,7 @@ function Booking() {
     return obj;
   });
 
-  console.log("formattedData", formattedData);
+  // console.log("formattedData", formattedData);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -511,32 +514,39 @@ function Booking() {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedInput, selectedBillStatus, selectedMonth?.value, size]);
-
-  console.log("selectedMonth", selectedMonth);
-  console.log("page", page);
+  }, [debouncedInput, selectedBillStatus?.value, selectedMonth?.value, size]);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
     const filters = state.Booking?.bookingFilters;
 
+    const selectedStatus = selectedBillStatus?.value;
+
     const paymentStatus =
-      selectedBillStatus !== null ? selectedBillStatus : filters?.status || "";
+      selectedStatus === "ALL" ? "" : selectedStatus || filters?.status || "";
+
+    const selectedPeriod = selectedMonth?.value || filters?.period || "";
+
+    const selectedPeriodLabel =
+      selectedMonth?.label || filters?.periodLabel || "";
+
+    const selectedStatusLabel =
+      selectedBillStatus?.label || filters?.statusLabel || "";
 
     dispatch({
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         name: debouncedInput || filters?.name || "",
-        page: page,
-        size: size,
-        period: selectedMonth?.value || filters?.period,
+        page,
+        size,
+        period: selectedPeriod,
         status: paymentStatus,
-        floor: filters?.floorId,
-        room: filters?.roomId,
-        minAmount: filters?.minPaidAmount,
-        maxAmount: filters?.maxPaidAmount,
+        floor: filters?.floorId || "",
+        room: filters?.roomId || "",
+        minAmount: filters?.minPaidAmount || "",
+        maxAmount: filters?.maxPaidAmount || "",
       },
     });
 
@@ -544,12 +554,14 @@ function Booking() {
       type: "SET_BOOKING_FILTERS",
       payload: {
         name: debouncedInput || filters?.name || "",
-        period: selectedMonth?.value || filters?.period,
+        period: selectedPeriod,
+        periodLabel: selectedPeriodLabel,
         status: paymentStatus,
-        floor: filters?.floorId,
-        room: filters?.roomId,
-        minAmount: filters?.minPaidAmount,
-        maxAmount: filters?.maxPaidAmount,
+        statusLabel: selectedStatusLabel,
+        floor: filters?.floorId || "",
+        room: filters?.roomId || "",
+        minAmount: filters?.minPaidAmount || "",
+        maxAmount: filters?.maxPaidAmount || "",
       },
     });
 
@@ -560,7 +572,7 @@ function Booking() {
     debouncedInput,
     state.login.selectedHostel_Id,
     selectedMonth,
-    selectedBillStatus,
+    selectedBillStatus?.value,
   ]);
 
   const handleReset = () => {
@@ -568,7 +580,9 @@ function Booking() {
       type: "SET_BOOKING_FILTERS",
       payload: {
         period: "",
+        periodLabel: "",
         status: "",
+        statusLabel: "",
         paymentMode: "",
         name: "",
         floor: "",
@@ -590,7 +604,11 @@ function Booking() {
 
     setChips([]);
     setFilterInput("");
-    setSelectedBillStatus("");
+
+    setSelectedBillStatus({
+      value: "ALL",
+      label: "All",
+    });
     setSelectedMonth("");
   };
 
@@ -600,7 +618,9 @@ function Booking() {
         type: "SET_BOOKING_FILTERS",
         payload: {
           period: "",
+          periodLabel: "",
           status: "",
+          statusLabel: "",
           paymentMode: "",
           name: "",
           floor: "",
@@ -628,21 +648,20 @@ function Booking() {
 
     const filterData = [];
 
-    if (filters?.status) {
+    if (filters?.statusLabel?.trim() && filters.statusLabel !== "All") {
       filterData.push({
         key: "status",
         label: "Status",
         type: "single",
-        value: filters.status,
+        value: filters.statusLabel,
       });
     }
-
-    if (filters?.period) {
+    if (filters?.periodLabel) {
       filterData.push({
         key: "period",
         label: "Period",
         type: "single",
-        value: filters.period,
+        value: filters.periodLabel,
       });
     }
 
@@ -954,12 +973,10 @@ function Booking() {
                   classNamePrefix="custom"
                   value={
                     paymentStatusOptions.find(
-                      (option) => option.value === selectedBillStatus,
+                      (option) => option.value === selectedBillStatus?.value,
                     ) || null
                   }
-                  onChange={(selected) =>
-                    setSelectedBillStatus(selected?.value)
-                  }
+                  onChange={(selected) => setSelectedBillStatus(selected)}
                 />
               </div>
 
@@ -1608,13 +1625,18 @@ function Booking() {
                     handleClear={() => {
                       setFilterInput("");
                       setDebouncedInput("");
-                      setSelectedBillStatus("");
+                      setSelectedBillStatus({
+                        value: "ALL",
+                        label: "All",
+                      });
                       setSelectedMonth("");
                       dispatch({
                         type: "SET_BOOKING_FILTERS",
                         payload: {
                           period: "",
+                          periodLabel: "",
                           status: "",
+                          statusLabel: "",
                           paymentMode: "",
                           name: "",
                           floor: "",

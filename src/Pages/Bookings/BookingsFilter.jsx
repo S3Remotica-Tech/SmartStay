@@ -100,7 +100,10 @@ function BookingsFilter({ show, handleClose, size }) {
   const dispatch = useDispatch();
 
   const [period, setPeriod] = useState(null);
-  const [selectedBillStatus, setSelectedBillStatus] = useState("");
+  const [selectedBillStatus, setSelectedBillStatus] = useState({
+    value: "",
+    label: "",
+  });
   const [floor, setFloor] = useState([]);
   const [room, setRoom] = useState([]);
   const [paidAmountMin, setPaidAmountMin] = useState("");
@@ -224,8 +227,10 @@ function BookingsFilter({ show, handleClose, size }) {
       type: "SET_BOOKING_FILTERS",
       payload: {
         name: tenantName,
-        period: period?.value || null,
-        status: selectedBillStatus,
+        period: period?.value || "",
+        periodLabel: period?.label || "",
+        status: selectedBillStatus?.value || "",
+        statusLabel: selectedBillStatus?.label || "",
         floor: floor?.map((f) => f.label),
         room: room?.map((r) => r.label),
         floorId: floor?.map((f) => f.value),
@@ -244,7 +249,7 @@ function BookingsFilter({ show, handleClose, size }) {
         size: size,
         name: tenantName,
         period: period?.value || null,
-        status: selectedBillStatus,
+        status: selectedBillStatus?.value || "",
         floor: floor?.map((f) => f.value),
         room: room?.map((r) => r.value),
         minAmount: paidAmountMin,
@@ -306,27 +311,44 @@ function BookingsFilter({ show, handleClose, size }) {
   }, [state?.Booking?.statusCodeGetBooking]);
 
   useEffect(() => {
-    if (show && previousFilters) {
-      setTenantName(previousFilters.search || "");
-      setPaidAmountMin(previousFilters.minPaidAmount || "");
-      setPaidAmountMax(previousFilters.maxPaidAmount || "");
-      // setSelectedPaymentMode(previousFilters.paymentMode || []);
+    if (!show || !previousFilters) return;
 
-      // const selectedPeriod = periodOptions.find(
-      //   (option) => option.value === previousFilters.period,
-      // );
-      // setPeriod(selectedPeriod || null);
+    setTenantName(previousFilters.name || "");
+    setPaidAmountMin(previousFilters.minPaidAmount || "");
+    setPaidAmountMax(previousFilters.maxPaidAmount || "");
 
-      const selectedFloors = floorOptions.filter((option) =>
-        previousFilters.floor?.includes(option.label),
-      );
-      setFloor(selectedFloors);
+    setSelectedBillStatus(
+      previousFilters.status
+        ? {
+            value: previousFilters.status,
+            label: previousFilters.statusLabel || previousFilters.status,
+          }
+        : {
+            value: "",
+            label: "",
+          },
+    );
 
-      const selectedRooms = roomOptions.filter((option) =>
-        previousFilters.room?.includes(option.label),
-      );
-      setRoom(selectedRooms);
-    }
+    setPeriod(
+      previousFilters.period
+        ? {
+            value: previousFilters.period,
+            label: previousFilters.periodLabel || previousFilters.period,
+          }
+        : null,
+    );
+
+    const selectedFloors = floorOptions.filter((option) =>
+      previousFilters.floor?.includes(option.label),
+    );
+
+    setFloor(selectedFloors);
+
+    const selectedRooms = roomOptions.filter((option) =>
+      previousFilters.room?.includes(option.label),
+    );
+
+    setRoom(selectedRooms);
   }, [show]);
 
   const handleFilterClose = () => {
@@ -425,10 +447,17 @@ function BookingsFilter({ show, handleClose, size }) {
                 classNamePrefix="custom"
                 value={
                   paymentStatusOptions.find(
-                    (option) => option.value === selectedBillStatus,
+                    (option) => option.value === selectedBillStatus?.value,
                   ) || null
                 }
-                onChange={(selected) => setSelectedBillStatus(selected?.value)}
+                onChange={(selected) =>
+                  setSelectedBillStatus(
+                    selected || {
+                      value: "",
+                      label: "",
+                    },
+                  )
+                }
               />
             </Form.Group>
             <Form.Group className="mb-3">
