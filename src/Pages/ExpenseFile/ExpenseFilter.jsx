@@ -206,8 +206,6 @@ function ExpenseFilter({ show, handleClose, size }) {
   useEffect(() => {
     if (!show || !filters) return;
 
- 
-
     setCategory(filters.categoryId || "");
     setSelectedCategory(filters.categoryLabel || "");
 
@@ -325,7 +323,7 @@ function ExpenseFilter({ show, handleClose, size }) {
 
   const handlePaymentMode = (selected) => {
     setSelectedPaymentModeOptions(selected);
-    setPaymentMode(selected?.value || "");
+    setPaymentMode(selected || "");
   };
 
   // const handlePaidChange = (opt) => setPaidTo(opt?.value);
@@ -442,7 +440,8 @@ function ExpenseFilter({ show, handleClose, size }) {
       subCategoryId: subCategory || "",
       subCategoryLabel: selectedSubCategory || "",
 
-      paymentMode: paymentMode || "",
+      paymentMode: paymentMode?.value || "",
+      paymentModeLabel: paymentMode?.label,
 
       createdBy: createdBy?.value || "",
       createdByLabel: createdBy?.label || "",

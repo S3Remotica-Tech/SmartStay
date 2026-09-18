@@ -28,6 +28,7 @@ export const initialState = {
     subCategoryId: "",
     subCategoryLabel: "",
     paymentMode: "",
+    paymentModeLabel: "",
     createdBy: "",
     createdByLabel: "",
     period: "",

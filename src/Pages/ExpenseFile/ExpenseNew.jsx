@@ -438,6 +438,7 @@ function Expenses() {
           subCategoryId: "",
           subCategoryLabel: "",
           paymentMode: "",
+          paymentModeLabel: "",
           createdBy: "",
           createdByLabel: "",
           period: "",
@@ -467,6 +468,7 @@ function Expenses() {
         subCategoryId: "",
         subCategoryLabel: "",
         paymentMode: "",
+        paymentModeLabel: "",
         createdBy: "",
         createdByLabel: "",
         period: "",
@@ -496,7 +498,7 @@ function Expenses() {
 
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
-
+    console.log("expenseFilters", expenseFilters);
     const filterData = [];
 
     const hasValue = (value) => {
@@ -545,14 +547,14 @@ function Expenses() {
       });
     }
 
-    if (hasValue(expenseFilters?.paymentMode)) {
+    if (hasValue(expenseFilters?.paymentModeLabel)) {
       filterData.push({
         key: "paymentMode",
         label: "Payment Mode",
         type: "paymentMode",
-        value: Array.isArray(expenseFilters.paymentMode)
-          ? expenseFilters.paymentMode.join(", ")
-          : expenseFilters.paymentMode,
+        value: Array.isArray(expenseFilters.paymentModeLabel)
+          ? expenseFilters.paymentModeLabel.join(", ")
+          : expenseFilters.paymentModeLabel,
       });
     }
 
