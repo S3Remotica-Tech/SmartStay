@@ -106,8 +106,11 @@ function InvoiceRegisterFilter({
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [billStatus, setBillStatus] = useState([]);
+  const [billStatusLabel, setBillStatusLabel] = useState([]);
   const [invoiceType, setInvoiceType] = useState([]);
+  const [invoiceTypeLabel, setInvoiceTypeLabel] = useState([]);
   const [invoiceMode, setInvoiceMode] = useState([]);
+  const [invoiceModeLabel, setInvoiceModeLabel] = useState([]);
   const [createdBy, setCreatedBy] = useState([]);
   const [period, setPeriod] = useState(null);
 
@@ -214,25 +217,6 @@ function InvoiceRegisterFilter({
     setOutstandingMax(e.target.value);
   };
 
-  // const handleBillStatusChange = (selectedOptions) => {
-  //   if (!selectedOptions) {
-  //     setSelectedBillStatusOptions([]);
-  //     setBillStatus([]);
-  //     return;
-  //   }
-
-  //   const hasAll = selectedOptions?.some((opt) => opt.value === "ALL");
-
-  //   if (hasAll) {
-  //     const allOption = selectedOptions.find((opt) => opt.value === "ALL");
-  //     setSelectedBillStatusOptions([allOption]);
-  //     setBillStatus(["ALL"]);
-  //   } else {
-  //     setSelectedBillStatusOptions(selectedOptions);
-  //     setBillStatus(selectedOptions.map((opt) => opt.value));
-  //   }
-  // };
-
   const handleBillStatusChange = (selectedOptions, actionIs) => {
     const allOption = billStatusOptions.find(
       (option) => option.value === "ALL",
@@ -241,30 +225,43 @@ function InvoiceRegisterFilter({
     const individualOptions = billStatusOptions.filter(
       (option) => option.value !== "ALL",
     );
+
     const individualValues = individualOptions.map((option) => option.value);
+
     if (actionIs.option?.value === "ALL") {
       if (actionIs.action === "select-option") {
         setBillStatus(individualValues);
+        setBillStatusLabel(individualOptions.map((option) => option.label));
+
         setSelectedBillStatusOptions([allOption, ...individualOptions]);
       } else {
         setBillStatus([]);
+        setBillStatusLabel([]);
         setSelectedBillStatusOptions([]);
       }
+
       return;
     }
+
     const selectedWithoutAll = (selectedOptions || []).filter(
       (option) => option.value !== "ALL",
     );
 
     const selectedValues = selectedWithoutAll.map((option) => option.value);
 
+    const selectedLabels = selectedWithoutAll.map((option) => option.label);
+
     const isAllSelected = selectedValues.length === individualOptions.length;
 
     if (isAllSelected) {
       setBillStatus(individualValues);
+      setBillStatusLabel(individualOptions.map((option) => option.label));
+
       setSelectedBillStatusOptions([allOption, ...individualOptions]);
     } else {
       setBillStatus(selectedValues);
+      setBillStatusLabel(selectedLabels);
+
       setSelectedBillStatusOptions(selectedWithoutAll);
     }
   };
@@ -290,6 +287,7 @@ function InvoiceRegisterFilter({
 
   const handleInvoiceTypeChange = (selected) => {
     setInvoiceType(selected.map((opt) => opt.value));
+    setInvoiceTypeLabel(selected?.map((opt) => opt.label) || []);
   };
 
   const selectedTypeOptions = typeOptions.filter((opt) =>
@@ -298,6 +296,7 @@ function InvoiceRegisterFilter({
 
   const handleInvoiceModeChange = (selected) => {
     setInvoiceMode(selected.map((opt) => opt.value));
+    setInvoiceModeLabel(selected?.map((opt) => opt.label) || []);
   };
 
   const selectedModeOptions = modeOptions.filter((opt) =>
@@ -376,21 +375,31 @@ function InvoiceRegisterFilter({
     const InvoiceFilter = {
       search: tenantName?.trim() || undefined,
       paymentStatus: billStatus?.length ? billStatus : undefined,
+      paymentStatusLabels: billStatusLabel?.length
+        ? billStatusLabel
+        : undefined,
       invoiceModes: invoiceMode?.length ? invoiceMode : undefined,
+      invoiceModeLabels: invoiceModeLabel?.length
+        ? invoiceModeLabel
+        : undefined,
       invoiceTypes: invoiceType?.length ? invoiceType : undefined,
-      createdBy: createdBy?.length ? createdBy?.map((c) => c.value) : undefined,
-      period: period?.value ? period?.value : "",
+      invoiceTypeLabels: invoiceTypeLabel?.length
+        ? invoiceTypeLabel
+        : undefined,
+      createdBy: createdBy?.length ? createdBy.map((c) => c.value) : undefined,
+      createdByLabels: createdBy?.length
+        ? createdBy.map((c) => c.label)
+        : undefined,
+      period: period?.value || "",
+      periodLabel: period?.label || "",
       minPaidAmount: paidAmountMin,
       maxPaidAmount: paidAmountMax,
       minOutstandingAmount: outstandingMin,
       maxOutstandingAmount: outstandingMax,
-      page: page,
+      page: 1,
       size: size,
       startDate: period?.value ? undefined : startDate,
       endDate: period?.value ? undefined : endDate,
-      createdByLabels: createdBy?.length
-        ? createdBy?.map((c) => c.label)
-        : undefined,
     };
 
     dispatch({

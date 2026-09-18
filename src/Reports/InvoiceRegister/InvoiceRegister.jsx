@@ -160,20 +160,23 @@ function InvoiceRegister() {
     dispatch({
       type: "SET_INVOICE_REGISTER_FILTERS",
       payload: {
-        payload: {
-          startDate: undefined,
-          endDate: undefined,
-          invoiceTypes: [],
-          createdBy: [],
-          invoiceModes: [],
-          paymentStatus: [],
-          search: "",
-          minPaidAmount: "",
-          maxPaidAmount: "",
-          minOutstandingAmount: "",
-          maxOutstandingAmount: "",
-          period: [],
-        },
+        startDate: undefined,
+        endDate: undefined,
+        invoiceTypes: [],
+        invoiceTypeLabels: [],
+        createdBy: [],
+        createdByLabels: [],
+        invoiceModes: [],
+        invoiceModeLabels: [],
+        paymentStatus: [],
+        paymentStatusLabels: [],
+        search: "",
+        minPaidAmount: "",
+        maxPaidAmount: "",
+        minOutstandingAmount: "",
+        maxOutstandingAmount: "",
+        period: [],
+        periodLabel: "",
       },
     });
   };
@@ -271,16 +274,20 @@ function InvoiceRegister() {
         startDate: undefined,
         endDate: undefined,
         invoiceTypes: [],
+        invoiceTypeLabels: [],
         createdBy: [],
+        createdByLabels: [],
         invoiceModes: [],
+        invoiceModeLabels: [],
         paymentStatus: [],
+        paymentStatusLabels: [],
         search: "",
         minPaidAmount: "",
         maxPaidAmount: "",
         minOutstandingAmount: "",
         maxOutstandingAmount: "",
         period: [],
-        createdByLabels: [],
+        periodLabel: "",
       },
     });
   };
@@ -289,21 +296,23 @@ function InvoiceRegister() {
     const invoiceFilters = state.reports.invoiceRegisterFilters;
     const filterData = [];
 
-    if (invoiceFilters?.paymentStatus?.length) {
+    console.log("invoiceFilters", invoiceFilters);
+
+    if (invoiceFilters?.paymentStatus?.length > 0) {
       filterData.push({
         key: "payment-status",
         label: "Status is",
         type: "paymentStatus",
-        value: invoiceFilters.paymentStatus.join(", "),
+        value: invoiceFilters.paymentStatusLabels?.join(", ") || "",
       });
     }
 
-    if (invoiceFilters?.createdByLabels?.length) {
+    if (invoiceFilters?.createdBy?.length) {
       filterData.push({
         key: "collected",
-        label: "Collected By  is",
+        label: "Collected By is",
         type: "collected",
-        value: invoiceFilters.createdByLabels.join(", "),
+        value: invoiceFilters.createdByLabels?.join(", ") || "",
       });
     }
 
@@ -312,7 +321,7 @@ function InvoiceRegister() {
         key: "type",
         label: "Type is",
         type: "type",
-        value: invoiceFilters.invoiceTypes.join(", "),
+        value: invoiceFilters.invoiceTypeLabels?.join(", ") || "",
       });
     }
 
@@ -321,7 +330,7 @@ function InvoiceRegister() {
         key: "modes",
         label: "Mode is",
         type: "modes",
-        value: invoiceFilters.invoiceModes.join(", "),
+        value: invoiceFilters.invoiceModeLabels?.join(", ") || "",
       });
     }
 
@@ -334,7 +343,7 @@ function InvoiceRegister() {
         key: "period",
         label: "Period is",
         type: "period",
-        value: periodValue,
+        value: invoiceFilters.periodLabel || periodValue,
       });
     }
 
@@ -362,7 +371,7 @@ function InvoiceRegister() {
     if (invoiceFilters?.minPaidAmount) {
       filterData.push({
         key: "minPaidAmount",
-        label: `min-paid Amount`,
+        label: "min-paid Amount",
         type: "minPaidAmount",
         value: `₹${invoiceFilters.minPaidAmount}`,
       });
@@ -371,7 +380,7 @@ function InvoiceRegister() {
     if (invoiceFilters?.maxPaidAmount) {
       filterData.push({
         key: "maxPaidAmount",
-        label: `max-paid Amount`,
+        label: "max-paid Amount",
         type: "maxPaidAmount",
         value: `₹${invoiceFilters.maxPaidAmount}`,
       });
@@ -380,7 +389,7 @@ function InvoiceRegister() {
     if (invoiceFilters?.minOutstandingAmount) {
       filterData.push({
         key: "minOutstandingAmount",
-        label: `min-outstanding`,
+        label: "min-outstanding",
         type: "minOutstandingAmount",
         value: `₹${invoiceFilters.minOutstandingAmount}`,
       });
@@ -389,7 +398,7 @@ function InvoiceRegister() {
     if (invoiceFilters?.maxOutstandingAmount) {
       filterData.push({
         key: "maxOutstandingAmount",
-        label: `max-outstanding`,
+        label: "max-outstanding",
         type: "maxOutstandingAmount",
         value: `₹${invoiceFilters.maxOutstandingAmount}`,
       });
@@ -412,16 +421,20 @@ function InvoiceRegister() {
         startDate: undefined,
         endDate: undefined,
         invoiceTypes: [],
+        invoiceTypeLabels: [],
         createdBy: [],
+        createdByLabels: [],
         invoiceModes: [],
+        invoiceModeLabels: [],
         paymentStatus: [],
+        paymentStatusLabels: [],
         search: "",
         minPaidAmount: "",
         maxPaidAmount: "",
         minOutstandingAmount: "",
         maxOutstandingAmount: "",
         period: [],
-        createdByLabels: [],
+        periodLabel: "",
       },
     });
     dispatch({
@@ -548,16 +561,20 @@ function InvoiceRegister() {
           startDate: undefined,
           endDate: undefined,
           invoiceTypes: [],
+          invoiceTypeLabels: [],
           createdBy: [],
+          createdByLabels: [],
           invoiceModes: [],
+          invoiceModeLabels: [],
           paymentStatus: [],
+          paymentStatusLabels: [],
           search: "",
           minPaidAmount: "",
           maxPaidAmount: "",
           minOutstandingAmount: "",
           maxOutstandingAmount: "",
           period: [],
-          createdByLabels: [],
+          periodLabel: "",
         },
       });
       // const filters = {

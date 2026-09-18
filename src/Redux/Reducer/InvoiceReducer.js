@@ -129,7 +129,7 @@ export const initialState = {
     createdBy: [],
     createdByLabels: [],
     modes: [],
-    modeslabel: [],
+    modesLabel: [],
     paymentStatus: [],
     paymentStatusLabel: "",
     search: "",

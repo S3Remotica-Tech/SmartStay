@@ -109,7 +109,7 @@ const selectStyles = {
     display: "none",
   }),
 };
-function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
+function ExpenseFilter({ show, handleClose, size, startDate, endDate }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [period, setPeriod] = useState(null);
@@ -236,7 +236,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   };
 
   const handlePeriodChange = (opt) => {
-    setPeriod(opt?.value);
+    setPeriod(opt);
   };
   const handlePaymentMode = (selected) => {
     setPaymentMode(selected.map((opt) => opt.value));
@@ -272,7 +272,7 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
   );
 
   const selectedPeriodOption =
-    periodOptions?.find((opt) => opt.value === period) || null;
+    periodOptions?.find((opt) => opt.value === period?.value) || null;
 
   const selectedCreatedByOption = createdByOptions?.filter((opt) =>
     createdBy?.includes(opt.value),
@@ -292,19 +292,18 @@ function ExpenseFilter({ show, handleClose, size, page, startDate, endDate }) {
 
       createdBy: createdBy?.length ? createdBy : undefined,
 
-      period: period ? period : "",
+      period: period?.value ? period?.value : "",
+      periodLabel: period?.label ? period?.label : "",
       createdByLabels: selectedCollectedBylabels,
 
-      page: page,
+      page: 1,
       size: size,
-      startDate: period ? undefined : startDate,
-      endDate: period ? undefined : endDate,
+      startDate: period?.value ? undefined : startDate,
+      endDate: period?.value ? undefined : endDate,
       vendorId: selectedVendor?.value,
       vendorName: selectedVendor?.label,
       paymentStatus: selectedBillStatus?.value,
     };
-
-   
 
     dispatch({
       type: "SET_EXPENSE_REGISTER_FILTERS",

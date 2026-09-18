@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { Filter } from "iconsax-react";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
-function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
+function ReceiptFilter({ show, handleClose, size, startDate, endDate }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -240,7 +240,7 @@ function ReceiptFilter({ show, handleClose, size, page, startDate, endDate }) {
       period: selectedPeriod?.value ? selectedPeriod.value : "",
       createdByLabels: selectedCollectedBylabels,
 
-      page: page,
+      page: 1,
       size: size,
       startDate: selectedPeriod?.value ? undefined : startDate,
       endDate: selectedPeriod?.value ? undefined : endDate,
