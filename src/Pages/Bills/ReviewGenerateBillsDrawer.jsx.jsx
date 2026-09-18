@@ -461,11 +461,6 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               Gen. Date: <strong className="text-[#344054]">01 Sep 2026</strong>
             </span>
 
-            <span>
-              Property:{" "}
-              <strong className="text-[#344054]">All Properties</strong>
-            </span>
-
             {/* <span className="ml-auto flex items-center gap-1 border-1 border-[#FEE685] bg-[#FFFBEB] text-[#BB4D00] rounded-full px-2 py-1">
               <Warning2 size="11" />
               Review Required
