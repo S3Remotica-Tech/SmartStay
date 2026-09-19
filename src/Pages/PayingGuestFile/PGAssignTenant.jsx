@@ -2,11 +2,9 @@
 import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import "react-datepicker/dist/react-datepicker.css";
-
 import PropTypes from "prop-types";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { DatePicker } from "antd";
 import {
   InfoCircle,
@@ -15,13 +13,16 @@ import {
   CloseCircle,
   Trash,
   AddCircle,
+  ArrowDown2,
+  Bank,
+  Wallet2,
 } from "iconsax-react";
-
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import FormComingSoon from "../../Utils/FormComingSoon";
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -123,6 +124,99 @@ const CustomStyles = {
   indicatorSeparator: () => ({
     display: "none",
   }),
+};
+
+const Option = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center justify-between py-1">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
+        </div>
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {data.type}
+        </span>
+      </div>
+    </components.Option>
+  );
+};
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+
+const SingleValue = (props) => {
+  const { data } = props;
+
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
 };
 
 const PGAssignTenant = ({ show, handleClose, currentItem }) => {
@@ -359,7 +453,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
       // dispatch({
       //   type: "UNASSIGNCUSTOMER",
       //   payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" },
@@ -384,26 +478,27 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     alignItems: "center",
     padding: "10px",
   };
-  useEffect(() => {
-    if (state.bankingDetails.bankingList.listBanks) {
-      if (
-        state.bankingDetails?.bankingList?.listBanks.length === 0 &&
-        isTrigger
-      ) {
-        toast.error(
-          <div className="flex items-center gap-2">
-            <span style={{ fontFamily: "Gilroy" }}>
-              Please Create Banking before adding booking
-            </span>
-          </div>,
-        );
-        setIsTrigger(false);
-      }
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.bankingList.listBanks]);
+
+  // useEffect(() => {
+  //   if (state.bankingDetails.bankingList.listBanks) {
+  //     if (
+  //       state.bankingDetails?.bankingList?.listBanks.length === 0 &&
+  //       isTrigger
+  //     ) {
+  //       toast.error(
+  //         <div className="flex items-center gap-2">
+  //           <span style={{ fontFamily: "Gilroy" }}>
+  //             Please Create Banking before adding booking
+  //           </span>
+  //         </div>,
+  //       );
+  //       setIsTrigger(false);
+  //     }
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_BANKING_LIST" });
+  //     }, 200);
+  //   }
+  // }, [state.bankingDetails.bankingList.listBanks]);
 
   useEffect(() => {
     if (state.UsersList?.TenantList?.length === 0 && isTrigger) {
@@ -481,21 +576,61 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     }
   };
 
-  const labelMap = {
-    CARD: "Card",
-    CASH: "Cash",
-    UPI: "UPI",
-    BANK: "Bank",
-  };
+  // const labelMap = {
+  //   CARD: "Card",
+  //   CASH: "Cash",
+  //   UPI: "UPI",
+  //   BANK: "Bank",
+  // };
 
-  const paymentOptions = Array.isArray(
-    state.bankingDetails.bankingList.listBanks,
-  )
-    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
-        value: String(item.bankingId),
-        label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
-      }))
-    : [];
+  // const paymentOptions = Array.isArray(
+  //   state.bankingDetails.bankingList.listBanks,
+  // )
+  //   ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
+  //       value: String(item.bankingId),
+  //       label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+  //     }))
+  //   : [];
+
+  useEffect(() => {
+    if (joiningDate) {
+      const formatDate = (date) => {
+        if (!date) return "";
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      const joiningDateForFormatted = formatDate(joiningDate);
+      dispatch({
+        type: "AVAILBALEBEDDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          joiningDate: joiningDateForFormatted,
+        },
+      });
+    }
+  }, [joiningDate]);
+
+  const paymentOptions =
+    state.UsersList?.availableBedList?.allPaymentMethods?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.displayName,
+      subLabel:
+        bank.accountType === "BANK"
+          ? `${bank.bankName} - ${bank.paymentMethod}`
+          : `${bank.cashAccountType} `,
+      type: bank.accountType,
+      icon:
+        bank.accountType === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -1133,112 +1268,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         <ErrorMessage message={amountError} type="error" />
                       )}
                     </div>
-
-                    <div className="col-span-12 md:col-span-6">
-                      <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                          Mode Of Transaction{" "}
-                          <span className="text-red-600 text-xl">*</span>
-                        </Form.Label>
-                        <Select
-                          options={paymentOptions}
-                          onChange={(selectedOption) =>
-                            handleModeOfPaymentChange(selectedOption?.value)
-                          }
-                          value={
-                            modeOfPayment
-                              ? paymentOptions.find(
-                                  (opt) => opt.value === String(modeOfPayment),
-                                ) || null
-                              : null
-                          }
-                          placeholder="Select Payment"
-                          menuPlacement="bottom"
-                          menuPosition="fixed"
-                          // isDisabled={currentItem}
-                          noOptionsMessage={() => "No mode available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              fontSize: 16,
-                              color: "rgba(75, 75, 75, 1)",
-                              fontFamily: "Gilroy",
-                              fontWeight: modeOfPayment ? 600 : 500,
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              boxShadow: "none",
-                              height: 48,
-                              cursor: "pointer",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#9AA0A6",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused
-                                ? "lightblue"
-                                : "white",
-                              color: "#000",
-                              fontFamily: "Gilroy",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                          }}
-                        />
-                      </Form.Group>
-                      {paymentError && (
-                        <ErrorMessage message={paymentError} type="error" />
-                      )}
-                    </div>
-
-                    <div className="col-span-12 md:col-span-6">
-                      <Form.Group>
-                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
-                          Transaction ID{" "}
-                          <span className="text-red-600 text-xl"></span>
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Transaction ID"
-                          value={transactionId}
-                          onChange={(e) => handleTransactionId(e)}
-                          className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${transactionId ? "font-semibold" : "font-medium"}`}
-                        />
-                      </Form.Group>
-                    </div>
-
-                    <div className="col-span-12">
+                    <div className="col-span-6">
                       <Form.Group controlId="joiningDate">
                         <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
                           Joining Date (Tentative){" "}
                           <span className="text-red-600 text-xl">*</span>
                         </Form.Label>
 
-                        <div className="datepicker-wrapper relative w-full mt-2">
+                        <div className="datepicker-wrapper relative w-full mt-0">
                           <DatePicker
                             className="w-full h-12 cursor-pointer font-gilroy"
                             format="DD/MM/YYYY"
@@ -1275,6 +1312,61 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           type="error"
                         />
                       )}
+                    </div>
+
+                    <div className="col-span-12 md:col-span-6">
+                      <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                          Mode Of Transaction{" "}
+                          <span className="text-red-600 text-xl">*</span>
+                        </Form.Label>
+                        <Select
+                          options={paymentOptions}
+                          onChange={(selectedOption) =>
+                            handleModeOfPaymentChange(selectedOption?.value)
+                          }
+                          value={
+                            modeOfPayment
+                              ? paymentOptions.find(
+                                  (opt) => opt.value === String(modeOfPayment),
+                                ) || null
+                              : null
+                          }
+                          placeholder="Select Payment"
+                          menuPlacement="bottom"
+                          menuPosition="fixed"
+                          // isDisabled={currentItem}
+                          noOptionsMessage={() => "No mode available"}
+                          styles={CustomStyles}
+                          components={{
+                            Option,
+                            SingleValue,
+                            DropdownIndicator,
+                            GroupHeading,
+                            IndicatorSeparator: () => null,
+                          }}
+                        />
+                      </Form.Group>
+                      {paymentError && (
+                        <ErrorMessage message={paymentError} type="error" />
+                      )}
+                    </div>
+
+                    <div className="col-span-12 md:col-span-12">
+                      <Form.Group>
+                        <Form.Label className="font-gilroy text-sm font-medium text-[#222222] not-italic leading-normal">
+                          Transaction ID{" "}
+                          <span className="text-red-600 text-xl"></span>
+                        </Form.Label>
+                        <FormControl
+                          type="text"
+                          id="form-controls"
+                          placeholder="Enter Transaction ID"
+                          value={transactionId}
+                          onChange={(e) => handleTransactionId(e)}
+                          className={`text-base text-[#4B4B4B] font-gilroy border border-[#D9D9D9] shadow-none rounded-md h-12 ${transactionId ? "font-semibold" : "font-medium"}`}
+                        />
+                      </Form.Group>
                     </div>
 
                     {state.Booking?.bookingBedError ? (
