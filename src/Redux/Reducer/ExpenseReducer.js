@@ -43,6 +43,7 @@ export const initialState = {
 };
 
 const ExpenseReducer = (state = initialState, action) => {
+  // console.log("action", action.type);
   switch (action.type) {
     case "RESET_ALL":
       return initialState;

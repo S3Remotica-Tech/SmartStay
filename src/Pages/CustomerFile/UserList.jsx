@@ -138,10 +138,29 @@ function UserList(props) {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
-  };
 
+    const tenantFilters = state.UsersList?.tenantFilters || {};
+
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: {
+        ...tenantFilters,
+        period: selectedOption?.value || "",
+        periodLabel: selectedOption?.label || "",
+      },
+    });
+
+    setPage(1);
+  };
   const handleStatusFilter = (selected) => {
     setStatusFilter(selected || "");
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: {
+        ...tenantFilters,
+        tenantStatusLabel: selected.label,
+      },
+    });
   };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
@@ -246,63 +265,68 @@ function UserList(props) {
     setPage(1);
   }, [debouncedInput, statusfilter?.value, selectedMonth?.value, size]);
 
+  const tenantFilters = state.UsersList?.tenantFilters || {};
+
+  console.log("tenantFilters", tenantFilters);
+
   useEffect(() => {
-    const tenantFilters = state.UsersList?.tenantFilters;
+    if (!state.login.selectedHostel_Id || value !== "1") {
+      return;
+    }
 
-    const isStatusSelected = Boolean(statusfilter?.value);
+    const hasStatusSelected = Boolean(statusfilter?.value);
+    const hasMonthSelected = Boolean(selectedMonth?.value);
+    const hasSearch = Boolean(debouncedInput);
 
-    const statusValue = isStatusSelected
+    const statusValue = hasStatusSelected
       ? statusfilter.value === "ALL"
         ? ""
         : statusfilter.value
       : tenantFilters?.status || "";
 
-    const statusLabel = isStatusSelected
+    const statusLabel = hasStatusSelected
       ? statusfilter.value === "ALL"
         ? ""
-        : statusfilter.label
+        : statusfilter.label || ""
       : tenantFilters?.tenantStatusLabel || "";
 
-    if (state.login.selectedHostel_Id && value === "1") {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          name: debouncedInput || tenantFilters?.search,
-          type: statusValue,
-          page: page,
-          size: size,
-          period: selectedMonth?.value || tenantFilters?.period,
-          sharingType: tenantFilters?.sharingType,
-          sharingTypeLabel: tenantFilters?.sharingTypeLabel,
-        },
-      });
+    const periodValue = hasMonthSelected
+      ? selectedMonth.value
+      : tenantFilters?.period || "";
 
-      setLoading(true);
-    }
+    const periodLabel = hasMonthSelected
+      ? selectedMonth.label || ""
+      : tenantFilters?.periodLabel || "";
 
-    const filters = {
-      search: debouncedInput || tenantFilters?.search,
-      status: statusValue,
-      tenantStatusLabel: statusLabel,
-      period: selectedMonth?.value || tenantFilters?.period,
-      periodLabel: selectedMonth?.label || tenantFilters?.periodLabel,
-      sharingType: tenantFilters?.sharingType,
-      sharingTypeLabel: tenantFilters?.sharingTypeLabel,
+    const searchValue = hasSearch
+      ? debouncedInput
+      : tenantFilters?.search || "";
+
+    const payload = {
+      hostel_id: state.login.selectedHostel_Id,
+      name: searchValue,
+      type: statusValue,
+      page,
+      size,
+      period: periodValue,
+      sharingType: tenantFilters?.sharingType || "",
+      sharingTypeLabel: tenantFilters?.sharingTypeLabel || "",
     };
 
     dispatch({
-      type: "SET_TENANT_TABLE_FILTERS",
-      payload: filters,
+      type: "USERLIST",
+      payload,
     });
+
+    setLoading(true);
   }, [
-    debouncedInput,
-    statusfilter,
+    state.login.selectedHostel_Id,
+    value,
     page,
     size,
-    selectedMonth,
-    value,
-    state.login.selectedHostel_Id,
+    debouncedInput,
+    statusfilter?.value,
+    selectedMonth?.value,
   ]);
 
   useEffect(() => {
@@ -858,6 +882,13 @@ function UserList(props) {
   const handlefilterInput = (e) => {
     const searchValue = e.target.value;
     setFilterInput(searchValue);
+    dispatch({
+      type: "SET_TENANT_TABLE_FILTERS",
+      payload: {
+        ...state.UsersList?.tenantFilters,
+        search: searchValue,
+      },
+    });
   };
 
   // const isDev = import.meta.env.MODE === "development";

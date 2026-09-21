@@ -147,6 +147,7 @@ function ReceiptNew() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const receiptFilters = state.InvoiceList?.receiptFilters;
+      console.log("receiptFilters", receiptFilters);
 
       setReceiptLoader(true);
       dispatch({
@@ -158,7 +159,7 @@ function ReceiptNew() {
           page: page,
           period: "",
           bankIds: [],
-          invoiceType: receiptType?.value,
+          invoiceType: receiptType?.value || receiptFilters?.type,
           collectedBy: [],
           minAmount: "",
           maxAmount: "",
@@ -168,7 +169,7 @@ function ReceiptNew() {
         type: "SET_RECEIPT_FILTERS",
         payload: {
           search: debouncedSearch,
-          type: receiptType?.label || "",
+          type: receiptType?.label || receiptFilters?.type,
           modes: receiptFilters?.modes,
           collectedBy: receiptFilters?.collectedBy,
           collectedBYLabels: receiptFilters?.collectedBYLabels,

@@ -274,14 +274,14 @@ function NewInvoice() {
 
   const [tableErrmsg, setTableErrmsg] = useState("");
 
-  const hasRent = newRows?.some((row) => row.itemType === "RENT");
-  const hasAdvance = newRows?.some(
-    (row) => row.itemType === "ADDITIONAL_ADVANCE",
-  );
+  // const hasRent = newRows?.some((row) => row.itemType === "RENT");
+  // const hasAdvance = newRows?.some(
+  //   (row) => row.itemType === "ADDITIONAL_ADVANCE",
+  // );
 
-  const onlyOthers = !hasRent && !hasAdvance;
+  // const onlyOthers = !hasRent && !hasAdvance;
 
-  console.log("onlyOthers", onlyOthers);
+  // console.log("onlyOthers", onlyOthers);
 
   const subTotal = newRows.reduce((total, row) => {
     return total + Number(row.amount || 0);
@@ -1339,7 +1339,7 @@ function NewInvoice() {
                     </button>
                   </div>
                   <input
-                    disabled={billData || onlyOthers}
+                    disabled={billData}
                     type="number"
                     onWheel={(e) => e.target.blur()}
                     min="0"
