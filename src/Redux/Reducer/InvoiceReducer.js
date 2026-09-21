@@ -121,6 +121,8 @@ export const initialState = {
   getReceiptSucessStatus: 0,
   initializeRecordPayment: "",
   initializeDiscount: "",
+  getReviewGenerateRecurringbill: "",
+  reviewGenerateRecurringSuccess: 0,
   invoiceFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -210,6 +212,22 @@ const InvoiceReducer = (state = initialState, action) => {
 
     case "REMOVE_TENANT_ASSIGN_AMENITIES":
       return { ...state, tenantAssignStatus: 0 };
+
+    case "GET_REVIEW_GENERATE_RECURRING_REDUCER":
+      return {
+        ...state,
+        getReviewGenerateRecurringbill: action.payload,
+      };
+    case "REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        reviewGenerateRecurringSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        reviewGenerateRecurringSuccess: 0,
+      };
 
     case "CUSTOMIZE_RECEIPTS_LIST_REDUCER":
       return {

@@ -70,6 +70,25 @@ export async function createManualInvoice(manualinvoice) {
   );
 }
 
+// Review and generate bill
+
+export async function reveiwAndGenerateBill(recurringBill) {
+  return await AxiosConfigV2.post(
+    `/v2/bills/man/${recurringBill.hostelId}/${recurringBill.customerId}`,
+    recurringBill,
+    {
+      data: recurringBill,
+    },
+  );
+}
+
+// Get
+export async function getReviewRecurringBill(bill) {
+  return await AxiosConfigV2.get(`/v2//${bill.hostelId}/${bill.transactionId}`);
+}
+
+// ////////////////////////////
+
 export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
   return AxiosConfigV2.put(`/v2/bills/${hostelId}/${invoiceId}`, items);
 }
