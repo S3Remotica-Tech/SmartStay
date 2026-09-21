@@ -372,7 +372,7 @@ function Vendor() {
         type: "SET_VENDOR_FILTERS",
         payload: {
           paymentStatus: paymentStatus,
-          search: searchQuery,
+          search: debouncedSearch,
           categoryId: categoryFilter,
         },
       });
@@ -480,9 +480,7 @@ function Vendor() {
     if (state.ComplianceList.getVendorStatusCode === 200) {
       setFilteredData(state?.ComplianceList?.VendorList);
       setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_VENDOR_STATUS_CODE" });
-      }, 500);
+      dispatch({ type: "CLEAR_GET_VENDOR_STATUS_CODE" });
     }
   }, [state.ComplianceList.getVendorStatusCode]);
 
@@ -673,6 +671,8 @@ function Vendor() {
 
     return obj;
   });
+
+  console.log("filteredData", filteredData);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",

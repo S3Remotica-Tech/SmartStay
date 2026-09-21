@@ -424,6 +424,19 @@ function ExpenseRegister() {
     }
   }, [size, page, state.login?.selectedHostel_Id, startDate, endDate]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [
+    state.reports?.expenseRegisterFilters?.category,
+    state.reports?.expenseRegisterFilters?.subCategory,
+    state.reports?.expenseRegisterFilters?.paymentMode,
+    state.reports?.expenseRegisterFilters?.createdBy,
+    state.reports?.expenseRegisterFilters?.period,
+    state.reports?.expenseRegisterFilters?.vendorId,
+    state.reports?.expenseRegisterFilters?.vendorName,
+    state.reports?.expenseRegisterFilters?.paymentStatus,
+  ]);
+
   const handleNavigateRegister = (item) => {
     setRegister(false);
 
@@ -494,7 +507,7 @@ function ExpenseRegister() {
 
   useEffect(() => {
     const invoiceFilters = state.reports.expenseRegisterFilters;
-    console.log("invoiceFilters", invoiceFilters);
+    // console.log("invoiceFilters", invoiceFilters);
     const filterData = [];
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {

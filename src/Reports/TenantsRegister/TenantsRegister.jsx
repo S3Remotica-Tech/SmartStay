@@ -363,6 +363,17 @@ function TenantsRegister() {
     }
   }, [size, page, state.login?.selectedHostel_Id, startDate, endDate]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [
+    state.reports?.tenantRegisterFilters?.tenantStatus,
+    state.reports?.tenantRegisterFilters?.period,
+    state.reports?.tenantRegisterFilters?.floorId,
+    state.reports?.tenantRegisterFilters?.roomId,
+    state.reports?.tenantRegisterFilters?.search,
+    state.reports?.tenantRegisterFilters?.sharingType,
+  ]);
+
   const handleDownload = () => {
     if (state.login.selectedHostel_Id && startDate && endDate) {
       const savedFilters = state.reports?.tenantRegisterFilters;

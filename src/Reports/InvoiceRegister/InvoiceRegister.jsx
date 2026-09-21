@@ -506,6 +506,7 @@ function InvoiceRegister() {
     });
 
     const invoiceFilters = state.reports?.invoiceRegisterFilters;
+    console.log("invoiceFilters", invoiceFilters);
 
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
@@ -655,6 +656,21 @@ function InvoiceRegister() {
       setLoading(true);
     }
   }, [state.login?.selectedHostel_Id, size, page, startDate, endDate]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [
+    state.reports?.invoiceRegisterFilters?.search,
+    state.reports?.invoiceRegisterFilters?.paymentStatus,
+    state.reports?.invoiceRegisterFilters?.invoiceModes,
+    state.reports?.invoiceRegisterFilters?.invoiceTypes,
+    state.reports?.invoiceRegisterFilters?.createdBy,
+    state.reports?.invoiceRegisterFilters?.period,
+    state.reports?.invoiceRegisterFilters?.minPaidAmount,
+    state.reports?.invoiceRegisterFilters?.maxPaidAmount,
+    state.reports?.invoiceRegisterFilters?.minOutstandingAmount,
+    state.reports?.invoiceRegisterFilters?.maxOutstandingAmount,
+  ]);
 
   const currentPage = state?.reports?.getInvoiceRegister?.currentPage ?? 1;
 

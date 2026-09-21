@@ -482,6 +482,15 @@ function ReceiptRegister() {
     }
   }, [size, page, state.login?.selectedHostel_Id, startDate, endDate]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [
+    state.reports?.receiptRegisterFilters?.invoiceType,
+    state.reports?.receiptRegisterFilters?.paymentMode,
+    state.reports?.receiptRegisterFilters?.collectedBy,
+    state.reports?.receiptRegisterFilters?.period,
+  ]);
+
   const currentPage = state?.reports?.getReceiptRegister?.currentPage ?? 1;
 
   const totalPages = state?.reports?.getReceiptRegister?.totalPages ?? 1;
@@ -490,7 +499,6 @@ function ReceiptRegister() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log("pageeee", page);
   };
 
   const handleSizeChange = (sizeValue) => {
