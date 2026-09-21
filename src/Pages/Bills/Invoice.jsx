@@ -925,35 +925,49 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
+    const previousFilters = state.InvoiceList?.invoiceFilters || {};
+
+    const hasPreviousPaymentStatus =
+      previousFilters?.paymentStatus?.length > 0 &&
+      !previousFilters.paymentStatus.includes("ALL");
+
+    const paymentStatus = hasPreviousPaymentStatus
+      ? previousFilters.paymentStatus
+      : statusfilter?.value
+        ? statusfilter.value === "ALL"
+          ? ""
+          : [statusfilter.value]
+        : [];
+
+    const paymentStatusLabel = hasPreviousPaymentStatus
+      ? previousFilters?.paymentStatusLabel || []
+      : statusfilter?.label
+        ? statusfilter.label === "ALL"
+          ? ""
+          : [statusfilter.label]
+        : [];
+
     const filters = {
+      ...previousFilters,
+
       startDate: previousFilters.startDate,
       endDate: previousFilters.endDate,
       type: previousFilters.type,
-      typeLabel: previousFilters?.typeLabel,
+      typeLabel: previousFilters.typeLabel,
       createdBy: previousFilters.createdBy,
       createdByLabels: previousFilters.createdByLabels,
       modes: previousFilters.modes,
       modesLabel: previousFilters.modesLabel,
-      paymentStatus: statusfilter?.value
-        ? statusfilter?.value === "ALL"
-          ? ""
-          : [statusfilter?.value]
-        : previousFilters?.paymentStatus?.includes("ALL")
-          ? ""
-          : previousFilters?.paymentStatus || [],
 
-      paymentStatusLabel: statusfilter?.label
-        ? statusfilter?.label === "ALL"
-          ? ""
-          : [statusfilter?.label]
-        : previousFilters?.paymentStatusLabel?.includes("ALL")
-          ? ""
-          : previousFilters?.paymentStatusLabel || [],
+      paymentStatus,
+      paymentStatusLabel,
+
       search: debouncedInput?.trim()
         ? debouncedInput.trim()
-        : previousFilters.search,
-      size: size,
-      page: page,
+        : previousFilters.search || "",
+
+      size,
+      page,
     };
 
     dispatch({
@@ -968,10 +982,12 @@ const InvoicePage = () => {
         filters,
       },
     });
+
     setLoading(true);
   }, [
     debouncedInput,
     statusfilter?.value,
+    statusfilter?.label,
     size,
     page,
     state.login?.selectedHostel_Id,

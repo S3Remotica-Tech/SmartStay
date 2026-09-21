@@ -267,13 +267,21 @@ function NewInvoice() {
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
   const joiningDate = selectedCustomer?.joiningDate;
+
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
   const [discountType, setDiscountType] = useState("₹");
 
-  // console.log("discount", discount);
-
   const [tableErrmsg, setTableErrmsg] = useState("");
+
+  // const hasRent = newRows?.some((row) => row.itemType === "RENT");
+  // const hasAdvance = newRows?.some(
+  //   (row) => row.itemType === "ADDITIONAL_ADVANCE",
+  // );
+
+  // const onlyOthers = !hasRent && !hasAdvance;
+
+  // console.log("onlyOthers", onlyOthers);
 
   const subTotal = newRows.reduce((total, row) => {
     return total + Number(row.amount || 0);
@@ -624,16 +632,19 @@ function NewInvoice() {
   }, [billData]);
 
   useEffect(() => {
-    if (id || billData?.customerId) {
+    if (id || billData?.customerId || CustomerOverView.customerId) {
       const selectedCustomer = state.UsersList.TenantList?.find(
-        (u) => u.customerId === (id || billData?.customerId),
+        (u) =>
+          u.customerId ===
+          (id || billData?.customerId || CustomerOverView.customerId),
       );
 
       if (selectedCustomer) {
         setCustomerName(selectedCustomer.customerId);
+        setSelectedCustomer(selectedCustomer);
       }
     }
-  }, [id, state.UsersList?.TenantList, billData]);
+  }, [id, state.UsersList?.TenantList, billData, CustomerOverView]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -643,8 +654,6 @@ function NewInvoice() {
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
-
-  console.log("billData", billData);
 
   useEffect(() => {
     if (!billData) return;

@@ -91,7 +91,7 @@ function Booking() {
   const [advanceDetails, setAdvanceDetails] = useState("");
   const popupRef = useRef(null);
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
-
+  const filters = state.Booking?.bookingFilters || {};
   const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Invoice");
 
@@ -218,6 +218,16 @@ function Booking() {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
+    const filters = state.Booking?.bookingFilters || {};
+
+    dispatch({
+      type: "SET_BOOKING_FILTERS",
+      payload: {
+        ...filters,
+        period: selectedOption?.value || "",
+        periodLabel: selectedOption?.label || "",
+      },
+    });
   };
 
   useEffect(() => {
@@ -519,20 +529,30 @@ function Booking() {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
-    const filters = state.Booking?.bookingFilters;
+    const filters = state.Booking?.bookingFilters || {};
 
     const selectedStatus = selectedBillStatus?.value;
+    const selectedStatusLabel = selectedBillStatus?.label;
 
-    const paymentStatus =
-      selectedStatus === "ALL" ? "" : selectedStatus || filters?.status || "";
+    const paymentStatus = filters?.status
+      ? filters.status
+      : selectedStatus === "ALL"
+        ? ""
+        : selectedStatus || "";
 
-    const selectedPeriod = selectedMonth?.value || filters?.period || "";
+    const selectedPeriod = filters?.period
+      ? filters.period
+      : selectedMonth?.value || "";
 
-    const selectedPeriodLabel =
-      selectedMonth?.label || filters?.periodLabel || "";
+    const selectedPeriodLabel = filters?.periodLabel
+      ? filters.periodLabel
+      : selectedMonth?.label || "";
 
-    const selectedStatusLabel =
-      selectedBillStatus?.label || filters?.statusLabel || "";
+    const paymentStatusLabel = filters?.statusLabel
+      ? filters.statusLabel
+      : selectedStatus === "ALL"
+        ? ""
+        : selectedStatusLabel || "";
 
     dispatch({
       type: "GET_BOOKING_LIST",
@@ -557,7 +577,7 @@ function Booking() {
         period: selectedPeriod,
         periodLabel: selectedPeriodLabel,
         status: paymentStatus,
-        statusLabel: selectedStatusLabel,
+        statusLabel: paymentStatusLabel,
         floor: filters?.floorId || "",
         room: filters?.roomId || "",
         minAmount: filters?.minPaidAmount || "",
@@ -976,7 +996,24 @@ function Booking() {
                       (option) => option.value === selectedBillStatus?.value,
                     ) || null
                   }
-                  onChange={(selected) => setSelectedBillStatus(selected)}
+                  onChange={(selected) => {
+                    setSelectedBillStatus(selected);
+
+                    const status =
+                      selected?.value === "ALL" ? "" : selected?.value || "";
+
+                    const statusLabel =
+                      selected?.value === "ALL" ? "" : selected?.label || "";
+
+                    dispatch({
+                      type: "SET_BOOKING_FILTERS",
+                      payload: {
+                        ...filters,
+                        status,
+                        statusLabel,
+                      },
+                    });
+                  }}
                 />
               </div>
 

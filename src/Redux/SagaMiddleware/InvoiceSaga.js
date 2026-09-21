@@ -1,5 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  reveiwAndGenerateBill,
+  getReviewRecurringBill,
   createManualInvoice,
   getInitializeRecordPayment,
   getInitializeMakeDiscount,
@@ -125,6 +127,71 @@ function* handleReceiptCustomizeData(action) {
     }
   } catch (err) {
     const error = err || {};
+    yield* handleApiError(error);
+  }
+}
+
+function* handleReveiwAndGenerateBill(action) {
+  try {
+    const response = yield call(reveiwAndGenerateBill, action.payload);
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "REVIEW_AND_GENERATE_BILL_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      toast.success("Updated successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+  }
+}
+
+function* handleGetReviewRecurringBill(action) {
+  try {
+    const response = yield call(getReviewRecurringBill, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "GET_REVIEW_GENERATE_RECURRING_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+    }
+  } catch (error) {
     yield* handleApiError(error);
   }
 }
@@ -2510,6 +2577,11 @@ function refreshToken(response) {
 }
 
 function* InvoiceSaga() {
+  yield takeEvery(
+    "GET_REVIEW_GENERATE_RECURRING_SAGA",
+    handleGetReviewRecurringBill,
+  );
+  yield takeEvery("REVIEW_AND_GENERATE_BILL_SAGA", handleReveiwAndGenerateBill);
   yield takeEvery(
     "GET_INITIALIZE_RECORD_PAYMENT_SAGA",
     handleGetInitializeRecordPayment,
