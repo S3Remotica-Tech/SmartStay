@@ -1,21 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { Add } from "iconsax-react";
-
-import Select from "react-select";
+import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
-
 import { useNavigate, useLocation } from "react-router-dom";
 import UserAdditionalContact from "../CustomerFile/UserAdditionalContact";
 import { NavigateToBack } from "../../Redux/Action/BookingAction";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
-
 import "react-datepicker/dist/react-datepicker.css";
-import { SearchNormal, Calendar } from "iconsax-react";
+import {
+  SearchNormal,
+  Calendar,
+  ArrowDown2,
+  Bank,
+  Wallet2,
+} from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
@@ -27,12 +28,13 @@ const CustomStyles = {
     minHeight: "50px",
     height: "45px",
     border: "1px solid #D9D9D9",
+    borderRadius: "8px",
     fontSize: "15px",
-    fontFamily: "Gilroy, sans-serif",
+    fontFamily: "Gilroy",
     fontWeight: 500,
     boxShadow: "none",
     alignItems: "center",
-    borderRadius: "8px 0 0 8px",
+
     cursor: state.isDisabled ? "not-allowed" : "pointer",
     backgroundColor: state.isDisabled
       ? "#F3F4F6"
@@ -119,6 +121,99 @@ const CustomStyles = {
   indicatorSeparator: () => ({
     display: "none",
   }),
+};
+
+const Option = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center justify-between py-1">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
+        </div>
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {data.type}
+        </span>
+      </div>
+    </components.Option>
+  );
+};
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+
+const SingleValue = (props) => {
+  const { data } = props;
+
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
 };
 
 const CustomStylesCode = {
@@ -475,10 +570,28 @@ function AddRetainerInvoice() {
 
   const subTotal = Number(expenseItem.amount || 0);
 
+  // const accountOptions =
+  //   state.UsersList?.TenantList?.listBanks?.map((bank) => ({
+  //     value: bank.bankId,
+  //     label: bank.bankName,
+  //   })) || [];
+
   const accountOptions =
-    state.UsersList?.TenantList?.listBanks?.map((bank) => ({
+    state.UsersList?.TenantList?.allPaymentMethods?.map((bank) => ({
       value: bank.bankId,
-      label: bank.bankName,
+      label: bank.displayName,
+      subLabel:
+        bank.accountType === "BANK"
+          ? `${bank.bankName} - ${bank.paymentMethod}`
+          : `${bank.cashAccountType} `,
+      type: bank.accountType,
+      icon:
+        bank.accountType === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
     })) || [];
 
   // const handleAddGuardian = () => {
@@ -488,37 +601,6 @@ function AddRetainerInvoice() {
   const handleCloseAdditionalForm = () => {
     setAdditionalForm(false);
   };
-
-  // const CustomNoOptionsMessage = (props) => {
-  //   return (
-  //     <components.NoOptionsMessage {...props}>
-  //       <div className="flex flex-row items-center justify-center ">
-  //         <img src={NoData} alt="No Guardian" className="w-20 h-20 mb-3" />
-  //         <div className="">
-  //           <p className="text-sm font-semibold text-[#1F2633] mb-1">
-  //             No Parents / Guardian Details are there!
-  //           </p>
-
-  //           <p className="text-xs text-[#4A5565] mt-1 text-center mb-1">
-  //             Add Parents/Guardian details of the tenant for Emergency purposes
-  //           </p>
-  //           <div className="flex items-center justify-center">
-  //             <button
-  //               type="button"
-  //               onMouseDown={(e) => {
-  //                 e.preventDefault();
-  //                 handleAddGuardian();
-  //               }}
-  //               className="mt-2 flex items-center justify-center gap-1 rounded-md bg-[#1E45E1] px-4 py-2 text-white text-xs font-medium hover:bg-[#1738BB]"
-  //             >
-  //               Add New <ArrowRight size="14" />
-  //             </button>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </components.NoOptionsMessage>
-  //   );
-  // };
 
   const handlePaymentMethod = (selectedOption) => {
     dispatch({
@@ -942,7 +1024,7 @@ function AddRetainerInvoice() {
               </label>
 
               <div className="relative" ref={invoiceDateRef}>
-                <DatePicker 
+                <DatePicker
                   selected={invoiceDate}
                   onChange={handleInvoiceDate}
                   dateFormat="dd/MM/yyyy"
@@ -1116,7 +1198,14 @@ function AddRetainerInvoice() {
                 ref={paymentMethodRef}
                 placeholder="Select Payment Method"
                 classNamePrefix="custom"
-                styles={CustomStylesCode}
+                styles={CustomStyles}
+                components={{
+                  Option,
+                  SingleValue,
+                  DropdownIndicator,
+                  GroupHeading,
+                  IndicatorSeparator: () => null,
+                }}
                 value={paymentMethod}
                 options={accountOptions}
                 onChange={handlePaymentMethod}
