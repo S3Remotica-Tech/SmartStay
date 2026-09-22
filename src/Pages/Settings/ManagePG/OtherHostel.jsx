@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHasPermission } from "../../../Utils/Permission";
 import { Location, Refresh2 } from "iconsax-react";
 import NoDataMessage from "../../../Utils/NoDataMessage";
+import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 function OtherHostel() {
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ function OtherHostel() {
 
                 <button
                   type="button"
-                  onClick={() => handleSwitchHostel(hostel)}
+                  //   onClick={() => handleSwitchHostel(hostel)}
                   className="flex-shrink-0 h-7 px-3 rounded-md bg-[#1E45E1] text-white text-[12px] font-medium flex items-center gap-1.5"
                 >
                   <Refresh2 size="14" color="#FFFFFF" variant="Bold" />
@@ -100,7 +101,7 @@ function OtherHostel() {
             ))
           ) : (
             <div className="flex items-center justify-center py-10">
-              <NoDataMessage />
+              <NoDataMessage label="Paying guest" />
             </div>
           )}
         </div>

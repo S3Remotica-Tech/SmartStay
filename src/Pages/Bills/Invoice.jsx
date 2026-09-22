@@ -920,7 +920,7 @@ const InvoicePage = () => {
     }
   }, [startdate, enddate, invoicedate, invoiceduedate]);
 
-  const previousFilters = state.InvoiceList.invoiceFilters || {};
+  // const previousFilters = state.InvoiceList.invoiceFilters || {};
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;

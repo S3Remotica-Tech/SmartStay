@@ -8,14 +8,14 @@ import {
   User,
   Call,
   Sms,
-  Location,
+  // Location,
   Wifi,
   ProfileAdd,
   Setting2,
   TickCircle,
   Clock,
   Global,
-  People,
+  // People,
 } from "iconsax-react";
 import { MdOutlineBed } from "react-icons/md";
 import { TiTick } from "react-icons/ti";

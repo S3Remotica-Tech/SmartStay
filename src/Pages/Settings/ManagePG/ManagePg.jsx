@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Add,
+  // Add,
   AddCircle,
   ArrowSwapHorizontal,
   Building4,
@@ -144,7 +144,7 @@ const ManagePg = () => {
             </div>
 
             <p className="text-white/80 text-[12px] sm:text-[14px]">
-              You're currently managing this property.
+              You&apos;re currently managing this property.
             </p>
           </div>
 

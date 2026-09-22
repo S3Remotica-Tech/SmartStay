@@ -284,19 +284,19 @@ function UserList(props) {
         : statusfilter.value
       : tenantFilters?.status || "";
 
-    const statusLabel = hasStatusSelected
-      ? statusfilter.value === "ALL"
-        ? ""
-        : statusfilter.label || ""
-      : tenantFilters?.tenantStatusLabel || "";
+    // const statusLabel = hasStatusSelected
+    //   ? statusfilter.value === "ALL"
+    //     ? ""
+    //     : statusfilter.label || ""
+    //   : tenantFilters?.tenantStatusLabel || "";
 
     const periodValue = hasMonthSelected
       ? selectedMonth.value
       : tenantFilters?.period || "";
 
-    const periodLabel = hasMonthSelected
-      ? selectedMonth.label || ""
-      : tenantFilters?.periodLabel || "";
+    // const periodLabel = hasMonthSelected
+    //   ? selectedMonth.label || ""
+    //   : tenantFilters?.periodLabel || "";
 
     const searchValue = hasSearch
       ? debouncedInput
