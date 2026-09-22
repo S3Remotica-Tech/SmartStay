@@ -52,7 +52,7 @@ const InvoiceTable = (props) => {
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Invoice");
 
-  console.log("canUpdateInvoice", canUpdateInvoice);
+  // console.log("canUpdateInvoice", canUpdateInvoice);
 
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
@@ -563,8 +563,8 @@ const InvoiceTable = (props) => {
                     <button
                       type="button"
                       onClick={() => canUpdateInvoice && handleEdit(props)}
-                      // disabled={!canUpdateInvoice}
-                      disabled
+                      disabled={!canUpdateInvoice}
+                      // disabled
                       className={`w-full disabled:bg-gray-200 disabled:opacity-70  disabled:cursor-not-allowed
                         flex items-center gap-2 px-3 py-2 rounded-t-[10px] border-b border-[#EBEBEB]
     ${

@@ -519,9 +519,9 @@ function NewInvoice() {
         type: "MANUAL-INVOICE-EDIT",
         hostelId: state.login.selectedHostel_Id,
         invoiceId: billData?.invoiceId,
-        payload: newRows?.map((row) => ({
-          type: row.itemType,
-          amount: parseFloat(row.amount),
+        payload: newRows.map((row) => ({
+          type: row.itemType === "OTHER" ? row.am_name : row.itemType,
+          amount: parseFloat(row.amount) || 0,
         })),
       });
 
@@ -585,6 +585,40 @@ function NewInvoice() {
     });
   };
 
+  // const getItemOptions = (currentIndex) => {
+  //   const options = [];
+
+  //   const advanceAlreadySelected = newRows.some(
+  //     (row, index) =>
+  //       index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
+  //   );
+
+  //   const rentAlreadySelected = newRows.some(
+  //     (row, index) => index !== currentIndex && row.itemType === "RENT",
+  //   );
+
+  //   if (!billData && !rentAlreadySelected) {
+  //     options.push({
+  //       value: "RENT",
+  //       label: "Room Rent",
+  //     });
+  //   }
+
+  //   if (!advanceAlreadySelected) {
+  //     options.push({
+  //       value: "ADDITIONAL_ADVANCE",
+  //       label: "Advance",
+  //     });
+  //   }
+
+  //   options.push({
+  //     value: "OTHER",
+  //     label: "Other",
+  //   });
+
+  //   return options;
+  // };
+
   const getItemOptions = (currentIndex) => {
     const options = [];
 
@@ -597,7 +631,23 @@ function NewInvoice() {
       (row, index) => index !== currentIndex && row.itemType === "RENT",
     );
 
-    if (!billData && !rentAlreadySelected) {
+    if (billData) {
+      if (!rentAlreadySelected) {
+        options.push({
+          value: "RENT",
+          label: "Room Rent",
+        });
+      }
+
+      options.push({
+        value: "OTHER",
+        label: "Other",
+      });
+
+      return options;
+    }
+
+    if (!rentAlreadySelected) {
       options.push({
         value: "RENT",
         label: "Room Rent",
@@ -1056,7 +1106,7 @@ function NewInvoice() {
                                   });
                                 }}
                                 placeholder="Enter Item Name"
-                                className="w-full h-[45px] px-1 text-[14px] border-0 outline-none bg-transparent placeholder:text-[#A5A5A5]"
+                                className="w-full h-[45px] px-1 text-[14px] border-0 outline-none bg-transparent placeholder:text-[#A5A5A5] disabled:text-gray-400"
                               />
 
                               <button
@@ -1115,30 +1165,12 @@ function NewInvoice() {
                                 placeholder="Select or Search the Item"
                                 options={getItemOptions(index)}
                                 isSearchable
-                                // isDisabled={u.isFromApi}
+                                isDisabled={u.isFromApi}
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
                                 menuPortalTarget={document.body}
                                 styles={CustomStylesTable}
                               />
-
-                              {/* {["RENT", "ADDITIONAL_ADVANCE"].includes(
-                                u.itemType,
-                              ) && (
-                                <input
-                                  type="text"
-                                  value={u.description || ""}
-                                  onChange={(e) =>
-                                    handleNewRowChange(
-                                      index,
-                                      "description",
-                                      e.target.value,
-                                    )
-                                  }
-                                  placeholder="Add a description to your item"
-                                  className="w-full h-[28px] px-2 py-4 rounded text-[12px] text-[#0A0A0A80] border-0 outline-none bg-[#F9F9F9] font-semibold"
-                                />
-                              )} */}
                             </div>
                           )}
                         </td>

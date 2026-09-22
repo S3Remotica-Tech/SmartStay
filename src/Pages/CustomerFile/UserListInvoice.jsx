@@ -517,8 +517,8 @@ function UserListInvoice() {
                                               canUpdateInvoice &&
                                               handleEdit(view)
                                             }
-                                            disabled
-                                            // disabled={!canUpdateInvoice}
+                                            // disabled
+                                            disabled={!canUpdateInvoice}
                                             className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
       ${
         canUpdateInvoice
