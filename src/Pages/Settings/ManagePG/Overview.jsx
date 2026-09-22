@@ -3,6 +3,7 @@ import {
   ArrowUp2,
   Edit2,
   Buildings,
+  Building4,
   User,
   Call,
   Sms,
@@ -110,7 +111,6 @@ const services = [
 function Overview() {
   return (
     <div className="w-full">
-      {/* ================= Stats ================= */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-4 mb-3">
         {overviewStats.map((item, index) => {
           const Icon = item.icon;
@@ -146,7 +146,6 @@ function Overview() {
         })}
       </div>
 
-      {/* ================= Contact Info ================= */}
       <div className="bg-white rounded-lg border border-[#EEEEEE] overflow-hidden mb-3">
         <div className="flex items-center justify-between px-3 py-2.5">
           <div className="flex items-center gap-2">
@@ -215,7 +214,6 @@ function Overview() {
         </div>
       </div>
 
-      {/* ================= Address Details ================= */}
       <div className="bg-white rounded-lg border border-[#EEEEEE] overflow-hidden mb-3">
         <div className="flex items-center justify-between px-3 py-2.5">
           <div className="flex items-center gap-2">
@@ -264,7 +262,6 @@ function Overview() {
         </div>
       </div>
 
-      {/* ================= Business Details ================= */}
       <div className="bg-white rounded-lg border border-[#EEEEEE] overflow-hidden mb-3">
         <div className="flex items-center justify-between px-3 py-2.5">
           <div className="flex items-center gap-2">
@@ -313,7 +310,6 @@ function Overview() {
         </div>
       </div>
 
-      {/* ================= Services ================= */}
       <div className="bg-white rounded-lg border border-[#EEEEEE] overflow-hidden mb-3">
         <div className="flex items-center justify-between px-3 py-2.5">
           <div className="flex items-center gap-2">
@@ -461,7 +457,6 @@ function Overview() {
         </div>
       </div>
 
-      {/* ================= Property Rules ================= */}
       <div className="bg-white rounded-lg border border-[#EEEEEE] overflow-hidden">
         <div className="flex items-center justify-between px-3 py-2.5">
           <div className="flex items-center gap-2">
