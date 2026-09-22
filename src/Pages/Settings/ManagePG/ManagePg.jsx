@@ -14,6 +14,7 @@ import {
 import { useSelector } from "react-redux";
 import Homestay from "../../../Assets/v2Images/Frm1.png";
 import BgImage from "../../../Assets/v2Images/PgImage.jpg";
+import Overview from "./Overview";
 
 const ManagePg = () => {
   const state = useSelector((state) => state);
@@ -214,8 +215,8 @@ const ManagePg = () => {
 
       <div className="mt-4">
         {activeTab === "Overview" && (
-          <div className="bg-white rounded-xl p-5 text-sm text-[#5E6673]">
-            Overview content
+          <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
+            <Overview />
           </div>
         )}
 
