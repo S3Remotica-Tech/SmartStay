@@ -52,6 +52,8 @@ const InvoiceTable = (props) => {
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Invoice");
 
+  console.log("canUpdateInvoice", canUpdateInvoice);
+
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
   const isExportAllow = isValidSubscription && canReadInvoice;
@@ -788,16 +790,14 @@ const InvoiceTable = (props) => {
                     props.item?.paymentStatus !== "Cancelled" &&
                     props.item?.paymentStatus !== "Paid" && (
                       <div
-                        onClick={() =>
-                          canUpdateInvoice && handleShowform(props)
-                        }
+                        onClick={() => canWriteInvoice && handleShowform(props)}
                         className={`flex items-center gap-2 px-3 py-2 border-b border-[#EBEBEB]
-        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                       >
                         <img
                           src={Assign}
                           alt="Record"
-                          className={`h-4 w-4 ${!canUpdateInvoice && "grayscale"}`}
+                          className={`h-4 w-4 ${!canWriteInvoice && "grayscale"}`}
                         />
                         <span className="text-sm font-medium text-[#222]">
                           Record Payment

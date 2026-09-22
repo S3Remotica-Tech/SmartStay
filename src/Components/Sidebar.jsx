@@ -41,6 +41,7 @@ import SettingAgreement from "../Pages/Settings/Agreement/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
+import ManagePg from "../Pages/Settings/ManagePG/ManagePg";
 import {
   Notification,
   RulerPen,
@@ -654,6 +655,7 @@ function Sidebar() {
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingGeneral />} />
               <Route path="manage-pg" element={<SettingManage />} />
+              <Route path="manage-pg-new" element={<ManagePg />} />
               <Route path="security" element={<SettingSecurity />} />
               <Route path="subscription" element={<SettingSubscription />} />
               <Route path="allplans" element={<AllPlans />} />
