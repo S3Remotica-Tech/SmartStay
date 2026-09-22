@@ -121,7 +121,7 @@ function UserList(props) {
     value: "ALL",
     label: "All",
   });
-
+  const tenantFilters = state.UsersList?.tenantFilters || {};
   const [userListDetail, setUserListDetail] = useState([]);
 
   const [search, setSearch] = useState(false);
@@ -158,9 +158,11 @@ function UserList(props) {
       type: "SET_TENANT_TABLE_FILTERS",
       payload: {
         ...tenantFilters,
+        status: selected.value,
         tenantStatusLabel: selected.label,
       },
     });
+    setPage(1);
   };
 
   const filteredCustomizeItems = customizeItems.filter((item) =>
@@ -263,9 +265,13 @@ function UserList(props) {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedInput, statusfilter?.value, selectedMonth?.value, size]);
-
-  const tenantFilters = state.UsersList?.tenantFilters || {};
+  }, [
+    debouncedInput,
+    statusfilter?.value,
+    selectedMonth?.value,
+    size,
+    tenantFilters,
+  ]);
 
   console.log("tenantFilters", tenantFilters);
 
@@ -278,11 +284,17 @@ function UserList(props) {
     const hasMonthSelected = Boolean(selectedMonth?.value);
     const hasSearch = Boolean(debouncedInput);
 
-    const statusValue = hasStatusSelected
-      ? statusfilter.value === "ALL"
-        ? ""
-        : statusfilter.value
-      : tenantFilters?.status || "";
+    const statusValue =
+      Array.isArray(tenantFilters?.status) && tenantFilters.status.length > 0
+        ? tenantFilters.status
+        : hasStatusSelected && statusfilter.value !== "ALL"
+          ? [statusfilter.value]
+          : [];
+
+    console.log("statusValue", statusValue);
+    console.log("tenantFilters?.status", tenantFilters?.status);
+
+    console.log("statusfilter", statusfilter);
 
     // const statusLabel = hasStatusSelected
     //   ? statusfilter.value === "ALL"
@@ -290,9 +302,11 @@ function UserList(props) {
     //     : statusfilter.label || ""
     //   : tenantFilters?.tenantStatusLabel || "";
 
-    const periodValue = hasMonthSelected
-      ? selectedMonth.value
-      : tenantFilters?.period || "";
+    const periodValue = tenantFilters?.period
+      ? tenantFilters.period
+      : hasMonthSelected
+        ? selectedMonth.value
+        : "";
 
     // const periodLabel = hasMonthSelected
     //   ? selectedMonth.label || ""
