@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowLeft, CloseCircle } from "iconsax-react";
+import PropTypes from "prop-types";
 
 function SingleInvoiceGenerate({
   selectedIds,
@@ -8,23 +9,20 @@ function SingleInvoiceGenerate({
 }) {
   const [reviewedInvoice, setReviewedInvoice] = useState(false);
 
-  const formatAmount = (amount) => {
-    return `₹${Number(amount || 0).toLocaleString("en-IN")}`;
-  };
   const handleConfirmGenerate = () => {
     if (!reviewedInvoice || selectedIds.length === 0) {
       return;
     }
 
-    const payload = selectedInvoices.map((invoice) => ({
-      invoiceId: invoice.id,
-    }));
+    // const payload = selectedInvoices.map((invoice) => ({
+    //   invoiceId: invoice.id,
+    // }));
 
-    console.log("Payload:", payload);
+    // console.log("Payload:", payload);
 
     // dispatch your generate invoice API here
 
-    setShowGenerateModal(false);
+    // setShowGenerateModal(false);
     setReviewedInvoice(false);
   };
 
@@ -143,5 +141,11 @@ function SingleInvoiceGenerate({
     </>
   );
 }
+SingleInvoiceGenerate.propTypes = {
+  selectedIds: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ).isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default SingleInvoiceGenerate;

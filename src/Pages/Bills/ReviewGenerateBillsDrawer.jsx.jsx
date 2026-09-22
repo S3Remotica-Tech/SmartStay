@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   CloseCircle,
   SearchNormal1,
@@ -18,6 +18,7 @@ import {
 } from "iconsax-react";
 import { TiTick } from "react-icons/ti";
 import SingleInvoiceGenerate from "./SingleInvoiceGenerate";
+import PropTypes from "prop-types";
 
 const invoiceData = [
   {
@@ -204,6 +205,9 @@ const StatusBadge = ({ status }) => {
       {config.label}
     </span>
   );
+};
+StatusBadge.propTypes = {
+  status: PropTypes.string.isRequired,
 };
 
 const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
@@ -402,7 +406,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleGenerateAll = () => {
-    console.log("Generate ", readyInvoices);
+    // console.log("Generate ", readyInvoices);
   };
 
   // const handleKeepReady = (item) => {
@@ -679,7 +683,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               </p>
             </div>
           ) : (
-            items.map((item, index) => {
+            items.map((item) => {
               const isExpanded = expandedId === item.id;
               const isExcluded = item.status === "EXCLUDED";
 
@@ -1219,6 +1223,11 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       )}
     </>
   );
+};
+ReviewGenerateBillsDrawer.propTypes = {
+  status: PropTypes.string,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 export default ReviewGenerateBillsDrawer;

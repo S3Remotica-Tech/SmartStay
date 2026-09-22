@@ -296,7 +296,7 @@ function InvoiceRegister() {
     const invoiceFilters = state.reports.invoiceRegisterFilters;
     const filterData = [];
 
-    console.log("invoiceFilters", invoiceFilters);
+    // console.log("invoiceFilters", invoiceFilters);
 
     if (invoiceFilters?.paymentStatus?.length > 0) {
       filterData.push({
@@ -506,7 +506,7 @@ function InvoiceRegister() {
     });
 
     const invoiceFilters = state.reports?.invoiceRegisterFilters;
-    console.log("invoiceFilters", invoiceFilters);
+    // console.log("invoiceFilters", invoiceFilters);
 
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,

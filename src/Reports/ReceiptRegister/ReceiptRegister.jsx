@@ -278,7 +278,7 @@ function ReceiptRegister() {
     const receiptFilters = state.reports?.receiptRegisterFilters;
     const filterData = [];
 
-    console.log("receiptFilters", receiptFilters);
+    // console.log("receiptFilters", receiptFilters);
 
     if (receiptFilters?.startDate || receiptFilters?.endDate) {
       filterData.push({
