@@ -678,8 +678,12 @@ function NewInvoice() {
           invoiceId: billData?.invoiceId,
         },
       });
+    } else {
+      setCustomerName("");
     }
   }, [billData]);
+
+  // console.log("billData", billData, "id", id);
 
   useEffect(() => {
     if (id || billData?.customerId || CustomerOverView.customerId) {
@@ -689,7 +693,7 @@ function NewInvoice() {
           (id || billData?.customerId || CustomerOverView.customerId),
       );
 
-      if (selectedCustomer) {
+      if ((selectedCustomer && billData) || id) {
         setCustomerName(selectedCustomer.customerId);
         setSelectedCustomer(selectedCustomer);
       }
