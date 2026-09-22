@@ -147,7 +147,7 @@ function ReceiptNew() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const receiptFilters = state.InvoiceList?.receiptFilters;
-      console.log("receiptFilters", receiptFilters);
+      // console.log("receiptFilters", receiptFilters);
 
       setReceiptLoader(true);
       dispatch({
@@ -238,7 +238,7 @@ function ReceiptNew() {
 
   useEffect(() => {
     const receiptFilters = state.InvoiceList?.receiptFilters;
-    console.log("receiptFilters", receiptFilters);
+    // console.log("receiptFilters", receiptFilters);
 
     const filterData = [];
 

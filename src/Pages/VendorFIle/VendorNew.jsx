@@ -672,7 +672,7 @@ function Vendor() {
     return obj;
   });
 
-  console.log("filteredData", filteredData);
+  // console.log("filteredData", filteredData);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import Homestay from "../../../Assets/v2Images/Frm1.png";
 import BgImage from "../../../Assets/v2Images/PgImage.jpg";
 import Overview from "./Overview";
+import OtherHostel from "./OtherHostel";
 
 const ManagePg = () => {
   const state = useSelector((state) => state);
@@ -22,7 +23,7 @@ const ManagePg = () => {
 
   const hostelDetails = state?.UsersList?.hotelDetailsinPg;
 
-  console.log("hostelDetails", hostelDetails);
+  // console.log("hostelDetails", hostelDetails);
 
   const tabs = [
     {
@@ -52,19 +53,19 @@ const ManagePg = () => {
   };
 
   const handleCreateMaster = () => {
-    console.log("Create Master");
+    // console.log("Create Master");
   };
 
   const handleSwitchProperty = () => {
-    console.log("Switch Property");
+    // console.log("Switch Property");
   };
 
   const handleAddNewPG = () => {
-    console.log("Add New PG");
+    // console.log("Add New PG");
   };
 
   const handleMore = () => {
-    console.log("More");
+    // console.log("More");
   };
 
   return (
@@ -221,26 +222,26 @@ const ManagePg = () => {
         )}
 
         {activeTab === "Gallery" && (
-          <div className="bg-white rounded-xl p-5 text-sm text-[#5E6673]">
+          <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
             Gallery content
           </div>
         )}
 
         {activeTab === "Staffs" && (
-          <div className="bg-white rounded-xl p-5 text-sm text-[#5E6673]">
+          <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
             Staffs content
           </div>
         )}
 
         {activeTab === "Documents" && (
-          <div className="bg-white rounded-xl p-5 text-sm text-[#5E6673]">
+          <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
             Documents content
           </div>
         )}
 
         {activeTab === "Other Hostels" && (
-          <div className="bg-white rounded-xl p-5 text-sm text-[#5E6673]">
-            Other Hostels content
+          <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
+            <OtherHostel />
           </div>
         )}
       </div>

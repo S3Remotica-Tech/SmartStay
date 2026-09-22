@@ -402,7 +402,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleGenerateAll = () => {
-    console.log("Generate ", readyInvoices);
+    // console.log("Generate ", readyInvoices);
   };
 
   // const handleKeepReady = (item) => {
