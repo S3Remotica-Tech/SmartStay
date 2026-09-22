@@ -262,6 +262,7 @@ const InvoicePage = () => {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
+    setPage(1);
   };
 
   // const handleManualShow = () => {
@@ -329,6 +330,7 @@ const InvoicePage = () => {
     });
 
     setStatusFilter(selectedOption || "");
+    setPage(1);
   };
 
   const handleEdit = (props) => {
@@ -927,6 +929,8 @@ const InvoicePage = () => {
 
     const previousFilters = state.InvoiceList?.invoiceFilters || {};
 
+    console.log("previousFilters", previousFilters);
+
     const hasPreviousPaymentStatus =
       previousFilters?.paymentStatus?.length > 0 &&
       !previousFilters.paymentStatus.includes("ALL");
@@ -991,6 +995,31 @@ const InvoicePage = () => {
     size,
     page,
     state.login?.selectedHostel_Id,
+  ]);
+
+  useEffect(() => {
+    const previousFilters = state.InvoiceList?.invoiceFilters || {};
+
+    const hasFilters =
+      previousFilters?.type?.length > 0 ||
+      previousFilters?.createdBy?.length > 0 ||
+      previousFilters?.modes?.length > 0 ||
+      previousFilters?.paymentStatus?.length > 0 ||
+      previousFilters?.search ||
+      previousFilters?.startDate ||
+      previousFilters?.endDate;
+
+    if (hasFilters) {
+      setPage(1);
+    }
+  }, [
+    state.InvoiceList?.invoiceFilters?.type,
+    state.InvoiceList?.invoiceFilters?.createdBy,
+    state.InvoiceList?.invoiceFilters?.modes,
+    state.InvoiceList?.invoiceFilters?.paymentStatus,
+    state.InvoiceList?.invoiceFilters?.search,
+    state.InvoiceList?.invoiceFilters?.startDate,
+    state.InvoiceList?.invoiceFilters?.endDate,
   ]);
 
   useEffect(() => {
