@@ -41,8 +41,8 @@ function OtherHostel() {
             <div className="flex items-center justify-center py-10">
               <div className="w-6 h-6 border-2 border-[#E5E7EB] border-t-[#1E45E1] rounded-full animate-spin" />
             </div>
-          ) : state.UsersList.hostelList?.length > 0 ? (
-            state.UsersList.hostelList.map((hostel) => (
+          ) : state?.UsersList?.hostelList?.length > 0 ? (
+            state?.UsersList?.hostelList?.map((hostel) => (
               <div
                 key={hostel.hostelId}
                 className="w-full border border-[#E5E7EB] rounded-lg bg-white px-2.5 py-3 flex font-gilroy items-center justify-between gap-3"

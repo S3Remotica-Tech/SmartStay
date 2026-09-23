@@ -156,6 +156,7 @@ function Sidebar() {
   );
   const settingsPath = hostelId ? `/settings/${hostelId}` : `/settings`;
   const cookieHostelId = cookies.get("selected_hostelId");
+
   const tooltipTrigger = isMd ? ["hover", "focus"] : [];
 
   const [hostelSearch, setHostelSearch] = useState("");
@@ -576,11 +577,13 @@ function Sidebar() {
   }, [state.login?.logoutAdminStatusCode]);
 
   useEffect(() => {
-    if (!hostelListDetail?.length || initials) return;
+    if (!hostelListDetail?.length) return;
 
     const selectedHostel =
       hostelListDetail.find(
-        (h) => String(h.hostelId) === String(cookieHostelId),
+        (h) =>
+          String(h.hostelId) === String(cookieHostelId) ||
+          String(h.hostelId) === String(state.login.selectedHostel_Id),
       ) || hostelListDetail[0];
 
     if (!selectedHostel) return;
@@ -600,7 +603,7 @@ function Sidebar() {
     );
 
     dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-  }, [hostelListDetail, cookieHostelId]);
+  }, [hostelListDetail, cookieHostelId, state.login.selectedHostel_Id]);
 
   const filteredHostels =
     hostelListDetail &&

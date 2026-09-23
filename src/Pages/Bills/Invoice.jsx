@@ -252,6 +252,10 @@ const InvoicePage = () => {
   const { canWriteModule: canWriteInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Invoice");
 
+  const isEnableRecurring =
+    canWriteInvoice &&
+    state?.UsersList?.hotelDetailsinPg?.shouldVerifyRecurring;
+
   const handleShowFilterBills = () => {
     setShowBillsFilter(true);
   };
@@ -1221,9 +1225,9 @@ const InvoicePage = () => {
                 {isDev && (
                   <>
                     <button
-                      disabled={!canWriteInvoice}
+                      disabled={!isEnableRecurring}
                       onClick={handleShowReviewGenerateBill}
-                      className="flex gap-2 items-center 
+                      className="flex gap-2 items-center disabled:opacity-70
                       font-semibold  rounded-lg !font-gilroy text-[#1E45E1] !bg-[#EFF6FF] border-1 border-[#EFF6FF] 
                       px-4 py-1 min-w-[95px] mr-2"
                     >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   // Add,
   AddCircle,
@@ -18,12 +18,25 @@ import Overview from "./Overview";
 import OtherHostel from "./OtherHostel";
 import Documents from "./Documents";
 import ManagedUsers from "../ManagedUsers";
+import SwichProperty from "./SwichProperty";
+import { useHasPermission } from "../../../Utils/Permission";
+import AddPg from "../../PayingGuestFile/AddPg";
 
 const ManagePg = () => {
   const state = useSelector((state) => state);
   const [activeTab, setActiveTab] = useState("Overview");
 
+  const { canWriteModule: canWritePayingGuests } =
+    useHasPermission("Paying Guests");
+
+  const RoleAccess =
+    state.createAccount?.accountList?.roleId === 1 ||
+    state.createAccount?.accountList?.roleId === 2;
+
+  const isEnable = canWritePayingGuests && RoleAccess;
+  const [showSwitchProperty, setShowSwitchProperty] = useState(false);
   const hostelDetails = state?.UsersList?.hotelDetailsinPg;
+  const [showAddPg, setShowAddPg] = useState(false);
 
   // console.log("hostelDetails", hostelDetails);
 
@@ -54,21 +67,29 @@ const ManagePg = () => {
     setActiveTab(tab);
   };
 
-  const handleCreateMaster = () => {
-    // console.log("Create Master");
-  };
-
   const handleSwitchProperty = () => {
-    // console.log("Switch Property");
+    setShowSwitchProperty(true);
   };
 
   const handleAddNewPG = () => {
-    // console.log("Add New PG");
+    setShowAddPg(true);
   };
 
-  const handleMore = () => {
-    // console.log("More");
+  const handleCloses = () => {
+    setShowAddPg(false);
+    dispatch({ type: "REMOVE_MANAGE_PG" });
   };
+  const handleMore = () => {};
+
+  useEffect(() => {
+    if (state.PgList.createPgStatusCode === 201) {
+      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "REMOVE_MANAGE_PG" });
+      setShowAddPg(false);
+
+      dispatch({ type: "CLEAR_PG_STATUS_CODE" });
+    }
+  }, [state.PgList.createPgStatusCode]);
 
   return (
     <div className="w-full min-h-screen bg-white p-2 sm:p-3 lg:p-3 font-gilroy">
@@ -79,14 +100,18 @@ const ManagePg = () => {
               Manage PG
             </label>
           </div>
-
           <button
-            type="button"
-            onClick={handleCreateMaster}
-            className="h-10 px-4 sm:px-5 bg-[#1E45E1] hover:bg-[#1739C2] text-white rounded-lg flex items-center gap-2 text-[13px] sm:text-[14px] font-medium transition-all duration-200"
+            onClick={handleAddNewPG}
+            disabled={!isEnable}
+            className={`mt-[5px]  px-4 py-2 rounded-lg text-sm font-semibold font-gilroy flex items-center gap-2
+            ${
+              isEnable
+                ? "bg-[#1E45E1] text-white cursor-pointer"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
             <AddCircle size="17" color="#FFFFFF" />
-            <span>Create Master</span>
+            <span>Add New PG</span>
           </button>
         </div>
       </div>
@@ -158,15 +183,6 @@ const ManagePg = () => {
             >
               <ArrowSwapHorizontal size="17" color="#FFFFFF" />
               <span>Switch Property</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleAddNewPG}
-              className="h-10 sm:h-11 px-4 sm:px-5 rounded-lg bg-[#1E45E1]  text-white flex items-center justify-center gap-2 text-[12px] sm:text-[13px] font-medium transition-all"
-            >
-              <AddCircle size="17" color="#FFFFFF" />
-              <span>Add New PG</span>
             </button>
           </div>
         </div>
@@ -247,6 +263,16 @@ const ManagePg = () => {
           </div>
         )}
       </div>
+      {showSwitchProperty && (
+        <SwichProperty
+          isOpen={showSwitchProperty}
+          onClose={() => setShowSwitchProperty(false)}
+        />
+      )}
+
+      {showAddPg && (
+        <AddPg show={showAddPg} handleClose={handleCloses} currentItem="" />
+      )}
     </div>
   );
 };
