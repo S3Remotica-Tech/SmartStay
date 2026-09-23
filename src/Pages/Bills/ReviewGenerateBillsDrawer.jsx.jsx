@@ -1,24 +1,19 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   CloseCircle,
   SearchNormal1,
-  // Grid2,
-  // Menu,
   Refresh2,
-  // TickCircle,
-  // Warning2,
   DocumentText,
   ArrowDown2,
   ArrowUp2,
   Edit2,
   Trash,
-  // Eye,
-  // Firstline,
   Add,
 } from "iconsax-react";
 import { TiTick } from "react-icons/ti";
 import SingleInvoiceGenerate from "./SingleInvoiceGenerate";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 const invoiceData = [
   {
@@ -211,6 +206,8 @@ StatusBadge.propTypes = {
 };
 
 const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   // const [activeTab, setActiveTab] = useState("ALL");
   const [search, setSearch] = useState("");
   const [expandedId, setExpandedId] = useState(null);
@@ -222,13 +219,13 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
 
-  const handleGenerateSelected = () => {
-    if (selectedIds.length === 0) {
-      return;
-    }
+  // const handleGenerateSelected = () => {
+  //   if (selectedIds.length === 0) {
+  //     return;
+  //   }
 
-    setShowGenerateModal(true);
-  };
+  //   setShowGenerateModal(true);
+  // };
 
   const handleAddInvoiceItem = (item) => {
     setItems((prev) =>
@@ -406,8 +403,27 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleGenerateAll = () => {
-    // console.log("Generate ", readyInvoices);
+    dispatch({ type: "REMOVE_REVIEW_GENERATE_BILL_ERROR" });
+    if (state.login?.selectedHostel_Id) {
+      dispatch({
+        type: "REVIEW_AND_GENERATE_BILL_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
+      setIsGeneratingInvoice(true);
+    }
   };
+
+  useEffect(() => {
+    if (state.InvoiceList?.recurringReviewGenerateError) {
+      setIsGeneratingInvoice(false);
+    }
+  }, [state.InvoiceList?.recurringReviewGenerateError]);
+
+  useEffect(() => {
+    if (state.InvoiceList?.reviewGenerateRecurringSuccess === 200) {
+      onClose();
+    }
+  }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
 
   // const handleKeepReady = (item) => {
   //   console.log(" ready", item);
@@ -558,7 +574,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               </button>
             </div> */}
 
-            <button
+            {/* <button
               type="button"
               onClick={handleGenerateAll}
               disabled={readyInvoices.length === 0}
@@ -566,7 +582,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
             >
               <Refresh2 size="14" />
               Generate All
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -616,7 +632,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
           </div>
         </div> */}
 
-        {selectedIds.length > 0 ? (
+        {/* {selectedIds.length > 0 ? (
           <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
             <div className="flex items-center gap-2">
               <button
@@ -667,7 +683,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               {counts.ready} of {counts.all} ready
             </span>
           </div>
-        )}
+        )} */}
 
         <div className="flex-1 overflow-y-auto bg-[#F8FAFF] show-scrolls ">
           {items.length === 0 ? (
@@ -697,13 +713,13 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                       isExpanded ? "bg-[#F8FAFF]" : "hover:bg-[#FAFBFC]"
                     }`}
                   >
-                    <input
+                    {/* <input
                       type="checkbox"
                       checked={selectedIds.includes(item.id)}
                       disabled={isExcluded}
                       onChange={() => handleSelect(item.id)}
                       className="w-4 h-4 accent-[#1E45E1] shrink-0"
-                    />
+                    /> */}
 
                     <div className="w-8 h-8 rounded-full bg-[#172B9E] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">
                       {item.initials}
@@ -1189,7 +1205,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
             className="h-9 px-4 rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Refresh2 size="14" />
-            Generate All Eligible
+            Generate All
           </button>
         </div>
       </div>

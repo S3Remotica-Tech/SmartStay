@@ -123,6 +123,8 @@ export const initialState = {
   initializeDiscount: "",
   getReviewGenerateRecurringbill: "",
   reviewGenerateRecurringSuccess: 0,
+  recurringReviewGenerateError: "",
+  updateReviewGenerateRecurringSuccess: 0,
   invoiceFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -227,6 +229,28 @@ const InvoiceReducer = (state = initialState, action) => {
       return {
         ...state,
         reviewGenerateRecurringSuccess: 0,
+      };
+
+    case "UPDATE_REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        updateReviewGenerateRecurringSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_UPDATE_REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        updateReviewGenerateRecurringSuccess: 0,
+      };
+
+    case "REVIEW_GENERATE_BILL_ERROR":
+      return {
+        ...state,
+        recurringReviewGenerateError: action.payload,
+      };
+    case "REMOVE_REVIEW_GENERATE_BILL_ERROR":
+      return {
+        ...state,
+        recurringReviewGenerateError: "",
       };
 
     case "CUSTOMIZE_RECEIPTS_LIST_REDUCER":

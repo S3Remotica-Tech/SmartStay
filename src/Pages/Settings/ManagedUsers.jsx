@@ -13,7 +13,6 @@ import DeleteStaff from "./DeleteStaff";
 import NoDataMessage from "../../Utils/NoDataMessage";
 
 function ManagedUsers() {
-  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState(null);
@@ -26,8 +25,6 @@ function ManagedUsers() {
 
   const { canUpdateModule: canUpdateUser, canDeleteModule: canDeleteUser } =
     useHasPermission("User");
-
-  
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -152,45 +149,45 @@ function ManagedUsers() {
                   state.Settings?.addSettingStaffList?.map((user, index) => (
                     <tr key={index}>
                       <td
-                        className="px-3 py-2.5 truncate text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px]"
+                        className="px-3 py-2.5 truncate text-[#111928] font-semibold capitalize text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px]"
                         title={`${user?.firstName} ${user?.lastName}`}
                       >
                         {user?.firstName} {user?.lastName}
                       </td>
 
                       <td className="px-3 py-2.5 flex items-center whitespace-nowrap">
-                        <span className="inline-flex items-center bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
+                        <span className="inline-flex items-center  bg-[#FFF7ED] text-[#FF9900] px-2 py-1 rounded-md text-[13px] font-medium flex-shrink-0 ">
                           <Shield size={14} color="#FF9900" />
                         </span>
                         <span
-                          className="text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] ml-2 truncate inline-block align-middle max-w-[140px]"
+                          className="text-[12px] md:text-[14px]  text-[#111928] font-semibold capitalize lg:text-[16px] 2xl:text-[18px] ml-2 truncate inline-block align-middle max-w-[140px]"
                           title={user.roleName}
                         >
                           {user.roleName}
                         </span>
                       </td>
                       <td
-                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate font-normal"
+                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate  text-[#111928] font-semibold"
                         title={user.mailId}
                       >
                         {user.mailId}
                       </td>
 
                       <td
-                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate font-normal"
+                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate  text-[#111928] font-semibold "
                         title={user.mobileNo}
                       >
                         + {user?.countryCode} {user?.mobileNo}
                       </td>
 
                       <td
-                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate font-normal text-[#4B4B4B]"
+                        className="px-3 py-2.5 text-[12px] md:text-[14px] lg:text-[16px] 2xl:text-[18px] truncate text-[#4B4B4B] font-semibold "
                         title={user.description}
                       >
                         {user.description || "-"}
                       </td>
 
-                      <td className="text-center">
+                      <td className="text-center flex justify-center">
                         <PiDotsThreeOutlineVerticalFill
                           className="cursor-pointer"
                           size={20}
