@@ -16,6 +16,8 @@ import Homestay from "../../../Assets/v2Images/Frm1.png";
 import BgImage from "../../../Assets/v2Images/PgImage.jpg";
 import Overview from "./Overview";
 import OtherHostel from "./OtherHostel";
+import Documents from "./Documents";
+import ManagedUsers from "../ManagedUsers";
 
 const ManagePg = () => {
   const state = useSelector((state) => state);
@@ -229,13 +231,13 @@ const ManagePg = () => {
 
         {activeTab === "Staffs" && (
           <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
-            Staffs content
+            <ManagedUsers />
           </div>
         )}
 
         {activeTab === "Documents" && (
           <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
-            Documents content
+            <Documents />
           </div>
         )}
 

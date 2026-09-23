@@ -45,7 +45,7 @@ function OtherHostel() {
             state.UsersList.hostelList.map((hostel) => (
               <div
                 key={hostel.hostelId}
-                className="w-full border border-[#E5E7EB] rounded-lg bg-white px-2.5 py-2.5 flex font-gilroy items-center justify-between gap-3"
+                className="w-full border border-[#E5E7EB] rounded-lg bg-white px-2.5 py-3 flex font-gilroy items-center justify-between gap-3"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-10 h-10 rounded-full overflow-hidden bg-[#F2F4F7] flex-shrink-0 flex items-center justify-center">
