@@ -686,15 +686,17 @@ function NewInvoice() {
   // console.log("billData", billData, "id", id);
 
   useEffect(() => {
-    if (id || billData?.customerId || CustomerOverView.customerId) {
+    if (id || billData?.customerId || CustomerOverView?.customerId) {
       const selectedCustomer = state.UsersList.TenantList?.find(
         (u) =>
           u.customerId ===
-          (id || billData?.customerId || CustomerOverView.customerId),
+          (id || billData?.customerId || CustomerOverView?.customerId),
       );
 
+      console.log("selectedCustomer", selectedCustomer, "id", id);
+
       if ((selectedCustomer && billData) || id) {
-        setCustomerName(selectedCustomer.customerId);
+        setCustomerName(selectedCustomer?.customerId);
         setSelectedCustomer(selectedCustomer);
       }
     }
@@ -713,13 +715,13 @@ function NewInvoice() {
     if (!billData) return;
 
     setCustomerName(
-      billData.customerId || CustomerOverView?.customerId || id || "",
+      billData?.customerId || CustomerOverView?.customerId || id || "",
     );
 
-    setInvoiceNumber(billData.invoiceNumber || "");
+    setInvoiceNumber(billData?.invoiceNumber || "");
 
     const invoiceDateValue =
-      billData.invoiceDate || billData?.invoiceGeneratedDate;
+      billData?.invoiceDate || billData?.invoiceGeneratedDate;
 
     setInvoiceDate(
       invoiceDateValue

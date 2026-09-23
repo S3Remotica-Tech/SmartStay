@@ -83,6 +83,15 @@ export async function getReviewRecurringBill(bill) {
   return await AxiosConfigV2.get(`/v2//${bill.hostelId}/${bill.transactionId}`);
 }
 
+// Put review and bill
+
+export async function UpdateReveiwAndGenerateBill(datum) {
+  return await AxiosConfigV2.put(
+    `/v2//${datum.hostelId}/${datum.invoiceId}`,
+    datum,
+  );
+}
+
 // ////////////////////////////
 
 export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
