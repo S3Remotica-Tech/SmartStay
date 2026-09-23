@@ -689,6 +689,23 @@ const InvoicePage = () => {
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode]);
 
   useEffect(() => {
+    if (state.InvoiceList?.reviewGenerateRecurringSuccess === 200) {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
+      });
+
+      dispatch({ type: "REMOVE_REVIEW_AND_GENERATE_BILL_REDUCER" });
+    }
+  }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
+
+  useEffect(() => {
     if (state.InvoiceList.payapleAmountError) {
       setLoading(false);
     }

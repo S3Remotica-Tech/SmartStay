@@ -174,6 +174,27 @@ function* handleReveiwAndGenerateBill(action) {
   } catch (err) {
     const error = err || {};
     yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "REVIEW_GENERATE_BILL_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 }
 
