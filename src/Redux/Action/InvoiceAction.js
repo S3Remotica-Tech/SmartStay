@@ -78,6 +78,10 @@ export async function reveiwAndGenerateBill(recurringBill) {
   );
 }
 
+export async function addNewItemsForReviewBill(recurringBill) {
+  return await AxiosConfigV2.post(`/v2/bills//${recurringBill.hostelId}`);
+}
+
 // Get
 export async function getReviewRecurringBill(bill) {
   return await AxiosConfigV2.get(`/v2/bills/recurring/${bill.hostelId}`);
