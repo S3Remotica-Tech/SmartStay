@@ -125,6 +125,9 @@ export const initialState = {
   reviewGenerateRecurringSuccess: 0,
   recurringReviewGenerateError: "",
   updateReviewGenerateRecurringSuccess: 0,
+  deleteReviewBillsSuccess: 0,
+  deleteReviewError: "",
+   updateReviewError: "",
   invoiceFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -215,10 +218,21 @@ const InvoiceReducer = (state = initialState, action) => {
     case "REMOVE_TENANT_ASSIGN_AMENITIES":
       return { ...state, tenantAssignStatus: 0 };
 
+    case "DELETE_REVIEW_BILLS_REDUCER":
+      return { ...state, deleteReviewBillsSuccess: action.payload.statusCode };
+    case "REMOVE_DELETE_REVIEW_BILLS_REDUCER":
+      return { ...state, deleteReviewBillsSuccess: 0 };
+
+    case "DELETE_REVIEW_BILLS_REDUCER_ERROR":
+      return { ...state, deleteReviewError: action.payload };
+
+    case "REMOVE_DELETE_REVIEW_BILLS_REDUCER_ERROR":
+      return { ...state, deleteReviewError: "" };
+
     case "GET_REVIEW_GENERATE_RECURRING_REDUCER":
       return {
         ...state,
-        getReviewGenerateRecurringbill: action.payload,
+        getReviewGenerateRecurringbill: action.payload.response,
       };
     case "REVIEW_AND_GENERATE_BILL_REDUCER":
       return {
@@ -252,6 +266,12 @@ const InvoiceReducer = (state = initialState, action) => {
         ...state,
         recurringReviewGenerateError: "",
       };
+
+    case "UPDATE_REVIEW_GENERATE_BILL_ERROR":
+      return { ...state, updateReviewError: action.payload };
+
+    case "REMOVE_UPDATE_REVIEW_GENERATE_BILL_ERROR":
+      return { ...state, updateReviewError: "" };
 
     case "CUSTOMIZE_RECEIPTS_LIST_REDUCER":
       return {

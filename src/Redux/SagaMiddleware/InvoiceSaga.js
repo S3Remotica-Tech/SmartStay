@@ -60,6 +60,7 @@ import {
   GetBillsPdfDetails,
   ReceiptCustomizeData,
   UpdateReveiwAndGenerateBill,
+  deleteReviewBills,
 } from "../Action/InvoiceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -282,6 +283,70 @@ function* handleGetReviewRecurringBill(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
+  }
+}
+
+function* handleDeleteReviewBills(action) {
+  try {
+    const response = yield call(deleteReviewBills, action.payload);
+
+    if (response?.status === 204) {
+      yield put({
+        type: "DELETE_REVIEW_BILLS_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      var toastStyle = {
+        backgroundColor: "#E6F6E6",
+        color: "black",
+        width: "100%",
+        borderRadius: "60px",
+        height: "20px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        fontSize: 14,
+        textAlign: "start",
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+      };
+
+      toast.success("Deleted Successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "DELETE_REVIEW_BILLS_REDUCER_ERROR",
+        payload: error.response.data,
+      });
+
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 }
 
@@ -2666,6 +2731,7 @@ function refreshToken(response) {
 }
 
 function* InvoiceSaga() {
+  yield takeEvery("DELETE_REVIEW_BILLS_SAGA", handleDeleteReviewBills);
   yield takeEvery(
     "UPDATE_REVIEW_AND_GENERATE_BILL_SAGA",
     handleUpdateReveiwAndGenerateBill,

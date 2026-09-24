@@ -80,15 +80,21 @@ export async function reveiwAndGenerateBill(recurringBill) {
 
 // Get
 export async function getReviewRecurringBill(bill) {
-  return await AxiosConfigV2.get(`/v2//${bill.hostelId}/${bill.transactionId}`);
+  return await AxiosConfigV2.get(`/v2/bills/recurring/${bill.hostelId}`);
 }
 
 // Put review and bill
 
 export async function UpdateReveiwAndGenerateBill(datum) {
   return await AxiosConfigV2.put(
-    `/v2//${datum.hostelId}/${datum.invoiceId}`,
+    `/v2/bills/recurring/${datum.hostelId}/${datum.invoiceId}/${datum.itemId}`,
     datum,
+  );
+}
+
+export async function deleteReviewBills(bill) {
+  return await AxiosConfigV2.delete(
+    `/v2/bills/recurring/${bill.hostelId}/${bill.invoiceId}/${bill.itemId}`,
   );
 }
 
