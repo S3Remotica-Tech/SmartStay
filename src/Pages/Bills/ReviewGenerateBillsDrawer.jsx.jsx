@@ -87,7 +87,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [items, setItems] = useState([]);
   const [editingField, setEditingField] = useState(null);
-  const [editingValue, setEditingValue] = useState("");
+  const [editingValue, setEditingValue] = useState({
+    itemName: "",
+    amount: "",
+  });
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
 
@@ -173,14 +176,14 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       return;
     }
     setDeletingItem(rowKey);
-    // dispatch({
-    //   type: "DELETE_REVIEW_BILLS_SAGA",
-    //   payload: {
-    //     hostelId: state.login?.selectedHostel_Id,
-    //     invoiceId: item.invoiceId,
-    //     itemId: invoiceItem.itemId,
-    //   },
-    // });
+    dispatch({
+      type: "DELETE_REVIEW_BILLS_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        invoiceId: item.invoiceId,
+        itemId: invoiceItem.itemId,
+      },
+    });
   };
 
   const handleSaveInvoiceItem = (item, index) => {
@@ -196,21 +199,12 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
     const invoiceItem = currentInvoiceItems[index];
 
-    console.log("invoiceItem", invoiceItem);
-
     if (!invoiceItem) return;
-
-    const rowKey = `${item.invoiceId}-${index}`;
-
-    const isAmountEditing =
-      editingField?.id === rowKey && editingField?.field === "amount";
 
     const updatedItem = {
       ...invoiceItem,
-      itemName: invoiceItem.itemName?.trim() || "OTHER",
-      amount: isAmountEditing
-        ? Number(editingValue) || 0
-        : Number(invoiceItem.amount) || 0,
+      itemName: editingValue.itemName?.trim() || "OTHER",
+      amount: Number(editingValue.amount) || 0,
       isNew: false,
     };
 
@@ -237,10 +231,12 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     );
 
     setEditingField(null);
-    setEditingValue("");
+    setEditingValue({
+      itemName: "",
+      amount: "",
+    });
 
     if (invoiceItem.itemId) {
-      setSavingItem(rowKey);
       dispatch({
         type: "UPDATE_REVIEW_AND_GENERATE_BILL_SAGA",
         payload: {
@@ -256,7 +252,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
   const handleCancelField = () => {
     setEditingField(null);
-    setEditingValue("");
+    setEditingValue({
+      itemName: "",
+      amount: "",
+    });
   };
 
   useEffect(() => {
@@ -619,14 +618,14 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                   const rowKey = `${item.invoiceId}-${index}`;
                                   const isEditing =
                                     editingField?.id === rowKey &&
-                                    editingField?.field === "amount";
+                                    editingField?.field === "item";
 
                                   return (
                                     <div
                                       key={rowKey}
                                       className={`flex items-center justify-between group relative min-h-[30px] ${invoiceItem?.isNew ? "hover:bg-white" : "hover:bg-blue-100"} hover:rounded-lg px-2`}
                                     >
-                                      {!invoiceItem?.isNew && (
+                                      {!invoiceItem?.isNew && !isEditing && (
                                         <span className="text-[14px] text-[#6B7280]">
                                           {invoiceItem?.itemName}
                                         </span>
@@ -750,7 +749,32 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                           </button>
                                         </div>
                                       ) : isEditing ? (
-                                        <div className="flex items-center gap-1">
+                                        <div className="flex items-center gap-2 w-full">
+                                          <input
+                                            type="text"
+                                            value={editingValue.itemName}
+                                            onChange={(e) =>
+                                              setEditingValue((prev) => ({
+                                                ...prev,
+                                                itemName: e.target.value,
+                                              }))
+                                            }
+                                            onKeyDown={(e) => {
+                                              if (e.key === "Enter") {
+                                                handleSaveInvoiceItem(
+                                                  item,
+                                                  index,
+                                                );
+                                              }
+
+                                              if (e.key === "Escape") {
+                                                handleCancelField();
+                                              }
+                                            }}
+                                            autoFocus
+                                            className="flex-1 h-[26px] px-2 py-2 border border-[#1E45E1] bg-white rounded-md text-[11px] text-[#344054] outline-none"
+                                          />
+
                                           <div className="flex items-center h-[26px] border border-[#1E45E1] bg-white rounded-md overflow-hidden">
                                             <span className="pl-2 text-[11px] text-[#98A2B3]">
                                               ₹
@@ -761,9 +785,12 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               disabled={!canUpdateInvoice}
                                               type="number"
                                               min="0"
-                                              value={editingValue}
+                                              value={editingValue.amount}
                                               onChange={(e) =>
-                                                setEditingValue(e.target.value)
+                                                setEditingValue((prev) => ({
+                                                  ...prev,
+                                                  amount: e.target.value,
+                                                }))
                                               }
                                               onKeyDown={(e) => {
                                                 if (e.key === "Enter") {
@@ -777,9 +804,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                                   handleCancelField();
                                                 }
                                               }}
-                                              autoFocus
-                                              className="w-[58px] h-[24px] px-1 text-[11px] text-right text-[#344054]
-                                           outline-none disabled:opacity-50"
+                                              className="w-[65px] h-[24px] px-1 py-2 text-[11px] text-right text-[#344054] outline-none disabled:opacity-50"
                                             />
                                           </div>
 
@@ -789,8 +814,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             onClick={() =>
                                               handleSaveInvoiceItem(item, index)
                                             }
-                                            className="w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex
-                                         items-center justify-center disabled:opacity-50"
+                                            className="w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center disabled:opacity-50"
                                           >
                                             <TiTick className="text-[12px]" />
                                           </button>
@@ -815,13 +839,17 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               onClick={() => {
                                                 setEditingField({
                                                   id: rowKey,
-                                                  field: "amount",
+                                                  field: "item",
                                                 });
-                                                setEditingValue(
-                                                  String(
+
+                                                setEditingValue({
+                                                  itemName: String(
+                                                    invoiceItem.itemName ?? "",
+                                                  ),
+                                                  amount: String(
                                                     invoiceItem.amount ?? "",
                                                   ),
-                                                );
+                                                });
                                               }}
                                               className="disabled:opacity-40 inline-flex items-center justify-center gap-1 h-6 text-[12px] font-medium text-[#1E45E1] leading-none"
                                             >
