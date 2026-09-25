@@ -406,6 +406,15 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      dispatch({
+        type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
+    }
+  }, [state.login?.selectedHostel_Id]);
+
+  useEffect(() => {
     const invoices =
       state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList;
 
@@ -703,9 +712,17 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           className="w-4 h-4 accent-[#1E45E1] shrink-0"
                         />
 
-                        <div className="w-8 h-8 rounded-full bg-[#172B9E] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">
-                          {item.customerInfo?.initials}
-                        </div>
+                        {item.customerInfo?.profilePic ? (
+                          <img
+                            src={item.customerInfo.profilePic}
+                            alt={item.customerInfo?.fullName || "Profile"}
+                            className="w-8 h-8 rounded-full object-cover shrink-0"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-[#172B9E] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">
+                            {item.customerInfo?.initials}
+                          </div>
+                        )}
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
