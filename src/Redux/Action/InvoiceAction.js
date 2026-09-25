@@ -74,7 +74,7 @@ export async function createManualInvoice(manualinvoice) {
 
 export async function reveiwAndGenerateBill(recurringBill) {
   return await AxiosConfigV2.post(
-    `/v2/bills/recurring/${recurringBill.hostelId}`,
+    `/v2/bills/recurring/manual/${recurringBill.hostelId}`,
     recurringBill.invoiceIds,
   );
 }

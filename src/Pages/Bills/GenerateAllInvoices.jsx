@@ -32,7 +32,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
       <div className="fixed inset-0 bg-black/30 z-50" />
 
       <div className="fixed font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col">
-        <div className="h-[58px] px-6 border-b border-[#EAECF0] flex items-center justify-between">
+        <div className="h-[48px] px-6 border-b border-[#EAECF0] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -56,8 +56,8 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
           </button>
         </div>
 
-        <div className="px-6 py-6 min-h-[390px]">
-          <p className="text-[12px] text-[#667085] mb-5">
+        <div className="px-6 py-2 min-h-[390px]">
+          <p className="text-[14px] text-[#667085] px-2 mb-4">
             SmartStay will generate all invoices that are currently ready.
             Invoices requiring review or excluded invoices will not be
             generated.
