@@ -77,14 +77,13 @@ const ManagePg = () => {
 
   const handleCloses = () => {
     setShowAddPg(false);
-    dispatch({ type: "REMOVE_MANAGE_PG" });
   };
   const handleMore = () => {};
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "REMOVE_MANAGE_PG" });
+
       setShowAddPg(false);
 
       dispatch({ type: "CLEAR_PG_STATUS_CODE" });

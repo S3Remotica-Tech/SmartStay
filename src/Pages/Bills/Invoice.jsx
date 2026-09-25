@@ -249,12 +249,23 @@ const InvoicePage = () => {
     );
   };
 
-  const { canWriteModule: canWriteInvoice, canReadModule: canReadInvoice } =
-    useHasPermission("Invoice");
+  const {
+    canWriteModule: canWriteInvoice,
+    canReadModule: canReadInvoice,
+    // canUpdateModule: canUpdateInvoice,
+  } = useHasPermission("Invoice");
 
   const isEnableRecurring =
-    canWriteInvoice &&
     state?.UsersList?.hotelDetailsinPg?.shouldVerifyRecurring;
+
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id && isEnableRecurring) {
+      dispatch({
+        type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
+    }
+  }, [state.login?.selectedHostel_Id, isEnableRecurring]);
 
   const handleShowFilterBills = () => {
     setShowBillsFilter(true);
@@ -1227,14 +1238,17 @@ const InvoicePage = () => {
                     <button
                       disabled={!isEnableRecurring}
                       onClick={handleShowReviewGenerateBill}
-                      className="flex gap-2 items-center disabled:opacity-70
+                      className="flex gap-2 items-center disabled:opacity-70 flex-shrink-0
                       font-semibold  rounded-lg !font-gilroy text-[#1E45E1] !bg-[#EFF6FF] border-1 border-[#EFF6FF] 
                       px-4 py-1 min-w-[95px] mr-2"
                     >
                       <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
-                      <span className="px-2 py-1 h-fit bg-[#1E45E1] text-white rounded-xl">
-                        119
-                      </span>
+                      {isEnableRecurring && (
+                        <span className="px-3 py-1  bg-[#1E45E1] text-white rounded-xl ">
+                          {state.InvoiceList?.getReviewGenerateRecurringbill
+                            ?.totalInvoices ?? 0}
+                        </span>
+                      )}
                     </button>
                   </>
                 )}

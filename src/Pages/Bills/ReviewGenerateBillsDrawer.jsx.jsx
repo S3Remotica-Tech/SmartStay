@@ -12,136 +12,11 @@ import {
 } from "iconsax-react";
 import { TiTick } from "react-icons/ti";
 import SingleInvoiceGenerate from "./SingleInvoiceGenerate";
+import GenerateAllInvoices from "./GenerateAllInvoices";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-
-const invoiceData = [
-  {
-    id: 1,
-    name: "Arun Kumar",
-    initials: "AK",
-    room: "G2 / B-204",
-    amount: 8000,
-    status: "READY",
-    isEdited: false,
-    billingPeriod: "01 Sep – 30 Sep 2026",
-    invoiceType: "Rent",
-    genDate: "01 Sep 2026",
-    monthlyRent: 8000,
-    applicableDays: 30,
-    proratedRent: 8000,
-    discount: 0,
-    tax: 0,
-    reviewMessage: "",
-    invoiceItems: [
-      {
-        description: "Rent",
-        amount: 5000,
-      },
-      {
-        description: "ADDITIONAL_ADVANCE",
-        amount: 2000,
-      },
-      {
-        description: "EB",
-        amount: 500,
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Rahul Sharma",
-    initials: "RS",
-    room: "G1 / B-102",
-    amount: 6667,
-    status: "READY",
-    isEdited: true,
-    billingPeriod: "01 Sep – 30 Sep 2026",
-    invoiceType: "Rent",
-    genDate: "01 Sep 2026",
-    monthlyRent: 8000,
-    applicableDays: 25,
-    proratedRent: 6667,
-    discount: 0,
-    tax: 0,
-    reviewMessage:
-      "Tenant joined during the billing period. Please verify the prorated amount before generating.",
-  },
-  {
-    id: 3,
-    name: "Karthik Raj",
-    initials: "KR",
-    room: "G3 / B-301",
-    amount: 8000,
-    status: "READY",
-    isEdited: false,
-    billingPeriod: "01 Sep – 30 Sep 2026",
-    invoiceType: "Rent",
-    genDate: "01 Sep 2026",
-    monthlyRent: 8000,
-    applicableDays: 30,
-    proratedRent: 8000,
-    discount: 0,
-    tax: 0,
-  },
-  {
-    id: 4,
-    name: "Dinesh Kumar",
-    initials: "DK",
-    room: "G2 / B-205",
-    amount: 0,
-    status: "READY",
-    isEdited: false,
-    billingPeriod: "01 Sep – 30 Sep 2026",
-    invoiceType: "Rent",
-    genDate: "01 Sep 2026",
-    monthlyRent: 8000,
-    applicableDays: 30,
-    proratedRent: 8000,
-    discount: 0,
-    tax: 0,
-  },
-  {
-    id: 5,
-    name: "Suresh Babu",
-    initials: "SB",
-    room: "G1 / B-103",
-    amount: 7500,
-    status: "READY",
-    isEdited: false,
-    billingPeriod: "01 Sep – 30 Sep 2026",
-    invoiceType: "Rent",
-    genDate: "01 Sep 2026",
-    monthlyRent: 7500,
-    applicableDays: 30,
-    proratedRent: 7500,
-    discount: 0,
-    tax: 0,
-  },
-];
-
-// const tabs = [
-//   {
-//     key: "ALL",
-//     label: "All",
-//   },
-//   {
-//     key: "READY",
-//     label: "Ready",
-//   },
-//   {
-//     key: "NEEDS_REVIEW",
-//     label: "Needs Review",
-//   },
-//   {
-//     key: "GENERATED",
-//     label: "Generated",
-//   },
-//   {
-//     key: "EDITED",
-//     label: "Edited",
-//   },
-// ];
+import { useHasPermission } from "../../Utils/Permission";
+import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 
 const formatAmount = (amount) => {
   if (!amount) return "–";
@@ -208,24 +83,48 @@ StatusBadge.propTypes = {
 const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const [activeTab, setActiveTab] = useState("ALL");
   const [search, setSearch] = useState("");
   const [expandedId, setExpandedId] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
-  // const [viewMode, setViewMode] = useState("LIST");
-  const [items, setItems] = useState(invoiceData);
+  const [items, setItems] = useState([]);
   const [editingField, setEditingField] = useState(null);
-  const [editingValue, setEditingValue] = useState("");
+  const [editingValue, setEditingValue] = useState({
+    itemName: "",
+    amount: "",
+  });
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
 
-  // const handleGenerateSelected = () => {
-  //   if (selectedIds.length === 0) {
-  //     return;
-  //   }
+  const [savingItem, setSavingItem] = useState(null);
+  const [deletingItem, setDeletingItem] = useState(null);
 
-  //   setShowGenerateModal(true);
-  // };
+  const [generateType, setGenerateType] = useState(null);
+
+  // const arrayData =
+  //   state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList || [];
+
+  const {
+    canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice,
+    canReadModule: canReadInvoice,
+  } = useHasPermission("Invoice");
+
+  const allSelected =
+    items.length > 0 &&
+    items.every((item) => selectedIds.includes(item.invoiceId));
+
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      setSelectedIds(items.map((item) => item.invoiceId));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+  const handleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
 
   const handleAddInvoiceItem = (item) => {
     setItems((prev) =>
@@ -253,150 +152,212 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleDeleteInvoiceItem = (item, index) => {
-    setItems((prev) =>
-      prev.map((invoice) => {
-        if (invoice.id !== item.id) {
-          return invoice;
-        }
-
-        const currentInvoiceItems = Array.isArray(invoice.invoiceItems)
-          ? invoice.invoiceItems
-          : [];
-
-        const updatedInvoiceItems = currentInvoiceItems.filter(
-          (_, itemIndex) => itemIndex !== index,
-        );
-
-        const updatedAmount = updatedInvoiceItems.reduce(
-          (total, invoiceItem) => total + Number(invoiceItem.amount || 0),
-          0,
-        );
-
-        return {
-          ...invoice,
-          invoiceItems: updatedInvoiceItems,
-          amount: updatedAmount,
-        };
-      }),
+    const currentInvoice = items.find(
+      (invoice) => invoice.invoiceId === item.invoiceId,
     );
 
-    setEditingField(null);
-    setEditingValue("");
+    if (!currentInvoice) return;
+
+    const currentInvoiceItems = Array.isArray(currentInvoice.invoiceItems)
+      ? currentInvoice.invoiceItems
+      : [];
+
+    const invoiceItem = currentInvoiceItems[index];
+
+    if (!invoiceItem) return;
+    const rowKey = `${item.invoiceId}-${index}`;
+
+    if (invoiceItem.isNew || !invoiceItem.itemId) {
+      const updatedInvoiceItems = currentInvoiceItems.filter(
+        (_, itemIndex) => itemIndex !== index,
+      );
+
+      const updatedAmount = updatedInvoiceItems.reduce(
+        (total, invoiceRow) => total + Number(invoiceRow?.amount || 0),
+        0,
+      );
+
+      setItems((prev) =>
+        prev.map((invoice) =>
+          invoice.invoiceId === item.invoiceId
+            ? {
+                ...invoice,
+                invoiceItems: updatedInvoiceItems,
+                invoiceAmount: updatedAmount,
+                isEdited: true,
+              }
+            : invoice,
+        ),
+      );
+
+      setEditingField(null);
+      setEditingValue("");
+
+      return;
+    }
+    setDeletingItem(rowKey);
+    dispatch({
+      type: "DELETE_REVIEW_BILLS_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        invoiceId: item.invoiceId,
+        itemId: invoiceItem.itemId,
+      },
+    });
   };
 
   const handleSaveInvoiceItem = (item, index) => {
+    const currentInvoice = items.find(
+      (invoice) => invoice.invoiceId === item.invoiceId,
+    );
+
+    if (!currentInvoice) return;
+
+    const currentInvoiceItems = Array.isArray(currentInvoice.invoiceItems)
+      ? currentInvoice.invoiceItems
+      : [];
+
+    const invoiceItem = currentInvoiceItems[index];
+
+    if (!invoiceItem) return;
+    const rowKey = `${item.invoiceId}-${index}`;
+
+    const updatedItem = {
+      ...invoiceItem,
+      itemName: editingValue.itemName?.trim() || "OTHER",
+      amount: Number(editingValue.amount) || 0,
+      isNew: false,
+    };
+
+    const updatedInvoiceItems = currentInvoiceItems.map(
+      (invoiceRow, rowIndex) => (rowIndex === index ? updatedItem : invoiceRow),
+    );
+
+    const updatedAmount = updatedInvoiceItems.reduce(
+      (total, invoiceRow) => total + Number(invoiceRow?.amount || 0),
+      0,
+    );
+
     setItems((prev) =>
-      prev.map((invoice) => {
-        if (invoice.id !== item.id) {
-          return invoice;
-        }
-
-        const currentInvoiceItems = Array.isArray(invoice.invoiceItems)
-          ? invoice.invoiceItems
-          : [];
-
-        const updatedInvoiceItems = currentInvoiceItems.map(
-          (invoiceItem, itemIndex) => {
-            if (itemIndex !== index) {
-              return invoiceItem;
+      prev.map((invoice) =>
+        invoice.invoiceId === item.invoiceId
+          ? {
+              ...invoice,
+              invoiceItems: updatedInvoiceItems,
+              invoiceAmount: updatedAmount,
+              isEdited: true,
             }
-
-            const rowKey = `${invoice.id}-${index}`;
-
-            const isAmountEditing =
-              editingField?.id === rowKey && editingField?.field === "amount";
-
-            return {
-              ...invoiceItem,
-              description: invoiceItem.description?.trim() || "OTHER",
-              amount: isAmountEditing
-                ? Number(editingValue) || 0
-                : Number(invoiceItem.amount) || 0,
-              isNew: false,
-            };
-          },
-        );
-
-        const updatedAmount = updatedInvoiceItems.reduce(
-          (total, invoiceItem) => total + Number(invoiceItem.amount || 0),
-          0,
-        );
-
-        return {
-          ...invoice,
-          invoiceItems: updatedInvoiceItems,
-          amount: updatedAmount,
-          isEdited: true,
-        };
-      }),
+          : invoice,
+      ),
     );
 
     setEditingField(null);
-    setEditingValue("");
+    setEditingValue({
+      itemName: "",
+      amount: "",
+    });
+
+    if (invoiceItem.itemId) {
+      setSavingItem(rowKey);
+      dispatch({
+        type: "UPDATE_REVIEW_AND_GENERATE_BILL_SAGA",
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          invoiceId: item.invoiceId,
+          itemId: invoiceItem.itemId,
+          name: updatedItem.itemName,
+          draftAmount: Number(updatedItem.amount) || 0,
+        },
+      });
+    }
+  };
+
+  const handleNewSaveInvoiceItem = (item, index) => {
+    const currentInvoice = items.find(
+      (invoice) => invoice.invoiceId === item.invoiceId,
+    );
+
+    if (!currentInvoice) return;
+
+    const currentInvoiceItems = Array.isArray(currentInvoice.invoiceItems)
+      ? currentInvoice.invoiceItems
+      : [];
+
+    const invoiceItem = currentInvoiceItems[index];
+
+    if (!invoiceItem) return;
+    const rowKey = `${item.invoiceId}-${index}`;
+
+    const itemName = invoiceItem?.description?.trim() || "OTHER";
+    const amount = Number(invoiceItem?.amount) || 0;
+
+    const updatedItem = {
+      ...invoiceItem,
+      itemName,
+      amount,
+      isNew: true,
+    };
+
+    const updatedInvoiceItems = currentInvoiceItems.map(
+      (invoiceRow, rowIndex) => (rowIndex === index ? updatedItem : invoiceRow),
+    );
+
+    const updatedAmount = updatedInvoiceItems.reduce(
+      (total, invoiceRow) => total + Number(invoiceRow?.amount || 0),
+      0,
+    );
+
+    setItems((prev) =>
+      prev.map((invoice) =>
+        invoice.invoiceId === item.invoiceId
+          ? {
+              ...invoice,
+              invoiceItems: updatedInvoiceItems,
+              invoiceAmount: updatedAmount,
+              isEdited: true,
+            }
+          : invoice,
+      ),
+    );
+
+    setEditingField(null);
+
+    setEditingValue({
+      itemName: "",
+      amount: "",
+    });
+    setSavingItem(rowKey);
+    dispatch({
+      type: "ADD_NEW_REVIEW_BILL_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        invoiceId: item.invoiceId,
+        items: [
+          {
+            name: itemName,
+            amount,
+          },
+        ],
+      },
+    });
   };
 
   const handleCancelField = () => {
     setEditingField(null);
-    setEditingValue("");
+    setEditingValue({
+      itemName: "",
+      amount: "",
+    });
   };
 
-  const counts = useMemo(() => {
-    return {
-      all: invoiceData.length,
-      ready: invoiceData.filter((item) => item.status === "READY").length,
-      needsReview: invoiceData.filter((item) => item.status === "NEEDS_REVIEW")
-        .length,
-      generated: invoiceData.filter((item) => item.status === "GENERATED")
-        .length,
-      edited: invoiceData.filter((item) => item.isEdited).length,
-      excluded: invoiceData.filter((item) => item.status === "EXCLUDED").length,
-    };
-  }, []);
+  useEffect(() => {
+    const invoices =
+      state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList;
 
-  // const filteredData = useMemo(() => {
-  //   let data = [...items];
-
-  //   if (search.trim()) {
-  //     const searchValue = search.toLowerCase();
-
-  //     data = data.filter(
-  //       (item) =>
-  //         item.name.toLowerCase().includes(searchValue) ||
-  //         item.room.toLowerCase().includes(searchValue) ||
-  //         String(item.id).includes(searchValue),
-  //     );
-  //   }
-
-  //   return data;
-  // }, [items, activeTab, search]);
-
-  const readyInvoices = items.filter((item) => item.status === "READY");
-
-  //   console.log("filteredData", filteredData);
-
-  // const handleTabChange = (tab) => {
-  //   setActiveTab(tab);
-  //   setExpandedId(null);
-  //   setSelectedIds([]);
-  // };
-
-  const handleSelectAll = (checked) => {
-    if (checked) {
-      setSelectedIds(
-        items
-          .filter((item) => item.status !== "EXCLUDED")
-          .map((item) => item.id),
-      );
-    } else {
-      setSelectedIds([]);
+    if (Array.isArray(invoices)) {
+      setItems(invoices);
     }
-  };
-
-  const handleSelect = (id) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
-  };
+  }, [state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList]);
 
   const handleExpand = (id) => {
     setExpandedId((prev) => (prev === id ? null : id));
@@ -405,12 +366,17 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const handleGenerateAll = () => {
     dispatch({ type: "REMOVE_REVIEW_GENERATE_BILL_ERROR" });
     if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: "REVIEW_AND_GENERATE_BILL_SAGA",
-        payload: { hostelId: state.login?.selectedHostel_Id },
-      });
-      setIsGeneratingInvoice(true);
+      setGenerateType("ALL");
+      setShowGenerateModal(true);
     }
+  };
+
+  const handleGenerateSelectedOnly = () => {
+    dispatch({ type: "REMOVE_REVIEW_GENERATE_BILL_ERROR" });
+    if (!state.login?.selectedHostel_Id) return;
+    if (!selectedIds.length) return;
+    setGenerateType("SELECTED");
+    setShowGenerateModal(true);
   };
 
   useEffect(() => {
@@ -425,23 +391,72 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     }
   }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
 
-  // const handleKeepReady = (item) => {
-  //   console.log(" ready", item);
-  // };
+  useEffect(() => {
+    if (
+      state.InvoiceList?.updateReviewGenerateRecurringSuccess === 200 ||
+      state.InvoiceList?.addNewItemsInReviewSuccess === 200
+    ) {
+      setSavingItem(null);
 
-  // const handleExclude = (item) => {
-  //   console.log("Exclude invoice", item);
-  // };
+      dispatch({
+        type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
 
-  // const handleEditAmount = (item) => {
-  //   console.log("Edit amount", item);
-  // };
+      dispatch({ type: "REMOVE_UPDATE_REVIEW_AND_GENERATE_BILL_REDUCER" });
+      dispatch({ type: "REMOVE_ADD_NEW_REVIEW_BILL_REDUCER" });
+    }
+  }, [
+    state.InvoiceList?.updateReviewGenerateRecurringSuccess,
+    state.InvoiceList?.addNewItemsInReviewSuccess,
+  ]);
 
-  const allSelected =
-    items.filter((item) => item.status !== "EXCLUDED").length > 0 &&
-    items
-      .filter((item) => item.status !== "EXCLUDED")
-      .every((item) => selectedIds.includes(item.id));
+  useEffect(() => {
+    if (state.InvoiceList?.deleteReviewBillsSuccess === 204) {
+      setDeletingItem(null);
+      dispatch({
+        type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
+
+      dispatch({ type: "REMOVE_DELETE_REVIEW_BILLS_REDUCER" });
+    }
+  }, [state.InvoiceList?.deleteReviewBillsSuccess]);
+
+  useEffect(() => {
+    if (
+      state.InvoiceList?.deleteReviewError ||
+      state.InvoiceList?.updateReviewError
+    ) {
+      setSavingItem(null);
+      setDeletingItem(null);
+    }
+  }, [
+    state.InvoiceList?.deleteReviewError,
+    state.InvoiceList?.updateReviewError,
+  ]);
+
+  const filteredItems = useMemo(() => {
+    const searchValue = search.trim().toLowerCase();
+
+    if (!searchValue) {
+      return items;
+    }
+
+    return items.filter((item) => {
+      const tenantName = item.customerInfo?.fullName || "";
+      const roomName = item.stayInfo?.roomName || "";
+      const bedName = item.stayInfo?.bedName || "";
+      const invoiceId = item.invoiceId?.toString() || "";
+
+      return (
+        tenantName.toLowerCase().includes(searchValue) ||
+        roomName.toLowerCase().includes(searchValue) ||
+        bedName.toLowerCase().includes(searchValue) ||
+        invoiceId.toLowerCase().includes(searchValue)
+      );
+    });
+  }, [items, search]);
 
   if (!open) return null;
 
@@ -474,59 +489,27 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-[12px] text-[#4B4B4B]">
             <span className="">
               Period:{" "}
-              <strong className="text-[#344054]">01 Sep – 30 Sep 2026</strong>
+              <strong className="text-[#344054]">
+                {
+                  state.InvoiceList?.getReviewGenerateRecurringbill
+                    ?.billingStartDate
+                }{" "}
+                –{" "}
+                {
+                  state.InvoiceList?.getReviewGenerateRecurringbill
+                    ?.billingEndDate
+                }
+              </strong>
             </span>
 
             <span>
-              Gen. Date: <strong className="text-[#344054]">01 Sep 2026</strong>
+              Gen. Date:{" "}
+              <strong className="text-[#344054]">
+                {state.InvoiceList?.getReviewGenerateRecurringbill?.invoiceDate}
+              </strong>
             </span>
-
-            {/* <span className="ml-auto flex items-center gap-1 border-1 border-[#FEE685] bg-[#FFFBEB] text-[#BB4D00] rounded-full px-2 py-1">
-              <Warning2 size="11" />
-              Review Required
-            </span> */}
           </div>
         </div>
-
-        {/* <div className="px-3 py-2">
-          <div className="flex gap-2">
-            <div className="flex-1 min-w-[105px] border-1 border-[#BFDBFE] rounded-lg px-2 py-1 text-center bg-blue-100">
-              <div className="text-[18px] font-bold text-[#1E45E1]">
-                {counts.all}
-              </div>
-
-              <div className="text-[10px] text-[#6B7280] mt-1">
-                Total Invoices
-              </div>
-            </div>
-
-            <div className="flex-1 min-w-[105px] border-1 border-[#BBF7D0] rounded-lg px-2 py-1 text-center bg-green-100">
-              <div className="text-[18px] font-bold text-[#12B76A]">
-                {counts.ready}
-              </div>
-
-              <div className="text-[10px] text-[#6B7280] mt-1">Ready</div>
-            </div>
-
-            <div className="flex-1 min-w-[105px] border-1 border-[#FED7AA] rounded-lg px-2 py-1 text-center bg-orange-100">
-              <div className="text-[18px] font-bold text-[#F79009]">
-                {counts.needsReview}
-              </div>
-
-              <div className="text-[10px] text-[#6B7280] mt-1">
-                Needs Review
-              </div>
-            </div>
-
-            <div className="flex-1 min-w-[105px] border-1 border-[#D1D5DB] rounded-lg px-2 py-1 text-center bg-gray-100">
-              <div className="text-[18px] font-bold text-[#667085]">
-                {counts.excluded}
-              </div>
-
-              <div className="text-[10px] text-[#6B7280] mt-1">Excluded</div>
-            </div>
-          </div>
-        </div> */}
 
         <div className="px-3 pb-2">
           <div className="flex gap-2">
@@ -585,74 +568,32 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
             </button> */}
           </div>
         </div>
+        {!canReadInvoice ? (
+          <PermissionDeniedMessage />
+        ) : (
+          <>
+            <div className="flex-1 overflow-y-auto bg-[#F8FAFF] show-scrolls ">
+              {selectedIds.length > 0 ? (
+                <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedIds([])}
+                      className="w-5 h-5 flex items-center justify-center text-[#667085] hover:text-[#344054]"
+                    >
+                      <CloseCircle size="16" />
+                    </button>
 
-        {/* <div className="px-3 border-b border-[#EAECF0]">
-          <div className="flex items-center gap-5 overflow-x-auto">
-            {tabs.map((tab) => {
-              const count =
-                tab.key === "ALL"
-                  ? counts.all
-                  : tab.key === "READY"
-                    ? counts.ready
-                    : tab.key === "NEEDS_REVIEW"
-                      ? counts.needsReview
-                      : tab.key === "GENERATED"
-                        ? counts.generated
-                        : counts.edited;
+                    <span className="text-[12px] font-semibold text-[#344054]">
+                      {selectedIds.length} invoices selected
+                    </span>
+                  </div>
 
-              return (
-                <button
-                  key={tab.key}
-                  type="button"
-                  onClick={() => handleTabChange(tab.key)}
-                  className={`relative flex items-center gap-1.5 px-2 py-2 text-[12px] whitespace-nowrap ${
-                    activeTab === tab.key
-                      ? "text-[#1E45E1] font-semibold"
-                      : "text-[#667085]"
-                  }`}
-                >
-                  {tab.label}
-
-                  <span
-                    className={`min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[9px] ${
-                      activeTab === tab.key
-                        ? "bg-[#1E45E1] text-white"
-                        : "bg-[#F2F4F7] text-[#667085]"
-                    }`}
-                  >
-                    {count}
-                  </span>
-
-                  {activeTab === tab.key && (
-                    <span className="absolute left-0 right-0 bottom-0 h-[2px] bg-[#1E45E1] rounded-full" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div> */}
-
-        {/* {selectedIds.length > 0 ? (
-          <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setSelectedIds([])}
-                className="w-5 h-5 flex items-center justify-center text-[#667085] hover:text-[#344054]"
-              >
-                <CloseCircle size="16" />
-              </button>
-
-              <span className="text-[12px] font-semibold text-[#344054]">
-                {selectedIds.length} invoices selected
-              </span>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleGenerateSelected}
-              disabled={selectedIds.length === 0}
-              className="
+                  <button
+                    type="button"
+                    onClick={handleGenerateSelectedOnly}
+                    disabled={selectedIds.length === 0}
+                    className="
         h-7 px-3
         rounded-lg
         bg-[#1E45E1]
@@ -663,559 +604,563 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         disabled:opacity-50
         disabled:cursor-not-allowed
       "
-            >
-              Generate Selected ({selectedIds.length})
-            </button>
-          </div>
-        ) : (
-          <div className="px-3 py-2 border-b border-[#EAECF0] flex items-center justify-between">
-            <label className="flex items-center gap-2 text-[12px] text-[#4B4B4B] cursor-pointer">
-              <input
-                type="checkbox"
-                checked={allSelected}
-                onChange={(e) => handleSelectAll(e.target.checked)}
-                className="w-4 h-4 accent-[#1E45E1]"
-              />
-              Select All Eligible
-            </label>
-
-            <span className="text-[12px] text-[#6B7280]">
-              {counts.ready} of {counts.all} ready
-            </span>
-          </div>
-        )} */}
-
-        <div className="flex-1 overflow-y-auto bg-[#F8FAFF] show-scrolls ">
-          {items.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center">
-              <DocumentText size="38" color="#98A2B3" />
-
-              <p className="text-[13px] font-semibold text-[#475467] mt-3">
-                No invoices found
-              </p>
-
-              <p className="text-[11px] text-[#98A2B3] mt-1">
-                Try another tab or search term.
-              </p>
-            </div>
-          ) : (
-            items.map((item) => {
-              const isExpanded = expandedId === item.id;
-              const isExcluded = item.status === "EXCLUDED";
-
-              return (
-                <div
-                  key={item.id}
-                  className="bg-white border-b border-[#EAECF0]"
-                >
-                  <div
-                    className={`px-3 py-2 flex items-center gap-3 ${
-                      isExpanded ? "bg-[#F8FAFF]" : "hover:bg-[#FAFBFC]"
-                    }`}
                   >
-                    {/* <input
+                    Generate Selected ({selectedIds.length})
+                  </button>
+                </div>
+              ) : (
+                <div className="px-3 py-2 border-b border-[#EAECF0] flex items-center justify-between">
+                  <label className="flex items-center gap-2 text-[12px] text-[#4B4B4B] cursor-pointer">
+                    <input
                       type="checkbox"
-                      checked={selectedIds.includes(item.id)}
-                      disabled={isExcluded}
-                      onChange={() => handleSelect(item.id)}
-                      className="w-4 h-4 accent-[#1E45E1] shrink-0"
-                    /> */}
+                      checked={allSelected}
+                      onChange={(e) => handleSelectAll(e.target.checked)}
+                      className="w-4 h-4 accent-[#1E45E1]"
+                    />
+                    Select All Eligible
+                  </label>
 
-                    <div className="w-8 h-8 rounded-full bg-[#172B9E] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">
-                      {item.initials}
-                    </div>
+                  <span className="text-[12px] text-[#6B7280]">
+                    {items.length} invoices
+                  </span>
+                </div>
+              )}
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="text-[14px] font-semibold text-[#081021] truncate mb-1">
-                          {item.name}
-                        </p>
+              {filteredItems?.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-center">
+                  <DocumentText size="38" color="#98A2B3" />
 
-                        {item.isEdited && (
-                          <span className="border border-[#FDB022] bg-[#FFFAEB] text-[#F79009] rounded px-1.5 py-0.5 text-[8px] font-semibold">
-                            EDITED
-                          </span>
-                        )}
-                      </div>
+                  <p className="text-[13px] font-semibold text-[#475467] mt-3">
+                    No search data found
+                  </p>
+                </div>
+              ) : (
+                filteredItems?.map((item) => {
+                  const isExpanded = expandedId === item.invoiceId;
 
-                      <p className="text-[12px] text-[#6B7280] mt-0.5">
-                        {item.room} · Rent · Sep 2026
-                      </p>
-                    </div>
-
-                    <div className="text-[12px] font-bold text-[#081021] min-w-[58px] text-right">
-                      {formatAmount(item.amount)}
-                    </div>
-
-                    <StatusBadge status={item.status} />
-
-                    {/* {item.status === "GENERATED" ? (
-                      <button
-                        type="button"
-                        onClick={() => handleExpand(item.id)}
-                        className="h-7 px-2.5 rounded-lg border-1 border-[#B2DDFF] text-[#1E45E1] text-[10px] flex items-center gap-1"
-                      >
-                        View Invoice
-                        {isExpanded ? (
-                          <ArrowUp2 size="12" />
-                        ) : (
-                          <ArrowDown2 size="12" />
-                        )}
-                      </button>
-                    ) : isExcluded ? (
-                      <button
-                        type="button"
-                        onClick={() => handleExpand(item.id)}
-                        className="h-7 px-2.5 rounded-lg border-1 border-[#D0D5DD] text-[#667085] text-[10px] flex items-center gap-1"
-                      >
-                        View Reason
-                        <ArrowDown2 size="12" />
-                      </button>
-                    ) : item.status === "NEEDS_REVIEW" ? (
-                      <button
-                        type="button"
-                        onClick={() => handleExpand(item.id)}
-                        className={`h-7 px-2.5 rounded-lg border-1 text-[10px] flex items-center gap-1 ${
-                          isExpanded
-                            ? "border-[#1E45E1] text-[#1E45E1] bg-[#EFF6FF]"
-                            : "border-[#1E45E1] text-[#1E45E1] bg-[#EFF6FF]"
+                  return (
+                    <div
+                      key={item.invoiceId}
+                      className="bg-white border-b border-[#EAECF0]"
+                    >
+                      <div
+                        className={`px-3 py-2 flex items-center gap-3 ${
+                          isExpanded ? "bg-[#F8FAFF]" : "hover:bg-[#FAFBFC]"
                         }`}
                       >
-                        Review
-                        {isExpanded ? (
-                          <ArrowUp2 size="12" />
-                        ) : (
-                          <ArrowDown2 size="12" />
-                        )}
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleExpand(item.id)}
-                        className="h-7 px-2.5 rounded-lg border-1 border-[#A6F4C5] text-[#12B76A] text-[10px] flex items-center gap-1"
-                      >
-                        View
-                        {isExpanded ? (
-                          <ArrowUp2 size="12" />
-                        ) : (
-                          <ArrowDown2 size="12" />
-                        )}
-                      </button>
-                    )} */}
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.includes(item.invoiceId)}
+                          // disabled={isExcluded}
+                          onChange={() => handleSelect(item.invoiceId)}
+                          className="w-4 h-4 accent-[#1E45E1] shrink-0"
+                        />
 
-                    <button
-                      type="button"
-                      onClick={() => handleExpand(item.id)}
-                      className="h-7 px-2.5 rounded-lg border-1 border-[#A6F4C5] text-[#12B76A] text-[10px] flex items-center gap-1"
-                    >
-                      View
-                      {isExpanded ? (
-                        <ArrowUp2 size="12" />
-                      ) : (
-                        <ArrowDown2 size="12" />
-                      )}
-                    </button>
-                  </div>
+                        <div className="w-8 h-8 rounded-full bg-[#172B9E] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">
+                          {item.customerInfo?.initials}
+                        </div>
 
-                  {isExpanded && (
-                    <div className="px-3 pb-2 bg-[#F5F8FF]">
-                      <div className="grid grid-cols-2 gap-2 mb-3">
-                        <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2">
-                          <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase mb-0">
-                            BILLING PERIOD
-                          </p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="text-[14px] font-semibold text-[#081021] truncate mb-1">
+                              {item.customerInfo?.fullName}
+                            </p>
 
-                          <p className="text-[12px] font-semibold text-[#081021] mb-0">
-                            {item.billingPeriod}
+                            {item.isEdited && (
+                              <span className="border-1 border-[#FDB022] bg-[#FFFAEB] text-[#F79009] rounded px-1.5 py-0.5 text-[8px] font-semibold">
+                                EDITED
+                              </span>
+                            )}
+                          </div>
+
+                          <p className="text-[12px] text-[#6B7280] mt-0.5 flex items-center gap-1.5">
+                            {item.stayInfo?.roomName} / {item.stayInfo?.bedName}
+                            <span className="h-1 w-1 rounded-full bg-gray-400 inline-block"></span>
+                            Rent
+                            <span className="h-1 w-1 rounded-full bg-gray-400 inline-block"></span>
+                            {item.invoiceStartDate?.split("/")[1] &&
+                              new Date(
+                                `${item.invoiceStartDate.split("/")[2]}-${item.invoiceStartDate.split("/")[1]}-01`,
+                              ).toLocaleString("en-US", {
+                                month: "short",
+                                year: "numeric",
+                              })}
                           </p>
                         </div>
 
-                        <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
-                          <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
-                            INVOICE TYPE
-                          </p>
-
-                          <p className="text-[12px] font-semibold text-[#081021] mb-0">
-                            {item.invoiceType}
-                          </p>
+                        <div className="text-[12px] font-bold text-[#081021] min-w-[58px] text-right">
+                          {formatAmount(item.invoiceAmount)}
                         </div>
 
-                        <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
-                          <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
-                            ROOM / BED
-                          </p>
-
-                          <p className="text-[12px] font-semibold text-[#081021] mb-0">
-                            {item.room}
-                          </p>
-                        </div>
-
-                        <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
-                          <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
-                            GEN. DATE
-                          </p>
-
-                          <p className="text-[12px] font-semibold text-[#081021] mb-0">
-                            {item.genDate}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="bg-white rounded-lg border border-[#EAECF0] overflow-hidden">
-                        <div className="px-3 py-2.5 bg-[#F7F8FC] border-b border-[#EAECF0] flex items-center justify-between">
-                          <span className="text-[12px] font-semibold text-[#98A2B3]">
-                            CALCULATION BREAKDOWN
-                          </span>
-
-                          {item.isEdited && (
-                            <span className="flex items-center gap-1 border-1 border-[#FDB022] bg-[#FFFAEB] text-[#F79009] rounded-full px-2 py-1 text-[9px]">
-                              <Edit2 size="10" />
-                              Manually Edited
-                            </span>
+                        <button
+                          type="button"
+                          onClick={() => handleExpand(item.invoiceId)}
+                          className="h-7 px-2.5 rounded-lg border-1 border-[#A6F4C5] text-[#12B76A] text-[10px] flex items-center gap-1"
+                        >
+                          View
+                          {isExpanded ? (
+                            <ArrowUp2 size="12" />
+                          ) : (
+                            <ArrowDown2 size="12" />
                           )}
-                        </div>
-
-                        <div className="px-2 py-3 space-y-2.5">
-                          {Array.isArray(item.invoiceItems) &&
-                            item.invoiceItems.map((invoiceItem, index) => {
-                              const rowKey = `${item.id}-${index}`;
-
-                              const isEditing =
-                                editingField?.id === rowKey &&
-                                editingField?.field === "amount";
-
-                              return (
-                                <div
-                                  key={rowKey}
-                                  className={`flex items-center justify-between group relative min-h-[30px] ${invoiceItem?.isNew ? "hover:bg-white" : "hover:bg-blue-100"} hover:rounded-lg px-2`}
-                                >
-                                  {!invoiceItem?.isNew && (
-                                    <span className="text-[14px] text-[#6B7280]">
-                                      {invoiceItem?.description}
-                                    </span>
-                                  )}
-
-                                  {invoiceItem?.isNew ? (
-                                    <div className="flex items-center gap-2 w-full">
-                                      <input
-                                        type="text"
-                                        value={invoiceItem.description || ""}
-                                        onChange={(e) => {
-                                          const value = e.target.value;
-
-                                          setItems((prev) =>
-                                            prev.map((invoice) => {
-                                              if (invoice.id !== item.id) {
-                                                return invoice;
-                                              }
-
-                                              return {
-                                                ...invoice,
-                                                invoiceItems:
-                                                  invoice.invoiceItems.map(
-                                                    (invoiceRow, rowIndex) =>
-                                                      rowIndex === index
-                                                        ? {
-                                                            ...invoiceRow,
-                                                            description: value,
-                                                          }
-                                                        : invoiceRow,
-                                                  ),
-                                              };
-                                            }),
-                                          );
-                                        }}
-                                        placeholder="Enter description"
-                                        autoFocus
-                                        className="flex-1 px-2 py-1.5 border border-[#D0D5DD] 
-                                        rounded-md text-[12px] text-[#344054] outline-none focus:border-[#1E45E1]"
-                                      />
-
-                                      <div
-                                        className="flex items-center  border border-[#1E45E1] bg-white 
-                                      rounded-md overflow-hidden"
-                                      >
-                                        <span className="pl-2 text-[11px] text-[#98A2B3]">
-                                          ₹
-                                        </span>
-
-                                        <input
-                                          type="number"
-                                          min="0"
-                                          value={invoiceItem.amount ?? ""}
-                                          onChange={(e) => {
-                                            const value = e.target.value;
-
-                                            setItems((prev) =>
-                                              prev.map((invoice) => {
-                                                if (invoice.id !== item.id) {
-                                                  return invoice;
-                                                }
-
-                                                return {
-                                                  ...invoice,
-                                                  invoiceItems:
-                                                    invoice.invoiceItems.map(
-                                                      (invoiceRow, rowIndex) =>
-                                                        rowIndex === index
-                                                          ? {
-                                                              ...invoiceRow,
-                                                              amount: value,
-                                                            }
-                                                          : invoiceRow,
-                                                    ),
-                                                };
-                                              }),
-                                            );
-                                          }}
-                                          placeholder="0"
-                                          className="w-[70px]  px-1 py-1.5 text-[11px] text-right text-[#344054] outline-none"
-                                        />
-                                      </div>
-
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          handleSaveInvoiceItem(item, index)
-                                        }
-                                        className="w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center"
-                                      >
-                                        <TiTick className="text-[12px]" />
-                                      </button>
-
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          handleDeleteInvoiceItem(item, index)
-                                        }
-                                        className="w-[24px] h-[24px] rounded-full bg-[#F2F4F7] text-[#667085] flex items-center justify-center"
-                                      >
-                                        <Add className="rotate-45" size="16" />
-                                      </button>
-                                    </div>
-                                  ) : isEditing ? (
-                                    <div className="flex items-center gap-1">
-                                      <div className="flex items-center h-[26px] border border-[#1E45E1] bg-white rounded-md overflow-hidden">
-                                        <span className="pl-2 text-[11px] text-[#98A2B3]">
-                                          ₹
-                                        </span>
-
-                                        <input
-                                          type="number"
-                                          min="0"
-                                          value={editingValue}
-                                          onChange={(e) =>
-                                            setEditingValue(e.target.value)
-                                          }
-                                          onKeyDown={(e) => {
-                                            if (e.key === "Enter") {
-                                              handleSaveInvoiceItem(
-                                                item,
-                                                index,
-                                              );
-                                            }
-
-                                            if (e.key === "Escape") {
-                                              handleCancelField();
-                                            }
-                                          }}
-                                          autoFocus
-                                          className="w-[58px] h-[24px] px-1 text-[11px] text-right text-[#344054]
-                                           outline-none"
-                                        />
-                                      </div>
-
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          handleSaveInvoiceItem(item, index)
-                                        }
-                                        className="w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center"
-                                      >
-                                        <TiTick className="text-[12px]" />
-                                      </button>
-
-                                      <button
-                                        type="button"
-                                        onClick={handleCancelField}
-                                        className="w-[24px] h-[24px] rounded-full bg-[#F2F4F7] text-[#667085] flex items-center justify-center"
-                                      >
-                                        <Add className="rotate-45" size="16" />
-                                      </button>
-                                    </div>
-                                  ) : (
-                                    <div className="flex items-center gap-3">
-                                      <div className="absolute right-16 inset-y-0 hidden group-hover:flex items-center gap-2">
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setEditingField({
-                                              id: rowKey,
-                                              field: "amount",
-                                            });
-                                            setEditingValue(
-                                              String(invoiceItem.amount ?? ""),
-                                            );
-                                          }}
-                                          className="inline-flex items-center justify-center gap-1 h-6 text-[12px] font-medium text-[#1E45E1] leading-none"
-                                        >
-                                          <Edit2 size={11} />
-                                          <span className="leading-none mt-1">
-                                            Edit
-                                          </span>
-                                        </button>
-
-                                        <button
-                                          type="button"
-                                          onClick={() =>
-                                            handleDeleteInvoiceItem(item, index)
-                                          }
-                                          className="inline-flex items-center justify-center gap-1 h-6 text-[12px] font-medium text-[#EF4444] leading-none"
-                                        >
-                                          <Trash size={11} />
-                                          <span className="leading-none mt-1">
-                                            Delete
-                                          </span>
-                                        </button>
-                                      </div>
-
-                                      <span className="text-[14px] font-medium text-[#222222]">
-                                        {formatAmount(invoiceItem.amount)}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          <div className=" flex items-center justify-end">
-                            <button
-                              type="button"
-                              onClick={() => handleAddInvoiceItem(item)}
-                              className="flex items-center justify-end px-2 gap-1.5 h-[32px] border-1   
-                            border-[#1E45E1] rounded-lg text-[12px] font-medium text-white bg-[#1E45E1]"
-                            >
-                              <Add size="14" color="#FFFFFF" />
-                              Add New Row
-                            </button>
-                          </div>
-
-                          <div className="border-t border-[#EAECF0] pt-2.5 flex items-center justify-between">
-                            <span className="text-[14px] text-[#081021] font-semibold">
-                              Invoice Total
-                            </span>
-
-                            <span className="text-[16px] font-bold text-[#1E45E1]">
-                              {formatAmount(item.amount)}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="px-3 pb-3 text-center">
-                          <span className="text-[10px] text-[#98A2B3]">
-                            Calculated automatically · Hover any row to edit or
-                            remove
-                          </span>
-                        </div>
+                        </button>
                       </div>
 
-                      {/* {item.status === "NEEDS_REVIEW" && (
-                        <>
-                          <div className="mt-3 border-1  border-[#FEDF89] bg-[#FFFBEB] rounded-lg px-3 py-2.5 flex gap-2">
-                            <Warning2
-                              size="16"
-                              color="#F79009"
-                              className="shrink-0 mt-0.5"
-                            />
-
-                            <div>
-                              <p className="text-[12px] font-semibold text-[#973C00] mb-1">
-                                Needs Review
+                      {isExpanded && (
+                        <div className="px-3 pb-2 bg-[#F5F8FF]">
+                          <div className="grid grid-cols-2 gap-2 mb-3">
+                            <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2">
+                              <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase mb-0">
+                                BILLING PERIOD
                               </p>
 
-                              <p className="text-[10px] text-[#B54708] mt-1 leading-4 mb-0">
-                                {item.reviewMessage}
+                              <p className="text-[12px] font-semibold text-[#081021] mb-0">
+                                {item.invoiceStartDate} - {item.invoiceEndDate}
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
+                              <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
+                                INVOICE TYPE
+                              </p>
+
+                              <p className="text-[12px] font-semibold text-[#081021] mb-0">
+                                {item.invoiceItems?.[0]?.itemName || ""}
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
+                              <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
+                                ROOM / BED
+                              </p>
+
+                              <p className="text-[12px] font-semibold text-[#081021] mb-0">
+                                {item.stayInfo?.roomName} /{" "}
+                                {item.stayInfo?.bedName}
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
+                              <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
+                                GEN. DATE
+                              </p>
+
+                              <p className="text-[12px] font-semibold text-[#081021] mb-0">
+                                {
+                                  state.InvoiceList
+                                    ?.getReviewGenerateRecurringbill
+                                    ?.invoiceDate
+                                }
                               </p>
                             </div>
                           </div>
 
-                          <div className="flex gap-2 mt-3">
-                            <button
-                              type="button"
-                              onClick={() => handleKeepReady(item)}
-                              className="flex-1 h-8 rounded-lg bg-[#1E45E1] text-white text-[13px] 
-                              font-semibold flex items-center justify-center gap-1"
-                            >
-                              Keep Amount & Mark Ready
-                            </button>
+                          <div className="bg-white rounded-lg border border-[#EAECF0] overflow-hidden">
+                            <div className="px-3 py-2.5 bg-[#F7F8FC] border-b border-[#EAECF0] flex items-center justify-between">
+                              <span className="text-[12px] font-semibold text-[#98A2B3]">
+                                CALCULATION BREAKDOWN
+                              </span>
 
-                            <button
-                              type="button"
-                              onClick={() => handleExclude(item)}
-                              className="w-[95px] h-8 rounded-lg border-1 border-[#FFCECE] text-[#D92D20] bg-[#FFF6F6] text-[13px] font-semibold flex items-center justify-center gap-1"
-                            >
-                              Exclude
-                            </button>
+                              {item.isEdited && (
+                                <span className="flex items-center gap-1 border-1 border-[#FDB022] bg-[#FFFAEB] text-[#F79009] rounded-full px-2 py-1 text-[9px]">
+                                  <Edit2 size="10" />
+                                  Manually Edited
+                                </span>
+                              )}
+                            </div>
 
-                            <button
-                              type="button"
-                              onClick={() => handleEditAmount(item)}
-                              className="w-[105px] h-8 rounded-lg border-1 border-[#D0D5DD] text-[#667085] bg-[#E5E7EB] 
-                              text-[13px] font-semibold flex items-center justify-center gap-1"
-                            >
-                              Edit Amount
-                            </button>
+                            <div className="px-2 py-3 space-y-2.5">
+                              {Array.isArray(item.invoiceItems) &&
+                                item.invoiceItems.map((invoiceItem, index) => {
+                                  const rowKey = `${item.invoiceId}-${index}`;
+                                  const isEditing =
+                                    editingField?.id === rowKey &&
+                                    editingField?.field === "item";
+
+                                  const isRentItem =
+                                    invoiceItem?.itemName === "RENT";
+
+                                  return (
+                                    <div
+                                      key={rowKey}
+                                      className={`flex items-center justify-between group relative min-h-[30px] ${invoiceItem?.isNew ? "hover:bg-white" : "hover:bg-blue-100"} hover:rounded-lg px-2`}
+                                    >
+                                      {!invoiceItem?.isNew && !isEditing && (
+                                        <span className="text-[14px] text-[#6B7280]">
+                                          {invoiceItem?.itemName}
+                                        </span>
+                                      )}
+
+                                      {invoiceItem?.isNew ? (
+                                        <div className="flex items-center gap-2 w-full">
+                                          <input
+                                            type="text"
+                                            value={
+                                              invoiceItem.description || ""
+                                            }
+                                            onChange={(e) => {
+                                              const value = e.target.value;
+
+                                              setItems((prev) =>
+                                                prev.map((invoice) => {
+                                                  if (invoice.id !== item.id) {
+                                                    return invoice;
+                                                  }
+
+                                                  return {
+                                                    ...invoice,
+                                                    invoiceItems:
+                                                      invoice.invoiceItems.map(
+                                                        (
+                                                          invoiceRow,
+                                                          rowIndex,
+                                                        ) =>
+                                                          rowIndex === index
+                                                            ? {
+                                                                ...invoiceRow,
+                                                                description:
+                                                                  value,
+                                                              }
+                                                            : invoiceRow,
+                                                      ),
+                                                  };
+                                                }),
+                                              );
+                                            }}
+                                            placeholder="Enter description"
+                                            autoFocus
+                                            className="flex-1 px-2 py-1.5 border border-[#D0D5DD] 
+                                        rounded-md text-[12px] text-[#344054] outline-none focus:border-[#1E45E1]"
+                                          />
+
+                                          <div
+                                            className="flex items-center  border border-[#1E45E1] bg-white 
+                                      rounded-md overflow-hidden"
+                                          >
+                                            <span className="pl-2 text-[11px] text-[#98A2B3]">
+                                              ₹
+                                            </span>
+
+                                            <input
+                                              type="number"
+                                              min="0"
+                                              value={invoiceItem.amount ?? ""}
+                                              onChange={(e) => {
+                                                const value = e.target.value;
+
+                                                setItems((prev) =>
+                                                  prev.map((invoice) => {
+                                                    if (
+                                                      invoice.id !== item.id
+                                                    ) {
+                                                      return invoice;
+                                                    }
+
+                                                    return {
+                                                      ...invoice,
+                                                      invoiceItems:
+                                                        invoice.invoiceItems.map(
+                                                          (
+                                                            invoiceRow,
+                                                            rowIndex,
+                                                          ) =>
+                                                            rowIndex === index
+                                                              ? {
+                                                                  ...invoiceRow,
+                                                                  amount: value,
+                                                                }
+                                                              : invoiceRow,
+                                                        ),
+                                                    };
+                                                  }),
+                                                );
+                                              }}
+                                              placeholder="0"
+                                              className="w-[70px]  px-1 py-1.5 text-[11px] text-right text-[#344054] outline-none"
+                                            />
+                                          </div>
+
+                                          <button
+                                            disabled={!canUpdateInvoice}
+                                            type="button"
+                                            onClick={() =>
+                                              handleNewSaveInvoiceItem(
+                                                item,
+                                                index,
+                                              )
+                                            }
+                                            className="disabled:opacity-100 w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center"
+                                          >
+                                            <TiTick className="text-[12px]" />{" "}
+                                          </button>
+
+                                          <button
+                                            disabled={!canDeleteInvoice}
+                                            type="button"
+                                            onClick={() =>
+                                              handleDeleteInvoiceItem(
+                                                item,
+                                                index,
+                                              )
+                                            }
+                                            className=" disabled:opacity-50 inline-flex items-center justify-center gap-1 h-6 text-[12px] font-medium text-[#EF4444] leading-none"
+                                          >
+                                            <Trash size={11} />
+                                            <span className="leading-none mt-1">
+                                              Delete
+                                            </span>
+                                          </button>
+                                        </div>
+                                      ) : isEditing ? (
+                                        <div className="flex items-center gap-2 w-full">
+                                          <input
+                                            disabled={isRentItem}
+                                            type="text"
+                                            value={editingValue.itemName}
+                                            onChange={(e) =>
+                                              setEditingValue((prev) => ({
+                                                ...prev,
+                                                itemName: e.target.value,
+                                              }))
+                                            }
+                                            onKeyDown={(e) => {
+                                              if (e.key === "Enter") {
+                                                handleSaveInvoiceItem(
+                                                  item,
+                                                  index,
+                                                );
+                                              }
+
+                                              if (e.key === "Escape") {
+                                                handleCancelField();
+                                              }
+                                            }}
+                                            autoFocus
+                                            className="flex-1 h-[26px] px-2 py-2 border border-[#1E45E1] 
+                                            rounded-md text-[11px] text-[#344054] outline-none disabled:bg-gray-200"
+                                          />
+
+                                          <div className="flex items-center h-[26px] border border-[#1E45E1] bg-white rounded-md overflow-hidden">
+                                            <span className="pl-2 text-[11px] text-[#98A2B3]">
+                                              ₹
+                                            </span>
+
+                                            <input
+                                              onWheel={(e) => e.target.blur()}
+                                              disabled={!canUpdateInvoice}
+                                              type="number"
+                                              min="0"
+                                              value={editingValue.amount}
+                                              onChange={(e) =>
+                                                setEditingValue((prev) => ({
+                                                  ...prev,
+                                                  amount: e.target.value,
+                                                }))
+                                              }
+                                              onKeyDown={(e) => {
+                                                if (e.key === "Enter") {
+                                                  handleSaveInvoiceItem(
+                                                    item,
+                                                    index,
+                                                  );
+                                                }
+
+                                                if (e.key === "Escape") {
+                                                  handleCancelField();
+                                                }
+                                              }}
+                                              className="w-[65px] h-[24px] px-1 py-2 text-[11px] text-right text-[#344054] outline-none disabled:opacity-50"
+                                            />
+                                          </div>
+
+                                          <button
+                                            disabled={!canUpdateInvoice}
+                                            type="button"
+                                            onClick={() =>
+                                              handleSaveInvoiceItem(item, index)
+                                            }
+                                            className="w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center disabled:opacity-50"
+                                          >
+                                            <TiTick className="text-[12px]" />
+                                          </button>
+
+                                          <button
+                                            type="button"
+                                            onClick={handleCancelField}
+                                            className="w-[24px] h-[24px] rounded-full bg-[#F2F4F7] text-[#667085] flex items-center justify-center"
+                                          >
+                                            <Add
+                                              className="rotate-45"
+                                              size="16"
+                                            />
+                                          </button>
+                                        </div>
+                                      ) : (
+                                        <div className="flex items-center gap-3">
+                                          <div className="absolute right-16 inset-y-0 hidden group-hover:flex items-center gap-2">
+                                            <button
+                                              disabled={!canUpdateInvoice}
+                                              type="button"
+                                              onClick={() => {
+                                                setEditingField({
+                                                  id: rowKey,
+                                                  field: "item",
+                                                });
+
+                                                setEditingValue({
+                                                  itemName: String(
+                                                    invoiceItem.itemName ?? "",
+                                                  ),
+                                                  amount: String(
+                                                    invoiceItem.amount ?? "",
+                                                  ),
+                                                });
+                                              }}
+                                              className="disabled:opacity-40 inline-flex items-center justify-center gap-1 h-6 text-[12px] font-medium text-[#1E45E1] leading-none"
+                                            >
+                                              <Edit2 size={11} />
+                                              <span className="leading-none mt-1">
+                                                Edit
+                                              </span>
+                                            </button>
+
+                                            <button
+                                              disabled={
+                                                !canDeleteInvoice || isRentItem
+                                              }
+                                              type="button"
+                                              onClick={() =>
+                                                handleDeleteInvoiceItem(
+                                                  item,
+                                                  index,
+                                                )
+                                              }
+                                              className="disabled:opacity-50 inline-flex items-center justify-center gap-1 h-6 text-[12px] font-medium text-[#EF4444] leading-none"
+                                            >
+                                              <Trash size={11} />
+                                              <span className="leading-none mt-1">
+                                                Delete
+                                              </span>
+                                            </button>
+                                          </div>
+
+                                          <span className="text-[14px] font-medium text-[#222222]">
+                                            {formatAmount(invoiceItem.amount)}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              <div className=" flex items-center justify-end">
+                                <button
+                                  type="button"
+                                  onClick={() => handleAddInvoiceItem(item)}
+                                  className="flex items-center justify-end px-2 gap-1.5 h-[32px] border-1   
+                            border-[#1E45E1] rounded-lg text-[12px] font-medium text-white bg-[#1E45E1]"
+                                >
+                                  <Add size="14" color="#FFFFFF" />
+                                  Add New Row
+                                </button>
+                              </div>
+
+                              <div className="border-t border-[#EAECF0] pt-2.5 flex items-center justify-between">
+                                <span className="text-[14px] text-[#081021] font-semibold">
+                                  Invoice Total
+                                </span>
+
+                                <span className="text-[16px] font-bold text-[#1E45E1]">
+                                  {formatAmount(item.invoiceAmount)}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="px-3 pb-3 text-center">
+                              <span className="text-[10px] text-[#98A2B3]">
+                                Calculated automatically · Hover any row to edit
+                                or remove
+                              </span>
+                            </div>
                           </div>
-                        </>
-                      )} */}
-
-                      <div className="flex w-full mt-3">
-                        <button
-                          onClick={() => setIsGeneratingInvoice(true)}
-                          type="button"
-                          className="h-8 w-full px-4 rounded-lg bg-[#1E45E1] border-1 border-[#1E45E1] 
-                            text-white text-[12px] font-semibold flex justify-center 
-                            items-center gap-1.5"
-                        >
-                          Generate Invoice
-                        </button>
-                      </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })
-          )}
-        </div>
+                  );
+                })
+              )}
+            </div>
 
-        <div className="px-3 py-3 bg-white border-t border-[#EAECF0] flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[15px] font-semibold text-[#081021] mb-0">
-              {counts.ready} invoices ready to generate
-            </p>
+            <div className="px-3 py-3 bg-white border-t border-[#EAECF0] flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[15px] font-semibold text-[#081021] mb-0">
+                  {
+                    state.InvoiceList?.getReviewGenerateRecurringbill
+                      .totalInvoices
+                  }{" "}
+                  invoices ready to generate
+                </p>
+              </div>
 
-            <p className="text-[12px] text-[#E17100] mt-0.5 mb-0">
-              {counts.needsReview} invoices need your attention.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleGenerateAll}
-            disabled={readyInvoices.length === 0}
-            className="h-9 px-4 rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Refresh2 size="14" />
-            Generate All
-          </button>
-        </div>
+              <button
+                type="button"
+                onClick={handleGenerateAll}
+                disabled={items.length === 0 || !canUpdateInvoice}
+                className="h-9 px-4 rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Refresh2 size="14" />
+                Generate All Eligible
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
-      {showGenerateModal && (
+      {showGenerateModal && generateType === "SELECTED" && (
         <SingleInvoiceGenerate
           selectedIds={selectedIds}
-          onClose={() => setShowGenerateModal(false)}
+          items={items}
+          onClose={() => {
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
+          onConfirmGenerate={(invoiceIds) => {
+            dispatch({
+              type: "REVIEW_AND_GENERATE_BILL_SAGA",
+              payload: {
+                hostelId: state.login.selectedHostel_Id,
+                invoiceIds,
+              },
+            });
+
+            setIsGeneratingInvoice(true);
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
         />
       )}
+
+      {showGenerateModal && generateType === "ALL" && (
+        <GenerateAllInvoices
+          items={items}
+          onClose={() => {
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
+          onConfirmGenerate={() => {
+            dispatch({
+              type: "REVIEW_AND_GENERATE_BILL_SAGA",
+              payload: {
+                hostelId: state.login.selectedHostel_Id,
+              },
+            });
+
+            setIsGeneratingInvoice(true);
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
+        />
+      )}
+
       {isGeneratingInvoice && (
         <div className="fixed  font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col font-gilroy">
           <div className="flex flex-col items-center justify-center h-full">
@@ -1229,6 +1174,50 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
             <span className="text-[14px] text-[#98A2B3] mt-1">
               Processing counts for Sep 2026
+            </span>
+
+            <div className="w-[334px] max-w-[80vw] h-[5px] bg-[#EAECF0] rounded-full mt-4 overflow-hidden">
+              <div className="h-full w-[70%] bg-[#1E45E1] rounded-full" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {savingItem && (
+        <div className="fixed  font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col font-gilroy">
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center mb-4">
+              <div className="w-6 h-6 border-4 border-[#D0D5DD] border-t-[#1E45E1] rounded-full animate-spin" />
+            </div>
+
+            <span className="text-[18px] font-semibold text-[#081021]">
+              Updating invoice...
+            </span>
+
+            <span className="text-[14px] text-[#98A2B3] mt-1">
+              Please wait while the invoice item is being updated
+            </span>
+
+            <div className="w-[334px] max-w-[80vw] h-[5px] bg-[#EAECF0] rounded-full mt-4 overflow-hidden">
+              <div className="h-full w-[70%] bg-[#1E45E1] rounded-full" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deletingItem && (
+        <div className="fixed  font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col font-gilroy">
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center mb-4">
+              <div className="w-6 h-6 border-4 border-[#D0D5DD] border-t-[#1E45E1] rounded-full animate-spin" />
+            </div>
+
+            <span className="text-[18px] font-semibold text-[#081021]">
+              Deleting invoice...
+            </span>
+
+            <span className="text-[14px] text-[#98A2B3] mt-1">
+              Please wait while the invoice item is being updated
             </span>
 
             <div className="w-[334px] max-w-[80vw] h-[5px] bg-[#EAECF0] rounded-full mt-4 overflow-hidden">
