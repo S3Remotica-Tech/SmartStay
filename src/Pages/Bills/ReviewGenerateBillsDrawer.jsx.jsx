@@ -388,6 +388,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   useEffect(() => {
     if (state.InvoiceList?.reviewGenerateRecurringSuccess === 200) {
       onClose();
+      dispatch({
+        type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
     }
   }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
 
@@ -435,6 +439,11 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     state.InvoiceList?.deleteReviewError,
     state.InvoiceList?.updateReviewError,
   ]);
+
+
+
+
+  
 
   const filteredItems = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
