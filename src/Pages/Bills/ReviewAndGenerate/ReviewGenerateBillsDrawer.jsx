@@ -20,7 +20,7 @@ import { useHasPermission } from "../../../Utils/Permission";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 const formatAmount = (amount) => {
-  if (!amount) return "–";
+  if (!amount) return "0";
 
   return `₹${Number(amount).toLocaleString("en-IN")}`;
 };
@@ -105,22 +105,20 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     billingPeriod: "",
   });
 
-  // const arrayData =
-  //   state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList || [];
-
   const {
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
     canReadModule: canReadInvoice,
+    canWriteModule: canWriteInvoice,
   } = useHasPermission("Invoice");
 
   const allSelected =
-    items.length > 0 &&
-    items.every((item) => selectedIds.includes(item.invoiceId));
+    items?.length > 0 &&
+    items?.every((item) => selectedIds?.includes(item.invoiceId));
 
   const handleSelectAll = (checked) => {
     if (checked) {
-      setSelectedIds(items.map((item) => item.invoiceId));
+      setSelectedIds(items?.map((item) => item.invoiceId));
     } else {
       setSelectedIds([]);
     }
@@ -157,7 +155,8 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleDeleteInvoiceItem = (item, index) => {
-    const currentInvoice = items.find(
+    dispatch({ type: "REMOVE_DELETE_REVIEW_BILLS_REDUCER_ERROR" });
+    const currentInvoice = items?.find(
       (invoice) => invoice.invoiceId === item.invoiceId,
     );
 
@@ -173,7 +172,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     const rowKey = `${item.invoiceId}-${index}`;
 
     if (invoiceItem.isNew || !invoiceItem.itemId) {
-      const updatedInvoiceItems = currentInvoiceItems.filter(
+      const updatedInvoiceItems = currentInvoiceItems?.filter(
         (_, itemIndex) => itemIndex !== index,
       );
 
@@ -212,7 +211,8 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleSaveInvoiceItem = (item, index) => {
-    const currentInvoice = items.find(
+    dispatch({ type: "REMOVE_UPDATE_REVIEW_GENERATE_BILL_ERROR" });
+    const currentInvoice = items?.find(
       (invoice) => invoice.invoiceId === item.invoiceId,
     );
 
@@ -278,7 +278,8 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   };
 
   const handleNewSaveInvoiceItem = (item, index) => {
-    const currentInvoice = items.find(
+    dispatch({ type: "REMOVE_UPDATE_REVIEW_GENERATE_BILL_ERROR" });
+    const currentInvoice = items?.find(
       (invoice) => invoice.invoiceId === item.invoiceId,
     );
 
@@ -355,15 +356,6 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     });
   };
 
-  useEffect(() => {
-    const invoices =
-      state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList;
-
-    if (Array.isArray(invoices)) {
-      setItems(invoices);
-    }
-  }, [state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList]);
-
   const handleExpand = (id) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
@@ -380,12 +372,6 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       0,
     );
 
-    const billingStartDate =
-      state.InvoiceList?.getReviewGenerateRecurringbill?.billingStartDate || "";
-
-    const billingEndDate =
-      state.InvoiceList?.getReviewGenerateRecurringbill?.billingEndDate || "";
-
     setGenerationSummary({
       generatedCount: items?.length,
       totalAmount,
@@ -397,27 +383,36 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const handleGenerateSelectedOnly = () => {
     dispatch({ type: "REMOVE_REVIEW_GENERATE_BILL_ERROR" });
     if (!state.login?.selectedHostel_Id) return;
-    if (!selectedIds.length) return;
+    if (!selectedIds?.length) return;
     setGenerateType("SELECTED");
     setShowGenerateModal(true);
 
     const selectedItems = items?.filter((item) =>
-      selectedIds.includes(item.invoiceId),
+      selectedIds?.includes(item.invoiceId),
     );
 
-    if (!selectedItems.length) return;
+    if (!selectedItems?.length) return;
     const totalAmount = selectedItems?.reduce(
-      (total, item) => total + Number(item.invoiceAmount || 0),
+      (total, item) => total + Number(item?.invoiceAmount || 0),
       0,
     );
 
     setGenerationSummary({
-      generatedCount: selectedItems.length,
+      generatedCount: selectedItems?.length,
       totalAmount,
       billingPeriod:
         state.InvoiceList?.getReviewGenerateRecurringbill?.invoiceDate,
     });
   };
+
+  useEffect(() => {
+    const invoices =
+      state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList;
+
+    if (Array.isArray(invoices)) {
+      setItems(invoices);
+    }
+  }, [state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList]);
 
   useEffect(() => {
     if (state.InvoiceList?.recurringReviewGenerateError) {
@@ -492,7 +487,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       return items;
     }
 
-    return items.filter((item) => {
+    return items?.filter((item) => {
       const tenantName = item.customerInfo?.fullName || "";
       const roomName = item.stayInfo?.roomName || "";
       const bedName = item.stayInfo?.bedName || "";
@@ -554,7 +549,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
             <span>
               Gen. Date:{" "}
               <strong className="text-[#344054]">
-                {state.InvoiceList?.getReviewGenerateRecurringbill?.invoiceDate}
+                {
+                  state?.InvoiceList?.getReviewGenerateRecurringbill
+                    ?.invoiceDate
+                }
               </strong>
             </span>
           </div>
@@ -622,7 +620,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         ) : (
           <>
             <div className="flex-1 overflow-y-auto bg-[#F8FAFF] show-scrolls ">
-              {selectedIds.length > 0 ? (
+              {selectedIds?.length > 0 ? (
                 <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <button
@@ -634,14 +632,14 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                     </button>
 
                     <span className="text-[12px] font-semibold text-[#344054]">
-                      {selectedIds.length} invoices selected
+                      {selectedIds?.length} invoices selected
                     </span>
                   </div>
 
                   <button
                     type="button"
                     onClick={handleGenerateSelectedOnly}
-                    disabled={selectedIds.length === 0}
+                    disabled={selectedIds?.length === 0 || !canWriteInvoice}
                     className="
         h-7 px-3
         rounded-lg
@@ -654,7 +652,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         disabled:cursor-not-allowed
       "
                   >
-                    Generate Selected ({selectedIds.length})
+                    Generate Selected ({selectedIds?.length})
                   </button>
                 </div>
               ) : (
@@ -670,7 +668,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                   </label>
 
                   <span className="text-[12px] text-[#6B7280]">
-                    {items.length} invoices
+                    {items?.length} invoices
                   </span>
                 </div>
               )}
@@ -680,7 +678,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                   <DocumentText size="38" color="#98A2B3" />
 
                   <p className="text-[13px] font-semibold text-[#475467] mt-3">
-                    No search data found
+                    No data found
                   </p>
                 </div>
               ) : (
@@ -699,7 +697,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                       >
                         <input
                           type="checkbox"
-                          checked={selectedIds.includes(item.invoiceId)}
+                          checked={selectedIds?.includes(item.invoiceId)}
                           // disabled={isExcluded}
                           onChange={() => handleSelect(item.invoiceId)}
                           className="w-4 h-4 accent-[#1E45E1] shrink-0"
@@ -738,7 +736,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                         </div>
 
                         <div className="text-[12px] font-bold text-[#081021] min-w-[58px] text-right">
-                          {formatAmount(item.invoiceAmount)}
+                          ₹ {formatAmount(item.invoiceAmount)}
                         </div>
 
                         <button
@@ -820,7 +818,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
                             <div className="px-2 py-3 space-y-2.5">
                               {Array.isArray(item.invoiceItems) &&
-                                item.invoiceItems.map((invoiceItem, index) => {
+                                item.invoiceItems?.map((invoiceItem, index) => {
                                   const rowKey = `${item.invoiceId}-${index}`;
                                   const isEditing =
                                     editingField?.id === rowKey &&
@@ -1146,14 +1144,14 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                     state.InvoiceList?.getReviewGenerateRecurringbill
                       .totalInvoices
                   }{" "}
-                  invoices ready to generate
+                  Invoices ready to generate
                 </p>
               </div>
 
               <button
                 type="button"
                 onClick={handleGenerateAll}
-                disabled={items.length === 0 || !canUpdateInvoice}
+                disabled={items?.length === 0 || !canWriteInvoice}
                 className="h-9 px-4 rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Refresh2 size="14" />

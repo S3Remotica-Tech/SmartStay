@@ -65,8 +65,8 @@ function SingleInvoiceGenerate({
           </button>
         </div>
 
-        <div className="px-6 py-6 min-h-[390px]">
-          <p className="text-[12px] text-[#667085] mb-5">
+        <div className="flex-1 min-h-0 overflow-y-auto show-scrolls px-6 py-6">
+          <p className="text-[12px] text-[#667085] mb-4">
             These invoices will be generated and become available to the
             respective tenants.
           </p>
@@ -121,7 +121,7 @@ function SingleInvoiceGenerate({
             </div>
           </div>
 
-          <label className="flex items-center gap-2.5 mt-5 cursor-pointer">
+          <label className="flex items-center gap-2.5 mt-4 cursor-pointer">
             <input
               type="checkbox"
               checked={reviewedInvoice}
