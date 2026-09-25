@@ -20,7 +20,7 @@ import { useHasPermission } from "../../../Utils/Permission";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 const formatAmount = (amount) => {
-  if (!amount) return "–";
+  if (!amount) return "0";
 
   return `₹${Number(amount).toLocaleString("en-IN")}`;
 };
@@ -112,6 +112,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
     canReadModule: canReadInvoice,
+    canWriteModule: canWriteInvoice,
   } = useHasPermission("Invoice");
 
   const allSelected =
@@ -380,12 +381,6 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       0,
     );
 
-    const billingStartDate =
-      state.InvoiceList?.getReviewGenerateRecurringbill?.billingStartDate || "";
-
-    const billingEndDate =
-      state.InvoiceList?.getReviewGenerateRecurringbill?.billingEndDate || "";
-
     setGenerationSummary({
       generatedCount: items?.length,
       totalAmount,
@@ -622,7 +617,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         ) : (
           <>
             <div className="flex-1 overflow-y-auto bg-[#F8FAFF] show-scrolls ">
-              {selectedIds.length > 0 ? (
+              {selectedIds?.length > 0 ? (
                 <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <button
@@ -634,14 +629,14 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                     </button>
 
                     <span className="text-[12px] font-semibold text-[#344054]">
-                      {selectedIds.length} invoices selected
+                      {selectedIds?.length} invoices selected
                     </span>
                   </div>
 
                   <button
                     type="button"
                     onClick={handleGenerateSelectedOnly}
-                    disabled={selectedIds.length === 0}
+                    disabled={selectedIds?.length === 0 || !canWriteInvoice}
                     className="
         h-7 px-3
         rounded-lg
@@ -654,7 +649,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         disabled:cursor-not-allowed
       "
                   >
-                    Generate Selected ({selectedIds.length})
+                    Generate Selected ({selectedIds?.length})
                   </button>
                 </div>
               ) : (
@@ -738,7 +733,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                         </div>
 
                         <div className="text-[12px] font-bold text-[#081021] min-w-[58px] text-right">
-                          {formatAmount(item.invoiceAmount)}
+                          ₹ {formatAmount(item.invoiceAmount)}
                         </div>
 
                         <button
@@ -1153,7 +1148,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
               <button
                 type="button"
                 onClick={handleGenerateAll}
-                disabled={items.length === 0 || !canUpdateInvoice}
+                disabled={items.length === 0 || !canWriteInvoice}
                 className="h-9 px-4 rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Refresh2 size="14" />
