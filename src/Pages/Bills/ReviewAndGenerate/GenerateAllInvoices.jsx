@@ -5,16 +5,6 @@ import PropTypes from "prop-types";
 function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
   const [reviewedInvoice, setReviewedInvoice] = useState(false);
 
-  //   const readyCount = items.filter((item) => item.status === "READY").length;
-
-  //   const needsReviewCount = items.filter(
-  //     (item) => item.status === "NEEDS_REVIEW",
-  //   ).length;
-
-  //   const excludedCount = items.filter(
-  //     (item) => item.status === "EXCLUDED",
-  //   ).length;
-
   const totalAmount = items.reduce(
     (total, item) => total + Number(item.invoiceAmount || 0),
     0,
@@ -56,7 +46,7 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
           </button>
         </div>
 
-        <div className="px-6 py-2 min-h-[390px]">
+        <div className="flex-1 min-h-0 overflow-y-auto show-scrolls px-6 py-6">
           <p className="text-[14px] text-[#667085] px-2 mb-4">
             SmartStay will generate all invoices that are currently ready.
             Invoices requiring review or excluded invoices will not be
@@ -123,5 +113,15 @@ function GenerateAllInvoices({ items, onClose, onConfirmGenerate }) {
     </>
   );
 }
+GenerateAllInvoices.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      invoiceId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      invoiceAmount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    }),
+  ).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirmGenerate: PropTypes.func.isRequired,
+};
 
 export default GenerateAllInvoices;

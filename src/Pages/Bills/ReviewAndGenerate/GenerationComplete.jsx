@@ -6,7 +6,7 @@ function GenerationComplete({
   generatedCount,
   totalAmount,
   billingPeriod,
-  onReviewRemaining,
+
   onDone,
 }) {
   const formatBillingMonth = (date) => {
@@ -42,7 +42,7 @@ function GenerationComplete({
           </button>
         </div>
 
-        <div className="px-6 py-4 flex-1">
+        <div className="flex-1 min-h-0 overflow-y-auto show-scrolls px-6 py-6">
           <div className="flex flex-col items-center mb-5">
             <div className="w-12 h-12 rounded-full bg-[#ECFDF3] flex items-center justify-center mb-4">
               <TickCircle size="26" color="#12B76A" variant="Bold" />
@@ -101,7 +101,6 @@ GenerationComplete.propTypes = {
   generatedCount: PropTypes.number.isRequired,
   totalAmount: PropTypes.number.isRequired,
   billingPeriod: PropTypes.string.isRequired,
-  onReviewRemaining: PropTypes.func.isRequired,
   onDone: PropTypes.func.isRequired,
 };
 
