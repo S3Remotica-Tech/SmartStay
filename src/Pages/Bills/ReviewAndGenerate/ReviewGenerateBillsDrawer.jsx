@@ -11,12 +11,13 @@ import {
   Add,
 } from "iconsax-react";
 import { TiTick } from "react-icons/ti";
-import SingleInvoiceGenerate from "./SingleInvoiceGenerate";
-import GenerateAllInvoices from "./GenerateAllInvoices";
+import SingleInvoiceGenerate from "../ReviewAndGenerate/SingleInvoiceGenerate";
+import GenerateAllInvoices from "../ReviewAndGenerate/GenerateAllInvoices";
+import GenerationComplete from "../ReviewAndGenerate/GenerationComplete";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { useHasPermission } from "../../Utils/Permission";
-import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import { useHasPermission } from "../../../Utils/Permission";
+import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 const formatAmount = (amount) => {
   if (!amount) return "–";
@@ -94,11 +95,15 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   });
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
-
+  const [showGenerationComplete, setShowGenerationComplete] = useState(false);
   const [savingItem, setSavingItem] = useState(null);
   const [deletingItem, setDeletingItem] = useState(null);
-
   const [generateType, setGenerateType] = useState(null);
+  const [generationSummary, setGenerationSummary] = useState({
+    generatedCount: 0,
+    totalAmount: 0,
+    billingPeriod: "",
+  });
 
   // const arrayData =
   //   state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList || [];
@@ -369,6 +374,24 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       setGenerateType("ALL");
       setShowGenerateModal(true);
     }
+
+    const totalAmount = items?.reduce(
+      (total, item) => total + Number(item.invoiceAmount || 0),
+      0,
+    );
+
+    const billingStartDate =
+      state.InvoiceList?.getReviewGenerateRecurringbill?.billingStartDate || "";
+
+    const billingEndDate =
+      state.InvoiceList?.getReviewGenerateRecurringbill?.billingEndDate || "";
+
+    setGenerationSummary({
+      generatedCount: items?.length,
+      totalAmount,
+      billingPeriod:
+        state.InvoiceList?.getReviewGenerateRecurringbill?.invoiceDate,
+    });
   };
 
   const handleGenerateSelectedOnly = () => {
@@ -377,6 +400,23 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     if (!selectedIds.length) return;
     setGenerateType("SELECTED");
     setShowGenerateModal(true);
+
+    const selectedItems = items?.filter((item) =>
+      selectedIds.includes(item.invoiceId),
+    );
+
+    if (!selectedItems.length) return;
+    const totalAmount = selectedItems?.reduce(
+      (total, item) => total + Number(item.invoiceAmount || 0),
+      0,
+    );
+
+    setGenerationSummary({
+      generatedCount: selectedItems.length,
+      totalAmount,
+      billingPeriod:
+        state.InvoiceList?.getReviewGenerateRecurringbill?.invoiceDate,
+    });
   };
 
   useEffect(() => {
@@ -387,11 +427,16 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
 
   useEffect(() => {
     if (state.InvoiceList?.reviewGenerateRecurringSuccess === 200) {
-      onClose();
+      setIsGeneratingInvoice(false);
       dispatch({
         type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
         payload: { hostelId: state.login?.selectedHostel_Id },
       });
+      setShowGenerateModal(false);
+      setGenerateType(null);
+
+      setShowGenerationComplete(true);
+      // onClose();
     }
   }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
 
@@ -439,11 +484,6 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     state.InvoiceList?.deleteReviewError,
     state.InvoiceList?.updateReviewError,
   ]);
-
-
-
-
-  
 
   const filteredItems = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -1166,6 +1206,21 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
             setIsGeneratingInvoice(true);
             setShowGenerateModal(false);
             setGenerateType(null);
+          }}
+        />
+      )}
+
+      {showGenerationComplete && (
+        <GenerationComplete
+          generatedCount={generationSummary?.generatedCount}
+          totalAmount={generationSummary?.totalAmount}
+          billingPeriod={generationSummary?.billingPeriod}
+          onReviewRemaining={() => {
+            setShowGenerationComplete(false);
+          }}
+          onDone={() => {
+            setShowGenerationComplete(false);
+            onClose();
           }}
         />
       )}

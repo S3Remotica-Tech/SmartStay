@@ -56,7 +56,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 
 import { CustomStyles } from "../../Utils/SelectStyles";
-import ReviewGenerateBillsDrawer from "./ReviewGenerateBillsDrawer.jsx";
+import ReviewGenerateBillsDrawer from "../Bills/ReviewAndGenerate/ReviewGenerateBillsDrawer";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
