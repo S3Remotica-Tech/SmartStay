@@ -162,17 +162,17 @@ function* handleReveiwAndGenerateBill(action) {
         payload: { response: response.data, statusCode: response?.status },
       });
 
-      toast.success("Updated successfully!", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+      // toast.success("Updated successfully!", {
+      //   position: "bottom-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeButton: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   style: toastStyle,
+      // });
     }
   } catch (err) {
     const error = err || {};
