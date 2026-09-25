@@ -225,7 +225,7 @@ function NewInvoice() {
   const dispatch = useDispatch();
   const errorRef = useRef(null);
   const location = useLocation();
-  const { id, billData, isDisabledOverview } = location.state || {};
+  const { id, billData, isDisabledOverview } = location?.state || {};
 
   const [formLoading, setFormLoading] = useState(false);
 
@@ -283,7 +283,7 @@ function NewInvoice() {
 
   // console.log("onlyOthers", onlyOthers);
 
-  const subTotal = newRows.reduce((total, row) => {
+  const subTotal = newRows?.reduce((total, row) => {
     return total + Number(row.amount || 0);
   }, 0);
 
@@ -295,7 +295,7 @@ function NewInvoice() {
   const totalAmount = subTotal - discountAmount;
 
   const customerOptions =
-    state.UsersList?.TenantList?.map((u) => ({
+    state?.UsersList?.TenantList?.map((u) => ({
       value: u.customerId,
       label: u.fullName,
       details: u,
@@ -519,7 +519,7 @@ function NewInvoice() {
         type: "MANUAL-INVOICE-EDIT",
         hostelId: state.login.selectedHostel_Id,
         invoiceId: billData?.invoiceId,
-        payload: newRows.map((row) => ({
+        payload: newRows?.map((row) => ({
           type: row.itemType === "OTHER" ? row.am_name : row.itemType,
           amount: parseFloat(row.amount) || 0,
         })),
@@ -532,7 +532,7 @@ function NewInvoice() {
   };
 
   const handleAddNewRow = () => {
-    const hasAdvance = newRows.some(
+    const hasAdvance = newRows?.some(
       (row) => row.itemType === "ADDITIONAL_ADVANCE",
     );
 
@@ -622,7 +622,7 @@ function NewInvoice() {
   const getItemOptions = (currentIndex) => {
     const options = [];
 
-    const advanceAlreadySelected = newRows.some(
+    const advanceAlreadySelected = newRows?.some(
       (row, index) =>
         index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
     );
@@ -687,20 +687,20 @@ function NewInvoice() {
 
   useEffect(() => {
     if (id || billData?.customerId || CustomerOverView?.customerId) {
-      const selectedCustomer = state.UsersList.TenantList?.find(
+      const selectedCustomer = state?.UsersList?.TenantList?.find(
         (u) =>
           u.customerId ===
           (id || billData?.customerId || CustomerOverView?.customerId),
       );
 
-      console.log("selectedCustomer", selectedCustomer, "id", id);
+      // console.log("selectedCustomer", selectedCustomer, "id", id);
 
       if ((selectedCustomer && billData) || id) {
         setCustomerName(selectedCustomer?.customerId);
         setSelectedCustomer(selectedCustomer);
       }
     }
-  }, [id, state.UsersList?.TenantList, billData, CustomerOverView]);
+  }, [id, state?.UsersList?.TenantList, billData, CustomerOverView]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -733,7 +733,7 @@ function NewInvoice() {
       state.InvoiceList?.getInitializeRecurring?.invoiceItems;
 
     if (Array.isArray(invoiceItems)) {
-      const formattedRows = invoiceItems.map((item) => {
+      const formattedRows = invoiceItems?.map((item) => {
         const description = item.description?.trim() || "";
 
         let itemType = "";
@@ -785,7 +785,7 @@ function NewInvoice() {
   ]);
 
   useEffect(() => {
-    if (state.InvoiceList.unableAddInvoiceDetailsError) {
+    if (state?.InvoiceList?.unableAddInvoiceDetailsError) {
       errorRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -793,10 +793,10 @@ function NewInvoice() {
 
       errorRef.current?.focus();
     }
-  }, [state.InvoiceList.unableAddInvoiceDetailsError]);
+  }, [state?.InvoiceList?.unableAddInvoiceDetailsError]);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (state.login?.selectedHostel_Id) {
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
@@ -805,7 +805,7 @@ function NewInvoice() {
         },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (
@@ -860,7 +860,7 @@ function NewInvoice() {
   }, [startdate, enddate, invoicedate]);
 
   useEffect(() => {
-    const advanceIndex = newRows.findIndex(
+    const advanceIndex = newRows?.findIndex(
       (row) => row.itemType === "ADDITIONAL_ADVANCE",
     );
 
