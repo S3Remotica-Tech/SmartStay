@@ -61,6 +61,7 @@ import {
   ReceiptCustomizeData,
   UpdateReveiwAndGenerateBill,
   deleteReviewBills,
+  addNewItemsForReviewBill,
 } from "../Action/InvoiceAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -229,6 +230,73 @@ function* handleUpdateReveiwAndGenerateBill(action) {
       });
 
       toast.success("Updated successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+  } catch (err) {
+    const error = err || {};
+    yield* handleApiError(error);
+    if (error) {
+      yield put({
+        type: "UPDATE_REVIEW_GENERATE_BILL_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+}
+
+function* handleAddNewItemsForReviewBill(action) {
+  try {
+    const response = yield call(addNewItemsForReviewBill, action.payload);
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+    if (response?.status === 200) {
+      yield put({
+        type: "ADD_NEW_REVIEW_BILL_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+
+      toast.success("Created successfully!", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -2731,6 +2799,7 @@ function refreshToken(response) {
 }
 
 function* InvoiceSaga() {
+  yield takeEvery("ADD_NEW_REVIEW_BILL_SAGA", handleAddNewItemsForReviewBill);
   yield takeEvery("DELETE_REVIEW_BILLS_SAGA", handleDeleteReviewBills);
   yield takeEvery(
     "UPDATE_REVIEW_AND_GENERATE_BILL_SAGA",

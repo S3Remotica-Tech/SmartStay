@@ -12,6 +12,7 @@ import {
 } from "iconsax-react";
 import { TiTick } from "react-icons/ti";
 import SingleInvoiceGenerate from "./SingleInvoiceGenerate";
+import GenerateAllInvoices from "./GenerateAllInvoices";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useHasPermission } from "../../Utils/Permission";
@@ -97,6 +98,8 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const [savingItem, setSavingItem] = useState(null);
   const [deletingItem, setDeletingItem] = useState(null);
 
+  const [generateType, setGenerateType] = useState(null);
+
   // const arrayData =
   //   state.InvoiceList?.getReviewGenerateRecurringbill?.invoicesList || [];
 
@@ -105,6 +108,23 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     canDeleteModule: canDeleteInvoice,
     canReadModule: canReadInvoice,
   } = useHasPermission("Invoice");
+
+  const allSelected =
+    items.length > 0 &&
+    items.every((item) => selectedIds.includes(item.invoiceId));
+
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      setSelectedIds(items.map((item) => item.invoiceId));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+  const handleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
 
   const handleAddInvoiceItem = (item) => {
     setItems((prev) =>
@@ -200,6 +220,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     const invoiceItem = currentInvoiceItems[index];
 
     if (!invoiceItem) return;
+    const rowKey = `${item.invoiceId}-${index}`;
 
     const updatedItem = {
       ...invoiceItem,
@@ -237,6 +258,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
     });
 
     if (invoiceItem.itemId) {
+      setSavingItem(rowKey);
       dispatch({
         type: "UPDATE_REVIEW_AND_GENERATE_BILL_SAGA",
         payload: {
@@ -248,6 +270,76 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         },
       });
     }
+  };
+
+  const handleNewSaveInvoiceItem = (item, index) => {
+    const currentInvoice = items.find(
+      (invoice) => invoice.invoiceId === item.invoiceId,
+    );
+
+    if (!currentInvoice) return;
+
+    const currentInvoiceItems = Array.isArray(currentInvoice.invoiceItems)
+      ? currentInvoice.invoiceItems
+      : [];
+
+    const invoiceItem = currentInvoiceItems[index];
+
+    if (!invoiceItem) return;
+    const rowKey = `${item.invoiceId}-${index}`;
+
+    const itemName = invoiceItem?.description?.trim() || "OTHER";
+    const amount = Number(invoiceItem?.amount) || 0;
+
+    const updatedItem = {
+      ...invoiceItem,
+      itemName,
+      amount,
+      isNew: true,
+    };
+
+    const updatedInvoiceItems = currentInvoiceItems.map(
+      (invoiceRow, rowIndex) => (rowIndex === index ? updatedItem : invoiceRow),
+    );
+
+    const updatedAmount = updatedInvoiceItems.reduce(
+      (total, invoiceRow) => total + Number(invoiceRow?.amount || 0),
+      0,
+    );
+
+    setItems((prev) =>
+      prev.map((invoice) =>
+        invoice.invoiceId === item.invoiceId
+          ? {
+              ...invoice,
+              invoiceItems: updatedInvoiceItems,
+              invoiceAmount: updatedAmount,
+              isEdited: true,
+            }
+          : invoice,
+      ),
+    );
+
+    setEditingField(null);
+
+    setEditingValue({
+      itemName: "",
+      amount: "",
+    });
+    setSavingItem(rowKey);
+    dispatch({
+      type: "ADD_NEW_REVIEW_BILL_SAGA",
+      payload: {
+        hostelId: state.login?.selectedHostel_Id,
+        invoiceId: item.invoiceId,
+        items: [
+          {
+            name: itemName,
+            amount,
+          },
+        ],
+      },
+    });
   };
 
   const handleCancelField = () => {
@@ -274,12 +366,17 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   const handleGenerateAll = () => {
     dispatch({ type: "REMOVE_REVIEW_GENERATE_BILL_ERROR" });
     if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: "REVIEW_AND_GENERATE_BILL_SAGA",
-        payload: { hostelId: state.login?.selectedHostel_Id },
-      });
-      setIsGeneratingInvoice(true);
+      setGenerateType("ALL");
+      setShowGenerateModal(true);
     }
+  };
+
+  const handleGenerateSelectedOnly = () => {
+    dispatch({ type: "REMOVE_REVIEW_GENERATE_BILL_ERROR" });
+    if (!state.login?.selectedHostel_Id) return;
+    if (!selectedIds.length) return;
+    setGenerateType("SELECTED");
+    setShowGenerateModal(true);
   };
 
   useEffect(() => {
@@ -295,7 +392,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
   }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
 
   useEffect(() => {
-    if (state.InvoiceList?.updateReviewGenerateRecurringSuccess === 200) {
+    if (
+      state.InvoiceList?.updateReviewGenerateRecurringSuccess === 200 ||
+      state.InvoiceList?.addNewItemsInReviewSuccess === 200
+    ) {
       setSavingItem(null);
 
       dispatch({
@@ -304,8 +404,12 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
       });
 
       dispatch({ type: "REMOVE_UPDATE_REVIEW_AND_GENERATE_BILL_REDUCER" });
+      dispatch({ type: "REMOVE_ADD_NEW_REVIEW_BILL_REDUCER" });
     }
-  }, [state.InvoiceList?.updateReviewGenerateRecurringSuccess]);
+  }, [
+    state.InvoiceList?.updateReviewGenerateRecurringSuccess,
+    state.InvoiceList?.addNewItemsInReviewSuccess,
+  ]);
 
   useEffect(() => {
     if (state.InvoiceList?.deleteReviewBillsSuccess === 204) {
@@ -469,6 +573,59 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
         ) : (
           <>
             <div className="flex-1 overflow-y-auto bg-[#F8FAFF] show-scrolls ">
+              {selectedIds.length > 0 ? (
+                <div className="px-3 py-1.5 border-b border-[#EAECF0] bg-white flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedIds([])}
+                      className="w-5 h-5 flex items-center justify-center text-[#667085] hover:text-[#344054]"
+                    >
+                      <CloseCircle size="16" />
+                    </button>
+
+                    <span className="text-[12px] font-semibold text-[#344054]">
+                      {selectedIds.length} invoices selected
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleGenerateSelectedOnly}
+                    disabled={selectedIds.length === 0}
+                    className="
+        h-7 px-3
+        rounded-lg
+        bg-[#1E45E1]
+        text-white
+        text-[10px]
+        font-semibold
+        flex items-center justify-center
+        disabled:opacity-50
+        disabled:cursor-not-allowed
+      "
+                  >
+                    Generate Selected ({selectedIds.length})
+                  </button>
+                </div>
+              ) : (
+                <div className="px-3 py-2 border-b border-[#EAECF0] flex items-center justify-between">
+                  <label className="flex items-center gap-2 text-[12px] text-[#4B4B4B] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={allSelected}
+                      onChange={(e) => handleSelectAll(e.target.checked)}
+                      className="w-4 h-4 accent-[#1E45E1]"
+                    />
+                    Select All Eligible
+                  </label>
+
+                  <span className="text-[12px] text-[#6B7280]">
+                    {items.length} invoices
+                  </span>
+                </div>
+              )}
+
               {filteredItems?.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center">
                   <DocumentText size="38" color="#98A2B3" />
@@ -491,13 +648,13 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                           isExpanded ? "bg-[#F8FAFF]" : "hover:bg-[#FAFBFC]"
                         }`}
                       >
-                        {/* <input
-                      type="checkbox"
-                      checked={selectedIds.includes(item.id)}
-                      disabled={isExcluded}
-                      onChange={() => handleSelect(item.id)}
-                      className="w-4 h-4 accent-[#1E45E1] shrink-0"
-                    /> */}
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.includes(item.invoiceId)}
+                          // disabled={isExcluded}
+                          onChange={() => handleSelect(item.invoiceId)}
+                          className="w-4 h-4 accent-[#1E45E1] shrink-0"
+                        />
 
                         <div className="w-8 h-8 rounded-full bg-[#172B9E] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">
                           {item.customerInfo?.initials}
@@ -510,7 +667,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                             </p>
 
                             {item.isEdited && (
-                              <span className="border border-[#FDB022] bg-[#FFFAEB] text-[#F79009] rounded px-1.5 py-0.5 text-[8px] font-semibold">
+                              <span className="border-1 border-[#FDB022] bg-[#FFFAEB] text-[#F79009] rounded px-1.5 py-0.5 text-[8px] font-semibold">
                                 EDITED
                               </span>
                             )}
@@ -620,6 +777,9 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                     editingField?.id === rowKey &&
                                     editingField?.field === "item";
 
+                                  const isRentItem =
+                                    invoiceItem?.itemName === "RENT";
+
                                   return (
                                     <div
                                       key={rowKey}
@@ -724,7 +884,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             disabled={!canUpdateInvoice}
                                             type="button"
                                             onClick={() =>
-                                              handleSaveInvoiceItem(item, index)
+                                              handleNewSaveInvoiceItem(
+                                                item,
+                                                index,
+                                              )
                                             }
                                             className="disabled:opacity-100 w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center"
                                           >
@@ -751,6 +914,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                       ) : isEditing ? (
                                         <div className="flex items-center gap-2 w-full">
                                           <input
+                                            disabled={isRentItem}
                                             type="text"
                                             value={editingValue.itemName}
                                             onChange={(e) =>
@@ -772,7 +936,8 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               }
                                             }}
                                             autoFocus
-                                            className="flex-1 h-[26px] px-2 py-2 border border-[#1E45E1] bg-white rounded-md text-[11px] text-[#344054] outline-none"
+                                            className="flex-1 h-[26px] px-2 py-2 border border-[#1E45E1] 
+                                            rounded-md text-[11px] text-[#344054] outline-none disabled:bg-gray-200"
                                           />
 
                                           <div className="flex items-center h-[26px] border border-[#1E45E1] bg-white rounded-md overflow-hidden">
@@ -860,7 +1025,9 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                             </button>
 
                                             <button
-                                              disabled={!canDeleteInvoice}
+                                              disabled={
+                                                !canDeleteInvoice || isRentItem
+                                              }
                                               type="button"
                                               onClick={() =>
                                                 handleDeleteInvoiceItem(
@@ -941,19 +1108,59 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                 className="h-9 px-4 rounded-lg bg-[#1E45E1] text-white text-[14px] font-semibold flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Refresh2 size="14" />
-                Generate All
+                Generate All Eligible
               </button>
             </div>
           </>
         )}
       </div>
 
-      {showGenerateModal && (
+      {showGenerateModal && generateType === "SELECTED" && (
         <SingleInvoiceGenerate
           selectedIds={selectedIds}
-          onClose={() => setShowGenerateModal(false)}
+          items={items}
+          onClose={() => {
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
+          onConfirmGenerate={(invoiceIds) => {
+            dispatch({
+              type: "REVIEW_AND_GENERATE_BILL_SAGA",
+              payload: {
+                hostelId: state.login.selectedHostel_Id,
+                invoiceIds,
+              },
+            });
+
+            setIsGeneratingInvoice(true);
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
         />
       )}
+
+      {showGenerateModal && generateType === "ALL" && (
+        <GenerateAllInvoices
+          items={items}
+          onClose={() => {
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
+          onConfirmGenerate={() => {
+            dispatch({
+              type: "REVIEW_AND_GENERATE_BILL_SAGA",
+              payload: {
+                hostelId: state.login.selectedHostel_Id,
+              },
+            });
+
+            setIsGeneratingInvoice(true);
+            setShowGenerateModal(false);
+            setGenerateType(null);
+          }}
+        />
+      )}
+
       {isGeneratingInvoice && (
         <div className="fixed  font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col font-gilroy">
           <div className="flex flex-col items-center justify-center h-full">
