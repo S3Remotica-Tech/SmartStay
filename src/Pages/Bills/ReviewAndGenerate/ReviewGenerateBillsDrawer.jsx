@@ -965,7 +965,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                                 index,
                                               )
                                             }
-                                            className="disabled:opacity-100 w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center"
+                                            className="disabled:opacity-50 w-[24px] h-[24px] rounded-full bg-[#1E45E1] text-white flex items-center justify-center"
                                           >
                                             <TiTick className="text-[12px]" />{" "}
                                           </button>
@@ -1154,9 +1154,10 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                 })}
                               <div className=" flex items-center justify-end">
                                 <button
+                                  disabled={!canUpdateInvoice}
                                   type="button"
                                   onClick={() => handleAddInvoiceItem(item)}
-                                  className="flex items-center justify-end px-2 gap-1.5 h-[32px] border-1   
+                                  className="flex items-center justify-end px-2 gap-1.5 h-[32px] border-1   disabled:opacity-50 
                             border-[#1E45E1] rounded-lg text-[12px] font-medium text-white bg-[#1E45E1]"
                                 >
                                   <Add size="14" color="#FFFFFF" />
