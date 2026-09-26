@@ -129,7 +129,7 @@ const GalleryComponent = () => {
                   onClick={() => handleDelete(image)}
                   disabled={deletingId !== null}
                   aria-label="Delete image"
-                  className="flex items-center justify-center w-9 h-9 rounded-full bg-white shadow-lg border-1 border-[#E5E7EB] hover:bg-[#FFF5F5] hover:border-[#FECACA] active:scale-95 transition-all disabled:cursor-not-allowed"
+                  className="flex items-center justify-center w-12 h-9 rounded-full bg-white shadow-lg border-1 border-[#E5E7EB] hover:bg-[#FFF5F5] hover:border-[#FECACA] active:scale-95 transition-all disabled:cursor-not-allowed"
                 >
                   {isDeleting ? (
                     <Refresh2
