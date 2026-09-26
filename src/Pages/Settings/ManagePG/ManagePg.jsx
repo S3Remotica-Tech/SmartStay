@@ -11,7 +11,7 @@ import {
   More,
   Profile2User,
 } from "iconsax-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Homestay from "../../../Assets/v2Images/Frm1.png";
 import BgImage from "../../../Assets/v2Images/PgImage.jpg";
 import Overview from "./Overview";
@@ -21,8 +21,10 @@ import ManagedUsers from "../ManagedUsers";
 import SwichProperty from "./SwichProperty";
 import { useHasPermission } from "../../../Utils/Permission";
 import AddPg from "../../PayingGuestFile/AddPg";
+import GalleryComponent from "./Gallery";
 
 const ManagePg = () => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [activeTab, setActiveTab] = useState("Overview");
 
@@ -90,6 +92,17 @@ const ManagePg = () => {
     }
   }, [state.PgList.createPgStatusCode]);
 
+  useEffect(() => {
+    dispatch({ type: "HOSTELLIST" });
+  }, []);
+
+  useEffect(() => {
+    if (state.UsersList?.hosteListStatusCode === 200) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
+      }, 100);
+    }
+  }, [state.UsersList?.hosteListStatusCode]);
   return (
     <div className="w-full min-h-screen bg-white p-2 sm:p-3 lg:p-3 font-gilroy">
       <div className="sticky top-0 z-50 bg-white">
@@ -240,7 +253,7 @@ const ManagePg = () => {
 
         {activeTab === "Gallery" && (
           <div className="bg-white rounded-xl p-2 text-sm text-[#5E6673]">
-            Gallery content
+            <GalleryComponent />
           </div>
         )}
 

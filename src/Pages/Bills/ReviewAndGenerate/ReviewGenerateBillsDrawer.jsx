@@ -911,7 +911,19 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               value={invoiceItem.amount ?? ""}
                                               onChange={(e) => {
                                                 const value = e.target.value;
+                                                if (
+                                                  !/^\d*(\.\d{0,2})?$/.test(
+                                                    value,
+                                                  )
+                                                ) {
+                                                  return;
+                                                }
 
+                                                if (
+                                                  /^0+(\.0{0,2})?$/.test(value)
+                                                ) {
+                                                  return;
+                                                }
                                                 setItems((prev) =>
                                                   prev.map((invoice) => {
                                                     if (
@@ -1015,12 +1027,36 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                               type="number"
                                               min="0"
                                               value={editingValue.amount}
-                                              onChange={(e) =>
+                                              onChange={(e) => {
+                                                const value = e.target.value;
+
+                                                if (value === "") {
+                                                  setEditingValue((prev) => ({
+                                                    ...prev,
+                                                    amount: "",
+                                                  }));
+                                                  return;
+                                                }
+
+                                                if (
+                                                  !/^\d*(\.\d{0,2})?$/.test(
+                                                    value,
+                                                  )
+                                                ) {
+                                                  return;
+                                                }
+
+                                                if (
+                                                  /^0+(\.0{0,2})?$/.test(value)
+                                                ) {
+                                                  return;
+                                                }
+
                                                 setEditingValue((prev) => ({
                                                   ...prev,
-                                                  amount: e.target.value,
-                                                }))
-                                              }
+                                                  amount: value,
+                                                }));
+                                              }}
                                               onKeyDown={(e) => {
                                                 if (e.key === "Enter") {
                                                   handleSaveInvoiceItem(
@@ -1061,7 +1097,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                                         </div>
                                       ) : (
                                         <div className="flex items-center gap-3">
-                                          <div className="absolute right-16 inset-y-0 hidden group-hover:flex items-center gap-2">
+                                          <div className="absolute  inset-y-0 right-24 hidden group-hover:flex items-center gap-2">
                                             <button
                                               disabled={!canUpdateInvoice}
                                               type="button"
