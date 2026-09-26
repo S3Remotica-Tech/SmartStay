@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHasPermission } from "../../../Utils/Permission";
 import { Location, Refresh2 } from "iconsax-react";
 import NoDataMessage from "../../../Utils/NoDataMessage";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
 function OtherHostel() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const {
     // canWriteModule: canWritePayingGuests,
     canReadModule: canReadPayingGuests,
@@ -17,31 +17,13 @@ function OtherHostel() {
     // canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELLIST" });
-    setLoading(true);
-  }, []);
-
-  useEffect(() => {
-    if (state.UsersList?.hosteListStatusCode === 200) {
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
-      }, 100);
-    }
-  }, [state.UsersList?.hosteListStatusCode]);
-
   return (
     <div>
       {!canReadPayingGuests ? (
         <PermissionDeniedMessage />
       ) : (
         <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
-          {loading ? (
-            <div className="flex items-center justify-center py-10">
-              <div className="w-6 h-6 border-2 border-[#E5E7EB] border-t-[#1E45E1] rounded-full animate-spin" />
-            </div>
-          ) : state?.UsersList?.hostelList?.length > 0 ? (
+          {state?.UsersList?.hostelList?.length > 0 ? (
             state?.UsersList?.hostelList?.map((hostel) => (
               <div
                 key={hostel.hostelId}

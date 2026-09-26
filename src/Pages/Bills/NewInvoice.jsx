@@ -419,12 +419,20 @@ function NewInvoice() {
     }
 
     const errors = newRows.map((row) => {
+      const isOther = row.itemType === "OTHER";
+
+      const hasItem = isOther ? !!row.am_name?.trim() : !!row.itemType?.trim();
+
+      const hasAmount =
+        row.amount !== "" &&
+        row.amount !== null &&
+        row.amount !== undefined &&
+        !isNaN(Number(row.amount)) &&
+        Number(row.amount) > 0;
+
       return {
-        itemType: !row.itemType?.trim() ? "Please Select or Search Item" : "",
-        amount:
-          !row.amount || row.amount === "0" || isNaN(Number(row.amount))
-            ? "Please Enter Amount"
-            : "",
+        itemType: !hasItem ? "Please Select or Search Item" : "",
+        amount: !hasAmount ? "Please Enter Amount" : "",
       };
     });
 
@@ -491,12 +499,20 @@ function NewInvoice() {
     }
 
     const errors = newRows.map((row) => {
+      const isOther = row.itemType === "OTHER";
+
+      const hasItem = isOther ? !!row.am_name?.trim() : !!row.itemType?.trim();
+
+      const hasAmount =
+        row.amount !== "" &&
+        row.amount !== null &&
+        row.amount !== undefined &&
+        !isNaN(Number(row.amount)) &&
+        Number(row.amount) > 0;
+
       return {
-        itemType: !row.itemType?.trim() ? "Please Select or Search Item" : "",
-        amount:
-          !row.amount || row.amount === "0" || isNaN(Number(row.amount))
-            ? "Please Enter Amount"
-            : "",
+        itemType: !hasItem ? "Please Select or Search Item" : "",
+        amount: !hasAmount ? "Please Enter Amount" : "",
       };
     });
 
