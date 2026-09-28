@@ -540,20 +540,23 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-[12px] text-[#4B4B4B]">
-            <span className="">
-              Period:{" "}
-              <strong className="text-[#344054]">
-                {
-                  state.InvoiceList?.getReviewGenerateRecurringbill
-                    ?.billingStartDate
-                }{" "}
-                –{" "}
-                {
-                  state.InvoiceList?.getReviewGenerateRecurringbill
-                    ?.billingEndDate
-                }
-              </strong>
-            </span>
+            {state?.UsersList?.hotelDetailsinPg?.billingType !==
+              "JOINING_DATE_BASED" && (
+              <span className="">
+                Period:{" "}
+                <strong className="text-[#344054]">
+                  {
+                    state.InvoiceList?.getReviewGenerateRecurringbill
+                      ?.billingStartDate
+                  }{" "}
+                  –{" "}
+                  {
+                    state.InvoiceList?.getReviewGenerateRecurringbill
+                      ?.billingEndDate
+                  }
+                </strong>
+              </span>
+            )}
 
             <span>
               Gen. Date:{" "}
@@ -777,10 +780,15 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                               <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase mb-0">
                                 BILLING PERIOD
                               </p>
-
-                              <p className="text-[12px] font-semibold text-[#081021] mb-0">
-                                {item.invoiceStartDate} - {item.invoiceEndDate}
-                              </p>
+                              {state?.UsersList?.hotelDetailsinPg
+                                ?.billingType !== "JOINING_DATE_BASED" ? (
+                                <p className="text-[12px] font-semibold text-[#081021] mb-0">
+                                  {item.invoiceStartDate} -{" "}
+                                  {item.invoiceEndDate}
+                                </p>
+                              ) : (
+                                "-"
+                              )}
                             </div>
 
                             <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
