@@ -776,20 +776,19 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                       {isExpanded && (
                         <div className="px-3 pb-2 bg-[#F5F8FF]">
                           <div className="grid grid-cols-2 gap-2 mb-3">
-                            <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2">
-                              <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase mb-0">
-                                BILLING PERIOD
-                              </p>
-                              {state?.UsersList?.hotelDetailsinPg
-                                ?.billingType !== "JOINING_DATE_BASED" ? (
+                            {state?.UsersList?.hotelDetailsinPg?.billingType !==
+                              "JOINING_DATE_BASED" && (
+                              <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2">
+                                <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase mb-0">
+                                  BILLING PERIOD
+                                </p>
+
                                 <p className="text-[12px] font-semibold text-[#081021] mb-0">
                                   {item.invoiceStartDate} -{" "}
                                   {item.invoiceEndDate}
                                 </p>
-                              ) : (
-                                "-"
-                              )}
-                            </div>
+                              </div>
+                            )}
 
                             <div className="bg-white border border-[#EAECF0] rounded-lg px-3 py-2.5">
                               <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase  mb-0">
