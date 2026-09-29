@@ -191,10 +191,26 @@ function BankingNew() {
 
   const handlePeriodChange = (selected) => {
     setPeriod(selected);
+    setPageTransaction(1);
+
+    dispatch({
+      type: "SET_BANK_FILTERS",
+      payload: {
+        period: selected?.value || "",
+      },
+    });
   };
 
   const handleSourceChange = (selected) => {
     setSource(selected);
+    setPageTransaction(1);
+
+    dispatch({
+      type: "SET_BANK_FILTERS",
+      payload: {
+        source: selected?.value || "",
+      },
+    });
   };
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking } =
@@ -308,8 +324,6 @@ function BankingNew() {
     source,
   ]);
 
-
-  
   useEffect(() => {
     if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {
       dispatch({
