@@ -6,11 +6,10 @@ import {
   Calendar,
   DocumentUpload,
   // CloseCircle,
-  ArrowDown2,
   Add,
+  ArrowDown2,
   Bank,
-  // Wallet2,
-  // ArrowRight,
+  Wallet2,
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -23,12 +22,12 @@ import PropTypes from "prop-types";
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
-    minHeight: "45px",
-    height: "40px",
+    minHeight: "50px",
+    height: "45px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
+    fontSize: "15px",
+    fontFamily: "Gilroy",
     fontWeight: 500,
     boxShadow: "none",
     alignItems: "center",
@@ -45,7 +44,7 @@ const CustomStyles = {
   singleValue: (base, state) => ({
     ...base,
     color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
+    fontWeight: 600,
   }),
 
   placeholder: (base, state) => ({
@@ -71,7 +70,7 @@ const CustomStyles = {
 
       whiteSpace: "nowrap",
       overflow: "visible",
-
+      fontFamily: "Gilroy",
       paddingLeft: isSelected ? "9px" : "12px",
 
       ...(isSelected && {
@@ -94,7 +93,7 @@ const CustomStyles = {
 
   menuList: (base) => ({
     ...base,
-    maxHeight: "300px",
+    maxHeight: "100px",
     padding: 0,
     overflowY: "auto",
   }),
@@ -126,30 +125,44 @@ const Option = (props) => {
 
   return (
     <components.Option {...props}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
-          {data.icon}
-          <div>
-            <label className="text-xs font-medium  text-[#222222]">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
               {data.label}
-            </label>
+            </span>
+
             {data.subLabel && (
-              <label className="text-xs text-[#6B7280]">{data.subLabel}</label>
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
             )}
           </div>
         </div>
-        {/* <span className="text-xs text-[#1E45E1] bg-[#E1EFFE] px-2 py-1 rounded">
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
           {data.type}
-        </span> */}
+        </span>
       </div>
     </components.Option>
   );
 };
 Option.propTypes = {
   data: PropTypes.shape({
-    icon: PropTypes.node,
+    type: PropTypes.string,
     label: PropTypes.string,
     subLabel: PropTypes.string,
+    icon: PropTypes.node,
   }).isRequired,
 };
 
@@ -159,18 +172,23 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        {data.icon}
-        <span>{data.label}</span>
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
       </div>
     </components.SingleValue>
   );
 };
-
 SingleValue.propTypes = {
   data: PropTypes.shape({
-    icon: PropTypes.node,
+    type: PropTypes.string,
     label: PropTypes.string,
-    subLabel: PropTypes.string,
+    icon: PropTypes.node,
   }).isRequired,
 };
 const DropdownIndicator = (props) => (
@@ -178,11 +196,10 @@ const DropdownIndicator = (props) => (
     <ArrowDown2 size={16} color="#6B7280" />
   </components.DropdownIndicator>
 );
-
 DropdownIndicator.propTypes = {
-  children: PropTypes.node,
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
 };
-
 const GroupHeading = (props) => (
   <components.GroupHeading {...props}>
     <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
@@ -257,19 +274,23 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const finalOutstanding = VendorOverView?.summary?.outstanding - paidAmount;
 
-  const paymentOptions = [
-    {
-      label: "Bank Accounts",
-      options:
-        vendorInitialize?.banks?.map((bank) => ({
-          value: bank.bankId,
-          label: `${bank.holderName} - ${bank.bankName}`,
-          holderName: bank.holderName,
-          type: "Bank",
-          icon: <Bank size={18} color="#1E45E1" />,
-        })) || [],
-    },
-  ];
+  const paymentOptions =
+    vendorInitialize?.allPaymentMethods?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.displayName,
+      subLabel:
+        bank.accountType === "BANK"
+          ? `${bank.bankName} - ${bank.paymentMethod}`
+          : `${bank.cashAccountType} `,
+      type: bank.accountType,
+      icon:
+        bank.accountType === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
