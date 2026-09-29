@@ -225,7 +225,7 @@ function NewInvoice() {
   const dispatch = useDispatch();
   const errorRef = useRef(null);
   const location = useLocation();
-  const { id, billData, isDisabledOverview } = location.state || {};
+  const { id, billData, isDisabledOverview } = location?.state || {};
 
   const [formLoading, setFormLoading] = useState(false);
 
@@ -267,15 +267,23 @@ function NewInvoice() {
   const invoiceRef = useRef(null);
   const dueRef = useRef(null);
   const joiningDate = selectedCustomer?.joiningDate;
+
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
   const [discountType, setDiscountType] = useState("₹");
 
-  // console.log("discount", discount);
-
   const [tableErrmsg, setTableErrmsg] = useState("");
 
-  const subTotal = newRows.reduce((total, row) => {
+  // const hasRent = newRows?.some((row) => row.itemType === "RENT");
+  // const hasAdvance = newRows?.some(
+  //   (row) => row.itemType === "ADDITIONAL_ADVANCE",
+  // );
+
+  // const onlyOthers = !hasRent && !hasAdvance;
+
+  // console.log("onlyOthers", onlyOthers);
+
+  const subTotal = newRows?.reduce((total, row) => {
     return total + Number(row.amount || 0);
   }, 0);
 
@@ -287,7 +295,7 @@ function NewInvoice() {
   const totalAmount = subTotal - discountAmount;
 
   const customerOptions =
-    state.UsersList?.TenantList?.map((u) => ({
+    state?.UsersList?.TenantList?.map((u) => ({
       value: u.customerId,
       label: u.fullName,
       details: u,
@@ -411,12 +419,20 @@ function NewInvoice() {
     }
 
     const errors = newRows.map((row) => {
+      const isOther = row.itemType === "OTHER";
+
+      const hasItem = isOther ? !!row.am_name?.trim() : !!row.itemType?.trim();
+
+      const hasAmount =
+        row.amount !== "" &&
+        row.amount !== null &&
+        row.amount !== undefined &&
+        !isNaN(Number(row.amount)) &&
+        Number(row.amount) > 0;
+
       return {
-        itemType: !row.itemType?.trim() ? "Please Select or Search Item" : "",
-        amount:
-          !row.amount || row.amount === "0" || isNaN(Number(row.amount))
-            ? "Please Enter Amount"
-            : "",
+        itemType: !hasItem ? "Please Select or Search Item" : "",
+        amount: !hasAmount ? "Please Enter Amount" : "",
       };
     });
 
@@ -483,12 +499,20 @@ function NewInvoice() {
     }
 
     const errors = newRows.map((row) => {
+      const isOther = row.itemType === "OTHER";
+
+      const hasItem = isOther ? !!row.am_name?.trim() : !!row.itemType?.trim();
+
+      const hasAmount =
+        row.amount !== "" &&
+        row.amount !== null &&
+        row.amount !== undefined &&
+        !isNaN(Number(row.amount)) &&
+        Number(row.amount) > 0;
+
       return {
-        itemType: !row.itemType?.trim() ? "Please Select or Search Item" : "",
-        amount:
-          !row.amount || row.amount === "0" || isNaN(Number(row.amount))
-            ? "Please Enter Amount"
-            : "",
+        itemType: !hasItem ? "Please Select or Search Item" : "",
+        amount: !hasAmount ? "Please Enter Amount" : "",
       };
     });
 
@@ -512,8 +536,8 @@ function NewInvoice() {
         hostelId: state.login.selectedHostel_Id,
         invoiceId: billData?.invoiceId,
         payload: newRows?.map((row) => ({
-          type: row.itemType,
-          amount: parseFloat(row.amount),
+          type: row.itemType === "OTHER" ? row.am_name : row.itemType,
+          amount: parseFloat(row.amount) || 0,
         })),
       });
 
@@ -524,7 +548,7 @@ function NewInvoice() {
   };
 
   const handleAddNewRow = () => {
-    const hasAdvance = newRows.some(
+    const hasAdvance = newRows?.some(
       (row) => row.itemType === "ADDITIONAL_ADVANCE",
     );
 
@@ -577,10 +601,44 @@ function NewInvoice() {
     });
   };
 
+  // const getItemOptions = (currentIndex) => {
+  //   const options = [];
+
+  //   const advanceAlreadySelected = newRows.some(
+  //     (row, index) =>
+  //       index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
+  //   );
+
+  //   const rentAlreadySelected = newRows.some(
+  //     (row, index) => index !== currentIndex && row.itemType === "RENT",
+  //   );
+
+  //   if (!billData && !rentAlreadySelected) {
+  //     options.push({
+  //       value: "RENT",
+  //       label: "Room Rent",
+  //     });
+  //   }
+
+  //   if (!advanceAlreadySelected) {
+  //     options.push({
+  //       value: "ADDITIONAL_ADVANCE",
+  //       label: "Advance",
+  //     });
+  //   }
+
+  //   options.push({
+  //     value: "OTHER",
+  //     label: "Other",
+  //   });
+
+  //   return options;
+  // };
+
   const getItemOptions = (currentIndex) => {
     const options = [];
 
-    const advanceAlreadySelected = newRows.some(
+    const advanceAlreadySelected = newRows?.some(
       (row, index) =>
         index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
     );
@@ -589,7 +647,23 @@ function NewInvoice() {
       (row, index) => index !== currentIndex && row.itemType === "RENT",
     );
 
-    if (!billData && !rentAlreadySelected) {
+    if (billData) {
+      if (!rentAlreadySelected) {
+        options.push({
+          value: "RENT",
+          label: "Room Rent",
+        });
+      }
+
+      options.push({
+        value: "OTHER",
+        label: "Other",
+      });
+
+      return options;
+    }
+
+    if (!rentAlreadySelected) {
       options.push({
         value: "RENT",
         label: "Room Rent",
@@ -620,20 +694,29 @@ function NewInvoice() {
           invoiceId: billData?.invoiceId,
         },
       });
+    } else {
+      setCustomerName("");
     }
   }, [billData]);
 
+  // console.log("billData", billData, "id", id);
+
   useEffect(() => {
-    if (id || billData?.customerId) {
-      const selectedCustomer = state.UsersList.TenantList?.find(
-        (u) => u.customerId === (id || billData?.customerId),
+    if (id || billData?.customerId || CustomerOverView?.customerId) {
+      const selectedCustomer = state?.UsersList?.TenantList?.find(
+        (u) =>
+          u.customerId ===
+          (id || billData?.customerId || CustomerOverView?.customerId),
       );
 
-      if (selectedCustomer) {
-        setCustomerName(selectedCustomer.customerId);
+      // console.log("selectedCustomer", selectedCustomer, "id", id);
+
+      if ((selectedCustomer && billData) || id) {
+        setCustomerName(selectedCustomer?.customerId);
+        setSelectedCustomer(selectedCustomer);
       }
     }
-  }, [id, state.UsersList?.TenantList, billData]);
+  }, [id, state?.UsersList?.TenantList, billData, CustomerOverView]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -644,19 +727,17 @@ function NewInvoice() {
     }
   }, [state.createAccount?.networkError]);
 
-  console.log("billData", billData);
-
   useEffect(() => {
     if (!billData) return;
 
     setCustomerName(
-      billData.customerId || CustomerOverView?.customerId || id || "",
+      billData?.customerId || CustomerOverView?.customerId || id || "",
     );
 
-    setInvoiceNumber(billData.invoiceNumber || "");
+    setInvoiceNumber(billData?.invoiceNumber || "");
 
     const invoiceDateValue =
-      billData.invoiceDate || billData?.invoiceGeneratedDate;
+      billData?.invoiceDate || billData?.invoiceGeneratedDate;
 
     setInvoiceDate(
       invoiceDateValue
@@ -668,7 +749,7 @@ function NewInvoice() {
       state.InvoiceList?.getInitializeRecurring?.invoiceItems;
 
     if (Array.isArray(invoiceItems)) {
-      const formattedRows = invoiceItems.map((item) => {
+      const formattedRows = invoiceItems?.map((item) => {
         const description = item.description?.trim() || "";
 
         let itemType = "";
@@ -720,7 +801,7 @@ function NewInvoice() {
   ]);
 
   useEffect(() => {
-    if (state.InvoiceList.unableAddInvoiceDetailsError) {
+    if (state?.InvoiceList?.unableAddInvoiceDetailsError) {
       errorRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -728,10 +809,10 @@ function NewInvoice() {
 
       errorRef.current?.focus();
     }
-  }, [state.InvoiceList.unableAddInvoiceDetailsError]);
+  }, [state?.InvoiceList?.unableAddInvoiceDetailsError]);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (state.login?.selectedHostel_Id) {
       dispatch({
         type: "TENANT_LIST_SAGA",
         payload: {
@@ -740,7 +821,7 @@ function NewInvoice() {
         },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (
@@ -795,7 +876,7 @@ function NewInvoice() {
   }, [startdate, enddate, invoicedate]);
 
   useEffect(() => {
-    const advanceIndex = newRows.findIndex(
+    const advanceIndex = newRows?.findIndex(
       (row) => row.itemType === "ADDITIONAL_ADVANCE",
     );
 
@@ -1047,7 +1128,7 @@ function NewInvoice() {
                                   });
                                 }}
                                 placeholder="Enter Item Name"
-                                className="w-full h-[45px] px-1 text-[14px] border-0 outline-none bg-transparent placeholder:text-[#A5A5A5]"
+                                className="w-full h-[45px] px-1 text-[14px] border-0 outline-none bg-transparent placeholder:text-[#A5A5A5] disabled:text-gray-400"
                               />
 
                               <button
@@ -1106,30 +1187,12 @@ function NewInvoice() {
                                 placeholder="Select or Search the Item"
                                 options={getItemOptions(index)}
                                 isSearchable
-                                // isDisabled={u.isFromApi}
+                                isDisabled={u.isFromApi}
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
                                 menuPortalTarget={document.body}
                                 styles={CustomStylesTable}
                               />
-
-                              {/* {["RENT", "ADDITIONAL_ADVANCE"].includes(
-                                u.itemType,
-                              ) && (
-                                <input
-                                  type="text"
-                                  value={u.description || ""}
-                                  onChange={(e) =>
-                                    handleNewRowChange(
-                                      index,
-                                      "description",
-                                      e.target.value,
-                                    )
-                                  }
-                                  placeholder="Add a description to your item"
-                                  className="w-full h-[28px] px-2 py-4 rounded text-[12px] text-[#0A0A0A80] border-0 outline-none bg-[#F9F9F9] font-semibold"
-                                />
-                              )} */}
                             </div>
                           )}
                         </td>

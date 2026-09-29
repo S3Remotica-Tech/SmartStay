@@ -517,8 +517,8 @@ function UserListInvoice() {
                                               canUpdateInvoice &&
                                               handleEdit(view)
                                             }
-                                            disabled
-                                            // disabled={!canUpdateInvoice}
+                                            // disabled
+                                            disabled={!canUpdateInvoice}
                                             className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
       ${
         canUpdateInvoice
@@ -595,13 +595,13 @@ function UserListInvoice() {
                                           view?.paymentStatus !== "Paid" && (
                                             <button
                                               onClick={() => {
-                                                if (canUpdateInvoice) {
+                                                if (canWriteInvoice) {
                                                   handleRecordPayment(view);
                                                 }
                                               }}
-                                              disabled={!canUpdateInvoice}
+                                              disabled={!canWriteInvoice}
                                               className={`flex items-center gap-2 px-3 py-2 
-        ${canUpdateInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
+        ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
                                             >
                                               <ReceiptEdit
                                                 size="16"

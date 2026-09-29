@@ -99,7 +99,7 @@ function InvoiceRegisterFilter({
   show,
   handleClose,
   size,
-  page,
+
   startDate,
   endDate,
 }) {

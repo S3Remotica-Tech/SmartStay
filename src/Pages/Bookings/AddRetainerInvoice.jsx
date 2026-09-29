@@ -19,6 +19,7 @@ import {
 } from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import PropTypes from "prop-types";
 
 dayjs.extend(customParseFormat);
 

@@ -2071,13 +2071,20 @@ function TenantOverview(props) {
                                       0,
                                   ) > 0 &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
-                                    "NOTICE" && (
-                                    <img
+                                    "NOTICE" &&
+                                  CustomerOverView.hostelInfo?.currentStatus !==
+                                    "VACATED" && (
+                                    <button
+                                      type="button"
                                       onClick={handleUpdateChange}
-                                      src={EditImage}
-                                      alt="EditImage"
-                                      className="h-3.5 w-3.5 cursor-pointer"
-                                    />
+                                      className="flex items-center"
+                                    >
+                                      <img
+                                        src={EditImage}
+                                        alt="Edit"
+                                        className="h-3.5 w-3.5 cursor-pointer"
+                                      />
+                                    </button>
                                   )}
                               </div>
                               <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
@@ -2127,6 +2134,8 @@ function TenantOverview(props) {
                                   advanceList?.advanceAmount !== undefined &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
                                     "NOTICE" &&
+                                  CustomerOverView.hostelInfo?.currentStatus !==
+                                    "VACATED" &&
                                   CustomerOverView.advanceInfo
                                     ?.canEditAdvance && (
                                     <img

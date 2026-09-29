@@ -56,7 +56,7 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 
 import { CustomStyles } from "../../Utils/SelectStyles";
-import ReviewGenerateBillsDrawer from "./ReviewGenerateBillsDrawer.jsx";
+import ReviewGenerateBillsDrawer from "../Bills/ReviewAndGenerate/ReviewGenerateBillsDrawer";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -249,8 +249,23 @@ const InvoicePage = () => {
     );
   };
 
-  const { canWriteModule: canWriteInvoice, canReadModule: canReadInvoice } =
-    useHasPermission("Invoice");
+  const {
+    canWriteModule: canWriteInvoice,
+    canReadModule: canReadInvoice,
+    // canUpdateModule: canUpdateInvoice,
+  } = useHasPermission("Invoice");
+
+  const isEnableRecurring =
+    state?.UsersList?.hotelDetailsinPg?.shouldVerifyRecurring;
+
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id && isEnableRecurring) {
+      dispatch({
+        type: "GET_REVIEW_GENERATE_RECURRING_SAGA",
+        payload: { hostelId: state.login?.selectedHostel_Id },
+      });
+    }
+  }, [state.login?.selectedHostel_Id, isEnableRecurring]);
 
   const handleShowFilterBills = () => {
     setShowBillsFilter(true);
@@ -262,6 +277,7 @@ const InvoicePage = () => {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
+    setPage(1);
   };
 
   // const handleManualShow = () => {
@@ -329,6 +345,7 @@ const InvoicePage = () => {
     });
 
     setStatusFilter(selectedOption || "");
+    setPage(1);
   };
 
   const handleEdit = (props) => {
@@ -687,6 +704,23 @@ const InvoicePage = () => {
   }, [state.InvoiceList.manualInvoiceUnpaidStatusCode]);
 
   useEffect(() => {
+    if (state.InvoiceList?.reviewGenerateRecurringSuccess === 200) {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            size,
+            page,
+          },
+        },
+      });
+
+      dispatch({ type: "REMOVE_REVIEW_AND_GENERATE_BILL_REDUCER" });
+    }
+  }, [state.InvoiceList?.reviewGenerateRecurringSuccess]);
+
+  useEffect(() => {
     if (state.InvoiceList.payapleAmountError) {
       setLoading(false);
     }
@@ -920,40 +954,56 @@ const InvoicePage = () => {
     }
   }, [startdate, enddate, invoicedate, invoiceduedate]);
 
-  const previousFilters = state.InvoiceList.invoiceFilters || {};
+  // const previousFilters = state.InvoiceList.invoiceFilters || {};
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
+    const previousFilters = state.InvoiceList?.invoiceFilters || {};
+
+    console.log("previousFilters", previousFilters);
+
+    const hasPreviousPaymentStatus =
+      previousFilters?.paymentStatus?.length > 0 &&
+      !previousFilters.paymentStatus.includes("ALL");
+
+    const paymentStatus = hasPreviousPaymentStatus
+      ? previousFilters.paymentStatus
+      : statusfilter?.value
+        ? statusfilter.value === "ALL"
+          ? ""
+          : [statusfilter.value]
+        : [];
+
+    const paymentStatusLabel = hasPreviousPaymentStatus
+      ? previousFilters?.paymentStatusLabel || []
+      : statusfilter?.label
+        ? statusfilter.label === "ALL"
+          ? ""
+          : [statusfilter.label]
+        : [];
+
     const filters = {
+      ...previousFilters,
+
       startDate: previousFilters.startDate,
       endDate: previousFilters.endDate,
       type: previousFilters.type,
-      typeLabel: previousFilters?.typeLabel,
+      typeLabel: previousFilters.typeLabel,
       createdBy: previousFilters.createdBy,
       createdByLabels: previousFilters.createdByLabels,
       modes: previousFilters.modes,
       modesLabel: previousFilters.modesLabel,
-      paymentStatus: statusfilter?.value
-        ? statusfilter?.value === "ALL"
-          ? ""
-          : [statusfilter?.value]
-        : previousFilters?.paymentStatus?.includes("ALL")
-          ? ""
-          : previousFilters?.paymentStatus || [],
 
-      paymentStatusLabel: statusfilter?.label
-        ? statusfilter?.label === "ALL"
-          ? ""
-          : [statusfilter?.label]
-        : previousFilters?.paymentStatusLabel?.includes("ALL")
-          ? ""
-          : previousFilters?.paymentStatusLabel || [],
+      paymentStatus,
+      paymentStatusLabel,
+
       search: debouncedInput?.trim()
         ? debouncedInput.trim()
-        : previousFilters.search,
-      size: size,
-      page: page,
+        : previousFilters.search || "",
+
+      size,
+      page,
     };
 
     dispatch({
@@ -968,13 +1018,40 @@ const InvoicePage = () => {
         filters,
       },
     });
+
     setLoading(true);
   }, [
     debouncedInput,
     statusfilter?.value,
+    statusfilter?.label,
     size,
     page,
     state.login?.selectedHostel_Id,
+  ]);
+
+  useEffect(() => {
+    const previousFilters = state.InvoiceList?.invoiceFilters || {};
+
+    const hasFilters =
+      previousFilters?.type?.length > 0 ||
+      previousFilters?.createdBy?.length > 0 ||
+      previousFilters?.modes?.length > 0 ||
+      previousFilters?.paymentStatus?.length > 0 ||
+      previousFilters?.search ||
+      previousFilters?.startDate ||
+      previousFilters?.endDate;
+
+    if (hasFilters) {
+      setPage(1);
+    }
+  }, [
+    state.InvoiceList?.invoiceFilters?.type,
+    state.InvoiceList?.invoiceFilters?.createdBy,
+    state.InvoiceList?.invoiceFilters?.modes,
+    state.InvoiceList?.invoiceFilters?.paymentStatus,
+    state.InvoiceList?.invoiceFilters?.search,
+    state.InvoiceList?.invoiceFilters?.startDate,
+    state.InvoiceList?.invoiceFilters?.endDate,
   ]);
 
   useEffect(() => {
@@ -1156,22 +1233,25 @@ const InvoicePage = () => {
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
                 </button>
-                {isDev && (
-                  <>
-                    <button
-                      disabled={!canWriteInvoice}
-                      onClick={handleShowReviewGenerateBill}
-                      className="flex gap-2 items-center 
+                {/* {isDev && (
+                  <> */}
+                <button
+                  disabled={!isEnableRecurring}
+                  onClick={handleShowReviewGenerateBill}
+                  className="flex gap-2 items-center disabled:opacity-70 flex-shrink-0
                       font-semibold  rounded-lg !font-gilroy text-[#1E45E1] !bg-[#EFF6FF] border-1 border-[#EFF6FF] 
                       px-4 py-1 min-w-[95px] mr-2"
-                    >
-                      <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
-                      <span className="px-2 py-1 h-fit bg-[#1E45E1] text-white rounded-xl">
-                        119
-                      </span>
-                    </button>
-                  </>
-                )}
+                >
+                  <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
+                  {isEnableRecurring && (
+                    <span className="px-3 py-1  bg-[#1E45E1] text-white rounded-xl ">
+                      {state.InvoiceList?.getReviewGenerateRecurringbill
+                        ?.totalInvoices ?? 0}
+                    </span>
+                  )}
+                </button>
+                {/* </>
+                )} */}
               </div>
             </div>
           </div>

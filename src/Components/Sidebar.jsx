@@ -41,6 +41,7 @@ import SettingAgreement from "../Pages/Settings/Agreement/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
+import ManagePg from "../Pages/Settings/ManagePG/ManagePg";
 import {
   Notification,
   RulerPen,
@@ -155,6 +156,7 @@ function Sidebar() {
   );
   const settingsPath = hostelId ? `/settings/${hostelId}` : `/settings`;
   const cookieHostelId = cookies.get("selected_hostelId");
+
   const tooltipTrigger = isMd ? ["hover", "focus"] : [];
 
   const [hostelSearch, setHostelSearch] = useState("");
@@ -575,11 +577,13 @@ function Sidebar() {
   }, [state.login?.logoutAdminStatusCode]);
 
   useEffect(() => {
-    if (!hostelListDetail?.length || initials) return;
+    if (!hostelListDetail?.length) return;
 
     const selectedHostel =
       hostelListDetail.find(
-        (h) => String(h.hostelId) === String(cookieHostelId),
+        (h) =>
+          String(h.hostelId) === String(cookieHostelId) ||
+          String(h.hostelId) === String(state.login.selectedHostel_Id),
       ) || hostelListDetail[0];
 
     if (!selectedHostel) return;
@@ -599,7 +603,7 @@ function Sidebar() {
     );
 
     dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-  }, [hostelListDetail, cookieHostelId]);
+  }, [hostelListDetail, cookieHostelId, state.login.selectedHostel_Id]);
 
   const filteredHostels =
     hostelListDetail &&
@@ -654,6 +658,7 @@ function Sidebar() {
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingGeneral />} />
               <Route path="manage-pg" element={<SettingManage />} />
+              <Route path="manage-pg-new" element={<ManagePg />} />
               <Route path="security" element={<SettingSecurity />} />
               <Route path="subscription" element={<SettingSubscription />} />
               <Route path="allplans" element={<AllPlans />} />
@@ -1054,51 +1059,52 @@ function Sidebar() {
                         </ul>
                       </div>
                     )}
+
+                    <li
+                      className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
+                    >
+                      <NavLink
+                        to={withHostel("/banking")}
+                        className={({ isActive }) =>
+                          `align-items-center list-Item  d-flex ${
+                            isActive || currentPage === "banking"
+                              ? "active"
+                              : ""
+                          }`
+                        }
+                        onClick={() => handlePageClick("banking")}
+                      >
+                        <Bank size="20" variant="Bold" className="-mt-1" />
+
+                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
+                          Banking
+                        </span>
+                      </NavLink>
+                    </li>
+
                     {isDevelopment && (
                       <li
                         className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                       >
                         <NavLink
-                          to={withHostel("/banking")}
+                          to={withHostel("/banking/new")}
                           className={({ isActive }) =>
                             `align-items-center list-Item  d-flex ${
-                              isActive || currentPage === "banking"
+                              isActive || currentPage === "banking-new"
                                 ? "active"
                                 : ""
                             }`
                           }
-                          onClick={() => handlePageClick("banking")}
+                          onClick={() => handlePageClick("banking-new")}
                         >
                           <Bank size="20" variant="Bold" className="-mt-1" />
 
                           <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                            Banking
+                            Banking New
                           </span>
                         </NavLink>
                       </li>
                     )}
-                    <li
-                      className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
-                    >
-                      <NavLink
-                        to={withHostel("/banking/new")}
-                        className={({ isActive }) =>
-                          `align-items-center list-Item  d-flex ${
-                            isActive || currentPage === "banking-new"
-                              ? "active"
-                              : ""
-                          }`
-                        }
-                        onClick={() => handlePageClick("banking-new")}
-                      >
-                        <Bank size="20" variant="Bold" className="-mt-1" />
-
-                        <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Banking New
-                        </span>
-                      </NavLink>
-                    </li>
-
                     <li
                       className={`flex relative list-none mt-[${billingOpen ? "0.5" : "2.5"}] items-center px-3 py-3 rounded collapsible-header
     ${billingOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
@@ -1541,10 +1547,13 @@ function Sidebar() {
                 />
 
                 <Route
-                  path="/banking/new/:hostelId?"
+                  path="/banking/:hostelId?"
                   element={
                     <div className="mt-1 ml-2.5 mr-1">
-                      <BankingNew />
+                      <Banking
+                        allPageHostel_Id={allPageHostel_Id}
+                        setAllPageHostel_Id={setAllPageHostel_Id}
+                      />
                     </div>
                   }
                 />
@@ -1552,13 +1561,10 @@ function Sidebar() {
                 {isDevelopment && (
                   <>
                     <Route
-                      path="/banking/:hostelId?"
+                      path="/banking/new/:hostelId?"
                       element={
                         <div className="mt-1 ml-2.5 mr-1">
-                          <Banking
-                            allPageHostel_Id={allPageHostel_Id}
-                            setAllPageHostel_Id={setAllPageHostel_Id}
-                          />
+                          <BankingNew />
                         </div>
                       }
                     />

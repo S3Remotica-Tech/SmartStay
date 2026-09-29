@@ -62,6 +62,9 @@ function Booking() {
   const [isScrolling, setIsScrolling] = useState(false);
   const lastScrollLeftRef = useRef(0);
   const [loading, setLoading] = useState(false);
+
+  console.log("bookingList", bookingList);
+
   const statusStyles = {
     Redeemed: {
       bg: "#EFFFF2",
@@ -91,17 +94,15 @@ function Booking() {
   const [advanceDetails, setAdvanceDetails] = useState("");
   const popupRef = useRef(null);
   const isSearching = chips.length > 0 || filterInput?.trim() !== "";
-
+  const filters = state.Booking?.bookingFilters || {};
   const { canUpdateModule: canUpdateInvoice, canReadModule: canReadInvoice } =
     useHasPermission("Invoice");
 
   const monthOptions = [
-    ...(state?.Booking?.tenantBookingList?.filterOptions?.period?.map(
-      (item) => ({
-        label: item.name,
-        value: item.type,
-      }),
-    ) || []),
+    ...(bookingList?.filterOptions?.period?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
   ];
 
   const paymentStatusOptions = [
@@ -109,12 +110,10 @@ function Booking() {
       value: "ALL",
       label: "All",
     },
-    ...(state?.Booking?.tenantBookingList?.filterOptions?.status?.map(
-      (item) => ({
-        label: item.name,
-        value: item.type,
-      }),
-    ) || []),
+    ...(bookingList?.filterOptions?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
   ];
 
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -122,7 +121,7 @@ function Booking() {
     value: "ALL",
     label: "All",
   });
-  const retainerSummary = state?.Booking?.tenantBookingList?.retainerSummary;
+  const retainerSummary = bookingList?.retainerSummary;
 
   const stats = [
     {
@@ -205,7 +204,7 @@ function Booking() {
   }, []);
 
   useEffect(() => {
-    if (state?.Booking?.statusCodeGetBooking) {
+    if (state?.Booking?.statusCodeGetBooking === 200) {
       setBookingList(state?.Booking?.tenantBookingList);
       setLoading(false);
       dispatch({ type: "CLEAR_BOOKING_LIST" });
@@ -218,6 +217,17 @@ function Booking() {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
+    const filters = state.Booking?.bookingFilters || {};
+
+    dispatch({
+      type: "SET_BOOKING_FILTERS",
+      payload: {
+        ...filters,
+        period: selectedOption?.value || "",
+        periodLabel: selectedOption?.label || "",
+      },
+    });
+    setPage(1);
   };
 
   useEffect(() => {
@@ -233,7 +243,7 @@ function Booking() {
   };
 
   useEffect(() => {
-    const cols = state?.Booking?.tenantBookingList?.columnList || [];
+    const cols = bookingList?.columnList || [];
 
     const formatted = cols.map((col) => ({
       ...col,
@@ -243,7 +253,7 @@ function Booking() {
 
     setCustomizeItems(formatted);
     setInitialCustomizeItems(formatted);
-  }, [state?.Booking?.tenantBookingList?.columnList]);
+  }, [bookingList?.columnList]);
 
   const selectedColumns = (customizeItems || []).filter((col) => col.selected);
   const allSelected =
@@ -265,21 +275,17 @@ function Booking() {
     "Invoice Date": "invoiceDate",
   };
 
-  const formattedData = (
-    state?.Booking?.tenantBookingList?.bookingsList || []
-  ).map((row) => {
+  const formattedData = (bookingList?.bookingsList || []).map((row) => {
     const obj = {};
 
-    (state?.Booking?.tenantBookingList?.tableHeaders || []).forEach(
-      (header, index) => {
-        const key = headerKeyMap[header];
-        const value = row[index];
+    (bookingList?.tableHeaders || []).forEach((header, index) => {
+      const key = headerKeyMap[header];
+      const value = row[index];
 
-        if (key) {
-          obj[key] = value ?? "-";
-        }
-      },
-    );
+      if (key) {
+        obj[key] = value ?? "-";
+      }
+    });
 
     const apiData = row[row.length - 1];
     obj.apiCall = {
@@ -293,7 +299,7 @@ function Booking() {
     return obj;
   });
 
-  // console.log("formattedData", formattedData);
+  console.log("formattedData", formattedData);
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -519,28 +525,38 @@ function Booking() {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
-    const filters = state.Booking?.bookingFilters;
+    const filters = state.Booking?.bookingFilters || {};
 
     const selectedStatus = selectedBillStatus?.value;
+    const selectedStatusLabel = selectedBillStatus?.label;
 
-    const paymentStatus =
-      selectedStatus === "ALL" ? "" : selectedStatus || filters?.status || "";
+    const paymentStatus = filters?.status
+      ? filters.status
+      : selectedStatus === "ALL"
+        ? ""
+        : selectedStatus || "";
 
-    const selectedPeriod = selectedMonth?.value || filters?.period || "";
+    const selectedPeriod = filters?.period
+      ? filters.period
+      : selectedMonth?.value || "";
 
-    const selectedPeriodLabel =
-      selectedMonth?.label || filters?.periodLabel || "";
+    const selectedPeriodLabel = filters?.periodLabel
+      ? filters.periodLabel
+      : selectedMonth?.label || "";
 
-    const selectedStatusLabel =
-      selectedBillStatus?.label || filters?.statusLabel || "";
+    const paymentStatusLabel = filters?.statusLabel
+      ? filters.statusLabel
+      : selectedStatus === "ALL"
+        ? ""
+        : selectedStatusLabel || "";
 
     dispatch({
       type: "GET_BOOKING_LIST",
       payload: {
         hostelId: state.login.selectedHostel_Id,
         name: debouncedInput || filters?.name || "",
-        page,
-        size,
+        page: page,
+        size: size,
         period: selectedPeriod,
         status: paymentStatus,
         floor: filters?.floorId || "",
@@ -557,7 +573,7 @@ function Booking() {
         period: selectedPeriod,
         periodLabel: selectedPeriodLabel,
         status: paymentStatus,
-        statusLabel: selectedStatusLabel,
+        statusLabel: paymentStatusLabel,
         floor: filters?.floorId || "",
         room: filters?.roomId || "",
         minAmount: filters?.minPaidAmount || "",
@@ -976,7 +992,25 @@ function Booking() {
                       (option) => option.value === selectedBillStatus?.value,
                     ) || null
                   }
-                  onChange={(selected) => setSelectedBillStatus(selected)}
+                  onChange={(selected) => {
+                    setSelectedBillStatus(selected);
+
+                    const status =
+                      selected?.value === "ALL" ? "" : selected?.value || "";
+
+                    const statusLabel =
+                      selected?.value === "ALL" ? "" : selected?.label || "";
+
+                    dispatch({
+                      type: "SET_BOOKING_FILTERS",
+                      payload: {
+                        ...filters,
+                        status,
+                        statusLabel,
+                      },
+                    });
+                    setPage(1);
+                  }}
                 />
               </div>
 

@@ -121,6 +121,14 @@ export const initialState = {
   getReceiptSucessStatus: 0,
   initializeRecordPayment: "",
   initializeDiscount: "",
+  getReviewGenerateRecurringbill: "",
+  reviewGenerateRecurringSuccess: 0,
+  recurringReviewGenerateError: "",
+  updateReviewGenerateRecurringSuccess: 0,
+  deleteReviewBillsSuccess: 0,
+  deleteReviewError: "",
+  updateReviewError: "",
+  addNewItemsInReviewSuccess: 0,
   invoiceFilters: {
     startDate: undefined,
     endDate: undefined,
@@ -210,6 +218,72 @@ const InvoiceReducer = (state = initialState, action) => {
 
     case "REMOVE_TENANT_ASSIGN_AMENITIES":
       return { ...state, tenantAssignStatus: 0 };
+
+    case "DELETE_REVIEW_BILLS_REDUCER":
+      return { ...state, deleteReviewBillsSuccess: action.payload.statusCode };
+    case "REMOVE_DELETE_REVIEW_BILLS_REDUCER":
+      return { ...state, deleteReviewBillsSuccess: 0 };
+
+    case "DELETE_REVIEW_BILLS_REDUCER_ERROR":
+      return { ...state, deleteReviewError: action.payload };
+
+    case "REMOVE_DELETE_REVIEW_BILLS_REDUCER_ERROR":
+      return { ...state, deleteReviewError: "" };
+
+    case "ADD_NEW_REVIEW_BILL_REDUCER":
+      return {
+        ...state,
+        addNewItemsInReviewSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_ADD_NEW_REVIEW_BILL_REDUCER":
+      return {
+        ...state,
+        addNewItemsInReviewSuccess: 0,
+      };
+
+    case "GET_REVIEW_GENERATE_RECURRING_REDUCER":
+      return {
+        ...state,
+        getReviewGenerateRecurringbill: action.payload.response,
+      };
+    case "REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        reviewGenerateRecurringSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        reviewGenerateRecurringSuccess: 0,
+      };
+
+    case "UPDATE_REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        updateReviewGenerateRecurringSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_UPDATE_REVIEW_AND_GENERATE_BILL_REDUCER":
+      return {
+        ...state,
+        updateReviewGenerateRecurringSuccess: 0,
+      };
+
+    case "REVIEW_GENERATE_BILL_ERROR":
+      return {
+        ...state,
+        recurringReviewGenerateError: action.payload,
+      };
+    case "REMOVE_REVIEW_GENERATE_BILL_ERROR":
+      return {
+        ...state,
+        recurringReviewGenerateError: "",
+      };
+
+    case "UPDATE_REVIEW_GENERATE_BILL_ERROR":
+      return { ...state, updateReviewError: action.payload };
+
+    case "REMOVE_UPDATE_REVIEW_GENERATE_BILL_ERROR":
+      return { ...state, updateReviewError: "" };
 
     case "CUSTOMIZE_RECEIPTS_LIST_REDUCER":
       return {

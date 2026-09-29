@@ -46,48 +46,37 @@ function Expenses() {
   const dispatch = useDispatch();
   const filterRef = useRef(null);
   const navigate = useNavigate();
-
   const [getData, setGetData] = useState([]);
-
   const [showFilter, setShowFilter] = useState(false);
-
   const [loading, setLoading] = useState(false);
-
   const [size, setSize] = useState(window.innerWidth >= 1440 ? 20 : 10);
   const [page, setPage] = useState(1);
-
   const tableContainerRef = useRef(null);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const lastScrollLeftRef = useRef(0);
-
   const [searchText, setSearchText] = useState("");
   const [customizeItems, setCustomizeItems] = useState([]);
   const [isScrolling, setIsScrolling] = useState(false);
   const [error, setError] = useState("");
   const [customizeLoading, setCustomizeLoading] = useState(false);
   const [initialCustomizeItems, setInitialCustomizeItems] = useState([]);
-
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [showAbove, setShowAbove] = useState(false);
   const [showExpenseDelete, setShowExpenseDelete] = useState(false);
   const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
-
   const [open, setOpen] = useState(false);
-
   const popupRef = useRef(null);
-
   const [showOverview, setShowOverview] = useState(false);
   const [selectedExpenseId, setSelectedExpenseId] = useState("");
-
   const [showSettlementForm, setShowSettlementForm] = useState(false);
   const [showDots, setShowDots] = useState(null);
-
+  const [expenseFilter, setExpenseFilter] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [chips, setChips] = useState([]);
   const isSearching = chips.length > 0 || searchQuery?.trim() !== "";
-
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [selectedBillStatus, setSelectedBillStatus] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState(null);
+  const [selectedBillStatus, setSelectedBillStatus] = useState(null);
+  const expenseFilters = state.ExpenseList?.expenseFilters || {};
 
   const stats = [
     {
@@ -359,44 +348,79 @@ function Expenses() {
   const handleCategoryFilter = (selected) => {
     setCategoryFilter(selected?.value || "");
 
+    const expenseFilters = state.ExpenseList?.expenseFilters || {};
+
     dispatch({
       type: "SET_EXPENSE_FILTERS",
       payload: {
-        categoryLabel: selected.label,
+        ...expenseFilters,
+        categoryLabel: selected?.label || "",
+      },
+    });
+  };
+
+  const handlePaymentStatusFilter = (selected) => {
+    const paymentStatus = selected?.value || "";
+
+    setSelectedBillStatus(paymentStatus);
+
+    dispatch({
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
+        ...(state.ExpenseList?.expenseFilters || {}),
+        paymentStatus,
       },
     });
   };
 
   useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch, categoryFilter, selectedBillStatus]);
+    const expenseFilters = state.ExpenseList?.expenseFilters || {};
+
+    const hasFilters =
+      expenseFilters?.search ||
+      expenseFilters?.paymentStatus ||
+      expenseFilters?.categoryId ||
+      expenseFilters?.vendorId ||
+      expenseFilters?.paymentMode ||
+      expenseFilters?.status ||
+      expenseFilters?.period ||
+      expenseFilters?.createdBy ||
+      expenseFilters?.minAmount ||
+      expenseFilters?.maxAmount;
+
+    if (hasFilters) {
+      setPage(1);
+    }
+  }, [
+    state.ExpenseList?.expenseFilters?.search,
+    state.ExpenseList?.expenseFilters?.paymentStatus,
+    state.ExpenseList?.expenseFilters?.categoryId,
+    state.ExpenseList?.expenseFilters?.vendorId,
+    state.ExpenseList?.expenseFilters?.paymentMode,
+    state.ExpenseList?.expenseFilters?.status,
+    state.ExpenseList?.expenseFilters?.period,
+    state.ExpenseList?.expenseFilters?.createdBy,
+    state.ExpenseList?.expenseFilters?.minAmount,
+    state.ExpenseList?.expenseFilters?.maxAmount,
+    debouncedSearch,
+    categoryFilter,
+    selectedBillStatus,
+  ]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      const expenseFilters = state.ExpenseList?.expenseFilters || {};
+      const paymentStatus = selectedBillStatus || expenseFilters?.paymentStatus;
 
-      const paymentStatus =
-        selectedBillStatus !== null
-          ? selectedBillStatus
-          : expenseFilters?.paymentStatus || "";
-
-      const categoryId =
-        categoryFilter !== null
-          ? categoryFilter || ""
-          : expenseFilters?.categoryId || "";
+      const categoryId = categoryFilter || expenseFilters?.categoryId || "";
 
       const payload = {
         ...expenseFilters,
-
         hostelId: state.login.selectedHostel_Id,
         page: page,
         size: size,
-
         name: debouncedSearch || "",
         search: debouncedSearch || "",
-
         paymentStatus: paymentStatus,
-
         categoryId: categoryId,
       };
 
@@ -426,6 +450,10 @@ function Expenses() {
     debouncedSearch,
     selectedBillStatus,
   ]);
+
+  //  useEffect(() => {
+  //   setPage(1);
+  // }, [debouncedSearch, categoryFilter, selectedBillStatus]);
 
   useEffect(() => {
     return () => {
@@ -498,7 +526,7 @@ function Expenses() {
 
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
-    console.log("expenseFilters", expenseFilters);
+    // console.log("expenseFilters", expenseFilters);
     const filterData = [];
 
     const hasValue = (value) => {
@@ -682,7 +710,6 @@ function Expenses() {
     const searchItem = e.target.value;
     setSearchQuery(searchItem);
   };
-  const [expenseFilter, setExpenseFilter] = useState(false);
 
   const handleClickFilter = () => {
     setExpenseFilter(true);
@@ -868,7 +895,10 @@ function Expenses() {
 
   const handlePageChange = (page) => {
     setPage(page);
+    // console.log("pageeeee", page);
   };
+
+  // console.log("actual page", page);
 
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
@@ -963,9 +993,7 @@ function Expenses() {
                         (option) => option.value === selectedBillStatus,
                       ) || null
                     }
-                    onChange={(selected) =>
-                      setSelectedBillStatus(selected?.value)
-                    }
+                    onChange={handlePaymentStatusFilter}
                   />
                 </div>
 

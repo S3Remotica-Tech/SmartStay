@@ -1,38 +1,45 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ArrowLeft, CloseCircle } from "iconsax-react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 function SingleInvoiceGenerate({
   selectedIds,
-
+  items,
   onClose,
+  onConfirmGenerate,
 }) {
   const [reviewedInvoice, setReviewedInvoice] = useState(false);
+  const state = useSelector((state) => state);
+  const selectedInvoices = useMemo(() => {
+    return items.filter((item) => selectedIds.includes(item.invoiceId));
+  }, [items, selectedIds]);
+
+  const selectedTotalAmount = useMemo(() => {
+    return selectedInvoices.reduce(
+      (total, invoice) =>
+        total + Number(invoice?.invoiceAmount || invoice?.amount || 0),
+      0,
+    );
+  }, [selectedInvoices]);
 
   const formatAmount = (amount) => {
     return `₹${Number(amount || 0).toLocaleString("en-IN")}`;
   };
+
   const handleConfirmGenerate = () => {
     if (!reviewedInvoice || selectedIds.length === 0) {
       return;
     }
 
-    const payload = selectedInvoices.map((invoice) => ({
-      invoiceId: invoice.id,
-    }));
-
-    console.log("Payload:", payload);
-
-    // dispatch your generate invoice API here
-
-    setShowGenerateModal(false);
-    setReviewedInvoice(false);
+    onConfirmGenerate(selectedIds);
   };
 
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-50" />
 
-      <div className="fixed  font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col font-gilroy">
+      <div className="fixed font-gilroy top-0 right-0 bottom-0 w-full max-w-[700px] bg-white z-[1000] shadow-2xl flex flex-col">
         <div className="h-[58px] px-6 border-b border-[#EAECF0] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
@@ -58,8 +65,8 @@ function SingleInvoiceGenerate({
           </button>
         </div>
 
-        <div className="px-6 py-6 min-h-[390px]">
-          <p className="text-[12px] text-[#667085] mb-5">
+        <div className="flex-1 min-h-0 overflow-y-auto show-scrolls px-6 py-6">
+          <p className="text-[12px] text-[#667085] mb-4">
             These invoices will be generated and become available to the
             respective tenants.
           </p>
@@ -71,7 +78,7 @@ function SingleInvoiceGenerate({
               </span>
 
               <span className="text-[14px] font-medium text-[#344054]">
-                {selectedIds.length}
+                {selectedInvoices.length}
               </span>
             </div>
 
@@ -81,7 +88,7 @@ function SingleInvoiceGenerate({
               </span>
 
               <span className="text-[14px] font-medium text-[#12B76A]">
-                {selectedIds.length}
+                {selectedInvoices.length}
               </span>
             </div>
 
@@ -93,7 +100,7 @@ function SingleInvoiceGenerate({
               </span>
 
               <span className="text-[14px] font-bold text-[#1E45E1]">
-                {/* {formatAmount(selectedTotalAmount)} */} 5000
+                {formatAmount(selectedTotalAmount)}
               </span>
             </div>
 
@@ -101,12 +108,20 @@ function SingleInvoiceGenerate({
               <span className="text-[14px] text-[#667085]">Billing Period</span>
 
               <span className="text-[14px] font-semibold text-[#344054]">
-                {"01 Sep – 30 Sep 2026"}
+                {
+                  state.InvoiceList?.getReviewGenerateRecurringbill
+                    ?.billingStartDate
+                }{" "}
+                –{" "}
+                {
+                  state.InvoiceList?.getReviewGenerateRecurringbill
+                    ?.billingEndDate
+                }
               </span>
             </div>
           </div>
 
-          <label className="flex items-center gap-2.5 mt-5 cursor-pointer">
+          <label className="flex items-center gap-2.5 mt-4 cursor-pointer">
             <input
               type="checkbox"
               checked={reviewedInvoice}
@@ -143,5 +158,14 @@ function SingleInvoiceGenerate({
     </>
   );
 }
+
+SingleInvoiceGenerate.propTypes = {
+  selectedIds: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ).isRequired,
+  items: PropTypes.array.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirmGenerate: PropTypes.func.isRequired,
+};
 
 export default SingleInvoiceGenerate;

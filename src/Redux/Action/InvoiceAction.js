@@ -70,6 +70,44 @@ export async function createManualInvoice(manualinvoice) {
   );
 }
 
+// Review and generate bill
+
+export async function reveiwAndGenerateBill(recurringBill) {
+  return await AxiosConfigV2.post(
+    `/v2/bills/recurring/manual/${recurringBill.hostelId}`,
+    recurringBill.invoiceIds,
+  );
+}
+
+export async function addNewItemsForReviewBill(recurringBill) {
+  return await AxiosConfigV2.post(
+    `/v2/bills/recurring/${recurringBill.hostelId}/${recurringBill.invoiceId}`,
+    recurringBill.items,
+  );
+}
+
+// Get
+export async function getReviewRecurringBill(bill) {
+  return await AxiosConfigV2.get(`/v2/bills/recurring/${bill.hostelId}`);
+}
+
+// Put review and bill
+
+export async function UpdateReveiwAndGenerateBill(datum) {
+  return await AxiosConfigV2.put(
+    `/v2/bills/recurring/${datum.hostelId}/${datum.invoiceId}/${datum.itemId}`,
+    datum,
+  );
+}
+
+export async function deleteReviewBills(bill) {
+  return await AxiosConfigV2.delete(
+    `/v2/bills/recurring/${bill.hostelId}/${bill.invoiceId}/${bill.itemId}`,
+  );
+}
+
+// ////////////////////////////
+
 export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
   return AxiosConfigV2.put(`/v2/bills/${hostelId}/${invoiceId}`, items);
 }

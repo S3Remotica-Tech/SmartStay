@@ -94,7 +94,7 @@ function DashQuickAccess() {
 
   const { canWriteModule: canWriteTenant } = useHasPermission("Customers");
 
-  const { canUpdateModule: canUpdateInvoice } = useHasPermission("Invoice");
+  const { canWriteModule: canWriteInvoice } = useHasPermission("Invoice");
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -508,11 +508,11 @@ function DashQuickAccess() {
                       </div>
 
                       <button
-                        disabled={!canUpdateInvoice}
+                        disabled={!canWriteInvoice}
                         className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm
   disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
                         onClick={() => {
-                          if (canUpdateInvoice) {
+                          if (canWriteInvoice) {
                             handleRecordPayment(item);
                           }
                         }}

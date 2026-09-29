@@ -63,12 +63,14 @@ function SettingAllPages({ isVisibleSidebar }) {
       icon: Send2,
     },
   ];
+  const isDevelopment = import.meta.env.MODE === "development";
 
   const settingsSubMenus = {
     general: [["General", "general"]],
 
     organization: [
       ["Manage PG", "manage-pg"],
+      ...(isDevelopment ? [["Manage PG New", "manage-pg-new"]] : []),
       ["Security", "security"],
       ["Subscription", "subscription"],
       ["Integration", "integration"],
