@@ -1504,9 +1504,9 @@ function BankingNew() {
                                 Source / Beneficiary
                               </th>
                               <th className="w-[230px] px-2">Amount</th>
-                              <th className="w-[230px] px-2 whitespace-nowrap">
+                              {/* <th className="w-[230px] px-2 whitespace-nowrap">
                                 Running Balance
-                              </th>
+                              </th> */}
                               <th className="sticky right-0 z-40 bg-[#F9FAFB] w-[80px] px-2">
                                 Action
                               </th>
@@ -1578,9 +1578,9 @@ function BankingNew() {
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     ₹{user.transactionAmount}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                                  {/* <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     ₹ {user.accountBalance}
-                                  </td>
+                                  </td> */}
                                   <td className="sticky right-0 z-20 bg-white w-[80px] px-2 py-1 whitespace-nowrap">
                                     <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                                   </td>

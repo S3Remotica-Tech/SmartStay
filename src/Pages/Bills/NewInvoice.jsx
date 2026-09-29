@@ -294,12 +294,13 @@ function NewInvoice() {
 
   const totalAmount = subTotal - discountAmount;
 
-  const customerOptions =
-    state?.UsersList?.TenantList?.map((u) => ({
-      value: u.customerId,
-      label: u.fullName,
-      details: u,
-    })) || [];
+  const customerOptions = Array.isArray(state?.UsersList?.TenantList)
+    ? state.UsersList.TenantList.map((u) => ({
+        value: u.customerId,
+        label: u.fullName,
+        details: u,
+      }))
+    : [];
 
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
@@ -431,7 +432,11 @@ function NewInvoice() {
         Number(row.amount) > 0;
 
       return {
-        itemType: !hasItem ? "Please Select or Search Item" : "",
+        itemType: !hasItem
+          ? isOther
+            ? "Please Enter Item Name"
+            : "Please Select Item"
+          : "",
         amount: !hasAmount ? "Please Enter Amount" : "",
       };
     });
@@ -511,7 +516,11 @@ function NewInvoice() {
         Number(row.amount) > 0;
 
       return {
-        itemType: !hasItem ? "Please Select or Search Item" : "",
+        itemType: !hasItem
+          ? isOther
+            ? "Please Enter Item Name"
+            : "Please Select Item"
+          : "",
         amount: !hasAmount ? "Please Enter Amount" : "",
       };
     });
