@@ -8,10 +8,10 @@ import "./BankingAddForm.css";
 import moment from "moment";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from "../Components/ErrorMessage";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -28,25 +28,23 @@ function BankingEditTransaction(props) {
   const [id, setId] = useState("");
   const [error, setError] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
-
-
+  const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-      dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+    dispatch({ type: "BANKINGLIST", payload: hostel_id });
     // dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, []);
 
   const handleAccount = (selectedOption) => {
-    setAccount(selectedOption?.value || '');
+    setAccount(selectedOption?.value || "");
     setAccountError("");
     setError("");
   };
   const handleAmount = (e) => {
-    const value = (e.target.value)
+    const value = e.target.value;
     if (!/^\d*$/.test(value)) {
       return;
     }
@@ -77,22 +75,20 @@ function BankingEditTransaction(props) {
     describtion: "",
   });
 
-
   useEffect(() => {
-
-    const resolvedTransaction = props.updateTransaction.desc === "Invoice" ? 1 : 2;
+    const resolvedTransaction =
+      props.updateTransaction.desc === "Invoice" ? 1 : 2;
 
     setAccount(props.updateTransaction.bank_id);
     setSelectedDate(props.updateTransaction.date || "");
-    setTransaction(resolvedTransaction)
+    setTransaction(resolvedTransaction);
     setSelectedDate(
       props.updateTransaction.date
         ? moment(props.updateTransaction.date).toDate("")
-        : null
+        : null,
     );
     setId(props.updateTransaction.id);
     setAmount(props.updateTransaction.amount);
-
 
     setDescribtion(props.updateTransaction.description);
 
@@ -161,26 +157,24 @@ function BankingEditTransaction(props) {
       const d = new Date(date);
       return isValidDate(d) ? d.toISOString().split("T")[0] : "";
     };
-    const accountChanged =
-      isNaN(Number(account))
-        ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
-        : Number(account) !== Number(initialStateAssign.account);
+    const accountChanged = isNaN(Number(account))
+      ? String(account).toLowerCase() !==
+        String(initialStateAssign.account).toLowerCase()
+      : Number(account) !== Number(initialStateAssign.account);
 
-    const transactionChanged =
-      isNaN(Number(transaction))
-        ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
-        : Number(transaction) !== Number(initialStateAssign.transaction);
+    const transactionChanged = isNaN(Number(transaction))
+      ? String(transaction).toLowerCase() !==
+        String(initialStateAssign.transaction).toLowerCase()
+      : Number(transaction) !== Number(initialStateAssign.transaction);
 
     const dateChanged =
       formatDate(selectedDate) !== formatDate(initialStateAssign.selectedDate);
 
-    const amountChanged =
-      Number(amount) !== Number(initialStateAssign.amount);
+    const amountChanged = Number(amount) !== Number(initialStateAssign.amount);
 
     const descriptionChanged =
-      String(describtion || "") !== String(initialStateAssign.describtion || "");
-
-
+      String(describtion || "") !==
+      String(initialStateAssign.describtion || "");
 
     const isChanged =
       accountChanged ||
@@ -208,14 +202,14 @@ function BankingEditTransaction(props) {
         desc: describtion,
       },
     });
-    setFormLoading(true)
+    setFormLoading(true);
   };
 
   useEffect(() => {
     if (state.bankingDetails.statusEditTrasactionCode === 200) {
-      setFormLoading(false)
+      setFormLoading(false);
       handleCloseTransactionEdit();
-     dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_BANK_TRANSACTION" });
       }, 1000);
@@ -229,7 +223,6 @@ function BankingEditTransaction(props) {
       }, 200);
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
-
 
   const DropdownIndicator = () => null;
   return (
@@ -251,8 +244,12 @@ function BankingEditTransaction(props) {
             Edit Transaction
           </div>
 
-          <CloseCircle size="24" color="#000" onClick={handleCloseTransactionEdit}
-            style={{ cursor: 'pointer' }} />
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleCloseTransactionEdit}
+            style={{ cursor: "pointer" }}
+          />
         </Modal.Header>
         <Modal.Body className="pt-2">
           <div className="row ">
@@ -276,34 +273,34 @@ function BankingEditTransaction(props) {
                 </span>
               </Form.Label>
 
-
               <Select
                 isDisabled={true}
                 components={{ DropdownIndicator }}
                 options={
                   state.bankingDetails?.bankingList?.banks?.length > 0
                     ? state.bankingDetails.bankingList.banks.map((u) => ({
-                      value: u.id,
-                      label: `${u.benificiary_name} - ${u.type}`,
-                    }))
+                        value: u.id,
+                        label: `${u.benificiary_name} - ${u.type}`,
+                      }))
                     : []
                 }
-
                 onChange={handleAccount}
-
                 value={
                   account
                     ? {
-                      value: account,
-                      label: `${state.bankingDetails?.bankingList?.banks?.find(
-                        (b) => b.id === account
-                      )?.benificiary_name || "Selected"} - ${state.bankingDetails?.bankingList?.banks?.find(
-                        (b) => b.id === account
-                      )?.type || "Account"}`
-                    }
+                        value: account,
+                        label: `${
+                          state.bankingDetails?.bankingList?.banks?.find(
+                            (b) => b.id === account,
+                          )?.benificiary_name || "Selected"
+                        } - ${
+                          state.bankingDetails?.bankingList?.banks?.find(
+                            (b) => b.id === account,
+                          )?.type || "Account"
+                        }`,
+                      }
                     : null
                 }
-
                 placeholder="Selected Account"
                 classNamePrefix="custom"
                 menuPlacement="auto"
@@ -343,7 +340,7 @@ function BankingEditTransaction(props) {
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#555",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }),
                   option: (base, state) => ({
                     ...base,
@@ -356,7 +353,6 @@ function BankingEditTransaction(props) {
                   }),
                 }}
               />
-
 
               {accountError && (
                 <ErrorMessage message={accountError} type="error" />
@@ -376,9 +372,17 @@ function BankingEditTransaction(props) {
                   Date<span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
-                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%" }}
+                >
                   <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -387,25 +391,23 @@ function BankingEditTransaction(props) {
                       setError("");
                       setSelectedDate(date ? date.toDate() : null);
                     }}
-                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
                     disabledDate={(current) => {
-                      const createDate = moment(props.updateTransaction.createdat, "YYYY-MM-DD");
+                      const createDate = moment(
+                        props.updateTransaction.createdat,
+                        "YYYY-MM-DD",
+                      );
                       if (!createDate.isValid()) return false;
 
                       return current && current.isBefore(createDate, "day");
                     }}
-
-
-
-
                   />
                 </div>
               </Form.Group>
 
-              {dateError && (
-                <ErrorMessage message={dateError} type="error" />
-              )}
+              {dateError && <ErrorMessage message={dateError} type="error" />}
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -440,7 +442,7 @@ function BankingEditTransaction(props) {
                 />
               </Form.Group>
               {amountError && (
-               <ErrorMessage message={amountError} type="error" />
+                <ErrorMessage message={amountError} type="error" />
               )}
             </div>
 
@@ -478,7 +480,7 @@ function BankingEditTransaction(props) {
                   height: 50,
                   borderRadius: 8,
                   cursor: "pointer",
-                  backgroundColor: "rgb(224, 236, 255)"
+                  backgroundColor: "rgb(224, 236, 255)",
                 }}
                 value={transaction}
                 onChange={(e) => handleTransaction(e)}
@@ -487,9 +489,7 @@ function BankingEditTransaction(props) {
                 <option value={1}>Credit</option>
                 <option value={2}>Debit</option>
               </Form.Select>
-              {transError && (
-               <ErrorMessage message={transError} type="error" />
-              )}
+              {transError && <ErrorMessage message={transError} type="error" />}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group>
@@ -503,7 +503,6 @@ function BankingEditTransaction(props) {
                   }}
                 >
                   Description{" "}
-
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -523,43 +522,43 @@ function BankingEditTransaction(props) {
                   }}
                 />
               </Form.Group>
-
             </div>
           </div>
         </Modal.Body>
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
+        {formLoading && (
           <div
             style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              opacity: 0.75,
+              zIndex: 10,
             }}
-          ></div>
-        </div>}
-        {error && (
-            <ErrorMessage message={error} type="error" />
+          >
+            <div
+              style={{
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
+              }}
+            ></div>
+          </div>
         )}
+        {error && <ErrorMessage message={error} type="error" />}
         <Modal.Footer
           className="d-flex justify-content-center"
           style={{ borderTop: "none" }}
         >
-          <Button disabled={formLoading}
+          <Button
+            disabled={formLoading}
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -587,7 +586,7 @@ BankingEditTransaction.propTypes = {
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   EditTransactionForm: PropTypes.func.isRequired,
-  setEditTransactionForm: PropTypes.func.isRequired
+  setEditTransactionForm: PropTypes.func.isRequired,
 };
 
 export default BankingEditTransaction;

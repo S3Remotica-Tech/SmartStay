@@ -127,6 +127,7 @@ function SelfTransferGlobal({ show, handleClose }) {
       dispatch({ type: "CLEAR_SELF_REDUCER" });
     }
   }, [state.bankingDetails?.selfInitializeError]);
+  console.log("state?.bankingDetails", state?.bankingDetails?.newBankingList);
   if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
@@ -152,7 +153,7 @@ function SelfTransferGlobal({ show, handleClose }) {
               From
             </h6>
 
-            {state?.bankingDetails?.newBankingList?.banks?.map((bank) => (
+            {state?.bankingDetails?.newBankingList?.map((bank) => (
               <div
                 key={bank.bankId}
                 onClick={() => setSelectedFromBank(bank)}

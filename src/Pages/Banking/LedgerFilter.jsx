@@ -165,6 +165,8 @@ function LedgerFilter({ show, handleClose, size }) {
       endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
       period: period?.value,
       source: source?.value,
+      periodLabel: period?.label || "",
+      sourceLabel: source?.label || "",
     };
 
     dispatch({
@@ -195,6 +197,41 @@ function LedgerFilter({ show, handleClose, size }) {
       dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
     }
   }, [state.bankingDetails.allTransactionSuccess]);
+
+  useEffect(() => {
+    if (!show) return;
+
+    const bankFilters = state.bankingDetails?.ledgerFilter;
+
+    if (!bankFilters) return;
+
+    setPeriod(
+      bankFilters.period
+        ? periodOptions.find((item) => item.value === bankFilters.period) ||
+            null
+        : null,
+    );
+
+    setSource(
+      bankFilters.source
+        ? sourceOptions.find((item) => item.value === bankFilters.source) ||
+            null
+        : null,
+    );
+
+    setFromDate(
+      bankFilters.startDate
+        ? dayjs(bankFilters.startDate, "DD/MM/YYYY").toDate()
+        : "",
+    );
+
+    setToDate(
+      bankFilters.endDate
+        ? dayjs(bankFilters.endDate, "DD/MM/YYYY").toDate()
+        : "",
+    );
+  }, [show]);
+
   if (!show) return null;
   return (
     <div>

@@ -283,7 +283,6 @@ function* handleGetAllPaymentMethod(action) {
 
 function* handleGetUPIAndCardTypes(action) {
   try {
-   
     const response = yield call(getUPIAndCardTypes, action.payload);
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
@@ -384,7 +383,6 @@ function* handleAddPaymentMethod(action) {
   try {
     const response = yield call(AddPaymentMethod, action.payload);
 
-  
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -417,11 +415,9 @@ function* handleAddPaymentMethod(action) {
         style: toastStyle,
       });
     }
-
-   
   } catch (error) {
     yield* handleApiError(error);
-   
+
     if (error) {
       yield put({
         type: "ADD_PAYEMNT_METHOD_BANKING_ERROR",
@@ -478,6 +474,21 @@ function* handleAddBankingNew(action) {
       yield put({
         type: "ADD_BANKING_ERROR",
         payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
     }
   }

@@ -191,10 +191,26 @@ function BankingNew() {
 
   const handlePeriodChange = (selected) => {
     setPeriod(selected);
+    setPageTransaction(1);
+
+    dispatch({
+      type: "SET_BANK_FILTERS",
+      payload: {
+        period: selected?.value || "",
+      },
+    });
   };
 
   const handleSourceChange = (selected) => {
     setSource(selected);
+    setPageTransaction(1);
+
+    dispatch({
+      type: "SET_BANK_FILTERS",
+      payload: {
+        source: selected?.value || "",
+      },
+    });
   };
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking } =
@@ -292,7 +308,9 @@ function BankingNew() {
       setLoader(true);
       const bankFilter = {
         period: period?.value,
+        periodLabel: period?.label || "",
         source: source?.value,
+        sourceLabel: source?.label || "",
       };
 
       dispatch({
@@ -493,7 +511,9 @@ function BankingNew() {
           startDate: undefined,
           endDate: undefined,
           period: "",
+          periodLabel: "",
           source: "",
+          sourceLabel: "",
           search: "",
           size: "",
           page: "",
@@ -513,7 +533,9 @@ function BankingNew() {
         startDate: undefined,
         endDate: undefined,
         period: "",
+        periodLabel: "",
         source: "",
+        sourceLabel: "",
         search: "",
         size: "",
         page: "",
@@ -552,7 +574,7 @@ function BankingNew() {
         key: "period",
         label: "Period",
         type: "period",
-        value: bankFilter?.period,
+        value: bankFilter?.periodLabel,
       });
     }
 
@@ -561,7 +583,7 @@ function BankingNew() {
         key: "source",
         label: "Source",
         type: "source",
-        value: bankFilter?.source,
+        value: bankFilter?.sourceLabel,
       });
     }
 
@@ -1504,9 +1526,9 @@ function BankingNew() {
                                 Source / Beneficiary
                               </th>
                               <th className="w-[230px] px-2">Amount</th>
-                              <th className="w-[230px] px-2 whitespace-nowrap">
+                              {/* <th className="w-[230px] px-2 whitespace-nowrap">
                                 Running Balance
-                              </th>
+                              </th> */}
                               <th className="sticky right-0 z-40 bg-[#F9FAFB] w-[80px] px-2">
                                 Action
                               </th>
@@ -1578,9 +1600,9 @@ function BankingNew() {
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     ₹{user.transactionAmount}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                                  {/* <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     ₹ {user.accountBalance}
-                                  </td>
+                                  </td> */}
                                   <td className="sticky right-0 z-20 bg-white w-[80px] px-2 py-1 whitespace-nowrap">
                                     <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
                                   </td>

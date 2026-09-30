@@ -7,14 +7,207 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, Bank, Wallet2, ArrowDown2 } from "iconsax-react";
 import "./addAsset.css";
 import PropTypes from "prop-types";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import ErrorMessage from "../../Components/ErrorMessage";
 
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "45px",
+    height: "50px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "14px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 500,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+      fontFamily: "Gilroy, sans-serif",
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "200px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
+const Option = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center justify-between py-1">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
+        </div>
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {data.type}
+        </span>
+      </div>
+    </components.Option>
+  );
+};
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+
+const SingleValue = (props) => {
+  const { data } = props;
+
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -33,7 +226,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [assetError, setAssetError] = useState("");
   const [paymentError, setPaymentError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [bankking, setBanking] = useState("");
+  // const [bankking, setBanking] = useState("");
   const [bankingError, setBankingError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState("");
@@ -91,15 +284,6 @@ function StaticExample({ show, setShow, currentItem }) {
       }, 2000);
     }
   }, [state.AssetList?.alreadySerialNumberHere]);
-
-  useEffect(() => {
-    if (state.bankingDetails.bankingList.listBanks) {
-      setBanking(state.bankingDetails.bankingList.listBanks);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.bankingList.listBanks]);
 
   const handleClose = () => {
     setShow(false);
@@ -185,19 +369,23 @@ function StaticExample({ show, setShow, currentItem }) {
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
   };
 
-  const labelMap = {
-    CARD: "Card",
-    CASH: "Cash",
-    UPI: "UPI",
-    BANK: "Bank",
-  };
-
-  const paymentOptions = Array.isArray(bankking)
-    ? bankking.map((item) => ({
-        value: String(item.bankingId),
-        label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
-      }))
-    : [];
+  const paymentOptions =
+    state?.bankingDetails?.newBankingList?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.displayName,
+      subLabel:
+        bank.accountType === "BANK"
+          ? `${bank.bankName} `
+          : `${bank.cashAccountType} `,
+      type: bank.accountType,
+      icon:
+        bank.accountType === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
@@ -789,56 +977,14 @@ function StaticExample({ show, setShow, currentItem }) {
                         placeholder="Select Payment"
                         isDisabled={currentItem}
                         menuPlacement="top"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            fontSize: 14,
-                            color: "rgba(75, 75, 75, 1)",
-                            fontFamily: "Gilroy",
-                            fontWeight: modeOfPayment ? 600 : 500,
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            boxShadow: "none",
-                            height: 50,
-                            cursor: "pointer",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                            fontFamily: "Gilroy",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "80px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                            fontFamily: "Gilroy",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#9aa0a6",
-                            fontSize: 16,
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            cursor: "pointer",
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: "pointer",
-                            backgroundColor: state.isFocused
-                              ? "lightblue"
-                              : "white",
-                            color: "#000",
-                            fontFamily: "Gilroy",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
+                        styles={CustomStyles}
+                        isSearchable={false}
+                        components={{
+                          Option,
+                          SingleValue,
+                          DropdownIndicator,
+                          GroupHeading,
+                          IndicatorSeparator: () => null,
                         }}
                       />
                     </Form.Group>

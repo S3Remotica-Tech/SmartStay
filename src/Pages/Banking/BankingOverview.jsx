@@ -88,6 +88,7 @@ function BankingOverview({ show, onClose }) {
     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
         isBankingWayTrigger: true,
+        
       },
     });
     setShowTransactionMenu(false);

@@ -1,11 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, More, DocumentUpload } from "iconsax-react";
-import Select from "react-select";
+import {
+  Add,
+  More,
+  DocumentUpload,
+  ArrowDown2,
+  Bank,
+  Wallet2,
+} from "iconsax-react";
+import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-
+import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -218,6 +225,99 @@ const CustomStylesCode = {
   }),
 };
 
+const Option = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center justify-between py-1">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
+        </div>
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+            data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {data.type}
+        </span>
+      </div>
+    </components.Option>
+  );
+};
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+
+const SingleValue = (props) => {
+  const { data } = props;
+
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
+
 function AddExpenseNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -226,6 +326,7 @@ function AddExpenseNew() {
 
   const isBankingWayTrigger = location.state?.isBankingWayTrigger ?? false;
   const currentItem = location?.state?.currentItem;
+
   const isVendorOverViewWay = location.state?.isVendorOverViewWay;
   const selectedVendorId = location.state?.selectedVendorId;
 
@@ -937,23 +1038,37 @@ function AddExpenseNew() {
       label: item.categoryName,
     })) || [];
 
-  const paymentOptions = Array.isArray(
-    state.ExpenseList?.getInitializeExpenseList?.banks,
-  )
-    ? state.ExpenseList.getInitializeExpenseList.banks.map((item) => {
-        const typeLabelMap = {
-          bank: "Bank",
-          upi: "UPI",
-          card: "Card",
-          cash: "Cash",
-        };
-        return {
-          value: item.bankId,
-          label: `${item.holderName} - ${item.bankName || typeLabelMap[item.type]}`,
-          type: item.type,
-        };
-      })
-    : [];
+  const paymentOptions =
+    state.ExpenseList?.getInitializeExpenseList?.allPaymentMethods?.map(
+      (bank) => ({
+        value: bank.bankId,
+        label: bank.displayName,
+        subLabel:
+          bank.accountType === "BANK"
+            ? `${bank.bankName} `
+            : `${bank.cashAccountType} `,
+        type: bank.accountType,
+        icon:
+          bank.accountType === "BANK" ? (
+            <Bank color="#1E45E1" size="16" />
+          ) : (
+            <Wallet2 color="#038C3D" size="16" />
+          ),
+        data: bank,
+      }),
+    ) || [];
+
+  useEffect(() => {
+    if (isBankingWayTrigger) {
+      const overviewDetails = state?.bankingDetails?.OverviewBankDetails;
+
+      const selectedPaymentMethod = paymentOptions?.find(
+        (option) => option.value === overviewDetails?.bankId,
+      );
+
+      setPaymentMethod(selectedPaymentMethod || null);
+    }
+  }, [isBankingWayTrigger]);
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -1343,6 +1458,7 @@ function AddExpenseNew() {
                     </label>
 
                     <Select
+                      isDisabled={isBankingWayTrigger}
                       ref={paymentMethodRef}
                       value={paymentMethod}
                       onChange={(selected) => {
@@ -1352,6 +1468,13 @@ function AddExpenseNew() {
                       options={paymentOptions}
                       placeholder="Select Payment Method"
                       styles={CustomStyles}
+                      components={{
+                        Option,
+                        SingleValue,
+                        DropdownIndicator,
+                        GroupHeading,
+                        IndicatorSeparator: () => null,
+                      }}
                     />
 
                     {paymentMethodError && (

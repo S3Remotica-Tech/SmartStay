@@ -164,7 +164,9 @@ function TransactionFilter({ show, handleClose, size }) {
       startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
       endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
       period: period?.value,
+      periodLabel: period?.label || "",
       source: source?.value,
+      sourceLabel: source?.label || "",
     };
 
     dispatch({
@@ -187,6 +189,9 @@ function TransactionFilter({ show, handleClose, size }) {
     setFormLoading(true);
   };
 
+  // const bankFilterReducer = state.bankingDetails?.bankFilters;
+  // console.log("bankFilterReducer", bankFilterReducer);
+
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setFormLoading(false);
@@ -195,6 +200,40 @@ function TransactionFilter({ show, handleClose, size }) {
       dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
     }
   }, [state.bankingDetails.allTransactionSuccess]);
+
+  useEffect(() => {
+    if (!show) return;
+
+    const bankFilters = state.bankingDetails?.bankFilters;
+
+    if (!bankFilters) return;
+
+    setPeriod(
+      bankFilters.period
+        ? periodOptions.find((item) => item.value === bankFilters.period) ||
+            null
+        : null,
+    );
+
+    setSource(
+      bankFilters.source
+        ? sourceOptions.find((item) => item.value === bankFilters.source) ||
+            null
+        : null,
+    );
+
+    setFromDate(
+      bankFilters.startDate
+        ? dayjs(bankFilters.startDate, "DD/MM/YYYY").toDate()
+        : "",
+    );
+
+    setToDate(
+      bankFilters.endDate
+        ? dayjs(bankFilters.endDate, "DD/MM/YYYY").toDate()
+        : "",
+    );
+  }, [show]);
 
   if (!show) return null;
 
@@ -251,7 +290,7 @@ function TransactionFilter({ show, handleClose, size }) {
             </label>
 
             <div className="relative">
-              <DatePicker 
+              <DatePicker
                 selected={fromDate}
                 onChange={handleFromDateChange}
                 dateFormat="dd/MM/yyyy"
