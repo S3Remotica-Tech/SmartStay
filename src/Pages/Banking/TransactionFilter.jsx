@@ -164,7 +164,9 @@ function TransactionFilter({ show, handleClose, size }) {
       startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
       endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
       period: period?.value,
+      periodLabel: period?.label || "",
       source: source?.value,
+      sourceLabel: source?.label || "",
     };
 
     dispatch({
@@ -187,8 +189,8 @@ function TransactionFilter({ show, handleClose, size }) {
     setFormLoading(true);
   };
 
-  const bankFilterReducer = state.bankingDetails?.bankFilters;
-  console.log("bankFilterReducer", bankFilterReducer);
+  // const bankFilterReducer = state.bankingDetails?.bankFilters;
+  // console.log("bankFilterReducer", bankFilterReducer);
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {

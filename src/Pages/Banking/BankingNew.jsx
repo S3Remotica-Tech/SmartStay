@@ -308,7 +308,9 @@ function BankingNew() {
       setLoader(true);
       const bankFilter = {
         period: period?.value,
+        periodLabel: period?.label || "",
         source: source?.value,
+        sourceLabel: source?.label || "",
       };
 
       dispatch({
@@ -509,7 +511,9 @@ function BankingNew() {
           startDate: undefined,
           endDate: undefined,
           period: "",
+          periodLabel: "",
           source: "",
+          sourceLabel: "",
           search: "",
           size: "",
           page: "",
@@ -529,7 +533,9 @@ function BankingNew() {
         startDate: undefined,
         endDate: undefined,
         period: "",
+        periodLabel: "",
         source: "",
+        sourceLabel: "",
         search: "",
         size: "",
         page: "",
@@ -568,7 +574,7 @@ function BankingNew() {
         key: "period",
         label: "Period",
         type: "period",
-        value: bankFilter?.period,
+        value: bankFilter?.periodLabel,
       });
     }
 
@@ -577,7 +583,7 @@ function BankingNew() {
         key: "source",
         label: "Source",
         type: "source",
-        value: bankFilter?.source,
+        value: bankFilter?.sourceLabel,
       });
     }
 

@@ -175,7 +175,12 @@ function Asset() {
       setLoading(true);
 
       dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
     } else {
       setLoading(false);
     }
@@ -218,175 +223,13 @@ function Asset() {
     setLoading(false);
   }, [state.AssetList.assetList]);
 
-  // const [selectedDateRange, setSelectedDateRange] = useState([]);
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
-
-  // const filterByPriceRange = (data) => {
-  //   switch (selectedPriceRange) {
-  //     case "0-100":
-  //       return data.filter((item) => item.total_price <= 100);
-  //     case "100-500":
-  //       return data.filter(
-  //         (item) => item.total_price > 100 && item.total_price <= 500,
-  //       );
-  //     case "500-1000":
-  //       return data.filter(
-  //         (item) => item.total_price > 500 && item.total_price <= 1000,
-  //       );
-  //     case "1000+":
-  //       return data.filter((item) => item.total_price > 1000);
-  //     case "date":
-  //       if (selectedDateRange?.length === 2) {
-  //         const [start, end] = selectedDateRange;
-  //         return data.filter(
-  //           (item) =>
-  //             dayjs(item.purchase_date).isSameOrAfter(start, "day") &&
-  //             dayjs(item.purchase_date).isSameOrBefore(end, "day"),
-  //         );
-  //       }
-
-  //       return data;
-  //     case "All":
-  //     default:
-  //       return data;
-  //   }
-  // };
-
-  // const handleDateChange = (dates) => {
-  //   if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
-  //     setSelectedDateRange([]);
-  //     setSelectedPriceRange("All");
-  //     if (state.login.selectedHostel_Id) {
-  //       dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-  //     }
-
-  //     return;
-  //   }
-
-  //   setSelectedDateRange(dates);
-
-  //   const newStartDate = dayjs(dates[0]).startOf("day");
-  //   const newEndDate = dayjs(dates[1]).endOf("day");
-  //   setExcelFilterDates([newStartDate, newEndDate]);
-  //   setExcelDownloadDates([newStartDate, newEndDate]);
-
-  //   setSelectedPriceRange("date");
-  // };
-
-  // const handlePriceRangeChange = (value) => {
-  //   setSelectedPriceRange(value);
-  //   setFilterExcelPrice(value);
-
-  //   if (value === "All" && state.login.selectedHostel_Id) {
-  //     dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-  //   } else if (value === "date" && state.login.selectedHostel_Id) {
-  //     dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-  //     setExcelFilterDates([]);
-  //     setSelectedDateRange([]);
-  //     setExcelDownloadDates([]);
-  //   } else if (value && state.login.selectedHostel_Id) {
-  //     dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (
-  //     selectedPriceRange === "date" &&
-  //     ExcelFilterDates.length === 2 &&
-  //     state.login.selectedHostel_Id
-  //   ) {
-  //     dispatch({
-  //       type: "ASSETLIST",
-  //       payload: {
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-  //         end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD"),
-  //       },
-  //     });
-  //   }
-  // }, [selectedPriceRange, ExcelFilterDates]);
-
-  // useEffect(() => {
-  //   if (!showFilter && showFilter !== null) {
-  //     if (state.login.selectedHostel_Id) {
-  //       dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-  //     }
-
-  //     setSelectedPriceRange("All");
-  //     // setSelectedDateRange([]);
-  //     setExcelFilterDates([]);
-  //     setExcelDownloadDates([]);
-  //   }
-  // }, [showFilter]);
-
-  // const handleFilterByPrice = () => {
-  //   const newShowFilter = !showFilter;
-  //   setShowFilter(newShowFilter);
-
-  //   if (!showFilter) {
-  //     setSelectedPriceRange("All");
-  //     // setSelectedDateRange([]);
-  //     setExcelFilterDates([]);
-  //     setExcelDownloadDates([]);
-  //     setGetData(state.AssetList.assetList);
-  //   }
-  // };
-
-  // const filteredData = filterByPriceRange(getData);
 
   const handleEditAsset = (item) => {
     setShow(true);
     setCurrentItem(item);
   };
-
-  // const handleShowSearch = () => {
-  //   setShowFilterData(!showFilterData);
-  // };
-
-  // const handleCloseSearch = () => {
-  //   setShowFilterData(false);
-  //   setGetData(state.AssetList?.assetList);
-  //   setSearchQuery("");
-  // };
-
-  // const handleInputChange = (e) => {
-  //   const searchItem = e.target.value;
-  //   setSearchQuery(searchItem);
-  //   if (searchItem !== "") {
-  //     const filteredItems =
-  //       state.AssetList.assetList &&
-  //       state.AssetList.assetList.filter(
-  //         (user) =>
-  //           user.asset_name &&
-  //           user.asset_name.toLowerCase().includes(searchItem.toLowerCase()),
-  //       );
-
-  //     setGetData(filteredItems);
-  //     setShowDropDown(true);
-  //   } else {
-  //     setGetData(state.AssetList.assetList);
-  //   }
-  // };
-
-  // const handleDropDown = (value) => {
-  //   const searchItem = value;
-  //   setSearchQuery(searchItem);
-  //   if (searchItem !== "") {
-  //     const filteredItems =
-  //       state.AssetList.assetList &&
-  //       state.AssetList.assetList.filter(
-  //         (user) =>
-  //           user.asset_name &&
-  //           user.asset_name.toLowerCase().includes(searchItem.toLowerCase()),
-  //       );
-
-  //     setGetData(filteredItems);
-  //   } else {
-  //     setGetData(state.AssetList.assetList);
-  //   }
-  //   setShowDropDown(false);
-  // };
 
   useEffect(() => {
     const appearOptions = {

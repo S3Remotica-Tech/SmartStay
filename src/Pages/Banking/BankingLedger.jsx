@@ -117,10 +117,12 @@ function BankingLedger() {
 
   const handlePeriodChange = (selected) => {
     setPeriod(selected);
+    setPageTransaction(1);
   };
 
   const handleSourceChange = (selected) => {
     setSource(selected);
+    setPageTransaction(1);
   };
   const [pageTransaction, setPageTransaction] = useState(1);
   const [sizeTransaction, setSizeTransaction] = useState(
@@ -184,6 +186,8 @@ function BankingLedger() {
       const ledgerFilter = {
         period: period?.value,
         source: source?.value,
+        periodLabel: period?.label || "",
+        sourceLabel: source?.label || "",
       };
 
       dispatch({
@@ -207,7 +211,9 @@ function BankingLedger() {
           startDate: undefined,
           endDate: undefined,
           period: "",
+          periodLabel: "",
           source: "",
+          sourceLabel: "",
           search: "",
           size: "",
           page: "",
@@ -227,7 +233,9 @@ function BankingLedger() {
         startDate: undefined,
         endDate: undefined,
         period: "",
+        periodLabel: "",
         source: "",
+        sourceLabel: "",
         search: "",
         size: "",
         page: "",
@@ -266,7 +274,7 @@ function BankingLedger() {
         key: "period",
         label: "Period",
         type: "period",
-        value: bankFilter?.period,
+        value: bankFilter?.periodLabel,
       });
     }
 
@@ -275,7 +283,7 @@ function BankingLedger() {
         key: "source",
         label: "Source",
         type: "source",
-        value: bankFilter?.source,
+        value: bankFilter?.sourceLabel,
       });
     }
 
@@ -305,7 +313,6 @@ function BankingLedger() {
     setChips(filterData);
   }, [state.bankingDetails?.ledgerFilter]);
 
-  // -----------------------
   useEffect(() => {
     let timeout;
 

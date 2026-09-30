@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
-import { Add, InfoCircle, Verify, Bank } from "iconsax-react";
+import { Add, InfoCircle, Verify, Bank, Wallet } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 
@@ -180,8 +180,8 @@ function AddNewAccount({ show, handleClose }) {
 
   //  Bank
   const handleBankDisplayName = (e) => {
-    const value = e.target.value.replace(/[^A-Za-z\s-]/g, "");
-    console.log("value.length", value.length);
+    const value = e.target.value;
+    // console.log("value.length", value.length);
     setBankDisplayName(value);
     if (value.length > 30) {
       setBankDisplayNameError("Maximum 30 characters allowed");
@@ -268,9 +268,14 @@ function AddNewAccount({ show, handleClose }) {
 
   //  Cash
   const handleCashDisplayName = (e) => {
-    const value = e.target.value.replace(/[^A-Za-z\s-]/g, "");
+    const value = e.target.value;
     setCashDisplayName(value);
-    setCashDisplayNameError("");
+
+    if (value.length > 30) {
+      setCashDisplayNameError("Maximum 30 characters allowed");
+    } else {
+      setCashDisplayNameError("");
+    }
   };
 
   const handleCashType = (selected) => {
@@ -332,41 +337,44 @@ function AddNewAccount({ show, handleClose }) {
       setFirstError(holderNameRef);
     }
 
-    if (!accountNumber.trim()) {
-      setAccountNumberError("Please Enter Account Number");
-      setFirstError(accountNumberRef);
-    }
-    if (/^0+$/.test(accountNumber)) {
+    // if (!accountNumber.trim()) {
+    //   setAccountNumberError("Please Enter Account Number");
+    //   setFirstError(accountNumberRef);
+    // }
+    if (accountNumber && /^0+$/.test(accountNumber)) {
       setAccountNumberError("Account Number cannot be all zeros");
       setFirstError(accountNumberRef);
     }
 
-    if (accountNumber.length < 9 || accountNumber.length > 18) {
+    if (
+      (accountNumber && accountNumber.length < 9) ||
+      accountNumber.length > 18
+    ) {
       setAccountNumberError("Account Number must be 9–18 digits");
       setFirstError(accountNumberRef);
     }
 
-    if (!branchName.trim()) {
-      setBranchNameError("Please Enter Branch Name");
-      setFirstError(branchNameRef);
-    }
+    // if (!branchName.trim()) {
+    //   setBranchNameError("Please Enter Branch Name");
+    //   setFirstError(branchNameRef);
+    // }
 
-    if (!ifscCode.trim()) {
-      setIfscCodeError("Please Enter IFSC Code");
+    // if (!ifscCode.trim()) {
+    //   setIfscCodeError("Please Enter IFSC Code");
 
-      setFirstError(ifscCodeRef);
-    }
+    //   setFirstError(ifscCodeRef);
+    // }
 
-    if (!accountType?.value) {
-      setAccountTypeError("Please Select Account Type");
-      setFirstError(accountTypeRef);
-    }
+    // if (!accountType?.value) {
+    //   setAccountTypeError("Please Select Account Type");
+    //   setFirstError(accountTypeRef);
+    // }
 
-    if (!bankOpeningBalance) {
-      setBankOpeningBalanceError("Please Enter Opening Balance");
-      setFirstError(bankOpeningBalanceRef);
-    } else if (Number(bankOpeningBalance) === 0) {
-      setBankOpeningBalanceError("Opening Balance cannot be zero");
+    if (
+      bankOpeningBalance !== "" &&
+      !/^(0|[1-9]\d*)(\.\d+)?$/.test(bankOpeningBalance)
+    ) {
+      setBankOpeningBalanceError("Please enter a valid opening balance");
       setFirstError(bankOpeningBalanceRef);
     }
     if (firstErrorRef?.current) {
@@ -382,6 +390,7 @@ function AddNewAccount({ show, handleClose }) {
 
   const handleSubmitBank = () => {
     dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
+    dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     if (!validateBank()) return;
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -432,16 +441,23 @@ function AddNewAccount({ show, handleClose }) {
       setFirstError(cashTypeRef);
     }
 
-    if (!responsiblePerson) {
-      setResponsiblePersonError("Please Select Responsible Person");
-      setFirstError(responsiblePersonRef);
-    }
+    // if (!responsiblePerson) {
+    //   setResponsiblePersonError("Please Select Responsible Person");
+    //   setFirstError(responsiblePersonRef);
+    // }
 
-    if (!cashOpeningBalance) {
-      setCashOpeningBalanceError("Please Enter Opening Balance");
-      setFirstError(cashOpeningBalanceRef);
-    } else if (Number(cashOpeningBalance) === 0) {
-      setCashOpeningBalanceError("Opening Balance cannot be zero");
+    // if (!cashOpeningBalance) {
+    //   setCashOpeningBalanceError("Please Enter Opening Balance");
+    //   setFirstError(cashOpeningBalanceRef);
+    // } else if (Number(cashOpeningBalance) === 0) {
+    //   setCashOpeningBalanceError("Opening Balance cannot be zero");
+    //   setFirstError(cashOpeningBalanceRef);
+    // }
+    if (
+      cashOpeningBalance !== "" &&
+      !/^(0|[1-9]\d*)(\.\d+)?$/.test(cashOpeningBalance)
+    ) {
+      setCashOpeningBalanceError("Please enter a valid opening balance");
       setFirstError(cashOpeningBalanceRef);
     }
 
@@ -458,6 +474,7 @@ function AddNewAccount({ show, handleClose }) {
 
   const handleSubmitCash = () => {
     dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
+    dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     if (!validateCash()) return;
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -526,9 +543,8 @@ function AddNewAccount({ show, handleClose }) {
       state.bankingDetails.bankingCreateError
     ) {
       setFormLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NETWORK_ERROR" });
-      }, 3000);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
     }
   }, [
     state.createAccount?.networkError,
@@ -637,7 +653,7 @@ function AddNewAccount({ show, handleClose }) {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-5">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
                       Bank Name <span className="text-red-500">*</span>
@@ -656,7 +672,7 @@ function AddNewAccount({ show, handleClose }) {
                       <ErrorMessage message={bankNameError} type="error" />
                     )}
                   </div>
-                  <div className="grid grid-cols-1 my-2">
+                  <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
                       Acc Holder Name <span className="text-red-500">*</span>
                     </label>
@@ -680,7 +696,7 @@ function AddNewAccount({ show, handleClose }) {
                 <div className="grid grid-cols-2 gap-5 my-2">
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Account Number <span className="text-red-500">*</span>
+                      Account Number
                     </label>
 
                     <input
@@ -698,7 +714,7 @@ function AddNewAccount({ show, handleClose }) {
                   </div>
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Bank Branch Name <span className="text-red-500">*</span>
+                      Bank Branch Name
                     </label>
 
                     <input
@@ -718,7 +734,7 @@ function AddNewAccount({ show, handleClose }) {
                 <div className="grid grid-cols-2 gap-5 my-2">
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      IFSC Code <span className="text-red-500">*</span>
+                      IFSC Code
                     </label>
 
                     <input
@@ -736,7 +752,7 @@ function AddNewAccount({ show, handleClose }) {
 
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Account Type <span className="text-red-500">*</span>
+                      Account Type
                     </label>
 
                     <Select
@@ -772,10 +788,9 @@ function AddNewAccount({ show, handleClose }) {
                     </p>
                   </div>
                 </div>
-                <div>
+                <div className="my-2">
                   <label className="block text-[14px] font-medium text-[#222] mb-2">
                     Current Opening Balance{" "}
-                    <span className="text-red-500">*</span>
                   </label>
 
                   <div className="relative">
@@ -799,7 +814,7 @@ function AddNewAccount({ show, handleClose }) {
                       type="error"
                     />
                   )}
-                  <div className="text-xs text-[#505F76] my-1">
+                  <div className="text-xs text-[#505F76] my-2">
                     Note: This amount sets your current opening balance.
                     Double-check this figure, as an incorrect balance will
                     miscalculate the final total.
@@ -925,27 +940,37 @@ function AddNewAccount({ show, handleClose }) {
           {accountMode === "CASH" && (
             <>
               <div className="mt-4 space-y-4">
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 gap-2">
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
                       Account Name / Display Name{" "}
                       <span className="text-red-500">*</span>
                     </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={cashDisplayName}
+                        onChange={handleCashDisplayName}
+                        ref={cashDisplayNameRef}
+                        placeholder="Enter Account Name"
+                        maxLength={30}
+                        className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] outline-none focus:border-[#2F54EB]"
+                      />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-gray-400 pointer-events-none">
+                        Max 30 Characters
+                      </span>
+                    </div>
 
-                    <input
-                      type="text"
-                      value={cashDisplayName}
-                      onChange={handleCashDisplayName}
-                      ref={cashDisplayNameRef}
-                      placeholder="Enter Account Name"
-                      className="w-full h-11 rounded-lg border border-[#D9D9D9] px-4 text-[14px] outline-none focus:border-[#2F54EB]"
-                    />
                     {cashDisplayNameError && (
                       <ErrorMessage
                         message={cashDisplayNameError}
                         type="error"
                       />
                     )}
+                    <div className="text-xs text-[#505F76] my-2">
+                      This will reflect on Card Title, put a name as for your
+                      better understanding <br />( E.g : AXIS BANK - Owner Acc )
+                    </div>
                   </div>
 
                   <div>
@@ -970,7 +995,7 @@ function AddNewAccount({ show, handleClose }) {
                 <div className="grid grid-cols-1 gap-3">
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
-                      Responsible Person <span className="text-red-500">*</span>
+                      Responsible Person
                     </label>
 
                     <Select
@@ -992,7 +1017,6 @@ function AddNewAccount({ show, handleClose }) {
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
                       Current Opening Balance (Cash){" "}
-                      <span className="text-red-500">*</span>
                     </label>
 
                     <div className="relative">
@@ -1036,6 +1060,65 @@ function AddNewAccount({ show, handleClose }) {
                     placeholder="Write here..."
                     className="w-full rounded-lg border border-[#D9D9D9] p-4 text-[14px] resize-none outline-none focus:border-[#2F54EB]"
                   />
+                </div>
+                <div className="rounded-lg bg-[#39358F] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex min-h-[120px] flex-1 flex-col justify-between py-1">
+                      <div>
+                        <Verify size="22" variant="Bold" color="#BFC5FF" />
+
+                        <p className="my-1 text-[15px] font-semibold text-white">
+                          Card preview
+                        </p>
+
+                        <p className="my-1 max-w-[150px] text-[11px] leading-4 text-[#D9DBFF]">
+                          This is a sample Card for
+                          <br />
+                          Smartstay Banking list
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="w-[58%] rounded-lg bg-white p-3 shadow-sm">
+                      <div className="flex items-start gap-2">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100">
+                          <Wallet size="16" variant="Bold" color="#038C3D" />
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="truncate text-[13px] font-semibold text-[#333333] mb-0">
+                            {cashType?.value || ""}
+                          </p>
+
+                          <p className="text-[10px] text-[#8A8A8A]">
+                            {"Cash Account"}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-0 flex items-center justify-between">
+                        <div className="flex flex-col">
+                          <span className="text-[16px] font-semibold text-[#333333]">
+                            ₹{cashOpeningBalance || "00.00"}
+                          </span>
+                          <span>Balance</span>
+                        </div>
+                        <InfoCircle
+                          size="14"
+                          variant="Outline"
+                          color="#9CA3AF"
+                        />
+                      </div>
+
+                      <div className="mt-1 flex items-center gap-2">
+                        {responsiblePerson && (
+                          <span className="rounded-md bg-[#FFF5E5] px-2 py-1 text-[9px] font-medium text-[#B87900]">
+                            {responsiblePerson?.label || ""}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               {state.bankingDetails.bankingCreateError && (

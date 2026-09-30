@@ -1233,25 +1233,25 @@ const InvoicePage = () => {
                 >
                   {DownloadInvoice ? "+ " : "+ Create Invoice"}
                 </button>
-                {/* {isDev && (
-                  <> */}
-                <button
-                  disabled={!isEnableRecurring}
-                  onClick={handleShowReviewGenerateBill}
-                  className="flex gap-2 items-center disabled:opacity-70 flex-shrink-0
+                {isEnableRecurring && (
+                  <>
+                    <button
+                      disabled={!isEnableRecurring}
+                      onClick={handleShowReviewGenerateBill}
+                      className="flex gap-2 items-center disabled:opacity-70 flex-shrink-0
                       font-semibold  rounded-lg !font-gilroy text-[#1E45E1] !bg-[#EFF6FF] border-1 border-[#EFF6FF] 
                       px-4 py-1 min-w-[95px] mr-2"
-                >
-                  <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
-                  {isEnableRecurring && (
-                    <span className="px-3 py-1  bg-[#1E45E1] text-white rounded-xl ">
-                      {state.InvoiceList?.getReviewGenerateRecurringbill
-                        ?.totalInvoices ?? 0}
-                    </span>
-                  )}
-                </button>
-                {/* </>
-                )} */}
+                    >
+                      <DocumentText color="#1E45E1" size="18" /> Recurring Bills{" "}
+                      {isEnableRecurring && (
+                        <span className="px-3 py-1  bg-[#1E45E1] text-white rounded-xl ">
+                          {state.InvoiceList?.getReviewGenerateRecurringbill
+                            ?.totalInvoices ?? 0}
+                        </span>
+                      )}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
