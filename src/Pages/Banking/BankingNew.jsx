@@ -190,13 +190,15 @@ function BankingNew() {
   const [chips, setChips] = useState([]);
 
   const handlePeriodChange = (selected) => {
+    console.log("selected", selected);
     setPeriod(selected);
     setPageTransaction(1);
 
     dispatch({
-      type: "SET_BANK_FILTERS",
+      type: "SET_BANK_TRANSACTION_FILTERS",
       payload: {
         period: selected?.value || "",
+        periodLabel: selected?.label || "",
       },
     });
   };
@@ -206,9 +208,10 @@ function BankingNew() {
     setPageTransaction(1);
 
     dispatch({
-      type: "SET_BANK_FILTERS",
+      type: "SET_BANK_TRANSACTION_FILTERS",
       payload: {
         source: selected?.value || "",
+        sourceLabel: selected?.label || "",
       },
     });
   };
@@ -293,6 +296,7 @@ function BankingNew() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const bankFilterReducer = state.bankingDetails?.bankFilters;
+
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -1004,7 +1008,7 @@ function BankingNew() {
     pb-2
     scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 show-scrolls"
                 >
-                  {banking && banking.length > 0 ? (
+                  {banking && banking?.length > 0 ? (
                     banking.map((item, index) => {
                       return (
                         <div
@@ -1042,7 +1046,7 @@ function BankingNew() {
                                       ? `${item.displayName} - ${item.paymentMethod}`
                                       : item?.accountType === "CASH"
                                         ? item?.cashAccountType
-                                        : item?.bankName}
+                                        : item?.displayName}
                                   </p>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
@@ -1641,6 +1645,8 @@ function BankingNew() {
               handleClose={handleCloseFilter}
               size={sizeTransaction}
               page={pageTransaction}
+              handlePeriodSelect={handlePeriodChange}
+              handleSourceSelect={handleSourceChange}
             />
           )}
 

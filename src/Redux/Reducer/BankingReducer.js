@@ -65,6 +65,7 @@ export const initialState = {
   },
   getCreditCardinitializeList: "",
   getTenantPaymentInitializeList: "",
+  errorAddMoney: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -95,6 +96,11 @@ const BankingReducer = (state = initialState, action) => {
 
     case "STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: action.payload };
+    case "ERROR_ADD_AMOUNT":
+      return { ...state, errorAddMoney: action.payload };
+
+    case "REMOVE_ERROR_ADD_AMOUNT":
+      return { ...state, errorAddMoney: "" };
 
     case "REMOVE_STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: "" };

@@ -110,7 +110,7 @@
     "universal-cookie": "^7.1.4",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
+"scripts": {
   "start": "vite",
   "build:dev": "set NODE_OPTIONS=--max-old-space-size=4096 && node scripts/increment-build.js dev && vite build --mode development",
   "build:qa": "set NODE_OPTIONS=--max-old-space-size=4096 && node scripts/increment-build.js qa && vite build --mode qa",
