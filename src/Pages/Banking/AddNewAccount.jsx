@@ -322,8 +322,8 @@ function AddNewAccount({ show, handleClose }) {
     if (!bankDisplayName.trim()) {
       setBankDisplayNameError("Please Enter Account Name");
       setFirstError(bankDisplayNameRef);
-    } else if (bankDisplayName.trim().length > 20) {
-      setBankDisplayNameError("Maximum 20 characters allowed");
+    } else if (bankDisplayName.trim().length > 30) {
+      setBankDisplayNameError("Maximum 30 characters allowed");
       setFirstError(bankDisplayNameRef);
     }
 
@@ -433,6 +433,9 @@ function AddNewAccount({ show, handleClose }) {
 
     if (!cashDisplayName.trim()) {
       setCashDisplayNameError("Please Enter Account Name");
+      setFirstError(cashDisplayNameRef);
+    } else if (cashDisplayName.trim().length > 30) {
+      setCashDisplayNameError("Maximum 30 characters allowed");
       setFirstError(cashDisplayNameRef);
     }
 

@@ -190,7 +190,6 @@ function BankingNew() {
   const [chips, setChips] = useState([]);
 
   const handlePeriodChange = (selected) => {
-    console.log("selected", selected);
     setPeriod(selected);
     setPageTransaction(1);
 
@@ -203,11 +202,7 @@ function BankingNew() {
     });
   };
 
-  useEffect(() => {
-    console.log("bankFilters:", state.bankingDetails?.bankFilters);
-  }, [state.bankingDetails?.bankFilters]);
   const handleSourceChange = (selected) => {
-    console.log("selected", selected);
     setSource(selected);
     setPageTransaction(1);
 
@@ -1014,6 +1009,11 @@ function BankingNew() {
                 >
                   {banking && banking?.length > 0 ? (
                     banking.map((item, index) => {
+                      const accountDisplayName = item?.paymentMethod
+                        ? `${item.displayName} - ${item.paymentMethod}`
+                        : item?.accountType === "CASH"
+                          ? item?.cashAccountType
+                          : `${item.bankName} - ${item.displayName}`;
                       return (
                         <div
                           onClick={(e) => {
@@ -1045,13 +1045,18 @@ function BankingNew() {
                                   )}
                                 </div>
                                 <div>
-                                  <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222]">
-                                    {item?.paymentMethod
-                                      ? `${item.displayName} - ${item.paymentMethod}`
-                                      : item?.accountType === "CASH"
-                                        ? item?.cashAccountType
-                                        : item?.displayName}
-                                  </p>
+                                  <div className="relative group max-w-[200px]">
+                                    <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222] truncate capitalize">
+                                      {accountDisplayName}
+                                    </p>
+
+                                    <div
+                                      className="absolute left-0 top-full z-50 hidden group-hover:block mb-2 
+                                    whitespace-nowrap rounded-md bg-gray-200 px-2.5 py-1.5 text-xs text-[#222222] shadow"
+                                    >
+                                      {accountDisplayName}
+                                    </div>
+                                  </div>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
                                     {item?.paymentMethod ||
