@@ -1051,8 +1051,9 @@ function BankingNew() {
                                     </p>
 
                                     <div
-                                      className="absolute left-0 top-full z-50 hidden group-hover:block mb-2 
-                                    whitespace-nowrap rounded-md bg-gray-200 px-2.5 py-1.5 text-xs text-[#222222] shadow"
+                                      className="absolute left-0 top-full z-50 hidden group-hover:block mt-2
+  whitespace-nowrap rounded-md bg-[#F7FAFF] border border-[#D9D9D9]
+  px-2.5 py-1.5 text-xs text-[#222222] shadow-md"
                                     >
                                       {accountDisplayName}
                                     </div>

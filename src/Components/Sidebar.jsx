@@ -164,7 +164,7 @@ function Sidebar() {
   // const isProduction = import.meta.env.MODE === "production";
 
   const pageMap = {
-    // "/dashboard/:hostelId": "dashboard",
+    "/dashboard": "dashboard",
     "/dashboard/:hostelId": "dashboard",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
@@ -228,11 +228,11 @@ function Sidebar() {
     setLogoutformshow(false);
   };
 
-  const handledisplaycompliace = () => {
-    setCurrentPage("compliance");
-    localStorage.setItem("currentPage", "compliance");
-    setIsSidebarOpen(false);
-  };
+  // const handledisplaycompliace = () => {
+  //   setCurrentPage("compliance");
+  //   localStorage.setItem("currentPage", "compliance");
+  //   setIsSidebarOpen(false);
+  // };
 
   const handledisplaySettingsPG = () => {
     setCurrentPage("settingNewDesign");
@@ -376,11 +376,12 @@ function Sidebar() {
   }, [currentPage]);
 
   useEffect(() => {
-    if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
+    if (state.login?.isLoggedIn && state.login?.selectedHostel_Id) {
       if (isFirstLogin.current) {
         navigate(`/dashboard/${state.login.selectedHostel_Id}`, {
           replace: true,
         });
+
         isFirstLogin.current = false;
       }
     } else {
@@ -389,10 +390,11 @@ function Sidebar() {
       if (lastPage) {
         navigate(lastPage, { replace: true });
       } else {
-        navigate(`/dashboard`);
+        navigate("/dashboard", { replace: true });
       }
     }
-  }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
+  }, [state.login?.isLoggedIn, state.login?.selectedHostel_Id]);
+
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
@@ -1390,15 +1392,12 @@ function Sidebar() {
                 <Route path="/payment-preview" element={<PaymentPreview />} />
                 <Route path="/graph" element={<GraphQL />} />
 
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route
                   path="/dashboard/:hostelId?"
                   element={
                     <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
-                      <Dashboard
-                        displayCompliance={handledisplaycompliace}
-                        allPageHostel_Id={allPageHostel_Id}
-                        setAllPageHostel_Id={setAllPageHostel_Id}
-                      />
+                      <Dashboard />
                     </div>
                   }
                 />
