@@ -147,7 +147,11 @@ function SettingAllPages({ isVisibleSidebar }) {
   }, [isVisibleSidebar]);
 
   const handleClose = () => {
-    navigate(`/dashboard/${state.login.selectedHostel_Id}`);
+    const hostelId = state.login?.selectedHostel_Id;
+
+    navigate(hostelId ? `/dashboard/${hostelId}` : "/dashboard", {
+      replace: true,
+    });
   };
 
   return (

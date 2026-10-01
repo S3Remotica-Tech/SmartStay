@@ -35,7 +35,9 @@ const ManagePg = () => {
     state.createAccount?.accountList?.roleId === 1 ||
     state.createAccount?.accountList?.roleId === 2;
 
-  const isEnable = canWritePayingGuests && RoleAccess;
+  const isEnable = state.login.selectedHostel_Id
+    ? Boolean(canWritePayingGuests && RoleAccess)
+    : true;
   const [showSwitchProperty, setShowSwitchProperty] = useState(false);
   const hostelDetails = state?.UsersList?.hotelDetailsinPg;
   const [showAddPg, setShowAddPg] = useState(false);
