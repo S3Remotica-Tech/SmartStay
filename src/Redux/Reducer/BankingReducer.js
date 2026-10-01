@@ -74,6 +74,7 @@ const BankingReducer = (state = initialState, action) => {
       return initialState;
 
     case "SET_BANK_TRANSACTION_FILTERS":
+      console.log("SET_BANK_TRANSACTION_FILTERS PAYLOAD:", action.payload);
       return {
         ...state,
         bankFilters: {

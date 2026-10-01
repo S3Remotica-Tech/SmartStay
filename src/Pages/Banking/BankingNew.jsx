@@ -203,7 +203,11 @@ function BankingNew() {
     });
   };
 
+  useEffect(() => {
+    console.log("bankFilters:", state.bankingDetails?.bankFilters);
+  }, [state.bankingDetails?.bankFilters]);
   const handleSourceChange = (selected) => {
+    console.log("selected", selected);
     setSource(selected);
     setPageTransaction(1);
 
@@ -1645,8 +1649,8 @@ function BankingNew() {
               handleClose={handleCloseFilter}
               size={sizeTransaction}
               page={pageTransaction}
-              handlePeriodSelect={handlePeriodChange}
-              handleSourceSelect={handleSourceChange}
+              // handlePeriodSelect={handlePeriodChange}
+              // handleSourceSelect={handleSourceChange}
             />
           )}
 

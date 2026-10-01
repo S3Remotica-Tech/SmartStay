@@ -114,8 +114,8 @@ function TransactionFilter({
   show,
   handleClose,
   size,
-  handlePeriodSelect,
-  handleSourceSelect,
+  // handlePeriodSelect,
+  // handleSourceSelect,
 }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -128,12 +128,26 @@ function TransactionFilter({
 
   const handlePeriodChange = (selected) => {
     setPeriod(selected);
-    handlePeriodSelect(selected);
+    // handlePeriodSelect(selected);
+    dispatch({
+      type: "SET_BANK_TRANSACTION_FILTERS",
+      payload: {
+        period: selected?.value || "",
+        periodLabel: selected?.label || "",
+      },
+    });
   };
 
   const handleSourceChange = (selected) => {
     setSource(selected);
-    handleSourceSelect(selected);
+    // handleSourceSelect(selected);
+    dispatch({
+      type: "SET_BANK_TRANSACTION_FILTERS",
+      payload: {
+        source: selected?.value || "",
+        sourceLabel: selected?.label || "",
+      },
+    });
   };
 
   const handleFromDateChange = (date) => {
