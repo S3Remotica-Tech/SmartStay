@@ -771,6 +771,21 @@ function* handleSelfTranferV3(action) {
         type: "SELF_TRANSFER_ERROR",
         payload: error.response.data,
       });
+      toast.error(`${error?.response?.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 }
@@ -862,9 +877,6 @@ function* handleAddBankAmount(action) {
     } else {
       yield put({ type: "ERROR_ADD_AMOUNT", payload: response?.data?.message });
     }
-    if (response) {
-      refreshToken(response);
-    }
   } catch (error) {
     yield* handleApiError(error);
   }
@@ -910,6 +922,21 @@ function* handleAddMoney(action) {
     yield* handleApiError(error);
     if (error) {
       yield put({ type: "ERROR_ADD_AMOUNT", payload: error?.response?.data });
+      toast.error(`${error?.response?.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 }

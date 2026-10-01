@@ -307,9 +307,11 @@ function CreditCardPayment({ show, handleClose, bankId }) {
       isValid = false;
     }
 
-    if (!amount) {
-      setAmountError("Please Enter Amount");
+    if (!amount || Number(amount) <= 0) {
+      setAmountError("Please Enter a valid Amount");
+
       if (!firstErrorRef) firstErrorRef = amountRef;
+
       isValid = false;
     }
 
@@ -331,6 +333,7 @@ function CreditCardPayment({ show, handleClose, bankId }) {
   };
 
   const handleSubmit = () => {
+    dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER_ERROR" });
     if (!validateForm()) return;
     setLoading(true);
 
@@ -378,6 +381,12 @@ function CreditCardPayment({ show, handleClose, bankId }) {
       setPaymentMethod(selected || null);
     }
   }, [bankId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER_ERROR" });
+    };
+  }, []);
 
   if (!show) return null;
   return (
@@ -518,8 +527,9 @@ function CreditCardPayment({ show, handleClose, bankId }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <div className="relative" ref={paymentDateRef}>
-                <DatePicker wrapperClassName="w-full"
-                  selected={paymentDate} 
+                <DatePicker
+                  wrapperClassName="w-full"
+                  selected={paymentDate}
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"

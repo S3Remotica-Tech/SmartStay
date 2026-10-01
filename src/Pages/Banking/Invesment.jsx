@@ -297,6 +297,13 @@ function Invesment({ show, handleClose, bankDetails }) {
       isValid = false;
     }
 
+    const amountRegex = /^(?=.*[1-9])\d+(\.\d{1,2})?$/;
+
+    if ((amount && !amountRegex.test(amount)) || Number(amount) <= 0) {
+      setAmountError("Please Enter a valid Amount");
+      isValid = false;
+    }
+
     if (!paymentDate) {
       setPaymentDateError("Plese Select Date");
       isValid = false;
@@ -311,6 +318,7 @@ function Invesment({ show, handleClose, bankDetails }) {
   };
 
   const handleSubmit = () => {
+    dispatch({ type: "REMOVE_ERROR_ADD_AMOUNT" });
     if (!validateForm()) return;
     if (state.login?.selectedHostel_Id) {
       dispatch({
@@ -349,6 +357,18 @@ function Invesment({ show, handleClose, bankDetails }) {
       handleClose();
     }
   }, [state?.bankingDetails?.addMoneySuccess]);
+
+  useEffect(() => {
+    if (state?.bankingDetails?.errorAddMoney) {
+      setLoading(false);
+    }
+  }, [state?.bankingDetails?.errorAddMoney]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: "REMOVE_ERROR_ADD_AMOUNT" });
+    };
+  }, []);
 
   if (!show) return null;
   return (
@@ -423,7 +443,8 @@ function Invesment({ show, handleClose, bankDetails }) {
                 Date <span className="text-red-500 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <DatePicker   wrapperClassName="w-full"
+                <DatePicker
+                  wrapperClassName="w-full"
                   selected={paymentDate}
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
