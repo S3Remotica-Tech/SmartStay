@@ -192,7 +192,7 @@ function ElectricityRule() {
   }, []);
 
   return (
-    <div className="min-h-full flex flex-col bg-[#F9FAFF] font-gilroy relative ">
+    <div className="min-h-full flex flex-col bg-[#FDFDFF] font-gilroy relative ">
       {formLoading && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent opacity-75">
           <div className="h-10 w-10 rounded-full border-4 border-transparent border-t-blue-700 animate-spin"></div>
