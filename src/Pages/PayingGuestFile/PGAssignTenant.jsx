@@ -614,7 +614,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     }
   }, [joiningDate]);
 
-  const paymentOptions =
+  const paymentOptionsV2 =
     state.UsersList?.availableBedList?.allPaymentMethods?.map((bank) => ({
       value: bank.bankId,
       label: bank.displayName,
@@ -631,6 +631,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
         ),
       data: bank,
     })) || [];
+
+
+     const paymentOptionsV1 =
+        state.UsersList?.availableBedList?.bankDetails?.map((bank) => ({
+          value: bank.bankId,
+          label: bank.holderName,
+               type: bank.type,
+          icon:
+            bank.type === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : (
+              <Wallet2 color="#038C3D" size="16" />
+            ),
+          data: bank,
+        })) || [];
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -1321,13 +1336,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           <span className="text-red-600 text-xl">*</span>
                         </Form.Label>
                         <Select
-                          options={paymentOptions}
+                          options={paymentOptionsV1}
                           onChange={(selectedOption) =>
                             handleModeOfPaymentChange(selectedOption?.value)
                           }
                           value={
                             modeOfPayment
-                              ? paymentOptions.find(
+                              ? paymentOptionsV1?.find(
                                   (opt) => opt.value === String(modeOfPayment),
                                 ) || null
                               : null

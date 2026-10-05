@@ -132,7 +132,7 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
+{data.type && 
         <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
             data.type === "BANK"
@@ -142,7 +142,8 @@ const Option = (props) => {
         >
           {data.type}
         </span>
-      </div>
+}
+      </div>  
     </components.Option>
   );
 };
@@ -297,23 +298,37 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   //     })
   //   : [];
 
-  const bankingOptions =
-    TenantDetails?.allPaymentMethods?.map((bank) => ({
-      value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} - ${bank.paymentMethod}`
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
-      icon:
-        bank.accountType === "BANK" ? (
-          <Bank color="#1E45E1" size="16" />
-        ) : (
-          <Wallet2 color="#038C3D" size="16" />
-        ),
-      data: bank,
-    })) || [];
+  // const paymentOptionsV2 =
+  //   TenantDetails?.allPaymentMethods?.map((bank) => ({
+  //     value: bank.bankId,
+  //     label: bank.displayName,
+  //     subLabel:
+  //       bank.accountType === "BANK"
+  //         ? `${bank.bankName} - ${bank.paymentMethod}`
+  //         : `${bank.cashAccountType} `,
+  //     type: bank.accountType,
+  //     icon:
+  //       bank.accountType === "BANK" ? (
+  //         <Bank color="#1E45E1" size="16" />
+  //       ) : (
+  //         <Wallet2 color="#038C3D" size="16" />
+  //       ),
+  //     data: bank,
+  //   })) || [];
+
+     const paymentOptionsV1 =
+        TenantDetails?.accountInfo?.map((bank) => ({
+          value: bank.bankId,
+          label: bank.accountHolderName,
+               type: bank.type,
+          icon:
+            bank.type === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : (
+              <Wallet2 color="#038C3D" size="16" />
+            ),
+          data: bank,
+        })) || [];
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -598,13 +613,13 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
               </label>
 
               <Select
-                options={bankingOptions}
+                options={paymentOptionsV1}
                 onChange={(selectedOption) =>
                   handleTransaction(selectedOption?.value)
                 }
                 value={
                   modeOfPayment
-                    ? bankingOptions.find(
+                    ? paymentOptionsV1.find(
                         (option) => option.value === modeOfPayment,
                       )
                     : null

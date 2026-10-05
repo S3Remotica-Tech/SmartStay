@@ -336,23 +336,42 @@ function BookingModal(props) {
   //   BANK: "Bank",
   // };
 
-  const paymentOptions =
-    state.UsersList?.availableBedList?.allPaymentMethods?.map((bank) => ({
+  const paymentOptionsV1 =
+    state.UsersList?.availableBedList?.bankDetails?.map((bank) => ({
       value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} - ${bank.paymentMethod}`
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
+      label: bank.holderName,
+           type: bank.type,
       icon:
-        bank.accountType === "BANK" ? (
+        bank.type === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
         ) : (
           <Wallet2 color="#038C3D" size="16" />
         ),
       data: bank,
     })) || [];
+
+
+
+  // const paymentOptionsV2 =
+  //   state.UsersList?.availableBedList?.allPaymentMethods?.map((bank) => ({
+  //     value: bank.bankId,
+  //     label: bank.displayName,
+  //     subLabel:
+  //       bank.accountType === "BANK"
+  //         ? `${bank.bankName} - ${bank.paymentMethod}`
+  //         : `${bank.cashAccountType} `,
+  //     type: bank.accountType,
+  //     icon:
+  //       bank.accountType === "BANK" ? (
+  //         <Bank color="#1E45E1" size="16" />
+  //       ) : (
+  //         <Wallet2 color="#038C3D" size="16" />
+  //       ),
+  //     data: bank,
+  //   })) || [];
+
+  
+
 
   const handleModeOfPaymentChange = (selectedOption) => {
     setBedWarning("");
@@ -862,7 +881,7 @@ function BookingModal(props) {
                     </Form.Label>
 
                     <Select
-                      options={paymentOptions}
+                      options={paymentOptionsV1}
                       menuPlacement="bottom"
                       menuPosition="fixed"
                       onChange={(selectedOption) =>
@@ -870,7 +889,7 @@ function BookingModal(props) {
                       }
                       value={
                         modeOfPayment
-                          ? paymentOptions.find(
+                          ? paymentOptionsV1.find(
                               (opt) => opt.value === String(modeOfPayment),
                             ) || null
                           : null

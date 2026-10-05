@@ -153,18 +153,18 @@ function Asset() {
       return;
     }
 
-    if (state.bankingDetails?.bankingList?.length === 0) {
-      toast.error(" Please Create Banking before adding an asset", {
-        hideProgressBar: true,
-        autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
-      });
-      return;
-    }
+    // if (state.bankingDetails?.bankingList?.length === 0) {
+    //   toast.error(" Please Create Banking before adding an asset", {
+    //     hideProgressBar: true,
+    //     autoClose: 1500,
+    //     style: {
+    //       color: "#000",
+    //       borderBottom: "5px solid red",
+    //       fontFamily: "Gilroy",
+    //     },
+    //   });
+    //   return;
+    // }
 
     setShow(true);
     setCurrentItem("");
@@ -175,12 +175,12 @@ function Asset() {
       setLoading(true);
 
       dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-      dispatch({
-        type: "BANKING_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
+      // dispatch({
+      //   type: "BANKING_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //   },
+      // });
     } else {
       setLoading(false);
     }

@@ -143,8 +143,7 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
-        <span
+{data.type &&         <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
             data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
@@ -153,6 +152,7 @@ const Option = (props) => {
         >
           {data.type}
         </span>
+}
       </div>
     </components.Option>
   );
@@ -274,23 +274,37 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
 
   const finalOutstanding = VendorOverView?.summary?.outstanding - paidAmount;
 
-  const paymentOptions =
-    vendorInitialize?.allPaymentMethods?.map((bank) => ({
-      value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} - ${bank.paymentMethod}`
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
-      icon:
-        bank.accountType === "BANK" ? (
-          <Bank color="#1E45E1" size="16" />
-        ) : (
-          <Wallet2 color="#038C3D" size="16" />
-        ),
-      data: bank,
-    })) || [];
+  // const paymentOptionsV2 =
+  //   vendorInitialize?.allPaymentMethods?.map((bank) => ({
+  //     value: bank.bankId,
+  //     label: bank.displayName,
+  //     subLabel:
+  //       bank.accountType === "BANK"
+  //         ? `${bank.bankName} - ${bank.paymentMethod}`
+  //         : `${bank.cashAccountType} `,
+  //     type: bank.accountType,
+  //     icon:
+  //       bank.accountType === "BANK" ? (
+  //         <Bank color="#1E45E1" size="16" />
+  //       ) : (
+  //         <Wallet2 color="#038C3D" size="16" />
+  //       ),
+  //     data: bank,
+  //   })) || [];
+
+     const paymentOptionsV1 =
+                vendorInitialize?.banks?.map((bank) => ({
+                  value: bank.bankId,
+                  label: bank.holderName,
+                       type: bank.type,
+                  icon:
+                    bank.type === "BANK" ? (
+                      <Bank color="#1E45E1" size="16" />
+                    ) : (
+                      <Wallet2 color="#038C3D" size="16" />
+                    ),
+                  data: bank,
+                })) || [];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -632,7 +646,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   setPaymentMethod(selected);
                   setPaymentMethodError("");
                 }}
-                options={paymentOptions}
+                options={paymentOptionsV1}
                 placeholder="Select Payment Method"
                 styles={CustomStyles}
                 isSearchable={false}
