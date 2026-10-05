@@ -135,7 +135,7 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
+{data.type && 
         <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
             data.type === "BANK"
@@ -145,6 +145,7 @@ const Option = (props) => {
         >
           {data.type}
         </span>
+}
       </div>
     </components.Option>
   );
@@ -239,23 +240,39 @@ function RefundAmount({ show, handleClose, refundDetails }) {
   //     label: `${bank.bankName}`,
   //   })) || [];
 
-  const bankOptions =
-    state.InvoiceList?.refundDetails?.allPaymentMethods?.map((bank) => ({
-      value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} - ${bank.paymentMethod}`
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
-      icon:
-        bank.accountType === "BANK" ? (
-          <Bank color="#1E45E1" size="16" />
-        ) : (
-          <Wallet2 color="#038C3D" size="16" />
-        ),
-      data: bank,
-    })) || [];
+  // const paymentOptionsV2 =
+  //   state.InvoiceList?.refundDetails?.allPaymentMethods?.map((bank) => ({
+  //     value: bank.bankId,
+  //     label: bank.displayName,
+  //     subLabel:
+  //       bank.accountType === "BANK"
+  //         ? `${bank.bankName} - ${bank.paymentMethod}`
+  //         : `${bank.cashAccountType} `,
+  //     type: bank.accountType,
+  //     icon:
+  //       bank.accountType === "BANK" ? (
+  //         <Bank color="#1E45E1" size="16" />
+  //       ) : (
+  //         <Wallet2 color="#038C3D" size="16" />
+  //       ),
+  //     data: bank,
+  //   })) || [];
+
+
+     const paymentOptionsV1 =
+        state.InvoiceList?.refundDetails?.listBanks?.map((bank) => ({
+          value: bank.bankId,
+          label: bank.accountHolderName,
+               type: bank.type,
+          icon:
+            bank.type === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : (
+              <Wallet2 color="#038C3D" size="16" />
+            ),
+          data: bank,
+        })) || [];
+
 
   const handleRefundAmount = (e) => {
     const value = e.target.value.trim();
@@ -551,7 +568,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
               </label>
 
               <Select
-                options={bankOptions}
+                options={paymentOptionsV1}
                 onChange={handleRefundFrom}
                 value={refundFrom}
                 placeholder="Please Select"

@@ -139,7 +139,7 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
+{data.type && 
         <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
             data.type === "BANK"
@@ -149,6 +149,7 @@ const Option = (props) => {
         >
           {data.type}
         </span>
+}
       </div>
     </components.Option>
   );
@@ -369,23 +370,39 @@ function StaticExample({ show, setShow, currentItem }) {
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
   };
 
-  const paymentOptions =
-    state?.bankingDetails?.newBankingList?.map((bank) => ({
-      value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} `
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
-      icon:
-        bank.accountType === "BANK" ? (
-          <Bank color="#1E45E1" size="16" />
-        ) : (
-          <Wallet2 color="#038C3D" size="16" />
-        ),
-      data: bank,
-    })) || [];
+  // const paymentOptionsV2 =
+  //   state?.bankingDetails?.newBankingList?.map((bank) => ({
+  //     value: bank.bankId,
+  //     label: bank.displayName,
+  //     subLabel:
+  //       bank.accountType === "BANK"
+  //         ? `${bank.bankName} `
+  //         : `${bank.cashAccountType} `,
+  //     type: bank.accountType,
+  //     icon:
+  //       bank.accountType === "BANK" ? (
+  //         <Bank color="#1E45E1" size="16" />
+  //       ) : (
+  //         <Wallet2 color="#038C3D" size="16" />
+  //       ),
+  //     data: bank,
+  //   })) || [];
+
+
+     const paymentOptionsV1 =
+                state.AssetList?.allVendorList?.banks?.map((bank) => ({
+                  value: bank.bankId,
+                  label: bank.holderName,
+                       type: bank.type,
+                  icon:
+                    bank.type === "BANK" ? (
+                      <Bank color="#1E45E1" size="16" />
+                    ) : (
+                      <Wallet2 color="#038C3D" size="16" />
+                    ),
+                  data: bank,
+                })) || [];
+        
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
@@ -748,8 +765,8 @@ function StaticExample({ show, setShow, currentItem }) {
 
                     <Select
                       options={
-                        state.AssetList?.allVendorList?.length > 0
-                          ? state.AssetList?.allVendorList?.map((view) => ({
+                        state.AssetList?.allVendorList?.vendors?.length > 0
+                          ? state.AssetList?.allVendorList?.vendors?.map((view) => ({
                               value: view.vendorId,
                               label: view.vendorName,
                             }))
@@ -757,12 +774,12 @@ function StaticExample({ show, setShow, currentItem }) {
                       }
                       onChange={handleVendorNameChange}
                       value={
-                        state.AssetList?.allVendorList?.find(
+                        state?.AssetList?.allVendorList?.vendors?.find(
                           (vendor) => vendor.vendorId === vendorName,
                         )
                           ? {
                               value: vendorName,
-                              label: state.AssetList?.allVendorList?.find(
+                              label: state.AssetList?.allVendorList?.vendors?.find(
                                 (vendor) => vendor.vendorId === vendorName,
                               )?.vendorName,
                             }
@@ -963,9 +980,9 @@ function StaticExample({ show, setShow, currentItem }) {
                       </Form.Label>
 
                       <Select
-                        options={paymentOptions}
+                        options={paymentOptionsV1}
                         value={
-                          paymentOptions.find(
+                          paymentOptionsV1.find(
                             (opt) => opt.value === String(modeOfPayment),
                           ) || null
                         }

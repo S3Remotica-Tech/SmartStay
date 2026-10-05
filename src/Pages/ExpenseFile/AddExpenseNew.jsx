@@ -248,7 +248,7 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
+{data.type && 
         <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
             data.type === "BANK"
@@ -258,6 +258,7 @@ const Option = (props) => {
         >
           {data.type}
         </span>
+}
       </div>
     </components.Option>
   );
@@ -1038,31 +1039,46 @@ function AddExpenseNew() {
       label: item.categoryName,
     })) || [];
 
-  const paymentOptions =
-    state.ExpenseList?.getInitializeExpenseList?.allPaymentMethods?.map(
-      (bank) => ({
-        value: bank.bankId,
-        label: bank.displayName,
-        subLabel:
-          bank.accountType === "BANK"
-            ? `${bank.bankName} `
-            : `${bank.cashAccountType} `,
-        type: bank.accountType,
-        icon:
-          bank.accountType === "BANK" ? (
-            <Bank color="#1E45E1" size="16" />
-          ) : (
-            <Wallet2 color="#038C3D" size="16" />
-          ),
-        data: bank,
-      }),
-    ) || [];
+  // const paymentOptionsV2 =
+  //   state.ExpenseList?.getInitializeExpenseList?.allPaymentMethods?.map(
+  //     (bank) => ({
+  //       value: bank.bankId,
+  //       label: bank.displayName,
+  //       subLabel:
+  //         bank.accountType === "BANK"
+  //           ? `${bank.bankName} `
+  //           : `${bank.cashAccountType} `,
+  //       type: bank.accountType,
+  //       icon:
+  //         bank.accountType === "BANK" ? (
+  //           <Bank color="#1E45E1" size="16" />
+  //         ) : (
+  //           <Wallet2 color="#038C3D" size="16" />
+  //         ),
+  //       data: bank,
+  //     }),
+  //   ) || [];
+
+
+     const paymentOptionsV1 =
+        state.ExpenseList?.getInitializeExpenseList?.banks?.map((bank) => ({
+          value: bank.bankId,
+          label: bank.holderName,
+               type: bank.type,
+          icon:
+            bank.type === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : (
+              <Wallet2 color="#038C3D" size="16" />
+            ),
+          data: bank,
+        })) || [];
 
   useEffect(() => {
     if (isBankingWayTrigger) {
       const overviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-      const selectedPaymentMethod = paymentOptions?.find(
+      const selectedPaymentMethod = paymentOptionsV1?.find(
         (option) => option.value === overviewDetails?.bankId,
       );
 
@@ -1465,7 +1481,7 @@ function AddExpenseNew() {
                         setPaymentMethod(selected);
                         setPaymentMethodError("");
                       }}
-                      options={paymentOptions}
+                      options={paymentOptionsV1}
                       placeholder="Select Payment Method"
                       styles={CustomStyles}
                       components={{

@@ -325,7 +325,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
   };
 
   const vendorOptions =
-    state.AssetList?.allVendorList?.map((view) => ({
+    state.AssetList?.allVendorList?.vendors?.map((view) => ({
       value: view.vendorId,
       label: view.vendorName,
     })) || [];
