@@ -14,11 +14,12 @@ import {
   SearchNormal1,
   Add,
 } from "iconsax-react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useLocation  } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function SettingAllPages({ isVisibleSidebar }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const state = useSelector((state) => state);
 
@@ -29,7 +30,7 @@ function SettingAllPages({ isVisibleSidebar }) {
   const [search, setSearch] = useState("");
   const [activeMenu, setActiveMenu] = useState("general");
 
-  const directMenuIds = ["general", "tenant-app-controls"];
+  const directMenuIds = ["general", "tenant-app-controls"  ];
 
   const settingsMenu = [
     {
@@ -65,6 +66,8 @@ function SettingAllPages({ isVisibleSidebar }) {
   ];
   const isDevelopment = import.meta.env.MODE === "development";
 
+  const isBillTemplatesNew = location.pathname.endsWith("/bill-templates");
+
   const settingsSubMenus = {
     general: [["General", "general"]],
 
@@ -81,6 +84,9 @@ function SettingAllPages({ isVisibleSidebar }) {
       ["Billing Rule", "billing-rule", "Billing_Rule"],
       ["Notifications", "notifications", "SettingsNotifications"],
       ["Bill Templates", "invoice", "Invoice"],
+      ...(isDevelopment
+  ? [["Bill Templates New", "bill-templates", "bill-templates"]]
+  : []),
       ["Agreements & Policies", "agreement"],
     ],
 
@@ -103,14 +109,25 @@ function SettingAllPages({ isVisibleSidebar }) {
     item.label.toLowerCase().includes(search.toLowerCase()),
   );
 
-  useEffect(() => {
-    const path = location.pathname;
-    const lastSegment = path.split("/").pop();
+ useEffect(() => {
+  const path = location.pathname;
+  const lastSegment = path.split("/").filter(Boolean).pop();
 
-    if (lastSegment) {
-      setActivePage(lastSegment);
-    }
-  }, [location.pathname]);
+  if (!lastSegment) {
+    return;
+  }
+
+  setActivePage(lastSegment);
+
+  const matchedMenu = Object.entries(settingsSubMenus).find(
+    ([, subMenus]) =>
+      subMenus.some(([label, route]) => route === lastSegment)
+  );
+
+  if (matchedMenu) {
+    setActiveMenu(matchedMenu[0]);
+  }
+}, [location.pathname]);
 
   useEffect(() => {
     if (state.PgList?.isManageEnable) {
@@ -176,6 +193,7 @@ function SettingAllPages({ isVisibleSidebar }) {
         </div>
 
         <div className="flex flex-1 min-h-0 overflow-hidden">
+           {!isBillTemplatesNew && (
           <div className="w-[200px] lg:w-[220px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
             <div className="p-3">
               <div className="relative">
@@ -203,7 +221,7 @@ function SettingAllPages({ isVisibleSidebar }) {
             </div>
 
             <div className="px-2 space-y-1">
-              {filteredMenu.map((item) => {
+              {filteredMenu?.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeMenu === item.id;
                 return (
@@ -240,8 +258,9 @@ function SettingAllPages({ isVisibleSidebar }) {
               })}
             </div>
           </div>
+           )}
 
-          {!isInvoiceAddMode && !directMenuIds.includes(activeMenu) && (
+          { !isBillTemplatesNew && !directMenuIds?.includes(activeMenu) && (
             <aside
               //     className={`
               //   px-3 bg-white h-full border-r border-[#EEEEEE] flex-shrink-0
@@ -259,7 +278,7 @@ function SettingAllPages({ isVisibleSidebar }) {
     `}
             >
               <div className="bg-white rounded-lg py-1.5 w-full">
-                {!directMenuIds.includes(activeMenu) &&
+                {
                   settingsSubMenus[activeMenu]?.map(
                     ([label, route, pageKey = label]) => {
                       const isActive =

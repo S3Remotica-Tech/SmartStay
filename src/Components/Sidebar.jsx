@@ -116,6 +116,7 @@ import ChangeBedPgView from "../Pages/Request/ChangeBedPgView";
 import TenantAppControls from "../Pages/Settings/TenantAppControls";
 import AddTemplate from "../Pages/Settings/Agreement/AddTemplate";
 import NewInvoice from "../Pages/Bills/NewInvoice";
+import BillTemplates from "../Pages/Settings/BillTemplates/BillTemplates";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -657,6 +658,8 @@ function Sidebar() {
                 </div>
               }
             >
+
+             
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingGeneral />} />
               <Route path="manage-pg" element={<SettingManage />} />
@@ -681,6 +684,8 @@ function Sidebar() {
                 path="invoice"
                 element={<SettingInvoice handleFormPage={handleFormPage} />}
               />
+              
+              <Route path="bill-templates" element={<BillTemplates />} />
               <Route path="expenses" element={<SettingExpenses />} />
               <Route path="vendor-category" element={<VendorCategory />} />
               <Route path="complaints" element={<SettingCompliance />} />
