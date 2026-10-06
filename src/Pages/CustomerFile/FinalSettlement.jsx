@@ -151,6 +151,7 @@ function FinalSettlement() {
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
   const [showAdditionalAdvance, setShowAdditionalAdvance] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
+   const [showAdditionalBooking, setShowAdditionalBooking] = useState(false);
   const [showRetainer, setShowRetainer] = useState(false);
 
   const [showDetails, setShowDetails] = useState(false);
@@ -1932,6 +1933,114 @@ function FinalSettlement() {
                   )}
                 </div>
               </div>
+              {/* Additional Bookings */}
+
+   <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
+                <div
+                  className="flex items-start justify-between px-3 py-3 cursor-pointer"
+                  onClick={() => setShowAdditionalBooking((prev) => !prev)}
+                >
+                  <div className="flex items-center gap-2">
+                    {showAdditionalBooking ? (
+                      <ArrowUp2 size="16" color="#1E45E1" />
+                    ) : (
+                      <ArrowDown2 size="16" color="#1E45E1" />
+                    )}
+
+                    <span className="text-sm font-semibold text-[#222222]">
+                     Additional Bookings
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-end">
+                    <span
+                      className={`text-[15px] font-semibold text-[#222222] `}
+                    >
+                      ₹{" "} 0
+                      {/* {finalSettlementList?.bookingItems
+                        ?.availableAdvanceBalance || 0} */}
+                    </span>
+
+                 
+                  </div>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    showAdditionalBooking ? "max-h-[500px]" : "max-h-0"
+                  }`}
+                >
+                  {showAdditionalBooking && (
+                    <>
+                      <hr className="m-0 border-[#E5E7EB]" />
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead className="bg-[#FAFAFA]">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Adjusted With
+                              </th>
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Type
+                              </th>
+
+                              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Date
+                              </th>
+
+                              <th className="px-4 py-3 text-right text-[11px] font-semibold uppercase text-[#6B7280]">
+                                Applied Amount
+                              </th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {/* {finalSettlementList?.bookingItems?.redeemedList
+                              ?.length > 0 ? (
+                              finalSettlementList.bookingItems.redeemedList?.map(
+                                (txn, index) => (
+                                  <tr
+                                    key={index}
+                                    className="border-t border-[#E5E7EB]"
+                                  >
+                                    <td className="px-4 py-3 text-[13px] font-medium text-[#1E45E1] underline">
+                                      {txn.invoiceNumber}
+                                    </td>
+                                    <td className="px-4 py-3 text-[13px] text-[#222222]">
+                                      {txn.invoiceType}
+                                    </td>
+                                    <td className="px-4 py-3 text-[13px] text-[#666666]">
+                                      {txn.redeemedDate}
+                                    </td>
+
+                                    <td className="px-4 py-3 text-right text-[13px] font-medium text-[#222222]">
+                                      ₹ {txn.redeemedAmount}
+                                    </td>
+                                  </tr>
+                                ),
+                              )
+                            ) : ( */}
+                              <tr>
+                                <td
+                                  colSpan={3}
+                                  className="px-4 py-4 text-center text-sm text-[#AA6805] "
+                                >
+                                  No booking transactions available
+                                </td>
+                              </tr>
+                            {/* )} */}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+
+
+
 
               {/* Retainer Invoice */}
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
