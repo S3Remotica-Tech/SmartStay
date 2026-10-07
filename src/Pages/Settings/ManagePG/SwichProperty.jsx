@@ -5,6 +5,8 @@ import { CloseCircle, Refresh2, Location } from "iconsax-react";
 import NoDataMessage from "../../../Utils/NoDataMessage";
 import Cookies from "universal-cookie";
 import { StoreSelectedHostelAction } from "../../../Redux/Action/LoginAction";
+import PropTypes from "prop-types";
+
 
 const SwichProperty = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -156,6 +158,10 @@ const SwichProperty = ({ isOpen, onClose }) => {
       </div>
     </div>
   );
+};
+SwichProperty.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default SwichProperty;

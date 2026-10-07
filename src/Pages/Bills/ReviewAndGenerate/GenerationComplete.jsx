@@ -1,5 +1,5 @@
 import React from "react";
-import { Add, CloseCircle, TickCircle } from "iconsax-react";
+import { Add,  TickCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 
 function GenerationComplete({

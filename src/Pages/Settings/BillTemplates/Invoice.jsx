@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useSelector } from "react-redux";
-import {  Edit2 } from "iconsax-react";
+// import { useSelector } from "react-redux";
+// import {  Edit2 } from "iconsax-react";
 import InvoicePreview from "./InvoicePreview";
 
 function Invoice() {
-  const state = useSelector((state) => state);
+  // const state = useSelector((state) => state);
 
 //   const templates =
 //     state.Settings?.settingsBillsTemplateList?.templates || [];

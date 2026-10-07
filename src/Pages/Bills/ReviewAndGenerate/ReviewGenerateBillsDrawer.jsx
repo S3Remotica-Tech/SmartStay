@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from "react";
 import {
   CloseCircle,
@@ -756,7 +757,7 @@ const ReviewGenerateBillsDrawer = ({ open, onClose }) => {
                         </div>
 
                         <div className="text-[12px] font-bold text-[#081021] min-w-[58px] text-right">
-                          ₹ {formatAmount(item.invoiceAmount)}
+                          {formatAmount(item.invoiceAmount)}
                         </div>
 
                         <button

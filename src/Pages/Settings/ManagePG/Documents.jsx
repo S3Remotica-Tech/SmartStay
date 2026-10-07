@@ -166,9 +166,9 @@ const Documents = () => {
     event.preventDefault();
   };
 
-  const handleView = (document) => {};
+  const handleView = () => {};
 
-  const handleDownload = (document) => {};
+  const handleDownload = () => {};
 
   return (
     <div className="w-full rounded-xl bg-white font-gilroy">

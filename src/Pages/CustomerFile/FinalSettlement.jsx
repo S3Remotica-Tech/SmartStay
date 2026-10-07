@@ -151,6 +151,7 @@ function FinalSettlement() {
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
   const [showAdditionalAdvance, setShowAdditionalAdvance] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
+  //  const [showAdditionalBooking, setShowAdditionalBooking] = useState(false);
   const [showRetainer, setShowRetainer] = useState(false);
 
   const [showDetails, setShowDetails] = useState(false);
@@ -1932,6 +1933,11 @@ function FinalSettlement() {
                   )}
                 </div>
               </div>
+             
+  
+
+
+
 
               {/* Retainer Invoice */}
               <div className="mb-2 rounded-[10px] border border-[#E5E7EB] bg-white font-gilroy">
