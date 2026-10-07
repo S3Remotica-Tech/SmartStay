@@ -434,7 +434,8 @@ function BankingAddForm(props) {
             accountType: "UPI",
             holderName: bankHolderName,
             accountNo: "",
-            bankName: bankName,
+            bankName: "",
+            bankId: bankaccount,
             ifscCode: ifscCode,
             description: description,
             branchName: "",
@@ -450,6 +451,8 @@ function BankingAddForm(props) {
 
     setFormLoading(true);
   };
+// console.log("bankName",bankName)
+
   const [cardNo, setCardNo] = useState("");
 
   const handleCardNo = (e) => {
@@ -537,6 +540,7 @@ function BankingAddForm(props) {
             holderName: bankHolderName,
             accountNo: "",
             bankName: "",
+            bankId: bankaccount,
             ifscCode: "",
             description: description,
             branchName: "",
@@ -874,7 +878,7 @@ function BankingAddForm(props) {
                     inputRef={bankNameUPIRef}
                     options={paymentOptions}
                     value={
-                      paymentOptions.find(
+                      paymentOptions?.find(
                         (opt) => opt.value === String(bankaccount),
                       ) || null
                     }
@@ -981,16 +985,18 @@ function BankingAddForm(props) {
                     <ErrorMessage message={isChangedError} type="error" />
                   </div>
                 )}
-              </div>
 
-              {state.bankingDetails.bankingCreateError && (
-                <div className="flex justify-center mt-1 mb-1">
+                 {state.bankingDetails.bankingCreateError && (
+                <div className="flex justify-center">
                   <ErrorMessage
                     message={state.bankingDetails.bankingCreateError}
                     type="error"
                   />
                 </div>
               )}
+              </div>
+
+             
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button

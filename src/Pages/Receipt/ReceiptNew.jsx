@@ -362,21 +362,21 @@ function ReceiptNew() {
   const stats = [
     {
       title: "Total Receipts",
-      value: state.InvoiceList?.getCustomizeReceiptList?.totalReceipt,
+      value: state.InvoiceList?.getCustomizeReceiptList?.totalReceipt ,
       icon: true,
       highlight: true,
     },
     {
       title: "Total Amount",
-      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.totalAmount}`,
+      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.totalAmount || 0}`,
     },
     {
       title: "Collected Amount",
-      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.paidAmount}`,
+      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.paidAmount || 0}`,
     },
     {
       title: "Refunded Amount",
-      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.refundAmount}`,
+      value: `₹ ${state.InvoiceList?.getCustomizeReceiptList?.refundAmount || 0}`,
     },
   ];
 
