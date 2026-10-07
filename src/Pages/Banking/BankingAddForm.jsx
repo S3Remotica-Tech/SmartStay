@@ -171,7 +171,7 @@ function BankingAddForm(props) {
 
   const paymentOptions = Array.isArray(bankking)
     ? bankking
-        .filter((item) => item.accountType !== "CASH")
+        .filter((item) => item.accountType !== "CASH" && item.accountType !== "UPI" && item.accountType !== "CARD")
         .map((item) => ({
           value: String(item.bankingId),
           label: `${item?.accountHolderName} - ${item?.accountType || ""}`,
