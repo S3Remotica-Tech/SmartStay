@@ -120,7 +120,7 @@ const InvoicePage = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState("List");
-  const isDev = import.meta.env.MODE === "development";
+  // const isDev = import.meta.env.MODE === "development";
   const tableContainerRef = useRef(null);
   const listRef = useRef(null);
   const lastScrollLeftRef = useRef(0);

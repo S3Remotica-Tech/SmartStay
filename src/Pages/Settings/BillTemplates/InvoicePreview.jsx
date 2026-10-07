@@ -1,4 +1,4 @@
-import { TickCircle } from "iconsax-react";
+// import { TickCircle } from "iconsax-react";
 import React from "react";
 
 function InvoicePreview() {

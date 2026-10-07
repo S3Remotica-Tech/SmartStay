@@ -43,7 +43,7 @@ const GalleryComponent = () => {
         },
       });
     } catch (err) {
-      setError("Failed to upload image");
+      setError(err);
     } finally {
       setIsUploading(false);
       event.target.value = "";
@@ -74,7 +74,7 @@ const GalleryComponent = () => {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "REMOVE_UPDATE_PG" });
     }
-  }, [, state.PgList.updatePgStatusCode]);
+  }, [state.PgList.updatePgStatusCode]);
 
   useEffect(() => {
     if (state.PgList.dleteHostelImagesStatusCode === 200) {

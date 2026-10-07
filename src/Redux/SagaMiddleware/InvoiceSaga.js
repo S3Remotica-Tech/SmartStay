@@ -137,20 +137,20 @@ function* handleReceiptCustomizeData(action) {
 function* handleReveiwAndGenerateBill(action) {
   try {
     const response = yield call(reveiwAndGenerateBill, action.payload);
-    var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
-    };
+    // var toastStyle = {
+    //   backgroundColor: "#E6F6E6",
+    //   color: "black",
+    //   width: "100%",
+    //   borderRadius: "60px",
+    //   height: "20px",
+    //   fontFamily: "Gilroy",
+    //   fontWeight: 600,
+    //   fontSize: 14,
+    //   textAlign: "start",
+    //   display: "flex",
+    //   alignItems: "center",
+    //   padding: "10px",
+    // };
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {

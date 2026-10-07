@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useHasPermission } from "../../../Utils/Permission";
 import { Location, Refresh2 } from "iconsax-react";

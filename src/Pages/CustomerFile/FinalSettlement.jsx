@@ -151,7 +151,7 @@ function FinalSettlement() {
   const [showRefundableAdvance, setShowRefundableAdvance] = useState(false);
   const [showAdditionalAdvance, setShowAdditionalAdvance] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
-   const [showAdditionalBooking, setShowAdditionalBooking] = useState(false);
+  //  const [showAdditionalBooking, setShowAdditionalBooking] = useState(false);
   const [showRetainer, setShowRetainer] = useState(false);
 
   const [showDetails, setShowDetails] = useState(false);

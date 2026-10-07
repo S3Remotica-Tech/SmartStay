@@ -25,7 +25,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   const [activePage, setActivePage] = useState("general");
   // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
+  // const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
   const [search, setSearch] = useState("");
   const [activeMenu, setActiveMenu] = useState("general");
@@ -121,7 +121,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   const matchedMenu = Object.entries(settingsSubMenus).find(
     ([, subMenus]) =>
-      subMenus.some(([label, route]) => route === lastSegment)
+      subMenus.some(([ route]) => route === lastSegment)
   );
 
   if (matchedMenu) {
@@ -156,10 +156,10 @@ function SettingAllPages({ isVisibleSidebar }) {
   useEffect(() => {
     if (isVisibleSidebar) {
       // setIsSidebarOpen(false);
-      setIsInvoiceAddMode(true);
+      // setIsInvoiceAddMode(true);
     } else {
       // setIsSidebarOpen(true);
-      setIsInvoiceAddMode(false);
+      // setIsInvoiceAddMode(false);
     }
   }, [isVisibleSidebar]);
 

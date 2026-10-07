@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Invoice from "./Invoice";
 import Receipt from "./Receipt";
-import { ArrowLeft } from "iconsax-react";
-import { useNavigate } from "react-router-dom";
+// import { ArrowLeft } from "iconsax-react";
+// import { useNavigate } from "react-router-dom";
 function BillTemplates() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const state = useSelector((state) => state);
 
   const [selectedType, setSelectedType] = useState("invoice");
