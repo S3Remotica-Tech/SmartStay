@@ -268,6 +268,8 @@ function NewInvoice() {
   const dueRef = useRef(null);
   const joiningDate = selectedCustomer?.joiningDate;
 
+  console.log("selectedCustomer", selectedCustomer?.status);
+
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
   const [discountType, setDiscountType] = useState("₹");
@@ -610,46 +612,18 @@ function NewInvoice() {
     });
   };
 
-  // const getItemOptions = (currentIndex) => {
-  //   const options = [];
-
-  //   const advanceAlreadySelected = newRows.some(
-  //     (row, index) =>
-  //       index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
-  //   );
-
-  //   const rentAlreadySelected = newRows.some(
-  //     (row, index) => index !== currentIndex && row.itemType === "RENT",
-  //   );
-
-  //   if (!billData && !rentAlreadySelected) {
-  //     options.push({
-  //       value: "RENT",
-  //       label: "Room Rent",
-  //     });
-  //   }
-
-  //   if (!advanceAlreadySelected) {
-  //     options.push({
-  //       value: "ADDITIONAL_ADVANCE",
-  //       label: "Advance",
-  //     });
-  //   }
-
-  //   options.push({
-  //     value: "OTHER",
-  //     label: "Other",
-  //   });
-
-  //   return options;
-  // };
-
+ 
   const getItemOptions = (currentIndex) => {
     const options = [];
 
     const advanceAlreadySelected = newRows?.some(
       (row, index) =>
         index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
+    );
+
+const bookingAlreadySelected = newRows?.some(
+      (row, index) =>
+        index !== currentIndex && row.itemType === "BOOKING",
     );
 
     const rentAlreadySelected = newRows.some(
@@ -672,10 +646,18 @@ function NewInvoice() {
       return options;
     }
 
+    
+    if(!bookingAlreadySelected && selectedCustomer?.status === "BOOKING") {
+      options.push({
+        value: "BOOKING",
+        label: "Booking",
+      });
+    }
+
     if (!rentAlreadySelected) {
       options.push({
         value: "RENT",
-        label: "Room Rent",
+                label: "Room Rent",
       });
     }
 
@@ -718,7 +700,7 @@ function NewInvoice() {
           (id || billData?.customerId || CustomerOverView?.customerId),
       );
 
-      // console.log("selectedCustomer", selectedCustomer, "id", id);
+      // console.log("selectedCustomer", selectedCustomer);
 
       if ((selectedCustomer && billData) || id) {
         setCustomerName(selectedCustomer?.customerId);

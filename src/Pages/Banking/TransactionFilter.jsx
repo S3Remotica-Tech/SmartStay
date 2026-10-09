@@ -182,9 +182,10 @@ function TransactionFilter({
   };
 
   const handleFilterBills = () => {
+    // const hasPeriod = !!period?.value;
     const bankFilter = {
-      startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
-      endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
+      startDate: fromDate ? dayjs(fromDate).format("DD-MM-YYYY") : "",
+      endDate: toDate ? dayjs(toDate).format("DD-MM-YYYY") : "",
       period: period?.value,
       periodLabel: period?.label || "",
       source: source?.value,
@@ -203,8 +204,8 @@ function TransactionFilter({
         page: 1,
         size: size,
         dateFilter: period?.value,
-        fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
-        toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
+        fromDate: fromDate ? dayjs(fromDate).format("DD-MM-YYYY") : "",
+        toDate: toDate ? dayjs(toDate).format("DD-MM-YYYY") : "",
         source: source?.value,
       },
     });
@@ -291,21 +292,7 @@ function TransactionFilter({
               onChange={handlePeriodChange}
             />
           </div>
-
-          <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
-              Source
-            </label>
-
-            <Select
-              styles={CustomStyles}
-              placeholder="Select Source"
-              options={sourceOptions}
-              value={source}
-              onChange={handleSourceChange}
-            />
-          </div>
-
+          {period?.value === "CUSTOM" && ( <>
           <div className="mb-3">
             <label className="block text-xs font-medium text-[#6B7280] mb-2">
               From Date
@@ -351,6 +338,23 @@ function TransactionFilter({
               />
             </div>
           </div>
+          </>
+)}
+
+          <div className="mb-3">
+            <label className="block text-xs font-medium text-[#6B7280] mb-2">
+              Source
+            </label>
+
+            <Select
+              styles={CustomStyles}
+              placeholder="Select Source"
+              options={sourceOptions}
+              value={source}
+              onChange={handleSourceChange}
+            />
+          </div>
+
         </div>
 
         <div className="flex items-center justify-between gap-3 m-4">

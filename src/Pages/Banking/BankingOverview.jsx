@@ -38,20 +38,21 @@ function BankingOverview({ show, onClose }) {
   const menuRef = useRef(null);
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
-  const isBankAccount = OverviewDetails?.accountType === "BANK";
+  // console.log("OverviewDetails", OverviewDetails);
+  const isBankAccount = OverviewDetails?.accountType === "BANK" && OverviewDetails?.paymentMethodId === null;
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
 
   const tabs = isBankAccount
     ? [
-        { id: "overview", label: "Overview" },
-        { id: "linkedMethods", label: "Linked Methods" },
-        { id: "ledger", label: "Ledger" },
-      ]
+      { id: "overview", label: "Overview" },
+      { id: "linkedMethods", label: "Linked Methods" },
+      { id: "ledger", label: "Ledger" },
+    ]
     : [
-        { id: "overview", label: "Overview" },
-        { id: "ledger", label: "Ledger" },
-      ];
+      { id: "overview", label: "Overview" },
+      { id: "ledger", label: "Ledger" },
+    ];
 
   // const LinkedPaymentMethodsList =
   //   state?.bankingDetails?.linkedPaymentMethodsList;
@@ -88,7 +89,7 @@ function BankingOverview({ show, onClose }) {
     navigate(`/add-expense/${state.login.selectedHostel_Id}`, {
       state: {
         isBankingWayTrigger: true,
-        
+
       },
     });
     setShowTransactionMenu(false);
@@ -243,14 +244,14 @@ function BankingOverview({ show, onClose }) {
       dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER" });
     }
   }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
+  console.log("OverviewDetails", OverviewDetails);
   if (!show) return null;
   return (
     <div className="font-gilroy">
       <div
-        className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
-          show ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        // onClick={onClose}
+        className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${show ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+      // onClick={onClose}
       />
       <div className="fixed top-2 right-2 bottom-2 w-full max-w-6xl bg-white z-50 rounded-md flex flex-col">
         <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0] shrink-0">
@@ -266,18 +267,20 @@ function BankingOverview({ show, onClose }) {
             </div>
 
             <div>
-              <div className="text-[18px] font-semibold text-[#222222]">
-                {OverviewDetails?.accountType === "BANK"
-                  ? `${OverviewDetails?.bankName}`
-                  : `${OverviewDetails?.cashAccountType}`}
+              <div className="text-[18px] font-semibold text-[#222222] capitalize">
+                {OverviewDetails?.paymentMethod ?
+                  `${OverviewDetails?.displayName} `
+                  : OverviewDetails?.accountType === "BANK"
+                    ? `${OverviewDetails?.bankName}`
+                    : `${OverviewDetails?.cashAccountType}`}
               </div>
 
               <div className="flex items-center gap-3 mt-1">
                 <div className="text-[#4B4B4B] text-[14px] capitalize">
-                  {OverviewDetails?.accountType?.toLowerCase()} Account
+                  {OverviewDetails?.paymentMethod ? OverviewDetails?.paymentMethod : `${OverviewDetails?.accountType?.toLowerCase()} Account`}
                 </div>
 
-                {OverviewDetails?.accountType === "BANK" && (
+                {OverviewDetails?.accountType === "BANK" && OverviewDetails?.branchName && (
                   <div className="flex items-center gap-1">
                     <Location size="16" color="#8F5C09" variant="Bold" />
                     <div className="text-[#8F5C09] text-[14px]">
@@ -299,9 +302,8 @@ function BankingOverview({ show, onClose }) {
                 Add Transaction
                 <ArrowDown2
                   size="16"
-                  className={`transition-transform ${
-                    showTransactionMenu ? "rotate-180" : ""
-                  }`}
+                  className={`transition-transform ${showTransactionMenu ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 
@@ -323,7 +325,7 @@ function BankingOverview({ show, onClose }) {
                     disabled
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    // onClick={handleTenantPayment}
+                  // onClick={handleTenantPayment}
                   >
                     Tenant Payment
                   </button>
@@ -431,9 +433,8 @@ function BankingOverview({ show, onClose }) {
                 <ArrowDown2
                   size={16}
                   color="#6B7280"
-                  className={`transition-transform ${
-                    showMenu ? "rotate-180" : ""
-                  }`}
+                  className={`transition-transform ${showMenu ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { Add, InfoCircle, Verify, Bank, Wallet } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+import CreditCardGlobal from "./AddMethod/CreditCardGlobal";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -140,7 +141,7 @@ function AddNewAccount({ show, handleClose }) {
   const [accountTypeError, setAccountTypeError] = useState("");
   const [bankOpeningBalanceError, setBankOpeningBalanceError] = useState("");
 
-  console.log("bankDisplayNameError", bankDisplayNameError);
+  // console.log("bankDisplayNameError", bankDisplayNameError);
 
   const [cashDisplayNameError, setCashDisplayNameError] = useState("");
   const [cashTypeError, setCashTypeError] = useState("");
@@ -571,7 +572,7 @@ function AddNewAccount({ show, handleClose }) {
       <div className="fixed inset-0 bg-black/40 z-[40]" />
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fixed inset-y-2 right-2 w-[600px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy
+        className="fixed inset-y-2 right-2 w-[620px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy
          border border-gray-50"
       >
         {" "}
@@ -616,6 +617,16 @@ function AddNewAccount({ show, handleClose }) {
               />
 
               <span className="text-[15px]">Cash Account</span>
+            </label>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                checked={accountMode === "CREDIT"}
+                onChange={() => setAccountMode("CREDIT")}
+                className="h-4 w-4 accent-blue-600"
+              />
+
+              <span className="text-[15px]">Credit Card </span>
             </label>
           </div>
 
@@ -921,9 +932,8 @@ function AddNewAccount({ show, handleClose }) {
                   type="submit"
                   disabled={formLoading}
                   onClick={handleSubmitBank}
-                  className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-                    formLoading ? "opacity-70 cursor-not-allowed" : ""
-                  }`}
+                  className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
                 >
                   {formLoading ? (
                     <>
@@ -1145,9 +1155,8 @@ function AddNewAccount({ show, handleClose }) {
                   type="submit"
                   disabled={formLoading}
                   onClick={handleSubmitCash}
-                  className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-                    formLoading ? "opacity-70 cursor-not-allowed" : ""
-                  }`}
+                  className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
                 >
                   {formLoading ? (
                     <>
@@ -1162,6 +1171,12 @@ function AddNewAccount({ show, handleClose }) {
                 </button>
               </div>
             </>
+          )}
+
+
+
+          {accountMode === "CREDIT" && (
+            <CreditCardGlobal handleClose={handleClose} />
           )}
         </div>
       </div>

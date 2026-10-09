@@ -671,9 +671,9 @@ function BankingNew() {
     }
   }, [state.bankingDetails.statusCodeDeleteBank]);
 
-  const handleCloseDelete = () => {};
+  const handleCloseDelete = () => { };
 
-  const handleCloseTransactionDelete = () => {};
+  const handleCloseTransactionDelete = () => { };
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
@@ -861,11 +861,10 @@ function BankingNew() {
                 <div className="relative flex items-center w-full cursor-pointer">
                   <div
                     className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-    ${
-      canReadBanking
-        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-        : "border-gray-200 opacity-60 cursor-not-allowed"
-    }`}
+    ${canReadBanking
+                        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                        : "border-gray-200 opacity-60 cursor-not-allowed"
+                      }`}
                   >
                     <input
                       disabled
@@ -897,9 +896,8 @@ function BankingNew() {
                   Add Transaction
                   <ArrowDown2
                     size="16"
-                    className={`transition-transform ${
-                      showTransactionMenu ? "rotate-180" : ""
-                    }`}
+                    className={`transition-transform ${showTransactionMenu ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
@@ -964,9 +962,8 @@ function BankingNew() {
                       className=" disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px]   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
                       <span
-                        className={`text-sm font-medium font-gilroy ${
-                          canWriteBanking ? "text-[#111827]" : "text-gray-400"
-                        }`}
+                        className={`text-sm font-medium font-gilroy ${canWriteBanking ? "text-[#111827]" : "text-gray-400"
+                          }`}
                       >
                         Investment
                       </span>
@@ -1121,11 +1118,10 @@ function BankingNew() {
                                           handleInvestment(item.bankId);
                                         }}
                                         className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
-    ${
-      canWriteBanking
-        ? "hover:bg-red-50 cursor-pointer"
-        : "cursor-not-allowed opacity-50"
-    }`}
+    ${canWriteBanking
+                                            ? "hover:bg-red-50 cursor-pointer"
+                                            : "cursor-not-allowed opacity-50"
+                                          }`}
                                       >
                                         <MoneyRecive
                                           size={16}
@@ -1136,11 +1132,10 @@ function BankingNew() {
                                           }
                                         />
                                         <span
-                                          className={`text-sm font-semibold font-gilroy ${
-                                            canWriteBanking
-                                              ? "text-black"
-                                              : "text-gray-400"
-                                          }`}
+                                          className={`text-sm font-semibold font-gilroy ${canWriteBanking
+                                            ? "text-black"
+                                            : "text-gray-400"
+                                            }`}
                                         >
                                           Investment
                                         </span>
@@ -1367,11 +1362,10 @@ function BankingNew() {
                   ) : (
                     <div
                       onClick={() => canWriteBanking && handleAddAccount()}
-                      className={`border-1  max-w-[150px] w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
-                        canWriteBanking
-                          ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
-                          : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
-                      }`}
+                      className={`border-1  max-w-[200px] w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                        ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
+                        : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
+                        }`}
                     >
                       <div className="flex flex-col items-center text-center">
                         <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
@@ -1382,13 +1376,12 @@ function BankingNew() {
                         </div>
 
                         <div
-                          className={`text-sm sm:text-base font-medium leading-6 break-words whitespace-normal w-full ${
-                            canWriteBanking
-                              ? "text-[#1E45E1]"
-                              : "text-[#9CA3AF]"
-                          }`}
+                          className={`text-sm sm:text-base font-medium leading-6 break-words whitespace-normal w-full ${canWriteBanking
+                            ? "text-[#1E45E1]"
+                            : "text-[#9CA3AF]"
+                            }`}
                         >
-                          Add New Bank / Cash
+                          Add New Bank / Cash /Credit Card
                           <br />
                           Account
                         </div>
@@ -1399,11 +1392,10 @@ function BankingNew() {
                 {banking && banking?.length > 0 && (
                   <div
                     onClick={() => canWriteBanking && handleAddAccount()}
-                    className={`border-1 w-[150px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${
-                      canWriteBanking
-                        ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
-                        : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
-                    }`}
+                    className={`border-1 w-[200px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                      ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
+                      : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
+                      }`}
                   >
                     <div className="flex flex-col items-center text-center">
                       <div className="bg-[#F1F6FF] border border-[#ECF0FF] p-2 rounded-full flex items-center justify-center mb-3">
@@ -1414,13 +1406,12 @@ function BankingNew() {
                       </div>
 
                       <div
-                        className={`text-base font-medium leading-6 ${
-                          canWriteBanking
-                            ? "text-[#1E45E1]"
-                            : "text-[#9CA3AF] cursor-not-allowed"
-                        }`}
+                        className={`text-sm sm:text-base font-medium leading-6 ${canWriteBanking
+                          ? "text-[#1E45E1]"
+                          : "text-[#9CA3AF] cursor-not-allowed"
+                          }`}
                       >
-                        Add New Bank / Cash
+                        Add New Bank / Cash / Credit Card
                         <br />
                         Account
                       </div>
@@ -1471,11 +1462,10 @@ function BankingNew() {
                             setIsFilterOpen(true);
                           }
                         }}
-                        className={`transition-opacity duration-300 ${
-                          canReadBanking
-                            ? "cursor-pointer opacity-100 pointer-events-auto"
-                            : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
+                        className={`transition-opacity duration-300 ${canReadBanking
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                          }`}
                       />
                     </div>
                   </div>
@@ -1559,37 +1549,30 @@ function BankingNew() {
                                   <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">
                                     {user.createdAt
                                       ? dayjs(user.createdAt).format(
-                                          "DD-MM-YYYY HH:mm:ss",
-                                        )
+                                        "DD-MM-YYYY HH:mm:ss",
+                                      )
                                       : "-"}
                                   </td>
                                   <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
                                     <div className="flex items-center gap-2 capitalize">
-                                      {["DEPOSIT", "INVOICE"].includes(
-                                        user.source,
-                                      ) ? (
-                                        <>
-                                          <ArrowUp size={16} color="#16A34A" />
-                                          <span>{user.source}</span>
-                                        </>
-                                      ) : [
-                                          "EXPENSE",
-                                          "ASSETS",
-                                          "BOOKING_REFUND",
-                                          "RENT_REFUND",
-                                        ].includes(user.source) ? (
-                                        <>
-                                          <ArrowDown
-                                            size={16}
-                                            color="#DC2626"
-                                          />
-                                          <span>{user.source}</span>
-                                        </>
-                                      ) : user.source === "SELF_TRANSFER" ? (
+                                      {user.source === "SELF_TRANSFER" ? (
                                         <>
                                           <ArrowSwapVertical
                                             size={16}
                                             color="#1E45E1"
+                                          />
+                                          <span>{user.source}</span>
+                                        </>
+                                      ) : user.type === "CREDIT" ? (
+                                        <>
+                                          <ArrowUp size={16} color="#16A34A" />
+                                          <span>{user.source}</span>
+                                        </>
+                                      ) : user.type === "DEBIT" ? (
+                                        <>
+                                          <ArrowDown
+                                            size={16}
+                                            color="#DC2626"
                                           />
                                           <span>{user.source}</span>
                                         </>
@@ -1655,8 +1638,8 @@ function BankingNew() {
               handleClose={handleCloseFilter}
               size={sizeTransaction}
               page={pageTransaction}
-              // handlePeriodSelect={handlePeriodChange}
-              // handleSourceSelect={handleSourceChange}
+            // handlePeriodSelect={handlePeriodChange}
+            // handleSourceSelect={handleSourceChange}
             />
           )}
 
