@@ -15,7 +15,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import Assets from "../Pages/AssetFile/Asset";
-import Banking from "../Pages/Banking/Banking";
+// import Banking from "../Pages/Banking/Banking";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -189,7 +189,7 @@ function Sidebar() {
     "/electricity/:hostelId": "eb",
     "/expense/:hostelId": "expenses",
     // "/expense/new/:hostelId": "expenses-new",
-    "/banking/:hostelId": "banking",
+    // "/banking/:hostelId": "banking",
     "/banking/new/:hostelId": "banking-new",
     "/settings/:hostelId": "settingNewDesign",
   };
@@ -659,7 +659,7 @@ function Sidebar() {
               }
             >
 
-             
+
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingGeneral />} />
               <Route path="manage-pg" element={<SettingManage />} />
@@ -684,7 +684,7 @@ function Sidebar() {
                 path="invoice"
                 element={<SettingInvoice handleFormPage={handleFormPage} />}
               />
-              
+
               <Route path="bill-templates" element={<BillTemplates />} />
               <Route path="expenses" element={<SettingExpenses />} />
               <Route path="vendor-category" element={<VendorCategory />} />
@@ -718,9 +718,8 @@ function Sidebar() {
 
                   <button
                     onClick={closeSidebar}
-                    className={`bg-transparent border-none textbase cursor-pointer md:hidden ${
-                      isSidebarOpen ? "block" : "hidden"
-                    }`}
+                    className={`bg-transparent border-none textbase cursor-pointer md:hidden ${isSidebarOpen ? "block" : "hidden"
+                      }`}
                   >
                     <svg
                       width="24"
@@ -743,13 +742,12 @@ function Sidebar() {
                     <li
                       ref={dropdownRef}
                       onClick={toggleDropdown}
-                      className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${
-                        currentPage === "settingNewDesign" ? "active" : ""
-                      }`}
+                      className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""
+                        }`}
                     >
                       {selectedProfileImage &&
-                      selectedProfileImage !== null &&
-                      selectedProfileImage !== "" ? (
+                        selectedProfileImage !== null &&
+                        selectedProfileImage !== "" ? (
                         <OverlayTrigger
                           trigger={tooltipTrigger}
                           placement="right"
@@ -869,8 +867,8 @@ function Sidebar() {
                                   >
                                     <div className="shrink-0">
                                       {item.mainImage &&
-                                      item.mainImage !== "0" &&
-                                      item.mainImage !== "" ? (
+                                        item.mainImage !== "0" &&
+                                        item.mainImage !== "" ? (
                                         <img
                                           src={item.mainImage}
                                           className="w-6 h-6 md:w-7 md:h-7 rounded-full mr-2"
@@ -1008,10 +1006,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/tenant")}
                               className={({ isActive }) =>
-                                `list-sub-Item no-underline d-flex align-items-center ${
-                                  isActive || currentPage === "user-details"
-                                    ? "active"
-                                    : ""
+                                `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("user-list")}
@@ -1028,10 +1025,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/asset")}
                               className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${
-                                  isActive || currentPage === "asset"
-                                    ? "active"
-                                    : ""
+                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("asset")}
@@ -1048,10 +1044,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/vendor")}
                               className={({ isActive }) =>
-                                `align-items-center list-sub-Item no-underline d-flex ${
-                                  isActive || currentPage === "vendor"
-                                    ? "active"
-                                    : ""
+                                `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("vendor")}
@@ -1066,7 +1061,7 @@ function Sidebar() {
                         </ul>
                       </div>
                     )}
-                    {isDevelopment && (
+                    {/* {isDevelopment && (
                       <li
                         className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                       >
@@ -1088,17 +1083,16 @@ function Sidebar() {
                           </span>
                         </NavLink>
                       </li>
-                    )}
+                    )} */}
                     <li
                       className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                     >
                       <NavLink
                         to={withHostel("/banking/new")}
                         className={({ isActive }) =>
-                          `align-items-center list-Item  d-flex ${
-                            isActive || currentPage === "banking-new"
-                              ? "active"
-                              : ""
+                          `align-items-center list-Item  d-flex ${isActive || currentPage === "banking-new"
+                            ? "active"
+                            : ""
                           }`
                         }
                         onClick={() => handlePageClick("banking-new")}
@@ -1106,7 +1100,7 @@ function Sidebar() {
                         <Bank size="20" variant="Bold" className="-mt-1" />
 
                         <span className="sidebar-label hidden lg:inline-block Title font-gilroy font-semibold text-sm">
-                          Banking New
+                          Banking
                         </span>
                       </NavLink>
                     </li>
@@ -1152,10 +1146,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/invoice")}
                               className={({ isActive }) =>
-                                `align-items-center list-sub-Item d-flex ${
-                                  isActive || currentPage === "invoice"
-                                    ? "active"
-                                    : ""
+                                `align-items-center list-sub-Item d-flex ${isActive || currentPage === "invoice"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("invoice")}
@@ -1177,10 +1170,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/retainer-invoice")}
                               className={({ isActive }) =>
-                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                  isActive || currentPage === "booking"
-                                    ? "active"
-                                    : ""
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "booking"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() =>
@@ -1203,10 +1195,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/recurring")}
                               className={({ isActive }) =>
-                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                  isActive || currentPage === "recurring"
-                                    ? "active"
-                                    : ""
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "recurring"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("recurring")}
@@ -1227,10 +1218,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/receipts")}
                               className={({ isActive }) =>
-                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${
-                                  isActive || currentPage === "receipts"
-                                    ? "active"
-                                    : ""
+                                `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "receipts"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("receipts")}
@@ -1256,8 +1246,7 @@ function Sidebar() {
                       <NavLink
                         to={withHostel("/electricity")}
                         className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "eb" ? "active" : ""
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "eb" ? "active" : ""
                           }`
                         }
                         onClick={() => handlePageClick("eb")}
@@ -1303,10 +1292,9 @@ function Sidebar() {
                           <NavLink
                             to={withHostel("/compliance")}
                             className={({ isActive }) =>
-                              `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                                isActive || currentPage === "compliance"
-                                  ? "active"
-                                  : ""
+                              `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "compliance"
+                                ? "active"
+                                : ""
                               }`
                             }
                             onClick={() => handlePageClick("compliance")}
@@ -1325,10 +1313,9 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/requests")}
                               className={({ isActive }) =>
-                                `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                                  isActive || currentPage === "requests"
-                                    ? "active"
-                                    : ""
+                                `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "requests"
+                                  ? "active"
+                                  : ""
                                 }`
                               }
                               onClick={() => handlePageClick("requests")}
@@ -1350,10 +1337,9 @@ function Sidebar() {
                       <NavLink
                         to={withHostel("/expense")}
                         className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "expenses"
-                              ? "active"
-                              : ""
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "expenses"
+                            ? "active"
+                            : ""
                           }`
                         }
                         onClick={() => handlePageClick("expenses")}
@@ -1372,10 +1358,9 @@ function Sidebar() {
                       <NavLink
                         to={withHostel("/reports")}
                         className={({ isActive }) =>
-                          `align-items-center list-Item d-flex no-underline cursor-pointer ${
-                            isActive || currentPage === "reports"
-                              ? "active"
-                              : ""
+                          `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "reports"
+                            ? "active"
+                            : ""
                           }`
                         }
                         onClick={() => handlePageClick("reports")}
@@ -1559,7 +1544,7 @@ function Sidebar() {
 
                 {isDevelopment && (
                   <>
-                    <Route
+                    {/* <Route
                       path="/banking/:hostelId?"
                       element={
                         <div className="mt-1 ml-2.5 mr-1">
@@ -1569,7 +1554,7 @@ function Sidebar() {
                           />
                         </div>
                       }
-                    />
+                    /> */}
                     <Route
                       path="/requests/:hostelId?"
                       element={
@@ -1836,12 +1821,12 @@ function Sidebar() {
                 className="flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
               >
                 {profiles === "null" ||
-                profiles === null ||
-                profiles === undefined ||
-                profiles === "undefined" ||
-                profiles === "" ||
-                profiles === 0 ||
-                profiles === "0" ? (
+                  profiles === null ||
+                  profiles === undefined ||
+                  profiles === "undefined" ||
+                  profiles === "" ||
+                  profiles === 0 ||
+                  profiles === "0" ? (
                   <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
                     {stateData?.accountList?.initial || ""}
                   </div>
@@ -1889,13 +1874,13 @@ function Sidebar() {
 
                     {state.UsersList.hotelDetailsinPg.unreadNotificationCount >
                       0 && (
-                      <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
-                        {
-                          state.UsersList?.hotelDetailsinPg
-                            ?.unreadNotificationCount
-                        }
-                      </span>
-                    )}
+                        <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
+                          {
+                            state.UsersList?.hotelDetailsinPg
+                              ?.unreadNotificationCount
+                          }
+                        </span>
+                      )}
                   </div>
                 </div>
 
