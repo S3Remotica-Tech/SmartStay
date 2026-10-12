@@ -81,7 +81,7 @@ function RentInvoicePDF() {
       <div className="text-center py-2">
         <h5
           className="text-[18px] font-gilroy font-semibold text-[#171717]"
-          // style={textStyle}
+        // style={textStyle}
         >
           Rental Invoice
         </h5>
@@ -103,7 +103,7 @@ function RentInvoicePDF() {
               <span className=" text-[14px] text-[#5E6470]">
                 {" "}
                 {pdfDetails?.customerInfo?.customerMobileNo &&
-                pdfDetails.customerInfo.customerMobileNo !== "undefined"
+                  pdfDetails.customerInfo.customerMobileNo !== "undefined"
                   ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
                   : ""}
               </span>
@@ -225,8 +225,8 @@ function RentInvoicePDF() {
                           0,
                           (pdfDetails?.invoiceInfo?.listDeductions?.length ||
                             0) -
-                            (pdfDetails?.invoiceInfo?.invoiceItems?.length ||
-                              0),
+                          (pdfDetails?.invoiceInfo?.invoiceItems?.length ||
+                            0),
                         ),
                       }).map((_, index) => (
                         <tr key={`empty-left-${index}`}>
@@ -431,26 +431,24 @@ function RentInvoicePDF() {
             <div className="text-[14px] flex items-center gap-2 my-1 text-gray-900 font-semibold">
               Status :
               <TiTick
-                className={`${
-                  pdfDetails?.invoiceInfo?.paymentStatus === "Pending"
+                className={`${pdfDetails?.invoiceInfo?.paymentStatus === "Pending"
                     ? "text-[#F59E0B]"
                     : pdfDetails?.invoiceInfo?.paymentStatus === "Paid"
                       ? "text-[#038C3D]"
                       : pdfDetails?.invoiceInfo?.paymentStatus === "Overdue"
                         ? "text-[#DC2626]"
                         : "text-[#6B7280]"
-                }`}
+                  }`}
               />
               <span
-                className={`text-sm ${
-                  pdfDetails?.invoiceInfo?.paymentStatus === "Pending"
+                className={`text-sm ${pdfDetails?.invoiceInfo?.paymentStatus === "Pending"
                     ? "text-[#F59E0B]"
                     : pdfDetails?.invoiceInfo?.paymentStatus === "Paid"
                       ? "text-[#038C3D]"
                       : pdfDetails?.invoiceInfo?.paymentStatus === "Overdue"
                         ? "text-[#DC2626]"
                         : "text-[#6B7280]"
-                }`}
+                  }`}
               >
                 {pdfDetails?.invoiceInfo?.paymentStatus}
               </span>

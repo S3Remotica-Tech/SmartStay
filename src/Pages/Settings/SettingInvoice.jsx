@@ -6,7 +6,7 @@ import leftarrow from "../../Assets/Images/arrow-left.png";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
 import EditICon from "../../Assets/Images/New_images/edit.png";
 import TextAreaICon from "../../Assets/Images/textarea.png";
-import BankICon from "../../Assets/Images/bank_white.png";
+// import BankICon from "../../Assets/Images/bank_white.png";
 import "react-datepicker/dist/react-datepicker.css";
 import uploadsett from "../../Assets/Images/New_images/upload setting.png";
 import PropTypes from "prop-types";
@@ -18,7 +18,7 @@ import { RgbaColorPicker } from "react-colorful";
 import "../../Pages/Settings/SettingInvoice.css";
 import RentalReceiptPdfTemplate from "../BillsTemplates/RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "../BillsTemplates/SecurityDepositInvoice";
-import BankingAddForm from "../../Pages/Banking/BankingAddForm";
+// import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import {
@@ -39,6 +39,160 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import AddNewAccount from "../../Pages/Banking/AddNewAccount";
+import Select, { components } from "react-select";
+import { Bank, Wallet3, Mobile, Moneys } from "iconsax-react";
+
+const IconMap = {
+  bank: () => <Bank size="18" color="#1E40AF" variant="Bold" />,
+  gpay: () => <div className="w-[18px] h-[18px] rounded-full bg-gradient-to-br from-blue-500 via-red-400 to-yellow-400" />,
+  paytm: () => <Wallet3 size="18" color="#00BAF2" variant="Bold" />,
+  phonepe: () => <div className="w-[18px] h-[18px] rounded-full bg-[#5F259F] flex items-center justify-center text-white text-[10px] font-bold">₹</div>,
+};
+
+
+const CustomOption = (props) => {
+  const { data, isSelected } = props;
+  const Icon = IconMap[data.icon];
+  return (
+    <components.Option {...props}>
+      <div className={`flex items-center justify-between w-full px-2 py-1.5 rounded-md ${isSelected ? 'bg-indigo-50' : 'bg-white hover:bg-gray-50'}`}>
+        <div className="flex items-center gap-3">
+
+          <Icon />
+          <span className="text-[13px] text-gray-700 font-medium">{data.label}</span>
+        </div>
+        <span className="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-400 font-medium">
+          {data.type}
+        </span>
+      </div>
+    </components.Option>
+  );
+};
+
+const CustomGroupHeading = (props) => {
+  return (
+    <div className="px-4 pt-3 pb-1 text-[11px] font-medium text-gray-500">
+      {props.data.label}
+    </div>
+  );
+};
+
+
+const CustomSingleValue = (props) => {
+  const Icon = IconMap[props.data.icon];
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <Icon />
+        <span className="text-[13px] font-medium text-gray-800">
+          {props.data.value === 'hdfc_gpay' ? 'HDFC Bank - G Pay UPI' : props.data.label}
+        </span>
+      </div>
+    </components.SingleValue>
+  );
+};
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "45px",
+    height: "40px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontFamily: "Gilroy, sans-serif",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 600,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "300px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
 function SettingInvoice({ hostelid, handleFormPage }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -60,7 +214,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [cardshow, setCardShow] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
-
+  // console.log("banking", banking)
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
   const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
@@ -94,6 +248,35 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Bills");
+
+
+  const paymentOptions = [
+    {
+      label: "SBI Bank",
+      options: [
+        { value: "sbi_direct", label: "SBI Bank (Direct)", type: "Bank Transfer", bank: "SBI", icon: "bank" },
+        { value: "sbi_gpay", label: "G Pay UPI (smartstays@oksbi)", type: "UPI", bank: "SBI", icon: "gpay" },
+        { value: "sbi_paytm", label: "Paytm UPI (smartstays@oksbi)", type: "UPI", bank: "SBI", icon: "paytm" },
+        { value: "sbi_phonepe", label: "Phone pe UPI (smartstays@oksbi)", type: "UPI", bank: "SBI", icon: "phonepe" },
+      ]
+    },
+    {
+      label: "HDFC Bank",
+      options: [
+        { value: "hdfc_direct", label: "HDFC Bank (Direct)", type: "Bank Transfer", bank: "HDFC", icon: "bank" },
+        { value: "hdfc_gpay", label: "G Pay UPI (smartstays@oksbi)", type: "UPI", bank: "HDFC", icon: "gpay" },
+        { value: "hdfc_paytm", label: "Paytm UPI (smartstays@oksbi)", type: "UPI", bank: "HDFC", icon: "paytm" },
+        { value: "hdfc_phonepe", label: "Phone pe UPI (smartstays@oksbi)", type: "UPI", bank: "HDFC", icon: "phonepe" },
+      ]
+    }
+  ];
+
+  // const flatOptions = paymentOptions.flatMap(g => g.options);
+
+  const [selected, setSelected] = useState("");
+
+
+
 
   useEffect(() => {
     if (!canReadInvoice) {
@@ -651,7 +834,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
       dispatch({
         type: "GET_TEMPLATE_LIST",
         payload: state.login.selectedHostel_Id,
@@ -679,24 +868,49 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   ]);
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking) {
-      setBanking(state.bankingDetails?.bankingList?.listBanks);
+    if (state.bankingDetails.getBankingSuccessCode) {
+      // setBanking(state.bankingDetails?.bankingList?.listBanks);
+      setBanking(state?.bankingDetails?.newBankingList || []);
       setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
+        dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
       }, 200);
     }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+  }, [state.bankingDetails.getBankingSuccessCode]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleCloseBankAccount();
 
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);
     }
   }, [state.bankingDetails.statusCodeForAddBanking]);
+
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForCreateBanking === 201) {
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+
+      dispatch({ type: "REMOVE_ADD_BANKING_REDUCER" });
+    }
+  }, [state.bankingDetails.statusCodeForCreateBanking]);
+
+
+
+
+
 
   const handleBankClick = (id) => {
     setEditFormErrMessage("");
@@ -706,7 +920,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   useEffect(() => {
     if (banking?.length > 0) {
       const defaultBank = banking.find((bank) => bank.isDefault) || banking[0];
-      setSelectedBankId(defaultBank.bankingId);
+      setSelectedBankId(defaultBank.bankId);
     }
   }, [banking]);
 
@@ -808,6 +1022,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   }, [RentalinvoiceTemplate]);
 
   const handleSaveRentalTemplate = () => {
+    dispatch({ type: "REMOVE_ERROR_GLOBAL_SETTINGS" })
     setEditFormErrMessage("");
     if (RentalinvoiceTemplate.isSignatureCustomized) {
       const Signatureverify = !RentalinvoiceTemplate.invoiceSignatureUrl;
@@ -966,6 +1181,12 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       }, 3000);
     }
   }, [state.createAccount?.networkError]);
+
+  useEffect(() => {
+    if (state.Settings?.errorGlobalSettings) {
+      setFormLoading(false);
+    }
+  }, [state.Settings?.errorGlobalSettings])
 
   const handleReset = () => {
     // setResetCall(true)
@@ -1190,11 +1411,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
          font-gilroy text-[12px] font-semibold leading-[100%] tracking-[0%] 
         text-center rounded-full py-1.5 px-3 md:px-4 whitespace-nowrap
         border  md:mb-2
-        ${
-          selectedTab === option.value
-            ? "bg-[#1E45E1] border-[#0d6efd] text-white"
-            : "bg-transparent border-[#6c757d] text-[#6c757d]"
-        }
+        ${selectedTab === option.value
+                          ? "bg-[#1E45E1] border-[#0d6efd] text-white"
+                          : "bg-transparent border-[#6c757d] text-[#6c757d]"
+                        }
       `}
                     >
                       {option.label}
@@ -1212,350 +1432,189 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           BillsTemplateList?.isMobileCustomized ||
                           BillsTemplateList?.isMailIdCustomized ||
                           BillsTemplateList?.isSignatureCustomized) && (
-                          <>
-                            <p className="font-gilroy text-[17px] font-semibold">
-                              Inherited Global Details
-                            </p>
+                            <>
+                              <p className="font-gilroy text-[17px] font-semibold">
+                                Inherited Global Details
+                              </p>
 
-                            <div className="border rounded-[10px] p-2.5 pb-3 mb-3 col-span-12 overflow-y-auto">
-                              <div className="flex justify-end">
-                                <img
-                                  src={EditICon}
-                                  onClick={handleShowContactNumberForm}
-                                  alt="editicon"
-                                  className="cursor-pointer"
-                                />
-                              </div>
-                              {BillsTemplateList?.isLogoCustomized && (
-                                <div>
-                                  <div className="flex justify-between items-center mb-[6px]">
-                                    <label className="font-gilroy font-semibold">
-                                      Hostel/PG Logo
-                                    </label>
-                                  </div>
-
-                                  <div className="p-3 border rounded bg-[#F0F3FF] text-center">
-                                    <div className="flex justify-center">
-                                      <div
-                                        className="relative inline-block"
-                                        onMouseEnter={(e) => {
-                                          const trash =
-                                            e.currentTarget.querySelector(
-                                              ".qr-trash",
-                                            );
-                                          const overlay =
-                                            e.currentTarget.querySelector(
-                                              ".qr-overlay",
-                                            );
-
-                                          if (trash)
-                                            trash.style.display = "flex";
-                                          if (overlay)
-                                            overlay.style.display = "block";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          const trash =
-                                            e.currentTarget.querySelector(
-                                              ".qr-trash",
-                                            );
-                                          const overlay =
-                                            e.currentTarget.querySelector(
-                                              ".qr-overlay",
-                                            );
-
-                                          if (trash)
-                                            trash.style.display = "none";
-                                          if (overlay)
-                                            overlay.style.display = "none";
-                                        }}
-                                      >
-                                        {logoPreview ? (
-                                          <img
-                                            src={logoPreview}
-                                            alt="Preview"
-                                            className="h-[60px] rounded-md mb-2"
-                                          />
-                                        ) : (
-                                          <img
-                                            src={uploadsett}
-                                            alt="upload"
-                                            className="h-[30px] mb-2"
-                                          />
-                                        )}
-
-                                        {logoPreview && (
-                                          <>
-                                            <div className="qr-overlay absolute inset-0 hidden h-[60px] bg-black/40 rounded-md" />
-
-                                            <div
-                                              className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
-                                              onClick={() => {
-                                                if (
-                                                  logoPreview?.startsWith(
-                                                    "data:",
-                                                  ) ||
-                                                  logoPreview?.startsWith(
-                                                    "blob:",
-                                                  )
-                                                ) {
-                                                  handleLocalDeleteLogo();
-                                                } else {
-                                                  handleDeleteLogo();
-                                                }
-                                              }}
-                                            >
-                                              <div className="bg-black/70 text-white p-2 rounded-full">
-                                                <Trash size={10} />
-                                              </div>
-                                            </div>
-                                          </>
-                                        )}
-                                      </div>
+                              <div className="border rounded-[10px] p-2.5 pb-3 mb-3 col-span-12 overflow-y-auto">
+                                <div className="flex justify-end">
+                                  <img
+                                    src={EditICon}
+                                    onClick={handleShowContactNumberForm}
+                                    alt="editicon"
+                                    className="cursor-pointer"
+                                  />
+                                </div>
+                                {BillsTemplateList?.isLogoCustomized && (
+                                  <div>
+                                    <div className="flex justify-between items-center mb-[6px]">
+                                      <label className="font-gilroy font-semibold">
+                                        Hostel/PG Logo
+                                      </label>
                                     </div>
 
-                                    <div>
-                                      <label
-                                        className={`${
-                                          allowEditFields.hostelLogo
+                                    <div className="p-3 border rounded bg-[#F0F3FF] text-center">
+                                      <div className="flex justify-center">
+                                        <div
+                                          className="relative inline-block"
+                                          onMouseEnter={(e) => {
+                                            const trash =
+                                              e.currentTarget.querySelector(
+                                                ".qr-trash",
+                                              );
+                                            const overlay =
+                                              e.currentTarget.querySelector(
+                                                ".qr-overlay",
+                                              );
+
+                                            if (trash)
+                                              trash.style.display = "flex";
+                                            if (overlay)
+                                              overlay.style.display = "block";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            const trash =
+                                              e.currentTarget.querySelector(
+                                                ".qr-trash",
+                                              );
+                                            const overlay =
+                                              e.currentTarget.querySelector(
+                                                ".qr-overlay",
+                                              );
+
+                                            if (trash)
+                                              trash.style.display = "none";
+                                            if (overlay)
+                                              overlay.style.display = "none";
+                                          }}
+                                        >
+                                          {logoPreview ? (
+                                            <img
+                                              src={logoPreview}
+                                              alt="Preview"
+                                              className="h-[60px] rounded-md mb-2"
+                                            />
+                                          ) : (
+                                            <img
+                                              src={uploadsett}
+                                              alt="upload"
+                                              className="h-[30px] mb-2"
+                                            />
+                                          )}
+
+                                          {logoPreview && (
+                                            <>
+                                              <div className="qr-overlay absolute inset-0 hidden h-[60px] bg-black/40 rounded-md" />
+
+                                              <div
+                                                className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer"
+                                                onClick={() => {
+                                                  if (
+                                                    logoPreview?.startsWith(
+                                                      "data:",
+                                                    ) ||
+                                                    logoPreview?.startsWith(
+                                                      "blob:",
+                                                    )
+                                                  ) {
+                                                    handleLocalDeleteLogo();
+                                                  } else {
+                                                    handleDeleteLogo();
+                                                  }
+                                                }}
+                                              >
+                                                <div className="bg-black/70 text-white p-2 rounded-full">
+                                                  <Trash size={10} />
+                                                </div>
+                                              </div>
+                                            </>
+                                          )}
+                                        </div>
+                                      </div>
+
+                                      <div>
+                                        <label
+                                          className={`${allowEditFields.hostelLogo
                                             ? "cursor-pointer text-[#1E45E1]"
                                             : "cursor-not-allowed text-[#999]"
-                                        } font-gilroy text-[12px] font-normal`}
-                                      >
-                                        Choose file
-                                        <input
-                                          type="file"
-                                          accept="image/*"
-                                          className="hidden"
-                                          ref={fileInputRef}
-                                          onChange={handleFileUploadHostel}
-                                          disabled={!allowEditFields.hostelLogo}
-                                        />
-                                      </label>
-                                      <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
-                                        to Upload
-                                      </span>
-                                    </div>
-
-                                    <small className="block mt-[5px] font-gilroy text-[9px] font-normal text-[#4B4B4B]">
-                                      Must be in PNG Format (600px × 300px)
-                                    </small>
-                                  </div>
-                                </div>
-                              )}
-
-                              {BillsTemplateList?.isMobileCustomized && (
-                                <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto mb-0">
-                                  <div className="flex flex-col w-full">
-                                    <div className="col-span-12">
-                                      <div className="w-full font-gilroy text-[14px] font-medium">
-                                        <div className="flex justify-between items-center mb-[6px]">
-                                          <label className="font-semibold">
-                                            Contact Number
-                                          </label>
-                                        </div>
-                                        <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
-                                          <select
-                                            className={`appearance-none bg-transparent border-none pr-4 cursor-pointer outline-none`}
-                                            disabled={!allowEditFields.contact}
-                                            style={{
-                                              fontFamily: "inherit",
-                                              fontSize: "inherit",
-                                              fontWeight: "inherit",
-                                              backgroundImage:
-                                                "url(\"data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E\")",
-                                              backgroundRepeat: "no-repeat",
-                                              backgroundPosition:
-                                                "right center",
-                                              backgroundSize: "10px",
-                                            }}
-                                          >
-                                            <option value="+91">+91</option>
-                                            <option value="+1">+1</option>
-                                            <option value="+44">+44</option>
-                                            <option value="+971">+971</option>
-                                          </select>
-
+                                            } font-gilroy text-[12px] font-normal`}
+                                        >
+                                          Choose file
                                           <input
-                                            type="tel"
-                                            placeholder="9876543210"
-                                            value={paymentmobilenum}
-                                            onChange={
-                                              handlePaymentInvoiceMobile
-                                            }
-                                            maxLength={10}
-                                            disabled={!allowEditFields.contact}
-                                            className="ml-2 bg-transparent border-none outline-none w-full"
-                                            style={{
-                                              fontFamily: "inherit",
-                                              fontSize: "inherit",
-                                              fontWeight: "inherit",
-                                            }}
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            ref={fileInputRef}
+                                            onChange={handleFileUploadHostel}
+                                            disabled={!allowEditFields.hostelLogo}
                                           />
-                                        </div>
-
-                                        {paymentMobileError && (
-                                          <ErrorMessage
-                                            message={paymentMobileError}
-                                            type="error"
-                                          />
-                                        )}
+                                        </label>
+                                        <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
+                                          to Upload
+                                        </span>
                                       </div>
+
+                                      <small className="block mt-[5px] font-gilroy text-[9px] font-normal text-[#4B4B4B]">
+                                        Must be in PNG Format (600px × 300px)
+                                      </small>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
 
-                              {BillsTemplateList?.isMailIdCustomized && (
-                                <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto">
-                                  <div className="flex flex-col w-full">
-                                    <div className="col-span-12">
-                                      <div className="w-full font-gilroy text-[14px] font-medium">
-                                        <div className="flex justify-between items-center mb-[6px]">
-                                          <label className="font-semibold">
-                                            E-Mail Address
-                                          </label>
-                                        </div>
-                                        <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
-                                          <input
-                                            type="email"
-                                            placeholder="abc@gmail.com"
-                                            className="ml-2 bg-transparent border-none outline-none w-full"
-                                            disabled={!allowEditFields.email}
-                                            value={paymentinvoiceemail}
-                                            onChange={handlePaymentinvoiceEmail}
-                                            style={{
-                                              fontFamily: "inherit",
-                                              fontSize: "inherit",
-                                              fontWeight: "inherit",
-                                            }}
-                                          />
-                                        </div>
-                                        {paymentinvoiceemailError !== "" && (
-                                          <ErrorMessage
-                                            message={paymentinvoiceemailError}
-                                            type="error"
-                                          />
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                              {BillsTemplateList?.isSignatureCustomized && (
-                                <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto">
-                                  <div className="flex flex-col w-full">
-                                    <div className="col-span-12">
-                                      <div className="w-full font-gilroy text-[14px] font-medium">
-                                        <div className="flex justify-between items-center mb-[6px]">
-                                          <label className="font-semibold">
-                                            Digital Signature Upload
-                                          </label>
-                                        </div>
-
-                                        <div className="col-span-12">
-                                          <div
-                                            className="relative mt-2 flex items-center justify-center h-[120px] rounded border-[3px] border-dotted border-[#ced4da] group"
-                                            onMouseEnter={(e) => {
-                                              const trash =
-                                                e.currentTarget.querySelector(
-                                                  ".qr-trash",
-                                                );
-                                              const overlay =
-                                                e.currentTarget.querySelector(
-                                                  ".qr-overlay",
-                                                );
-                                              if (trash)
-                                                trash.style.display = "flex";
-                                              if (overlay)
-                                                overlay.style.display = "block";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              const trash =
-                                                e.currentTarget.querySelector(
-                                                  ".qr-trash",
-                                                );
-                                              const overlay =
-                                                e.currentTarget.querySelector(
-                                                  ".qr-overlay",
-                                                );
-                                              if (trash)
-                                                trash.style.display = "none";
-                                              if (overlay)
-                                                overlay.style.display = "none";
-                                            }}
-                                          >
-                                            {rentalSignaturePreview ? (
-                                              <img
-                                                src={rentalSignaturePreview}
-                                                alt="signature"
-                                                className="max-h-full max-w-full"
-                                              />
-                                            ) : (
-                                              <span className="text-[14px] font-normal text-[rgba(34,34,34,1)] font-gilroy">
-                                                No signature uploaded
-                                              </span>
-                                            )}
-                                            {rentalSignaturePreview && (
-                                              <>
-                                                <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
-
-                                                <div
-                                                  className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer hidden"
-                                                  onClick={() => {
-                                                    const isLocal =
-                                                      rentalSignaturePreview?.startsWith(
-                                                        "data:",
-                                                      ) ||
-                                                      rentalSignaturePreview?.startsWith(
-                                                        "blob:",
-                                                      );
-
-                                                    if (isLocal) {
-                                                      handleLocalDeleteRentalSignature();
-                                                    } else {
-                                                      handleDeleteRentalSignature();
-                                                    }
-                                                  }}
-                                                >
-                                                  <div className="bg-black/70 text-white p-2 rounded-full">
-                                                    <Trash size={12} />
-                                                  </div>
-                                                </div>
-                                              </>
-                                            )}
+                                {BillsTemplateList?.isMobileCustomized && (
+                                  <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto mb-0">
+                                    <div className="flex flex-col w-full">
+                                      <div className="col-span-12">
+                                        <div className="w-full font-gilroy text-[14px] font-medium">
+                                          <div className="flex justify-between items-center mb-[6px]">
+                                            <label className="font-semibold">
+                                              Contact Number
+                                            </label>
                                           </div>
-                                          <div className="flex flex-col justify-between items-center mt-2">
-                                            <div className="flex flex-row items-center">
-                                              <label
-                                                className={`font-gilroy text-[12px] font-normal ${
-                                                  allowEditFields.digitalSignature
-                                                    ? "cursor-pointer text-[#1E45E1]"
-                                                    : "cursor-not-allowed text-[#999]"
-                                                }`}
-                                              >
-                                                Choose file
-                                                <input
-                                                  type="file"
-                                                  accept="image/*"
-                                                  className="hidden"
-                                                  ref={fileInputRef}
-                                                  onChange={
-                                                    handleRentalSignatureChange
-                                                  }
-                                                  disabled={
-                                                    !allowEditFields.digitalSignature
-                                                  }
-                                                />
-                                              </label>
-                                              <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
-                                                to Upload Image
-                                              </span>
-                                            </div>
+                                          <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
+                                            <select
+                                              className={`appearance-none bg-transparent border-none pr-4 cursor-pointer outline-none`}
+                                              disabled={!allowEditFields.contact}
+                                              style={{
+                                                fontFamily: "inherit",
+                                                fontSize: "inherit",
+                                                fontWeight: "inherit",
+                                                backgroundImage:
+                                                  "url(\"data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E\")",
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition:
+                                                  "right center",
+                                                backgroundSize: "10px",
+                                              }}
+                                            >
+                                              <option value="+91">+91</option>
+                                              <option value="+1">+1</option>
+                                              <option value="+44">+44</option>
+                                              <option value="+971">+971</option>
+                                            </select>
+
+                                            <input
+                                              type="tel"
+                                              placeholder="9876543210"
+                                              value={paymentmobilenum}
+                                              onChange={
+                                                handlePaymentInvoiceMobile
+                                              }
+                                              maxLength={10}
+                                              disabled={!allowEditFields.contact}
+                                              className="ml-2 bg-transparent border-none outline-none w-full"
+                                              style={{
+                                                fontFamily: "inherit",
+                                                fontSize: "inherit",
+                                                fontWeight: "inherit",
+                                              }}
+                                            />
                                           </div>
-                                          {rentalSignatureError.trim() !==
-                                            "" && (
+
+                                          {paymentMobileError && (
                                             <ErrorMessage
-                                              message={rentalSignatureError}
+                                              message={paymentMobileError}
                                               type="error"
                                             />
                                           )}
@@ -1563,50 +1622,209 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
 
-                              <Modal
-                                show={contactnumberform}
-                                onHide={handleCloseContactNumberForm}
-                                centered
-                                backdrop="static"
-                                className="logout-card flex justify-center items-center"
-                                dialogClassName="!max-w-[400px] w-full"
-                              >
-                                <Modal.Header className="!border-0">
-                                  <Modal.Title className="text-[18px] font-gilroy font-semibold text-center text-[#222222] flex-1 pt-2">
-                                    Override Global Value?
-                                  </Modal.Title>
-                                </Modal.Header>
+                                {BillsTemplateList?.isMailIdCustomized && (
+                                  <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto">
+                                    <div className="flex flex-col w-full">
+                                      <div className="col-span-12">
+                                        <div className="w-full font-gilroy text-[14px] font-medium">
+                                          <div className="flex justify-between items-center mb-[6px]">
+                                            <label className="font-semibold">
+                                              E-Mail Address
+                                            </label>
+                                          </div>
+                                          <div className="flex items-center bg-[#F0F3FF] rounded-[8px] px-3 py-2 border border-[#E0E0E0]">
+                                            <input
+                                              type="email"
+                                              placeholder="abc@gmail.com"
+                                              className="ml-2 bg-transparent border-none outline-none w-full"
+                                              disabled={!allowEditFields.email}
+                                              value={paymentinvoiceemail}
+                                              onChange={handlePaymentinvoiceEmail}
+                                              style={{
+                                                fontFamily: "inherit",
+                                                fontSize: "inherit",
+                                                fontWeight: "inherit",
+                                              }}
+                                            />
+                                          </div>
+                                          {paymentinvoiceemailError !== "" && (
+                                            <ErrorMessage
+                                              message={paymentinvoiceemailError}
+                                              type="error"
+                                            />
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                                {BillsTemplateList?.isSignatureCustomized && (
+                                  <div className="p-3 col-span-12 rounded-[10px] overflow-y-auto">
+                                    <div className="flex flex-col w-full">
+                                      <div className="col-span-12">
+                                        <div className="w-full font-gilroy text-[14px] font-medium">
+                                          <div className="flex justify-between items-center mb-[6px]">
+                                            <label className="font-semibold">
+                                              Digital Signature Upload
+                                            </label>
+                                          </div>
 
-                                <Modal.Body className="-mt-2 text-[14px] font-gilroy font-medium text-[#646464] text-center px-6 py-3">
-                                  <p className="mx-auto">
-                                    You’re changing this field only for this
-                                    bill.
-                                    <br />
-                                    It won’t affect the main settings.
-                                  </p>
-                                </Modal.Body>
+                                          <div className="col-span-12">
+                                            <div
+                                              className="relative mt-2 flex items-center justify-center h-[120px] rounded border-[3px] border-dotted border-[#ced4da] group"
+                                              onMouseEnter={(e) => {
+                                                const trash =
+                                                  e.currentTarget.querySelector(
+                                                    ".qr-trash",
+                                                  );
+                                                const overlay =
+                                                  e.currentTarget.querySelector(
+                                                    ".qr-overlay",
+                                                  );
+                                                if (trash)
+                                                  trash.style.display = "flex";
+                                                if (overlay)
+                                                  overlay.style.display = "block";
+                                              }}
+                                              onMouseLeave={(e) => {
+                                                const trash =
+                                                  e.currentTarget.querySelector(
+                                                    ".qr-trash",
+                                                  );
+                                                const overlay =
+                                                  e.currentTarget.querySelector(
+                                                    ".qr-overlay",
+                                                  );
+                                                if (trash)
+                                                  trash.style.display = "none";
+                                                if (overlay)
+                                                  overlay.style.display = "none";
+                                              }}
+                                            >
+                                              {rentalSignaturePreview ? (
+                                                <img
+                                                  src={rentalSignaturePreview}
+                                                  alt="signature"
+                                                  className="max-h-full max-w-full"
+                                                />
+                                              ) : (
+                                                <span className="text-[14px] font-normal text-[rgba(34,34,34,1)] font-gilroy">
+                                                  No signature uploaded
+                                                </span>
+                                              )}
+                                              {rentalSignaturePreview && (
+                                                <>
+                                                  <div className="qr-overlay absolute inset-0 bg-black/40 hidden rounded" />
 
-                                <Modal.Footer className="!justify-center !border-t-0 !pb-5 -mt-5">
-                                  <Button
-                                    className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[rgba(111,108,143,1)] !font-gilroy !font-semibold !border !border-gray-500 !mr-2.5"
-                                    onClick={handleCloseContactNumberForm}
-                                  >
-                                    Cancel
-                                  </Button>
-                                  <Button
-                                    className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold"
-                                    onClick={handleEditAnyway}
-                                  >
-                                    Edit Anyway
-                                  </Button>
-                                </Modal.Footer>
-                              </Modal>
-                            </div>
-                          </>
-                        )}
+                                                  <div
+                                                    className="qr-trash absolute -top-1 -right-1 hidden flex items-center justify-center rounded-full bg-gray-100 p-1 cursor-pointer hidden"
+                                                    onClick={() => {
+                                                      const isLocal =
+                                                        rentalSignaturePreview?.startsWith(
+                                                          "data:",
+                                                        ) ||
+                                                        rentalSignaturePreview?.startsWith(
+                                                          "blob:",
+                                                        );
+
+                                                      if (isLocal) {
+                                                        handleLocalDeleteRentalSignature();
+                                                      } else {
+                                                        handleDeleteRentalSignature();
+                                                      }
+                                                    }}
+                                                  >
+                                                    <div className="bg-black/70 text-white p-2 rounded-full">
+                                                      <Trash size={12} />
+                                                    </div>
+                                                  </div>
+                                                </>
+                                              )}
+                                            </div>
+                                            <div className="flex flex-col justify-between items-center mt-2">
+                                              <div className="flex flex-row items-center">
+                                                <label
+                                                  className={`font-gilroy text-[12px] font-normal ${allowEditFields.digitalSignature
+                                                    ? "cursor-pointer text-[#1E45E1]"
+                                                    : "cursor-not-allowed text-[#999]"
+                                                    }`}
+                                                >
+                                                  Choose file
+                                                  <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    className="hidden"
+                                                    ref={fileInputRef}
+                                                    onChange={
+                                                      handleRentalSignatureChange
+                                                    }
+                                                    disabled={
+                                                      !allowEditFields.digitalSignature
+                                                    }
+                                                  />
+                                                </label>
+                                                <span className="ml-1 font-gilroy text-[12px] font-normal text-[#16151C]">
+                                                  to Upload Image
+                                                </span>
+                                              </div>
+                                            </div>
+                                            {rentalSignatureError.trim() !==
+                                              "" && (
+                                                <ErrorMessage
+                                                  message={rentalSignatureError}
+                                                  type="error"
+                                                />
+                                              )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
+                                <Modal
+                                  show={contactnumberform}
+                                  onHide={handleCloseContactNumberForm}
+                                  centered
+                                  backdrop="static"
+                                  className="logout-card flex justify-center items-center"
+                                  dialogClassName="!max-w-[400px] w-full"
+                                >
+                                  <Modal.Header className="!border-0">
+                                    <Modal.Title className="text-[18px] font-gilroy font-semibold text-center text-[#222222] flex-1 pt-2">
+                                      Override Global Value?
+                                    </Modal.Title>
+                                  </Modal.Header>
+
+                                  <Modal.Body className="-mt-2 text-[14px] font-gilroy font-medium text-[#646464] text-center px-6 py-3">
+                                    <p className="mx-auto">
+                                      You’re changing this field only for this
+                                      bill.
+                                      <br />
+                                      It won’t affect the main settings.
+                                    </p>
+                                  </Modal.Body>
+
+                                  <Modal.Footer className="!justify-center !border-t-0 !pb-5 -mt-5">
+                                    <Button
+                                      className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-white !text-[rgba(111,108,143,1)] !font-gilroy !font-semibold !border !border-gray-500 !mr-2.5"
+                                      onClick={handleCloseContactNumberForm}
+                                    >
+                                      Cancel
+                                    </Button>
+                                    <Button
+                                      className="!w-[160px] !h-[52px] !rounded-[10px] !px-5 !py-3 !bg-[#1E45E1] !text-white !font-gilroy !font-semibold"
+                                      onClick={handleEditAnyway}
+                                    >
+                                      Edit Anyway
+                                    </Button>
+                                  </Modal.Footer>
+                                </Modal>
+                              </div>
+                            </>
+                          )}
 
                         <div>
                           <p className="font-gilroy text-xl font-semibold text-[#222222]">
@@ -1729,70 +1947,36 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             {banking && banking.length > 0 && (
                               <button
                                 onClick={handleAddBankAccount}
-                                className="text-[14px] font-normal text-white rounded-[12px] w-[106px] h-[35px] border border-[#1E45E1] bg-[#1E45E1]"
+                                className="text-[14px] font-normal text-white rounded-[10px] w-[106px] h-[35px] border border-[#1E45E1] bg-[#1E45E1]"
                               >
                                 Add
                               </button>
                             )}
                           </div>
 
+
+
                           <hr className="border-t border-gray-700" />
 
-                          <div className="max-h-[170px] overflow-y-auto show-scrolls mt-3">
-                            {banking && banking.length > 0 ? (
-                              banking.map((bank) => (
-                                <div
-                                  key={bank.bankingId}
-                                  className="mb-4 cursor-pointer"
-                                >
-                                  <div className="flex items-center">
-                                    <input
-                                      type="radio"
-                                      name="bank"
-                                      checked={
-                                        String(selectedBankId) ===
-                                        String(bank.bankingId)
-                                      }
-                                      onChange={() =>
-                                        handleBankClick(bank.bankingId)
-                                      }
-                                      className="accent-[#1E45E1] mr-2.5 w-4 h-4 cursor-pointer"
-                                    />
-                                    <div className="flex items-center gap-3">
-                                      <div className="flex justify-center items-center w-[30px] h-[30px] rounded-full bg-[#1E45E1] text-white">
-                                        <img
-                                          src={BankICon}
-                                          alt="bankicon"
-                                          className="w-[17px] h-[17px] mb-1"
-                                        />
-                                      </div>
-                                      <div>
-                                        <div className="font-semibold text-[14px]">
-                                          {bank.bankName || "Bank Name"}
-                                        </div>
-                                        <div className="text-[13px] text-gray-500">
-                                          {bank.accountHolderName ||
-                                            "Beneficiary"}{" "}
-                                          / Savings A/C
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="flex flex-col justify-center items-center">
-                                <p className="text-[14px] font-normal text-gray-500 mb-2">
-                                  No Bank accounts are there!
-                                </p>
-                                <button
-                                  onClick={handleAddBankAccount}
-                                  className="text-[14px] font-normal text-white rounded-[12px] w-[106px] h-[35px] border border-[#1E45E1] bg-[#1E45E1]"
-                                >
-                                  Add
-                                </button>
-                              </div>
-                            )}
+
+                          <div className="  flex justify-center pt-2">
+                            <div className="w-[380px]">
+
+                              <Select
+                                options={paymentOptions}
+                                value={selected}
+                                onChange={setSelected}
+                                components={{
+                                  Option: CustomOption,
+                                  GroupHeading: CustomGroupHeading,
+                                  SingleValue: CustomSingleValue,
+                                  IndicatorSeparator: () => null,
+                                }}
+                                styles={CustomStyles}
+                                className="text-sm"
+                                isSearchable={false}
+                              />
+                            </div>
                           </div>
 
                           {!selectedBankId && bankid_Error.trim() !== "" && (
@@ -2045,11 +2229,10 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <button
                             disabled={!canWriteInvoice}
                             onClick={handleSaveRentalTemplate}
-                            className={`w-[160px] h-[42px] rounded-[10px] px-4 py-2 font-gilroy text-[14px] font-semibold text-white ${
-                              !canWriteInvoice
-                                ? "bg-gray-300 cursor-not-allowed"
-                                : "bg-[#1E45E1] hover:bg-blue-700"
-                            }`}
+                            className={`w-[160px] h-[42px] rounded-[10px] px-4 py-2 font-gilroy text-[14px] font-semibold text-white ${!canWriteInvoice
+                              ? "bg-gray-300 cursor-not-allowed"
+                              : "bg-[#1E45E1] hover:bg-blue-700"
+                              }`}
                           >
                             Save Template
                           </button>
@@ -2122,9 +2305,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                 ]
                                   .filter(Boolean)
                                   .join(", ") +
-                                  (state.UsersList.hotelDetailsinPg?.pinCode
-                                    ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
-                                    : ""),
+                                (state.UsersList.hotelDetailsinPg?.pinCode
+                                  ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
+                                  : ""),
                               ]
                                 .filter((line) => line && line.trim() !== "")
                                 .map((line, idx) => (
@@ -2536,138 +2719,345 @@ function SettingInvoice({ hostelid, handleFormPage }) {
             </div>
           </div>
         </>
-      )}
+      )
+      }
 
-      {!canReadInvoice ? (
-        <>
-          <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
-            <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-              <label className="font-gilroy text-[18px] text-[#222] font-semibold">
-                Bill Template Manager
-              </label>
-            </div>
-          </div>
-
-          <PermissionDeniedMessage />
-        </>
-      ) : (
-        cardshow && (
+      {
+        !canReadInvoice ? (
           <>
-            {global ? (
-              <div className="h-[580px] lg:h-[650px] px-2 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
-                <div className="bg-white sticky top-0 z-10 pb-2 h-20">
-                  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
-                    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
-                      Bill Template Manager
-                    </label>
+            <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+              <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+                <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+                  Bill Template Manager
+                </label>
+              </div>
+            </div>
+
+            <PermissionDeniedMessage />
+          </>
+        ) : (
+          cardshow && (
+            <>
+              {global ? (
+                <div className="h-[580px] lg:h-[650px] px-2 2xl:[580px] md:h-[480px] flex flex-col overflow-hidden py-2 w-full">
+                  <div className="bg-white sticky top-0 z-10 pb-2 h-20">
+                    <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+                      <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+                        Bill Template Manager
+                      </label>
+                    </div>
+
+                    <h5 className="flex items-start gap-2 font-gilroy text-[17px] font-semibold text-[rgba(34,34,34,1)]">
+                      <img
+                        src={leftarrow}
+                        alt="leftarrow"
+                        width={20}
+                        height={20}
+                        onClick={handleGlobalCloseForm}
+                        className="cursor-pointer mt-0.5 shrink-0"
+                      />
+                      <span className="leading-[22px]">Global Bill Settings</span>
+                    </h5>
                   </div>
 
-                  <h5 className="flex items-start gap-2 font-gilroy text-[17px] font-semibold text-[rgba(34,34,34,1)]">
-                    <img
-                      src={leftarrow}
-                      alt="leftarrow"
-                      width={20}
-                      height={20}
-                      onClick={handleGlobalCloseForm}
-                      className="cursor-pointer mt-0.5 shrink-0"
-                    />
-                    <span className="leading-[22px]">Global Bill Settings</span>
-                  </h5>
-                </div>
+                  <div className="flex-1 overflow-y-auto pr-2.5 pt-2 show-scroll">
+                    <div className="w-full lg:w-2/3">
+                      <p className="mb-5 -mt-2.5 font-gilroy text-sm text-gray-600 font-normal leading-5">
+                        Add your basic billing details here. These will appear on
+                        all invoices unless you choose to customize them in
+                        individual templates.
+                      </p>
+                    </div>
 
-                <div className="flex-1 overflow-y-auto pr-2.5 pt-2 show-scroll">
-                  <div className="w-full lg:w-2/3">
-                    <p className="mb-5 -mt-2.5 font-gilroy text-sm text-gray-600 font-normal leading-5">
-                      Add your basic billing details here. These will appear on
-                      all invoices unless you choose to customize them in
-                      individual templates.
-                    </p>
-                  </div>
+                    <div className="-mt-7 mb-4 md:mb-3">
+                      <div className="mb-5 flex flex-col md:flex-col lg:flex-row items-start gap-2">
+                        <div className="w-full flex flex-col md:flex-col lg:w-1/3 gap-1">
+                          <label className="block font-gilroy text-lg font-semibold text-gray-900">
+                            Hostel/PG Logo
+                          </label>
 
-                  <div className="-mt-7 mb-4 md:mb-3">
-                    <div className="mb-5 flex flex-col md:flex-col lg:flex-row items-start gap-2">
-                      <div className="w-full flex flex-col md:flex-col lg:w-1/3 gap-1">
-                        <label className="block font-gilroy text-lg font-semibold text-gray-900">
-                          Hostel/PG Logo
-                        </label>
+                          <div className="text-xs font-gilroy text-gray-600 whitespace-nowrap">
+                            This will appear in Bill Template
+                          </div>
 
-                        <div className="text-xs font-gilroy text-gray-600 whitespace-nowrap">
-                          This will appear in Bill Template
+                          <div className="flex items-start gap-2 mt-1">
+                            <input
+                              type="checkbox"
+                              id="customizeLogo"
+                              checked={isCheckedLogo}
+                              onChange={handleLogoCheckboxChange}
+                              className="-mt-1 cursor-pointer accent-[rgba(30,69,225,1)] "
+                            />
+
+                            <label
+                              htmlFor="customizeLogo"
+                              className="text-xs font-gilroy italic font-semibold text-[rgba(30,69,225,1)] -mt-1"
+                            >
+                              Customize in Specific Templates
+                            </label>
+                          </div>
                         </div>
 
-                        <div className="flex items-start gap-2 mt-1">
-                          <input
-                            type="checkbox"
-                            id="customizeLogo"
-                            checked={isCheckedLogo}
-                            onChange={handleLogoCheckboxChange}
-                            className="-mt-1 cursor-pointer accent-[rgba(30,69,225,1)] "
-                          />
+                        <div className="w-full md:w-full lg:w-7/12">
+                          <div className="flex flex-col md:flex-col lg:flex-row items-start lg:items-center justify-center gap-4 p-3 border rounded bg-gray-50">
+                            <div
+                              className="relative inline-block"
+                              onMouseEnter={() => setIsHovering(true)}
+                              onMouseLeave={() => setIsHovering(false)}
+                            >
+                              {previewURL ? (
+                                <img
+                                  src={previewURL}
+                                  alt="logo-preview"
+                                  className="h-16 w-16 rounded"
+                                />
+                              ) : (
+                                <DocumentUpload color="#1E45E1" />
+                              )}
 
-                          <label
-                            htmlFor="customizeLogo"
-                            className="text-xs font-gilroy italic font-semibold text-[rgba(30,69,225,1)] -mt-1"
-                          >
-                            Customize in Specific Templates
-                          </label>
+                              {previewURL && isHovering && (
+                                <div className="absolute inset-0 flex items-center justify-center rounded bg-black/40">
+                                  <div
+                                    onClick={
+                                      canDeleteInvoice
+                                        ? handleDeleteLogoGlobal
+                                        : undefined
+                                    }
+                                    className={`rounded-full p-2 shadow-md transition-transform
+    ${canDeleteInvoice
+                                        ? "bg-white cursor-pointer hover:scale-110"
+                                        : "bg-gray-200 cursor-not-allowed opacity-60"
+                                      }`}
+                                  >
+                                    <Trash
+                                      size={12}
+                                      color={canDeleteInvoice ? "#000" : "#999"}
+                                    />
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            <div
+                              className={`flex flex-col ${!canWriteInvoice
+                                ? "opacity-60 pointer-events-none"
+                                : ""
+                                }`}
+                            >
+                              <div>
+                                <label
+                                  className={`font-gilroy text-sm font-normal ${canWriteInvoice
+                                    ? "text-[rgba(30,69,225,1)] cursor-pointer"
+                                    : "text-gray-400 cursor-not-allowed"
+                                    }`}
+                                  onClick={(e) => {
+                                    if (!canWriteInvoice) e.preventDefault();
+                                  }}
+                                >
+                                  Choose file
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleFileChange}
+                                    disabled={!canWriteInvoice}
+                                  />
+                                </label>
+
+                                <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
+                                  {" "}
+                                  to Upload
+                                </span>
+                              </div>
+
+                              <small className="mt-1 font-gilroy text-xs font-normal text-gray-600 whitespace-nowrap">
+                                Must be in PNG Format (600px × 300px)
+                              </small>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="w-full md:w-full lg:w-7/12">
-                        <div className="flex flex-col md:flex-col lg:flex-row items-start lg:items-center justify-center gap-4 p-3 border rounded bg-gray-50">
-                          <div
-                            className="relative inline-block"
-                            onMouseEnter={() => setIsHovering(true)}
-                            onMouseLeave={() => setIsHovering(false)}
-                          >
-                            {previewURL ? (
-                              <img
-                                src={previewURL}
-                                alt="logo-preview"
-                                className="h-16 w-16 rounded"
-                              />
-                            ) : (
-                              <DocumentUpload color="#1E45E1" />
-                            )}
+                      {fieldError && (
+                        <div className="mt-0 mb-5 flex w-full justify-center">
+                          <ErrorMessage message={fieldError} type="error" />
+                        </div>
+                      )}
 
-                            {previewURL && isHovering && (
-                              <div className="absolute inset-0 flex items-center justify-center rounded bg-black/40">
-                                <div
-                                  onClick={
-                                    canDeleteInvoice
-                                      ? handleDeleteLogoGlobal
-                                      : undefined
-                                  }
-                                  className={`rounded-full p-2 shadow-md transition-transform
-    ${
-      canDeleteInvoice
-        ? "bg-white cursor-pointer hover:scale-110"
-        : "bg-gray-200 cursor-not-allowed opacity-60"
-    }`}
-                                >
-                                  <Trash
-                                    size={12}
-                                    color={canDeleteInvoice ? "#000" : "#999"}
-                                  />
-                                </div>
-                              </div>
+                      <div className="mb-4 -mt-5 flex flex-col md:flex-col lg:flex-row items-start md:items-start gap-2">
+                        <div className="w-full md:w-1/3">
+                          <label className="block font-gilroy text-base font-semibold text-gray-900 mb-1">
+                            Contact Number
+                          </label>
+
+                          <div className="flex items-start gap-2 md:mb-0">
+                            <input
+                              type="checkbox"
+                              id="customizeContact"
+                              checked={isCheckedmobile}
+                              onChange={handleMobileCheckboxChange}
+                              className="cursor-pointer accent-[rgba(30,69,225,1)] "
+                            />
+                            <label
+                              htmlFor="customizeContact"
+                              className=" font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
+                            >
+                              Customize in Specific Templates
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="w-full md:w-full lg:w-7/12">
+                          <div className="flex items-center h-11 overflow-hidden rounded-md border border-gray-200">
+                            <select
+                              defaultValue="+91"
+                              className="bg-transparent font-gilroy text-xs font-normal text-gray-600 appearance-none focus:outline-none px-2"
+                            >
+                              <option value="+91">+91</option>
+                              <option value="+1">+1</option>
+                              <option value="+44">+44</option>
+                            </select>
+
+                            <input
+                              type="text"
+                              value={mobilenum}
+                              onChange={handleMobile}
+                              maxLength={10}
+                              placeholder="9876543210"
+                              className={`flex-1 bg-transparent font-gilroy text-xs focus:outline-none ${mobilenum
+                                ? "text-black font-medium"
+                                : "text-gray-600 font-normal"
+                                }`}
+                            />
+                          </div>
+
+                          {MobileError && (
+                            <ErrorMessage message={MobileError} type="error" />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="mb-4 flex flex-col md:flex-col lg:flex-row items-start gap-2">
+                        <div className="w-full md:w-1/3">
+                          <label className="mb-1 block font-gilroy text-base font-semibold text-gray-900">
+                            E-Mail Address
+                          </label>
+
+                          <div className="flex items-start gap-2">
+                            <input
+                              type="checkbox"
+                              id="customizeEmail"
+                              checked={isCheckedEmail}
+                              onChange={handleEmaiCheckboxChange}
+                              className="cursor-pointer accent-[rgba(30,69,225,1)] "
+                            />
+                            <label
+                              htmlFor="customizeEmail"
+                              className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
+                            >
+                              Customize in Specific Templates
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="w-full md:w-full lg:w-7/12">
+                          <input
+                            type="email"
+                            placeholder="example@email.com"
+                            value={email}
+                            onChange={handleEmail}
+                            className={`w-full h-11 rounded-md border border-gray-200 px-3 font-gilroy text-xs focus:outline-none ${email
+                              ? "text-black font-medium"
+                              : "text-gray-600 font-normal"
+                              }`}
+                          />
+
+                          {emailError && (
+                            <ErrorMessage message={emailError} type="error" />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="mb-2 flex flex-col md:flex-col lg:flex-row items-start gap-2">
+                        <div className="w-full md:w-1/3">
+                          <label className="block font-gilroy text-base font-semibold text-gray-900 whitespace-nowrap">
+                            Digital Signature Upload
+                          </label>
+
+                          <div className="mt-1 font-gilroy text-xs font-normal text-gray-600 whitespace-nowrap">
+                            Add a respected person’s Signature
+                          </div>
+
+                          <div className="mt-2 flex items-start gap-2">
+                            <input
+                              type="checkbox"
+                              id="customizeSignature"
+                              checked={isCheckedSignature}
+                              onChange={handleSignatureCheckboxChange}
+                              className="cursor-pointer accent-[rgba(30,69,225,1)] "
+                            />
+                            <label
+                              htmlFor="customizeSignature"
+                              className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap leading-3.5"
+                            >
+                              Customize in Specific Templates
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="w-full md:w-full lg:w-7/12">
+                          <div
+                            className="relative mt-2 flex items-center justify-center h-28 rounded border-2 border-dotted border-gray-300"
+                            onMouseEnter={() => setIsHoveringSign(true)}
+                            onMouseLeave={() => setIsHoveringSign(false)}
+                          >
+                            {signPreview ? (
+                              <>
+                                <img
+                                  src={signPreview}
+                                  alt="uploaded-signature"
+                                  className="max-h-full max-w-full"
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.style.display = "none";
+                                  }}
+                                />
+
+                                {isHoveringSign && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                    <div
+                                      onClick={() => {
+                                        if (canDeleteInvoice) {
+                                          handleDeleteSignatureGlobal();
+                                        }
+                                      }}
+                                      className={`flex items-center justify-center rounded-full p-2 shadow-md
+    ${canDeleteInvoice ? "bg-white cursor-pointer" : "bg-gray-200 cursor-not-allowed opacity-60"}
+  `}
+                                    >
+                                      <Trash
+                                        size={16}
+                                        color={canDeleteInvoice ? "#000" : "#999"}
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <span className="font-gilroy text-sm font-normal text-gray-900">
+                                No signature uploaded
+                              </span>
                             )}
                           </div>
 
-                          <div
-                            className={`flex flex-col ${
-                              !canWriteInvoice
-                                ? "opacity-60 pointer-events-none"
-                                : ""
-                            }`}
-                          >
+                          <div className="mt-2 flex items-center justify-between">
                             <div>
                               <label
-                                className={`font-gilroy text-sm font-normal ${
-                                  canWriteInvoice
+                                className={`font-gilroy text-sm font-normal
+      ${canWriteInvoice
                                     ? "text-[rgba(30,69,225,1)] cursor-pointer"
                                     : "text-gray-400 cursor-not-allowed"
-                                }`}
+                                  }`}
                                 onClick={(e) => {
                                   if (!canWriteInvoice) e.preventDefault();
                                 }}
@@ -2677,389 +3067,184 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   type="file"
                                   accept="image/*"
                                   className="hidden"
-                                  onChange={handleFileChange}
+                                  ref={fileInputRef}
+                                  onChange={handleFileSignatureChange}
                                   disabled={!canWriteInvoice}
                                 />
                               </label>
 
                               <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
-                                {" "}
-                                to Upload
+                                to Upload Image
                               </span>
                             </div>
 
-                            <small className="mt-1 font-gilroy text-xs font-normal text-gray-600 whitespace-nowrap">
-                              Must be in PNG Format (600px × 300px)
-                            </small>
+                            <div className="flex gap-4">
+                              <button
+                                onClick={handleClear}
+                                className="font-gilroy text-base font-normal text-gray-600"
+                              >
+                                Clear
+                              </button>
+                              <button
+                                onClick={handleSignatureDone}
+                                className="font-gilroy text-base font-semibold text-[rgba(30,69,225,1)]"
+                              >
+                                Done
+                              </button>
+                            </div>
                           </div>
+
+                          {noChangesDetectedMsg && (
+                            <ErrorMessage
+                              message={noChangesDetectedMsg}
+                              type="error"
+                            />
+                          )}
+
+                          {signature_errmsg.trim() !== "" && (
+                            <ErrorMessage
+                              message={signature_errmsg}
+                              type="error"
+                            />
+                          )}
                         </div>
                       </div>
                     </div>
 
-                    {fieldError && (
-                      <div className="mt-0 mb-5 flex w-full justify-center">
-                        <ErrorMessage message={fieldError} type="error" />
+                    {savebuttonshow && (
+                      <div className="flex justify-end mb-4">
+                        <button
+                          disabled={!canWriteInvoice}
+                          type="button"
+                          onClick={handleReset}
+                          className="!border !border-black text-black !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50 mr-8"
+                        >
+                          Reset
+                        </button>
+
+                        <button
+                          disabled={!canWriteInvoice}
+                          type="button"
+                          onClick={handleSaveTemplate}
+                          className="bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50"
+                        >
+                          {BillsTemplateList.mobile ? "Update" : "Save"}
+                        </button>
                       </div>
                     )}
 
-                    <div className="mb-4 -mt-5 flex flex-col md:flex-col lg:flex-row items-start md:items-start gap-2">
-                      <div className="w-full md:w-1/3">
-                        <label className="block font-gilroy text-base font-semibold text-gray-900 mb-1">
-                          Contact Number
-                        </label>
-
-                        <div className="flex items-start gap-2 md:mb-0">
-                          <input
-                            type="checkbox"
-                            id="customizeContact"
-                            checked={isCheckedmobile}
-                            onChange={handleMobileCheckboxChange}
-                            className="cursor-pointer accent-[rgba(30,69,225,1)] "
-                          />
-                          <label
-                            htmlFor="customizeContact"
-                            className=" font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
-                          >
-                            Customize in Specific Templates
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="w-full md:w-full lg:w-7/12">
-                        <div className="flex items-center h-11 overflow-hidden rounded-md border border-gray-200">
-                          <select
-                            defaultValue="+91"
-                            className="bg-transparent font-gilroy text-xs font-normal text-gray-600 appearance-none focus:outline-none px-2"
-                          >
-                            <option value="+91">+91</option>
-                            <option value="+1">+1</option>
-                            <option value="+44">+44</option>
-                          </select>
-
-                          <input
-                            type="text"
-                            value={mobilenum}
-                            onChange={handleMobile}
-                            maxLength={10}
-                            placeholder="9876543210"
-                            className={`flex-1 bg-transparent font-gilroy text-xs focus:outline-none ${
-                              mobilenum
-                                ? "text-black font-medium"
-                                : "text-gray-600 font-normal"
-                            }`}
-                          />
-                        </div>
-
-                        {MobileError && (
-                          <ErrorMessage message={MobileError} type="error" />
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="mb-4 flex flex-col md:flex-col lg:flex-row items-start gap-2">
-                      <div className="w-full md:w-1/3">
-                        <label className="mb-1 block font-gilroy text-base font-semibold text-gray-900">
-                          E-Mail Address
-                        </label>
-
-                        <div className="flex items-start gap-2">
-                          <input
-                            type="checkbox"
-                            id="customizeEmail"
-                            checked={isCheckedEmail}
-                            onChange={handleEmaiCheckboxChange}
-                            className="cursor-pointer accent-[rgba(30,69,225,1)] "
-                          />
-                          <label
-                            htmlFor="customizeEmail"
-                            className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap"
-                          >
-                            Customize in Specific Templates
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="w-full md:w-full lg:w-7/12">
-                        <input
-                          type="email"
-                          placeholder="example@email.com"
-                          value={email}
-                          onChange={handleEmail}
-                          className={`w-full h-11 rounded-md border border-gray-200 px-3 font-gilroy text-xs focus:outline-none ${
-                            email
-                              ? "text-black font-medium"
-                              : "text-gray-600 font-normal"
-                          }`}
-                        />
-
-                        {emailError && (
-                          <ErrorMessage message={emailError} type="error" />
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="mb-2 flex flex-col md:flex-col lg:flex-row items-start gap-2">
-                      <div className="w-full md:w-1/3">
-                        <label className="block font-gilroy text-base font-semibold text-gray-900 whitespace-nowrap">
-                          Digital Signature Upload
-                        </label>
-
-                        <div className="mt-1 font-gilroy text-xs font-normal text-gray-600 whitespace-nowrap">
-                          Add a respected person’s Signature
-                        </div>
-
-                        <div className="mt-2 flex items-start gap-2">
-                          <input
-                            type="checkbox"
-                            id="customizeSignature"
-                            checked={isCheckedSignature}
-                            onChange={handleSignatureCheckboxChange}
-                            className="cursor-pointer accent-[rgba(30,69,225,1)] "
-                          />
-                          <label
-                            htmlFor="customizeSignature"
-                            className="font-gilroy text-xs italic font-semibold text-[rgba(30,69,225,1)] whitespace-nowrap leading-3.5"
-                          >
-                            Customize in Specific Templates
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="w-full md:w-full lg:w-7/12">
-                        <div
-                          className="relative mt-2 flex items-center justify-center h-28 rounded border-2 border-dotted border-gray-300"
-                          onMouseEnter={() => setIsHoveringSign(true)}
-                          onMouseLeave={() => setIsHoveringSign(false)}
-                        >
-                          {signPreview ? (
-                            <>
-                              <img
-                                src={signPreview}
-                                alt="uploaded-signature"
-                                className="max-h-full max-w-full"
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.style.display = "none";
-                                }}
-                              />
-
-                              {isHoveringSign && (
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                  <div
-                                    onClick={() => {
-                                      if (canDeleteInvoice) {
-                                        handleDeleteSignatureGlobal();
-                                      }
-                                    }}
-                                    className={`flex items-center justify-center rounded-full p-2 shadow-md
-    ${canDeleteInvoice ? "bg-white cursor-pointer" : "bg-gray-200 cursor-not-allowed opacity-60"}
-  `}
-                                  >
-                                    <Trash
-                                      size={16}
-                                      color={canDeleteInvoice ? "#000" : "#999"}
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                            <span className="font-gilroy text-sm font-normal text-gray-900">
-                              No signature uploaded
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="mt-2 flex items-center justify-between">
-                          <div>
-                            <label
-                              className={`font-gilroy text-sm font-normal
-      ${
-        canWriteInvoice
-          ? "text-[rgba(30,69,225,1)] cursor-pointer"
-          : "text-gray-400 cursor-not-allowed"
-      }`}
-                              onClick={(e) => {
-                                if (!canWriteInvoice) e.preventDefault();
-                              }}
-                            >
-                              Choose file
-                              <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                ref={fileInputRef}
-                                onChange={handleFileSignatureChange}
-                                disabled={!canWriteInvoice}
-                              />
-                            </label>
-
-                            <span className="ml-1 font-gilroy text-sm font-normal text-gray-900">
-                              to Upload Image
-                            </span>
-                          </div>
-
-                          <div className="flex gap-4">
-                            <button
-                              onClick={handleClear}
-                              className="font-gilroy text-base font-normal text-gray-600"
-                            >
-                              Clear
-                            </button>
-                            <button
-                              onClick={handleSignatureDone}
-                              className="font-gilroy text-base font-semibold text-[rgba(30,69,225,1)]"
-                            >
-                              Done
-                            </button>
-                          </div>
-                        </div>
-
-                        {noChangesDetectedMsg && (
-                          <ErrorMessage
-                            message={noChangesDetectedMsg}
-                            type="error"
-                          />
-                        )}
-
-                        {signature_errmsg.trim() !== "" && (
-                          <ErrorMessage
-                            message={signature_errmsg}
-                            type="error"
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {savebuttonshow && (
-                    <div className="flex justify-end mb-4">
-                      <button
-                        disabled={!canWriteInvoice}
-                        type="button"
-                        onClick={handleReset}
-                        className="!border !border-black text-black !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50 mr-8"
-                      >
-                        Reset
-                      </button>
-
-                      <button
-                        disabled={!canWriteInvoice}
-                        type="button"
-                        onClick={handleSaveTemplate}
-                        className="bg-[#1E45E1] text-white !font-gilroy !font-semibold !text-[16px] rounded-[12px] !px-4 !py-2 disabled:opacity-50"
-                      >
-                        {BillsTemplateList.mobile ? "Update" : "Save"}
-                      </button>
-                    </div>
-                  )}
-
-                  {/* {emailError && (
+                    {/* {emailError && (
              <ErrorMessage message={emailError} type="error"/>
             )} */}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="px-2">
-                <div className="bg-white sticky top-0 z-10 pb-2 h-auto shrink-0 mt-2">
-                  <label className="text-[18px] font-semibold text-[#222] font-gilroy">
-                    Bill Templates
-                  </label>
-                </div>
-
-                <div className="rounded-lg p-3 bg-blue-50">
-                  <div className="mb-3 bg-white rounded-lg shadow-sm border border-transparent">
-                    <div className="flex items-center justify-between p-4">
-                      <div className="d-flex justify-content-between align-items-center gap-2">
-                        <div className="flex items-center justify-center w-10 h-10 p-2.5 rounded-full bg-emerald-50">
-                          <RiPercentLine className="text-[#00A63E] text-xl" />
-                        </div>
-
-                        <div>
-                          <h6 className="mb-1 font-gilroy text-[17px] font-semibold text-[#222222] whitespace-nowrap">
-                            Global Bill Setting
-                          </h6>
-
-                          <p className="mb-0 font-gilroy text-xs font-semibold text-gray-500 whitespace-nowrap">
-                            Add your basic billing details here
-                          </p>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={handleEditChange}
-                        className="flex items-center px-3 p-2 font-gilroy text-base font-semibold text-white bg-[#1E45E1] border border-[#1E45E1] rounded-xl font-gilroy"
-                      >
-                        Edit <Edit size={16} className="ml-1" />
-                      </button>
-                    </div>
+              ) : (
+                <div className="px-2">
+                  <div className="bg-white sticky top-0 z-10 pb-2 h-auto shrink-0 mt-2">
+                    <label className="text-[18px] font-semibold text-[#222] font-gilroy">
+                      Bill Templates
+                    </label>
                   </div>
 
-                  <div className="bg-white rounded-lg shadow-sm border border-transparent">
-                    <div className="flex items-center justify-between p-2.5">
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FAF5FF] -mt-3">
-                          <FiCode className="text-[#9810FA] text-lg" />
+                  <div className="rounded-lg p-3 bg-blue-50">
+                    <div className="mb-3 bg-white rounded-lg shadow-sm border border-transparent">
+                      <div className="flex items-center justify-between p-4">
+                        <div className="d-flex justify-content-between align-items-center gap-2">
+                          <div className="flex items-center justify-center w-10 h-10 p-2.5 rounded-full bg-emerald-50">
+                            <RiPercentLine className="text-[#00A63E] text-xl" />
+                          </div>
+
+                          <div>
+                            <h6 className="mb-1 font-gilroy text-[17px] font-semibold text-[#222222] whitespace-nowrap">
+                              Global Bill Setting
+                            </h6>
+
+                            <p className="mb-0 font-gilroy text-xs font-semibold text-gray-500 whitespace-nowrap">
+                              Add your basic billing details here
+                            </p>
+                          </div>
                         </div>
 
-                        <div className="ml-1 pt-1">
-                          <h6 className="mb-1 text-[17px] font-semibold text-[#222] whitespace-nowrap font-gilroy">
-                            Templates
-                          </h6>
-                          <p className="text-xs font-semibold text-gray-500 lg:whitespace-nowrap font-gilroy">
-                            Fill the template form with details you like to
-                            customize.
-                          </p>
-                        </div>
-                      </div>
-
-                      {!BillsTemplateList?.mobile ? (
-                        <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip className="bg-white text-[#222] font-medium border border-gray-200 shadow-md">
-                              Set the Global bill settings before entering the
-                              Templates.
-                            </Tooltip>
-                          }
-                        >
-                          <span className="inline-block">
-                            <button
-                              onClick={handleShow}
-                              disabled
-                              className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] pointer-events-none font-gilroy"
-                            >
-                              Go to Templates
-                              <FiArrowRight className="ml-2" />
-                            </button>
-                          </span>
-                        </OverlayTrigger>
-                      ) : (
                         <button
-                          onClick={handleShow}
-                          className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] font-gilroy"
+                          onClick={handleEditChange}
+                          className="flex items-center px-3 p-2 font-gilroy text-base font-semibold text-white bg-[#1E45E1] border border-[#1E45E1] rounded-xl font-gilroy"
                         >
-                          Go to Templates
-                          <FiArrowRight className="ml-2" />
+                          Edit <Edit size={16} className="ml-1" />
                         </button>
-                      )}
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm border border-transparent">
+                      <div className="flex items-center justify-between p-2.5">
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FAF5FF] -mt-3">
+                            <FiCode className="text-[#9810FA] text-lg" />
+                          </div>
+
+                          <div className="ml-1 pt-1">
+                            <h6 className="mb-1 text-[17px] font-semibold text-[#222] whitespace-nowrap font-gilroy">
+                              Templates
+                            </h6>
+                            <p className="text-xs font-semibold text-gray-500 lg:whitespace-nowrap font-gilroy">
+                              Fill the template form with details you like to
+                              customize.
+                            </p>
+                          </div>
+                        </div>
+
+                        {!BillsTemplateList?.mobile ? (
+                          <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                              <Tooltip className="bg-white text-[#222] font-medium border border-gray-200 shadow-md">
+                                Set the Global bill settings before entering the
+                                Templates.
+                              </Tooltip>
+                            }
+                          >
+                            <span className="inline-block">
+                              <button
+                                onClick={handleShow}
+                                disabled
+                                className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] pointer-events-none font-gilroy"
+                              >
+                                Go to Templates
+                                <FiArrowRight className="ml-2" />
+                              </button>
+                            </span>
+                          </OverlayTrigger>
+                        ) : (
+                          <button
+                            onClick={handleShow}
+                            className="flex items-center px-3 py-2 text-white text-base font-semibold rounded-xl bg-[#1E45E1] border border-[#1E45E1] font-gilroy"
+                          >
+                            Go to Templates
+                            <FiArrowRight className="ml-2" />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </>
+              )}
+            </>
+          )
         )
-      )}
+      }
 
-      {bankaccountform && (
+      {/* {bankaccountform && (
         <BankingAddForm
           showForm={bankaccountform}
           setShowForm={handleCloseFormBank}
-          setEdit={() => {}}
+          setEdit={() => { }}
         />
-      )}
-    </div>
+      )} */}
+
+
+      {
+        bankaccountform && (<AddNewAccount show={bankaccountform} handleClose={handleCloseFormBank} />)
+      }
+    </div >
   );
 }
 SettingInvoice.propTypes = {

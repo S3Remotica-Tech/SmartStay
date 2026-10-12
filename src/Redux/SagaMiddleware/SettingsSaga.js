@@ -583,7 +583,7 @@ function* handleDeleteExpencescategory(action) {
 function* handleDeleteVendorCategory(action) {
   try {
     const response = yield call(DeleteVendorCategoryList, action.payload);
-   
+
     if (response?.status === 200 || response?.statusCode === 200) {
       yield put({
         type: "DELETE_VENDOR_CATEGORY_REDUCER",
@@ -1750,7 +1750,7 @@ function* handleDeleteGenerlPage(action) {
 function* handleUpgradePlan(action) {
   try {
     const response = yield call(upgradePlan, action.payload);
-    
+
     if (response?.status === 200) {
       yield put({
         type: "UPGRADE_PLAN_REDUCER",
@@ -2202,6 +2202,26 @@ function* handleAddIGlobalSettings(params) {
     }
   } catch (error) {
     yield* handleApiError(error);
+    yield put({
+      type: "ERROR_GLOBAL_SETTINGS",
+      payload: error.response.data,
+    });
+    toast.error(`${error.response.data}`, {
+      style: {
+        fontFamily: "Gilroy",
+        font: "#000",
+        borderBottom: "5px solid red",
+      },
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
   }
 }
 

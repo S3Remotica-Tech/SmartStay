@@ -415,9 +415,9 @@ const RentalReceiptPdfTemplate = ({
                         ]
                           .filter(Boolean)
                           .join(", ") +
-                          (state.UsersList.hotelDetailsinPg?.pinCode
-                            ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
-                            : ""),
+                        (state.UsersList.hotelDetailsinPg?.pinCode
+                          ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
+                          : ""),
                       ]
                         .filter((line) => line && line.trim() !== "")
                         .map((line, idx) => (
@@ -1251,9 +1251,9 @@ const RentalReceiptPdfTemplate = ({
                               ]
                                 .filter(Boolean)
                                 .join(", ") +
-                                (state.UsersList.hotelDetailsinPg?.pinCode
-                                  ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
-                                  : ""),
+                              (state.UsersList.hotelDetailsinPg?.pinCode
+                                ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
+                                : ""),
                             ]
                               .filter((line) => line && line.trim() !== "")
                               .map((line, idx) => (
