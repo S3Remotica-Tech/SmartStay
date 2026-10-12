@@ -1376,9 +1376,9 @@ function BankingNew() {
                         </div>
 
                         <div
-                          className={`text-sm sm:text-base font-medium leading-6 break-words whitespace-normal w-full ${canWriteBanking
+                          className={`text-xs sm:text-xs font-medium leading-6 ${canWriteBanking
                             ? "text-[#1E45E1]"
-                            : "text-[#9CA3AF]"
+                            : "text-[#9CA3AF] cursor-not-allowed"
                             }`}
                         >
                           Add New Bank / Cash /Credit Card
@@ -1406,13 +1406,14 @@ function BankingNew() {
                       </div>
 
                       <div
-                        className={`text-sm sm:text-base font-medium leading-6 ${canWriteBanking
+                        className={`text-xs sm:text-sm font-medium  ${canWriteBanking
                           ? "text-[#1E45E1]"
                           : "text-[#9CA3AF] cursor-not-allowed"
                           }`}
                       >
-                        Add New Bank / Cash / Credit Card
-                        <br />
+                        Add New Bank /<br /> Cash /<br />
+                        Credit Card
+
                         Account
                       </div>
                     </div>

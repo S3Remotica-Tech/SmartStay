@@ -150,9 +150,9 @@ function Credit({ handleClose }) {
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
 
-    if (!/^[A-Za-z\s]*$/.test(value)) {
-      return;
-    }
+    // if (!/^[A-Za-z\s]*$/.test(value)) {
+    //   return;
+    // }
     setDisplayName(value);
 
     if (!value.trim()) {
@@ -272,10 +272,6 @@ function Credit({ handleClose }) {
 
     if (!displayName.trim()) {
       setDisplayNameError("Please enter display name");
-      focusField(displayNameRef);
-      isValid = false;
-    } else if (!nameRegex.test(displayName.trim())) {
-      setDisplayNameError("Display name should contain only letters");
       focusField(displayNameRef);
       isValid = false;
     } else {

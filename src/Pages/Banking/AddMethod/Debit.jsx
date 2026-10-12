@@ -120,7 +120,7 @@ function Debit({ handleClose }) {
       value: view.id,
       label: view.name,
     })) || [];
- 
+
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -139,13 +139,13 @@ function Debit({ handleClose }) {
   const cardNumberRef = useRef(null);
   const displayNameRef = useRef(null);
 
- 
+
 
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
-    if (!/^[A-Za-z\s]*$/.test(value)) {
-      return;
-    }
+    // if (!/^[A-Za-z\s]*$/.test(value)) {
+    //   return;
+    // }
 
     setDisplayName(value);
 
@@ -259,10 +259,6 @@ function Debit({ handleClose }) {
       setDisplayNameError("Please Enter Display Name");
       focusField(displayNameRef);
       isValid = false;
-    } else if (!nameRegex.test(displayName.trim())) {
-      setDisplayNameError("Display name should contain only letters");
-      focusField(displayNameRef);
-      isValid = false;
     } else {
       setDisplayNameError("");
     }
@@ -316,7 +312,7 @@ function Debit({ handleClose }) {
             <input
               value={OverviewDetails?.bankName}
               disabled
-                           placeholder=""
+              placeholder=""
               className="w-full mt-2 h-11 px-4 border border-[#E5E7EB] rounded-lg text-sm outline-none focus:border-[#2952CC]"
             />
           </div>

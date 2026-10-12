@@ -166,9 +166,9 @@ function UPI({ handleClose }) {
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
 
-    if (!/^[A-Za-z\s]*$/.test(value)) {
-      return;
-    }
+    // if (!/^[A-Za-z\s]*$/.test(value)) {
+    //   return;
+    // }
 
     setDisplayName(value);
 
@@ -236,14 +236,10 @@ function UPI({ handleClose }) {
       setUpiIdError("");
     }
 
-    const displayNameRegex = /^[A-Za-z\s]+$/;
+    // const displayNameRegex = /^[A-Za-z\s]+$/;
 
     if (!displayName.trim()) {
       setDisplayNameError("Please Enter Display Name");
-      focusField(displayNameRef);
-      isValid = false;
-    } else if (!displayNameRegex.test(displayName.trim())) {
-      setDisplayNameError("Display Name should contain only letters");
       focusField(displayNameRef);
       isValid = false;
     } else {
@@ -443,9 +439,8 @@ function UPI({ handleClose }) {
 
                   <div
                     className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md bg-gray-100
-                    transition-all duration-300 ${
-                      hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
-                    }`}
+                    transition-all duration-300 ${hoveredImage === qrImagePreview ? "h-[50px]" : "h-0"
+                      }`}
                   >
                     <div className="h-[50px] bg-white/40 flex items-center justify-between px-3 py-1">
                       <p className=" text-sm truncate max-w-[170px] mb-0 text-[#222222]">
