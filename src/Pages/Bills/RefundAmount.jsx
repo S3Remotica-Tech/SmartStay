@@ -135,17 +135,16 @@ const Option = (props) => {
             )}
           </div>
         </div>
-{data.type && 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type &&
+          <span
+            className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : "bg-green-100 text-green-700"
-          }`}
-        >
-          {data.type}
-        </span>
-}
+              }`}
+          >
+            {data.type}
+          </span>
+        }
       </div>
     </components.Option>
   );
@@ -259,19 +258,21 @@ function RefundAmount({ show, handleClose, refundDetails }) {
   //   })) || [];
 
 
-     const paymentOptionsV1 =
-        state.InvoiceList?.refundDetails?.listBanks?.map((bank) => ({
-          value: bank.bankId,
-          label: bank.accountHolderName,
-               type: bank.type,
-          icon:
-            bank.type === "BANK" ? (
-              <Bank color="#1E45E1" size="16" />
-            ) : (
-              <Wallet2 color="#038C3D" size="16" />
-            ),
-          data: bank,
-        })) || [];
+  const paymentOptionsV1 =
+    state.InvoiceList?.refundDetails?.listBanks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.accountHolderName,
+      type: bank.type || bank.bankName,
+      icon:
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
+
+
 
 
   const handleRefundAmount = (e) => {
@@ -390,16 +391,16 @@ function RefundAmount({ show, handleClose, refundDetails }) {
             {(refundDetails?.fullName ||
               refundDetails?.customerInfo?.fullName ||
               state?.UsersList?.customerdetails?.fullName) && (
-              <span>
-                -
-                <span style={{ color: "#1E45E1" }}>
-                  {" "}
-                  {refundDetails?.fullName ||
-                    refundDetails?.customerInfo?.fullName ||
-                    state?.UsersList?.customerdetails?.fullName}
+                <span>
+                  -
+                  <span style={{ color: "#1E45E1" }}>
+                    {" "}
+                    {refundDetails?.fullName ||
+                      refundDetails?.customerInfo?.fullName ||
+                      state?.UsersList?.customerdetails?.fullName}
+                  </span>
                 </span>
-              </span>
-            )}
+              )}
             {refundDetails?.invoiceNumber && (
               <span>
                 -
@@ -506,7 +507,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 value={
                   Math.abs(
                     Number(state.InvoiceList?.refundDetails?.pendingRefund) ||
-                      0,
+                    0,
                   ) - (Number(refundAmount) || 0)
                 }
                 className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] bg-gray-100 px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0 disabled:cursor-not-allowed disabled:bg-gray-100"

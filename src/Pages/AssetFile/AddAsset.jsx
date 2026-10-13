@@ -139,17 +139,16 @@ const Option = (props) => {
             )}
           </div>
         </div>
-{data.type && 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type &&
+          <span
+            className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : "bg-green-100 text-green-700"
-          }`}
-        >
-          {data.type}
-        </span>
-}
+              }`}
+          >
+            {data.type}
+          </span>
+        }
       </div>
     </components.Option>
   );
@@ -389,20 +388,20 @@ function StaticExample({ show, setShow, currentItem }) {
   //   })) || [];
 
 
-     const paymentOptionsV1 =
-                state.AssetList?.allVendorList?.banks?.map((bank) => ({
-                  value: bank.bankId,
-                  label: bank.holderName,
-                       type: bank.type,
-                  icon:
-                    bank.type === "BANK" ? (
-                      <Bank color="#1E45E1" size="16" />
-                    ) : (
-                      <Wallet2 color="#038C3D" size="16" />
-                    ),
-                  data: bank,
-                })) || [];
-        
+  const paymentOptionsV1 =
+    state.AssetList?.allVendorList?.banks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.holderName,
+      type: bank.type || bank.bankName,
+      icon:
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
+
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
@@ -767,9 +766,9 @@ function StaticExample({ show, setShow, currentItem }) {
                       options={
                         state.AssetList?.allVendorList?.vendors?.length > 0
                           ? state.AssetList?.allVendorList?.vendors?.map((view) => ({
-                              value: view.vendorId,
-                              label: view.vendorName,
-                            }))
+                            value: view.vendorId,
+                            label: view.vendorName,
+                          }))
                           : []
                       }
                       onChange={handleVendorNameChange}
@@ -778,11 +777,11 @@ function StaticExample({ show, setShow, currentItem }) {
                           (vendor) => vendor.vendorId === vendorName,
                         )
                           ? {
-                              value: vendorName,
-                              label: state.AssetList?.allVendorList?.vendors?.find(
-                                (vendor) => vendor.vendorId === vendorName,
-                              )?.vendorName,
-                            }
+                            value: vendorName,
+                            label: state.AssetList?.allVendorList?.vendors?.find(
+                              (vendor) => vendor.vendorId === vendorName,
+                            )?.vendorName,
+                          }
                           : null
                       }
                       placeholder="Select a Vendor"
@@ -971,9 +970,8 @@ function StaticExample({ show, setShow, currentItem }) {
                       <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
                         Mode Of Payment{" "}
                         <span
-                          className={`text-red-500 text-xl ${
-                            modeOfPayment ? "hidden" : "inline-block"
-                          }`}
+                          className={`text-red-500 text-xl ${modeOfPayment ? "hidden" : "inline-block"
+                            }`}
                         >
                           *
                         </span>

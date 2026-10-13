@@ -132,18 +132,17 @@ const Option = (props) => {
             )}
           </div>
         </div>
-{data.type && 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type &&
+          <span
+            className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : "bg-green-100 text-green-700"
-          }`}
-        >
-          {data.type}
-        </span>
-}
-      </div>  
+              }`}
+          >
+            {data.type}
+          </span>
+        }
+      </div>
     </components.Option>
   );
 };
@@ -316,19 +315,19 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   //     data: bank,
   //   })) || [];
 
-     const paymentOptionsV1 =
-        TenantDetails?.accountInfo?.map((bank) => ({
-          value: bank.bankId,
-          label: bank.accountHolderName,
-               type: bank.type,
-          icon:
-            bank.type === "BANK" ? (
-              <Bank color="#1E45E1" size="16" />
-            ) : (
-              <Wallet2 color="#038C3D" size="16" />
-            ),
-          data: bank,
-        })) || [];
+  const paymentOptionsV1 =
+    TenantDetails?.accountInfo?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.accountHolderName,
+      type: bank.type || bank.bankName,
+      icon:
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -535,11 +534,11 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 className="no-spinner h-[50px] w-full rounded-lg border border-[#D9D9D9] px-3 font-gilroy text-[16px] font-medium text-[#4B4B4B] outline-none focus:border-[#D9D9D9] focus:ring-0"
                 value={payableAmount}
                 onChange={handleAmount}
-                // onKeyDown={(e) => {
-                //   if (e.key === "-" || e.key === "e") {
-                //     e.preventDefault();
-                //   }
-                // }}
+              // onKeyDown={(e) => {
+              //   if (e.key === "-" || e.key === "e") {
+              //     e.preventDefault();
+              //   }
+              // }}
               />
 
               {amounterrormsg && (
@@ -585,8 +584,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                     disabledDate={(current) => {
                       const invoiceDate = invoiceList?.invoiceDate
                         ? dayjs(invoiceList.invoiceDate, "DD/MM/YYYY").startOf(
-                            "day",
-                          )
+                          "day",
+                        )
                         : null;
 
                       return (
@@ -620,8 +619,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                 value={
                   modeOfPayment
                     ? paymentOptionsV1.find(
-                        (option) => option.value === modeOfPayment,
-                      )
+                      (option) => option.value === modeOfPayment,
+                    )
                     : null
                 }
                 placeholder="Please Select"
