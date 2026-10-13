@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   // ArrowLeft2,
@@ -146,8 +146,8 @@ const Option = (props) => {
 
         <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-green-100 text-green-700"
             }`}
         >
           {data.type}
@@ -260,33 +260,41 @@ function Invesment({ show, handleClose, bankDetails }) {
     setDescription(e.target.value);
   };
 
-  const paymentOptions =
-    state?.bankingDetails?.newBankingList?.map((bank) => ({
-      value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} `
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
-      icon:
-        bank.accountType === "BANK" ? (
-          <Bank color="#1E45E1" size="16" />
-        ) : (
-          <Wallet2 color="#038C3D" size="16" />
-        ),
-      data: bank,
-    })) || [];
+  const paymentOptions = useMemo(
+    () =>
+      state?.bankingDetails?.newBankingList?.map((bank) => ({
+        value: bank.bankId,
+        label: bank.displayName,
+        subLabel:
+          bank.accountType === "BANK"
+            ? bank.bankName
+            : bank.cashAccountType,
+        type: bank.accountType,
+        icon:
+          bank.accountType === "BANK" ? (
+            <Bank color="#1E45E1" size="16" />
+          ) : (
+            <Wallet2 color="#038C3D" size="16" />
+          ),
+        data: bank,
+      })) || [],
+    [state?.bankingDetails?.newBankingList],
+  );
 
   useEffect(() => {
-    if (bankDetails && paymentOptions.length) {
+    if (bankDetails && paymentOptions.length > 0) {
       const selected = paymentOptions.find(
-        (option) => option.value === String(bankDetails),
+        (option) => option.value === String(bankDetails).trim(),
       );
 
       setPaymentMethod(selected || null);
+    } else {
+      setPaymentMethod(null);
     }
-  }, [bankDetails]);
+  }, [bankDetails, paymentOptions]);
+
+  console.log("bankDetails", bankDetails)
+  console.log("paymentOptions", paymentOptions)
 
   const validateForm = () => {
     let isValid = true;
@@ -537,8 +545,8 @@ function Invesment({ show, handleClose, bankDetails }) {
             type="button"
             disabled={loading}
             className={`px-6 py-2 rounded-[8px] text-sm font-medium flex items-center gap-2 transition-colors ${loading
-                ? "bg-[#1E45E1]/80 cursor-not-allowed"
-                : "bg-[#1E45E1] hover:bg-[#1738BB]"
+              ? "bg-[#1E45E1]/80 cursor-not-allowed"
+              : "bg-[#1E45E1] hover:bg-[#1738BB]"
               } text-white`}
           >
             {loading ? (

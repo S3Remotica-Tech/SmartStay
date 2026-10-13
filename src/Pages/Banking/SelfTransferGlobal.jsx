@@ -18,7 +18,7 @@ function SelfTransferGlobal({ show, handleClose }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [selectedFromBank, setSelectedFromBank] = useState(null);
-
+  // const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState(null);
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
@@ -117,9 +117,16 @@ function SelfTransferGlobal({ show, handleClose }) {
   const isTransferDisabled =
     !selectedBankId || Number(amount) > availableBalance;
 
-  const handleSelect = (bankId, index) => {
+  const handleSelect = (bank, index) => {
     setSelectedBank(index);
-    setSelectedBankId(bankId);
+    setSelectedBankId(bank.bankId);
+    // if (bank.paymentMethod) {
+    //   setSelectedPaymentMethodId(bank.paymentMethodId);
+    //   setSelectedBankId(null);
+    // } else {
+    //   setSelectedBankId(bank.bankId);
+    //   setSelectedPaymentMethodId(null);
+    // }
   };
 
   useEffect(() => {
@@ -230,7 +237,7 @@ function SelfTransferGlobal({ show, handleClose }) {
               bankDetails?.toBanks?.map((bank, index) => (
                 <div
                   key={bank.index}
-                  onClick={() => handleSelect(bank.bankId, index)}
+                  onClick={() => handleSelect(bank, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
       ${selectedBank === index
                       ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"

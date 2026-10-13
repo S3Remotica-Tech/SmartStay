@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   // ArrowLeft2,
@@ -247,25 +247,28 @@ function CreditCardPayment({ show, handleClose, bankId }) {
     label: `${view?.displayName} - ${view?.paymentMethod}`,
   }));
 
-  const paymentOptions =
-    state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods?.map(
-      (bank) => ({
-        value: bank.bankId,
-        label: bank.displayName,
-        subLabel:
-          bank.accountType === "BANK"
-            ? `${bank.bankName} `
-            : `${bank.cashAccountType} `,
-        type: bank.accountType,
-        icon:
-          bank.accountType === "BANK" ? (
-            <Bank color="#1E45E1" size="16" />
-          ) : (
-            <Wallet2 color="#038C3D" size="16" />
-          ),
-        data: bank,
-      }),
-    ) || [];
+  const paymentOptions = useMemo(
+    () =>
+      state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods?.map(
+        (bank) => ({
+          value: bank.bankId,
+          label: bank.displayName,
+          subLabel:
+            bank.accountType === "BANK"
+              ? bank.bankName
+              : bank.cashAccountType,
+          type: bank.accountType,
+          icon:
+            bank.accountType === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : (
+              <Wallet2 color="#038C3D" size="16" />
+            ),
+          data: bank,
+        })
+      ) || [],
+    [state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods]
+  );
 
   const handleCreditCardAccountChange = (selected) => {
     setCreditCardAccount(selected);
@@ -375,11 +378,16 @@ function CreditCardPayment({ show, handleClose, bankId }) {
   }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    if (bankId && paymentOptions?.length) {
-      const selected = paymentOptions.find((option) => option.value === bankId);
+    if (bankId && paymentOptions.length > 0) {
+      const selected = paymentOptions.find(
+        (option) => option.value === bankId
+      );
+
       setPaymentMethod(selected || null);
+    } else {
+      setPaymentMethod(null);
     }
-  }, [bankId]);
+  }, [bankId, paymentOptions]);
 
   useEffect(() => {
     return () => {
