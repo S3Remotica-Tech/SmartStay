@@ -1332,7 +1332,7 @@ function BankingNew() {
                             </div>
 
                             <div className="flex justify-between my-3 gap-2">
-                              {item.paymentMethod && (
+                              {item.paymentMethod && item?.bankName && (
                                 <div
                                   className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
@@ -1341,7 +1341,7 @@ function BankingNew() {
                                 </div>
                               )}
 
-                              {item.paymentMethod && (
+                              {item.paymentMethod && item?.cardNumber && (
                                 <div
                                   className="flex gap-2 items-center  px-2 py-1 bg-[#F1F1FF]
                                text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
@@ -1353,13 +1353,15 @@ function BankingNew() {
                               {item.accountType === "BANK" &&
                                 !item.paymentMethod && (
                                   <>
-                                    <div
-                                      className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                                    {item?.branchName &&
+                                      <div
+                                        className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
-                                    >
-                                      <Location size="12" color="#8F5C09" />{" "}
-                                      {item?.branchName}
-                                    </div>
+                                      >
+                                        <Location size="12" color="#8F5C09" />{" "}
+                                        {item?.branchName}
+                                      </div>
+                                    }
                                     {item?.upiId && (
                                       <div
                                         className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]
