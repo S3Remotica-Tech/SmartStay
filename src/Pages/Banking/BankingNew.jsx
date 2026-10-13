@@ -1181,13 +1181,13 @@ function BankingNew() {
                                   )}
                                   <div className="h-px bg-gray-200" />
                                   <button
-                                    // disabled
+                                    disabled
                                     // disabled={
                                     //   !(canUpdateBanking && !item.isDeleted)
                                     // }
-                                    disabled={
-                                      !canUpdateBanking
-                                    }
+                                    // disabled={
+                                    //   !canUpdateBanking
+                                    // }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleEditBank(item);
@@ -1208,8 +1208,8 @@ function BankingNew() {
                                   <div className="h-px bg-gray-200" />
 
                                   <button
-                                    // disabled
-                                    disabled={!canDeleteBanking}
+                                    disabled
+                                    // disabled={!canDeleteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleDeleteForm(item);

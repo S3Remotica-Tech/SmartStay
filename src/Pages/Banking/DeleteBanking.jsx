@@ -30,8 +30,8 @@ function DeleteBanking({
                 </div>
 
 
-                <div className="px-6 py-5 text-center">
-                    <p className="font-gilroy text-[14px] font-medium text-[#646464]">
+                <div className="px-6 py-2 text-center">
+                    <p className="font-gilroy text-[14px] font-medium text-[#646464] mb-0">
                         Are you sure you want to delete this Bank-details?
                     </p>
                 </div>
@@ -51,7 +51,8 @@ function DeleteBanking({
                         type="button"
                         disabled
                         // onClick={handleDeleteBank}
-                        className="h-[48px] w-full max-w-[160px] cursor-not-allowed rounded-[8px] bg-[#1E45E1] px-3 py-3 font-gilroy text-[14px] font-semibold text-white opacity-50"
+                        className="h-[48px] w-full max-w-[160px] cursor-not-allowed rounded-[8px] 
+                        bg-[#1E45E1] px-3 py-3 font-gilroy text-[14px] font-semibold text-white opacity-50"
                     >
                         Coming Soon
                     </button>
