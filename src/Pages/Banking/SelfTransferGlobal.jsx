@@ -57,7 +57,7 @@ function SelfTransferGlobal({ show, handleClose }) {
         fromBankId: selectedFromBank?.bankId,
         toBankId: selectedBankId,
         amount: Number(amount),
-        date: selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null,
+        date: selectedDate ? dayjs(selectedDate).format("DD-MM-YYYY") : null,
         notes: notes,
       },
     });
@@ -157,19 +157,17 @@ function SelfTransferGlobal({ show, handleClose }) {
               <div
                 key={bank.bankId}
                 onClick={() => setSelectedFromBank(bank)}
-                className={`flex items-center justify-between gap-4 mb-2 p-2 rounded-lg  cursor-pointer ${
-                  selectedFromBank?.bankId === bank.bankId
-                    ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
-                    : "bg-[#F7FAFF] border-1  border-transparent"
-                }`}
+                className={`flex items-center justify-between gap-4 mb-2 p-2 rounded-lg  cursor-pointer ${selectedFromBank?.bankId === bank.bankId
+                  ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
+                  : "bg-[#F7FAFF] border-1  border-transparent"
+                  }`}
               >
                 <div className="flex items-center gap-3 flex-1">
                   <div
-                    className={`${
-                      bank.accountType === "CASH"
-                        ? "bg-[#E9FFEE]"
-                        : "bg-[#E8ECFF]"
-                    } rounded-full p-2`}
+                    className={`${bank.accountType === "CASH"
+                      ? "bg-[#E9FFEE]"
+                      : "bg-[#E8ECFF]"
+                      } rounded-full p-2`}
                   >
                     {bank.accountType === "CASH" ? (
                       <Wallet color="#038C3D" size="16" />
@@ -234,11 +232,10 @@ function SelfTransferGlobal({ show, handleClose }) {
                   key={bank.index}
                   onClick={() => handleSelect(bank.bankId, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
-      ${
-        selectedBank === index
-          ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
-          : "bg-[#F7FAFF] border-1  border-transparent"
-      }`}
+      ${selectedBank === index
+                      ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
+                      : "bg-[#F7FAFF] border-1  border-transparent"
+                    }`}
                 >
                   <div
                     className={`${bank?.paymentMethod ? "bg-[#FFF7F0]" : bank.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}

@@ -56,7 +56,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
         fromBankId: bankDetails?.fromBank?.bankId,
         toBankId: selectedBankId,
         amount: Number(amount),
-        date: selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null,
+        date: selectedDate ? dayjs(selectedDate).format("DD-MM-YYYY") : null,
         notes: notes,
       },
     });
@@ -205,11 +205,10 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                   key={bank.index}
                   onClick={() => handleSelect(bank.bankId, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
-      ${
-        selectedBank === index
-          ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
-          : "bg-[#F7FAFF] border-1  border-transparent"
-      }`}
+      ${selectedBank === index
+                      ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
+                      : "bg-[#F7FAFF] border-1  border-transparent"
+                    }`}
                 >
                   <div
                     className={`${bank?.paymentMethod ? "bg-[#FFF7F0]" : bank.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}

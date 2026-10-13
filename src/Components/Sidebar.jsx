@@ -190,7 +190,7 @@ function Sidebar() {
     "/expense/:hostelId": "expenses",
     // "/expense/new/:hostelId": "expenses-new",
     // "/banking/:hostelId": "banking",
-    "/banking/new/:hostelId": "banking-new",
+    "/banking/:hostelId": "banking",
     "/settings/:hostelId": "settingNewDesign",
   };
 
@@ -1088,14 +1088,14 @@ function Sidebar() {
                       className={`list-none  flex items-center  ${manageOpen ? "mt-1" : "mt-2.5"}`}
                     >
                       <NavLink
-                        to={withHostel("/banking/new")}
+                        to={withHostel("/banking")}
                         className={({ isActive }) =>
                           `align-items-center list-Item  d-flex ${isActive || currentPage === "banking-new"
                             ? "active"
                             : ""
                           }`
                         }
-                        onClick={() => handlePageClick("banking-new")}
+                        onClick={() => handlePageClick("banking")}
                       >
                         <Bank size="20" variant="Bold" className="-mt-1" />
 
@@ -1534,7 +1534,7 @@ function Sidebar() {
                   }
                 />
                 <Route
-                  path="/banking/new/:hostelId?"
+                  path="/banking/:hostelId?"
                   element={
                     <div className="mt-1 ml-2.5 mr-1">
                       <BankingNew />

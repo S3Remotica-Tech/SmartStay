@@ -3,6 +3,24 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 export async function AddBanking(datum) {
   return await AxiosConfigV2.post(`/v3/bank/${datum.hostelId}`, datum);
 }
+
+
+// EDIT BANKING
+export async function EditBanking(datum) {
+  return await AxiosConfigV2.put(`/v3/bank/${datum.hostelId}`, datum);
+}
+
+
+
+// Delete Banking V2
+export async function DeleteBankingV2(datum) {
+  return await AxiosConfigV2.delete(
+    `/v3/bank/v2/${datum.hostelId}/${datum.bankId}`,
+  );
+}
+
+
+
 // Add payment method
 
 export async function AddPaymentMethod(datum) {
@@ -74,7 +92,7 @@ export async function getBankingOverview(hostel) {
 //  banking Ledger
 
 export async function getBankingLedger(bank) {
- 
+
   const params = {};
   if (bank.dateFilter) params.dateFilter = bank.dateFilter;
   if (bank.source) params.source = bank.source;

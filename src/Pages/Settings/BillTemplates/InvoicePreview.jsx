@@ -5,8 +5,8 @@ function InvoicePreview({ invoiceData }) {
 
 
   return (
-    <div className="w-[794px] h-[1000px] bg-[#F4F4F4] p-[26px] font-gilroy text-[#222] rounded-t-xl">
-      <div className="w-full h-full border-1 border-[#D9D9D9] bg-white  rounded-[10px] p-[28px] flex flex-col">
+    <div className="w-[794px]  bg-[#F4F4F4] p-[26px] font-gilroy text-[#222] rounded-t-xl">
+      <div className="w-full h-full border-1 border-[#D9D9D9] bg-white  rounded-[10px] p-[20px] flex flex-col">
 
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
@@ -36,197 +36,197 @@ function InvoicePreview({ invoiceData }) {
           </label>
         </div>
 
-        <div className="border-t border-[#D9D9D9] mt-[12px]" />
+        <div className="border-1 border-[#D9D9D9] mt-[12px] p-2 rounded-md" >
 
-        <div className="flex justify-between mt-[16px]">
-          <div className="w-[55%]">
-            <label className="text-[8px] text-[#6B7280] mb-[5px] block">
-              Billed to
-            </label>
-
-            <label className="text-[9px] font-semibold block">
-              {invoiceData.tenant.name}
-            </label>
-
-            <label className="text-[8px] text-[#555] mt-[2px] block">
-              {invoiceData.tenant.room}
-            </label>
-
-            <label className="text-[8px] text-[#555] block">
-              {invoiceData.tenant.address}
-            </label>
-
-            <label className="text-[8px] text-[#555] block">
-              {invoiceData.tenant.phone}
-            </label>
-
-            <label className="text-[8px] text-[#555] block">
-              {invoiceData.tenant.email}
-            </label>
-          </div>
-
-          <div className="w-[40%] text-[8px]">
-            <div className="flex justify-between mb-[5px]">
-              <label className="text-[#777]">
-                Invoice No
+          <div className="flex justify-between mt-[16px]">
+            <div className="w-[55%]">
+              <label className="text-[8px] text-[#6B7280] mb-[5px] block">
+                Billed to
               </label>
 
-              <label className="font-semibold">
-                {invoiceData.invoiceNo}
+              <label className="text-[9px] font-semibold block">
+                {invoiceData.tenant.name}
+              </label>
+
+              <label className="text-[8px] text-[#555] mt-[2px] block">
+                {invoiceData.tenant.room}
+              </label>
+
+              <label className="text-[8px] text-[#555] block">
+                {invoiceData.tenant.address}
+              </label>
+
+              <label className="text-[8px] text-[#555] block">
+                {invoiceData.tenant.phone}
+              </label>
+
+              <label className="text-[8px] text-[#555] block">
+                {invoiceData.tenant.email}
               </label>
             </div>
 
-            <div className="flex justify-between mb-[5px]">
-              <label className="text-[#777]">
-                Date
-              </label>
-
-              <label className="font-semibold">
-                {invoiceData.invoiceDate}
-              </label>
-            </div>
-
-            <div className="flex justify-between mb-[5px]">
-              <label className="text-[#777]">
-                Due Date
-              </label>
-
-              <label className="font-semibold">
-                {invoiceData.dueDate}
-              </label>
-            </div>
-
-            <div className="flex justify-between">
-              <label className="text-[#777]">
-                Joining Date
-              </label>
-
-              <label className="font-semibold">
-                {invoiceData.joiningDate}
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-[10px]">
-          <label className="text-[8px] text-[#555] block">
-            {invoiceData.tenant.bed}
-          </label>
-        </div>
-
-        <div className="mt-[18px]">
-          <div className="flex justify-between bg-[#F7F7F7] border-y border-[#E5E7EB] px-[8px] py-[7px]">
-            <label className="text-[8px] font-semibold">
-              DESCRIPTION
-            </label>
-
-            <label className="text-[8px] font-semibold">
-              AMOUNT
-            </label>
-          </div>
-
-          {invoiceData?.items.map((item) => (
-            <div
-              key={item.id}
-              className="flex justify-between px-[8px] py-[9px] border-b border-[#F1F1F1]"
-            >
-              <label className="text-[8px]">
-                {item.name}
-              </label>
-
-              <label className="text-[8px]">
-                {item.amount}
-              </label>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-end mt-[14px]">
-          <div className="w-[43%] text-[8px]">
-            <div className="flex justify-between mb-[6px]">
-              <label>Subtotal</label>
-              <label>{invoiceData.subtotal}</label>
-            </div>
-
-            <div className="flex justify-between mb-[8px]">
-              <label>Tax - GST (3%)</label>
-              <label>{invoiceData.gstAmount}</label>
-            </div>
-
-            <div className="border-t border-[#D9D9D9] pt-[8px] flex justify-between">
-              <label className="font-semibold">
-                Total
-              </label>
-
-              <label className="font-semibold">
-                {invoiceData.total}
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-between mt-[25px]">
-          <div>
-            <label className="text-[8px] text-[#1E45E1] font-semibold mb-[7px] block">
-              ACCOUNT DETAILS
-            </label>
-
-            {invoiceData.accountDetails.map((account) => (
-              <div
-                key={account.id}
-                className="flex text-[8px] leading-[14px]"
-              >
-                <label className="w-[70px] text-[#777]">
-                  {account.label}
+            <div className="w-[40%] text-[8px]">
+              <div className="flex justify-between mb-[5px]">
+                <label className="text-[#777]">
+                  Invoice No
                 </label>
 
-                <label className="font-medium">
-                  {account.value}
+                <label className="font-semibold">
+                  {invoiceData.invoiceNo}
+                </label>
+              </div>
+
+              <div className="flex justify-between mb-[5px]">
+                <label className="text-[#777]">
+                  Date
+                </label>
+
+                <label className="font-semibold">
+                  {invoiceData.invoiceDate}
+                </label>
+              </div>
+
+              <div className="flex justify-between mb-[5px]">
+                <label className="text-[#777]">
+                  Due Date
+                </label>
+
+                <label className="font-semibold">
+                  {invoiceData.dueDate}
+                </label>
+              </div>
+
+              <div className="flex justify-between">
+                <label className="text-[#777]">
+                  Joining Date
+                </label>
+
+                <label className="font-semibold">
+                  {invoiceData.joiningDate}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-[10px]">
+            <label className="text-[8px] text-[#555] block">
+              {invoiceData.tenant.bed}
+            </label>
+          </div>
+
+          <div className="mt-[18px]">
+            <div className="flex justify-between bg-[#F7F7F7] border-y border-[#E5E7EB] px-[8px] py-[7px]">
+              <label className="text-[8px] font-semibold">
+                DESCRIPTION
+              </label>
+
+              <label className="text-[8px] font-semibold">
+                AMOUNT
+              </label>
+            </div>
+
+            {invoiceData?.items.map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between px-[8px] py-[9px] border-b border-[#F1F1F1]"
+              >
+                <label className="text-[8px]">
+                  {item.name}
+                </label>
+
+                <label className="text-[8px]">
+                  {item.amount}
                 </label>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col items-center">
+          <div className="flex justify-end mt-[14px]">
+            <div className="w-[43%] text-[8px]">
+              <div className="flex justify-between mb-[6px]">
+                <label>Subtotal</label>
+                <label>{invoiceData.subtotal}</label>
+              </div>
 
+              <div className="flex justify-between mb-[8px]">
+                <label>Tax - GST (3%)</label>
+                <label>{invoiceData.gstAmount}</label>
+              </div>
 
-            <label className="text-[6px] text-[#777] mt-[4px]">
-              Scan QR for Payment
-            </label>
+              <div className="border-t border-[#D9D9D9] pt-[8px] flex justify-between">
+                <label className="font-semibold">
+                  Total
+                </label>
+
+                <label className="font-semibold">
+                  {invoiceData.total}
+                </label>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="flex justify-between mt-[25px]">
-          <div>
-
-            <div className="border-t border-[#999] w-[100px] mt-[2px]" />
-
-            <label className="text-[7px] text-[#777] mt-[4px] block">
-              Authorized Signature
-            </label>
-          </div>
-
-          <div className="text-right text-[8px]">
-            <div className="flex gap-[8px] justify-end">
-              <label className="text-[#777]">
-                Status:
+          <div className="flex justify-between mt-[25px]">
+            <div>
+              <label className="text-[8px] text-[#1E45E1] font-semibold mb-[7px] block">
+                ACCOUNT DETAILS
               </label>
 
-              <label className="text-[#F59E0B] font-semibold">
-                {invoiceData.paymentStatus}
+              {invoiceData.accountDetails.map((account) => (
+                <div
+                  key={account.id}
+                  className="flex text-[8px] leading-[14px]"
+                >
+                  <label className="w-[70px] text-[#777]">
+                    {account.label}
+                  </label>
+
+                  <label className="font-medium">
+                    {account.value}
+                  </label>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col items-center">
+
+
+              <label className="text-[6px] text-[#777] mt-[4px]">
+                Scan QR for Payment
+              </label>
+            </div>
+          </div>
+
+          <div className="flex justify-between mt-[25px]">
+            <div>
+
+              <div className="border-t border-[#999] w-[100px] mt-[2px]" />
+
+              <label className="text-[7px] text-[#777] mt-[4px] block">
+                Authorized Signature
               </label>
             </div>
 
-            <label className="mt-[8px] block">
-              {invoiceData.notes}
-            </label>
+            <div className="text-right text-[8px]">
+              <div className="flex gap-[8px] justify-end">
+                <label className="text-[#777]">
+                  Status:
+                </label>
 
-            <label className="text-[#777] mt-[4px] block">
-              02/06/2025 12:30 PM
-            </label>
+                <label className="text-[#F59E0B] font-semibold">
+                  {invoiceData.paymentStatus}
+                </label>
+              </div>
+
+              <label className="mt-[8px] block">
+                {invoiceData.notes}
+              </label>
+
+              <label className="text-[#777] mt-[4px] block">
+                02/06/2025 12:30 PM
+              </label>
+            </div>
           </div>
         </div>
-
         <div className="mt-[24px]">
           <label className="text-[7px] text-[#777]">
             T&C : {invoiceData.terms}

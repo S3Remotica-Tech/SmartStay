@@ -44,6 +44,7 @@ import { StoreBankDetails } from "../../Redux/Action/BankingAction";
 import VendorPayment from "./VendorPayment";
 import TransactionFilter from "./TransactionFilter";
 import SelfTransferGlobal from "./SelfTransferGlobal";
+import DeleteBanking from "./DeleteBanking";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -149,7 +150,8 @@ function BankingNew() {
   const [showForm, setShowForm] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
-
+  const [deleteShow, setDeleteShow] = useState(false);
+  const [deleteBankId, setDeleteBankId] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -215,7 +217,7 @@ function BankingNew() {
     });
   };
 
-  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking } =
+  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking, canUpdateModule: canUpdateBanking, canDeleteModule: canDeleteBanking } =
     useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
@@ -247,10 +249,12 @@ function BankingNew() {
 
   const handleAddAccount = () => {
     setAddNewAccount(true);
+    setEditAddBank("")
   };
 
   const handleCloseAccount = () => {
     setAddNewAccount(false);
+    setEditAddBank("");
   };
 
   useEffect(() => {
@@ -492,7 +496,7 @@ function BankingNew() {
   }, [state.bankingDetails.statusCodeForCreateBanking]);
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForEditBanking === 200) {
+    if (state.bankingDetails.updateBankingSuccess === 200) {
       dispatch({
         type: "GET_ALL_TRANSACTION_SAGA",
         payload: {
@@ -502,9 +506,15 @@ function BankingNew() {
         },
       });
 
-      dispatch({ type: "CLEAR_EDITBANKING" });
+      dispatch({ type: "REMOVE_EDIT_V2_BANKING_REDUCER" });
     }
-  }, [state.bankingDetails.statusCodeForEditBanking]);
+  }, [state.bankingDetails.updateBankingSuccess]);
+
+
+
+
+
+
 
   useEffect(() => {
     return () => {
@@ -648,8 +658,11 @@ function BankingNew() {
     setEditAddBank("");
     setOpenMenuId(false);
   };
-  const handleDeleteForm = () => {
+
+  const handleDeleteForm = (item) => {
+    setDeleteBankId(item.bankId);
     setOpenMenuId(false);
+    setDeleteShow(true);
   };
 
   useEffect(() => {
@@ -671,7 +684,7 @@ function BankingNew() {
     }
   }, [state.bankingDetails.statusCodeDeleteBank]);
 
-  const handleCloseDelete = () => { };
+  const handleCloseDelete = () => { setDeleteShow(false); };
 
   const handleCloseTransactionDelete = () => { };
 
@@ -790,6 +803,30 @@ function BankingNew() {
   const handleCloseInvestment = () => {
     seShowInvestmentForm(false);
   };
+
+  const handleEditBank = (item) => {
+    setAddNewAccount(true);
+    setEditAddBank(item);
+    setOpenMenuId(null);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     let timeout;
@@ -1144,13 +1181,16 @@ function BankingNew() {
                                   )}
                                   <div className="h-px bg-gray-200" />
                                   <button
-                                    disabled
+                                    // disabled
                                     // disabled={
                                     //   !(canUpdateBanking && !item.isDeleted)
                                     // }
+                                    disabled={
+                                      !canUpdateBanking
+                                    }
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      // handleEditAddBank(item);
+                                      handleEditBank(item);
                                     }}
                                     className="flex w-full items-center gap-2 px-3 py-2
       disabled:cursor-not-allowed disabled:opacity-50
@@ -1168,8 +1208,8 @@ function BankingNew() {
                                   <div className="h-px bg-gray-200" />
 
                                   <button
-                                    disabled
-                                    // disabled={!(canDeleteBanking && !item.isDeleted)}
+                                    // disabled
+                                    disabled={!canDeleteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleDeleteForm(item);
@@ -1688,7 +1728,7 @@ function BankingNew() {
               selfDetails={selfDetails}
             />
           )}
-
+          {deleteShow && <DeleteBanking deleteShow={deleteShow} handleCloseDelete={handleCloseDelete} />}
           {selfTranferGlobal && (
             <SelfTransferGlobal
               show={selfTranferGlobal}
@@ -1745,7 +1785,7 @@ function BankingNew() {
       </div>
 
       {addNewAccount && (
-        <AddNewAccount show={addNewAccount} handleClose={handleCloseAccount} />
+        <AddNewAccount show={addNewAccount} handleClose={handleCloseAccount} editBankDetails={editAddBank} />
       )}
     </>
   );

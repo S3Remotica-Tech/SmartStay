@@ -66,6 +66,9 @@ export const initialState = {
   getCreditCardinitializeList: "",
   getTenantPaymentInitializeList: "",
   errorAddMoney: "",
+  updateBankingSuccess: 0,
+  deleteBankingSuccess: 0,
+  deleteBankingError: "",
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -126,6 +129,28 @@ const BankingReducer = (state = initialState, action) => {
         ...state,
         getBankingLedgerListSuccessStatus: 0,
       };
+
+    case "DELETE_V2_BANKING_REDUCER":
+      return {
+        ...state, deleteBankingSuccess: action.payload.statusCode,
+      };
+    case "REMOVE_DELETE_V2_BANKING_REDUCER":
+      return {
+        ...state, deleteBankingSuccess: 0,
+      };
+
+
+    case 'DELETE_V2_BANKING_ERROR':
+      return {
+        ...state, deleteBankingError: action.payload,
+      };
+
+    case 'REMOVE_DELETE_V2_BANKING_ERROR':
+      return {
+        ...state, deleteBankingError: "",
+      };
+
+
 
     case "ADD_USER_BANKING":
       return {
@@ -318,6 +343,19 @@ const BankingReducer = (state = initialState, action) => {
 
     case "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR":
       return { ...state, addPaymentError: "" };
+
+
+    case 'EDIT_V2_BANKING_REDUCER':
+      return {
+        ...state,
+        updateBankingSuccess: action.payload.statusCode,
+      };
+    case 'REMOVE_EDIT_V2_BANKING_REDUCER':
+      return {
+        ...state,
+        updateBankingSuccess: 0,
+      };
+
 
     case "LINKED_PAYMENT_METHOD_REDUCER":
       return {

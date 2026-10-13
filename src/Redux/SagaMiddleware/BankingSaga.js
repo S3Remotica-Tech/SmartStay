@@ -1,5 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
+  DeleteBankingV2,
+  EditBanking,
   tenantPayment,
   creditCardPayment,
   getBankingOverview,
@@ -493,6 +495,147 @@ function* handleAddBankingNew(action) {
     }
   }
 }
+
+function* handleEditBankingNew(action) {
+  try {
+    const response = yield call(EditBanking, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "EDIT_V2_BANKING_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Updated Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      yield put({
+        type: "ADD_BANKING_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+}
+
+
+
+
+function* handleDeleteBankingV2(action) {
+  try {
+    const response = yield call(DeleteBankingV2, action.payload);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response?.status === 204) {
+      yield put({
+        type: "DELETE_V2_BANKING_REDUCER",
+        payload: { response: response.data, statusCode: response?.status },
+      });
+      toast.success(`Deleted Successfully`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+
+    if (error) {
+      yield put({
+        type: "DELETE_V2_BANKING_ERROR",
+        payload: error.response.data,
+      });
+      toast.error(`${error.response.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+}
+
+
+
+
+
+
 
 function* handleEditBanking(action) {
   try {
@@ -1123,6 +1266,8 @@ function* CreateBankingSaga() {
   yield takeEvery("LINKED_PAYMENT_METHOD_SAGA", handleLinkedPaymentMethod);
   yield takeEvery("ADD_PAYMENT_METHOD_SAGA", handleAddPaymentMethod);
   yield takeEvery("ADD_BANKING_SAGA", handleAddBankingNew);
+  yield takeEvery("EDIT_V2_BANKING_SAGA", handleEditBankingNew);
+  yield takeEvery("DELETE_V2_BANKING_SAGA", handleDeleteBankingV2);
   yield takeEvery("ADD_BANKING", handleAddBanking);
   yield takeEvery("EDIT_BANKING", handleEditBanking);
   yield takeEvery("BANKINGLIST", handleGetBanking);
