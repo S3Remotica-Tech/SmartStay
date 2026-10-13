@@ -110,7 +110,7 @@ const CustomStyles = {
   }),
 };
 
-function AddNewAccount({ show, handleClose }) {
+function AddNewAccount({ show, handleClose, editBankDetails }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [formLoading, setFormLoading] = useState(false);
@@ -355,21 +355,7 @@ function AddNewAccount({ show, handleClose }) {
       setFirstError(accountNumberRef);
     }
 
-    // if (!branchName.trim()) {
-    //   setBranchNameError("Please Enter Branch Name");
-    //   setFirstError(branchNameRef);
-    // }
 
-    // if (!ifscCode.trim()) {
-    //   setIfscCodeError("Please Enter IFSC Code");
-
-    //   setFirstError(ifscCodeRef);
-    // }
-
-    // if (!accountType?.value) {
-    //   setAccountTypeError("Please Select Account Type");
-    //   setFirstError(accountTypeRef);
-    // }
 
     if (
       bankOpeningBalance !== "" &&
@@ -511,6 +497,60 @@ function AddNewAccount({ show, handleClose }) {
     }
   }, [state.bankingDetails.createBankingError]);
 
+
+  // console.log("editBankDetails", editBankDetails);
+
+
+  useEffect(() => {
+    if (!editBankDetails) return;
+
+    setAccountMode(editBankDetails.accountType || "BANK");
+
+    if (editBankDetails.accountType === "CASH") {
+      setCashDisplayName(editBankDetails.displayName || "");
+
+      setCashType(
+        editBankDetails.cashAccountType
+          ? {
+            value: editBankDetails.cashAccountType,
+            label: editBankDetails.cashAccountType,
+          }
+          : null,
+      );
+
+      setResponsiblePerson(
+        editBankDetails.responsiblePersonId
+          ? {
+            value: editBankDetails.responsiblePersonId,
+            label: editBankDetails.responsiblePerson,
+          }
+          : null,
+      );
+
+      setCashOpeningBalance(editBankDetails.balance ?? "");
+      setCashDescription(editBankDetails.description || "");
+    } else if (editBankDetails.accountType === "BANK") {
+      setBankDisplayName(editBankDetails.displayName || "");
+      setBankName(editBankDetails.bankName || "");
+      setHolderName(editBankDetails.accountHolderName || "");
+      setAccountNumber(editBankDetails.accountNumber || "");
+      setBranchName(editBankDetails.branchName || "");
+      setIfscCode(editBankDetails.ifscCode || "");
+
+      setAccountType(
+        editBankDetails.bankAccountType
+          ? {
+            value: editBankDetails.bankAccountType,
+            label: editBankDetails.bankAccountType,
+          }
+          : null,
+      );
+
+      setBankOpeningBalance(editBankDetails.balance ?? "");
+    }
+  }, [editBankDetails]);
+
+
   useEffect(() => {
     return () => {
       dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
@@ -535,11 +575,11 @@ function AddNewAccount({ show, handleClose }) {
   }, [state.bankingDetails.statusCodeForCreateBanking]);
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForEditBanking === 200) {
+    if (state.bankingDetails.updateBankingSuccess === 200) {
       setFormLoading(false);
       handleClose();
     }
-  }, [state.bankingDetails.statusCodeForEditBanking]);
+  }, [state.bankingDetails.updateBankingSuccess]);
 
   useEffect(() => {
     if (
@@ -581,7 +621,7 @@ function AddNewAccount({ show, handleClose }) {
                 rounded-xl  bg-white px-4 py-3"
         >
           <h1 className="text-[18px] font-semibold text-[#222222] mb-0">
-            Add New Account
+            {editBankDetails ? "Edit Account" : "Add New Account"}
           </h1>
           <Add
             size={24}
@@ -598,7 +638,7 @@ function AddNewAccount({ show, handleClose }) {
 
           <div className="flex gap-14 mt-2">
             <label className="flex items-center gap-3 cursor-pointer">
-              <input
+              <input disabled={editBankDetails}
                 type="radio"
                 checked={accountMode === "BANK"}
                 onChange={() => setAccountMode("BANK")}
@@ -609,7 +649,7 @@ function AddNewAccount({ show, handleClose }) {
             </label>
 
             <label className="flex items-center gap-3 cursor-pointer">
-              <input
+              <input disabled={editBankDetails}
                 type="radio"
                 checked={accountMode === "CASH"}
                 onChange={() => setAccountMode("CASH")}
@@ -619,7 +659,7 @@ function AddNewAccount({ show, handleClose }) {
               <span className="text-[15px]">Cash Account</span>
             </label>
             <label className="flex items-center gap-3 cursor-pointer">
-              <input
+              <input disabled={editBankDetails}
                 type="radio"
                 checked={accountMode === "CREDIT"}
                 onChange={() => setAccountMode("CREDIT")}
@@ -1186,5 +1226,6 @@ function AddNewAccount({ show, handleClose }) {
 AddNewAccount.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  editBankDetails: PropTypes.object,
 };
 export default AddNewAccount;

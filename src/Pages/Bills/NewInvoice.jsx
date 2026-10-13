@@ -219,6 +219,7 @@ const CustomStylesTable = {
     display: "none",
   }),
 };
+
 function NewInvoice() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
@@ -268,7 +269,7 @@ function NewInvoice() {
   const dueRef = useRef(null);
   const joiningDate = selectedCustomer?.joiningDate;
 
-  console.log("selectedCustomer", selectedCustomer?.status);
+  // console.log("selectedCustomer", selectedCustomer?.status);
 
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
@@ -298,12 +299,62 @@ function NewInvoice() {
 
   const customerOptions = Array.isArray(state?.UsersList?.TenantList)
     ? state.UsersList.TenantList.map((u) => ({
-        value: u.customerId,
-        label: u.fullName,
-        details: u,
-      }))
+      value: u.customerId,
+      label: u.fullName,
+      details: u,
+      status: u.status,
+    }))
     : [];
 
+
+
+  const formatOptionLabel = (option) => {
+    const statusColors = {
+      BOOKED: {
+        bg: "bg-blue-100",
+        dot: "bg-blue-600",
+      },
+      CHECK_IN: {
+        bg: "bg-green-100",
+        dot: "bg-green-600",
+      },
+      NOTICE: {
+        bg: "bg-orange-100",
+        dot: "bg-orange-600",
+      },
+      SETTLEMENT_GENERATED: {
+        bg: "bg-[#fee4e2]",
+        dot: "bg-red-600",
+      },
+      VACATED: {
+        bg: "bg-gray-100",
+        dot: "bg-gray-600",
+      },
+    };
+
+    const statusLabel = option.status
+      ?.replace(/_/g, " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+
+    const colors = statusColors[option.status] || {
+      bg: "bg-gray-100",
+      dot: "bg-gray-500",
+    };
+
+    return (
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-sm text-[#333333]">{option.label}</span>
+
+        <span
+          className={`flex items-center gap-1.5 rounded-full px-2 py-1 text-[11px] font-medium whitespace-nowrap ${colors.bg}`}
+        >
+          <span className={`h-1.5 w-1.5 rounded-full ${colors.dot}`} />
+          <span className="text-gray-700">{statusLabel}</span>
+        </span>
+      </div>
+    );
+  };
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
@@ -327,6 +378,14 @@ function NewInvoice() {
     }
     setStartDate("");
     setEndDate("");
+
+
+    setNewRows((prevRows) =>
+      prevRows.map((row) => ({
+        ...row,
+        itemType: "",
+      })),
+    );
   };
 
   const handleBackBill = () => {
@@ -612,16 +671,34 @@ function NewInvoice() {
     });
   };
 
- 
+
   const getItemOptions = (currentIndex) => {
     const options = [];
+
+    if (selectedCustomer?.status === "BOOKED") {
+      const bookingAlreadySelected = newRows?.some(
+        (row, index) =>
+          index !== currentIndex && row.itemType === "BOOKING",
+      );
+
+      if (!bookingAlreadySelected) {
+        options.push({
+          value: "BOOKING",
+          label: "Booking",
+        });
+      }
+
+      return options;
+    }
+
+
 
     const advanceAlreadySelected = newRows?.some(
       (row, index) =>
         index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
     );
 
-const bookingAlreadySelected = newRows?.some(
+    const bookingAlreadySelected = newRows?.some(
       (row, index) =>
         index !== currentIndex && row.itemType === "BOOKING",
     );
@@ -646,18 +723,13 @@ const bookingAlreadySelected = newRows?.some(
       return options;
     }
 
-    
-    if(!bookingAlreadySelected && selectedCustomer?.status === "BOOKING") {
-      options.push({
-        value: "BOOKING",
-        label: "Booking",
-      });
-    }
+
+
 
     if (!rentAlreadySelected) {
       options.push({
         value: "RENT",
-                label: "Room Rent",
+        label: "Room Rent",
       });
     }
 
@@ -925,6 +997,7 @@ const bookingAlreadySelected = newRows?.some(
                 menuPlacement="auto"
                 noOptionsMessage={() => "No customers available"}
                 styles={CustomStyles}
+                formatOptionLabel={formatOptionLabel}
               />
 
               {customererrmsg.trim() !== "" && (
@@ -1145,15 +1218,17 @@ const bookingAlreadySelected = newRows?.some(
                                 value={
                                   u.itemType
                                     ? {
-                                        value: u.itemType,
-                                        label:
-                                          u.itemType === "RENT"
-                                            ? "Room Rent"
-                                            : u.itemType ===
-                                                "ADDITIONAL_ADVANCE"
-                                              ? "Advance"
+                                      value: u.itemType,
+                                      label:
+                                        u.itemType === "RENT"
+                                          ? "Room Rent"
+                                          : u.itemType ===
+                                            "ADDITIONAL_ADVANCE"
+                                            ? "Advance" :
+                                            u.itemType === "BOOKING"
+                                              ? "Booking"
                                               : "Other",
-                                      }
+                                    }
                                     : null
                                 }
                                 onChange={(selected) => {
@@ -1253,26 +1328,26 @@ const bookingAlreadySelected = newRows?.some(
 
                       {(rowErrors[index]?.itemType ||
                         rowErrors[index]?.amount) && (
-                        <tr className="border-b border-[#EEEEEE]">
-                          <td className="px-3 pb-2">
-                            {rowErrors[index]?.itemType && (
-                              <ErrorMessage
-                                message={rowErrors[index].itemType}
-                                type="error"
-                              />
-                            )}
-                          </td>
+                          <tr className="border-b border-[#EEEEEE]">
+                            <td className="px-3 pb-2">
+                              {rowErrors[index]?.itemType && (
+                                <ErrorMessage
+                                  message={rowErrors[index].itemType}
+                                  type="error"
+                                />
+                              )}
+                            </td>
 
-                          <td colSpan={2} className="px-3 pb-2">
-                            {rowErrors[index]?.amount && (
-                              <ErrorMessage
-                                message={rowErrors[index].amount}
-                                type="error"
-                              />
-                            )}
-                          </td>
-                        </tr>
-                      )}
+                            <td colSpan={2} className="px-3 pb-2">
+                              {rowErrors[index]?.amount && (
+                                <ErrorMessage
+                                  message={rowErrors[index].amount}
+                                  type="error"
+                                />
+                              )}
+                            </td>
+                          </tr>
+                        )}
                     </React.Fragment>
                   ))}
                 </tbody>
@@ -1355,11 +1430,10 @@ const bookingAlreadySelected = newRows?.some(
         px-2.5
         py-1
         text-[10px]
-        ${
-          discountType === "₹"
-            ? "bg-[#315BEA] text-white"
-            : "bg-[#EEF2FF] text-[#315BEA]"
-        }
+        ${discountType === "₹"
+                          ? "bg-[#315BEA] text-white"
+                          : "bg-[#EEF2FF] text-[#315BEA]"
+                        }
       `}
                     >
                       ₹
@@ -1373,11 +1447,10 @@ const bookingAlreadySelected = newRows?.some(
         px-2.5
         py-1
         text-[10px]  disabled:bg-gray-200
-        ${
-          discountType === "%"
-            ? "bg-[#315BEA] text-white"
-            : "bg-[#EEF2FF] text-[#315BEA]"
-        }
+        ${discountType === "%"
+                          ? "bg-[#315BEA] text-white"
+                          : "bg-[#EEF2FF] text-[#315BEA]"
+                        }
       `}
                     >
                       %
@@ -1513,11 +1586,10 @@ const bookingAlreadySelected = newRows?.some(
             onClick={billData ? handleEditBill : handleCreateBill}
             className={`w-fit px-5 font-medium h-[40px] rounded-[8px] text-[16px] font-[Gilroy]
     flex items-center justify-center gap-2
-    ${
-      formLoading
-        ? "bg-[#1E45E1] text-white cursor-not-allowed opacity-70"
-        : "bg-[#1E45E1] text-white"
-    }`}
+    ${formLoading
+                ? "bg-[#1E45E1] text-white cursor-not-allowed opacity-70"
+                : "bg-[#1E45E1] text-white"
+              }`}
           >
             {formLoading ? (
               <>

@@ -14,7 +14,7 @@ import {
   SearchNormal1,
   Add,
 } from "iconsax-react";
-import { useNavigate, Outlet, useLocation  } from "react-router-dom";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function SettingAllPages({ isVisibleSidebar }) {
@@ -30,7 +30,7 @@ function SettingAllPages({ isVisibleSidebar }) {
   const [search, setSearch] = useState("");
   const [activeMenu, setActiveMenu] = useState("general");
 
-  const directMenuIds = ["general", "tenant-app-controls"  ];
+  const directMenuIds = ["general", "tenant-app-controls"];
 
   const settingsMenu = [
     {
@@ -85,8 +85,8 @@ function SettingAllPages({ isVisibleSidebar }) {
       ["Notifications", "notifications", "SettingsNotifications"],
       ["Bill Templates", "invoice", "Invoice"],
       ...(isDevelopment
-  ? [["Bill Templates New", "bill-templates", "bill-templates"]]
-  : []),
+        ? [["Bill Templates New", "bill-templates", "bill-templates"]]
+        : []),
       ["Agreements & Policies", "agreement"],
     ],
 
@@ -109,25 +109,25 @@ function SettingAllPages({ isVisibleSidebar }) {
     item.label.toLowerCase().includes(search.toLowerCase()),
   );
 
- useEffect(() => {
-  const path = location.pathname;
-  const lastSegment = path.split("/").filter(Boolean).pop();
+  useEffect(() => {
+    const path = location.pathname;
+    const lastSegment = path.split("/").filter(Boolean).pop();
 
-  if (!lastSegment) {
-    return;
-  }
+    if (!lastSegment) {
+      return;
+    }
 
-  setActivePage(lastSegment);
+    setActivePage(lastSegment);
 
-  const matchedMenu = Object.entries(settingsSubMenus).find(
-    ([, subMenus]) =>
-      subMenus.some(([ route]) => route === lastSegment)
-  );
+    const matchedMenu = Object.entries(settingsSubMenus).find(
+      ([, subMenus]) =>
+        subMenus.some(([route]) => route === lastSegment)
+    );
 
-  if (matchedMenu) {
-    setActiveMenu(matchedMenu[0]);
-  }
-}, [location.pathname]);
+    if (matchedMenu) {
+      setActiveMenu(matchedMenu[0]);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (state.PgList?.isManageEnable) {
@@ -174,7 +174,7 @@ function SettingAllPages({ isVisibleSidebar }) {
   return (
     <>
       <div className="font-gilroy h-screen  overflow-hidden flex flex-col">
-        <div className="flex-shrink-0 w-full border-b border-[#EEEEEE] flex items-center justify-between px-4 py-2 bg-white z-50">
+        <div className="flex-shrink-0 w-full border-b border-[#EEEEEE] flex items-center justify-between px-4 py-2 bg-white z-40">
           <label className="font-gilroy text-lg font-semibold text-black whitespace-nowrap mb-0 flex items-center gap-2">
             <Setting2 /> Settings
           </label>
@@ -193,74 +193,73 @@ function SettingAllPages({ isVisibleSidebar }) {
         </div>
 
         <div className="flex flex-1 min-h-0 overflow-hidden">
-           {!isBillTemplatesNew && (
-          <div className="w-[200px] lg:w-[220px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
-            <div className="p-3">
-              <div className="relative">
-                <form autoComplete="off" role="search">
-                  <input
-                    type="search"
-                    name="settings-filter"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search..."
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="none"
-                    spellCheck={false}
-                    className="w-full h-[40px] rounded-full border border-[#E5E7EB] bg-white
+          {!isBillTemplatesNew && (
+            <div className="w-[200px] lg:w-[220px] h-full bg-white border-r border-[#EEEEEE] flex-shrink-0">
+              <div className="p-3">
+                <div className="relative">
+                  <form autoComplete="off" role="search">
+                    <input
+                      type="search"
+                      name="settings-filter"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Search..."
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoCapitalize="none"
+                      spellCheck={false}
+                      className="w-full h-[40px] rounded-full border border-[#E5E7EB] bg-white
       px-3 pr-8 text-[14px] outline-none focus:border-[#1E45E1]"
+                    />
+                  </form>
+                  <SearchNormal1
+                    size="13"
+                    color="#4B5563"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2"
                   />
-                </form>
-                <SearchNormal1
-                  size="13"
-                  color="#4B5563"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2"
-                />
+                </div>
+              </div>
+
+              <div className="px-2 space-y-1">
+                {filteredMenu?.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeMenu === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveMenu(item.id);
+                        const firstMenu = settingsSubMenus[item.id]?.[0];
+                        if (directMenuIds.includes(item.id)) {
+                          handleSettingsNavigate(item.id, item.id);
+                        } else if (firstMenu) {
+                          handleSettingsNavigate(firstMenu[1], firstMenu[0]);
+                        }
+                      }}
+                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-full text-left transition-all
+                ${isActive
+                          ? "bg-[#EEF2FF] text-[#1E45E1]"
+                          : "text-[#222222] hover:bg-[#EEF2F8]"
+                        }`}
+                    >
+                      <Icon
+                        size="16"
+                        className="flex-shrink-0"
+                        color={isActive ? "#315DB5" : "#555555"}
+                      />
+
+                      <span className="text-[14px] font-medium whitespace-nowrap">
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
+          )}
 
-            <div className="px-2 space-y-1">
-              {filteredMenu?.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeMenu === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveMenu(item.id);
-                      const firstMenu = settingsSubMenus[item.id]?.[0];
-                      if (directMenuIds.includes(item.id)) {
-                        handleSettingsNavigate(item.id, item.id);
-                      } else if (firstMenu) {
-                        handleSettingsNavigate(firstMenu[1], firstMenu[0]);
-                      }
-                    }}
-                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-full text-left transition-all
-                ${
-                  isActive
-                    ? "bg-[#EEF2FF] text-[#1E45E1]"
-                    : "text-[#222222] hover:bg-[#EEF2F8]"
-                }`}
-                  >
-                    <Icon
-                      size="16"
-                      className="flex-shrink-0"
-                      color={isActive ? "#315DB5" : "#555555"}
-                    />
-
-                    <span className="text-[14px] font-medium whitespace-nowrap">
-                      {item.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-           )}
-
-          { !isBillTemplatesNew && !directMenuIds?.includes(activeMenu) && (
+          {!isBillTemplatesNew && !directMenuIds?.includes(activeMenu) && (
             <aside
               //     className={`
               //   px-3 bg-white h-full border-r border-[#EEEEEE] flex-shrink-0
@@ -300,11 +299,10 @@ function SettingAllPages({ isVisibleSidebar }) {
                             className={`w-full flex items-center font-gilroy font-medium
                   cursor-pointer py-2.5 px-3 rounded-xl text-left
                   text-[13px] lg:text-[14px] whitespace-nowrap transition-all
-                  ${
-                    isActive
-                      ? "bg-[#EEF2FF] text-[#1E45E1]"
-                      : "text-black hover:bg-[#F8F9FC]"
-                  }`}
+                  ${isActive
+                                ? "bg-[#EEF2FF] text-[#1E45E1]"
+                                : "text-black hover:bg-[#F8F9FC]"
+                              }`}
                           >
                             {label}
                           </button>

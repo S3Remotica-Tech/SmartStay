@@ -80,7 +80,13 @@ const SecurityDepositInvoiceTemplate = ({
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
       handleCloseBankAccount();
 
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      // dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({
+        type: "BANKING_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);
@@ -356,9 +362,9 @@ const SecurityDepositInvoiceTemplate = ({
                       ]
                         .filter(Boolean)
                         .join(", ") +
-                        (state.UsersList.hotelDetailsinPg?.pinCode
-                          ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
-                          : ""),
+                      (state.UsersList.hotelDetailsinPg?.pinCode
+                        ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}`
+                        : ""),
                     ]
                       .filter((line) => line && line.trim() !== "")
                       .map((line, idx) => (
@@ -1047,7 +1053,7 @@ const SecurityDepositInvoiceTemplate = ({
         <BankingAddForm
           showForm={bankaccountform}
           setShowForm={handleCloseForm}
-          // setEdit={setEdit}
+        // setEdit={setEdit}
         />
       )}
     </>

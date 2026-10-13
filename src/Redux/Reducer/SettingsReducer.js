@@ -105,6 +105,7 @@ export const initialState = {
   deleteVendorCategorySuccessStatus: 0,
   deleteCategoryError: "",
   updateVendorCategorySuccessStatus: 0,
+  errorGlobalSettings: "",
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -198,6 +199,12 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "REMOVE_DELETE_VENDOR_CATEGORY_ERROR":
       return { ...state, deleteCategoryError: "" };
+
+    case 'ERROR_GLOBAL_SETTINGS':
+      return { ...state, errorGlobalSettings: action.payload };
+    case 'REMOVE_ERROR_GLOBAL_SETTINGS':
+      return { ...state, errorGlobalSettings: "" };
+
 
     case "EXPENCES_CATEGORY_LIST":
       return {

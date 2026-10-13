@@ -335,7 +335,7 @@ function CreditCardGlobal({ handleClose }) {
                 cardHolderName: cardHolderName,
                 creditLimit: creditLimit,
                 billingCycle: billingCycle
-                    ? dayjs(billingCycle).format("DD/MM/YYYY")
+                    ? dayjs(billingCycle).format("DD-MM-YYYY")
                     : null,
             },
         });

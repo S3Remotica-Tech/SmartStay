@@ -147,11 +147,10 @@ const Option = (props) => {
         </div>
 
         <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-          }`}
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-green-100 text-green-700"
+            }`}
         >
           {data.type}
         </span>
@@ -346,7 +345,7 @@ function CreditCardPayment({ show, handleClose, bankId }) {
         transactionId: transactionId,
         amount: Number(amount),
         settlementDate: paymentDate
-          ? dayjs(paymentDate).format("YYYY-MM-DD")
+          ? dayjs(paymentDate).format("DD-MM-YYYY")
           : "",
         description: description,
       },
@@ -492,9 +491,8 @@ function CreditCardPayment({ show, handleClose, bankId }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  transactionId ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
               />
             </div>
           </div>
@@ -512,9 +510,8 @@ function CreditCardPayment({ show, handleClose, bankId }) {
                   ref={amountRef}
                   onChange={handleAmountChange}
                   placeholder="Enter Amount"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    amount ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${amount ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
                 {amountError && (
                   <ErrorMessage message={amountError} type="error" />
@@ -557,9 +554,8 @@ function CreditCardPayment({ show, handleClose, bankId }) {
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Describe the notes... "
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  description ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
               />
             </div>
           </div>

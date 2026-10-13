@@ -248,17 +248,16 @@ const Option = (props) => {
             )}
           </div>
         </div>
-{data.type && 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type &&
+          <span
+            className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : "bg-green-100 text-green-700"
-          }`}
-        >
-          {data.type}
-        </span>
-}
+              }`}
+          >
+            {data.type}
+          </span>
+        }
       </div>
     </components.Option>
   );
@@ -523,7 +522,7 @@ function AddExpenseNew() {
 
     if (isBankingWayTrigger) {
       dispatch({ type: "OPEN_BANK_OVERVIEW" });
-      navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+      navigate(`/banking/${state.login.selectedHostel_Id}`);
     } else if (isVendorOverViewWay) {
       navigate(`/vendor/${state.login.selectedHostel_Id}`, {
         state: {
@@ -992,7 +991,7 @@ function AddExpenseNew() {
       setFormLoading(false);
 
       if (isBankingWayTrigger) {
-        navigate(`/banking/new/${state.login.selectedHostel_Id}`);
+        navigate(`/banking/${state.login.selectedHostel_Id}`);
       } else if (isVendorOverViewWay) {
         navigate(`/vendor/${state.login.selectedHostel_Id}`, {
           state: {
@@ -1060,19 +1059,19 @@ function AddExpenseNew() {
   //   ) || [];
 
 
-     const paymentOptionsV1 =
-        state.ExpenseList?.getInitializeExpenseList?.banks?.map((bank) => ({
-          value: bank.bankId,
-          label: bank.holderName,
-               type: bank.type,
-          icon:
-            bank.type === "BANK" ? (
-              <Bank color="#1E45E1" size="16" />
-            ) : (
-              <Wallet2 color="#038C3D" size="16" />
-            ),
-          data: bank,
-        })) || [];
+  const paymentOptionsV1 =
+    state.ExpenseList?.getInitializeExpenseList?.banks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.holderName,
+      type: bank.type,
+      icon:
+        bank.type === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   useEffect(() => {
     if (isBankingWayTrigger) {
@@ -1133,9 +1132,8 @@ function AddExpenseNew() {
                 value={expenseTitle}
                 onChange={handleExpenseTitle}
                 placeholder="Enter Expense Name"
-                className={`w-full h-[48px] px-3 rounded-lg border ${
-                  expenseTitleError ? "border-red-500" : "border-[#D9D9D9]"
-                } outline-none`}
+                className={`w-full h-[48px] px-3 rounded-lg border ${expenseTitleError ? "border-red-500" : "border-[#D9D9D9]"
+                  } outline-none`}
               />
 
               {expenseTitleError && (
@@ -1155,7 +1153,7 @@ function AddExpenseNew() {
                   value={
                     category
                       ? expenseOptions?.find((opt) => opt.value === category) ||
-                        null
+                      null
                       : null
                   }
                   onChange={handleCategory}
@@ -1184,8 +1182,8 @@ function AddExpenseNew() {
                 value={
                   subCategory
                     ? subCategoryList?.find(
-                        (opt) => opt.value === subCategory,
-                      ) || null
+                      (opt) => opt.value === subCategory,
+                    ) || null
                     : null
                 }
                 onChange={handleSubCategory}
@@ -1214,9 +1212,8 @@ function AddExpenseNew() {
                   type="number"
                   placeholder="Enter Amount"
                   onWheel={(e) => e.target.blur()}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    amount ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${amount ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
 
                 {amountError && (
@@ -1242,9 +1239,8 @@ function AddExpenseNew() {
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
-      ${
-        purchaseDateError ? "border-red-500" : "border-[#D9D9D9]"
-      } focus:outline-none`}
+      ${purchaseDateError ? "border-red-500" : "border-[#D9D9D9]"
+                    } focus:outline-none`}
                 />
 
                 <Calendar
@@ -1276,11 +1272,10 @@ function AddExpenseNew() {
                       setLinkVendor(false);
                       setPaymentStatus("");
                     }}
-                    className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${
-                      !linkVendor
-                        ? "bg-[#1E45E1] text-white shadow-sm"
-                        : "text-[#4B4B4B]"
-                    }`}
+                    className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${!linkVendor
+                      ? "bg-[#1E45E1] text-white shadow-sm"
+                      : "text-[#4B4B4B]"
+                      }`}
                   >
                     No
                   </button>
@@ -1289,11 +1284,10 @@ function AddExpenseNew() {
                     // disabled
                     type="button"
                     onClick={() => setLinkVendor(true)}
-                    className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${
-                      linkVendor
-                        ? "bg-[#1E45E1] text-white shadow-sm"
-                        : "text-[#4B4B4B]"
-                    }`}
+                    className={`px-6 py-1.5 rounded-md text-[13px] font-medium transition-all ${linkVendor
+                      ? "bg-[#1E45E1] text-white shadow-sm"
+                      : "text-[#4B4B4B]"
+                      }`}
                   >
                     Yes
                   </button>
@@ -1382,9 +1376,8 @@ function AddExpenseNew() {
                           onChange={handlePaidAmountChange}
                           onWheel={(e) => e.target.blur()}
                           placeholder="Enter Paid Amount"
-                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                            paidAmount ? "font-semibold" : "font-medium"
-                          } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${paidAmount ? "font-semibold" : "font-medium"
+                            } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                         />
 
                         {paidAmountError && (
@@ -1419,9 +1412,8 @@ function AddExpenseNew() {
                           onWheel={(e) => e.target.blur()}
                           // onChange={handleBalanceAmountChange}
                           placeholder="Enter Balance Amount"
-                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                            balanceAmount ? "font-semibold" : "font-medium"
-                          } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
+                          className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${balanceAmount ? "font-semibold" : "font-medium"
+                            } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 disabled:bg-gray-50 focus:outline-none focus:ring-0`}
                         />
 
                         {/* {balanceAmountError && (
@@ -1454,9 +1446,8 @@ function AddExpenseNew() {
                       onChange={handleCreditPeriodChange}
                       placeholder="Enter Credit Period"
                       onWheel={(e) => e.target.blur()}
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                        creditPeriod ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${creditPeriod ? "font-semibold" : "font-medium"
+                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                     />
                   </div>
                 </div>
@@ -1508,9 +1499,8 @@ function AddExpenseNew() {
                       placeholder="Enter Transaction ID"
                       value={transactionId}
                       onChange={handleTransactionIdChange}
-                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                        transactionId ? "font-semibold" : "font-medium"
-                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                      className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
+                        } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                     />
                   </div>
                 </div>
@@ -1570,11 +1560,10 @@ function AddExpenseNew() {
                             />
 
                             <div
-                              className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                                hoveredImage === previewImage
-                                  ? "h-[50px]"
-                                  : "h-0"
-                              }`}
+                              className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${hoveredImage === previewImage
+                                ? "h-[50px]"
+                                : "h-0"
+                                }`}
                             >
                               <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
                                 <p className="text-white text-sm truncate max-w-[170px]">
@@ -1801,39 +1790,39 @@ function AddExpenseNew() {
                             expenseItemErrors[index]?.quantity ||
                             expenseItemErrors[index]?.unit ||
                             expenseItemErrors[index]?.price) && (
-                            <tr className="">
-                              <td className=" pb-2 text-xs  whitespace-nowrap ">
-                                <ErrorMessage
-                                  message={expenseItemErrors[index]?.itemName}
-                                  type="error"
-                                />
-                              </td>
+                              <tr className="">
+                                <td className=" pb-2 text-xs  whitespace-nowrap ">
+                                  <ErrorMessage
+                                    message={expenseItemErrors[index]?.itemName}
+                                    type="error"
+                                  />
+                                </td>
 
-                              <td className=" pb-2 text-xs text-red-500 whitespace-nowrap w-[200px] ">
-                                <ErrorMessage
-                                  message={expenseItemErrors[index]?.quantity}
-                                  type="error"
-                                />
-                              </td>
+                                <td className=" pb-2 text-xs text-red-500 whitespace-nowrap w-[200px] ">
+                                  <ErrorMessage
+                                    message={expenseItemErrors[index]?.quantity}
+                                    type="error"
+                                  />
+                                </td>
 
-                              <td className="pb-2 text-xs text-red-500 whitespace-nowrap">
-                                <ErrorMessage
-                                  message={expenseItemErrors[index]?.unit}
-                                  type="error"
-                                />
-                              </td>
+                                <td className="pb-2 text-xs text-red-500 whitespace-nowrap">
+                                  <ErrorMessage
+                                    message={expenseItemErrors[index]?.unit}
+                                    type="error"
+                                  />
+                                </td>
 
-                              <td className=" pb-2 text-xs text-red-500 whitespace-nowrap">
-                                <ErrorMessage
-                                  message={expenseItemErrors[index]?.price}
-                                  type="error"
-                                />
-                              </td>
+                                <td className=" pb-2 text-xs text-red-500 whitespace-nowrap">
+                                  <ErrorMessage
+                                    message={expenseItemErrors[index]?.price}
+                                    type="error"
+                                  />
+                                </td>
 
-                              <td></td>
-                              <td></td>
-                            </tr>
-                          )}
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            )}
                         </React.Fragment>
                       ))
                     ) : (
@@ -1914,11 +1903,10 @@ function AddExpenseNew() {
                             onClick={() => {
                               setDiscountType("amount");
                             }}
-                            className={`px-3 py-1 text-sm font-medium transition-all ${
-                              discountType === "amount"
-                                ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
-                                : "bg-[#EAEEFF] text-[#222222] border-[#EAEEFF]"
-                            }`}
+                            className={`px-3 py-1 text-sm font-medium transition-all ${discountType === "amount"
+                              ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
+                              : "bg-[#EAEEFF] text-[#222222] border-[#EAEEFF]"
+                              }`}
                           >
                             ₹
                           </button>
@@ -1926,11 +1914,10 @@ function AddExpenseNew() {
                           <button
                             type="button"
                             onClick={() => setDiscountType("percent")}
-                            className={`px-3 py-1 text-sm font-medium border-l  transition-all ${
-                              discountType === "percent"
-                                ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
-                                : "bg-[#EAEEFF] text-[#222222] border-[#EAEEFF]"
-                            }`}
+                            className={`px-3 py-1 text-sm font-medium border-l  transition-all ${discountType === "percent"
+                              ? "bg-[#1E45E1] text-[#FFFFFF] border-[#1E45E1]"
+                              : "bg-[#EAEEFF] text-[#222222] border-[#EAEEFF]"
+                              }`}
                           >
                             %
                           </button>
@@ -1992,9 +1979,8 @@ function AddExpenseNew() {
               type="submit"
               disabled={formLoading}
               onClick={handleSubmit}
-              className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-                formLoading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
+              className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
             >
               {formLoading ? (
                 <>
