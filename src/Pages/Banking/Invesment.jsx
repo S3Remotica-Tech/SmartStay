@@ -282,9 +282,9 @@ function Invesment({ show, handleClose, bankDetails }) {
   );
 
   useEffect(() => {
-    if (bankDetails && paymentOptions.length > 0) {
+    if (bankDetails?.bankId && paymentOptions.length > 0) {
       const selected = paymentOptions.find(
-        (option) => option.value === String(bankDetails).trim(),
+        (option) => option.value === String(bankDetails.bankId).trim(),
       );
 
       setPaymentMethod(selected || null);
@@ -294,7 +294,7 @@ function Invesment({ show, handleClose, bankDetails }) {
   }, [bankDetails, paymentOptions]);
 
   console.log("bankDetails", bankDetails)
-  console.log("paymentOptions", paymentOptions)
+  // console.log("paymentOptions", paymentOptions)
 
   const validateForm = () => {
     let isValid = true;
@@ -333,7 +333,7 @@ function Invesment({ show, handleClose, bankDetails }) {
         payload: {
           hostelId: state.login?.selectedHostel_Id,
           bankId: paymentMethod?.value,
-          paymentMethodId: "",
+          paymentMethodId: bankDetails?.paymentMethodId ? bankDetails?.paymentMethodId : "",
           description: description,
           transactionDate: paymentDate
             ? dayjs(paymentDate).format("DD-MM-YYYY")
@@ -470,10 +470,10 @@ function Invesment({ show, handleClose, bankDetails }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 mx-3 gap-2">
+          <div className={`grid ${bankDetails?.paymentMethod ? 'grid-cols-2' : 'grid-cols-1'} mx-3 gap-2`}>
             <div className="mb-2">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
-                Payment method{" "}
+                Payment Bank{" "}
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
@@ -497,6 +497,20 @@ function Invesment({ show, handleClose, bankDetails }) {
                 <ErrorMessage message={paymentMethodError} type="error" />
               )}
             </div>
+            {bankDetails?.paymentMethod && (
+              <div className="mb-2">
+                <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
+                  Payment Method{" "} <span className="text-red-500 text-[20px]">*</span>
+
+                </label>
+                <input type="text" value={`${bankDetails?.displayName} - ${bankDetails?.paymentMethod}`} disabled className="w-full text-[15px] text-[#4B4B4B] font-gilroy font-medium border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0 bg-gray-100" />
+
+
+              </div>
+            )}
+
+          </div>
+          <div className="grid grid-cols-1 mx-3">
             <div className="mb-2 relative">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">
                 Transaction ID{" "}
@@ -514,7 +528,6 @@ function Invesment({ show, handleClose, bankDetails }) {
               />
             </div>
           </div>
-
           <div className="grid grid-cols-1 mx-3">
             <div className="mb-1">
               <label className="text-[13px] text-[#222222] font-gilroy font-medium mb-1">

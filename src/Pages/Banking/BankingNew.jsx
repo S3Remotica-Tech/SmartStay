@@ -793,11 +793,11 @@ function BankingNew() {
     seShowCreditCardForm(false);
   };
 
-  const handleInvestment = (bankId) => {
+  const handleInvestment = (bank) => {
     setShowTransactionMenu(false);
     seShowInvestmentForm(true);
     setOpenMenuId(null);
-    setBankDetails(bankId);
+    setBankDetails(bank);
   };
 
   const handleCloseInvestment = () => {
@@ -1120,7 +1120,7 @@ function BankingNew() {
                               {openMenuId === index && (
                                 <div
                                   ref={popupRef}
-                                  className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
+                                  className="absolute right-7 top-12 w-40 bg-gray-50 px-2 py-2 border border-gray-200 rounded-xl z-[9999]"
                                 >
                                   {!item?.paymentMethod && (
 
@@ -1132,8 +1132,8 @@ function BankingNew() {
                                         e.stopPropagation();
                                         handleOpenSelfTransfer(item);
                                       }}
-                                      className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
-    disabled:cursor-not-allowed disabled:opacity-50 border-b border-gray-200
+                                      className="flex w-full items-center gap-2 px-3 py-2 
+    disabled:cursor-not-allowed disabled:opacity-50 rounded-md
     enabled:hover:bg-blue-100"
                                     >
                                       <img
@@ -1154,11 +1154,11 @@ function BankingNew() {
                                     disabled={!canWriteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleInvestment(item.bankId);
+                                      handleInvestment(item);
                                     }}
-                                    className={`flex w-full items-center gap-2 px-3 py-2  border-b border-gray-200
+                                    className={`flex w-full items-center gap-2 px-3 py-2  rounded-md
     ${canWriteBanking
-                                        ? "hover:bg-red-50 cursor-pointer"
+                                        ? "enabled:hover:bg-blue-100 cursor-pointer"
                                         : "cursor-not-allowed opacity-50"
                                       }`}
                                   >
@@ -1193,7 +1193,7 @@ function BankingNew() {
                                       e.stopPropagation();
                                       handleEditBank(item);
                                     }}
-                                    className="flex w-full items-center gap-2 px-3 py-2 border-b border-gray-200
+                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-md
       disabled:cursor-not-allowed disabled:opacity-50
       enabled:hover:bg-blue-100"
                                   >
@@ -1215,7 +1215,7 @@ function BankingNew() {
                                       e.stopPropagation();
                                       handleDeleteForm(item);
                                     }}
-                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-md
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-red-50"
                                   >

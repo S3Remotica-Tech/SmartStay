@@ -367,12 +367,12 @@ function BankingOverview({ show, onClose }) {
             </div>
 
             <button
-              disabled={!canWriteBanking}
+              disabled={!canWriteBanking || OverviewDetails?.paymentMethod === "Credit Card"}
               onClick={(e) => {
                 e.stopPropagation();
                 handleOpenSelfTransfer(OverviewDetails);
               }}
-              className="flex items-center  gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF] 
+              className="flex items-center  gap-2 !font-gilroy text-[14px] !bg-[#F8F9FF]  disabled:opacity-50 disabled:cursor-not-allowed
                                text-[#1E45E1] !font-semibold rounded-[8px] px-3 py-2   whitespace-nowrap"
             >
               <ArrowSwapVertical size="16" /> Transfer
@@ -472,7 +472,7 @@ function BankingOverview({ show, onClose }) {
         <Invesment
           show={showInvestmentForm}
           handleClose={handleCloseInvestment}
-          bankDetails={OverviewDetails?.bankId}
+          bankDetails={OverviewDetails}
         />
       )}
 

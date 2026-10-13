@@ -18,7 +18,7 @@ function SelfTransferGlobal({ show, handleClose }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [selectedFromBank, setSelectedFromBank] = useState(null);
-  // const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState(null);
+  const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState(null);
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
@@ -55,7 +55,9 @@ function SelfTransferGlobal({ show, handleClose }) {
       payload: {
         hostelId: state.login?.selectedHostel_Id,
         fromBankId: selectedFromBank?.bankId,
-        toBankId: selectedBankId,
+        toBankId: selectedPaymentMethodId
+          ? selectedPaymentMethodId
+          : selectedBankId,
         amount: Number(amount),
         date: selectedDate ? dayjs(selectedDate).format("DD-MM-YYYY") : null,
         notes: notes,
@@ -64,6 +66,8 @@ function SelfTransferGlobal({ show, handleClose }) {
 
     setLoading(true);
   };
+
+  // console.log("selectedPaymentMethodId", selectedPaymentMethodId)
 
   useEffect(() => {
     return () => {
@@ -115,18 +119,19 @@ function SelfTransferGlobal({ show, handleClose }) {
   const availableBalance = Number(bankDetails?.fromBank?.balance || 0);
 
   const isTransferDisabled =
-    !selectedBankId || Number(amount) > availableBalance;
+    (!selectedBankId && !selectedPaymentMethodId) ||
+    !amount ||
+    Number(amount) <= 0 ||
+    Number(amount) > availableBalance;
 
   const handleSelect = (bank, index) => {
     setSelectedBank(index);
     setSelectedBankId(bank.bankId);
-    // if (bank.paymentMethod) {
-    //   setSelectedPaymentMethodId(bank.paymentMethodId);
-    //   setSelectedBankId(null);
-    // } else {
-    //   setSelectedBankId(bank.bankId);
-    //   setSelectedPaymentMethodId(null);
-    // }
+    if (bank.paymentMethod) {
+      setSelectedPaymentMethodId(bank.paymentMethodId);
+    } else {
+      setSelectedPaymentMethodId(null);
+    }
   };
 
   useEffect(() => {
@@ -160,7 +165,7 @@ function SelfTransferGlobal({ show, handleClose }) {
               From
             </h6>
 
-            {state?.bankingDetails?.newBankingList?.map((bank) => (
+            {state?.bankingDetails?.newBankingList.length > 0 ? state?.bankingDetails?.newBankingList?.map((bank) => (
               <div
                 key={bank.bankId}
                 onClick={() => setSelectedFromBank(bank)}
@@ -225,7 +230,13 @@ function SelfTransferGlobal({ show, handleClose }) {
                   />
                 </div>
               </div>
-            ))}
+            )) :
+              <div className="flex justify-center border-1 border-blue-100 bg-blue-100 rounded-md py-4">
+                <label className="text-sm text-blue-800 ">
+                  No account available to transfer
+                </label>
+              </div>
+            }
           </div>
 
           <div className="my-3   pe-2 overflow-y-auto  show-scrolls">
@@ -312,9 +323,9 @@ function SelfTransferGlobal({ show, handleClose }) {
                 </div>
               ))
             ) : (
-              <div className="flex justify-center border-1 border-blue-100 rounded-md py-4">
+              <div className="flex justify-center border-1 border-blue-100 bg-blue-100 rounded-md py-4">
                 <label className="text-sm text-blue-800 ">
-                  Select From bank
+                  No account available to transfer
                 </label>
               </div>
             )}
