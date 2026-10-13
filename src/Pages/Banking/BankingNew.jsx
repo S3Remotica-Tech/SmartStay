@@ -793,11 +793,11 @@ function BankingNew() {
     seShowCreditCardForm(false);
   };
 
-  const handleInvestment = (bankId) => {
+  const handleInvestment = (bank) => {
     setShowTransactionMenu(false);
     seShowInvestmentForm(true);
     setOpenMenuId(null);
-    setBankDetails(bankId);
+    setBankDetails(bank);
   };
 
   const handleCloseInvestment = () => {
@@ -1120,66 +1120,67 @@ function BankingNew() {
                               {openMenuId === index && (
                                 <div
                                   ref={popupRef}
-                                  className="absolute right-7 top-12 w-40 bg-gray-50 border border-gray-200 rounded-xl z-[9999]"
+                                  className="absolute right-7 top-12 w-40 bg-gray-50 px-2 py-2 border border-gray-200 rounded-xl z-[9999]"
                                 >
                                   {!item?.paymentMethod && (
-                                    <>
-                                      <button
-                                        disabled={
-                                          !(canWriteBanking && !item.isDeleted)
-                                        }
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleOpenSelfTransfer(item);
-                                        }}
-                                        className="flex w-full items-center gap-2 px-3 py-2 rounded-t-xl
-    disabled:cursor-not-allowed disabled:opacity-50
+
+                                    <button
+                                      disabled={
+                                        !(canWriteBanking && !item.isDeleted)
+                                      }
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleOpenSelfTransfer(item);
+                                      }}
+                                      className="flex w-full items-center gap-2 px-3 py-2 
+    disabled:cursor-not-allowed disabled:opacity-50 rounded-md
     enabled:hover:bg-blue-100"
-                                      >
-                                        <img
-                                          src={transArrow}
-                                          alt="transArrow"
-                                          className="h-4 w-4"
-                                        />
+                                    >
+                                      <img
+                                        src={transArrow}
+                                        alt="transArrow"
+                                        className="h-4 w-4"
+                                      />
 
-                                        <span className="text-sm font-semibold font-gilroy">
-                                          Self Transfer
-                                        </span>
-                                      </button>
+                                      <span className="text-sm font-semibold font-gilroy">
+                                        Self Transfer
+                                      </span>
+                                    </button>
 
-                                      <div className="h-px bg-gray-200" />
-                                      <button
-                                        disabled={!canWriteBanking}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleInvestment(item.bankId);
-                                        }}
-                                        className={`flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
-    ${canWriteBanking
-                                            ? "hover:bg-red-50 cursor-pointer"
-                                            : "cursor-not-allowed opacity-50"
-                                          }`}
-                                      >
-                                        <MoneyRecive
-                                          size={16}
-                                          className={
-                                            canWriteBanking
-                                              ? "text-[#1E45E1]"
-                                              : "text-gray-400"
-                                          }
-                                        />
-                                        <span
-                                          className={`text-sm font-semibold font-gilroy ${canWriteBanking
-                                            ? "text-black"
-                                            : "text-gray-400"
-                                            }`}
-                                        >
-                                          Investment
-                                        </span>
-                                      </button>
-                                    </>
                                   )}
-                                  <div className="h-px bg-gray-200" />
+
+
+                                  <button
+                                    disabled={!canWriteBanking}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleInvestment(item);
+                                    }}
+                                    className={`flex w-full items-center gap-2 px-3 py-2  rounded-md
+    ${canWriteBanking
+                                        ? "enabled:hover:bg-blue-100 cursor-pointer"
+                                        : "cursor-not-allowed opacity-50"
+                                      }`}
+                                  >
+                                    <MoneyRecive
+                                      size={16}
+                                      className={
+                                        canWriteBanking
+                                          ? "text-[#1E45E1]"
+                                          : "text-gray-400"
+                                      }
+                                    />
+                                    <span
+                                      className={`text-sm font-semibold font-gilroy ${canWriteBanking
+                                        ? "text-black"
+                                        : "text-gray-400"
+                                        }`}
+                                    >
+                                      Investment
+                                    </span>
+                                  </button>
+
+
                                   <button
                                     disabled
                                     // disabled={
@@ -1192,7 +1193,7 @@ function BankingNew() {
                                       e.stopPropagation();
                                       handleEditBank(item);
                                     }}
-                                    className="flex w-full items-center gap-2 px-3 py-2
+                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-md
       disabled:cursor-not-allowed disabled:opacity-50
       enabled:hover:bg-blue-100"
                                   >
@@ -1205,7 +1206,7 @@ function BankingNew() {
                                     </span>
                                   </button>
 
-                                  <div className="h-px bg-gray-200" />
+
 
                                   <button
                                     disabled
@@ -1214,7 +1215,7 @@ function BankingNew() {
                                       e.stopPropagation();
                                       handleDeleteForm(item);
                                     }}
-                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-b-xl
+                                    className="flex w-full items-center gap-2 px-3 py-2 rounded-md
     disabled:cursor-not-allowed disabled:opacity-50
     enabled:hover:bg-red-50"
                                   >
@@ -1331,7 +1332,7 @@ function BankingNew() {
                             </div>
 
                             <div className="flex justify-between my-3 gap-2">
-                              {item.paymentMethod && (
+                              {item.paymentMethod && item?.bankName && (
                                 <div
                                   className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
@@ -1340,7 +1341,7 @@ function BankingNew() {
                                 </div>
                               )}
 
-                              {item.paymentMethod && (
+                              {item.paymentMethod && item?.cardNumber && (
                                 <div
                                   className="flex gap-2 items-center  px-2 py-1 bg-[#F1F1FF]
                                text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
@@ -1352,13 +1353,15 @@ function BankingNew() {
                               {item.accountType === "BANK" &&
                                 !item.paymentMethod && (
                                   <>
-                                    <div
-                                      className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
+                                    {item?.branchName &&
+                                      <div
+                                        className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
-                                    >
-                                      <Location size="12" color="#8F5C09" />{" "}
-                                      {item?.branchName}
-                                    </div>
+                                      >
+                                        <Location size="12" color="#8F5C09" />{" "}
+                                        {item?.branchName}
+                                      </div>
+                                    }
                                     {item?.upiId && (
                                       <div
                                         className="flex gap-2 items-center  px-2 py-1 bg-[#9EB1FF2B]

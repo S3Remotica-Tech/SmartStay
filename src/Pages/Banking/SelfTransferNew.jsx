@@ -17,7 +17,8 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const [selectedBank, setSelectedBank] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
-
+  const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState(null);
+  console.log("selectedPaymentMethodId", selectedPaymentMethodId);
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });
@@ -54,7 +55,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
       payload: {
         hostelId: state.login?.selectedHostel_Id,
         fromBankId: bankDetails?.fromBank?.bankId,
-        toBankId: selectedBankId,
+        toBankId: selectedPaymentMethodId
+          ? selectedPaymentMethodId
+          : selectedBankId,
         amount: Number(amount),
         date: selectedDate ? dayjs(selectedDate).format("DD-MM-YYYY") : null,
         notes: notes,
@@ -105,9 +108,14 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const isTransferDisabled =
     !selectedBankId || Number(amount) > availableBalance;
 
-  const handleSelect = (bankId, index) => {
+  const handleSelect = (bank, index) => {
     setSelectedBank(index);
-    setSelectedBankId(bankId);
+    setSelectedBankId(bank.bankId);
+    if (bank.paymentMethod) {
+      setSelectedPaymentMethodId(bank.paymentMethodId);
+    } else {
+      setSelectedPaymentMethodId(null);
+    }
   };
 
   useEffect(() => {
@@ -203,7 +211,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
               bankDetails?.toBanks?.map((bank, index) => (
                 <div
                   key={bank.index}
-                  onClick={() => handleSelect(bank.bankId, index)}
+                  onClick={() => handleSelect(bank, index)}
                   className={`flex items-center gap-2 mb-3 p-2.5 rounded-lg transition-all duration-200 cursor-pointer
       ${selectedBank === index
                       ? "bg-[#F7FAFF] border-1 border-[#1E45E1]"
@@ -282,7 +290,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                 <label className="text-sm text-red-500 ">
                   {bankDetails?.fromBank?.accountType === "CASH"
                     ? " No cash accounts available"
-                    : ""}
+                    : " No account available to transfer"}
                 </label>
               </div>
             )}

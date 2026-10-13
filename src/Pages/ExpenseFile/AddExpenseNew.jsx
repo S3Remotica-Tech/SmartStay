@@ -1063,9 +1063,9 @@ function AddExpenseNew() {
     state.ExpenseList?.getInitializeExpenseList?.banks?.map((bank) => ({
       value: bank.bankId,
       label: bank.holderName,
-      type: bank.type,
+      type: bank.type || bank.bankName,
       icon:
-        bank.type === "BANK" ? (
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
         ) : (
           <Wallet2 color="#038C3D" size="16" />

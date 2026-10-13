@@ -147,17 +147,16 @@ const Option = (props) => {
             )}
           </div>
         </div>
-{ data.type && 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type &&
+          <span
+            className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : "bg-green-100 text-green-700"
-          }`}
-        >
-          {data.type}
-        </span>
-}
+              }`}
+          >
+            {data.type}
+          </span>
+        }
       </div>
     </components.Option>
   );
@@ -596,20 +595,20 @@ function AddRetainerInvoice() {
   //     data: bank,
   //   })) || [];
 
-      const paymentOptionsV1 =
-            state.UsersList?.TenantList?.listBanks?.map((bank) => ({
-              value: bank.bankId,
-              label: bank.accountHolderName,
-                   type: bank.type,
-              icon:
-                bank.type === "BANK" ? (
-                  <Bank color="#1E45E1" size="16" />
-                ) : (
-                  <Wallet2 color="#038C3D" size="16" />
-                ),
-              data: bank,
-            })) || [];
-    
+  const paymentOptionsV1 =
+    state.UsersList?.TenantList?.listBanks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.accountHolderName,
+      type: bank.type || bank.bankName,
+      icon:
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
+
 
   // const handleAddGuardian = () => {
   //   setAdditionalForm(true);
@@ -1153,31 +1152,31 @@ function AddRetainerInvoice() {
                       {(expenseItemError.itemName ||
                         expenseItemError.retainertype ||
                         expenseItemError.amount) && (
-                        <tr>
-                          <td className="pb-2">
-                            <ErrorMessage
-                              message={expenseItemError.itemName}
-                              type="error"
-                            />
-                          </td>
+                          <tr>
+                            <td className="pb-2">
+                              <ErrorMessage
+                                message={expenseItemError.itemName}
+                                type="error"
+                              />
+                            </td>
 
-                          <td className="pb-2">
-                            <ErrorMessage
-                              message={expenseItemError.retainertype}
-                              type="error"
-                            />
-                          </td>
+                            <td className="pb-2">
+                              <ErrorMessage
+                                message={expenseItemError.retainertype}
+                                type="error"
+                              />
+                            </td>
 
-                          <td className="pb-2">
-                            <ErrorMessage
-                              message={expenseItemError.amount}
-                              type="error"
-                            />
-                          </td>
+                            <td className="pb-2">
+                              <ErrorMessage
+                                message={expenseItemError.amount}
+                                type="error"
+                              />
+                            </td>
 
-                          <td></td>
-                        </tr>
-                      )}
+                            <td></td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </div>
@@ -1241,9 +1240,8 @@ function AddRetainerInvoice() {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  transactionId ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
               />
             </div>
           </div>
@@ -1283,11 +1281,10 @@ function AddRetainerInvoice() {
               type="button"
               onClick={handleSaveAndGenerate}
               disabled={saveLoading}
-              className={`px-6 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
-                saveLoading
-                  ? "bg-[#1E45E1]/80 cursor-not-allowed"
-                  : "bg-[#1E45E1] hover:bg-[#1738BB]"
-              } text-white`}
+              className={`px-6 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${saveLoading
+                ? "bg-[#1E45E1]/80 cursor-not-allowed"
+                : "bg-[#1E45E1] hover:bg-[#1738BB]"
+                } text-white`}
             >
               {saveLoading ? (
                 <>
