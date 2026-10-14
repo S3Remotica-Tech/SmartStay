@@ -291,11 +291,10 @@ function Asset() {
             <div className="flex justify-between items-center gap-2 flex-wrap p-2">
               <div
                 className={`flex items-center rounded-xl border px-3 py-1.5 !bg-white  transition
-                 ${
-                   canReadAssets
-                     ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-                     : "border-gray-200 opacity-60 cursor-not-allowed"
-                 }`}
+                 ${canReadAssets
+                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                    : "border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
               >
                 <input
                   type="text"

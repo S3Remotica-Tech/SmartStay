@@ -17,6 +17,8 @@ export const initialState = {
   unAuthorized: "",
   allVendorList: [],
   getAllVendorListStatusCode: 0,
+  addAssetInitializeList: [],
+
 };
 
 const AssetReducer = (state = initialState, action) => {
@@ -39,6 +41,11 @@ const AssetReducer = (state = initialState, action) => {
       };
     case "CLEAR_GET_ASSET_STATUS_CODE":
       return { ...state, getAssetStatusCode: 0 };
+
+    case 'ADD_ASSET_INITIALIZE_REDUCER':
+      return { ...state, addAssetInitializeList: action.payload.response }
+
+
     case "ALL_VENDOR_LIST_REDUCER":
       return {
         ...state,

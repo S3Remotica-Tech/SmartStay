@@ -1603,14 +1603,14 @@ function BankingNew() {
                                         <>
                                           <ArrowSwapVertical
                                             size={16}
-                                            color="#1E45E1"
+                                            color={`${user.type === "CREDIT" ? "#16A34A" : "#DC2626"}`}
                                           />
-                                          <span>{user.source}</span>
+                                          <span className="capitalize"> {user.source === "SELF_TRANSFER" ? "Self Transfer" : user.source}</span>
                                         </>
                                       ) : user.type === "CREDIT" ? (
                                         <>
                                           <ArrowUp size={16} color="#16A34A" />
-                                          <span>{user.source}</span>
+                                          <span className="capitalize">{user.source}</span>
                                         </>
                                       ) : user.type === "DEBIT" ? (
                                         <>
@@ -1618,10 +1618,10 @@ function BankingNew() {
                                             size={16}
                                             color="#DC2626"
                                           />
-                                          <span>{user.source}</span>
+                                          <span className="capitalize">{user.source}</span>
                                         </>
                                       ) : (
-                                        <span>{user.source}</span>
+                                        <span className="capitalize">{user.source}</span>
                                       )}
                                     </div>
                                   </td>
@@ -1706,6 +1706,7 @@ function BankingNew() {
             <CreditCardPayment
               show={showCreditCardForm}
               handleClose={handleCloseCreditPayment}
+              paymentMethodId=""
             />
           )}
           {showInvestmentForm && (

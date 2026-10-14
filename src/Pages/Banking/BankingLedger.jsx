@@ -397,11 +397,10 @@ function BankingLedger() {
                   setIsFilterOpen(true);
                 }
               }}
-              className={`transition-opacity duration-300 ${
-                canReadBanking
-                  ? "cursor-pointer opacity-100 pointer-events-auto"
-                  : "cursor-not-allowed opacity-40 pointer-events-none"
-              }`}
+              className={`transition-opacity duration-300 ${canReadBanking
+                ? "cursor-pointer opacity-100 pointer-events-auto"
+                : "cursor-not-allowed opacity-40 pointer-events-none"
+                }`}
             />
           </div>
         </div>
@@ -486,28 +485,29 @@ function BankingLedger() {
                       </td>
                       <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
                         <div className="flex items-center gap-2 capitalize">
-                          {["DEPOSIT", "INVOICE"].includes(user.source) ? (
+                          {user.source === "SELF_TRANSFER" ? (
+                            <>
+                              <ArrowSwapVertical
+                                size={16}
+                                color={`${user.type === "CREDIT" ? "#16A34A" : "#DC2626"}`}
+                              />
+                              <span className="capitalize"> {user.source === "SELF_TRANSFER" ? "Self Transfer" : user.source}</span>
+                            </>
+                          ) : user.type === "CREDIT" ? (
                             <>
                               <ArrowUp size={16} color="#16A34A" />
-                              <span>{user.source}</span>
+                              <span className="capitalize">{user.source}</span>
                             </>
-                          ) : [
-                              "EXPENSE",
-                              "ASSETS",
-                              "BOOKING_REFUND",
-                              "RENT_REFUND",
-                            ].includes(user.source) ? (
+                          ) : user.type === "DEBIT" ? (
                             <>
-                              <ArrowDown size={16} color="#DC2626" />
-                              <span>{user.source}</span>
-                            </>
-                          ) : user.source === "SELF_TRANSFER" ? (
-                            <>
-                              <ArrowSwapVertical size={16} color="#1E45E1" />
-                              <span>{user.source}</span>
+                              <ArrowDown
+                                size={16}
+                                color="#DC2626"
+                              />
+                              <span className="capitalize">{user.source}</span>
                             </>
                           ) : (
-                            <span>{user.source}</span>
+                            <span className="capitalize">{user.source}</span>
                           )}
                         </div>
                       </td>
