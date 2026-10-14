@@ -2044,7 +2044,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                             </div>
 
                             <div className="w-full">
-                              <label className="mb-2 text-sm text-black"> Select Payment</label>
+                              <label className="mb-2 text-sm text-black"> Select Payment Method</label>
                               <Select
                                 options={paymentOptions}
                                 value={selectedPayment}
