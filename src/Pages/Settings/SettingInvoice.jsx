@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -41,57 +41,104 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import AddNewAccount from "../../Pages/Banking/AddNewAccount";
 import Select, { components } from "react-select";
-import { Bank, Wallet3, Mobile, Moneys } from "iconsax-react";
+import {
+  Bank, Wallet2, ArrowDown2
 
-const IconMap = {
-  bank: () => <Bank size="18" color="#1E40AF" variant="Bold" />,
-  gpay: () => <div className="w-[18px] h-[18px] rounded-full bg-gradient-to-br from-blue-500 via-red-400 to-yellow-400" />,
-  paytm: () => <Wallet3 size="18" color="#00BAF2" variant="Bold" />,
-  phonepe: () => <div className="w-[18px] h-[18px] rounded-full bg-[#5F259F] flex items-center justify-center text-white text-[10px] font-bold">₹</div>,
-};
+} from "iconsax-react";
 
 
-const CustomOption = (props) => {
-  const { data, isSelected } = props;
-  const Icon = IconMap[data.icon];
+const Option = (props) => {
+  const { data } = props;
+
   return (
     <components.Option {...props}>
-      <div className={`flex items-center justify-between w-full px-2 py-1.5 rounded-md ${isSelected ? 'bg-indigo-50' : 'bg-white hover:bg-gray-50'}`}>
+      <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
 
-          <Icon />
-          <span className="text-[13px] text-gray-700 font-medium">{data.label}</span>
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
         </div>
-        <span className="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-400 font-medium">
+
+        <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-green-100 text-green-700"
+            }`}
+        >
           {data.type}
         </span>
       </div>
     </components.Option>
   );
 };
-
-const CustomGroupHeading = (props) => {
-  return (
-    <div className="px-4 pt-3 pb-1 text-[11px] font-medium text-gray-500">
-      {props.data.label}
-    </div>
-  );
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
 };
 
+const SingleValue = (props) => {
+  const { data } = props;
 
-const CustomSingleValue = (props) => {
-  const Icon = IconMap[props.data.icon];
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        <Icon />
-        <span className="text-[13px] font-medium text-gray-800">
-          {props.data.value === 'hdfc_gpay' ? 'HDFC Bank - G Pay UPI' : props.data.label}
-        </span>
+        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
       </div>
     </components.SingleValue>
   );
 };
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
@@ -205,7 +252,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([]);
-  const [selectedBankId, setSelectedBankId] = useState(null);
+  // const [selectedBankId, setSelectedBankId] = useState(null);
   const [showform, setShowForm] = useState(false);
   const [contactnumberform, setContactNumberForm] = useState(false);
   const [editformErrmsg, setEditFormErrMessage] = useState("");
@@ -250,32 +297,46 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   } = useHasPermission("Bills");
 
 
-  const paymentOptions = [
-    {
-      label: "SBI Bank",
-      options: [
-        { value: "sbi_direct", label: "SBI Bank (Direct)", type: "Bank Transfer", bank: "SBI", icon: "bank" },
-        { value: "sbi_gpay", label: "G Pay UPI (smartstays@oksbi)", type: "UPI", bank: "SBI", icon: "gpay" },
-        { value: "sbi_paytm", label: "Paytm UPI (smartstays@oksbi)", type: "UPI", bank: "SBI", icon: "paytm" },
-        { value: "sbi_phonepe", label: "Phone pe UPI (smartstays@oksbi)", type: "UPI", bank: "SBI", icon: "phonepe" },
-      ]
-    },
-    {
-      label: "HDFC Bank",
-      options: [
-        { value: "hdfc_direct", label: "HDFC Bank (Direct)", type: "Bank Transfer", bank: "HDFC", icon: "bank" },
-        { value: "hdfc_gpay", label: "G Pay UPI (smartstays@oksbi)", type: "UPI", bank: "HDFC", icon: "gpay" },
-        { value: "hdfc_paytm", label: "Paytm UPI (smartstays@oksbi)", type: "UPI", bank: "HDFC", icon: "paytm" },
-        { value: "hdfc_phonepe", label: "Phone pe UPI (smartstays@oksbi)", type: "UPI", bank: "HDFC", icon: "phonepe" },
-      ]
-    }
-  ];
 
   // const flatOptions = paymentOptions.flatMap(g => g.options);
 
-  const [selected, setSelected] = useState("");
+  const [selectedBank, setSelectedBank] = useState(null);
+  const [selectedPayment, setSelectedPayment] = useState(null);
 
 
+
+  const bankOptions = useMemo(
+    () =>
+      banking?.map((bank) => ({
+        value: bank.bankId,
+        label: bank.displayName,
+        subLabel:
+          bank.accountType === "BANK"
+            ? bank.bankName
+            : bank.cashAccountType,
+        type: bank.accountType,
+        icon:
+          bank.accountType === "BANK" ? (
+            <Bank color="#1E45E1" size="16" />
+          ) : (
+            <Wallet2 color="#038C3D" size="16" />
+          ),
+        data: bank,
+      })) || [],
+    [banking],
+  );
+
+  console.log("bankOptions", banking)
+  const paymentOptions = []
+
+  // banking
+  //   ?.filter((bank) => bank?.isActive && bank?.accountType === "BANK")
+  //   ?.map((bank) => ({
+  //     value: bank?.bankId,
+  //     label: `${bank?.displayName} - ${bank?.bankName}`,
+  //     balance: bank?.balance,
+  //     accountType: bank?.bankAccountType,
+  //   }));
 
 
   useEffect(() => {
@@ -752,7 +813,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   useEffect(() => {
     if (state.Settings?.settingsInvoicegetErrorStatuscode === 201) {
       setLoading(false);
-      setSelectedBankId(null);
+      setSelectedBank(null);
       setPrefix("");
       setSuffix("");
       setTax("");
@@ -867,6 +928,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     state.UsersList?.templatesGlobalImagesDeleteStatusCode,
   ]);
 
+  // console.log("state?.bankingDetails?.newBankingList", state?.bankingDetails?.newBankingList)
+
   useEffect(() => {
     if (state.bankingDetails.getBankingSuccessCode) {
       // setBanking(state.bankingDetails?.bankingList?.listBanks);
@@ -912,15 +975,15 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-  const handleBankClick = (id) => {
-    setEditFormErrMessage("");
-    setSelectedBankId(id);
-  };
+  // const handleBankClick = (id) => {
+  //   setEditFormErrMessage("");
+  //   setSelectedBankId(id);
+  // };
 
   useEffect(() => {
     if (banking?.length > 0) {
       const defaultBank = banking.find((bank) => bank.isDefault) || banking[0];
-      setSelectedBankId(defaultBank.bankId);
+      setSelectedBank(defaultBank.bankId);
     }
   }, [banking]);
 
@@ -993,7 +1056,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       );
       setTerms(RentalinvoiceTemplate.invoiceTermsAndCondition || "");
       setTax(RentalinvoiceTemplate.gstPercentile || "");
-      setSelectedBankId(RentalinvoiceTemplate.selectedBankId || null);
+      setSelectedBank(RentalinvoiceTemplate.selectedBankId || null);
       setQrImage(RentalinvoiceTemplate.qrCodeUrl || null);
       setQRImagePreview(RentalinvoiceTemplate.qrCodeUrl || null);
       setNotes(RentalinvoiceTemplate.invoiceNotes);
@@ -1085,7 +1148,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
           gstPercentile: tax,
           invoiceNotes: notes,
           invoiceTermsAndCondition: terms,
-          bankId: selectedBankId,
+          bankId: selectedBank,
           invoiceTemplateColor: useGradient
             ? defaultGradient
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
@@ -1940,7 +2003,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
                         <div className="col-lg-12 border p-4 mb-6 rounded-[10px] font-gilroy">
                           <div className="flex justify-between items-center mb-2.5">
-                            <p className="text-[18px] text-[#222222] font-normal whitespace-nowrap m-0">
+                            <p className="text-[16px] text-[#222222] font-normal whitespace-nowrap m-0">
                               Account Details
                             </p>
 
@@ -1959,27 +2022,49 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           <hr className="border-t border-gray-700" />
 
 
-                          <div className="  flex justify-center pt-2">
-                            <div className="w-[380px]">
-
+                          <div className="  flex  flex-col gap-3 justify-center pt-2">
+                            <div className="w-full">
+                              <label className="mb-2 text-sm text-black"> Select Bank</label>
                               <Select
-                                options={paymentOptions}
-                                value={selected}
-                                onChange={setSelected}
-                                components={{
-                                  Option: CustomOption,
-                                  GroupHeading: CustomGroupHeading,
-                                  SingleValue: CustomSingleValue,
-                                  IndicatorSeparator: () => null,
-                                }}
+                                options={bankOptions}
+                                value={selectedBank}
+                                onChange={setSelectedBank}
+
                                 styles={CustomStyles}
                                 className="text-sm"
                                 isSearchable={false}
+                                components={{
+                                  Option,
+                                  SingleValue,
+                                  DropdownIndicator,
+                                  GroupHeading,
+                                  IndicatorSeparator: () => null,
+                                }}
+                              />
+                            </div>
+
+                            <div className="w-full">
+                              <label className="mb-2 text-sm text-black"> Select Payment</label>
+                              <Select
+                                options={paymentOptions}
+                                value={selectedPayment}
+                                onChange={setSelectedPayment}
+
+                                styles={CustomStyles}
+                                className="text-sm"
+                                isSearchable={false}
+                                components={{
+                                  Option,
+                                  SingleValue,
+                                  DropdownIndicator,
+                                  GroupHeading,
+                                  IndicatorSeparator: () => null,
+                                }}
                               />
                             </div>
                           </div>
 
-                          {!selectedBankId && bankid_Error.trim() !== "" && (
+                          {!selectedBank && bankid_Error.trim() !== "" && (
                             <ErrorMessage message={bankid_Error} type="error" />
                           )}
                         </div>
