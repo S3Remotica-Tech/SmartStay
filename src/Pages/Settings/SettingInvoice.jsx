@@ -304,6 +304,8 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [selectedPayment, setSelectedPayment] = useState(null);
 
 
+  console.log("selectedBank", selectedBank)
+
 
   const bankOptions = useMemo(
     () =>
