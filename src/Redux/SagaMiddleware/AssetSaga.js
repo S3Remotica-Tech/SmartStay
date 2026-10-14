@@ -7,7 +7,7 @@ import {
   AddAsset,
   DeleteAssetList,
   getHostelRooms,
-  AssignAsset,
+  AssignAsset, addAssetInitialize
 } from "../Action/AssetAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
@@ -116,6 +116,31 @@ function* handleGetAsset(action) {
     yield* handleApiError(error);
   }
 }
+
+function* handleAddAssetInitialize(action) {
+  try {
+    const response = yield call(addAssetInitialize, action.payload);
+
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
+    }
+
+    if (response?.status === 200) {
+      yield put({
+        type: "ADD_ASSET_INITIALIZE_REDUCER",
+        payload: {
+          response: response?.data || [],
+          statusCode: response?.status,
+        },
+      });
+    }
+  } catch (error) {
+    yield* handleApiError(error);
+  }
+}
+
+
 
 function* handleAddAsset(action) {
   try {
@@ -357,6 +382,7 @@ function* AssetSaga() {
   yield takeEvery("PERMISSIONROLELIST", handleGetRoleBasedPermission);
   yield takeEvery("ASSETLIST", handleGetAsset);
   yield takeEvery("ADDASSET", handleAddAsset);
+  yield takeEvery("ADD_ASSET_INITIALIZE_SAGA", handleAddAssetInitialize)
   yield takeEvery("UPDATEASSET", handleUpdateAsset);
   yield takeEvery("DELETEASSET", handleDeleteAsset);
   yield takeEvery("GETROOMS", handleGetHostelRooms);

@@ -497,6 +497,7 @@ function BankingOverview({ show, onClose }) {
           show={showCreditCardForm}
           handleClose={handleCloseCreditPayment}
           bankId={OverviewDetails?.bankId}
+          paymentMethodId={OverviewDetails?.paymentMethodId}
         />
       )}
     </div>

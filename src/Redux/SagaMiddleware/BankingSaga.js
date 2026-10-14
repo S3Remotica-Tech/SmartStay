@@ -746,7 +746,7 @@ function* handleV3GetBanking(action) {
       yield put({
         type: "BANKING_LIST_REDUCER",
         payload: {
-          response: response.data || [],
+          response: response.data?.listBanks || [],
           statusCode: response?.status,
         },
       });

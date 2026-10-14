@@ -247,8 +247,8 @@ function StaticExample({ show, setShow, currentItem }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
-        type: "ALL_VENDOR_LIST_SAGA",
-        payload: { hostelId: state.login.selectedHostel_Id },
+        type: "ADD_ASSET_INITIALIZE_SAGA",
+        payload: state.login.selectedHostel_Id
       });
     }
   }, []);
@@ -389,12 +389,12 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
   const paymentOptionsV1 =
-    state.AssetList?.allVendorList?.banks?.map((bank) => ({
+    state.AssetList?.addAssetInitializeList?.listBanks?.map((bank) => ({
       value: bank.bankId,
-      label: bank.holderName,
-      type: bank.type || bank.bankName,
+      label: bank.displayName,
+      type: bank.accountType || bank.bankName,
       icon:
-        bank.type === "BANK" || bank.bankName === "BANK" ? (
+        bank.accountType === "BANK" || bank.bankName === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
         ) : (
           <Wallet2 color="#038C3D" size="16" />
@@ -682,383 +682,332 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.createAccount?.networkError]);
 
   return (
-    <div>
-      <div className="modal show block static">
-        <Modal show={show} onHide={handleClose} backdrop="static" centered>
-          <Modal.Dialog className="m-0 p-0 w-full max-w-full">
-            <Modal.Header>
-              <Modal.Title className="!text-lg text-[#222222] !font-gilroy !font-semibold">
-                {currentItem ? "Edit an Asset" : "Add Assets"}
-              </Modal.Title>
+    <div className="fixed inset-0 z-[999] flex justify-end">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="fixed inset-y-2 right-2 w-[720px] bg-white rounded-lg shadow-xl z-50 flex flex-col font-gilroy
+         border border-gray-50"
+      >
+        <div
+          className="sticky top-0 z-50 flex items-center  justify-between gap-4   
+                rounded-xl  bg-white px-4 py-3"
+        >
+          <div className="!text-lg text-[#222222] !font-gilroy !font-semibold">
+            {currentItem ? "Edit an Asset" : "Add Assets"}
+          </div>
 
-              <CloseCircle
-                size="24"
-                color="#000"
-                onClick={handleClose}
-                className="cursor-pointer"
-              />
-            </Modal.Header>
-
-            <Modal.Body
-              className="show-scroll p-3 mt-2 mr-3 max-h-96 overflow-y-scroll mb-2"
-              style={{ height: 390, maxHeight: 400 }}
-            >
-              <div className="grid grid-cols-12 gap-x-4 gap-y-3 -mt-2">
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group
-                    className=""
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Asset Name <span className="text-red-600 text-xl">*</span>
-                    </Form.Label>
-                    <Form.Control
-                      value={assetName}
-                      ref={assetNameRef}
-                      onChange={handleAssetNameChange}
-                      type="text"
-                      placeholder="Enter Asset Name"
-                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleClose}
+            className="cursor-pointer"
+          />
+        </div>
+        <div className="flex-1 overflow-y-auto px-6 py-4 show-scrolls border-t">
+          <div className="grid grid-cols-12 gap-x-4 gap-y-3 -mt-2">
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group
+                className=""
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Asset Name <span className="text-red-600 text-xl">*</span>
+                </Form.Label>
+                <Form.Control
+                  value={assetName}
+                  ref={assetNameRef}
+                  onChange={handleAssetNameChange}
+                  type="text"
+                  placeholder="Enter Asset Name"
+                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
                       shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
-                    />
-                  </Form.Group>
+                />
+              </Form.Group>
 
-                  {assetError && (
-                    <ErrorMessage message={assetError} type="error" />
-                  )}
-                </div>
+              {assetError && (
+                <ErrorMessage message={assetError} type="error" />
+              )}
+            </div>
 
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Product Type{" "}
-                      <span className="text-red-600 text-xl">*</span>
-                    </Form.Label>
-                    <Form.Control
-                      value={productName}
-                      ref={productNameRef}
-                      onChange={handleProductNameChange}
-                      type="text"
-                      placeholder="Enter Product Type"
-                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Product Type{" "}
+                  <span className="text-red-600 text-xl">*</span>
+                </Form.Label>
+                <Form.Control
+                  value={productName}
+                  ref={productNameRef}
+                  onChange={handleProductNameChange}
+                  type="text"
+                  placeholder="Enter Product Type"
+                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
                       shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
-                    />
-                  </Form.Group>
+                />
+              </Form.Group>
 
-                  {productNameError && (
-                    <ErrorMessage message={productNameError} type="error" />
-                  )}
-                </div>
+              {productNameError && (
+                <ErrorMessage message={productNameError} type="error" />
+              )}
+            </div>
 
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Vendor Name
-                    </Form.Label>
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Vendor Name
+                </Form.Label>
 
-                    <Select
-                      options={
-                        state.AssetList?.allVendorList?.vendors?.length > 0
-                          ? state.AssetList?.allVendorList?.vendors?.map((view) => ({
-                            value: view.vendorId,
-                            label: view.vendorName,
-                          }))
-                          : []
-                      }
-                      onChange={handleVendorNameChange}
-                      value={
-                        state?.AssetList?.allVendorList?.vendors?.find(
+                <Select
+                  options={
+                    state.AssetList?.addAssetInitializeList?.listVendors?.length > 0
+                      ? state.AssetList?.addAssetInitializeList?.listVendors?.map((view) => ({
+                        value: view.vendorId,
+                        label: view.vendorFullName,
+                      }))
+                      : []
+                  }
+                  onChange={handleVendorNameChange}
+                  value={
+                    state?.AssetList?.addAssetInitializeList?.listVendors?.find(
+                      (vendor) => vendor.vendorId === vendorName,
+                    )
+                      ? {
+                        value: vendorName,
+                        label: state.AssetList?.addAssetInitializeList?.listVendors?.find(
                           (vendor) => vendor.vendorId === vendorName,
-                        )
-                          ? {
-                            value: vendorName,
-                            label: state.AssetList?.allVendorList?.vendors?.find(
-                              (vendor) => vendor.vendorId === vendorName,
-                            )?.vendorName,
-                          }
-                          : null
+                        )?.vendorFullName,
                       }
-                      placeholder="Select a Vendor"
-                      classNamePrefix="custom"
-                      menuPlacement="bottom"
-                      noOptionsMessage={() => "No vendors available"}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "50px",
-                          border: "1px solid #D9D9D9",
-                          borderRadius: "8px",
-                          fontSize: "16px",
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: vendorName ? 600 : 500,
-                          boxShadow: "none",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#9aa0a6",
-                          fontSize: 16,
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          cursor: "pointer",
-                          backgroundColor: state.isSelected
-                            ? "#1E45E1"
-                            : state.isFocused
-                              ? "#E8EEFF"
-                              : "white",
-                          color: state.isSelected ? "#fff" : "#000",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                      }}
-                    />
-                  </Form.Group>
-                </div>
+                      : null
+                  }
+                  placeholder="Select a Vendor"
+                  classNamePrefix="custom"
+                  menuPlacement="bottom"
+                  noOptionsMessage={() => "No vendors available"}
+                  styles={CustomStyles}
+                />
+              </Form.Group>
+            </div>
 
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group
-                    className="mb-"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Brand Name{" "}
-                    </Form.Label>
-                    <Form.Control
-                      value={brandName}
-                      onChange={handleBrandNameChange}
-                      type="text"
-                      placeholder="Enter Brand Name"
-                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
-                    />
-                  </Form.Group>
-                </div>
-
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Serial Number{" "}
-                    </Form.Label>
-                    <Form.Control
-                      //  className="mb-1 mt-1.5"
-                      value={serialNumber}
-                      ref={serialNumberRef}
-                      onChange={handleSerialNumberChange}
-                      type="text"
-                      placeholder="Enter Serial Number"
-                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
-                    />
-                  </Form.Group>
-
-                  {serialNumberError && (
-                    <ErrorMessage message={serialNumberError} type="error" />
-                  )}
-
-                  {serial_number_duplicate_Error && (
-                    <ErrorMessage
-                      message={serial_number_duplicate_Error}
-                      type="error"
-                    />
-                  )}
-                </div>
-
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group controlId="purchaseDate">
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Purchase Date{" "}
-                      <span className="text-red-600 text-xl">*</span>
-                    </Form.Label>
-
-                    <div
-                      className="datepicker-wrapper -mt-1"
-                      style={{ position: "relative", width: "100%" }}
-                    >
-                      <DatePicker
-                        ref={dateRef}
-                        style={{
-                          width: "100%",
-                          height: 48,
-                          cursor: "pointer",
-                          fontFamily: "Gilroy",
-                        }}
-                        format="DD/MM/YYYY"
-                        placeholder="DD/MM/YYYY"
-                        value={selectedDate ? dayjs(selectedDate) : null}
-                        onChange={(date) => {
-                          setIsChangedError("");
-                          setSelectedDateError("");
-                          setJoingDateErrmsg("");
-                          setSelectedDate(date);
-                        }}
-                        disabledDate={(current) =>
-                          current && current > dayjs().endOf("day")
-                        }
-                        getPopupContainer={() => document.body}
-                        popupStyle={{ zIndex: 2000, left: "570px" }}
-                        placement="bottomLeft"
-                      />
-                    </div>
-                  </Form.Group>
-                  {selectedDateError && (
-                    <ErrorMessage message={selectedDateError} type="error" />
-                  )}
-
-                  {joiningDateErrmsg.trim() !== "" && (
-                    <ErrorMessage message={joiningDateErrmsg} type="error" />
-                  )}
-                </div>
-
-                <div className="col-span-12 lg:col-span-6">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                      Price <span className="text-red-600 text-xl">*</span>
-                    </Form.Label>
-                    <Form.Control
-                      value={price}
-                      ref={priceRef}
-                      onChange={handlePriceChange}
-                      // onKeyDown={(e) => {
-                      //   if (e.key === "." || e.key === "e" || e.key === "-") {
-                      //     e.preventDefault();
-                      //   }
-                      // }}
-                      type="text"
-                      placeholder="Enter Amount"
-                      className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
-                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
-                    />
-                  </Form.Group>
-                  {priceError && (
-                    <ErrorMessage message={priceError} type="error" />
-                  )}
-                </div>
-                {!currentItem && (
-                  <div className="col-span-12 lg:col-span-6">
-                    <Form.Group controlId="exampleForm.ControlInput1">
-                      <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
-                        Mode Of Payment{" "}
-                        <span
-                          className={`text-red-500 text-xl ${modeOfPayment ? "hidden" : "inline-block"
-                            }`}
-                        >
-                          *
-                        </span>
-                      </Form.Label>
-
-                      <Select
-                        options={paymentOptionsV1}
-                        value={
-                          paymentOptionsV1.find(
-                            (opt) => opt.value === String(modeOfPayment),
-                          ) || null
-                        }
-                        onChange={(selectedOption) =>
-                          handleModeOfPaymentChange(selectedOption?.value)
-                        }
-                        // onMenuOpen={() => setIsSelectOpen(true)}
-                        // onMenuClose={() => setIsSelectOpen(false)}
-                        placeholder="Select Payment"
-                        isDisabled={currentItem}
-                        menuPlacement="top"
-                        styles={CustomStyles}
-                        isSearchable={false}
-                        components={{
-                          Option,
-                          SingleValue,
-                          DropdownIndicator,
-                          GroupHeading,
-                          IndicatorSeparator: () => null,
-                        }}
-                      />
-                    </Form.Group>
-                    {paymentError && (
-                      <ErrorMessage message={paymentError} type="error" />
-                    )}
-
-                    {bankingError && (
-                      <ErrorMessage message={bankingError} type="error" />
-                    )}
-                  </div>
-                )}
-              </div>
-            </Modal.Body>
-            {isChangedError && (
-              <div
-                ref={nochangeRef}
-                className="flex items-center justify-center mt-1 mb-1"
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group
+                className="mb-"
+                controlId="exampleForm.ControlInput1"
               >
-                <ErrorMessage message={isChangedError} type="error" />
-              </div>
-            )}
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Brand Name{" "}
+                </Form.Label>
+                <Form.Control
+                  value={brandName}
+                  onChange={handleBrandNameChange}
+                  type="text"
+                  placeholder="Enter Brand Name"
+                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                />
+              </Form.Group>
+            </div>
 
-            {state.AssetList?.alreadyAssetNameHere && (
-              <div
-                ref={assetNameRef}
-                className="flex items-center justify-center mt-1 mb-1"
-              >
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group controlId="exampleForm.ControlInput1">
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Serial Number{" "}
+                </Form.Label>
+                <Form.Control
+                  //  className="mb-1 mt-1.5"
+                  value={serialNumber}
+                  ref={serialNumberRef}
+                  onChange={handleSerialNumberChange}
+                  type="text"
+                  placeholder="Enter Serial Number"
+                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                />
+              </Form.Group>
+
+              {serialNumberError && (
+                <ErrorMessage message={serialNumberError} type="error" />
+              )}
+
+              {serial_number_duplicate_Error && (
                 <ErrorMessage
-                  message={state.AssetList?.alreadyAssetNameHere}
+                  message={serial_number_duplicate_Error}
                   type="error"
                 />
-              </div>
-            )}
-
-            {formLoading && (
-              <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-transparent opacity-75">
-                <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-r-transparent border-t-blue-700"></div>
-              </div>
-            )}
-
-            {/* {state.createAccount?.networkError ?
-             <div className="d-flex justify-content-center mt-1 mb-1">
-              <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
-              : null} */}
-
-            <div className="col-span-12 px-3 pb-4">
-              <Button
-                disabled={formLoading}
-                onClick={handleAddAsset}
-                className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px] !text-[17px] !font-gilroy p-3 mt-2"
-              >
-                {currentItem ? "Save Changes" : "Add Asset"}
-              </Button>
+              )}
             </div>
-          </Modal.Dialog>
-        </Modal>
+
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group controlId="purchaseDate">
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Purchase Date{" "}
+                  <span className="text-red-600 text-xl">*</span>
+                </Form.Label>
+
+                <div
+                  className="datepicker-wrapper -mt-1"
+                  style={{ position: "relative", width: "100%" }}
+                >
+                  <DatePicker
+                    ref={dateRef}
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    onChange={(date) => {
+                      setIsChangedError("");
+                      setSelectedDateError("");
+                      setJoingDateErrmsg("");
+                      setSelectedDate(date);
+                    }}
+                    disabledDate={(current) =>
+                      current && current > dayjs().endOf("day")
+                    }
+                    getPopupContainer={() => document.body}
+
+                    placement="bottomLeft"
+                  />
+                </div>
+              </Form.Group>
+              {selectedDateError && (
+                <ErrorMessage message={selectedDateError} type="error" />
+              )}
+
+              {joiningDateErrmsg.trim() !== "" && (
+                <ErrorMessage message={joiningDateErrmsg} type="error" />
+              )}
+            </div>
+
+            <div className="col-span-12 lg:col-span-6">
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                  Price <span className="text-red-600 text-xl">*</span>
+                </Form.Label>
+                <Form.Control
+                  value={price}
+                  ref={priceRef}
+                  onChange={handlePriceChange}
+                  // onKeyDown={(e) => {
+                  //   if (e.key === "." || e.key === "e" || e.key === "-") {
+                  //     e.preventDefault();
+                  //   }
+                  // }}
+                  type="text"
+                  placeholder="Enter Amount"
+                  className={` h-[50px] rounded-lg border border-[#D9D9D9] text-base text-[#4B4B4B] font-gilroy ${assetName ? "font-semibold" : "font-medium"}
+                      shadow-none focus:ring-0 focus:border-[#D9D9D9]`}
+                />
+              </Form.Group>
+              {priceError && (
+                <ErrorMessage message={priceError} type="error" />
+              )}
+            </div>
+            {!currentItem && (
+              <div className="col-span-12 lg:col-span-6">
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label className="text-sm font-medium text-[#222222] font-gilroy">
+                    Mode Of Payment{" "}
+                    <span
+                      className={`text-red-500 text-xl ${modeOfPayment ? "hidden" : "inline-block"
+                        }`}
+                    >
+                      *
+                    </span>
+                  </Form.Label>
+
+                  <Select
+                    options={paymentOptionsV1}
+                    value={
+                      paymentOptionsV1.find(
+                        (opt) => opt.value === String(modeOfPayment),
+                      ) || null
+                    }
+                    onChange={(selectedOption) =>
+                      handleModeOfPaymentChange(selectedOption?.value)
+                    }
+                    // onMenuOpen={() => setIsSelectOpen(true)}
+                    // onMenuClose={() => setIsSelectOpen(false)}
+                    placeholder="Select Payment"
+                    isDisabled={currentItem}
+                    menuPlacement="top"
+                    styles={CustomStyles}
+                    isSearchable={false}
+                    components={{
+                      Option,
+                      SingleValue,
+                      DropdownIndicator,
+                      GroupHeading,
+                      IndicatorSeparator: () => null,
+                    }}
+                  />
+                </Form.Group>
+                {paymentError && (
+                  <ErrorMessage message={paymentError} type="error" />
+                )}
+
+                {bankingError && (
+                  <ErrorMessage message={bankingError} type="error" />
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+        {isChangedError && (
+          <div
+            ref={nochangeRef}
+            className="flex items-center justify-center mt-1 mb-1"
+          >
+            <ErrorMessage message={isChangedError} type="error" />
+          </div>
+        )}
+
+        {state.AssetList?.alreadyAssetNameHere && (
+          <div
+            ref={assetNameRef}
+            className="flex items-center justify-center mt-1 mb-1"
+          >
+            <ErrorMessage
+              message={state.AssetList?.alreadyAssetNameHere}
+              type="error"
+            />
+          </div>
+        )}
+
+        {formLoading && (
+          <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-transparent opacity-75">
+            <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-r-4 border-r-transparent border-t-blue-700"></div>
+          </div>
+        )}
+
+
+        <div className="flex justify-end m-4">
+          <button
+            disabled={formLoading}
+            onClick={handleAddAsset}
+            className="w-100 !bg-[#1E45E1] !font-semibold rounded-[12px]  text-white !text-[17px] !font-gilroy p-2 mt-2"
+          >
+            {currentItem ? "Save Changes" : "Add Asset"}
+          </button>
+        </div>
+
+
       </div>
-    </div>
+
+    </div >
+
   );
 }
 

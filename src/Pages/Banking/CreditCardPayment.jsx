@@ -213,7 +213,7 @@ GroupHeading.propTypes = {
     label: PropTypes.string,
   }).isRequired,
 };
-function CreditCardPayment({ show, handleClose, bankId }) {
+function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const workRef = useRef(null);
@@ -240,12 +240,24 @@ function CreditCardPayment({ show, handleClose, bankId }) {
   const paymentDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
-  const creditCardOptions = (
-    state?.bankingDetails?.getCreditCardinitializeList?.creditCards ?? []
-  ).map((view) => ({
-    value: view?.paymentMethodId,
-    label: `${view?.displayName} - ${view?.paymentMethod}`,
-  }));
+  // const creditCardOptions = (
+  //   state?.bankingDetails?.getCreditCardinitializeList?.creditCards ?? []
+  // ).map((view) => ({
+  //   value: view?.paymentMethodId,
+  //   label: `${view?.displayName} - ${view?.paymentMethod}`,
+  // }));
+
+
+  const creditCardOptions = useMemo(
+    () =>
+      (state?.bankingDetails?.getCreditCardinitializeList?.creditCards ?? []).map(
+        (view) => ({
+          value: view?.paymentMethodId,
+          label: `${view?.displayName} - ${view?.paymentMethod}`,
+        })
+      ),
+    [state?.bankingDetails?.getCreditCardinitializeList?.creditCards]
+  );
 
   const paymentOptions = useMemo(
     () =>
@@ -389,6 +401,19 @@ function CreditCardPayment({ show, handleClose, bankId }) {
     }
   }, [bankId, paymentOptions]);
 
+
+  useEffect(() => {
+    if (paymentMethodId && creditCardOptions?.length > 0) {
+      const selected = creditCardOptions.find(
+        (option) => option.value === paymentMethodId
+      );
+
+      setCreditCardAccount(selected || null);
+    } else {
+      setCreditCardAccount(null);
+    }
+  }, [paymentMethodId, creditCardOptions]);
+
   useEffect(() => {
     return () => {
       dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER_ERROR" });
@@ -443,7 +468,7 @@ function CreditCardPayment({ show, handleClose, bankId }) {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select
+                <Select isDisabled={OverviewDetails?.paymentMethodId}
                   ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
@@ -601,6 +626,6 @@ function CreditCardPayment({ show, handleClose, bankId }) {
 CreditCardPayment.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  bankId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  bankId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 export default CreditCardPayment;

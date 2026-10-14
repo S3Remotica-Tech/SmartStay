@@ -1706,6 +1706,7 @@ function BankingNew() {
             <CreditCardPayment
               show={showCreditCardForm}
               handleClose={handleCloseCreditPayment}
+              paymentMethodId=""
             />
           )}
           {showInvestmentForm && (
