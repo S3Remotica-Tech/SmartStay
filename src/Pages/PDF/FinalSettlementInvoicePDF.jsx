@@ -21,17 +21,17 @@ function FinalSettlementInvoicePDF() {
 
   const textStyle = isGradient
     ? {
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        background: templateColor,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      }
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      background: templateColor,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }
     : {
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        color: templateColor || "#1E45E1",
-      };
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      color: templateColor || "#1E45E1",
+    };
 
   return (
     <div className="font-gilroy relative ">
@@ -130,7 +130,7 @@ function FinalSettlementInvoicePDF() {
 
               <span className="ml-1 text-[14px] text-[#5E6470]">
                 {pdfDetails?.customerInfo?.customerMobileNo &&
-                pdfDetails.customerInfo.customerMobileNo !== "undefined"
+                  pdfDetails.customerInfo.customerMobileNo !== "undefined"
                   ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
                   : ""}
               </span>
@@ -422,7 +422,7 @@ function FinalSettlementInvoicePDF() {
                     {pdfDetails?.currentMonthRentInfo?.listCurrentMonthOtherItems?.map(
                       (item, index) => (
                         <div key={index}>
-                          <label>
+                          <label className="capitalize">
                             {item.item} - ₹ {item.amount}
                           </label>
                         </div>
@@ -434,8 +434,8 @@ function FinalSettlementInvoicePDF() {
                 <p className="text-[13px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
                   {(pdfDetails?.currentMonthRentInfo
                     ?.currentMonthPayableAmount || 0) < 0 && (
-                    <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
-                  )}
+                      <span className="bg-[#00A32E] h-2.5 w-2.5 rounded-full inline-block"></span>
+                    )}
                   ₹{" "}
                   {pdfDetails?.currentMonthRentInfo
                     ?.currentMonthPayableAmount || 0}
@@ -455,7 +455,7 @@ function FinalSettlementInvoicePDF() {
                 <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
                   {pdfDetails?.walletInfo?.walletItems?.map((wal, index) => (
                     <div key={index}>
-                      <labell>{wal.name}</labell> <label>{wal.amount}</label>
+                      <label className="capitalize">{wal.name}</label> <label>{wal.amount}</label>
                     </div>
                   ))}
                 </div>
@@ -480,6 +480,33 @@ function FinalSettlementInvoicePDF() {
               </p>
             </div>
           </div>
+
+          {
+            pdfDetails?.deductionsInfo &&
+            <div className="py-3 border-b border-[#E5E7EB]">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <h3 className="text-[12px] font-semibold text-[#1A1C21] mb-2">
+                    Deductions
+                  </h3>
+
+                  <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
+                    {pdfDetails?.deductionsInfo?.listDeductions?.map((wal, index) => (
+                      <div key={index}>
+                        <label className="capitalize" >{wal.item}</label > - <label>{wal.pendingAmount}</label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="text-[13px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
+                  ₹{pdfDetails?.deductionsInfo?.totalDeductionsAmount}
+                </p>
+              </div>
+
+
+            </div>
+          }
 
           <div className="py-3  flex flex-col">
             <div className="w-[70%] ml-auto pe-2 space-y-2">
@@ -670,26 +697,24 @@ function FinalSettlementInvoicePDF() {
             <div className="text-[14px] flex items-center gap-2 text-gray-900 font-semibold">
               Status :
               <TiTick
-                className={`${
-                  pdfDetails?.invoiceInfo?.status === "PENDING"
-                    ? "text-[#F59E0B]"
-                    : pdfDetails?.invoiceInfo?.status === "PAID"
-                      ? "text-[#038C3D]"
-                      : pdfDetails?.invoiceInfo?.status === "OVERDUE"
-                        ? "text-[#DC2626]"
-                        : "text-[#6B7280]"
-                }`}
+                className={`${pdfDetails?.invoiceInfo?.status === "PENDING"
+                  ? "text-[#F59E0B]"
+                  : pdfDetails?.invoiceInfo?.status === "PAID"
+                    ? "text-[#038C3D]"
+                    : pdfDetails?.invoiceInfo?.status === "OVERDUE"
+                      ? "text-[#DC2626]"
+                      : "text-[#6B7280]"
+                  }`}
               />
               <span
-                className={`text-sm ${
-                  pdfDetails?.invoiceInfo?.status === "PENDING"
-                    ? "text-[#F59E0B]"
-                    : pdfDetails?.invoiceInfo?.status === "PAID"
-                      ? "text-[#038C3D]"
-                      : pdfDetails?.invoiceInfo?.status === "OVERDUE"
-                        ? "text-[#DC2626]"
-                        : "text-[#6B7280]"
-                }`}
+                className={`text-sm ${pdfDetails?.invoiceInfo?.status === "PENDING"
+                  ? "text-[#F59E0B]"
+                  : pdfDetails?.invoiceInfo?.status === "PAID"
+                    ? "text-[#038C3D]"
+                    : pdfDetails?.invoiceInfo?.status === "OVERDUE"
+                      ? "text-[#DC2626]"
+                      : "text-[#6B7280]"
+                  }`}
               >
                 {pdfDetails?.invoiceInfo?.status}
               </span>

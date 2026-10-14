@@ -698,9 +698,9 @@ function NewInvoice() {
         index !== currentIndex && row.itemType === "ADDITIONAL_ADVANCE",
     );
 
-    const bookingAlreadySelected = newRows?.some(
+    const ebAlreadySelected = newRows?.some(
       (row, index) =>
-        index !== currentIndex && row.itemType === "BOOKING",
+        index !== currentIndex && row.itemType === "EB",
     );
 
     const rentAlreadySelected = newRows.some(
@@ -723,6 +723,12 @@ function NewInvoice() {
       return options;
     }
 
+    if (!ebAlreadySelected) {
+      options.push({
+        value: "EB",
+        label: "EB",
+      });
+    }
 
 
 
@@ -1226,8 +1232,9 @@ function NewInvoice() {
                                             "ADDITIONAL_ADVANCE"
                                             ? "Advance" :
                                             u.itemType === "BOOKING"
-                                              ? "Booking"
-                                              : "Other",
+                                              ? "Booking" : u.itemType === "EB"
+                                                ? "EB"
+                                                : "Other",
                                     }
                                     : null
                                 }
