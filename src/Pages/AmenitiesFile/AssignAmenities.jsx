@@ -32,6 +32,22 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [formLoading, setFormLoading] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const [assignedSelectAll, setAssignedSelectAll] = useState(false);
+  const [unassignedSearch, setUnassignedSearch] = useState("");
+  const [assignedSearch, setAssignedSearch] = useState("");
+
+
+  const filteredUnassignedList = unAssignedList.filter((user) =>
+    user?.customerName
+      ?.toLowerCase()
+      .includes(unassignedSearch.toLowerCase().trim()),
+  );
+
+  const filteredAssignedList = AssignedList.filter((user) =>
+    user?.customerName
+      ?.toLowerCase()
+      .includes(assignedSearch.toLowerCase().trim()),
+  );
+
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "-";
@@ -273,407 +289,6 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
             </div>
           )}
 
-          {/* {state.createAccount?.networkError ?
-                         <div className="d-flex justify-content-center mt-1 mb-1">
-                          <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
-                          : null}
-             */}
-
-          {/* <div className="row g-0">
-            <div className="col-lg-5 col-md-4 col-sm-12 col-xs-12">
-              <Card style={{ border: "1px solid #E7E7E7", borderRadius: 10, cursor: "pointer" }} className='h-100 ' >
-
-
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12, padding: 10
-                }}>
-
-
-                  <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "8px 14px",
-                    border: "1px solid #D6D6D6",
-                    borderRadius: 30,
-                    width: 260,
-                    backgroundColor: "#fff"
-                  }}>
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        width: "100%",
-                        fontSize: 14,
-                        color: "#333",
-                        fontFamily: "Gilroy"
-                      }}
-                    />
-                    <SearchNormal size={20} color="#6F6F6F" />
-                  </div>
-
-
-                  <div style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: "50%",
-                    border: "1px solid #D6D6D6",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#fff",
-                    cursor: "pointer"
-                  }}>
-                    <Filter size={20} color="#4b4b4b" />
-                  </div>
-
-                </div>
-
-                <Card.Header className='d-flex justify-content-between' style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, border: "none" }} >
-                  <div style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
-                    Unassigned
-                  </div>
-
-                  <div>
-                    <Form.Check className='me-0 pe-0'
-                      aria-label="option 1"
-                      checked={selectAll}
-                      onChange={handleGlobalSelectAll}
-                      style={{
-                        cursor: "pointer", boxShadow: "none", transform: "scale(1.2)",
-                        transformOrigin: "center",
-                      }}
-                    />
-
-                  </div>
-
-
-                </Card.Header>
-                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scrolls m-1 pe-1 ps-2">
-                  {unAssignedList.length > 0 && unAssignedList.map((list) => {
-                    return (
-                      <div key={list.customerId}>
-                        <div className='d-flex justify-content-between mb-3'>
-                          <div className='d-flex gap-3'>
-                            <div>
-                              {list?.profilePic &&
-                                list?.profilePic !== "0" ? (
-                                <Image
-                                  src={list?.profilePic}
-                                  roundedCircle
-                                  style={{ height: 35, width: 35 }}
-                                  alt="image"
-                                />
-                              ) : (
-                                <div
-                                  style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#E2E8F0",
-                                    color: "#44536A",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 14,
-                                    fontWeight: "600",
-                                    fontFamily: "Gilroy"
-                                  }}
-                                >
-                                  {list?.initials || "-"}
-                                </div>
-                              )}
-                            </div>
-
-                            <div>
-
-                              <div className='d-flex align-items-center justify-content-start gap-2 '>
-
-
-                                <div>
-                                  <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600, ...ellipsisStyle }} title={list.customerName}>{list.customerName}</label>
-
-                                </div>
-                                <div>
-                                  {
-                                    list?.canAssign === false ?
-                                      <ArrowDown className='mb-1'
-                                        size="16"
-                                        color="#FF0000"
-                                      />
-                                      :
-                                      <ArrowUp className='mb-1'
-                                        size="16"
-                                        color="#1E45E1"
-                                      />
-
-                                  }
-                                </div>
-                              </div>
-                              {
-                                list?.canAssign === false ?
-
-                                  <div>
-                                    <label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500, ...ellipsisStyle
-                                      }}
-                                    >
-                                      {list?.mobile ? `${list.countryCode} ${list.mobile}` : "-"}
-                                    </label>
-
-                                  </div>
-                                  :
-                                  <div className='d-flex flex-wrap  gap-3'>
-                                    <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
-                                      <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.floorName}>{list?.floorName || "N/A"}</label>
-
-                                    </div>
-                                    <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
-                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.roomName}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
-                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.bedName}>{list?.bedName || "N/A"}</label>
-
-                                    </div>
-                                  </div>
-                              }
-                            </div>
-                          </div>
-
-
-
-
-
-                          <div>
-                            {
-                              list?.canAssign === false ? "" :
-
-                                <Form.Check aria-label="option 1"
-                                  disabled={list?.canAssign === false}
-                                  checked={assignedCheckedUsers.includes(list.customerId)}
-                                  onChange={() => handleAssignedCheckboxChange(list.customerId)}
-                                  style={{ cursor: "pointer", boxShadow: "none" }}
-                                />}
-                          </div>
-                        </div>
-
-                      </div>
-                    )
-
-                  })
-                  }
-                </Card.Body>
-              </Card>
-            </div>
-
-
-            <div
-
-              className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center mt-5 mt-lg-0"
-              style={{
-                position: 'relative',
-                minHeight: '100px'
-              }}>
-              <div
-                className="d-flex flex-column align-items-center justify-content-center"
-                style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <div className="  mb-3 d-flex flex-column align-items-center justify-content-center" style={{ backgroundColor: "#EEFFF0", borderRadius: 5, padding: 10 }}>
-                  <RiShareForwardFill onClick={handleAssignUser} style={{ cursor: "pointer", color: "#038C3D", fontSize: 22 }} />
-                </div>
-                <div className='d-flex flex-column align-items-center justify-content-center' style={{ backgroundColor: "#FFF4F4", borderRadius: 5, padding: 10 }}>
-                  <IoArrowUndoSharp onClick={handleUnAssignUser} style={{ cursor: "pointer", color: "#DC1515", fontSize: 22 }} />
-                </div>
-              </div>
-            </div>
-
-
-
-            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-              <Card style={{ border: "1px solid #E7E7E7", borderRadius: 10, cursor: "pointer" }} className='h-100 ' >
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12, padding: 10
-                }}>
-
-
-                  <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "8px 14px",
-                    border: "1px solid #D6D6D6",
-                    borderRadius: 30,
-                    width: 260,
-                    backgroundColor: "#fff"
-                  }}>
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        width: "100%",
-                        fontSize: 14,
-                        color: "#333",
-                        fontFamily: "Gilroy"
-                      }}
-                    />
-                    <SearchNormal size={20} color="#6F6F6F" />
-                  </div>
-
-
-                  <div style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: "50%",
-                    border: "1px solid #D6D6D6",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#fff",
-                    cursor: "pointer"
-                  }}>
-                    <Filter size={20} color="#4b4b4b" />
-                  </div>
-
-                </div>
-
-                <Card.Header className='d-flex justify-content-between' style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, border: "none" }} >
-                  <div style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
-                    Assigned
-                  </div>
-
-                  <div>
-                    <Form.Check className='ms-1 pe-0'
-                      aria-label="option 1"
-                      checked={assignedSelectAll}
-                      onChange={handleAssignedGlobalSelectAll}
-                      style={{
-                        cursor: "pointer", boxShadow: "none", transform: "scale(1.2)",
-                        transformOrigin: "center",
-                      }}
-                    />
-
-                  </div>
-
-
-                </Card.Header>
-                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scrolls m-1 pe-2 ps-2">
-                  {AssignedList.length > 0 && AssignedList.map((list) => {
-                    return (
-                      <div key={list.customerId} className='mb-2' style={{ height: "fit-content", backgroundColor: list.ending ? "#FFF3F3" : "#FFF", border: list.ending && "1px solid #FFD6D6", borderRadius: list.ending && 8, padding: list.ending && 8 }} >
-                        <div className='d-flex justify-content-between'>
-
-                          <div className='d-flex gap-3'>
-                            <div>
-                              {list?.profilePic &&
-                                list?.profilePic !== "0" ? (
-                                <Image
-                                  src={list?.profilePic}
-                                  roundedCircle
-                                  style={{ height: 35, width: 35 }}
-                                  alt="image"
-                                />
-                              ) : (
-                                <div
-                                  style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#E2E8F0",
-                                    color: "#44536A",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 14,
-                                    fontWeight: "600",
-                                    fontFamily: "Gilroy"
-                                  }}
-                                >
-                                  {list?.initials || "-"}
-                                </div>
-                              )}
-                            </div>
-
-                            <div>
-
-                              <div>
-                                <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600, ...ellipsisStyle }} title={list.customerName}>{list.customerName}</label>
-
-                              </div>
-
-
-                              <div className='d-flex flex-wrap  gap-3'>
-                                <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
-                                  <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.floorName}>{list?.floorName || "N/A"}</label>
-
-                                </div>
-                                <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
-                                  <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.roomName}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
-                                  <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.bedName}>{list?.bedName || "N/A"}</label>
-
-                                </div>
-                              </div>
-                              {list?.ending && (
-                                <div style={{ marginTop: 4 }} className='mb-2'>
-                                  <span
-                                    style={{
-                                      fontSize: 12,
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      color: "#D32F2F",
-                                      backgroundColor: "#FFE5E5",
-                                      padding: "2px 8px",
-                                      borderRadius: 8,
-                                      display: "inline-block",
-                                    }}
-                                    title={formatDate(list.endDate)}
-                                  >
-                                    Ending on {formatDate(list.endDate)}
-                                  </span>
-                                </div>
-                              )}
-                           
-                            </div>
-                          </div>
-
-
-                          <div>
-                            <Form.Check aria-label="option 1"
-
-                              style={{
-                                cursor: list?.ending ? "not-allowed" : "pointer",
-                                boxShadow: "none",
-                              }}
-                              disabled={list?.ending}
-
-                              checked={unAssignedCheckedUsers.includes(list.customerId)}
-                              onChange={() => handleUnassignedCheckboxChange(list.customerId)}
-
-                            />
-                          </div>
-                        </div>
-
-                      </div>
-                    )
-
-                  })
-                  }
-                </Card.Body>
-              </Card>
-
-
-
-
-            </div>
-          </div> */}
 
           <div className="grid grid-cols-12 gap-0">
             <div className="col-span-12 sm:col-span-12 md:col-span-4 lg:col-span-5">
@@ -682,7 +297,10 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                   <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-[30px] bg-white w-[260px]">
                     <input
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by name"
+                      value={unassignedSearch}
+                      onChange={(e) => setUnassignedSearch(e.target.value)}
+
                       className="w-full border-none outline-none text-sm text-gray-800 font-semibold font-gilroy"
                     />
                     <SearchNormal size={20} color="#6F6F6F" />
@@ -707,8 +325,8 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                 </div>
 
                 <div className="overflow-y-auto max-h-[350px] p-1 pe-2 ps-2 show-scrolls">
-                  {unAssignedList.length > 0 &&
-                    unAssignedList.map((list) => (
+                  {filteredUnassignedList?.length > 0 ? (
+                    filteredUnassignedList.map((list) => (
                       <div
                         key={list.customerId}
                         className="mb-3 flex justify-between pb-2"
@@ -807,7 +425,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                           )}
                         </div>
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <div className="text-center text-gray-500 text-sm font-gilroy py-5">
+                      No users found
+                    </div>
+                  )
+
+                  }
                 </div>
               </div>
             </div>
@@ -835,7 +460,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                   <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-[30px] bg-white w-[260px]">
                     <input
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search by name"
+                      value={assignedSearch}
+                      onChange={(e) => setAssignedSearch(e.target.value)}
                       className="w-full border-none outline-none text-sm text-gray-800 font-semibold font-gilroy"
                     />
                     <SearchNormal size={20} color="#6F6F6F" />
@@ -860,15 +487,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                 </div>
 
                 <div className="overflow-y-auto max-h-[350px] p-2 show-scrolls">
-                  {AssignedList.length > 0 &&
-                    AssignedList.map((list) => (
+                  {filteredAssignedList?.length > 0 ?
+                    filteredAssignedList.map((list) => (
                       <div
                         key={list.customerId}
-                        className={`mb-3 ${
-                          list.ending
-                            ? "bg-red-50 border border-red-300 rounded-lg p-2 pb-2"
-                            : ""
-                        }`}
+                        className={`mb-3 ${list.ending
+                          ? "bg-red-50 border border-red-300 rounded-lg p-2 pb-2"
+                          : ""
+                          }`}
                       >
                         <div className="flex justify-between items-start">
                           <div className="flex gap-3">
@@ -944,7 +570,12 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    ))
+                    :
+                    <div className="text-center text-gray-500 text-sm font-gilroy py-5">
+                      No users found
+                    </div>
+                  }
                 </div>
               </div>
             </div>

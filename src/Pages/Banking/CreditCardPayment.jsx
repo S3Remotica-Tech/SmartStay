@@ -468,7 +468,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select isDisabled={OverviewDetails?.paymentMethodId}
+                <Select isDisabled={paymentMethodId}
                   ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
