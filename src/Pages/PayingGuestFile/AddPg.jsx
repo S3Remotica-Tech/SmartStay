@@ -12,6 +12,7 @@ import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
+// import { useNavigate } from "react-router-dom";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -118,6 +119,7 @@ const CustomStyles = {
 function AddPg({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [pgName, setPgName] = useState("");
   const [mobile, setMobile] = useState("");
@@ -512,18 +514,18 @@ function AddPg({ show, handleClose, currentItem }) {
 
     const isChanged =
       String(pgName || "").trim() !==
-        String(initialState.pgName || "").trim() ||
+      String(initialState.pgName || "").trim() ||
       Number(mobile || 0) !== Number(initialState.mobile || 0) ||
       String(email || "").trim() !== String(initialState.email || "").trim() ||
       String(house_no || "").trim() !==
-        String(initialState.house_no || "").trim() ||
+      String(initialState.house_no || "").trim() ||
       String(street || "").trim() !==
-        String(initialState.street || "").trim() ||
+      String(initialState.street || "").trim() ||
       String(landmark || "").trim() !==
-        String(initialState.landmark || "").trim() ||
+      String(initialState.landmark || "").trim() ||
       String(city || "").trim() !== String(initialState.city || "").trim() ||
       String(pincode || "").trim() !==
-        String(initialState.pincode || "").trim() ||
+      String(initialState.pincode || "").trim() ||
       String(state_name || "") !== String(initialState.state || "") ||
       file !== null ||
       images.some((img) => img?.isChanged === true);
@@ -621,7 +623,7 @@ function AddPg({ show, handleClose, currentItem }) {
       countryCode: countryCode,
       email:
         particularEditDetails.emailId &&
-        particularEditDetails.emailId !== "undefined"
+          particularEditDetails.emailId !== "undefined"
           ? particularEditDetails.emailId
           : "",
       house_no: particularEditDetails.houseNo || "",
@@ -761,8 +763,21 @@ function AddPg({ show, handleClose, currentItem }) {
       state.PgList.updatePgStatusCode === 200
     ) {
       setFormLoading(false);
+
     }
   }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode]);
+
+  // useEffect(() => {
+  //   if (
+  //     state.PgList.createPgStatusCode === 201
+  //   ) {
+  //     navigate(
+  //       `/settings/${state.login?.selectedHostel_Id}/long-stay-recurring`
+  //     );
+  //   }
+
+  // }, [state.PgList.createPgStatusCode]);
+
 
   useEffect(() => {
     if (state.createAccount?.networkError) {

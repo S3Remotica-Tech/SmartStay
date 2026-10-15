@@ -395,7 +395,7 @@ function BankingNew() {
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setTransactionFilterddata(state.bankingDetails?.allTransactionList || []);
-      setBanking(state.bankingDetails?.allTransactionList?.bankList);
+      setBanking(state.bankingDetails?.allTransactionList?.bankV2Lists);
       setLoader(false);
       dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
     }
@@ -1388,7 +1388,9 @@ function BankingNew() {
                             {!item.paymentMethod ? (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
-                                  Last Txn : {item?.lastTransactionDate}
+                                  {item?.lastTransactionDate
+                                    && `Last Txn : ${item.lastTransactionDate}`
+                                  }
                                 </label>
                               </div>
                             ) : (

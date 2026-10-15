@@ -38,8 +38,9 @@ function BankingOverview({ show, onClose }) {
   const menuRef = useRef(null);
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
-  // console.log("OverviewDetails", OverviewDetails);
-  const isBankAccount = OverviewDetails?.accountType === "BANK" && OverviewDetails?.paymentMethodId === null;
+  console.log("OverviewDetails", OverviewDetails);
+  const isBankAccount = OverviewDetails?.accountType === "BANK";
+  //  && OverviewDetails?.paymentMethodId === null;
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
 
@@ -155,7 +156,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "LINKED_PAYMENT_METHOD_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
         },
       });
@@ -163,7 +164,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "GET_BANKING_OVERVIEW_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
           dateFilter: period,
         },
@@ -176,7 +177,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "LINKED_PAYMENT_METHOD_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
         },
       });
@@ -190,7 +191,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "GET_BANKING_OVERVIEW_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
           dateFilter: period,
         },
@@ -205,7 +206,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "GET_BANKING_OVERVIEW_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
           dateFilter: period,
         },
@@ -222,7 +223,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "GET_BANKING_OVERVIEW_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
           dateFilter: period,
         },
@@ -236,7 +237,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({
         type: "GET_BANKING_OVERVIEW_SAGA",
         payload: {
-          hostelId: OverviewDetails?.hostelId,
+          hostelId: state.login?.selectedHostel_Id,
           bankId: OverviewDetails?.bankId,
           dateFilter: period,
         },
