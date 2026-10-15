@@ -943,9 +943,9 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                           {branchName || "Branch Name"}
                         </span>
 
-                        <span className="rounded-md bg-[#EEF2FF] px-2 py-1 text-[9px] font-medium text-[#5363C8]">
-                          UPI: imman@sbi
-                        </span>
+                        {/* <span className="rounded-md bg-[#EEF2FF] px-2 py-1 text-[9px] font-medium text-[#5363C8]">
+                          UPI: 
+                        </span> */}
                       </div>
                     </div>
                   </div>

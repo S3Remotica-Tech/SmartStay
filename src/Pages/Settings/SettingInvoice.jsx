@@ -1150,7 +1150,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
           gstPercentile: tax,
           invoiceNotes: notes,
           invoiceTermsAndCondition: terms,
-          bankId: selectedBank,
+          bankId: selectedBank?.value,
           invoiceTemplateColor: useGradient
             ? defaultGradient
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
