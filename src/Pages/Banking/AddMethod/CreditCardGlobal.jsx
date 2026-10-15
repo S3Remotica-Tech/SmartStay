@@ -151,15 +151,18 @@ function CreditCardGlobal({ handleClose }) {
     const selectedBankRef = useRef(null);
     const [selectedBank, setSelectedBank] = useState(null);
 
-
+    const billingCycleOptions = Array.from({ length: 31 }, (_, index) => ({
+        value: index + 1,
+        label: String(index + 1),
+    }));
 
     // console.log("selectedBank", selectedBank);
 
     const bankList =
-        state?.bankingDetails?.allTransactionList?.bankList || [];
+        state?.bankingDetails?.newBankingList || [];
 
     const bankOptions = bankList
-        ?.filter((bank) => bank.accountType === "BANK" && bank.paymentMethodId === null)
+        ?.filter((bank) => bank.accountType === "BANK")
         .map((bank) => ({
             value: bank.bankId,
             label: `${bank.displayName} - ${bank.bankName || "Bank"}`,
@@ -241,12 +244,15 @@ function CreditCardGlobal({ handleClose }) {
         }
     };
 
-    const handleBillingCycleChange = (date) => {
-        setBillingCycle(date);
+    const handleBillingCycleChange = (selected) => {
+        setBillingCycle(selected?.value ?? "");
     };
 
+
+
     const handleSaveCredit = () => {
-        dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+        dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
+        dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
         setCardNetworkError("");
         setCardHolderNameError("");
         setCardNumberError("");
@@ -325,52 +331,64 @@ function CreditCardGlobal({ handleClose }) {
         if (!isValid) return;
 
         dispatch({
-            type: "ADD_PAYMENT_METHOD_SAGA",
+            type: "ADD_BANKING_SAGA",
             payload: {
                 hostelId: state.login.selectedHostel_Id,
-                bankId: isLinked ? selectedBank?.value : "",
-                paymentMethod: "Credit Card",
+                linkedBankId: isLinked ? selectedBank?.value : "",
+                isDefault: true,
+                accountType: "CREDIT",
+                holderName: cardHolderName,
+                cardNumber: cardNumber,
                 displayName: displayName.trim(),
                 description: description.trim(),
-                cardNumber: cardNumber,
                 cardNetwork: cardNetwork?.value,
-                cardHolderName: cardHolderName,
-                creditLimit: creditLimit,
+                creditLimit: Number(creditLimit),
                 billingCycle: billingCycle
                     ? dayjs(billingCycle).format("DD-MM-YYYY")
                     : null,
+                bankName: "",
+                bankAccountType: "",
+                branchName: "",
+                cashAccountType: "",
+                ifscCode: "",
+                openingBalance: 0,
+                responsiblePerson: ""
             },
         });
         setIsSaving(true);
     };
 
-    useEffect(() => {
-        dispatch({
-            type: "GET_UPI_CARD_TYPES_SAGA",
-            payload: {
-                type: "CARD",
-            },
-        });
+    // useEffect(() => {
+    //     dispatch({
+    //         type: "GET_UPI_CARD_TYPES_SAGA",
+    //         payload: {
+    //             type: "CARD",
+    //         },
+    //     });
 
-    }, []);
+    // }, []);
+
+
 
     useEffect(() => {
-        if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
+        if (state.bankingDetails.statusCodeForCreateBanking === 201) {
             setIsSaving(false);
+
             handleClose();
-            dispatch({ type: "REMOVE_ADD_PAYMENT_METHOD_REDUCER" });
         }
-    }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+    }, [state.bankingDetails.statusCodeForCreateBanking]);
+
 
     useEffect(() => {
-        if (state.bankingDetails.addPaymentError) {
+        if (state.bankingDetails.createBankingError) {
             setIsSaving(false);
         }
-    }, [state.bankingDetails.addPaymentError]);
+    }, [state.bankingDetails.createBankingError]);
+
 
     useEffect(() => {
         return () => {
-            dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+            dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
         };
     }, []);
 
@@ -475,7 +493,7 @@ function CreditCardGlobal({ handleClose }) {
                         </label>
 
                         <div className="relative">
-                            <DatePicker
+                            {/* <DatePicker
                                 selected={billingCycle}
                                 onChange={handleBillingCycleChange}
                                 dateFormat="dd/MM/yyyy"
@@ -483,13 +501,23 @@ function CreditCardGlobal({ handleClose }) {
                                 wrapperClassName="w-full"
                                 className={`w-full h-11 rounded-[8px] border px-3 pr-10 text-[13px]
                   focus:outline-none`}
+                            /> */}
+
+                            <Select
+                                options={billingCycleOptions}
+                                value={
+                                    billingCycleOptions.find(
+                                        (option) => option.value === Number(billingCycle)
+                                    ) || null
+                                }
+                                onChange={handleBillingCycleChange}
+                                placeholder="Select Day"
+                                isSearchable={false}
+                                styles={CustomStyles}
                             />
 
-                            <Calendar
-                                size="20"
-                                color="#1E45E1"
-                                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                            />
+
+
                         </div>
                     </div>
 
@@ -520,7 +548,7 @@ function CreditCardGlobal({ handleClose }) {
                                     }
                                 }}
                                 className="h-[21px] w-[21px] shrink-0 cursor-pointer appearance-none
-  rounded-[5px] border border-[#555555]
+  rounded-[5px] border-1 border-gray-400
   checked:border-green-400 checked:bg-green-600
   checked:after:block checked:after:text-center
   checked:after:text-[14px] checked:after:font-bold

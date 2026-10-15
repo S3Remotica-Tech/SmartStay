@@ -155,6 +155,19 @@ function Credit({ handleClose }) {
   const displayNameRef = useRef(null);
   const creditLimitRef = useRef(null);
 
+  const billingCycleOptions = Array.from({ length: 31 }, (_, index) => ({
+    value: index + 1,
+    label: String(index + 1),
+  }));
+
+
+
+
+
+
+
+
+
   const handleDisplayNameChange = (e) => {
     const value = e.target.value;
 
@@ -222,8 +235,8 @@ function Credit({ handleClose }) {
     }
   };
 
-  const handleBillingCycleChange = (date) => {
-    setBillingCycle(date);
+  const handleBillingCycleChange = (selected) => {
+    setBillingCycle(selected?.value ?? "");
   };
 
   const handleSaveCredit = () => {
@@ -296,17 +309,37 @@ function Credit({ handleClose }) {
 
     if (!isValid) return;
 
+    // dispatch({
+    //   type: "ADD_PAYMENT_METHOD_SAGA",
+    //   payload: {
+    //     hostelId: state.login.selectedHostel_Id,
+    //     bankId: OverviewDetails?.bankId,
+    //     paymentMethod: "Credit Card",
+    //     displayName: displayName.trim(),
+    //     description: description.trim(),
+    //     cardNumber: cardNumber,
+    //     cardNetwork: cardNetwork?.value,
+    //     cardHolderName: cardHolderName,
+    //     creditLimit: creditLimit,
+    //     billingCycle: billingCycle
+    //       ? dayjs(billingCycle).format("DD-MM-YYYY")
+    //       : null,
+    //   },
+    // });
+
+
     dispatch({
-      type: "ADD_PAYMENT_METHOD_SAGA",
+      type: "ADD_BANKING_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
-        bankId: OverviewDetails?.bankId,
-        paymentMethod: "Credit Card",
+        linkedBankId: OverviewDetails?.bankId,
+        isDefault: true,
+        accountType: "CREDIT",
+        holderName: cardHolderName,
+        cardNumber: cardNumber,
         displayName: displayName.trim(),
         description: description.trim(),
-        cardNumber: cardNumber,
         cardNetwork: cardNetwork?.value,
-        cardHolderName: cardHolderName,
         creditLimit: creditLimit,
         billingCycle: billingCycle
           ? dayjs(billingCycle).format("DD-MM-YYYY")
@@ -316,39 +349,27 @@ function Credit({ handleClose }) {
     setIsSaving(true);
   };
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       billingPickerRef.current &&
-  //       !billingPickerRef.current.contains(event.target)
-  //     ) {
 
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   useEffect(() => {
-    if (state.bankingDetails.addPaymentMethodSuccessCode === 201) {
+    if (state.bankingDetails.statusCodeForCreateBanking === 201) {
       setIsSaving(false);
+
       handleClose();
     }
-  }, [state.bankingDetails.addPaymentMethodSuccessCode]);
+  }, [state.bankingDetails.statusCodeForCreateBanking]);
+
 
   useEffect(() => {
-    if (state.bankingDetails.addPaymentError) {
+    if (state.bankingDetails.createBankingError) {
       setIsSaving(false);
     }
-  }, [state.bankingDetails.addPaymentError]);
+  }, [state.bankingDetails.createBankingError]);
+
 
   useEffect(() => {
     return () => {
-      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
+      dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     };
   }, []);
 
@@ -464,20 +485,17 @@ function Credit({ handleClose }) {
             </label>
 
             <div className="relative">
-              <DatePicker
-                selected={billingCycle}
+              <Select
+                options={billingCycleOptions}
+                value={
+                  billingCycleOptions.find(
+                    (option) => option.value === Number(billingCycle)
+                  ) || null
+                }
                 onChange={handleBillingCycleChange}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Select Date"
-                wrapperClassName="w-full"
-                className={`w-full h-11 rounded-[8px] border px-3 pr-10 text-[13px]
-                  focus:outline-none`}
-              />
-
-              <Calendar
-                size="20"
-                color="#1E45E1"
-                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                placeholder="Select Day"
+                isSearchable={false}
+                styles={CustomStyles}
               />
             </div>
           </div>
