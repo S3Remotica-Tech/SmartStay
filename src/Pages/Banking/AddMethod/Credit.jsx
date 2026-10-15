@@ -115,11 +115,19 @@ function Credit({ handleClose }) {
   const dispatch = useDispatch();
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  const upiOptions =
-    state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
-      value: view.id,
-      label: view.name,
-    })) || [];
+  // const upiOptions =
+  //   state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
+  //     value: view.id,
+  //     label: view.name,
+  //   })) || [];
+
+  const cardOptions = [
+    { value: "VISA", label: "Visa" },
+    { value: "RUPAY", label: "RuPay" },
+    { value: "MASTER_CARD", label: "Mastercard" },
+    { value: "AMERICAN_EXPRESS", label: "American Express" },
+    { value: "DINNERS_CLUB", label: "Diners Club" },
+  ];
 
   const [description, setDescription] = useState("");
 
@@ -368,7 +376,7 @@ function Credit({ handleClose }) {
 
             <Select
               ref={cardNetworkRef}
-              options={upiOptions}
+              options={cardOptions}
               value={cardNetwork}
               onChange={handleCardNetworkChange}
               placeholder="Ex : Visa, Master"
