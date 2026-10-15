@@ -113,11 +113,21 @@ function UPI({ handleClose }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
-  const upiOptions =
-    state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
-      value: view.id,
-      label: view.name,
-    })) || [];
+  // const upiOptions =
+  //   state?.bankingDetails?.getUpiCardTypes?.map((view) => ({
+  //     value: view.id,
+  //     label: view.name,
+  //   })) || [];
+
+  const upiOptions = [
+    { value: "GPAY", label: "Google Pay" },
+    { value: "PHONE_PE", label: "PhonePe" },
+    { value: "PAYTM", label: "Paytm" },
+    { value: "AMAZON_PAY", label: "Amazon Pay" },
+    { value: "WHATSAPP_PAY", label: "WhatsApp Pay" },
+    { value: "CRED_PAY", label: "CRED Pay" },
+    { value: "SBI_PAY", label: "SBI Pay" },
+  ];
 
   const [upiApp, setUpiApp] = useState(null);
   const [upiAppError, setUpiAppError] = useState("");

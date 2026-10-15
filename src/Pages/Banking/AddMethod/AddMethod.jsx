@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { Add } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import UPI from "./UPI";
@@ -9,7 +9,7 @@ import Debit from "./Debit";
 import PropTypes from "prop-types";
 
 function AddPaymentMethod({ handleClose }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [paymentType, setPaymentType] = useState("UPI");
   const [paymentTypeError, setPaymentTypeError] = useState("");
@@ -19,16 +19,16 @@ function AddPaymentMethod({ handleClose }) {
     setPaymentTypeError("");
   };
 
-  useEffect(() => {
-    if (paymentType) {
-      dispatch({
-        type: "GET_UPI_CARD_TYPES_SAGA",
-        payload: {
-          type: paymentType === "UPI" ? "UPI" : "CARD",
-        },
-      });
-    }
-  }, [paymentType]);
+  // useEffect(() => {
+  //   if (paymentType) {
+  //     dispatch({
+  //       type: "GET_UPI_CARD_TYPES_SAGA",
+  //       payload: {
+  //         type: paymentType === "UPI" ? "UPI" : "CARD",
+  //       },
+  //     });
+  //   }
+  // }, [paymentType]);
 
   return (
     <div className="fixed inset-0 z-50">
