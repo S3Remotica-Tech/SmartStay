@@ -145,7 +145,7 @@ function BankingNew() {
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
-
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const [loader, setLoader] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -408,14 +408,16 @@ function BankingNew() {
     state.bankingDetails?.bankingList?.listBanks,
   ]);
 
-  const handleShowDots = (bankingId, index) => {
-    if (openMenuId === index) {
-      setOpenMenuId(null);
-    } else {
-      setOpenMenuId(index);
-    }
-  };
+  const handleShowDots = (index, event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
 
+    setMenuPosition({
+      top: rect.bottom + 5,
+      left: rect.right - 160,
+    });
+
+    setOpenMenuId(openMenuId === index ? null : index);
+  };
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -1104,13 +1106,13 @@ function BankingNew() {
 
                               <div
                                 className={` flex items-center justify-center
-    ${item.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
+    ${item?.isDeleted ? "cursor-not-allowed opacity-50 " : "cursor-pointer"}
     }
   `}
                                 onClick={(e) => {
                                   if (!item.isDeleted) {
                                     e.stopPropagation();
-                                    handleShowDots(item.bankId, index);
+                                    handleShowDots(index, e);
                                   }
                                 }}
                               >
@@ -1120,8 +1122,14 @@ function BankingNew() {
                               {openMenuId === index && (
                                 <div
                                   ref={popupRef}
-                                  className="absolute right-7 top-12 w-40 bg-gray-50 px-2 py-2 border border-gray-200 rounded-xl z-[9999]"
+                                  style={{
+                                    position: "fixed",
+                                    top: `${menuPosition.top}px`,
+                                    left: `${menuPosition.left}px`,
+                                  }}
+                                  className="w-40 bg-gray-50 px-2 py-2 border border-gray-200 rounded-xl z-[9999] shadow-lg"
                                 >
+
                                   {!item?.paymentMethod && (
 
                                     <button
@@ -1351,7 +1359,7 @@ function BankingNew() {
                               )}
 
                               {item.accountType === "BANK" &&
-                                !item.paymentMethod && (
+                                (
                                   <>
                                     {item?.branchName &&
                                       <div
@@ -1385,7 +1393,7 @@ function BankingNew() {
                                 </div>
                               )}
                             </div>
-                            {!item.paymentMethod ? (
+                            {item.accountType === "BANK" ? (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
                                   {item?.lastTransactionDate
@@ -1396,7 +1404,7 @@ function BankingNew() {
                             ) : (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
-                                  Due Date : {item?.dueDate || "-"}
+                                  Due Date : {item?.dueDate || ""}
                                 </label>
                               </div>
                             )}

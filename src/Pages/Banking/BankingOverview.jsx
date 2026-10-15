@@ -186,6 +186,22 @@ function BankingOverview({ show, onClose }) {
     }
   }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
 
+
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForCreateBanking === 201) {
+      dispatch({
+        type: "LINKED_PAYMENT_METHOD_SAGA",
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          bankId: OverviewDetails?.bankId,
+        },
+      });
+
+
+      dispatch({ type: "REMOVE_ADD_BANKING_REDUCER" });
+    }
+  }, [state.bankingDetails.statusCodeForCreateBanking]);
+
   useEffect(() => {
     if (state?.bankingDetails?.addMoneySuccess === 200) {
       dispatch({
@@ -245,7 +261,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER" });
     }
   }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
-  console.log("OverviewDetails", OverviewDetails);
+  // console.log("OverviewDetails", OverviewDetails);
   if (!show) return null;
   return (
     <div className="font-gilroy">
