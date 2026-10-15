@@ -358,15 +358,16 @@ function CreditCardGlobal({ handleClose }) {
         setIsSaving(true);
     };
 
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "GET_UPI_CARD_TYPES_SAGA",
-    //         payload: {
-    //             type: "CARD",
-    //         },
-    //     });
-
-    // }, []);
+    useEffect(() => {
+        if (state.login.selectedHostel_Id) {
+            dispatch({
+                type: "BANKING_LIST_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                },
+            });
+        }
+    }, []);
 
 
 
