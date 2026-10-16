@@ -277,12 +277,12 @@ function UPI({ handleClose }) {
         displayName: displayName.trim(),
         description: description.trim(),
         qrImage: qrImage || "",
-        cardNumber: "",
-        cardNetwork: 0,
-        cardHolderName: "",
-        creditLimit: "",
-        billingCycle: "",
-        linkedUpiId: "",
+        // cardNumber: "",
+        // cardNetwork: "",
+        // cardHolderName: "",
+        // creditLimit: "",
+        // billingCycle: "",
+        // linkedUpiId: "",
       },
     });
     setIsSaving(true);

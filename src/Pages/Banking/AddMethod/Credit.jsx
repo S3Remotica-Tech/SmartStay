@@ -342,8 +342,7 @@ function Credit({ handleClose }) {
         cardNetwork: cardNetwork?.value,
         creditLimit: creditLimit,
         billingCycle: billingCycle
-          ? dayjs(billingCycle).format("DD-MM-YYYY")
-          : null,
+
       },
     });
     setIsSaving(true);

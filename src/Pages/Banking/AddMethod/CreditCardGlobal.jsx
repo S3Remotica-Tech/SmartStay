@@ -343,9 +343,7 @@ function CreditCardGlobal({ handleClose }) {
                 description: description.trim(),
                 cardNetwork: cardNetwork?.value,
                 creditLimit: Number(creditLimit),
-                billingCycle: billingCycle
-                    ? dayjs(billingCycle).format("DD-MM-YYYY")
-                    : null,
+                billingCycle: billingCycle,
                 bankName: "",
                 bankAccountType: "",
                 branchName: "",

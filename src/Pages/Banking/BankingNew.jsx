@@ -14,7 +14,7 @@ import {
   Wallet,
   ArrowUp,
   ArrowDown,
-  ArrowSwapVertical,
+  ArrowSwapVertical, Card
 } from "iconsax-react";
 import { toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -1045,8 +1045,8 @@ function BankingNew() {
                 >
                   {banking && banking?.length > 0 ? (
                     banking.map((item, index) => {
-                      const accountDisplayName = item?.paymentMethod
-                        ? `${item.displayName} - ${item.paymentMethod}`
+                      const accountDisplayName = item?.accountType === "CARD"
+                        ? `${item.displayName} - ${item?.cardType?.replaceAll("_", " ").toLowerCase()}`
                         : item?.accountType === "CASH"
                           ? item?.cashAccountType
                           : `${item.bankName} - ${item.displayName}`;
@@ -1072,17 +1072,25 @@ function BankingNew() {
                             <div className="flex justify-between items-center">
                               <div className="flex justify-between items-center gap-2">
                                 <div
-                                  className={`${item?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+                                  className={`${item?.accountType === "CASH"
+                                    ? "bg-[#E9FFEE]"
+                                    : item?.accountType === "CARD"
+                                      ? "bg-[#FFF4E5]"
+                                      : "bg-[#E8ECFF]"
+                                    } rounded-full px-2 py-2`}
                                 >
                                   {item?.accountType === "CASH" ? (
                                     <Wallet color="#038C3D" size="16" />
+                                  ) : item?.accountType === "CARD" ? (
+                                    <Card color="#F59E0B" size="16" />
                                   ) : (
                                     <Bank color="#1E45E1" size="16" />
                                   )}
                                 </div>
                                 <div>
                                   <div className="relative group max-w-[200px]">
-                                    <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222] truncate capitalize">
+                                    <p className="text-sm font-semibold font-gilroy mb-1 text-[#222222] truncate
+                                     !capitalize">
                                       {accountDisplayName}
                                     </p>
 
@@ -1096,7 +1104,7 @@ function BankingNew() {
                                   </div>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
-                                    {item?.paymentMethod ||
+                                    {item.accountType === "CARD" &&
                                       (item?.accountType
                                         ? `${item.accountType.toLowerCase()} Account`
                                         : "")}
@@ -1130,7 +1138,7 @@ function BankingNew() {
                                   className="w-40 bg-gray-50 px-2 py-2 border border-gray-200 rounded-xl z-[9999] shadow-lg"
                                 >
 
-                                  {!item?.paymentMethod && (
+                                  {item.accountType !== "CARD" && (
 
                                     <button
                                       disabled={
@@ -1340,7 +1348,7 @@ function BankingNew() {
                             </div>
 
                             <div className="flex justify-between my-3 gap-2">
-                              {item.paymentMethod && item?.bankName && (
+                              {item.accountType === "CARD" && item?.bankName && (
                                 <div
                                   className="flex gap-2 items-center  px-2 py-1 bg-[#FFF5E6]
                                text-[#8F5C09] border-1 border-[FFF5E6] text-[11px] rounded-md"
@@ -1349,7 +1357,7 @@ function BankingNew() {
                                 </div>
                               )}
 
-                              {item.paymentMethod && item?.cardNumber && (
+                              {item.accountType === "CARD" && item?.cardNumber && (
                                 <div
                                   className="flex gap-2 items-center  px-2 py-1 bg-[#F1F1FF]
                                text-[#1E45E1] border-1 border-[#1E45E1] text-[11px] rounded-md"
