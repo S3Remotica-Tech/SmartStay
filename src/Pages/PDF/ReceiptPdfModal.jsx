@@ -212,12 +212,12 @@ const InvoiceCard = ({ rowData }) => {
     navigate(`/receipts/${state.login?.selectedHostel_Id}`);
   };
 
-  const handleDownload = (item) => {
-    if (item.transactionId) {
+  const handleDownload = () => {
+    if (rowData?.transactionId || pdfDetails?.receiptInfo?.receiptId) {
       dispatch({
         type: "RECEIPTPDF",
         payload: {
-          transactionId: item.transactionId,
+          transactionId: rowData?.transactionId || pdfDetails?.receiptInfo?.receiptId,
           hostelId: state.login?.selectedHostel_Id,
         },
       });
@@ -289,6 +289,9 @@ const InvoiceCard = ({ rowData }) => {
     }
   }, [state.login.selectedHostel_Id]);
 
+
+  console.log("rowData", rowData)
+
   return (
     <>
       <div
@@ -321,7 +324,7 @@ const InvoiceCard = ({ rowData }) => {
                 className={`flex justify-center items-center border rounded-[8px] h-[30px] w-[30px]
           ${isExportAllow ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                 onClick={() => {
-                  if (isExportAllow) handleDownload(rowData);
+                  if (isExportAllow) handleDownload();
                 }}
               >
                 <DocumentDownload
@@ -377,11 +380,10 @@ const InvoiceCard = ({ rowData }) => {
 
                           <span
                             className={`text-[13px] font-normal font-gilroy
-                      ${
-                        hoveredItem === item.key && !isDisabled
-                          ? "text-white"
-                          : "text-[#212529]"
-                      }`}
+                      ${hoveredItem === item.key && !isDisabled
+                                ? "text-white"
+                                : "text-[#212529]"
+                              }`}
                           >
                             {item.label}
                           </span>
@@ -436,18 +438,17 @@ const InvoiceCard = ({ rowData }) => {
                               : Logo
                           }
                           alt="logo"
-                          className={`mt-2 max-w-[134px] rounded-[4px] object-contain ${
-                            pdfDetails?.configurations?.hostelLogo
-                              ? "h-[50px]"
-                              : "h-[25px]"
-                          }`}
+                          className={`mt-2 max-w-[134px] rounded-[4px] object-contain ${pdfDetails?.configurations?.hostelLogo
+                            ? "h-[50px]"
+                            : "h-[25px]"
+                            }`}
                         />
 
                         <div>
                           <div className="py-1">
                             <div className="text-[#222222] text-[14px] font-medium ">
                               {pdfDetails?.emailId &&
-                              pdfDetails.emailId !== "null"
+                                pdfDetails.emailId !== "null"
                                 ? pdfDetails.emailId
                                 : ""}
                             </div>
@@ -482,15 +483,15 @@ const InvoiceCard = ({ rowData }) => {
                     <div className="text-center pt-2 pb-1">
                       <h5
                         className="text-[17px] font-[Gilroy] font-semibold"
-                        // style={textStyle}
+                      // style={textStyle}
                       >
                         {pdfDetails?.configurations?.receiptType === "Rent"
                           ? "Rental Receipt"
                           : pdfDetails?.configurations?.receiptType ===
-                              "Booking"
+                            "Booking"
                             ? "Booking Receipt"
                             : pdfDetails?.configurations?.receiptType ===
-                                "Advance"
+                              "Advance"
                               ? "Security Deposit Receipt"
                               : "Final Settlement Receipt"}
                       </h5>
@@ -518,7 +519,7 @@ const InvoiceCard = ({ rowData }) => {
                             <span className="ml-1 text-[14px] text-[#171717]">
                               {" "}
                               {pdfDetails?.customerInfo?.customerMobileNo &&
-                              pdfDetails.customerInfo.customerMobileNo !==
+                                pdfDetails.customerInfo.customerMobileNo !==
                                 "undefined"
                                 ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
                                 : ""}
@@ -600,11 +601,11 @@ const InvoiceCard = ({ rowData }) => {
                             {(pdfDetails?.configurations?.receiptType ===
                               "Booking" ||
                               pdfDetails?.configurations?.receiptType ===
-                                "Advance") && (
-                              <span className="text-[12px] text-[#64748B] font-[Gilroy]">
-                                Security Deposit (Advance)
-                              </span>
-                            )}
+                              "Advance") && (
+                                <span className="text-[12px] text-[#64748B] font-[Gilroy]">
+                                  Security Deposit (Advance)
+                                </span>
+                              )}
                             {pdfDetails?.configurations?.receiptType ===
                               "Settlement" &&
                               (Number(pdfDetails?.invoiceAmount) > 0 ? (
@@ -672,7 +673,7 @@ const InvoiceCard = ({ rowData }) => {
                           <img
                             src={
                               currentConfig?.label === "Booking Receipt" &&
-                              pdfDetails?.paymentStatus === "Refunded"
+                                pdfDetails?.paymentStatus === "Refunded"
                                 ? currentConfig?.image2
                                 : currentConfig?.image
                             }
@@ -684,7 +685,7 @@ const InvoiceCard = ({ rowData }) => {
                       <div className="my-12">
                         {pdfDetails?.configurations?.receiptType ===
                           "Advance" ||
-                        pdfDetails?.configurations?.receiptType ===
+                          pdfDetails?.configurations?.receiptType ===
                           "Booking" ? (
                           <div className="table-responsive row justify-content-between   px-5 font-[Gilroy,sans-serif]">
                             <table
@@ -867,7 +868,7 @@ const InvoiceCard = ({ rowData }) => {
                           Email:{" "}
                           <span className="text-[13px] font-[Gilroy] font-semibold text-[#222222]">
                             {pdfDetails?.emailId &&
-                            pdfDetails.emailId !== "null"
+                              pdfDetails.emailId !== "null"
                               ? pdfDetails.emailId
                               : ""}
                           </span>

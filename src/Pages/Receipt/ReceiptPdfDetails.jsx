@@ -20,7 +20,7 @@ function ReceiptPdfDetails() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const { receiptId } = useParams();
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [rowDatas, setRowDatas] = useState("");
@@ -30,10 +30,10 @@ function ReceiptPdfDetails() {
   const { rowData } = location.state || {};
 
   useEffect(() => {
-    if (rowData.transactionId) {
-      setSelectedInvoiceId(rowData.transactionId);
+    if (rowData?.transactionId || receiptId) {
+      setSelectedInvoiceId(rowData?.transactionId || receiptId);
     }
-  }, [rowData]);
+  }, [rowData, receiptId]);
 
   useEffect(() => {
     if (!receiptId || !state.login.selectedHostel_Id) return;
@@ -47,10 +47,10 @@ function ReceiptPdfDetails() {
     });
   }, [receiptId, state.login.selectedHostel_Id]);
 
-  
+
 
   const handleDisplayInvoiceDownload = (item) => {
-   
+
     setRowDatas(item);
     setSelectedInvoiceId(item.transactionId);
     navigate(`/receipts/details/${item.transactionId}`, {
@@ -69,7 +69,7 @@ function ReceiptPdfDetails() {
     }
   };
 
-  
+
 
   useEffect(() => {
     if (rowData?.transactionId) {
@@ -131,11 +131,10 @@ function ReceiptPdfDetails() {
               key={item.transactionId}
               ref={(el) => (invoiceRefs.current[item.transactionId] = el)}
               className={`mb-3 shadow-sm rounded p-3 cursor-pointer 
-        ${
-          String(selectedInvoiceId) === String(item.transactionId)
-            ? "bg-[#F7F8FC]"
-            : "bg-white"
-        }`}
+        ${String(selectedInvoiceId) === String(item.transactionId)
+                  ? "bg-[#F7F8FC]"
+                  : "bg-white"
+                }`}
             >
               <div className="flex items-start justify-between">
                 <div>

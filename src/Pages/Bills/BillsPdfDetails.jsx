@@ -70,6 +70,7 @@ function BillsPdfDetails() {
 
     setSelectedInvoiceId(selectedId);
 
+
     setTimeout(() => {
       invoiceRefs.current[selectedId]?.scrollIntoView({
         behavior: "smooth",
@@ -79,16 +80,23 @@ function BillsPdfDetails() {
   }, [rowData, invoiceId]);
 
   useEffect(() => {
-    if (invoiceId && state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GETPARTICULARBILLSDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          invoiceId: invoiceId,
-        },
-      });
-    }
-  }, [state.login.selectedHostel_Id, invoiceId])
+    const selectedInvoiceId = invoiceId || rowData?.invoiceId;
+    const hostelId = state.login?.selectedHostel_Id;
+    if (!hostelId || !selectedInvoiceId) return;
+
+    dispatch({
+      type: "GETPARTICULARBILLSDETAILS",
+      payload: {
+        hostelId: hostelId,
+        invoiceId: selectedInvoiceId,
+      },
+    });
+  }, [
+    state.login?.selectedHostel_Id,
+    invoiceId,
+    rowData?.invoiceId,
+
+  ]);
 
 
 
@@ -110,6 +118,7 @@ function BillsPdfDetails() {
           hostelId: state.login.selectedHostel_Id,
         },
       });
+
     }
   }, [state.login.selectedHostel_Id])
 

@@ -826,25 +826,20 @@ function Booking() {
   };
   const handleNavigatePdf = (invoiceId) => {
     if (invoiceId) {
-      dispatch({
-        type: "GETPARTICULARBILLSDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          invoiceId: invoiceId,
-        },
-      });
+      // dispatch({
+      //   type: "GETPARTICULARBILLSDETAILS",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     invoiceId: invoiceId,
+      //   },
+      // });
       navigate(`/retainer-invoice/details/${invoiceId}`, {
         state: {
           rowData: invoiceId,
         },
       });
 
-      dispatch({
-        type: "ALL_RETAINER_INVOICE_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
+
     }
   };
 
@@ -1443,9 +1438,9 @@ function Booking() {
 
                                             <span
                                               className={`text-sm font-medium ${!canUpdateInvoice ||
-                                                  !item.apiCall?.canApply
-                                                  ? "text-[#A9A9A9]"
-                                                  : "text-[#222222]"
+                                                !item.apiCall?.canApply
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
                                                 }`}
                                             >
                                               Apply Invoices
@@ -1481,9 +1476,9 @@ function Booking() {
 
                                             <span
                                               className={`text-sm font-medium ${!canUpdateInvoice ||
-                                                  !item.apiCall?.canApply
-                                                  ? "text-[#A9A9A9]"
-                                                  : "text-[#222222]"
+                                                !item.apiCall?.canApply
+                                                ? "text-[#A9A9A9]"
+                                                : "text-[#222222]"
                                                 }`}
                                             >
                                               Apply to Invoices

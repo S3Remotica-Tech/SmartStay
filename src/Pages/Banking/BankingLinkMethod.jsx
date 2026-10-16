@@ -39,11 +39,10 @@ function BankingLinkMethod() {
         <button
           onClick={handleAddMethod}
           disabled={!canWriteBanking}
-          className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-[12px] font-medium transition-colors ${
-            canWriteBanking
-              ? "bg-[#1E45E1] text-white hover:bg-[#1839BC]"
-              : "bg-[#D1D5DB] text-[#9CA3AF] cursor-not-allowed"
-          }`}
+          className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-[12px] font-medium transition-colors ${canWriteBanking
+            ? "bg-[#1E45E1] text-white hover:bg-[#1839BC]"
+            : "bg-[#D1D5DB] text-[#9CA3AF] cursor-not-allowed"
+            }`}
         >
           <Add size="14" color={canWriteBanking ? "#fff" : "#9CA3AF"} />
           Add Method
@@ -65,9 +64,8 @@ function BankingLinkMethod() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center
-            ${
-              isUPI ? "bg-[#F3F4F6]" : isDebit ? "bg-[#E0F2FE]" : "bg-[#FFF7ED]"
-            }`}
+            ${isUPI ? "bg-[#F3F4F6]" : isDebit ? "bg-[#E0F2FE]" : "bg-[#FFF7ED]"
+                      }`}
                   >
                     {item.upiAppImage ? (
                       <img
@@ -101,13 +99,12 @@ function BankingLinkMethod() {
                   <div className="text-right">
                     <div
                       className={`text-[11px] px-2 py-0.5 rounded
-              ${
-                isUPI
-                  ? "bg-[#EEF2FF] text-[#6366F1]"
-                  : isDebit
-                    ? "bg-[#F3E8FF] text-[#A855F7]"
-                    : "bg-[#FFF7ED] text-[#F97316]"
-              }`}
+              ${isUPI
+                          ? "bg-[#EEF2FF] text-[#6366F1]"
+                          : isDebit
+                            ? "bg-[#F3E8FF] text-[#A855F7]"
+                            : "bg-[#FFF7ED] text-[#F97316]"
+                        }`}
                     >
                       {item.paymentMethod}
                     </div>
@@ -120,6 +117,13 @@ function BankingLinkMethod() {
                         </span>
                       </div>
                     )}
+
+                    <div className="text-[11px] text-[#6B7280] mt-1">
+                      Balance :
+                      <span className="font-medium text-[#111827] ml-1">
+                        ₹{Number(item.balance || 0).toLocaleString()}
+                      </span>
+                    </div>
                   </div>
 
                   <button>

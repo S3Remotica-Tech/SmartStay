@@ -559,11 +559,11 @@ function UserList(props) {
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
 
-  useEffect(() => {
-    if (id) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+  //   }
+  // }, [id]);
 
   useEffect(() => {
     if (id) {
@@ -1570,8 +1570,8 @@ function UserList(props) {
                     <div className="flex flex-wrap items-center gap-3">
                       <div
                         className={`border border-gray-300 rounded-lg w-36 ${statusfilter?.value
-                            ? "bg-gray-100 text-gray-700"
-                            : "bg-white"
+                          ? "bg-gray-100 text-gray-700"
+                          : "bg-white"
                           }`}
                       >
                         <Select
@@ -1614,8 +1614,8 @@ function UserList(props) {
                             }
                           }}
                           className={`transition-opacity duration-300 ${canReadTenant
-                              ? "cursor-pointer opacity-100 pointer-events-auto"
-                              : "cursor-not-allowed opacity-40 pointer-events-none"
+                            ? "cursor-pointer opacity-100 pointer-events-auto"
+                            : "cursor-not-allowed opacity-40 pointer-events-none"
                             }`}
                         />
                       </div>
@@ -1794,8 +1794,8 @@ function UserList(props) {
 
                                       if (index === 0) {
                                         stickyClass = `sticky left-[0px] z-20  w-[80px] ${isScrolling
-                                            ? "!bg-white"
-                                            : "!bg-white"
+                                          ? "!bg-white"
+                                          : "!bg-white"
                                           }`;
                                       }
 
@@ -2009,9 +2009,9 @@ function UserList(props) {
                                       >
                                         <PiDotsThreeOutlineVerticalFill
                                           className={`h-5 w-5 rotate-90 ${activeRow ===
-                                              user?.apiCall?.customerId
-                                              ? "text-[#1E45E1]"
-                                              : "text-gray-500"
+                                            user?.apiCall?.customerId
+                                            ? "text-[#1E45E1]"
+                                            : "text-gray-500"
                                             }`}
                                         />
 

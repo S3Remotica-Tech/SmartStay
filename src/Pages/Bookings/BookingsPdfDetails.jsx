@@ -9,7 +9,7 @@ import "flatpickr/dist/themes/material_blue.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "../OthersComponent/BillPdfModal.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BookingPdfModal from "./BookingPdfModal";
 import { SearchNormal1 } from "iconsax-react";
 
@@ -18,6 +18,7 @@ function BookingsPdfDetails() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { invoiceId } = useParams();
 
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [rowDatas, setRowDatas] = useState("");
@@ -27,8 +28,8 @@ function BookingsPdfDetails() {
   const { rowData } = location.state || {};
 
   useEffect(() => {
-    setSelectedInvoiceId(rowData);
-  }, [rowData]);
+    setSelectedInvoiceId(rowData || invoiceId);
+  }, [rowData, invoiceId]);
 
   const handleDisplayInvoiceDownload = (item) => {
     setRowDatas(item);
@@ -61,36 +62,38 @@ function BookingsPdfDetails() {
     }
   }, [rowData]);
 
-  // const statusStyles = {
-  //   Pending: {
-  //     bg: "bg-[#FFF1F1]",
-  //     dot: "bg-[#EF4444]",
-  //   },
-  //   "Partial Payment": {
-  //     bg: "bg-[#FFF1F1]",
-  //     dot: "bg-[#EF4444]",
-  //   },
-  //   Paid: {
-  //     bg: "bg-[#ECFDF5]",
-  //     dot: "bg-[#10B981]",
-  //   },
-  //   Refunded: {
-  //     bg: "bg-[#FFFBEB]",
-  //     dot: "bg-[#F59E0B]",
-  //   },
-  //   "Partially Refunded": {
-  //     bg: "bg-[#FFFBEB]",
-  //     dot: "bg-[#F59E0B]",
-  //   },
-  //   "Pending Refund": {
-  //     bg: "bg-[#FFF7ED]",
-  //     dot: "bg-[#FB923C]",
-  //   },
-  //   Cancelled: {
-  //     bg: "bg-[#F3F4F6]",
-  //     dot: "bg-[#6B7280]",
-  //   },
-  // };
+
+  useEffect(() => {
+    const selectedInvoiceId = invoiceId || rowData?.invoiceId;
+    const hostelId = state.login?.selectedHostel_Id;
+    if (!hostelId || !selectedInvoiceId) return;
+
+    dispatch({
+      type: "GETPARTICULARBILLSDETAILS",
+      payload: {
+        hostelId: hostelId,
+        invoiceId: selectedInvoiceId,
+      },
+    });
+  }, [
+    state.login?.selectedHostel_Id,
+    invoiceId,
+    rowData?.invoiceId,
+
+  ]);
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "ALL_RETAINER_INVOICE_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
+  }, [state.login.selectedHostel_Id])
+
+
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -161,11 +164,10 @@ function BookingsPdfDetails() {
                 ref={(el) => (invoiceRefs.current[item?.invoiceId] = el)}
                 className={`mb-3 shadow-sm rounded p-[10px_16px] cursor-pointer
         transition-all duration-300 ease-in-out hover:bg-gray-100
-        ${
-          String(selectedInvoiceId) === String(item?.invoiceId)
-            ? "bg-[#F7F8FC]"
-            : "bg-white"
-        }`}
+        ${String(selectedInvoiceId) === String(item?.invoiceId)
+                    ? "bg-[#F7F8FC]"
+                    : "bg-white"
+                  }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -217,11 +219,11 @@ function BookingsPdfDetails() {
                       <div className="my-1.5">
                         {(item?.status === "Pending" ||
                           item?.status === "Partial Payment") && (
-                          <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
-                            <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
-                            {item?.status}
-                          </span>
-                        )}
+                            <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
+                              <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
+                              {item?.status}
+                            </span>
+                          )}
 
                         {item?.status === "Paid" && (
                           <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
@@ -232,11 +234,11 @@ function BookingsPdfDetails() {
 
                         {(item?.status === "Refunded" ||
                           item?.status === "Partially Refunded") && (
-                          <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
-                            <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
-                            {item?.status}
-                          </span>
-                        )}
+                            <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
+                              <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
+                              {item?.status}
+                            </span>
+                          )}
 
                         {item?.status === "Pending Refund" && (
                           <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
