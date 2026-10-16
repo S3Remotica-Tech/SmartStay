@@ -273,7 +273,7 @@ function UserList(props) {
     tenantFilters,
   ]);
 
-  console.log("tenantFilters", tenantFilters);
+
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id || value !== "1") {
@@ -291,10 +291,7 @@ function UserList(props) {
           ? [statusfilter.value]
           : [];
 
-    console.log("statusValue", statusValue);
-    console.log("tenantFilters?.status", tenantFilters?.status);
 
-    console.log("statusfilter", statusfilter);
 
     // const statusLabel = hasStatusSelected
     //   ? statusfilter.value === "ALL"
@@ -1394,11 +1391,10 @@ function UserList(props) {
                   key={tab.key}
                   onClick={() => handleChange(tab.key)}
                   className={`text-[16px] font-medium font-gilroy pb-1 border-b-2 transition
-            ${
-              value === tab.key
-                ? "text-[#222222] border-[#1E45E1]"
-                : "text-[#4B4B4B] border-transparent"
-            }`}
+            ${value === tab.key
+                      ? "text-[#222222] border-[#1E45E1]"
+                      : "text-[#4B4B4B] border-transparent"
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -1410,11 +1406,10 @@ function UserList(props) {
                 <div className="relative min-w-[180px] max-w-[260px]">
                   <div
                     className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-    ${
-      canReadTenant
-        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-        : "border-gray-200 opacity-60 cursor-not-allowed"
-    }`}
+    ${canReadTenant
+                        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                        : "border-gray-200 opacity-60 cursor-not-allowed"
+                      }`}
                   >
                     <input
                       type="text"
@@ -1574,11 +1569,10 @@ function UserList(props) {
                   <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
                     <div className="flex flex-wrap items-center gap-3">
                       <div
-                        className={`border border-gray-300 rounded-lg w-36 ${
-                          statusfilter?.value
+                        className={`border border-gray-300 rounded-lg w-36 ${statusfilter?.value
                             ? "bg-gray-100 text-gray-700"
                             : "bg-white"
-                        }`}
+                          }`}
                       >
                         <Select
                           options={selectOptions}
@@ -1619,11 +1613,10 @@ function UserList(props) {
                               setIsFilterOpen(true);
                             }
                           }}
-                          className={`transition-opacity duration-300 ${
-                            canReadTenant
+                          className={`transition-opacity duration-300 ${canReadTenant
                               ? "cursor-pointer opacity-100 pointer-events-auto"
                               : "cursor-not-allowed opacity-40 pointer-events-none"
-                          }`}
+                            }`}
                         />
                       </div>
                     </div>
@@ -1800,11 +1793,10 @@ function UserList(props) {
                                       let stickyClass = "";
 
                                       if (index === 0) {
-                                        stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                          isScrolling
+                                        stickyClass = `sticky left-[0px] z-20  w-[80px] ${isScrolling
                                             ? "!bg-white"
                                             : "!bg-white"
-                                        }`;
+                                          }`;
                                       }
 
                                       const finalClass = `${baseClass} ${stickyClass}`;
@@ -1818,9 +1810,9 @@ function UserList(props) {
                                             >
                                               {typeof user?.profilePic ===
                                                 "string" &&
-                                              user.profilePic.startsWith(
-                                                "http",
-                                              ) ? (
+                                                user.profilePic.startsWith(
+                                                  "http",
+                                                ) ? (
                                                 <img
                                                   src={user.profilePic}
                                                   className="w-8 h-8 rounded-full"
@@ -1829,7 +1821,7 @@ function UserList(props) {
                                               ) : (
                                                 <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
                                                   {typeof user?.profilePic ===
-                                                  "string"
+                                                    "string"
                                                     ? user.profilePic
                                                     : "NA"}
                                                 </div>
@@ -1993,17 +1985,16 @@ function UserList(props) {
                                               ] === "object"
                                                 ? "-"
                                                 : (user[
-                                                    headerKeyMap[col.fieldName]
-                                                  ] ?? "-")}
+                                                  headerKeyMap[col.fieldName]
+                                                ] ?? "-")}
                                             </td>
                                           );
                                       }
                                     })}
 
                                     <td
-                                      className={`${
-                                        isScrolling ? "!bg-white" : "bg-white"
-                                      } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                      className={`${isScrolling ? "!bg-white" : "bg-white"
+                                        } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                     >
                                       {" "}
                                       <div
@@ -2017,246 +2008,243 @@ function UserList(props) {
                                         }}
                                       >
                                         <PiDotsThreeOutlineVerticalFill
-                                          className={`h-5 w-5 rotate-90 ${
-                                            activeRow ===
-                                            user?.apiCall?.customerId
+                                          className={`h-5 w-5 rotate-90 ${activeRow ===
+                                              user?.apiCall?.customerId
                                               ? "text-[#1E45E1]"
                                               : "text-gray-500"
-                                          }`}
+                                            }`}
                                         />
 
                                         {activeRow ===
                                           user?.apiCall?.customerId && (
-                                          <div
-                                            ref={popupRef}
-                                            className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
-                                            style={{
-                                              top: showAbove
-                                                ? popupPosition.top -
+                                            <div
+                                              ref={popupRef}
+                                              className="  rounded-[10px] border border-[#EBEBEB] bg-[#F9F9F9] px-2  max-w-[200px] shadow-md z-[9999]"
+                                              style={{
+                                                top: showAbove
+                                                  ? popupPosition.top -
                                                   (popupRef.current
                                                     ?.offsetHeight || 120) -
                                                   10
-                                                : popupPosition.top + 5,
-                                              left: popupPosition.left - 250,
-                                              position: "fixed",
-                                              zIndex: 1000,
-                                            }}
-                                          >
-                                            <div className="flex flex-col py-2 ">
-                                              {user.status === "Checked In" && (
-                                                <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canUpdateCheckout &&
-                                                      handleCustomerCheckout(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canUpdateCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={addcircle}
-                                                      className={`h-4 w-4 ${!canUpdateCheckout && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Move to Notice Period
-                                                    </span>
-                                                  </div>
-
-                                                  <div
-                                                    onClick={() =>
-                                                      canUpdateBooking &&
-                                                      handleCustomerReAssign(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canUpdateBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canUpdateBooking && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Change Bed
-                                                    </span>
-                                                  </div>
-                                                </>
-                                              )}
-
-                                              {user.status ===
-                                                "Notice Period" && (
-                                                <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleBacktoCheckout(user)
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Cancel Check-Out
-                                                    </span>
-                                                  </div>
-
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteCheckout &&
-                                                      handleCheckoutGenrateNew(
-                                                        user,
-                                                      )
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={logout}
-                                                      className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy">
-                                                      Generate
-                                                    </span>
-                                                  </div>
-                                                </>
-                                              )}
-
-                                              {user.status ===
-                                                "Settlement Generated" && (
-                                                <div
-                                                  onClick={() =>
-                                                    canWriteCheckout &&
-                                                    handleConformCheckout(user)
-                                                  }
-                                                  className={`flex items-center gap-2  px-3 py-2 transition rounded-md min-w-[150px]
-                ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  style={{ marginLeft: 12 }}
-                                                >
-                                                  <img
-                                                    alt="image"
-                                                    src={logout}
-                                                    className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
-                                                  />
-                                                  <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                    Check-Out
-                                                  </span>
-                                                </div>
-                                              )}
-
-                                              {user.status === "Booked" && (
-                                                <>
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteTenant &&
-                                                      handleBookingAssign(user)
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={addcircle}
-                                                      className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Check-In
-                                                    </span>
-                                                  </div>
-
-                                                  <div
-                                                    onClick={() =>
-                                                      canWriteBooking &&
-                                                      handleInActive(user)
-                                                    }
-                                                    className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
-                                                    />
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Make as Inactive
-                                                    </span>
-                                                  </div>
-                                                </>
-                                              )}
-
-                                              {user.status === "Draft" && (
-                                                <>
-                                                  <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleShowDraftTenant(
+                                                  : popupPosition.top + 5,
+                                                left: popupPosition.left - 250,
+                                                position: "fixed",
+                                                zIndex: 1000,
+                                              }}
+                                            >
+                                              <div className="flex flex-col py-2 ">
+                                                {user.status === "Checked In" && (
+                                                  <>
+                                                    <div
+                                                      onClick={() =>
+                                                        canUpdateCheckout &&
+                                                        handleCustomerCheckout(
                                                           user,
-                                                        );
+                                                        )
                                                       }
-                                                    }}
-                                                    disabled={!canWriteTenant}
-                                                    className={`flex items-center gap-2 px-3 py-2 transition rounded-md
-    ${
-      canWriteTenant
-        ? "cursor-pointer hover:bg-blue-100"
-        : "cursor-not-allowed opacity-60"
-    }`}
-                                                  >
-                                                    <img
-                                                      alt="image"
-                                                      src={Addbook}
-                                                      className={`h-4 w-4 ${!canWriteTenant ? "grayscale" : ""}`}
-                                                    />
-
-                                                    <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                                                      Draft Continue
-                                                    </span>
-                                                  </button>
-
-                                                  <button
-                                                    type="button"
-                                                    disabled={!canDeleteTenant}
-                                                    onClick={() =>
-                                                      handleDeleteTenant(user)
-                                                    }
-                                                    className={`flex items-center gap-2 px-3 py-2 transition rounded-md
-    ${
-      canDeleteTenant
-        ? "cursor-pointer hover:bg-red-50"
-        : "cursor-not-allowed opacity-60"
-    }`}
-                                                  >
-                                                    <Trash
-                                                      size={16}
-                                                      variant="Linear"
-                                                      color={
-                                                        canDeleteTenant
-                                                          ? "#EF4444"
-                                                          : "#9CA3AF"
-                                                      }
-                                                    />
-
-                                                    <span
-                                                      className="text-sm font-medium font-gilroy 
-                                                    whitespace-nowrap text-[#EF4444]"
+                                                      className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canUpdateCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                     >
-                                                      Delete
-                                                    </span>
-                                                  </button>
-                                                </>
-                                              )}
+                                                      <img
+                                                        alt="image"
+                                                        src={addcircle}
+                                                        className={`h-4 w-4 ${!canUpdateCheckout && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Move to Notice Period
+                                                      </span>
+                                                    </div>
+
+                                                    <div
+                                                      onClick={() =>
+                                                        canUpdateBooking &&
+                                                        handleCustomerReAssign(
+                                                          user,
+                                                        )
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canUpdateBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                    >
+                                                      <img
+                                                        alt="image"
+                                                        src={Addbook}
+                                                        className={`h-4 w-4 ${!canUpdateBooking && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Change Bed
+                                                      </span>
+                                                    </div>
+                                                  </>
+                                                )}
+
+                                                {user.status ===
+                                                  "Notice Period" && (
+                                                    <>
+                                                      <div
+                                                        onClick={() =>
+                                                          canWriteTenant &&
+                                                          handleBacktoCheckout(user)
+                                                        }
+                                                        className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                      >
+                                                        <img
+                                                          alt="image"
+                                                          src={Addbook}
+                                                          className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                        />
+                                                        <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                          Cancel Check-Out
+                                                        </span>
+                                                      </div>
+
+                                                      <div
+                                                        onClick={() =>
+                                                          canWriteCheckout &&
+                                                          handleCheckoutGenrateNew(
+                                                            user,
+                                                          )
+                                                        }
+                                                        className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                      >
+                                                        <img
+                                                          alt="image"
+                                                          src={logout}
+                                                          className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                        />
+                                                        <span className="text-sm font-medium font-gilroy">
+                                                          Generate
+                                                        </span>
+                                                      </div>
+                                                    </>
+                                                  )}
+
+                                                {user.status ===
+                                                  "Settlement Generated" && (
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteCheckout &&
+                                                        handleConformCheckout(user)
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition rounded-md min-w-[150px]
+                ${canWriteCheckout ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                      style={{ marginLeft: 12 }}
+                                                    >
+                                                      <img
+                                                        alt="image"
+                                                        src={logout}
+                                                        className={`h-4 w-4 ${!canWriteCheckout && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Check-Out
+                                                      </span>
+                                                    </div>
+                                                  )}
+
+                                                {user.status === "Booked" && (
+                                                  <>
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteTenant &&
+                                                        handleBookingAssign(user)
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteTenant ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                    >
+                                                      <img
+                                                        alt="image"
+                                                        src={addcircle}
+                                                        className={`h-4 w-4 ${!canWriteTenant && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Check-In
+                                                      </span>
+                                                    </div>
+
+                                                    <div
+                                                      onClick={() =>
+                                                        canWriteBooking &&
+                                                        handleInActive(user)
+                                                      }
+                                                      className={`flex items-center gap-2  px-3 py-2 transition rounded-md
+                  ${canWriteBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                                                    >
+                                                      <img
+                                                        alt="image"
+                                                        src={Addbook}
+                                                        className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                      />
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Make as Inactive
+                                                      </span>
+                                                    </div>
+                                                  </>
+                                                )}
+
+                                                {user.status === "Draft" && (
+                                                  <>
+                                                    <button
+                                                      type="button"
+                                                      onClick={() => {
+                                                        if (canWriteTenant) {
+                                                          handleShowDraftTenant(
+                                                            user,
+                                                          );
+                                                        }
+                                                      }}
+                                                      disabled={!canWriteTenant}
+                                                      className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${canWriteTenant
+                                                          ? "cursor-pointer hover:bg-blue-100"
+                                                          : "cursor-not-allowed opacity-60"
+                                                        }`}
+                                                    >
+                                                      <img
+                                                        alt="image"
+                                                        src={Addbook}
+                                                        className={`h-4 w-4 ${!canWriteTenant ? "grayscale" : ""}`}
+                                                      />
+
+                                                      <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                                                        Draft Continue
+                                                      </span>
+                                                    </button>
+
+                                                    <button
+                                                      type="button"
+                                                      disabled={!canDeleteTenant}
+                                                      onClick={() =>
+                                                        handleDeleteTenant(user)
+                                                      }
+                                                      className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${canDeleteTenant
+                                                          ? "cursor-pointer hover:bg-red-50"
+                                                          : "cursor-not-allowed opacity-60"
+                                                        }`}
+                                                    >
+                                                      <Trash
+                                                        size={16}
+                                                        variant="Linear"
+                                                        color={
+                                                          canDeleteTenant
+                                                            ? "#EF4444"
+                                                            : "#9CA3AF"
+                                                        }
+                                                      />
+
+                                                      <span
+                                                        className="text-sm font-medium font-gilroy 
+                                                    whitespace-nowrap text-[#EF4444]"
+                                                      >
+                                                        Delete
+                                                      </span>
+                                                    </button>
+                                                  </>
+                                                )}
+                                              </div>
                                             </div>
-                                          </div>
-                                        )}
+                                          )}
                                       </div>
                                     </td>
                                   </tr>

@@ -171,11 +171,11 @@ function BankingAddForm(props) {
 
   const paymentOptions = Array.isArray(bankking)
     ? bankking
-        .filter((item) => item.accountType !== "CASH" && item.accountType !== "UPI" && item.accountType !== "CARD")
-        .map((item) => ({
-          value: String(item.bankingId),
-          label: `${item?.accountHolderName} - ${item?.accountType || ""}`,
-        }))
+      .filter((item) => item.accountType !== "CASH" && item.accountType !== "UPI" && item.accountType !== "CARD")
+      .map((item) => ({
+        value: String(item.bankingId),
+        label: `${item?.accountHolderName} - ${item?.accountType || ""}`,
+      }))
     : [];
 
   const CustomMenuList = (props) => {
@@ -233,14 +233,14 @@ function BankingAddForm(props) {
       setCardType(props.editAddBank?.cardType);
       setCardNo(
         props.editAddBank?.creditCardNumber ||
-          props.editAddBank?.debitCardNumber,
+        props.editAddBank?.debitCardNumber,
       );
       setUpiId(props.editAddBank.upiId);
 
       setInitialStateAssign({
         accountName:
           props.editAddBank.accountType === "CASH" ||
-          props.editAddBank.accountType === "UPI"
+            props.editAddBank.accountType === "UPI"
             ? props.editAddBank.accountHolderName || ""
             : props.editAddBank.accountType === "CARD"
               ? props.editAddBank.accountHolderName || ""
@@ -451,7 +451,7 @@ function BankingAddForm(props) {
 
     setFormLoading(true);
   };
-// console.log("bankName",bankName)
+
 
   const [cardNo, setCardNo] = useState("");
 
@@ -716,11 +716,10 @@ function BankingAddForm(props) {
                 className={`
           px-2 py-1 w-[150px] text-center font-medium rounded-t-lg font-[Gilroy]
           transition-all
-          ${
-            isActive
-              ? "bg-[#1E45E1] text-white"
-              : "text-[#4B4B4B] bg-transparent"
-          }
+          ${isActive
+                    ? "bg-[#1E45E1] text-white"
+                    : "text-[#4B4B4B] bg-transparent"
+                  }
           ${isDisabled ? "opacity-60 cursor-not-allowed" : " cursor-pointer"}
         `}
               >
@@ -986,17 +985,17 @@ function BankingAddForm(props) {
                   </div>
                 )}
 
-                 {state.bankingDetails.bankingCreateError && (
-                <div className="flex justify-center">
-                  <ErrorMessage
-                    message={state.bankingDetails.bankingCreateError}
-                    type="error"
-                  />
-                </div>
-              )}
+                {state.bankingDetails.bankingCreateError && (
+                  <div className="flex justify-center">
+                    <ErrorMessage
+                      message={state.bankingDetails.bankingCreateError}
+                      type="error"
+                    />
+                  </div>
+                )}
               </div>
 
-             
+
 
               <Modal.Footer className="col-span-12 p-0 mb-2 !border-t-0">
                 <Button

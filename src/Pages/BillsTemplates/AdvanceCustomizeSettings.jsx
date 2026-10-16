@@ -30,7 +30,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([]);
   const [selectedBankId, setSelectedBankId] = useState(null);
-  console.log("banking advance", banking)
+
   const [editErrmsg, setEditErrMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [contactnumberform, setContactNumberForm] = useState(false);
@@ -296,7 +296,6 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   //   }
   // }, [state.bankingDetails.bankingList]);
 
-  // console.log("state?.bankingDetails?.newBankingList", state?.bankingDetails?.newBankingList)
   useEffect(() => {
     if (state?.bankingDetails?.newBankingList) {
 

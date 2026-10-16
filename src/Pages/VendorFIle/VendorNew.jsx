@@ -672,7 +672,7 @@ function Vendor() {
     return obj;
   });
 
-  // console.log("filteredData", filteredData);
+
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -793,11 +793,10 @@ function Vendor() {
             <div className="relative min-w-[180px] max-w-[260px]">
               <div
                 className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-    ${
-      canReadVendor
-        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-        : "border-gray-200 opacity-60 cursor-not-allowed"
-    }`}
+    ${canReadVendor
+                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                    : "border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
               >
                 <input
                   type="text"
@@ -892,9 +891,8 @@ function Vendor() {
             <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
               <div className="flex flex-wrap items-center gap-3">
                 <div
-                  className={`border border-gray-300 rounded-lg w-36 ${
-                    categoryFilter ? "bg-gray-100 text-gray-700" : "bg-white"
-                  }`}
+                  className={`border border-gray-300 rounded-lg w-36 ${categoryFilter ? "bg-gray-100 text-gray-700" : "bg-white"
+                    }`}
                 >
                   <Select
                     options={categoryOptions}
@@ -936,11 +934,10 @@ function Vendor() {
                         // setIsFilterOpen(true);
                       }
                     }}
-                    className={`transition-opacity duration-300 ${
-                      canReadVendor
+                    className={`transition-opacity duration-300 ${canReadVendor
                         ? "cursor-pointer opacity-100 pointer-events-auto"
                         : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -1052,9 +1049,8 @@ function Vendor() {
                                 let stickyClass = "";
 
                                 if (index === 0) {
-                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                    isScrolling ? "!bg-white" : "!bg-white"
-                                  }`;
+                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${isScrolling ? "!bg-white" : "!bg-white"
+                                    }`;
                                 }
 
                                 const finalClass = `${baseClass} ${stickyClass}`;
@@ -1067,7 +1063,7 @@ function Vendor() {
                                         className={`px-4 ${finalClass}`}
                                       >
                                         {typeof user?.profilePic === "string" &&
-                                        user.profilePic.startsWith("http") ? (
+                                          user.profilePic.startsWith("http") ? (
                                           <img
                                             src={user.profilePic}
                                             className="w-8 h-8 rounded-full"
@@ -1076,7 +1072,7 @@ function Vendor() {
                                         ) : (
                                           <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
                                             {typeof user?.profilePic ===
-                                            "string"
+                                              "string"
                                               ? user.profilePic
                                               : "NA"}
                                           </div>
@@ -1222,17 +1218,16 @@ function Vendor() {
                                         ] === "object"
                                           ? "-"
                                           : (user[
-                                              headerKeyMap[col.fieldName]
-                                            ] ?? "-")}
+                                            headerKeyMap[col.fieldName]
+                                          ] ?? "-")}
                                       </td>
                                     );
                                 }
                               })}
 
                               <td
-                                className={`${
-                                  isScrolling ? "!bg-white" : "bg-white"
-                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                className={`${isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
                                 <div
@@ -1243,11 +1238,10 @@ function Vendor() {
                                   }}
                                 >
                                   <PiDotsThreeOutlineVerticalFill
-                                    className={`h-5 w-5 rotate-90 ${
-                                      activeRow === user.apiCall.vendorId
+                                    className={`h-5 w-5 rotate-90 ${activeRow === user.apiCall.vendorId
                                         ? "text-[#1E45E1]"
                                         : "text-gray-500"
-                                    }`}
+                                      }`}
                                   />
 
                                   {activeRow === user.apiCall.vendorId && (
@@ -1257,9 +1251,9 @@ function Vendor() {
                                       style={{
                                         top: showAbove
                                           ? popupPosition.top -
-                                            (popupRef.current?.offsetHeight ||
-                                              120) -
-                                            10
+                                          (popupRef.current?.offsetHeight ||
+                                            120) -
+                                          10
                                           : popupPosition.top + 5,
                                         left: popupPosition.left - 150,
                                         position: "fixed",
@@ -1275,11 +1269,10 @@ function Vendor() {
                                         }}
                                         disabled={!canUpdateVendor}
                                         className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
-      ${
-        canUpdateVendor
-          ? "text-[#1E45E1] hover:bg-blue-100"
-          : "text-gray-400 cursor-not-allowed"
-      }`}
+      ${canUpdateVendor
+                                            ? "text-[#1E45E1] hover:bg-blue-100"
+                                            : "text-gray-400 cursor-not-allowed"
+                                          }`}
                                       >
                                         <Edit2
                                           size="16"
@@ -1302,11 +1295,10 @@ function Vendor() {
                                         }}
                                         disabled={!canDeleteVendor}
                                         className={`w-full flex items-center gap-2 text-left px-3 py-2 rounded-md
-      ${
-        canDeleteVendor
-          ? "text-red-600 hover:bg-red-100"
-          : "text-gray-400 cursor-not-allowed"
-      }`}
+      ${canDeleteVendor
+                                            ? "text-red-600 hover:bg-red-100"
+                                            : "text-gray-400 cursor-not-allowed"
+                                          }`}
                                       >
                                         <Trash
                                           size="16"

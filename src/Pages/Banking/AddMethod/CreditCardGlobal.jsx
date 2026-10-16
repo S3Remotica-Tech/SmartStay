@@ -156,7 +156,7 @@ function CreditCardGlobal({ handleClose }) {
         label: String(index + 1),
     }));
 
-    // console.log("selectedBank", selectedBank);
+
 
     const bankList =
         state?.bankingDetails?.newBankingList || [];

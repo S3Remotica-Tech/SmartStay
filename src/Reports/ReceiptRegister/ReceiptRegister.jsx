@@ -278,7 +278,7 @@ function ReceiptRegister() {
     const receiptFilters = state.reports?.receiptRegisterFilters;
     const filterData = [];
 
-    // console.log("receiptFilters", receiptFilters);
+
 
     if (receiptFilters?.startDate || receiptFilters?.endDate) {
       filterData.push({
@@ -580,9 +580,8 @@ function ReceiptRegister() {
                 <ArrowDown2
                   size="18"
                   color="#1E45E1"
-                  className={`cursor-pointer transition-transform duration-200 ${
-                    register ? "rotate-180" : ""
-                  }`}
+                  className={`cursor-pointer transition-transform duration-200 ${register ? "rotate-180" : ""
+                    }`}
                 />
                 {register && (
                   <div
@@ -676,11 +675,10 @@ function ReceiptRegister() {
             onClick={() => isExportAllow && handleDownload()}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
-                                ${
-                                  !isExportAllow
-                                    ? "bg-gray-400 cursor-not-allowed text-white"
-                                    : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
-                                }`}
+                                ${!isExportAllow
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+              }`}
           >
             <Export size="16" />
             Export
@@ -822,7 +820,7 @@ function ReceiptRegister() {
                           className="px-4 py-2.5 text-[#1E45E1] font-semibold truncate whitespace-nowrap sticky 
                       left-[42px] z-20 bg-white w-[140px]"
                           title={row.receiptNo}
-                          // onClick={() => handleNavigateReceiptPdf(row)}
+                        // onClick={() => handleNavigateReceiptPdf(row)}
                         >
                           {row.receiptNo}
                         </td>

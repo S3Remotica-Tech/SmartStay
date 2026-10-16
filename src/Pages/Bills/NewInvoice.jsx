@@ -269,7 +269,7 @@ function NewInvoice() {
   const dueRef = useRef(null);
   const joiningDate = selectedCustomer?.joiningDate;
 
-  // console.log("selectedCustomer", selectedCustomer?.status);
+
 
   const CustomerOverView = state?.UsersList?.customerdetails;
   const [discount, setDiscount] = useState("");
@@ -284,7 +284,7 @@ function NewInvoice() {
 
   // const onlyOthers = !hasRent && !hasAdvance;
 
-  // console.log("onlyOthers", onlyOthers);
+
 
   const subTotal = newRows?.reduce((total, row) => {
     return total + Number(row.amount || 0);
@@ -768,7 +768,7 @@ function NewInvoice() {
     }
   }, [billData]);
 
-  // console.log("billData", billData, "id", id);
+
 
   useEffect(() => {
     if (id || billData?.customerId || CustomerOverView?.customerId) {
@@ -778,7 +778,6 @@ function NewInvoice() {
           (id || billData?.customerId || CustomerOverView?.customerId),
       );
 
-      // console.log("selectedCustomer", selectedCustomer);
 
       if ((selectedCustomer && billData) || id) {
         setCustomerName(selectedCustomer?.customerId);

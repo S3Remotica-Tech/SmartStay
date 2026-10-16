@@ -52,7 +52,6 @@ const InvoiceTable = (props) => {
     canDeleteModule: canDeleteInvoice,
   } = useHasPermission("Invoice");
 
-  // console.log("canUpdateInvoice", canUpdateInvoice);
 
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
@@ -285,8 +284,8 @@ const InvoiceTable = (props) => {
       >
         <td
           className={`px-2 py-1   w-[80px]    ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle"
+            ? ""
+            : "align-middle"
             }`}
         >
           {/* <div className="flex items-center justify-end">
@@ -329,8 +328,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[250px]  px-2 py-1 relative ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
+            ? ""
+            : "align-middle "
             }`}
         >
           <div
@@ -370,8 +369,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[230px]    px-2 py-1 relative  ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
+            ? ""
+            : "align-middle "
             }`}
         >
           <div className="flex items-center gap-2 group w-fit">
@@ -399,8 +398,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[230px]    px-2 py-1 whitespace-nowrap  ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle"
+            ? ""
+            : "align-middle"
             }`}
         >
           {props.item?.invoiceDate}
@@ -411,8 +410,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[230px] px-2 py-1 whitespace-nowrap  ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle"
+            ? ""
+            : "align-middle"
             }`}
         >
           {props.item?.dueDate}{" "}
@@ -423,8 +422,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[230px] px-2 py-1 relative align-middle whitespace-nowrap ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
+            ? ""
+            : "align-middle "
             }`}
         >
           <div className="relative inline-block">
@@ -462,8 +461,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[230px]  px-2 py-1 whitespace-nowrap  ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
+            ? ""
+            : "align-middle "
             }`}
         >
           ₹{Number(props.item?.dueAmount || 0).toLocaleString("en-IN")}
@@ -474,8 +473,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[270px] px-2 py-1 whitespace-nowrap overflow-hidden  ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
+            ? ""
+            : "align-middle "
             }`}
         >
           {(props.item?.paymentStatus === "Pending" ||
@@ -521,8 +520,8 @@ const InvoiceTable = (props) => {
 
         <td
           className={`w-[230px] py-1   px-2  ${props.item.isDiscounted || props.item.isInvoicesApplied
-              ? ""
-              : "align-middle "
+            ? ""
+            : "align-middle "
             }`}
         >
           <div className="w-full flex justify-start">
@@ -595,8 +594,8 @@ const InvoiceTable = (props) => {
 
                       <span
                         className={`text-sm font-medium ${!canUpdateInvoice
-                            ? "text-[#A9A9A9]"
-                            : "text-[#222222]"
+                          ? "text-[#A9A9A9]"
+                          : "text-[#222222]"
                           }`}
                       >
                         Apply to Invoices
@@ -669,9 +668,9 @@ const InvoiceTable = (props) => {
 
                         <span
                           className={`text-sm font-medium ${!canUpdateInvoice ||
-                              !props.item?.canApplyFromAdvance
-                              ? "text-[#A9A9A9]"
-                              : "text-[#222222]"
+                            !props.item?.canApplyFromAdvance
+                            ? "text-[#A9A9A9]"
+                            : "text-[#222222]"
                             }`}
                         >
                           Adjust with Retainer

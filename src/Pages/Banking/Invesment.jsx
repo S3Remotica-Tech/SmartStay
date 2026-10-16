@@ -293,8 +293,8 @@ function Invesment({ show, handleClose, bankDetails }) {
     }
   }, [bankDetails, paymentOptions]);
 
-  console.log("bankDetails", bankDetails)
-  // console.log("paymentOptions", paymentOptions)
+
+
 
   const validateForm = () => {
     let isValid = true;

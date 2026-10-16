@@ -43,7 +43,7 @@ const ManagePg = () => {
   const hostelDetails = state?.UsersList?.hotelDetailsinPg;
   const [showAddPg, setShowAddPg] = useState(false);
 
-  // console.log("hostelDetails", hostelDetails);
+
 
   const tabs = [
     {
@@ -83,7 +83,7 @@ const ManagePg = () => {
   const handleCloses = () => {
     setShowAddPg(false);
   };
-  const handleMore = () => {};
+  const handleMore = () => { };
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
@@ -119,11 +119,10 @@ const ManagePg = () => {
             onClick={handleAddNewPG}
             disabled={!isEnable}
             className={`mt-[5px]  px-4 py-2 rounded-lg text-sm font-semibold font-gilroy flex items-center gap-2
-            ${
-              isEnable
+            ${isEnable
                 ? "bg-[#1E45E1] text-white cursor-pointer"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             <AddCircle size="17" color="#FFFFFF" />
             <span>Add New PG</span>
@@ -164,11 +163,10 @@ const ManagePg = () => {
               </h2>
 
               <span
-                className={`px-3 py-1 rounded-full text-white text-[12px] font-medium flex items-center gap-1.5 ${
-                  hostelDetails?.isSubscriptionActive
+                className={`px-3 py-1 rounded-full text-white text-[12px] font-medium flex items-center gap-1.5 ${hostelDetails?.isSubscriptionActive
                     ? "bg-[#038C46]"
                     : "bg-[#DC3545]"
-                }`}
+                  }`}
               >
                 {hostelDetails?.isSubscriptionActive ? "Active" : "Inactive"}
               </span>
@@ -222,11 +220,10 @@ const ManagePg = () => {
                       text-[13px] sm:text-[14px]
                       font-medium
                       transition-all duration-200
-                      ${
-                        isActive
-                          ? "text-[#1E45E1]"
-                          : "text-[#5E6673] hover:text-[#1E45E1]"
-                      }
+                      ${isActive
+                      ? "text-[#1E45E1]"
+                      : "text-[#5E6673] hover:text-[#1E45E1]"
+                    }
                     `}
                 >
                   <Icon

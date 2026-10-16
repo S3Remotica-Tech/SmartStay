@@ -961,7 +961,7 @@ const InvoicePage = () => {
 
     const previousFilters = state.InvoiceList?.invoiceFilters || {};
 
-    console.log("previousFilters", previousFilters);
+
 
     const hasPreviousPaymentStatus =
       previousFilters?.paymentStatus?.length > 0 &&
@@ -1195,11 +1195,10 @@ const InvoicePage = () => {
                 <div className="relative min-w-[180px] max-w-[260px]">
                   <div
                     className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-    ${
-      canReadInvoice
-        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-        : "border-gray-200 opacity-60 cursor-not-allowed"
-    }`}
+    ${canReadInvoice
+                        ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                        : "border-gray-200 opacity-60 cursor-not-allowed"
+                      }`}
                   >
                     <input
                       type="text"
@@ -1344,11 +1343,10 @@ const InvoicePage = () => {
                   >
                     <Filter
                       size={18}
-                      className={`transition-opacity duration-300 ${
-                        canReadInvoice
+                      className={`transition-opacity duration-300 ${canReadInvoice
                           ? "cursor-pointer opacity-100 pointer-events-auto"
                           : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
+                        }`}
                     />
                   </div>
                 </div>
@@ -1380,9 +1378,8 @@ const InvoicePage = () => {
                         <ArrowDown2
                           size="16"
                           color="#4B4B4B"
-                          className={`transition-transform duration-200 ${
-                            isOpen ? "rotate-180" : ""
-                          }`}
+                          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                            }`}
                         />
                       </div>
 
@@ -1402,18 +1399,16 @@ const InvoicePage = () => {
                                   setView(item.key);
                                   setIsOpen(false);
                                 }}
-                                className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
-                                  view === item.key
+                                className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${view === item.key
                                     ? "bg-[#F7FAFF] font-medium "
                                     : ""
-                                }`}
+                                  }`}
                               >
                                 <div
-                                  className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
-                                    view === item.key
+                                  className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${view === item.key
                                       ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
                                       : ""
-                                  }`}
+                                    }`}
                                 >
                                   <Icon size="16" color="#4B4B4B" />
                                   {item.label}
@@ -1441,18 +1436,16 @@ const InvoicePage = () => {
                                 setView(item.key);
                                 setIsOpen(false);
                               }}
-                              className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
-                                view === item.key
+                              className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${view === item.key
                                   ? "bg-[#F7FAFF] font-medium "
                                   : ""
-                              }`}
+                                }`}
                             >
                               <div
-                                className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${
-                                  view === item.key
+                                className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${view === item.key
                                     ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
                                     : ""
-                                }`}
+                                  }`}
                               >
                                 <Icon size="16" color="#4B4B4B" />
                                 {item.label}

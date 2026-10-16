@@ -141,7 +141,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
   const [accountTypeError, setAccountTypeError] = useState("");
   const [bankOpeningBalanceError, setBankOpeningBalanceError] = useState("");
 
-  // console.log("bankDisplayNameError", bankDisplayNameError);
+
 
   const [cashDisplayNameError, setCashDisplayNameError] = useState("");
   const [cashTypeError, setCashTypeError] = useState("");
@@ -182,7 +182,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
   //  Bank
   const handleBankDisplayName = (e) => {
     const value = e.target.value;
-    // console.log("value.length", value.length);
+
     setBankDisplayName(value);
     if (value.length > 30) {
       setBankDisplayNameError("Maximum 30 characters allowed");
@@ -249,7 +249,6 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
   };
 
   const handleAccountType = (selected) => {
-    console.log("accountType", selected);
     setAccountType(selected);
     setAccountTypeError("");
   };
@@ -498,7 +497,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
   }, [state.bankingDetails.createBankingError]);
 
 
-  // console.log("editBankDetails", editBankDetails);
+
 
 
   useEffect(() => {

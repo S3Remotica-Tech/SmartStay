@@ -147,7 +147,7 @@ function ReceiptNew() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const receiptFilters = state.InvoiceList?.receiptFilters;
-      // console.log("receiptFilters", receiptFilters);
+
 
       setReceiptLoader(true);
       dispatch({
@@ -238,7 +238,7 @@ function ReceiptNew() {
 
   useEffect(() => {
     const receiptFilters = state.InvoiceList?.receiptFilters;
-    // console.log("receiptFilters", receiptFilters);
+
 
     const filterData = [];
 
@@ -362,7 +362,7 @@ function ReceiptNew() {
   const stats = [
     {
       title: "Total Receipts",
-      value: state.InvoiceList?.getCustomizeReceiptList?.totalReceipt ,
+      value: state.InvoiceList?.getCustomizeReceiptList?.totalReceipt,
       icon: true,
       highlight: true,
     },
@@ -664,11 +664,10 @@ function ReceiptNew() {
             <div className="relative min-w-[180px] max-w-[260px]">
               <div
                 className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-        ${
-          canReadReceipt
-            ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-            : "border-gray-200 opacity-60 cursor-not-allowed"
-        }`}
+        ${canReadReceipt
+                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                    : "border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
               >
                 <input
                   type="text"
@@ -738,11 +737,10 @@ function ReceiptNew() {
               <div className="flex flex-wrap items-center justify-between !sticky !top-[60px] z-40  bg-white h-[40px]">
                 <div className="flex flex-wrap items-center gap-3">
                   <div
-                    className={`border border-gray-300 rounded-lg w-36 ${
-                      receiptType?.value
+                    className={`border border-gray-300 rounded-lg w-36 ${receiptType?.value
                         ? "bg-gray-100 text-gray-700"
                         : "bg-white"
-                    }`}
+                      }`}
                   >
                     <Select
                       styles={CustomStyles}
@@ -772,11 +770,10 @@ function ReceiptNew() {
                           handleClickFilter();
                         }
                       }}
-                      className={`transition-opacity duration-300 ${
-                        canReadReceipt
+                      className={`transition-opacity duration-300 ${canReadReceipt
                           ? "cursor-pointer opacity-100 pointer-events-auto"
                           : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
+                        }`}
                     />
                   </div>
                 </div>
@@ -884,9 +881,8 @@ function ReceiptNew() {
                                   let stickyClass = "";
 
                                   if (index === 0) {
-                                    stickyClass = `sticky left-[0px] z-20 w-[80px] ${
-                                      isScrolling ? "!bg-white" : "!bg-white"
-                                    }`;
+                                    stickyClass = `sticky left-[0px] z-20 w-[80px] ${isScrolling ? "!bg-white" : "!bg-white"
+                                      }`;
                                   }
 
                                   const finalClass = `${baseClass} ${stickyClass}`;
@@ -975,9 +971,8 @@ function ReceiptNew() {
                                 })}
 
                                 <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4  sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  className={`${isScrolling ? "!bg-white" : "bg-white"
+                                    } px-4  sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   {" "}
                                   <div
@@ -988,11 +983,10 @@ function ReceiptNew() {
                                     }}
                                   >
                                     <PiDotsThreeOutlineVerticalFill
-                                      className={`h-5 w-5 rotate-90 ${
-                                        activeRow === user.transactionId
+                                      className={`h-5 w-5 rotate-90 ${activeRow === user.transactionId
                                           ? "text-[#1E45E1]"
                                           : "text-gray-500"
-                                      }`}
+                                        }`}
                                     />
 
                                     {activeRow === user.transactionId && (
@@ -1002,9 +996,9 @@ function ReceiptNew() {
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
-                                              (popupRef.current?.offsetHeight ||
-                                                120) -
-                                              10
+                                            (popupRef.current?.offsetHeight ||
+                                              120) -
+                                            10
                                             : popupPosition.top + 5,
                                           left: popupPosition.left - 180,
                                         }}
@@ -1016,11 +1010,10 @@ function ReceiptNew() {
                                             onClick={() =>
                                               handleDeleteForm(user)
                                             }
-                                            className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${
-                                              canDeleteReceipt
+                                            className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${canDeleteReceipt
                                                 ? "cursor-pointer hover:bg-[#FFF0F0]"
                                                 : "cursor-not-allowed opacity-50"
-                                            }`}
+                                              }`}
                                           >
                                             <img
                                               src={Delete}
@@ -1038,11 +1031,10 @@ function ReceiptNew() {
                                             onClick={() =>
                                               handleReceiptDetail(user)
                                             }
-                                            className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${
-                                              isExportAllow
+                                            className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${isExportAllow
                                                 ? "cursor-pointer hover:bg-[#EDF2FF]"
                                                 : "cursor-not-allowed opacity-50"
-                                            }`}
+                                              }`}
                                           >
                                             <img
                                               src={Download}
@@ -1242,11 +1234,10 @@ function ReceiptNew() {
                 type="button"
                 onClick={handleDelete}
                 disabled={deleteLoading}
-                className={`w-full max-w-[160px] h-[52px] rounded-lg bg-[#1E45E1] text-white font-semibold font-gilroy text-[14px] flex items-center justify-center gap-2 transition ${
-                  deleteLoading
+                className={`w-full max-w-[160px] h-[52px] rounded-lg bg-[#1E45E1] text-white font-semibold font-gilroy text-[14px] flex items-center justify-center gap-2 transition ${deleteLoading
                     ? "opacity-70 cursor-not-allowed"
                     : "hover:bg-[#1738C8]"
-                }`}
+                  }`}
               >
                 {deleteLoading ? (
                   <>

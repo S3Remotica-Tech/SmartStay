@@ -29,7 +29,7 @@ function BillsPdfDetails() {
   const invoiceRefs = useRef({});
   const { invoiceId } = useParams();
   const searchTimeout = useRef();
-  console.log("invoiceId", invoiceId)
+
   const { canWriteModule: canWriteInvoice } = useHasPermission("Invoice");
 
   const { rowData, isReportsInvoiceRegisterWay, isTenantWay } =
@@ -90,7 +90,7 @@ function BillsPdfDetails() {
     }
   }, [state.login.selectedHostel_Id, invoiceId])
 
-  // console.log("invoiceId", invoiceId)
+
 
   useEffect(() => {
     if (isReportsInvoiceRegisterWay) {

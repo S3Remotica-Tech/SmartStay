@@ -347,7 +347,7 @@ function Sidebar() {
   useEffect(() => {
     const path = location.pathname;
 
-    console.log("path", path);
+
 
     const matchedPage = Object.keys(pageMap)
       .sort((a, b) => b.length - a.length)
@@ -364,7 +364,7 @@ function Sidebar() {
         return regex.test(path);
       });
 
-    console.log("matchedPage", matchedPage);
+
 
     if (matchedPage) {
       setCurrentPage(pageMap[matchedPage]);
@@ -386,7 +386,6 @@ function Sidebar() {
 
     else {
 
-      console.log(lastPage, "lastPage")
 
       if (lastPage) {
         navigate(lastPage, { replace: true });
