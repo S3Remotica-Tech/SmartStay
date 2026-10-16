@@ -86,6 +86,8 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
     }
   }, [selfDetails]);
 
+  console.log("selfDetails", selfDetails)
+
   useEffect(() => {
     if (state.bankingDetails?.statusSuccessSelfTransfer === 200) {
       setLoading(false);

@@ -245,6 +245,7 @@ function BankingLedger() {
       type: "GET_BANKING_LEDGER_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
+        bankId: OverviewDetails?.bankId,
         page: pageTransaction,
         size: sizeTransaction,
       },

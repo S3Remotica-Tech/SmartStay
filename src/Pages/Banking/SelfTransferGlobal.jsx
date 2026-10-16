@@ -176,13 +176,17 @@ function SelfTransferGlobal({ show, handleClose }) {
               >
                 <div className="flex items-center gap-3 flex-1">
                   <div
-                    className={`${bank.accountType === "CASH"
+                    className={`rounded-full p-2 ${bank.accountType === "CASH"
                       ? "bg-[#E9FFEE]"
-                      : "bg-[#E8ECFF]"
-                      } rounded-full p-2`}
+                      : bank.accountType === "CARD"
+                        ? "bg-[#FFF7ED]"
+                        : "bg-[#E8ECFF]"
+                      }`}
                   >
                     {bank.accountType === "CASH" ? (
                       <Wallet color="#038C3D" size="16" />
+                    ) : bank.accountType === "CARD" ? (
+                      <Card color="#F97316" size="16" />
                     ) : (
                       <Bank color="#1E45E1" size="16" />
                     )}
