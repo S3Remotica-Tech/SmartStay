@@ -39,7 +39,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState("");
-
+  console.log("rowData", rowData)
   const modalRef = useRef(null);
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [open, setOpen] = useState(false);
@@ -54,7 +54,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     pdfDetails.invoiceInfo?.retainerApplied?.redeemdList ||
     [];
   const InvoiceId = pdfDetails?.invoiceId || pdfDetails?.invoiceInfo?.invoiceId;
-  console.log("InvoiceId", InvoiceId)
+  // console.log("InvoiceId", InvoiceId)
 
   const [isOpen, setIsOpen] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
@@ -165,12 +165,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   };
 
   const handleDownload = () => {
-    if (InvoiceId) {
+    if (InvoiceId || rowData?.invoiceId) {
       dispatch({
         type: "INVOICEPDF",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          invoiceId: InvoiceId,
+          invoiceId: InvoiceId || rowData?.invoiceId,
         },
       });
       setPdfLoading(true);

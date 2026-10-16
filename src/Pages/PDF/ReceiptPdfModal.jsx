@@ -213,11 +213,11 @@ const InvoiceCard = ({ rowData }) => {
   };
 
   const handleDownload = () => {
-    if (rowData?.transactionId) {
+    if (rowData?.transactionId || pdfDetails?.receiptInfo?.receiptId) {
       dispatch({
         type: "RECEIPTPDF",
         payload: {
-          transactionId: rowData?.transactionId,
+          transactionId: rowData?.transactionId || pdfDetails?.receiptInfo?.receiptId,
           hostelId: state.login?.selectedHostel_Id,
         },
       });
