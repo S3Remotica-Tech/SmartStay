@@ -164,35 +164,6 @@ function Sidebar() {
   const isDevelopment = import.meta.env.MODE === "development";
   // const isProduction = import.meta.env.MODE === "production";
 
-  const pageMap = {
-    "/dashboard": "dashboard",
-    "/dashboard/:hostelId": "dashboard",
-    "/paying-guest/:hostelId": "pg-list",
-    "/tenant/:hostelId": "user-list",
-    "/tenant/details/:hostelId": "user-details",
-
-    "/invoice/:hostelId": "invoice",
-    "/invoice/new/:hostelId": "invoice",
-
-    "/booking/:hostelId": "booking",
-
-    "/recurring/:hostelId": "recurring",
-    "/receipts/:hostelId": "receipts",
-    // "/receipts/new/:hostelId": "receipts-new",
-    "/retainer-invoice/:hostelId": "retainer-invoice",
-
-    "/vendor/:hostelId": "vendor",
-    // "/vendor/new/:hostelId": "vendor-new",
-    "/compliance/:hostelId": "compliance",
-    "/asset/:hostelId": "asset",
-    "/reports/:hostelId": "reports",
-    "/electricity/:hostelId": "eb",
-    "/expense/:hostelId": "expenses",
-    // "/expense/new/:hostelId": "expenses-new",
-    // "/banking/:hostelId": "banking",
-    "/banking/:hostelId": "banking",
-    "/settings/:hostelId": "settingNewDesign",
-  };
 
   const handleSearchChange = (e) => {
     setHostelSearch(e.target.value);
@@ -343,23 +314,97 @@ function Sidebar() {
     };
   }, []);
 
+
+
+  const pageMap = {
+    "/dashboard": "dashboard",
+    "/dashboard/:hostelId": "dashboard",
+    "/paying-guest/:hostelId": "pg-list",
+    "/tenant/:hostelId": "user-list",
+    "/tenant/details/:tenantId": "tenant-details",
+    "/invoice/:hostelId": "invoice",
+    "/invoice/new/:hostelId": "invoice",
+    "/invoice/details/:invoiceId": "invoice-details",
+    "/booking/:hostelId": "booking",
+    "/recurring/:hostelId": "recurring",
+    "/receipts/:hostelId": "receipts",
+    "/retainer-invoice/:hostelId": "retainer-invoice",
+    "/retainer-invoice/details/:invoiceId": "retainer-invoice",
+    "/vendor/:hostelId": "vendor",
+    "/compliance/:hostelId": "compliance",
+    "/asset/:hostelId": "asset",
+    "/reports/:hostelId": "reports",
+    "/electricity/:hostelId": "eb",
+    "/expense/:hostelId": "expenses",
+    "/banking/:hostelId": "banking",
+    "/settings/:hostelId": "settingNewDesign",
+    "/receipts/details/:receiptId": "receipts",
+    "/tenant/checkout/details/:tenantId": "user-list",
+  };
+
+
+
   useEffect(() => {
     const path = location.pathname;
+
+    console.log("path", path);
 
     const matchedPage = Object.keys(pageMap)
       .sort((a, b) => b.length - a.length)
       .find((route) => {
-        const regex = new RegExp(
-          "^" + route.replace("/:hostelId", "/[^/]+") + "$",
-        );
+        const regexPattern = route
+          .split("/")
+          .map((segment) =>
+            segment.startsWith(":") ? "[^/]+" : segment
+          )
+          .join("/");
+
+        const regex = new RegExp(`^${regexPattern}$`);
+
         return regex.test(path);
       });
+
+    console.log("matchedPage", matchedPage);
 
     if (matchedPage) {
       setCurrentPage(pageMap[matchedPage]);
       localStorage.setItem("lastPage", path);
     }
   }, [location.pathname]);
+  const lastPage = localStorage.getItem("lastPage");
+
+  useEffect(() => {
+    if (state.login?.isLoggedIn && state.login?.selectedHostel_Id) {
+      if (isFirstLogin.current) {
+        navigate(`/dashboard/${state.login.selectedHostel_Id}`, {
+          replace: true,
+        });
+
+        isFirstLogin.current = false;
+      }
+    }
+
+    else {
+
+      console.log(lastPage, "lastPage")
+
+      if (lastPage) {
+        navigate(lastPage, { replace: true });
+      }
+      else {
+        navigate("/dashboard", { replace: true });
+      }
+    }
+  }, [state.login?.isLoggedIn, state.login?.selectedHostel_Id, lastPage]);
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (
@@ -376,25 +421,13 @@ function Sidebar() {
     }
   }, [currentPage]);
 
-  useEffect(() => {
-    if (state.login?.isLoggedIn && state.login?.selectedHostel_Id) {
-      if (isFirstLogin.current) {
-        navigate(`/dashboard/${state.login.selectedHostel_Id}`, {
-          replace: true,
-        });
 
-        isFirstLogin.current = false;
-      }
-    } else {
-      const lastPage = localStorage.getItem("lastPage");
 
-      if (lastPage) {
-        navigate(lastPage, { replace: true });
-      } else {
-        navigate("/dashboard", { replace: true });
-      }
-    }
-  }, [state.login?.isLoggedIn, state.login?.selectedHostel_Id]);
+
+
+
+
+
 
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
@@ -511,35 +544,35 @@ function Sidebar() {
   //   setCurrentPage(localStorage.getItem("currentPage"));
   // }, [currentPage]);
 
-  useEffect(() => {
-    if (!state.login?.selectedHostel_Id) return;
+  // useEffect(() => {
+  //   if (!state.login?.selectedHostel_Id) return;
 
-    const pathParts = location.pathname.split("/").filter(Boolean);
+  //   const pathParts = location.pathname.split("/").filter(Boolean);
 
-    const mainPage = pathParts[0];
+  //   const mainPage = pathParts[0];
 
-    const validPages = [
-      "dashboard",
-      "paying-guest",
-      "tenant",
-      "invoice",
-      "compliance",
-      "reports",
-      "electricity",
-      "expense",
-      "banking",
-      "banking-new",
-      "settingNewDesign",
-      "vendor",
-      "asset",
-      "booking",
-      "requests",
-    ];
+  //   const validPages = [
+  //     "dashboard",
+  //     "paying-guest",
+  //     "tenant",
+  //     "invoice",
+  //     "compliance",
+  //     "reports",
+  //     "electricity",
+  //     "expense",
+  //     "banking",
+  //     "banking-new",
+  //     "settingNewDesign",
+  //     "vendor",
+  //     "asset",
+  //     "booking",
+  //     "requests",
+  //   ];
 
-    if (validPages.includes(mainPage) && pathParts.length > 1) {
-      navigate(`/${mainPage}/${hostelId}`, { replace: true });
-    }
-  }, [state.login?.selectedHostel_Id]);
+  //   if (validPages.includes(mainPage) && pathParts.length > 1) {
+  //     navigate(`/${mainPage}/${hostelId}`, { replace: true });
+  //   }
+  // }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
@@ -1006,7 +1039,7 @@ function Sidebar() {
                             <NavLink
                               to={withHostel("/tenant")}
                               className={({ isActive }) =>
-                                `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details"
+                                `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "tenant-details"
                                   ? "active"
                                   : ""
                                 }`
@@ -1446,7 +1479,7 @@ function Sidebar() {
                   }
                 />
                 <Route
-                  path="/retainer-invoice/details/:hostelId?"
+                  path="/retainer-invoice/details/:invoiceId?"
                   element={
                     <div className="mt-1 ml-2.5 mr-1">
                       <BookingsPdfDetails />
