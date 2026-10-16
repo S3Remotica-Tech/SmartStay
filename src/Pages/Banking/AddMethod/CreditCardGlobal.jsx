@@ -336,7 +336,7 @@ function CreditCardGlobal({ handleClose }) {
                 hostelId: state.login.selectedHostel_Id,
                 linkedBankId: isLinked ? selectedBank?.value : "",
                 isDefault: true,
-                accountType: "CREDIT",
+                accountType: "CARD",
                 holderName: cardHolderName,
                 cardNumber: cardNumber,
                 displayName: displayName.trim(),

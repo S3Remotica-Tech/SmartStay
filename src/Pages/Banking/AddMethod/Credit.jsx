@@ -334,7 +334,7 @@ function Credit({ handleClose }) {
         hostelId: state.login.selectedHostel_Id,
         linkedBankId: OverviewDetails?.bankId,
         isDefault: true,
-        accountType: "CREDIT",
+        accountType: "CARD",
         holderName: cardHolderName,
         cardNumber: cardNumber,
         displayName: displayName.trim(),
