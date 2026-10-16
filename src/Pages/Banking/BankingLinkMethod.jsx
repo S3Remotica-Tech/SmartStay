@@ -95,38 +95,37 @@ function BankingLinkMethod() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="text-right">
+                <div className="flex items-start justify-end gap-3">
+                  <div className="flex flex-col items-end text-right">
                     <div
-                      className={`text-[11px] px-2 py-0.5 rounded
-              ${isUPI
-                          ? "bg-[#EEF2FF] text-[#6366F1]"
-                          : isDebit
-                            ? "bg-[#F3E8FF] text-[#A855F7]"
-                            : "bg-[#FFF7ED] text-[#F97316]"
+                      className={`text-[11px] px-2 py-0.5 w-fit rounded ${isUPI
+                        ? "bg-[#EEF2FF] text-[#6366F1]"
+                        : isDebit
+                          ? "bg-[#F3E8FF] text-[#A855F7]"
+                          : "bg-[#FFF7ED] text-[#F97316]"
                         }`}
                     >
                       {item.paymentMethod}
                     </div>
 
                     {isCredit && (
-                      <div className="text-[11px] text-[#6B7280] mt-1">
+                      <div className="text-[11px] text-[#6B7280] mt-1 whitespace-nowrap">
                         Limit
                         <span className="font-medium text-[#111827] ml-1">
-                          ₹{Number(item.creditLimit || 0).toLocaleString()}
+                          ₹{Number(item.creditLimit || 0).toLocaleString("en-IN")}
                         </span>
                       </div>
                     )}
 
-                    <div className="text-[11px] text-[#6B7280] mt-1">
+                    <div className="text-[11px] text-[#6B7280] mt-1 whitespace-nowrap">
                       Balance :
                       <span className="font-medium text-[#111827] ml-1">
-                        ₹{Number(item.balance || 0).toLocaleString()}
+                        ₹{Number(item.balance || 0).toLocaleString("en-IN")}
                       </span>
                     </div>
                   </div>
 
-                  <button>
+                  <button className="flex items-center justify-center shrink-0 mt-0.5">
                     <More
                       size="16"
                       color="#6B7280"
