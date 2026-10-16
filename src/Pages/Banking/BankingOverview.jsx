@@ -4,7 +4,7 @@ import {
   Bank,
   Location,
   Calendar,
-  // ArrowUp2,
+  Card,
   // ArrowUp,
   ArrowDown2,
   Add,
@@ -40,7 +40,7 @@ function BankingOverview({ show, onClose }) {
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
   const isBankAccount = OverviewDetails?.accountType === "BANK";
-  //  && OverviewDetails?.paymentMethodId === null;
+
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
 
@@ -55,8 +55,7 @@ function BankingOverview({ show, onClose }) {
       { id: "ledger", label: "Ledger" },
     ];
 
-  // const LinkedPaymentMethodsList =
-  //   state?.bankingDetails?.linkedPaymentMethodsList;
+
 
   const dropdownRef = useRef(null);
 
@@ -274,10 +273,18 @@ function BankingOverview({ show, onClose }) {
         <div className="flex items-center justify-between p-3 border-b border-[#F0F0F0] shrink-0">
           <div className="flex items-center gap-4">
             <div
-              className={`${OverviewDetails?.accountType === "CASH" ? "bg-[#E9FFEE]" : "bg-[#E8ECFF]"} rounded-full px-2 py-2`}
+              className={`${OverviewDetails?.accountType === "CASH"
+                ? "bg-[#E9FFEE]"
+                : OverviewDetails?.accountType === "CARD"
+                  ? "bg-[#FFF4E5]"
+                  : "bg-[#E8ECFF]"
+                } rounded-full px-2 py-2`}
             >
+
               {OverviewDetails?.accountType === "CASH" ? (
                 <Wallet color="#038C3D" size="16" />
+              ) : OverviewDetails?.accountType === "CARD" ? (
+                <Card color="#F59E0B" size="16" />
               ) : (
                 <Bank color="#1E45E1" size="16" />
               )}
@@ -285,7 +292,7 @@ function BankingOverview({ show, onClose }) {
 
             <div>
               <div className="text-[18px] font-semibold text-[#222222] capitalize">
-                {OverviewDetails?.paymentMethod ?
+                {OverviewDetails?.accountType === "CARD" ?
                   `${OverviewDetails?.displayName} `
                   : OverviewDetails?.accountType === "BANK"
                     ? `${OverviewDetails?.bankName}`
@@ -294,7 +301,7 @@ function BankingOverview({ show, onClose }) {
 
               <div className="flex items-center gap-3 mt-1">
                 <div className="text-[#4B4B4B] text-[14px] capitalize">
-                  {OverviewDetails?.paymentMethod ? OverviewDetails?.paymentMethod : `${OverviewDetails?.accountType?.toLowerCase()} Account`}
+                  {`${OverviewDetails?.accountType?.toLowerCase()} Account`}
                 </div>
 
                 {OverviewDetails?.accountType === "BANK" && OverviewDetails?.branchName && (
@@ -384,7 +391,7 @@ function BankingOverview({ show, onClose }) {
             </div>
 
             <button
-              disabled={!canWriteBanking || OverviewDetails?.paymentMethod === "Credit Card"}
+              disabled={!canWriteBanking || OverviewDetails?.accountType === "CARD"}
               onClick={(e) => {
                 e.stopPropagation();
                 handleOpenSelfTransfer(OverviewDetails);

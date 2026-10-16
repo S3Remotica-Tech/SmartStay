@@ -100,16 +100,17 @@ function OccupiedBedStatus({
   }, []);
 
   const handleNavigateTenantProfile = (tenantDetails) => {
-    dispatch({
-      type: "CUSTOMERDETAILS",
-      payload: { customerId: tenantDetails?.tenetId },
-    });
+    // dispatch({
+    //   type: "CUSTOMERDETAILS",
+    //   payload: { customerId: tenantDetails?.tenetId },
+    // });
     navigate(`/tenant/details/${tenantDetails?.tenetId}`, {
       state: {
         customerId: tenantDetails?.tenetId,
         hostelId: state.login.selectedHostel_Id,
         name: tenantDetails?.tenantFullName,
         isPgWay: true,
+        navigationSource: "PG"
       },
     });
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
@@ -165,7 +166,7 @@ function OccupiedBedStatus({
                         <div className="flex gap-3 items-center">
                           <div>
                             {tenant?.profilePic &&
-                            tenant?.profilePic !== "0" ? (
+                              tenant?.profilePic !== "0" ? (
                               <Image
                                 src={tenant?.profilePic}
                                 roundedCircle
@@ -391,11 +392,10 @@ function OccupiedBedStatus({
 
                       <div
                         onClick={() => handleShowDotsRerved(index)}
-                        className={`relative w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${
-                          activeRoomIdReserved === index
-                            ? "bg-[#E0ECFF]"
-                            : "bg-white"
-                        }`}
+                        className={`relative w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer ${activeRoomIdReserved === index
+                          ? "bg-[#E0ECFF]"
+                          : "bg-white"
+                          }`}
                       >
                         <PiDotsThreeOutlineVerticalFill className="w-5 h-5" />
 
@@ -406,11 +406,10 @@ function OccupiedBedStatus({
                           >
                             <div
                               onClick={() => handleCheckin(tenant)}
-                              className={`flex gap-2 items-center p-2 rounded-t-lg ${
-                                canWriteCustomers
-                                  ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]"
-                                  : " cursor-not-allowed opacity-50"
-                              }`}
+                              className={`flex gap-2 items-center p-2 rounded-t-lg ${canWriteCustomers
+                                ? "cursor-pointer opacity-100 hover:bg-[#F0F4FF]"
+                                : " cursor-not-allowed opacity-50"
+                                }`}
                             >
                               <AddCircle
                                 size={18}
@@ -429,11 +428,10 @@ function OccupiedBedStatus({
                             <div className="h-px bg-gray-300" />
 
                             <div
-                              className={`flex gap-2 items-center p-2 rounded-b-lg ${
-                                canReadBooking
-                                  ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
-                                  : "cursor-not-allowed opacity-50"
-                              }`}
+                              className={`flex gap-2 items-center p-2 rounded-b-lg ${canReadBooking
+                                ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
+                                : "cursor-not-allowed opacity-50"
+                                }`}
                               onClick={() =>
                                 canReadBooking && handleMakeInActive(tenant)
                               }
@@ -453,11 +451,10 @@ function OccupiedBedStatus({
                             <div className="h-px bg-gray-300" />
 
                             <div
-                              className={`flex gap-2 items-center p-2 rounded-b-lg ${
-                                canUpdatePayingGuests
-                                  ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
-                                  : "cursor-not-allowed opacity-60"
-                              }`}
+                              className={`flex gap-2 items-center p-2 rounded-b-lg ${canUpdatePayingGuests
+                                ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
+                                : "cursor-not-allowed opacity-60"
+                                }`}
                               onClick={() =>
                                 canUpdatePayingGuests && handleEditBed()
                               }

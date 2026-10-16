@@ -54,6 +54,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     pdfDetails.invoiceInfo?.retainerApplied?.redeemdList ||
     [];
   const InvoiceId = pdfDetails?.invoiceId || pdfDetails?.invoiceInfo?.invoiceId;
+  console.log("InvoiceId", InvoiceId)
+
   const [isOpen, setIsOpen] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const [applyRetainer, setApplyRetainer] = useState(false);
@@ -162,8 +164,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     setShowWaiveModal(false);
   };
 
-  const handleDownload = (rowData) => {
-    if (rowData) {
+  const handleDownload = () => {
+    if (InvoiceId) {
       dispatch({
         type: "INVOICEPDF",
         payload: {
@@ -675,7 +677,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 : "cursor-not-allowed opacity-50"
                 }`}
               onClick={() => {
-                if (isExportAllow) handleDownload(rowData);
+                if (isExportAllow) handleDownload();
               }}
             >
               <DocumentDownload

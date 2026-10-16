@@ -56,7 +56,7 @@ import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
 import FileAdd from "../../Assets/Images/New_images/file_add.svg";
 import { useHasPermission } from "../../Utils/Permission";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import EditRentalAmount from "./EditRentalAmount";
 import EditAdvanceAmount from "./EditAdvanceAmount";
 import EditJoiningDate from "./EditJoiningDate";
@@ -89,6 +89,7 @@ function TenantOverview(props) {
   const navigate = useNavigate();
 
   const [value, setValue] = useState("1");
+  const { tenantId } = useParams();
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -186,15 +187,24 @@ function TenantOverview(props) {
     isReceiptWay,
     isBookingWay,
     isTenantWay,
-
+    navigationSource,
     navigatePg,
     navigateTenant,
   } = location.state || {};
 
-  const CustomerOverView = state?.UsersList?.customerdetails;
 
+  useEffect(() => {
+    const selectedTenantId = customerId || tenantId;
+    if (selectedTenantId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: selectedTenantId } });
+
+    }
+  }, [customerId, tenantId])
+
+  const CustomerOverView = state?.UsersList?.customerdetails;
+  // console.log("isPgWay", isPgWay, "isDashboardWay", isDashboardWay, "navigationSource", navigationSource)
   const handleNavigateTenant = () => {
-    if (isPgWay || navigatePg) {
+    if (navigationSource === "PG" || isPgWay || navigatePg) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
     } else if (isDashboardWay) {
       navigate(`/dashboard/${state.login.selectedHostel_Id}`);
@@ -808,11 +818,11 @@ function TenantOverview(props) {
     !canWriteAmenities ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED" ||
+    "SETTLEMENT_GENERATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   // const isDisabledButton =
@@ -830,18 +840,18 @@ function TenantOverview(props) {
     !canUpdateTenant ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED" ||
+    "SETTLEMENT_GENERATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   const isKYCDisabledButton =
     !canWriteTenant ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
@@ -849,7 +859,7 @@ function TenantOverview(props) {
   const isEditDisabled =
     !canUpdateTenant ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "DRAFT";
 
   useEffect(() => {
@@ -1230,126 +1240,126 @@ function TenantOverview(props) {
                   >
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "CHECK_IN" && (
-                      <>
-                        <button
-                          disabled={!canUpdateCheckout}
-                          onClick={() => {
-                            if (canUpdateCheckout) {
-                              handleCustomerCheckout(CustomerOverView);
-                              setOpenMenu(false);
-                            }
-                          }}
-                          className="
+                        <>
+                          <button
+                            disabled={!canUpdateCheckout}
+                            onClick={() => {
+                              if (canUpdateCheckout) {
+                                handleCustomerCheckout(CustomerOverView);
+                                setOpenMenu(false);
+                              }
+                            }}
+                            className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
     text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
   "
-                        >
-                          <Notification1
-                            size="18"
-                            color={canUpdateCheckout ? "#1E45E1" : "#9CA3AF"}
-                          />
-                          Move to Notice Period
-                        </button>
+                          >
+                            <Notification1
+                              size="18"
+                              color={canUpdateCheckout ? "#1E45E1" : "#9CA3AF"}
+                            />
+                            Move to Notice Period
+                          </button>
 
-                        <button
-                          disabled={!canUpdateBooking}
-                          onClick={() => {
-                            if (canUpdateBooking) {
-                              handleCustomerReAssign(CustomerOverView);
-                              setOpenMenu(false);
-                            }
-                          }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-                        >
-                          <ArrowSwapHorizontal
-                            size={16}
-                            color={canUpdateBooking ? "#1E45E1" : "#9CA3AF"}
-                          />
-                          Change Bed
-                        </button>
-                      </>
-                    )}
+                          <button
+                            disabled={!canUpdateBooking}
+                            onClick={() => {
+                              if (canUpdateBooking) {
+                                handleCustomerReAssign(CustomerOverView);
+                                setOpenMenu(false);
+                              }
+                            }}
+                            className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          >
+                            <ArrowSwapHorizontal
+                              size={16}
+                              color={canUpdateBooking ? "#1E45E1" : "#9CA3AF"}
+                            />
+                            Change Bed
+                          </button>
+                        </>
+                      )}
 
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "NOTICE" && (
-                      <>
-                        <button
-                          disabled={!canWriteCheckout}
-                          onClick={() => {
-                            if (canWriteCheckout) {
-                              handleCheckoutGenrateNew(CustomerOverView);
-                              setOpenMenu(false);
-                            }
-                          }}
-                          className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-                        >
-                          <LogoutCurve
-                            size="18"
-                            color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
-                          />
-                          Generate
-                        </button>
-                        <div className="h-px bg-gray-300" />
-                        <button
-                          disabled={!canWriteTenant}
-                          onClick={() => {
-                            if (canWriteTenant) {
-                              handleBacktoCheckout(CustomerOverView);
-                              setOpenMenu(false);
-                            }
-                          }}
-                          className="
+                        <>
+                          <button
+                            disabled={!canWriteCheckout}
+                            onClick={() => {
+                              if (canWriteCheckout) {
+                                handleCheckoutGenrateNew(CustomerOverView);
+                                setOpenMenu(false);
+                              }
+                            }}
+                            className="w-full px-3 py-2 text-left text-sm flex items-center gap-2 text-gray-900 hover:bg-blue-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                          >
+                            <LogoutCurve
+                              size="18"
+                              color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
+                            />
+                            Generate
+                          </button>
+                          <div className="h-px bg-gray-300" />
+                          <button
+                            disabled={!canWriteTenant}
+                            onClick={() => {
+                              if (canWriteTenant) {
+                                handleBacktoCheckout(CustomerOverView);
+                                setOpenMenu(false);
+                              }
+                            }}
+                            className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
     text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
   "
-                        >
-                          <Calendar2
-                            size="18"
-                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
-                            variant="Bold"
-                          />
-                          Cancel Check-Out
-                        </button>
-                        <div className="h-px bg-gray-300" />
-                      </>
-                    )}
+                          >
+                            <Calendar2
+                              size="18"
+                              color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                              variant="Bold"
+                            />
+                            Cancel Check-Out
+                          </button>
+                          <div className="h-px bg-gray-300" />
+                        </>
+                      )}
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "SETTLEMENT_GENERATED" && (
-                      <>
-                        <button
-                          disabled={!canWriteCheckout}
-                          onClick={() => {
-                            if (canWriteCheckout) {
-                              handleConformCheckout(CustomerOverView);
-                              setOpenMenu(false);
-                            }
-                          }}
-                          className="
+                        <>
+                          <button
+                            disabled={!canWriteCheckout}
+                            onClick={() => {
+                              if (canWriteCheckout) {
+                                handleConformCheckout(CustomerOverView);
+                                setOpenMenu(false);
+                              }
+                            }}
+                            className="
     w-full px-3 py-2 text-left text-sm flex items-center gap-2
     text-gray-900 hover:bg-blue-100
     disabled:text-gray-400
     disabled:cursor-not-allowed
     disabled:hover:bg-transparent
   "
-                        >
-                          <LogoutCurve
-                            size="18"
-                            color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
-                          />
-                          Check-Out
-                        </button>
-                      </>
-                    )}
+                          >
+                            <LogoutCurve
+                              size="18"
+                              color={canWriteCheckout ? "#1E45E1" : "#9CA3AF"}
+                            />
+                            Check-Out
+                          </button>
+                        </>
+                      )}
 
                     {import.meta.env.MODE === "development" &&
                       state.UsersList.customerdetails?.customerCurrentStatus !==
-                        "BOOKED" &&
+                      "BOOKED" &&
                       state.UsersList.customerdetails?.hostelInfo
                         ?.currentStatus !== "CANCELLED" && (
                         <button
@@ -1370,104 +1380,102 @@ function TenantOverview(props) {
 
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "BOOKED" && (
-                      <>
-                        <button
-                          disabled={!canWriteTenant}
-                          onClick={() => {
-                            handleShowBookingToCheckin();
-                            setOpenMenu(null);
-                          }}
-                          type="button"
-                          className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-blue-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
+                        <>
+                          <button
+                            disabled={!canWriteTenant}
+                            onClick={() => {
+                              handleShowBookingToCheckin();
+                              setOpenMenu(null);
+                            }}
+                            type="button"
+                            className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-blue-100 flex items-center gap-2 disabled:hover:bg-transparent         disabled:text-gray-400
         disabled:cursor-not-allowed"
-                        >
-                          <AddCircle
-                            size="18"
-                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
-                          />
-                          Check-In
-                        </button>
+                          >
+                            <AddCircle
+                              size="18"
+                              color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                            />
+                            Check-In
+                          </button>
 
-                        <button
-                          disabled={!canWriteBooking}
-                          onClick={() => {
-                            if (canWriteBooking) {
-                              handleInActive(CustomerOverView);
-                              setOpenMenu(false);
-                            }
-                          }}
-                          className="
+                          <button
+                            disabled={!canWriteBooking}
+                            onClick={() => {
+                              if (canWriteBooking) {
+                                handleInActive(CustomerOverView);
+                                setOpenMenu(false);
+                              }
+                            }}
+                            className="
         w-full px-3 py-2 text-left text-sm flex items-center gap-2
         text-gray-900 hover:bg-blue-100
         disabled:text-gray-400
         disabled:cursor-not-allowed
         disabled:hover:bg-transparent
       "
-                        >
-                          <LogoutCurve
-                            size="18"
-                            color={canWriteBooking ? "#1E45E1" : "#9CA3AF"}
-                          />
-                          Make as Inactive
-                        </button>
-                      </>
-                    )}
+                          >
+                            <LogoutCurve
+                              size="18"
+                              color={canWriteBooking ? "#1E45E1" : "#9CA3AF"}
+                            />
+                            Make as Inactive
+                          </button>
+                        </>
+                      )}
 
                     {state.UsersList.customerdetails?.customerCurrentStatus ===
                       "DRAFT" && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (canWriteTenant) {
-                              handleShowDraftTenant(CustomerOverView);
-                            }
-                          }}
-                          disabled={!canWriteTenant}
-                          className={`flex items-center gap-2 px-3 py-2 transition rounded-md
-    ${
-      canWriteTenant
-        ? "cursor-pointer hover:bg-blue-100"
-        : "cursor-not-allowed opacity-60"
-    }`}
-                        >
-                          <CalendarTick
-                            size={16}
-                            variant="Linear"
-                            color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
-                          />
-
-                          <span className="text-sm font-medium font-gilroy whitespace-nowrap">
-                            Draft Continue
-                          </span>
-                        </button>
-
-                        <button
-                          type="button"
-                          disabled={!canDeleteTenant}
-                          onClick={() => handleDeleteTenant(CustomerOverView)}
-                          className={`flex items-center gap-2 px-3 py-2 transition rounded-md w-full
-    ${
-      canDeleteTenant
-        ? "cursor-pointer hover:bg-red-50"
-        : "cursor-not-allowed opacity-60"
-    }`}
-                        >
-                          <Trash
-                            size={16}
-                            variant="Linear"
-                            color={canDeleteTenant ? "#EF4444" : "#9CA3AF"}
-                          />
-
-                          <span
-                            className="text-sm font-medium font-gilroy 
-                                                    whitespace-nowrap text-[#EF4444]"
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (canWriteTenant) {
+                                handleShowDraftTenant(CustomerOverView);
+                              }
+                            }}
+                            disabled={!canWriteTenant}
+                            className={`flex items-center gap-2 px-3 py-2 transition rounded-md
+    ${canWriteTenant
+                                ? "cursor-pointer hover:bg-blue-100"
+                                : "cursor-not-allowed opacity-60"
+                              }`}
                           >
-                            Delete
-                          </span>
-                        </button>
-                      </>
-                    )}
+                            <CalendarTick
+                              size={16}
+                              variant="Linear"
+                              color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                            />
+
+                            <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                              Draft Continue
+                            </span>
+                          </button>
+
+                          <button
+                            type="button"
+                            disabled={!canDeleteTenant}
+                            onClick={() => handleDeleteTenant(CustomerOverView)}
+                            className={`flex items-center gap-2 px-3 py-2 transition rounded-md w-full
+    ${canDeleteTenant
+                                ? "cursor-pointer hover:bg-red-50"
+                                : "cursor-not-allowed opacity-60"
+                              }`}
+                          >
+                            <Trash
+                              size={16}
+                              variant="Linear"
+                              color={canDeleteTenant ? "#EF4444" : "#9CA3AF"}
+                            />
+
+                            <span
+                              className="text-sm font-medium font-gilroy 
+                                                    whitespace-nowrap text-[#EF4444]"
+                            >
+                              Delete
+                            </span>
+                          </button>
+                        </>
+                      )}
                   </div>
                 )}
               </div>
@@ -1487,9 +1495,8 @@ function TenantOverview(props) {
                 <Tab
                   label="Overview"
                   value="1"
-                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${
-                    value === "1" ? "!text-[#222222]" : "!text-[#6B6B6B]"
-                  }`}
+                  className={`!text-[17px] !font-gilroy !leading-normal !not-italic !font-medium !normal-case ${value === "1" ? "!text-[#222222]" : "!text-[#6B6B6B]"
+                    }`}
                 />
                 <Tab
                   label="EB Reading"
@@ -1954,10 +1961,10 @@ function TenantOverview(props) {
                               />
                               <span className="text-sm font-semibold font-gilroy ml-1 mt-1">
                                 {CustomerOverView.hostelInfo?.floorName &&
-                                CustomerOverView.hostelInfo?.floorName !==
+                                  CustomerOverView.hostelInfo?.floorName !==
                                   "undefined" &&
-                                CustomerOverView.hostelInfo?.floorName !== 0 &&
-                                CustomerOverView.hostelInfo?.floorName !==
+                                  CustomerOverView.hostelInfo?.floorName !== 0 &&
+                                  CustomerOverView.hostelInfo?.floorName !==
                                   "null"
                                   ? CustomerOverView.hostelInfo.floorName
                                   : "N/A"}
@@ -2017,7 +2024,7 @@ function TenantOverview(props) {
                               {canUpdateTenant &&
                                 CustomerOverView.hostelInfo?.joiningDate &&
                                 CustomerOverView.hostelInfo?.currentStatus !==
-                                  "NOTICE" &&
+                                "NOTICE" &&
                                 CustomerOverView?.isJoiningDateEditable && (
                                   <img
                                     onClick={handleUpdateJoiningChange}
@@ -2068,12 +2075,12 @@ function TenantOverview(props) {
                                 {canUpdateTenant &&
                                   Number(
                                     CustomerOverView.hostelInfo?.monthlyRent ??
-                                      0,
+                                    0,
                                   ) > 0 &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
-                                    "NOTICE" &&
+                                  "NOTICE" &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
-                                    "VACATED" && (
+                                  "VACATED" && (
                                     <button
                                       type="button"
                                       onClick={handleUpdateChange}
@@ -2133,9 +2140,9 @@ function TenantOverview(props) {
                                   advanceList?.advanceAmount !== null &&
                                   advanceList?.advanceAmount !== undefined &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
-                                    "NOTICE" &&
+                                  "NOTICE" &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
-                                    "VACATED" &&
+                                  "VACATED" &&
                                   CustomerOverView.advanceInfo
                                     ?.canEditAdvance && (
                                     <img
@@ -2164,17 +2171,17 @@ function TenantOverview(props) {
 
                             {CustomerOverView.hostelInfo?.maintenance !==
                               null && (
-                              <div className=" flex flex-col items-start">
-                                <div className="text-xs font-medium font-gilroy">
-                                  Maintenance
+                                <div className=" flex flex-col items-start">
+                                  <div className="text-xs font-medium font-gilroy">
+                                    Maintenance
+                                  </div>
+                                  <p className="text-sm font-semibold font-gilroy pt-2">
+                                    ₹
+                                    {CustomerOverView.hostelInfo?.maintenance ||
+                                      0}
+                                  </p>
                                 </div>
-                                <p className="text-sm font-semibold font-gilroy pt-2">
-                                  ₹
-                                  {CustomerOverView.hostelInfo?.maintenance ||
-                                    0}
-                                </p>
-                              </div>
-                            )}
+                              )}
 
                             {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map(
                               (item, index) => (
@@ -2204,11 +2211,10 @@ function TenantOverview(props) {
                       <button
                         onClick={() => setDocumentValue("1")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
-        ${
-          documentvalue === "1"
-            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-            : "text-[#4B4B4B] border-b-2 border-transparent"
-        }`}
+        ${documentvalue === "1"
+                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                            : "text-[#4B4B4B] border-b-2 border-transparent"
+                          }`}
                       >
                         KYC Documents
                       </button>
@@ -2216,11 +2222,10 @@ function TenantOverview(props) {
                       <button
                         onClick={() => setDocumentValue("2")}
                         className={`text-[16px] font-semibold font-[Gilroy] pb-2 transition
-        ${
-          documentvalue === "2"
-            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-            : "text-[#4B4B4B] border-b-2 border-transparent"
-        }`}
+        ${documentvalue === "2"
+                            ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                            : "text-[#4B4B4B] border-b-2 border-transparent"
+                          }`}
                       >
                         Manual Documents
                       </button>
@@ -2323,11 +2328,10 @@ function TenantOverview(props) {
                             type="button"
                             onClick={handleAdditionalForm}
                             className={`flex justify-center gap-2 items-center px-4 py-1 rounded-md font-gilroy 
-    ${
-      !isDisabledButtonForUpdate
-        ? "bg-[#1E45E1] text-white cursor-pointer"
-        : "bg-gray-100 text-gray-400 cursor-not-allowed"
-    }
+    ${!isDisabledButtonForUpdate
+                                ? "bg-[#1E45E1] text-white cursor-pointer"
+                                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                              }
   `}
                           >
                             <AddCircle
@@ -2464,7 +2468,7 @@ function TenantOverview(props) {
           <EditStayDetails
             show={editStayDetailsShow}
             handleClose={handleCloseStayDetails}
-            //  stayDetais={stayDetais}
+          //  stayDetais={stayDetais}
           />
         )}
 

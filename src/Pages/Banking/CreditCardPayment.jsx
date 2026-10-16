@@ -240,23 +240,17 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   const paymentDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
-  // const creditCardOptions = (
-  //   state?.bankingDetails?.getCreditCardinitializeList?.creditCards ?? []
-  // ).map((view) => ({
-  //   value: view?.paymentMethodId,
-  //   label: `${view?.displayName} - ${view?.paymentMethod}`,
-  // }));
 
 
   const creditCardOptions = useMemo(
     () =>
-      (state?.bankingDetails?.getCreditCardinitializeList?.creditCards ?? []).map(
+      (state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards ?? []).map(
         (view) => ({
-          value: view?.paymentMethodId,
-          label: `${view?.displayName} - ${view?.paymentMethod}`,
+          value: view?.cardId,
+          label: `${view?.cardNetwork}`,
         })
       ),
-    [state?.bankingDetails?.getCreditCardinitializeList?.creditCards]
+    [state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards]
   );
 
   const paymentOptions = useMemo(

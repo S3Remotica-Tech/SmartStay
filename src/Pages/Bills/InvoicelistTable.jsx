@@ -139,33 +139,33 @@ const InvoiceTable = (props) => {
 
   const handleNavigatePDF = (item) => {
     if (item) {
-      dispatch({
-        type: "GETPARTICULARBILLSDETAILS",
-        payload: { hostelId: item.hostelId, invoiceId: item.invoiceId },
-      });
+      // dispatch({
+      //   type: "GETPARTICULARBILLSDETAILS",
+      //   payload: { hostelId: item.hostelId, invoiceId: item.invoiceId },
+      // });
 
-      const previousFilters = state.InvoiceList.invoiceFilters || {};
+      // const previousFilters = state.InvoiceList.invoiceFilters || {};
 
-      const filters = {
-        startDate: previousFilters.startDate,
-        endDate: previousFilters.endDate,
-        type: previousFilters.type,
-        createdBy: previousFilters.createdBy,
-        createdByLabels: previousFilters.createdByLabels,
-        modes: previousFilters.modes,
-        paymentStatus: previousFilters.paymentStatus || [],
-        search: previousFilters.search,
-        size: previousFilters?.size,
-        page: previousFilters?.page,
-      };
+      // const filters = {
+      //   startDate: previousFilters.startDate,
+      //   endDate: previousFilters.endDate,
+      //   type: previousFilters.type,
+      //   createdBy: previousFilters.createdBy,
+      //   createdByLabels: previousFilters.createdByLabels,
+      //   modes: previousFilters.modes,
+      //   paymentStatus: previousFilters.paymentStatus || [],
+      //   search: previousFilters.search,
+      //   size: previousFilters?.size,
+      //   page: previousFilters?.page,
+      // };
 
-      dispatch({
-        type: "ALL_BILLS_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: filters,
-        },
-      });
+      // dispatch({
+      //   type: "ALL_BILLS_LIST_SAGA",
+      //   payload: {
+      //     hostelId: state.login.selectedHostel_Id,
+      //     filters: filters,
+      //   },
+      // });
 
       navigate(`/invoice/details/${item.invoiceId}`, {
         replace: false,
