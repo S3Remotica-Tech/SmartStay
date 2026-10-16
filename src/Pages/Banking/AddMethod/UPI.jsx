@@ -256,13 +256,13 @@ function UPI({ handleClose }) {
       setDisplayNameError("");
     }
 
-    if (!qrImage) {
-      setQrImageError("Please upload QR image");
-      focusField(qrImageRef);
-      isValid = false;
-    } else {
-      setQrImageError("");
-    }
+    // if (!qrImage) {
+    //   setQrImageError("Please upload QR image");
+    //   focusField(qrImageRef);
+    //   isValid = false;
+    // } else {
+    //   setQrImageError("");
+    // }
 
     if (!isValid) return;
 
@@ -277,12 +277,12 @@ function UPI({ handleClose }) {
         displayName: displayName.trim(),
         description: description.trim(),
         qrImage: qrImage || "",
-        cardNumber: "",
-        cardNetwork: 0,
-        cardHolderName: "",
-        creditLimit: "",
-        billingCycle: "",
-        linkedUpiId: "",
+        // cardNumber: "",
+        // cardNetwork: "",
+        // cardHolderName: "",
+        // creditLimit: "",
+        // billingCycle: "",
+        // linkedUpiId: "",
       },
     });
     setIsSaving(true);
@@ -400,7 +400,7 @@ function UPI({ handleClose }) {
 
           <div className="mt-3" ref={qrImageRef}>
             <label className="block mb-2 text-[13px] font-medium">
-              Add QR Image <span className="text-red-500">*</span>
+              Add QR Image
             </label>
 
             <input

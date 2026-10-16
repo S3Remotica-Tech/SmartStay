@@ -38,7 +38,7 @@ function BankingOverview({ show, onClose }) {
   const menuRef = useRef(null);
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
-  console.log("OverviewDetails", OverviewDetails);
+
   const isBankAccount = OverviewDetails?.accountType === "BANK";
   //  && OverviewDetails?.paymentMethodId === null;
   const [selfTranfer, setSelfTransfer] = useState(false);
@@ -261,7 +261,7 @@ function BankingOverview({ show, onClose }) {
       dispatch({ type: "REMOVE_CREDIT_CARD_PAYMENT_REDUCER" });
     }
   }, [state?.bankingDetails?.createCreditCardPaymentSuccessCode]);
-  // console.log("OverviewDetails", OverviewDetails);
+
   if (!show) return null;
   return (
     <div className="font-gilroy">

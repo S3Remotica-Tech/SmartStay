@@ -526,7 +526,7 @@ function Expenses() {
 
   useEffect(() => {
     const expenseFilters = state.ExpenseList?.expenseFilters;
-    // console.log("expenseFilters", expenseFilters);
+
     const filterData = [];
 
     const hasValue = (value) => {
@@ -895,10 +895,10 @@ function Expenses() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log("pageeeee", page);
+
   };
 
-  // console.log("actual page", page);
+
 
   const handleSizeChange = (sizeValue) => {
     setSize(sizeValue);
@@ -917,11 +917,10 @@ function Expenses() {
           <div className="col-span-12 md:col flex flex-wrap gap-1 md:justify-end items-center">
             <div
               className={`flex items-center rounded-xl border px-3 py-1.5 !bg-white  transition
-                                 ${
-                                   canReadExpense
-                                     ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
-                                     : "border-gray-200 opacity-60 cursor-not-allowed"
-                                 }`}
+                                 ${canReadExpense
+                  ? "border-[#CFD5DB] focus-within:border-[#1E45E1]"
+                  : "border-gray-200 opacity-60 cursor-not-allowed"
+                }`}
             >
               <input
                 type="text"
@@ -1007,11 +1006,10 @@ function Expenses() {
                         handleClickFilter();
                       }
                     }}
-                    className={`transition-opacity duration-300 ${
-                      canReadExpense
+                    className={`transition-opacity duration-300 ${canReadExpense
                         ? "cursor-pointer opacity-100 pointer-events-auto"
                         : "cursor-not-allowed opacity-40 pointer-events-none"
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -1169,9 +1167,8 @@ function Expenses() {
                                 let stickyClass = "";
 
                                 if (index === 0) {
-                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${
-                                    isScrolling ? "!bg-white" : "!bg-white"
-                                  }`;
+                                  stickyClass = `sticky left-[0px] z-20  w-[80px] ${isScrolling ? "!bg-white" : "!bg-white"
+                                    }`;
                                 }
 
                                 const finalClass = `${baseClass} ${stickyClass}`;
@@ -1306,17 +1303,16 @@ function Expenses() {
                                         ] === "object"
                                           ? "-"
                                           : (user[
-                                              headerKeyMap[col.fieldName]
-                                            ] ?? "-")}
+                                            headerKeyMap[col.fieldName]
+                                          ] ?? "-")}
                                       </td>
                                     );
                                 }
                               })}
 
                               <td
-                                className={`${
-                                  isScrolling ? "!bg-white" : "bg-white"
-                                } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                className={`${isScrolling ? "!bg-white" : "bg-white"
+                                  } px-4 py-1 sticky right-0 !z-20 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                               >
                                 {" "}
                                 <div
@@ -1332,123 +1328,120 @@ function Expenses() {
 
                                   {String(showDots) ===
                                     String(user.apiCall?.expenseId) && (
-                                    <>
-                                      <div
-                                        ref={popupRef}
-                                        className={`fixed flex flex-col items-start cursor-pointer
+                                      <>
+                                        <div
+                                          ref={popupRef}
+                                          className={`fixed flex flex-col items-start cursor-pointer
                                    bg-gray-50 w-40 border border-gray-200 rounded-lg translate-x-10
                                    
                                  `}
-                                        style={{
-                                          top: showAbove
-                                            ? popupPosition.top -
+                                          style={{
+                                            top: showAbove
+                                              ? popupPosition.top -
                                               (popupRef.current?.offsetHeight ||
                                                 100) -
                                               5
-                                            : popupPosition.top - 9,
-                                          left: popupPosition.left - 250,
-                                        }}
-                                      >
-                                        <div
-                                          onClick={() => {
-                                            if (canWriteExpense) {
-                                              // handleShowTagAsset();
-                                            }
+                                              : popupPosition.top - 9,
+                                            left: popupPosition.left - 250,
                                           }}
-                                          onMouseEnter={(e) => {
-                                            e.currentTarget.style.backgroundColor =
-                                              "#EDF2FF";
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor =
-                                              "#F9F9F9";
-                                          }}
-                                          className={`flex justify-start items-center gap-2 w-full py-2 px-2 rounded-t-lg
+                                        >
+                                          <div
+                                            onClick={() => {
+                                              if (canWriteExpense) {
+                                                // handleShowTagAsset();
+                                              }
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor =
+                                                "#EDF2FF";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor =
+                                                "#F9F9F9";
+                                            }}
+                                            className={`flex justify-start items-center gap-2 w-full py-2 px-2 rounded-t-lg
                                  ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
                                `}
-                                        >
-                                          <Document
-                                            size="16"
-                                            color={"#1E45E1"}
-                                          />
-                                          <label
-                                            className={`text-sm font-semibold font-gilroy text-gray-800
+                                          >
+                                            <Document
+                                              size="16"
+                                              color={"#1E45E1"}
+                                            />
+                                            <label
+                                              className={`text-sm font-semibold font-gilroy text-gray-800
                                  ${!canWriteExpense ? "cursor-not-allowed" : "cursor-pointer"}
                                `}
+                                            >
+                                              Tag Asset
+                                            </label>
+                                          </div>
+
+                                          <div className="h-px bg-gray-100 m-0" />
+                                          <div
+                                            className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${!canUpdateExpense
+                                                ? "cursor-not-allowed opacity-50"
+                                                : "cursor-not-allowed opacity-100"
+                                              }`}
+                                            onClick={() => {
+                                              if (canUpdateExpense) {
+                                                // handleEditExpense(user);
+                                              }
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor =
+                                                "#EDF2FF";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor =
+                                                "#F9F9F9";
+                                            }}
                                           >
-                                            Tag Asset
-                                          </label>
-                                        </div>
+                                            <Edit size="16" color={"#1E45E1"} />
+                                            <label
+                                              className={`text-sm font-semibold font-gilroy text-gray-800 ${!canUpdateExpense
+                                                  ? "cursor-not-allowed"
+                                                  : "cursor-not-allowed"
+                                                }`}
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
 
-                                        <div className="h-px bg-gray-100 m-0" />
-                                        <div
-                                          className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${
-                                            !canUpdateExpense
-                                              ? "cursor-not-allowed opacity-50"
-                                              : "cursor-not-allowed opacity-100"
-                                          }`}
-                                          onClick={() => {
-                                            if (canUpdateExpense) {
-                                              // handleEditExpense(user);
-                                            }
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            e.currentTarget.style.backgroundColor =
-                                              "#EDF2FF";
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor =
-                                              "#F9F9F9";
-                                          }}
-                                        >
-                                          <Edit size="16" color={"#1E45E1"} />
-                                          <label
-                                            className={`text-sm font-semibold font-gilroy text-gray-800 ${
-                                              !canUpdateExpense
-                                                ? "cursor-not-allowed"
-                                                : "cursor-not-allowed"
-                                            }`}
-                                          >
-                                            Edit
-                                          </label>
-                                        </div>
+                                          <div className="h-px bg-gray-100 m-0" />
 
-                                        <div className="h-px bg-gray-100 m-0" />
-
-                                        <div
-                                          className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
+                                          <div
+                                            className={`flex items-center justify-start gap-2 w-full px-2 py-2 rounded-b-lg
                                  ${!canDeleteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
                                `}
-                                          onClick={() => {
-                                            if (canDeleteExpense) {
-                                              handleDeleteExpense(
-                                                user.apiCall.expenseId,
-                                              );
-                                            }
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            e.currentTarget.style.backgroundColor =
-                                              "#FFF0F0";
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor =
-                                              "#F9F9F9";
-                                          }}
-                                        >
-                                          <Trash size="16" color={"red"} />
-                                          <label
-                                            className={`text-sm font-semibold font-gilroy  ${
-                                              !canUpdateExpense
-                                                ? "cursor-not-allowed text-gray-800"
-                                                : "cursor-pointer text-red-600"
-                                            }`}
+                                            onClick={() => {
+                                              if (canDeleteExpense) {
+                                                handleDeleteExpense(
+                                                  user.apiCall.expenseId,
+                                                );
+                                              }
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor =
+                                                "#FFF0F0";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor =
+                                                "#F9F9F9";
+                                            }}
                                           >
-                                            Delete
-                                          </label>
+                                            <Trash size="16" color={"red"} />
+                                            <label
+                                              className={`text-sm font-semibold font-gilroy  ${!canUpdateExpense
+                                                  ? "cursor-not-allowed text-gray-800"
+                                                  : "cursor-pointer text-red-600"
+                                                }`}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </>
-                                  )}
+                                      </>
+                                    )}
                                 </div>
                               </td>
                             </tr>

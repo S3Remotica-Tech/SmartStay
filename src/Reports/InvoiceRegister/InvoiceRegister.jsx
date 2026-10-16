@@ -296,7 +296,7 @@ function InvoiceRegister() {
     const invoiceFilters = state.reports.invoiceRegisterFilters;
     const filterData = [];
 
-    // console.log("invoiceFilters", invoiceFilters);
+
 
     if (invoiceFilters?.paymentStatus?.length > 0) {
       filterData.push({
@@ -506,7 +506,7 @@ function InvoiceRegister() {
     });
 
     const invoiceFilters = state.reports?.invoiceRegisterFilters;
-    // console.log("invoiceFilters", invoiceFilters);
+
 
     const filters = {
       startDate: from ? dayjs(from).format("DD-MM-YYYY") : undefined,
@@ -787,9 +787,8 @@ function InvoiceRegister() {
                 <ArrowDown2
                   size="18"
                   color="#1E45E1"
-                  className={`cursor-pointer transition-transform duration-200 ${
-                    register ? "rotate-180" : ""
-                  }`}
+                  className={`cursor-pointer transition-transform duration-200 ${register ? "rotate-180" : ""
+                    }`}
                 />
                 {register && (
                   <div
@@ -881,11 +880,10 @@ function InvoiceRegister() {
             onClick={() => isExportAllow && handleDownload()}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
-    ${
-      !isExportAllow
-        ? "bg-gray-400 cursor-not-allowed text-white"
-        : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
-    }`}
+    ${!isExportAllow
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+              }`}
           >
             <Export size="16" />
             Export

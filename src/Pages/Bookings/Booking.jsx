@@ -63,7 +63,7 @@ function Booking() {
   const lastScrollLeftRef = useRef(0);
   const [loading, setLoading] = useState(false);
 
-  console.log("bookingList", bookingList);
+
 
   const statusStyles = {
     Redeemed: {
@@ -299,7 +299,7 @@ function Booking() {
     return obj;
   });
 
-  console.log("formattedData", formattedData);
+
 
   const columnStyles = {
     "Profile Pic": "px-4 whitespace-nowrap",
@@ -901,11 +901,10 @@ function Booking() {
               <span className="px-2 flex items-center">
                 <SearchNormal1
                   className={`h-5 w-5 transition-opacity duration-300 text-gray-500
-              ${
-                canReadInvoice
-                  ? "cursor-pointer opacity-100"
-                  : "cursor-not-allowed opacity-40 pointer-events-none"
-              }`}
+              ${canReadInvoice
+                      ? "cursor-pointer opacity-100"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
                 />
               </span>
             </div>
@@ -1160,9 +1159,8 @@ function Booking() {
                                   let stickyClass = "";
 
                                   if (index === 0) {
-                                    stickyClass = `sticky left-[0px] z-30  w-[80px] ${
-                                      isScrolling ? "!bg-white" : "!bg-white"
-                                    }`;
+                                    stickyClass = `sticky left-[0px] z-30  w-[80px] ${isScrolling ? "!bg-white" : "!bg-white"
+                                      }`;
                                   }
 
                                   const finalClass = `${baseClass} ${stickyClass}`;
@@ -1176,7 +1174,7 @@ function Booking() {
                                         >
                                           {typeof item?.profilePic ===
                                             "string" &&
-                                          item.profilePic.startsWith("http") ? (
+                                            item.profilePic.startsWith("http") ? (
                                             <img
                                               src={item.profilePic}
                                               className="w-8 h-8 rounded-full"
@@ -1185,7 +1183,7 @@ function Booking() {
                                           ) : (
                                             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs">
                                               {typeof item?.profilePic ===
-                                              "string"
+                                                "string"
                                                 ? item.profilePic
                                                 : "NA"}
                                             </div>
@@ -1377,17 +1375,16 @@ function Booking() {
                                           ] === "object"
                                             ? "-"
                                             : (item[
-                                                headerKeyMap[col.fieldName]
-                                              ] ?? "-")}
+                                              headerKeyMap[col.fieldName]
+                                            ] ?? "-")}
                                         </td>
                                       );
                                   }
                                 })}
 
                                 <td
-                                  className={`${
-                                    isScrolling ? "!bg-white" : "bg-white"
-                                  } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
+                                  className={`${isScrolling ? "!bg-white" : "bg-white"
+                                    } px-4 py-1 sticky right-0 !z-30 hover:!bg-gray-50 group-hover:!bg-gray-50 text-[#111928]`}
                                 >
                                   <div className="cursor-pointer flex justify-center items-center relative  align-middle ">
                                     <PiDotsThreeOutlineVerticalFill
@@ -1404,9 +1401,9 @@ function Booking() {
                                         style={{
                                           top: showAbove
                                             ? popupPosition.top -
-                                              (popupRef.current?.offsetHeight ||
-                                                120) -
-                                              10
+                                            (popupRef.current?.offsetHeight ||
+                                              120) -
+                                            10
                                             : popupPosition.top + 5,
                                           left: popupPosition.left - 40,
                                           position: "fixed",
@@ -1415,7 +1412,7 @@ function Booking() {
                                       >
                                         {item?.apiCall?.invoiceType ===
                                           "ADVANCE" ||
-                                        item?.apiCall?.invoiceType ===
+                                          item?.apiCall?.invoiceType ===
                                           "BOOKING" ? (
                                           <button
                                             disabled={
@@ -1429,16 +1426,15 @@ function Booking() {
                                               );
                                             }}
                                             className={`flex items-center gap-2 px-3 py-2  my-2  rounded-[10px] transition-all duration-150
-      ${
-        !canUpdateInvoice || !item.apiCall?.canApply
-          ? "cursor-not-allowed opacity-50 bg-gray-100"
-          : "cursor-pointer hover:bg-[#EDF2FF]"
-      }`}
+      ${!canUpdateInvoice || !item.apiCall?.canApply
+                                                ? "cursor-not-allowed opacity-50 bg-gray-100"
+                                                : "cursor-pointer hover:bg-[#EDF2FF]"
+                                              }`}
                                           >
                                             <Link21
                                               color={
                                                 !canUpdateInvoice ||
-                                                !item.apiCall?.canApply
+                                                  !item.apiCall?.canApply
                                                   ? "#A9A9A9"
                                                   : "#1E45E1"
                                               }
@@ -1446,12 +1442,11 @@ function Booking() {
                                             />
 
                                             <span
-                                              className={`text-sm font-medium ${
-                                                !canUpdateInvoice ||
-                                                !item.apiCall?.canApply
+                                              className={`text-sm font-medium ${!canUpdateInvoice ||
+                                                  !item.apiCall?.canApply
                                                   ? "text-[#A9A9A9]"
                                                   : "text-[#222222]"
-                                              }`}
+                                                }`}
                                             >
                                               Apply Invoices
                                             </span>
@@ -1469,16 +1464,15 @@ function Booking() {
                                               );
                                             }}
                                             className={`flex items-center gap-2 my-2 px-3 py-2  rounded-[10px] transition-all duration-150
-      ${
-        !canUpdateInvoice || !item.apiCall?.canApply
-          ? "cursor-not-allowed opacity-50 bg-gray-100"
-          : "cursor-pointer hover:bg-[#EDF2FF]"
-      }`}
+      ${!canUpdateInvoice || !item.apiCall?.canApply
+                                                ? "cursor-not-allowed opacity-50 bg-gray-100"
+                                                : "cursor-pointer hover:bg-[#EDF2FF]"
+                                              }`}
                                           >
                                             <Link21
                                               color={
                                                 !canUpdateInvoice ||
-                                                !item.apiCall?.canApply
+                                                  !item.apiCall?.canApply
                                                   ? "#A9A9A9"
                                                   : "#1E45E1"
                                               }
@@ -1486,12 +1480,11 @@ function Booking() {
                                             />
 
                                             <span
-                                              className={`text-sm font-medium ${
-                                                !canUpdateInvoice ||
-                                                !item.apiCall?.canApply
+                                              className={`text-sm font-medium ${!canUpdateInvoice ||
+                                                  !item.apiCall?.canApply
                                                   ? "text-[#A9A9A9]"
                                                   : "text-[#222222]"
-                                              }`}
+                                                }`}
                                             >
                                               Apply to Invoices
                                             </span>

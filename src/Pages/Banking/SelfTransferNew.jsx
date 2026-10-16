@@ -18,7 +18,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState(null);
-  console.log("selectedPaymentMethodId", selectedPaymentMethodId);
+
   const [selectedBankId, setSelectedBankId] = useState(null);
   const handleChange = (e) => {
     dispatch({ type: "REMOVE_SELF_TRANSFER_ERROR" });

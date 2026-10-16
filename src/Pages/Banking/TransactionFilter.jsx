@@ -212,8 +212,7 @@ function TransactionFilter({
     setFormLoading(true);
   };
 
-  // const bankFilterReducer = state.bankingDetails?.bankFilters;
-  // console.log("bankFilterReducer", bankFilterReducer);
+
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
@@ -234,14 +233,14 @@ function TransactionFilter({
     setPeriod(
       bankFilters.period
         ? periodOptions.find((item) => item.value === bankFilters.period) ||
-            null
+        null
         : null,
     );
 
     setSource(
       bankFilters.source
         ? sourceOptions.find((item) => item.value === bankFilters.source) ||
-            null
+        null
         : null,
     );
 
@@ -292,54 +291,54 @@ function TransactionFilter({
               onChange={handlePeriodChange}
             />
           </div>
-          {period?.value === "CUSTOM" && ( <>
-          <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
-              From Date
-            </label>
+          {period?.value === "CUSTOM" && (<>
+            <div className="mb-3">
+              <label className="block text-xs font-medium text-[#6B7280] mb-2">
+                From Date
+              </label>
 
-            <div className="relative">
-              <DatePicker
-                selected={fromDate}
-                onChange={handleFromDateChange}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Select Date"
-                wrapperClassName="w-full"
-                className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
-              />
+              <div className="relative">
+                <DatePicker
+                  selected={fromDate}
+                  onChange={handleFromDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Select Date"
+                  wrapperClassName="w-full"
+                  className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
+                />
 
-              <Calendar
-                size="18"
-                color="#1E45E1"
-                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              />
+                <Calendar
+                  size="18"
+                  color="#1E45E1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
-              To Date
-            </label>
+            <div className="mb-3">
+              <label className="block text-xs font-medium text-[#6B7280] mb-2">
+                To Date
+              </label>
 
-            <div className="relative">
-              <DatePicker
-                selected={toDate}
-                onChange={handleToDateChange}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Select Date"
-                wrapperClassName="w-full"
-                className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
-              />
+              <div className="relative">
+                <DatePicker
+                  selected={toDate}
+                  onChange={handleToDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Select Date"
+                  wrapperClassName="w-full"
+                  className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
+                />
 
-              <Calendar
-                size="18"
-                color="#1E45E1"
-                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              />
+                <Calendar
+                  size="18"
+                  color="#1E45E1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                />
+              </div>
             </div>
-          </div>
           </>
-)}
+          )}
 
           <div className="mb-3">
             <label className="block text-xs font-medium text-[#6B7280] mb-2">
@@ -370,9 +369,8 @@ function TransactionFilter({
             type="submit"
             disabled={formLoading}
             onClick={handleFilterBills}
-            className={`bg-[#1E45E1] text-white w-1/2 h-10  px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-              formLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
+            className={`bg-[#1E45E1] text-white w-1/2 h-10  px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
           >
             {formLoading ? (
               <>

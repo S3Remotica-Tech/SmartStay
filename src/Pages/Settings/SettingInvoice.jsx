@@ -261,7 +261,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [cardshow, setCardShow] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
-  // console.log("banking", banking)
+
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
   const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
@@ -304,7 +304,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   const [selectedPayment, setSelectedPayment] = useState(null);
 
 
-  console.log("selectedBank", selectedBank)
+
 
 
   const bankOptions = useMemo(
@@ -328,7 +328,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     [banking],
   );
 
-  console.log("bankOptions", banking)
+
   const paymentOptions = []
 
   // banking
@@ -930,7 +930,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     state.UsersList?.templatesGlobalImagesDeleteStatusCode,
   ]);
 
-  // console.log("state?.bankingDetails?.newBankingList", state?.bankingDetails?.newBankingList)
+
 
   useEffect(() => {
     if (state.bankingDetails.getBankingSuccessCode) {

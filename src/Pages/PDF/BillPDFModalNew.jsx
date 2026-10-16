@@ -430,11 +430,11 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
   // const isDiscount = isPending && (isSettlement || isRent) && isNotDiscounted;
 
-  // adjust with advance
+  // inv bill click =>adjust with retainer 
   const isAdvanceRedeemAvailable =
     pdfDetails?.invoiceInfo?.isAvanceAvailableForRedeem;
 
-  // apply to invoice
+  // advance bill click => apply to invoice
 
   const isApplyInvoiceRedeemAvailable =
     pdfDetails?.invoiceInfo?.canApplyToOtherInvoice;
@@ -670,11 +670,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
 
           <div className="flex items-center gap-2">
             <div
-              className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${
-                isExportAllow
-                  ? "cursor-pointer"
-                  : "cursor-not-allowed opacity-50"
-              }`}
+              className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${isExportAllow
+                ? "cursor-pointer"
+                : "cursor-not-allowed opacity-50"
+                }`}
               onClick={() => {
                 if (isExportAllow) handleDownload(rowData);
               }}
@@ -721,13 +720,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         ref={modalRef}
                         key={item.key}
                         className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
-                  ${
-                    isDisabled
-                      ? "bg-gray-100 cursor-not-allowed opacity-60"
-                      : hoveredItem === item.key
-                        ? "bg-[#1E45E1] text-white cursor-pointer"
-                        : "bg-white cursor-pointer"
-                  }`}
+                  ${isDisabled
+                            ? "bg-gray-100 cursor-not-allowed opacity-60"
+                            : hoveredItem === item.key
+                              ? "bg-[#1E45E1] text-white cursor-pointer"
+                              : "bg-white cursor-pointer"
+                          }`}
                         onMouseEnter={() =>
                           !isDisabled && setHoveredItem(item.key)
                         }
@@ -745,13 +743,12 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         />
 
                         <span
-                          className={`text-[13px] font-normal font-gilroy ${
-                            isDisabled
-                              ? "text-gray-400"
-                              : hoveredItem === item.key
-                                ? "text-white"
-                                : "text-[#212529]"
-                          }`}
+                          className={`text-[13px] font-normal font-gilroy ${isDisabled
+                            ? "text-gray-400"
+                            : hoveredItem === item.key
+                              ? "text-white"
+                              : "text-[#212529]"
+                            }`}
                         >
                           {item.label}
                         </span>
@@ -873,18 +870,17 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           setIsEdit(true);
                           setEditData(
                             pdfDetails?.discountDetails ||
-                              pdfDetails?.invoiceInfo,
+                            pdfDetails?.invoiceInfo,
                           );
                           setShowDiscountInvoice(true);
                           setOpenMenu(false);
                         }}
                         className={`
     w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${
-      canUpdateInvoice
-        ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
-        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
-    }
+    ${canUpdateInvoice
+                            ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
+                            : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+                          }
   `}
                       >
                         <Edit
@@ -905,11 +901,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                         }}
                         className={`
     w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${
-      canDeleteInvoice
-        ? "text-red-600 hover:bg-red-50 cursor-pointer"
-        : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
-    }
+    ${canDeleteInvoice
+                            ? "text-red-600 hover:bg-red-50 cursor-pointer"
+                            : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+                          }
   `}
                       >
                         <IoClose
@@ -938,11 +933,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
                       <span
                         className={`font-semibold text-sm transition-all duration-150
-    ${
-      !canUpdateInvoice
-        ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
-        : "text-[#1E45E1] cursor-pointer"
-    }`}
+    ${!canUpdateInvoice
+                            ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
+                            : "text-[#1E45E1] cursor-pointer"
+                          }`}
                         onClick={(e) => {
                           if (!canUpdateInvoice) return;
 
@@ -966,11 +960,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   setActiveTab("payments");
                   setIsOpenPayment(true);
                 }}
-                className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${
-                  activeTab === "payments"
-                    ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
-                    : "text-black "
-                }`}
+                className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${activeTab === "payments"
+                  ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
+                  : "text-black "
+                  }`}
               >
                 {totalAmount < 0 || finalAmount < 0
                   ? "Refund Made"
@@ -982,11 +975,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                   setActiveTab("invoices");
                   setIsOpenPayment(true);
                 }}
-                className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${
-                  activeTab === "invoices"
-                    ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
-                    : "text-black border-0"
-                }`}
+                className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${activeTab === "invoices"
+                  ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
+                  : "text-black border-0"
+                  }`}
               >
                 Deducted From
               </div>
@@ -1036,9 +1028,8 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       >
                         <ArrowDown2
                           size="16"
-                          className={`transition-transform duration-300 ${
-                            open ? "rotate-180" : "rotate-0"
-                          }`}
+                          className={`transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
+                            }`}
                         />
                       </button>
                     )}
@@ -1049,11 +1040,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                           onClick={handleWaiveOff}
                           className={`w-full text-left px-4 py-2 text-sm rounded-md whitespace-nowrap transition-all 
                             duration-150
-    ${
-      canWriteInvoice
-        ? "opacity-50 cursor-not-allowed text-[#A9A9A9] "
-        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-    }`}
+    ${canWriteInvoice
+                              ? "opacity-50 cursor-not-allowed text-[#A9A9A9] "
+                              : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                            }`}
                         >
                           Waive Off
                         </button>
@@ -1102,11 +1092,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               }
                               className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
     whitespace-nowrap rounded-md transition-all duration-150
-    ${
-      !canUpdateInvoice || !isAdvanceRedeemAvailable
-        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-    }
+    ${!canUpdateInvoice || !isAdvanceRedeemAvailable
+                                  ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                                  : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                                }
   `}
                             >
                               Adjust with Retainer
@@ -1130,11 +1119,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                             }
                             className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
     whitespace-nowrap rounded-md transition-all duration-150
-    ${
-      !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
-        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-    }
+    ${!canUpdateInvoice || !isApplyInvoiceRedeemAvailable
+                                ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                                : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                              }
   `}
                           >
                             Apply to Invoice
@@ -1170,11 +1158,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     disabled={!canUpdateInvoice || !isAdvanceRedeemAvailable}
                     className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
     whitespace-nowrap rounded-md transition-all duration-150 flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px]
-    ${
-      !canUpdateInvoice || !isAdvanceRedeemAvailable
-        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-    }
+    ${!canUpdateInvoice || !isAdvanceRedeemAvailable
+                        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                      }
   `}
                   >
                     <Link21
@@ -1199,11 +1186,10 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                       text-left px-4 py-2 text-sm  flex items-center gap-2 px-3 py-2 border-2 border-[#E7E7E7] 
                       rounded-[10px]
     whitespace-nowrap rounded-md transition-all duration-150
-    ${
-      !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
-        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-    }
+    ${!canUpdateInvoice || !isApplyInvoiceRedeemAvailable
+                        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                      }
   `}
                   >
                     <Link21

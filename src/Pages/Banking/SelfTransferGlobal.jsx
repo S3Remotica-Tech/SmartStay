@@ -67,7 +67,7 @@ function SelfTransferGlobal({ show, handleClose }) {
     setLoading(true);
   };
 
-  // console.log("selectedPaymentMethodId", selectedPaymentMethodId)
+
 
   useEffect(() => {
     return () => {
@@ -139,7 +139,7 @@ function SelfTransferGlobal({ show, handleClose }) {
       dispatch({ type: "CLEAR_SELF_REDUCER" });
     }
   }, [state.bankingDetails?.selfInitializeError]);
-  console.log("state?.bankingDetails", state?.bankingDetails?.newBankingList);
+
   if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">

@@ -10,10 +10,9 @@ import BillPDFModalNew from "../PDF/BillPDFModalNew";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "../OthersComponent/BillPdfModal.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Add, SearchNormal1, TextalignLeft } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
-
 import { toast } from "react-toastify";
 
 function BillsPdfDetails() {
@@ -28,7 +27,7 @@ function BillsPdfDetails() {
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [rowDatas, setRowDatas] = useState("");
   const invoiceRefs = useRef({});
-
+  const { invoiceId } = useParams();
   const searchTimeout = useRef();
 
   const { canWriteModule: canWriteInvoice } = useHasPermission("Invoice");
@@ -65,17 +64,33 @@ function BillsPdfDetails() {
   };
 
   useEffect(() => {
-    if (rowData?.invoiceId) {
-      setSelectedInvoiceId(rowData.invoiceId);
+    const selectedId = rowData?.invoiceId || invoiceId;
 
-      setTimeout(() => {
-        invoiceRefs.current[rowData.invoiceId]?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }, 100);
+    if (!selectedId) return;
+
+    setSelectedInvoiceId(selectedId);
+
+    setTimeout(() => {
+      invoiceRefs.current[selectedId]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 100);
+  }, [rowData, invoiceId]);
+
+  useEffect(() => {
+    if (invoiceId && state.login.selectedHostel_Id) {
+      dispatch({
+        type: "GETPARTICULARBILLSDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          invoiceId: invoiceId,
+        },
+      });
     }
-  }, [rowData]);
+  }, [state.login.selectedHostel_Id, invoiceId])
+
+
 
   useEffect(() => {
     if (isReportsInvoiceRegisterWay) {
@@ -85,6 +100,18 @@ function BillsPdfDetails() {
       });
     }
   }, [isReportsInvoiceRegisterWay]);
+
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "ALL_BILLS_LIST_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
+  }, [state.login.selectedHostel_Id])
 
   const handleManualShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -126,6 +153,8 @@ function BillsPdfDetails() {
       });
     }, 500);
   };
+
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 h-screen overflow-hidden">
@@ -187,11 +216,10 @@ function BillsPdfDetails() {
                 ref={(el) => (invoiceRefs.current[item.invoiceId] = el)}
                 className={`mb-3 shadow-sm rounded p-[10px_16px] cursor-pointer  
 transition-all duration-300 ease-in-out  hover:bg-gray-100
-${
-  String(selectedInvoiceId) === String(item.invoiceId)
-    ? "bg-[#F7F8FC]"
-    : "bg-white hover:bg-gray-100 "
-}`}
+${String(selectedInvoiceId) === String(item.invoiceId)
+                    ? "bg-[#F7F8FC]"
+                    : "bg-white hover:bg-gray-100 "
+                  }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -246,11 +274,11 @@ ${
                 <div className="my-1.5">
                   {(item?.status === "Pending" ||
                     item?.status === "Partial Payment") && (
-                    <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
-                      <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
-                      {item?.status}
-                    </span>
-                  )}
+                      <span className="flex items-center gap-2 bg-[#FFF1F1] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
+                        <span className="h-2 w-2 rounded-full bg-[#EF4444]"></span>
+                        {item?.status}
+                      </span>
+                    )}
 
                   {item?.status === "Paid" && (
                     <span className="flex items-center gap-2 bg-[#ECFDF5] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
@@ -261,11 +289,11 @@ ${
 
                   {(item?.status === "Refunded" ||
                     item?.status === "Partially Refunded") && (
-                    <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
-                      <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
-                      {item?.status}
-                    </span>
-                  )}
+                      <span className="flex items-center gap-2 bg-[#FFFBEB] text-black rounded-full px-2 py-[2px] text-[10px]  font-gilroy w-fit">
+                        <span className="h-2 w-2 rounded-full bg-[#F59E0B]"></span>
+                        {item?.status}
+                      </span>
+                    )}
 
                   {item?.status === "Pending Refund" && (
                     <span className="flex items-center gap-2 bg-[#FFF7ED] text-black rounded-full px-2 py-[2px] text-[10px] font-gilroy w-fit">
