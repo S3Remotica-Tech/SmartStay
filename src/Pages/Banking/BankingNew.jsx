@@ -1424,7 +1424,7 @@ function BankingNew() {
                   ) : (
                     <div
                       onClick={() => canWriteBanking && handleAddAccount()}
-                      className={`border-1  max-w-[250px] w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                      className={`border-1  w-[200px] shrink-0 w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                         ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                         : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                         }`}
@@ -1454,7 +1454,7 @@ function BankingNew() {
                 {banking && banking?.length > 0 && (
                   <div
                     onClick={() => canWriteBanking && handleAddAccount()}
-                    className={`border-1 w-[250px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                    className={`border-1 w-[200px] shrink-0 rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                       ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                       : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                       }`}
