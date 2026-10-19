@@ -130,7 +130,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "UPI" ? "bg-gray-200" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -269,11 +269,13 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
           icon:
             bank.accountType === "BANK" ? (
               <Bank color="#1E45E1" size="16" />
-            ) : bank.accountType === "UPI" ? (
-              <img src={bank.upiAppIcon} className="w-8 h-8" />
-            ) : (
-              <Wallet2 color="#038C3D" size="16" />
-            ),
+            )
+              //  : bank.accountType === "UPI" ? (
+              //   <img src={bank.upiAppIcon} className="w-8 h-8" />
+              // )
+              : (
+                <Wallet2 color="#038C3D" size="16" />
+              ),
           data: bank,
         })) || [],
     [
