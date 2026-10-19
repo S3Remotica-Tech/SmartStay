@@ -257,7 +257,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
     () =>
       state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods?.map(
         (bank) => ({
-          value: bank.bankId,
+          value: bank.paymentMethodId,
           label: bank.displayName,
           subLabel:
             bank.accountType === "BANK"
@@ -267,7 +267,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
           icon:
             bank.accountType === "BANK" ? (
               <Bank color="#1E45E1" size="16" />
-            ) : (
+            ) : bank.accountType === 'UPI' ? (<img src={bank.upiAppIcon} className="w-8 h-8" />) : (
               <Wallet2 color="#038C3D" size="16" />
             ),
           data: bank,
@@ -282,6 +282,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   };
 
   const handlePaymentMethodChange = (selected) => {
+    console.log(selected);
     setPaymentMethod(selected);
     setPaymentMethodError("");
   };

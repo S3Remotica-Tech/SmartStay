@@ -55,6 +55,7 @@ function BankingLinkMethod() {
             const isUPI = item.paymentMethod === "UPI";
             const isDebit = item.paymentMethod === "Debit Card";
             const isCredit = item.paymentMethod === "Credit Card";
+            const isBank = item.paymentMethod === "BANK"
 
             return (
               <div
@@ -90,7 +91,7 @@ function BankingLinkMethod() {
                     </div>
 
                     <div className="text-[14px] text-[#7B8797]">
-                      {isUPI ? item.upiId : ` •••• ${item.cardNumber}`}
+                      {isUPI ? item.upiId : isBank ? item.paymentMethod : ` •••• ${item.cardNumber}`}
                     </div>
                   </div>
                 </div>
