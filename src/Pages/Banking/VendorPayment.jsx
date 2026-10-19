@@ -142,11 +142,10 @@ const Option = (props) => {
         </div>
 
         <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-          }`}
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-green-100 text-green-700"
+            }`}
         >
           {data.type}
         </span>
@@ -267,9 +266,9 @@ function VendorPayment({ show, handleClose, isBanking }) {
       prev.map((item, i) =>
         i === index
           ? {
-              ...item,
-              amountToApply: value,
-            }
+            ...item,
+            amountToApply: value,
+          }
           : item,
       ),
     );
@@ -573,9 +572,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
                   onWheel={(e) => e.target.blur()}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    paidAmount ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${paidAmount ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
                 <button
                   onClick={handleSetAmount}
@@ -618,9 +616,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   customInput={<input ref={paidDateRef} />}
                   maxDate={new Date()}
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[14px]
-                  ${
-                    paidDateError ? "border-red-500" : "border-[#D9D9D9]"
-                  } focus:outline-none`}
+                  ${paidDateError ? "border-red-500" : "border-[#D9D9D9]"
+                    } focus:outline-none`}
                 />
 
                 <Calendar
@@ -640,7 +637,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
-                isDisabled={OverviewDetails?.bankId}
+                // isDisabled={OverviewDetails?.bankId}
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={(selected) => {
@@ -674,9 +671,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  transactionId ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
               />
             </div>
             <input
@@ -729,9 +725,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
                         />
 
                         <div
-                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                            hoveredImage === previewImage ? "h-[50px]" : "h-0"
-                          }`}
+                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                            }`}
                         >
                           <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
                             <p className="text-white text-sm truncate max-w-[170px]">
@@ -817,9 +812,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Enter the Notes/Description for this invoice "
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  description ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
               />
             </div>
 
@@ -958,9 +952,8 @@ function VendorPayment({ show, handleClose, isBanking }) {
             disabled={vendorInitialize?.totalDueAmount === 0 || formLoading}
             type="submit"
             onClick={handleSubmit}
-            className={`disabled:opacity-70 bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-              formLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
+            className={`disabled:opacity-70 bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
           >
             {formLoading ? (
               <>
