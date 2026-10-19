@@ -1104,7 +1104,7 @@ function BankingNew() {
                                   </div>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
-                                    {item.accountType === "CARD" &&
+                                    {
                                       (item?.accountType
                                         ? `${item.accountType.toLowerCase()} Account`
                                         : "")}
@@ -1247,7 +1247,7 @@ function BankingNew() {
                               )}
                             </div>
 
-                            <div className="flex justify-between">
+                            <div className="flex justify-between my-3">
                               <div>
                                 <span className="text-[20px] font-semibold text-black font-gilroy">
                                   ₹{item.balance.toLocaleString() || 0}
@@ -1401,7 +1401,7 @@ function BankingNew() {
                                 </div>
                               )}
                             </div>
-                            {item.accountType === "BANK" ? (
+                            {item.lastTransactionDate && (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
                                   {item?.lastTransactionDate
@@ -1409,7 +1409,8 @@ function BankingNew() {
                                   }
                                 </label>
                               </div>
-                            ) : (
+                            )}
+                            {item?.dueDate && (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
                                   Due Date : {item?.dueDate || ""}
@@ -1423,7 +1424,7 @@ function BankingNew() {
                   ) : (
                     <div
                       onClick={() => canWriteBanking && handleAddAccount()}
-                      className={`border-1  max-w-[250px] w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                      className={`border-1  w-[200px] shrink-0 w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                         ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                         : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                         }`}
@@ -1453,7 +1454,7 @@ function BankingNew() {
                 {banking && banking?.length > 0 && (
                   <div
                     onClick={() => canWriteBanking && handleAddAccount()}
-                    className={`border-1 w-[250px]  rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                    className={`border-1 w-[200px] shrink-0 rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                       ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                       : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                       }`}

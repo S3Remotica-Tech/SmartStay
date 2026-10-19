@@ -40,6 +40,9 @@ function BankingOverview({ show, onClose }) {
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
   const isBankAccount = OverviewDetails?.accountType === "BANK";
+  const isCashAccount = OverviewDetails?.accountType === "CASH";
+
+  const isDisabled = isBankAccount || isCashAccount
 
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
@@ -367,8 +370,9 @@ function BankingOverview({ show, onClose }) {
                   </button>
 
                   <button
-                    disabled={!canWriteBanking}
-                    className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
+                    disabled={!canWriteBanking || isDisabled}
+                    className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] 
+                    disabled:opacity-60 disabled:cursor-not-allowed
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     onClick={handleCreditPayment}
                   >

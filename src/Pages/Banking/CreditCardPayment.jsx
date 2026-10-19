@@ -130,7 +130,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "UPI" ? "bg-gray-200" : "bg-green-100"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -147,12 +147,12 @@ const Option = (props) => {
         </div>
 
         <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold capitalize ${data.type === "BANK"
             ? "bg-blue-100 text-blue-700"
             : "bg-green-100 text-green-700"
             }`}
         >
-          {data.type}
+          {data.type?.replaceAll("_", " ").toLowerCase()}
         </span>
       </div>
     </components.Option>
@@ -178,7 +178,7 @@ const SingleValue = (props) => {
 
         <div className="flex flex-col">
           <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.type}</span>
+          <span className="text-xs text-[#6B7280] capitalize"> {data.type?.replaceAll("_", " ").toLowerCase()}</span>
         </div>
       </div>
     </components.SingleValue>
@@ -240,7 +240,8 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   const paymentDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
-
+  console.log("bankId", bankId)
+  console.log("paymentId", paymentMethodId)
 
   const creditCardOptions = useMemo(
     () =>
@@ -252,11 +253,12 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
       ),
     [state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards]
   );
-
+  // console.log("creditCardAccount", creditCardAccount)
   const paymentOptions = useMemo(
     () =>
-      state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods?.map(
-        (bank) => ({
+      state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods
+        ?.filter((bank) => bank.bankId !== creditCardAccount?.value)
+        ?.map((bank) => ({
           value: bank.paymentMethodId,
           label: bank.displayName,
           subLabel:
@@ -267,13 +269,17 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
           icon:
             bank.accountType === "BANK" ? (
               <Bank color="#1E45E1" size="16" />
-            ) : bank.accountType === 'UPI' ? (<img src={bank.upiAppIcon} className="w-8 h-8" />) : (
+            ) : bank.accountType === "UPI" ? (
+              <img src={bank.upiAppIcon} className="w-8 h-8" />
+            ) : (
               <Wallet2 color="#038C3D" size="16" />
             ),
           data: bank,
-        })
-      ) || [],
-    [state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods]
+        })) || [],
+    [
+      state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods,
+      creditCardAccount?.value,
+    ]
   );
 
   const handleCreditCardAccountChange = (selected) => {
@@ -384,30 +390,30 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
     }
   }, [state.login?.selectedHostel_Id]);
 
+  // useEffect(() => {
+  //   if (bankId && paymentOptions.length > 0) {
+  //     const selected = paymentOptions.find(
+  //       (option) => option.value === bankId
+  //     );
+
+  //     setPaymentMethod(selected || null);
+  //   } else {
+  //     setPaymentMethod(null);
+  //   }
+  // }, [bankId, paymentOptions]);
+
+
   useEffect(() => {
-    if (bankId && paymentOptions.length > 0) {
-      const selected = paymentOptions.find(
-        (option) => option.value === bankId
-      );
-
-      setPaymentMethod(selected || null);
-    } else {
-      setPaymentMethod(null);
-    }
-  }, [bankId, paymentOptions]);
-
-
-  useEffect(() => {
-    if (paymentMethodId && creditCardOptions?.length > 0) {
+    if (bankId && creditCardOptions?.length > 0) {
       const selected = creditCardOptions.find(
-        (option) => option.value === paymentMethodId
+        (option) => option.value === bankId
       );
 
       setCreditCardAccount(selected || null);
     } else {
       setCreditCardAccount(null);
     }
-  }, [paymentMethodId, creditCardOptions]);
+  }, [bankId, creditCardOptions]);
 
   useEffect(() => {
     return () => {
@@ -463,7 +469,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select isDisabled={paymentMethodId}
+                <Select isDisabled={bankId}
                   ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
@@ -486,7 +492,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
-                isDisabled={bankId}
+                isDisabled={!creditCardAccount?.value}
                 ref={paymentMethodRef}
                 value={paymentMethod}
                 onChange={handlePaymentMethodChange}
