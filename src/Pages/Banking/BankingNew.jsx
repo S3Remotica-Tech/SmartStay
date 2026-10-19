@@ -1104,7 +1104,7 @@ function BankingNew() {
                                   </div>
 
                                   <p className="text-xs font-semibold text-gray-500 font-gilroy mb-0 capitalize">
-                                    {item.accountType === "CARD" &&
+                                    {
                                       (item?.accountType
                                         ? `${item.accountType.toLowerCase()} Account`
                                         : "")}
@@ -1247,7 +1247,7 @@ function BankingNew() {
                               )}
                             </div>
 
-                            <div className="flex justify-between">
+                            <div className="flex justify-between my-3">
                               <div>
                                 <span className="text-[20px] font-semibold text-black font-gilroy">
                                   ₹{item.balance.toLocaleString() || 0}
@@ -1401,7 +1401,7 @@ function BankingNew() {
                                 </div>
                               )}
                             </div>
-                            {item.accountType === "BANK" ? (
+                            {item.lastTransactionDate && (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
                                   {item?.lastTransactionDate
@@ -1409,7 +1409,8 @@ function BankingNew() {
                                   }
                                 </label>
                               </div>
-                            ) : (
+                            )}
+                            {item?.dueDate && (
                               <div className="flex justify-end my-1">
                                 <label className="text-[#4B4B4B] text-xs font-medium">
                                   Due Date : {item?.dueDate || ""}
