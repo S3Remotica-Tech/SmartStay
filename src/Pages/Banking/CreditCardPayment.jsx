@@ -259,7 +259,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
       state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods
         ?.filter((bank) => bank.bankId !== creditCardAccount?.value)
         ?.map((bank) => ({
-          value: bank.paymentMethodId,
+          value: bank.paymentMethodId || bank.bankId,
           label: bank.displayName,
           subLabel:
             bank.accountType === "BANK"
@@ -313,6 +313,8 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
+
+  console.log("paymentMethod", paymentMethod)
 
   const validateForm = () => {
     let isValid = true;
