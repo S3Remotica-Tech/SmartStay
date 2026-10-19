@@ -1290,46 +1290,48 @@ function BankingNew() {
                                     }}
                                   >
                                     <div className="space-y-3 text-sm">
-                                      <div className="flex">
-                                        <span className="w-28 text-gray-500">
-                                          Bank Name
-                                        </span>
-                                        <span className="mr-2">:</span>
-                                        <span className="font-semibold text-[#222]">
-                                          {item.bankName || "-"}
-                                        </span>
-                                      </div>
+                                      {item.accountType !== "CASH" && <>
+                                        <div className="flex">
+                                          <span className="w-28 text-gray-500">
+                                            Bank Name
+                                          </span>
+                                          <span className="mr-2">:</span>
+                                          <span className="font-semibold text-[#222]">
+                                            {item.bankName || "-"}
+                                          </span>
+                                        </div>
 
-                                      <div className="flex">
-                                        <span className="w-28 text-gray-500">
-                                          Beneficiary
-                                        </span>
-                                        <span className="mr-2">:</span>
-                                        <span className="font-semibold text-[#222]">
-                                          {item.accountHolderName || "-"}
-                                        </span>
-                                      </div>
+                                        <div className="flex">
+                                          <span className="w-28 text-gray-500">
+                                            Beneficiary
+                                          </span>
+                                          <span className="mr-2">:</span>
+                                          <span className="font-semibold text-[#222]">
+                                            {item.accountHolder || "-"}
+                                          </span>
+                                        </div>
 
-                                      <div className="flex">
-                                        <span className="w-28 text-gray-500">
-                                          Account No
-                                        </span>
-                                        <span className="mr-2">:</span>
-                                        <span className="font-semibold text-[#222] whitespace-wrap">
-                                          {item.accountNumber || "-"}
-                                        </span>
-                                      </div>
+                                        <div className="flex">
+                                          <span className="w-28 text-gray-500">
+                                            Account No
+                                          </span>
+                                          <span className="mr-2">:</span>
+                                          <span className="font-semibold text-[#222] whitespace-wrap">
+                                            {item.accountNumber || "-"}
+                                          </span>
+                                        </div>
 
-                                      <div className="flex">
-                                        <span className="w-28 text-gray-500">
-                                          IFSC Code
-                                        </span>
-                                        <span className="mr-2">:</span>
-                                        <span className="font-semibold text-[#222]">
-                                          {item.ifscCode || "-"}
-                                        </span>
-                                      </div>
-
+                                        <div className="flex">
+                                          <span className="w-28 text-gray-500">
+                                            IFSC Code
+                                          </span>
+                                          <span className="mr-2">:</span>
+                                          <span className="font-semibold text-[#222]">
+                                            {item.ifscCode || "-"}
+                                          </span>
+                                        </div>
+                                      </>
+                                      }
                                       <div className="flex items-start">
                                         <span className="w-28 shrink-0 text-gray-500">
                                           Description
@@ -1424,7 +1426,7 @@ function BankingNew() {
                   ) : (
                     <div
                       onClick={() => canWriteBanking && handleAddAccount()}
-                      className={`border-1  w-[200px] shrink-0 w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                      className={`border-1  max-w-[200px] shrink-0 w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                         ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                         : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                         }`}
@@ -1454,7 +1456,7 @@ function BankingNew() {
                 {banking && banking?.length > 0 && (
                   <div
                     onClick={() => canWriteBanking && handleAddAccount()}
-                    className={`border-1 w-[200px] shrink-0 rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                    className={`border-1 max-w-[200px] shrink-0 rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                       ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                       : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                       }`}

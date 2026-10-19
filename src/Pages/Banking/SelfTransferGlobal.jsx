@@ -205,7 +205,11 @@ function SelfTransferGlobal({ show, handleClose }) {
                           {bank.cashAccountType}
                         </div>
                       )}
-
+                      {bank.accountType === "CARD" && (
+                        <div className="font-semibold text-[#1A1A1A] text-sm capitalize">
+                          {bank.bankAccountType?.replaceAll("_", " ").toLowerCase()}
+                        </div>
+                      )}
                       <div className="text-xs text-gray-500">
                         {bank.accountType?.toLowerCase()} account
                       </div>
@@ -290,7 +294,11 @@ function SelfTransferGlobal({ show, handleClose }) {
                           {bank?.cashAccountType}
                         </div>
                       )}
-
+                      {bank.accountType === "CARD" && (
+                        <div className="font-semibold text-[#1A1A1A] text-sm capitalize">
+                          {bank.cashAccountType?.replaceAll("_", " ").toLowerCase()}
+                        </div>
+                      )}
                       <div className="text-xs text-gray-500 font-gilroy">
                         {bank?.paymentMethod ||
                           (bank?.accountType
