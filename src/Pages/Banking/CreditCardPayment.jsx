@@ -259,7 +259,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
       state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods
         ?.filter((bank) => bank.bankId !== creditCardAccount?.value)
         ?.map((bank) => ({
-          value: bank.paymentMethodId || bank.bankId,
+          value: bank.paymentMethodId,
           label: bank.displayName,
           subLabel:
             bank.accountType === "BANK"
