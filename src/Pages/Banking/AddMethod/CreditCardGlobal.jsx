@@ -670,7 +670,7 @@ function CreditCardGlobal({ handleClose }) {
                         <div className="mt-0 flex items-center justify-between">
                             <div className="flex flex-col">
                                 <span className="text-[16px] font-semibold text-[#333333]">
-                                    {/* ₹{bankOpeningBalance || "00.00"} */} {creditLimit ? `₹ ${Number(creditLimit).toLocaleString()}` : "₹ 00.00"}
+                                    ₹ 00.00
                                 </span>
                                 <span>Balance</span>
                             </div>

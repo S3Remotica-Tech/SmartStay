@@ -351,6 +351,7 @@ function AddExpenseNew() {
   const [linkVendor, setLinkVendor] = useState(true);
   // const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  console.log("paymentMethod", paymentMethod)
   const [description, setDescription] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [expenseTitleError, setExpenseTitleError] = useState("");
@@ -1073,17 +1074,20 @@ function AddExpenseNew() {
       data: bank,
     })) || [];
 
-  useEffect(() => {
-    if (isBankingWayTrigger) {
-      const overviewDetails = state?.bankingDetails?.OverviewBankDetails;
+  const overviewDetails = state?.bankingDetails?.OverviewBankDetails;
+  console.log("overviewDetails", overviewDetails)
 
-      const selectedPaymentMethod = paymentOptionsV1?.find(
-        (option) => option.value === overviewDetails?.bankId,
+
+  useEffect(() => {
+    if (isBankingWayTrigger && paymentOptionsV1?.length > 0) {
+      const selectedPaymentMethod = paymentOptionsV1.find(
+        (option) => option.value === overviewDetails?.bankId
       );
 
       setPaymentMethod(selectedPaymentMethod || null);
     }
-  }, [isBankingWayTrigger]);
+  }, [isBankingWayTrigger,]);
+
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -1465,7 +1469,7 @@ function AddExpenseNew() {
                     </label>
 
                     <Select
-                      isDisabled={isBankingWayTrigger}
+                      // isDisabled={overviewDetails?.bankId}
                       ref={paymentMethodRef}
                       value={paymentMethod}
                       onChange={(selected) => {

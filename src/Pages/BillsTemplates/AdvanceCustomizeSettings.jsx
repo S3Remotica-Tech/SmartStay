@@ -287,24 +287,24 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
     setBankAccountForm(false);
   };
 
-  // useEffect(() => {
-  //   if (state.bankingDetails.bankingList) {
-  //     setBanking(state.bankingDetails.bankingList.listBanks);
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_BANKING_LIST" });
-  //     }, 200);
-  //   }
-  // }, [state.bankingDetails.bankingList]);
-
   useEffect(() => {
-    if (state?.bankingDetails?.newBankingList) {
-
-      setBanking(state?.bankingDetails?.newBankingList || []);
+    if (state.bankingDetails.bankingList) {
+      setBanking(state.bankingDetails.bankingList.listBanks);
       setTimeout(() => {
-        dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
+        dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state?.bankingDetails?.newBankingList]);
+  }, [state.bankingDetails.bankingList]);
+
+  // useEffect(() => {
+  //   if (state?.bankingDetails?.newBankingList) {
+
+  //     setBanking(state?.bankingDetails?.newBankingList || []);
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_BANKING_LIST_REDUCER" });
+  //     }, 200);
+  //   }
+  // }, [state?.bankingDetails?.newBankingList]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
@@ -1116,15 +1116,15 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
               {banking && banking.length > 0 ? (
                 banking.map((bank) => (
                   <div
-                    key={bank.bankId}
+                    key={bank.bankingId}
                     className="cursor-pointer"
-                    onClick={() => handleBankClick(bank.bankId)}
+                    onClick={() => handleBankClick(bank.bankingId)}
                   >
                     <div className="flex items-center gap-3">
                       <input
                         type="radio"
                         name="bank"
-                        checked={selectedBankId === bank.bankId}
+                        checked={selectedBankId === bank.bankingId}
                         onChange={() => handleBankClick(bank.bankingId)}
                         className="accent-[#1E45E1] w-4 h-4"
                       />
