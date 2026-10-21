@@ -1647,7 +1647,7 @@ function BankingNew() {
                                   <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
                                     {`${user?.accountType === 'CASH'
                                       ? `${user?.accountType} / ${user?.displayName}`
-                                      : `${user?.accountType} / ${user?.paymentMethod} / ${user?.displayName}`
+                                      : `${[user?.accountType, user?.paymentMethod, user?.displayName].filter(Boolean).join(' / ')}`
                                       }`}
                                     {/* <span className="text-xs">
                                       {user.displayName}
