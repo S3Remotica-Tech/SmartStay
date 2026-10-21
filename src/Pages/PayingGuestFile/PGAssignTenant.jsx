@@ -15,7 +15,7 @@ import {
   AddCircle,
   ArrowDown2,
   Bank,
-  Wallet2,
+  Wallet2, Card
 } from "iconsax-react";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
@@ -126,6 +126,7 @@ const CustomStyles = {
   }),
 };
 
+
 const Option = (props) => {
   const { data } = props;
 
@@ -134,7 +135,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -149,16 +150,19 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-          }`}
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
+
+            }`}
         >
           {data.type}
         </span>
+        }
       </div>
     </components.Option>
   );
@@ -178,7 +182,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
           {data.icon}
         </div>
 
@@ -633,19 +644,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   //   })) || [];
 
 
-     const paymentOptionsV1 =
-        state.UsersList?.availableBedList?.bankDetails?.map((bank) => ({
-          value: bank.bankId,
-          label: bank.holderName,
-               type: bank.type,
-          icon:
-            bank.type === "BANK" ? (
-              <Bank color="#1E45E1" size="16" />
-            ) : (
-              <Wallet2 color="#038C3D" size="16" />
-            ),
-          data: bank,
-        })) || [];
+  const paymentOptionsV1 =
+    state.UsersList?.availableBedList?.bankDetails?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.holderName,
+      type: bank.type,
+      icon:
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
+          <Wallet2 color="#038C3D" size="16" />
+        ) : (
+          <Card color="#F59E0B" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -1010,7 +1023,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(
       dueDateObj.getDate() +
-        (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0),
+      (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0),
     );
 
     if (
@@ -1069,9 +1082,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
   const tenantOptions = Array.isArray(state.UsersList?.TenantList)
     ? state.UsersList.TenantList.map((u) => ({
-        value: u.customerId,
-        label: u.fullName,
-      }))
+      value: u.customerId,
+      label: u.fullName,
+    }))
     : [];
   const isComingSoon = false;
 
@@ -1164,22 +1177,20 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
               <div className="flex justify-between gap-2 w-full">
                 <button
                   onClick={() => setActiveTab("CHECKIN")}
-                  className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${
-                    activeTab === "CHECKIN"
-                      ? "bg-blue-700 text-white"
-                      : "bg-blue-50 text-black"
-                  }`}
+                  className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${activeTab === "CHECKIN"
+                    ? "bg-blue-700 text-white"
+                    : "bg-blue-50 text-black"
+                    }`}
                 >
                   Check-In
                 </button>
 
                 <button
                   onClick={() => setActiveTab("BOOKING")}
-                  className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${
-                    activeTab === "BOOKING"
-                      ? "bg-blue-700 text-white"
-                      : "bg-blue-50 text-black"
-                  }`}
+                  className={`flex-1 py-2.5 rounded-md font-gilroy font-semibold ${activeTab === "BOOKING"
+                    ? "bg-blue-700 text-white"
+                    : "bg-blue-50 text-black"
+                    }`}
                 >
                   Booking
                 </button>
@@ -1343,8 +1354,8 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           value={
                             modeOfPayment
                               ? paymentOptionsV1?.find(
-                                  (opt) => opt.value === String(modeOfPayment),
-                                ) || null
+                                (opt) => opt.value === String(modeOfPayment),
+                              ) || null
                               : null
                           }
                           placeholder="Select Payment"
@@ -1439,22 +1450,22 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                         value={
                           checkin_customername
                             ? (() => {
-                                const selectedUser = Array.isArray(
-                                  state.UsersList?.TenantList,
+                              const selectedUser = Array.isArray(
+                                state.UsersList?.TenantList,
+                              )
+                                ? state.UsersList.TenantList.find(
+                                  (u) =>
+                                    u.customerId === checkin_customername,
                                 )
-                                  ? state.UsersList.TenantList.find(
-                                      (u) =>
-                                        u.customerId === checkin_customername,
-                                    )
-                                  : null;
+                                : null;
 
-                                return selectedUser
-                                  ? {
-                                      value: selectedUser.customerId,
-                                      label: selectedUser.fullName,
-                                    }
-                                  : null;
-                              })()
+                              return selectedUser
+                                ? {
+                                  value: selectedUser.customerId,
+                                  label: selectedUser.fullName,
+                                }
+                                : null;
+                            })()
                             : null
                         }
                         placeholder="Select Tenant"
@@ -1560,14 +1571,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
 
                         setAdvanceAmountError("");
                       }}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                        isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                      }`}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                        }`}
                     >
                       <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                          isAdvanceRefused ? "translate-x-6" : "translate-x-1"
-                        }`}
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                          }`}
                       />
                     </button>
                   </div>
@@ -1588,13 +1597,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           value={AdvanceAmount}
                           disabled={isAdvanceRefused}
                           onChange={handleAdvanceAmount}
-                          className={`text-[14px] text-gray-700 font-gilroy ${
-                            AdvanceAmount ? "font-semibold" : "font-medium"
-                          } shadow-none border h-12 rounded-md ${
-                            isAdvanceRefused
+                          className={`text-[14px] text-gray-700 font-gilroy ${AdvanceAmount ? "font-semibold" : "font-medium"
+                            } shadow-none border h-12 rounded-md ${isAdvanceRefused
                               ? "bg-gray-100 border-gray-200 cursor-not-allowed"
                               : "border-gray-300"
-                          }`}
+                            }`}
                         />
                       </Form.Group>
                       {advanceAmountError && (
@@ -1878,11 +1885,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                   setCustomRentEnable(!customRentEnable);
                                   setCustomRent("");
                                 }}
-                                className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
-                                  customRentEnable
-                                    ? "bg-[#0D1B8E] text-white"
-                                    : "bg-[#EAEEFF] text-[#1E45E1]"
-                                }`}
+                                className={`text-sm  whitespace-nowrap rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${customRentEnable
+                                  ? "bg-[#0D1B8E] text-white"
+                                  : "bg-[#EAEEFF] text-[#1E45E1]"
+                                  }`}
                               >
                                 {customRentEnable ? (
                                   <>
@@ -1919,11 +1925,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                                     value={customRent}
                                     onChange={handleCustomRentChange}
                                     onWheel={(e) => e.target.blur()}
-                                    className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                                      customRent
-                                        ? "font-semibold"
-                                        : "font-medium"
-                                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                                    className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${customRent
+                                      ? "font-semibold"
+                                      : "font-medium"
+                                      } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
                                   />
 
                                   <button
