@@ -247,6 +247,9 @@ function VendorPayment({ show, handleClose, isBanking }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
+
+  console.log("paymentMethod", paymentMethod)
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -300,6 +303,11 @@ function VendorPayment({ show, handleClose, isBanking }) {
         ),
       data: bank,
     })) || [];
+
+
+  console.log("paymentOptions:", paymentOptions);
+  console.log("paymentMethod:", paymentMethod);
+
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -476,15 +484,17 @@ function VendorPayment({ show, handleClose, isBanking }) {
     }
   }, [state.login.selectedHostel_Id, selectedVendor]);
 
-  useEffect(() => {
-    if (OverviewDetails?.bankId && paymentOptions.length) {
-      const selected = paymentOptions.find(
-        (option) => option.value === OverviewDetails?.bankId,
-      );
+  // useEffect(() => {
+  //   if (OverviewDetails?.bankId && paymentOptions.length) {
+  //     const selected = paymentOptions.find(
+  //       (option) => option.value === OverviewDetails?.bankId,
+  //     );
 
-      setPaymentMethod(selected || null);
-    }
-  }, [OverviewDetails, paymentOptions]);
+  //     setPaymentMethod(selected || null);
+  //   }
+  // }, [OverviewDetails, paymentOptions]);
+
+  console.log("OverviewDetails?.bankId", OverviewDetails?.bankId)
 
   useEffect(() => {
     return () => {
@@ -637,11 +647,12 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
-                // isDisabled={OverviewDetails?.bankId}
+
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={(selected) => {
                   setPaymentMethod(selected);
+                  { console.log("selected", selected) }
                   setPaymentMethodError("");
                 }}
                 options={paymentOptions}
