@@ -125,12 +125,17 @@ function TransactionFilter({
   const [source, setSource] = useState(null);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [error, setError] = useState("")
+  const [fromDateError, setFromDateError] = useState("");
+  const [toDateError, setToDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
 
   const handlePeriodChange = (selected) => {
     setPeriod(selected);
     // handlePeriodSelect(selected);
+    setFromDate("")
+    setToDate("")
+    setFromDateError("");
+    setToDateError("");
     dispatch({
       type: "SET_BANK_TRANSACTION_FILTERS",
       payload: {
@@ -154,10 +159,11 @@ function TransactionFilter({
 
   const handleFromDateChange = (date) => {
     setFromDate(date);
+    setFromDateError("")
   };
 
   const handleToDateChange = (date) => {
-    setError("")
+    setToDateError("")
     setToDate(date);
   };
 
@@ -186,11 +192,19 @@ function TransactionFilter({
 
   const handleFilterBills = () => {
     // const hasPeriod = !!period?.value;
-    setError("")
+    setFromDateError("");
+    setToDateError("");
+
     if (fromDate && !toDate) {
-      setError("Please Select To Date")
+      setToDateError("Please Select To Date");
       return;
     }
+
+    if (toDate && !fromDate) {
+      setFromDateError("Please Select From Date");
+      return;
+    }
+
     const bankFilter = {
       startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
       endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
@@ -265,6 +279,15 @@ function TransactionFilter({
     );
   }, [show]);
 
+  useEffect(() => {
+    if (state?.bankingDetails?.allTransactionError) {
+      setFormLoading(false);
+      dispatch({ type: "REMOVE_ALL_TRANSACTION_ERROR" });
+    }
+  }, [state?.bankingDetails?.allTransactionError
+  ]);
+
+
   if (!show) return null;
 
   return (
@@ -321,7 +344,9 @@ function TransactionFilter({
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
-
+              {fromDateError && (
+                <ErrorMessage message={fromDateError} type="error" />
+              )}
             </div>
 
             <div className="mb-3">
@@ -345,7 +370,9 @@ function TransactionFilter({
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
-              {error && <ErrorMessage message={error} type="error" />}
+              {toDateError && (
+                <ErrorMessage message={toDateError} type="error" />
+              )}
             </div>
           </>
           )}

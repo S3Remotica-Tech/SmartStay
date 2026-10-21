@@ -296,6 +296,8 @@ function BankingNew() {
     };
   }, []);
 
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const bankFilterReducer = state.bankingDetails?.bankFilters;
@@ -403,9 +405,10 @@ function BankingNew() {
 
   useEffect(() => {
     setLoader(false);
+    dispatch({ type: "REMOVE_ALL_TRANSACTION_ERROR" });
   }, [
-    state.bankingDetails?.bankingList?.listTransactions,
-    state.bankingDetails?.bankingList?.listBanks,
+    state.bankingDetails?.allTransactionList,
+    state?.bankingDetails?.allTransactionError
   ]);
 
   const handleShowDots = (index, event) => {

@@ -69,6 +69,7 @@ export const initialState = {
   updateBankingSuccess: 0,
   deleteBankingSuccess: 0,
   deleteBankingError: "",
+  allTransactionError: ""
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -97,6 +98,11 @@ const BankingReducer = (state = initialState, action) => {
 
     case "SELF_TRANSFER_INITIALIZE_V3_ERROR":
       return { ...state, selfInitializeError: action.payload };
+
+    case "ALL_TRANSACTION_ERROR":
+      return { ...state, allTransactionError: action.payload }
+    case "REMOVE_ALL_TRANSACTION_ERROR":
+      return { ...state, allTransactionError: "" }
 
     case "STOREBANK_DETAILS":
       return { ...state, OverviewBankDetails: action.payload };
