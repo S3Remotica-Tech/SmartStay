@@ -5,7 +5,7 @@ import {
   DocumentUpload,
   ArrowDown2,
   Add,
-  Bank,
+  Bank, Card,
   Wallet2,
 } from "iconsax-react";
 import Select, { components } from "react-select";
@@ -125,7 +125,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -140,15 +140,19 @@ const Option = (props) => {
             )}
           </div>
         </div>
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
-            ? "bg-blue-100 text-blue-700"
-            : "bg-green-100 text-green-700"
             }`}
         >
           {data.type}
         </span>
+        }
       </div>
     </components.Option>
   );
@@ -168,7 +172,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
           {data.icon}
         </div>
 
@@ -247,6 +258,9 @@ function VendorPayment({ show, handleClose, isBanking }) {
 
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
+
+  console.log("paymentMethod", paymentMethod)
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -284,22 +298,24 @@ function VendorPayment({ show, handleClose, isBanking }) {
   const finalOutstanding = vendorInitialize?.totalDueAmount - paidAmount;
 
   const paymentOptions =
-    vendorInitialize?.allPaymentMethods?.map((bank) => ({
+    vendorInitialize?.banks?.map((bank) => ({
       value: bank.bankId,
-      label: bank.displayName,
-      subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} `
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
+      label: bank.holderName,
+      type: bank.type || bank.bankName,
       icon:
-        bank.accountType === "BANK" ? (
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
-        ) : (
+        ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
           <Wallet2 color="#038C3D" size="16" />
+        ) : (
+          <Card color="#F59E0B" size="16" />
         ),
       data: bank,
     })) || [];
+
+
+
+
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -421,7 +437,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
       type: "SETTLEMENT_PAYMENT_SAGA",
       payload: {
         vendorId: vendorInitialize?.vendorId,
-
+        hostelId: state.login.selectedHostel_Id,
         images: attachments.map((item) => item.file),
         payLoads: {
           paymentDate: formattedDate,
@@ -476,15 +492,17 @@ function VendorPayment({ show, handleClose, isBanking }) {
     }
   }, [state.login.selectedHostel_Id, selectedVendor]);
 
-  useEffect(() => {
-    if (OverviewDetails?.bankId && paymentOptions.length) {
-      const selected = paymentOptions.find(
-        (option) => option.value === OverviewDetails?.bankId,
-      );
+  // useEffect(() => {
+  //   if (OverviewDetails?.bankId && paymentOptions.length) {
+  //     const selected = paymentOptions.find(
+  //       (option) => option.value === OverviewDetails?.bankId,
+  //     );
 
-      setPaymentMethod(selected || null);
-    }
-  }, [OverviewDetails, paymentOptions]);
+  //     setPaymentMethod(selected || null);
+  //   }
+  // }, [OverviewDetails, paymentOptions]);
+
+  console.log("OverviewDetails?.bankId", OverviewDetails?.bankId)
 
   useEffect(() => {
     return () => {
@@ -637,11 +655,12 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 <span className="text-red-500 text-[20px]">*</span>
               </label>
               <Select
-                // isDisabled={OverviewDetails?.bankId}
+
                 value={paymentMethod}
                 ref={paymentMethodRef}
                 onChange={(selected) => {
                   setPaymentMethod(selected);
+                  { console.log("selected", selected) }
                   setPaymentMethodError("");
                 }}
                 options={paymentOptions}

@@ -296,6 +296,8 @@ function BankingNew() {
     };
   }, []);
 
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const bankFilterReducer = state.bankingDetails?.bankFilters;
@@ -403,9 +405,10 @@ function BankingNew() {
 
   useEffect(() => {
     setLoader(false);
+    dispatch({ type: "REMOVE_ALL_TRANSACTION_ERROR" });
   }, [
-    state.bankingDetails?.bankingList?.listTransactions,
-    state.bankingDetails?.bankingList?.listBanks,
+    state.bankingDetails?.allTransactionList,
+    state?.bankingDetails?.allTransactionError
   ]);
 
   const handleShowDots = (index, event) => {
@@ -856,10 +859,12 @@ function BankingNew() {
   );
 
   const periodOptions =
-    filterOptionsData?.dateFilter?.map((item) => ({
-      label: item.name,
-      value: item.type,
-    })) || [];
+    filterOptionsData?.dateFilter
+      ?.filter((item) => item.type !== "CUSTOM")
+      ?.map((item) => ({
+        label: item.name,
+        value: item.type,
+      })) || [];
 
   const sourceOptions =
     filterOptionsData?.source?.map((item) => ({
@@ -1728,7 +1733,7 @@ function BankingNew() {
             <CreditCardPayment
               show={showCreditCardForm}
               handleClose={handleCloseCreditPayment}
-              paymentMethodId=""
+              isBank={false}
             />
           )}
           {showInvestmentForm && (

@@ -631,7 +631,7 @@ export async function settlePayment(params) {
 
   try {
     const response = await AxiosConfigV2.post(
-      `/v2/vendors/settle/${params.vendorId}`,
+      `/v2/vendors/settle/${params.hostelId}/${params.vendorId}`,
       formData,
       {
         headers: {
