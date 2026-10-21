@@ -236,7 +236,9 @@ function Dashboard() {
         type: "GET_DASHBOARD_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          filters: {},
+          filters: {
+            occupancyFilter: "This Month",
+          },
         },
       });
       setLoading(true);
@@ -340,11 +342,10 @@ function Dashboard() {
               className={` mb-[10px] flex flex-col sm:flex-row justify-between items-center gap-2 
                 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
 
-  ${
-    daysLeft > 0
-      ? "bg-yellow-100 text-yellow-800 border-yellow-200"
-      : "bg-red-100 text-red-800 border-red-200"
-  }
+  ${daysLeft > 0
+                  ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                  : "bg-red-100 text-red-800 border-red-200"
+                }
 `}
               role="alert"
             >
@@ -366,11 +367,10 @@ function Dashboard() {
               </div>
 
               <button
-                className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${
-                  daysLeft > 0
-                    ? "bg-yellow-400 hover:bg-yellow-500"
-                    : "bg-red-500 hover:bg-red-600"
-                }`}
+                className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
+                  ? "bg-yellow-400 hover:bg-yellow-500"
+                  : "bg-red-500 hover:bg-red-600"
+                  }`}
                 onClick={handleOkClick}
               >
                 OK
@@ -381,18 +381,16 @@ function Dashboard() {
 
         <div className="w-full px-3 sticky top-0 z-[50] bg-white py-2.5 border border-[#E5E7EB] rounded-xl">
           <div
-            className={`flex ${
-              isSmallScreen ? "flex-col items-center" : "items-center"
-            } gap-3 w-1/2`}
+            className={`flex ${isSmallScreen ? "flex-col items-center" : "items-center"
+              } gap-3 w-1/2`}
           >
             <button
               onClick={() => handleTabChange("1")}
               className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
-        ${
-          activeTab === "1"
-            ? "text-[#1E45E1] bg-[#F6F8FF]"
-            : "text-[#4B4B4B] bg-white hover:bg-gray-100"
-        }`}
+        ${activeTab === "1"
+                  ? "text-[#1E45E1] bg-[#F6F8FF]"
+                  : "text-[#4B4B4B] bg-white hover:bg-gray-100"
+                }`}
             >
               Dashboard
             </button>
@@ -400,11 +398,10 @@ function Dashboard() {
             <button
               onClick={() => handleTabChange("2")}
               className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
-        ${
-          activeTab === "2"
-            ? "text-[#1E45E1] bg-[#F6F8FF]"
-            : "text-[#4B4B4B] bg-white hover:bg-gray-100"
-        }`}
+        ${activeTab === "2"
+                  ? "text-[#1E45E1] bg-[#F6F8FF]"
+                  : "text-[#4B4B4B] bg-white hover:bg-gray-100"
+                }`}
             >
               Announcement
             </button>
@@ -412,11 +409,10 @@ function Dashboard() {
             <button
               onClick={() => handleTabChange("3")}
               className={`inline-block capitalize font-[Gilroy] px-[15px] py-[10px] rounded-lg text-base font-medium transition
-        ${
-          activeTab === "3"
-            ? "text-[#1E45E1] bg-[#F6F8FF]"
-            : "text-[#4B4B4B] bg-white hover:bg-gray-100"
-        }`}
+        ${activeTab === "3"
+                  ? "text-[#1E45E1] bg-[#F6F8FF]"
+                  : "text-[#4B4B4B] bg-white hover:bg-gray-100"
+                }`}
             >
               Updates
             </button>
@@ -472,11 +468,10 @@ function Dashboard() {
                                     !isDisabled && toggleCard(card.id)
                                   }
                                   className={`ml-2 border rounded p-1 whitespace-nowrap inline-flex
-        ${
-          isDisabled
-            ? "bg-gray-100 border-gray-200 cursor-not-allowed opacity-60"
-            : "bg-white border-[#D1D5DC] cursor-pointer"
-        }
+        ${isDisabled
+                                      ? "bg-gray-100 border-gray-200 cursor-not-allowed opacity-60"
+                                      : "bg-white border-[#D1D5DC] cursor-pointer"
+                                    }
       `}
                                 >
                                   {openCards[card.id] ? (
@@ -556,9 +551,8 @@ function Dashboard() {
                               </span>
 
                               <span
-                                className={`font-semibold font-[Gilroy] whitespace-nowrap text-xl ${
-                                  stat.valueColor || "text-[#737373]"
-                                }`}
+                                className={`font-semibold font-[Gilroy] whitespace-nowrap text-xl ${stat.valueColor || "text-[#737373]"
+                                  }`}
                               >
                                 {stat?.value1}
                                 {stat?.value2 && (
@@ -679,45 +673,44 @@ function Dashboard() {
                               )}
                             </div>
                             <div
-                              className={`space-y-2 ${
-                                card?.sharingData?.length > 0
-                                  ? "max-h-[100px] overflow-y-auto show-scrolls"
-                                  : ""
-                              }`}
+                              className={`space-y-2 ${card?.sharingData?.length > 0
+                                ? "max-h-[100px] overflow-y-auto show-scrolls"
+                                : ""
+                                }`}
                             >
                               {card?.sharingData?.length > 0
                                 ? card?.sharingData?.map((item, index) => (
-                                    <div
-                                      key={index}
-                                      className="flex items-center gap-3 me-3 "
-                                    >
-                                      <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
-                                        {card.title === "Occupancy" ? (
-                                          <div
-                                            className="h-full bg-[#00C950] rounded-full transition-all"
-                                            style={{
-                                              width: `${item.percent}%`,
-                                            }}
-                                          />
-                                        ) : (
-                                          <ProgressBar now={item.percent} />
-                                        )}
-                                      </div>
-                                      {card.title === "Rooms & Beds" && (
-                                        <span className="text-sm text-gray-600 font-[Gilroy] min-w-[90px] text-right">
-                                          {item.label}:{" "}
-                                          <span className="font-semibold text-gray-900">
-                                            {item.value}
-                                          </span>
-                                        </span>
+                                  <div
+                                    key={index}
+                                    className="flex items-center gap-3 me-3 "
+                                  >
+                                    <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
+                                      {card.title === "Occupancy" ? (
+                                        <div
+                                          className="h-full bg-[#00C950] rounded-full transition-all"
+                                          style={{
+                                            width: `${item.percent}%`,
+                                          }}
+                                        />
+                                      ) : (
+                                        <ProgressBar now={item.percent} />
                                       )}
                                     </div>
-                                  ))
+                                    {card.title === "Rooms & Beds" && (
+                                      <span className="text-sm text-gray-600 font-[Gilroy] min-w-[90px] text-right">
+                                        {item.label}:{" "}
+                                        <span className="font-semibold text-gray-900">
+                                          {item.value}
+                                        </span>
+                                      </span>
+                                    )}
+                                  </div>
+                                ))
                                 : card.title === "Rooms & Beds" && (
-                                    <span className="text-red-500 text-xs font-semibold bg-red-100 px-2 py-2 rounded">
-                                      No sharing Details are there!
-                                    </span>
-                                  )}
+                                  <span className="text-red-500 text-xs font-semibold bg-red-100 px-2 py-2 rounded">
+                                    No sharing Details are there!
+                                  </span>
+                                )}
                             </div>
 
                             {card.title === "Advance Holding" && (

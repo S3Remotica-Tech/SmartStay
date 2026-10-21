@@ -64,21 +64,21 @@ function DashCoreAnalytics() {
       value: item,
     })) || [];
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            occupancyFilter: selected,
-          },
-        },
-      });
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "GET_DASHBOARD_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           occupancyFilter: selected,
+  //         },
+  //       },
+  //     });
 
-      // setLoading(true);
-    }
-  }, [selected]);
+  //     // setLoading(true);
+  //   }
+  // }, [selected]);
 
   useEffect(() => {
     if (state.PgList?.dashboardList) {

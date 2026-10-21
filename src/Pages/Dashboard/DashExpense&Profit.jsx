@@ -178,11 +178,10 @@ function DashExpenseProfit() {
                     setCalendarOpen(false);
                   }}
                   className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100
-            ${
-              slectedData === option.label
-                ? "text-blue-600 font-medium"
-                : "text-gray-600"
-            }`}
+            ${slectedData === option.label
+                      ? "text-blue-600 font-medium"
+                      : "text-gray-600"
+                    }`}
                 >
                   {option.label}
                 </button>
