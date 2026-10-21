@@ -240,8 +240,8 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   const paymentDateRef = useRef(null);
   const paymentMethodRef = useRef(null);
 
-  console.log("bankId", bankId)
-  console.log("paymentId", paymentMethodId)
+  // console.log("bankId", bankId)
+  // console.log("paymentId", paymentMethodId)
 
   const creditCardOptions = useMemo(
     () =>
@@ -259,7 +259,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
       state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods
         ?.filter((bank) => bank.bankId !== creditCardAccount?.value)
         ?.map((bank) => ({
-          value: bank.paymentMethodId,
+          value: bank.bankId,
           label: bank.displayName,
           subLabel:
             bank.accountType === "BANK"

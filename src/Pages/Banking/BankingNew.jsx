@@ -1613,10 +1613,8 @@ function BankingNew() {
                                 >
                                   <td className="sticky left-0 z-20 bg-white w-[230px] px-2 py-1 whitespace-nowrap text-[#6B7280]">
                                     {user.createdAt
-                                      ? dayjs(user.createdAt).format(
-                                        "DD-MM-YYYY HH:mm:ss",
-                                      )
-                                      : "-"}
+
+                                      || "-"}
                                   </td>
                                   <td className="sticky left-[140px] z-20 bg-white text-[#000000] w-[230px] px-2 py-1 whitespace-nowrap">
                                     <div className="flex items-center gap-2 capitalize">
@@ -1649,7 +1647,7 @@ function BankingNew() {
                                   <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
                                     {`${user?.accountType === 'CASH'
                                       ? `${user?.accountType} / ${user?.displayName}`
-                                      : `${user?.accountType} / ${user?.paymentMethod} / ${user?.displayName}`
+                                      : `${[user?.accountType, user?.paymentMethod, user?.displayName].filter(Boolean).join(' / ')}`
                                       }`}
                                     {/* <span className="text-xs">
                                       {user.displayName}
