@@ -143,16 +143,15 @@ const Option = (props) => {
             )}
           </div>
         </div>
-{data.type &&         <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-          }`}
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-green-100 text-green-700"
+            }`}
         >
           {data.type}
         </span>
-}
+        }
       </div>
     </components.Option>
   );
@@ -257,9 +256,9 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
       prev.map((item, i) =>
         i === index
           ? {
-              ...item,
-              amountToApply: value,
-            }
+            ...item,
+            amountToApply: value,
+          }
           : item,
       ),
     );
@@ -292,19 +291,19 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
   //     data: bank,
   //   })) || [];
 
-     const paymentOptionsV1 =
-                vendorInitialize?.banks?.map((bank) => ({
-                  value: bank.bankId,
-                  label: bank.holderName,
-                       type: bank.type,
-                  icon:
-                    bank.type === "BANK" ? (
-                      <Bank color="#1E45E1" size="16" />
-                    ) : (
-                      <Wallet2 color="#038C3D" size="16" />
-                    ),
-                  data: bank,
-                })) || [];
+  const paymentOptionsV1 =
+    vendorInitialize?.banks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.holderName,
+      type: bank.type,
+      icon:
+        bank.type === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : (
+          <Wallet2 color="#038C3D" size="16" />
+        ),
+      data: bank,
+    })) || [];
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -424,7 +423,7 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
       type: "SETTLEMENT_PAYMENT_SAGA",
       payload: {
         vendorId: vendorInitialize?.vendorId,
-
+        hostelId: state.login.selectedHostel_Id,
         images: attachments.map((item) => item.file),
         payLoads: {
           paymentDate: formattedDate,
@@ -540,9 +539,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   value={selectedVendor}
                   // placeholder="Enter "
                   readOnly
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${
-                    selectedVendor ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy disabled:bg-gray-50 ${selectedVendor ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
               </div>
 
@@ -573,9 +571,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   placeholder="Enter Amount"
                   onChange={handlePaidAmountChange}
                   onWheel={(e) => e.target.blur()}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    paidAmount ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${paidAmount ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
                 <button
                   onClick={handleSetAmount}
@@ -618,9 +615,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                   customInput={<input ref={paidDateRef} />}
                   maxDate={new Date()}
                   className={`w-full h-[50px] rounded-[8px] border px-3 pr-10 text-[15px]
-                  ${
-                    paidDateError ? "border-red-500" : "border-[#D9D9D9]"
-                  } focus:outline-none`}
+                  ${paidDateError ? "border-red-500" : "border-[#D9D9D9]"
+                    } focus:outline-none`}
                 />
 
                 <Calendar
@@ -673,9 +669,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={handleTransactionIdChange}
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  transactionId ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${transactionId ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
               />
             </div>
             <input
@@ -728,9 +723,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                         />
 
                         <div
-                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${
-                            hoveredImage === previewImage ? "h-[50px]" : "h-0"
-                          }`}
+                          className={`absolute bottom-0 left-[21px]  right-[21px] overflow-hidden rounded-b-md transition-all duration-300 ${hoveredImage === previewImage ? "h-[50px]" : "h-0"
+                            }`}
                         >
                           <div className="h-[50px] bg-white/40 flex items-center justify-between px-3">
                             <p className="text-white text-sm truncate max-w-[170px]">
@@ -816,9 +810,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Enter the Notes/Description for this invoice "
-                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                  description ? "font-semibold" : "font-medium"
-                } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
+                className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
+                  } border border-[#D9D9D9] rounded-[8px] px-3 py-2 focus:outline-none focus:ring-0`}
               />
             </div>
 
@@ -954,9 +947,8 @@ function SettlementPayment({ show, handleClose, isBanking, selectedVendorId }) {
             type="submit"
             disabled={formLoading}
             onClick={handleSubmit}
-            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-              formLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
+            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
           >
             {formLoading ? (
               <>

@@ -421,7 +421,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
       type: "SETTLEMENT_PAYMENT_SAGA",
       payload: {
         vendorId: vendorInitialize?.vendorId,
-
+        hostelId: state.login.selectedHostel_Id,
         images: attachments.map((item) => item.file),
         payLoads: {
           paymentDate: formattedDate,
