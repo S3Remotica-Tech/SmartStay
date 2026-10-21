@@ -11,7 +11,7 @@ import {
   Bank,
   Wallet2,
   // ArrowRight,
-  MessageQuestion,
+  MessageQuestion, Card
 } from "iconsax-react";
 import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
@@ -130,7 +130,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -145,15 +145,19 @@ const Option = (props) => {
             )}
           </div>
         </div>
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
 
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold capitalize ${data.type === "BANK"
-            ? "bg-blue-100 text-blue-700"
-            : "bg-green-100 text-green-700"
             }`}
         >
-          {data.type?.replaceAll("_", " ").toLowerCase()}
+          {data.type}
         </span>
+        }
       </div>
     </components.Option>
   );
@@ -166,19 +170,27 @@ Option.propTypes = {
     icon: PropTypes.node,
   }).isRequired,
 };
+
 const SingleValue = (props) => {
   const { data } = props;
 
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
           {data.icon}
         </div>
 
         <div className="flex flex-col">
           <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280] capitalize"> {data.type?.replaceAll("_", " ").toLowerCase()}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
         </div>
       </div>
     </components.SingleValue>
@@ -270,15 +282,13 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
               : bank.cashAccountType,
           type: bank.accountType,
           icon:
-            bank.accountType === "BANK" ? (
+            bank.accountType === "BANK" || bank.bankName === "BANK" ? (
               <Bank color="#1E45E1" size="16" />
-            )
-              //  : bank.accountType === "UPI" ? (
-              //   <img src={bank.upiAppIcon} className="w-8 h-8" />
-              // )
-              : (
-                <Wallet2 color="#038C3D" size="16" />
-              ),
+            ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+              <Wallet2 color="#038C3D" size="16" />
+            ) : (
+              <Card color="#F59E0B" size="16" />
+            ),
           data: bank,
         })) || [],
     [
