@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+// import Button from "react-bootstrap/Button";
+// import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
-import { CloseCircle, Bank, Wallet2, ArrowDown2 } from "iconsax-react";
+import { CloseCircle, Bank, Wallet2, ArrowDown2, Card } from "iconsax-react";
 import "./addAsset.css";
 import PropTypes from "prop-types";
 import Select, { components } from "react-select";
@@ -124,7 +124,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -139,20 +139,24 @@ const Option = (props) => {
             )}
           </div>
         </div>
-        {data.type &&
-          <span
-            className={`px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-              }`}
-          >
-            {data.type}
-          </span>
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
+
+            }`}
+        >
+          {data.type}
+        </span>
         }
       </div>
     </components.Option>
   );
 };
+
 Option.propTypes = {
   data: PropTypes.shape({
     type: PropTypes.string,
@@ -168,7 +172,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
           {data.icon}
         </div>
 
@@ -396,8 +407,10 @@ function StaticExample({ show, setShow, currentItem }) {
       icon:
         bank.accountType === "BANK" || bank.bankName === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
-        ) : (
+        ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
           <Wallet2 color="#038C3D" size="16" />
+        ) : (
+          <Card color="#F59E0B" size="16" />
         ),
       data: bank,
     })) || [];

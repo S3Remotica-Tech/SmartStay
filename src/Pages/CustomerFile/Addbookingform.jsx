@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Form, Button, FormControl } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import "flatpickr/dist/themes/material_blue.css";
-import { CloseCircle, ArrowDown2, Bank, Wallet2 } from "iconsax-react";
+import { CloseCircle, ArrowDown2, Bank, Wallet2, Card } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
@@ -22,7 +22,7 @@ const Option = (props) => {
       <div className="flex items-center justify-between py-1">
         <div className="flex items-center gap-3">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : "bg-green-100"} flex items-center justify-center`}
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
           >
             {data.icon}
           </div>
@@ -37,16 +37,19 @@ const Option = (props) => {
             )}
           </div>
         </div>
-
-        <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
-            data.type === "BANK"
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-          }`}
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
+
+            }`}
         >
           {data.type}
         </span>
+        }
       </div>
     </components.Option>
   );
@@ -66,7 +69,14 @@ const SingleValue = (props) => {
   return (
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-md bg-[#EEF4FF] flex items-center justify-center">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
           {data.icon}
         </div>
 
@@ -340,12 +350,14 @@ function BookingModal(props) {
     state.UsersList?.availableBedList?.bankDetails?.map((bank) => ({
       value: bank.bankId,
       label: bank.holderName,
-           type: bank.type,
+      type: bank.type,
       icon:
-        bank.type === "BANK" ? (
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
-        ) : (
+        ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
           <Wallet2 color="#038C3D" size="16" />
+        ) : (
+          <Card color="#F59E0B" size="16" />
         ),
       data: bank,
     })) || [];
@@ -370,7 +382,7 @@ function BookingModal(props) {
   //     data: bank,
   //   })) || [];
 
-  
+
 
 
   const handleModeOfPaymentChange = (selectedOption) => {
@@ -728,7 +740,7 @@ function BookingModal(props) {
             <div className="flex items-center gap-2 mb-2 px-4 py-1 shrink-0">
               <div className="h-16 w-16 relative flex-shrink-0">
                 {props.userDetail?.profilePic &&
-                props.userDetail?.profilePic !== "0" ? (
+                  props.userDetail?.profilePic !== "0" ? (
                   <Image
                     src={props.userDetail?.profilePic}
                     roundedCircle
@@ -890,8 +902,8 @@ function BookingModal(props) {
                       value={
                         modeOfPayment
                           ? paymentOptionsV1.find(
-                              (opt) => opt.value === String(modeOfPayment),
-                            ) || null
+                            (opt) => opt.value === String(modeOfPayment),
+                          ) || null
                           : null
                       }
                       placeholder="Select Payment"
@@ -948,11 +960,11 @@ function BookingModal(props) {
                           (option) => option.id === Floor,
                         )
                           ? {
-                              value: Floor,
-                              label: state.UsersList.floorList.find(
-                                (option) => option.id === Floor,
-                              )?.name,
-                            }
+                            value: Floor,
+                            label: state.UsersList.floorList.find(
+                              (option) => option.id === Floor,
+                            )?.name,
+                          }
                           : null
                       }
                       placeholder="Select a Floor"
@@ -1036,11 +1048,11 @@ function BookingModal(props) {
                           (option) => option.id === room,
                         )
                           ? {
-                              value: room,
-                              label: state.PgList?.roomsList.find(
-                                (option) => option.id === room,
-                              )?.name,
-                            }
+                            value: room,
+                            label: state.PgList?.roomsList.find(
+                              (option) => option.id === room,
+                            )?.name,
+                          }
                           : null
                       }
                       placeholder="Select a Room"
@@ -1116,34 +1128,34 @@ function BookingModal(props) {
                     options={
                       availableBed
                         ? availableBed
-                            .filter(
-                              (item) =>
-                                item &&
-                                item?.bedName !== "0" &&
-                                item?.bedName !== "undefined" &&
-                                item?.bedName !== "" &&
-                                item?.bedName !== "null",
-                            )
-                            .map((item) => ({
-                              value: item?.bedId,
-                              label: item?.bedName,
-                            }))
+                          .filter(
+                            (item) =>
+                              item &&
+                              item?.bedName !== "0" &&
+                              item?.bedName !== "undefined" &&
+                              item?.bedName !== "" &&
+                              item?.bedName !== "null",
+                          )
+                          .map((item) => ({
+                            value: item?.bedId,
+                            label: item?.bedName,
+                          }))
                         : []
                     }
                     onChange={handleBed}
                     value={
                       availableBed
                         ? (() => {
-                            const selected = availableBed?.find(
-                              (option) => option?.bedId === bed,
-                            );
-                            return selected
-                              ? {
-                                  value: selected.bedId,
-                                  label: selected.bedName,
-                                }
-                              : null;
-                          })()
+                          const selected = availableBed?.find(
+                            (option) => option?.bedId === bed,
+                          );
+                          return selected
+                            ? {
+                              value: selected.bedId,
+                              label: selected.bedName,
+                            }
+                            : null;
+                        })()
                         : null
                     }
                     placeholder="Select a Bed"

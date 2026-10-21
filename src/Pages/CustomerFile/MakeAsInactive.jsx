@@ -11,9 +11,232 @@ import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import { CloseCircle } from "iconsax-react";
+import {
+  CloseCircle, Bank,
+  Wallet2,
+  Card, ArrowDown2
+} from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-import Select from "react-select";
+import Select, { components } from "react-select";
+
+
+const CustomStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "50px",
+    height: "45px",
+    border: "1px solid #D9D9D9",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    alignItems: "center",
+
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    backgroundColor: state.isDisabled
+      ? "#F3F4F6"
+      : state.hasValue
+        ? "#FFF"
+        : "#fff",
+    opacity: state.isDisabled ? 0.7 : 1,
+  }),
+
+  singleValue: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#333",
+    fontWeight: 600,
+  }),
+
+  placeholder: (base, state) => ({
+    ...base,
+    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+  }),
+
+  option: (base, state) => {
+    const isSelected = state.isSelected;
+
+    return {
+      ...base,
+      position: "relative",
+      fontSize: 14,
+      padding: "6px 12px",
+      backgroundColor: isSelected
+        ? "#EEF2FF"
+        : state.isFocused
+          ? "#F3F4F6"
+          : "#fff",
+      color: "#111827",
+      cursor: "pointer",
+
+      whiteSpace: "nowrap",
+      overflow: "visible",
+      fontFamily: "Gilroy",
+      paddingLeft: isSelected ? "9px" : "12px",
+
+      ...(isSelected && {
+        borderLeft: "3px solid #1E45E1",
+        fontWeight: 500,
+      }),
+    };
+  },
+
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "8px",
+    padding: "6px 0",
+    zIndex: 9999,
+    width: "max-content",
+    minWidth: "100%",
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "100px",
+    padding: 0,
+    overflowY: "auto",
+  }),
+
+  valueContainer: (base) => ({
+    ...base,
+    padding: "0 8px",
+  }),
+
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "45px",
+  }),
+
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    padding: "4px",
+    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
+const Option = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center justify-between py-1">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
+        </div>
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
+
+            }`}
+        >
+          {data.type}
+        </span>
+        }
+      </div>
+    </components.Option>
+  );
+};
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+
+const SingleValue = (props) => {
+  const { data } = props;
+
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function MakeAsInactive({
   show,
@@ -117,14 +340,35 @@ function MakeAsInactive({
     }
   }, [state.Booking.bookingMakeAsError, state.createAccount?.networkError]);
 
-  const paymentOptions = Array.isArray(
-    state.UsersList?.initializeCancelBookingList?.listBanks,
-  )
-    ? state.UsersList?.initializeCancelBookingList?.listBanks?.map((item) => ({
-        value: String(item.bankId),
-        label: `${item.holderName} - ${item.bankName || ""}`,
-      }))
-    : [];
+  // const paymentOptions = Array.isArray(
+  //   state.UsersList?.initializeCancelBookingList?.listBanks,
+  // )
+  //   ? state.UsersList?.initializeCancelBookingList?.listBanks?.map((item) => ({
+  //     value: String(item.bankId),
+  //     label: `${item.holderName} - ${item.bankName || ""}`,
+  //   }))
+  //   : [];
+
+  const paymentOptionsV1 =
+    state.UsersList?.initializeCancelBookingList?.listBanks?.map((bank) => ({
+      value: bank.bankId,
+      label: bank.holderName,
+      type: bank.type || bank.bankName,
+      icon:
+        bank.type === "BANK" || bank.bankName === "BANK" ? (
+          <Bank color="#1E45E1" size="16" />
+        ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
+          <Wallet2 color="#038C3D" size="16" />
+        ) : (
+          <Card color="#F59E0B" size="16" />
+        ),
+      data: bank,
+    })) || [];
+
+
+
+
+
 
   useEffect(() => {
     if (!inActiveDetails) return;
@@ -295,66 +539,27 @@ function MakeAsInactive({
               </Form.Label>
 
               <Select
-                options={paymentOptions}
+                options={paymentOptionsV1}
                 onChange={(selectedOption) =>
                   handleModeOfPaymentChange(selectedOption?.value)
                 }
                 value={
                   modeOfPayment
-                    ? paymentOptions.find(
-                        (opt) => opt.value === String(modeOfPayment),
-                      ) || null
+                    ? paymentOptionsV1.find(
+                      (opt) => opt.value === String(modeOfPayment),
+                    ) || null
                     : null
                 }
                 placeholder="Select Payment"
                 noOptionsMessage={() => "No mode available"}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    fontSize: 16,
-                    color: "rgba(75, 75, 75, 1)",
-                    fontFamily: "Gilroy",
-                    fontWeight: modeOfPayment ? 600 : 500,
-                    border: "1px solid #D9D9D9",
-                    borderRadius: "8px",
-                    boxShadow: "none",
-                    height: 48,
-                    cursor: "pointer",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    border: "1px solid #ced4da",
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    maxHeight: "120px",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#555",
-                    cursor: "pointer",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "lightblue" : "white",
-                    color: "#000",
-                    fontFamily: "Gilroy",
-                  }),
-                  indicatorSeparator: () => ({
-                    display: "none",
-                  }),
+                styles={CustomStyles}
+                isSearchable={false}
+                components={{
+                  Option,
+                  SingleValue,
+                  DropdownIndicator,
+                  GroupHeading,
+                  IndicatorSeparator: () => null,
                 }}
               />
             </Form.Group>
