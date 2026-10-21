@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import dayjs from "dayjs";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -124,6 +125,7 @@ function TransactionFilter({
   const [source, setSource] = useState(null);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [error, setError] = useState("")
   const [formLoading, setFormLoading] = useState(false);
 
   const handlePeriodChange = (selected) => {
@@ -155,6 +157,7 @@ function TransactionFilter({
   };
 
   const handleToDateChange = (date) => {
+    setError("")
     setToDate(date);
   };
 
@@ -183,9 +186,14 @@ function TransactionFilter({
 
   const handleFilterBills = () => {
     // const hasPeriod = !!period?.value;
+    setError("")
+    if (fromDate && !toDate) {
+      setError("Please Select To Date")
+      return;
+    }
     const bankFilter = {
-      startDate: fromDate ? dayjs(fromDate).format("DD-MM-YYYY") : "",
-      endDate: toDate ? dayjs(toDate).format("DD-MM-YYYY") : "",
+      startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
+      endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
       period: period?.value,
       periodLabel: period?.label || "",
       source: source?.value,
@@ -204,8 +212,8 @@ function TransactionFilter({
         page: 1,
         size: size,
         dateFilter: period?.value,
-        fromDate: fromDate ? dayjs(fromDate).format("DD-MM-YYYY") : "",
-        toDate: toDate ? dayjs(toDate).format("DD-MM-YYYY") : "",
+        fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
+        toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
         source: source?.value,
       },
     });
@@ -313,11 +321,12 @@ function TransactionFilter({
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
+
             </div>
 
             <div className="mb-3">
               <label className="block text-xs font-medium text-[#6B7280] mb-2">
-                To Date
+                To Date {fromDate && <span className="text-red-600 text-[20px]">*</span>}
               </label>
 
               <div className="relative">
@@ -336,6 +345,7 @@ function TransactionFilter({
                   className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 />
               </div>
+              {error && <ErrorMessage message={error} type="error" />}
             </div>
           </>
           )}
