@@ -859,10 +859,12 @@ function BankingNew() {
   );
 
   const periodOptions =
-    filterOptionsData?.dateFilter?.map((item) => ({
-      label: item.name,
-      value: item.type,
-    })) || [];
+    filterOptionsData?.dateFilter
+      ?.filter((item) => item.type !== "CUSTOM")
+      ?.map((item) => ({
+        label: item.name,
+        value: item.type,
+      })) || [];
 
   const sourceOptions =
     filterOptionsData?.source?.map((item) => ({
@@ -1731,7 +1733,7 @@ function BankingNew() {
             <CreditCardPayment
               show={showCreditCardForm}
               handleClose={handleCloseCreditPayment}
-              paymentMethodId=""
+              isBank={false}
             />
           )}
           {showInvestmentForm && (

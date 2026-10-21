@@ -284,16 +284,16 @@ function VendorPayment({ show, handleClose, isBanking }) {
   const finalOutstanding = vendorInitialize?.totalDueAmount - paidAmount;
 
   const paymentOptions =
-    vendorInitialize?.allPaymentMethods?.map((bank) => ({
+    vendorInitialize?.banks?.map((bank) => ({
       value: bank.bankId,
-      label: bank.displayName,
+      label: bank.displayName || bank.holderName,
       subLabel:
-        bank.accountType === "BANK"
-          ? `${bank.bankName} `
-          : `${bank.cashAccountType} `,
-      type: bank.accountType,
+        bank.accountType === "BANK" || bank.bankName === "BANK"
+          ? `${bank.bankName || ""} `
+          : `${bank.cashAccountType || ""} `,
+      type: bank.accountType || bank.bankName,
       icon:
-        bank.accountType === "BANK" ? (
+        bank.accountType === "BANK" || bank.bankName === "BANK" ? (
           <Bank color="#1E45E1" size="16" />
         ) : (
           <Wallet2 color="#038C3D" size="16" />

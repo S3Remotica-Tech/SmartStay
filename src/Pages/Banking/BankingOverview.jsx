@@ -42,7 +42,7 @@ function BankingOverview({ show, onClose }) {
   const isBankAccount = OverviewDetails?.accountType === "BANK";
   const isCashAccount = OverviewDetails?.accountType === "CASH";
 
-  const isDisabled = isBankAccount || isCashAccount
+  const isDisabled = isCashAccount
 
   const [selfTranfer, setSelfTransfer] = useState(false);
   const [selfDetails, setSelfDetails] = useState("");
@@ -525,7 +525,7 @@ function BankingOverview({ show, onClose }) {
           show={showCreditCardForm}
           handleClose={handleCloseCreditPayment}
           bankId={OverviewDetails?.bankId}
-          paymentMethodId={OverviewDetails?.paymentMethodId}
+          isBank={OverviewDetails?.accountType === "BANK"}
         />
       )}
     </div>

@@ -213,7 +213,8 @@ GroupHeading.propTypes = {
     label: PropTypes.string,
   }).isRequired,
 };
-function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
+function CreditCardPayment({ show, handleClose, bankId, isBank }) {
+  console.log("isBank", isBank)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const workRef = useRef(null);
@@ -243,12 +244,14 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
   // console.log("bankId", bankId)
   // console.log("paymentId", paymentMethodId)
 
+  // const isDisabled = bankId && isBank
+
   const creditCardOptions = useMemo(
     () =>
       (state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards ?? []).map(
         (view) => ({
           value: view?.cardId,
-          label: `${view?.cardNetwork}`,
+          label: `${view?.cardNetwork} - ${view?.cardNumber}`,
         })
       ),
     [state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards]
@@ -314,7 +317,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
     setDescription(e.target.value);
   };
 
-  console.log("paymentMethod", paymentMethod)
+  // console.log("paymentMethod", paymentMethod)
 
   const validateForm = () => {
     let isValid = true;
@@ -394,18 +397,22 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
     }
   }, [state.login?.selectedHostel_Id]);
 
-  // useEffect(() => {
-  //   if (bankId && paymentOptions.length > 0) {
-  //     const selected = paymentOptions.find(
-  //       (option) => option.value === bankId
-  //     );
 
-  //     setPaymentMethod(selected || null);
-  //   } else {
-  //     setPaymentMethod(null);
-  //   }
-  // }, [bankId, paymentOptions]);
 
+
+  useEffect(() => {
+    if (bankId && paymentOptions.length > 0) {
+      const selected = paymentOptions.find(
+        (option) => option.value === bankId && String(option.type) === "BANK"
+      );
+      console.log("selected", selected)
+      setPaymentMethod(selected || null);
+    } else {
+      setPaymentMethod(null);
+    }
+  }, [bankId, paymentOptions]);
+
+  console.log("bankId", bankId)
 
   useEffect(() => {
     if (bankId && creditCardOptions?.length > 0) {
@@ -473,7 +480,7 @@ function CreditCardPayment({ show, handleClose, bankId, paymentMethodId }) {
                 <span className="text-red-600 text-[20px]">*</span>
               </label>
               <div className="relative">
-                <Select isDisabled={bankId}
+                <Select isDisabled={!isBank && !!bankId}
                   ref={creditCardAccountRef}
                   value={creditCardAccount}
                   onChange={handleCreditCardAccountChange}
