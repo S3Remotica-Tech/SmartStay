@@ -13,6 +13,7 @@ function Logout({ show, handleClose }) {
   const [logoutAdminLoading, setLogoutAdminLoading] = useState(false);
 
   const handleLogout = () => {
+    localStorage.removeItem("lastPage");
     setLogoutAdminLoading(true);
     dispatch({ type: "LOGOUTLOADING" });
     dispatch({ type: "LOGOUTADMINSAGA", payload: { source: "WEB" } });

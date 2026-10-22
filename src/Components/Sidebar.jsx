@@ -371,6 +371,7 @@ function Sidebar() {
       localStorage.setItem("lastPage", path);
     }
   }, [location.pathname]);
+
   const lastPage = localStorage.getItem("lastPage");
 
   useEffect(() => {
@@ -385,8 +386,7 @@ function Sidebar() {
     }
 
     else {
-
-
+      console.log("state.login?.selectedHostel_Id", state.login?.selectedHostel_Id, "lastPage", lastPage)
       if (lastPage) {
         navigate(lastPage, { replace: true });
       }
@@ -395,10 +395,6 @@ function Sidebar() {
       }
     }
   }, [state.login?.isLoggedIn, state.login?.selectedHostel_Id, lastPage]);
-
-
-
-
 
 
 
@@ -425,16 +421,12 @@ function Sidebar() {
 
 
 
-
-
-
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
-  }, []);
-
-  useEffect(() => {
     dispatch({ type: "HOSTELLIST" });
   }, []);
+
+
 
   useEffect(() => {
     if (
