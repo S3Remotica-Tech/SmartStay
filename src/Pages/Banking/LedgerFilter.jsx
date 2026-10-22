@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "iconsax-react";
 import dayjs from "dayjs";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -119,20 +120,42 @@ function LedgerFilter({ show, handleClose, size }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [formLoading, setFormLoading] = useState(false);
+  const [fromDateError, setFromDateError] = useState("");
+  const [toDateError, setToDateError] = useState("");
 
   const handlePeriodChange = (selected) => {
     setPeriod(selected);
+    setFromDate("")
+    setToDate("")
+    setFromDateError("");
+    setToDateError("");
+    dispatch({
+      type: "SET_BANK_LEDGER_FILTERS",
+      payload: {
+        period: selected?.value || "",
+        periodLabel: selected?.label || "",
+      },
+    });
   };
 
   const handleSourceChange = (selected) => {
     setSource(selected);
+    dispatch({
+      type: "SET_BANK_LEDGER_FILTERS",
+      payload: {
+        source: selected?.value || "",
+        sourceLabel: selected?.label || "",
+      },
+    });
   };
 
   const handleFromDateChange = (date) => {
+    setFromDateError("")
     setFromDate(date);
   };
 
   const handleToDateChange = (date) => {
+    setToDateError("")
     setToDate(date);
   };
 
@@ -160,6 +183,18 @@ function LedgerFilter({ show, handleClose, size }) {
   };
 
   const handleFilterBills = () => {
+    setFromDateError("");
+    setToDateError("");
+
+    if (fromDate && !toDate) {
+      setToDateError("Please Select To Date");
+      return;
+    }
+
+    if (toDate && !fromDate) {
+      setFromDateError("Please Select From Date");
+      return;
+    }
     const ledgerFilter = {
       startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
       endDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
@@ -180,7 +215,7 @@ function LedgerFilter({ show, handleClose, size }) {
         hostelId: state.login.selectedHostel_Id,
         page: 1,
         size: size,
-        dateFilter: period?.value,
+        dateFilter: period?.value === "CUSTOM" ? "" : period?.value,
         fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
         toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
         source: source?.value,
@@ -208,14 +243,14 @@ function LedgerFilter({ show, handleClose, size }) {
     setPeriod(
       bankFilters.period
         ? periodOptions.find((item) => item.value === bankFilters.period) ||
-            null
+        null
         : null,
     );
 
     setSource(
       bankFilters.source
         ? sourceOptions.find((item) => item.value === bankFilters.source) ||
-            null
+        null
         : null,
     );
 
@@ -266,6 +301,60 @@ function LedgerFilter({ show, handleClose, size }) {
             />
           </div>
 
+          {period?.value === "CUSTOM" && (<>
+            <div className="mb-3">
+              <label className="block text-xs font-medium text-[#6B7280] mb-2">
+                From Date {toDate && <span className="text-red-600 text-[20px]">*</span>}
+              </label>
+
+              <div className="relative">
+                <DatePicker
+                  selected={fromDate}
+                  onChange={handleFromDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Select Date"
+                  wrapperClassName="w-full"
+                  className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
+                />
+
+                <Calendar
+                  size="18"
+                  color="#1E45E1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+              {fromDateError && (
+                <ErrorMessage message={fromDateError} type="error" />
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label className="block text-xs font-medium text-[#6B7280] mb-2">
+                To Date {fromDate && <span className="text-red-600 text-[20px]">*</span>}
+              </label>
+
+              <div className="relative">
+                <DatePicker
+                  selected={toDate}
+                  onChange={handleToDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Select Date"
+                  wrapperClassName="w-full"
+                  className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
+                />
+
+                <Calendar
+                  size="18"
+                  color="#1E45E1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+              {toDateError && (
+                <ErrorMessage message={toDateError} type="error" />
+              )}
+            </div>
+          </>)}
+
           <div className="mb-3">
             <label className="block text-xs font-medium text-[#6B7280] mb-2">
               Source
@@ -280,51 +369,6 @@ function LedgerFilter({ show, handleClose, size }) {
             />
           </div>
 
-          <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
-              From Date
-            </label>
-
-            <div className="relative">
-              <DatePicker
-                selected={fromDate}
-                onChange={handleFromDateChange}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Select Date"
-                wrapperClassName="w-full"
-                className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
-              />
-
-              <Calendar
-                size="18"
-                color="#1E45E1"
-                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              />
-            </div>
-          </div>
-
-          <div className="mb-3">
-            <label className="block text-xs font-medium text-[#6B7280] mb-2">
-              To Date
-            </label>
-
-            <div className="relative">
-              <DatePicker
-                selected={toDate}
-                onChange={handleToDateChange}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Select Date"
-                wrapperClassName="w-full"
-                className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
-              />
-
-              <Calendar
-                size="18"
-                color="#1E45E1"
-                className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              />
-            </div>
-          </div>
         </div>
 
         <div className="flex items-center justify-between gap-3 m-4">
@@ -340,9 +384,8 @@ function LedgerFilter({ show, handleClose, size }) {
             type="submit"
             disabled={formLoading}
             onClick={handleFilterBills}
-            className={`bg-[#1E45E1] text-white w-1/2 h-10  px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-              formLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
+            className={`bg-[#1E45E1] text-white w-1/2 h-10  px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
           >
             {formLoading ? (
               <>
