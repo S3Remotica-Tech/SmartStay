@@ -174,7 +174,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
 
                     {bankDetails?.fromBank?.accountType === "CASH" && (
                       <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        {bankDetails?.fromBank?.cashAccountType}
+                        {bankDetails?.fromBank?.cashAccountType || bankDetails?.fromBank?.bankAccountType}
                       </div>
                     )}
 
@@ -246,9 +246,9 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                         )
                       )}
 
-                      {bank?.accountType === "CASH" && (
-                        <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                          {bank?.cashAccountType}
+                      {(bank?.accountType === "CASH" || bank?.accountType === "CARD") && (
+                        <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5 capitalize">
+                          {bank?.cashAccountType || bank?.bankAccountType?.replaceAll("_", " ").toLowerCase()}
                         </div>
                       )}
 

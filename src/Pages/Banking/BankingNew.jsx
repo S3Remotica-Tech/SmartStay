@@ -394,6 +394,8 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
+  console.log("state.bankingDetails?.allTransactionList", transactionFilterddata)
+
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setTransactionFilterddata(state.bankingDetails?.allTransactionList || []);
@@ -1683,7 +1685,7 @@ function BankingNew() {
                     </div>
                   ) : (
                     <div>
-                      {transactionFilterddata?.transactions?.length === 0 &&
+                      {transactionFilterddata.length === 0 || transactionFilterddata?.transactions?.length === 0 &&
                         canReadBanking && (
                           <div className="my-2">
                             {" "}
