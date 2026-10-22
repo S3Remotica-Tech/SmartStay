@@ -91,7 +91,7 @@ function BankingLinkMethod() {
                     </div>
 
                     <div className="text-[14px] text-[#7B8797]">
-                      {isUPI ? item.upiId : isBank ? item.paymentMethod : ` •••• ${item.cardNumber}`}
+                      {isUPI ? item.upiId : isBank ? item.paymentMethod : ` •••• ${item.cardNumber || ""}`}
                     </div>
                   </div>
                 </div>

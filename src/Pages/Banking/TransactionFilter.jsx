@@ -325,7 +325,7 @@ function TransactionFilter({
           {period?.value === "CUSTOM" && (<>
             <div className="mb-3">
               <label className="block text-xs font-medium text-[#6B7280] mb-2">
-                From Date
+                From Date {toDate && <span className="text-red-600 text-[20px]">*</span>}
               </label>
 
               <div className="relative">

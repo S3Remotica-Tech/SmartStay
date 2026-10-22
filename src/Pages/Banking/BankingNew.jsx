@@ -394,6 +394,8 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
+  console.log("state.bankingDetails?.allTransactionList", transactionFilterddata)
+
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {
       setTransactionFilterddata(state.bankingDetails?.allTransactionList || []);
@@ -932,7 +934,7 @@ function BankingNew() {
 
               <div className="relative mx-2">
                 <button
-                  disabled={!canWriteBanking}
+                  // disabled={!canWriteBanking}
                   onClick={() => setShowTransactionMenu((prev) => !prev)}
                   className="flex items-center justify-between gap-2 !font-gilroy text-[14px] !bg-[#1e45e1] 
                   text-white !font-semibold rounded-[8px] px-3 py-2 mb-2.5 w-[170px] whitespace-nowrap"
@@ -969,7 +971,7 @@ function BankingNew() {
                     </button>
 
                     <button
-                      disabled={!canWriteBanking}
+                      disabled={!canUpdateBanking}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenSelfTransferGlobal();
@@ -991,7 +993,7 @@ function BankingNew() {
                     </button>
 
                     <button
-                      disabled={!canWriteBanking}
+                      disabled={!canUpdateBanking}
                       onClick={() => handleCreditPayment()}
                       className="disabled:opacity-50 disabled:cursor-not-allowed w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
                     >
@@ -1147,7 +1149,7 @@ function BankingNew() {
 
                                     <button
                                       disabled={
-                                        !(canWriteBanking && !item.isDeleted)
+                                        !(canUpdateBanking && !item.isDeleted)
                                       }
                                       onClick={(e) => {
                                         e.stopPropagation();
@@ -1683,7 +1685,7 @@ function BankingNew() {
                     </div>
                   ) : (
                     <div>
-                      {transactionFilterddata?.transactions?.length === 0 &&
+                      {transactionFilterddata.length === 0 || transactionFilterddata?.transactions?.length === 0 &&
                         canReadBanking && (
                           <div className="my-2">
                             {" "}

@@ -206,7 +206,7 @@ function SelfTransferGlobal({ show, handleClose }) {
                         </div>
                       )}
                       {bank.accountType === "CARD" && (
-                        <div className="font-semibold text-[#1A1A1A] text-sm capitalize">
+                        < div className="font-semibold text-[#1A1A1A] text-sm capitalize">
                           {bank.bankAccountType?.replaceAll("_", " ").toLowerCase()}
                         </div>
                       )}
@@ -291,12 +291,12 @@ function SelfTransferGlobal({ show, handleClose }) {
 
                       {bank?.accountType === "CASH" && (
                         <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                          {bank?.cashAccountType}
+                          {bank?.cashAccountType || bank?.bankAccountType}
                         </div>
                       )}
                       {bank.accountType === "CARD" && (
                         <div className="font-semibold text-[#1A1A1A] text-sm capitalize">
-                          {bank.cashAccountType?.replaceAll("_", " ").toLowerCase()}
+                          {bank.cashAccountType?.replaceAll("_", " ").toLowerCase() || bank.bankAccountType?.replaceAll("_", " ").toLowerCase()}
                         </div>
                       )}
                       <div className="text-xs text-gray-500 font-gilroy">
@@ -434,7 +434,7 @@ function SelfTransferGlobal({ show, handleClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 SelfTransferGlobal.propTypes = {

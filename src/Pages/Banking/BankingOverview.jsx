@@ -73,10 +73,11 @@ function BankingOverview({ show, onClose }) {
   const {
     canWriteModule: canWriteBanking,
     // canReadModule: canReadBanking,
-    // canUpdateModule: canUpdateBanking,
+    canUpdateModule: canUpdateBanking,
     // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
 
+  const { canWriteModule: canWriteVendor } = useHasPermission("Vendor");
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
 
   const handleOpenSelfTransfer = (item) => {
@@ -359,8 +360,8 @@ function BankingOverview({ show, onClose }) {
 
                   <button
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
-                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
-                    disabled={!canWriteBanking}
+                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={!canWriteVendor}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleVendorPayment();
@@ -370,7 +371,7 @@ function BankingOverview({ show, onClose }) {
                   </button>
 
                   <button
-                    disabled={!canWriteBanking || isDisabled}
+                    disabled={!canUpdateBanking || isDisabled}
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827] 
                     disabled:opacity-60 disabled:cursor-not-allowed
                    hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
@@ -381,7 +382,7 @@ function BankingOverview({ show, onClose }) {
 
                   <button
                     className="w-full text-left px-3 py-2 text-[14px] font-medium text-[#111827]
-                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all"
+                   hover:bg-[#F3F4F6] hover:border-l-[3px] hover:border-[#1E45E1] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={!canWriteBanking}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -395,7 +396,7 @@ function BankingOverview({ show, onClose }) {
             </div>
 
             <button
-              disabled={!canWriteBanking || OverviewDetails?.accountType === "CARD"}
+              disabled={!canUpdateBanking || OverviewDetails?.accountType === "CARD"}
               onClick={(e) => {
                 e.stopPropagation();
                 handleOpenSelfTransfer(OverviewDetails);
