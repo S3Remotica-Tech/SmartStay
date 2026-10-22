@@ -230,20 +230,24 @@ function Dashboard() {
     setShowWarning(false);
   };
 
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_DASHBOARD_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            occupancyFilter: "This Month",
-          },
-        },
-      });
-      setLoading(true);
+    const hostelId = state.login.selectedHostel_Id;
+    if (!state.login.isLoggedIn || !hostelId) {
+      return;
     }
-  }, [state.login.selectedHostel_Id]);
+    dispatch({
+      type: "GET_DASHBOARD_SAGA",
+      payload: {
+        hostelId,
+        filters: {
+          occupancyFilter: "This Month",
+        },
+      },
+    });
+
+    setLoading(true);
+  }, [state.login.isLoggedIn, state.login.selectedHostel_Id]);
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {
