@@ -904,6 +904,17 @@ function Expenses() {
     setSize(sizeValue);
   };
 
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
   return (
     <>
       <div className="bg-white font-gilroy">
@@ -1007,8 +1018,8 @@ function Expenses() {
                       }
                     }}
                     className={`transition-opacity duration-300 ${canReadExpense
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                      ? "cursor-pointer opacity-100 pointer-events-auto"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
                       }`}
                   />
                 </div>
@@ -1379,8 +1390,8 @@ function Expenses() {
                                           <div className="h-px bg-gray-100 m-0" />
                                           <div
                                             className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${!canUpdateExpense
-                                                ? "cursor-not-allowed opacity-50"
-                                                : "cursor-not-allowed opacity-100"
+                                              ? "cursor-not-allowed opacity-50"
+                                              : "cursor-not-allowed opacity-100"
                                               }`}
                                             onClick={() => {
                                               if (canUpdateExpense) {
@@ -1399,8 +1410,8 @@ function Expenses() {
                                             <Edit size="16" color={"#1E45E1"} />
                                             <label
                                               className={`text-sm font-semibold font-gilroy text-gray-800 ${!canUpdateExpense
-                                                  ? "cursor-not-allowed"
-                                                  : "cursor-not-allowed"
+                                                ? "cursor-not-allowed"
+                                                : "cursor-not-allowed"
                                                 }`}
                                             >
                                               Edit
@@ -1432,8 +1443,8 @@ function Expenses() {
                                             <Trash size="16" color={"red"} />
                                             <label
                                               className={`text-sm font-semibold font-gilroy  ${!canUpdateExpense
-                                                  ? "cursor-not-allowed text-gray-800"
-                                                  : "cursor-pointer text-red-600"
+                                                ? "cursor-not-allowed text-gray-800"
+                                                : "cursor-pointer text-red-600"
                                                 }`}
                                             >
                                               Delete
