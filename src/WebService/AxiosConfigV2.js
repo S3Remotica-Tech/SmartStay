@@ -10,24 +10,28 @@ const cookies = new Cookies();
 
 const AxiosConfigV2 = axios.create({
     baseURL: ConfigV2.apiBaseUrl,
-headers: {
-  'Content-Type': 'application/json',
-   }
+    headers: {
+        'Content-Type': 'application/json',
+    }
 })
 AxiosConfigV2.interceptors.request.use(
-  (config) => {
-      const token = cookies.get('v2-token');
-  
-          if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
-      }
-      
-      return config;
-  },
-  (error) => {
-      return Promise.reject(error);
-      
-  }
+    (config) => {
+        const token = cookies.get('v2-token');
+        if (!token) {
+            return Promise.reject(
+                new axios.CanceledError("Request cancelled: Authentication token missing")
+            );
+        }
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+
+    }
 );
 export default AxiosConfigV2;
 

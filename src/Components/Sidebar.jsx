@@ -386,7 +386,7 @@ function Sidebar() {
     }
 
     else {
-      console.log("state.login?.selectedHostel_Id", state.login?.selectedHostel_Id, "lastPage", lastPage)
+
       if (lastPage) {
         navigate(lastPage, { replace: true });
       }
