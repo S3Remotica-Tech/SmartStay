@@ -341,6 +341,7 @@ const InvoicePage = () => {
       payload: {
         ...invoiceFilters,
         paymentStatusLabel: selectedOption ? [selectedOption.label] : [],
+        paymentStatus: selectedOption ? [selectedOption.value] : [],
       },
     });
 
@@ -961,7 +962,7 @@ const InvoicePage = () => {
 
     const previousFilters = state.InvoiceList?.invoiceFilters || {};
 
-
+    console.log("previousFilters", previousFilters.paymentStatus)
 
     const hasPreviousPaymentStatus =
       previousFilters?.paymentStatus?.length > 0 &&
@@ -974,6 +975,11 @@ const InvoicePage = () => {
           ? ""
           : [statusfilter.value]
         : [];
+
+
+    console.log("paymentStatus", paymentStatus)
+
+
 
     const paymentStatusLabel = hasPreviousPaymentStatus
       ? previousFilters?.paymentStatusLabel || []
@@ -995,8 +1001,8 @@ const InvoicePage = () => {
       modes: previousFilters.modes,
       modesLabel: previousFilters.modesLabel,
 
-      paymentStatus,
-      paymentStatusLabel,
+      paymentStatus: paymentStatus,
+      paymentStatusLabel: paymentStatusLabel,
 
       search: debouncedInput?.trim()
         ? debouncedInput.trim()
@@ -1028,6 +1034,13 @@ const InvoicePage = () => {
     page,
     state.login?.selectedHostel_Id,
   ]);
+
+
+
+  console.log("statusfilter?.value", statusfilter?.value)
+
+
+
 
   useEffect(() => {
     const previousFilters = state.InvoiceList?.invoiceFilters || {};
@@ -1344,8 +1357,8 @@ const InvoicePage = () => {
                     <Filter
                       size={18}
                       className={`transition-opacity duration-300 ${canReadInvoice
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
                         }`}
                     />
                   </div>
@@ -1400,14 +1413,14 @@ const InvoicePage = () => {
                                   setIsOpen(false);
                                 }}
                                 className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${view === item.key
-                                    ? "bg-[#F7FAFF] font-medium "
-                                    : ""
+                                  ? "bg-[#F7FAFF] font-medium "
+                                  : ""
                                   }`}
                               >
                                 <div
                                   className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${view === item.key
-                                      ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
-                                      : ""
+                                    ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                    : ""
                                     }`}
                                 >
                                   <Icon size="16" color="#4B4B4B" />
@@ -1437,14 +1450,14 @@ const InvoicePage = () => {
                                 setIsOpen(false);
                               }}
                               className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${view === item.key
-                                  ? "bg-[#F7FAFF] font-medium "
-                                  : ""
+                                ? "bg-[#F7FAFF] font-medium "
+                                : ""
                                 }`}
                             >
                               <div
                                 className={`flex items-center gap-2 px-1 text-sm cursor-pointer hover:bg-gray-100 ${view === item.key
-                                    ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
-                                    : ""
+                                  ? "bg-[#F7FAFF] font-medium border-l-4 border-[#1E45E1] rounded-sm"
+                                  : ""
                                   }`}
                               >
                                 <Icon size="16" color="#4B4B4B" />

@@ -225,7 +225,7 @@ function TransactionFilter({
         hostelId: state.login.selectedHostel_Id,
         page: 1,
         size: size,
-        dateFilter: period?.value,
+        dateFilter: period?.value === "CUSTOM" ? "" : period?.value,
         fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
         toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
         source: source?.value,

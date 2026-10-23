@@ -1356,67 +1356,45 @@ function Expenses() {
                                             left: popupPosition.left - 250,
                                           }}
                                         >
-                                          <div
+                                          <button
+                                            type="button"
+                                            disabled
+                                            // disabled={!canWriteExpense}
                                             onClick={() => {
                                               if (canWriteExpense) {
                                                 // handleShowTagAsset();
                                               }
                                             }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor =
-                                                "#EDF2FF";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor =
-                                                "#F9F9F9";
-                                            }}
-                                            className={`flex justify-start items-center gap-2 w-full py-2 px-2 rounded-t-lg
-                                 ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
-                               `}
+                                            className={`flex justify-start items-center disabled:text-gray-400 disabled:opacity-50 gap-2 w-full py-2 px-2 rounded-t-lg bg-[#F9F9F9] hover:bg-[#EDF2FF] transition-colors
+    ${!canWriteExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
+  `}
                                           >
-                                            <Document
-                                              size="16"
-                                              color={"#1E45E1"}
-                                            />
-                                            <label
-                                              className={`text-sm font-semibold font-gilroy text-gray-800
-                                 ${!canWriteExpense ? "cursor-not-allowed" : "cursor-pointer"}
-                               `}
-                                            >
-                                              Tag Asset
-                                            </label>
-                                          </div>
+                                            <Document size="16" color={!canWriteExpense ? "#9CA3AF" : "#9CA3AF"} />
+                                            Tag Asset
+                                          </button>
 
                                           <div className="h-px bg-gray-100 m-0" />
-                                          <div
-                                            className={`flex justify-start items-center gap-2 w-full py-2 px-2 ${!canUpdateExpense
-                                              ? "cursor-not-allowed opacity-50"
-                                              : "cursor-not-allowed opacity-100"
-                                              }`}
+
+                                          <button
+                                            type="button"
+                                            disabled
+                                            // disabled={!canUpdateExpense}
                                             onClick={() => {
                                               if (canUpdateExpense) {
                                                 // handleEditExpense(user);
                                               }
                                             }}
-                                            onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor =
-                                                "#EDF2FF";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor =
-                                                "#F9F9F9";
-                                            }}
+                                            className={`flex justify-start  items-center disabled:opacity-50 gap-2 w-full 
+                                              py-2 px-2 bg-[#F9F9F9] hover:bg-[#EDF2FF]  disabled:text-gray-400
+    ${!canUpdateExpense ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}
+  `}
                                           >
-                                            <Edit size="16" color={"#1E45E1"} />
-                                            <label
-                                              className={`text-sm font-semibold font-gilroy text-gray-800 ${!canUpdateExpense
-                                                ? "cursor-not-allowed"
-                                                : "cursor-not-allowed"
-                                                }`}
-                                            >
-                                              Edit
-                                            </label>
-                                          </div>
+                                            <Edit
+                                              size="16"
+                                              color={!canUpdateExpense ? "#9CA3AF" : "#9CA3AF"}
+                                            /> Edit
+
+                                          </button>
 
                                           <div className="h-px bg-gray-100 m-0" />
 

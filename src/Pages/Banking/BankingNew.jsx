@@ -753,6 +753,7 @@ function BankingNew() {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NETWORK_ERROR" });
       }, 3000);
