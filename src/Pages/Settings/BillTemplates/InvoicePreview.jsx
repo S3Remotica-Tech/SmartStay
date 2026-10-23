@@ -1,5 +1,6 @@
 // import { TickCircle } from "iconsax-react";
 import React from "react";
+import PropTypes from "prop-types";
 
 function InvoicePreview({ invoiceData }) {
 
@@ -247,5 +248,53 @@ function InvoicePreview({ invoiceData }) {
     </div>
   );
 }
+InvoicePreview.propTypes = {
+  invoiceData: PropTypes.shape({
+    logo: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    companyName: PropTypes.string,
+    address: PropTypes.string,
+    gst: PropTypes.string,
+    invoiceTitle: PropTypes.string,
 
+    tenant: PropTypes.shape({
+      name: PropTypes.string,
+      room: PropTypes.string,
+      address: PropTypes.string,
+      phone: PropTypes.string,
+      email: PropTypes.string,
+      bed: PropTypes.string,
+    }),
+
+    invoiceNo: PropTypes.string,
+    invoiceDate: PropTypes.string,
+    dueDate: PropTypes.string,
+    joiningDate: PropTypes.string,
+
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        description: PropTypes.string,
+        quantity: PropTypes.number,
+        rate: PropTypes.number,
+        amount: PropTypes.number,
+      })
+    ),
+
+    subtotal: PropTypes.number,
+    gstAmount: PropTypes.number,
+    total: PropTypes.number,
+
+    accountDetails: PropTypes.arrayOf(
+      PropTypes.object
+    ),
+
+    paymentStatus: PropTypes.string,
+    notes: PropTypes.string,
+    terms: PropTypes.string,
+    emailFooter: PropTypes.string,
+    contactFooter: PropTypes.string,
+  }).isRequired,
+};
 export default InvoicePreview;

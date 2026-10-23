@@ -648,6 +648,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
 CreditCardPayment.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  isBank: PropTypes.bool,
   bankId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 export default CreditCardPayment;

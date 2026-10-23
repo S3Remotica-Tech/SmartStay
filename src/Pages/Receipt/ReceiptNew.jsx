@@ -309,12 +309,15 @@ function ReceiptNew() {
       }, 100);
     }
   }, [state.InvoiceList.pdfErrorMessage]);
+
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setPdfLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NETWORK_ERROR" });
-      }, 100);
+      setReceiptLoader(false);
+      setDeleteLoading(false)
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+
     }
   }, [state.createAccount?.networkError]);
 
@@ -738,8 +741,8 @@ function ReceiptNew() {
                 <div className="flex flex-wrap items-center gap-3">
                   <div
                     className={`border border-gray-300 rounded-lg w-36 ${receiptType?.value
-                        ? "bg-gray-100 text-gray-700"
-                        : "bg-white"
+                      ? "bg-gray-100 text-gray-700"
+                      : "bg-white"
                       }`}
                   >
                     <Select
@@ -771,8 +774,8 @@ function ReceiptNew() {
                         }
                       }}
                       className={`transition-opacity duration-300 ${canReadReceipt
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
                         }`}
                     />
                   </div>
@@ -984,8 +987,8 @@ function ReceiptNew() {
                                   >
                                     <PiDotsThreeOutlineVerticalFill
                                       className={`h-5 w-5 rotate-90 ${activeRow === user.transactionId
-                                          ? "text-[#1E45E1]"
-                                          : "text-gray-500"
+                                        ? "text-[#1E45E1]"
+                                        : "text-gray-500"
                                         }`}
                                     />
 
@@ -1011,8 +1014,8 @@ function ReceiptNew() {
                                               handleDeleteForm(user)
                                             }
                                             className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${canDeleteReceipt
-                                                ? "cursor-pointer hover:bg-[#FFF0F0]"
-                                                : "cursor-not-allowed opacity-50"
+                                              ? "cursor-pointer hover:bg-[#FFF0F0]"
+                                              : "cursor-not-allowed opacity-50"
                                               }`}
                                           >
                                             <img
@@ -1032,8 +1035,8 @@ function ReceiptNew() {
                                               handleReceiptDetail(user)
                                             }
                                             className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors ${isExportAllow
-                                                ? "cursor-pointer hover:bg-[#EDF2FF]"
-                                                : "cursor-not-allowed opacity-50"
+                                              ? "cursor-pointer hover:bg-[#EDF2FF]"
+                                              : "cursor-not-allowed opacity-50"
                                               }`}
                                           >
                                             <img
@@ -1235,8 +1238,8 @@ function ReceiptNew() {
                 onClick={handleDelete}
                 disabled={deleteLoading}
                 className={`w-full max-w-[160px] h-[52px] rounded-lg bg-[#1E45E1] text-white font-semibold font-gilroy text-[14px] flex items-center justify-center gap-2 transition ${deleteLoading
-                    ? "opacity-70 cursor-not-allowed"
-                    : "hover:bg-[#1738C8]"
+                  ? "opacity-70 cursor-not-allowed"
+                  : "hover:bg-[#1738C8]"
                   }`}
               >
                 {deleteLoading ? (
