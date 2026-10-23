@@ -219,7 +219,7 @@ GroupHeading.propTypes = {
     label: PropTypes.string,
   }).isRequired,
 };
-function StaticExample({ show, setShow, currentItem }) {
+function StaticExample({ setShow, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [assetName, setAssetName] = useState("");

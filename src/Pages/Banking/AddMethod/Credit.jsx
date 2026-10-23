@@ -3,10 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import ErrorMessage from "../../../Components/ErrorMessage";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar } from "iconsax-react";
-import dayjs from "dayjs";
+// import { Calendar } from "iconsax-react";
+// import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
 const CustomStyles = {

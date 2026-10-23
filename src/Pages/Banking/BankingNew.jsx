@@ -152,6 +152,7 @@ function BankingNew() {
   // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
+  console.log("deleteBankId", deleteBankId)
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -217,7 +218,9 @@ function BankingNew() {
     });
   };
 
-  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking, canUpdateModule: canUpdateBanking, canDeleteModule: canDeleteBanking } =
+  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking, canUpdateModule: canUpdateBanking,
+    //  canDeleteModule: canDeleteBanking
+  } =
     useHasPermission("Banking");
 
   const { canWriteModule: canWriteExpense } = useHasPermission("Expense");
@@ -1685,7 +1688,10 @@ function BankingNew() {
                     </div>
                   ) : (
                     <div>
-                      {transactionFilterddata.length === 0 || transactionFilterddata?.transactions?.length === 0 &&
+                      {(
+                        transactionFilterddata.length === 0 ||
+                        transactionFilterddata?.transactions?.length === 0
+                      ) &&
                         canReadBanking && (
                           <div className="my-2">
                             {" "}

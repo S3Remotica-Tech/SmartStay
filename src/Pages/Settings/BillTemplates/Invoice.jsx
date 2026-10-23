@@ -340,7 +340,7 @@ function Invoice() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-        {Object.entries(invoiceTemplates).map(([type, template]) => (
+        {Object.entries(invoiceTemplates).map(([template]) => (
           <div
             key={template.id}
             className="bg-white border-1 border-[#E5E7EB] rounded-xl "
