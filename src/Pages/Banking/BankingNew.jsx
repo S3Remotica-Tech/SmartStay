@@ -1606,9 +1606,7 @@ function BankingNew() {
                                 Source / Beneficiary
                               </th>
                               <th className="w-[230px] px-2">Amount</th>
-                              {/* <th className="w-[230px] px-2 whitespace-nowrap">
-                                Running Balance
-                              </th> */}
+
                               <th className="sticky right-0 z-40 bg-[#F9FAFB] w-[80px] px-2">
                                 Action
                               </th>
@@ -1657,8 +1655,8 @@ function BankingNew() {
                                   </td>
                                   <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap capitalize">
                                     {`${user?.accountType === 'CASH'
-                                      ? `${user?.accountType} / ${user?.displayName}`
-                                      : `${[user?.accountType, user?.paymentMethod, user?.displayName].filter(Boolean).join(' / ')}`
+                                      ? `${user?.accountType}/ ${user.paymentMethod} / ${user?.displayName}`
+                                      : `${[user?.accountType, user?.bankName ? user?.bankName : user?.paymentMethod, user?.displayName].filter(Boolean).join(' / ')}`
                                       }`}
 
                                   </td>
