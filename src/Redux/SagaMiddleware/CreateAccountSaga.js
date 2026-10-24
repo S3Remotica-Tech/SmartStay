@@ -67,10 +67,10 @@ function* CreateNewAccount(args) {
   catch (error) {
     yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
-      if (error.response.data.emailStatus !== "") {
-        yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
-      } else if (error.response.data.mobileStatus !== "") {
-        yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
+      if (error?.response?.data?.emailStatus !== "") {
+        yield put({ type: 'EMAIL_ERROR', payload: error?.response?.data.emailStatus });
+      } else if (error?.response?.data?.mobileStatus !== "") {
+        yield put({ type: 'MOBILE_ERROR', payload: error?.response?.data.mobileStatus });
       }
     }
   }
@@ -142,13 +142,13 @@ function* ProfileUpdate(action) {
   catch (error) {
     yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
-             if (error.response.data.emailStatus !== "") {
-                yield put({ type: 'UPDATE_PROFILE_EMAIL_ERROR', payload: error.response.data.emailStatus });
-             } else if (error.response.data.mobileStatus !== "") {
-                yield put({ type: 'UPDATE_PROFILE_PHONE_NUM_ERROR', payload: error.response.data.mobileStatus });
-             }
-          }
-    
+      if (error?.response?.data?.emailStatus !== "") {
+        yield put({ type: 'UPDATE_PROFILE_EMAIL_ERROR', payload: error?.response?.data.emailStatus });
+      } else if (error?.response?.data?.mobileStatus !== "") {
+        yield put({ type: 'UPDATE_PROFILE_PHONE_NUM_ERROR', payload: error?.response?.data.mobileStatus });
+      }
+    }
+
   }
 }
 
@@ -182,12 +182,12 @@ function* handlepasswordUpdate(action) {
         style: toastStyle
       })
     }
-   
+
   }
   catch (error) {
     yield* handleApiError(error);
- if (error.status === 400 || error.status === 403) {
-      yield put({ type: 'UPDATE_CHANGEPASSWORD_ERROR', payload: error.response.data });
+    if (error.status === 400 || error.status === 403) {
+      yield put({ type: 'UPDATE_CHANGEPASSWORD_ERROR', payload: error?.response?.data });
     }
   }
 }

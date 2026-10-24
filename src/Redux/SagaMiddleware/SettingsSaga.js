@@ -309,7 +309,7 @@ function* handleCategoryAdd(params) {
       if (error.status === 400) {
         yield put({
           type: "ALREADY_EXPENCE_CATEGORY_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -366,7 +366,7 @@ function* handleCreateVendorCategory(params) {
     if (error) {
       yield put({
         type: "ALREADY_VENDOR_CATEGORY_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -422,7 +422,7 @@ function* handleUpdateVendorCategory(params) {
     if (error) {
       yield put({
         type: "ALREADY_VENDOR_CATEGORY_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -474,7 +474,7 @@ function* handleEditCategory(params) {
       if (error.status === 400) {
         yield put({
           type: "ALREADY_EXPENCE_CATEGORY_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -527,7 +527,7 @@ function* handleEditSubCategory(params) {
       if (error.status === 400) {
         yield put({
           type: "ALREADY_EXPENCE_CATEGORY_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -626,10 +626,10 @@ function* handleDeleteVendorCategory(action) {
     if (error) {
       yield put({
         type: "DELETE_VENDOR_CATEGORY_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -1082,7 +1082,7 @@ function* handleGetAllRoles(role) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.response?.status === 400) {
-        yield put({ type: "ROLE_ERROR", payload: error.response.data });
+        yield put({ type: "ROLE_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -1132,7 +1132,7 @@ function* handleAddSettingRole(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.response?.status === 400) {
-        yield put({ type: "ROLE_ERROR", payload: error.response.data });
+        yield put({ type: "ROLE_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -1202,7 +1202,7 @@ function* handleEditRolePermission(detail) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.response?.status === 400) {
-        yield put({ type: "ROLE_ERROR", payload: error.response.data });
+        yield put({ type: "ROLE_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -1321,15 +1321,15 @@ function* handleAddStaffUserPage(detail) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
-      if (error.response.data.emailStatus !== "") {
+      if (error?.response?.data.emailStatus !== "") {
         yield put({
           type: "EMAIL_ID_ERROR",
-          payload: error.response.data.emailStatus,
+          payload: error?.response?.data.emailStatus,
         });
-      } else if (error.response.data.mobileStatus !== "") {
+      } else if (error?.response?.data.mobileStatus !== "") {
         yield put({
           type: "PHONE_NUM_ERROR",
-          payload: error.response.data.mobileStatus,
+          payload: error?.response?.data.mobileStatus,
         });
       }
     }
@@ -1379,15 +1379,15 @@ function* handleEditStaffUserPage(detail) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
-      if (error.response.data.emailStatus !== "") {
+      if (error?.response?.data.emailStatus !== "") {
         yield put({
           type: "EMAIL_ID_ERROR",
-          payload: error.response.data.emailStatus,
+          payload: error?.response?.data.emailStatus,
         });
-      } else if (error.response.data.mobileStatus !== "") {
+      } else if (error?.response?.data.mobileStatus !== "") {
         yield put({
           type: "PHONE_NUM_ERROR",
-          payload: error.response.data.mobileStatus,
+          payload: error?.response?.data.mobileStatus,
         });
       }
     }
@@ -1492,15 +1492,15 @@ function* handleAddGeneralPage(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
-      if (error.response.data.emailStatus !== "") {
+      if (error?.response?.data?.emailStatus !== "") {
         yield put({
           type: "GENERAL_EMAIL_ERROR",
-          payload: error.response.data.emailStatus,
+          payload: error?.response?.data?.emailStatus,
         });
-      } else if (error.response.data.mobileStatus !== "") {
+      } else if (error?.response?.data?.mobileStatus !== "") {
         yield put({
           type: "MOBILE_ERROR",
-          payload: error.response.data.mobileStatus,
+          payload: error?.response?.data?.mobileStatus,
         });
       }
     }
@@ -1550,15 +1550,15 @@ function* handleEditGeneralPage(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400) {
-      if (error.response.data.emailStatus !== "") {
+      if (error?.response?.data.emailStatus !== "") {
         yield put({
           type: "GENERAL_EMAIL_ERROR",
-          payload: error.response.data.emailStatus,
+          payload: error?.response?.data.emailStatus,
         });
-      } else if (error.response.data.mobileStatus !== "") {
+      } else if (error?.response?.data.mobileStatus !== "") {
         yield put({
           type: "MOBILE_ERROR",
-          payload: error.response.data.mobileStatus,
+          payload: error?.response?.data.mobileStatus,
         });
       }
     }
@@ -1877,7 +1877,7 @@ function* handleSettingsRecurring(action) {
     if (error.status === 403 || error.status === 400) {
       yield put({
         type: "BILLING_RULE_ERROR",
-        payload: error.response.data || "Something went wrong",
+        payload: error?.response?.data || "Something went wrong",
       });
     }
   }
@@ -2204,9 +2204,9 @@ function* handleAddIGlobalSettings(params) {
     yield* handleApiError(error);
     yield put({
       type: "ERROR_GLOBAL_SETTINGS",
-      payload: error.response.data,
+      payload: error?.response?.data,
     });
-    toast.error(`${error.response.data}`, {
+    toast.error(`${error?.response?.data}`, {
       style: {
         fontFamily: "Gilroy",
         font: "#000",

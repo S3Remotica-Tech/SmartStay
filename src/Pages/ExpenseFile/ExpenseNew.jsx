@@ -786,7 +786,7 @@ function Expenses() {
     "Sub Category": "subCategoryName",
     Vendor: "vendor",
     Status: "paymentStatus",
-    "Payment Mode": "bankName",
+    "Payment Mode": "paymentMode",
     "Total Amount": "totalAmount",
     "Paid Amount": "paidAmount",
     "Balance Amount": "balanceAmount",
@@ -837,6 +837,7 @@ function Expenses() {
     Status: "px-4 whitespace-nowrap",
     Outstanding: "px-4 whitespace-nowrap",
     "Last Transaction": "px-4 whitespace-nowrap",
+    "Payment Mode": "px-4 whitespace-nowrap",
   };
 
   const SortableItem = ({ item }) => {
@@ -1252,12 +1253,13 @@ function Expenses() {
                                         {user.categoryName}
                                       </td>
                                     );
-                                  case "Sub Category'":
+                                  case "Sub Category":
                                     return (
                                       <td key={col.key} className={finalClass}>
                                         {user.subCategoryName}
                                       </td>
                                     );
+
 
                                   case "Vendor":
                                     return (
@@ -1273,9 +1275,9 @@ function Expenses() {
                                     return (
                                       <td
                                         key={col.key}
-                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928] `}
                                       >
-                                        {user.bankName}
+                                        {user.paymentMode}
                                       </td>
                                     );
                                   case "Total Amount":

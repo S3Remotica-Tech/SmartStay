@@ -188,7 +188,7 @@ const SingleValue = (props) => {
 
         <div className="flex flex-col">
           <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.type}</span>
+          <span className="text-xs text-[#6B7280]">{data.subLabel || data.type}</span>
         </div>
       </div>
     </components.SingleValue>
@@ -276,10 +276,7 @@ function Invesment({ show, handleClose, bankDetails }) {
       state?.bankingDetails?.newBankingList?.map((bank) => ({
         value: bank.bankId,
         label: bank.displayName,
-        subLabel:
-          bank.accountType === "BANK"
-            ? bank.bankName
-            : bank.cashAccountType,
+        subLabel: bank.bankName,
         type: bank.accountType,
 
         icon:

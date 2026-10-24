@@ -148,7 +148,7 @@ function* handleFCM_Token(args) {
 function* handleLogoutAdmin(args) {
   try {
     const response = yield call(LogoutAdmin, args.payload);
-   
+
     if (response?.status === 200) {
       yield put({
         type: "LOGOUT_ADMIN",
@@ -212,8 +212,8 @@ function* handleDemoRequest(args) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
-      yield put({ type: "DEMO_ERROR", payload: error.response.data });
-      toast.error(`${error.response.data}`, {
+      yield put({ type: "DEMO_ERROR", payload: error?.response?.data });
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",

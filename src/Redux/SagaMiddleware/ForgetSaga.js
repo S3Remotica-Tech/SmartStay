@@ -64,9 +64,9 @@ function* handleforgetpage(rpsd) {
       });
     }
   } catch (error) {
-const status = error?.response?.status;
+    const status = error?.response?.status;
     if (status === 400 || status === 404 || status === 403) {
-      yield put({ type: "FORGOT_CHANGE_ERROR", payload: error.response.data });
+      yield put({ type: "FORGOT_CHANGE_ERROR", payload: error?.response?.data });
     }
 
     yield* handleApiError(error);
@@ -114,7 +114,7 @@ function* handleSendOtp(action) {
   } catch (error) {
     const status = error?.response?.status;
     if (status === 400 || status === 404) {
-      yield put({ type: "EMAIL_ERROR", payload: error.response.data });
+      yield put({ type: "EMAIL_ERROR", payload: error?.response?.data });
     }
     yield* handleApiError(error);
   }
@@ -129,13 +129,13 @@ function* handleOtpVerifyforForgotPassword(action) {
     if (response?.status === 200) {
       yield put({
         type: "OTPVERIFY_FORGOT_PASSWORD",
-        payload: { response: response.data, statusCode: response?.status , Otp:response.data?.Otp },
+        payload: { response: response.data, statusCode: response?.status, Otp: response.data?.Otp },
       });
     }
   } catch (error) {
     const status = error?.response?.status;
     if (status === 400 || status === 403 || status === 404) {
-      yield put({ type: "OTP_INVALID_ERROR", payload: error.response.data });
+      yield put({ type: "OTP_INVALID_ERROR", payload: error?.response?.data });
     }
     yield* handleApiError(error);
   }

@@ -298,6 +298,7 @@ function UPI({ handleClose }) {
   useEffect(() => {
     if (state.bankingDetails.addPaymentError) {
       setIsSaving(false);
+      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     }
   }, [state.bankingDetails.addPaymentError]);
 

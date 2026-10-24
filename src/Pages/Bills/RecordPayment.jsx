@@ -177,7 +177,7 @@ const SingleValue = (props) => {
 
         <div className="flex flex-col">
           <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.type}</span>
+          <span className="text-xs text-[#6B7280]">{data.subLabel || data.type}</span>
         </div>
       </div>
     </components.SingleValue>

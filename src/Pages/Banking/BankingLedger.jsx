@@ -499,7 +499,7 @@ function BankingLedger() {
                           ) : user.type === "CREDIT" ? (
                             <>
                               <ArrowUp size={16} color="#16A34A" />
-                              <span className="capitalize">{user.source}</span>
+                              <span className="capitalize">{user.source?.replaceAll("_", " ").toLowerCase()}</span>
                             </>
                           ) : user.type === "DEBIT" ? (
                             <>
@@ -507,10 +507,10 @@ function BankingLedger() {
                                 size={16}
                                 color="#DC2626"
                               />
-                              <span className="capitalize">{user.source}</span>
+                              <span className="capitalize">{user.source?.replaceAll("_", " ").toLowerCase()}</span>
                             </>
                           ) : (
-                            <span className="capitalize">{user.source}</span>
+                            <span className="capitalize">{user.source?.replaceAll("_", " ").toLowerCase()}</span>
                           )}
                         </div>
                       </td>

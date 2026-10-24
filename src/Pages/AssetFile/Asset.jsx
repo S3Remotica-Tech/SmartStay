@@ -382,6 +382,7 @@ function Asset() {
                           <th className="w-[230px] px-2">Serial Number</th>
                           <th className="w-[230px] px-2">Brand</th>
                           <th className="w-[230px] px-2">Asset</th>
+                          <th className="w-[230px] px-2">Payment Mode</th>
                           <th className="w-[230px] px-2">Price</th>
                           <th className="w-[230px] px-2">Purchase Date</th>
                           <th className="w-[230px] px-2">Assigned</th>

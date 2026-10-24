@@ -197,7 +197,7 @@ function* handleAddExpense(action) {
     if (error) {
       yield put({
         type: "BANK_INSUFFICIANT_FUND_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -249,7 +249,7 @@ function* handleUpdateExpense(action) {
       if (error.status === 400 || error.status === 403) {
         yield put({
           type: "BANK_INSUFFICIANT_FUND_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -353,10 +353,10 @@ function* handleDeleteExpense(action) {
     if (error) {
       yield put({
         type: "DELETE_EXPENSE_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",

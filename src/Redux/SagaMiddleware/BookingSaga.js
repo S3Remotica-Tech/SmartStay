@@ -113,7 +113,7 @@ function* handleAddBooking(action) {
 
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "ERROR_BOOKING", payload: error.response.data });
+        yield put({ type: "ERROR_BOOKING", payload: error?.response?.data });
       }
     }
   }
@@ -122,14 +122,14 @@ function* handleAddBooking(action) {
 function* handleApplyAdvanceInvoice(action) {
   try {
     const response = yield call(ApplyAdvanceInvoice, action.payload);
-   
+
 
     if (response?.status === 200) {
       yield put({
         type: "APPLY_ADVANCE_INVOICE_REDUCER",
         payload: { response: response.data, statusCode: response?.status },
       });
-    
+
     }
 
     if (response) {
@@ -142,7 +142,7 @@ function* handleApplyAdvanceInvoice(action) {
       if (error.status) {
         yield put({
           type: "ERROR_APPLY_ADVANCE_INVOICE",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -153,7 +153,7 @@ function* handleApplyInvoice(action) {
   try {
     const response = yield call(ApplyInvoice, action.payload);
 
-   
+
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -198,7 +198,7 @@ function* handleApplyInvoice(action) {
       if (error.status) {
         yield put({
           type: "ERROR_APPLY_INVOICE",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -248,7 +248,7 @@ function* handleApplyRetainerInvoice(action) {
       if (error.status) {
         yield put({
           type: "ERROR_APPLY_RETAINER",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -504,7 +504,7 @@ function* handleBookingInActive(action) {
       if (error.status === 400) {
         yield put({
           type: "ERROR_MAKEASINACTIVE",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }

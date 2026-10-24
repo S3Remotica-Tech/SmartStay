@@ -108,7 +108,7 @@ function* handleUpdateBed(datum) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: "ALREADY_BED", payload: error.response.data });
+        yield put({ type: "ALREADY_BED", payload: error?.response?.data });
       }
     }
   }
@@ -308,7 +308,7 @@ function* handleCreateRoom(datum) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: "ALREADY_ROOM_ERROR", payload: error.response.data });
+        yield put({ type: "ALREADY_ROOM_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -359,7 +359,7 @@ function* handleUpdateRoom(datum) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: "ALREADY_ROOM_ERROR", payload: error.response.data });
+        yield put({ type: "ALREADY_ROOM_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -638,7 +638,7 @@ function* handleCreateBed(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: "ALREADY_BED", payload: error.response.data });
+        yield put({ type: "ALREADY_BED", payload: error?.response?.data });
       }
     }
   }
@@ -687,8 +687,8 @@ function* handleDeleteBed(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "DELETE_BED_ERROR", payload: error.response.data });
-        toast.error(`${error.response.data}`, {
+        yield put({ type: "DELETE_BED_ERROR", payload: error?.response?.data });
+        toast.error(`${error?.response?.data}`, {
           style: {
             fontFamily: "Gilroy",
             font: "#000",
@@ -752,8 +752,8 @@ function* handleDeletePG(action) {
     yield* handleApiError(error);
 
     if (error) {
-      yield put({ type: "DELETE_PG_ERROR", payload: error.response.data });
-      // toast.error(`${error.response.data}`, {
+      yield put({ type: "DELETE_PG_ERROR", payload: error?.response?.data });
+      // toast.error(`${error?.response?.data}`, {
       //   style: {
       //     fontFamily: "Gilroy",
       //     font: "#000",
@@ -816,7 +816,7 @@ function* handleUpdateFloor(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 409) {
-        yield put({ type: "UPDATE_FLOOR_ERROR", payload: error.response.data });
+        yield put({ type: "UPDATE_FLOOR_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -890,7 +890,7 @@ function* handleDeleteHostelImages(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400) {
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -1522,8 +1522,8 @@ function* handleDeleteHostel(action) {
     yield* handleApiError(error);
 
     if (error) {
-      yield put({ type: "DELETE_PG_ERROR", payload: error.response.data });
-      toast.error(`${error.response.data}`, {
+      yield put({ type: "DELETE_PG_ERROR", payload: error?.response?.data });
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
