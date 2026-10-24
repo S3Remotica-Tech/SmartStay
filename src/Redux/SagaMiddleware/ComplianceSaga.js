@@ -277,7 +277,7 @@ function* handleUpdateVendor(action) {
     if (error) {
       yield put({
         type: "ALREADY_VENDOR_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -566,7 +566,7 @@ function* handleAddVendor(action) {
     if (error) {
       yield put({
         type: "ALREADY_VENDOR_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -663,7 +663,7 @@ function* handleComplianceChange(action) {
     if (error.status === 400 || error.status === 404) {
       yield put({
         type: "COMPLIANCE_CHANGE_STATUS_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -713,7 +713,7 @@ function* handleComplianceChangeAssign(action) {
     if (error.status === 400 || error.status === 404) {
       yield put({
         type: "COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -765,10 +765,10 @@ function* handleDeleteVendor(action) {
     if (error) {
       yield put({
         type: "DELETE_VENDOR_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",

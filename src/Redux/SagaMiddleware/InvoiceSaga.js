@@ -70,7 +70,7 @@ import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
   const status = error?.response?.status || error?.status;
-
+  console.log("statussss", status)
   if (status === 401) {
     yield put({
       type: "UN-AUTHORIZED",
@@ -180,9 +180,9 @@ function* handleReveiwAndGenerateBill(action) {
     if (error) {
       yield put({
         type: "REVIEW_GENERATE_BILL_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -247,9 +247,9 @@ function* handleUpdateReveiwAndGenerateBill(action) {
     if (error) {
       yield put({
         type: "UPDATE_REVIEW_GENERATE_BILL_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -314,9 +314,9 @@ function* handleAddNewItemsForReviewBill(action) {
     if (error) {
       yield put({
         type: "UPDATE_REVIEW_GENERATE_BILL_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -396,10 +396,10 @@ function* handleDeleteReviewBills(action) {
     if (error) {
       yield put({
         type: "DELETE_REVIEW_BILLS_REDUCER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -464,7 +464,7 @@ function* handleInvoiceDiscount(action) {
     if (error.status === 400 || error.status === 403) {
       yield put({
         type: "INVOICE_DISCOUNT_REDUCER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -516,7 +516,7 @@ function* handleEditInvoiceDiscount(action) {
     if (error.status === 400 || error.status === 403) {
       yield put({
         type: "EDIT_INVOICE_DISCOUNT_REDUCER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -637,7 +637,7 @@ function* handleGetshareWhatsappPDF(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400 || error.status === 403) {
-      yield put({ type: "SHARE_PDF_ERROR", payload: error.response.data });
+      yield put({ type: "SHARE_PDF_ERROR", payload: error?.response?.data });
     }
   }
 }
@@ -686,7 +686,7 @@ function* handleGetshareWhatsappPDFReceipt(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400 || error.status === 403) {
-      yield put({ type: "SHARE_PDF_ERROR", payload: error.response.data });
+      yield put({ type: "SHARE_PDF_ERROR", payload: error?.response?.data });
     }
   }
 }
@@ -760,7 +760,7 @@ function* handleUpdateTenantRecurring(action) {
     if (error.status === 400 || error.status === 403) {
       yield put({
         type: "UPDATE_TENANT_RECURRING_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -809,7 +809,7 @@ function* handleCreateRefund(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400 || error.status === 403) {
-      yield put({ type: "REFUNDABLE_ERROR", payload: error.response.data });
+      yield put({ type: "REFUNDABLE_ERROR", payload: error?.response?.data });
     }
   }
 }
@@ -994,9 +994,9 @@ function* handleGetFinalSettlementList(action) {
     if (error.status === 400 || error.status === 403) {
       yield put({
         type: "FINAL_SETTLMENT_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -1165,7 +1165,7 @@ function* handleDeleteAmenities(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400 || error.status === 403) {
-      yield put({ type: "ALREADY_ASSIGN_ERROR", payload: error.response.data });
+      yield put({ type: "ALREADY_ASSIGN_ERROR", payload: error?.response?.data });
       toast.error("This amenity is assigned and cannot be deleted", {
         position: "bottom-center",
         autoClose: 2000,
@@ -1404,7 +1404,7 @@ function* handleRecordPaymentUpdate(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400 || error.status === 403) {
-        yield put({ type: "PAYABLE_AMOUNT", payload: error.response.data });
+        yield put({ type: "PAYABLE_AMOUNT", payload: error?.response?.data });
       }
     }
   }
@@ -1490,9 +1490,9 @@ function* handleSubscriptionPDF(action) {
     if (error.status === 400) {
       yield put({
         type: "SUBSCRIPTION_PDF_ERROR",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
-      toast.error(error.response.data, {
+      toast.error(error?.response?.data, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: true,
@@ -1540,9 +1540,9 @@ function* handleInvoicePdf(action) {
     if (error.status === 400) {
       yield put({
         type: "PDF_ERROR",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
-      toast.error(error.response.data, {
+      toast.error(error?.response?.data, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: true,
@@ -1610,7 +1610,7 @@ function* handleAddAmenity(action) {
     if (error.status === 403 || error.response?.status === 403) {
       yield put({
         type: "ERROR_AMENITIES_SETTINGS",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
     }
   }
@@ -1700,7 +1700,7 @@ function* handleUpdateAmenities(action) {
     if (error.status === 400 || error.response?.status === 403) {
       yield put({
         type: "ERROR_AMENITIES_SETTINGS",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
     }
   }
@@ -1754,10 +1754,10 @@ function* handleUpdatemanualUnPaid(action) {
     if (error?.response?.status === 400 || error?.response?.status === 403) {
       yield put({
         type: "UNPAID_ERROR",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
 
-      toast.error(error.response.data, {
+      toast.error(error?.response?.data, {
         style: {
           fontFamily: "Gilroy",
           color: "#000",
@@ -1968,7 +1968,7 @@ function* handleManualInvoiceAdd(params) {
       if (error.status === 400 || error.status === 403) {
         yield put({
           type: "UNABLE_ADD_INVOICE_DETAILS",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -2016,7 +2016,7 @@ function* handleCreateManualInvoice(params) {
     if (error) {
       yield put({
         type: "UNABLE_ADD_INVOICE_DETAILS",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -2066,7 +2066,7 @@ function* handleManualInvoiceEdit(action) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.status === 400 || error.status === 403) {
-      yield put({ type: "MANUAL_INVOICE_ERROR", payload: error.response.data });
+      yield put({ type: "MANUAL_INVOICE_ERROR", payload: error?.response?.data });
     }
   }
 }
@@ -2535,9 +2535,9 @@ function* handleDeleteReceipt(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
-    yield put({ type: "DELETE_RECEIPT_ERROR", payload: error.response.data });
+    yield put({ type: "DELETE_RECEIPT_ERROR", payload: error?.response?.data });
     if (error.status === 400 || error.status === 403) {
-      toast.error(error.response.data, {
+      toast.error(error?.response?.data, {
         style: {
           fontFamily: "Gilroy",
           color: "#000",
@@ -2623,9 +2623,9 @@ function* handleReceiptPdf(action) {
     if (error.status === 400) {
       yield put({
         type: "PDF_ERROR",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
-      toast.error(error.response.data, {
+      toast.error(error?.response?.data, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: true,

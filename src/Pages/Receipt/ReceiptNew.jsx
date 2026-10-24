@@ -64,6 +64,7 @@ function ReceiptNew() {
   const isExportAllow = isValidSubscription && canReadReceipt;
 
   const handleDelete = () => {
+    dispatch({ type: "CLEAR_NETWORK_ERROR" });
     if (deleteitem) {
       dispatch({
         type: "DELETE_RECEIPT",
@@ -322,6 +323,7 @@ function ReceiptNew() {
   }, [state.createAccount?.networkError]);
 
   const handleReceiptDetail = (item) => {
+    dispatch({ type: "CLEAR_NETWORK_ERROR" });
     if (item.transactionId) {
       dispatch({
         type: "RECEIPTPDF",

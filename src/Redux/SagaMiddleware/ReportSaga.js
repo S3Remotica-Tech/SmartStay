@@ -176,8 +176,8 @@ function* handleReportsTenantRegisterPDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
-         toast.error(error.response.data, {
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error?.response?.data } })
+         toast.error(error?.response?.data, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
@@ -226,8 +226,8 @@ function* handleReportsReceiptsPDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-          yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
-         toast.error(error.response.data, {
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error?.response?.data } })
+         toast.error(error?.response?.data, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
@@ -275,8 +275,8 @@ function* handleReportsInvoicePDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-          yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
-         toast.error(error.response.data, {
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error?.response?.data } })
+         toast.error(error?.response?.data, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
@@ -325,8 +325,8 @@ function* handleReportsExpensePDF(action) {
       yield* handleApiError(error);
 
       if (error.status === 400) {
-         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error.response.data } })
-         toast.error(error.response.data, {
+         yield put({ type: 'REPORTS_PDF_EXPORT_ERROR', payload: { response: error?.response?.data } })
+         toast.error(error?.response?.data, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
@@ -352,8 +352,8 @@ function* ReportSaga() {
    yield takeEvery('GET_REPORTS_TENANT_REGISTER_SAGA', handleGetTenantRegister)
    yield takeEvery('REPORTS_TENANT_REGISTER_PDFSAGA', handleReportsTenantRegisterPDF)
    yield takeEvery('REPORTS_RECEIPT_REGISTER_PDFSAGA', handleReportsReceiptsPDF)
-    yield takeEvery('REPORTS_INVOICE_REGISTER_PDFSAGA',handleReportsInvoicePDF)
-    yield takeEvery('REPORTS_EXPENSE_REGISTER_PDFSAGA',handleReportsExpensePDF)
+   yield takeEvery('REPORTS_INVOICE_REGISTER_PDFSAGA', handleReportsInvoicePDF)
+   yield takeEvery('REPORTS_EXPENSE_REGISTER_PDFSAGA', handleReportsExpensePDF)
 
 }
 export default ReportSaga;

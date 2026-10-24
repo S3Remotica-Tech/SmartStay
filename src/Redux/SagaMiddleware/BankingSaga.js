@@ -141,7 +141,7 @@ function* handleTenantPayment(action) {
     if (error) {
       yield put({
         type: "TENANT_PAYMENT_REDUCER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -191,7 +191,7 @@ function* handleCreditCardPayment(action) {
         payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -394,7 +394,7 @@ function* handleAddBanking(action) {
       if (error.status === 400) {
         yield put({
           type: "CREATE_BANKING_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -495,9 +495,9 @@ function* handleAddBankingNew(action) {
     if (error) {
       yield put({
         type: "ADD_BANKING_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -560,9 +560,9 @@ function* handleEditBankingNew(action) {
     if (error) {
       yield put({
         type: "ADD_BANKING_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -630,9 +630,9 @@ function* handleDeleteBankingV2(action) {
     if (error) {
       yield put({
         type: "DELETE_V2_BANKING_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -932,7 +932,7 @@ function* handleSelfTranferV3(action) {
     if (error) {
       yield put({
         type: "SELF_TRANSFER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
       toast.error(`${error?.response?.data}`, {
         style: {

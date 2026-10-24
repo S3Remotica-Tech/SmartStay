@@ -161,7 +161,7 @@ function* handleSettlementPayemntExpense(settle) {
     if (error) {
       yield put({
         type: "EXPENSE_SETTLEMENT_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -209,10 +209,10 @@ function* handleKYCReminder(kyc) {
     if (error) {
       yield put({
         type: "KEY_REMAINDER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -268,10 +268,10 @@ function* handleKYCReminderAgain(kyc) {
     if (error) {
       yield put({
         type: "KEY_REMAINDER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -327,10 +327,10 @@ function* handleUpdateJobDetails(job) {
     if (error) {
       yield put({
         type: "JOB_UPDATE_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -386,10 +386,10 @@ function* handleRemoveRentRevision(rent) {
     if (error) {
       yield put({
         type: "RENT_REVISION_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -446,9 +446,9 @@ function* handleSettlementPayemnt(settle) {
     if (error) {
       yield put({
         type: "VENDOR_SETTLEMENT_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -504,15 +504,15 @@ function* handleSaveDraft(draft) {
 
     if (error) {
       if (error.code === "ERR_BAD_REQUEST") {
-        if (error.response.data.emailStatus !== "") {
+        if (error?.response?.data?.emailStatus !== "") {
           yield put({
             type: "EMAIL_ERROR",
-            payload: error.response.data.emailStatus,
+            payload: error?.response?.data?.emailStatus,
           });
-        } else if (error.response.data.mobileStatus !== "") {
+        } else if (error?.response?.data?.mobileStatus !== "") {
           yield put({
             type: "PHONE_ERROR",
-            payload: error.response.data.mobileStatus,
+            payload: error?.response?.data.mobileStatus,
           });
         }
       }
@@ -562,15 +562,15 @@ function* handleUpdateSaveDraft(draft) {
 
     if (error) {
       if (error.code === "ERR_BAD_REQUEST") {
-        if (error.response.data.emailStatus !== "") {
+        if (error?.response?.data.emailStatus !== "") {
           yield put({
             type: "EMAIL_ERROR",
-            payload: error.response.data.emailStatus,
+            payload: error?.response?.data.emailStatus,
           });
-        } else if (error.response.data.mobileStatus !== "") {
+        } else if (error?.response?.data.mobileStatus !== "") {
           yield put({
             type: "PHONE_ERROR",
-            payload: error.response.data.mobileStatus,
+            payload: error?.response?.data.mobileStatus,
           });
         }
       }
@@ -786,9 +786,9 @@ function* handleTenantUploadDocument(datum) {
     if (error.status) {
       yield put({
         type: "TENANT_DOCUMENT_UPLOAD_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -885,7 +885,7 @@ function* handleEditAdvance(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "EDIT_ADVANCE_ERROR", payload: error.response.data });
+        yield put({ type: "EDIT_ADVANCE_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -936,7 +936,7 @@ function* handleEditBasicDetails(reading) {
       if (error.status === 400) {
         yield put({
           type: "ALREADY_MOBILE_BASIC_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -988,7 +988,7 @@ function* handleEditTenantAmount(args) {
       if (error.status === 400) {
         yield put({
           type: "TENANT_UPDATE_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -1015,7 +1015,7 @@ function* handleCancelCheckout(reading) {
       if (error.status === 400) {
         yield put({
           type: "CANCEL_CHECKOUT_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -1149,7 +1149,7 @@ function* handleBookingToCheckIn(reading) {
     if (error) {
       yield put({
         type: "BED_AVAILABLE_ERROR_BOOKED",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -1253,7 +1253,7 @@ function* handleAddRoomReading(reading) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "ROOM_READING_ERROR", payload: error.response.data });
+        yield put({ type: "ROOM_READING_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -1302,7 +1302,7 @@ function* handleResetReading(reading) {
     if (error) {
       yield put({
         type: "RESET_EB_METER_READING_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
   }
@@ -1353,7 +1353,7 @@ function* handleFinalSettlementAddRoomReading(reading) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "ROOM_READING_ERROR", payload: error.response.data });
+        yield put({ type: "ROOM_READING_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -1404,7 +1404,7 @@ function* handleEditHostelReading(reading) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "ROOM_READING_ERROR", payload: error.response.data });
+        yield put({ type: "ROOM_READING_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -1459,7 +1459,7 @@ function* handleBookedDetails(action) {
     if (error?.status === 400 || error?.response?.status === 400) {
       yield put({
         type: "ERROR_INITIALIZE_BED",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
       yield put({
         type: "BOOKED_DETAILS",
@@ -1516,7 +1516,7 @@ function* handleCheckIn(datum) {
       if (error.status === 400) {
         yield put({
           type: "BED_AVAILABLE_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -1570,7 +1570,7 @@ function* handleDirectCheckIn(datum) {
       if (error.status === 400) {
         yield put({
           type: "BED_AVAILABLE_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -1620,7 +1620,7 @@ function* handleBookingToCheckInVThree(datum) {
       if (error.status === 400) {
         yield put({
           type: "BOOKING_TO_CHECKIN_BED_AVAILABLE_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -1647,7 +1647,7 @@ function* handleSearchTenant(user) {
     if (error) {
       yield put({
         type: "MOBILENUMBER_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
     yield* handleApiError(error);
@@ -1674,7 +1674,7 @@ function* handleDraftTenantSearch(user) {
     if (error) {
       yield put({
         type: "NO_TENANT_DRAFT",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
     }
 
@@ -1840,9 +1840,9 @@ function* handleDeleteReading(reading) {
       if (error.status === 400 || error.status === 403) {
         yield put({
           type: "DELETE_READING_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
-        toast.error(`${error.response.data}`, {
+        toast.error(`${error?.response?.data}`, {
           style: {
             fontFamily: "Gilroy",
             font: "#000",
@@ -2045,7 +2045,7 @@ function* handleCreateFloor(data) {
       if (error.status === 409) {
         yield put({
           type: "ALREADY_FLOOR_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -2119,15 +2119,15 @@ function* handleAddUser(datum) {
   } catch (error) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
-      if (error.response.data.emailStatus !== "") {
+      if (error?.response?.data.emailStatus !== "") {
         yield put({
           type: "EMAIL_ERROR",
-          payload: error.response.data.emailStatus,
+          payload: error?.response?.data.emailStatus,
         });
-      } else if (error.response.data.mobileStatus !== "") {
+      } else if (error?.response?.data.mobileStatus !== "") {
         yield put({
           type: "PHONE_ERROR",
-          payload: error.response.data.mobileStatus,
+          payload: error?.response?.data.mobileStatus,
         });
       }
     }
@@ -2183,9 +2183,9 @@ function* handleCheckInTenantAdditional(datum) {
     if (error) {
       yield put({
         type: "ADDITIONAL_UPDATE_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -2252,7 +2252,7 @@ function* handleCustomerSaveInfo(datum) {
       const mobileError = error.response?.data?.mobileStatus;
       if (emailError) {
         yield put({ type: "EMAIL_ERROR", payload: emailError });
-      } else if (error.response.data.mobileStatus !== "") {
+      } else if (error?.response?.data.mobileStatus !== "") {
         yield put({ type: "PHONE_ERROR", payload: mobileError });
       }
     }
@@ -2353,10 +2353,10 @@ function* handleDeleteFloor(hosteID) {
     if (error) {
       yield put({
         type: "DELETE_FLOOR_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
 
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -2424,9 +2424,9 @@ function* handleDeleteRoom(roomDetails) {
     if (error) {
       yield put({
         type: "DELETE_ROOM_ERROR",
-        payload: error.response.data,
+        payload: error?.response?.data,
       });
-      toast.error(`${error.response.data}`, {
+      toast.error(`${error?.response?.data}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",
@@ -2934,7 +2934,7 @@ function* handleAddCheckoutCustomer(action) {
       if (error.status === 400) {
         yield put({
           type: "ADD_CHECKOUT_CUSTOMER_LIST_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -3330,7 +3330,7 @@ function* handleReAssignPage(action) {
     yield* handleApiError(error);
     if (error.code === "ERR_BAD_REQUEST") {
       if (error.status === 400) {
-        yield put({ type: "CHANGE_BED_ERROR", payload: error.response.data });
+        yield put({ type: "CHANGE_BED_ERROR", payload: error?.response?.data });
       }
     }
   }
@@ -3376,7 +3376,7 @@ function* handleCustomerAddContact(action) {
     if (error.status === 400 || error.status === 403) {
       yield put({
         type: "CONTACT_ERROR",
-        payload: { response: error.response.data },
+        payload: { response: error?.response?.data },
       });
     }
   }
@@ -3954,7 +3954,7 @@ function* handleGenerateDetails(reading) {
       if (error.status === 400) {
         yield put({
           type: "FINAL_GENERATE_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }
@@ -4009,7 +4009,7 @@ function* handleConformCheckout(reading) {
       if (error.status === 400) {
         yield put({
           type: "CONFORM_CHECKOUT_ERROR",
-          payload: error.response.data,
+          payload: error?.response?.data,
         });
       }
     }

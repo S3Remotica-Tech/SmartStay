@@ -421,9 +421,9 @@ function FinalSettlement() {
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NETWORK_ERROR" });
-      }, 3000);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+
     }
   }, [state.createAccount?.networkError]);
 
@@ -551,9 +551,9 @@ function FinalSettlement() {
 
       const isPayableORRefundabeleRent = finalAmountSetClicked
         ? Number(customRent) +
-          Number(
-            finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0,
-          )
+        Number(
+          finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0,
+        )
         : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
 
       const finalPayableAmount = isPayableORRefundabeleRent - LastMonthPaid;
@@ -562,9 +562,9 @@ function FinalSettlement() {
     } else {
       const isPayableORRefundabeleRent = finalAmountSetClicked
         ? Number(customRent) +
-          Number(
-            finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0,
-          )
+        Number(
+          finalSettlementList?.currentMonthRentInfo?.otherItemAmount || 0,
+        )
         : finalSettlementList?.currentMonthRentInfo?.currentMonthPayableAmount;
       setPayableORRefundabeleRent(isPayableORRefundabeleRent);
     }
@@ -966,14 +966,12 @@ function FinalSettlement() {
           <hr className="border-t border-[#DFDFDF] my-2" />
 
           <div
-            className={`mt-2 p-1 text-center rounded-lg ${
-              ReturnAmount > 0 ? "bg-[#FFF7F7]" : "bg-[#F0FFE0]"
-            }`}
+            className={`mt-2 p-1 text-center rounded-lg ${ReturnAmount > 0 ? "bg-[#FFF7F7]" : "bg-[#F0FFE0]"
+              }`}
           >
             <span
-              className={`text-sm font-normal font-gilroy ${
-                ReturnAmount > 0 ? "text-red-600" : "text-[#038C3D]"
-              }`}
+              className={`text-sm font-normal font-gilroy ${ReturnAmount > 0 ? "text-red-600" : "text-[#038C3D]"
+                }`}
             >
               {ReturnAmount > 0 ? "Pending" : "Refund"}
             </span>
@@ -996,13 +994,13 @@ function FinalSettlement() {
                         <ArrowUp2
                           size="16"
                           color="#1E45E1"
-                          // onClick={() => setShowInvoices(false)}
+                        // onClick={() => setShowInvoices(false)}
                         />
                       ) : (
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          // onClick={() => setShowInvoices(true)}
+                        // onClick={() => setShowInvoices(true)}
                         />
                       )}
                     </span>
@@ -1024,9 +1022,8 @@ function FinalSettlement() {
                 {showInvoices && <hr className="m-0 border-gray-300" />}
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    showInvoices ? "max-h-[500px]" : "max-h-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${showInvoices ? "max-h-[500px]" : "max-h-0"
+                    }`}
                 >
                   {showInvoices && (
                     <div className="px-[10px] py-2">
@@ -1050,7 +1047,7 @@ function FinalSettlement() {
 
                           <tbody>
                             {Array.isArray(UnpaidInvoices) &&
-                            UnpaidInvoices?.length > 0 ? (
+                              UnpaidInvoices?.length > 0 ? (
                               UnpaidInvoices.map((user) => (
                                 <tr key={user.invoiceNumber}>
                                   <td className="px-2 py-2 text-[14px] text-[#1E45E1] font-normal underline">
@@ -1124,7 +1121,7 @@ function FinalSettlement() {
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          // onClick={() => setShowRentDetails(true)}
+                        // onClick={() => setShowRentDetails(true)}
                         />
                       )}
                     </span>
@@ -1226,15 +1223,15 @@ function FinalSettlement() {
                           <strong>Full Rent</strong> ₹{amount}
                           {finalSettlementList?.currentMonthRentInfo
                             ?.otherItemAmount > 0 && (
-                            <>
-                              {" + "}
-                              <strong>Other Charges</strong> ₹
-                              {
-                                finalSettlementList.currentMonthRentInfo
-                                  .otherItemAmount
-                              }
-                            </>
-                          )}
+                              <>
+                                {" + "}
+                                <strong>Other Charges</strong> ₹
+                                {
+                                  finalSettlementList.currentMonthRentInfo
+                                    .otherItemAmount
+                                }
+                              </>
+                            )}
                         </p>
 
                         <p className="mt-2 text-gray-100">
@@ -1319,73 +1316,73 @@ function FinalSettlement() {
                             {index !==
                               finalSettlementList.currentMonthRentInfo.rentLists
                                 .length -
-                                1 && (
-                              <div className="border-b border-dashed border-gray-300 mt-1.5" />
-                            )}
+                              1 && (
+                                <div className="border-b border-dashed border-gray-300 mt-1.5" />
+                              )}
                           </div>
                         ),
                       )}
 
                     {finalSettlementList?.currentMonthRentInfo
                       ?.otherItemAmount > 0 && (
-                      <>
-                        <div className="flex justify-between items-start mt-2">
-                          <div className="flex gap-3">
-                            <div className="text-sm text-black cursor-pointer select-none">
-                              Other Charges
-                            </div>
-
-                            <div
-                              className="flex cursor-pointer"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setShowOtherCharges(!showOtherCharges);
-                              }}
-                            >
-                              <span className="bg-blue-100 rounded-[5px] p-1">
-                                {showOtherCharges ? (
-                                  <ArrowUp2 size="16" color="#1E45E1" />
-                                ) : (
-                                  <ArrowDown2 size="16" color="#1E45E1" />
-                                )}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="text-sm text-black">
-                            ₹
-                            {
-                              finalSettlementList?.currentMonthRentInfo
-                                ?.otherItemAmount
-                            }
-                          </div>
-                        </div>
-
-                        {showOtherCharges &&
-                          finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems?.map(
-                            (item, index) => (
-                              <div key={index} className="mt-2">
-                                <div className="flex justify-between items-center text-xs text-blue-600 bg-gray-50 p-2.5 rounded-lg w-full">
-                                  <div className="whitespace-nowrap">
-                                    {item.item}
-                                  </div>
-
-                                  <div className="whitespace-nowrap text-gray-800">
-                                    ₹{item.amount}
-                                  </div>
-                                </div>
-
-                                {index !==
-                                  finalSettlementList?.currentMonthRentInfo
-                                    ?.currentMonthOtherItems?.length -
-                                    1 && (
-                                  <div className="border-b border-dashed border-gray-300 mt-1.5" />
-                                )}
+                        <>
+                          <div className="flex justify-between items-start mt-2">
+                            <div className="flex gap-3">
+                              <div className="text-sm text-black cursor-pointer select-none">
+                                Other Charges
                               </div>
-                            ),
-                          )}
-                      </>
-                    )}
+
+                              <div
+                                className="flex cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setShowOtherCharges(!showOtherCharges);
+                                }}
+                              >
+                                <span className="bg-blue-100 rounded-[5px] p-1">
+                                  {showOtherCharges ? (
+                                    <ArrowUp2 size="16" color="#1E45E1" />
+                                  ) : (
+                                    <ArrowDown2 size="16" color="#1E45E1" />
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="text-sm text-black">
+                              ₹
+                              {
+                                finalSettlementList?.currentMonthRentInfo
+                                  ?.otherItemAmount
+                              }
+                            </div>
+                          </div>
+
+                          {showOtherCharges &&
+                            finalSettlementList?.currentMonthRentInfo?.currentMonthOtherItems?.map(
+                              (item, index) => (
+                                <div key={index} className="mt-2">
+                                  <div className="flex justify-between items-center text-xs text-blue-600 bg-gray-50 p-2.5 rounded-lg w-full">
+                                    <div className="whitespace-nowrap">
+                                      {item.item}
+                                    </div>
+
+                                    <div className="whitespace-nowrap text-gray-800">
+                                      ₹{item.amount}
+                                    </div>
+                                  </div>
+
+                                  {index !==
+                                    finalSettlementList?.currentMonthRentInfo
+                                      ?.currentMonthOtherItems?.length -
+                                    1 && (
+                                      <div className="border-b border-dashed border-gray-300 mt-1.5" />
+                                    )}
+                                </div>
+                              ),
+                            )}
+                        </>
+                      )}
                   </div>
                 )}
               </div>
@@ -1403,13 +1400,13 @@ function FinalSettlement() {
                         <ArrowUp2
                           size="16"
                           color="#1E45E1"
-                          // onClick={() => setShowEbMissed(false)}
+                        // onClick={() => setShowEbMissed(false)}
                         />
                       ) : (
                         <ArrowDown2
                           size="16"
                           color="#1E45E1"
-                          // onClick={() => setShowEbMissed(true)}
+                        // onClick={() => setShowEbMissed(true)}
                         />
                       )}
                     </span>
@@ -1539,7 +1536,7 @@ function FinalSettlement() {
                   <div className="flex items-center gap-2">
                     <span
                       className="cursor-pointer"
-                      // onClick={() => setShowWallet(!showWallet)}
+                    // onClick={() => setShowWallet(!showWallet)}
                     >
                       {showWallet ? (
                         <ArrowUp2 size="16" color="#1E45E1" />
@@ -1554,27 +1551,24 @@ function FinalSettlement() {
                   </div>
 
                   <div
-                    className={`flex items-center gap-2 rounded-lg  ${
-                      finalSettlementList?.walletInfo?.walletAmount < 0
-                        ? "text-red-50"
-                        : "text-green-50"
-                    }`}
+                    className={`flex items-center gap-2 rounded-lg  ${finalSettlementList?.walletInfo?.walletAmount < 0
+                      ? "text-red-50"
+                      : "text-green-50"
+                      }`}
                   >
                     <span
-                      className={`text-sm font-medium ${
-                        finalSettlementList?.walletInfo?.walletAmount < 0
-                          ? "text-red-600"
-                          : "text-green-600"
-                      }`}
+                      className={`text-sm font-medium ${finalSettlementList?.walletInfo?.walletAmount < 0
+                        ? "text-red-600"
+                        : "text-green-600"
+                        }`}
                     >
                       ₹
                     </span>
                     <span
-                      className={`text-base font-semibold ${
-                        finalSettlementList?.walletInfo?.walletAmount < 0
-                          ? "text-red-600"
-                          : "text-green-600"
-                      }`}
+                      className={`text-base font-semibold ${finalSettlementList?.walletInfo?.walletAmount < 0
+                        ? "text-red-600"
+                        : "text-green-600"
+                        }`}
                     >
                       {finalSettlementList?.walletInfo?.walletAmount}
                     </span>
@@ -1588,7 +1582,7 @@ function FinalSettlement() {
                 {showWallet && (
                   <div className=" rounded-xl  shadow-sm">
                     {finalSettlementList?.walletInfo?.transactions?.length >
-                    0 ? (
+                      0 ? (
                       finalSettlementList.walletInfo.transactions.map(
                         (txn, index) => (
                           <div
@@ -1657,9 +1651,8 @@ function FinalSettlement() {
                 </div>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    showRefundableAdvance ? "max-h-[500px]" : "max-h-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${showRefundableAdvance ? "max-h-[500px]" : "max-h-0"
+                    }`}
                 >
                   {showRefundableAdvance && (
                     <>
@@ -1756,9 +1749,8 @@ function FinalSettlement() {
                 </div>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    showAdditionalAdvance ? "max-h-[500px]" : "max-h-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${showAdditionalAdvance ? "max-h-[500px]" : "max-h-0"
+                    }`}
                 >
                   {showAdditionalAdvance && (
                     <>
@@ -1862,9 +1854,8 @@ function FinalSettlement() {
                 </div>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    showBooking ? "max-h-[500px]" : "max-h-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${showBooking ? "max-h-[500px]" : "max-h-0"
+                    }`}
                 >
                   {showBooking && (
                     <>
@@ -1933,8 +1924,8 @@ function FinalSettlement() {
                   )}
                 </div>
               </div>
-             
-  
+
+
 
 
 
@@ -1973,9 +1964,8 @@ function FinalSettlement() {
                 </div>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    showRetainer ? "max-h-[500px]" : "max-h-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${showRetainer ? "max-h-[500px]" : "max-h-0"
+                    }`}
                 >
                   {showRetainer && (
                     <>
@@ -2298,11 +2288,10 @@ function FinalSettlement() {
                       className={`
         px-2 py-1 rounded-md text-sm font-medium flex items-center gap-1
         disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-white
-        ${
-          isEditing
-            ? "text-[#03543F] border-1 border-[#DEF7EC] bg-[#DEF7EC]"
-            : "text-[#1E429F] border-1 border-[#E1EFFE] bg-[#E1EFFE]"
-        }
+        ${isEditing
+                          ? "text-[#03543F] border-1 border-[#DEF7EC] bg-[#DEF7EC]"
+                          : "text-[#1E429F] border-1 border-[#E1EFFE] bg-[#E1EFFE]"
+                        }
     `}
                     >
                       {!isEditing && <Edit2 size={14} />}
@@ -2425,13 +2414,12 @@ function FinalSettlement() {
                       className={`mt-1 h-[50px] w-full rounded-[8px] border border-[#D9D9D9]
     px-3 text-[16px] font-semibold font-gilroy shadow-none outline-none
     focus:border-[#1E45E1] focus:ring-0
-    ${
-      ReturnAmount > 0
-        ? "text-green-600"
-        : ReturnAmount < 0
-          ? "text-red-600"
-          : "text-gray-700"
-    }
+    ${ReturnAmount > 0
+                          ? "text-green-600"
+                          : ReturnAmount < 0
+                            ? "text-red-600"
+                            : "text-gray-700"
+                        }
   `}
                     />
                   </div>
@@ -2465,13 +2453,12 @@ function FinalSettlement() {
               </div>
 
               <div
-                className={`text-[22px] font-semibold ${
-                  ReturnAmount > 0
-                    ? "text-green-600"
-                    : ReturnAmount < 0
-                      ? "text-red-600"
-                      : "text-gray-700"
-                }`}
+                className={`text-[22px] font-semibold ${ReturnAmount > 0
+                  ? "text-green-600"
+                  : ReturnAmount < 0
+                    ? "text-red-600"
+                    : "text-gray-700"
+                  }`}
               >
                 ₹ {Math.round(ReturnAmount).toLocaleString("en-IN")}
               </div>
