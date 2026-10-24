@@ -1149,11 +1149,11 @@ function BankingNew() {
                                   className="w-40 bg-gray-50 px-2 py-2 border border-gray-200 rounded-xl z-[9999] shadow-lg"
                                 >
 
-                                  {item.accountType !== "CARD" && (
+                                  {(
 
                                     <button
                                       disabled={
-                                        !(canUpdateBanking && !item.isDeleted)
+                                        !(canUpdateBanking)
                                       }
                                       onClick={(e) => {
                                         e.stopPropagation();
@@ -1211,7 +1211,7 @@ function BankingNew() {
                                   <button
                                     disabled
                                     // disabled={
-                                    //   !(canUpdateBanking && !item.isDeleted)
+                                    //   !(canUpdateBanking)
                                     // }
                                     // disabled={
                                     //   !canUpdateBanking
@@ -1640,7 +1640,7 @@ function BankingNew() {
                                       ) : user.type === "CREDIT" ? (
                                         <>
                                           <ArrowUp size={16} color="#16A34A" />
-                                          <span className="capitalize">{user.source}</span>
+                                          <span className="capitalize">{user.source?.replaceAll("_", " ").toLowerCase()}</span>
                                         </>
                                       ) : user.type === "DEBIT" ? (
                                         <>
@@ -1648,27 +1648,24 @@ function BankingNew() {
                                             size={16}
                                             color="#DC2626"
                                           />
-                                          <span className="capitalize">{user.source}</span>
+                                          <span className="capitalize">{user.source?.replaceAll("_", " ").toLowerCase()}</span>
                                         </>
                                       ) : (
-                                        <span className="capitalize">{user.source}</span>
+                                        <span className="capitalize">{user.source?.replaceAll("_", " ").toLowerCase()} </span>
                                       )}
                                     </div>
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap">
+                                  <td className="w-[230px] px-2 py-1 text-[#111928] whitespace-nowrap capitalize">
                                     {`${user?.accountType === 'CASH'
                                       ? `${user?.accountType} / ${user?.displayName}`
                                       : `${[user?.accountType, user?.paymentMethod, user?.displayName].filter(Boolean).join(' / ')}`
                                       }`}
-                                    {/* <span className="text-xs">
-                                      {user.displayName}
-                                    </span> */}
-                                    {/* {user?.source} */}
+
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
                                     {user.description || "-"}
                                   </td>
-                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">
+                                  <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928] capitalize">
                                     {user.displayName}
                                   </td>
                                   <td className="w-[230px] px-2 py-1 whitespace-nowrap text-[#111928]">

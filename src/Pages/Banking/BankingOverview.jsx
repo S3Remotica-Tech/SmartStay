@@ -394,9 +394,9 @@ function BankingOverview({ show, onClose }) {
                 </div>
               )}
             </div>
-
+            {/* || OverviewDetails?.accountType === "CARD" */}
             <button
-              disabled={!canUpdateBanking || OverviewDetails?.accountType === "CARD"}
+              disabled={!canUpdateBanking}
               onClick={(e) => {
                 e.stopPropagation();
                 handleOpenSelfTransfer(OverviewDetails);

@@ -172,20 +172,20 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                       </div>
                     )}
 
-                    {bankDetails?.fromBank?.accountType === "CASH" && (
-                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                        {bankDetails?.fromBank?.cashAccountType || bankDetails?.fromBank?.bankAccountType}
+                    {(bankDetails?.fromBank?.accountType === "CASH" || bankDetails?.fromBank?.accountType === "CARD") && (
+                      <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5 capitalize">
+                        {bankDetails?.fromBank?.cashAccountType || bankDetails?.fromBank?.bankAccountType?.replaceAll("_", " ").toLowerCase()}
                       </div>
                     )}
 
-                    <div className="text-xs text-gray-500 font-gilroy">
+                    <div className="text-xs text-gray-500 font-gilroy capitalize ">
                       {bankDetails?.fromBank?.accountType.toLowerCase() || ""}{" "}
                       account
                     </div>
                   </div>
 
                   <div className="text-right font-gilroy">
-                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
+                    <div className="font-medium text-[#1A1A1A] text-sm mb-0.5 capitalize">
                       {bankDetails?.fromBank?.displayName}
                     </div>
 
@@ -252,7 +252,7 @@ function SelfTransferNew({ show, handleClose, selfDetails }) {
                         </div>
                       )}
 
-                      <div className="text-xs text-gray-500 font-gilroy">
+                      <div className="text-xs text-gray-500 font-gilroy capitalize">
                         {bank?.paymentMethod ||
                           (bank?.accountType
                             ? `${bank.accountType.toLowerCase()} Account`
