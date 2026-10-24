@@ -298,6 +298,7 @@ function Debit({ handleClose }) {
 
   useEffect(() => {
     if (state.bankingDetails.addPaymentError) {
+      dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
       setIsSaving(false);
     }
   }, [state.bankingDetails.addPaymentError]);

@@ -493,6 +493,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
   useEffect(() => {
     if (state.bankingDetails.createBankingError) {
       setFormLoading(false);
+      dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     }
   }, [state.bankingDetails.createBankingError]);
 

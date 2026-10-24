@@ -381,6 +381,7 @@ function CreditCardGlobal({ handleClose }) {
     useEffect(() => {
         if (state.bankingDetails.createBankingError) {
             setIsSaving(false);
+            dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
         }
     }, [state.bankingDetails.createBankingError]);
 

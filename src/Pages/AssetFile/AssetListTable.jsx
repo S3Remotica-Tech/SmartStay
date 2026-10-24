@@ -152,7 +152,11 @@ function AssetListTable(props) {
             {props.item.assetName || "-"}
           </div>
         </td>
-
+        <td className="w-[230px] py-1 px-2">
+          <div className="truncate" title={props.item.paymentMode || "-"}>
+            {props.item.paymentMode || "-"}
+          </div>
+        </td>
         <td
           title={props.item.price}
           className="w-[230px] py-1 whitespace-nowrap px-1.5"
@@ -199,8 +203,8 @@ function AssetListTable(props) {
                   style={{
                     top: showAbove
                       ? popupPosition.top -
-                        (popupRef.current?.offsetHeight || 100) -
-                        20
+                      (popupRef.current?.offsetHeight || 100) -
+                      20
                       : popupPosition.top - 35,
                     left: popupPosition.left,
                   }}
@@ -210,11 +214,10 @@ function AssetListTable(props) {
                       canWriteAssets && handleAssignAsset(props.item)
                     }
                     className={`flex items-center gap-2 px-3 py-2 rounded-t-[10px]
-                ${
-                  canWriteAssets
-                    ? "cursor-pointer hover:bg-[#EDF2FF]"
-                    : "cursor-not-allowed opacity-50"
-                }`}
+                ${canWriteAssets
+                        ? "cursor-pointer hover:bg-[#EDF2FF]"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
                   >
                     <ProfileAdd size="16" color="#1E45E1" />
                     <span className="text-sm font-semibold font-gilroy text-[#222]">
@@ -229,11 +232,10 @@ function AssetListTable(props) {
                   <div
                     onClick={() => canUpdateAsset && handleEdit(props.item)}
                     className={`flex items-center gap-2 px-3 py-2
-                ${
-                  canUpdateAsset
-                    ? "cursor-pointer hover:bg-[#EDF2FF]"
-                    : "cursor-not-allowed opacity-50"
-                }`}
+                ${canUpdateAsset
+                        ? "cursor-pointer hover:bg-[#EDF2FF]"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
                   >
                     <Edit size="16" color="#1E45E1" />
                     <span className="text-sm font-semibold font-gilroy text-[#222]">
@@ -250,11 +252,10 @@ function AssetListTable(props) {
                       handleShowDeleteAsset(props.item)
                     }
                     className={`flex items-center gap-2 px-3 py-2 rounded-b-[10px]
-                ${
-                  canDeleteAsset && props.item.assignmentStatus === "Unassigned"
-                    ? "cursor-pointer hover:bg-[#FFF0F0]"
-                    : "cursor-not-allowed opacity-50"
-                }`}
+                ${canDeleteAsset && props.item.assignmentStatus === "Unassigned"
+                        ? "cursor-pointer hover:bg-[#FFF0F0]"
+                        : "cursor-not-allowed opacity-50"
+                      }`}
                   >
                     <Trash size="16" color="red" />
                     <span className="text-sm font-semibold font-gilroy text-red-600">
