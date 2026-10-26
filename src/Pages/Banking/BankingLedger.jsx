@@ -258,6 +258,8 @@ function BankingLedger() {
     setSource("");
   };
 
+
+
   useEffect(() => {
     const bankFilter = state.bankingDetails?.ledgerFilter;
 
@@ -338,14 +340,17 @@ function BankingLedger() {
   }, []);
 
   useEffect(() => {
-    if (state.bankingDetails?.getBankingLedgerListSuccessStatus === 200) {
+    if (state.bankingDetails?.getBankingLedgerList) {
       setTransactionFilterddata(
         state.bankingDetails?.getBankingLedgerList || [],
       );
       setLoader(false);
       dispatch({ type: "REMOVE_GET_BANKING_LEDGER_REDUCER" });
     }
-  }, [state.bankingDetails.getBankingLedgerListSuccessStatus]);
+  }, [state.bankingDetails.getBankingLedgerListSuccessStatus, state.bankingDetails?.getBankingLedgerList.transactions]);
+
+  // console.log(" state.bankingDetails?.getBankingLedgerList", state.bankingDetails?.getBankingLedgerList)
+
 
   const currentPageTransaction =
     state.bankingDetails?.getBankingLedgerList?.currentPage ?? 1;

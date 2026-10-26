@@ -146,7 +146,7 @@ const Option = (props) => {
           </div>
         </div>
         {data.type && <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold capitalize
              ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : data.type === "CASH"
@@ -155,7 +155,7 @@ const Option = (props) => {
 
             }`}
         >
-          {data.type}
+          {data?.type?.replaceAll("_", " ").toLowerCase()}
         </span>
         }
       </div>
@@ -190,7 +190,9 @@ const SingleValue = (props) => {
 
         <div className="flex flex-col">
           <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.type || data.subLabel}</span>
+          <span className="text-xs text-[#6B7280] capitalize">
+            {(data.subLabel ? data.subLabel : data.type)?.replaceAll("_", " ")}
+          </span>
         </div>
       </div>
     </components.SingleValue>
@@ -226,7 +228,7 @@ GroupHeading.propTypes = {
   }).isRequired,
 };
 function CreditCardPayment({ show, handleClose, bankId, isBank }) {
-  console.log("isBank", isBank)
+  // console.log("isBank", isBank)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const workRef = useRef(null);
