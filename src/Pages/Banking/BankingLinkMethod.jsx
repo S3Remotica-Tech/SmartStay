@@ -118,22 +118,22 @@ function BankingLinkMethod() {
                       </div>
                     )}
 
-                    <div className="text-[11px] text-[#6B7280] mt-1 whitespace-nowrap">
+                    {/* <div className="text-[11px] text-[#6B7280] mt-1 whitespace-nowrap">
                       Balance :
                       <span className="font-medium text-[#111827] ml-1">
                         ₹{Number(item.balance || 0).toLocaleString("en-IN")}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
 
-                  <button className="flex items-center justify-center shrink-0 mt-0.5">
+                  {/* <button className="flex items-center justify-center shrink-0 mt-0.5">
                     <More
                       size="16"
                       color="#6B7280"
                       variant="Outline"
                       className="rotate-90"
                     />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             );

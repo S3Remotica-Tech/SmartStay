@@ -152,7 +152,7 @@ function BankingNew() {
   // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
-  console.log("deleteBankId", deleteBankId)
+
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -397,7 +397,7 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
-  console.log("state.bankingDetails?.allTransactionList", transactionFilterddata)
+
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {

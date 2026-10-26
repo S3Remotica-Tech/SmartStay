@@ -259,7 +259,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
   const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
 
-  console.log("paymentMethod", paymentMethod)
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -454,6 +454,15 @@ function VendorPayment({ show, handleClose, isBanking }) {
   };
 
   useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
+
+
+  useEffect(() => {
     if (state.UsersList.settlementPaymentSuccessCode === 200) {
       setFormLoading(false);
 
@@ -502,7 +511,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
   //   }
   // }, [OverviewDetails, paymentOptions]);
 
-  console.log("OverviewDetails?.bankId", OverviewDetails?.bankId)
+
 
   useEffect(() => {
     return () => {
@@ -660,7 +669,6 @@ function VendorPayment({ show, handleClose, isBanking }) {
                 ref={paymentMethodRef}
                 onChange={(selected) => {
                   setPaymentMethod(selected);
-                  { console.log("selected", selected) }
                   setPaymentMethodError("");
                 }}
                 options={paymentOptions}

@@ -361,7 +361,7 @@ function AddExpenseNew() {
   const [linkVendor, setLinkVendor] = useState(true);
   // const [paidThrough, setPaidThrough] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  console.log("paymentMethod", paymentMethod)
+
   const [description, setDescription] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [expenseTitleError, setExpenseTitleError] = useState("");
@@ -1087,7 +1087,7 @@ function AddExpenseNew() {
     })) || [];
 
   const overviewDetails = state?.bankingDetails?.OverviewBankDetails;
-  console.log("overviewDetails", overviewDetails)
+
 
 
   useEffect(() => {

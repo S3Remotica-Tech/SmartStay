@@ -70,7 +70,6 @@ import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
   const status = error?.response?.status || error?.status;
-  console.log("statussss", status)
   if (status === 401) {
     yield put({
       type: "UN-AUTHORIZED",

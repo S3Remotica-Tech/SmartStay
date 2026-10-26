@@ -39,7 +39,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const [payapleform, setPayableForm] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState("");
-  console.log("rowData", rowData)
+
   const modalRef = useRef(null);
   const [showDiscountInvoice, setShowDiscountInvoice] = useState(false);
   const [open, setOpen] = useState(false);

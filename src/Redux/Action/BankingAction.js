@@ -92,7 +92,6 @@ export async function getBankingOverview(hostel) {
 //  banking Ledger
 
 export async function getBankingLedger(bank) {
-  console.log("bank", bank)
 
   const params = {};
   if (bank.dateFilter) params.dateFilter = bank.dateFilter;

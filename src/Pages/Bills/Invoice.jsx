@@ -962,7 +962,7 @@ const InvoicePage = () => {
 
     const previousFilters = state.InvoiceList?.invoiceFilters || {};
 
-    console.log("previousFilters", previousFilters.paymentStatus)
+
 
     const hasPreviousPaymentStatus =
       previousFilters?.paymentStatus?.length > 0 &&
@@ -977,7 +977,7 @@ const InvoicePage = () => {
         : [];
 
 
-    console.log("paymentStatus", paymentStatus)
+
 
 
 
@@ -1037,7 +1037,7 @@ const InvoicePage = () => {
 
 
 
-  console.log("statusfilter?.value", statusfilter?.value)
+
 
 
 

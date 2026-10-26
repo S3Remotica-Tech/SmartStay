@@ -386,6 +386,15 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
   };
 
   useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
+
+
+  useEffect(() => {
     if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 200) {
       setLoading(false);
       handleClose();

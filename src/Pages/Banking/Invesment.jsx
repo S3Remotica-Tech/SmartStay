@@ -363,6 +363,14 @@ function Invesment({ show, handleClose, bankDetails }) {
   };
 
   useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
+
+  useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
         type: "BANKING_LIST_SAGA",

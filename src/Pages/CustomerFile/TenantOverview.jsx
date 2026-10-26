@@ -202,7 +202,6 @@ function TenantOverview(props) {
   }, [customerId, tenantId])
 
   const CustomerOverView = state?.UsersList?.customerdetails;
-  // console.log("isPgWay", isPgWay, "isDashboardWay", isDashboardWay, "navigationSource", navigationSource)
   const handleNavigateTenant = () => {
     if (navigationSource === "PG" || isPgWay || navigatePg) {
       navigate(`/paying-guest/${state.login.selectedHostel_Id}`);

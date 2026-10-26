@@ -72,51 +72,51 @@ function Asset() {
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
 
-  const handleAssetsExcel = () => {
-    if (ExcelDownloadDates.length === 2) {
-      dispatch({
-        type: "EXPORTASSETSDETAILS",
-        payload: {
-          type: "assets",
-          hostel_id: state.login.selectedHostel_Id,
-          start_date: ExcelDownloadDates[0]?.format("YYYY-MM-DD"),
-          end_date: ExcelDownloadDates[1]?.format("YYYY-MM-DD"),
-        },
-      });
+  // const handleAssetsExcel = () => {
+  //   if (ExcelDownloadDates.length === 2) {
+  //     dispatch({
+  //       type: "EXPORTASSETSDETAILS",
+  //       payload: {
+  //         type: "assets",
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         start_date: ExcelDownloadDates[0]?.format("YYYY-MM-DD"),
+  //         end_date: ExcelDownloadDates[1]?.format("YYYY-MM-DD"),
+  //       },
+  //     });
 
-      setExcelDownloadDates([]);
-      setFilterExcelPrice("");
-      setIsDownloadTriggered(true);
-      return;
-    }
+  //     setExcelDownloadDates([]);
+  //     setFilterExcelPrice("");
+  //     setIsDownloadTriggered(true);
+  //     return;
+  //   }
 
-    if (
-      filterexcelprice &&
-      filterexcelprice !== "date" &&
-      filterexcelprice !== "All"
-    ) {
-      dispatch({
-        type: "EXPORTASSETSDETAILS",
-        payload: {
-          type: "assets",
-          hostel_id: state.login.selectedHostel_Id,
-          price_range: filterexcelprice,
-        },
-      });
+  //   if (
+  //     filterexcelprice &&
+  //     filterexcelprice !== "date" &&
+  //     filterexcelprice !== "All"
+  //   ) {
+  //     dispatch({
+  //       type: "EXPORTASSETSDETAILS",
+  //       payload: {
+  //         type: "assets",
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         price_range: filterexcelprice,
+  //       },
+  //     });
 
-      setExcelDownloadDates([]);
-      setFilterExcelPrice("");
-      setIsDownloadTriggered(true);
-      return;
-    }
+  //     setExcelDownloadDates([]);
+  //     setFilterExcelPrice("");
+  //     setIsDownloadTriggered(true);
+  //     return;
+  //   }
 
-    dispatch({
-      type: "EXPORTASSETSDETAILS",
-      payload: { type: "assets", hostel_id: state.login.selectedHostel_Id },
-    });
+  //   dispatch({
+  //     type: "EXPORTASSETSDETAILS",
+  //     payload: { type: "assets", hostel_id: state.login.selectedHostel_Id },
+  //   });
 
-    setIsDownloadTriggered(true);
-  };
+  //   setIsDownloadTriggered(true);
+  // };
 
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
@@ -298,11 +298,11 @@ function Asset() {
               >
                 <input
                   type="text"
-                  className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF]  disabled:cursor-not-allowed"
+                  className="w-full !bg-white text-sm font-gilroy outline-none placeholder:text-[#9CA3AF] disabled:bg-gray-500  disabled:cursor-not-allowed"
                   placeholder="Search"
                   value={filterInput}
                   onChange={(e) => handlefilterInput(e)}
-                  disabled={!canReadAssets}
+                  disabled={canReadAssets}
                 />
 
                 <SearchNormal1
@@ -318,14 +318,14 @@ function Asset() {
   transition-opacity duration-300 ease-in-out
 `}
               >
-                <img
+                {/* <img
                   src={excelimg}
                   alt="excel"
                   className="w-[35px] h-[35px]"
                   onClick={() => {
                     if (canReadAssets) handleAssetsExcel();
                   }}
-                />
+                /> */}
               </div>
 
               <div style={{}}>
@@ -342,14 +342,14 @@ function Asset() {
           </div>
 
           <div className={` flex items-center justify-end gap-2 mr-2 `}>
-            <div>
+            {/* <div>
               <Setting3
                 // onClick={() => setOpen(!open)}
                 className="cursor-not-allowed"
                 size="22"
                 color="#4B4B4B"
               />
-            </div>
+            </div> */}
 
             <div className="mr-2">
               <PaginationList

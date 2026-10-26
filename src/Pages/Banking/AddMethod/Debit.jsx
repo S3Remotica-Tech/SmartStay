@@ -304,6 +304,14 @@ function Debit({ handleClose }) {
   }, [state.bankingDetails.addPaymentError]);
 
   useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setIsSaving(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
+
+  useEffect(() => {
     return () => {
       dispatch({ type: "REMOVE_ADD_PAYEMNT_METHOD_BANKING_ERROR" });
     };
