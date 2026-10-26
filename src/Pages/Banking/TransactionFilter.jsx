@@ -158,12 +158,21 @@ function TransactionFilter({
   };
 
   const handleFromDateChange = (date) => {
-    setFromDate(date);
     setFromDateError("")
+    if (toDate && date && date > toDate) {
+      setToDate(null);
+      setToDateError("");
+    }
+
+    setFromDate(date);
   };
 
   const handleToDateChange = (date) => {
     setToDateError("")
+    if (fromDate && date && date < fromDate) {
+      setToDateError("To Date should be after From Date");
+      return;
+    }
     setToDate(date);
   };
 
@@ -194,15 +203,22 @@ function TransactionFilter({
     // const hasPeriod = !!period?.value;
     setFromDateError("");
     setToDateError("");
+    if (period?.value === "CUSTOM") {
+      if (!fromDate && !toDate) {
+        setFromDateError("Please Select From Date");
+        setToDateError("Please Select To Date");
+        return;
+      }
 
-    if (fromDate && !toDate) {
-      setToDateError("Please Select To Date");
-      return;
-    }
+      if (fromDate && !toDate) {
+        setToDateError("Please Select To Date");
+        return;
+      }
 
-    if (toDate && !fromDate) {
-      setFromDateError("Please Select From Date");
-      return;
+      if (toDate && !fromDate) {
+        setFromDateError("Please Select From Date");
+        return;
+      }
     }
 
     const bankFilter = {
@@ -225,7 +241,7 @@ function TransactionFilter({
         hostelId: state.login.selectedHostel_Id,
         page: 1,
         size: size,
-        dateFilter: period?.value === "CUSTOM" ? "" : period?.value,
+        dateFilter: period?.value,
         fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
         toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
         source: source?.value,
@@ -335,6 +351,7 @@ function TransactionFilter({
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
+                  maxDate={new Date()}
                   className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
                 />
 
@@ -361,6 +378,8 @@ function TransactionFilter({
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
+                  minDate={fromDate}
+                  maxDate={new Date()}
                   className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
                 />
 

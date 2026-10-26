@@ -261,6 +261,7 @@ function* handleGetBankingOverview(action) {
 function* handleGetBankingLedger(action) {
   try {
     const response = yield call(getBankingLedger, action.payload);
+    // console.log("response", response)
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
@@ -278,6 +279,10 @@ function* handleGetBankingLedger(action) {
     }
   } catch (error) {
     yield* handleApiError(error);
+    if (error) {
+      yield put({ type: 'ALL_TRANSACTION_ERROR', payload: error?.response?.data })
+
+    }
   }
 }
 

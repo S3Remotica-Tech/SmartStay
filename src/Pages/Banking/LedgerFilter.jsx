@@ -114,7 +114,7 @@ const CustomStyles = {
 function LedgerFilter({ show, handleClose, size }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
   const [period, setPeriod] = useState(null);
   const [source, setSource] = useState(null);
   const [fromDate, setFromDate] = useState("");
@@ -151,11 +151,20 @@ function LedgerFilter({ show, handleClose, size }) {
 
   const handleFromDateChange = (date) => {
     setFromDateError("")
+    if (toDate && date && date > toDate) {
+      setToDate(null);
+      setToDateError("");
+    }
+
     setFromDate(date);
   };
 
   const handleToDateChange = (date) => {
     setToDateError("")
+    if (fromDate && date && date < fromDate) {
+      setToDateError("To Date should be after From Date");
+      return;
+    }
     setToDate(date);
   };
 
@@ -186,14 +195,22 @@ function LedgerFilter({ show, handleClose, size }) {
     setFromDateError("");
     setToDateError("");
 
-    if (fromDate && !toDate) {
-      setToDateError("Please Select To Date");
-      return;
-    }
+    if (period?.value === "CUSTOM") {
+      if (!fromDate && !toDate) {
+        setFromDateError("Please Select From Date");
+        setToDateError("Please Select To Date");
+        return;
+      }
 
-    if (toDate && !fromDate) {
-      setFromDateError("Please Select From Date");
-      return;
+      if (fromDate && !toDate) {
+        setToDateError("Please Select To Date");
+        return;
+      }
+
+      if (toDate && !fromDate) {
+        setFromDateError("Please Select From Date");
+        return;
+      }
     }
     const ledgerFilter = {
       startDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
@@ -210,12 +227,13 @@ function LedgerFilter({ show, handleClose, size }) {
     });
 
     dispatch({
-      type: "GET_ALL_TRANSACTION_SAGA",
+      type: "GET_BANKING_LEDGER_SAGA",
       payload: {
         hostelId: state.login.selectedHostel_Id,
+        bankId: OverviewDetails?.bankId,
         page: 1,
         size: size,
-        dateFilter: period?.value === "CUSTOM" ? "" : period?.value,
+        dateFilter: period?.value,
         fromDate: fromDate ? dayjs(fromDate).format("DD/MM/YYYY") : "",
         toDate: toDate ? dayjs(toDate).format("DD/MM/YYYY") : "",
         source: source?.value,
@@ -225,13 +243,22 @@ function LedgerFilter({ show, handleClose, size }) {
   };
 
   useEffect(() => {
-    if (state.bankingDetails.allTransactionSuccess === 200) {
+    if (state.bankingDetails.getBankingLedgerListSuccessStatus === 200) {
       setFormLoading(false);
       handleClose();
 
-      dispatch({ type: "REMOVE_GET_ALL_TRANSACTION_REDUCER" });
+      dispatch({ type: "REMOVE_GET_BANKING_LEDGER_REDUCER" });
     }
-  }, [state.bankingDetails.allTransactionSuccess]);
+  }, [state.bankingDetails.getBankingLedgerListSuccessStatus]);
+
+
+  useEffect(() => {
+    setFormLoading(false);
+    dispatch({ type: "REMOVE_ALL_TRANSACTION_ERROR" });
+  }, [
+
+    state?.bankingDetails?.allTransactionError
+  ]);
 
   useEffect(() => {
     if (!show) return;
@@ -314,6 +341,7 @@ function LedgerFilter({ show, handleClose, size }) {
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
+                  maxDate={new Date()}
                   className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0 "
                 />
 
@@ -340,6 +368,8 @@ function LedgerFilter({ show, handleClose, size }) {
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
                   wrapperClassName="w-full"
+                  minDate={fromDate}
+                  maxDate={new Date()}
                   className="w-full h-[45px] text-sm rounded-lg border border-[#D9D9D9] pl-3 pr-10 focus:outline-none focus:ring-0"
                 />
 

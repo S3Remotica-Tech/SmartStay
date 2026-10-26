@@ -139,11 +139,13 @@ const Option = (props) => {
             </span>
 
             {data.subLabel && (
-              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+              <span className="text-xs text-[#6B7280] capitalize">
+                {data.subLabel?.replaceAll("_", " ").toLowerCase()}
+              </span>
             )}
           </div>
         </div>
-        {data.type && <span
+        {data?.type && <span
           className={`px-2 py-1 rounded-full text-[10px] font-semibold
              ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
@@ -153,7 +155,7 @@ const Option = (props) => {
 
             }`}
         >
-          {data.type}
+          {data?.type?.replaceAll("_", " ").toLowerCase()}
         </span>
         }
       </div>
@@ -188,7 +190,9 @@ const SingleValue = (props) => {
 
         <div className="flex flex-col">
           <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.subLabel || data.type}</span>
+          <span className="text-xs text-[#6B7280] capitalize">
+            {(data.subLabel || data.type)?.replaceAll("_", " ").toLowerCase()}
+          </span>
         </div>
       </div>
     </components.SingleValue>
@@ -276,7 +280,7 @@ function Invesment({ show, handleClose, bankDetails }) {
       state?.bankingDetails?.newBankingList?.map((bank) => ({
         value: bank.bankId,
         label: bank.displayName,
-        subLabel: bank.bankName,
+        subLabel: bank?.cashAccountType ? bank?.cashAccountType : bank.accountType === "BANK" ? bank.bankName : bank.bankAccountType,
         type: bank.accountType,
 
         icon:

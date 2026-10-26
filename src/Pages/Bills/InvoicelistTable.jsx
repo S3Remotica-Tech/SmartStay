@@ -378,10 +378,9 @@ const InvoiceTable = (props) => {
               {props.item.invoiceType}
             </span>
 
-            {props.item.invoiceMode === "Manual" &&
-              props.item.invoiceType === "Rent" && (
-                <ReceiptEdit size="14" className="text-gray-500" />
-              )}
+            {props.item.invoiceMode === "Manual" && (
+              <ReceiptEdit size="14" className="text-gray-700" />
+            )}
 
             <span
               className="absolute hidden group-hover:block left-full left-0 mt-1
