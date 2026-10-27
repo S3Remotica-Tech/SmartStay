@@ -21,7 +21,7 @@ export function CreateAccountAction() {
 }
 
 export async function Addaccount(datum) {
-  return await AxiosConfigV2.post("/v2/users", datum, {
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users`, datum, {
     data: datum,
   });
 }

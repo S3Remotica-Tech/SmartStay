@@ -335,7 +335,7 @@ export async function subscriptionPDF(sub) {
 }
 
 export async function InvoicePDf(bill) {
-  console.log("bill", bill)
+
   return await AxiosConfigV2.get(
     `/v2/bills/download/${bill.hostelId}/${bill.invoiceId}`,
     {

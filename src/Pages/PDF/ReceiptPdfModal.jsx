@@ -290,7 +290,7 @@ const InvoiceCard = ({ rowData }) => {
   }, [state.login.selectedHostel_Id]);
 
 
-  console.log("rowData", rowData)
+
 
   return (
     <>

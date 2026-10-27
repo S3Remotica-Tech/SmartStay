@@ -203,6 +203,8 @@ SingleValue.propTypes = {
     type: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.node,
+    subLabel: PropTypes.string,
+
   }).isRequired,
 };
 const DropdownIndicator = (props) => (
@@ -384,6 +386,15 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
       },
     });
   };
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
+
 
   useEffect(() => {
     if (state?.bankingDetails?.createCreditCardPaymentSuccessCode === 200) {
@@ -650,5 +661,6 @@ CreditCardPayment.propTypes = {
   handleClose: PropTypes.func.isRequired,
   isBank: PropTypes.bool,
   bankId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
 };
 export default CreditCardPayment;

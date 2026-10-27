@@ -156,6 +156,9 @@ function Sidebar() {
     window.innerWidth >= 768 && window.innerWidth < 1024,
   );
   const settingsPath = hostelId ? `/settings/${hostelId}` : `/settings`;
+  const RoleAccess =
+    state.createAccount?.accountList?.roleId === 1 ||
+    state.createAccount?.accountList?.roleId === 2;
   const cookieHostelId = cookies.get("selected_hostelId");
 
   const tooltipTrigger = isMd ? ["hover", "focus"] : [];
@@ -952,9 +955,17 @@ function Sidebar() {
 
                   {!(hostelListDetail ?? []).length && (
                     <NavLink
-                      to={settingsPath}
-                      className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg cursor-pointer no-underline"
-                      onClick={() => {
+                      to={RoleAccess ? settingsPath : "#"}
+                      className={`flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-[#1E45E1] shadow-sm p-2 rounded-lg no-underline ${RoleAccess
+                        ? "cursor-pointer"
+                        : "cursor-not-allowed opacity-50 pointer-events-none"
+                        }`}
+                      onClick={(e) => {
+                        if (!RoleAccess) {
+                          e.preventDefault();
+                          return;
+                        }
+
                         handledisplaySettingsPG("manage-pg", "Manage PG");
                         dispatch({ type: "MANAGE_PG" });
                         setIsSidebarOpen(false);

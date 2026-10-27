@@ -316,7 +316,7 @@ function CreateAccountPage() {
         confirmPassword: confirmpassword
       }
     });
-    setLoading(true)
+    // setLoading(true)
   };
 
 
@@ -379,8 +379,9 @@ function CreateAccountPage() {
                 </label>
               </div>
 
-                <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 max-w-[650px] md:max-w-[750px] mx-auto lg:mx-0 2xl:-ml-12
-                max-h-[300px] overflow-y-auto pr-2 show-scroll">
+              <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 max-w-[650px] md:max-w-[750px]
+               mx-auto lg:mx-0 2xl:-ml-12
+                ">
                 <div className="w-full" data-testid="fname-container">
                   <Form.Group controlId="formGridEmail">
                     <Form.Label className="text-[14px] font-medium text-[#222222] font-gilroy">

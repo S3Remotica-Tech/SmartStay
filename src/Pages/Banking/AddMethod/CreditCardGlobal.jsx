@@ -392,6 +392,15 @@ function CreditCardGlobal({ handleClose }) {
         };
     }, []);
 
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setIsSaving(false);
+
+            dispatch({ type: "CLEAR_NETWORK_ERROR" });
+        }
+    }, [state.createAccount?.networkError]);
+
+
     return (
         <div className="flex flex-col h-full ">
             <div className=" pr-1">

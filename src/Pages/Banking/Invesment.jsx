@@ -203,6 +203,7 @@ SingleValue.propTypes = {
     type: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.node,
+    subLabel: PropTypes.string,
   }).isRequired,
 };
 const DropdownIndicator = (props) => (
@@ -361,6 +362,14 @@ function Invesment({ show, handleClose, bankDetails }) {
       setLoading(true);
     }
   };
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

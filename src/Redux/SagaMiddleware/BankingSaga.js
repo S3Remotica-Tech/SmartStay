@@ -261,7 +261,7 @@ function* handleGetBankingOverview(action) {
 function* handleGetBankingLedger(action) {
   try {
     const response = yield call(getBankingLedger, action.payload);
-    // console.log("response", response)
+
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
@@ -502,7 +502,7 @@ function* handleAddBankingNew(action) {
         type: "ADD_BANKING_ERROR",
         payload: error?.response?.data,
       });
-      toast.error(`${error?.response?.data}`, {
+      toast.error(`${error?.response?.data || error}`, {
         style: {
           fontFamily: "Gilroy",
           font: "#000",

@@ -152,7 +152,8 @@ function BankingNew() {
   // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
-  console.log("deleteBankId", deleteBankId)
+  console.log("", deleteBankId)
+
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -218,7 +219,8 @@ function BankingNew() {
     });
   };
 
-  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking, canUpdateModule: canUpdateBanking,
+  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
+    //  canUpdateModule: canUpdateBanking,
     //  canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
@@ -397,7 +399,7 @@ function BankingNew() {
     }
   }, [state.bankingDetails?.statusSuccessSelfTransfer]);
 
-  console.log("state.bankingDetails?.allTransactionList", transactionFilterddata)
+
 
   useEffect(() => {
     if (state.bankingDetails.allTransactionSuccess === 200) {

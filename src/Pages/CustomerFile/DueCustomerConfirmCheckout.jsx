@@ -21,26 +21,18 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
   const dispatch = useDispatch();
 
-  // const [fields, setFields] = useState([]);
-  const [comments, setComments] = useState("");
-  // const [checkOutDate, setCheckOutDate] = useState("");
-  // const [uploadFile, setUploadFile] = useState(null);
 
-  // const [ReturnAmount, setReturnAmount] = useState('')
+  const [comments, setComments] = useState("");
 
   const [formLoading, setFormLoading] = useState(false);
 
-  // const [dataBed, setDataBed] = useState([])
 
-  // const [hostelData, setHostelData] = useState("")
 
-  // const [detuction, setDetuction] = useState("")
+  const floorName = data?.floorName ||
+    pgDetails?.floorName ||
+    data?.hostelInfo?.floorName
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-    }
-  }, [state.login.selectedHostel_Id]);
+
 
   useEffect(() => {
     if (state.UsersList?.chrckoutError) {
@@ -71,12 +63,6 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     };
   }, []);
 
-  // useEffect(() => {
-  //     if (hostelData) {
-  //         setCheckOutDate(hostelData?.CheckoutDate)
-  //     }
-
-  // }, [hostelData])
 
   useEffect(() => {
     if (
@@ -139,6 +125,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
   }, []);
 
   const handleConfirmCheckout = () => {
+    dispatch({ type: "REMOVE_CONFORM_CHECKOUT_ERROR" });
+
     if (data?.apiCall?.customerId || data?.tenetId || data?.customerId) {
       dispatch({
         type: "CONFIRMCHECKOUT",
@@ -198,6 +186,9 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     return null;
   };
 
+
+
+
   if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
@@ -234,11 +225,11 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
               {data?.fullName || data?.tenantFullName}
             </p>
             <div className="flex mb-2">
-              <span className="rounded-full bg-yellow-400 text-gray-900 me-2 text-xs font-gilroy font-normal px-2.5 py-1">
-                {data?.floorName ||
-                  pgDetails?.floorName ||
-                  data?.hostelInfo?.floorName}
-              </span>
+              {floorName &&
+                <span className="rounded-full bg-yellow-400 text-gray-900 me-2 text-xs font-gilroy font-normal px-2.5 py-1">
+                  {floorName}
+                </span>
+              }
               <span className="rounded-full bg-red-100 text-gray-900 text-xs font-gilroy font-normal px-2.5 py-1">
                 {data?.roomName ||
                   pgDetails?.roomName ||
@@ -281,6 +272,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
               value={comments}
               onChange={handleCommentsChange}
             />
+            {state.UsersList?.chrckoutError && (
+              <div className="d-flex justify-content-center">
+                <ErrorMessage
+                  message={state.UsersList?.chrckoutError}
+                  type="error"
+                />
+              </div>
+            )}
           </div>
           {formLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-transparent opacity-75 z-10 top-[100px]">
@@ -288,14 +287,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
             </div>
           )}
         </div>
-        {state.UsersList?.chrckoutError && (
-          <div className="d-flex justify-content-center">
-            <ErrorMessage
-              message={state.UsersList?.chrckoutError}
-              type="error"
-            />
-          </div>
-        )}
+
 
         <div className="flex items-center justify-end gap-4 m-4">
           <Button

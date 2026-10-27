@@ -365,6 +365,13 @@ function Credit({ handleClose }) {
       dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     }
   }, [state.bankingDetails.createBankingError]);
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setIsSaving(false);
+
+      dispatch({ type: "CLEAR_NETWORK_ERROR" });
+    }
+  }, [state.createAccount?.networkError]);
 
 
   useEffect(() => {
