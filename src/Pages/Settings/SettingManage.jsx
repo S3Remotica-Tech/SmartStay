@@ -51,7 +51,7 @@ function SettingManage() {
 
   const isEnable = state.login.selectedHostel_Id
     ? Boolean(canWritePayingGuests && RoleAccess)
-    : true;
+    : RoleAccess;
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -585,11 +585,10 @@ function SettingManage() {
                 onClick={handleShowAddPg}
                 disabled={!isEnable}
                 className={`mt-[5px] h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy
-            ${
-              isEnable
-                ? "bg-[#1E45E1] text-white cursor-pointer"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+            ${isEnable
+                    ? "bg-[#1E45E1] text-white cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
               >
                 + PG
               </button>
@@ -617,8 +616,8 @@ function SettingManage() {
                         OnSelectHostel={handleSelectedHostel}
                         onRowVisiblity={handleDisplayPgList}
                         OnEditHostel={handleEditHostel}
-                        // editPermissionError={editPermissionError}
-                        // deletePermissionError={deletePermissionError}
+                      // editPermissionError={editPermissionError}
+                      // deletePermissionError={deletePermissionError}
                       />
                     </div>
                   ))}
@@ -736,17 +735,16 @@ function SettingManage() {
                       >
                         {floorList?.map((floor, index) =>
                           index >= visibleRange[0] &&
-                          index <= visibleRange[1] ? (
+                            index <= visibleRange[1] ? (
                             <Nav.Item
                               key={floor.id}
                               onClick={() =>
                                 handleFloorClick(floor.id, floor.name)
                               }
-                              className={`mb-3 d-flex justify-content-center align-items-center ${
-                                Number(floorClick) === Number(floor.id)
-                                  ? "active-floor"
-                                  : "Navs-Item"
-                              }`}
+                              className={`mb-3 d-flex justify-content-center align-items-center ${Number(floorClick) === Number(floor.id)
+                                ? "active-floor"
+                                : "Navs-Item"
+                                }`}
                               style={{
                                 border: "1px solid rgba(156, 156, 156, 1)",
                                 borderRadius: 16,
@@ -797,8 +795,8 @@ function SettingManage() {
                                   }}
                                 >
                                   {typeof floor.name === "string" &&
-                                  floor.name.trim() !== "" &&
-                                  floor.name !== "null"
+                                    floor.name.trim() !== "" &&
+                                    floor.name !== "null"
                                     ? floor.name
                                     : floor.id}
                                 </div>
@@ -970,11 +968,11 @@ function SettingManage() {
                                     onClick={
                                       canUpdatePayingGuests
                                         ? () =>
-                                            handleEditFloor(
-                                              floorClick,
-                                              showHostelDetails.hostelId,
-                                              floorName,
-                                            )
+                                          handleEditFloor(
+                                            floorClick,
+                                            showHostelDetails.hostelId,
+                                            floorName,
+                                          )
                                         : undefined
                                     }
                                     style={{
@@ -1024,11 +1022,11 @@ function SettingManage() {
                                     onClick={
                                       canDeletePayingGuests
                                         ? () =>
-                                            handleShowDelete(
-                                              floorClick,
-                                              showHostelDetails.hostelId,
-                                              floorName,
-                                            )
+                                          handleShowDelete(
+                                            floorClick,
+                                            showHostelDetails.hostelId,
+                                            floorName,
+                                          )
                                         : undefined
                                     }
                                     style={{
@@ -1077,9 +1075,9 @@ function SettingManage() {
                         floorID={floorClick}
                         hostel_Id={showHostelDetails.hostelId}
                         phoneNumber={showHostelDetails.hostel_PhoneNo}
-                        // editPermissionError={editPermissionError}
-                        // deletePermissionError={deletePermissionError}
-                        // addPermissionError={addPermissionError}
+                      // editPermissionError={editPermissionError}
+                      // deletePermissionError={deletePermissionError}
+                      // addPermissionError={addPermissionError}
                       />
                     </Tab.Content>
                   </Col>
@@ -1139,9 +1137,9 @@ function SettingManage() {
           show={showAddPg}
           handleClose={handleCloses}
           currentItem={editHostelDetails}
-          // editPermissionError={editPermissionError}
-          // deletePermissionError={deletePermissionError}
-          // addPermissionError={addPermissionError}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
         />
       )}
       {showDelete && (
@@ -1149,9 +1147,9 @@ function SettingManage() {
           show={showDelete}
           handleClose={handleCloseDelete}
           currentItem={deleteFloor}
-          // editPermissionError={editPermissionError}
-          // deletePermissionError={deletePermissionError}
-          // addPermissionError={addPermissionError}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
         />
       )}
       {showFloor && (
@@ -1162,9 +1160,9 @@ function SettingManage() {
           hostelFloor={hostelFloor}
           openFloor={handleDIsplayFloorClick}
           editFloor={editFloor}
-          // editPermissionError={editPermissionError}
-          // deletePermissionError={deletePermissionError}
-          // addPermissionError={addPermissionError}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
         />
       )}
       {showRoom && (
@@ -1172,9 +1170,9 @@ function SettingManage() {
           show={showRoom}
           handleClose={handlecloseRoom}
           hostelDetails={hostelDetails}
-          // editPermissionError={editPermissionError}
-          // deletePermissionError={deletePermissionError}
-          // addPermissionError={addPermissionError}
+        // editPermissionError={editPermissionError}
+        // deletePermissionError={deletePermissionError}
+        // addPermissionError={addPermissionError}
         />
       )}
     </>
