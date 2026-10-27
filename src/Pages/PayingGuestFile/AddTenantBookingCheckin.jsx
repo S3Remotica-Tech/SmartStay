@@ -24,6 +24,7 @@ import { IoBedOutline } from "react-icons/io5";
 import PgLayoutView from "./PgLayoutView";
 import FormComingSoon from "../../Utils/FormComingSoon";
 import PropTypes from "prop-types";
+import { useHasPermission } from "../../Utils/Permission";
 
 const reasonOptions = [
   { value: "maintenance", label: "Maintenance" },
@@ -186,7 +187,7 @@ function AddTenantBookingCheckin({
   // const [advanceAmountError, setAdvanceAmountError] = useState("");
   // const [rentAmountError, setRentAmountError] = useState("");
   const [isAdvanceRefused, setIsAdvanceRefused] = useState(false);
-  const [stayType, setStayType] = useState("long");
+  const [stayType, setStayType] = useState("LONG");
 
   // booking
 
@@ -233,6 +234,13 @@ function AddTenantBookingCheckin({
   const [oneTimePayments, setOneTimePayments] = useState([]);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+
+
+  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
+  const {
+    canWriteModule: canWriteCustomers,
+
+  } = useHasPermission("Customers");
 
   // const [errorsOneTime, setErrorsOneTime] = useState([]);
   // const hasGracePeriod =
@@ -1311,9 +1319,9 @@ function AddTenantBookingCheckin({
     state.UsersList?.availableBedList.bankDetails,
   )
     ? state.UsersList?.availableBedList?.bankDetails.map((item) => ({
-        value: String(item.bankId),
-        label: `${item.holderName} - ${labelMap[item.type] || ""}`,
-      }))
+      value: String(item.bankId),
+      label: `${item.holderName} - ${labelMap[item.type] || ""}`,
+    }))
     : [];
 
   // const handleInputChangeOneTime = (index, field, value) => {
@@ -1637,22 +1645,20 @@ function AddTenantBookingCheckin({
                 setActiveTab("checkin");
                 dispatch({ type: "ERROR_BOOKING_REMOVE" });
               }}
-              className={`px-4 py-1.5 text-sm rounded-md ${
-                activeTab === "checkin"
-                  ? "bg-white shadow text-[#1E45E1]"
-                  : "text-gray-500"
-              }`}
+              className={`px-4 py-1.5 text-sm rounded-md ${activeTab === "checkin"
+                ? "bg-white shadow text-[#1E45E1]"
+                : "text-gray-500"
+                }`}
             >
               Check-In
             </button>
           )}
           <button
             onClick={() => setActiveTab("booking")}
-            className={`px-4 py-1.5 text-sm rounded-md ${
-              activeTab === "booking"
-                ? "bg-white shadow text-[#1E45E1]"
-                : "text-gray-500"
-            }`}
+            className={`px-4 py-1.5 text-sm rounded-md ${activeTab === "booking"
+              ? "bg-white shadow text-[#1E45E1]"
+              : "text-gray-500"
+              }`}
           >
             Booking
           </button>
@@ -1678,9 +1684,8 @@ function AddTenantBookingCheckin({
                 ref={bookingDateRef}
               >
                 <DatePicker
-                  className={`w-full h-[45px] cursor-pointer text-[14px] font-gilroy ${
-                    bookingDate ? "font-semibold" : "font-medium"
-                  }`}
+                  className={`w-full h-[45px] cursor-pointer text-[14px] font-gilroy ${bookingDate ? "font-semibold" : "font-medium"
+                    }`}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={bookingDate ? dayjs(bookingDate) : null}
@@ -1760,11 +1765,10 @@ function AddTenantBookingCheckin({
                       handleBedLayoutPreview("booking-way");
                     }
                   }}
-                  className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
-                    bookingJoiningDate
-                      ? "bg-[#EDF3FF] text-[#1E45E1]"
-                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  }`}
+                  className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${bookingJoiningDate
+                    ? "bg-[#EDF3FF] text-[#1E45E1]"
+                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    }`}
                 >
                   <IoBedOutline className="text-[12px]" />
                   Bed Layout View
@@ -1824,33 +1828,33 @@ function AddTenantBookingCheckin({
                   options={
                     availableBed
                       ? availableBed
-                          .filter(
-                            (item) =>
-                              item &&
-                              item?.bedName !== "0" &&
-                              item?.bedName !== "undefined" &&
-                              item?.bedName !== "" &&
-                              item?.bedName !== "null",
-                          )
-                          .map((item) => ({
-                            value: item?.bedId,
-                            label: item?.bedName,
-                          }))
+                        .filter(
+                          (item) =>
+                            item &&
+                            item?.bedName !== "0" &&
+                            item?.bedName !== "undefined" &&
+                            item?.bedName !== "" &&
+                            item?.bedName !== "null",
+                        )
+                        .map((item) => ({
+                          value: item?.bedId,
+                          label: item?.bedName,
+                        }))
                       : []
                   }
                   value={
                     availableBed
                       ? (() => {
-                          const selected = availableBed?.find(
-                            (option) => option?.bedId === bookingBed,
-                          );
-                          return selected
-                            ? {
-                                value: selected.bedId,
-                                label: selected.bedName,
-                              }
-                            : null;
-                        })()
+                        const selected = availableBed?.find(
+                          (option) => option?.bedId === bookingBed,
+                        );
+                        return selected
+                          ? {
+                            value: selected.bedId,
+                            label: selected.bedName,
+                          }
+                          : null;
+                      })()
                       : null
                   }
                   onChange={handleBookingBedChange}
@@ -1909,8 +1913,8 @@ function AddTenantBookingCheckin({
                 value={
                   modeOfPayment
                     ? paymentOptions.find(
-                        (opt) => opt.value === String(modeOfPayment),
-                      ) || null
+                      (opt) => opt.value === String(modeOfPayment),
+                    ) || null
                     : null
                 }
                 placeholder="Select Payment"
@@ -1987,11 +1991,10 @@ function AddTenantBookingCheckin({
                 className={`!font-gilroy text-sm border-1 !font-semibold !rounded-md 
   !py-2.5 px-4 mb-2 max-h-[45px] w-[146px] whitespace-nowrap 
   flex items-center justify-center gap-2
-  ${
-    formLoading
-      ? "!bg-[#EBEFFF] text-[#A0A0A0] border-[#D6DEFF] cursor-not-allowed opacity-70"
-      : "!bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] cursor-pointer"
-  }`}
+  ${formLoading
+                    ? "!bg-[#EBEFFF] text-[#A0A0A0] border-[#D6DEFF] cursor-not-allowed opacity-70"
+                    : "!bg-[#EBEFFF] text-[#1E45E1] border-[#D6DEFF] cursor-pointer"
+                  }`}
               >
                 {formLoading ? (
                   <>
@@ -2005,7 +2008,7 @@ function AddTenantBookingCheckin({
             )}
             <div className="flex gap-2">
               <button
-                disabled={!isConfirmChecked || bookingLoading}
+                disabled={!isConfirmChecked || bookingLoading || !canWriteBooking}
                 onClick={handleAddBooking}
                 className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
@@ -2035,11 +2038,10 @@ function AddTenantBookingCheckin({
             <button
               type="button"
               onClick={() => setStayType("LONG")}
-              className={`px-6 py-2 text-sm font-medium rounded-md transition-all w-full ${
-                stayType === "LONG"
-                  ? "bg-[#1E45E1] text-white shadow-sm"
-                  : "text-[#222222]"
-              }`}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all w-full ${stayType === "LONG"
+                ? "bg-[#1E45E1] text-white shadow-sm"
+                : "text-[#222222]"
+                }`}
             >
               Long Stay
             </button>
@@ -2047,11 +2049,10 @@ function AddTenantBookingCheckin({
             <button
               type="button"
               onClick={() => setStayType("SHORT")}
-              className={`px-6 py-2 text-sm font-medium rounded-md transition-all  w-full  ${
-                stayType === "SHORT"
-                  ? "bg-[#1E45E1] text-white shadow-sm"
-                  : "text-[#222222]"
-              }`}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all  w-full  ${stayType === "SHORT"
+                ? "bg-[#1E45E1] text-white shadow-sm"
+                : "text-[#222222]"
+                }`}
             >
               Short Stay
             </button>
@@ -2066,9 +2067,8 @@ function AddTenantBookingCheckin({
                   </label>
                   <div className="datepicker-wrapper relative w-full">
                     <DatePicker
-                      className={`w-full h-[42px] cursor-pointer font-gilroy ${
-                        joiningDate ? "font-semibold" : "font-medium"
-                      }`}
+                      className={`w-full h-[42px] cursor-pointer font-gilroy ${joiningDate ? "font-semibold" : "font-medium"
+                        }`}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={joiningDate ? dayjs(joiningDate) : null}
@@ -2104,11 +2104,10 @@ function AddTenantBookingCheckin({
                           handleBedLayoutPreview("checkin-way");
                         }
                       }}
-                      className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${
-                        joiningDate
-                          ? "bg-[#EDF3FF] text-[#1E45E1]"
-                          : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      }`}
+                      className={`px-2 py-1 text-[10px] rounded flex gap-2 items-center ${joiningDate
+                        ? "bg-[#EDF3FF] text-[#1E45E1]"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}
                     >
                       <IoBedOutline className="text-[12px]" />
                       Bed Layout View
@@ -2172,33 +2171,33 @@ function AddTenantBookingCheckin({
                       options={
                         availableCheckinBed
                           ? availableCheckinBed
-                              .filter(
-                                (item) =>
-                                  item &&
-                                  item?.bedName !== "0" &&
-                                  item?.bedName !== "undefined" &&
-                                  item?.bedName !== "" &&
-                                  item?.bedName !== "null",
-                              )
-                              .map((item) => ({
-                                value: item?.bedId,
-                                label: item?.bedName,
-                              }))
+                            .filter(
+                              (item) =>
+                                item &&
+                                item?.bedName !== "0" &&
+                                item?.bedName !== "undefined" &&
+                                item?.bedName !== "" &&
+                                item?.bedName !== "null",
+                            )
+                            .map((item) => ({
+                              value: item?.bedId,
+                              label: item?.bedName,
+                            }))
                           : []
                       }
                       value={
                         availableCheckinBed
                           ? (() => {
-                              const selected = availableCheckinBed?.find(
-                                (option) => option?.bedId === checkinBed,
-                              );
-                              return selected
-                                ? {
-                                    value: selected.bedId,
-                                    label: selected.bedName,
-                                  }
-                                : null;
-                            })()
+                            const selected = availableCheckinBed?.find(
+                              (option) => option?.bedId === checkinBed,
+                            );
+                            return selected
+                              ? {
+                                value: selected.bedId,
+                                label: selected.bedName,
+                              }
+                              : null;
+                          })()
                           : null
                       }
                       onChange={handleCheckinBedChange}
@@ -2241,14 +2240,12 @@ function AddTenantBookingCheckin({
 
                       // setAdvanceAmountError("");
                     }}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                      isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
-                    }`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${isAdvanceRefused ? "bg-blue-600" : "bg-gray-300"
+                      }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
-                        isAdvanceRefused ? "translate-x-6" : "translate-x-1"
-                      }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${isAdvanceRefused ? "translate-x-6" : "translate-x-1"
+                        }`}
                     />
                   </button>
                 </div>
@@ -2270,13 +2267,11 @@ function AddTenantBookingCheckin({
                         onChange={handleAdvanceAmount}
                         disabled={isAdvanceRefused}
                         onWheel={(e) => e.target.blur()}
-                        className={`w-full text-[14px] text-gray-700 font-gilroy ${
-                          advanceAmount ? "font-semibold" : "font-medium"
-                        } shadow-none border h-12 rounded-md px-3 outline-none ${
-                          isAdvanceRefused
+                        className={`w-full text-[14px] text-gray-700 font-gilroy ${advanceAmount ? "font-semibold" : "font-medium"
+                          } shadow-none border h-12 rounded-md px-3 outline-none ${isAdvanceRefused
                             ? "bg-gray-100 border-gray-200 cursor-not-allowed"
                             : "border-gray-300"
-                        }`}
+                          }`}
                       />
 
                       {!isAdvanceRefused && checkInAdvanceAmountError && (
@@ -2513,11 +2508,10 @@ function AddTenantBookingCheckin({
                               onClick={() => {
                                 handleAddCustomRent();
                               }}
-                              className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${
-                                customRentEnable
-                                  ? "bg-[#0D1B8E] text-white"
-                                  : "bg-[#EAEEFF] text-[#1E45E1]"
-                              }`}
+                              className={`text-sm rounded-md px-6 py-2 flex items-center gap-2 font-medium transition-all ${customRentEnable
+                                ? "bg-[#0D1B8E] text-white"
+                                : "bg-[#EAEEFF] text-[#1E45E1]"
+                                }`}
                             >
                               {customRentEnable ? (
                                 <>
@@ -2553,9 +2547,8 @@ function AddTenantBookingCheckin({
                                   value={customRent}
                                   onChange={handleCustomRentChange}
                                   onWheel={(e) => e.target.blur()}
-                                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                                    customRent ? "font-semibold" : "font-medium"
-                                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
+                                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${customRent ? "font-semibold" : "font-medium"
+                                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 pr-16 focus:outline-none`}
                                 />
 
                                 <button
@@ -2863,7 +2856,7 @@ function AddTenantBookingCheckin({
                 )}
                 <div className="flex gap-2">
                   <button
-                    disabled={!isConfirmed || checkInLoading}
+                    disabled={!isConfirmed || checkInLoading || !canWriteCustomers}
                     onClick={handleCheckin}
                     className="!font-gilroy text-sm !bg-[#1E45E1] !text-white !font-semibold 
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap

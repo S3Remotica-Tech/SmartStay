@@ -316,7 +316,7 @@ function CreateAccountPage() {
         confirmPassword: confirmpassword
       }
     });
-    // setLoading(true)
+    setLoading(true)
   };
 
 

@@ -349,7 +349,6 @@ function BankingLedger() {
     }
   }, [state.bankingDetails.getBankingLedgerListSuccessStatus, state.bankingDetails?.getBankingLedgerList.transactions]);
 
-  // console.log(" state.bankingDetails?.getBankingLedgerList", state.bankingDetails?.getBankingLedgerList)
 
 
   const currentPageTransaction =
