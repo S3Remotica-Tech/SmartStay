@@ -232,8 +232,8 @@ function Dashboard() {
 
 
   useEffect(() => {
-    const hostelId = state.login.selectedHostel_Id;
-    if (!state.login.isLoggedIn || !hostelId) {
+    const hostelId = state?.login?.selectedHostel_Id;
+    if (!hostelId) {
       return;
     }
     dispatch({

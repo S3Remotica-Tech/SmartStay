@@ -131,17 +131,11 @@ function SettingNewRole() {
 
   useEffect(() => {
     const hostelId = state?.login?.selectedHostel_Id;
-
-    if (
-      !hostelId ||
-      hostelId === "null" ||
-      hostelId === "undefined" ||
-      hostelId === ""
-    )
-      return;
-
-    dispatch({ type: "SETTING_ROLE_LIST", payload: hostelId });
-    setLoading(true);
+    console.log("hostelId", hostelId)
+    if (hostelId) {
+      // dispatch({ type: "SETTING_ROLE_LIST", payload: hostelId });
+      setLoading(true);
+    }
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
@@ -217,7 +211,7 @@ function SettingNewRole() {
     });
     setTimeout(() => {
       dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
-    }, 1000);
+    }, 100);
   }, [state.Settings.statusCodeForAddRole]);
 
   useEffect(() => {
@@ -232,7 +226,7 @@ function SettingNewRole() {
       });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.Settings.StatusForDeletePermission]);
 
@@ -249,7 +243,7 @@ function SettingNewRole() {
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_SETTING_ROLE" });
         dispatch({ type: "CLEAR_EDIT_PERMISSION" });
-      }, 1000);
+      }, 100);
     }
   }, [state.Settings.StatusForEditPermission]);
 
@@ -283,11 +277,10 @@ function SettingNewRole() {
               onClick={handleAddRole}
               disabled={!canWriteRole}
               className={`h-[38px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition flex justify-center items-center gap-1
-        ${
-          canWriteRole
-            ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+        ${canWriteRole
+                  ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
             >
               <AddCircle color="#FFFFFF" size="16" /> Create Role
             </button>
@@ -366,11 +359,10 @@ function SettingNewRole() {
                             }}
                           >
                             <div
-                              className={`flex items-center gap-2 px-3 py-2 rounded ${
-                                view.editable && canUpdateRole
-                                  ? "cursor-pointer hover:bg-blue-50"
-                                  : "opacity-50 cursor-not-allowed"
-                              }`}
+                              className={`flex items-center gap-2 px-3 py-2 rounded ${view.editable && canUpdateRole
+                                ? "cursor-pointer hover:bg-blue-50"
+                                : "opacity-50 cursor-not-allowed"
+                                }`}
                               onClick={() => {
                                 if (view.editable && canUpdateRole)
                                   handleEditForm(view);
@@ -383,11 +375,10 @@ function SettingNewRole() {
                             </div>
 
                             <div
-                              className={`flex items-center gap-2 px-3 py-2  rounded ${
-                                view.editable && canDeleteRole
-                                  ? "cursor-pointer hover:bg-blue-50"
-                                  : "opacity-50 cursor-not-allowed"
-                              }`}
+                              className={`flex items-center gap-2 px-3 py-2  rounded ${view.editable && canDeleteRole
+                                ? "cursor-pointer hover:bg-blue-50"
+                                : "opacity-50 cursor-not-allowed"
+                                }`}
                               onClick={() =>
                                 view.editable &&
                                 canDeleteRole &&

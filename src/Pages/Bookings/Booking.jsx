@@ -744,7 +744,9 @@ function Booking() {
       });
     }
 
-    if (filters?.minAmount !== "" && filters?.minAmount !== null) {
+    if (filters?.minAmount !== "" && filters?.minAmount !== null &&
+      filters?.minAmount !== undefined
+    ) {
       filterData.push({
         key: "minAmount",
         label: "Min Amount",
@@ -753,7 +755,9 @@ function Booking() {
       });
     }
 
-    if (filters?.maxAmount !== "" && filters?.maxAmount !== null) {
+    if (filters?.maxAmount !== "" && filters?.maxAmount !== null &&
+      filters?.maxAmount !== undefined
+    ) {
       filterData.push({
         key: "maxAmount",
         label: "Max Amount",

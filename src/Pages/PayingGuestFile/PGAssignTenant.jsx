@@ -254,6 +254,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
   const [customRentEnable, setCustomRentEnable] = useState(false);
   const [customRent, setCustomRent] = useState("");
   const [customRentEditMode, setCustomRentEditMode] = useState(true);
+
+  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
+
+  // console.log("canWriteBooking", canWriteBooking)
   // const [oneTimePayments, setOneTimePayments] = useState([]);
 
   // const hasGracePeriod =
@@ -460,7 +464,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     setErrors(updatedErrors);
   };
 
-  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

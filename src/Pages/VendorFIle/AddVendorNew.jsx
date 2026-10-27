@@ -883,7 +883,7 @@ function AddVendorNew() {
             mobile: businessMobile,
             businessMobileCode: businessCountryCode?.value || "",
             contactPersonMobile: vendor_Mobile,
-            contactPersonMobileCode: countryCode.value || "",
+            contactPersonMobileCode: countryCode?.value || "",
             mailId: email_Id,
             houseNo: house_no,
             landmark: landmark,
@@ -1018,9 +1018,9 @@ function AddVendorNew() {
       setCountryCode(
         vendorOverView.contactPersonMobile
           ? {
-              value: vendorOverView.contactPersonMobileCode || "91",
-              label: vendorOverView.contactPersonMobileCode || "91",
-            }
+            value: vendorOverView.contactPersonMobileCode || "91",
+            label: vendorOverView.contactPersonMobileCode || "91",
+          }
           : null,
       );
 
@@ -1117,9 +1117,8 @@ function AddVendorNew() {
                   ref={vendorNameRef}
                   type="text"
                   placeholder="Enter First Name"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    vendorName ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${vendorName ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
               </div>
 
@@ -1140,9 +1139,8 @@ function AddVendorNew() {
                   ref={businessNameRef}
                   type="text"
                   placeholder="Enter Business Name"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    businessName ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${businessName ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
                 <span className="text-xs py-2 text-[#64748B]">
                   Note : Max 50 Characters
@@ -1204,9 +1202,8 @@ function AddVendorNew() {
                     ref={businessMobileRef}
                     placeholder="Enter Mobile Number"
                     maxLength={10}
-                    className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
-                      businessMobile ? "font-semibold" : "font-medium"
-                    } focus:outline-none focus:ring-0`}
+                    className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${businessMobile ? "font-semibold" : "font-medium"
+                      } focus:outline-none focus:ring-0`}
                   />
                 </div>
 
@@ -1244,9 +1241,8 @@ function AddVendorNew() {
                   type="text"
                   ref={contactPersonNameRef}
                   placeholder="Enter Proprietor / Contact Person Name"
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    contactPersonName ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${contactPersonName ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] h-[50px] rounded-[8px] px-3 focus:outline-none focus:ring-0`}
                 />
 
                 {/* {contactPersonNameError && (
@@ -1282,9 +1278,8 @@ function AddVendorNew() {
                     type="text"
                     placeholder="Enter Mobile Number"
                     maxLength={10}
-                    className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
-                      vendor_Mobile ? "font-semibold" : "font-medium"
-                    } focus:outline-none focus:ring-0`}
+                    className={`flex-1 h-[50px] px-3 border border-l-0 border-[#D9D9D9] rounded-r-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${vendor_Mobile ? "font-semibold" : "font-medium"
+                      } focus:outline-none focus:ring-0`}
                   />
                 </div>
 
@@ -1313,9 +1308,8 @@ function AddVendorNew() {
                   onChange={handleEmailChange}
                   type="email"
                   placeholder="Enter Email ID"
-                  className={`w-full h-[50px] px-3 border border-[#D9D9D9] rounded-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${
-                    email_Id ? "font-semibold" : "font-medium"
-                  } focus:outline-none focus:ring-0`}
+                  className={`w-full h-[50px] px-3 border border-[#D9D9D9] rounded-[8px] text-[15px] text-[#4B4B4B] font-gilroy ${email_Id ? "font-semibold" : "font-medium"
+                    } focus:outline-none focus:ring-0`}
                 />
 
                 {emailError && (
@@ -1346,9 +1340,8 @@ function AddVendorNew() {
                   onChange={handleHouseNo}
                   placeholder="Enter Commercial Address"
                   rows={4}
-                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${
-                    house_no ? "font-semibold" : "font-medium"
-                  } border border-[#D9D9D9] rounded-[8px] px-3 py-3 resize-none focus:outline-none focus:ring-0`}
+                  className={`w-full text-[15px] text-[#4B4B4B] font-gilroy ${house_no ? "font-semibold" : "font-medium"
+                    } border border-[#D9D9D9] rounded-[8px] px-3 py-3 resize-none focus:outline-none focus:ring-0`}
                 />
               </div>
 
@@ -1373,9 +1366,8 @@ function AddVendorNew() {
                   placeholder="E.g, near Apollo Hospital"
                   value={landmark}
                   onChange={handleLandmark}
-                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[15px] text-[#4B4B4B] font-gilroy ${
-                    landmark ? "font-semibold" : "font-medium"
-                  } focus:outline-none focus:ring-0`}
+                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[15px] text-[#4B4B4B] font-gilroy ${landmark ? "font-semibold" : "font-medium"
+                    } focus:outline-none focus:ring-0`}
                 />
               </div>
             </div>
@@ -1392,9 +1384,8 @@ function AddVendorNew() {
                   value={city}
                   ref={cityRef}
                   onChange={handleCity}
-                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[16px] text-[#4B4B4B] font-gilroy ${
-                    city ? "font-semibold" : "font-medium"
-                  } focus:outline-none focus:ring-0`}
+                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[16px] text-[#4B4B4B] font-gilroy ${city ? "font-semibold" : "font-medium"
+                    } focus:outline-none focus:ring-0`}
                 />
               </div>
 
@@ -1444,9 +1435,8 @@ function AddVendorNew() {
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="Enter Pincode"
-                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[15px] text-[#4B4B4B] font-gilroy ${
-                    pinCode ? "font-semibold" : "font-medium"
-                  } focus:outline-none focus:ring-0`}
+                  className={`w-full h-[50px] rounded-[8px] border border-[#D9D9D9] px-3 text-[15px] text-[#4B4B4B] font-gilroy ${pinCode ? "font-semibold" : "font-medium"
+                    } focus:outline-none focus:ring-0`}
                 />
 
                 {pinCodeError && (
@@ -1467,9 +1457,8 @@ function AddVendorNew() {
                 onChange={handleDescriptionChange}
                 placeholder="Ex : Wifi Bill Paid for May"
                 rows={3}
-                className={`w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] text-[#4B4B4B] font-gilroy ${
-                  description ? "font-semibold" : "font-medium"
-                } resize-none focus:outline-none focus:ring-0`}
+                className={`w-full rounded-[8px] border border-[#D9D9D9] px-3 py-3 text-[15px] text-[#4B4B4B] font-gilroy ${description ? "font-semibold" : "font-medium"
+                  } resize-none focus:outline-none focus:ring-0`}
               />
 
               {descriptionError && (
@@ -1611,9 +1600,8 @@ function AddVendorNew() {
             type="submit"
             disabled={formLoading}
             onClick={handleAddVendor}
-            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${
-              formLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
+            className={`bg-[#1E45E1] text-white px-6 py-2 rounded-[8px] text-sm font-medium flex items-center justify-center gap-2 ${formLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
           >
             {formLoading ? (
               <>
