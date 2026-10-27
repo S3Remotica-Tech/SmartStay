@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import AddAsset from "./AddAsset";
 import AssetListTable from "../../Pages/AssetFile/AssetListTable";
-import { SearchNormal1, Setting3 } from "iconsax-react";
-import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+import { SearchNormal1 } from "iconsax-react";
+// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -36,8 +36,8 @@ function Asset() {
   // const [showFilterData, setShowFilterData] = useState(false);
   // const [hoveredIndex, setHoveredIndex] = useState(null);
   // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
-  const [ExcelDownloadDates, setExcelDownloadDates] = useState([]);
-  const [filterexcelprice, setFilterExcelPrice] = useState("");
+  // const [ExcelDownloadDates, setExcelDownloadDates] = useState([]);
+  // const [filterexcelprice, setFilterExcelPrice] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const { canWriteModule: canWriteAssets, canReadModule: canReadAssets } =
     useHasPermission("Assets");

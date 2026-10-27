@@ -256,7 +256,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
 
   const [expenseList, setExpenseList] = useState([]);
 
-  const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
+  // const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
 
 
 

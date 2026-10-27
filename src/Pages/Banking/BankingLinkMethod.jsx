@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Wallet3, Card, More, Add } from "iconsax-react";
+import { Wallet3, Card, Add } from "iconsax-react";
 import AddMethod from "../Banking/AddMethod/AddMethod";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import { useHasPermission } from "../../Utils/Permission";

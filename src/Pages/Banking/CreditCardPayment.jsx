@@ -203,6 +203,8 @@ SingleValue.propTypes = {
     type: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.node,
+    subLabel: PropTypes.string,
+
   }).isRequired,
 };
 const DropdownIndicator = (props) => (
@@ -659,5 +661,6 @@ CreditCardPayment.propTypes = {
   handleClose: PropTypes.func.isRequired,
   isBank: PropTypes.bool,
   bankId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
 };
 export default CreditCardPayment;

@@ -203,6 +203,7 @@ SingleValue.propTypes = {
     type: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.node,
+    subLabel: PropTypes.string,
   }).isRequired,
 };
 const DropdownIndicator = (props) => (

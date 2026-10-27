@@ -152,6 +152,7 @@ function BankingNew() {
   // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
+  console.log("", deleteBankId)
 
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
@@ -218,7 +219,8 @@ function BankingNew() {
     });
   };
 
-  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking, canUpdateModule: canUpdateBanking,
+  const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
+    //  canUpdateModule: canUpdateBanking,
     //  canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
