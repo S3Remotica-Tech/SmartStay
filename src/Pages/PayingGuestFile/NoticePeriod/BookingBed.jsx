@@ -126,10 +126,22 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
   const paymentOptions = Array.isArray(
     state.bankingDetails.bankingList.listBanks,
   )
-    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
+    ? state.bankingDetails?.bankingList?.listBanks.map((item) => {
+      if (item?.isBank) {
+        let label = item?.accountHolderName +
+          (item?.bankName != null ? "-" + item.bankName : "") +
+          "-" + item?.accountType;
+        return {
+          value: String(item.bankingId),
+          label: label,
+        }
+      }
+      let label = item?.accountHolderName + "-" + (item?.bankName != null ? "-" + item.bankName : "") + item?.accountType
+      return {
         value: String(item.bankingId),
-        label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
-      }))
+        label: label,
+      }
+    })
     : [];
   const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
     if (!value || value === "Select a PG") {
@@ -342,17 +354,17 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
                     value={
                       booking_customername
                         ? (() => {
-                            const user = state.UsersList?.TenantList?.find(
-                              (u) => u.customerId === booking_customername,
-                            );
+                          const user = state.UsersList?.TenantList?.find(
+                            (u) => u.customerId === booking_customername,
+                          );
 
-                            return user
-                              ? {
-                                  value: user.customerId,
-                                  label: user.fullName,
-                                }
-                              : null;
-                          })()
+                          return user
+                            ? {
+                              value: user.customerId,
+                              label: user.fullName,
+                            }
+                            : null;
+                        })()
                         : null
                     }
                     placeholder="Select Tenant"
@@ -540,8 +552,8 @@ function BookingBed({ show, handleClose, currentItem, selectedTenant }) {
                       value={
                         modeOfPayment
                           ? paymentOptions.find(
-                              (opt) => opt.value === String(modeOfPayment),
-                            ) || null
+                            (opt) => opt.value === String(modeOfPayment),
+                          ) || null
                           : null
                       }
                       placeholder="Select Payment"

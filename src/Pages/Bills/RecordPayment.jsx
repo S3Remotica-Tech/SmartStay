@@ -327,20 +327,40 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
   //   })) || [];
 
   const paymentOptionsV1 =
-    TenantDetails?.accountInfo?.map((bank) => ({
-      value: bank.bankId,
-      label: bank.accountHolderName,
-      type: bank.type || bank.bankName,
-      icon:
-        bank.type === "BANK" || bank.bankName === "BANK" ? (
-          <Bank color="#1E45E1" size="16" />
-        ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
-          <Wallet2 color="#038C3D" size="16" />
-        ) : (
-          <Card color="#F59E0B" size="16" />
-        ),
-      data: bank,
-    })) || [];
+    TenantDetails?.accountInfo?.map((bank) => {
+      if (bank?.isBank) {
+        let label = bank?.accountHolderName + "-" + bank?.bankName
+        return {
+          value: bank.bankId,
+          label: label,
+          type: bank.accountType || bank.bankName,
+          icon:
+            bank.type === "BANK" || bank.bankName === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
+              <Wallet2 color="#038C3D" size="16" />
+            ) : (
+              <Card color="#F59E0B" size="16" />
+            ),
+          data: bank,
+        }
+      }
+      let label = bank.displayName + "-" + bank.accountType
+      return {
+        value: bank.bankId,
+        label: label,
+        type: bank.accountType || bank.bankName,
+        icon:
+          bank.type === "BANK" || bank.bankName === "BANK" ? (
+            <Bank color="#1E45E1" size="16" />
+          ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
+            <Wallet2 color="#038C3D" size="16" />
+          ) : (
+            <Card color="#F59E0B" size="16" />
+          ),
+        data: bank,
+      }
+    }) || [];
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
