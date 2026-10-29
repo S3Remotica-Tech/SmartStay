@@ -123,14 +123,15 @@ const Option = (props) => {
   return (
     <components.Option {...props}>
       <div className="flex items-center justify-between gap-2 py-1 w-full min-w-0 overflow-hidden">
-
+        {console.log("data", data)}
         <div className="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
           <div
-            className={`w-9 h-9 shrink-0 rounded-full ${data?.type === "BANK"
-              ? "bg-blue-100"
-              : data?.type === "CASH"
-                ? "bg-green-100"
-                : "bg-orange-100 text-orange-700"
+            className={`w-9 h-9 shrink-0 rounded-full ${data?.isUpi
+              ? "bg-gray-200" : data?.type === "BANK"
+                ? "bg-blue-100"
+                : data?.type === "CASH"
+                  ? "bg-green-100"
+                  : "bg-orange-100 text-orange-700"
               } flex items-center justify-center`}
           >
             {data.icon}
@@ -177,11 +178,12 @@ const SingleValue = (props) => {
     <components.SingleValue {...props}>
       <div className="flex items-center gap-2 w-full min-w-0 overflow-hidden">
         <div
-          className={`w-7 h-7 shrink-0 rounded-md flex items-center justify-center ${data.type === "BANK"
-            ? "bg-blue-100"
-            : data.type === "CASH"
-              ? "bg-green-100"
-              : "bg-orange-100"
+          className={`w-7 h-7 shrink-0 rounded-md flex items-center justify-center ${data?.isUpi
+            ? "bg-gray-200" : data.type === "BANK"
+              ? "bg-blue-100"
+              : data.type === "CASH"
+                ? "bg-green-100"
+                : "bg-orange-100"
             }`}
         >
           {data.icon}
@@ -411,8 +413,14 @@ function BookingModal(props) {
         label: label,
         subLabel: subLabel,
         type: accountType || bank?.bankName,
-
-        icon:
+        isUpi: bank?.isUpi,
+        icon: bank?.isUpi && bank?.upiIcon ? (
+          <img
+            src={bank.upiIcon}
+            alt="UPI"
+            className="w-5 h-5 object-contain"
+          />
+        ) :
           accountType === "BANK" ? (
             <Bank color="#1E45E1" size="16" />
           ) : accountType === "CASH" ? (
