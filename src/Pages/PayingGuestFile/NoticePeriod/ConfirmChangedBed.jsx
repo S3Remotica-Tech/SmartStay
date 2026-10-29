@@ -29,7 +29,7 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     currentBed: PropTypes.func.isRequired,
   };
 
- 
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -40,7 +40,8 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
   const [newRoomRent, setNewRoomRent] = useState("");
   const [sameAsCurrent, setSameAsCurrent] = useState(false);
   const [errors, setErrors] = useState({ date: "", rent: "" });
-  const CustomerOverView = state.UsersList?.customerdetails;
+  const CustomerOverView = state?.UsersList?.customerdetails;
+  console.log("CustomerOverView", CustomerOverView)
   const currentRoomRent = currentBed?.rentAmount || 0;
   const handleDateChange = (date) => {
     setSelectedDate(date ? date.toDate() : null);
@@ -153,9 +154,9 @@ function ConfirmChangeBed({ show, handleClose, currentBed }) {
     const lastBillDate =
       invoices.length > 0
         ? dayjs(
-            invoices[invoices.length - 1].invoiceGeneratedDate,
-            "DD/MM/YYYY",
-          )
+          invoices[invoices.length - 1].invoiceGeneratedDate,
+          "DD/MM/YYYY",
+        )
         : null;
 
     let latestBedChangeDate = null;

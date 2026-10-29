@@ -247,7 +247,7 @@ function Dashboard() {
     });
 
     setLoading(true);
-  }, [state.login.isLoggedIn, state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id]);
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {

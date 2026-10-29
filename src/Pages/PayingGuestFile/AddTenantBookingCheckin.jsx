@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import {
@@ -17,7 +17,7 @@ import {
   InfoCircle,
   // ArrowUp2,
   // ArrowDown2,
-  ArrowRight2,
+  ArrowRight2, ArrowDown2, Bank, Wallet2, Card
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { IoBedOutline } from "react-icons/io5";
@@ -36,15 +36,118 @@ const reasonOptions = [
 //   { label: "First Floor", value: "first" },
 // ];
 
+const Option = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center justify-between py-1">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
+          >
+            {data.icon}
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-[#222222]">
+              {data.label}
+            </span>
+
+            {data.subLabel && (
+              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
+            )}
+          </div>
+        </div>
+        {data.type && <span
+          className={`px-2 py-1 rounded-full text-[10px] font-semibold
+             ${data.type === "BANK"
+              ? "bg-blue-100 text-blue-700"
+              : data.type === "CASH"
+                ? "bg-green-100 text-green-700"
+                : "bg-orange-100 text-orange-700"
+
+            }`}
+        >
+          {data.type}
+        </span>
+        }
+      </div>
+    </components.Option>
+  );
+};
+Option.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    subLabel: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+
+const SingleValue = (props) => {
+  const { data } = props;
+
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <div
+          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+            ? "bg-blue-100"
+            : data.type === "CASH"
+              ? "bg-green-100"
+              : "bg-orange-100"
+            }`}
+        >
+          {data.icon}
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{data.label}</span>
+          <span className="text-xs text-[#6B7280]">{data.type}</span>
+        </div>
+      </div>
+    </components.SingleValue>
+  );
+};
+SingleValue.propTypes = {
+  data: PropTypes.shape({
+    type: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.node,
+  }).isRequired,
+};
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <ArrowDown2 size={16} color="#6B7280" />
+  </components.DropdownIndicator>
+);
+DropdownIndicator.propTypes = {
+  innerProps: PropTypes.object,
+  selectProps: PropTypes.object,
+};
+const GroupHeading = (props) => (
+  <components.GroupHeading {...props}>
+    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
+      {props.data.label}
+    </div>
+  </components.GroupHeading>
+);
+GroupHeading.propTypes = {
+  data: PropTypes.shape({
+    label: PropTypes.string,
+  }).isRequired,
+};
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
-    minHeight: "45px",
+    minHeight: "50px",
     height: "45px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
-    fontSize: "14px",
-    fontFamily: "Gilroy, sans-serif",
+    fontSize: "15px",
+    fontFamily: "Gilroy",
     fontWeight: 500,
     boxShadow: "none",
     alignItems: "center",
@@ -61,7 +164,7 @@ const CustomStyles = {
   singleValue: (base, state) => ({
     ...base,
     color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 500,
+    fontWeight: 600,
   }),
 
   placeholder: (base, state) => ({
@@ -87,7 +190,7 @@ const CustomStyles = {
 
       whiteSpace: "nowrap",
       overflow: "visible",
-
+      fontFamily: "Gilroy",
       paddingLeft: isSelected ? "9px" : "12px",
 
       ...(isSelected && {
@@ -1315,26 +1418,45 @@ function AddTenantBookingCheckin({
     BANK: "Bank",
   };
 
-  const paymentOptions = Array.isArray(
-    state.UsersList?.availableBedList.bankDetails,
-  )
-    ? state.UsersList?.availableBedList?.bankDetails.map((item) => {
-      if (item?.isBank) {
-        let label = item?.accountHolderName +
-          (item?.bankName != null ? "-" + item.bankName : "") +
-          "-" + item?.accountType;
+
+  const paymentOptionsV1 =
+    state.UsersList?.availableBedList?.bankDetails?.map((bank) => {
+      if (bank?.isBank) {
+        let label = bank?.accountHolderName +
+          (bank?.bankName != null ? "-" + bank.bankName : "") +
+          "-" + bank?.accountType;
         return {
-          value: String(item.bankId),
+          value: bank.bankId,
           label: label,
+          type: bank.accountType,
+          icon:
+            bank.accountType === "BANK" || bank.bankName === "BANK" ? (
+              <Bank color="#1E45E1" size="16" />
+            ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+              <Wallet2 color="#038C3D" size="16" />
+            ) : (
+              <Card color="#F59E0B" size="16" />
+            ),
+          data: bank,
         }
       }
-      let label = item?.accountHolderName + "-" + (item?.bankName != null ? "-" + item.bankName : "") + item?.accountType
+
+      let label = bank?.accountHolderName + "-" + (bank?.bankName != null ? "-" + bank.bankName : "") + bank?.accountType
       return {
-        value: String(item.bankId),
+        value: bank.bankId,
         label: label,
+        type: bank.type,
+        icon:
+          bank.type === "BANK" || bank.bankName === "BANK" ? (
+            <Bank color="#1E45E1" size="16" />
+          ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
+            <Wallet2 color="#038C3D" size="16" />
+          ) : (
+            <Card color="#F59E0B" size="16" />
+          ),
+        data: bank,
       }
-    })
-    : [];
+    }) || [];
 
   // const handleInputChangeOneTime = (index, field, value) => {
   //   const updatedFields = [...oneTimePayments];
@@ -1918,13 +2040,13 @@ function AddTenantBookingCheckin({
               </label>
 
               <Select
-                options={paymentOptions}
+                options={paymentOptionsV1}
                 onChange={(selectedOption) =>
                   handleModeOfPaymentChange(selectedOption?.value)
                 }
                 value={
                   modeOfPayment
-                    ? paymentOptions.find(
+                    ? paymentOptionsV1?.find(
                       (opt) => opt.value === String(modeOfPayment),
                     ) || null
                     : null
@@ -1935,6 +2057,13 @@ function AddTenantBookingCheckin({
                 // isDisabled={currentItem}
                 noOptionsMessage={() => "No mode available"}
                 styles={CustomStyles}
+                components={{
+                  Option,
+                  SingleValue,
+                  DropdownIndicator,
+                  GroupHeading,
+                  IndicatorSeparator: () => null,
+                }}
               />
               {paymentError && (
                 <ErrorMessage message={paymentError} type="error" />
