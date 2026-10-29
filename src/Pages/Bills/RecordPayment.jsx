@@ -8,10 +8,11 @@ import Select, { components } from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import PropTypes from "prop-types";
 
+
 const CustomStyles = {
   control: (base, state) => ({
     ...base,
-    minHeight: "50px",
+    minHeight: "45px",
     height: "45px",
     border: "1px solid #D9D9D9",
     borderRadius: "8px",
@@ -19,82 +20,84 @@ const CustomStyles = {
     fontFamily: "Gilroy",
     fontWeight: 500,
     boxShadow: "none",
-    alignItems: "center",
-
     cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
+    backgroundColor: state.isDisabled ? "#F3F4F6" : "#FFF",
     opacity: state.isDisabled ? 0.7 : 1,
+    minWidth: 0,
   }),
 
   singleValue: (base, state) => ({
     ...base,
     color: state.isDisabled ? "#9CA3AF" : "#333",
     fontWeight: 600,
+    maxWidth: "100%",
+    overflow: "hidden",
   }),
 
-  placeholder: (base, state) => ({
+  placeholder: (base) => ({
     ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
+    color: "#6B7280",
   }),
 
-  option: (base, state) => {
-    const isSelected = state.isSelected;
-
-    return {
-      ...base,
-      position: "relative",
-      fontSize: 14,
-      padding: "6px 12px",
-      backgroundColor: isSelected
-        ? "#EEF2FF"
-        : state.isFocused
-          ? "#F3F4F6"
-          : "#fff",
-      color: "#111827",
-      cursor: "pointer",
-
-      whiteSpace: "nowrap",
-      overflow: "visible",
-      fontFamily: "Gilroy",
-      paddingLeft: isSelected ? "9px" : "12px",
-
-      ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
-        fontWeight: 500,
-      }),
-    };
-  },
+  option: (base, state) => ({
+    ...base,
+    fontSize: 14,
+    padding: "6px 12px",
+    backgroundColor: state.isSelected
+      ? "#EEF2FF"
+      : state.isFocused
+        ? "#F3F4F6"
+        : "#fff",
+    color: "#111827",
+    cursor: "pointer",
+    width: "100%",
+    minWidth: 0,
+    maxWidth: "100%",
+    boxSizing: "border-box",
+    fontFamily: "Gilroy",
+    overflow: "hidden",
+    borderLeft: state.isSelected
+      ? "3px solid #1E45E1"
+      : "3px solid transparent",
+    fontWeight: state.isSelected ? 500 : 400,
+  }),
 
   menu: (base) => ({
     ...base,
+    width: "100%",
+    minWidth: 0,
+    maxWidth: "100%",
+    boxSizing: "border-box",
     backgroundColor: "#fff",
     border: "1px solid #E5E7EB",
     borderRadius: "8px",
     padding: "6px 0",
     zIndex: 9999,
-    width: "max-content",
-    minWidth: "100%",
+    overflow: "hidden",
   }),
 
   menuList: (base) => ({
     ...base,
-    maxHeight: "100px",
+    maxHeight: "150px",
     padding: 0,
     overflowY: "auto",
+    overflowX: "hidden",
+    width: "100%",
+    boxSizing: "border-box",
   }),
 
   valueContainer: (base) => ({
     ...base,
     padding: "0 8px",
+    minWidth: 0,
+    overflow: "hidden",
+    flex: 1,
   }),
 
   indicatorsContainer: (base) => ({
     ...base,
     height: "45px",
+    flexShrink: 0,
   }),
 
   dropdownIndicator: (base, state) => ({
@@ -109,42 +112,48 @@ const CustomStyles = {
   }),
 };
 
+
+
 const Option = (props) => {
   const { data } = props;
 
   return (
     <components.Option {...props}>
-      <div className="flex items-center justify-between py-1">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-2 py-1 w-full min-w-0 overflow-hidden">
+
+        <div className="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
           <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
+            className={`w-9 h-9 shrink-0 rounded-full ${data?.type === "BANK"
+              ? "bg-blue-100"
+              : data?.type === "CASH"
+                ? "bg-green-100"
+                : "bg-orange-100 text-orange-700"
+              } flex items-center justify-center`}
           >
             {data.icon}
           </div>
 
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-[#222222]">
+          <div className="flex-1 min-w-0 overflow-hidden">
+            <span className="block text-sm font-semibold text-[#222222] truncate">
               {data.label}
             </span>
-
             {data.subLabel && (
               <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
-            )}
-          </div>
+            )}          </div>
         </div>
-        {data.type && <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold
-             ${data.type === "BANK"
+
+        {data.type && (
+          <span
+            className={`shrink-0 px-2 py-1 rounded-full text-[10px] font-semibold ${data.type === "BANK"
               ? "bg-blue-100 text-blue-700"
               : data.type === "CASH"
                 ? "bg-green-100 text-green-700"
                 : "bg-orange-100 text-orange-700"
-
-            }`}
-        >
-          {data.type}
-        </span>
-        }
+              }`}
+          >
+            {data.type}
+          </span>
+        )}
       </div>
     </components.Option>
   );
@@ -163,9 +172,9 @@ const SingleValue = (props) => {
 
   return (
     <components.SingleValue {...props}>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full min-w-0 overflow-hidden">
         <div
-          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
+          className={`w-7 h-7 shrink-0 rounded-md flex items-center justify-center ${data.type === "BANK"
             ? "bg-blue-100"
             : data.type === "CASH"
               ? "bg-green-100"
@@ -175,9 +184,11 @@ const SingleValue = (props) => {
           {data.icon}
         </div>
 
-        <div className="flex flex-col">
-          <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.subLabel || data.type}</span>
+        <div className="flex-1 min-w-0 overflow-hidden">
+          <span className="block text-sm font-medium truncate capitalize">
+            {data.label}
+          </span>
+          <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
         </div>
       </div>
     </components.SingleValue>
@@ -299,14 +310,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
     setTransactionId(e.target.value);
   };
 
-  // const bankingOptions = Array.isArray(TenantDetails?.allPaymentMethods)
-  //   ? TenantDetails?.allPaymentMethods?.map((item) => {
-  //       return {
-  //         value: item?.bankId,
-  //         label: `${item.displayName} - ${item?.bankName} - ${item.paymentMethod}`,
-  //       };
-  //     })
-  //   : [];
+
 
   // const paymentOptionsV2 =
   //   TenantDetails?.allPaymentMethods?.map((bank) => ({
@@ -328,38 +332,32 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
 
   const paymentOptionsV1 =
     TenantDetails?.accountInfo?.map((bank) => {
-      if (bank?.isBank) {
-        let label = bank?.accountHolderName + "-" + bank?.bankName
-        return {
-          value: bank.bankId,
-          label: label,
-          type: bank.accountType || bank.bankName,
-          icon:
-            bank.type === "BANK" || bank.bankName === "BANK" ? (
-              <Bank color="#1E45E1" size="16" />
-            ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
-              <Wallet2 color="#038C3D" size="16" />
-            ) : (
-              <Card color="#F59E0B" size="16" />
-            ),
-          data: bank,
-        }
-      }
-      let label = bank.displayName + "-" + bank.accountType
+      const label = bank?.isBank
+        ? `${bank?.displayName || ""}`
+        : `${bank?.displayName || ""}`;
+
+      const subLabel = bank?.isBank
+        ? `${bank?.bankName || ""}`
+        : `${bank?.accountType || ""}`;
+
+      const accountType = bank?.accountType;
+
       return {
-        value: bank.bankId,
+        value: bank?.bankId,
         label: label,
-        type: bank.accountType || bank.bankName,
+        subLabel: subLabel,
+        type: accountType || bank?.bankName,
+
         icon:
-          bank.type === "BANK" || bank.bankName === "BANK" ? (
+          accountType === "BANK" ? (
             <Bank color="#1E45E1" size="16" />
-          ) : bank.bankName === "CASH" || bank.type === "CASH" ? (
+          ) : accountType === "CASH" ? (
             <Wallet2 color="#038C3D" size="16" />
           ) : (
             <Card color="#F59E0B" size="16" />
           ),
         data: bank,
-      }
+      };
     }) || [];
 
   useEffect(() => {
@@ -657,7 +655,7 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceList }) {
                     : null
                 }
                 placeholder="Please Select"
-                className="w-full"
+                className="w-full min-w-0"
                 classNamePrefix="custom"
                 menuPlacement="auto"
                 noOptionsMessage={() => "No options available"}
