@@ -1318,10 +1318,22 @@ function AddTenantBookingCheckin({
   const paymentOptions = Array.isArray(
     state.UsersList?.availableBedList.bankDetails,
   )
-    ? state.UsersList?.availableBedList?.bankDetails.map((item) => ({
-      value: String(item.bankId),
-      label: `${item.holderName} - ${labelMap[item.type] || ""}`,
-    }))
+    ? state.UsersList?.availableBedList?.bankDetails.map((item) => {
+      if (item?.isBank) {
+        let label = item?.accountHolderName +
+          (item?.bankName != null ? "-" + item.bankName : "") +
+          "-" + item?.accountType;
+        return {
+          value: String(item.bankId),
+          label: label,
+        }
+      }
+      let label = item?.accountHolderName + "-" + (item?.bankName != null ? "-" + item.bankName : "") + item?.accountType
+      return {
+        value: String(item.bankId),
+        label: label,
+      }
+    })
     : [];
 
   // const handleInputChangeOneTime = (index, field, value) => {
