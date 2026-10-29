@@ -35,7 +35,7 @@ const ComplianceList = (props) => {
   const [deleteForm, setDeleteForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
-    const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   // const [assignId, setAssignId] = useState("");
   const [loading, setLoading] = useState(true);
   const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
@@ -101,7 +101,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
-       setDeleteLoading(false)
+      setDeleteLoading(false)
       handleCloseDeleteForm();
     }
   }, [state.ComplianceList.statusCodeForDeleteCompliance]);
@@ -273,7 +273,7 @@ const ComplianceList = (props) => {
       return;
     }
 
-   
+
     if (status === prevStatus) {
       setStatusError("No Changes Detected");
       return;
@@ -299,7 +299,7 @@ const ComplianceList = (props) => {
 
 
   const handleAssignComplaintClick = () => {
-   
+
 
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     if (alreadyAssigned === compliant && compliant !== "") {
@@ -381,7 +381,7 @@ const ComplianceList = (props) => {
   };
 
   const handleCompliant = (selectedOption) => {
-  
+
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setCompliant(selectedOption?.value || '');
 
@@ -471,7 +471,7 @@ const ComplianceList = (props) => {
 
 
   const handleNavigateComplaintsView = (view) => {
-    setComplaintsDetails(view)
+    setComplaintsDetails(view?.complaintId)
 
     setShowComplaint(true)
     setTrigger(true)
@@ -887,8 +887,8 @@ const ComplianceList = (props) => {
                   ) : (
                     <span
                       className={`text-sm font-semibold cursor-pointer ${!canWriteComplaints
-                          ? "text-gray-300"
-                          : "text-blue-600 hover:underline"
+                        ? "text-gray-300"
+                        : "text-blue-600 hover:underline"
                         }`}
                       onClick={() =>
                         canWriteComplaints
@@ -1488,10 +1488,10 @@ const ComplianceList = (props) => {
             Cancel
           </Button>
 
-         <Button
-  disabled={deleteLoading}
-  onClick={handleComplianceDelete}
-  className={`
+          <Button
+            disabled={deleteLoading}
+            onClick={handleComplianceDelete}
+            className={`
     !w-full 
     !max-w-[160px] 
     !h-[52px] 
@@ -1505,23 +1505,23 @@ const ComplianceList = (props) => {
     !text-[14px]
     ${deleteLoading ? "!opacity-70 !cursor-not-allowed" : ""}
   `}
->
-  {deleteLoading ? (
-    <div className="flex items-center justify-center gap-2">
-      <div className="w-4 h-4 border-2 border-white border-t-transparent !rounded-full animate-spin" />
-      Deleting...
-    </div>
-  ) : (
-    "Delete"
-  )}
-</Button>
+          >
+            {deleteLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent !rounded-full animate-spin" />
+                Deleting...
+              </div>
+            ) : (
+              "Delete"
+            )}
+          </Button>
         </Modal.Footer>
 
       </Modal>
 
       {
         showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView}
-          complaintsDetails={complaintsDetails}
+          complaintId={complaintsDetails}
           trigger={trigger}
         />
       }

@@ -19,9 +19,9 @@ import ErrorMessage from '../../Components/ErrorMessage';
 
 
 
-function Complaints({ show, handleClose, complaintsDetails, trigger }) {
+function Complaints({ show, handleClose, complaintId, trigger }) {
 
-    
+
 
 
     const state = useSelector((state) => state);
@@ -31,10 +31,10 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     const [commentsError, setCommentsError] = useState("");
 
     useEffect(() => {
-        if (complaintsDetails?.complaintId) {
-            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+        if (complaintId) {
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
         }
-    }, [complaintsDetails?.complaintId])
+    }, [complaintId])
 
 
 
@@ -86,7 +86,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
 
-      
+
 
 
 
@@ -169,19 +169,20 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
         if (state.ComplianceList.statusCodeForAddComplianceComment === 201) {
             setCommentsLoading(false)
             setComments('')
-            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+            if (complaintId && state.login.selectedHostel_Id) {
+                dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
+            }
 
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+            dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
 
-            }, 1000)
+
         }
     }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
+    console.log("complaintId", complaintId)
 
 
- 
 
 
 
@@ -299,7 +300,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                         <div key={i}
                                             className={`mb-3 pb-2.5 ${i !== item.comments.length - 1 ? 'border-b border-dashed border-gray-300' : ''}`}
                                         >
-                                           
+
                                             <div className="flex items-center gap-1 mt-2">
 
                                                 <div className="flex-shrink-0">
@@ -346,13 +347,10 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 Complaints.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    complaintId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
-    complaintsDetails: PropTypes.shape({
-        complaintId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        customerProfile: PropTypes.string,
-        initials: PropTypes.string,
-    }).isRequired,
+
 
 
     children: PropTypes.node,

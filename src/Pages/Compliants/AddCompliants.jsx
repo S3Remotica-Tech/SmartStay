@@ -139,7 +139,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
   const [editcomplainttype, setEditcomplainttype] = useState("");
   const [floorname, setFloorname] = useState("");
   const [room_name, setRoomName] = useState("");
-  const [userid, setUser_Id] = useState("");
+  // const [userid, setUser_Id] = useState("");
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [beds, setBeds] = useState("");
@@ -175,6 +175,8 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
     });
   }, [selectedUsername]);
 
+
+
   useEffect(() => {
     if (selectedUsername) {
       if (CustomerOverview) {
@@ -183,7 +185,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
         setBeds(CustomerOverview.bedId || "");
         setBedName(CustomerOverview.bedName || "");
         setRooms(CustomerOverview.roomId || "");
-        setUser_Id(state.UsersList?.customerdetails?.customerId || "");
+        // setSelectedUserName(state.UsersList?.customerdetails?.customerId || "");
         setRoomName(CustomerOverview.roomName || "");
         setFloorname(CustomerOverview.floorName || "");
       } else {
@@ -202,7 +204,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
       setRooms("");
       setFloorname("");
     }
-  }, [selectedUsername]);
+  }, [selectedUsername, CustomerOverview]);
 
   const handleCheckoutChange = (selectedOption) => {
     setSelectedUserName(selectedOption?.value || "");
@@ -275,7 +277,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
       : null;
 
     const payload = {
-      customerId: userid,
+      customerId: selectedUsername,
       complaintTypeId: Complainttype,
       floorId: Floor,
       roomId: Rooms,
@@ -330,6 +332,14 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
       setFormLoading(false);
     }
   }, [state.ComplianceList.statusCodeForEditCompliant]);
+
+  useEffect(() => {
+    if (state?.ComplianceList?.errorMessageCompliants) {
+      setFormLoading(false);
+      dispatch({ type: 'REMOVE_EDIT_COMPLAINT_FAILURE' })
+    }
+
+  }, [state.ComplianceList?.errorMessageCompliants])
 
   useEffect(() => {
     if (ComplaintData) {
@@ -400,17 +410,17 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                   value={
                     selectedUsername
                       ? (() => {
-                          const user = (
-                            state?.UsersList?.TenantList || []
-                          ).find((u) => u.customerId === selectedUsername);
+                        const user = (
+                          state?.UsersList?.TenantList || []
+                        ).find((u) => u.customerId === selectedUsername);
 
-                          return user
-                            ? {
-                                value: user.customerId,
-                                label: user.fullName || user.firstName,
-                              }
-                            : null;
-                        })()
+                        return user
+                          ? {
+                            value: user.customerId,
+                            label: user.fullName || user.firstName,
+                          }
+                          : null;
+                      })()
                       : null
                   }
                   styles={CustomStyles}
@@ -429,31 +439,31 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
               <Select
                 options={
                   Array.isArray(complainttypelist) &&
-                  complainttypelist.length > 0
+                    complainttypelist.length > 0
                     ? complainttypelist.map((u) => ({
-                        value: u.complaintTypeId,
-                        label: u.complaintTypeName,
-                      }))
+                      value: u.complaintTypeId,
+                      label: u.complaintTypeName,
+                    }))
                     : []
                 }
                 onChange={handleComplaintType}
                 value={
                   edit && editcomplainttype
                     ? {
-                        value: editcomplainttype,
-                        label:
-                          complainttypelist.find(
-                            (c) => c.complaintTypeId === editcomplainttype,
-                          )?.complaintTypeName || editcomplainttype,
-                      }
+                      value: editcomplainttype,
+                      label:
+                        complainttypelist.find(
+                          (c) => c.complaintTypeId === editcomplainttype,
+                        )?.complaintTypeName || editcomplainttype,
+                    }
                     : Complainttype
                       ? {
-                          value: Complainttype,
-                          label:
-                            complainttypelist.find(
-                              (c) => c.complaintTypeId === Complainttype,
-                            )?.complaintTypeName || Complainttype,
-                        }
+                        value: Complainttype,
+                        label:
+                          complainttypelist.find(
+                            (c) => c.complaintTypeId === Complainttype,
+                          )?.complaintTypeName || Complainttype,
+                      }
                       : null
                 }
                 placeholder="Select a type"
@@ -463,9 +473,9 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
                 components={
                   edit
                     ? {
-                        DropdownIndicator: () => null,
-                        IndicatorSeparator: () => null,
-                      }
+                      DropdownIndicator: () => null,
+                      IndicatorSeparator: () => null,
+                    }
                     : undefined
                 }
                 noOptionsMessage={() => "No complaint types available"}
@@ -479,7 +489,7 @@ function AddCompliants({ show, handleClose, edit, ComplaintData }) {
 
             {state?.Settings?.Complainttypelist &&
               state?.Settings?.Complainttypelist?.complaint_types?.length ===
-                0 && (
+              0 && (
                 <>
                   <label className="pb-1 text-sm text-red-600 font-medium font-gilroy">
                     * Please add a &apos;ComplaintType&apos; option in Settings,

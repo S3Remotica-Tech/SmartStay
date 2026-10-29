@@ -400,11 +400,27 @@ function* handleComplianceadd(params) {
       });
     }
 
-    if (response) {
-      refreshToken(response);
-    }
+
   } catch (error) {
     yield* handleApiError(error);
+    if (error) {
+      yield put({ type: "EDIT_COMPLAINT_FAILURE", payload: error?.response?.data });
+      toast.error(`${error?.response?.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 }
 
@@ -442,15 +458,29 @@ function* handleEditComplaint(action) {
         progress: undefined,
         style: toastStyle,
       });
-    } else {
-      yield put({ type: "EDIT_COMPLAINT_FAILURE", payload: response.data });
     }
 
-    if (response) {
-      refreshToken(response);
-    }
+
   } catch (error) {
     yield* handleApiError(error);
+    if (error) {
+      yield put({ type: "EDIT_COMPLAINT_FAILURE", payload: error?.response?.data });
+      toast.error(`${error?.response?.data}`, {
+        style: {
+          fontFamily: "Gilroy",
+          font: "#000",
+          borderBottom: "5px solid red",
+        },
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 }
 

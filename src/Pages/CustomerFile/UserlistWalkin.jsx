@@ -417,11 +417,10 @@ function UserlistWalkin() {
                                 }
                               >
                                 <PiDotsThreeOutlineVerticalFill
-                                  className={`h-5 w-5 rotate-90 ${
-                                    dotsButton === v.customerId
-                                      ? "text-blue-700"
-                                      : "text-gray-500"
-                                  }`}
+                                  className={`h-5 w-5 rotate-90 ${dotsButton === v.customerId
+                                    ? "text-blue-700"
+                                    : "text-gray-500"
+                                    }`}
                                 />
 
                                 {dotsButton === v.customerId && (
@@ -464,11 +463,10 @@ function UserlistWalkin() {
                                       onClick={() =>
                                         canWriteTenant && handleCheckInNew(v)
                                       }
-                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
-                                        canWriteTenant
-                                          ? "cursor-pointer hover:bg-blue-50"
-                                          : "cursor-not-allowed opacity-50"
-                                      }`}
+                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteTenant
+                                        ? "cursor-pointer hover:bg-blue-50"
+                                        : "cursor-not-allowed opacity-50"
+                                        }`}
                                     >
                                       <img
                                         src={addcircle}
@@ -476,11 +474,10 @@ function UserlistWalkin() {
                                         className={`w-4 h-4 ${!canWriteTenant && "grayscale"}`}
                                       />
                                       <label
-                                        className={`text-sm font-medium ${
-                                          canWriteTenant
-                                            ? "text-gray-900 cursor-pointer"
-                                            : "text-gray-400 cursor-not-allowed"
-                                        }`}
+                                        className={`text-sm font-medium ${canWriteTenant
+                                          ? "text-gray-900 cursor-pointer"
+                                          : "text-gray-400 cursor-not-allowed"
+                                          }`}
                                       >
                                         Check-In
                                       </label>
@@ -491,11 +488,10 @@ function UserlistWalkin() {
                                       onClick={() =>
                                         canWriteBooking && handleBooking(v)
                                       }
-                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${
-                                        canWriteBooking
-                                          ? "cursor-pointer hover:bg-red-50"
-                                          : "cursor-not-allowed opacity-50"
-                                      }`}
+                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors duration-200 ${canWriteBooking
+                                        ? "cursor-pointer hover:bg-red-50"
+                                        : "cursor-not-allowed opacity-50"
+                                        }`}
                                     >
                                       <img
                                         src={Addbook}
@@ -503,11 +499,10 @@ function UserlistWalkin() {
                                         className={`w-4 h-4 ${!canWriteBooking && "grayscale"}`}
                                       />
                                       <label
-                                        className={`text-sm font-medium ${
-                                          canWriteBooking
-                                            ? "text-blue-700 cursor-pointer"
-                                            : "text-gray-400 cursor-not-allowed"
-                                        }`}
+                                        className={`text-sm font-medium ${canWriteBooking
+                                          ? "text-blue-700 cursor-pointer"
+                                          : "text-gray-400 cursor-not-allowed"
+                                          }`}
                                       >
                                         Add Booking
                                       </label>
@@ -517,11 +512,10 @@ function UserlistWalkin() {
                                       onClick={() =>
                                         canDeleteWalkin && handleDeleteShow(v)
                                       }
-                                      className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${
-                                        canDeleteWalkin
-                                          ? "cursor-pointer hover:bg-red-50"
-                                          : "cursor-not-allowed opacity-60"
-                                      } bg-gray-50`}
+                                      className={`flex items-center gap-2 px-2 py-2 rounded-md transition-colors duration-200 ${canDeleteWalkin
+                                        ? "cursor-pointer hover:bg-red-50"
+                                        : "cursor-not-allowed opacity-60"
+                                        } bg-gray-50`}
                                     >
                                       <Trash
                                         size={16}
@@ -530,11 +524,10 @@ function UserlistWalkin() {
                                         }
                                       />
                                       <label
-                                        className={`text-sm font-medium ${
-                                          canDeleteWalkin
-                                            ? "text-red-600 cursor-pointer"
-                                            : "text-gray-400 cursor-not-allowed"
-                                        }`}
+                                        className={`text-sm font-medium ${canDeleteWalkin
+                                          ? "text-red-600 cursor-pointer"
+                                          : "text-gray-400 cursor-not-allowed"
+                                          }`}
                                       >
                                         Delete
                                       </label>

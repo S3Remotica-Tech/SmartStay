@@ -49,6 +49,7 @@ export const initialState = {
   vendorRemoveError: "",
   vendorEmailError: "",
   vendorMobileError: "",
+  errorMessageCompliants: "",
 
   vendorFilters: {
     paymentStatus: "",
@@ -115,6 +116,12 @@ const ComplianceReducer = (state = initialState, action) => {
       return { ...state, errorMessage: action.payload };
     case "CLEAR_ERROR":
       return { ...state, errorMessage: "" };
+
+    case "EDIT_COMPLAINT_FAILURE":
+      return { ...state, errorMessageCompliants: action.payload };
+    case "REMOVE_EDIT_COMPLAINT_FAILURE":
+      return { ...state, errorMessageCompliants: "" };
+
     case "VENDOR_LIST":
       return {
         ...state,

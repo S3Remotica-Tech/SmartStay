@@ -17,7 +17,7 @@ function Notification({ show, handleClose }) {
   const navigate = useNavigate();
   const [notification, setNotification] = useState("");
   const [showComplaint, setShowComplaint] = useState(false);
-
+  const [complaintsDetails, setComplaintsDetails] = useState('')
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -104,13 +104,8 @@ function Notification({ show, handleClose }) {
   const handleNavigateComplaintsView = (complaintId) => {
     setShowComplaint(true);
     if (complaintId) {
-      dispatch({
-        type: "COMPLAINTSVIEWUPDATES",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          complaintsId: complaintId,
-        },
-      });
+      setComplaintsDetails(complaintId)
+
     }
   };
 
@@ -275,6 +270,7 @@ function Notification({ show, handleClose }) {
         <ComplaintsView
           show={showComplaint}
           handleClose={handleCloseComplaintsView}
+          complaintId={complaintsDetails}
         />
       )}
     </>
