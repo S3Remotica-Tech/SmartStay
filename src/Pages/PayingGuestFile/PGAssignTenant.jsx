@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { DatePicker } from "antd";
 import {
   InfoCircle,
@@ -13,7 +13,7 @@ import {
   CloseCircle,
   Trash,
   AddCircle,
-  ArrowDown2,
+  // ArrowDown2,
   Bank,
   Wallet2, Card
 } from "iconsax-react";

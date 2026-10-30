@@ -5,14 +5,14 @@ import {
   Add,
   More,
   DocumentUpload,
-  ArrowDown2,
+  // ArrowDown2,
   Bank,
   Wallet2, Card
 } from "iconsax-react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

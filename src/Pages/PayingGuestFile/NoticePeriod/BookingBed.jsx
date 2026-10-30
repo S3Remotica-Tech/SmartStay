@@ -2,13 +2,13 @@
 import { Form, FormControl } from "react-bootstrap";
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle, ArrowDown2, Bank, Wallet2, Card } from "iconsax-react";
+import { CloseCircle, Bank, Wallet2, Card } from "iconsax-react";
 import ErrorMessage from "../../../Components/ErrorMessage";
 import FormComingSoon from "../../../Utils/FormComingSoon";
 import {

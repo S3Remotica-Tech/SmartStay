@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { CloseCircle, ArrowDown2, Bank, Wallet2, Card } from "iconsax-react";
+import { CloseCircle, Bank, Wallet2, Card } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";

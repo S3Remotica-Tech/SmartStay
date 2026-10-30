@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Add } from "iconsax-react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
 import UserAdditionalContact from "../CustomerFile/UserAdditionalContact";
@@ -13,13 +13,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   SearchNormal,
   Calendar,
-  ArrowDown2,
+  // ArrowDown2,
   Bank,
   Wallet2, Card
 } from "iconsax-react";
 import CreatableSelect from "react-select/creatable";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {
   Option,
   SingleValue,

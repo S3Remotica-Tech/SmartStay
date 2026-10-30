@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import {
@@ -11,7 +11,7 @@ import {
   Edit2,
   ArrowRight,
   InfoCircle,
-  ArrowRight2, ArrowDown2, Bank, Wallet2, Card
+  ArrowRight2, Bank, Wallet2, Card
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { IoBedOutline } from "react-icons/io5";

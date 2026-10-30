@@ -3,13 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Calendar,
   DocumentUpload,
-  ArrowDown2,
   Add,
   Bank,
   Wallet2, Card
-  // ArrowRight,
 } from "iconsax-react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

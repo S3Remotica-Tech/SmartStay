@@ -58,6 +58,7 @@ Option.propTypes = {
         label: PropTypes.string,
         subLabel: PropTypes.string,
         icon: PropTypes.node,
+        isUpi: PropTypes.bool,
     }).isRequired,
 };
 
@@ -97,6 +98,7 @@ SingleValue.propTypes = {
         label: PropTypes.string,
         icon: PropTypes.node,
         subLabel: PropTypes.string,
+        isUpi: PropTypes.bool,
     }).isRequired,
 };
 

@@ -1,18 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-
 import {
-  // ArrowLeft2,
   Calendar,
   DocumentUpload,
-  // CloseCircle,
   Add,
-  ArrowDown2,
   Bank,
   Wallet2,
   Card,
 } from "iconsax-react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

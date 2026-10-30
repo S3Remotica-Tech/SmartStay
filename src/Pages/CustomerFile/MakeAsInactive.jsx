@@ -17,7 +17,7 @@ import {
   Card,
 } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-import Select, { components } from "react-select";
+import Select from "react-select";
 
 import {
   Option,
