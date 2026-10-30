@@ -116,110 +116,14 @@ const CustomStyles = {
     display: "none",
   }),
 };
+import {
+  Option,
+  SingleValue,
+  DropdownIndicator,
+  GroupHeading,
 
-const Option = (props) => {
-  const { data } = props;
+} from "../../Utils/CustomSelectComponents";
 
-  return (
-    <components.Option {...props}>
-      <div className="flex items-center justify-between py-1">
-        <div className="flex items-center gap-3">
-          <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
-          >
-            {data.icon}
-          </div>
-
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-[#222222]">
-              {data.label}
-            </span>
-
-            {data.subLabel && (
-              <span className="text-xs text-[#6B7280]">{data.subLabel}</span>
-            )}
-          </div>
-        </div>
-        {data.type && <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold
-             ${data.type === "BANK"
-              ? "bg-blue-100 text-blue-700"
-              : data.type === "CASH"
-                ? "bg-green-100 text-green-700"
-                : "bg-orange-100 text-orange-700"
-
-            }`}
-        >
-          {data.type}
-        </span>
-        }
-      </div>
-    </components.Option>
-  );
-};
-Option.propTypes = {
-  data: PropTypes.shape({
-    type: PropTypes.string,
-    icon: PropTypes.node,
-    label: PropTypes.string,
-    subLabel: PropTypes.string,
-  }).isRequired,
-};
-
-const SingleValue = (props) => {
-  const { data } = props;
-
-  return (
-    <components.SingleValue {...props}>
-      <div className="flex items-center gap-2">
-        <div
-          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
-            ? "bg-blue-100"
-            : data.type === "CASH"
-              ? "bg-green-100"
-              : "bg-orange-100"
-            }`}
-        >
-          {data.icon}
-        </div>
-
-        <div className="flex flex-col">
-          <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280]">{data.type}</span>
-        </div>
-      </div>
-    </components.SingleValue>
-  );
-};
-SingleValue.propTypes = {
-  data: PropTypes.shape({
-    type: PropTypes.string,
-    icon: PropTypes.node,
-    label: PropTypes.string,
-  }).isRequired,
-};
-
-const DropdownIndicator = (props) => (
-  <components.DropdownIndicator {...props}>
-    <ArrowDown2 size={16} color="#6B7280" />
-  </components.DropdownIndicator>
-);
-DropdownIndicator.propTypes = {
-  innerProps: PropTypes.object,
-  selectProps: PropTypes.object,
-};
-const GroupHeading = (props) => (
-  <components.GroupHeading {...props}>
-    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
-      {props.data.label}
-    </div>
-  </components.GroupHeading>
-);
-GroupHeading.propTypes = {
-  data: PropTypes.shape({
-    label: PropTypes.string,
-  }).isRequired,
-};
 
 function VendorPayment({ show, handleClose, isBanking }) {
   const state = useSelector((state) => state);
@@ -297,40 +201,78 @@ function VendorPayment({ show, handleClose, isBanking }) {
 
   const finalOutstanding = vendorInitialize?.totalDueAmount - paidAmount;
 
-  const paymentOptions =
+  // const paymentOptions =
+  //   vendorInitialize?.banks?.map((bank) => {
+  //     if (bank?.isBank) {
+  //       let label = bank?.accountHolderName + "-" + bank?.bankName
+  //       return {
+  //         value: bank.bankId,
+  //         label: label,
+  //         type: bank.accountType || bank.bankName,
+  //         icon:
+  //           bank.accountType === "BANK" || bank.bankName === "BANK" ? (
+  //             <Bank color="#1E45E1" size="16" />
+  //           ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+  //             <Wallet2 color="#038C3D" size="16" />
+  //           ) : (
+  //             <Card color="#F59E0B" size="16" />
+  //           ),
+  //         data: bank,
+  //       }
+  //     }
+  //     let label = bank.displayName + "-" + bank.accountType
+  //     return {
+  //       value: bank.bankId,
+  //       label: label,
+  //       type: bank.accountType || bank.bankName,
+  //       icon:
+  //         bank.accountType === "BANK" || bank.bankName === "BANK" ? (
+  //           <Bank color="#1E45E1" size="16" />
+  //         ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+  //           <Wallet2 color="#038C3D" size="16" />
+  //         ) : (
+  //           <Card color="#F59E0B" size="16" />
+  //         ),
+  //       data: bank,
+  //     }
+  //   }) || [];
+
+
+  const paymentOptionsV1 =
     vendorInitialize?.banks?.map((bank) => {
-      if (bank?.isBank) {
-        let label = bank?.accountHolderName + "-" + bank?.bankName
-        return {
-          value: bank.bankId,
-          label: label,
-          type: bank.accountType || bank.bankName,
-          icon:
-            bank.accountType === "BANK" || bank.bankName === "BANK" ? (
-              <Bank color="#1E45E1" size="16" />
-            ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
-              <Wallet2 color="#038C3D" size="16" />
-            ) : (
-              <Card color="#F59E0B" size="16" />
-            ),
-          data: bank,
-        }
-      }
-      let label = bank.displayName + "-" + bank.accountType
+      const label = bank?.accountHolderName || "";
+
+      const subLabel = [
+        bank?.isBank ? bank?.bankName : bank?.accountType,
+        bank?.displayName,
+      ]
+        .filter(Boolean)
+        .join(" - ");
+
+      const accountType = bank?.accountType;
+
       return {
-        value: bank.bankId,
+        value: bank?.bankId,
         label: label,
-        type: bank.accountType || bank.bankName,
-        icon:
-          bank.accountType === "BANK" || bank.bankName === "BANK" ? (
+        subLabel: subLabel,
+        type: accountType || bank?.bankName,
+        isUpi: bank?.upiIcons,
+        icon: bank?.upiIcons ? (
+          <img
+            src={bank.upiIcons}
+            alt="UPI"
+            className="w-5 h-5 object-contain"
+          />
+        ) :
+          accountType === "BANK" ? (
             <Bank color="#1E45E1" size="16" />
-          ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+          ) : accountType === "CASH" ? (
             <Wallet2 color="#038C3D" size="16" />
           ) : (
             <Card color="#F59E0B" size="16" />
           ),
         data: bank,
-      }
+      };
     }) || [];
 
 
@@ -521,15 +463,6 @@ function VendorPayment({ show, handleClose, isBanking }) {
     }
   }, [state.login.selectedHostel_Id, selectedVendor]);
 
-  // useEffect(() => {
-  //   if (OverviewDetails?.bankId && paymentOptions.length) {
-  //     const selected = paymentOptions.find(
-  //       (option) => option.value === OverviewDetails?.bankId,
-  //     );
-
-  //     setPaymentMethod(selected || null);
-  //   }
-  // }, [OverviewDetails, paymentOptions]);
 
 
 
@@ -691,7 +624,7 @@ function VendorPayment({ show, handleClose, isBanking }) {
                   setPaymentMethod(selected);
                   setPaymentMethodError("");
                 }}
-                options={paymentOptions}
+                options={paymentOptionsV1}
                 placeholder="Select Payment Method"
                 styles={CustomStyles}
                 isSearchable={false}
