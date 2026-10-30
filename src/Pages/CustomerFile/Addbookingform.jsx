@@ -858,7 +858,7 @@ function BookingModal(props) {
                       <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
 
-                    <Select
+                    <Select isDisabled={!joiningDate}
                       options={paymentOptionsV1}
                       menuPlacement="bottom"
                       menuPosition="fixed"

@@ -13,13 +13,20 @@ import {
   // ArrowRight,
   MessageQuestion, Card
 } from "iconsax-react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Works from "./Works";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import {
+  Option,
+  SingleValue,
+  DropdownIndicator,
+  GroupHeading,
+
+} from "../../Utils/CustomSelectComponents";
 
 const CustomStyles = {
   control: (base, state) => ({
@@ -122,113 +129,7 @@ const CustomStyles = {
   }),
 };
 
-const Option = (props) => {
-  const { data } = props;
 
-  return (
-    <components.Option {...props}>
-      <div className="flex items-center justify-between py-1">
-        <div className="flex items-center gap-3">
-          <div
-            className={`w-9 h-9 rounded-full ${data?.type === "BANK" ? "bg-blue-100" : data.type === "CASH" ? "bg-green-100" : "bg-orange-100 text-orange-700"} flex items-center justify-center`}
-          >
-            {data.icon}
-          </div>
-
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-[#222222]">
-              {data.label}
-            </span>
-
-            {data.subLabel && (
-              <span className="text-xs text-[#6B7280]">{data.subLabel || data.type}</span>
-            )}
-          </div>
-        </div>
-        {data.type && <span
-          className={`px-2 py-1 rounded-full text-[10px] font-semibold capitalize
-             ${data.type === "BANK"
-              ? "bg-blue-100 text-blue-700"
-              : data.type === "CASH"
-                ? "bg-green-100 text-green-700"
-                : "bg-orange-100 text-orange-700"
-
-            }`}
-        >
-          {data?.type?.replaceAll("_", " ").toLowerCase()}
-        </span>
-        }
-      </div>
-    </components.Option>
-  );
-};
-Option.propTypes = {
-  data: PropTypes.shape({
-    type: PropTypes.string,
-    label: PropTypes.string,
-    subLabel: PropTypes.string,
-    icon: PropTypes.node,
-  }).isRequired,
-};
-
-const SingleValue = (props) => {
-  const { data } = props;
-
-  return (
-    <components.SingleValue {...props}>
-      <div className="flex items-center gap-2">
-        <div
-          className={`w-7 h-7 rounded-md flex items-center justify-center ${data.type === "BANK"
-            ? "bg-blue-100"
-            : data.type === "CASH"
-              ? "bg-green-100"
-              : "bg-orange-100"
-            }`}
-        >
-          {data.icon}
-        </div>
-
-        <div className="flex flex-col">
-          <span className="text-sm font-medium">{data.label}</span>
-          <span className="text-xs text-[#6B7280] capitalize">
-            {(data.subLabel ? data.subLabel : data.type)?.replaceAll("_", " ")}
-          </span>
-        </div>
-      </div>
-    </components.SingleValue>
-  );
-};
-SingleValue.propTypes = {
-  data: PropTypes.shape({
-    type: PropTypes.string,
-    label: PropTypes.string,
-    icon: PropTypes.node,
-    subLabel: PropTypes.string,
-
-  }).isRequired,
-};
-const DropdownIndicator = (props) => (
-  <components.DropdownIndicator {...props}>
-    <ArrowDown2 size={16} color="#6B7280" />
-  </components.DropdownIndicator>
-);
-DropdownIndicator.propTypes = {
-  innerProps: PropTypes.object,
-  selectProps: PropTypes.object,
-};
-
-const GroupHeading = (props) => (
-  <components.GroupHeading {...props}>
-    <div className="px-2 py-1 text-xs font-medium text-[#6B7280]">
-      {props.data.label}
-    </div>
-  </components.GroupHeading>
-);
-GroupHeading.propTypes = {
-  data: PropTypes.shape({
-    label: PropTypes.string,
-  }).isRequired,
-};
 function CreditCardPayment({ show, handleClose, bankId, isBank }) {
   // console.log("isBank", isBank)
   const state = useSelector((state) => state);
@@ -273,26 +174,70 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
     [state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards]
   );
   // console.log("creditCardAccount", creditCardAccount)
+  // const paymentOptions = useMemo(
+  //   () =>
+  //     state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods
+  //       ?.filter((bank) => bank.bankId !== creditCardAccount?.value)
+  //       ?.map((bank) => ({
+  //         value: bank.bankId,
+  //         label: bank.displayName,
+  //         subLabel: bank.bankName,
+
+  //         type: bank.accountType,
+  //         icon:
+  //           bank.accountType === "BANK" || bank.bankName === "BANK" ? (
+  //             <Bank color="#1E45E1" size="16" />
+  //           ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+  //             <Wallet2 color="#038C3D" size="16" />
+  //           ) : (
+  //             <Card color="#F59E0B" size="16" />
+  //           ),
+  //         data: bank,
+  //       })) || [],
+  //   [
+  //     state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods,
+  //     creditCardAccount?.value,
+  //   ]
+  // );
+
   const paymentOptions = useMemo(
     () =>
       state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods
-        ?.filter((bank) => bank.bankId !== creditCardAccount?.value)
-        ?.map((bank) => ({
-          value: bank.bankId,
-          label: bank.displayName,
-          subLabel: bank.bankName,
+        ?.filter((bank) => bank?.bankId !== creditCardAccount?.value)
+        ?.map((bank) => {
+          const label = bank?.accountHolderName || "";
 
-          type: bank.accountType,
-          icon:
-            bank.accountType === "BANK" || bank.bankName === "BANK" ? (
+          const subLabel = [
+            bank?.accountType === "BANK" ? bank?.bankName : bank?.accountType,
+            bank?.displayName,
+          ]
+            .filter(Boolean)
+            .join(" - ");
+
+          const accountType = bank?.accountType;
+
+          return {
+            value: bank?.bankId,
+            label: label,
+            subLabel: subLabel,
+            type: accountType || bank?.bankName,
+            isUpi: bank?.upiIcons,
+            icon: bank?.upiIcons ? (
+              <img
+                src={bank.upiIcons}
+                alt="UPI"
+                className="w-5 h-5 object-contain"
+              />
+            ) : accountType === "BANK" ? (
               <Bank color="#1E45E1" size="16" />
-            ) : bank.bankName === "CASH" || bank.accountType === "CASH" ? (
+            ) : accountType === "CASH" ? (
               <Wallet2 color="#038C3D" size="16" />
             ) : (
               <Card color="#F59E0B" size="16" />
             ),
-          data: bank,
-        })) || [],
+            data: bank,
+          };
+        }) || [],
     [
       state?.bankingDetails?.getCreditCardinitializeList?.otherPaymentMethods,
       creditCardAccount?.value,

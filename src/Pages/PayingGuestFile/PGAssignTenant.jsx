@@ -1273,7 +1273,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
                           placeholder="Select Payment"
                           menuPlacement="bottom"
                           menuPosition="fixed"
-                          // isDisabled={currentItem}
+                          isDisabled={!joiningDate}
                           noOptionsMessage={() => "No mode available"}
                           styles={CustomStyles}
                           components={{
