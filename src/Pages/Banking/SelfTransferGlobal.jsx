@@ -195,10 +195,11 @@ function SelfTransferGlobal({ show, handleClose }) {
                   <div className="w-full flex justify-between items-center">
                     <div>
                       {bank.bankName && (
-                        <div className="font-semibold text-[#1A1A1A] text-sm">
+                        <div className="font-semibold text-[#1A1A1A] text-sm capitalize">
                           {bank.bankName}
                         </div>
                       )}
+
 
                       {bank.accountType === "CASH" && (
                         <div className="font-semibold text-[#1A1A1A] text-sm">
@@ -216,8 +217,8 @@ function SelfTransferGlobal({ show, handleClose }) {
                     </div>
 
                     <div className="text-right">
-                      <div className="font-medium text-[#1A1A1A] text-sm">
-                        {bank.displayName}
+                      <div className="font-medium text-[#1A1A1A] text-sm capitalize">
+                        {bank.accountHolderName ? bank.accountHolderName : bank.displayName}
                       </div>
 
                       {bank.accountNumber && (
@@ -278,12 +279,12 @@ function SelfTransferGlobal({ show, handleClose }) {
                   <div className="w-full flex justify-between items-center">
                     <div>
                       {bank?.paymentMethod ? (
-                        <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
-                          {bank.displayName} {bank.paymentMethod}
+                        <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5 capitalize">
+                          {bank.accountHolderName ? bank.accountHolderName : bank.displayName} - {bank.paymentMethod}
                         </div>
                       ) : (
                         bank?.bankName && (
-                          <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5">
+                          <div className="font-semibold text-[#1A1A1A] font-gilroy text-sm mt-1.5 capitalize">
                             {bank.bankName}
                           </div>
                         )
@@ -308,8 +309,8 @@ function SelfTransferGlobal({ show, handleClose }) {
                     </div>
 
                     <div className="text-right font-gilroy">
-                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5">
-                        {bank.displayName}
+                      <div className="font-medium text-[#1A1A1A] text-sm mb-0.5 capitalize">
+                        {bank.accountHolderName ? bank.accountHolderName : bank.displayName}
                       </div>
 
                       <div className="text-xs font-normal font-gilroy mb-0.5 text-[#4B4B4B]">
