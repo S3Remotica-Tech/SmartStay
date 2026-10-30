@@ -8,7 +8,7 @@ import {
   Bank, Card,
   Wallet2,
 } from "iconsax-react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import ErrorMessage from "../../Components/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

@@ -1944,7 +1944,7 @@ function AddTenantBookingCheckin({
                 placeholder="Select Payment"
                 menuPlacement="bottom"
                 menuPosition="fixed"
-                // isDisabled={currentItem}
+                isDisabled={!bookingJoiningDate}
                 noOptionsMessage={() => "No mode available"}
                 styles={CustomStyles}
                 components={{

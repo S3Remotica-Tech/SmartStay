@@ -681,14 +681,13 @@ function BookingBed({ show, handleClose, currentItem, }) {
                         }}
                         getPopupContainer={() => document.body}
                         disabledDate={(current) => {
-                          if (bookingDate) {
-                            return (
-                              current &&
-                              current.isBefore(dayjs(bookingDate), "day")
-                            );
+                          if (!bookingDate) {
+                            return true;
                           }
-
-                          return false;
+                          return (
+                            current &&
+                            current.isBefore(dayjs(bookingDate), "day")
+                          );
                         }}
                       />
                     </div>
@@ -708,7 +707,7 @@ function BookingBed({ show, handleClose, currentItem, }) {
                       Mode Of Transaction{" "}
                       <span className="text-red-500 text-xl">*</span>
                     </Form.Label>
-                    <Select
+                    <Select isDisabled={!joiningDate}
                       ref={modeOfPaymentRef}
                       options={paymentOptionsV1}
                       onChange={(selectedOption) =>
