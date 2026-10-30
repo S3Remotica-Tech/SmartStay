@@ -331,7 +331,9 @@ function UserlistWalkin() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  const paginatedData = walkInCustomer?.slice(startIndex, endIndex);
+  const paginatedData = Array.isArray(walkInCustomer)
+    ? walkInCustomer.slice(startIndex, endIndex)
+    : [];
 
   return (
     <>
