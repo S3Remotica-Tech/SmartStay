@@ -83,7 +83,10 @@ function RentInvoicePDF() {
           className="text-[18px] font-gilroy font-semibold text-[#171717]"
         // style={textStyle}
         >
-          Rental Invoice
+          {pdfDetails?.invoiceInfo?.invoiceType
+            ?.replaceAll("_", " ")
+            ?.toLowerCase()
+            ?.replace(/^./, (char) => char.toUpperCase())}
         </h5>
       </div>
       <div className="bg-white  border-1 border-[#D7DAE0] rounded-lg mx-4 py-4   position-relative ">
@@ -432,22 +435,22 @@ function RentInvoicePDF() {
               Status :
               <TiTick
                 className={`${pdfDetails?.invoiceInfo?.paymentStatus === "Pending"
-                    ? "text-[#F59E0B]"
-                    : pdfDetails?.invoiceInfo?.paymentStatus === "Paid"
-                      ? "text-[#038C3D]"
-                      : pdfDetails?.invoiceInfo?.paymentStatus === "Overdue"
-                        ? "text-[#DC2626]"
-                        : "text-[#6B7280]"
+                  ? "text-[#F59E0B]"
+                  : pdfDetails?.invoiceInfo?.paymentStatus === "Paid"
+                    ? "text-[#038C3D]"
+                    : pdfDetails?.invoiceInfo?.paymentStatus === "Overdue"
+                      ? "text-[#DC2626]"
+                      : "text-[#6B7280]"
                   }`}
               />
               <span
                 className={`text-sm ${pdfDetails?.invoiceInfo?.paymentStatus === "Pending"
-                    ? "text-[#F59E0B]"
-                    : pdfDetails?.invoiceInfo?.paymentStatus === "Paid"
-                      ? "text-[#038C3D]"
-                      : pdfDetails?.invoiceInfo?.paymentStatus === "Overdue"
-                        ? "text-[#DC2626]"
-                        : "text-[#6B7280]"
+                  ? "text-[#F59E0B]"
+                  : pdfDetails?.invoiceInfo?.paymentStatus === "Paid"
+                    ? "text-[#038C3D]"
+                    : pdfDetails?.invoiceInfo?.paymentStatus === "Overdue"
+                      ? "text-[#DC2626]"
+                      : "text-[#6B7280]"
                   }`}
               >
                 {pdfDetails?.invoiceInfo?.paymentStatus}

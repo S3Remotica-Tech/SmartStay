@@ -516,22 +516,28 @@ function FinalSettlement() {
         updatedAmountToBePaid = amountTobePaid;
       }
 
-      if (updatedAmountToBePaid < 0) {
-        finalAmount = isRefundable
-          ? updatedAmountToBePaid + totalUserDeductions
-          : updatedAmountToBePaid - totalUserDeductions;
-      } else {
-        finalAmount = isRefundable
-          ? updatedAmountToBePaid - totalUserDeductions
-          : updatedAmountToBePaid + totalUserDeductions;
-      }
+      if (updatedAmountToBePaid === 0) {
+        finalAmount = totalUserDeductions;
+      } else
+        if (updatedAmountToBePaid < 0) {
+          finalAmount = isRefundable
+            ? updatedAmountToBePaid + totalUserDeductions
+            : updatedAmountToBePaid - totalUserDeductions;
+        } else {
+          finalAmount = isRefundable
+            ? updatedAmountToBePaid - totalUserDeductions
+            : updatedAmountToBePaid + totalUserDeductions;
+        }
 
       const appliedDiscount = Number(discount) || 0;
+
+
 
       finalAmount -= appliedDiscount;
 
       const normalizedAmount =
         finalAmount > -1 && finalAmount < 0 ? 0 : finalAmount;
+
 
       setReturnAmount(normalizedAmount);
     }
