@@ -267,7 +267,7 @@ function FinalSettlementInvoicePDF() {
                   <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
                     <div>
                       <span>
-                        Total Paid ₹ {pdfDetails?.advanceItems?.paidAmount}
+                        Total Paid : ₹ {pdfDetails?.advanceItems?.paidAmount}
                       </span>
                     </div>
 
@@ -360,7 +360,7 @@ function FinalSettlementInvoicePDF() {
                   <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
                     <div>
                       <span>
-                        Total Paid ₹ {pdfDetails?.bookingItems?.paidAmount}
+                        Total Paid :  ₹ {pdfDetails?.bookingItems?.paidAmount}
                       </span>
                     </div>
 
@@ -490,17 +490,22 @@ function FinalSettlementInvoicePDF() {
                     Deductions
                   </h3>
 
+                  <div>
+                    <span className="text-[13px] text-[#6B7280]">
+                      Total Paid : ₹ {pdfDetails?.deductionsInfo?.paidAmount}
+                    </span>
+                  </div>
                   <div className="mt-1 space-y-2 text-[13px] text-[#6B7280]">
                     {pdfDetails?.deductionsInfo?.listDeductions?.map((wal, index) => (
                       <div key={index}>
-                        <label className="capitalize" >{wal.item}</label > - <label>{wal.pendingAmount}</label>
+                        <label className="capitalize" >{wal.item}</label > - <label>₹ {wal.amount}</label>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 <p className="text-[13px] font-semibold text-[#1A1C21] whitespace-nowrap flex items-center gap-2">
-                  ₹{pdfDetails?.deductionsInfo?.totalDeductionsAmount}
+                  ₹{pdfDetails?.deductionsInfo?.pendingAmount}
                 </p>
               </div>
 
