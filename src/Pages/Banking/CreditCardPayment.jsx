@@ -541,6 +541,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
                   onChange={handlePaymentDateChange}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select Date"
+                  maxDate={new Date()}
                   className="w-full h-[50px] text-sm rounded-[8px] border border-[#D9D9D9] px-3 pr-10 focus:outline-none"
                 />
 

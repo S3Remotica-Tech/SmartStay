@@ -15,7 +15,7 @@ export async function EditBanking(datum) {
 // Delete Banking V2
 export async function DeleteBankingV2(datum) {
   return await AxiosConfigV2.delete(
-    `/v3/bank/v2/${datum.hostelId}/${datum.bankId}`,
+    `/v3/bank/${datum.hostelId}/${datum.bankId}`,
   );
 }
 

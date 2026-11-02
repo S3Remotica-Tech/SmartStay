@@ -160,7 +160,7 @@ function BedDetails({
                         <div className="flex gap-3 items-center">
                           <div>
                             {tenant?.profilePic &&
-                            tenant?.profilePic !== "0" ? (
+                              tenant?.profilePic !== "0" ? (
                               <Image
                                 src={tenant?.profilePic}
                                 roundedCircle
@@ -232,24 +232,23 @@ function BedDetails({
 
                               <div
                                 onClick={() =>
-                                  canWriteBooking && handleMakeInActive(tenant)
+                                  canUpdateBooking && handleMakeInActive(tenant)
                                 }
                                 className={`flex items-center gap-2 px-2.5 py-2 rounded-b-lg 
-    ${
-      canWriteBooking
-        ? "cursor-pointer opacity-100 hover:bg-red-50"
-        : "cursor-not-allowed opacity-50"
-    }`}
+    ${canUpdateBooking
+                                    ? "cursor-pointer opacity-100 hover:bg-red-50"
+                                    : "cursor-not-allowed opacity-50"
+                                  }`}
                               >
                                 <LogoutCurve
                                   size={18}
                                   color={
-                                    canWriteBooking ? "#FF9500" : "#A0A0A0"
+                                    canUpdateBooking ? "#FF9500" : "#A0A0A0"
                                   }
                                 />
                                 <label
                                   className={`text-sm font-medium font-gilroy  cursor-pointer
-      ${canWriteBooking ? "text-gray-800" : "text-gray-300"}`}
+      ${canUpdateBooking ? "text-gray-800" : "text-gray-300"}`}
                                 >
                                   Make as Inactive
                                 </label>

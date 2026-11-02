@@ -1,19 +1,42 @@
-
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 function DeleteBanking({
     deleteShow,
     handleCloseDelete,
+    deleteBankId
 
 }) {
 
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
 
+    const handleDeleteBank = () => {
+        dispatch({ type: "REMOVE_DELETE_V2_BANKING_ERROR" })
+        if (deleteBankId && state.login.selectedHostel_Id) {
+            dispatch({ type: "DELETE_V2_BANKING_SAGA", payload: { bankId: deleteBankId, hostelId: state.login.selectedHostel_Id } });
+            setDeleteLoading(true)
+        }
+    }
 
+    useEffect(() => {
+        if (state.bankingDetails?.deleteBankingSuccess === 204) {
+            setDeleteLoading(false)
+            handleCloseDelete()
+            // dispatch({ type: "REMOVE_DELETE_V2_BANKING_REDUCER" })
+        }
 
+    }, [state.bankingDetails?.deleteBankingSuccess])
 
-
+    useEffect(() => {
+        if (state.bankingDetails?.deleteBankingError) {
+            setDeleteLoading(false)
+        }
+    }, [state.bankingDetails?.deleteBankingError])
 
 
     if (!deleteShow) return null;
@@ -32,7 +55,7 @@ function DeleteBanking({
 
                 <div className="px-6 py-2 text-center">
                     <p className="font-gilroy text-[14px] font-medium text-[#646464] mb-0">
-                        Are you sure you want to delete this Bank-details?
+                        Are you sure you want to delete this Bank ?
                     </p>
                 </div>
 
@@ -42,19 +65,30 @@ function DeleteBanking({
                         type="button"
                         onClick={handleCloseDelete}
 
-                        className="h-[48px] w-full max-w-[160px] rounded-[8px] border border-[#1E45E1] bg-white px-5 py-3 font-gilroy text-[14px] font-semibold text-[#1E45E1] hover:bg-[#F7FAFF] disabled:cursor-not-allowed disabled:opacity-50"
+                        className=" w-full max-w-[160px] rounded-[8px] border border-[#1E45E1] bg-white
+                         px-5 py-3 font-gilroy text-[14px] font-semibold text-[#1E45E1] hover:bg-[#F7FAFF] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         Cancel
                     </button>
 
+
                     <button
-                        type="button"
-                        disabled
-                        // onClick={handleDeleteBank}
-                        className="h-[48px] w-full max-w-[160px] cursor-not-allowed rounded-[8px] 
-                        bg-[#1E45E1] px-3 py-3 font-gilroy text-[14px] font-semibold text-white opacity-50"
+                        disabled={deleteLoading}
+                        onClick={handleDeleteBank}
+                        className={`w-full max-w-[160px] h-[52px] rounded-lg px-5 py-3 bg-[#1E45E1] text-white font-semibold font-gilroy text-[14px]
+              ${deleteLoading
+                                ? "opacity-70 cursor-not-allowed"
+                                : "cursor-pointer"
+                            }`}
                     >
-                        Coming Soon
+                        {deleteLoading ? (
+                            <div className="flex items-center justify-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Deleting...
+                            </div>
+                        ) : (
+                            "Delete"
+                        )}
                     </button>
                 </div>
             </div>
@@ -64,6 +98,7 @@ function DeleteBanking({
 DeleteBanking.propTypes = {
     deleteShow: PropTypes.bool.isRequired,
     handleCloseDelete: PropTypes.func.isRequired,
+    deleteBankId: PropTypes.string.isRequired,
 };
 
 export default DeleteBanking;

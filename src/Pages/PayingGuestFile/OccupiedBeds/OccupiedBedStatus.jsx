@@ -428,21 +428,21 @@ function OccupiedBedStatus({
                             <div className="h-px bg-gray-300" />
 
                             <div
-                              className={`flex gap-2 items-center p-2 rounded-b-lg ${canReadBooking
+                              className={`flex gap-2 items-center p-2 rounded-b-lg ${canUpdateBooking
                                 ? "cursor-pointer opacity-100 hover:bg-[#FFF3F3]"
                                 : "cursor-not-allowed opacity-50"
                                 }`}
                               onClick={() =>
-                                canReadBooking && handleMakeInActive(tenant)
+                                canUpdateBooking && handleMakeInActive(tenant)
                               }
                             >
                               <LogoutCurve
                                 size={18}
-                                color={canReadBooking ? "#FF9500" : "#A0A0A0"}
+                                color={canUpdateBooking ? "#FF9500" : "#A0A0A0"}
                                 className="ml-1"
                               />
                               <label
-                                className={`text-[14px] font-gilroy font-medium mb-0 ${canReadBooking ? "text-[#222222]" : "text-gray-300"}`}
+                                className={`text-[14px] font-gilroy font-medium mb-0 ${canUpdateBooking ? "text-[#222222]" : "text-gray-300"}`}
                               >
                                 Make as Inactive
                               </label>
