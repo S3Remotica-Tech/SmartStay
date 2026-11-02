@@ -152,7 +152,7 @@ function BankingNew() {
   // const [showAccountTypeOptions, setShowAccountTypeOptions] = useState(null);
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
-  console.log("", deleteBankId)
+
 
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
@@ -221,7 +221,7 @@ function BankingNew() {
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
     //  canUpdateModule: canUpdateBanking,
-    //  canDeleteModule: canDeleteBanking
+    canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
 
@@ -352,6 +352,22 @@ function BankingNew() {
       });
     }
   }, [state?.bankingDetails?.addPaymentMethodSuccessCode]);
+
+
+  useEffect(() => {
+    if (state.bankingDetails?.deleteBankingSuccess === 204) {
+      dispatch({
+        type: "GET_ALL_TRANSACTION_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          page: pageTransaction,
+          size: sizeTransaction,
+        },
+      });
+      dispatch({ type: "REMOVE_DELETE_V2_BANKING_REDUCER" })
+    }
+
+  }, [state.bankingDetails?.deleteBankingSuccess])
 
   useEffect(() => {
     if (state?.bankingDetails?.createTenantPaymentSuccessCode === 201) {
@@ -1765,7 +1781,7 @@ function BankingNew() {
               selfDetails={selfDetails}
             />
           )}
-          {deleteShow && <DeleteBanking deleteShow={deleteShow} handleCloseDelete={handleCloseDelete} />}
+          {deleteShow && <DeleteBanking deleteShow={deleteShow} handleCloseDelete={handleCloseDelete} deleteBankId={deleteBankId} />}
           {selfTranferGlobal && (
             <SelfTransferGlobal
               show={selfTranferGlobal}

@@ -52,7 +52,9 @@ function NoticeBedStatusDetails({
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canWriteModule: canWriteBooking } = useHasPermission("Booking");
+
+  const { canWriteModule: canWriteBooking, canUpdateModule: canUpdateBooking } =
+    useHasPermission("Booking");
   const {
     canUpdateModule: canUpdatePayingGuests,
     // canDeleteModule: canDeletePayingGuests,
@@ -305,7 +307,7 @@ function NoticeBedStatusDetails({
                           <div className="flex gap-3 items-center">
                             <div>
                               {tenant?.profilePic &&
-                              tenant?.profilePic !== "0" ? (
+                                tenant?.profilePic !== "0" ? (
                                 <Image
                                   src={tenant?.profilePic}
                                   roundedCircle
@@ -342,9 +344,8 @@ function NoticeBedStatusDetails({
 
                         <div
                           onClick={() => handleShowDots(index, tenant)}
-                          className={`cursor-pointer h-10 w-10 flex justify-center items-center relative rounded-full ${
-                            activeMenu === index ? "bg-blue-100" : "bg-white"
-                          }`}
+                          className={`cursor-pointer h-10 w-10 flex justify-center items-center relative rounded-full ${activeMenu === index ? "bg-blue-100" : "bg-white"
+                            }`}
                         >
                           <PiDotsThreeOutlineFill className="h-6 w-6" />
                           {activeMenu === index && (
@@ -354,50 +355,48 @@ function NoticeBedStatusDetails({
                             >
                               {(matchedDataStatus === "NOTICE" ||
                                 matchedDataStatus ===
-                                  "SETTLEMENT_GENERATED") && (
-                                <>
-                                  <div
-                                    onClick={
-                                      canWriteBooking
-                                        ? () => handleNewBooking(tenant)
-                                        : undefined
-                                    }
-                                    className={`flex gap-2 items-center   px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                      canWriteBooking
+                                "SETTLEMENT_GENERATED") && (
+                                  <>
+                                    <div
+                                      onClick={
+                                        canWriteBooking
+                                          ? () => handleNewBooking(tenant)
+                                          : undefined
+                                      }
+                                      className={`flex gap-2 items-center   px-2.5 pe-5 py-2.5 rounded-b-lg ${canWriteBooking
                                         ? "cursor-pointer opacity-100"
                                         : "cursor-not-allowed opacity-50"
-                                    }`}
-                                    onMouseEnter={(e) => {
-                                      e.currentTarget.style.backgroundColor =
-                                        "#FFF3F3";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                      e.currentTarget.style.backgroundColor =
-                                        "transparent";
-                                    }}
-                                  >
-                                    <img
-                                      src={TimerPause}
-                                      alt="booking"
-                                      style={{
-                                        filter: canWriteBooking
-                                          ? "none"
-                                          : "grayscale(100%)",
+                                        }`}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor =
+                                          "#FFF3F3";
                                       }}
-                                    />
-                                    <label
-                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                        canWriteBooking
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor =
+                                          "transparent";
+                                      }}
+                                    >
+                                      <img
+                                        src={TimerPause}
+                                        alt="booking"
+                                        style={{
+                                          filter: canWriteBooking
+                                            ? "none"
+                                            : "grayscale(100%)",
+                                        }}
+                                      />
+                                      <label
+                                        className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${canWriteBooking
                                           ? "text-gray-900 cursor-pointer"
                                           : "text-gray-400 cursor-not-allowed"
-                                      }`}
-                                    >
-                                      New Booking
-                                    </label>
-                                  </div>
-                                  <div className="h-px bg-gray-300" />
-                                </>
-                              )}
+                                          }`}
+                                      >
+                                        New Booking
+                                      </label>
+                                    </div>
+                                    <div className="h-px bg-gray-300" />
+                                  </>
+                                )}
 
                               {matchedDataStatus === "NOTICE" && (
                                 <div>
@@ -411,13 +410,12 @@ function NoticeBedStatusDetails({
                                       if (hasCheckinAndNotice) return;
                                       handleRecheckInBed(tenant);
                                     }}
-                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-t-lg ${
-                                      canWriteCustomers && !hasCheckinAndNotice
-                                        ? "cursor-pointer opacity-100"
-                                        : "cursor-not-allowed opacity-50"
-                                    }`}
-                                    // onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
-                                    // onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-t-lg ${canWriteCustomers && !hasCheckinAndNotice
+                                      ? "cursor-pointer opacity-100"
+                                      : "cursor-not-allowed opacity-50"
+                                      }`}
+                                  // onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                                  // onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                   >
                                     <Calendar
                                       className="flex-shrink-0"
@@ -425,19 +423,18 @@ function NoticeBedStatusDetails({
                                       style={{
                                         filter:
                                           canWriteCustomers &&
-                                          !hasCheckinAndNotice
+                                            !hasCheckinAndNotice
                                             ? "none"
                                             : "grayscale(100%)",
                                       }}
                                     />
 
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                        canWriteCustomers &&
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${canWriteCustomers &&
                                         !hasCheckinAndNotice
-                                          ? "text-gray-900 cursor-pointer"
-                                          : "text-gray-400 cursor-not-allowed"
-                                      }`}
+                                        ? "text-gray-900 cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                        }`}
                                     >
                                       Cancel Checkout
                                     </label>
@@ -459,11 +456,10 @@ function NoticeBedStatusDetails({
                                       canWriteCheckout &&
                                       handleFinalsettelmentGenerate(tenant)
                                     }
-                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                      canWriteCheckout
-                                        ? "cursor-pointer opacity-100"
-                                        : "cursor-not-allowed opacity-50"
-                                    }`}
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canWriteCheckout
+                                      ? "cursor-pointer opacity-100"
+                                      : "cursor-not-allowed opacity-50"
+                                      }`}
                                     onMouseEnter={(e) => {
                                       e.currentTarget.style.backgroundColor =
                                         "#FFF3F3";
@@ -484,11 +480,10 @@ function NoticeBedStatusDetails({
                                     />
 
                                     <label
-                                      className={`text-sm font-medium font-gilroy whitespace-nowrap mb-0 ${
-                                        canWriteCheckout
-                                          ? "text-gray-900 cursor-pointer"
-                                          : "text-gray-400 cursor-not-allowed"
-                                      }`}
+                                      className={`text-sm font-medium font-gilroy whitespace-nowrap mb-0 ${canWriteCheckout
+                                        ? "text-gray-900 cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                        }`}
                                     >
                                       Generate
                                     </label>
@@ -541,13 +536,12 @@ function NoticeBedStatusDetails({
                               {matchedDataStatus === "CHECK_IN" && (
                                 <div>
                                   <div
-                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                      canWriteCustomers
-                                        ? "cursor-pointer opacity-100"
-                                        : "cursor-not-allowed opacity-60"
-                                    }`}
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canUpdateBooking
+                                      ? "cursor-pointer opacity-100"
+                                      : "cursor-not-allowed opacity-60"
+                                      }`}
                                     onClick={() =>
-                                      canWriteCustomers &&
+                                      canUpdateBooking &&
                                       handleReAssignBed(tenant)
                                     }
                                     onMouseEnter={(e) => {
@@ -562,17 +556,16 @@ function NoticeBedStatusDetails({
                                     <FiCalendar
                                       size={16}
                                       color={
-                                        canWriteCustomers
+                                        canUpdateBooking
                                           ? "#1E45E1"
                                           : "#A9A9A9"
                                       }
                                     />
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                        canWriteCustomers
-                                          ? "cursor-pointer"
-                                          : "cursor-not-allowed"
-                                      }`}
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${canUpdateBooking
+                                        ? "cursor-pointer"
+                                        : "cursor-not-allowed"
+                                        }`}
                                     >
                                       Change Bed
                                     </label>
@@ -580,11 +573,10 @@ function NoticeBedStatusDetails({
 
                                   <div className="h-px bg-gray-300" />
                                   <div
-                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                      canUpdateCheckout
-                                        ? "cursor-pointer opacity-100"
-                                        : "cursor-not-allowed opacity-60"
-                                    }`}
+                                    className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canUpdateCheckout
+                                      ? "cursor-pointer opacity-100"
+                                      : "cursor-not-allowed opacity-60"
+                                      }`}
                                     onClick={() =>
                                       canUpdateCheckout &&
                                       handleMoveToNoticePeriod(tenant)
@@ -608,11 +600,10 @@ function NoticeBedStatusDetails({
                                       }
                                     />
                                     <label
-                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                        canUpdateCheckout
-                                          ? "text-gray-900 cursor-pointer"
-                                          : "text-gray-400 cursor-not-allowed"
-                                      }`}
+                                      className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${canUpdateCheckout
+                                        ? "text-gray-900 cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                        }`}
                                     >
                                       Move To Notice Period
                                     </label>
@@ -622,11 +613,10 @@ function NoticeBedStatusDetails({
 
                               {matchedDataStatus === "SETTLEMENT_GENERATED" && (
                                 <div
-                                  className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                    canWriteCheckout
-                                      ? "cursor-pointer opacity-100"
-                                      : "cursor-not-allowed opacity-50"
-                                  }`}
+                                  className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canWriteCheckout
+                                    ? "cursor-pointer opacity-100"
+                                    : "cursor-not-allowed opacity-50"
+                                    }`}
                                   onClick={
                                     canWriteCheckout
                                       ? () => handleCheckout(tenant)
@@ -651,11 +641,10 @@ function NoticeBedStatusDetails({
                                     }}
                                   />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                      canWriteCheckout
-                                        ? "text-gray-900 cursor-pointer"
-                                        : "text-gray-400 cursor-not-allowed"
-                                    }`}
+                                    className={`text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${canWriteCheckout
+                                      ? "text-gray-900 cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                   >
                                     Check-out
                                   </label>
@@ -665,11 +654,10 @@ function NoticeBedStatusDetails({
                               <div className="h-px bg-gray-300" />
 
                               <div
-                                className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${
-                                  canUpdatePayingGuests
-                                    ? "cursor-pointer opacity-100"
-                                    : "cursor-not-allowed opacity-60"
-                                }`}
+                                className={`flex gap-2 items-center px-2.5 pe-5 py-2.5 rounded-b-lg ${canUpdatePayingGuests
+                                  ? "cursor-pointer opacity-100"
+                                  : "cursor-not-allowed opacity-60"
+                                  }`}
                                 onClick={() =>
                                   canUpdatePayingGuests
                                     ? handleEditBed()
@@ -694,11 +682,10 @@ function NoticeBedStatusDetails({
                                   className="ml-0.5"
                                 />
                                 <label
-                                  className={`ml-1 text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${
-                                    canUpdatePayingGuests
-                                      ? "text-gray-900 cursor-pointer"
-                                      : "text-gray-400 cursor-not-allowed"
-                                  }`}
+                                  className={`ml-1 text-sm font-medium font-gilroy mb-0 whitespace-nowrap ${canUpdatePayingGuests
+                                    ? "text-gray-900 cursor-pointer"
+                                    : "text-gray-400 cursor-not-allowed"
+                                    }`}
                                 >
                                   Edit
                                 </label>
@@ -785,7 +772,7 @@ function NoticeBedStatusDetails({
                           <div className="flex gap-3 items-center">
                             <div>
                               {tenant?.profilePic &&
-                              tenant?.profilePic !== "0" ? (
+                                tenant?.profilePic !== "0" ? (
                                 <Image
                                   src={tenant?.profilePic}
                                   roundedCircle
@@ -822,11 +809,10 @@ function NoticeBedStatusDetails({
                             onClick={() =>
                               handleShowDotsForReserved(index, tenant)
                             }
-                            className={`flex justify-center items-center relative h-10 w-10 cursor-pointer rounded-full ${
-                              activeMenuForReserved === index
-                                ? "bg-blue-100"
-                                : "bg-white"
-                            }`}
+                            className={`flex justify-center items-center relative h-10 w-10 cursor-pointer rounded-full ${activeMenuForReserved === index
+                              ? "bg-blue-100"
+                              : "bg-white"
+                              }`}
                           >
                             <PiDotsThreeOutlineFill className="h-6 w-6" />
                             {activeMenuForReserved === index && (
@@ -869,11 +855,10 @@ function NoticeBedStatusDetails({
                                   //     ? () => handleCheckIn(currentItem)
                                   //     : undefined
                                   // }
-                                  className={`flex gap-2 items-center relative z-[2000] p-2.5 rounded-b-lg ${
-                                    canWriteCustomers && !currentItem.isOccupied
-                                      ? "cursor-pointer opacity-100"
-                                      : "cursor-not-allowed opacity-60"
-                                  }`}
+                                  className={`flex gap-2 items-center relative z-[2000] p-2.5 rounded-b-lg ${canWriteCustomers && !currentItem.isOccupied
+                                    ? "cursor-pointer opacity-100"
+                                    : "cursor-not-allowed opacity-60"
+                                    }`}
                                 >
                                   <img
                                     src={AddPlus}
@@ -881,23 +866,22 @@ function NoticeBedStatusDetails({
                                     style={{
                                       filter:
                                         canWriteCustomers &&
-                                        !currentItem.isOccupied
+                                          !currentItem.isOccupied
                                           ? "none"
                                           : "grayscale(100%) brightness(60%)",
                                       cursor:
                                         canWriteCustomers &&
-                                        !currentItem.isOccupied
+                                          !currentItem.isOccupied
                                           ? "pointer"
                                           : "not-allowed",
                                     }}
                                   />
                                   <label
-                                    className={`ml-0.5 text-sm font-medium font-gilroy mb-0 ${
-                                      canWriteCustomers &&
+                                    className={`ml-0.5 text-sm font-medium font-gilroy mb-0 ${canWriteCustomers &&
                                       !currentItem.isOccupied
-                                        ? "text-gray-900 cursor-pointer"
-                                        : "text-gray-400 cursor-not-allowed"
-                                    }`}
+                                      ? "text-gray-900 cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                   >
                                     Check-In
                                   </label>
@@ -930,10 +914,10 @@ function NoticeBedStatusDetails({
                                     alt="Checkout"
                                     style={{
                                       filter:
-                                        canWriteCustomers &&
+                                        canUpdateBooking &&
                                         "grayscale(100%) brightness(60%)",
                                       cursor:
-                                        canWriteCustomers && "not-allowed",
+                                        canUpdateBooking && "not-allowed",
                                     }}
                                   />
                                   <label
@@ -945,13 +929,12 @@ function NoticeBedStatusDetails({
                                 </div>
 
                                 <div
-                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
-                                    canWriteCustomers
-                                      ? "cursor-pointer opacity-100"
-                                      : "cursor-not-allowed opacity-50"
-                                  }`}
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canUpdateBooking
+                                    ? "cursor-pointer opacity-100"
+                                    : "cursor-not-allowed opacity-50"
+                                    }`}
                                   onClick={
-                                    canWriteCustomers
+                                    canUpdateBooking
                                       ? () => handleMakeAsInActive(tenant)
                                       : undefined
                                   }
@@ -968,31 +951,29 @@ function NoticeBedStatusDetails({
                                     src={MakeAsInAcive}
                                     alt="Checkout"
                                     style={{
-                                      filter: canWriteCustomers
+                                      filter: canUpdateBooking
                                         ? "none"
                                         : "grayscale(100%) brightness(60%)",
-                                      cursor: canWriteCustomers
+                                      cursor: canUpdateBooking
                                         ? "pointer"
                                         : "not-allowed",
                                     }}
                                   />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0 ${
-                                      canWriteCustomers
-                                        ? "text-gray-900 cursor-pointer"
-                                        : "text-gray-300 cursor-not-allowed"
-                                    }`}
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canUpdateBooking
+                                      ? "text-gray-900 cursor-pointer"
+                                      : "text-gray-300 cursor-not-allowed"
+                                      }`}
                                   >
                                     Make as Inactive
                                   </label>
                                 </div>
 
                                 <div
-                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${
-                                    canUpdatePayingGuests
-                                      ? "cursor-pointer opacity-100"
-                                      : "cursor-not-allowed opacity-60"
-                                  }`}
+                                  className={`flex gap-2 items-center p-2.5 rounded-b-lg ${canUpdatePayingGuests
+                                    ? "cursor-pointer opacity-100"
+                                    : "cursor-not-allowed opacity-60"
+                                    }`}
                                   onClick={() =>
                                     canUpdatePayingGuests
                                       ? handleEditBed()
@@ -1017,11 +998,10 @@ function NoticeBedStatusDetails({
                                     className="ml-0"
                                   />
                                   <label
-                                    className={`text-sm font-medium font-gilroy mb-0 ${
-                                      canUpdatePayingGuests
-                                        ? "text-gray-900 cursor-pointer"
-                                        : "text-gray-400 cursor-not-allowed"
-                                    }`}
+                                    className={`text-sm font-medium font-gilroy mb-0 ${canUpdatePayingGuests
+                                      ? "text-gray-900 cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                   >
                                     Edit
                                   </label>

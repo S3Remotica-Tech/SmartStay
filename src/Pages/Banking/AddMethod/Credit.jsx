@@ -287,6 +287,10 @@ function Credit({ handleClose }) {
       setCardNumberError("Last 4 digits must contain exactly 4 numbers");
       focusField(cardNumberRef);
       isValid = false;
+    } else if (cardNumber === "0000") {
+      setCardNumberError("Last 4 digits cannot be 0000");
+      focusField(cardNumberRef);
+      isValid = false;
     } else {
       setCardNumberError("");
     }

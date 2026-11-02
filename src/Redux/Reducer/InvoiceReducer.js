@@ -54,7 +54,7 @@ export const initialState = {
   Reference_Id: "",
   ReferenceIdgetsuccessStatuscode: 0,
   errorAmenities: 0,
-  alreadyAssignAmenitiesStatusCode: 0,
+  alreadyAssignAmenitiesError: "",
   statusCodeForReceiptPDf: 0,
   ReceiptPDF: "",
   getstatusCodeForfilterrecurrcustomers: 0,
@@ -407,11 +407,11 @@ const InvoiceReducer = (state = initialState, action) => {
     case "ALREADY_ASSIGN_ERROR":
       return {
         ...state,
-        alreadyAssignAmenitiesStatusCode: action.payload.statusCode,
+        alreadyAssignAmenitiesError: action.payload,
       };
 
     case "REMOVE_ALREADY_ASSIGN_ERROR":
-      return { ...state, alreadyAssignAmenitiesStatusCode: 0 };
+      return { ...state, alreadyAssignAmenitiesError: "" };
     case "ERROR_RECURE":
       return {
         ...state,

@@ -1398,9 +1398,9 @@ function TenantOverview(props) {
                           </button>
 
                           <button
-                            disabled={!canWriteBooking}
+                            disabled={!canUpdateBooking}
                             onClick={() => {
-                              if (canWriteBooking) {
+                              if (canUpdateBooking) {
                                 handleInActive(CustomerOverView);
                                 setOpenMenu(false);
                               }
@@ -1415,7 +1415,7 @@ function TenantOverview(props) {
                           >
                             <LogoutCurve
                               size="18"
-                              color={canWriteBooking ? "#1E45E1" : "#9CA3AF"}
+                              color={canUpdateBooking ? "#1E45E1" : "#9CA3AF"}
                             />
                             Make as Inactive
                           </button>

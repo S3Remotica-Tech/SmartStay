@@ -144,6 +144,7 @@ function SettingAmenities() {
   };
 
   const handleDeleteAmenitiesConfirm = () => {
+    dispatch({ type: "REMOVE_ALREADY_ASSIGN_ERROR" });
     if (deleteID) {
       dispatch({
         type: "DELETEAMENITIES",
@@ -183,8 +184,8 @@ function SettingAmenities() {
     if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
       setAmenitiesFilterddata(
         state.InvoiceList?.AmenitiesList?.amenities ??
-          state.InvoiceList?.AmenitiesList ??
-          [],
+        state.InvoiceList?.AmenitiesList ??
+        [],
       );
       // setAmenitiesFilterddata(state.InvoiceList.AmenitiesList?.amenities)
 
@@ -198,13 +199,13 @@ function SettingAmenities() {
   }, [state.InvoiceList.AmenitiesList]);
 
   useEffect(() => {
-    if (state.InvoiceList.alreadyAssignAmenitiesStatusCode === 201) {
-      setDeleteAmenities(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_ALREADY_ASSIGN_ERROR" });
-      }, 200);
+    if (state.InvoiceList.alreadyAssignAmenitiesError) {
+      // setDeleteAmenities(false);
+      setDeleteLoading(false)
+      dispatch({ type: "REMOVE_ALREADY_ASSIGN_ERROR" });
+
     }
-  }, [state.InvoiceList.alreadyAssignAmenitiesStatusCode]);
+  }, [state.InvoiceList.alreadyAssignAmenitiesError]);
 
   useEffect(() => {
     if (state.InvoiceList.errorAmenities) {
@@ -297,11 +298,10 @@ function SettingAmenities() {
             onClick={handleOpenAmenities}
             disabled={showPopup || !canWriteAmenities}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
-        ${
-          canWriteAmenities
-            ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+        ${canWriteAmenities
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             + Amenities
           </button>
@@ -323,165 +323,158 @@ function SettingAmenities() {
       ) : (
         <div
           className={`relative mt-2 mb-3 
-    ${
-      amenitiesFilterddata?.length > 0
-        ? "h-[520px] lg:h-[520px] xl:h-[520px] 2xl:h-[750px] overflow-y-auto"
-        : "h-auto"
-    }`}
+    ${amenitiesFilterddata?.length > 0
+              ? "h-[520px] lg:h-[520px] xl:h-[520px] 2xl:h-[750px] overflow-y-auto"
+              : "h-auto"
+            }`}
         >
           <div className="flex flex-wrap  gap-y-3">
             {amenitiesFilterddata && amenitiesFilterddata.length > 0
               ? amenitiesFilterddata.map((amenity, index) => (
-                  <div key={index} className="w-full sm:w-1/2 p-2.5">
-                    <div className="border border-gray-300 rounded-2xl">
-                      <div className="p-3">
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center">
-                            <img
-                              src={directRight}
-                              alt="directRight"
-                              className="mr-1.5"
-                            />
-                            <span className="font-gilroy font-semibold text-gray-900 text-base">
-                              {amenity?.amenityName}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-1">
-                            <img
-                              src={link2}
-                              alt="link2"
-                              onClick={() =>
-                                canWriteAmenities &&
-                                handleDisplayAssignAmenities(amenity)
-                              }
-                              className={`w-4.5 h-4.5 ${
-                                canWriteAmenities
-                                  ? "cursor-pointer opacity-100"
-                                  : "cursor-not-allowed opacity-50"
-                              }`}
-                            />
-
-                            <div
-                              onClick={() => handleDotsClick(index)}
-                              className={`relative flex items-center justify-center w-10 h-10 rounded-full ${
-                                showDots === index ? "bg-blue-100" : "bg-white"
-                              } cursor-pointer`}
-                            >
-                              <PiDotsThreeOutlineVerticalFill className="w-4.5 h-4.5" />
-
-                              {showDots === index && (
-                                <div
-                                  ref={popupRef}
-                                  className="absolute top-8 right-12 w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col z-50 text-sm"
-                                >
-                                  <div
-                                    onClick={() =>
-                                      canUpdateAmenities &&
-                                      handleEditAmenities(amenity)
-                                    }
-                                    className={`flex items-center gap-2 px-3 py-2 transition-colors ${
-                                      canUpdateAmenities
-                                        ? "cursor-pointer hover:bg-blue-50 opacity-100"
-                                        : "cursor-not-allowed opacity-50"
-                                    }`}
-                                  >
-                                    <Edit
-                                      size={16}
-                                      color={
-                                        canUpdateAmenities
-                                          ? "#1E45E1"
-                                          : "#A0A0A0"
-                                      }
-                                    />
-                                    <span
-                                      className={`font-gilroy font-semibold ${
-                                        canUpdateAmenities
-                                          ? "text-gray-900"
-                                          : "text-gray-400"
-                                      }`}
-                                    >
-                                      Edit
-                                    </span>
-                                  </div>
-
-                                  <div className="h-px bg-gray-200" />
-
-                                  <div
-                                    onClick={() =>
-                                      canDeleteAmenities &&
-                                      handleDeleteAmenities(amenity)
-                                    }
-                                    className={`flex items-center gap-2 px-3 py-2 transition-colors ${
-                                      canDeleteAmenities
-                                        ? "cursor-pointer hover:bg-red-50 opacity-100"
-                                        : "cursor-not-allowed opacity-50"
-                                    }`}
-                                  >
-                                    <Trash
-                                      size={16}
-                                      color={
-                                        canDeleteAmenities ? "red" : "#A0A0A0"
-                                      }
-                                    />
-                                    <span
-                                      className={`font-gilroy font-semibold ${
-                                        canDeleteAmenities
-                                          ? "text-red-600"
-                                          : "text-gray-400"
-                                      }`}
-                                    >
-                                      Delete
-                                    </span>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
+                <div key={index} className="w-full sm:w-1/2 p-2.5">
+                  <div className="border border-gray-300 rounded-2xl">
+                    <div className="p-3">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center">
+                          <img
+                            src={directRight}
+                            alt="directRight"
+                            className="mr-1.5"
+                          />
+                          <span className="font-gilroy font-semibold text-gray-900 text-base">
+                            {amenity?.amenityName}
+                          </span>
                         </div>
 
-                        <hr className="my-2 border-gray-200" />
+                        <div className="flex items-center gap-1">
+                          <img
+                            src={link2}
+                            alt="link2"
+                            onClick={() =>
+                              canWriteAmenities &&
+                              handleDisplayAssignAmenities(amenity)
+                            }
+                            className={`w-4.5 h-4.5 ${canWriteAmenities
+                              ? "cursor-pointer opacity-100"
+                              : "cursor-not-allowed opacity-50"
+                              }`}
+                          />
 
-                        <div className="flex flex-col gap-2">
-                          <div className="flex justify-between items-center">
-                            <p className="font-gilroy text-gray-700 text-xs font-normal">
-                              Price
-                            </p>
-                            <p className="font-gilroy text-gray-900 font-semibold text-base pr-2">
-                              ₹{amenity?.amenityAmount}
-                              <span className="font-normal text-base">
-                                /Month
-                              </span>
-                            </p>
-                          </div>
+                          <div
+                            onClick={() => handleDotsClick(index)}
+                            className={`relative flex items-center justify-center w-10 h-10 rounded-full ${showDots === index ? "bg-blue-100" : "bg-white"
+                              } cursor-pointer`}
+                          >
+                            <PiDotsThreeOutlineVerticalFill className="w-4.5 h-4.5" />
 
-                          <div className="flex justify-between items-center">
-                            <p className="font-gilroy text-gray-700 text-xs font-normal">
-                              Pro-Rate
-                            </p>
-                            <Form.Check
-                              disabled={!canWriteAmenities}
-                              type="switch"
-                              checked={switchStates[amenity.amenityId] || false}
-                              id={`custom-switch-${amenity.amenityId}`}
-                              className={`custom-switch-pointer ${!canWriteAmenities ? "no-permission" : ""}`}
-                              style={{ boxShadow: "none" }}
-                              onChange={() =>
-                                canWriteAmenities && handleToggle(amenity)
-                              }
-                            />
+                            {showDots === index && (
+                              <div
+                                ref={popupRef}
+                                className="absolute top-8 right-12 w-36 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col z-50 text-sm"
+                              >
+                                <div
+                                  onClick={() =>
+                                    canUpdateAmenities &&
+                                    handleEditAmenities(amenity)
+                                  }
+                                  className={`flex items-center gap-2 px-3 py-2 transition-colors ${canUpdateAmenities
+                                    ? "cursor-pointer hover:bg-blue-50 opacity-100"
+                                    : "cursor-not-allowed opacity-50"
+                                    }`}
+                                >
+                                  <Edit
+                                    size={16}
+                                    color={
+                                      canUpdateAmenities
+                                        ? "#1E45E1"
+                                        : "#A0A0A0"
+                                    }
+                                  />
+                                  <span
+                                    className={`font-gilroy font-semibold ${canUpdateAmenities
+                                      ? "text-gray-900"
+                                      : "text-gray-400"
+                                      }`}
+                                  >
+                                    Edit
+                                  </span>
+                                </div>
+
+                                <div className="h-px bg-gray-200" />
+
+                                <div
+                                  onClick={() =>
+                                    canDeleteAmenities &&
+                                    handleDeleteAmenities(amenity)
+                                  }
+                                  className={`flex items-center gap-2 px-3 py-2 transition-colors ${canDeleteAmenities
+                                    ? "cursor-pointer hover:bg-red-50 opacity-100"
+                                    : "cursor-not-allowed opacity-50"
+                                    }`}
+                                >
+                                  <Trash
+                                    size={16}
+                                    color={
+                                      canDeleteAmenities ? "red" : "#A0A0A0"
+                                    }
+                                  />
+                                  <span
+                                    className={`font-gilroy font-semibold ${canDeleteAmenities
+                                      ? "text-red-600"
+                                      : "text-gray-400"
+                                      }`}
+                                  >
+                                    Delete
+                                  </span>
+                                </div>
+                              </div>
+                            )}
                           </div>
+                        </div>
+                      </div>
+
+                      <hr className="my-2 border-gray-200" />
+
+                      <div className="flex flex-col gap-2">
+                        <div className="flex justify-between items-center">
+                          <p className="font-gilroy text-gray-700 text-xs font-normal">
+                            Price
+                          </p>
+                          <p className="font-gilroy text-gray-900 font-semibold text-base pr-2">
+                            ₹{amenity?.amenityAmount}
+                            <span className="font-normal text-base">
+                              /Month
+                            </span>
+                          </p>
+                        </div>
+
+                        <div className="flex justify-between items-center">
+                          <p className="font-gilroy text-gray-700 text-xs font-normal">
+                            Pro-Rate
+                          </p>
+                          <Form.Check
+                            disabled={!canWriteAmenities}
+                            type="switch"
+                            checked={switchStates[amenity.amenityId] || false}
+                            id={`custom-switch-${amenity.amenityId}`}
+                            className={`custom-switch-pointer ${!canWriteAmenities ? "no-permission" : ""}`}
+                            style={{ boxShadow: "none" }}
+                            onChange={() =>
+                              canWriteAmenities && handleToggle(amenity)
+                            }
+                          />
                         </div>
                       </div>
                     </div>
                   </div>
-                ))
+                </div>
+              ))
               : !loading && (
-                  <div className="p-2 w-full">
-                    {" "}
-                    <NoDataMessage label="Amenities" />{" "}
-                  </div>
-                )}
+                <div className="p-2 w-full">
+                  {" "}
+                  <NoDataMessage label="Amenities" />{" "}
+                </div>
+              )}
           </div>
 
           {loading && (

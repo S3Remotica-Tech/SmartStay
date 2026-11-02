@@ -2164,16 +2164,16 @@ function UserList(props) {
 
                                                     <div
                                                       onClick={() =>
-                                                        canWriteBooking &&
+                                                        canUpdateBooking &&
                                                         handleInActive(user)
                                                       }
                                                       className={`flex items-center gap-2  px-3 py-2 transition rounded-md
-                  ${canWriteBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
+                  ${canUpdateBooking ? "cursor-pointer hover:bg-blue-100" : "cursor-not-allowed opacity-60"}`}
                                                     >
                                                       <img
                                                         alt="image"
                                                         src={Addbook}
-                                                        className={`h-4 w-4 ${!canWriteBooking && "grayscale"}`}
+                                                        className={`h-4 w-4 ${!canUpdateBooking && "grayscale"}`}
                                                       />
                                                       <span className="text-sm font-medium font-gilroy whitespace-nowrap">
                                                         Make as Inactive
