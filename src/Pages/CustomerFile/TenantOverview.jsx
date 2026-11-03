@@ -169,7 +169,7 @@ function TenantOverview(props) {
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canWriteModule: canWriteBooking, canUpdateModule: canUpdateBooking } =
+  const { canUpdateModule: canUpdateBooking } =
     useHasPermission("Booking");
 
   const { canWriteModule: canWriteAmenities } = useHasPermission("Amenities");
