@@ -405,7 +405,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem }) => {
     if (state.UsersList?.TenantList?.length === 0 && isTrigger) {
       toast.error("Please create a new tenant", {
         hideProgressBar: true,
-        closeButton: false,
+        closeButton: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

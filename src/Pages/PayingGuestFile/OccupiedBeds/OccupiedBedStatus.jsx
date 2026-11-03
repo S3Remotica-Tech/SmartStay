@@ -54,7 +54,7 @@ function OccupiedBedStatus({
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canReadModule: canReadBooking, canUpdateModule: canUpdateBooking } =
+  const { canUpdateModule: canUpdateBooking } =
     useHasPermission("Booking");
 
   const handleEditBed = () => {

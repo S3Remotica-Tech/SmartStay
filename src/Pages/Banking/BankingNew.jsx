@@ -221,7 +221,7 @@ function BankingNew() {
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
     //  canUpdateModule: canUpdateBanking,
-    canDeleteModule: canDeleteBanking
+    // canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
 

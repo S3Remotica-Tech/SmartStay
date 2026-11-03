@@ -110,7 +110,7 @@ function UserList(props) {
     canUpdateModule: canUpdateCheckout,
   } = useHasPermission("Checkout");
 
-  const { canWriteModule: canWriteBooking, canUpdateModule: canUpdateBooking } =
+  const { canUpdateModule: canUpdateBooking } =
     useHasPermission("Booking");
 
   const isTenantForm = location.state?.isTenantForm || false;
