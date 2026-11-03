@@ -165,14 +165,20 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
 
   const creditCardOptions = useMemo(
     () =>
-      (state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards ?? []).map(
-        (view) => ({
-          value: view?.cardId,
-          label: `${view?.cardNetwork} - ${view?.cardNumber}`,
-        })
-      ),
-    [state?.bankingDetails?.getCreditCardinitializeList?.availableCreditCards]
+      (
+        state?.bankingDetails?.getCreditCardinitializeList
+          ?.availableCreditCards ?? []
+      ).map((view) => ({
+        value: view?.cardId,
+        label: `${view?.cardNetwork} - ${view?.cardNumber}${view?.bankName ? ` - ${view.bankName}` : ""
+          }`,
+      })),
+    [
+      state?.bankingDetails?.getCreditCardinitializeList
+        ?.availableCreditCards,
+    ]
   );
+
   // console.log("creditCardAccount", creditCardAccount)
   // const paymentOptions = useMemo(
   //   () =>
@@ -221,10 +227,10 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
             label: label,
             subLabel: subLabel,
             type: accountType || bank?.bankName,
-            isUpi: bank?.upiIcons,
-            icon: bank?.upiIcons ? (
+            isUpi: bank?.isUpi,
+            icon: bank?.isUpi && bank?.upiAppIcon ? (
               <img
-                src={bank.upiIcons}
+                src={bank.upiAppIcon}
                 alt="UPI"
                 className="w-5 h-5 object-contain"
               />

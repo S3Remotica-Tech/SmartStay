@@ -342,10 +342,10 @@ function StaticExample({ setShow, currentItem }) {
         label: label,
         subLabel: subLabel,
         type: accountType || bank?.bankName,
-        isUpi: bank?.upiIcons,
-        icon: bank?.upiIcons ? (
+        isUpi: bank?.isUpi,
+        icon: bank?.isUpi && bank?.upiAppIcon ? (
           <img
-            src={bank.upiIcons}
+            src={bank.upiAppIcon}
             alt="UPI"
             className="w-5 h-5 object-contain"
           />

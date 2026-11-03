@@ -532,8 +532,14 @@ function AddRetainerInvoice() {
         label: label,
         subLabel: subLabel,
         type: accountType || bank?.bankName,
-
-        icon:
+        isUpi: bank?.isUpi,
+        icon: bank?.isUpi && bank?.upiAppIcon ? (
+          <img
+            src={bank.upiAppIcon}
+            alt="UPI"
+            className="w-5 h-5 object-contain"
+          />
+        ) :
           accountType === "BANK" ? (
             <Bank color="#1E45E1" size="16" />
           ) : accountType === "CASH" ? (
