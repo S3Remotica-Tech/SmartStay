@@ -114,7 +114,9 @@ function TransactionHistory() {
                           {row.amountPaid}
                         </td>
                         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-                          {row.referenceNumber || "-"}
+                          {row?.transactionReferenceNumber || ""}
+                          {row?.transactionReferenceNumber && row?.referenceNumber ? " / " : ""}
+                          {row?.referenceNumber || ""}
                         </td>
                         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                           {row.paidTo}

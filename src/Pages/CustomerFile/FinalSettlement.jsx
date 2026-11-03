@@ -794,6 +794,24 @@ function FinalSettlement() {
       ? finalSettlementList.unpaidInvoices
       : [];
 
+  const floorName =
+    pgDetails?.floorName ||
+    data?.floorName ||
+    data?.hostelInfo?.floorName ||
+    customer?.floorName;
+
+  const roomName =
+    pgDetails?.roomName ||
+    data?.roomName ||
+    data?.hostelInfo?.roomName ||
+    customer?.roomName;
+
+  const bedName =
+    pgDetails?.bedName ||
+    data?.bedName ||
+    data?.hostelInfo?.bedName ||
+    customer?.bedName;
+
   return (
     <div className="h-screen overflow-y-hidden ">
       <div className="mb-3 sticky top-0 bg-white z-0 h-[50px] px-3 py-2.5 ">
@@ -852,24 +870,20 @@ function FinalSettlement() {
           </div>
 
           <div className="flex justify-between mb-2 w-full gap-2 font-gilroy">
-            <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
-              {pgDetails?.floorName ||
-                data?.floorName ||
-                data?.hostelInfo?.floorName ||
-                customer?.floorName}
-            </span>
 
-            <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
-              {pgDetails?.roomName ||
-                data?.roomName ||
-                data?.hostelInfo?.roomName ||
-                customer?.roomName}{" "}
-              -{" "}
-              {pgDetails?.bedName ||
-                data?.bedName ||
-                data?.hostelInfo?.bedName ||
-                customer?.bedName}
+            {floorName && <span className="w-full rounded-full bg-[#FFEFCF] p-2 text-xs font-normal text-gray-900 text-center">
+              {floorName}
             </span>
+            }
+            {
+              roomName && bedName &&
+              <span className="w-full rounded-full bg-red-100 p-2 text-xs font-normal text-gray-900 text-center">
+                {roomName}{" "}
+                -{" "}
+                {bedName}
+
+              </span>
+            }
           </div>
 
           <hr className="border-t border-[#DFDFDF] my-2" />

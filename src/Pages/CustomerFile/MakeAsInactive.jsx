@@ -136,7 +136,7 @@ function MakeAsInactive({
   show,
   handleCloseInActive,
   inActiveDetails,
-  currentItem,
+  // currentItem,
 }) {
   const state = useSelector((state) => state);
 
@@ -330,6 +330,14 @@ function MakeAsInactive({
       profilePic.startsWith("data:image") ||
       profilePic.startsWith("/9j/"));
 
+
+  const floorName = state.UsersList?.initializeCancelBookingList?.floorName;
+  const roomName = state.UsersList?.initializeCancelBookingList?.roomName;
+  const bedName = state.UsersList?.initializeCancelBookingList?.bedName;
+
+
+
+
   if (!show) return null;
 
   return (
@@ -388,19 +396,13 @@ function MakeAsInactive({
 
             <div className="flex gap-2">
               <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                {currentItem?.floorName ||
-                  inActiveDetails?.floorName ||
-                  inActiveDetails?.hostelInfo?.floorName}
+                {floorName}
               </span>
 
               <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                {currentItem?.roomName ||
-                  inActiveDetails?.roomName ||
-                  inActiveDetails?.hostelInfo?.roomName}
+                {roomName}
                 {" - "}
-                {currentItem?.bedName ||
-                  inActiveDetails?.bedName ||
-                  inActiveDetails?.hostelInfo?.bedName}
+                {bedName}
               </span>
             </div>
           </div>
@@ -556,11 +558,11 @@ MakeAsInactive.propTypes = {
   show: PropTypes.bool.isRequired,
   handleCloseInActive: PropTypes.func.isRequired,
 
-  currentItem: PropTypes.shape({
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
-  }),
+  // currentItem: PropTypes.shape({
+  //   floorName: PropTypes.string,
+  //   roomName: PropTypes.string,
+  //   bedName: PropTypes.string,
+  // }),
 
   inActiveDetails: PropTypes.shape({
     customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

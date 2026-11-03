@@ -35,9 +35,9 @@ function MoveToNoticePGAndTenant(props) {
     ) {
       setJoiningDate(
         props.bedData.actualJoining ||
-          props.bedData.currentTenantInfo?.[0].joiningDate ||
-          props.bedData?.joiningDate ||
-          props.bedData?.hostelInfo?.joiningDate,
+        props.bedData.currentTenantInfo?.[0].joiningDate ||
+        props.bedData?.joiningDate ||
+        props.bedData?.hostelInfo?.joiningDate,
       );
     }
   }, [
@@ -146,12 +146,23 @@ function MoveToNoticePGAndTenant(props) {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
-  const tenant = props.bedData?.currentTenantInfo?.[0] || props.bedData;
+  const tenant = props.bedData?.currentTenantInfo?.[0] || props.bedData || state?.UsersList?.customerdetails?.hostelInfo;
 
   const profilePic = tenant?.profilePic;
   const isImage =
     typeof profilePic === "string" &&
     (profilePic.startsWith("http") || profilePic.startsWith("blob:"));
+
+
+
+  const floorName =
+    state?.UsersList?.customerdetails?.hostelInfo?.floorName ||
+    props?.bedData?.floorName ||
+    props?.bedData?.hostelInfo?.floorName;
+
+  const roomName = state?.UsersList?.customerdetails?.hostelInfo?.roomName || props?.bedData?.roomName || props?.bedData?.hostelInfo?.roomName;
+  const bedName = state?.UsersList?.customerdetails?.hostelInfo?.bedName || props?.bedData?.bedName ||
+    props?.bedData?.hostelInfo?.bedName;
 
   return (
     <div className="fixed inset-0 z-50">
@@ -217,19 +228,14 @@ function MoveToNoticePGAndTenant(props) {
 
                 <div className="flex flex-wrap gap-2 mt-1">
                   <div className="flex items-center bg-yellow-100 py-1 px-3.5 rounded-full text-xs text-gray-900 font-medium whitespace-nowrap font-gilroy">
-                    {state.UsersList.customerdetails?.data?.[0].floor_name ||
-                      props.bedData?.floorName ||
-                      props.bedData?.hostelInfo?.floorName}
+                    {floorName}
                   </div>
 
                   <div className="flex items-center bg-pink-100 py-1.5 px-3 rounded-full text-xs text-gray-900 font-medium whitespace-nowrap font-gilroy">
-                    {props.bedData?.room?.Room_Name ||
-                      props.bedData?.roomName ||
-                      props.bedData?.hostelInfo?.roomName}{" "}
+                    {roomName}{" "}
                     -{" "}
-                    {props.bedData?.bed?.bed_no ||
-                      props.bedData?.bedName ||
-                      props.bedData?.hostelInfo?.bedName}
+                    {
+                      bedName}
                   </div>
                 </div>
               </div>
@@ -335,11 +341,10 @@ function MoveToNoticePGAndTenant(props) {
                 onChange={handleCommentsChange}
                 placeholder="Enter Comments"
                 required
-                className={`mt-2 w-full h-12 px-3 rounded-md text-base font-medium font-gilroy border ${
-                  comments
-                    ? "border-gray-700 text-gray-900"
-                    : "border-gray-300 text-gray-500"
-                } focus:outline-none`}
+                className={`mt-2 w-full h-12 px-3 rounded-md text-base font-medium font-gilroy border ${comments
+                  ? "border-gray-700 text-gray-900"
+                  : "border-gray-300 text-gray-500"
+                  } focus:outline-none`}
               />
             </div>
 

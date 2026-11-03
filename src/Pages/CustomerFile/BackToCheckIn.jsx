@@ -131,6 +131,23 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
       : profilePic
     : null;
 
+  const floorName =
+    pgDetails?.floorName ||
+    checkInDetails?.floorName ||
+    checkInDetails?.hostelInfo?.floorName || state?.UsersList?.customerdetails?.hostelInfo?.floorName;
+
+
+  const roomName =
+    pgDetails?.roomName ||
+    checkInDetails?.roomName ||
+    checkInDetails?.hostelInfo?.roomName || state?.UsersList?.customerdetails?.hostelInfo?.roomName;
+
+  const bedName =
+    pgDetails?.bedName ||
+    checkInDetails?.bedName ||
+    checkInDetails?.hostelInfo?.bedName || state?.UsersList?.customerdetails?.hostelInfo?.bedName;
+
+
   if (!show) return null;
   return (
     <div className="fixed inset-0 z-50">
@@ -172,19 +189,14 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
             <div className="flex gap-2 -ml-1">
               <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                {pgDetails?.floorName ||
-                  checkInDetails?.floorName ||
-                  checkInDetails?.hostelInfo?.floorName}
+                {floorName}
               </span>
 
               <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-medium font-gilroy">
-                {pgDetails?.roomName ||
-                  checkInDetails?.roomName ||
-                  checkInDetails?.hostelInfo?.roomName}
+                {roomName}
                 {" - "}
-                {pgDetails?.bedName ||
-                  checkInDetails?.bedName ||
-                  checkInDetails?.hostelInfo?.bedName}
+                {bedName}
+
               </span>
             </div>
           </div>
@@ -195,11 +207,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               <button
                 onClick={() => setActiveTab("LONG")}
                 className={`flex-1 py-2 rounded-md font-semibold font-gilroy transition
-        ${
-          activeTab === "LONG"
-            ? "bg-blue-700 text-white"
-            : "bg-indigo-50 text-black"
-        }`}
+        ${activeTab === "LONG"
+                    ? "bg-blue-700 text-white"
+                    : "bg-indigo-50 text-black"
+                  }`}
               >
                 Long Stay
               </button>
@@ -207,11 +218,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               <button
                 onClick={() => setActiveTab("SHORT")}
                 className={`flex-1 py-2 rounded-md font-semibold font-gilroy transition
-        ${
-          activeTab === "SHORT"
-            ? "bg-blue-700 text-white"
-            : "bg-indigo-50 text-black"
-        }`}
+        ${activeTab === "SHORT"
+                    ? "bg-blue-700 text-white"
+                    : "bg-indigo-50 text-black"
+                  }`}
               >
                 Short Stay
               </button>
@@ -315,11 +325,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
               }
               onClick={handleSaveBacktoCheckin}
               className={`h-10 px-6 rounded-lg text-sm font-semibold font-montserrat text-white
-      ${
-        state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed
-          ? "bg-blue-700 cursor-pointer"
-          : "bg-indigo-300 cursor-not-allowed"
-      }`}
+      ${state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed
+                  ? "bg-blue-700 cursor-pointer"
+                  : "bg-indigo-300 cursor-not-allowed"
+                }`}
             >
               Check-In
             </button>
