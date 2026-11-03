@@ -205,15 +205,15 @@ function TenantsRegister() {
   const reportCards = [
     { title: "Invoice Register" },
     { title: "Receipt Register" },
-    { title: "Bank Transaction Register" },
+    // { title: "Bank Transaction Register" },
     // { title: "Tenant Register" },
-    { title: "Occupancy" },
+    // { title: "Occupancy" },
     { title: "Expense Register" },
-    { title: "Vendor Ledger" },
-    { title: "Electricity Billing Register" },
-    { title: "Complaint Register" },
-    { title: "Request Register" },
-    { title: "Final Settlement" },
+    // { title: "Vendor Ledger" },
+    // { title: "Electricity Billing Register" },
+    // { title: "Complaint Register" },
+    // { title: "Request Register" },
+    // { title: "Final Settlement" },
   ];
 
   const apiStart = state?.reports?.getTenantRegister?.dateRange?.from;
@@ -617,9 +617,8 @@ function TenantsRegister() {
                 <ArrowDown2
                   size="18"
                   color="#1E45E1"
-                  className={`cursor-pointer transition-transform duration-200 ${
-                    register ? "rotate-180" : ""
-                  }`}
+                  className={`cursor-pointer transition-transform duration-200 ${register ? "rotate-180" : ""
+                    }`}
                 />
                 {register && (
                   <div
@@ -713,11 +712,10 @@ function TenantsRegister() {
             onClick={() => isExportAllow && handleDownload()}
             disabled={!isExportAllow}
             className={`h-[36px] flex items-center gap-2 px-4 rounded-lg text-sm font-gilroy
-                       ${
-                         !isExportAllow
-                           ? "bg-gray-400 cursor-not-allowed text-white"
-                           : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
-                       }`}
+                       ${!isExportAllow
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-[#1E45E1] text-white hover:bg-[#1639c5]"
+              }`}
           >
             <Export size="16" />
             Export

@@ -226,15 +226,15 @@ function ExpenseRegister() {
   const reportCards = [
     { title: "Invoice Register" },
     { title: "Receipt Register" },
-    { title: "Bank Transaction Register" },
+    // { title: "Bank Transaction Register" },
     { title: "Tenant Register" },
-    { title: "Occupancy" },
+    // { title: "Occupancy" },
     // { title: "Expense Register" },
-    { title: "Vendor Ledger" },
-    { title: "Electricity Billing Register" },
-    { title: "Complaint Register" },
-    { title: "Request Register" },
-    { title: "Final Settlement" },
+    // { title: "Vendor Ledger" },
+    // { title: "Electricity Billing Register" },
+    // { title: "Complaint Register" },
+    // { title: "Request Register" },
+    // { title: "Final Settlement" },
   ];
 
   const statusStyles = {
