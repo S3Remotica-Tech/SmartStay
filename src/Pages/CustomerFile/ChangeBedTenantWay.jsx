@@ -652,11 +652,11 @@ function ChangeBedTenantWay(props) {
                           (option) => option.id === newFloor,
                         )
                           ? {
-                              value: newFloor,
-                              label: state.UsersList.floorList.find(
-                                (option) => option.id === newFloor,
-                              )?.name,
-                            }
+                            value: newFloor,
+                            label: state.UsersList.floorList.find(
+                              (option) => option.id === newFloor,
+                            )?.name,
+                          }
                           : null
                       }
                       placeholder="Selected Floor"
@@ -730,11 +730,11 @@ function ChangeBedTenantWay(props) {
                           (option) => option.id === newRoom,
                         )
                           ? {
-                              value: newRoom,
-                              label: state.PgList?.roomsList.find(
-                                (option) => option.id === newRoom,
-                              )?.name,
-                            }
+                            value: newRoom,
+                            label: state.PgList?.roomsList.find(
+                              (option) => option.id === newRoom,
+                            )?.name,
+                          }
                           : null
                       }
                       placeholder="Selected Room"
@@ -800,18 +800,18 @@ function ChangeBedTenantWay(props) {
                       options={
                         availableBed
                           ? availableBed
-                              .filter(
-                                (item) =>
-                                  item &&
-                                  item?.bedName !== "0" &&
-                                  item?.bedName !== "undefined" &&
-                                  item?.bedName !== "" &&
-                                  item?.bedName !== "null",
-                              )
-                              .map((item) => ({
-                                value: item?.bedId,
-                                label: item?.bedName,
-                              }))
+                            .filter(
+                              (item) =>
+                                item &&
+                                item?.bedName !== "0" &&
+                                item?.bedName !== "undefined" &&
+                                item?.bedName !== "" &&
+                                item?.bedName !== "null",
+                            )
+                            .map((item) => ({
+                              value: item?.bedId,
+                              label: item?.bedName,
+                            }))
                           : []
                       }
                       onChange={handleBed}
@@ -819,16 +819,16 @@ function ChangeBedTenantWay(props) {
                       value={
                         availableBed
                           ? (() => {
-                              const selected = availableBed?.find(
-                                (option) => option?.bedId === newBed,
-                              );
-                              return selected
-                                ? {
-                                    value: selected.bedId,
-                                    label: selected.bedName,
-                                  }
-                                : null;
-                            })()
+                            const selected = availableBed?.find(
+                              (option) => option?.bedId === newBed,
+                            );
+                            return selected
+                              ? {
+                                value: selected.bedId,
+                                label: selected.bedName,
+                              }
+                              : null;
+                          })()
                           : null
                       }
                       placeholder="Select Bed"
