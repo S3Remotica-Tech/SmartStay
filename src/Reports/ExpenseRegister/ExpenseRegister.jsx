@@ -1019,21 +1019,21 @@ function ExpenseRegister() {
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                         >
-                          {row.amount || "-"}
+                          ₹{row.amount || 0}
                         </td>
                         <td
                           className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                         >
-                          {row.paidAmount || "-"}
+                          ₹ {row.paidAmount || 0}
                         </td>
                         <td
                           className={`px-4 py-2.5 text-center text-[#6B7280] font-medium transition-colors whitespace-nowrap
     ${isScrolled ? "bg-gray-100" : "bg-white"}
   `}
                         >
-                          {row.balanceAmount || "-"}
+                          ₹{row.balanceAmount || 0}
                         </td>
 
                         <td

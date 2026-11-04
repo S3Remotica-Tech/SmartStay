@@ -935,8 +935,8 @@ function Vendor() {
                       }
                     }}
                     className={`transition-opacity duration-300 ${canReadVendor
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                      ? "cursor-pointer opacity-100 pointer-events-auto"
+                      : "cursor-not-allowed opacity-40 pointer-events-none"
                       }`}
                   />
                 </div>
@@ -1192,7 +1192,7 @@ function Vendor() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.outstanding}
+                                        ₹{user.outstanding}
                                       </td>
                                     );
                                   case "Last Transaction":
@@ -1239,8 +1239,8 @@ function Vendor() {
                                 >
                                   <PiDotsThreeOutlineVerticalFill
                                     className={`h-5 w-5 rotate-90 ${activeRow === user.apiCall.vendorId
-                                        ? "text-[#1E45E1]"
-                                        : "text-gray-500"
+                                      ? "text-[#1E45E1]"
+                                      : "text-gray-500"
                                       }`}
                                   />
 

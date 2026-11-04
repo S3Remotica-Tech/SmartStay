@@ -284,7 +284,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                           <td className="w-[230px] py-1 px-2">
                             {row.totalUnits}
                           </td>
-                          <td className="w-[230px] py-1 px-2">{row.amount}</td>
+                          <td className="w-[230px] py-1 px-2">₹{row.amount}</td>
                           <td className="w-[230px] py-1 px-2">
                             <BiDotsVerticalRounded className="text-2xl text-gray-600 cursor-pointer rotate-[90deg]" />
                           </td>
@@ -381,7 +381,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                           <td className="w-[230px] px-2 py-1">
                             {row.totalUnits}
                           </td>
-                          <td className="w-[230px] px-2 py-1">{row.amount}</td>
+                          <td className="w-[230px] px-2 py-1">₹{row.amount}</td>
                         </tr>
                       ))}
                     </tbody>

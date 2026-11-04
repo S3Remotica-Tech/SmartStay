@@ -41,14 +41,14 @@ function FinalSettlementInvoicePDF() {
             <div>
               <img
                 src={
-                  pdfDetails?.headerInfo?.hostelImage
-                    ? pdfDetails?.headerInfo?.hostelImage
+                  pdfDetails?.configInfo?.hostelLogo
+                    ? pdfDetails?.configInfo?.hostelLogo
                     : Logo
                 }
                 alt="logo"
                 className="mt-2 max-w-[134px] rounded object-contain"
                 style={{
-                  height: pdfDetails?.headerInfo?.hostelImage ? 50 : 25,
+                  height: pdfDetails?.configInfo?.hostelLogo ? 50 : 25,
                 }}
               />
             </div>

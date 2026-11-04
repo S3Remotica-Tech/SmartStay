@@ -287,7 +287,7 @@ function BedDetails({
                           Booking Amount
                         </label>
                         <label className="text-sm text-gray-800 font-gilroy font-semibold">
-                          {tenant?.bookingAmount || "N/A"}
+                          ₹{tenant?.bookingAmount || 0}
                         </label>
                       </div>
 

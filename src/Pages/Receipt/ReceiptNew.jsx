@@ -958,9 +958,8 @@ function ReceiptNew() {
                                       break;
 
                                     case "amount":
-                                      value = user.amount || 0;
+                                      value = `₹${Number(user?.amount) || 0}`;
                                       break;
-
                                     default:
                                       value = user[col.key] ?? "-";
                                   }

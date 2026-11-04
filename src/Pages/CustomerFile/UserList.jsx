@@ -1953,7 +1953,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.monthlyRent}
+                                              ₹{Number(user?.monthlyRent) || 0}
                                             </td>
                                           );
                                         case "Advance":
@@ -1962,7 +1962,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.advanceAmount}
+                                              ₹{Number(user?.advanceAmount) || 0}
                                             </td>
                                           );
                                         case "Booking Amount":
@@ -1971,7 +1971,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bookingAmount}
+                                              ₹{Number(user?.bookingAmount) || 0}
                                             </td>
                                           );
                                         default:

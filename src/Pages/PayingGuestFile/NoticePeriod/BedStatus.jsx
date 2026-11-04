@@ -703,7 +703,7 @@ function NoticeBedStatusDetails({
                         </div>
                         <div>
                           <label className="font-gilroy text-sm text-gray-900 font-semibold">
-                            ₹{tenant?.rentAmount}
+                            ₹{tenant?.rentAmount || 0}
                           </label>
                         </div>
                       </div>
@@ -1019,7 +1019,7 @@ function NoticeBedStatusDetails({
                           </div>
                           <div>
                             <label className="font-gilroy text-sm text-gray-900 font-semibold">
-                              {tenant?.bookingAmount || "N/A"}
+                              ₹ {tenant?.bookingAmount || 0}
                             </label>
                           </div>
                         </div>

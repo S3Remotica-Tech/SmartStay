@@ -1286,7 +1286,7 @@ function Expenses() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.totalAmount}
+                                        ₹{user.totalAmount}
                                       </td>
                                     );
                                   case "Paid Amount":
@@ -1295,7 +1295,7 @@ function Expenses() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.paidAmount}
+                                        ₹{user.paidAmount}
                                       </td>
                                     );
                                   case "Balance Amount":
@@ -1304,7 +1304,16 @@ function Expenses() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.balanceAmount}
+                                        ₹{user.balanceAmount}
+                                      </td>
+                                    );
+                                  case "Actual Total":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        ₹{user.actualTotal}
                                       </td>
                                     );
 

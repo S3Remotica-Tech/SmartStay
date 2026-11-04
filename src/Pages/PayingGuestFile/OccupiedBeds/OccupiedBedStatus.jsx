@@ -307,7 +307,7 @@ function OccupiedBedStatus({
                         </div>
                         <div>
                           <label className="font-gilroy text-sm text-gray-800 font-semibold">
-                            {tenant?.rentAmount || "N/A"}
+                            ₹{tenant?.rentAmount || 0}
                           </label>
                         </div>
                       </div>
