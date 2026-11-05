@@ -19,6 +19,7 @@ import Book from "../../Assets/v2Images/Maskgroup.svg";
 import Refund from "../../Assets/v2Images/Refund.svg";
 import BookingCancelled from "../../Assets/v2Images/BookingCancelled.png";
 import Payment from "../../Assets/v2Images/PaymentReceived.svg";
+import CustomTooltip from "../../Utils/CustomToolTip";
 
 const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);
@@ -320,33 +321,37 @@ const InvoiceCard = ({ rowData }) => {
 
           <div>
             <div className="flex gap-2 mr-3 items-center">
-              <div
-                className={`flex justify-center items-center border rounded-[8px] h-[30px] w-[30px]
+              <CustomTooltip text="Download" direction="top-full" usePortal={false}>
+                <div
+                  className={`flex justify-center items-center border rounded-[8px] h-[30px] w-[30px]
           ${isExportAllow ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
-                onClick={() => {
-                  if (isExportAllow) handleDownload();
-                }}
-              >
-                <DocumentDownload
-                  size="18"
-                  color={isExportAllow ? "#222222" : "#BDBDBD"}
-                />
-              </div>
+                  onClick={() => {
+                    if (isExportAllow) handleDownload();
+                  }}
+                >
+                  <DocumentDownload
+                    size="18"
+                    color={isExportAllow ? "#222222" : "#BDBDBD"}
+                  />
+                </div>
+              </CustomTooltip>
 
               <div className="relative inline-block">
-                <div
-                  className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
-                  onClick={handleShareClick}
-                >
-                  <img
-                    src={Whatsapp}
-                    alt="Share"
-                    className="h-[15px] w-[15px] brightness-0 invert"
-                  />
-                  <span className="text-[14px] font-normal font-gilroy text-white leading-none">
-                    Share
-                  </span>
-                </div>
+                <CustomTooltip text="Share" direction="top-full" usePortal={false}>
+                  <div
+                    className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
+                    onClick={handleShareClick}
+                  >
+                    <img
+                      src={Whatsapp}
+                      alt="Share"
+                      className="h-[15px] w-[15px] brightness-0 invert"
+                    />
+                    <span className="text-[14px] font-normal font-gilroy text-white leading-none">
+                      Share
+                    </span>
+                  </div>
+                </CustomTooltip>
 
                 {isOpen && (
                   <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
@@ -394,12 +399,12 @@ const InvoiceCard = ({ rowData }) => {
                 )}
               </div>
 
-              <div>
+              <CustomTooltip text="Close" direction="top-full" usePortal={false}>
                 <IoClose
                   className="h-[20px] w-[20px] cursor-pointer text-red-500"
                   onClick={handleBackInvoice}
                 />
-              </div>
+              </CustomTooltip>
             </div>
           </div>
         </div>

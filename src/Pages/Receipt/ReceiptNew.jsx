@@ -15,13 +15,11 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import Select from "react-select";
-
+import CustomTooltip from "../../Utils/CustomToolTip";
 import Delete from "../../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Download from "../../Assets/Images/New_images/download.png";
-
 import ReceiptFilter from "./ReceiptFilter";
-
 import { CustomStyles } from "../../Utils/SelectStyles";
 
 function ReceiptNew() {
@@ -763,28 +761,29 @@ function ReceiptNew() {
                       onChange={(option) => setReceiptType(option || "")}
                     />
                   </div>
-
-                  <div
-                    className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                  >
-                    <Filter
-                      size={16}
-                      onClick={(e) => {
-                        if (canReadReceipt) {
-                          e.stopPropagation();
-                          handleClickFilter();
-                        }
-                      }}
-                      className={`transition-opacity duration-300 ${canReadReceipt
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
-                    />
-                  </div>
+                  <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                    <div
+                      className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                    >
+                      <Filter
+                        size={16}
+                        onClick={(e) => {
+                          if (canReadReceipt) {
+                            e.stopPropagation();
+                            handleClickFilter();
+                          }
+                        }}
+                        className={`transition-opacity duration-300 ${canReadReceipt
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                          }`}
+                      />
+                    </div>
+                  </CustomTooltip>
                 </div>
 
                 <div className={` flex items-center justify-end gap-2 mr-2 `}>
-                  <div>
+                  <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
                     <Setting3
                       // onClick={() => {
                       //   setOpen(!open);
@@ -793,7 +792,7 @@ function ReceiptNew() {
                       size="22"
                       color="#4B4B4B"
                     />
-                  </div>
+                  </CustomTooltip>
 
                   {formattedData?.length > 0 && (
                     <ApiPagination

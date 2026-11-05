@@ -1281,25 +1281,18 @@ const InvoicePage = () => {
                     <div>
                       <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
                         <span>{item.label}</span>
+                        <CustomTooltip text="Click to Filter" direction="top-full" usePortal={false}>
+                          <div className="relative group w-fit shrink-0">
+                            <Filter
+                              onClick={() => setStatusFilter(item.search)}
+                              size="14"
+                              color="#9CA3AF"
+                              className="cursor-pointer"
+                            />
 
-                        <div className="relative group w-fit shrink-0">
-                          <Filter
-                            onClick={() => setStatusFilter(item.search)}
-                            size="14"
-                            color="#9CA3AF"
-                            className="cursor-pointer"
-                          />
-
-                          <div
-                            className="absolute left-1/2 top-full mt-2 -translate-x-1/2
-                hidden group-hover:flex
-                px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md
-                items-center gap-1 whitespace-nowrap z-50"
-                          >
-                            <Filter size="14" color="#fff" />
-                            Click to Filter
                           </div>
-                        </div>
+                        </CustomTooltip>
+
                       </div>
 
                       <div className="text-lg font-semibold text-[#111827]">
@@ -1761,100 +1754,115 @@ const InvoicePage = () => {
             </>
           )}
         </div>
-      )}
+      )
+      }
 
-      {showBillsFilter && (
-        <BillsFilter
-          show={showBillsFilter}
-          handleClose={handleCloseFilterBills}
-          size={size}
-        />
-      )}
+      {
+        showBillsFilter && (
+          <BillsFilter
+            show={showBillsFilter}
+            handleClose={handleCloseFilterBills}
+            size={size}
+          />
+        )
+      }
       {(showLoader || loading) && <LoaderComponent />}
 
-      {showdeleteform && (
-        <Modal
-          show={showdeleteform}
-          onHide={handleCloseDeleteform}
-          centered
-          backdrop="static"
-        >
-          <Modal.Header className="!border-b-0 !flex !justify-center">
-            <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
-              Delete Billing?
-            </Modal.Title>
-          </Modal.Header>
+      {
+        showdeleteform && (
+          <Modal
+            show={showdeleteform}
+            onHide={handleCloseDeleteform}
+            centered
+            backdrop="static"
+          >
+            <Modal.Header className="!border-b-0 !flex !justify-center">
+              <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
+                Delete Billing?
+              </Modal.Title>
+            </Modal.Header>
 
-          <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
-            Are you sure you want to delete this Billing?
-          </Modal.Body>
+            <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
+              Are you sure you want to delete this Billing?
+            </Modal.Body>
 
-          <Modal.Footer className="!block !border-t-0 !p-2">
-            <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
-              <Button
-                onClick={handleCloseDeleteform}
-                className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
-              >
-                Cancel
-              </Button>
+            <Modal.Footer className="!block !border-t-0 !p-2">
+              <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
+                <Button
+                  onClick={handleCloseDeleteform}
+                  className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
+                >
+                  Cancel
+                </Button>
 
-              <Button
-                disabled
-                onClick={handleBillDeleted}
-                className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
-              >
-                Coming Soon
-              </Button>
-            </div>
-          </Modal.Footer>
-        </Modal>
-      )}
+                <Button
+                  disabled
+                  onClick={handleBillDeleted}
+                  className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
+                >
+                  Coming Soon
+                </Button>
+              </div>
+            </Modal.Footer>
+          </Modal>
+        )
+      }
 
-      {state.InvoiceList.unableAddInvoiceDetailsError ? (
-        <div className="flex justify-content-center mt-5">
-          <ErrorMessage
-            message={state.InvoiceList.unableAddInvoiceDetailsError}
-            type="error"
+      {
+        state.InvoiceList.unableAddInvoiceDetailsError ? (
+          <div className="flex justify-content-center mt-5">
+            <ErrorMessage
+              message={state.InvoiceList.unableAddInvoiceDetailsError}
+              type="error"
+            />
+          </div>
+        ) : null
+      }
+
+      {
+        showRecurringBillForm && (
+          <>
+            <RecurringBill
+              hostelId={state.login.selectedHostel_Id}
+              onhandleback={handleBackBill}
+            />
+          </>
+        )
+      }
+
+      {
+        receiptformShow && (
+          <>
+            <AddReceiptForm
+              onhandleback={handleBackBill}
+              editvalue={editvalue}
+              receiptedit={receiptedit}
+            />
+          </>
+        )
+      }
+
+      {
+        showform && (
+          <RecordPayment
+            show={showform}
+            handleClose={handleCloseForm}
+            selectedUserId={selectedUserId}
+            // invoiceValue={invoiceValue}
+            invoiceList={invoiceList}
           />
-        </div>
-      ) : null}
+        )
+      }
 
-      {showRecurringBillForm && (
-        <>
-          <RecurringBill
-            hostelId={state.login.selectedHostel_Id}
-            onhandleback={handleBackBill}
+      {
+        showReviewGenerateBill && (
+          <ReviewGenerateBillsDrawer
+            open={showReviewGenerateBill}
+            onClose={() => setShowReviewGenerateBill(false)}
           />
-        </>
-      )}
-
-      {receiptformShow && (
-        <>
-          <AddReceiptForm
-            onhandleback={handleBackBill}
-            editvalue={editvalue}
-            receiptedit={receiptedit}
-          />
-        </>
-      )}
-
-      {showform && (
-        <RecordPayment
-          show={showform}
-          handleClose={handleCloseForm}
-          selectedUserId={selectedUserId}
-          // invoiceValue={invoiceValue}
-          invoiceList={invoiceList}
-        />
-      )}
-
-      {showReviewGenerateBill && (
-        <ReviewGenerateBillsDrawer
-          open={showReviewGenerateBill}
-          onClose={() => setShowReviewGenerateBill(false)}
-        />
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 InvoicePage.propTypes = {

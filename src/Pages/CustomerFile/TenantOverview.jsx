@@ -81,6 +81,9 @@ import RemoveRentRevision from "./RemoveRentRevision";
 import TenantRetainerInvoice from "./TenantRetainerInvoice";
 import AddTenant from "../PayingGuestFile/AddTenant";
 import DeleteDraftTenant from "../CustomerFile/DeleteDraftTenant";
+import CustomTooltip from "../../Utils/CustomToolTip";
+
+
 function TenantOverview(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -1001,20 +1004,21 @@ function TenantOverview(props) {
                 Tenant Profile
               </span>
             </div>
-            <div className="relative">
-              <img
-                src={icon}
-                alt="icon"
-                width={24}
-                height={24}
-                className="cursor-pointer mr-2"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-              />
+            <CustomTooltip text="Created by" direction="top-full" usePortal={false}>
+              <div className="relative">
+                <img
+                  src={icon}
+                  alt="icon"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer mr-2"
+                  onClick={() => setIsPopupOpen(!isPopupOpen)}
+                />
 
-              {isPopupOpen && (
-                <div
-                  ref={menuRef}
-                  className="
+                {isPopupOpen && (
+                  <div
+                    ref={menuRef}
+                    className="
     absolute right-2 sm:right-12
     w-fit
         px-2 sm:px-2 py-2 sm:py-2
@@ -1022,39 +1026,40 @@ function TenantOverview(props) {
     shadow-inner border border-gray-200
     z-20 font-gilroy shadow
   "
-                >
-                  <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
-                    Created by
-                  </div>
-                  <div className="flex items-center gap-1 p-2">
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                      {CustomerOverView?.createdByPic ? (
-                        <img
-                          src={CustomerOverView?.createdByPic}
-                          alt={CustomerOverView?.createdByPic || "profile"}
-                          className="w-10 h-10 rounded-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = "/default-profile.png";
-                          }}
-                        />
-                      ) : (
-                        <div className="w-10 h-10 rounded-full whitespace-nowrap bg-gray-200 flex items-center justify-center font-semibold text-base text-gray-700">
-                          {CustomerOverView?.createdByInitials}
-                        </div>
-                      )}
+                  >
+                    <div className="font-gilroy font-normal text-[13px] border-b border-gray-200 p-2">
+                      Created by
                     </div>
-                    <div className="flex flex-col">
-                      <span className="font-gilroy font-semibold text-sm mb-1 whitespace-nowrap">
-                        {CustomerOverView?.createdByName}
-                      </span>
-                      <span className="text-xs text-gray-500 ont-gilroy font-medium whitespace-nowrap flex">
-                        {CustomerOverView?.createdAt}
-                      </span>
+                    <div className="flex items-center gap-1 p-2">
+                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                        {CustomerOverView?.createdByPic ? (
+                          <img
+                            src={CustomerOverView?.createdByPic}
+                            alt={CustomerOverView?.createdByPic || "profile"}
+                            className="w-10 h-10 rounded-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "/default-profile.png";
+                            }}
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full whitespace-nowrap bg-gray-200 flex items-center justify-center font-semibold text-base text-gray-700">
+                            {CustomerOverView?.createdByInitials}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-gilroy font-semibold text-sm mb-1 whitespace-nowrap">
+                          {CustomerOverView?.createdByName}
+                        </span>
+                        <span className="text-xs text-gray-500 ont-gilroy font-medium whitespace-nowrap flex">
+                          {CustomerOverView?.createdAt}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            </CustomTooltip>
           </div>
         </>
 
@@ -1550,16 +1555,18 @@ function TenantOverview(props) {
                           className={`h-10 w-10 flex items-center justify-center relative 
       ${isEditDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
                         >
-                          <img
-                            src={EditImage}
-                            alt="editimage"
-                            className="h-4 w-4"
-                            style={{
-                              filter: isEditDisabled
-                                ? "grayscale(100%)"
-                                : "none",
-                            }}
-                          />
+                          <CustomTooltip text="Edit" direction="top-full" usePortal={false}>
+                            <img
+                              src={EditImage}
+                              alt="editimage"
+                              className="h-4 w-4"
+                              style={{
+                                filter: isEditDisabled
+                                  ? "grayscale(100%)"
+                                  : "none",
+                              }}
+                            />
+                          </CustomTooltip>
                         </div>
                       </div>
                     </div>
@@ -1677,16 +1684,18 @@ function TenantOverview(props) {
                                   }}
                                   className="h-10 w-10 flex justify-center items-center relative z-[1000]"
                                 >
-                                  <img
-                                    src={EditImage}
-                                    alt="edit"
-                                    className="h-4 w-4"
-                                    style={{
-                                      filter: isEditDisabled
-                                        ? "grayscale(100%)"
-                                        : "none",
-                                    }}
-                                  />
+                                  <CustomTooltip text="Edit" direction="top-full" usePortal={false}>
+                                    <img
+                                      src={EditImage}
+                                      alt="edit"
+                                      className="h-4 w-4"
+                                      style={{
+                                        filter: isEditDisabled
+                                          ? "grayscale(100%)"
+                                          : "none",
+                                      }}
+                                    />
+                                  </CustomTooltip>
                                 </div>
                               </span>
                             )}
@@ -1934,14 +1943,16 @@ function TenantOverview(props) {
                             <div
                               className={`${!canUpdateTenant ? "cursor-not-allowed opacity-60" : "cursor-pointer opacity-100"}`}
                             >
-                              <Timer1
-                                size="18"
-                                className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
-                                onClick={() =>
-                                  canUpdateTenant &&
-                                  handleShowStayHistory(CustomerOverView)
-                                }
-                              />
+                              <CustomTooltip text="Stay history" direction="top-full" usePortal={true}>
+                                <Timer1
+                                  size="18"
+                                  className={`${!canUpdateTenant ? "cursor-not-allowed" : "cursor-pointer"} h-4 w-4`}
+                                  onClick={() =>
+                                    canUpdateTenant &&
+                                    handleShowStayHistory(CustomerOverView)
+                                  }
+                                />
+                              </CustomTooltip>
                             </div>
                           </div>
                         </div>
@@ -2025,12 +2036,14 @@ function TenantOverview(props) {
                                 CustomerOverView.hostelInfo?.currentStatus !==
                                 "NOTICE" &&
                                 CustomerOverView?.isJoiningDateEditable && (
-                                  <img
-                                    onClick={handleUpdateJoiningChange}
-                                    src={EditImage}
-                                    alt="EditImage"
-                                    className="h-3.5 w-3.5 mt-0.5 cursor-pointer"
-                                  />
+                                  <CustomTooltip text="Edit" direction="top-full" usePortal={true}>
+                                    <img
+                                      onClick={handleUpdateJoiningChange}
+                                      src={EditImage}
+                                      alt="EditImage"
+                                      className="h-3.5 w-3.5 mt-0.5 cursor-pointer"
+                                    />
+                                  </CustomTooltip>
                                 )}
                             </p>
                             <p className="flex items-center -mt-3 gap-1">
@@ -2080,17 +2093,18 @@ function TenantOverview(props) {
                                   "NOTICE" &&
                                   CustomerOverView.hostelInfo?.currentStatus !==
                                   "VACATED" && (
-                                    <button
-                                      type="button"
-                                      onClick={handleUpdateChange}
-                                      className="flex items-center"
-                                    >
-                                      <img
-                                        src={EditImage}
-                                        alt="Edit"
-                                        className="h-3.5 w-3.5 cursor-pointer"
-                                      />
-                                    </button>
+                                    <CustomTooltip text="Edit" direction="top-full" usePortal={true}>
+                                      <button
+                                        type="button"
+                                        onClick={handleUpdateChange}
+                                        className="flex items-center"
+                                      >
+                                        <img
+                                          src={EditImage}
+                                          alt="Edit"
+                                          className="h-3.5 w-3.5 cursor-pointer"
+                                        />
+                                      </button></CustomTooltip>
                                   )}
                               </div>
                               <p className="text-sm font-semibold font-gilroy text-blue-600 pt-2">
@@ -2144,12 +2158,14 @@ function TenantOverview(props) {
                                   "VACATED" &&
                                   CustomerOverView.advanceInfo
                                     ?.canEditAdvance && (
-                                    <img
-                                      onClick={handleUpdateAdvanceChange}
-                                      src={EditImage}
-                                      alt="EditImage"
-                                      className="h-3.5 w-3.5 cursor-pointer"
-                                    />
+                                    <CustomTooltip text="Edit" direction="top-full" usePortal={true}>
+                                      <img
+                                        onClick={handleUpdateAdvanceChange}
+                                        src={EditImage}
+                                        alt="EditImage"
+                                        className="h-3.5 w-3.5 cursor-pointer"
+                                      />
+                                    </CustomTooltip>
                                   )}
                               </div>
                               <p className="text-sm font-semibold font-gilroy pt-2">

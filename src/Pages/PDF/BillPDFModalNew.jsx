@@ -704,7 +704,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
             </button>
 
             <div className=" inline-block">
-              <CustomTooltip text="Share via Whatsapp" direction="top-full">
+              <CustomTooltip text="Share" direction="top-full">
                 <div
                   className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-lg cursor-pointer bg-[#1E45E1]"
                   onClick={handleShareClick}

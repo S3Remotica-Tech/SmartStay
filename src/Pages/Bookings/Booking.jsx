@@ -15,7 +15,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ApplyBookingModal from "./ApplyInvoices";
-
+import CustomTooltip from "../../Utils/CustomToolTip";
 import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";
@@ -945,23 +945,16 @@ function Booking() {
                     {item.label}
 
                     <div className="relative group w-fit">
-                      {item.label !== "Notice Period" && (
-                        <Filter
-                          size="14"
-                          color="#9CA3AF"
-                          className="cursor-pointer"
-                        />
-                      )}
+                      <CustomTooltip text="Click to Filter" direction="top-full" usePortal={false}>
+                        {(
+                          <Filter
+                            size="14"
+                            color="#9CA3AF"
+                            className="cursor-pointer"
+                          />
+                        )}
+                      </CustomTooltip>
 
-                      <div
-                        className="absolute left-1/2 -translate-x-1/2 mt-2 
-                      hidden group-hover:flex
-                      px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-                      items-center gap-1 whitespace-nowrap z-50"
-                      >
-                        <Filter size="14" color="#fff" />
-                        Click to Filter
-                      </div>
                     </div>
                   </div>
 
@@ -1022,25 +1015,27 @@ function Booking() {
                 classNamePrefix="custom"
                 noOptionsMessage={() => "No options"}
               />
-
-              <button
-                onClick={() => canReadInvoice && handleShowFilterBills()}
-                disabled={!canReadInvoice}
-                className={`border border-slate-300 rounded-full p-2
+              <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                <button
+                  onClick={() => canReadInvoice && handleShowFilterBills()}
+                  disabled={!canReadInvoice}
+                  className={`border border-slate-300 rounded-full p-2
             ${canReadInvoice ? "cursor-not-allowed" : "opacity-40 cursor-not-allowed"}`}
-              >
-                <Filter size={18} />
-              </button>
+                >
+                  <Filter size={18} />
+                </button>
+              </CustomTooltip>
             </div>
 
             <div className="flex  items-center gap-3">
-              <Setting3
-                onClick={() => setOpen(!open)}
-                className="cursor-pointer"
-                size="22"
-                color="#4B4B4B"
-              />
-
+              <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
+                <Setting3
+                  onClick={() => setOpen(!open)}
+                  className="cursor-pointer"
+                  size="22"
+                  color="#4B4B4B"
+                />
+              </CustomTooltip>
               {formattedData?.length > 0 && (
                 <ApiPagination
                   currentPage={currentPage}
