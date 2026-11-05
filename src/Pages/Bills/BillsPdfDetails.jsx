@@ -14,6 +14,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Add, SearchNormal1, TextalignLeft } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import { toast } from "react-toastify";
+import CustomTooltip from "../../Utils/CustomToolTip";
 
 function BillsPdfDetails() {
   const location = useLocation();
@@ -176,17 +177,21 @@ function BillsPdfDetails() {
               </label>
             </div>
             <div className="flex justify-between items-center gap-2">
-              <div className="cursor-not-allowed bg-[#F7F8FC] border border-[#9C9C9C26] rounded-md px-1 py-1">
-                <TextalignLeft size="20" color="#4B4B4B" />
-              </div>
+              <CustomTooltip text="Filter" direction="top-full">
+                <div className=" cursor-not-allowed bg-[#F7F8FC] border border-[#9C9C9C26] rounded-md px-1 py-1">
+                  <TextalignLeft size="20" color="#4B4B4B" />
+                </div>
+              </CustomTooltip>
+              <CustomTooltip text="Create Bill" direction="top-full" usePortal={true}>
+                <button
+                  disabled={!canWriteInvoice}
+                  onClick={handleManualShow}
+                  className="bg-[#1E45E1] text-white px-1 py-1 rounded-md me-2"
+                >
+                  <Add size="22" color="#ffffff" />
+                </button>
 
-              <button
-                disabled={!canWriteInvoice}
-                onClick={handleManualShow}
-                className="bg-[#1E45E1] text-white px-1 py-1 rounded-md me-2"
-              >
-                <Add size="22" color="#ffffff" />
-              </button>
+              </CustomTooltip>
             </div>
           </div>
 

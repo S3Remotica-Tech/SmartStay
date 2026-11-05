@@ -117,6 +117,7 @@ import TenantAppControls from "../Pages/Settings/TenantAppControls";
 import AddTemplate from "../Pages/Settings/Agreement/AddTemplate";
 import NewInvoice from "../Pages/Bills/NewInvoice";
 import BillTemplates from "../Pages/Settings/BillTemplates/BillTemplates";
+import CustomTooltip from "../Utils/CustomToolTip";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1848,109 +1849,121 @@ function Sidebar() {
             </div>
 
             <div className="right-panel w-14 flex flex-col h-screen bg-slate-50 border-l border-slate-200 shadow-sm overflow-y-auto items-center flex-shrink-0">
-              <div
-                ref={profileAreaRef}
-                onClick={() => setShowProfileCard((s) => !s)}
-                role="button"
-                tabIndex={0}
-                className="flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
-              >
-                {profiles === "null" ||
-                  profiles === null ||
-                  profiles === undefined ||
-                  profiles === "undefined" ||
-                  profiles === "" ||
-                  profiles === 0 ||
-                  profiles === "0" ? (
-                  <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
-                    {stateData?.accountList?.initial || ""}
-                  </div>
-                ) : (
-                  <Image
-                    src={profiles}
-                    alt="profile-image"
-                    roundedCircle
-                    className="h-12 w-12 object-cover flex-shrink-0"
-                  />
-                )}
-              </div>
 
-              <button
-                onClick={() => setShowMenuModal(true)}
-                title="Quick Add"
-                className="w-8 h-8 rounded-lg bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-4 transition-colors leading-none pb-0.5"
-              >
-                +
-              </button>
+              <CustomTooltip text="profile" direction="right-full" usePortal={true}>
+                <div
+                  ref={profileAreaRef}
+                  onClick={() => setShowProfileCard((s) => !s)}
+                  role="button"
+                  tabIndex={0}
+                  className=" flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
+                >
+                  {profiles === "null" ||
+                    profiles === null ||
+                    profiles === undefined ||
+                    profiles === "undefined" ||
+                    profiles === "" ||
+                    profiles === 0 ||
+                    profiles === "0" ? (
+                    <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
+                      {stateData?.accountList?.initial || ""}
+                    </div>
+                  ) : (
+                    <Image
+                      src={profiles}
+                      alt="profile-image"
+                      roundedCircle
+                      className="h-12 w-12 object-cover flex-shrink-0"
+                    />
+                  )}
+
+                </div>
+              </CustomTooltip>
+              <CustomTooltip text="Quick" direction="right-full" usePortal={true}>
+                <button
+                  onClick={() => setShowMenuModal(true)}
+
+                  className=" w-8 h-8 rounded-lg bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-4 transition-colors leading-none pb-0.5"
+                >
+                  +
+
+                </button>
+              </CustomTooltip>
 
               <div className="flex flex-col items-center justify-start gap-4 mt-7">
-                <div
-                  className="relative flex flex-col items-center gap-1 cursor-pointer"
-                  title="Search"
-                >
-                  <img src={SearchVector} alt="Search" className="w-6 h-6" />
-                </div>
+                <CustomTooltip text="Search" direction="right-full" usePortal={true}>
+                  <div
+                    className="relative flex flex-col items-center gap-1 cursor-pointer"
 
-                <div
-                  onClick={handleShowNotification}
-                  onMouseEnter={() => handleMouseEnter("notification")}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative flex flex-col items-center gap-1 cursor-pointer"
-                  title="Notifications"
-                >
-                  <div className="relative">
-                    <Notification
-                      className="w-6 h-6"
-                      color={
-                        hoveredIcon === "notification" ? "#1E45E1" : "#64748B"
-                      }
-                      onClick={handleShowNotification}
-                    />
-
-                    {state.UsersList.hotelDetailsinPg.unreadNotificationCount >
-                      0 && (
-                        <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
-                          {
-                            state.UsersList?.hotelDetailsinPg
-                              ?.unreadNotificationCount
-                          }
-                        </span>
-                      )}
+                  >
+                    <img src={SearchVector} alt="Search" className="w-6 h-6" />
                   </div>
-                </div>
+                </CustomTooltip>
 
-                <NavLink
-                  to={settingsPath}
-                  onMouseEnter={() => handleMouseEnter("settings")}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => {
-                    handlePageClick("settingNewDesign");
-                    setSettingsPGShow(false);
-                  }}
-                  className={({ isActive }) =>
-                    `settings-link ${isActive ? "active" : ""} cursor-pointer relative flex flex-col items-center gap-1 no-underline transition-transform`
-                  }
-                  title="Settings"
-                >
-                  <img
-                    src={SettingIcon}
-                    alt="Settings Icon"
-                    className="w-6 h-6"
-                  />
-                </NavLink>
+                <CustomTooltip text="Notify" direction="right-full" usePortal={true}>
+                  <div
+                    onClick={handleShowNotification}
+                    onMouseEnter={() => handleMouseEnter("notification")}
+                    onMouseLeave={handleMouseLeave}
+                    className="relative flex flex-col items-center gap-1 cursor-pointer"
 
-                <div
-                  onMouseEnter={() => handleMouseEnter("helpVideo")}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative flex flex-col items-center gap-1 cursor-pointer"
-                  title="Help Video"
-                >
-                  <img
-                    src={HelpVideoIcon}
-                    alt="Help Video Icon"
-                    className="w-6 h-6"
-                  />
-                </div>
+                  >
+                    <div className="relative">
+                      <Notification
+                        className="w-6 h-6"
+                        color={
+                          hoveredIcon === "notification" ? "#1E45E1" : "#64748B"
+                        }
+                        onClick={handleShowNotification}
+                      />
+
+                      {state.UsersList.hotelDetailsinPg.unreadNotificationCount >
+                        0 && (
+                          <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
+                            {
+                              state.UsersList?.hotelDetailsinPg
+                                ?.unreadNotificationCount
+                            }
+                          </span>
+                        )}
+                    </div>
+                  </div>
+                </CustomTooltip>
+                <CustomTooltip text="Settings" direction="right-full" usePortal={true}>
+                  <NavLink
+                    to={settingsPath}
+                    onMouseEnter={() => handleMouseEnter("settings")}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={() => {
+                      handlePageClick("settingNewDesign");
+                      setSettingsPGShow(false);
+                    }}
+                    className={({ isActive }) =>
+                      `settings-link ${isActive ? "active" : ""} cursor-pointer relative flex flex-col items-center gap-1 no-underline transition-transform`
+                    }
+
+                  >
+                    <img
+                      src={SettingIcon}
+                      alt="Settings Icon"
+                      className="w-6 h-6"
+                    />
+                  </NavLink>
+                </CustomTooltip>
+                <CustomTooltip text="Help" direction="right-full" usePortal={true}>
+                  <div
+                    onMouseEnter={() => handleMouseEnter("helpVideo")}
+                    onMouseLeave={handleMouseLeave}
+                    className="relative flex flex-col items-center gap-1 cursor-pointer"
+
+                  >
+                    <img
+                      src={HelpVideoIcon}
+                      alt="Help Video Icon"
+                      className="w-6 h-6"
+                    />
+                  </div>
+                </CustomTooltip>
               </div>
             </div>
           </div>

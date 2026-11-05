@@ -29,6 +29,7 @@ import RentInvoicePDF from "./RentInvoicePDF";
 import AdvanceInvoicePDF from "./AdvanceInvoicePDF";
 import FinalSettlementOldPDF from "./FinalSettlementOldPDF";
 import ApplyRetainerToInvoice from "../Bills/ApplyRetainerToInvoice";
+import CustomTooltip from "../../Utils/CustomToolTip";
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const state = useSelector((state) => state);
@@ -671,20 +672,25 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div
-              className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${isExportAllow
-                ? "cursor-pointer"
-                : "cursor-not-allowed opacity-50"
-                }`}
-              onClick={() => {
-                if (isExportAllow) handleDownload();
-              }}
-            >
-              <DocumentDownload
-                size="18"
-                color={isExportAllow ? "#222222" : "#BDBDBD"}
-              />
-            </div>
+            <CustomTooltip text={isExportAllow ? "Download" : "Export not allowed"} direction="top-full">
+              <div className="">
+                <div
+                  className={`flex items-center justify-center border rounded-lg h-[30px] w-[30px] ${isExportAllow
+                    ? "cursor-pointer"
+                    : "cursor-not-allowed opacity-50"
+                    }`}
+                  onClick={() => {
+                    if (isExportAllow) handleDownload();
+                  }}
+                >
+                  <DocumentDownload
+                    size="18"
+                    color={isExportAllow ? "#222222" : "#BDBDBD"}
+                  />
+                </div>
+
+              </div>
+            </CustomTooltip>
 
             <button
               disabled
@@ -697,20 +703,24 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               />
             </button>
 
-            <div className="relative inline-block">
-              <div
-                className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-lg cursor-pointer bg-[#1E45E1]"
-                onClick={handleShareClick}
-              >
-                <img
-                  src={Whatsapp}
-                  alt="Share"
-                  className="h-[15px] w-[15px] invert"
-                />
-                <span className="text-sm font-normal text-white font-gilroy leading-none">
-                  Share
-                </span>
-              </div>
+            <div className=" inline-block">
+              <CustomTooltip text="Share via Whatsapp" direction="top-full">
+                <div
+                  className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-lg cursor-pointer bg-[#1E45E1]"
+                  onClick={handleShareClick}
+                >
+                  <img
+                    src={Whatsapp}
+                    alt="Share"
+                    className="h-[15px] w-[15px] invert"
+                  />
+                  <span className="text-sm font-normal text-white font-gilroy leading-none">
+                    Share
+                  </span>
+
+
+                </div>
+              </CustomTooltip>
 
               {isOpen && (
                 <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
@@ -760,13 +770,16 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                 </div>
               )}
             </div>
+            <CustomTooltip text="Close" direction="top-full">
+              <div className="mr-3 ">
+                <IoClose
+                  className="h-5 w-5 text-red-500 cursor-pointer"
+                  onClick={handleBackInvoice}
+                />
 
-            <div className="mr-3">
-              <IoClose
-                className="h-5 w-5 text-red-500 cursor-pointer"
-                onClick={handleBackInvoice}
-              />
-            </div>
+              </div>
+            </CustomTooltip>
+
           </div>
         </div>
 
@@ -825,168 +838,169 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
         className={`fixed  right-14 ${isOpenPayment ? "bottom-[200px]" : "bottom-16"} z-50 flex flex-col gap-3 items-end`}
       ></div>
 
-      {pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
-        <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
-          {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
-            !showDiscountInvoice && (
+      {
+        pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && (
+          <div className="sticky bottom-0 left-0 right-0 z-50 bg-white shadow-[0_-6px_10px_-6px_rgba(0,0,0,0.15)] font-gilroy">
+            {Number(pdfDetails?.invoiceInfo?.discountAmount) > 0 &&
+              !showDiscountInvoice && (
+                <div className=" animate-slideIn">
+                  <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2  border-b min-w-[220px]">
+                    <div className="flex items-center gap-3">
+                      <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
+                        <span className="text-[16px]">
+                          {" "}
+                          <TiTick className="text-base" />{" "}
+                        </span>
+                      </span>
+
+                      <div className="flex flex-col">
+                        <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                          Discount Applied
+                        </span>
+
+                        <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
+                          ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
+                          <span className="pl-2">
+                            Were applied on this invoice
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <PiDotsThreeOutlineVerticalFill
+                      className="cursor-pointer text-gray-600"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenMenu(!openMenu);
+                      }}
+                    />
+
+                    {openMenu && (
+                      <div
+                        className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          disabled={!canUpdateInvoice}
+                          onClick={() => {
+                            setIsEdit(true);
+                            setEditData(
+                              pdfDetails?.discountDetails ||
+                              pdfDetails?.invoiceInfo,
+                            );
+                            setShowDiscountInvoice(true);
+                            setOpenMenu(false);
+                          }}
+                          className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${canUpdateInvoice
+                              ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
+                              : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+                            }
+  `}
+                        >
+                          <Edit
+                            size={16}
+                            className={canUpdateInvoice ? "" : "opacity-50"}
+                          />
+                          Edit
+                        </button>
+
+                        <div className="h-px bg-gray-200 mx-2" />
+
+                        <button
+                          disabled={!canDeleteInvoice}
+                          onClick={() => {
+                            setShowRefuseModal(true);
+                            setOpenMenu(false);
+                            // setSelectedInvoice(pdfDetails);
+                          }}
+                          className={`
+    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
+    ${canDeleteInvoice
+                              ? "text-red-600 hover:bg-red-50 cursor-pointer"
+                              : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
+                            }
+  `}
+                        >
+                          <IoClose
+                            className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
+                          />
+                          Refuse with invoice
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+            {pdfDetails?.invoiceInfo?.canRedeem > 0 && (
               <div className=" animate-slideIn">
                 <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2  border-b min-w-[220px]">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
                     <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
                       <span className="text-[16px]">
-                        {" "}
-                        <TiTick className="text-base" />{" "}
+                        <TiTick className="text-base" />
                       </span>
                     </span>
-
                     <div className="flex flex-col">
-                      <span className="mb-1 font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                        Discount Applied
-                      </span>
+                      <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
+                        Credits Available :{" "}
+                        {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
+                        <span
+                          className={`font-semibold text-sm transition-all duration-150
+    ${!canUpdateInvoice
+                              ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
+                              : "text-[#1E45E1] cursor-pointer"
+                            }`}
+                          onClick={(e) => {
+                            if (!canUpdateInvoice) return;
 
-                      <span className="font-gilroy text-[12px] leading-[19.5px] tracking-[0px]">
-                        ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
-                        <span className="pl-2">
-                          Were applied on this invoice
+                            e.stopPropagation();
+                            handleApplyInvoices("booking");
+                          }}
+                        >
+                          Apply Now
                         </span>
                       </span>
                     </div>
                   </div>
-
-                  <PiDotsThreeOutlineVerticalFill
-                    className="cursor-pointer text-gray-600"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenMenu(!openMenu);
-                    }}
-                  />
-
-                  {openMenu && (
-                    <div
-                      className="absolute right-0 bottom-16 w-30 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden animate-fadeIn"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        disabled={!canUpdateInvoice}
-                        onClick={() => {
-                          setIsEdit(true);
-                          setEditData(
-                            pdfDetails?.discountDetails ||
-                            pdfDetails?.invoiceInfo,
-                          );
-                          setShowDiscountInvoice(true);
-                          setOpenMenu(false);
-                        }}
-                        className={`
-    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${canUpdateInvoice
-                            ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
-                            : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
-                          }
-  `}
-                      >
-                        <Edit
-                          size={16}
-                          className={canUpdateInvoice ? "" : "opacity-50"}
-                        />
-                        Edit
-                      </button>
-
-                      <div className="h-px bg-gray-200 mx-2" />
-
-                      <button
-                        disabled={!canDeleteInvoice}
-                        onClick={() => {
-                          setShowRefuseModal(true);
-                          setOpenMenu(false);
-                          // setSelectedInvoice(pdfDetails);
-                        }}
-                        className={`
-    w-full flex items-center gap-3 px-4 py-2.5 text-sm font-gilroy transition
-    ${canDeleteInvoice
-                            ? "text-red-600 hover:bg-red-50 cursor-pointer"
-                            : "text-gray-400 bg-gray-50 cursor-not-allowed opacity-60"
-                          }
-  `}
-                      >
-                        <IoClose
-                          className={`h-4 w-4 ${canDeleteInvoice ? "" : "opacity-50"}`}
-                        />
-                        Refuse with invoice
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
 
-          {pdfDetails?.invoiceInfo?.canRedeem > 0 && (
-            <div className=" animate-slideIn">
-              <div className="relative flex items-center justify-between gap-4 bg-white px-3 py-2  border-b min-w-[220px]">
-                <div className="flex items-center gap-1">
-                  <span className="h-7 w-7 flex items-center justify-center rounded-full bg-[#00A63E] text-white text-[11px]">
-                    <span className="text-[16px]">
-                      <TiTick className="text-base" />
-                    </span>
-                  </span>
-                  <div className="flex flex-col">
-                    <span className="font-gilroy text-[14px] font-normal leading-[100%] tracking-normal">
-                      Credits Available :{" "}
-                      {pdfDetails?.invoiceInfo?.avilableAmountToRedeem || "-"}{" "}
-                      <span
-                        className={`font-semibold text-sm transition-all duration-150
-    ${!canUpdateInvoice
-                            ? "text-[#A9A9A9] opacity-50 cursor-not-allowed"
-                            : "text-[#1E45E1] cursor-pointer"
-                          }`}
-                        onClick={(e) => {
-                          if (!canUpdateInvoice) return;
+            <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
+              <div className="flex  gap-4">
+                <div
+                  onClick={() => {
+                    setActiveTab("payments");
+                    setIsOpenPayment(true);
+                  }}
+                  className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${activeTab === "payments"
+                    ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
+                    : "text-black "
+                    }`}
+                >
+                  {totalAmount < 0 || finalAmount < 0
+                    ? "Refund Made"
+                    : "Payments Made"}
+                </div>
 
-                          e.stopPropagation();
-                          handleApplyInvoices("booking");
-                        }}
-                      >
-                        Apply Now
-                      </span>
-                    </span>
-                  </div>
+                <div
+                  onClick={() => {
+                    setActiveTab("invoices");
+                    setIsOpenPayment(true);
+                  }}
+                  className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${activeTab === "invoices"
+                    ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
+                    : "text-black border-0"
+                    }`}
+                >
+                  Deducted From
                 </div>
               </div>
-            </div>
-          )}
 
-          <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
-            <div className="flex  gap-4">
-              <div
-                onClick={() => {
-                  setActiveTab("payments");
-                  setIsOpenPayment(true);
-                }}
-                className={`px-1 py-2 cursor-pointer text-sm font-medium whitespace-nowrap ${activeTab === "payments"
-                  ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
-                  : "text-black "
-                  }`}
-              >
-                {totalAmount < 0 || finalAmount < 0
-                  ? "Refund Made"
-                  : "Payments Made"}
-              </div>
-
-              <div
-                onClick={() => {
-                  setActiveTab("invoices");
-                  setIsOpenPayment(true);
-                }}
-                className={`px-1 py-2 cursor-pointer text-sm font-medium  whitespace-nowrap ${activeTab === "invoices"
-                  ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
-                  : "text-black border-0"
-                  }`}
-              >
-                Deducted From
-              </div>
-            </div>
-
-            {/* {pdfDetails?.paymentHistory?.length === 0 &&
+              {/* {pdfDetails?.paymentHistory?.length === 0 &&
             activeTab === "payments" &&
             pdfDetails?.invoiceInfo?.totalAmount > 0 ? (
               <span className="bg-[#F1F1F1] px-4 py-2 rounded-md text-xs text-black whitespace-nowrap">
@@ -1003,56 +1017,56 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
               ""
             )} */}
 
-            <div className="flex items-center gap-2">
-              {canShowRecordPayment && (
-                <div className="relative inline-flex">
-                  <button
-                    disabled={!canUpdateInvoice}
-                    onClick={() => {
-                      if (canUpdateInvoice)
-                        handleNavigateRecordPayment(pdfDetails);
-                    }}
-                    className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm whitespace-nowrap px-4 py-2 
+              <div className="flex items-center gap-2">
+                {canShowRecordPayment && (
+                  <div className="relative inline-flex">
+                    <button
+                      disabled={!canUpdateInvoice}
+                      onClick={() => {
+                        if (canUpdateInvoice)
+                          handleNavigateRecordPayment(pdfDetails);
+                      }}
+                      className={`flex items-center gap-2 bg-[#1E45E1] text-white text-sm whitespace-nowrap px-4 py-2 
         ${showSplitButton ? "rounded-l-md" : "rounded-md"} 
         disabled:opacity-50`}
-                  >
-                    <Add size="16" color="#FFFFFF" />
-                    Record Payment
-                  </button>
-                  <div className="relative inline-flex" ref={menuRef}>
-                    {showSplitButton && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOpen(!open);
-                        }}
-                        className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
-                      >
-                        <ArrowDown2
-                          size="16"
-                          className={`transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
-                            }`}
-                        />
-                      </button>
-                    )}
-                    {open && (
-                      <div className="absolute bottom-14 right-0 font-gilroy  !w-fit px-2 py-2 bg-white flex flex-col border border-gray-200 rounded-lg shadow-xl z-50">
+                    >
+                      <Add size="16" color="#FFFFFF" />
+                      Record Payment
+                    </button>
+                    <div className="relative inline-flex" ref={menuRef}>
+                      {showSplitButton && (
                         <button
-                          disabled
-                          onClick={handleWaiveOff}
-                          className={`w-full text-left px-4 py-2 text-sm rounded-md whitespace-nowrap transition-all 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpen(!open);
+                          }}
+                          className="bg-[#1E45E1] text-white px-2 rounded-r-md border-l border-blue-400"
+                        >
+                          <ArrowDown2
+                            size="16"
+                            className={`transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
+                              }`}
+                          />
+                        </button>
+                      )}
+                      {open && (
+                        <div className="absolute bottom-14 right-0 font-gilroy  !w-fit px-2 py-2 bg-white flex flex-col border border-gray-200 rounded-lg shadow-xl z-50">
+                          <button
+                            disabled
+                            onClick={handleWaiveOff}
+                            className={`w-full text-left px-4 py-2 text-sm rounded-md whitespace-nowrap transition-all 
                             duration-150
     ${canWriteInvoice
-                              ? "opacity-50 cursor-not-allowed text-[#A9A9A9] "
-                              : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-                            }`}
-                        >
-                          Waive Off
-                        </button>
+                                ? "opacity-50 cursor-not-allowed text-[#A9A9A9] "
+                                : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                              }`}
+                          >
+                            Waive Off
+                          </button>
 
-                        {!isAdvanceInvoice ? (
-                          <>
-                            {/* <button
+                          {!isAdvanceInvoice ? (
+                            <>
+                              {/* <button
                               onClick={(e) => {
                                 if (
                                   !canUpdateInvoice ||
@@ -1078,433 +1092,449 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                               Adjust with Advance
                             </button> */}
 
+                              <button
+                                onClick={(e) => {
+                                  if (
+                                    !canUpdateInvoice ||
+                                    !isAdvanceRedeemAvailable
+                                  )
+                                    return;
+
+                                  e.stopPropagation();
+                                  handleAdjustWithRetainer("Retainer");
+                                }}
+                                disabled={
+                                  !canUpdateInvoice || !isAdvanceRedeemAvailable
+                                }
+                                className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+    whitespace-nowrap rounded-md transition-all duration-150
+    ${!canUpdateInvoice || !isAdvanceRedeemAvailable
+                                    ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                                    : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                                  }
+  `}
+                              >
+                                Adjust with Retainer
+                              </button>
+                            </>
+                          ) : (
                             <button
                               onClick={(e) => {
                                 if (
                                   !canUpdateInvoice ||
-                                  !isAdvanceRedeemAvailable
+                                  !isApplyInvoiceRedeemAvailable
                                 )
                                   return;
 
                                 e.stopPropagation();
-                                handleAdjustWithRetainer("Retainer");
+                                handleBookingApplyRedeem(pdfDetails);
                               }}
                               disabled={
-                                !canUpdateInvoice || !isAdvanceRedeemAvailable
+                                !canUpdateInvoice ||
+                                !isApplyInvoiceRedeemAvailable
                               }
                               className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
     whitespace-nowrap rounded-md transition-all duration-150
-    ${!canUpdateInvoice || !isAdvanceRedeemAvailable
+    ${!canUpdateInvoice || !isApplyInvoiceRedeemAvailable
                                   ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
                                   : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
                                 }
   `}
                             >
-                              Adjust with Retainer
+                              Apply to Invoice
                             </button>
-                          </>
-                        ) : (
-                          <button
-                            onClick={(e) => {
-                              if (
-                                !canUpdateInvoice ||
-                                !isApplyInvoiceRedeemAvailable
-                              )
-                                return;
-
-                              e.stopPropagation();
-                              handleBookingApplyRedeem(pdfDetails);
-                            }}
-                            disabled={
-                              !canUpdateInvoice ||
-                              !isApplyInvoiceRedeemAvailable
-                            }
-                            className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
-    whitespace-nowrap rounded-md transition-all duration-150
-    ${!canUpdateInvoice || !isApplyInvoiceRedeemAvailable
-                                ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-                                : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-                              }
-  `}
-                          >
-                            Apply to Invoice
-                          </button>
-                        )}
-                        {ShowMakeDiscount && (
-                          <button
-                            onClick={handleMakeDiscount}
-                            disabled={!canUpdateInvoice}
-                            className={`w-full text-left px-4 py-2 text-sm rounded-md  whitespace-nowrap 
+                          )}
+                          {ShowMakeDiscount && (
+                            <button
+                              onClick={handleMakeDiscount}
+                              disabled={!canUpdateInvoice}
+                              className={`w-full text-left px-4 py-2 text-sm rounded-md  whitespace-nowrap 
         ${canUpdateInvoice ? "hover:bg-[#F7FAFF]" : "opacity-50 cursor-not-allowed"}
       `}
-                          >
-                            Make Discount
-                          </button>
-                        )}
-                      </div>
-                    )}
+                            >
+                              Make Discount
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" &&
-                (!isAdvanceInvoice ? (
-                  <button
-                    onClick={(e) => {
-                      if (!canUpdateInvoice || !isAdvanceRedeemAvailable)
-                        return;
+                {pdfDetails?.invoiceInfo?.paymentStatus === "Paid" &&
+                  (!isAdvanceInvoice ? (
+                    <button
+                      onClick={(e) => {
+                        if (!canUpdateInvoice || !isAdvanceRedeemAvailable)
+                          return;
 
-                      e.stopPropagation();
-                      handleApplyInvoices("Advance");
-                    }}
-                    disabled={!canUpdateInvoice || !isAdvanceRedeemAvailable}
-                    className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
+                        e.stopPropagation();
+                        handleApplyInvoices("Advance");
+                      }}
+                      disabled={!canUpdateInvoice || !isAdvanceRedeemAvailable}
+                      className={`w-full disabled:text-gray-400 text-left px-4 py-2 text-sm 
     whitespace-nowrap rounded-md transition-all duration-150 flex items-center gap-2 px-3 py-2 border border-[#E7E7E7] rounded-[10px]
     ${!canUpdateInvoice || !isAdvanceRedeemAvailable
-                        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-                        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-                      }
+                          ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                          : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                        }
   `}
-                  >
-                    <Link21
-                      color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
-                      size="16"
-                    />{" "}
-                    Adjust with Advance
-                  </button>
-                ) : (
-                  <button
-                    onClick={(e) => {
-                      if (!canUpdateInvoice || !isApplyInvoiceRedeemAvailable)
-                        return;
+                    >
+                      <Link21
+                        color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
+                        size="16"
+                      />{" "}
+                      Adjust with Advance
+                    </button>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        if (!canUpdateInvoice || !isApplyInvoiceRedeemAvailable)
+                          return;
 
-                      e.stopPropagation();
-                      handleBookingApplyRedeem(pdfDetails);
-                    }}
-                    disabled={
-                      !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
-                    }
-                    className={`w-full disabled:text-gray-400   !bg-[#F9F9F9]  font-semibold
+                        e.stopPropagation();
+                        handleBookingApplyRedeem(pdfDetails);
+                      }}
+                      disabled={
+                        !canUpdateInvoice || !isApplyInvoiceRedeemAvailable
+                      }
+                      className={`w-full disabled:text-gray-400   !bg-[#F9F9F9]  font-semibold
                       text-left px-4 py-2 text-sm  flex items-center gap-2 px-3 py-2 border-2 border-[#E7E7E7] 
                       rounded-[10px]
     whitespace-nowrap rounded-md transition-all duration-150
     ${!canUpdateInvoice || !isApplyInvoiceRedeemAvailable
-                        ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
-                        : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
-                      }
+                          ? "opacity-50 cursor-not-allowed text-[#A9A9A9]"
+                          : "cursor-pointer text-[#222222] hover:bg-[#F7FAFF]"
+                        }
   `}
+                    >
+                      <Link21
+                        color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
+                        size="16"
+                      />{" "}
+                      Apply to Invoice
+                    </button>
+                  ))}
+
+                {canShowRefund && (
+                  <button
+                    disabled={!canWriteInvoice}
+                    onClick={() => handleNavigateRefund(pdfDetails)}
+                    className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
                   >
-                    <Link21
-                      color={!canUpdateInvoice ? "#A9A9A9" : "#1E45E1"}
-                      size="16"
-                    />{" "}
-                    Apply to Invoice
+                    + Refund Amount
                   </button>
-                ))}
+                )}
 
-              {canShowRefund && (
-                <button
-                  disabled={!canWriteInvoice}
-                  onClick={() => handleNavigateRefund(pdfDetails)}
-                  className="flex items-center gap-1 bg-[#1E45E1] text-white text-sm px-3 py-1.5 rounded-md disabled:opacity-50"
-                >
-                  + Refund Amount
-                </button>
-              )}
-
-              {isOpenPayment ? (
-                <ArrowUp2
-                  size="18"
-                  variant="Bold"
-                  color="#1E45E1"
-                  style={{ cursor: "pointer" }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsOpenPayment(false);
-                    setIsOpen(false);
-                  }}
-                />
-              ) : (
-                <ArrowDown2
-                  size="18"
-                  variant="Bold"
-                  color="#1E45E1"
-                  style={{ cursor: "pointer" }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsOpenPayment(true);
-                    setIsOpen(false);
-                  }}
-                />
-              )}
-            </div>
-          </div>
-
-          {isOpenPayment && (
-            <div>
-              {activeTab === "payments" && (
-                <div>
-                  {!hasPayments && !hasRefunds && (
-                    <div className="p-4 text-sm text-center text-red-600 font-medium">
-                      No Data Found
-                    </div>
-                  )}
-
-                  {pdfDetails?.paymentHistory?.length > 0 && (
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                      <div
-                        id="tableContainer"
-                        className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
-                      >
-                        <table className="w-full text-sm">
-                          <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                            <tr>
-                              <th className="text-left px-3 py-2">DATE</th>
-                              <th className="text-left px-3 py-2">REF NO</th>
-                              <th className="text-left px-3 py-2">
-                                PAYMENT MODE
-                              </th>
-                              <th className="text-left px-3 py-2">AMOUNT</th>
-                              <th className="text-left px-3 py-2">STATUS</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {pdfDetails.paymentHistory.map((item, index) => (
-                              <tr key={index} className="border-t">
-                                <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                                  {item.date || item.paidDate || "-"}
-                                </td>
-
-                                <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                                  {item.transactionReferenceId ||
-                                    item.referenceNumber ||
-                                    "-"}
-                                </td>
-
-                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                                  {item.bankAccount}
-                                </td>
-
-                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                                  ₹{item.amount}
-                                </td>
-
-                                <td className="px-3 py-2">
-                                  <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                                    ● Paid
-                                  </span>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-
-                  {pdfDetails?.refundHistory?.length > 0 && (
-                    <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                      <div
-                        id="tableContainer"
-                        className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
-                      >
-                        <table className="w-full text-sm">
-                          <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                            <tr>
-                              <th className="text-left px-3 py-2">DATE</th>
-                              <th className="text-left px-3 py-2">REF NO</th>
-                              <th className="text-left px-3 py-2">
-                                RETURNED FROM
-                              </th>
-                              <th className="text-left px-3 py-2">AMOUNT</th>
-                              <th className="text-left px-3 py-2">STATUS</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {pdfDetails.refundHistory.map((item, index) => (
-                              <tr key={index} className="border-t">
-                                <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                                  {item.date || item.paidDate || "-"}
-                                </td>
-
-                                <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                                  {item.transactionReferenceId ||
-                                    item.referenceNumber ||
-                                    "-"}
-                                </td>
-
-                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                                  {item.bankAccount}
-                                </td>
-
-                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                                  ₹{item.amount}
-                                </td>
-
-                                <td className="px-3 py-2">
-                                  <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
-                                    ● Refunded
-                                  </span>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {activeTab === "invoices" && (
-                <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
-                  <div
-                    id="tableContainer"
-                    className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
-                  >
-                    <table className="w-full text-sm">
-                      <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
-                        <tr>
-                          <th className="text-left px-3 py-2">DATE</th>
-                          <th className="text-left px-3 py-2">INV NO</th>
-                          <th className="text-left px-3 py-2">
-                            AMOUNT APPLIED
-                          </th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {mappingTableData?.length > 0 ? (
-                          mappingTableData?.map((item, index) => (
-                            <tr key={index} className="border-t">
-                              <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
-                                {item.redeemedOn || "-"}
-                              </td>
-
-                              <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
-                                {item.invoiceNo || "-"}
-                              </td>
-
-                              <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
-                                {item.amount}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td
-                              colSpan={12}
-                              className="text-center align-middle py-3 text-sm text-red-600 font-semibold"
-                            >
-                              No Data Found
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex justify-end px-5 py-2 border-t ">
-                <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
-                  Balance Due
-                </span>
-                <span className="text-sm text-red-500 font-medium">
-                  ₹
-                  {pdfDetails?.invoiceInfo?.finalAmount ||
-                    pdfDetails?.invoiceInfo?.balanceAmount}
-                </span>
+                {isOpenPayment ? (
+                  <ArrowUp2
+                    size="18"
+                    variant="Bold"
+                    color="#1E45E1"
+                    style={{ cursor: "pointer" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsOpenPayment(false);
+                      setIsOpen(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDown2
+                    size="18"
+                    variant="Bold"
+                    color="#1E45E1"
+                    style={{ cursor: "pointer" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsOpenPayment(true);
+                      setIsOpen(false);
+                    }}
+                  />
+                )}
               </div>
             </div>
-          )}
-        </div>
-      )}
 
-      {showWaiveModal && (
-        <WaiveOFFConfirm
-          show={showWaiveModal}
-          handleClose={handleCloseConfirm}
-        />
-      )}
+            {isOpenPayment && (
+              <div>
+                {activeTab === "payments" && (
+                  <div>
+                    {!hasPayments && !hasRefunds && (
+                      <div className="p-4 text-sm text-center text-red-600 font-medium">
+                        No Data Found
+                      </div>
+                    )}
 
-      {applyInvoice && (
-        <ApplyAdvance
-          label={label}
-          show={applyInvoice}
-          handleClose={handleCloseApplyInvoices}
-          advanceDetails={pdfDetails}
-        />
-      )}
+                    {pdfDetails?.paymentHistory?.length > 0 && (
+                      <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                        <div
+                          id="tableContainer"
+                          className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                        >
+                          <table className="w-full text-sm">
+                            <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                              <tr>
+                                <th className="text-left px-3 py-2">DATE</th>
+                                <th className="text-left px-3 py-2">REF NO</th>
+                                <th className="text-left px-3 py-2">
+                                  PAYMENT MODE
+                                </th>
+                                <th className="text-left px-3 py-2">AMOUNT</th>
+                                <th className="text-left px-3 py-2">STATUS</th>
+                              </tr>
+                            </thead>
 
-      {bookingModal && (
-        <ApplyBookingModal
-          show={bookingModal}
-          handleClose={handleCloseBookingModal}
-          advanceDetails={advanceDetails}
-          label={label}
-        />
-      )}
+                            <tbody>
+                              {pdfDetails.paymentHistory.map((item, index) => (
+                                <tr key={index} className="border-t">
+                                  <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                    {item.date || item.paidDate || "-"}
+                                  </td>
 
-      {applyRetainer && (
-        <ApplyRetainerToInvoice
-          show={applyRetainer}
-          handleClose={handleCloseAdjustWithRetainer}
-          retainerDetails={pdfDetails}
-        />
-      )}
+                                  <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                    {item.transactionReferenceId ||
+                                      item.referenceNumber ||
+                                      "-"}
+                                  </td>
 
-      {showDiscountInvoice && (
-        <DiscountInvoice
-          show={showDiscountInvoice}
-          handleClose={handleCloseFormDiscount}
-          isEdit={isEdit}
-          editData={isEdit ? editData : ""}
-        />
-      )}
+                                  <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                    {item.bankAccount}
+                                  </td>
 
-      {showform && (
-        <RecordPayment
-          show={showform}
-          handleClose={handleCloseForm}
-          selectedUserId={selectedUserId}
-          invoiceList={invoiceList}
-        />
-      )}
+                                  <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                    ₹{item.amount}
+                                  </td>
 
-      {payapleform && (
-        <RefundAmount
-          show={payapleform}
-          handleClose={handleCloseRefundAmount}
-          refundDetails={refundDetails}
-        />
-      )}
+                                  <td className="px-3 py-2">
+                                    <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                                      ● Paid
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
 
-      {showRefuseModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30">
-          <div className="bg-white shadow-lg rounded-lg w-[90%] max-w-md p-4">
-            <h2 className="text-black font-gilroy text-[17.24px] font-semibold leading-[24.9px] tracking-normal">
-              Refuse Discount !
-            </h2>
+                    {pdfDetails?.refundHistory?.length > 0 && (
+                      <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                        <div
+                          id="tableContainer"
+                          className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                        >
+                          <table className="w-full text-sm">
+                            <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                              <tr>
+                                <th className="text-left px-3 py-2">DATE</th>
+                                <th className="text-left px-3 py-2">REF NO</th>
+                                <th className="text-left px-3 py-2">
+                                  RETURNED FROM
+                                </th>
+                                <th className="text-left px-3 py-2">AMOUNT</th>
+                                <th className="text-left px-3 py-2">STATUS</th>
+                              </tr>
+                            </thead>
 
-            <p className="text-[#646464] font-gilroy mb-4 text-[13.41px] font-normal leading-[19.15px] tracking-normal">
-              Are you sure you want to refuse this discount?
-            </p>
+                            <tbody>
+                              {pdfDetails.refundHistory.map((item, index) => (
+                                <tr key={index} className="border-t">
+                                  <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                    {item.date || item.paidDate || "-"}
+                                  </td>
 
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowRefuseModal(false)}
-                className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3] font-gilroy"
-              >
-                Cancel
-              </button>
+                                  <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                    {item.transactionReferenceId ||
+                                      item.referenceNumber ||
+                                      "-"}
+                                  </td>
 
-              <button
-                disabled={deleteLoading}
-                onClick={handleRefuse}
-                className={`
+                                  <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                    {item.bankAccount}
+                                  </td>
+
+                                  <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                    ₹{item.amount}
+                                  </td>
+
+                                  <td className="px-3 py-2">
+                                    <span className="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full">
+                                      ● Refunded
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === "invoices" && (
+                  <div className="bg-white   rounded-xl shadow-sm border border-[#E8E8E8] mx-1 my-3 ">
+                    <div
+                      id="tableContainer"
+                      className="overflow-auto relative  h-[150px]  rounded-xl show-scrolls"
+                    >
+                      <table className="w-full text-sm">
+                        <thead className="bg-[#F9FAFB] text-[#6B7280] text-xs font-semibold">
+                          <tr>
+                            <th className="text-left px-3 py-2">DATE</th>
+                            <th className="text-left px-3 py-2">INV NO</th>
+                            <th className="text-left px-3 py-2">
+                              AMOUNT APPLIED
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {mappingTableData?.length > 0 ? (
+                            mappingTableData?.map((item, index) => (
+                              <tr key={index} className="border-t">
+                                <td className="px-3 py-2 text-xs text-[#6B7280] font-semibold">
+                                  {item.redeemedOn || "-"}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs text-[#1E45E1] font-medium">
+                                  {item.invoiceNo || "-"}
+                                </td>
+
+                                <td className="px-3 py-2 text-xs font-semibold text-[#111928]">
+                                  {item.amount}
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={12}
+                                className="text-center align-middle py-3 text-sm text-red-600 font-semibold"
+                              >
+                                No Data Found
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-end px-5 py-2 border-t ">
+                  <span className="mr-2 text-sm text-[#4B4B4B] font-medium">
+                    Balance Due
+                  </span>
+                  <span className="text-sm text-red-500 font-medium">
+                    ₹
+                    {pdfDetails?.invoiceInfo?.finalAmount ||
+                      pdfDetails?.invoiceInfo?.balanceAmount}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        )
+      }
+
+      {
+        showWaiveModal && (
+          <WaiveOFFConfirm
+            show={showWaiveModal}
+            handleClose={handleCloseConfirm}
+          />
+        )
+      }
+
+      {
+        applyInvoice && (
+          <ApplyAdvance
+            label={label}
+            show={applyInvoice}
+            handleClose={handleCloseApplyInvoices}
+            advanceDetails={pdfDetails}
+          />
+        )
+      }
+
+      {
+        bookingModal && (
+          <ApplyBookingModal
+            show={bookingModal}
+            handleClose={handleCloseBookingModal}
+            advanceDetails={advanceDetails}
+            label={label}
+          />
+        )
+      }
+
+      {
+        applyRetainer && (
+          <ApplyRetainerToInvoice
+            show={applyRetainer}
+            handleClose={handleCloseAdjustWithRetainer}
+            retainerDetails={pdfDetails}
+          />
+        )
+      }
+
+      {
+        showDiscountInvoice && (
+          <DiscountInvoice
+            show={showDiscountInvoice}
+            handleClose={handleCloseFormDiscount}
+            isEdit={isEdit}
+            editData={isEdit ? editData : ""}
+          />
+        )
+      }
+
+      {
+        showform && (
+          <RecordPayment
+            show={showform}
+            handleClose={handleCloseForm}
+            selectedUserId={selectedUserId}
+            invoiceList={invoiceList}
+          />
+        )
+      }
+
+      {
+        payapleform && (
+          <RefundAmount
+            show={payapleform}
+            handleClose={handleCloseRefundAmount}
+            refundDetails={refundDetails}
+          />
+        )
+      }
+
+      {
+        showRefuseModal && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30">
+            <div className="bg-white shadow-lg rounded-lg w-[90%] max-w-md p-4">
+              <h2 className="text-black font-gilroy text-[17.24px] font-semibold leading-[24.9px] tracking-normal">
+                Refuse Discount !
+              </h2>
+
+              <p className="text-[#646464] font-gilroy mb-4 text-[13.41px] font-normal leading-[19.15px] tracking-normal">
+                Are you sure you want to refuse this discount?
+              </p>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowRefuseModal(false)}
+                  className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 bg-[#F3F3F3] font-gilroy"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  disabled={deleteLoading}
+                  onClick={handleRefuse}
+                  className={`
     px-4 
     py-2 
     text-sm 
@@ -1515,21 +1545,22 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
     flex items-center justify-center gap-2
     ${deleteLoading ? "opacity-70 cursor-not-allowed" : ""}
   `}
-              >
-                {deleteLoading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Refusing...
-                  </>
-                ) : (
-                  "Yes, Refuse"
-                )}
-              </button>
+                >
+                  {deleteLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Refusing...
+                    </>
+                  ) : (
+                    "Yes, Refuse"
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 
