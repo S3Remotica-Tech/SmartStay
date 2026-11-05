@@ -996,10 +996,12 @@ function TenantOverview(props) {
         <>
           <div className="flex items-center justify-between sticky top-0 z-40 bg-white py-3 px-4 h-14 w-full">
             <div className="flex items-center">
-              <ArrowLeft
-                onClick={() => handleNavigateTenant()}
-                className="cursor-pointer"
-              />
+              <CustomTooltip text="Go Back" direction="top-full" usePortal={true}>
+                <ArrowLeft
+                  onClick={() => handleNavigateTenant()}
+                  className="cursor-pointer"
+                />
+              </CustomTooltip>
               <span className="font-semibold text-lg pl-2.5 font-gilroy">
                 Tenant Profile
               </span>
@@ -1230,13 +1232,14 @@ function TenantOverview(props) {
               </div>
 
               <div className="relative font-gilroy">
-                <button onClick={() => setOpenMenu(!openMenu)} className="p-1 ">
-                  <PiDotsThreeOutlineVerticalFill
-                    size={18}
-                    className="text-gray-500"
-                  />
-                </button>
-
+                <CustomTooltip text="More Options" direction="top-full" usePortal={true}>
+                  <button onClick={() => setOpenMenu(!openMenu)} className="p-1 ">
+                    <PiDotsThreeOutlineVerticalFill
+                      size={18}
+                      className="text-gray-500"
+                    />
+                  </button>
+                </CustomTooltip>
                 {openMenu && (
                   <div
                     ref={menuRef}

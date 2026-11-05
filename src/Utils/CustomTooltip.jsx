@@ -1,6 +1,7 @@
 
 import { createPortal } from "react-dom";
 import { useRef, useState } from "react";
+import PropTypes from "prop-types";
 
 function CustomTooltip({
     children,
@@ -99,7 +100,17 @@ function CustomTooltip({
         </div>
     );
 }
-
+CustomTooltip.propTypes = {
+    children: PropTypes.node.isRequired,
+    text: PropTypes.string.isRequired,
+    direction: PropTypes.oneOf([
+        "top-full",
+        "bottom-full",
+        "left-full",
+        "right-full",
+    ]),
+    usePortal: PropTypes.bool,
+};
 export default CustomTooltip;
 
 

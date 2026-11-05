@@ -20,7 +20,7 @@ import OtherHostel from "./OtherHostel";
 import Documents from "./Documents";
 import ManagedUsers from "../ManagedUsers";
 import SwichProperty from "./SwichProperty";
-import { useHasPermission } from "../../../Utils/Permission";
+// import { useHasPermission } from "../../../Utils/Permission";
 import AddPg from "../../PayingGuestFile/AddPg";
 import GalleryComponent from "./Gallery";
 
@@ -29,8 +29,8 @@ const ManagePg = () => {
   const state = useSelector((state) => state);
   const [activeTab, setActiveTab] = useState("Overview");
 
-  const { canWriteModule: canWritePayingGuests } =
-    useHasPermission("Paying Guests");
+  // const { canWriteModule: canWritePayingGuests } =
+  //   useHasPermission("Paying Guests");
 
   const RoleAccess =
     state.createAccount?.accountList?.roleId === 1 ||
