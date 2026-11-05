@@ -35,7 +35,7 @@ import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
 import BankingOverview from "./BankingOverview";
 import { useNavigate } from "react-router-dom";
-
+import CustomTooltip from "../../Utils/CustomToolTip";
 import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";
@@ -1286,28 +1286,29 @@ function BankingNew() {
                                 </span>
                               </div>
                               <div className="relative">
-                                <BsExclamationCircle
-                                  ref={iconRef}
-                                  className="text-[#64748B] cursor-pointer"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
+                                <CustomTooltip text="View Bank Information" direction="top-full" usePortal={false}>
+                                  <BsExclamationCircle
+                                    ref={iconRef}
+                                    className="text-[#64748B] cursor-pointer"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
 
-                                    const rect =
-                                      e.currentTarget.getBoundingClientRect();
+                                      const rect =
+                                        e.currentTarget.getBoundingClientRect();
 
-                                    setPopupPos({
-                                      top: rect.bottom + window.scrollY + 20,
-                                      left: rect.right + window.scrollX - 280,
-                                    });
+                                      setPopupPos({
+                                        top: rect.bottom + window.scrollY + 20,
+                                        left: rect.right + window.scrollX - 280,
+                                      });
 
-                                    setShowBankInfo(
-                                      showBankInfo === item.bankId
-                                        ? null
-                                        : item.bankId,
-                                    );
-                                  }}
-                                />
-
+                                      setShowBankInfo(
+                                        showBankInfo === item.bankId
+                                          ? null
+                                          : item.bankId,
+                                      );
+                                    }}
+                                  />
+                                </CustomTooltip>
                                 {showBankInfo === item.bankId && (
                                   <div
                                     onClick={(e) => e.stopPropagation()}
@@ -1549,18 +1550,20 @@ function BankingNew() {
                     <div
                       className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                     >
-                      <Filter
-                        size={16}
-                        onClick={() => {
-                          if (canReadBanking) {
-                            setIsFilterOpen(true);
-                          }
-                        }}
-                        className={`transition-opacity duration-300 ${canReadBanking
-                          ? "cursor-pointer opacity-100 pointer-events-auto"
-                          : "cursor-not-allowed opacity-40 pointer-events-none"
-                          }`}
-                      />
+                      <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                        <Filter
+                          size={16}
+                          onClick={() => {
+                            if (canReadBanking) {
+                              setIsFilterOpen(true);
+                            }
+                          }}
+                          className={`transition-opacity duration-300 ${canReadBanking
+                            ? "cursor-pointer opacity-100 pointer-events-auto"
+                            : "cursor-not-allowed opacity-40 pointer-events-none"
+                            }`}
+                        />
+                      </CustomTooltip>
                     </div>
                   </div>
                   <div className="flex  items-center gap-2">
