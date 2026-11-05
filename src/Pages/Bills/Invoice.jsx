@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-// import { FormControl } from "react-bootstrap";
-
 import {
   Setting3,
   Buildings,
@@ -20,25 +18,20 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
-// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../../Pages/Recurring/RecurringBills";
-
 import AddReceiptForm from "../Receipt/AddReceipt";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { Filter } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
-
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from "../../Pages/Bills/BillsFilter";
-
 import RecordPayment from "./RecordPayment";
 import { useLocation } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
@@ -50,11 +43,10 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
-
+import CustomTooltip from "../../Utils/CustomTooltip";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import ReviewGenerateBillsDrawer from "../Bills/ReviewAndGenerate/ReviewGenerateBillsDrawer";
 
@@ -1289,25 +1281,18 @@ const InvoicePage = () => {
                     <div>
                       <div className="text-xs text-[#6B7280] flex items-center gap-1 whitespace-nowrap">
                         <span>{item.label}</span>
+                        <CustomTooltip text="Click to Filter" direction="top-full" usePortal={false}>
+                          <div className="relative group w-fit shrink-0">
+                            <Filter
+                              onClick={() => setStatusFilter(item.search)}
+                              size="14"
+                              color="#9CA3AF"
+                              className="cursor-pointer"
+                            />
 
-                        <div className="relative group w-fit shrink-0">
-                          <Filter
-                            onClick={() => setStatusFilter(item.search)}
-                            size="14"
-                            color="#9CA3AF"
-                            className="cursor-pointer"
-                          />
-
-                          <div
-                            className="absolute left-1/2 top-full mt-2 -translate-x-1/2
-                hidden group-hover:flex
-                px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md
-                items-center gap-1 whitespace-nowrap z-50"
-                          >
-                            <Filter size="14" color="#fff" />
-                            Click to Filter
                           </div>
-                        </div>
+                        </CustomTooltip>
+
                       </div>
 
                       <div className="text-lg font-semibold text-[#111827]">
@@ -1349,19 +1334,20 @@ const InvoicePage = () => {
                       styles={CustomStyles}
                     />
                   </div>
-
-                  <div
-                    className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                    onClick={() => canReadInvoice && handleShowFilterBills()}
-                  >
-                    <Filter
-                      size={18}
-                      className={`transition-opacity duration-300 ${canReadInvoice
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
-                    />
-                  </div>
+                  <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                    <div
+                      className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                      onClick={() => canReadInvoice && handleShowFilterBills()}
+                    >
+                      <Filter
+                        size={18}
+                        className={`transition-opacity duration-300 ${canReadInvoice
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                          }`}
+                      />
+                    </div>
+                  </CustomTooltip>
                 </div>
 
                 <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -1470,12 +1456,14 @@ const InvoicePage = () => {
                     )}
                   </div>
                   <div>
-                    <Setting3
-                      // onClick={() => setOpen(!open)}
-                      className="cursor-not-allowed"
-                      size="22"
-                      color="#4B4B4B"
-                    />
+                    <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
+                      <Setting3
+                        // onClick={() => setOpen(!open)}
+                        className="cursor-not-allowed"
+                        size="22"
+                        color="#4B4B4B"
+                      />
+                    </CustomTooltip>
                   </div>
 
                   <div className="mr-2">
@@ -1766,100 +1754,115 @@ const InvoicePage = () => {
             </>
           )}
         </div>
-      )}
+      )
+      }
 
-      {showBillsFilter && (
-        <BillsFilter
-          show={showBillsFilter}
-          handleClose={handleCloseFilterBills}
-          size={size}
-        />
-      )}
+      {
+        showBillsFilter && (
+          <BillsFilter
+            show={showBillsFilter}
+            handleClose={handleCloseFilterBills}
+            size={size}
+          />
+        )
+      }
       {(showLoader || loading) && <LoaderComponent />}
 
-      {showdeleteform && (
-        <Modal
-          show={showdeleteform}
-          onHide={handleCloseDeleteform}
-          centered
-          backdrop="static"
-        >
-          <Modal.Header className="!border-b-0 !flex !justify-center">
-            <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
-              Delete Billing?
-            </Modal.Title>
-          </Modal.Header>
+      {
+        showdeleteform && (
+          <Modal
+            show={showdeleteform}
+            onHide={handleCloseDeleteform}
+            centered
+            backdrop="static"
+          >
+            <Modal.Header className="!border-b-0 !flex !justify-center">
+              <Modal.Title className="!text-center !text-lg !font-semibold !text-gray-800 !font-gilroy">
+                Delete Billing?
+              </Modal.Title>
+            </Modal.Header>
 
-          <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
-            Are you sure you want to delete this Billing?
-          </Modal.Body>
+            <Modal.Body className="!text-center !text-sm !text-gray-600 !-mt-2 !font-gilroy !px-3 !py-3">
+              Are you sure you want to delete this Billing?
+            </Modal.Body>
 
-          <Modal.Footer className="!block !border-t-0 !p-2">
-            <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
-              <Button
-                onClick={handleCloseDeleteform}
-                className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
-              >
-                Cancel
-              </Button>
+            <Modal.Footer className="!block !border-t-0 !p-2">
+              <div className="!flex !flex-col sm:!flex-row !justify-center !gap-2 !w-full !-mt-2">
+                <Button
+                  onClick={handleCloseDeleteform}
+                  className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !border !border-blue-600 !text-blue-600 !font-semibold !bg-transparent !font-gilroy"
+                >
+                  Cancel
+                </Button>
 
-              <Button
-                disabled
-                onClick={handleBillDeleted}
-                className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
-              >
-                Coming Soon
-              </Button>
-            </div>
-          </Modal.Footer>
-        </Modal>
-      )}
+                <Button
+                  disabled
+                  onClick={handleBillDeleted}
+                  className="!w-full sm:!w-auto sm:!min-w-[140px] !h-12 !rounded-lg !bg-blue-600 !text-white !font-semibold !border-0 !font-gilroy"
+                >
+                  Coming Soon
+                </Button>
+              </div>
+            </Modal.Footer>
+          </Modal>
+        )
+      }
 
-      {state.InvoiceList.unableAddInvoiceDetailsError ? (
-        <div className="flex justify-content-center mt-5">
-          <ErrorMessage
-            message={state.InvoiceList.unableAddInvoiceDetailsError}
-            type="error"
+      {
+        state.InvoiceList.unableAddInvoiceDetailsError ? (
+          <div className="flex justify-content-center mt-5">
+            <ErrorMessage
+              message={state.InvoiceList.unableAddInvoiceDetailsError}
+              type="error"
+            />
+          </div>
+        ) : null
+      }
+
+      {
+        showRecurringBillForm && (
+          <>
+            <RecurringBill
+              hostelId={state.login.selectedHostel_Id}
+              onhandleback={handleBackBill}
+            />
+          </>
+        )
+      }
+
+      {
+        receiptformShow && (
+          <>
+            <AddReceiptForm
+              onhandleback={handleBackBill}
+              editvalue={editvalue}
+              receiptedit={receiptedit}
+            />
+          </>
+        )
+      }
+
+      {
+        showform && (
+          <RecordPayment
+            show={showform}
+            handleClose={handleCloseForm}
+            selectedUserId={selectedUserId}
+            // invoiceValue={invoiceValue}
+            invoiceList={invoiceList}
           />
-        </div>
-      ) : null}
+        )
+      }
 
-      {showRecurringBillForm && (
-        <>
-          <RecurringBill
-            hostelId={state.login.selectedHostel_Id}
-            onhandleback={handleBackBill}
+      {
+        showReviewGenerateBill && (
+          <ReviewGenerateBillsDrawer
+            open={showReviewGenerateBill}
+            onClose={() => setShowReviewGenerateBill(false)}
           />
-        </>
-      )}
-
-      {receiptformShow && (
-        <>
-          <AddReceiptForm
-            onhandleback={handleBackBill}
-            editvalue={editvalue}
-            receiptedit={receiptedit}
-          />
-        </>
-      )}
-
-      {showform && (
-        <RecordPayment
-          show={showform}
-          handleClose={handleCloseForm}
-          selectedUserId={selectedUserId}
-          // invoiceValue={invoiceValue}
-          invoiceList={invoiceList}
-        />
-      )}
-
-      {showReviewGenerateBill && (
-        <ReviewGenerateBillsDrawer
-          open={showReviewGenerateBill}
-          onClose={() => setShowReviewGenerateBill(false)}
-        />
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 InvoicePage.propTypes = {

@@ -40,6 +40,7 @@ import PropTypes from "prop-types";
 import ExpenseFilter from "./ExpenseFilter";
 import dayjs from "dayjs";
 import { CustomStyles } from "../../Utils/SelectStyles";
+import CustomTooltip from "../../Utils/CustomToolTip";
 
 function Expenses() {
   const state = useSelector((state) => state);
@@ -1011,30 +1012,32 @@ function Expenses() {
                 <div
                   className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                 >
-                  <Filter
-                    size={16}
-                    onClick={() => {
-                      if (canReadExpense) {
-                        handleClickFilter();
-                      }
-                    }}
-                    className={`transition-opacity duration-300 ${canReadExpense
-                      ? "cursor-pointer opacity-100 pointer-events-auto"
-                      : "cursor-not-allowed opacity-40 pointer-events-none"
-                      }`}
-                  />
+                  <CustomTooltip text="Filter" direction="top-full" usePortal={true}>
+                    <Filter
+                      size={16}
+                      onClick={() => {
+                        if (canReadExpense) {
+                          handleClickFilter();
+                        }
+                      }}
+                      className={`transition-opacity duration-300 ${canReadExpense
+                        ? "cursor-pointer opacity-100 pointer-events-auto"
+                        : "cursor-not-allowed opacity-40 pointer-events-none"
+                        }`}
+                    />
+                  </CustomTooltip>
                 </div>
               </div>
 
               <div className={` flex items-center justify-end gap-2 mr-2 `}>
-                <div>
+                <CustomTooltip text="Customize" direction="top-full" usePortal={true}>
                   <Setting3
                     onClick={() => setOpen(!open)}
                     className="cursor-pointer"
                     size="22"
                     color="#4B4B4B"
                   />
-                </div>
+                </CustomTooltip>
 
                 {formattedData?.length > 0 && (
                   <ApiPagination
@@ -1073,22 +1076,15 @@ function Expenses() {
                       {item.label}
 
                       <div className="relative group w-fit">
-                        <Filter
-                          onClick={() => setSelectedBillStatus(item.search)}
-                          size="14"
-                          color="#9CA3AF"
-                          className="cursor-pointer"
-                        />
+                        <CustomTooltip text="Click to Filter" direction="top-full" usePortal={true}>
+                          <Filter
+                            onClick={() => setSelectedBillStatus(item.search)}
+                            size="14"
+                            color="#9CA3AF"
+                            className="cursor-pointer"
+                          />
 
-                        <div
-                          className="absolute left-1/2 -translate-x-1/2 mt-2 
-                                    hidden group-hover:flex
-                                    px-3 py-1.5 bg-[#4B5563] text-white text-xs rounded-md 
-                                    items-center gap-1 whitespace-nowrap z-50"
-                        >
-                          <Filter size="14" color="#fff" />
-                          Click to Filter
-                        </div>
+                        </CustomTooltip>
                       </div>
                     </div>
 
@@ -1286,7 +1282,7 @@ function Expenses() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.totalAmount}
+                                        ₹{user.totalAmount}
                                       </td>
                                     );
                                   case "Paid Amount":
@@ -1295,7 +1291,7 @@ function Expenses() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.paidAmount}
+                                        ₹{user.paidAmount}
                                       </td>
                                     );
                                   case "Balance Amount":
@@ -1304,7 +1300,16 @@ function Expenses() {
                                         key={col.fieldName}
                                         className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                       >
-                                        {user.balanceAmount}
+                                        ₹{user.balanceAmount}
+                                      </td>
+                                    );
+                                  case "Actual Total":
+                                    return (
+                                      <td
+                                        key={col.fieldName}
+                                        className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
+                                      >
+                                        ₹{user.actualTotal}
                                       </td>
                                     );
 

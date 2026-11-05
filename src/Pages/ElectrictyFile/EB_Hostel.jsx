@@ -7,7 +7,7 @@ import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
 import {
   CloseCircle,
-  
+
   Flash,
   Refresh,
 } from "iconsax-react";
@@ -36,7 +36,7 @@ const RoomReadingTable = () => {
   const [activeTab, setActiveTab] = useState("room");
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
- 
+
   const {
     canWriteModule: canWriteElectricity,
     canReadModule: canReadElectricity,
@@ -480,18 +480,17 @@ const RoomReadingTable = () => {
                   height={20}
                   width={20}
                   alt="search"
-                  className={`transition-opacity duration-300 ${
-                    canReadElectricity
-                      ? "cursor-pointer opacity-100 pointer-events-auto"
-                      : "cursor-not-allowed opacity-40 pointer-events-none"
-                  }`}
+                  className={`transition-opacity duration-300 ${canReadElectricity
+                    ? "cursor-pointer opacity-100 pointer-events-auto"
+                    : "cursor-not-allowed opacity-40 pointer-events-none"
+                    }`}
                 />
               </div>
 
               {!isEbBased && (
                 <div
                   className="flex gap-3 p-1.5 bg-white rounded cursor-pointer"
-                  // onClick={() => canReadElectricity && handleFilterShow()}
+                // onClick={() => canReadElectricity && handleFilterShow()}
                 >
                   <FiFilter
                     size={20}
@@ -505,22 +504,20 @@ const RoomReadingTable = () => {
           <div className="flex items-center gap-6 mb-2 ml-0.5 -mt-2">
             <div
               onClick={() => setActiveTab("room")}
-              className={`cursor-pointer pb-1.5 font-gilroy ${
-                activeTab === "room"
-                  ? "text-black font-semibold border-b-2 border-blue-700"
-                  : "text-gray-700 font-normal border-b-2 border-transparent"
-              }`}
+              className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "room"
+                ? "text-black font-semibold border-b-2 border-blue-700"
+                : "text-gray-700 font-normal border-b-2 border-transparent"
+                }`}
             >
               {isEbBased ? "Hostel Reading" : "Room Reading"}
             </div>
 
             <div
               onClick={() => setActiveTab("customer")}
-              className={`cursor-pointer pb-1.5 font-gilroy ${
-                activeTab === "customer"
-                  ? "text-black font-semibold border-b-2 border-blue-700"
-                  : "text-gray-700 font-normal border-b-2 border-transparent"
-              }`}
+              className={`cursor-pointer pb-1.5 font-gilroy ${activeTab === "customer"
+                ? "text-black font-semibold border-b-2 border-blue-700"
+                : "text-gray-700 font-normal border-b-2 border-transparent"
+                }`}
             >
               Tenants Reading
             </div>
@@ -667,11 +664,10 @@ const RoomReadingTable = () => {
                                     >
                                       <PiDotsThreeOutlineVerticalFill
                                         size={20}
-                                        className={`${
-                                          showDots === i
-                                            ? "text-blue-700"
-                                            : "text-gray-500"
-                                        }`}
+                                        className={`${showDots === i
+                                          ? "text-blue-700"
+                                          : "text-gray-500"
+                                          }`}
                                         onClick={() =>
                                           handleShowDotsHostelReading(row, i)
                                         }
@@ -681,26 +677,24 @@ const RoomReadingTable = () => {
                                         <>
                                           <div
                                             ref={popupRef}
-                                            className={`fixed w-36 bg-gray-50 border border-gray-200 rounded-lg flex flex-col cursor-pointer ${
-                                              showDots === i ? "z-50" : ""
-                                            }`}
+                                            className={`fixed w-36 bg-gray-50 border border-gray-200 rounded-lg flex flex-col cursor-pointer ${showDots === i ? "z-50" : ""
+                                              }`}
                                             style={{
                                               top: showAbove
                                                 ? popupPosition.top -
-                                                  (popupRef.current
-                                                    ?.offsetHeight || 100) -
-                                                  20
+                                                (popupRef.current
+                                                  ?.offsetHeight || 100) -
+                                                20
                                                 : popupPosition.top,
                                               left: popupPosition.left - 10,
                                             }}
                                           >
                                             <div className="w-full">
                                               <div
-                                                className={`flex justify-start items-center gap-2 rounded-t-lg bg-gray-50 px-3 py-2 ${
-                                                  !canUpdateElectricity
-                                                    ? "cursor-not-allowed opacity-50"
-                                                    : "cursor-pointer opacity-100"
-                                                }`}
+                                                className={`flex justify-start items-center gap-2 rounded-t-lg bg-gray-50 px-3 py-2 ${!canUpdateElectricity
+                                                  ? "cursor-not-allowed opacity-50"
+                                                  : "cursor-pointer opacity-100"
+                                                  }`}
                                                 onClick={() => {
                                                   if (canUpdateElectricity)
                                                     handleEdit(row);
@@ -717,29 +711,26 @@ const RoomReadingTable = () => {
                                                 <img
                                                   src={Edit}
                                                   alt="Edit"
-                                                  className={`h-4 w-4 ${
-                                                    !canUpdateElectricity
-                                                      ? "grayscale"
-                                                      : ""
-                                                  }`}
+                                                  className={`h-4 w-4 ${!canUpdateElectricity
+                                                    ? "grayscale"
+                                                    : ""
+                                                    }`}
                                                 />
                                                 <label
-                                                  className={`text-sm font-medium font-gilroy text-gray-800 ${
-                                                    !canUpdateElectricity
-                                                      ? "cursor-not-allowed"
-                                                      : "cursor-pointer"
-                                                  }`}
+                                                  className={`text-sm font-medium font-gilroy text-gray-800 ${!canUpdateElectricity
+                                                    ? "cursor-not-allowed"
+                                                    : "cursor-pointer"
+                                                    }`}
                                                 >
                                                   Edit
                                                 </label>
                                               </div>
 
                                               <div
-                                                className={`flex justify-start items-center gap-2  px-3 py-2 ${
-                                                  !canDeleteElectricity
-                                                    ? "cursor-not-allowed opacity-50"
-                                                    : "cursor-pointer opacity-100"
-                                                }`}
+                                                className={`flex justify-start items-center gap-2  px-3 py-2 ${!canDeleteElectricity
+                                                  ? "cursor-not-allowed opacity-50"
+                                                  : "cursor-pointer opacity-100"
+                                                  }`}
                                                 onClick={() => {
                                                   if (canDeleteElectricity)
                                                     handleReadingDelete(row);
@@ -756,18 +747,16 @@ const RoomReadingTable = () => {
                                                 <img
                                                   src={Delete}
                                                   alt="Delete"
-                                                  className={`h-4 w-4 ${
-                                                    !canDeleteElectricity
-                                                      ? "grayscale"
-                                                      : ""
-                                                  }`}
+                                                  className={`h-4 w-4 ${!canDeleteElectricity
+                                                    ? "grayscale"
+                                                    : ""
+                                                    }`}
                                                 />
                                                 <label
-                                                  className={`text-sm font-medium font-gilroy text-red-600 ${
-                                                    !canDeleteElectricity
-                                                      ? "cursor-not-allowed"
-                                                      : "cursor-pointer"
-                                                  }`}
+                                                  className={`text-sm font-medium font-gilroy text-red-600 ${!canDeleteElectricity
+                                                    ? "cursor-not-allowed"
+                                                    : "cursor-pointer"
+                                                    }`}
                                                 >
                                                   Delete
                                                 </label>
@@ -904,7 +893,7 @@ const RoomReadingTable = () => {
                                     {row?.totalUnits}
                                   </td>
                                   <td className="w-[230px] px-2 py-1">
-                                    {row?.totalPrice || "0"}
+                                    ₹{row?.totalPrice || "0"}
                                   </td>
                                   {!isEbBased && (
                                     <td
@@ -916,11 +905,10 @@ const RoomReadingTable = () => {
                                       }}
                                     >
                                       <PiDotsThreeOutlineVerticalFill
-                                        className={`w-5 h-5 cursor-pointer transition-transform ${
-                                          showDotsRoom === i
-                                            ? "text-blue-700"
-                                            : "text-gray-500"
-                                        }`}
+                                        className={`w-5 h-5 cursor-pointer transition-transform ${showDotsRoom === i
+                                          ? "text-blue-700"
+                                          : "text-gray-500"
+                                          }`}
                                         style={{ transform: "rotate(90deg)" }}
                                         onClick={() =>
                                           handleShowDotsRoomReading(row, i)
@@ -936,9 +924,9 @@ const RoomReadingTable = () => {
                                               position: "fixed",
                                               top: showAbove
                                                 ? popupPosition.top -
-                                                  (popupRef.current
-                                                    ?.offsetHeight || 100) -
-                                                  20
+                                                (popupRef.current
+                                                  ?.offsetHeight || 100) -
+                                                20
                                                 : popupPosition.top - 35,
                                               left: popupPosition.left,
                                               width: "auto",
@@ -957,11 +945,10 @@ const RoomReadingTable = () => {
                                                   handleActionClick(row)
                                                 }
                                                 className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-t-lg transition-all
-    ${
-      canWriteElectricity
-        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF]  cursor-pointer"
-        : "bg-[#F9F9F9] cursor-not-allowed opacity-50"
-    }`}
+    ${canWriteElectricity
+                                                    ? "bg-[#F9F9F9] hover:bg-[#EDF2FF]  cursor-pointer"
+                                                    : "bg-[#F9F9F9] cursor-not-allowed opacity-50"
+                                                  }`}
                                               >
                                                 <img
                                                   src={Group}
@@ -984,11 +971,10 @@ const RoomReadingTable = () => {
                                                       handleEditRoomReading(row)
                                                     }
                                                     className={`flex w-full items-center gap-2 px-3 py-2.5 rounded-t-lg transition-colors
-    ${
-      canUpdateElectricity
-        ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#EDF2FF]"
-        : "cursor-not-allowed opacity-50 bg-[#F9F9F9]"
-    }`}
+    ${canUpdateElectricity
+                                                        ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#EDF2FF]"
+                                                        : "cursor-not-allowed opacity-50 bg-[#F9F9F9]"
+                                                      }`}
                                                   >
                                                     <img
                                                       src={Edit}
@@ -1009,11 +995,10 @@ const RoomReadingTable = () => {
                                                       handleReadingDelete(row)
                                                     }
                                                     className={`flex w-full items-center gap-2 px-3 py-2.5  transition-colors
-    ${
-      canDeleteElectricity
-        ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#FFF0F0]"
-        : "cursor-not-allowed opacity-50 bg-[#F9F9F9]"
-    }`}
+    ${canDeleteElectricity
+                                                        ? "cursor-pointer bg-[#F9F9F9] hover:bg-[#FFF0F0]"
+                                                        : "cursor-not-allowed opacity-50 bg-[#F9F9F9]"
+                                                      }`}
                                                   >
                                                     <img
                                                       src={Delete}
@@ -1022,11 +1007,10 @@ const RoomReadingTable = () => {
                                                     />
 
                                                     <span
-                                                      className={`text-sm font-medium font-gilroy ${
-                                                        canDeleteElectricity
-                                                          ? "text-red-500"
-                                                          : "text-red-500"
-                                                      }`}
+                                                      className={`text-sm font-medium font-gilroy ${canDeleteElectricity
+                                                        ? "text-red-500"
+                                                        : "text-red-500"
+                                                        }`}
                                                     >
                                                       Delete
                                                     </span>
@@ -1038,11 +1022,10 @@ const RoomReadingTable = () => {
                                                       handleResetEBReading(row)
                                                     }
                                                     className={`flex w-full items-center gap-2 px-3 py-2.5 transition-colors
-    ${
-      canWriteElectricity
-        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF] cursor-pointer"
-        : "bg-[#F9F9F9] opacity-50 cursor-not-allowed"
-    }`}
+    ${canWriteElectricity
+                                                        ? "bg-[#F9F9F9] hover:bg-[#EDF2FF] cursor-pointer"
+                                                        : "bg-[#F9F9F9] opacity-50 cursor-not-allowed"
+                                                      }`}
                                                   >
                                                     <Refresh
                                                       size={18}
@@ -1200,7 +1183,7 @@ const RoomReadingTable = () => {
                                   <div className="mt-2">{row.totalUnits}</div>
                                 </td>
                                 <td className="w-[230px] px-2 py-1 whitespace-nowrap">
-                                  <div className="mt-2">{row.totalAmount}</div>
+                                  <div className="mt-2">₹{row.totalAmount}</div>
                                 </td>
                               </tr>
                             ))}

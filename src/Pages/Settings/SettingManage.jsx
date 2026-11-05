@@ -49,9 +49,10 @@ function SettingManage() {
     state.createAccount?.accountList?.roleId === 1 ||
     state.createAccount?.accountList?.roleId === 2;
 
-  const isEnable = state.login.selectedHostel_Id
-    ? Boolean(canWritePayingGuests && RoleAccess)
-    : RoleAccess;
+  // const isEnable = state.login.selectedHostel_Id
+  //   ? Boolean(canWritePayingGuests && RoleAccess)
+  //   : RoleAccess;
+  const isEnable = RoleAccess;
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {

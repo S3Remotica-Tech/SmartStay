@@ -1,8 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const WebNotification = ({ title, message }) => {
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -15,7 +19,23 @@ const WebNotification = ({ title, message }) => {
 
     }, []);
 
-    
+
+    useEffect(() => {
+        if (visible) {
+            dispatch({
+                type: "COMPLIANCE-LIST",
+                payload: { hostelId: state.login.selectedHostel_Id },
+            });
+
+            dispatch({
+                type: "PARTICULAR_HOSTEL_DETAILS",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
+        }
+
+    }, [visible])
+
+
     return (
         <div
             style={{
@@ -65,8 +85,8 @@ const WebNotification = ({ title, message }) => {
     );
 };
 WebNotification.propTypes = {
-  title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
 };
 
 

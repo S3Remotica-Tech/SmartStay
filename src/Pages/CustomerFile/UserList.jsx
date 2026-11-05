@@ -50,6 +50,7 @@ import AddTenant from "../PayingGuestFile/AddTenant";
 import BookingToCheckin from "./BookingToCheckin";
 import DeleteDraftTenant from "./DeleteDraftTenant";
 import { CustomStyles } from "../../Utils/SelectStyles";
+import CustomTooltip from "../../Utils/CustomToolTip";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -1533,27 +1534,20 @@ function UserList(props) {
 
                             {item.label !== "Total" && (
                               <div className="relative group shrink-0">
-                                <Filter
-                                  onClick={() =>
-                                    setStatusFilter({
-                                      value: item.search,
-                                      label: item.label,
-                                    })
-                                  }
-                                  size="14"
-                                  color="#9CA3AF"
-                                  className="cursor-pointer"
-                                />
+                                <CustomTooltip text="Click to Filter" direction="top-full" usePortal={false}>
+                                  <Filter
+                                    onClick={() =>
+                                      setStatusFilter({
+                                        value: item.search,
+                                        label: item.label,
+                                      })
+                                    }
+                                    size="14"
+                                    color="#9CA3AF"
+                                    className="cursor-pointer"
+                                  />
+                                </CustomTooltip>
 
-                                <div
-                                  className="absolute left-1/2 top-full mt-2 -translate-x-1/2
-                    hidden group-hover:flex items-center gap-1
-                    whitespace-nowrap rounded-md bg-[#4B5563]
-                    px-3 py-1.5 text-xs text-white z-50"
-                                >
-                                  <Filter size="14" color="#fff" />
-                                  Click to Filter
-                                </div>
                               </div>
                             )}
                           </div>
@@ -1606,18 +1600,20 @@ function UserList(props) {
                       <div
                         className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
                       >
-                        <Filter
-                          size={16}
-                          onClick={() => {
-                            if (canReadTenant) {
-                              setIsFilterOpen(true);
-                            }
-                          }}
-                          className={`transition-opacity duration-300 ${canReadTenant
-                            ? "cursor-pointer opacity-100 pointer-events-auto"
-                            : "cursor-not-allowed opacity-40 pointer-events-none"
-                            }`}
-                        />
+                        <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                          <Filter
+                            size={16}
+                            onClick={() => {
+                              if (canReadTenant) {
+                                setIsFilterOpen(true);
+                              }
+                            }}
+                            className={`transition-opacity duration-300 ${canReadTenant
+                              ? "cursor-pointer opacity-100 pointer-events-auto"
+                              : "cursor-not-allowed opacity-40 pointer-events-none"
+                              }`}
+                          />
+                        </CustomTooltip>
                       </div>
                     </div>
 
@@ -1694,14 +1690,14 @@ function UserList(props) {
                           </div>
                         )}
                       </button> */}
-                      <div>
+                      <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
                         <Setting3
                           onClick={() => setOpen(!open)}
                           className="cursor-pointer"
                           size="22"
                           color="#4B4B4B"
                         />
-                      </div>
+                      </CustomTooltip>
 
                       {formattedData?.length > 0 && (
                         <ApiPagination
@@ -1953,7 +1949,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.monthlyRent}
+                                              ₹{Number(user?.monthlyRent) || 0}
                                             </td>
                                           );
                                         case "Advance":
@@ -1962,7 +1958,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.advanceAmount}
+                                              ₹{Number(user?.advanceAmount) || 0}
                                             </td>
                                           );
                                         case "Booking Amount":
@@ -1971,7 +1967,7 @@ function UserList(props) {
                                               key={col.fieldName}
                                               className={`${finalClass} overflow-hidden text-ellipsis text-[#111928]`}
                                             >
-                                              {user.bookingAmount}
+                                              ₹{Number(user?.bookingAmount) || 0}
                                             </td>
                                           );
                                         default:

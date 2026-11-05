@@ -20,7 +20,7 @@ import OtherHostel from "./OtherHostel";
 import Documents from "./Documents";
 import ManagedUsers from "../ManagedUsers";
 import SwichProperty from "./SwichProperty";
-import { useHasPermission } from "../../../Utils/Permission";
+// import { useHasPermission } from "../../../Utils/Permission";
 import AddPg from "../../PayingGuestFile/AddPg";
 import GalleryComponent from "./Gallery";
 
@@ -29,16 +29,15 @@ const ManagePg = () => {
   const state = useSelector((state) => state);
   const [activeTab, setActiveTab] = useState("Overview");
 
-  const { canWriteModule: canWritePayingGuests } =
-    useHasPermission("Paying Guests");
+  // const { canWriteModule: canWritePayingGuests } =
+  //   useHasPermission("Paying Guests");
 
   const RoleAccess =
     state.createAccount?.accountList?.roleId === 1 ||
     state.createAccount?.accountList?.roleId === 2;
 
-  const isEnable = state.login.selectedHostel_Id
-    ? Boolean(canWritePayingGuests && RoleAccess)
-    : true;
+  const isEnable = RoleAccess;
+
   const [showSwitchProperty, setShowSwitchProperty] = useState(false);
   const hostelDetails = state?.UsersList?.hotelDetailsinPg;
   const [showAddPg, setShowAddPg] = useState(false);
@@ -164,8 +163,8 @@ const ManagePg = () => {
 
               <span
                 className={`px-3 py-1 rounded-full text-white text-[12px] font-medium flex items-center gap-1.5 ${hostelDetails?.isSubscriptionActive
-                    ? "bg-[#038C46]"
-                    : "bg-[#DC3545]"
+                  ? "bg-[#038C46]"
+                  : "bg-[#DC3545]"
                   }`}
               >
                 {hostelDetails?.isSubscriptionActive ? "Active" : "Inactive"}

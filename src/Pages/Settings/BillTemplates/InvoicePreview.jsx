@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 function InvoicePreview({ invoiceData }) {
 
-
+  console.log("invoiceData", invoiceData);
   return (
     <div className="w-[794px]  bg-[#F4F4F4] p-[26px] font-gilroy text-[#222] rounded-t-xl">
       <div className="w-full h-full border-1 border-[#D9D9D9] bg-white  rounded-[10px] p-[20px] flex flex-col">
@@ -12,28 +12,28 @@ function InvoicePreview({ invoiceData }) {
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
             <div className="relative">
-              <img src={invoiceData.logo} alt="Logo" className=" object-cover " />
+              <img src={invoiceData?.logo} alt="Logo" className=" object-cover " />
             </div>
 
             <div className="text-[8px] text-[#6B7280] leading-[11px]">
-              <label>{invoiceData.email}</label>
-              <label className="block">{invoiceData.phone}</label>
+              <label>{invoiceData?.email}</label>
+              <label className="block">{invoiceData?.phone}</label>
             </div>
           </div>
 
           <div className="text-right text-[8px] text-[#555] leading-[12px]">
             <label className="font-semibold block">
-              {invoiceData.companyName}
+              {invoiceData?.companyName}
             </label>
-            <label className="block">{invoiceData.address}</label>
+            <label className="block">{invoiceData?.address}</label>
             <label className="block">Chennai - 600 028</label>
-            <label className="block">{invoiceData.gst}</label>
+            <label className="block">{invoiceData?.gst}</label>
           </div>
         </div>
 
         <div className="flex justify-center mt-[20px]">
           <label className="text-[13px] font-semibold">
-            {invoiceData.invoiceTitle}
+            {invoiceData?.invoiceTitle}
           </label>
         </div>
 
@@ -46,23 +46,23 @@ function InvoicePreview({ invoiceData }) {
               </label>
 
               <label className="text-[9px] font-semibold block">
-                {invoiceData.tenant.name}
+                {invoiceData?.tenant?.name || ""}
               </label>
 
               <label className="text-[8px] text-[#555] mt-[2px] block">
-                {invoiceData.tenant.room}
+                {invoiceData?.tenant?.room}
               </label>
 
               <label className="text-[8px] text-[#555] block">
-                {invoiceData.tenant.address}
+                {invoiceData?.tenant?.address}
               </label>
 
               <label className="text-[8px] text-[#555] block">
-                {invoiceData.tenant.phone}
+                {invoiceData?.tenant?.phone}
               </label>
 
               <label className="text-[8px] text-[#555] block">
-                {invoiceData.tenant.email}
+                {invoiceData?.tenant?.email}
               </label>
             </div>
 
@@ -73,7 +73,7 @@ function InvoicePreview({ invoiceData }) {
                 </label>
 
                 <label className="font-semibold">
-                  {invoiceData.invoiceNo}
+                  {invoiceData?.invoiceNo}
                 </label>
               </div>
 
@@ -83,7 +83,7 @@ function InvoicePreview({ invoiceData }) {
                 </label>
 
                 <label className="font-semibold">
-                  {invoiceData.invoiceDate}
+                  {invoiceData?.invoiceDate}
                 </label>
               </div>
 
@@ -93,7 +93,7 @@ function InvoicePreview({ invoiceData }) {
                 </label>
 
                 <label className="font-semibold">
-                  {invoiceData.dueDate}
+                  {invoiceData?.dueDate}
                 </label>
               </div>
 
@@ -103,7 +103,7 @@ function InvoicePreview({ invoiceData }) {
                 </label>
 
                 <label className="font-semibold">
-                  {invoiceData.joiningDate}
+                  {invoiceData?.joiningDate}
                 </label>
               </div>
             </div>
@@ -111,7 +111,7 @@ function InvoicePreview({ invoiceData }) {
 
           <div className="mt-[10px]">
             <label className="text-[8px] text-[#555] block">
-              {invoiceData.tenant.bed}
+              {invoiceData?.tenant?.bed}
             </label>
           </div>
 
@@ -126,7 +126,7 @@ function InvoicePreview({ invoiceData }) {
               </label>
             </div>
 
-            {invoiceData?.items.map((item) => (
+            {invoiceData?.items?.map((item) => (
               <div
                 key={item.id}
                 className="flex justify-between px-[8px] py-[9px] border-b border-[#F1F1F1]"
@@ -146,12 +146,12 @@ function InvoicePreview({ invoiceData }) {
             <div className="w-[43%] text-[8px]">
               <div className="flex justify-between mb-[6px]">
                 <label>Subtotal</label>
-                <label>{invoiceData.subtotal}</label>
+                <label>{invoiceData?.subtotal}</label>
               </div>
 
               <div className="flex justify-between mb-[8px]">
                 <label>Tax - GST (3%)</label>
-                <label>{invoiceData.gstAmount}</label>
+                <label>{invoiceData?.gstAmount}</label>
               </div>
 
               <div className="border-t border-[#D9D9D9] pt-[8px] flex justify-between">
@@ -160,7 +160,7 @@ function InvoicePreview({ invoiceData }) {
                 </label>
 
                 <label className="font-semibold">
-                  {invoiceData.total}
+                  {invoiceData?.total}
                 </label>
               </div>
             </div>
@@ -172,7 +172,7 @@ function InvoicePreview({ invoiceData }) {
                 ACCOUNT DETAILS
               </label>
 
-              {invoiceData.accountDetails.map((account) => (
+              {invoiceData?.accountDetails?.map((account) => (
                 <div
                   key={account.id}
                   className="flex text-[8px] leading-[14px]"
@@ -214,12 +214,12 @@ function InvoicePreview({ invoiceData }) {
                 </label>
 
                 <label className="text-[#F59E0B] font-semibold">
-                  {invoiceData.paymentStatus}
+                  {invoiceData?.paymentStatus}
                 </label>
               </div>
 
               <label className="mt-[8px] block">
-                {invoiceData.notes}
+                {invoiceData?.notes}
               </label>
 
               <label className="text-[#777] mt-[4px] block">
@@ -230,17 +230,17 @@ function InvoicePreview({ invoiceData }) {
         </div>
         <div className="mt-[24px]">
           <label className="text-[7px] text-[#777]">
-            T&C : {invoiceData.terms}
+            T&C : {invoiceData?.terms}
           </label>
         </div>
 
         <div className="mt-auto pt-[10px] border-t border-[#E5E7EB] flex justify-between text-[7px] text-[#999]">
           <label>
-            {invoiceData.emailFooter}
+            {invoiceData?.emailFooter}
           </label>
 
           <label>
-            {invoiceData.contactFooter}
+            {invoiceData?.contactFooter}
           </label>
         </div>
 

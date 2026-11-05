@@ -5,15 +5,12 @@ import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
 import DashboardUpdates from "../../Pages/Dashboard/DashboardUpdates";
-
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-
 import { useHasPermission } from "../../Utils/Permission";
 import {
   Buildings,
@@ -32,6 +29,7 @@ import DashQuickAccess from "./DashQuickAccess";
 import DashCoreAnalytics from "./DashCoreAnalytics";
 import DashRequestAndComplaints from "./DashRequestsAndComplaints";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
+import CustomTooltip from "../../Utils/CustomToolTip";
 
 function Dashboard() {
   const state = useSelector((state) => state);
@@ -578,18 +576,19 @@ function Dashboard() {
                               {card.title === "Rooms & Beds" && (
                                 <div className="relative">
                                   {card.title === "Rooms & Beds" && (
-                                    <InfoCircle
-                                      size="18"
-                                      className="text-gray-400 cursor-pointer"
-                                      variant="Outline"
-                                      onClick={(e) => {
-                                        if (card?.sharingData?.length > 0) {
-                                          e.stopPropagation();
-                                          setShowBreakdown((prev) => !prev);
-                                        }
-                                      }}
-                                    />
-                                  )}
+                                    <CustomTooltip text="View Sharing Details" direction="top-full" usePortal={false}>
+                                      <InfoCircle
+                                        size="18"
+                                        className="text-gray-400 cursor-pointer"
+                                        variant="Outline"
+                                        onClick={(e) => {
+                                          if (card?.sharingData?.length > 0) {
+                                            e.stopPropagation();
+                                            setShowBreakdown((prev) => !prev);
+                                          }
+                                        }}
+                                      />
+                                    </CustomTooltip>)}
 
                                   {showBreakdown && (
                                     <div

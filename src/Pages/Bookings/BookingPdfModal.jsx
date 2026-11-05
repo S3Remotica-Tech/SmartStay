@@ -11,7 +11,7 @@ import Mail_white from "../../Assets/Images/gmail_white.png";
 import Message_text from "../../Assets/Images/message-text.png";
 import Message_text_white from "../../Assets/Images/message-white.png";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-
+import CustomTooltip from "../../Utils/CustomToolTip";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 
@@ -361,31 +361,35 @@ const InvoiceCard = ({ rowData }) => {
 
             <div>
               <div className="flex gap-2">
-                <div
-                  className="flex justify-center items-center border rounded-[8px] cursor-pointer h-[30px] w-[30px]"
-                  onClick={handleDownload}
-                >
-                  <img
-                    src={DownLoad}
-                    alt="Download Invoice"
-                    className="h-[15px] w-[15px]"
-                  />
-                </div>
-
-                <div className="relative inline-block">
+                <CustomTooltip text="Download" direction="top-full" usePortal={false}>
                   <div
-                    className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
-                    onClick={handleShareClick}
+                    className="flex justify-center items-center border rounded-[8px] cursor-pointer h-[30px] w-[30px]"
+                    onClick={handleDownload}
                   >
                     <img
-                      src={Whatsapp}
-                      alt="Share"
-                      className="h-[15px] w-[15px] invert"
+                      src={DownLoad}
+                      alt="Download Invoice"
+                      className="h-[15px] w-[15px]"
                     />
-                    <span className="text-[14px] font-normal font-gilroy text-white leading-none">
-                      Share
-                    </span>
                   </div>
+                </CustomTooltip>
+
+                <div className="relative inline-block">
+                  <CustomTooltip text="Share" direction="top-full" usePortal={false}>
+                    <div
+                      className="flex items-center justify-center gap-2 h-[30px] w-[80px] rounded-[8px] cursor-pointer bg-[#1E45E1]"
+                      onClick={handleShareClick}
+                    >
+                      <img
+                        src={Whatsapp}
+                        alt="Share"
+                        className="h-[15px] w-[15px] invert"
+                      />
+                      <span className="text-[14px] font-normal font-gilroy text-white leading-none">
+                        Share
+                      </span>
+                    </div>
+                  </CustomTooltip>
 
                   {isOpen && (
                     <div className="absolute right-[5px] mt-2 p-2 shadow rounded-lg bg-white w-40 z-[9999]">
@@ -397,13 +401,12 @@ const InvoiceCard = ({ rowData }) => {
                             ref={modalRef}
                             key={item.key}
                             className={`flex items-center mb-2 p-1 rounded transition-colors duration-200
-                  ${
-                    isDisabled
-                      ? "bg-gray-100 cursor-not-allowed opacity-60"
-                      : hoveredItem === item.key
-                        ? "bg-[#1E45E1] text-white cursor-pointer"
-                        : "bg-white cursor-pointer"
-                  }`}
+                  ${isDisabled
+                                ? "bg-gray-100 cursor-not-allowed opacity-60"
+                                : hoveredItem === item.key
+                                  ? "bg-[#1E45E1] text-white cursor-pointer"
+                                  : "bg-white cursor-pointer"
+                              }`}
                             onMouseEnter={() =>
                               !isDisabled && setHoveredItem(item.key)
                             }
@@ -425,13 +428,12 @@ const InvoiceCard = ({ rowData }) => {
                             />
 
                             <span
-                              className={`text-[13px] font-normal font-gilroy ${
-                                isDisabled
-                                  ? "text-gray-400"
-                                  : hoveredItem === item.key
-                                    ? "text-white"
-                                    : "text-[#212529]"
-                              }`}
+                              className={`text-[13px] font-normal font-gilroy ${isDisabled
+                                ? "text-gray-400"
+                                : hoveredItem === item.key
+                                  ? "text-white"
+                                  : "text-[#212529]"
+                                }`}
                             >
                               {item.label}
                             </span>
@@ -442,12 +444,12 @@ const InvoiceCard = ({ rowData }) => {
                   )}
                 </div>
 
-                <div>
+                <CustomTooltip text="Close" direction="top-full" usePortal={false}>
                   <IoClose
                     className="h-[20px] w-[20px] cursor-pointer text-red-500"
                     onClick={handleBackInvoice}
                   />
-                </div>
+                </CustomTooltip>
               </div>
             </div>
           </div>
@@ -503,7 +505,7 @@ const InvoiceCard = ({ rowData }) => {
                             <div className="py-1">
                               <div className="text-[#222222] text-[14px] font-medium ">
                                 {pdfDetails?.emailId &&
-                                pdfDetails.emailId !== "null"
+                                  pdfDetails.emailId !== "null"
                                   ? pdfDetails.emailId
                                   : ""}
                               </div>
@@ -535,7 +537,7 @@ const InvoiceCard = ({ rowData }) => {
                     <div className="text-center pt-2 pb-1">
                       <h5
                         className="text-[17px] font-semibold font-gilroy"
-                        // style={textStyle}
+                      // style={textStyle}
                       >
                         Retainer Invoice
                       </h5>
@@ -557,7 +559,7 @@ const InvoiceCard = ({ rowData }) => {
                             <span className=" text-[14px] text-[#5E6470]">
                               {" "}
                               {pdfDetails?.customerInfo?.customerMobileNo &&
-                              pdfDetails.customerInfo.customerMobileNo !==
+                                pdfDetails.customerInfo.customerMobileNo !==
                                 "undefined"
                                 ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
                                 : ""}
@@ -805,32 +807,30 @@ const InvoiceCard = ({ rowData }) => {
                           <div className="text-[14px] flex items-center gap-2 my-1 text-gray-900 font-semibold">
                             Status :
                             <TiTick
-                              className={`${
-                                pdfDetails?.invoiceInfo?.paymentStatus ===
+                              className={`${pdfDetails?.invoiceInfo?.paymentStatus ===
                                 "Pending"
-                                  ? "text-[#F59E0B]"
+                                ? "text-[#F59E0B]"
+                                : pdfDetails?.invoiceInfo?.paymentStatus ===
+                                  "Paid"
+                                  ? "text-[#038C3D]"
                                   : pdfDetails?.invoiceInfo?.paymentStatus ===
-                                      "Paid"
-                                    ? "text-[#038C3D]"
-                                    : pdfDetails?.invoiceInfo?.paymentStatus ===
-                                        "Overdue"
-                                      ? "text-[#DC2626]"
-                                      : "text-[#6B7280]"
-                              }`}
+                                    "Overdue"
+                                    ? "text-[#DC2626]"
+                                    : "text-[#6B7280]"
+                                }`}
                             />
                             <span
-                              className={`text-sm ${
-                                pdfDetails?.invoiceInfo?.paymentStatus ===
+                              className={`text-sm ${pdfDetails?.invoiceInfo?.paymentStatus ===
                                 "Pending"
-                                  ? "text-[#F59E0B]"
+                                ? "text-[#F59E0B]"
+                                : pdfDetails?.invoiceInfo?.paymentStatus ===
+                                  "Paid"
+                                  ? "text-[#038C3D]"
                                   : pdfDetails?.invoiceInfo?.paymentStatus ===
-                                      "Paid"
-                                    ? "text-[#038C3D]"
-                                    : pdfDetails?.invoiceInfo?.paymentStatus ===
-                                        "Overdue"
-                                      ? "text-[#DC2626]"
-                                      : "text-[#6B7280]"
-                              }`}
+                                    "Overdue"
+                                    ? "text-[#DC2626]"
+                                    : "text-[#6B7280]"
+                                }`}
                             >
                               {pdfDetails?.invoiceInfo?.paymentStatus}
                             </span>
@@ -863,7 +863,7 @@ const InvoiceCard = ({ rowData }) => {
                             Email:{" "}
                             <span className="text-[14px] font-gilroy font-semibold text-[#222222]">
                               {pdfDetails?.emailId &&
-                              pdfDetails.emailId !== "null"
+                                pdfDetails.emailId !== "null"
                                 ? pdfDetails.emailId
                                 : ""}
                             </span>
@@ -923,11 +923,10 @@ const InvoiceCard = ({ rowData }) => {
                 setIsOpenPayment(true);
                 setActiveTab("payments");
               }}
-              className={`px-1 py-2 cursor-pointer text-sm font-medium ${
-                activeTab === "payments"
-                  ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
-                  : "text-black "
-              }`}
+              className={`px-1 py-2 cursor-pointer text-sm font-medium ${activeTab === "payments"
+                ? "text-[#1E45E1] border-b-[3px] border-[#1E45E1]"
+                : "text-black "
+                }`}
             >
               Payments Made
             </div>
@@ -937,11 +936,10 @@ const InvoiceCard = ({ rowData }) => {
                 setIsOpenPayment(true);
                 setActiveTab("invoices");
               }}
-              className={`px-1 py-2 cursor-pointer text-sm font-medium ${
-                activeTab === "invoices"
-                  ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
-                  : "text-black border-0"
-              }`}
+              className={`px-1 py-2 cursor-pointer text-sm font-medium ${activeTab === "invoices"
+                ? "text-[#1E45E1]  border-b-[3px] border-[#1E45E1]"
+                : "text-black border-0"
+                }`}
             >
               Retainer adjusted Invoices
             </div>
@@ -954,11 +952,10 @@ const InvoiceCard = ({ rowData }) => {
                   disabled={!canUpdateInvoice || !isRedeemAvailable}
                   onClick={() => handleApplyInvoices()}
                   className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
-    ${
-      !canUpdateInvoice || !isRedeemAvailable
-        ? "cursor-not-allowed opacity-50 bg-gray-100"
-        : "cursor-pointer hover:bg-[#EDF2FF]"
-    }`}
+    ${!canUpdateInvoice || !isRedeemAvailable
+                      ? "cursor-not-allowed opacity-50 bg-gray-100"
+                      : "cursor-pointer hover:bg-[#EDF2FF]"
+                    }`}
                 >
                   <Link21
                     color={
@@ -970,11 +967,10 @@ const InvoiceCard = ({ rowData }) => {
                   />
 
                   <span
-                    className={`text-sm font-semibold ${
-                      !canUpdateInvoice || !isRedeemAvailable
-                        ? "text-[#A9A9A9]"
-                        : "text-[#222222]"
-                    }`}
+                    className={`text-sm font-semibold ${!canUpdateInvoice || !isRedeemAvailable
+                      ? "text-[#A9A9A9]"
+                      : "text-[#222222]"
+                      }`}
                   >
                     Apply to Invoices
                   </span>
@@ -984,11 +980,10 @@ const InvoiceCard = ({ rowData }) => {
                   disabled={!canUpdateInvoice || !isRedeemAvailable}
                   onClick={() => handleApplyInvoicesRetainer(pdfDetails)}
                   className={`flex items-center gap-2 px-3 py-2 border !bg-[#F9F9F9] font-semibold  border-[#E7E7E7] rounded-[10px] transition-all duration-150
-    ${
-      !canUpdateInvoice || !isRedeemAvailable
-        ? "cursor-not-allowed opacity-50 bg-gray-100"
-        : "cursor-pointer hover:bg-[#EDF2FF]"
-    }`}
+    ${!canUpdateInvoice || !isRedeemAvailable
+                      ? "cursor-not-allowed opacity-50 bg-gray-100"
+                      : "cursor-pointer hover:bg-[#EDF2FF]"
+                    }`}
                 >
                   <Link21
                     color={
@@ -1000,11 +995,10 @@ const InvoiceCard = ({ rowData }) => {
                   />
 
                   <span
-                    className={`text-sm font-semibold ${
-                      !canUpdateInvoice || !isRedeemAvailable
-                        ? "text-[#A9A9A9]"
-                        : "text-[#222222]"
-                    }`}
+                    className={`text-sm font-semibold ${!canUpdateInvoice || !isRedeemAvailable
+                      ? "text-[#A9A9A9]"
+                      : "text-[#222222]"
+                      }`}
                   >
                     Apply to Invoices
                   </span>

@@ -2,11 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { Edit } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
-
 import "../../../Pages/Settings/SettingElectricity.css";
-
+import CustomTooltip from "../../../Utils/CustomToolTip";
 import { useHasPermission } from "../../../Utils/Permission";
-
 import { useNavigate } from "react-router-dom";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 
@@ -102,26 +100,27 @@ function SettingsElectricityNew() {
                   tenants
                 </label>
               </div>
-
-              <button
-                disabled={!canUpdateElectricity}
-                onClick={() => handleNavigateEbRule("electricity-rule")}
-                className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs transition
+              <CustomTooltip text="Edit" direction="top-full" usePortal={false}>
+                <button
+                  disabled={!canUpdateElectricity}
+                  onClick={() => handleNavigateEbRule("electricity-rule")}
+                  className="flex items-center gap-2 border border-[#D1D1D1] rounded-lg px-3 py-1.5 bg-white shadow-xs transition
              disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50
              hover:bg-gray-50"
-              >
-                <span className="text-xs md:text-sm font-medium text-gray-700">
-                  {EbList?.typeOfReading === "ROOM_READING"
-                    ? "Room"
-                    : EbList?.typeOfReading === "HOSTEL_READING"
-                      ? "Hostel"
-                      : EbList?.typeOfReading === "FLAT_RATE"
-                        ? "Flat"
-                        : ""}
-                </span>
+                >
+                  <span className="text-xs md:text-sm font-medium text-gray-700">
+                    {EbList?.typeOfReading === "ROOM_READING"
+                      ? "Room"
+                      : EbList?.typeOfReading === "HOSTEL_READING"
+                        ? "Hostel"
+                        : EbList?.typeOfReading === "FLAT_RATE"
+                          ? "Flat"
+                          : ""}
+                  </span>
 
-                <Edit size="14" color="#6B7280" />
-              </button>
+                  <Edit size="14" color="#6B7280" />
+                </button>
+              </CustomTooltip>
             </div>
           </div>
         )}

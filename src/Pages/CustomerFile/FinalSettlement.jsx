@@ -1192,7 +1192,7 @@ function FinalSettlement() {
                   ) : (
                     <div className="flex items-center gap-2 ">
                       <span className="text-base font-semibold text-black">
-                        ₹{PayableORRefundabeleRent}
+                        ₹{PayableORRefundabeleRent || 0}
                       </span>
                       {finalAmountSetClicked && (
                         <Edit2
@@ -1311,7 +1311,7 @@ function FinalSettlement() {
                         ₹
                         {
                           finalSettlementList?.currentMonthRentInfo
-                            ?.currentPayableRent
+                            ?.currentPayableRent || 0
                         }
                       </div>
                     </div>
@@ -2370,22 +2370,25 @@ function FinalSettlement() {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">
-                        {/* {finalSettlementList?.settlementInfo?.label} */}{" "}
                         {PayableORRefundabeleRent < 0
                           ? "Refundable Rent"
                           : "Payable Rent"}
                       </p>
-                      <p className="text-sm font-medium text-gray-900">
-                        {/* ₹ {finalSettlementList?.settlementInfo?.payableAmount} */}
-                        {/* {finalSettlementList?.settlementInfo?.refundableRent} */}
-                        ₹{PayableORRefundabeleRent}
+
+                      <p
+                        className={`text-sm font-medium ${PayableORRefundabeleRent < 0
+                          ? "text-green-600 "
+                          : "text-red-600"
+                          }`}
+                      >
+                        ₹{Math.abs(PayableORRefundabeleRent || 0)}
                       </p>
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">
                         Refundable Advance
                       </p>
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-green-600">
                         ₹{" "}
                         {finalSettlementList?.settlementInfo?.refundableAdvance}
                       </p>
@@ -2415,7 +2418,7 @@ function FinalSettlement() {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm text-gray-600">Retainer Invoice</p>
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-green-600">
                         ₹{" "}
                         {finalSettlementList?.settlementInfo?.retainerBalance ||
                           0}
