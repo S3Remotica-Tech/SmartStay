@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-// import { FormControl } from "react-bootstrap";
-
 import {
   Setting3,
   Buildings,
@@ -20,25 +18,20 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
-// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../../Pages/Recurring/RecurringBills";
-
 import AddReceiptForm from "../Receipt/AddReceipt";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { Filter } from "iconsax-react";
 import "../OthersComponent/BillPdfModal.css";
-
 import ErrorMessage from "../../Components/ErrorMessage";
 import { useHasPermission } from "../../Utils/Permission";
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from "../../Pages/Bills/BillsFilter";
-
 import RecordPayment from "./RecordPayment";
 import { useLocation } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
@@ -50,11 +43,10 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
-
+import CustomTooltip from "../../Utils/CustomTooltip";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import ReviewGenerateBillsDrawer from "../Bills/ReviewAndGenerate/ReviewGenerateBillsDrawer";
 
@@ -1349,19 +1341,20 @@ const InvoicePage = () => {
                       styles={CustomStyles}
                     />
                   </div>
-
-                  <div
-                    className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
-                    onClick={() => canReadInvoice && handleShowFilterBills()}
-                  >
-                    <Filter
-                      size={18}
-                      className={`transition-opacity duration-300 ${canReadInvoice
-                        ? "cursor-pointer opacity-100 pointer-events-auto"
-                        : "cursor-not-allowed opacity-40 pointer-events-none"
-                        }`}
-                    />
-                  </div>
+                  <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                    <div
+                      className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                      onClick={() => canReadInvoice && handleShowFilterBills()}
+                    >
+                      <Filter
+                        size={18}
+                        className={`transition-opacity duration-300 ${canReadInvoice
+                          ? "cursor-pointer opacity-100 pointer-events-auto"
+                          : "cursor-not-allowed opacity-40 pointer-events-none"
+                          }`}
+                      />
+                    </div>
+                  </CustomTooltip>
                 </div>
 
                 <div className={` flex items-center justify-end gap-2 mr-2 `}>
@@ -1470,12 +1463,14 @@ const InvoicePage = () => {
                     )}
                   </div>
                   <div>
-                    <Setting3
-                      // onClick={() => setOpen(!open)}
-                      className="cursor-not-allowed"
-                      size="22"
-                      color="#4B4B4B"
-                    />
+                    <CustomTooltip text="Customize" direction="top-full" usePortal={false}>
+                      <Setting3
+                        // onClick={() => setOpen(!open)}
+                        className="cursor-not-allowed"
+                        size="22"
+                        color="#4B4B4B"
+                      />
+                    </CustomTooltip>
                   </div>
 
                   <div className="mr-2">
