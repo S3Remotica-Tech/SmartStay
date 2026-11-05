@@ -23,9 +23,14 @@ const WebNotification = ({ title, message }) => {
     useEffect(() => {
         if (visible) {
             dispatch({
-        type: "COMPLIANCE-LIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
+                type: "COMPLIANCE-LIST",
+                payload: { hostelId: state.login.selectedHostel_Id },
+            });
+
+            dispatch({
+                type: "PARTICULAR_HOSTEL_DETAILS",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
         }
 
     }, [visible])
