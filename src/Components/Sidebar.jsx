@@ -42,6 +42,7 @@ import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
 import ManagePg from "../Pages/Settings/ManagePG/ManagePg";
+import ChangeBedTenantWay from "../Pages/CustomerFile/ChangeBedTenantWay";
 import {
   Notification,
   RulerPen,
@@ -161,6 +162,7 @@ function Sidebar() {
     state.createAccount?.accountList?.roleId === 1 ||
     state.createAccount?.accountList?.roleId === 2;
   const cookieHostelId = cookies.get("selected_hostelId");
+  const [changebedShow, setChangeBedShow] = useState(false);
 
   const tooltipTrigger = isMd ? ["hover", "focus"] : [];
 
@@ -267,6 +269,13 @@ function Sidebar() {
   const handleClose = () => {
     setShowNotify(false);
   };
+
+  const handleShowChangeBed = () => {
+    setChangeBedShow(true);
+    setShowNotify(false);
+  }
+
+
 
   const handleShowNotification = () => {
     setShowNotify(true);
@@ -1994,7 +2003,15 @@ function Sidebar() {
         <Logout show={logoutformshow} handleClose={handleCloseLogout} />
       )}
       {showNotify && (
-        <NotificationForm show={showNotify} handleClose={handleClose} />
+        <NotificationForm show={showNotify} handleClose={handleClose} handleShowChangeBed={handleShowChangeBed} />
+      )}
+
+      {changebedShow && (
+        <ChangeBedTenantWay
+          customerReassign={changebedShow}
+          setCustomerReAssign={setChangeBedShow}
+
+        />
       )}
     </>
   );

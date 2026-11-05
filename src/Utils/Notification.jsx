@@ -10,14 +10,16 @@ import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import ComplaintsView from "../Pages/Compliants/ComplaintsView";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import ChangeBedTenantWay from "../Pages/CustomerFile/ChangeBedTenantWay";
 
-function Notification({ show, handleClose }) {
+function Notification({ show, handleClose, handleShowChangeBed }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [notification, setNotification] = useState("");
   const [showComplaint, setShowComplaint] = useState(false);
   const [complaintsDetails, setComplaintsDetails] = useState('')
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -131,6 +133,18 @@ function Notification({ show, handleClose }) {
     });
   };
 
+
+  const handleNavigateChangeBedView = (customerId) => {
+    if (customerId) {
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { customerId: customerId },
+      });
+      handleShowChangeBed(true);
+
+    }
+  }
+
   return (
     <>
       <Offcanvas
@@ -226,7 +240,7 @@ function Notification({ show, handleClose }) {
                               Amenities
                             </button>
                           ) : item.typeCode === 2 ? (
-                            <button className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
+                            <button onClick={() => handleNavigateChangeBedView(item?.userId)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
                               Change Bed
                             </button>
                           ) : item.typeCode === 5 ? (
@@ -273,6 +287,7 @@ function Notification({ show, handleClose }) {
           complaintId={complaintsDetails}
         />
       )}
+
     </>
   );
 }
