@@ -1011,6 +1011,7 @@ function TenantOverview(props) {
       setIsMobileCopied(true);
       setTimeout(() => setIsMobileCopied(false), 1500);
     } catch (error) {
+      console.error("Failed to copy mobile number:", error);
       setIsMobileCopied(false);
     }
   };
@@ -1024,6 +1025,7 @@ function TenantOverview(props) {
       setIsMobileCopiedBasic(true);
       setTimeout(() => setIsMobileCopiedBasic(false), 1500);
     } catch (error) {
+      console.error("Failed to copy mobile number:", error);
       setIsMobileCopiedBasic(false);
     }
   };
@@ -1038,6 +1040,7 @@ function TenantOverview(props) {
       setIsEmailCopied(true);
       setTimeout(() => setIsEmailCopied(false), 1500);
     } catch (error) {
+      console.error("Failed to copy email:", error);
       setIsEmailCopied(false);
     }
   };
@@ -1353,7 +1356,7 @@ function TenantOverview(props) {
             <div className="flex gap-4 items-center">
               <div
               >
-                {state.UsersList.customerdetails?.customerCurrentStatus ===
+                {/* {state.UsersList.customerdetails?.customerCurrentStatus ===
                   "CHECK_IN" && (
                     <>
                       <button
@@ -1381,7 +1384,7 @@ function TenantOverview(props) {
 
 
                     </>
-                  )}
+                  )} */}
 
                 {state.UsersList.customerdetails?.customerCurrentStatus ===
                   "NOTICE" && (
@@ -1474,7 +1477,7 @@ function TenantOverview(props) {
                           }
                         }}
                         disabled={!canWriteTenant}
-                        className={`  text-[#1E45E1] rounded-md  bg-blue-100 font-gilroy  flex items-center
+                        className={`  text-green-700 rounded-md  bg-green-100 font-gilroy  flex items-center
                          gap-2 px-3 py-2 transition rounded-md
     ${canWriteTenant
                             ? "cursor-pointer "
@@ -1484,7 +1487,7 @@ function TenantOverview(props) {
                         <CalendarTick
                           size={16}
                           variant="Linear"
-                          color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                          color={canWriteTenant ? "#038C3D" : "#9CA3AF"}
                         />
 
                         <span className="text-sm font-medium font-gilroy whitespace-nowrap">
