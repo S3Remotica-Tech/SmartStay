@@ -11,7 +11,7 @@ import Mail_white from "../../Assets/Images/gmail_white.png";
 import Message_text from "../../Assets/Images/message-text.png";
 import Message_text_white from "../../Assets/Images/message-white.png";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 

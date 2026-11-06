@@ -15,7 +15,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ApplyBookingModal from "./ApplyInvoices";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 import { useNavigate } from "react-router-dom";
 import { TiTick } from "react-icons/ti";
 import { IoMdMenu } from "react-icons/io";

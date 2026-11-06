@@ -29,7 +29,7 @@ import DashQuickAccess from "./DashQuickAccess";
 import DashCoreAnalytics from "./DashCoreAnalytics";
 import DashRequestAndComplaints from "./DashRequestsAndComplaints";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 function Dashboard() {
   const state = useSelector((state) => state);

@@ -28,21 +28,21 @@ function MoveToNoticePGAndTenant(props) {
 
   useEffect(() => {
     if (
-      props.bedData.actualJoining ||
+      props.bedData?.actualJoining ||
       props.bedData?.joiningDate ||
-      props.bedData.currentTenantInfo?.[0].joiningDate ||
+      props.bedData?.currentTenantInfo?.[0].joiningDate ||
       props.bedData?.hostelInfo?.joiningDate
     ) {
       setJoiningDate(
-        props.bedData.actualJoining ||
-        props.bedData.currentTenantInfo?.[0].joiningDate ||
+        props.bedData?.actualJoining ||
+        props.bedData?.currentTenantInfo?.[0].joiningDate ||
         props.bedData?.joiningDate ||
         props.bedData?.hostelInfo?.joiningDate,
       );
     }
   }, [
-    props.bedData.actualJoining,
-    props.bedData.currentTenantInfo,
+    props.bedData?.actualJoining,
+    props.bedData?.currentTenantInfo,
     props.bedData?.joiningDate,
     props.bedData?.hostelInfo?.joiningDate,
   ]);
@@ -66,6 +66,7 @@ function MoveToNoticePGAndTenant(props) {
       setDateDifference(null);
     }
   };
+
 
   const handleCheckOutCustomer = () => {
     dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
@@ -92,10 +93,11 @@ function MoveToNoticePGAndTenant(props) {
     const formattedrequestDate = dayjs(requestDate).isValid()
       ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
+
     const customerId =
       props.bedData?.currentTenantInfo?.[0].tenetId ||
       props.bedData?.customerId ||
-      props.bedData?.apiCall?.customerId;
+      props.bedData?.apiCall?.customerId || props.bedData?.userId;
 
     if (customerId && formattedDate && formattedrequestDate) {
       dispatch({
@@ -389,6 +391,7 @@ MoveToNoticePGAndTenant.propTypes = {
 
   bedData: PropTypes.shape({
     customerId: PropTypes.string,
+    userId: PropTypes.string,
     hostelId: PropTypes.string,
 
     joiningDate: PropTypes.string,

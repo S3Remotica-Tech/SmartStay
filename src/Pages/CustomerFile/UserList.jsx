@@ -50,7 +50,7 @@ import AddTenant from "../PayingGuestFile/AddTenant";
 import BookingToCheckin from "./BookingToCheckin";
 import DeleteDraftTenant from "./DeleteDraftTenant";
 import { CustomStyles } from "../../Utils/SelectStyles";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 function UserList(props) {
   const state = useSelector((state) => state);

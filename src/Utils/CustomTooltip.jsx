@@ -1,6 +1,6 @@
-import React from "react";
+
+import React, { useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 function CustomTooltip({
@@ -11,7 +11,11 @@ function CustomTooltip({
 }) {
     const wrapperRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
-    const [position, setPosition] = useState({ top: 0, left: 0 });
+    const [position, setPosition] = useState({
+        top: 0,
+        left: 0,
+        transform: "",
+    });
 
     const handleMouseEnter = () => {
         if (usePortal && wrapperRef.current) {
@@ -46,6 +50,17 @@ function CustomTooltip({
         setIsVisible(true);
     };
 
+    const arrowClasses = {
+        "top-full":
+            "after:absolute after:bottom-full after:left-1/2 after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-b-[#64748B]",
+        "bottom-full":
+            "after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-[#64748B]",
+        "left-full":
+            "after:absolute after:left-full after:top-1/2 after:-translate-y-1/2 after:border-[6px] after:border-transparent after:border-l-[#64748B]",
+        "right-full":
+            "after:absolute after:left-full after:top-1/2 after:-translate-y-1/2 after:border-[6px] after:border-transparent after:border-l-[#64748B]",
+    };
+
     const marginClass =
         direction === "top-full"
             ? "mt-2"
@@ -59,7 +74,7 @@ function CustomTooltip({
 
     const tooltipContent = (
         <span
-            className="whitespace-nowrap rounded-md bg-[#1E3A8A] text-white px-2 py-1 text-xs font-gilroy shadow-md"
+            className={`relative inline-block whitespace-nowrap rounded-md bg-[#64748B] text-white px-2 py-1 text-xs font-gilroy ${arrowClasses[direction]}`}
             style={
                 usePortal
                     ? {
@@ -91,8 +106,8 @@ function CustomTooltip({
             ) : (
                 <span
                     className={`absolute ${direction} ${marginClass} font-gilroy
-                    whitespace-nowrap rounded-md bg-[#1E3A8A] text-white px-2 py-1 text-xs
-                    hidden group-hover:block z-[9999]`}
+                    whitespace-nowrap rounded-md bg-[#64748B] text-white px-2 py-1 text-xs
+                    z-[9999] ${arrowClasses[direction]} hidden group-hover:block`}
                 >
                     {text}
                 </span>
@@ -100,6 +115,7 @@ function CustomTooltip({
         </div>
     );
 }
+
 CustomTooltip.propTypes = {
     children: PropTypes.node.isRequired,
     text: PropTypes.string.isRequired,
@@ -111,7 +127,9 @@ CustomTooltip.propTypes = {
     ]),
     usePortal: PropTypes.bool,
 };
+
 export default CustomTooltip;
+
 
 
 

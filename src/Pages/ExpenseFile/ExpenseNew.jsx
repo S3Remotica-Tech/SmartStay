@@ -40,7 +40,7 @@ import PropTypes from "prop-types";
 import ExpenseFilter from "./ExpenseFilter";
 import dayjs from "dayjs";
 import { CustomStyles } from "../../Utils/SelectStyles";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 function Expenses() {
   const state = useSelector((state) => state);

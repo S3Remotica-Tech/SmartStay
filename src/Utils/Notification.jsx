@@ -10,9 +10,9 @@ import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import ComplaintsView from "../Pages/Compliants/ComplaintsView";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import ChangeBedTenantWay from "../Pages/CustomerFile/ChangeBedTenantWay";
 
-function Notification({ show, handleClose, handleShowChangeBed }) {
+
+function Notification({ show, handleClose, handleShowChangeBed, handleMoveToNotice }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -145,6 +145,14 @@ function Notification({ show, handleClose, handleShowChangeBed }) {
     }
   }
 
+
+
+  const handleNavigateNoticeView = (data) => {
+    if (data) {
+      handleMoveToNotice(data)
+    }
+
+  }
   return (
     <>
       <Offcanvas
@@ -218,6 +226,9 @@ function Notification({ show, handleClose, handleShowChangeBed }) {
                           <div className="text-[12px] text-[#374151]">
                             {item.notificationDescription}
                           </div>
+                          <div className="text-[12px] text-[#374151] my-2 rounded-md bg-orange-100 text-orange-700 px-2 py-1 text-center font-semibold  w-fit">
+                            {item.type}
+                          </div>
 
                           {item.isRead && (
                             <hr className="mb-1 mt-3 border border-[#ccc]" />
@@ -243,9 +254,9 @@ function Notification({ show, handleClose, handleShowChangeBed }) {
                             <button onClick={() => handleNavigateChangeBedView(item?.userId)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
                               Change Bed
                             </button>
-                          ) : item.typeCode === 5 ? (
-                            <button className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
-                              Maintenance
+                          ) : item.typeCode === 8 ? (
+                            <button onClick={() => handleNavigateNoticeView(item)} className="mt-[10px] cursor-pointer rounded-[6px] border-none bg-[#1E45E1] px-4 py-[6px] text-[13px] text-white">
+                              Move to Notice
                             </button>
                           ) : (
                             ""
@@ -294,6 +305,8 @@ function Notification({ show, handleClose, handleShowChangeBed }) {
 Notification.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  handleShowChangeBed: PropTypes.func,
+  handleMoveToNotice: PropTypes.func,
 };
 
 export default Notification;

@@ -20,6 +20,7 @@ import {
   ArrowLeft,
   Timer1,
   CalendarTick,
+  ProfileAdd, TickCircle, Copy
 } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,7 +82,7 @@ import RemoveRentRevision from "./RemoveRentRevision";
 import TenantRetainerInvoice from "./TenantRetainerInvoice";
 import AddTenant from "../PayingGuestFile/AddTenant";
 import DeleteDraftTenant from "../CustomerFile/DeleteDraftTenant";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 
 function TenantOverview(props) {
@@ -99,6 +100,9 @@ function TenantOverview(props) {
 
   const [activeTab, setActiveTab] = useState("kyc");
   const [showKYCModal, setShowKYCModal] = useState(false);
+  const [isMobileCopied, setIsMobileCopied] = useState(false);
+  const [isMobileCopiedBasic, setIsMobileCopiedBasic] = useState(false);
+  const [isEmailCopied, setIsEmailCopied] = useState(false);
   const [inactiveForm, setInActiveForm] = useState(false);
   const [inActiveDetails, setInactiveDetails] = useState("");
 
@@ -967,6 +971,76 @@ function TenantOverview(props) {
     setShowKYCModal(false);
   };
 
+  const statusConfig = {
+    BOOKED: {
+      label: "Booked",
+      color: "bg-[#1E45E1]",
+      badge: "bg-blue-50 text-blue-700",
+    },
+    SETTLEMENT_GENERATED: {
+      label: "Settlement Generated",
+      color: "bg-[#D80A14]",
+      badge: "bg-[#FFF3F3] text-[#D80A14]",
+    },
+    NOTICE: {
+      label: "Notice Period",
+      color: "bg-[#FF9500]",
+      badge: "bg-orange-50 text-[#FF9500]",
+    },
+    CHECK_IN: {
+      label: "Checked In",
+      color: "bg-[#038C3D]",
+      badge: "bg-green-50 text-green-700",
+    },
+    DRAFT: {
+      label: "Draft",
+      color: "bg-[#6B7280]",
+      badge: "bg-gray-100 text-gray-700",
+    },
+  };
+
+  const status = statusConfig[CustomerOverView?.customerCurrentStatus];
+
+
+  const handleCopyMobile = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        String(CustomerOverView?.mobileNo || "")
+      );
+
+      setIsMobileCopied(true);
+      setTimeout(() => setIsMobileCopied(false), 1500);
+    } catch (error) {
+      setIsMobileCopied(false);
+    }
+  };
+
+  const handleCopyMobileBasic = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        String(CustomerOverView?.mobileNo || "")
+      );
+
+      setIsMobileCopiedBasic(true);
+      setTimeout(() => setIsMobileCopiedBasic(false), 1500);
+    } catch (error) {
+      setIsMobileCopiedBasic(false);
+    }
+  };
+
+
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        String(CustomerOverView?.emailId || "")
+      );
+      setIsEmailCopied(true);
+      setTimeout(() => setIsEmailCopied(false), 1500);
+    } catch (error) {
+      setIsEmailCopied(false);
+    }
+  };
   return (
     <>
       {/* {BookingAssignForm && (
@@ -1006,7 +1080,7 @@ function TenantOverview(props) {
                 Tenant Profile
               </span>
             </div>
-            <CustomTooltip text="Created by" direction="top-full" usePortal={false}>
+            <CustomTooltip text="Info" direction="top-full" usePortal={false}>
               <div className="relative">
                 <img
                   src={icon}
@@ -1152,60 +1226,106 @@ function TenantOverview(props) {
                   </div>
 
                   <div className="flex items-center gap-2 mt-1 flex-wrap pb-1">
-                    <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
+                    {CustomerOverView?.hostelInfo?.floorName && <span className="bg-[#FFEFCF99] text-orange-600 text-xs px-2 py-[2px] rounded-md">
                       {CustomerOverView?.hostelInfo?.floorName}
                     </span>
-                    <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
-                      {CustomerOverView?.hostelInfo?.roomName} -{" "}
-                      {CustomerOverView?.hostelInfo?.bedName}
-                    </span>
-                  </div>
-                  <hr className="w-full my-1 pb-1 text-gray-600" />
-
-                  <div className="flex items-center gap-4 mt-1 text-xs text-gray-600 flex-wrap">
-                    <div className="flex items-center gap-1 text-xs text-blue-600">
-                      <Call size={16} color="#1E45E1" variant="Bold" /> +{" "}
-                      {CustomerOverView?.countryCode}{" "}
-                      {CustomerOverView?.mobileNo}
+                    }
+                    {CustomerOverView?.hostelInfo?.roomName && CustomerOverView?.hostelInfo?.bedName &&
+                      <span className="bg-[#E7F1FF99] text-blue-600 text-xs px-2 py-[2px] rounded-md">
+                        {CustomerOverView?.hostelInfo?.roomName} - {" "}
+                        {CustomerOverView?.hostelInfo?.bedName}
+                      </span>
+                    }
+                    <div
+                      className={`inline-flex items-center font-gilroy gap-2 rounded-full px-3 py-1 text-xs font-medium ${status?.badge || "bg-gray-100 text-gray-600"
+                        }`}
+                    >
+                      <span
+                        className={`h-2 w-2 rounded-full ${status?.color || "bg-gray-400"
+                          }`}
+                      />
+                      {status?.label ||
+                        CustomerOverView?.customerCurrentStatus?.replaceAll("_", " ") ||
+                        "-"}
                     </div>
-
-                    <span className="flex items-center gap-1">
-                      <MoneyTick size={16} color="#1E45E1" />₹{" "}
-                      {CustomerOverView?.hostelInfo?.monthlyRent}
-                      <span className="text-[10px]">/pm</span>
-                    </span>
                   </div>
+                  <hr className="w-full my-2 pb-1 text-gray-600" />
+
+                  <div className="flex items-center gap-3 mt-1 text-xs text-gray-600 flex-wrap">
+                    <div className="flex items-center gap-2 text-xs text-blue-700">
+                      <Call size={16} color="#1E45E1" variant="Bold" />
+
+                      + {CustomerOverView?.countryCode} {CustomerOverView?.mobileNo}
+
+                      <div className="relative">
+                        <CustomTooltip text="Click to Copy" direction="top-full" usePortal={false}>
+                          <button
+                            type="button"
+                            onClick={handleCopyMobile}
+                            className="text-gray-400 hover:text-blue-600 transition-colors"
+                          >
+                            {isMobileCopied ? (
+                              <TickCircle size={15} color="#16A34A" />
+                            ) : (
+                              <Copy size={16} color="#1e45e1" />
+                            )}
+                          </button>
+                        </CustomTooltip>
+                        {isMobileCopied && (
+                          <div className="absolute left-1/2 -top-9 -translate-x-1/2 whitespace-nowrap rounded-md bg-green-800 px-2 py-1 text-[11px] text-white shadow-md z-50">
+                            Copied!
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {
+                      CustomerOverView?.hostelInfo?.monthlyRent &&
+                      <span className="flex items-center gap-1">
+                        <span className="h-6 w-px bg-gray-300 me-2" />
+                        <MoneyTick size={16} color="#1E45E1" variant="Bold" />₹{" "}
+                        {CustomerOverView?.hostelInfo?.monthlyRent}
+                        <span className="text-[10px]">/pm</span>
+                      </span>
+                    }
+                  </div>
+
                 </div>
               </div>
             </div>
-            <div className=" rounded-xl border-1 border-[#FFF7E8] bg-[#FFF7E8] p-4  font-gilroy">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#D9D9D9] bg-white">
-                    <DocumentText size={18} color="#222222" variant="Linear" />
-                  </div>
 
-                  <div className="flex items-center gap-1 text-[13px] font-medium text-[#222222]">
-                    <span>Verify KYC, Address,</span>
 
-                    <button className="font-semibold text-[#1E45E1] hover:underline">
+
+            {
+              !isKYCDisabledButton &&
+
+              <div className=" rounded-xl border-1 border-[#FFF7E8] bg-[#FFF7E8] p-4  font-gilroy">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#D9D9D9] bg-white">
+                      <DocumentText size={18} color="#222222" variant="Linear" />
+                    </div>
+
+                    <div className="flex items-center gap-1 text-[13px] font-medium text-[#222222]">
+                      <span>Verify KYC  {" "}</span>
+
+                      {/* <button className="font-semibold text-[#1E45E1] hover:underline">
                       +2 More
-                    </button>
+                    </button> */}
+                    </div>
                   </div>
-                </div>
 
-                <div className="rounded-full bg-[#ECFDF3] px-2 py-1 text-[11px] font-semibold text-[#16A34A]">
+                  {/* <div className="rounded-full bg-[#ECFDF3] px-2 py-1 text-[11px] font-semibold text-[#16A34A]">
                   ↑ 30%
+                </div> */}
                 </div>
-              </div>
 
-              <button
-                disabled={isKYCDisabledButton}
-                onClick={handleShowActions}
-                className="
+                <button
+                  disabled={isKYCDisabledButton}
+                  onClick={handleShowActions}
+                  className="
     mt-4
     h-10
-    w-full
+    w-full px-4
     rounded-full
     border
     border-[#FF9500]
@@ -1221,15 +1341,166 @@ function TenantOverview(props) {
     disabled:cursor-not-allowed
     disabled:hover:bg-gray-300
   "
-              >
-                Add Pending Actions
-              </button>
-            </div>
+                >
+                  Add Pending Actions
+                </button>
+              </div>
+
+
+            }
+
 
             <div className="flex gap-4 items-center">
-              <div className="mb-1.5">
-                <ExportCurve size="20" color="black" variant="Outline" />
+              <div
+              >
+                {state.UsersList.customerdetails?.customerCurrentStatus ===
+                  "CHECK_IN" && (
+                    <>
+                      <button
+                        disabled={!canUpdateCheckout}
+                        onClick={() => {
+                          if (canUpdateCheckout) {
+                            handleCustomerCheckout(CustomerOverView);
+                            setOpenMenu(false);
+                          }
+                        }}
+                        className=" rounded-md font-gilroy
+    w-full px-3 py-2 text-left text-sm flex items-center gap-2
+    bg-orange-50 text-orange-700 border-1 border-orange-100
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
+    disabled:hover:bg-transparent
+  "
+                      >
+                        <Notification1
+                          size="18"
+                          color={canUpdateCheckout ? "#C2410C" : "#9CA3AF"}
+                        />
+                        Move to Notice Period
+                      </button>
+
+
+                    </>
+                  )}
+
+                {state.UsersList.customerdetails?.customerCurrentStatus ===
+                  "NOTICE" && (
+                    <>
+                      <button
+                        disabled={!canWriteCheckout}
+                        onClick={() => {
+                          if (canWriteCheckout) {
+                            handleCheckoutGenrateNew(CustomerOverView);
+                            setOpenMenu(false);
+                          }
+                        }}
+                        className=" text-white rounded-md  bg-[#1E45E1] font-gilroy w-full px-3 py-2 text-left text-sm flex items-center gap-2  disabled:text-gray-400 
+                      disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                      >
+
+                        <DocumentText
+                          size="18"
+                          color={canWriteCheckout ? "#ffffff" : "#9CA3AF"}
+                        />
+                        Generate Settlement
+                      </button>
+
+
+                    </>
+                  )}
+                {state.UsersList.customerdetails?.customerCurrentStatus ===
+                  "SETTLEMENT_GENERATED" && (
+                    <>
+                      <button
+                        disabled={!canWriteCheckout}
+                        onClick={() => {
+                          if (canWriteCheckout) {
+                            handleConformCheckout(CustomerOverView);
+                            setOpenMenu(false);
+                          }
+                        }}
+                        className=" text-white rounded-md  bg-[#C9353C] font-gilroy
+    w-full px-3 py-2 text-left text-sm flex items-center gap-2
+   
+    disabled:text-gray-400
+    disabled:cursor-not-allowed
+    disabled:hover:bg-transparent
+  "
+                      >
+                        <LogoutCurve
+                          size="18"
+                          color={canWriteCheckout ? "#ffffff" : "#9CA3AF"}
+                        />
+                        Check-Out
+                      </button>
+                    </>
+                  )}
+
+
+
+                {state.UsersList.customerdetails?.customerCurrentStatus ===
+                  "BOOKED" && (
+                    <>
+                      <button
+                        disabled={!canWriteTenant}
+                        onClick={() => {
+                          handleShowBookingToCheckin();
+                          setOpenMenu(null);
+                        }}
+                        type="button"
+                        className=" text-white rounded-md  bg-[#1E45E1] font-gilroy w-full px-3 py-2 text-left text-sm  flex items-center gap-2 disabled:hover:bg-transparent  
+                             disabled:text-gray-400
+        disabled:cursor-not-allowed"
+                      >
+                        <ProfileAdd
+                          size="18"
+                          color={canWriteTenant ? "#ffffff" : "#9CA3AF"}
+                        />
+                        Check-In
+                      </button>
+
+
+                    </>
+                  )}
+
+                {state.UsersList.customerdetails?.customerCurrentStatus ===
+                  "DRAFT" && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (canWriteTenant) {
+                            handleShowDraftTenant(CustomerOverView);
+                          }
+                        }}
+                        disabled={!canWriteTenant}
+                        className={`  text-[#1E45E1] rounded-md  bg-blue-100 font-gilroy  flex items-center
+                         gap-2 px-3 py-2 transition rounded-md
+    ${canWriteTenant
+                            ? "cursor-pointer "
+                            : "cursor-not-allowed opacity-60"
+                          }`}
+                      >
+                        <CalendarTick
+                          size={16}
+                          variant="Linear"
+                          color={canWriteTenant ? "#1E45E1" : "#9CA3AF"}
+                        />
+
+                        <span className="text-sm font-medium font-gilroy whitespace-nowrap">
+                          Draft Continue
+                        </span>
+                      </button>
+
+
+                    </>
+                  )}
               </div>
+              <CustomTooltip text="Generate Agreement" direction="top-full" usePortal={true}>
+                <div className="mb-1.5 cursor-not-allowed">
+                  <ExportCurve size="20" color="black" variant="Outline" />
+                </div>
+              </CustomTooltip>
 
               <div className="relative font-gilroy">
                 <CustomTooltip text="More Options" direction="top-full" usePortal={true}>
@@ -1607,6 +1878,30 @@ function TenantOverview(props) {
                             <span className="text-sm font-semibold font-gilroy break-all">
                               {CustomerOverView?.emailId || "N/A"}
                             </span>
+                            {
+                              CustomerOverView?.emailId &&
+
+                              <div className="relative">
+                                <CustomTooltip text="Click to Copy" direction="top-full" usePortal={false}>
+                                  <button
+                                    type="button"
+                                    onClick={handleCopyEmail}
+                                    className="text-gray-400 hover:text-blue-600 transition-colors"
+                                  >
+                                    {isEmailCopied ? (
+                                      <TickCircle size={15} color="#16A34A" />
+                                    ) : (
+                                      <Copy size={16} color="#1e45e1" />
+                                    )}
+                                  </button>
+                                </CustomTooltip>
+                                {isEmailCopied && (
+                                  <div className="absolute left-1/2 -top-9 -translate-x-1/2 whitespace-nowrap rounded-md bg-green-800 px-2 py-1 text-[11px] text-white shadow-md z-50">
+                                    Copied!
+                                  </div>
+                                )}
+                              </div>
+                            }
                           </div>
                         </div>
 
@@ -1624,7 +1919,28 @@ function TenantOverview(props) {
                               {CustomerOverView?.mobileNo
                                 ? `+${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}`
                                 : ""}
+
                             </span>
+                            <div className="relative">
+                              <CustomTooltip text="Click to Copy" direction="top-full" usePortal={false}>
+                                <button
+                                  type="button"
+                                  onClick={handleCopyMobileBasic}
+                                  className="text-gray-400 hover:text-blue-600 transition-colors"
+                                >
+                                  {isMobileCopiedBasic ? (
+                                    <TickCircle size={15} color="#16A34A" />
+                                  ) : (
+                                    <Copy size={16} color="#1e45e1" />
+                                  )}
+                                </button>
+                              </CustomTooltip>
+                              {isMobileCopiedBasic && (
+                                <div className="absolute left-1/2 -top-9 -translate-x-1/2 whitespace-nowrap rounded-md bg-green-800 px-2 py-1 text-[11px] text-white shadow-md z-50">
+                                  Copied!
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                         <div className="flex flex-col ">
@@ -2219,9 +2535,9 @@ function TenantOverview(props) {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                    </div >
+                  </div >
+                </div >
 
                 <div className=" bg-white overflow-hidden relative border border-[#E5E7EB] rounded-[20px]">
                   <div className="sticky top-0 z-[999] bg-white flex justify-between items-center px-3 pt-3   rounded-t-[20px]">
@@ -2388,7 +2704,7 @@ function TenantOverview(props) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div >
               <div>
                 <TenantJobDetails />
               </div>
@@ -2434,15 +2750,17 @@ function TenantOverview(props) {
                   setKycDetailForm={setKycDetailForm}
                 />
               ) : null} */}
-              {additionalForm && (
-                <UserAdditionalContact
-                  show={additionalForm}
-                  handleClose={handleCloseAdditionalForm}
-                  editAdditional={editAdditional}
-                />
-              )}
+              {
+                additionalForm && (
+                  <UserAdditionalContact
+                    show={additionalForm}
+                    handleClose={handleCloseAdditionalForm}
+                    editAdditional={editAdditional}
+                  />
+                )
+              }
             </>
-          </TabPanel>
+          </TabPanel >
 
           <TabPanel value="2" className="w-full max-w-full px-2 sm:px-0">
             <UserEb
@@ -2464,7 +2782,7 @@ function TenantOverview(props) {
           <TabPanel value="5">
             <TenantRetainerInvoice />
           </TabPanel>
-        </TabContext>
+        </TabContext >
 
         {editBasicDetailsShow && (
           <EditBasicDetails
@@ -2472,142 +2790,177 @@ function TenantOverview(props) {
             handleClose={handleCloseBasicDetails}
             basicDetails={basicDetails}
           />
-        )}
+        )
+        }
 
-        {editAddressDetailsShow && (
-          <EditAddressDetails
-            show={editAddressDetailsShow}
-            handleClose={handleCloseAddressDetails}
-            addressDetails={addressDetails}
-          />
-        )}
+        {
+          editAddressDetailsShow && (
+            <EditAddressDetails
+              show={editAddressDetailsShow}
+              handleClose={handleCloseAddressDetails}
+              addressDetails={addressDetails}
+            />
+          )
+        }
 
-        {editStayDetailsShow && (
-          <EditStayDetails
-            show={editStayDetailsShow}
-            handleClose={handleCloseStayDetails}
-          //  stayDetais={stayDetais}
-          />
-        )}
+        {
+          editStayDetailsShow && (
+            <EditStayDetails
+              show={editStayDetailsShow}
+              handleClose={handleCloseStayDetails}
+            //  stayDetais={stayDetais}
+            />
+          )
+        }
 
-        {stayDetailsShow && (
-          <StayHistory
-            show={stayDetailsShow}
-            handleClose={handleCloseStayHistory}
-          />
-        )}
+        {
+          stayDetailsShow && (
+            <StayHistory
+              show={stayDetailsShow}
+              handleClose={handleCloseStayHistory}
+            />
+          )
+        }
 
-        {showUpdateRentForm && (
-          <EditRentalAmount
-            show={showUpdateRentForm}
-            handleClose={handleCloseUpdateChange}
-          />
-        )}
+        {
+          showUpdateRentForm && (
+            <EditRentalAmount
+              show={showUpdateRentForm}
+              handleClose={handleCloseUpdateChange}
+            />
+          )
+        }
 
-        {showUpdateAdvanceForm && (
-          <EditAdvanceAmount
-            show={showUpdateAdvanceForm}
-            handleClose={handleCloseUpdateAdvanceChange}
-          />
-        )}
+        {
+          showUpdateAdvanceForm && (
+            <EditAdvanceAmount
+              show={showUpdateAdvanceForm}
+              handleClose={handleCloseUpdateAdvanceChange}
+            />
+          )
+        }
 
-        {showUpdateJoiningForm && (
-          <EditJoiningDate
-            show={showUpdateJoiningForm}
-            handleClose={handleCloseUpdateJoiningChange}
-          />
-        )}
-      </div>
+        {
+          showUpdateJoiningForm && (
+            <EditJoiningDate
+              show={showUpdateJoiningForm}
+              handleClose={handleCloseUpdateJoiningChange}
+            />
+          )
+        }
+      </div >
 
       {showAction && (
         <TenantActions show={showAction} handleClose={handleCloseActions} />
       )}
 
-      {addamenityShow && (
-        <TenantAmenities
-          show={addamenityShow}
-          handleClose={handleCloseAddamenityShow}
-        />
-      )}
+      {
+        addamenityShow && (
+          <TenantAmenities
+            show={addamenityShow}
+            handleClose={handleCloseAddamenityShow}
+          />
+        )
+      }
 
-      {showPreview && (
-        <ManualDocumentsUpload
-          show={showPreview}
-          handleClose={handleClosePreview}
-          isKyc={isKyc}
-        />
-      )}
+      {
+        showPreview && (
+          <ManualDocumentsUpload
+            show={showPreview}
+            handleClose={handleClosePreview}
+            isKyc={isKyc}
+          />
+        )
+      }
 
-      {showWalletHistory && (
-        <WalletHistory
-          show={showWalletHistory}
-          handleClose={handleCloseWallet}
-        />
-      )}
+      {
+        showWalletHistory && (
+          <WalletHistory
+            show={showWalletHistory}
+            handleClose={handleCloseWallet}
+          />
+        )
+      }
 
-      {customerCheckoutpage && (
-        <MoveToNoticePGAndTenant
-          customerCheckoutpage={customerCheckoutpage}
-          setCustomerCheckoutpage={setCustomerCheckoutpage}
-          bedData={customercheckoutdata}
-        />
-      )}
+      {
+        customerCheckoutpage && (
+          <MoveToNoticePGAndTenant
+            customerCheckoutpage={customerCheckoutpage}
+            setCustomerCheckoutpage={setCustomerCheckoutpage}
+            bedData={customercheckoutdata}
+          />
+        )
+      }
 
-      {customerReassign && (
-        <ChangeBedTenantWay
-          customerReassign={customerReassign}
-          setCustomerReAssign={setCustomerReAssign}
-          reAssignDetail={reAssignDetail}
-        />
-      )}
+      {
+        customerReassign && (
+          <ChangeBedTenantWay
+            customerReassign={customerReassign}
+            setCustomerReAssign={setCustomerReAssign}
+            reAssignDetail={reAssignDetail}
+          />
+        )
+      }
 
-      {bactocheckinForm && (
-        <BackToCheckIn
-          show={bactocheckinForm}
-          handleClose={handleCloseBackToCheckIn}
-          checkInDetails={EditObj}
-        />
-      )}
+      {
+        bactocheckinForm && (
+          <BackToCheckIn
+            show={bactocheckinForm}
+            handleClose={handleCloseBackToCheckIn}
+            checkInDetails={EditObj}
+          />
+        )
+      }
 
-      {DueCustomerShow && (
-        <DueCustomerConfirmCheckout
-          show={DueCustomerShow}
-          data={CheckOutDetails}
-          handleClose={handleCloseDuePopup}
-        />
-      )}
+      {
+        DueCustomerShow && (
+          <DueCustomerConfirmCheckout
+            show={DueCustomerShow}
+            data={CheckOutDetails}
+            handleClose={handleCloseDuePopup}
+          />
+        )
+      }
 
-      {inactiveForm && (
-        <MakeAsInactive
-          show={inactiveForm}
-          handleCloseInActive={handleCloseInActive}
-          inActiveDetails={inActiveDetails}
-        />
-      )}
+      {
+        inactiveForm && (
+          <MakeAsInactive
+            show={inactiveForm}
+            handleCloseInActive={handleCloseInActive}
+            inActiveDetails={inActiveDetails}
+          />
+        )
+      }
 
-      {showDeletePopup && (
-        <RemoveRentRevision
-          open={showDeletePopup}
-          onClose={() => setShowDeletePopup(false)}
-        />
-      )}
+      {
+        showDeletePopup && (
+          <RemoveRentRevision
+            open={showDeletePopup}
+            onClose={() => setShowDeletePopup(false)}
+          />
+        )
+      }
 
-      {showMenuNewTenant && (
-        <AddTenant
-          showMenu={showMenuNewTenant}
-          handleClose={handleCloseAddTenant}
-          alreadySaveDraftTenantDetails={DraftTenantDetails}
-          bookingOnly={false}
-        />
-      )}
+      {
+        showMenuNewTenant && (
+          <AddTenant
+            showMenu={showMenuNewTenant}
+            handleClose={handleCloseAddTenant}
+            alreadySaveDraftTenantDetails={DraftTenantDetails}
+            bookingOnly={false}
+          />
+        )
+      }
 
-      {deleteDraftTenant && (
-        <DeleteDraftTenant
-          open={deleteDraftTenant}
-          onClose={handleCloseDeleteDraftTenant}
-          deleteTenantId={DraftTenantDetails}
-        />
-      )}
+      {
+        deleteDraftTenant && (
+          <DeleteDraftTenant
+            open={deleteDraftTenant}
+            onClose={handleCloseDeleteDraftTenant}
+            deleteTenantId={DraftTenantDetails}
+          />
+        )
+      }
     </>
   );
 }
