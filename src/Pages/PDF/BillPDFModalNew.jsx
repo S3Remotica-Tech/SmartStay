@@ -29,7 +29,7 @@ import RentInvoicePDF from "./RentInvoicePDF";
 import AdvanceInvoicePDF from "./AdvanceInvoicePDF";
 import FinalSettlementOldPDF from "./FinalSettlementOldPDF";
 import ApplyRetainerToInvoice from "../Bills/ApplyRetainerToInvoice";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
   const state = useSelector((state) => state);

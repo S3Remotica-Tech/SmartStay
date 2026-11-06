@@ -15,7 +15,7 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
 import Select from "react-select";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 import Delete from "../../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Download from "../../Assets/Images/New_images/download.png";

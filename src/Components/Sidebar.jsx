@@ -91,7 +91,7 @@ import ExpenseRegister from "../Reports/ExpenseRegister/ExpenseRegister";
 import OccupancyRegister from "../Reports/OccupancyRegister/OccupancyRegister";
 import BankTransactionRegister from "../Reports/BankTransactionRegister/BankTransactionRegister";
 import ReceiptRegister from "../Reports/ReceiptRegister/ReceiptRegister";
-
+import MoveToNoticePGAndTenant from "../Pages/CustomerFile/MoveToNoticePGAndTenant";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import AnalyticalCollectedOutstanding from "../Reports/AnalyticalCollectedVsOutstanding.jsx/AnalyticalCollectedOutstanding";
 import AnalyticalMonthRevenue from "../Reports/AnalyticalMonthRevenue/AnalyticalMonthRevenue";
@@ -118,7 +118,7 @@ import TenantAppControls from "../Pages/Settings/TenantAppControls";
 import AddTemplate from "../Pages/Settings/Agreement/AddTemplate";
 import NewInvoice from "../Pages/Bills/NewInvoice";
 import BillTemplates from "../Pages/Settings/BillTemplates/BillTemplates";
-import CustomTooltip from "../Utils/CustomToolTip";
+import CustomTooltip from "../Utils/CustomTooltip";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -139,6 +139,7 @@ function Sidebar() {
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
+  const [customerDetails, setCustomerDetails] = useState(null);
   const [showProfileCard, setShowProfileCard] = useState(false);
   const [showMenuModal, setShowMenuModal] = useState(false);
   const profileCardRef = useRef(null);
@@ -163,6 +164,7 @@ function Sidebar() {
     state.createAccount?.accountList?.roleId === 2;
   const cookieHostelId = cookies.get("selected_hostelId");
   const [changebedShow, setChangeBedShow] = useState(false);
+  const [customerCheckoutpage, setCustomerCheckoutpage] = useState(false);
 
   const tooltipTrigger = isMd ? ["hover", "focus"] : [];
 
@@ -275,6 +277,11 @@ function Sidebar() {
     setShowNotify(false);
   }
 
+  const handleMoveToNotice = (data) => {
+    setCustomerCheckoutpage(true)
+    setShowNotify(false);
+    setCustomerDetails(data)
+  }
 
 
   const handleShowNotification = () => {
@@ -2003,7 +2010,7 @@ function Sidebar() {
         <Logout show={logoutformshow} handleClose={handleCloseLogout} />
       )}
       {showNotify && (
-        <NotificationForm show={showNotify} handleClose={handleClose} handleShowChangeBed={handleShowChangeBed} />
+        <NotificationForm show={showNotify} handleClose={handleClose} handleShowChangeBed={handleShowChangeBed} handleMoveToNotice={handleMoveToNotice} />
       )}
 
       {changebedShow && (
@@ -2011,6 +2018,14 @@ function Sidebar() {
           customerReassign={changebedShow}
           setCustomerReAssign={setChangeBedShow}
 
+        />
+      )}
+
+      {customerCheckoutpage && (
+        <MoveToNoticePGAndTenant
+          customerCheckoutpage={customerCheckoutpage}
+          setCustomerCheckoutpage={setCustomerCheckoutpage}
+          bedData={customerDetails}
         />
       )}
     </>

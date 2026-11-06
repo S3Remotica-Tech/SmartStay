@@ -14,7 +14,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Add, SearchNormal1, TextalignLeft } from "iconsax-react";
 import { useHasPermission } from "../../Utils/Permission";
 import { toast } from "react-toastify";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 function BillsPdfDetails() {
   const location = useLocation();

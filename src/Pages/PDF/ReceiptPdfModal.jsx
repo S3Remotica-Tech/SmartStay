@@ -19,7 +19,7 @@ import Book from "../../Assets/v2Images/Maskgroup.svg";
 import Refund from "../../Assets/v2Images/Refund.svg";
 import BookingCancelled from "../../Assets/v2Images/BookingCancelled.png";
 import Payment from "../../Assets/v2Images/PaymentReceived.svg";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);

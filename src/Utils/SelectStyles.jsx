@@ -10,9 +10,8 @@ export const CustomStyles = {
       minHeight: "32px",
       height: "32px",
       width: "100%",
-      border: `1px solid ${
-        state.isFocused ? "#5865F2" : isActualSelected ? "#5865F2" : "#E5E5E5"
-      }`,
+      border: `1px solid ${state.isFocused ? "#5865F2" : isActualSelected ? "#5865F2" : "#E5E5E5"
+        }`,
       borderRadius: "8px",
       fontSize: "12px",
       fontFamily: "Gilroy, sans-serif",

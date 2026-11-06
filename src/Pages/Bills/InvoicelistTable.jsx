@@ -53,6 +53,8 @@ const InvoiceTable = (props) => {
   } = useHasPermission("Invoice");
 
 
+
+
   const isValidSubscription =
     state.UsersList?.hotelDetailsinPg?.isSubscriptionActive;
   const isExportAllow = isValidSubscription && canReadInvoice;

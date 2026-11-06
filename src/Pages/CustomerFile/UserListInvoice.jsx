@@ -272,11 +272,11 @@ function UserListInvoice() {
     !canWriteInvoice ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED";
+    "SETTLEMENT_GENERATED";
 
   return (
     <>
@@ -362,8 +362,8 @@ function UserListInvoice() {
 
                       {state.UsersList.customerdetails
                         ?.customerCurrentStatus !== "VACATED" && (
-                        <th className="w-[230px] px-2">Action</th>
-                      )}
+                          <th className="w-[230px] px-2">Action</th>
+                        )}
                     </tr>
                   </thead>
 
@@ -421,31 +421,31 @@ function UserListInvoice() {
 
                               {(view.isDiscounted ||
                                 view.isInvoicesApplied) && (
-                                <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
-                                  {view.isDiscounted && (
-                                    <span>
-                                      Discount Applied : ₹
-                                      <span className="text-[11px] font-semibold">
-                                        {Number(
-                                          view?.discountAmount || 0,
-                                        ).toLocaleString("en-IN")}
+                                  <div className=" flex flex-col text-[10px] text-[#64748B] leading-3 min-w-max h-4">
+                                    {view.isDiscounted && (
+                                      <span>
+                                        Discount Applied : ₹
+                                        <span className="text-[11px] font-semibold">
+                                          {Number(
+                                            view?.discountAmount || 0,
+                                          ).toLocaleString("en-IN")}
+                                        </span>
                                       </span>
-                                    </span>
-                                  )}
+                                    )}
 
-                                  {view.isInvoicesApplied && (
-                                    <span className="">
-                                      Adjusted Amount : ₹
-                                      <span className="text-[11px] font-semibold">
-                                        {Number(
-                                          view?.invoicesApplied
-                                            ?.amountApplied || 0,
-                                        ).toLocaleString("en-IN")}
+                                    {view.isInvoicesApplied && (
+                                      <span className="">
+                                        Adjusted Amount : ₹
+                                        <span className="text-[11px] font-semibold">
+                                          {Number(
+                                            view?.invoicesApplied
+                                              ?.amountApplied || 0,
+                                          ).toLocaleString("en-IN")}
+                                        </span>
                                       </span>
-                                    </span>
-                                  )}
-                                </div>
-                              )}
+                                    )}
+                                  </div>
+                                )}
                             </div>
                           </td>
 
@@ -456,10 +456,10 @@ function UserListInvoice() {
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                             {(view?.paymentStatus === "Pending" ||
                               view.paymentStatus === "Partial Payment") && (
-                              <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                {view?.paymentStatus}
-                              </span>
-                            )}
+                                <span className="bg-[#FFD9D9] whitespace-nowrap text-[#7A1C1C] rounded-[13px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                  {view?.paymentStatus}
+                                </span>
+                              )}
 
                             {view?.paymentStatus === "Paid" && (
                               <span className="cursor-pointer whitespace-nowrap bg-[#D9FFD9] text-[#065F46] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
@@ -469,10 +469,10 @@ function UserListInvoice() {
 
                             {(view?.paymentStatus === "Refunded" ||
                               view?.paymentStatus === "Partially Refunded") && (
-                              <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
-                                {view?.paymentStatus}
-                              </span>
-                            )}
+                                <span className="bg-[#FFF3CD] whitespace-nowrap text-[#8B8000] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
+                                  {view?.paymentStatus}
+                                </span>
+                              )}
 
                             {view?.paymentStatus === "Pending Refund" && (
                               <span className="bg-[#FFE6B3] whitespace-nowrap text-[#B45309] rounded-[14px] px-3 py-[4px] leading-none font-gilroy text-[13px]">
@@ -489,172 +489,170 @@ function UserListInvoice() {
 
                           {state.UsersList.customerdetails
                             ?.customerCurrentStatus !== "VACATED" && (
-                            <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
-                              <div className="flex flex-wrap gap-2 py-2">
-                                <div
-                                  className={`flex justify-center items-center relative cursor-pointer  
+                              <td className="text-left align-middle border-b border-[#E8E8E8] px-3">
+                                <div className="flex flex-wrap gap-2 py-2">
+                                  <div
+                                    className={`flex justify-center items-center relative cursor-pointer  
         ${activeId === view.id ? "z-[1000]" : ""}`}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleShowDots(view, e);
-                                  }}
-                                >
-                                  <IoMdMore className="text-xl text-[#222222]" />
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleShowDots(view, e);
+                                    }}
+                                  >
+                                    <IoMdMore className="text-xl text-[#222222]" />
 
-                                  {activeId === view.invoiceId && (
-                                    <div
-                                      ref={popupRef}
-                                      className="fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
-                                      style={{
-                                        top: popupPosition.top,
-                                        left: popupPosition.left - 50,
-                                      }}
-                                    >
-                                      <div className="flex flex-col gap-1 divide-y divide-gray-300">
-                                        {view?.canEdit && (
-                                          <button
-                                            onClick={() =>
-                                              canUpdateInvoice &&
-                                              handleEdit(view)
-                                            }
-                                            // disabled
-                                            disabled={!canUpdateInvoice}
-                                            className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
-      ${
-        canUpdateInvoice
-          ? "cursor-pointer hover:bg-[#EDF2FF]"
-          : "cursor-not-allowed opacity-50"
-      }`}
-                                          >
-                                            <Edit size="16" color="#1E45E1" />
-                                            Edit
-                                          </button>
-                                        )}
+                                    {activeId === view.invoiceId && (
+                                      <div
+                                        ref={popupRef}
+                                        className="fixed z-[9999] w-[170px] bg-[#F9F9F9] rounded-[10px] border"
+                                        style={{
+                                          top: popupPosition.top,
+                                          left: popupPosition.left - 50,
+                                        }}
+                                      >
+                                        <div className="flex flex-col gap-1 divide-y divide-gray-300">
+                                          {view?.canEdit && (
+                                            <button
+                                              onClick={() =>
+                                                canUpdateInvoice &&
+                                                handleEdit(view)
+                                              }
+                                              // disabled
+                                              disabled={!canUpdateInvoice}
+                                              className={`flex items-center gap-2 px-3 py-2   disabled:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed
+      ${canUpdateInvoice
+                                                  ? "cursor-pointer hover:bg-[#EDF2FF]"
+                                                  : "cursor-not-allowed opacity-50"
+                                                }`}
+                                            >
+                                              <Edit size="16" color="#1E45E1" />
+                                              Edit
+                                            </button>
+                                          )}
 
-                                        {view.canUnpaid && (
-                                          <button
-                                            disabled={!canUpdateInvoice}
-                                            onClick={() =>
-                                              canUpdateInvoice &&
-                                              handleUnpaid(view)
-                                            }
-                                            className={`flex items-center gap-2 w-full px-3 py-2 text-left 
-        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
-                                          >
-                                            <Edit size="16" color="#1E45E1" />
-                                            Unpaid
-                                          </button>
-                                        )}
-                                        {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
-
-                                        {view?.totalAmount > 0 &&
-                                          view?.paymentStatus === "Pending" &&
-                                          !view?.isDiscounted &&
-                                          (view?.invoiceType === "Rent" ||
-                                            view?.invoiceType ===
-                                              "Settlement" ||
-                                            view?.invoiceType ===
-                                              "Reassign Rent") && (
+                                          {view.canUnpaid && (
                                             <button
                                               disabled={!canUpdateInvoice}
                                               onClick={() =>
                                                 canUpdateInvoice &&
-                                                handleMakeDiscount(view)
+                                                handleUnpaid(view)
                                               }
-                                              className={`flex items-center gap-2 w-full px-3 py-2 text-left  
+                                              className={`flex items-center gap-2 w-full px-3 py-2 text-left 
         ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
                                             >
-                                              <DiscountCircle
-                                                size="16"
-                                                color="#ec400c"
-                                              />
-                                              Make Discount
+                                              <Edit size="16" color="#1E45E1" />
+                                              Unpaid
                                             </button>
                                           )}
+                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
-                                        <button
-                                          onClick={() =>
-                                            isExportAllow &&
-                                            handleInvoicepdf(view)
-                                          }
-                                          disabled={!isExportAllow}
-                                          className={`flex items-center gap-2 px-3 py-2   
+                                          {view?.totalAmount > 0 &&
+                                            view?.paymentStatus === "Pending" &&
+                                            !view?.isDiscounted &&
+                                            (view?.invoiceType === "Rent" ||
+                                              view?.invoiceType ===
+                                              "Settlement" ||
+                                              view?.invoiceType ===
+                                              "Reassign Rent") && (
+                                              <button
+                                                disabled={!canUpdateInvoice}
+                                                onClick={() =>
+                                                  canUpdateInvoice &&
+                                                  handleMakeDiscount(view)
+                                                }
+                                                className={`flex items-center gap-2 w-full px-3 py-2 text-left  
+        ${canUpdateInvoice ? "hover:bg-[#EDF2FF] cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                                              >
+                                                <DiscountCircle
+                                                  size="16"
+                                                  color="#ec400c"
+                                                />
+                                                Make Discount
+                                              </button>
+                                            )}
+
+                                          <button
+                                            onClick={() =>
+                                              isExportAllow &&
+                                              handleInvoicepdf(view)
+                                            }
+                                            disabled={!isExportAllow}
+                                            className={`flex items-center gap-2 px-3 py-2   
       ${isExportAllow ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                        >
-                                          <DocumentDownload
-                                            size="16"
-                                            color="#1E45E1"
-                                          />
-                                          Download
-                                        </button>
-                                        {/* 
+                                          >
+                                            <DocumentDownload
+                                              size="16"
+                                              color="#1E45E1"
+                                            />
+                                            Download
+                                          </button>
+                                          {/* 
                                           <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
 
-                                        {view?.totalAmount > 0 &&
-                                          view?.paymentStatus !== "Cancelled" &&
-                                          view?.paymentStatus !== "Paid" && (
-                                            <button
-                                              onClick={() => {
-                                                if (canWriteInvoice) {
-                                                  handleRecordPayment(view);
-                                                }
-                                              }}
-                                              disabled={!canWriteInvoice}
-                                              className={`flex items-center gap-2 px-3 py-2 
+                                          {view?.totalAmount > 0 &&
+                                            view?.paymentStatus !== "Cancelled" &&
+                                            view?.paymentStatus !== "Paid" && (
+                                              <button
+                                                onClick={() => {
+                                                  if (canWriteInvoice) {
+                                                    handleRecordPayment(view);
+                                                  }
+                                                }}
+                                                disabled={!canWriteInvoice}
+                                                className={`flex items-center gap-2 px-3 py-2 
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                            >
-                                              <ReceiptEdit
-                                                size="16"
-                                                color="#1E45E1"
-                                              />
-                                              Record Payment
-                                            </button>
-                                          )}
+                                              >
+                                                <ReceiptEdit
+                                                  size="16"
+                                                  color="#1E45E1"
+                                                />
+                                                Record Payment
+                                              </button>
+                                            )}
 
-                                        {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
-                                        {view?.totalAmount < 0 &&
-                                          view?.paymentStatus !== "Refunded" &&
-                                          view?.paymentStatus !==
+                                          {/* <div className="bg-gray-200 h-[1px] w-full rounded"></div> */}
+                                          {view?.totalAmount < 0 &&
+                                            view?.paymentStatus !== "Refunded" &&
+                                            view?.paymentStatus !==
                                             "Cancelled" && (
-                                            <button
-                                              onClick={() =>
-                                                canWriteInvoice &&
-                                                handleRefundAmount(view)
-                                              }
-                                              disabled={!canWriteInvoice}
-                                              className={`flex items-center gap-2 px-3 py-2 
+                                              <button
+                                                onClick={() =>
+                                                  canWriteInvoice &&
+                                                  handleRefundAmount(view)
+                                                }
+                                                disabled={!canWriteInvoice}
+                                                className={`flex items-center gap-2 px-3 py-2 
         ${canWriteInvoice ? "cursor-pointer hover:bg-[#EDF2FF]" : "cursor-not-allowed opacity-50"}`}
-                                            >
-                                              <MoneySend
-                                                size="16"
-                                                color="#1E45E1"
-                                              />
-                                              Refund Amount
-                                            </button>
-                                          )}
+                                              >
+                                                <MoneySend
+                                                  size="16"
+                                                  color="#1E45E1"
+                                                />
+                                                Refund Amount
+                                              </button>
+                                            )}
 
-                                        {view?.paymentStatus !== "Cancelled" &&
-                                          view?.paymentStatus !== "Paid" && (
-                                            <button
-                                              disabled
-                                              className={`flex items-center gap-2 cursor-not-allowed w-full px-3 py-2 text-sm rounded-b-[10px]
-      ${
-        canDeleteInvoice
-          ? "hover:bg-[#FFF0F0] text-red-500 "
-          : "opacity-50 cursor-not-allowed text-[#ccc]"
-      }`}
-                                            >
-                                              <Trash size="16" />
-                                              Delete
-                                            </button>
-                                          )}
+                                          {view?.paymentStatus !== "Cancelled" &&
+                                            view?.paymentStatus !== "Paid" && (
+                                              <button
+                                                disabled
+                                                className={`flex items-center gap-2 cursor-not-allowed w-full px-3 py-2 text-sm rounded-b-[10px]
+      ${canDeleteInvoice
+                                                    ? "hover:bg-[#FFF0F0] text-red-500 "
+                                                    : "opacity-50 cursor-not-allowed text-[#ccc]"
+                                                  }`}
+                                              >
+                                                <Trash size="16" />
+                                                Delete
+                                              </button>
+                                            )}
+                                        </div>
                                       </div>
-                                    </div>
-                                  )}
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            </td>
-                          )}
+                              </td>
+                            )}
                         </tr>
                       );
                     })}

@@ -35,7 +35,7 @@ import { BsExclamationCircle } from "react-icons/bs";
 import Select from "react-select";
 import BankingOverview from "./BankingOverview";
 import { useNavigate } from "react-router-dom";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 import TenantPayment from "./TenantPayment";
 import CreditCardPayment from "./CreditCardPayment";
 import Invesment from "./Invesment";

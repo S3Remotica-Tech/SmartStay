@@ -39,7 +39,7 @@ import VendorOverView from "./VendorOverView";
 import ApiPagination from "../../Components/ApiPagination";
 import PropTypes from "prop-types";
 import { CustomStyles } from "../../Utils/SelectStyles";
-import CustomTooltip from "../../Utils/CustomToolTip";
+import CustomTooltip from "../../Utils/CustomTooltip";
 
 function Vendor() {
   const state = useSelector((state) => state);
