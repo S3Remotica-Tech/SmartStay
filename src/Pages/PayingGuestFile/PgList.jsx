@@ -9,15 +9,19 @@ import AddFloor from "./AddFloor";
 import "./PgList.css";
 import AddRoom from "./AddRoom";
 import PropTypes from "prop-types";
-import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
+import {
+  ArrowUp2, ArrowDown2, Edit, Trash, CalendarTick,
+  WalletMoney,
+  NotificationBing, Filter
+} from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
-import availabeimg from "../../Assets/Images/New_images/available-circle.png";
-import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
-import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
-import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
-import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
+// import availabeimg from "../../Assets/Images/New_images/available-circle.png";
+// import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
+// import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
+// import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
+// import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
@@ -29,15 +33,38 @@ import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
+import { CustomStyles } from "../../Utils/SelectStyles";
+import CustomTooltip from "../../Utils/CustomTooltip";
+import Select from "react-select";
+import FilterModal from "./FilterModal";
+
 function PgList() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-
+  const isDev = import.meta.env.MODE === "development";
   const [showHostelDetails, setShowHostelDetails] = useState("");
 
   const [visibleRange, setVisibleRange] = useState([0, 2]);
-
+  const [statusfilter, setStatusFilter] = useState({
+    value: "ALL",
+    label: "All",
+  });
   const popupRef = useRef(null);
+  const [selectedMonth, setSelectedMonth] = useState();
+
+
+  const selectOptions = [
+    { value: "ALL", label: "All" },
+
+  ];
+
+  const monthOptions = [
+    { value: "ALL", label: "All" },
+  ]
+
+
+
+
 
   const {
     canWriteModule: canWritePayingGuests,
@@ -45,6 +72,8 @@ function PgList() {
     canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
+
+  const [showFilter, setShowFilter] = useState(false);
 
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
@@ -497,6 +526,27 @@ function PgList() {
     }
   };
 
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+
+
+
+    // dispatch({
+    //   type: "SET_TENANT_TABLE_FILTERS",
+    //   payload: {
+    //     ...tenantFilters,
+    //     period: selectedOption?.value || "",
+    //     periodLabel: selectedOption?.label || "",
+    //   },
+    // });
+
+
+  };
+  const handleStatusFilter = (selected) => {
+    setStatusFilter(selected || "");
+
+  };
+
   const handleCloses = () => {
     setShowAddPg(false);
     dispatch({ type: "CLEAR_NETWORK_ERROR" });
@@ -742,8 +792,8 @@ function PgList() {
                             className={`text-sm font-gilroy font-semibold text-center px-2 break-words ${Number(floorClick) === Number(floor.id) ? "text-blue-700" : "text-gray-700"}`}
                           >
                             {typeof floor.name === "string" &&
-                            floor.name.trim() !== "" &&
-                            floor.name !== "null"
+                              floor.name.trim() !== "" &&
+                              floor.name !== "null"
                               ? floor.name
                               : floor.id}
                           </div>
@@ -771,7 +821,7 @@ function PgList() {
                 </div>
 
                 <div className="md:w-11/12 lg:w-full md:pl-4 flex flex-col h-full ">
-                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3">
+                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-1">
                     <div className="flex justify-between items-center lg:block md:px-3 2xl:px-4">
                       <div className="text-xl font-gilroy font-semibold capitalize whitespace-nowrap">
                         {floorName && floorName.trim() !== "" ? floorName : ""}
@@ -779,9 +829,8 @@ function PgList() {
 
                       {!state.login.isTrigger && (
                         <div
-                          className={`lg:hidden md:mt-3 cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center ${
-                            showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
-                          }`}
+                          className={`lg:hidden md:mt-3 cursor-pointer h-7 w-7 rounded-full border border-gray-200 flex items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
+                            }`}
                           onClick={handleShowDots}
                         >
                           <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
@@ -795,11 +844,11 @@ function PgList() {
                                   onClick={
                                     canUpdatePayingGuests
                                       ? () =>
-                                          handleEditFloor(
-                                            floorClick,
-                                            showHostelDetails.id,
-                                            floorName,
-                                          )
+                                        handleEditFloor(
+                                          floorClick,
+                                          showHostelDetails.id,
+                                          floorName,
+                                        )
                                       : undefined
                                   }
                                   className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
@@ -824,11 +873,11 @@ function PgList() {
                                   onClick={
                                     canDeletePayingGuests
                                       ? () =>
-                                          handleShowDelete(
-                                            floorClick,
-                                            showHostelDetails.id,
-                                            floorName,
-                                          )
+                                        handleShowDelete(
+                                          floorClick,
+                                          showHostelDetails.id,
+                                          floorName,
+                                        )
                                       : undefined
                                   }
                                   className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
@@ -854,17 +903,21 @@ function PgList() {
                       )}
                     </div>
 
+
+
+
+
                     <div className="grid grid-cols-3 gap-y-2 gap-x-6 mt-2 md:grid-cols-3 lg:flex lg:flex-nowrap lg:items-center lg:gap-6 lg:mt-0 md:px-4">
-                      <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
+                      {/* <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
                         <img
                           className="w-4 h-4"
                           alt="Available"
                           src={availabeimg}
                         />
                         Available
-                      </span>
+                      </span> */}
 
-                      {!state.login.isTrigger && (
+                      {/* {!state.login.isTrigger && (
                         <>
                           <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
                             <img
@@ -902,13 +955,12 @@ function PgList() {
                             Notice Period
                           </span>
                         </>
-                      )}
+                      )} */}
 
                       {!state.login.isTrigger && (
                         <div
-                          className={`hidden lg:mr-1.5 lg:flex cursor-pointer h-7 w-7 rounded-full border border-gray-200 items-center justify-center ${
-                            showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
-                          }`}
+                          className={`hidden lg:mr-1.5 lg:flex cursor-pointer h-7 w-7 rounded-full border border-gray-200 items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
+                            }`}
                           onClick={handleShowDots}
                         >
                           <PiDotsThreeOutlineVerticalFill className="h-4 w-4" />
@@ -922,11 +974,11 @@ function PgList() {
                                   onClick={
                                     canUpdatePayingGuests
                                       ? () =>
-                                          handleEditFloor(
-                                            floorClick,
-                                            showHostelDetails.id,
-                                            floorName,
-                                          )
+                                        handleEditFloor(
+                                          floorClick,
+                                          showHostelDetails.id,
+                                          floorName,
+                                        )
                                       : undefined
                                   }
                                   className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canUpdatePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
@@ -951,11 +1003,11 @@ function PgList() {
                                   onClick={
                                     canDeletePayingGuests
                                       ? () =>
-                                          handleShowDelete(
-                                            floorClick,
-                                            showHostelDetails.id,
-                                            floorName,
-                                          )
+                                        handleShowDelete(
+                                          floorClick,
+                                          showHostelDetails.id,
+                                          floorName,
+                                        )
                                       : undefined
                                   }
                                   className={`flex items-center gap-2 px-3 py-2 rounded-md ${!canDeletePayingGuests ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`}
@@ -982,6 +1034,118 @@ function PgList() {
                     </div>
                   </div>
 
+
+                  {
+                    isDev && (
+                      <>
+                        <div className="flex flex-wrap items-center gap-2 font-gilroy my-2 md:px-4 lg:px-0">
+                          <div className="flex items-center gap-2 rounded-lg border-1 border-gray-100 bg-white px-2.5 py-2 shadow-sm">
+                            <span className="h-3 w-3 rounded-full bg-green-500"></span>
+                            <span className="text-xs font-medium text-gray-700">Occupied</span>
+                            <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                              40/48
+                            </span>
+                          </div>
+
+
+                          <div className="flex items-center gap-2 rounded-lg border-1 border-gray-100 bg-white px-2.5 py-2 shadow-sm">
+                            <span className="h-3 w-3 rounded-full border border-gray-400"></span>
+                            <span className="text-xs font-medium text-gray-700">Vacant</span>
+                            <span className="rounded-md bg-gray-50 px-2 py-0.5 text-xs font-semibold text-gray-700">
+                              08
+                            </span>
+                          </div>
+
+
+                          <div className="flex items-center gap-2 rounded-lg border-1  border-gray-100 bg-white px-2.5 py-2 shadow-sm">
+                            <CalendarTick size="15" color="#2878FF" variant="Bold" />
+                            <span className="text-xs font-medium text-gray-700">Reserved</span>
+                            <span className="rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-600">
+                              03
+                            </span>
+                          </div>
+
+
+                          <div className="flex items-center gap-2 rounded-lg border-1  border-gray-100 bg-white px-2.5 py-2 shadow-sm">
+                            <WalletMoney size="15" color="#F59E0B" variant="Bold" />
+                            <span className="text-xs font-medium text-gray-700">Overdue</span>
+                            <span className="rounded-md bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-600">
+                              16
+                            </span>
+                          </div>
+
+
+                          <div className="flex items-center gap-2 rounded-lg border-1  border-gray-100 bg-white px-2.5 py-2 shadow-sm">
+                            <NotificationBing size="15" color="#EF4444" variant="Bold" />
+                            <span className="text-xs font-medium text-gray-700">Notice</span>
+                            <span className="rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-600">
+                              02
+                            </span>
+                          </div>
+
+                        </div>
+
+
+
+                        <div className="flex flex-wrap items-center gap-3 my-1">
+                          <div
+                            className={`border border-gray-300 rounded-lg w-36 ${statusfilter?.value
+                              ? "bg-gray-100 text-gray-700"
+                              : "bg-white"
+                              }`}
+                          >
+                            <Select
+                              options={selectOptions}
+                              styles={CustomStyles}
+                              isDisabled={!canReadPayingGuests}
+                              menuPlacement="auto"
+                              classNamePrefix="custom"
+                              onChange={(e) => handleStatusFilter(e)}
+                              value={
+                                selectOptions.find(
+                                  (opt) => opt.value === statusfilter.value,
+                                ) || null
+                              }
+                              id="statusselect"
+                            />
+                          </div>
+
+                          <div className="flex items-center gap-3">
+                            <Select
+                              isDisabled={!canReadPayingGuests}
+                              options={monthOptions}
+                              value={selectedMonth}
+                              onChange={handleMonthChange}
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              placement="auto"
+                              placeholder="Select Month"
+                              noOptionsMessage={() => "No options"}
+                              styles={CustomStyles}
+                            />
+                          </div>
+
+                          <div
+                            className={`flex items-center justify-center border border-gray-300 rounded-full p-2 bg-white`}
+                          >
+                            <CustomTooltip text="Filter" direction="top-full" usePortal={false}>
+                              <Filter
+                                size={16}
+                                onClick={() => {
+                                  if (canReadPayingGuests) {
+                                    setShowFilter(true);
+                                  }
+                                }}
+                                className={`transition-opacity duration-300 ${canReadPayingGuests
+                                  ? "cursor-pointer opacity-100 pointer-events-auto"
+                                  : "cursor-not-allowed opacity-40 pointer-events-none"
+                                  }`}
+                              />
+                            </CustomTooltip>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   <div className="overflow-y-auto h-full pr-2">
                     <ParticularHostelDetails
                       floorID={floorClick}
@@ -1023,6 +1187,8 @@ function PgList() {
           />
         )}
       </div>
+
+      {showFilter && <FilterModal isOpen={showFilter} onClose={() => setShowFilter(false)} />}
     </>
   );
 }

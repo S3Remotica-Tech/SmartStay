@@ -555,7 +555,7 @@ function* handleEditBankingNew(action) {
       padding: "10px",
     };
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "EDIT_V2_BANKING_REDUCER",
         payload: { response: response.data, statusCode: response?.status },

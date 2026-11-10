@@ -356,7 +356,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
 
 
 
-    if (
+    if (!editBankDetails &&
       bankOpeningBalance !== "" &&
       !/^(0|[1-9]\d*)(\.\d+)?$/.test(bankOpeningBalance)
     ) {
@@ -374,11 +374,34 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
     return isValid;
   };
 
+  console.log("editBankDetails", editBankDetails);
+
   const handleSubmitBank = () => {
     dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
     dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     if (!validateBank()) return;
-    if (state.login.selectedHostel_Id) {
+    if (editBankDetails?.bankId) {
+      dispatch({
+        type: "EDIT_V2_BANKING_SAGA",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          bankId: editBankDetails?.bankId,
+          accountHolderName: holderName,
+          bankName: bankName,
+          displayName: bankDisplayName,
+          branchName: branchName,
+          accountNo: accountNumber,
+          ifscCode: ifscCode,
+          description: bankDescription,
+          // isDefault: true,
+          // newAccountType: accountMode,
+          // bankAccountType: accountType?.value || accountType,
+
+        },
+      });
+      setFormLoading(true);
+    }
+    else if (state.login.selectedHostel_Id) {
       dispatch({
         type: "ADD_BANKING_SAGA",
         payload: {
@@ -465,29 +488,41 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
     dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
     dispatch({ type: "REMOVE_ADD_BANKING_ERROR" });
     if (!validateCash()) return;
-    if (state.login.selectedHostel_Id) {
+
+    if (editBankDetails?.bankId) {
       dispatch({
-        type: "ADD_BANKING_SAGA",
+        type: "EDIT_V2_BANKING_SAGA",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-
-          // holderName: holderName,
-          // bankName: bankName,
+          bankId: editBankDetails?.bankId,
           displayName: cashDisplayName,
-          // branchName: branchName,
-          // accountNo: accountNumber,
-          // ifscCode: ifscCode,
           description: cashDescription,
-          isDefault: true,
-          accountType: accountMode,
-          // bankAccountType: accountType?.value || accountType,
-          openingBalance: Number(cashOpeningBalance),
+          // accountType: accountMode,
+          // openingBalance: Number(cashOpeningBalance),
           cashAccountType: cashType?.value || cashType,
           responsiblePerson: responsiblePerson?.value || responsiblePerson,
+
         },
       });
       setFormLoading(true);
     }
+    else
+      if (state.login.selectedHostel_Id) {
+        dispatch({
+          type: "ADD_BANKING_SAGA",
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+            displayName: cashDisplayName,
+            description: cashDescription,
+            isDefault: true,
+            accountType: accountMode,
+            openingBalance: Number(cashOpeningBalance),
+            cashAccountType: cashType?.value || cashType,
+            responsiblePerson: responsiblePerson?.value || responsiblePerson,
+          },
+        });
+        setFormLoading(true);
+      }
   };
 
   useEffect(() => {
@@ -532,7 +567,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
     } else if (editBankDetails.accountType === "BANK") {
       setBankDisplayName(editBankDetails.displayName || "");
       setBankName(editBankDetails.bankName || "");
-      setHolderName(editBankDetails.accountHolderName || "");
+      setHolderName(editBankDetails.accountHolder || "");
       setAccountNumber(editBankDetails.accountNumber || "");
       setBranchName(editBankDetails.branchName || "");
       setIfscCode(editBankDetails.ifscCode || "");
@@ -661,8 +696,8 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
             <label className="flex items-center gap-3 cursor-pointer">
               <input disabled={editBankDetails}
                 type="radio"
-                checked={accountMode === "CREDIT"}
-                onChange={() => setAccountMode("CREDIT")}
+                checked={accountMode === "CARD"}
+                onChange={() => setAccountMode("CARD")}
                 className="h-4 w-4 accent-blue-600"
               />
 
@@ -785,13 +820,14 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-5 my-2">
+                <div className={`grid  gap-5 grid-cols-2 my-2 `}>
+
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
                       IFSC Code
                     </label>
 
-                    <input
+                    <input disabled={editBankDetails}
                       type="text"
                       ref={ifscCodeRef}
                       value={ifscCode}
@@ -803,6 +839,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       <ErrorMessage message={ifscCodeError} type="error" />
                     )}
                   </div>
+
 
                   <div>
                     <label className="block text-[14px] font-medium text-[#222] mb-2">
@@ -852,7 +889,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       ₹
                     </span>
 
-                    <input
+                    <input disabled={editBankDetails}
                       type="number"
                       ref={bankOpeningBalanceRef}
                       value={bankOpeningBalance}
@@ -983,7 +1020,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       </div>
                     </>
                   ) : (
-                    <span>Create</span>
+                    <span>{editBankDetails ? "Update" : "Create"}</span>
                   )}
                 </button>
               </div>
@@ -1077,7 +1114,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                         ₹
                       </span>
 
-                      <input
+                      <input disabled={editBankDetails}
                         type="number"
                         value={cashOpeningBalance}
                         ref={cashOpeningBalanceRef}
@@ -1206,7 +1243,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
                       </div>
                     </>
                   ) : (
-                    <span>Create</span>
+                    <span>{editBankDetails ? "Update" : "Create"}</span>
                   )}
                 </button>
               </div>
@@ -1215,8 +1252,8 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
 
 
 
-          {accountMode === "CREDIT" && (
-            <CreditCardGlobal handleClose={handleClose} />
+          {accountMode === "CARD" && (
+            <CreditCardGlobal handleClose={handleClose} editBankDetails={editBankDetails} />
           )}
         </div>
       </div>

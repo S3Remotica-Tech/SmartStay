@@ -7,7 +7,7 @@ export async function AddBanking(datum) {
 
 // EDIT BANKING
 export async function EditBanking(datum) {
-  return await AxiosConfigV2.put(`/v3/bank/${datum.hostelId}`, datum);
+  return await AxiosConfigV2.put(`/v3/bank/${datum.hostelId}/${datum.bankId}`, datum);
 }
 
 

@@ -31,6 +31,7 @@ import { clickedBedForChange } from "../../Redux/Action/LoginAction";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import BookingToCheckin from "../CustomerFile/BookingToCheckin";
+import BedActivity from "./BedActivity";
 function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -71,6 +72,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [changeBedClicked, setChangedBedClicked] = useState("");
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
   const [editBedMode, setEditBedMode] = useState(false);
+  const [showActivity, setShowActivity] = useState(false)
 
   const { canWriteModule: canWritePayingGuests } =
     useHasPermission("Paying Guests");
@@ -255,6 +257,16 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const handlecloseBed = () => {
     setEmptyBed(false);
   };
+
+  const handleShowActivity = () => {
+    setShowActivity(true)
+    setEmptyBed(false);
+  }
+
+  const handleCloseActivity = () => {
+    setShowActivity(false)
+  }
+
 
   const [selectedTenant, setSelectedTenant] = useState(null);
 
@@ -553,6 +565,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
   return (
     <div>
+      {showActivity && <BedActivity handleClose={handleCloseActivity} />}
       {bactocheckinForm && (
         <BackToCheckIn
           show={bactocheckinForm}
@@ -598,6 +611,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           showcustomer={handleShowAddCustomer}
           showtenant={handleShowAssignTenant}
           showEditBed={handleEditBed}
+          showActivity={handleShowActivity}
         />
       )}
 
