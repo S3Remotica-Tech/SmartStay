@@ -802,5 +802,22 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
 }
 CreditCardGlobal.propTypes = {
     handleClose: PropTypes.func.isRequired,
+    editBankDetails: PropTypes.shape({
+        bankId: PropTypes.string,
+        displayName: PropTypes.string,
+        accountHolder: PropTypes.string,
+        cardNumber: PropTypes.string,
+        description: PropTypes.string,
+        creditLimit: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        billingCycle: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        cardNetwork: PropTypes.string,
+        linkedBankId: PropTypes.string,
+    }),
 };
 export default CreditCardGlobal

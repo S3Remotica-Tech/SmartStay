@@ -5,14 +5,14 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "flatpickr/dist/themes/material_blue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import Filters from "../../Assets/Images/Filters.svg";
+// import Filters from "../../Assets/Images/Filters.svg";
 import Select from "react-select";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Compliants/Compliance.css";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 import ComplianceList from "../Compliants/ComplianceList";
 import "react-datepicker/dist/react-datepicker.css";
 // import excelimg from "../../Assets/Images/New_images/excel_blue.png";
@@ -146,7 +146,7 @@ const Compliance = () => {
   console.log("state.ComplianceList.Compliance", state.ComplianceList.Compliance)
 
   // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
-  const [filterStatus, setFilterStatus] = useState(false);
+  // const [filterStatus, setFilterStatus] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
   const location = useLocation();
   const [excelDownload, setExcelDownload] = useState("");
@@ -465,12 +465,12 @@ const Compliance = () => {
   // };
 
 
-  useEffect(() => {
-    if (!filterStatus) {
-      setStatusfilter("All");
-      setSelectedDateRange([]);
-    }
-  }, [filterStatus]);
+  // useEffect(() => {
+  //   if (!filterStatus) {
+  //     setStatusfilter("All");
+  //     setSelectedDateRange([]);
+  //   }
+  // }, [filterStatus]);
 
 
 

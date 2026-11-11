@@ -36,7 +36,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
   const {
     canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
-    canReadModule: canReadPayingGuests,
+    // canReadModule: canReadPayingGuests,
 
   } = useHasPermission("Paying Guests");
 

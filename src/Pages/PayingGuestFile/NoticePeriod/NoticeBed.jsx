@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
-import { PiDotsThreeOutlineFill } from "react-icons/pi";
+// import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import "../../../Pages/AssetFile/addAsset.css";
 import TimerPause from "../../../Assets/Images/New_images/timer-pause.svg";
-import logout from "../../../Assets/Images/New_images/logout.svg";
-import AddPlus from "../../../Assets/Images/New_images/add-circle.png";
-import Exchange from "../../../Assets/v2Images/exchange.svg";
-import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg";
-import { FiCalendar } from "react-icons/fi";
-import Settings from "../../../Assets/v2Images/info-circle.svg";
+// import logout from "../../../Assets/Images/New_images/logout.svg";
+// import AddPlus from "../../../Assets/Images/New_images/add-circle.png";
+// import Exchange from "../../../Assets/v2Images/exchange.svg";
+// import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg";
+// import { FiCalendar } from "react-icons/fi";
+// import Settings from "../../../Assets/v2Images/info-circle.svg";
 import { useHasPermission } from "../../../Utils/Permission";
-import { Calendar, Edit } from "iconsax-react";
+import { Calendar } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
-import { LogoutCurve, Edit2, Verify, Add } from "iconsax-react";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { LogoutCurve, Edit2, Verify, Add, AddCircle } from "iconsax-react";
+// import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import BedActivity from '../BedActivity';
 import FormComingSoon from '../../../Utils/FormComingSoon';
@@ -27,24 +27,24 @@ import BedOverview from "../BedOverview";
 
 
 function NoticeBed({
-    show,
+    // show,
     handleCloseBed,
     currentItem,
     showBooking,
-    showNoticeperiodCheckout,
+    // showNoticeperiodCheckout,
     showfinalsettelemnet,
     // handleOpenChangeBed,
     handleShowInActiveForm,
     handleOpenCancelCheckout,
     // handleDisplayCheckInForm,
     showEditBed,
-    handleShowReassignBed,
-    handleShowNoticePeriod,
+    // handleShowReassignBed,
+    // handleShowNoticePeriod,
 }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [showTooltip, setShowTooltip] = useState(false);
+    // const [showTooltip, setShowTooltip] = useState(false);
     // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
     const {
@@ -56,7 +56,7 @@ function NoticeBed({
 
     const {
         canWriteModule: canWriteCheckout,
-        canUpdateModule: canUpdateCheckout,
+        // canUpdateModule: canUpdateCheckout,
     } = useHasPermission("Checkout");
 
 
@@ -68,12 +68,12 @@ function NoticeBed({
     } = useHasPermission("Paying Guests");
 
     // const [recheckin, setRecheckin] = useState(false)
-    const [activeMenu, setActiveMenu] = useState(null);
-    const [activeMenuForReserved, setActiveMenuForReserved] = useState(null);
-    const [selectedTenant, setSelectedTenant] = useState("");
+    // const [activeMenu, setActiveMenu] = useState(null);
+    // const [activeMenuForReserved, setActiveMenuForReserved] = useState(null);
+    // const [selectedTenant, setSelectedTenant] = useState("");
     const popupRef = useRef(null);
-    const isNoticeAndBooked = currentItem?.newTenantInfo?.length > 0;
-    const bedDetails = state?.PgList?.OccupiedCustomer;
+    // const isNoticeAndBooked = currentItem?.newTenantInfo?.length > 0;
+    // const bedDetails = state?.PgList?.OccupiedCustomer;
     const [expandedOccupied, setExpandedOccupied] = useState(null);
     const [expandedReserved, setExpandedReserved] = useState(null);
     const [activeTab, setActiveTab] = useState("overview");
@@ -86,33 +86,33 @@ function NoticeBed({
         setExpandedReserved((prev) => prev === id ? null : id);
     };
 
-    useEffect(() => {
-        if (!selectedTenant?.tenetId) return;
-        dispatch({
-            type: "CUSTOMERDETAILS",
-            payload: { customerId: selectedTenant?.tenetId },
-        });
-    }, [selectedTenant?.tenetId]);
+    // useEffect(() => {
+    //     if (!selectedTenant?.tenetId) return;
+    //     dispatch({
+    //         type: "CUSTOMERDETAILS",
+    //         payload: { customerId: selectedTenant?.tenetId },
+    //     });
+    // }, [selectedTenant?.tenetId]);
 
     const handleEditBed = () => {
         showEditBed(true);
     };
 
-    const handleShowDots = (type, tenant) => {
-        setActiveMenu((prev) => (prev === type ? null : type));
+    // const handleShowDots = (type, tenant) => {
+    //     setActiveMenu((prev) => (prev === type ? null : type));
 
-        setSelectedTenant(tenant);
-    };
+    //     setSelectedTenant(tenant);
+    // };
 
-    const handleShowDotsForReserved = (type, tenant) => {
-        setActiveMenuForReserved((prev) => (prev === type ? null : type));
-        setSelectedTenant(tenant);
-    };
+    // const handleShowDotsForReserved = (type, tenant) => {
+    //     setActiveMenuForReserved((prev) => (prev === type ? null : type));
+    //     setSelectedTenant(tenant);
+    // };
 
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveMenu(null);
-            setActiveMenuForReserved(null);
+            // setActiveMenu(null);
+            // setActiveMenuForReserved(null);
         }
     };
 
@@ -128,12 +128,12 @@ function NoticeBed({
         showBooking(true, tenant);
     };
 
-    const handleCheckout = (tenantDetails) => {
-        showNoticeperiodCheckout(true, tenantDetails);
-    };
+    // const handleCheckout = (tenantDetails) => {
+    //     showNoticeperiodCheckout(true, tenantDetails);
+    // };
 
-    const matchedDataStatus =
-        state.UsersList.customerdetails?.customerCurrentStatus;
+    // const matchedDataStatus =
+    //     state.UsersList.customerdetails?.customerCurrentStatus;
 
     const handleFinalsettelmentGenerate = (tenant) => {
         showfinalsettelemnet(tenant);
@@ -208,13 +208,13 @@ function NoticeBed({
         }
     }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
-    const handleReAssignBed = (currentItem) => {
-        handleShowReassignBed(true, currentItem);
-    };
+    // const handleReAssignBed = (currentItem) => {
+    //     handleShowReassignBed(true, currentItem);
+    // };
 
-    const handleMoveToNoticePeriod = (currentItem) => {
-        handleShowNoticePeriod(true, currentItem);
-    };
+    // const handleMoveToNoticePeriod = (currentItem) => {
+    //     handleShowNoticePeriod(true, currentItem);
+    // };
 
     const handleNavigateTenantProfile = (tenantDetails) => {
         if (tenantDetails) {
@@ -610,7 +610,7 @@ function NoticeBed({
                                                         <button
                                                             type="button"
                                                             disabled={!canWriteCustomers}
-                                                            onClick={() => handleCheckIn(tenant)}
+                                                            // onClick={() => handleCheckIn(tenant)}
                                                             className={`flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers
                                                                 ? "border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
                                                                 : "border-[#E5E7EB] opacity-60 cursor-not-allowed"

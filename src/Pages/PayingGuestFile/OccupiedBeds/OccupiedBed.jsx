@@ -29,7 +29,7 @@ function OccupiedBed({
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     // const [showDots, setShowDots] = useState("");
-    const [activeRoomId, setActiveRoomId] = useState(null);
+    // const [activeRoomId, setActiveRoomId] = useState(null);
     const [expandedOccupied, setExpandedOccupied] = useState(null);
     const [expandedReserved, setExpandedReserved] = useState(null);
     // const [activeRoomIdReserved, setActiveRoomIdReserved] = useState(null);
@@ -86,7 +86,7 @@ function OccupiedBed({
 
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveRoomId(null);
+            // setActiveRoomId(null);
         }
     };
 

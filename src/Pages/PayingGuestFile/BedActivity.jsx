@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Message2, Calendar, ArrowDown2 } from "iconsax-react"
 
-function BedActivity({ }) {
+function BedActivity() {
 
 
 
@@ -205,7 +205,7 @@ function BedActivity({ }) {
                                         onClick={() => {
                                             setSelectedPeriod(period);
                                             setShowPeriodDropdown(false);
-                                            handleSelected(period);
+                                            // handleSelected(period);
                                         }}
                                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${selectedPeriod?.id === period.id
                                             ? "bg-blue-50 text-blue-600 font-medium"

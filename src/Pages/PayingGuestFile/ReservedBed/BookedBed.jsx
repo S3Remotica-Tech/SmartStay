@@ -54,8 +54,8 @@ function BookedBed({
         showEditBed(true);
     };
 
-    const [showDots, setShowDots] = useState("");
-    const [activeRoomId, setActiveRoomId] = useState(null);
+    // const [showDots, setShowDots] = useState("");
+    // const [activeRoomId, setActiveRoomId] = useState(null);
     const popupRef = useRef(null);
 
     useEffect(() => {
@@ -66,14 +66,14 @@ function BookedBed({
         }
     }, [state.Booking.StatusCodeInactiveCode]);
 
-    const handleShowDots = (roomId) => {
-        setShowDots(!showDots);
-        setActiveRoomId(activeRoomId === roomId ? null : roomId);
-    };
+    // const handleShowDots = (roomId) => {
+    //     setShowDots(!showDots);
+    //     setActiveRoomId(activeRoomId === roomId ? null : roomId);
+    // };
 
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveRoomId(null);
+            // setActiveRoomId(null);
         }
     };
 

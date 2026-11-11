@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { CloseCircle } from "iconsax-react";
+import PropTypes from "prop-types";
 
 const filterOptions = {
     bedStatus: [
@@ -48,6 +49,7 @@ const initialFilters = {
 const FilterPanel = ({ isOpen, onClose }) => {
     const [filters, setFilters] = useState(initialFilters);
 
+
     const handleFilterChange = (key, option) => {
         setFilters((prev) => {
             const current = prev[key];
@@ -77,7 +79,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
     };
 
     const handleApply = () => {
-        onApply?.(filters);
+        // onApply?.(filters);
     };
 
     const renderFilterSection = (title, filterKey) => (
@@ -108,6 +110,7 @@ const FilterPanel = ({ isOpen, onClose }) => {
         </div>
     );
 
+    if (!isOpen) return null;
     return (
         <div className="fixed inset-0 z-[9999]">
             <div className="absolute inset-0 bg-black/50" />
@@ -158,5 +161,8 @@ const FilterPanel = ({ isOpen, onClose }) => {
         </div >
     );
 };
-
+FilterPanel.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
 export default FilterPanel;

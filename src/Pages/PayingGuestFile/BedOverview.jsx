@@ -2,6 +2,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import PropTypes from "prop-types";
 
 function BedOverview({ isBed, tenant, complaintImages = [], outstandingAmount = "12,457.16", }) {
     const state = useSelector((state) => state);
@@ -204,5 +205,22 @@ function BedOverview({ isBed, tenant, complaintImages = [], outstandingAmount = 
         </div>
     )
 }
+BedOverview.propTypes = {
+    isBed: PropTypes.string.isRequired,
+    tenant: PropTypes.shape({
+        bookingDate: PropTypes.string,
+        joiningDate: PropTypes.string,
+    }),
+    complaintImages: PropTypes.arrayOf(PropTypes.string),
+    outstandingAmount: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+};
 
+BedOverview.defaultProps = {
+    tenant: null,
+    complaintImages: [],
+    outstandingAmount: "0",
+};
 export default BedOverview

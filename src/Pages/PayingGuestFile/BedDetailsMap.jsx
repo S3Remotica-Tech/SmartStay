@@ -15,7 +15,7 @@ import MakeAsInactive from "../CustomerFile/MakeAsInactive";
 // import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
 import ChangeBedTenantWay from "../CustomerFile/ChangeBedTenantWay";
 import MoveToNoticePGAndTenant from "../CustomerFile/MoveToNoticePGAndTenant";
-import NoticeBedStatusDetails from "./NoticePeriod/BedStatus";
+// import NoticeBedStatusDetails from "./NoticePeriod/BedStatus";
 import BookingBed from "./NoticePeriod/BookingBed";
 import PGAssignTenant from "./PGAssignTenant";
 import OccupiedCustomer from "./OccupiedCustomer";
