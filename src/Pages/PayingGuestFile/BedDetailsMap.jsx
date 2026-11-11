@@ -10,9 +10,9 @@ import overDude from "../../Assets/Images/New_images/overDue.png";
 import AddBedUI from "./AddBed";
 import PropTypes from "prop-types";
 import EmptyBed from "./EmptyBed";
-import BedDetails from "./ReservedBed/BedDetails";
+// import BedDetails from "./ReservedBed/BedDetails";
 import MakeAsInactive from "../CustomerFile/MakeAsInactive";
-import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
+// import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
 import ChangeBedTenantWay from "../CustomerFile/ChangeBedTenantWay";
 import MoveToNoticePGAndTenant from "../CustomerFile/MoveToNoticePGAndTenant";
 import NoticeBedStatusDetails from "./NoticePeriod/BedStatus";
@@ -32,6 +32,11 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import BookingToCheckin from "../CustomerFile/BookingToCheckin";
 import BedActivity from "./BedActivity";
+import OccupiedBed from "./OccupiedBeds/OccupiedBed";
+import BookedBed from "./ReservedBed/BookedBed";
+import NoticeBed from "./NoticePeriod/NoticeBed";
+
+
 function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -630,8 +635,19 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {showReservedBed && (
+      {/* {showReservedBed && (
         <BedDetails
+          show={handleShowReservedBed}
+          handleCloseBed={handleCloseReservedBed}
+          handleShowCheck_In={handleShowCheck_In}
+          MakeAsInActive={handleShowMakeAsInActive}
+          currentItem={customer}
+          handleShowInActiveForm={handleShowInActiveForm}
+          showEditBed={handleEditBed}
+        />
+      )} */}
+      {showReservedBed && (
+        <BookedBed
           show={handleShowReservedBed}
           handleCloseBed={handleCloseReservedBed}
           handleShowCheck_In={handleShowCheck_In}
@@ -685,8 +701,22 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {Occubied_bed && (
+      {/* {Occubied_bed && (
         <OccupiedBedStatus
+          show={Occubied_bed}
+          showEditBed={handleEditBed}
+          handleShowInActiveForm={handleShowInActiveForm}
+          handleShowCheck_In={handleShowCheck_In}
+          handleCloseBed={handlecloseoccubiedbed}
+          currentItem={customer}
+          handleShowReassignBed={handleShowReAssignBedPopup}
+          handleShowNoticePeriod={handleShowNoticePeriod}
+        />
+      )} */}
+
+
+      {Occubied_bed && (
+        <OccupiedBed
           show={Occubied_bed}
           showEditBed={handleEditBed}
           handleShowInActiveForm={handleShowInActiveForm}
@@ -698,7 +728,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {Noticeperiod_bed && (
+      {/* {Noticeperiod_bed && (
         <NoticeBedStatusDetails
           showEditBed={handleEditBed}
           show={Noticeperiod_bed}
@@ -714,7 +744,27 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           handleOpenCancelCheckout={handleOpenCancelCheckout}
           handleShowNoticePeriod={handleShowNoticePeriod}
         />
+      )} */}
+
+      {Noticeperiod_bed && (
+        <NoticeBed
+          showEditBed={handleEditBed}
+          show={Noticeperiod_bed}
+          handleDisplayCheckInForm={handleDisplayCheckInForm}
+          handleCloseBed={handlecloseNoticePeriodBed}
+          currentItem={customer}
+          handleShowReassignBed={handleShowReAssignBedPopup}
+          showBooking={handleshowNoticePeriodBooking}
+          showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
+          showfinalsettelemnet={handleshowfinalsettlement}
+          handleOpenChangeBed={handleOpenChangeBed}
+          handleShowInActiveForm={handleShowInActiveForm}
+          handleOpenCancelCheckout={handleOpenCancelCheckout}
+          handleShowNoticePeriod={handleShowNoticePeriod}
+        />
       )}
+
+
 
       {showReAssignBedForm && (
         <ChangeBedTenantWay

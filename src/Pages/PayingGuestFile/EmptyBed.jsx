@@ -7,8 +7,8 @@ import { useHasPermission } from '../../Utils/Permission';
 import BedActivity from './BedActivity';
 import { UserAdd, UserSquare, More } from "iconsax-react";
 import Green from "../../Assets/Images/New_images/GreenBed.png";
-import BedOverview from './BedOverview';
 import FormComingSoon from '../../Utils/FormComingSoon';
+import BedOverview from './BedOverview';
 
 
 
@@ -175,9 +175,9 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
                 <button
                   onClick={handleShowAddCustomer}
                   disabled={!canWriteWalkin}
-                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-xs font-medium whitespace-nowrap
+                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border-1 text-xs font-medium whitespace-nowrap
       ${canWriteWalkin
-                      ? "bg-[#F1F6FF] text-[#1E45E1] border-[#D9E5FF]"
+                      ? "bg-[#F1F6FF] text-[#1E45E1]  border-1 border-[#1E45E1]"
                       : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
                     }`}
                 >
@@ -247,14 +247,16 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
 
 
           <div className="w-full my-4 shrink-0 px-3 mt-4">
-            <div className="flex items-center justify-around gap-6 border-b border-gray-200">
+            <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB] w-full">
               {["overview", "activity"].map((tab) => (
                 <button
                   key={tab}
+                  type="button"
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-3 text-sm font-medium capitalize transition-all ${activeTab === tab
-                    ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                    : "text-gray-500 hover:text-gray-700"
+                  className={`flex-1 pb-3 text-sm font-medium capitalize transition-all duration-200 border-b-2
+                    ${activeTab === tab
+                      ? "text-[#1E45E1] border-[#1E45E1] drop-shadow-[0_2px_4px_rgba(30,69,225,0.25)]"
+                      : "text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
                     }`}
                 >
                   {tab === "overview" ? "Overview" : "Activity"}
@@ -263,7 +265,9 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
             </div>
           </div>
           <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls ">
-            {activeTab === "overview" && <BedOverview />}
+            {activeTab === "overview" &&
+              <BedOverview isBed="EMPTY" />
+            }
 
             {(activeTab === "activity" && isDev) ? (
               <BedActivity />
