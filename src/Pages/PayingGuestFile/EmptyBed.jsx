@@ -1,24 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-// import Modal from 'react-bootstrap/Modal';
-import { Activity, Add, Edit } from 'iconsax-react';
+import { Add, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types";
-import AddSquare from '../../Assets/Images/add-square.png'
-import AssignTenant from '../../Assets/Images/assign_tenant.png'
-import DeleteImage from '../../Assets/Images/Delete_red.png'
 import { useHasPermission } from '../../Utils/Permission';
 import BedActivity from './BedActivity';
 import { UserAdd, UserSquare, More } from "iconsax-react";
+import Green from "../../Assets/Images/New_images/GreenBed.png";
+import BedOverview from './BedOverview';
+import FormComingSoon from '../../Utils/FormComingSoon';
 
 
 
-function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEditBed, showActivity }) {
+function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed, }) {
 
   const [showMore, setShowMore] = useState(false);
   const state = useSelector((state) => state);
   const dispatch = useDispatch
   const [activeTab, setActiveTab] = useState("overview");
+
+  const bedDetails = state?.PgList?.OccupiedCustomer
 
   const {
     canWriteModule: canWriteWalkin,
@@ -40,6 +41,11 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
   } = useHasPermission("Paying Guests");
 
   const isDev = import.meta.env.MODE === "development";
+  const moreRef = useRef(null);
+
+
+
+
 
   const handleShowAddCustomer = () => {
     showcustomer(true)
@@ -58,9 +64,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
     showEditBed(true)
   }
 
-  const handleShowActivity = () => {
-    showActivity(true)
-  }
+
 
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -74,6 +78,19 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
     }
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (moreRef.current && !moreRef.current.contains(event.target)) {
+        setShowMore(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -97,8 +114,17 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-md bg-white rounded-xl shadow-xl flex flex-col">
           <div className=" px-4 py-3 shrink-0  flex items-center justify-between  mb-1">
-            <div className=" text-center !text-[18px] !text-gray-900 !font-semibold !font-gilroy" >
-              Bed Status
+            <div>
+              <div className=" text-center !text-[20px] !text-gray-900 !font-semibold !font-gilroy" >
+                Bed Status
+              </div>
+              <div className="text-sm text-[#1E45E1] flex items-center gap-2">
+                {bedDetails?.floorName}
+                <span className="h-4 w-px bg-gray-300" />
+                {bedDetails?.roomName}
+                <span className="h-4 w-px bg-gray-300" />
+                {bedDetails?.bedName}
+              </div>
             </div>
 
             <div className=" z-10">
@@ -113,135 +139,148 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEd
           </div>
 
 
-          <div className="flex-1 overflow-y-auto px-3 show-scrolls">
+          {/* <div className="px-3"> */}
 
 
+          <div className="shrink-0 px-3">
+            <div className=" w-full my-2 bg-[#F9FAFB] p-2  rounded">
 
-            <div className="flex items-center gap-2 w-full my-2">
-
-
-              <button
-                onClick={handleShowAssignTenant}
-                disabled={!canWriteCustomers}
-                className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-xs font-medium whitespace-nowrap
-      ${canWriteCustomers
-                    ? "bg-[#1E45E1] text-white hover:bg-blue-700"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-              >
-                <UserAdd size="18" />
-                Assign Tenant
-              </button>
-
-
-              <button
-                onClick={handleShowAddCustomer}
-                disabled={!canWriteWalkin}
-                className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-xs font-medium whitespace-nowrap
-      ${canWriteWalkin
-                    ? "bg-[#F1F6FF] text-[#1E45E1] border-[#D9E5FF]"
-                    : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                  }`}
-              >
-                <UserSquare size="18" />
-                Add Tenant
-              </button>
-
-
-              <div className="relative shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setShowMore((prev) => !prev)}
-                  className="w-10 h-10 flex items-center justify-center  "
-                >
-                  <More size="20" color="#374151" variant='Outline' className='rotate-90' />
-                </button>
-
-                {showMore && (
-                  <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-50 py-1">
-
-                    {/* Edit */}
-                    <button
-                      type="button"
-                      disabled={!canUpdatePayingGuests}
-                      onClick={() => {
-                        setShowMore(false);
-                        handleEditBed();
-                      }}
-                      className={`w-full flex items-center justify-between px-4 py-2.5 text-sm ${canUpdatePayingGuests
-                        ? "text-blue-700 hover:bg-blue-50"
-                        : "text-gray-400 cursor-not-allowed"
-                        }`}
-                    >
-                      Edit
-                      <Edit size="16" color={canUpdatePayingGuests ? "#1E45E1" : "#9CA3AF"} />
-                    </button>
-
-                    {/* Delete */}
-                    <button
-                      type="button"
-                      disabled={!canDeletePayingGuests}
-                      onClick={() => {
-                        setShowMore(false);
-                        handleDeleteBed();
-                      }}
-                      className={`w-full flex items-center justify-between px-4 py-2.5 text-sm ${canDeletePayingGuests
-                        ? "text-red-600 hover:bg-red-50"
-                        : "text-gray-400 cursor-not-allowed"
-                        }`}
-                    >
-                      Delete
-                      <img
-                        src={DeleteImage}
-                        height={18}
-                        width={18}
-                        alt="delete"
-                        className={!canDeletePayingGuests ? "grayscale opacity-50" : ""}
-                      />
-                    </button>
+              <div className='flex items-center justify-between gap-4 my-2'>
+                <div className='flex  items-center  gap-4'>
+                  <div><img src={Green} alt="image" className='h-8 w-8' /></div>
+                  <div>
+                    <div className='text-[#222222] text-sm  font-semibold'>Monthly Rent : ₹ {bedDetails?.rentAmount}</div>
+                    <div className='text-[#009966] text-xs  font-semibold'>Ready to book</div>
 
                   </div>
-                )}
+                </div>
+                <button className='px-2 py-1 bg-[#038C3D] text-white font-gilroy rounded text-xs '>Available </button>
               </div>
-            </div>
+              <div className='flex items-center gap-2 my-2'>
+
+                <button
+                  onClick={handleShowAssignTenant}
+                  disabled={!canWriteCustomers}
+                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-xs font-medium whitespace-nowrap
+      ${canWriteCustomers
+                      ? "bg-[#1E45E1] text-white hover:bg-blue-700"
+                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    }`}
+                >
+                  <UserAdd size="18" />
+                  Assign Tenant
+                </button>
 
 
+                <button
+                  onClick={handleShowAddCustomer}
+                  disabled={!canWriteWalkin}
+                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-xs font-medium whitespace-nowrap
+      ${canWriteWalkin
+                      ? "bg-[#F1F6FF] text-[#1E45E1] border-[#D9E5FF]"
+                      : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                    }`}
+                >
+                  <UserSquare size="18" />
+                  Add Tenant
+                </button>
 
 
-
-
-
-            {/* new ui */}
-            <div className="w-full my-4 ">
-              <div className="flex items-center justify-around gap-6 border-b border-gray-200">
-                {["overview", "activity"].map((tab) => (
+                <div className="relative shrink-0" >
                   <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`pb-3 text-sm font-medium capitalize transition-all ${activeTab === tab
-                      ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
-                      : "text-gray-500 hover:text-gray-700"
-                      }`}
+                    type="button"
+                    onClick={() => setShowMore((prev) => !prev)}
+                    className="w-10 h-10 flex items-center justify-center border-1 border-[#EFEFEF] rounded "
                   >
-                    {tab === "overview" ? "Overview" : "Activity"}
+                    <More size="20" color="#374151" variant='Outline' className='rotate-90' />
                   </button>
-                ))}
-              </div>
 
-              <div className="mt-4">
-                {/* {activeTab === "overview" && <Overview />} */}
+                  {showMore && (
+                    <div ref={moreRef} className="absolute right-0 top-full mt-2 w-40 bg-white border border-[#E5E7EB] rounded-lg shadow-lg z-50 py-1">
 
-                {activeTab === "activity" && isDev && <BedActivity />}
+
+                      <button
+                        type="button"
+                        disabled={!canUpdatePayingGuests}
+                        onClick={() => {
+                          setShowMore(false);
+                          handleEditBed();
+                        }}
+                        className={`w-full flex items-center justify-between px-4 py-2 text-xs ${canUpdatePayingGuests
+                          ? "text-blue-700 hover:bg-blue-50"
+                          : "text-gray-400 cursor-not-allowed"
+                          }`}
+                      >
+                        Edit
+                        <Edit size="12" color={canUpdatePayingGuests ? "#1E45E1" : "#9CA3AF"} />
+                      </button>
+
+
+                      <button
+                        type="button"
+                        disabled={!canDeletePayingGuests}
+                        onClick={() => {
+                          setShowMore(false);
+                          handleDeleteBed();
+                        }}
+                        className={`w-full flex items-center justify-between px-4 py-2 text-xs ${canDeletePayingGuests
+                          ? "text-red-600 hover:bg-red-50"
+                          : "text-gray-400 cursor-not-allowed"
+                          }`}
+                      >
+                        Delete
+
+                        <Trash size="12" color={canDeletePayingGuests ? "red" : "#9CA3AF"} />
+                      </button>
+
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-
-
-
-
           </div>
-        </div>
 
-      </div >
+
+
+
+
+
+
+          <div className="w-full my-4 shrink-0 px-3 mt-4">
+            <div className="flex items-center justify-around gap-6 border-b border-gray-200">
+              {["overview", "activity"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`pb-3 text-sm font-medium capitalize transition-all ${activeTab === tab
+                    ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                    : "text-gray-500 hover:text-gray-700"
+                    }`}
+                >
+                  {tab === "overview" ? "Overview" : "Activity"}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls ">
+            {activeTab === "overview" && <BedOverview />}
+
+            {(activeTab === "activity" && isDev) ? (
+              <BedActivity />
+            ) : activeTab === "activity" && (
+
+              <FormComingSoon />
+            )}
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+
+      {/* </div > */}
 
 
 

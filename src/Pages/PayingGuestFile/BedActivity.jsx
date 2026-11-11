@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { CloseCircle, Message2, Calendar, ArrowDown2 } from "iconsax-react"
+import { Message2, Calendar, ArrowDown2 } from "iconsax-react"
 
-function BedActivity({ handleClose }) {
+function BedActivity({ }) {
 
 
 
@@ -178,8 +178,8 @@ function BedActivity({ handleClose }) {
 
     return (
 
-        <div className="w-full max-w-md bg-white  flex flex-col">
-            <div className=" px-4 py-3 shrink-0  flex items-center justify-between gap-2 mb-1">
+        <div className="w-full max-w-md bg-white  flex flex-col ">
+            <div className=" px-4 py-1 shrink-0  flex items-center justify-between gap-2 mb-1">
                 <h3 className="text-sm font-semibold text-gray-900">
                     Activity History
                 </h3>

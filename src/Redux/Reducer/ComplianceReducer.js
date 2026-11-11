@@ -58,6 +58,15 @@ export const initialState = {
     categoryName: "",
     categoryId: "",
   },
+
+
+  complainceFilters: {
+    status: "",
+    statusLabel: "",
+    search: "",
+    startDate: "",
+    endDate: "",
+  },
 };
 
 const ComplianceReducer = (state = initialState, action) => {
@@ -73,6 +82,15 @@ const ComplianceReducer = (state = initialState, action) => {
         ...state,
         vendorFilters: {
           ...state.vendorFilters,
+          ...action.payload,
+        },
+      };
+
+    case "SET_COMPLIANCE_FILTERS":
+      return {
+        ...state,
+        complainceFilters: {
+          ...state.complainceFilters,
           ...action.payload,
         },
       };
