@@ -372,7 +372,7 @@ function ParticularHostelDetails(props) {
   }, [state.UsersList.statuscodeForConformCheckout]);
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col h-full min-h-0 overflow-hidden">
       {loader && (
         <div className="fixed inset-y-0 right-0 left-52 flex items-center justify-center bg-transparent opacity-75 z-10">
           <div className="w-10 h-10 rounded-full border-t-4 border-blue-700 border-r-4 border-transparent animate-spin" />
@@ -380,149 +380,133 @@ function ParticularHostelDetails(props) {
       )}
 
       {roomList?.length > 0 ? (
-        <div className="flex flex-col">
-          <div className="max-h-[calc(100vh-200px)] overflow-y-auto show-scrolls pr-2">
-            <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4">
-              {roomList.map((room, index) => (
-                <div key={room.id || index} className="flex justify-center">
-                  <div className="w-full h-full fade-in border border-[#E6E6E6] rounded-xl min-h-[120px]">
 
-                    <div className="flex justify-between items-start bg-white border border-[#E6E6E6] rounded-t-xl p-2.5">
-                      <div className="w-[110px] flex items-center gap-2">
-                        <div
-                          className="text-[14px] font-semibold text-[#222222] truncate"
-                          title={room.name}
-                        >
-                          {room.name}
-                        </div>
+        <div className="flex-1 min-h-0 overflow-y-auto show-scrolls pr-2">
+          <div className="grid gap-3 mt-4 mb-2 font-gilroy grid-cols-1 md:grid-cols-2 2xl:grid-cols-4">
+            {roomList.map((room, index) => (
+              <div key={room.id || index} className="flex justify-center ">
+                <div className="w-full h-full fade-in border border-[#E6E6E6] rounded-xl min-h-[120px] bg-white">
 
-                        <div className="text-[10px] font-normal text-[#4338CA] bg-[#E0E7FFB2] px-2 py-1 rounded">
-                          {Array.isArray(state.PgList?.bedList?.[room.id])
-                            ? `${state.PgList.bedList[room.id].length} sharing`
-                            : "0 sharing"}
-                        </div>
+                  <div className="flex justify-between items-start bg-white border border-[#E6E6E6] rounded-t-xl p-2.5">
+                    <div className="w-[110px] flex items-center gap-2">
+                      <div
+                        className="text-[14px] font-semibold text-[#222222] truncate"
+                        title={room.name}
+                      >
+                        {room.name}
                       </div>
 
-
-                      <div
-                        onClick={() => {
-                          if (!state.login.isTrigger) {
-                            handleShowDots(room.id);
-                          }
-                        }}
-                        className="relative cursor-pointer"
-                      >
-                        <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
-
-                        {String(activeRoomId) === String(room.id) && (
-                          <div
-                            ref={popupRef}
-                            className="absolute right-0 top-7 w-[140px] flex flex-col rounded-lg bg-[#f9f9f9] border border-[#EBEBEB] shadow-md z-50"
-                          >
-                            <div
-                              onClick={() => {
-                                if (canUpdatePayingGuests) {
-                                  handleEditRoom(
-                                    room.hostelId,
-                                    room.floorId,
-                                    room.id,
-                                    room.name,
-                                  );
-                                }
-                              }}
-                              className={`flex gap-2 items-center px-2.5 py-2.5 rounded-t-lg ${!canUpdatePayingGuests
-                                ? "opacity-50 cursor-not-allowed"
-                                : "cursor-pointer hover:bg-[#F0F4FF]"
-                                }`}
-                            >
-                              <Edit
-                                size={16}
-                                color={
-                                  !canUpdatePayingGuests ? "#888888" : "#1E45E1"
-                                }
-                              />
-
-                              <label
-                                className={`text-[14px] font-medium mb-0 ${!canUpdatePayingGuests
-                                  ? "text-[#888888]"
-                                  : "text-[#222222] cursor-pointer"
-                                  }`}
-                              >
-                                Edit
-                              </label>
-                            </div>
-
-                            <div className="h-px bg-[#E0E0E0]" />
-
-                            <div
-                              onClick={() => {
-                                if (canDeletePayingGuests) {
-                                  handleDeleteRoom(
-                                    room.hostelId,
-                                    room.floorId,
-                                    room.id,
-                                  );
-                                }
-                              }}
-                              className={`flex gap-2 items-center px-2.5 py-2.5 rounded-b-lg ${!canDeletePayingGuests
-                                ? "opacity-50 cursor-not-allowed"
-                                : "cursor-pointer hover:bg-[#FFF3F3]"
-                                }`}
-                            >
-                              <Trash
-                                size={16}
-                                color={
-                                  !canDeletePayingGuests ? "#888888" : "red"
-                                }
-                              />
-
-                              <label
-                                className={`text-[14px] font-medium mb-0 ${!canDeletePayingGuests
-                                  ? "text-[#888888]"
-                                  : "text-[#FF0000] cursor-pointer"
-                                  }`}
-                              >
-                                Delete
-                              </label>
-                            </div>
-                          </div>
-                        )}
+                      <div className="text-[10px] font-normal text-[#4338CA] bg-[#E0E7FFB2] px-2 py-1 rounded">
+                        {Array.isArray(state.PgList?.bedList?.[room.id])
+                          ? `${state.PgList.bedList[room.id].length} sharing`
+                          : "0 sharing"}
                       </div>
                     </div>
 
 
-                    <div className="p-2.5">
-                      <BedDetailsMap
-                        room={room}
-                        propsValue={props}
-                        selectedBed={selectedBed}
-                        setSelectedBed={setSelectedBed}
-                      />
+                    <div
+                      onClick={() => {
+                        if (!state.login.isTrigger) {
+                          handleShowDots(room.id);
+                        }
+                      }}
+                      className="relative cursor-pointer"
+                    >
+                      <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
+
+                      {String(activeRoomId) === String(room.id) && (
+                        <div
+                          ref={popupRef}
+                          className="absolute right-0 top-7 w-[140px] flex flex-col rounded-lg bg-[#f9f9f9] border border-[#EBEBEB] shadow-md z-50"
+                        >
+                          <div
+                            onClick={() => {
+                              if (canUpdatePayingGuests) {
+                                handleEditRoom(
+                                  room.hostelId,
+                                  room.floorId,
+                                  room.id,
+                                  room.name,
+                                );
+                              }
+                            }}
+                            className={`flex gap-2 items-center px-2.5 py-2.5 rounded-t-lg ${!canUpdatePayingGuests
+                              ? "opacity-50 cursor-not-allowed"
+                              : "cursor-pointer hover:bg-[#F0F4FF]"
+                              }`}
+                          >
+                            <Edit
+                              size={16}
+                              color={
+                                !canUpdatePayingGuests ? "#888888" : "#1E45E1"
+                              }
+                            />
+
+                            <label
+                              className={`text-[14px] font-medium mb-0 ${!canUpdatePayingGuests
+                                ? "text-[#888888]"
+                                : "text-[#222222] cursor-pointer"
+                                }`}
+                            >
+                              Edit
+                            </label>
+                          </div>
+
+                          <div className="h-px bg-[#E0E0E0]" />
+
+                          <div
+                            onClick={() => {
+                              if (canDeletePayingGuests) {
+                                handleDeleteRoom(
+                                  room.hostelId,
+                                  room.floorId,
+                                  room.id,
+                                );
+                              }
+                            }}
+                            className={`flex gap-2 items-center px-2.5 py-2.5 rounded-b-lg ${!canDeletePayingGuests
+                              ? "opacity-50 cursor-not-allowed"
+                              : "cursor-pointer hover:bg-[#FFF3F3]"
+                              }`}
+                          >
+                            <Trash
+                              size={16}
+                              color={
+                                !canDeletePayingGuests ? "#888888" : "red"
+                              }
+                            />
+
+                            <label
+                              className={`text-[14px] font-medium mb-0 ${!canDeletePayingGuests
+                                ? "text-[#888888]"
+                                : "text-[#FF0000] cursor-pointer"
+                                }`}
+                            >
+                              Delete
+                            </label>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          {!state.login.isTrigger && (
-            <div className="mt-4 ms-2 shrink-0">
-              <label
-                className={`text-[16px] font-semibold font-montserrat ${!canWritePayingGuests
-                  ? "text-gray-400 cursor-not-allowed opacity-70"
-                  : "text-[#1E45E1] cursor-pointer"
-                  }`}
-                onClick={
-                  canWritePayingGuests
-                    ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
-                    : undefined
-                }
-              >
-                + Add Rooms
-              </label>
-            </div>
-          )}
+
+                  <div className="p-2.5">
+                    <BedDetailsMap
+                      room={room}
+                      propsValue={props}
+                      selectedBed={selectedBed}
+                      setSelectedBed={setSelectedBed}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
+
+
       ) : (
         <>
           {/* onClick={() => } */}
@@ -530,6 +514,25 @@ function ParticularHostelDetails(props) {
             isWay="Room" handleAddRoom={() => handleShowAddRoom(props.floorID, props.hostel_Id)} isHeightChanged={true} />
         </>
       )}
+
+      {!state.login.isTrigger && roomList?.length > 0 && (
+        <div className="shrink-0 bg-[#F8FAFC] border-t border-gray-100 px-3 py-3">
+          <label
+            className={`text-[14px] font-semibold font-gilroy ${!canWritePayingGuests
+              ? "text-gray-400 cursor-not-allowed opacity-70"
+              : "text-[#1E45E1] cursor-pointer"
+              }`}
+            onClick={
+              canWritePayingGuests
+                ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
+                : undefined
+            }
+          >
+            + Add Rooms
+          </label>
+        </div>
+      )}
+
 
       {showRoom && (
         <AddRoom
