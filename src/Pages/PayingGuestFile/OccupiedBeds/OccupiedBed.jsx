@@ -128,7 +128,7 @@ function OccupiedBed({
             <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-md bg-white rounded-xl shadow-xl flex flex-col">
                 <div className=" px-4 py-3 shrink-0  flex items-center justify-between">
                     <div>
-                        <div className=" text-center !text-[18px] !text-gray-900 !font-semibold !font-gilroy flex items-center gap-2" >
+                        <div className=" !text-[18px] !text-gray-900 !font-semibold !font-gilroy flex items-center gap-2" >
                             Bed Status
                             <button
                                 type="button"

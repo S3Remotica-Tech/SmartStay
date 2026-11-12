@@ -32,11 +32,12 @@ import { triggerPG } from "../../Redux/Action/LoginAction";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
-import NoDataMessage from "../../Utils/NoDataMessage";
+// import NoDataMessage from "../../Utils/NoDataMessage";
 import { CustomStyles } from "../../Utils/SelectStyles";
 import CustomTooltip from "../../Utils/CustomTooltip";
 import Select from "react-select";
 import FilterModal from "./FilterModal";
+import NoDataFormat from "../../Utils/NoData";
 
 function PgList() {
   const dispatch = useDispatch();
@@ -665,7 +666,7 @@ function PgList() {
     dispatch(triggerPG(false));
   }, []);
 
-  const CustomerOverView = state.UsersList?.customerdetails;
+  const CustomerOverView = state?.UsersList?.customerdetails;
 
   return (
     <>
@@ -675,7 +676,7 @@ function PgList() {
         </div>
       )}
 
-      <div className="bg-white z-40 p-2 flex flex-col overflow-hidden">
+      <div className="bg-white h-screen z-40 flex flex-col overflow-hidden">
         {state.login.isTrigger && (
           <>
             <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
@@ -736,7 +737,7 @@ function PgList() {
         {selectedHostel && (
           <div>
             {!state.login.isTrigger && (
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex justify-between items-center mb-2">
                 <label className="ms-2 text-lg font-semibold font-gilroy text-gray-900">
                   {showHostelDetails?.name}
                 </label>
@@ -754,7 +755,7 @@ function PgList() {
             {!canReadPayingGuests ? (
               <PermissionDeniedMessage />
             ) : floorList?.length > 0 ? (
-              <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ml-2 md:ml-0">
+              <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] bg-[#F8FAFC] rounded p-2">
                 <div className="sticky top-24 z-10">
                   <div className="flex justify-center mb-2">
                     <div
@@ -1036,7 +1037,7 @@ function PgList() {
 
 
                   {
-                    isDev && (
+                    isDev && state?.PgList?.roomsList?.length > 0 && (
                       <>
                         <div className="flex flex-wrap items-center gap-2 font-gilroy my-2 md:px-4 lg:px-0">
                           <div className="flex items-center gap-2 rounded-lg border-1 border-gray-100 bg-white px-2.5 py-2 shadow-sm">
@@ -1156,7 +1157,9 @@ function PgList() {
                 </div>
               </div>
             ) : (
-              !loading && <NoDataMessage label="Floor" />
+              !loading && <NoDataFormat label="Create your Property Arrangement"
+                subLabel="Add your property's current setup" isWay="Floor"
+                handleAddFloor={() => handleAddFloors(state.login.selectedHostel_Id)} />
             )}
           </div>
         )}

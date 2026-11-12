@@ -3,12 +3,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Add, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types";
-import { useHasPermission } from '../../Utils/Permission';
-import BedActivity from './BedActivity';
+import { useHasPermission } from '../../../Utils/Permission';
+import BedActivity from '../BedActivity';
 import { UserAdd, UserSquare, More } from "iconsax-react";
-import Green from "../../Assets/Images/New_images/GreenBed.png";
-import FormComingSoon from '../../Utils/FormComingSoon';
-import BedOverview from './BedOverview';
+import Green from "../../../Assets/Images/New_images/GreenBed.png";
+import FormComingSoon from '../../../Utils/FormComingSoon';
+import BedOverview from '../BedOverview';
 
 
 
@@ -115,7 +115,7 @@ function EmptyBed({ handleClose, showbed, showcustomer, showtenant, showEditBed,
         <div className="absolute font-gilroy top-2 right-2 bottom-2 w-full max-w-md bg-white rounded-xl shadow-xl flex flex-col">
           <div className=" px-4 py-3 shrink-0  flex items-center justify-between  mb-1">
             <div>
-              <div className=" text-center !text-[20px] !text-gray-900 !font-semibold !font-gilroy" >
+              <div className="  !text-[20px] !text-gray-900 !font-semibold !font-gilroy" >
                 Bed Status
               </div>
               <div className="text-sm text-[#1E45E1] flex items-center gap-2">

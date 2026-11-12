@@ -9,7 +9,7 @@ import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
 import AddBedUI from "./AddBed";
 import PropTypes from "prop-types";
-import EmptyBed from "./EmptyBed";
+import EmptyBed from "../PayingGuestFile/EmptyBed/EmptyBed";
 // import BedDetails from "./ReservedBed/BedDetails";
 import MakeAsInactive from "../CustomerFile/MakeAsInactive";
 // import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
@@ -812,7 +812,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )} */}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto show-scrolls overflow-x-hidden gap-x-3 gap-y-4">
         {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (
           filteredBeds.map((bed) => (
             <div
@@ -934,11 +934,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center py-2">
-            <label className="text-xs font-gilroy text-neutral-600 whitespace-nowrap">
-              No beds available
-            </label>
-          </div>
+          ""
         )}
 
         {!state.login.isTrigger && (
