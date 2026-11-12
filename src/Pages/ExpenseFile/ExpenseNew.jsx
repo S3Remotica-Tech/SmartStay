@@ -91,21 +91,25 @@ function Expenses() {
       label: "Total Expense Amount",
       value: getData?.expenseSummary?.totalExpenseAmount ?? 0,
       search: "",
+      prefix: "₹",
     },
     {
       label: "Paid",
       value: getData?.expenseSummary?.totalPaidAmount ?? 0,
       search: "Full",
+      prefix: "₹",
     },
     {
       label: "Unpaid (Credit)",
       value: getData?.expenseSummary?.totalUnPaidAmount ?? 0,
       search: "Pending",
+      prefix: "₹",
     },
     {
       label: "Partially Paid",
       value: getData?.expenseSummary?.totalPartialPaidAmount ?? 0,
       search: "Partial",
+      prefix: "₹",
     },
   ];
 
@@ -1089,7 +1093,8 @@ function Expenses() {
                     </div>
 
                     <div className="text-lg font-semibold text-[#111827]">
-                      ₹ {item.value}
+                      {item.prefix || ""}
+                      {Number(item.value).toLocaleString("en-IN")}
                     </div>
                   </div>
                 </div>
