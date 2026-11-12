@@ -220,7 +220,7 @@ function BankingNew() {
   };
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
-    //  canUpdateModule: canUpdateBanking,
+    canUpdateModule: canUpdateBanking,
     // canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
@@ -1227,13 +1227,10 @@ function BankingNew() {
 
 
                                   <button
-                                    disabled
-                                    // disabled={
-                                    //   !(canUpdateBanking)
-                                    // }
-                                    // disabled={
-                                    //   !canUpdateBanking
-                                    // }
+
+                                    disabled={
+                                      !canUpdateBanking
+                                    }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleEditBank(item);
@@ -1254,7 +1251,7 @@ function BankingNew() {
 
 
                                   <button
-                                    disabled
+                                    // disabled
                                     // disabled={!canDeleteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1456,7 +1453,7 @@ function BankingNew() {
                   ) : (
                     <div
                       onClick={() => canWriteBanking && handleAddAccount()}
-                      className={`border-1  max-w-[200px] shrink-0 w-full min-w-[120px] rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                      className={`border-1 max-w-[140px]  shrink-0 w-full min-w-[100px] rounded-md px-4 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                         ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                         : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                         }`}
@@ -1470,14 +1467,12 @@ function BankingNew() {
                         </div>
 
                         <div
-                          className={`text-xs sm:text-xs font-medium leading-6 ${canWriteBanking
+                          className={`text-xs sm:text-xs font-medium leading-5 text-center whitespace-normal break-words ${canWriteBanking
                             ? "text-[#1E45E1]"
                             : "text-[#9CA3AF] cursor-not-allowed"
                             }`}
                         >
-                          Add New Bank / Cash /Credit Card
-                          <br />
-                          Account
+                          Add Bank / Cash / Credit Card Account
                         </div>
                       </div>
                     </div>
@@ -1486,7 +1481,7 @@ function BankingNew() {
                 {banking && banking?.length > 0 && (
                   <div
                     onClick={() => canWriteBanking && handleAddAccount()}
-                    className={`border-1 max-w-[200px] shrink-0 rounded-md px-10 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
+                    className={`border-1  max-w-[140px] shrink-0 w-full min-w-[140px] rounded-md px-4 py-6 m-1 flex items-center justify-center transition-colors ${canWriteBanking
                       ? "cursor-pointer hover:bg-[#F8FAFF] border-dashed border-[#1E45E1]"
                       : "cursor-not-allowed pointer-events-none border-dashed border-gray-500"
                       }`}
@@ -1500,12 +1495,12 @@ function BankingNew() {
                       </div>
 
                       <div
-                        className={`text-xs sm:text-sm font-medium  ${canWriteBanking
+                        className={`text-xs sm:text-xs font-medium whitespace-normal break-words  ${canWriteBanking
                           ? "text-[#1E45E1]"
                           : "text-[#9CA3AF] cursor-not-allowed"
                           }`}
                       >
-                        Add New Bank /<br /> Cash /<br />
+                        Add  Bank / Cash /
                         Credit Card
 
                         Account

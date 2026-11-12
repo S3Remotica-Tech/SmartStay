@@ -12,6 +12,7 @@ import "./ParticularHostelDetails.css";
 import BedDetailsMap from "./BedDetailsMap";
 import { useHasPermission } from "../../Utils/Permission";
 import NoData from "../../Assets/v2Images/NoData.svg";
+import NoDataFormat from "../../Utils/NoData";
 function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -385,9 +386,9 @@ function ParticularHostelDetails(props) {
               {roomList.map((room, index) => (
                 <div key={room.id || index} className="flex justify-center">
                   <div className="w-full h-full fade-in border border-[#E6E6E6] rounded-xl min-h-[120px]">
-                    {/* Room Header */}
-                    <div className="flex justify-between items-start bg-[#E0ECFF] border border-[#E6E6E6] rounded-t-xl p-2.5">
-                      <div className="w-[110px]">
+
+                    <div className="flex justify-between items-start bg-white border border-[#E6E6E6] rounded-t-xl p-2.5">
+                      <div className="w-[110px] flex items-center gap-2">
                         <div
                           className="text-[14px] font-semibold text-[#222222] truncate"
                           title={room.name}
@@ -395,14 +396,14 @@ function ParticularHostelDetails(props) {
                           {room.name}
                         </div>
 
-                        <div className="text-[12px] font-normal text-[#7C7C7C] -mt-0.5">
+                        <div className="text-[10px] font-normal text-[#4338CA] bg-[#E0E7FFB2] px-2 py-1 rounded">
                           {Array.isArray(state.PgList?.bedList?.[room.id])
                             ? `${state.PgList.bedList[room.id].length} sharing`
                             : "0 sharing"}
                         </div>
                       </div>
 
-                      {/* Three Dots */}
+
                       <div
                         onClick={() => {
                           if (!state.login.isTrigger) {
@@ -429,11 +430,10 @@ function ParticularHostelDetails(props) {
                                   );
                                 }
                               }}
-                              className={`flex gap-2 items-center px-2.5 py-2.5 rounded-t-lg ${
-                                !canUpdatePayingGuests
-                                  ? "opacity-50 cursor-not-allowed"
-                                  : "cursor-pointer hover:bg-[#F0F4FF]"
-                              }`}
+                              className={`flex gap-2 items-center px-2.5 py-2.5 rounded-t-lg ${!canUpdatePayingGuests
+                                ? "opacity-50 cursor-not-allowed"
+                                : "cursor-pointer hover:bg-[#F0F4FF]"
+                                }`}
                             >
                               <Edit
                                 size={16}
@@ -443,11 +443,10 @@ function ParticularHostelDetails(props) {
                               />
 
                               <label
-                                className={`text-[14px] font-medium mb-0 ${
-                                  !canUpdatePayingGuests
-                                    ? "text-[#888888]"
-                                    : "text-[#222222] cursor-pointer"
-                                }`}
+                                className={`text-[14px] font-medium mb-0 ${!canUpdatePayingGuests
+                                  ? "text-[#888888]"
+                                  : "text-[#222222] cursor-pointer"
+                                  }`}
                               >
                                 Edit
                               </label>
@@ -465,11 +464,10 @@ function ParticularHostelDetails(props) {
                                   );
                                 }
                               }}
-                              className={`flex gap-2 items-center px-2.5 py-2.5 rounded-b-lg ${
-                                !canDeletePayingGuests
-                                  ? "opacity-50 cursor-not-allowed"
-                                  : "cursor-pointer hover:bg-[#FFF3F3]"
-                              }`}
+                              className={`flex gap-2 items-center px-2.5 py-2.5 rounded-b-lg ${!canDeletePayingGuests
+                                ? "opacity-50 cursor-not-allowed"
+                                : "cursor-pointer hover:bg-[#FFF3F3]"
+                                }`}
                             >
                               <Trash
                                 size={16}
@@ -479,11 +477,10 @@ function ParticularHostelDetails(props) {
                               />
 
                               <label
-                                className={`text-[14px] font-medium mb-0 ${
-                                  !canDeletePayingGuests
-                                    ? "text-[#888888]"
-                                    : "text-[#FF0000] cursor-pointer"
-                                }`}
+                                className={`text-[14px] font-medium mb-0 ${!canDeletePayingGuests
+                                  ? "text-[#888888]"
+                                  : "text-[#FF0000] cursor-pointer"
+                                  }`}
                               >
                                 Delete
                               </label>
@@ -493,7 +490,7 @@ function ParticularHostelDetails(props) {
                       </div>
                     </div>
 
-                    {/* Bed Details */}
+
                     <div className="p-2.5">
                       <BedDetailsMap
                         room={room}
@@ -511,11 +508,10 @@ function ParticularHostelDetails(props) {
           {!state.login.isTrigger && (
             <div className="mt-4 ms-2 shrink-0">
               <label
-                className={`text-[16px] font-semibold font-montserrat ${
-                  !canWritePayingGuests
-                    ? "text-gray-400 cursor-not-allowed opacity-70"
-                    : "text-[#1E45E1] cursor-pointer"
-                }`}
+                className={`text-[16px] font-semibold font-montserrat ${!canWritePayingGuests
+                  ? "text-gray-400 cursor-not-allowed opacity-70"
+                  : "text-[#1E45E1] cursor-pointer"
+                  }`}
                 onClick={
                   canWritePayingGuests
                     ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
@@ -528,27 +524,11 @@ function ParticularHostelDetails(props) {
           )}
         </div>
       ) : (
-        <div className="w-full my-6 h-[500px] border border-[#E5E7EB] rounded-2xl bg-white flex items-center justify-center">
-          <div className="flex flex-col items-center justify-center text-center">
-            <img src={NoData} alt="No Data" />
-
-            <h3 className="text-[20px] font-semibold text-[#101828] font-gilroy">
-              No Data Found!
-            </h3>
-
-            <p className="mt-1 text-sm text-[#4A5565] font-gilroy">
-              No Room found yet
-            </p>
-
-            <button
-              disabled={!canWritePayingGuests}
-              onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
-              className="mt-4 bg-[#1E45E1] text-white font-semibold rounded-xl px-6 py-2.5 text-[16px] font-gilroy disabled:opacity-70"
-            >
-              + Add Room
-            </button>
-          </div>
-        </div>
+        <>
+          {/* onClick={() => } */}
+          <NoDataFormat label="Add Room" subLabel="Add Rooms on Floor"
+            isWay="Room" handleAddRoom={() => handleShowAddRoom(props.floorID, props.hostel_Id)} isHeightChanged={true} />
+        </>
       )}
 
       {showRoom && (

@@ -294,6 +294,8 @@ function OccupiedBedStatus({
                                   Edit
                                 </label>
                               </div>
+
+
                             </div>
                           )}
                         </div>

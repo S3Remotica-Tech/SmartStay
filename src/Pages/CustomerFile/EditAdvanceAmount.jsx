@@ -83,12 +83,13 @@ function EditAdvanceAmount({ show, handleClose }) {
 
     if (!isValid) return;
 
-    const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
+    const oldAmount = Number(CustomerOverView.advanceInfo?.advanceAmount);
 
     const newAmount = Number(monthlyRent);
+    // console.log("oldAmount", oldAmount, "newAmount", newAmount);
 
     if (oldAmount === newAmount) {
-      setIsChangedError("No changes detected in AdvanceAmount");
+      setIsChangedError("No changes detected");
       return;
     }
 

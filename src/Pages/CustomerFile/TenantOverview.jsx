@@ -2520,6 +2520,22 @@ function TenantOverview(props) {
                                 </div>
                               )}
 
+
+                            <div className=" flex flex-col items-start">
+                              <div className="text-xs font-medium font-gilroy">
+                                Wallet Balance
+                              </div>
+                              <span
+                                className={`text-sm font-semibold font-[Gilroy] ${CustomerOverView?.walletInfo?.walletAmount < 0
+                                  ? "text-red-600"
+                                  : "text-green-600"
+                                  }`}
+                              >
+                                ₹ {CustomerOverView?.walletInfo?.walletAmount || 0}
+                              </span>
+                            </div>
+
+
                             {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map(
                               (item, index) => (
                                 <div

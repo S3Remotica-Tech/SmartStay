@@ -438,12 +438,15 @@ function AddVendorNew() {
     setDescription(e.target.value);
   };
 
-  useEffect(() => {
-    if (businessNameRef.current) {
-      businessNameRef.current.focus();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (businessNameRef.current) {
+  //     businessNameRef.current.focus();
+  //   }
+  // }, []);
 
+  useEffect(() => {
+    vendorNameRef.current?.focus();
+  }, []);
   // const handleCountryChange = (e) => {
   //   const value = e.target.value
   //   const pattern = /^[a-zA-Z\s]*$/;

@@ -110,7 +110,7 @@ const CustomStyles = {
     }),
 };
 
-function CreditCardGlobal({ handleClose }) {
+function CreditCardGlobal({ handleClose, editBankDetails }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     // const OverviewDetails = state?.bankingDetails?.OverviewBankDetails;
@@ -272,7 +272,7 @@ function CreditCardGlobal({ handleClose }) {
             }
         };
 
-        if (!cardNetwork) {
+        if (!editBankDetails && !cardNetwork) {
             setCardNetworkError("Please select card network");
             focusField(cardNetworkRef);
             isValid = false;
@@ -333,31 +333,49 @@ function CreditCardGlobal({ handleClose }) {
         }
 
         if (!isValid) return;
+        if (editBankDetails) {
+            dispatch({
+                type: "EDIT_V2_BANKING_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    bankId: editBankDetails?.bankId,
+                    holderName: cardHolderName,
+                    cardNumber: cardNumber,
+                    displayName: displayName.trim(),
+                    description: description.trim(),
+                    // cardNetwork: cardNetwork?.value,
+                    creditLimit: Number(creditLimit),
+                    billingCycle: billingCycle,
 
-        dispatch({
-            type: "ADD_BANKING_SAGA",
-            payload: {
-                hostelId: state.login.selectedHostel_Id,
-                linkedBankId: isLinked ? selectedBank?.value : "",
-                isDefault: true,
-                accountType: "CARD",
-                holderName: cardHolderName,
-                cardNumber: cardNumber,
-                displayName: displayName.trim(),
-                description: description.trim(),
-                cardNetwork: cardNetwork?.value,
-                creditLimit: Number(creditLimit),
-                billingCycle: billingCycle,
-                bankName: "",
-                bankAccountType: "",
-                branchName: "",
-                cashAccountType: "",
-                ifscCode: "",
-                openingBalance: 0,
-                responsiblePerson: ""
-            },
-        });
-        setIsSaving(true);
+                },
+            });
+            setIsSaving(true);
+        } else {
+            dispatch({
+                type: "ADD_BANKING_SAGA",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    linkedBankId: isLinked ? selectedBank?.value : "",
+                    isDefault: true,
+                    accountType: "CARD",
+                    holderName: cardHolderName,
+                    cardNumber: cardNumber,
+                    displayName: displayName.trim(),
+                    description: description.trim(),
+                    cardNetwork: cardNetwork?.value,
+                    creditLimit: Number(creditLimit),
+                    billingCycle: billingCycle,
+                    bankName: "",
+                    bankAccountType: "",
+                    branchName: "",
+                    cashAccountType: "",
+                    ifscCode: "",
+                    openingBalance: 0,
+                    responsiblePerson: ""
+                },
+            });
+            setIsSaving(true);
+        }
     };
 
     useEffect(() => {
@@ -405,6 +423,47 @@ function CreditCardGlobal({ handleClose }) {
     }, [state.createAccount?.networkError]);
 
 
+
+
+    useEffect(() => {
+        if (editBankDetails) {
+            setDisplayName(editBankDetails?.displayName || "");
+            setCardHolderName(editBankDetails?.accountHolder || "");
+            setCardNumber(editBankDetails?.cardNumber || "");
+            setDescription(editBankDetails?.description || "");
+
+            setCreditLimit(
+                editBankDetails?.creditLimit
+                    ? String(editBankDetails.creditLimit)
+                    : ""
+            );
+
+            setBillingCycle(editBankDetails?.billingCycle || null);
+
+            setCardNetwork(
+                cardOptions.find(
+                    (option) => option.value === editBankDetails?.cardNetwork
+                ) || null
+            );
+
+            const linkedBankId = editBankDetails?.linkedBankId;
+
+            setIsLinked(Boolean(linkedBankId));
+        }
+    }, [editBankDetails]);
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div className="flex flex-col h-full ">
             <div className=" pr-1">
@@ -416,7 +475,7 @@ function CreditCardGlobal({ handleClose }) {
                             Card Network <span className="text-red-500">*</span>
                         </label>
 
-                        <Select
+                        <Select isDisabled={editBankDetails}
                             ref={cardNetworkRef}
                             options={cardOptions}
                             value={cardNetwork}
@@ -429,6 +488,7 @@ function CreditCardGlobal({ handleClose }) {
                             <ErrorMessage message={cardNetworkError} type="error" />
                         )}
                     </div>
+
                 </div>
 
                 <div className="mt-3">
@@ -725,6 +785,8 @@ function CreditCardGlobal({ handleClose }) {
   !rounded-md !py-2.5 !px-4 !mb-2 !mx-2 !h-11 !w-36 !whitespace-nowrap
   flex items-center justify-center gap-2 disabled:opacity-70"
                 >
+
+
                     {isSaving ? (
                         <>
                             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -740,5 +802,22 @@ function CreditCardGlobal({ handleClose }) {
 }
 CreditCardGlobal.propTypes = {
     handleClose: PropTypes.func.isRequired,
+    editBankDetails: PropTypes.shape({
+        bankId: PropTypes.string,
+        displayName: PropTypes.string,
+        accountHolder: PropTypes.string,
+        cardNumber: PropTypes.string,
+        description: PropTypes.string,
+        creditLimit: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        billingCycle: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        cardNetwork: PropTypes.string,
+        linkedBankId: PropTypes.string,
+    }),
 };
 export default CreditCardGlobal
