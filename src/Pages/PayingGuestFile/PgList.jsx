@@ -676,7 +676,7 @@ function PgList() {
         </div>
       )}
 
-      <div className="bg-white h-screen z-40 flex flex-col overflow-hidden">
+      <div className="bg-white h-dvh overflow-hidden  z-40 flex flex-col ">
         {state.login.isTrigger && (
           <>
             <div className="sticky top-0 z-50 bg-white flex items-center px-5 h-12 -ml-6">
@@ -735,9 +735,9 @@ function PgList() {
         )}
 
         {selectedHostel && (
-          <div>
+          <div className="flex flex-col flex-1 min-h-0">
             {!state.login.isTrigger && (
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex  justify-between items-center mb-2">
                 <label className="ms-2 text-lg font-semibold font-gilroy text-gray-900">
                   {showHostelDetails?.name}
                 </label>
@@ -751,12 +751,14 @@ function PgList() {
                 </button>
               </div>
             )}
-
+            {/*  h-[calc(100dvh-180px)] min-h-0 overflow-hidden */}
             {!canReadPayingGuests ? (
               <PermissionDeniedMessage />
             ) : floorList?.length > 0 ? (
-              <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] bg-[#F8FAFC] rounded p-2">
-                <div className="sticky top-24 z-10">
+              //               <div className="flex flex-col md:flex-row gap-0 bg-[#F8FAFC] rounded-md h-screen min-h-0 overflow-hidden
+              //  ">
+              <div className="flex flex-col md:flex-row gap-0 bg-[#F8FAFC] rounded-md flex-1 min-h-0 overflow-hidden">
+                <div className="sticky top-0 self-start z-10 bg-white p-2 shrink-0">
                   <div className="flex justify-center mb-2">
                     <div
                       onClick={handlePrev}
@@ -770,7 +772,7 @@ function PgList() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center bg-white h-screen">
                     {floorList?.map((floor, index) =>
                       index >= visibleRange[0] && index <= visibleRange[1] ? (
                         <div
@@ -821,9 +823,10 @@ function PgList() {
                   </div>
                 </div>
 
-                <div className="md:w-11/12 lg:w-full md:pl-4 flex flex-col h-full ">
-                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-1">
-                    <div className="flex justify-between items-center lg:block md:px-3 2xl:px-4">
+                <div className="md:w-11/12 lg:w-full md:pl-4 flex flex-col h-full p-4 ">
+
+                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center bg-white md:px-3 2xl:px-4 py-2 border-1 border-[#DCDCDC] rounded">
+                    <div className="flex justify-between items-center lg:block  ">
                       <div className="text-xl font-gilroy font-semibold capitalize whitespace-nowrap">
                         {floorName && floorName.trim() !== "" ? floorName : ""}
                       </div>
@@ -909,58 +912,11 @@ function PgList() {
 
 
                     <div className="grid grid-cols-3 gap-y-2 gap-x-6 mt-2 md:grid-cols-3 lg:flex lg:flex-nowrap lg:items-center lg:gap-6 lg:mt-0 md:px-4">
-                      {/* <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                        <img
-                          className="w-4 h-4"
-                          alt="Available"
-                          src={availabeimg}
-                        />
-                        Available
-                      </span> */}
 
-                      {/* {!state.login.isTrigger && (
-                        <>
-                          <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img
-                              className="w-4 h-4"
-                              alt="Occupied"
-                              src={occubiedimg}
-                            />
-                            Occupied
-                          </span>
-
-                          <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img
-                              className="w-4 h-4"
-                              alt="Reserved"
-                              src={recerverimg}
-                            />
-                            Reserved
-                          </span>
-
-                          <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img
-                              className="w-4 h-4"
-                              alt="Overdue"
-                              src={overdueimg}
-                            />
-                            Overdue
-                          </span>
-
-                          <span className="flex items-center gap-1 text-sm font-medium font-gilroy">
-                            <img
-                              className="w-4 h-4"
-                              alt="Notice Period"
-                              src={noticeimg}
-                            />
-                            Notice Period
-                          </span>
-                        </>
-                      )} */}
 
                       {!state.login.isTrigger && (
                         <div
-                          className={`hidden lg:mr-1.5 lg:flex cursor-pointer h-7 w-7 rounded-full border border-gray-200 items-center justify-center ${showDots ? "z-[1000] bg-[#E7F1FF]" : "bg-white"
+                          className={`hidden  lg:flex cursor-pointer h-7 w-7  items-center justify-center ${showDots ? "z-[1000] bg-white" : "bg-white"
                             }`}
                           onClick={handleShowDots}
                         >
@@ -1037,9 +993,9 @@ function PgList() {
 
 
                   {
-                    isDev && state?.PgList?.roomsList?.length > 0 && (
+                    isDev && state?.PgList?.roomsList?.length > 0 && !state.login.isTrigger && (
                       <>
-                        <div className="flex flex-wrap items-center gap-2 font-gilroy my-2 md:px-4 lg:px-0">
+                        <div className="flex flex-wrap items-center gap-2 font-gilroy my-2 md:px-4 lg:px-0 bg-[#F8FAFC] ">
                           <div className="flex items-center gap-2 rounded-lg border-1 border-gray-100 bg-white px-2.5 py-2 shadow-sm">
                             <span className="h-3 w-3 rounded-full bg-green-500"></span>
                             <span className="text-xs font-medium text-gray-700">Occupied</span>
@@ -1147,7 +1103,7 @@ function PgList() {
                         </div>
                       </>
                     )}
-                  <div className="overflow-y-auto h-full pr-2">
+                  <div className="flex-1 min-h-0 overflow-y-auto pr-2 bg-[#F8FAFC] show-scrolls ">
                     <ParticularHostelDetails
                       floorID={floorClick}
                       hostel_Id={state.login?.selectedHostel_Id}

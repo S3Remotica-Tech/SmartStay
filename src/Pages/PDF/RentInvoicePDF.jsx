@@ -7,10 +7,14 @@ import { TiTick } from "react-icons/ti";
 function RentInvoicePDF() {
   const state = useSelector((state) => state);
   const pdfDetails = state.InvoiceList?.particularBillsDetails;
-
+  console.log("pdfDetails?.invoiceInfo?.paymentStatus", pdfDetails?.invoiceInfo?.paymentStatus)
   const showRentalPeriod =
     pdfDetails?.configurations?.invoiceType === "Rent" &&
     pdfDetails?.invoiceType !== "SETTLEMENT";
+
+  const paymentStatus = pdfDetails?.invoiceInfo?.paymentStatus
+    ?.trim()
+    ?.toLowerCase();
 
   //   const isGradient = templateColor?.includes("linear-gradient");
 
@@ -26,12 +30,61 @@ function RentInvoicePDF() {
   //     : { color: templateColor || "#4B4B4B" };
   // };
 
+
+  const amountToWords = (amount) => {
+    const ones = [
+      "", "One", "Two", "Three", "Four", "Five",
+      "Six", "Seven", "Eight", "Nine", "Ten",
+      "Eleven", "Twelve", "Thirteen", "Fourteen",
+      "Fifteen", "Sixteen", "Seventeen", "Eighteen",
+      "Nineteen"
+    ];
+
+    const tens = [
+      "", "", "Twenty", "Thirty", "Forty",
+      "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"
+    ];
+
+    const convert = (num) => {
+      if (num < 20) return ones[num];
+
+      if (num < 100) {
+        return `${tens[Math.floor(num / 10)]} ${ones[num % 10]}`.trim();
+      }
+
+      return `${ones[Math.floor(num / 100)]} Hundred ${convert(num % 100)}`.trim();
+    };
+
+    const number = Math.floor(Math.abs(Number(amount) || 0));
+
+    if (number === 0) return "Zero Only";
+
+    let num = number;
+    const words = [];
+
+    const units = [
+      [10000000, "Crore"],
+      [100000, "Lakh"],
+      [1000, "Thousand"],
+      [1, ""]
+    ];
+
+    units.forEach(([value, label]) => {
+      if (num >= value) {
+        const quotient = Math.floor(num / value);
+        words.push(`${convert(quotient)} ${label}`.trim());
+        num %= value;
+      }
+    });
+
+    return `${words.join(" ")} Only`;
+  };
   return (
     <div
-      className="relative bg-white font-gilroy rounded"
+      className="relative bg-white font-gilroy rounded h-fit"
       style={{
         width: "794px",
-        height: "1123px",
+        // height: "1123px",
       }}
     >
       <div className="p-2 rounded-t-lg">
@@ -89,7 +142,7 @@ function RentInvoicePDF() {
             ?.replace(/^./, (char) => char.toUpperCase())}
         </h5>
       </div>
-      <div className="bg-white  border-1 border-[#D7DAE0] rounded-lg mx-4 py-4   position-relative ">
+      <div className="bg-white  border-1 border-[#D7DAE0] rounded-lg mx-4 mb-12 py-4   position-relative ">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-4  font-gilroy">
           <div className="md:col-span-6 mb-3 text-[13px] text-[#222]">
             <div className="mb-2 text-[12px] font-semibold italic text-[#5E6470]">
@@ -241,16 +294,7 @@ function RentInvoicePDF() {
                   </table>
                 </div>
 
-                <div className="flex items-center justify-between  px-3 py-2 text-[14px] bg-[#F9F9F9] font-semibold text-[#2D2D2D]">
-                  <span>Total</span>
 
-                  <span>
-                    ₹{" "}
-                    {Number(
-                      pdfDetails?.invoiceInfo?.total1 || 0,
-                    ).toLocaleString("en-IN")}
-                  </span>
-                </div>
               </div>
               {pdfDetails?.invoiceInfo?.listDeductions?.length > 0 && (
                 <div className="col-span-12 md:col-span-6 flex flex-col">
@@ -317,42 +361,189 @@ function RentInvoicePDF() {
           </div>
 
           <div className="my-2 w-full flex justify-end">
-            <div className="w-[260px] px-3 py-2 text-[13px] font-semibold">
-              <div className="flex justify-between items-center mb-2 text-[13px]  text-[#1A1C21] font-semibold">
-                <span className=" font-[Gilroy,sans-serif]">Grand Total</span>
-                <span className=" font-[Gilroy,sans-serif]">
-                  ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
-                </span>
-              </div>
+            <div className="w-[300px] py-2 text-[13px] font-semibold">
+              <div className="flex justify-between items-center mb-2   text-[#1A1C21] font-semibold">
+                <span className=" font-gilroy text-[13px]">Sub Total</span>
+                <div>
+                  <div className=" font-gilroy text-[15px] text-[#1A1C21]">
+                    ₹ {Number(pdfDetails?.invoiceInfo?.invoiceAmount || 0)}
+                  </div>
 
-              <div className="flex justify-between items-center mb-2 text-[13px] font-semibold">
-                <span className=" font-[Gilroy,sans-serif]">Payment Made</span>
-                <span className=" text-[rgba(0,163,46,1)] font-[Gilroy,sans-serif]">
-                  ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
-                </span>
+                </div>
+
               </div>
 
               <div className="flex justify-between items-center mb-2 text-[13px] text-[#1A1C21] font-semibold">
-                <span className=" font-[Gilroy,sans-serif]">
+                <span className=" font-gilroy">
                   Discount Applied
                 </span>
-                <span className=" text-[#FF0000] font-[Gilroy,sans-serif]">
+                <span className=" text-[#FF0000] font-gilroy">
                   ₹ {Number(pdfDetails?.invoiceInfo?.discountAmount || 0)}
                 </span>
               </div>
+              <div className="h-[1px] w-full my-2 bg-gray-200"></div>
+              <div className="flex justify-between items-center mb-2   text-[#1A1C21] font-semibold">
+                <span className=" font-gilroy text-[13px]">Invoice Total</span>
+                <div>
+                  <div className=" font-gilroy text-[15px] text-[#1A1C21]">
+                    ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
+                  </div>
+                  <div className=" font-gilroy text-xs line-through text-[#64748B]">
+                    ₹ {Number(pdfDetails?.invoiceInfo?.invoiceAmount || 0)}
+                  </div>
+                </div>
 
-              <div className="flex justify-between items-center text-[13px] font-semibold">
-                <span className="text-[#1A1C21] font-[Gilroy,sans-serif]">
-                  Balance Due
-                </span>
-                <span className="text-[#FF0000] font-[Gilroy,sans-serif]">
-                  ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
-                </span>
               </div>
+
+
+            </div>
+          </div>
+          <div className="flex flex-col justify-end items-end w-full ">
+            <div className="w-[300px]">
+              <div className="font-gilroy text-xs text-gray-600 capitalize whitespace-nowrap">
+                Rupees {amountToWords(pdfDetails?.invoiceInfo?.totalAmount)}
+              </div>
+
+              <div className="h-px w-full my-2 bg-gray-200"></div>
             </div>
           </div>
         </div>
 
+        {paymentStatus && paymentStatus !== "pending" && (
+          <div className="w-full font-gilroy  px-4 my-4  ">
+
+            {/* Payment Summary */}
+            <div className="border border-[#D9E0ED] w-full rounded">
+
+
+              <div className="flex items-center justify-between bg-[#F9F9F9] text-[#5E6470] px-2 py-1.5">
+                <span className="text-[14px] font-bold text-[#5E6470] ">
+                  Payment Summary
+                </span>
+
+                <span className="text-[14px] font-bold text-orange-600 capitalize">
+                  {paymentStatus}
+                </span>
+              </div>
+
+
+              <div className="flex items-center justify-between px-2 py-2">
+                <span className="text-[14px] text-gray-500">
+                  Invoice total
+                </span>
+
+                <span className="text-[14px] font-semibold text-gray-800">
+                  ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
+                </span>
+              </div>
+
+
+              <div className="flex items-center justify-between px-2 py-2 border-b border-[#D9E0ED]">
+                <span className="text-[14px] text-gray-500">
+                  Amount received
+                </span>
+
+                <span className="text-[14px] font-bold text-[#16A34A]">
+                  ₹ {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}
+                </span>
+              </div>
+
+
+              <div className="flex items-center justify-between px-2 py-1.5">
+                <div>
+                  <p className="text-[14px] font-bold text-[#1C2B59]  mb-1">
+                    Balance Due
+                  </p>
+                  <p className="text-[14px] text-gray-500 mb-1">
+                    Remaining amount to be paid
+                  </p>
+                </div>
+
+                <span className="text-[17px] font-bold text-[#1C2B59]">
+                  ₹ {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}
+                </span>
+              </div>
+
+            </div>
+
+
+            <div className="mt-3 w-full">
+
+              <h3 className="text-[14px] font-bold text-[#1C2B59]  mb-1.5">
+                Payment History
+              </h3>
+
+              <table className="w-full border-collapse border border-[#D9E0ED]">
+                <thead>
+                  <tr className="bg-[#F9F9F9] text-[#5E6470]">
+                    <th className="border border-[#D9E0ED] px-2 py-2 text-left text-sm font-bold ">
+                      Date
+                    </th>
+
+                    <th className="border border-[#D9E0ED] px-2 py-2 text-left text-sm font-bold ">
+                      Receipt No.
+                    </th>
+
+                    <th className="border border-[#D9E0ED] px-2 py-2 text-left text-sm font-bold ">
+                      Mode
+                    </th>
+
+                    <th className="border border-[#D9E0ED] px-2 py-2 text-right text-sm font-bold ">
+                      Amount Received
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {pdfDetails?.paymentHistory?.map((payment, index) => (
+                    <tr key={payment?.referenceNumber || index}>
+                      <td className="border border-[#D9E0ED] px-2 py-2 text-sm text-gray-700">
+                        {payment?.date || "-"}
+                      </td>
+
+                      <td className="border border-[#D9E0ED] px-2 py-2 text-sm text-gray-700">
+                        {payment?.referenceNumber || "-"}
+                      </td>
+
+                      <td className="border border-[#D9E0ED] px-2 py-2 text-sm text-gray-700">
+                        {payment?.bankAccount || "-"}
+                      </td>
+
+                      <td className="border border-[#D9E0ED] px-2 py-2 text-right text-sm font-semibold text-gray-800">
+                        ₹{Number(payment?.amount || 0).toLocaleString("en-IN", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
+                <tfoot>
+                  <tr>
+                    <td
+                      colSpan={3}
+                      className="border border-[#D9E0ED] px-2 py-2 text-sm font-bold text-gray-700"
+                    >
+                      Total received
+                    </td>
+
+                    <td className="border border-[#D9E0ED] px-2 py-2 text-right text-sm font-bold text-gray-800">
+                      ₹{(pdfDetails?.paymentHistory || [])
+                        .reduce((total, payment) => total + Number(payment?.amount || 0), 0)
+                        .toLocaleString("en-IN", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+
+          </div>
+        )}
         <div className="px-4 my-2">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div className="md:col-span-6">
@@ -500,7 +691,7 @@ function RentInvoicePDF() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
