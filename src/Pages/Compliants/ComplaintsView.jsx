@@ -169,6 +169,7 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
         if (state.ComplianceList.statusCodeForAddComplianceComment === 201) {
             setCommentsLoading(false)
             setComments('')
+            dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: state.login.selectedHostel_Id } });
             if (complaintId && state.login.selectedHostel_Id) {
                 dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
             }
@@ -180,7 +181,7 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
     }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
-    console.log("complaintId", complaintId)
+    // console.log("complaintId", complaintId)
 
 
 
