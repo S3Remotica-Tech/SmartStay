@@ -262,12 +262,12 @@ function TenantListFilter({ show, handleClose, size }) {
         sharingType: selectedSharingOptions.value,
       }),
     };
-    const isFilterEmpty =
-      !payload.name && !payload.type && !payload.period && !payload.sharingType;
+    // const isFilterEmpty =
+    //   !payload.name && !payload.type && !payload.period && !payload.sharingType;
 
-    if (isFilterEmpty) {
-      return;
-    }
+    // if (isFilterEmpty) {
+    //   return;
+    // }
 
     dispatch({
       type: "USERLIST",

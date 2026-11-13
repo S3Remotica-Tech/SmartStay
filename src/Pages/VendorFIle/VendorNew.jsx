@@ -703,6 +703,13 @@ function Vendor() {
     setInitialCustomizeItems(formatted);
   }, [filteredData?.columnList]);
 
+  useEffect(() => {
+    if (!open) {
+      setError("");
+      setCustomizeItems([...initialCustomizeItems]);
+    }
+  }, [open, initialCustomizeItems]);
+
   const SortableItem = ({ item }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: item.key });

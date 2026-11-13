@@ -139,7 +139,7 @@ function RentInvoicePDF() {
           {pdfDetails?.invoiceInfo?.invoiceType
             ?.replaceAll("_", " ")
             ?.toLowerCase()
-            ?.replace(/^./, (char) => char.toUpperCase())}
+            ?.replace(/^./, (char) => char.toUpperCase())} Invoice
         </h5>
       </div>
       <div className="bg-white  border-1 border-[#D7DAE0] rounded-lg mx-4 mb-12 py-4   position-relative ">
@@ -269,7 +269,7 @@ function RentInvoicePDF() {
                               {item.description}
                             </td>
 
-                            <td className="px-3 py-2 text-right text-[14px] font-semibold text-[#2D2D2D]">
+                            <td className="px-1 py-2 text-right text-[14px] font-semibold text-[#2D2D2D]">
                               ₹ {Number(item.amount).toLocaleString("en-IN")}
                             </td>
                           </tr>
@@ -388,9 +388,13 @@ function RentInvoicePDF() {
                   <div className=" font-gilroy text-[15px] text-[#1A1C21]">
                     ₹ {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}
                   </div>
-                  <div className=" font-gilroy text-xs line-through text-[#64748B]">
-                    ₹ {Number(pdfDetails?.invoiceInfo?.invoiceAmount || 0)}
-                  </div>
+                  {
+                    Number(pdfDetails?.invoiceInfo?.roundOffAmount) !== 0 && (
+                      <div className="font-gilroy text-xs line-through text-[#64748B]">
+                        ₹ {Number(pdfDetails?.invoiceInfo?.invoiceAmount || 0)}
+                      </div>
+                    )
+                  }
                 </div>
 
               </div>

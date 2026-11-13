@@ -346,11 +346,17 @@ function ReceiptFilter({ show, handleClose, size }) {
     setMaxAmount(filters.maxAmount || "");
   }, [show, state.InvoiceList?.receiptFilters]);
 
+
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   if (!show) return null;
 
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-black/40" onClick={handleClose} />
+      <div className="fixed inset-0 z-40 bg-black/40" onClick={handleFilterClose} />
       <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white shadow-2xl flex flex-col font-gilroy">
         <div className="flex items-center justify-between border-b px-4 py-3">
           <div className="flex items-center gap-2">

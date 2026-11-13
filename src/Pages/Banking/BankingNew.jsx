@@ -153,7 +153,7 @@ function BankingNew() {
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
 
-
+  const isProduction = import.meta.env.MODE === "production";
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -220,7 +220,7 @@ function BankingNew() {
   };
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
-    canUpdateModule: canUpdateBanking,
+    // canUpdateModule: canUpdateBanking,
     // canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
@@ -1227,10 +1227,10 @@ function BankingNew() {
 
 
                                   <button
-
-                                    disabled={
-                                      !canUpdateBanking
-                                    }
+                                    disabled={isProduction}
+                                    // disabled={
+                                    //   !canUpdateBanking
+                                    // }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleEditBank(item);
@@ -1251,7 +1251,7 @@ function BankingNew() {
 
 
                                   <button
-                                    // disabled
+                                    disabled
                                     // disabled={!canDeleteBanking}
                                     onClick={(e) => {
                                       e.stopPropagation();

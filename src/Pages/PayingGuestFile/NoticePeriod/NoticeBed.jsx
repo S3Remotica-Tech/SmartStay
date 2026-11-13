@@ -609,9 +609,10 @@ function NoticeBed({
 
                                                         <button
                                                             type="button"
-                                                            disabled={!canWriteCustomers}
+                                                            disabled
+                                                            // disabled={!canWriteCustomers}
                                                             // onClick={() => handleCheckIn(tenant)}
-                                                            className={`flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers
+                                                            className={`disabled:opacity-50 flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers
                                                                 ? "border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
                                                                 : "border-[#E5E7EB] opacity-60 cursor-not-allowed"
                                                                 }`}

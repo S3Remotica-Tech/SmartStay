@@ -648,7 +648,8 @@ const Compliance = () => {
 
 
               <div className="mr-3 w-36 border border-gray-300 rounded-lg">
-                <Select isDisabled={!canReadComplaints}
+                <Select isDisabled
+                  //  isDisabled={!canReadComplaints}
                   options={statusOptions}
                   value={statusOptions.find((option) => option.value === statusfilter)}
                   onChange={(selectedOption) =>
@@ -656,7 +657,7 @@ const Compliance = () => {
                   }
                   isSearchable={false}
                   placeholder="Select Status"
-                  className="text-sm font-gilroy"
+                  className="text-sm font-gilroy cursor-not-allowed"
                   styles={CustomStyles}
                 />
               </div>

@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import "./ParticularHostelDetails.css";
 import BedDetailsMap from "./BedDetailsMap";
 import { useHasPermission } from "../../Utils/Permission";
-import NoData from "../../Assets/v2Images/NoData.svg";
+// import NoData from "../../Assets/v2Images/NoData.svg";
 import NoDataFormat from "../../Utils/NoData";
 function ParticularHostelDetails(props) {
   const dispatch = useDispatch();

@@ -26,9 +26,9 @@ function RecurringBills() {
   const dispatch = useDispatch();
   const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
- 
+
   const [recurringbills, setRecurringBills] = useState([]);
- 
+
   const [search, setSearch] = useState(false);
   const [originalRecuiring, setOriginalRecuiring] = useState([]);
   const [checkedRows, setCheckedRows] = useState({});
@@ -54,7 +54,7 @@ function RecurringBills() {
   }, [state.UsersList?.accessRestrictionError]);
 
   const handleClick = (stayType) => {
-     setActiveStay(stayType);
+    setActiveStay(stayType);
   };
 
   useEffect(() => {
@@ -291,7 +291,7 @@ function RecurringBills() {
                       placeholder="Search"
                       value={filterInput}
                       onChange={(e) => handlefilterInput(e)}
-                      // disabled={!canReadInvoice}
+                      disabled
                     />
                     <span className="input-group-text bg-white border-start-0">
                       <img
@@ -322,13 +322,12 @@ function RecurringBills() {
               alt="excel"
               width={38}
               height={38}
-              className={`transition-opacity duration-300 ${
-                canReadRecurring
+              className={`transition-opacity duration-300 ${canReadRecurring
                   ? "cursor-pointer opacity-100 pointer-events-auto"
                   : "cursor-not-allowed opacity-40 pointer-events-none"
-              }`}
+                }`}
 
-              //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
+            //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
             />
           </div>
         </div>
@@ -344,22 +343,20 @@ function RecurringBills() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleClick("long_stay")}
-                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${
-                  activeStay === "long_stay"
+                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
                     ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
                     : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
-                }`}
+                  }`}
               >
                 Long Stay
               </button>
 
               <button
                 onClick={() => handleClick("short_stay")}
-                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${
-                  activeStay === "short_stay"
+                className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
                     ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
                     : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
-                }`}
+                  }`}
               >
                 Short Stay
               </button>
@@ -377,8 +374,8 @@ function RecurringBills() {
           </div>
 
           {!recurLoader &&
-          (!recurringbills || recurringbills.length === 0) &&
-          activeStay === "long_stay" ? (
+            (!recurringbills || recurringbills.length === 0) &&
+            activeStay === "long_stay" ? (
             <div className="my-2">
               <NoDataMessage label="Long Stay" />
             </div>
@@ -438,7 +435,7 @@ function RecurringBills() {
                           handleDeleteRecurringbills={
                             handleDeleteRecurringbills
                           }
-                          // OnHandleshowform={handleShowForm}
+                        // OnHandleshowform={handleShowForm}
                         />
                       ))}
                     </tbody>

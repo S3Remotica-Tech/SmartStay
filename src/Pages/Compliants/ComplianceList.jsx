@@ -1065,18 +1065,18 @@ const ComplianceList = (props) => {
                         {state.ComplianceList?.complaintsView?.comments?.length > 0 ? (
                           state.ComplianceList?.complaintsView?.comments.map((item, index) => {
 
-                            const [day, month, year] = item?.commentedAt?.split("/") || [];
+                            // const [day, month, year] = item?.commentedAt?.split("/") || [];
 
 
-                            let Dated = new Date(year, month - 1, day);
+                            // let Dated = new Date(year, month - 1, day);
 
-                            const monthNames = [
-                              "January", "February", "March", "April", "May", "June",
-                              "July", "August", "September", "October", "November", "December",
-                            ];
+                            // const monthNames = [
+                            //   "January", "February", "March", "April", "May", "June",
+                            //   "July", "August", "September", "October", "November", "December",
+                            // ];
 
-                            let formattedMonth = monthNames[Dated.getMonth()];
-                            let formattedDate = `${day} ${formattedMonth} ${year}`;
+                            // let formattedMonth = monthNames[Dated.getMonth()];
+                            // let formattedDate = `${day} ${formattedMonth} ${year}`;
 
 
                             return (
@@ -1111,14 +1111,14 @@ const ComplianceList = (props) => {
                                         {item.commentText}
                                       </p>
                                       <p className="m-0 text-sm text-gray-500 font-gilroy">
-                                        {formattedDate}
+                                        {item.commentAt}
                                       </p>
                                     </div>
                                   </div>
 
                                   <div>
                                     <label className="block break-words whitespace-pre-wrap max-w-full mt-2 text-base font-normal text-gray-800 font-gilroy">
-                                      {item.comment}
+                                      {item.comment || ""}
                                     </label>
                                   </div>
                                 </div>
