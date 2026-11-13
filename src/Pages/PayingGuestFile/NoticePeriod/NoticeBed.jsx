@@ -323,7 +323,7 @@ function NoticeBed({
                     <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls">
 
 
-                        <div className="my-2 mx-2">
+                        <div className="my-2 mx-2 gap-3 flex flex-col">
                             {currentItem?.currentTenantInfo?.map((tenant, index) => {
                                 const tenantId = tenant.tenetId || index;
                                 const isExpanded = expandedOccupied === tenantId;

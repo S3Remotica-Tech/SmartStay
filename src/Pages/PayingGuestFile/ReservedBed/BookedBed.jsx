@@ -151,16 +151,16 @@ function BookedBed({
                     </div>
 
                 </div>
-                <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls ">
-                    <div className=" my-2 mx-2">
+                <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls  gap-4">
+                    <div className=" my-2 mx-2 gap-3 flex flex-col">
                         {currentItem?.newTenantInfo?.map((tenant, index) => {
                             const tenantId = tenant.tenetId || index;
                             const isExpanded = expandedReserved === tenantId;
 
                             return (
-                                <div key={tenantId}>
+                                <div key={tenantId} className="">
                                     <div onClick={() => toggleReserved(tenantId)}
-                                        className={`flex justify-between items-center px-2 py-2 cursor-pointer rounded transition-all duration-200 ${isExpanded
+                                        className={`flex justify-between items-center  px-2 py-2 cursor-pointer rounded transition-all duration-200 ${isExpanded
                                             ? "border border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
                                             : "border border-[#F2F2F2] hover:bg-[#F7FAFF]"
                                             }`}>
