@@ -805,7 +805,7 @@ const InvoiceCard = ({ rowData, isReportsInvoiceRegisterWay, isTenantWay }) => {
                     className="bg-white shadow-md rounded"
                     style={{
                       width: `${A4_WIDTH}px`,
-                      minHeight: `${A4_HEIGHT}px`,
+                      // minHeight: `${A4_HEIGHT}px`,
                       height: "auto",
                       transform: `scale(${zoom})`,
                       transformOrigin: "top left",

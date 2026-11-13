@@ -99,7 +99,7 @@ const ComplianceReducer = (state = initialState, action) => {
       return {
         ...state,
         Compliance: action.payload.response,
-        filterOptions: action.payload.filterOptions,
+        // filterOptions: action.payload.filterOptions,
         statusCodeCompliance: action.payload.statusCode,
       };
     case "CLEAR_COMPLIANCE_LIST":

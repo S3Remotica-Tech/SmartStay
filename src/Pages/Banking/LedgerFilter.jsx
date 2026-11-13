@@ -294,10 +294,15 @@ function LedgerFilter({ show, handleClose, size }) {
     );
   }, [show]);
 
+  const handleFilterClose = () => {
+    handleFilterBills();
+    handleClose();
+  };
+
   if (!show) return null;
   return (
     <div>
-      <div className="fixed inset-0 bg-black/40 z-40" onClick={handleClose} />
+      <div className="fixed inset-0 bg-black/40 z-40" onClick={handleFilterClose} />
 
       <div className="fixed top-0 right-0 h-full w-[420px] bg-white shadow-xl z-50 flex flex-col">
         <div className="flex items-center justify-between p-2 border-b">

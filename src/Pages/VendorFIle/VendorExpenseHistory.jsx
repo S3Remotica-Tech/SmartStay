@@ -157,11 +157,10 @@ function VendorExpenseHistory({ selectedVendorId }) {
                   // setIsFilterOpen(true);
                 }
               }}
-              className={`transition-opacity duration-300 ${
-                canReadExpense
-                  ? "cursor-not-allowed opacity-100 pointer-events-auto"
-                  : "cursor-not-allowed opacity-40 pointer-events-none"
-              }`}
+              className={`transition-opacity duration-300 ${canReadExpense
+                ? "cursor-not-allowed opacity-100 pointer-events-auto"
+                : "cursor-not-allowed opacity-40 pointer-events-none"
+                }`}
             />
           </div>
         </div>
@@ -170,10 +169,9 @@ function VendorExpenseHistory({ selectedVendorId }) {
           <div className="relative min-w-[180px] max-w-[260px]">
             <div
               className={`flex items-center rounded-xl border px-3 py-1.5 bg-white transition
-                ${
-                  canReadExpense
-                    ? "border-[#CFD5DB] focus-within:border-[#1E45E1 cursor-not-allowed]"
-                    : "border-gray-200 opacity-60 cursor-not-allowed"
+                ${canReadExpense
+                  ? "border-[#CFD5DB] focus-within:border-[#1E45E1 cursor-not-allowed]"
+                  : "border-gray-200 opacity-60 cursor-not-allowed"
                 }`}
             >
               <input
@@ -241,7 +239,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
               </thead>
 
               <tbody>
-                {vendorExpenseList.map((expense) => (
+                {vendorExpenseList?.map((expense) => (
                   <React.Fragment key={expense.expenseId}>
                     <tr className="border-t whitespace-nowrap">
                       <td className="px-4 py-2.5 text-sm text-[#1E45E1] flex items-center gap-2">
@@ -268,18 +266,16 @@ function VendorExpenseHistory({ selectedVendorId }) {
                       <td className="px-4 py-2.5">
                         <span
                           className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px]
-              ${
-                expense.balanceAmount === 0
-                  ? "bg-[#E8F8EC] text-[#00A32E]"
-                  : "bg-[#FFF7E6] text-[#FA8C16]"
-              }`}
+              ${expense.balanceAmount === 0
+                              ? "bg-[#E8F8EC] text-[#00A32E]"
+                              : "bg-[#FFF7E6] text-[#FA8C16]"
+                            }`}
                         >
                           <span
-                            className={`h-2 w-2 rounded-full ${
-                              expense.balanceAmount === 0
-                                ? "bg-[#00A32E]"
-                                : "bg-[#FA8C16]"
-                            }`}
+                            className={`h-2 w-2 rounded-full ${expense.balanceAmount === 0
+                              ? "bg-[#00A32E]"
+                              : "bg-[#FA8C16]"
+                              }`}
                           />
                           {expense.paymentStatus}
                         </span>
@@ -287,7 +283,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
 
                       <td className="px-4 py-2.5">
                         <button
-                          onClick={() => handleToggleExpense(expense.expenseId)}
+                          onClick={() => handleToggleExpense(expense?.expenseId)}
                           className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F3F4F6]"
                         >
                           {openExpense === expense.expenseId ? (
@@ -299,7 +295,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                       </td>
                     </tr>
 
-                    {openExpense === expense.expenseId && (
+                    {openExpense === expense?.expenseId && (
                       <tr>
                         <td colSpan={7} className="p-0 bg-[#FAFAFA]">
                           <table className="w-full">
@@ -324,7 +320,7 @@ function VendorExpenseHistory({ selectedVendorId }) {
                             </thead>
 
                             <tbody>
-                              {expense.expenseItems.map((item) => (
+                              {expense?.expenseItems?.map((item) => (
                                 <tr key={item.id} className="border-t">
                                   <td className="px-4 py-2  text-[11px]">
                                     {item.item || "-"}

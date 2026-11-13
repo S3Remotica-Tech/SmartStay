@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { AddCircle, LogoutCurve } from "iconsax-react";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import { useHasPermission } from "../../../Utils/Permission";
@@ -14,7 +13,6 @@ import FormComingSoon from '../../../Utils/FormComingSoon';
 import BedOverview from "../BedOverview";
 
 function BookedBed({
-    // show,
     handleCloseBed,
     handleShowCheck_In,
     currentItem,
@@ -27,36 +25,45 @@ function BookedBed({
     const navigate = useNavigate();
 
     const isDev = import.meta.env.MODE === "development";
-    const [expandedReserved, setExpandedReserved] = useState(null);
+
     const [activeTab, setActiveTab] = useState("overview");
 
-    const toggleReserved = (id) => {
-        setExpandedReserved((prev) => prev === id ? null : id);
+    const [selectedReservedTenant, setSelectedReservedTenant] = useState(null);
+
+    useEffect(() => {
+        const firstTenant = currentItem?.newTenantInfo?.[0] || null;
+
+        setSelectedReservedTenant(firstTenant);
+    }, [currentItem?.newTenantInfo]);
+
+
+    const toggleReserved = (tenant) => {
+        setActiveTab("overview");
+
+        setSelectedReservedTenant((prev) =>
+            prev?.tenetId === tenant.tenetId ? null : tenant
+        );
     };
 
     const {
         canWriteModule: canWriteCustomers,
-        // canReadModule: canReadPayingGuests,
-        // canUpdateModule: canUpdatePayingGuests,
-        // canDeleteModule: canDeletePayingGuests,
     } = useHasPermission("Customers");
     const bedDetails = state?.PgList?.OccupiedCustomer;
     const {
-        // canWriteModule: canWriteBooking, 
         canUpdateModule: canUpdateBooking } = useHasPermission("Booking");
 
     const {
         canUpdateModule: canUpdatePayingGuests,
-        // canDeleteModule: canDeletePayingGuests,
+
     } = useHasPermission("Paying Guests");
 
     const handleEditBed = () => {
         showEditBed(true);
     };
 
-    // const [showDots, setShowDots] = useState("");
-    // const [activeRoomId, setActiveRoomId] = useState(null);
-    const popupRef = useRef(null);
+
+    // const popupRef = useRef(null);
+
 
     useEffect(() => {
         if (state.Booking.StatusCodeInactiveCode === 200) {
@@ -66,15 +73,12 @@ function BookedBed({
         }
     }, [state.Booking.StatusCodeInactiveCode]);
 
-    // const handleShowDots = (roomId) => {
-    //     setShowDots(!showDots);
-    //     setActiveRoomId(activeRoomId === roomId ? null : roomId);
-    // };
 
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            // setActiveRoomId(null);
-        }
+
+    const handleClickOutside = () => {
+        // if (popupRef.current && !popupRef.current.contains(event.target)) {
+
+        // }
     };
 
     useEffect(() => {
@@ -88,7 +92,7 @@ function BookedBed({
         handleShowCheck_In(true, tenant);
     };
 
-    // const [customer_details, setCustomerDetails] = useState({})
+
 
     const handleMakeInActive = (tenant) => {
         handleShowInActiveForm(true, tenant);
@@ -151,17 +155,18 @@ function BookedBed({
                     </div>
 
                 </div>
-                <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls ">
-                    <div className=" my-2 mx-2">
+                <div className="flex-1 min-h-0 overflow-y-auto mx-2 show-scrolls  gap-4">
+                    <div className=" my-2 mx-2 gap-3 flex flex-col">
                         {currentItem?.newTenantInfo?.map((tenant, index) => {
                             const tenantId = tenant.tenetId || index;
-                            const isExpanded = expandedReserved === tenantId;
+                            const isExpanded = selectedReservedTenant?.tenetId === tenantId;
+
 
                             return (
-                                <div key={tenantId}>
-                                    <div onClick={() => toggleReserved(tenantId)}
-                                        className={`flex justify-between items-center px-2 py-2 cursor-pointer rounded transition-all duration-200 ${isExpanded
-                                            ? "border border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
+                                <div key={tenantId} className="">
+                                    <div onClick={() => toggleReserved(tenant)}
+                                        className={`flex justify-between items-center  px-2 py-2 cursor-pointer rounded transition-all duration-200 ${isExpanded
+                                            ? "border-1 border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
                                             : "border border-[#F2F2F2] hover:bg-[#F7FAFF]"
                                             }`}>
                                         <div className="flex gap-3 items-center">
@@ -213,91 +218,92 @@ function BookedBed({
 
 
                                     </div>
-                                    {isExpanded && (
-                                        <>
-                                            {/* Tabs */}
-                                            <div className="w-full my-3 shrink-0 px-3 mt-4">
-                                                <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB] w-full">
-                                                    {["overview", "activity"].map((tab) => (
-                                                        <button
-                                                            key={tab}
-                                                            type="button"
-                                                            onClick={() => setActiveTab(tab)}
-                                                            className={`flex-1 pb-3 text-sm font-medium capitalize transition-all duration-200 border-b-2 ${activeTab === tab
-                                                                ? "text-[#1E45E1] border-[#1E45E1] drop-shadow-[0_2px_4px_rgba(30,69,225,0.25)]"
-                                                                : "text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
-                                                                }`}
-                                                        >
-                                                            {tab === "overview" ? "Overview" : "Activity"}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
 
-
-                                            <div className="mx-2">
-                                                {activeTab === "overview" && (
-                                                    <BedOverview isBed="RESERVED" tenant={tenant} />
-                                                )}
-
-                                                {(activeTab === "activity" && isDev) ? (
-                                                    <BedActivity />
-                                                ) : activeTab === "activity" && (
-
-                                                    <FormComingSoon />
-                                                )}
-                                            </div>
-
-
-                                            {activeTab === "overview" && (
-                                                <div className="flex items-center gap-2 mb-10 mt-2">
-                                                    <button
-                                                        type="button"
-                                                        disabled={!canWriteCustomers}
-                                                        onClick={() => handleCheckin(tenant)}
-                                                        className={`flex flex-1 gap-2 items-center justify-center p-2 text-left border rounded transition-all duration-200 ${canWriteCustomers
-                                                            ? "cursor-pointer border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
-                                                            : "cursor-not-allowed border-[#E5E7EB] bg-white opacity-60"
-                                                            }`}
-                                                    >
-                                                        <AddCircle
-                                                            size={18}
-                                                            color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
-                                                        />
-                                                        <span className={`text-[13px] font-medium whitespace-nowrap ${canWriteCustomers ? "text-[#222222]" : "text-gray-300"
-                                                            }`}>
-                                                            Check-In
-                                                        </span>
-                                                    </button>
-
-                                                    <button
-                                                        type="button"
-                                                        disabled={!canUpdateBooking}
-                                                        onClick={() => handleMakeInActive(tenant)}
-                                                        className={`flex flex-1 gap-2 items-center justify-center p-2 text-left border rounded transition-all duration-200 ${canUpdateBooking
-                                                            ? "cursor-pointer border-[#1E45E1] bg-[#1E45E1] hover:bg-blue-700"
-                                                            : "cursor-not-allowed border-[#E5E7EB] bg-gray-100 opacity-60"
-                                                            }`}
-                                                    >
-                                                        <LogoutCurve
-                                                            size={18}
-                                                            color={canUpdateBooking ? "#FFFFFF" : "#A0A0A0"}
-                                                        />
-                                                        <span className={`text-[13px] font-medium whitespace-nowrap ${canUpdateBooking ? "text-white" : "text-gray-300"
-                                                            }`}>
-                                                            Make as Inactive
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            )}
-
-
-
-                                        </>
-                                    )}
                                 </div>)
                         })}
                     </div>
+                    {selectedReservedTenant && (
+                        <>
+                            {/* Tabs */}
+                            <div className="w-full my-3 shrink-0 px-3 mt-4">
+                                <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB] w-full">
+                                    {["overview", "activity"].map((tab) => (
+                                        <button
+                                            key={tab}
+                                            type="button"
+                                            onClick={() => setActiveTab(tab)}
+                                            className={`flex-1 pb-3 text-sm font-medium capitalize transition-all duration-200 border-b-2 ${activeTab === tab
+                                                ? "text-[#1E45E1] border-[#1E45E1] drop-shadow-[0_2px_4px_rgba(30,69,225,0.25)]"
+                                                : "text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
+                                                }`}
+                                        >
+                                            {tab === "overview" ? "Overview" : "Activity"}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+
+                            <div className="mx-2">
+                                {activeTab === "overview" && (
+                                    <BedOverview isBed="RESERVED" tenant={selectedReservedTenant} />
+                                )}
+
+                                {(activeTab === "activity" && isDev) ? (
+                                    <BedActivity />
+                                ) : activeTab === "activity" && (
+
+                                    <FormComingSoon />
+                                )}
+                            </div>
+
+
+                            {activeTab === "overview" && (
+                                <div className="flex items-center gap-2 mb-10 mt-2">
+                                    <button
+                                        type="button"
+                                        disabled={!canWriteCustomers}
+                                        onClick={() => handleCheckin(selectedReservedTenant)}
+                                        className={`flex flex-1 gap-2 items-center justify-center p-2 text-left border rounded transition-all duration-200 ${canWriteCustomers
+                                            ? "cursor-pointer border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
+                                            : "cursor-not-allowed border-[#E5E7EB] bg-white opacity-60"
+                                            }`}
+                                    >
+                                        <AddCircle
+                                            size={18}
+                                            color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
+                                        />
+                                        <span className={`text-[13px] font-medium whitespace-nowrap ${canWriteCustomers ? "text-[#222222]" : "text-gray-300"
+                                            }`}>
+                                            Check-In
+                                        </span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        disabled={!canUpdateBooking}
+                                        onClick={() => handleMakeInActive(selectedReservedTenant)}
+                                        className={`flex flex-1 gap-2 items-center justify-center p-2 text-left border rounded transition-all duration-200 ${canUpdateBooking
+                                            ? "cursor-pointer border-[#1E45E1] bg-[#1E45E1] hover:bg-blue-700"
+                                            : "cursor-not-allowed border-[#E5E7EB] bg-gray-100 opacity-60"
+                                            }`}
+                                    >
+                                        <LogoutCurve
+                                            size={18}
+                                            color={canUpdateBooking ? "#FFFFFF" : "#A0A0A0"}
+                                        />
+                                        <span className={`text-[13px] font-medium whitespace-nowrap ${canUpdateBooking ? "text-white" : "text-gray-300"
+                                            }`}>
+                                            Make as Inactive
+                                        </span>
+                                    </button>
+                                </div>
+                            )}
+
+
+
+                        </>
+                    )}
 
                 </div>
             </div>

@@ -120,7 +120,8 @@ function VendorPaymentHistory({ selectedVendorId }) {
                       </td>
 
                       <td className="px-4 py-2.5 text-sm">
-                        {`${payment.paymentMethod}${payment.bankName ? ` - ${payment.bankName}` : ""}`}
+                        {payment.bankName || payment.paymentMethod || "-"}
+                        {/* {`${payment.paymentMethod}${payment.bankName ? ` - ${payment.bankName}` : ""}`} */}
                       </td>
 
                       <td className="px-4 py-2.5">

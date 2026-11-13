@@ -350,7 +350,7 @@ function* handlecompliancelist(action) {
       yield put({
         type: "COMPLIANCE_LIST",
         payload: {
-          response: response.data.complaintsList,
+          response: response.data,
           // filterOptions: response.data.filterOptions || [],
           statusCode: response?.status,
         },

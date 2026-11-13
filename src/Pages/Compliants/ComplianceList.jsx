@@ -34,9 +34,7 @@ const ComplianceList = (props) => {
   const [showAssignComplaint, setShowAssignComplaint] = useState(false);
   const [deleteForm, setDeleteForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-  const [hostel_id, setHostel_Id] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
-  // const [assignId, setAssignId] = useState("");
   const [loading, setLoading] = useState(true);
   const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
@@ -64,13 +62,6 @@ const ComplianceList = (props) => {
   useEffect(() => {
     commentsEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [state.ComplianceList?.complaintsView?.comments]);
-
-
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id);
-    }
-  }, [state.login.selectedHostel_Id]);
 
 
 
@@ -151,14 +142,14 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 201 && showCard) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
 
-      }, 1000)
+      }, 100)
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
@@ -330,7 +321,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceAssignChangeStatus === 200 && showAssignComplaint) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: state.login.selectedHostel_Id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
@@ -347,7 +338,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceChangeStatus === 200 && showChangeStatus) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: state.login.selectedHostel_Id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
       setShowChangeStatus(false);
       setFormLoading(false)
@@ -359,7 +350,7 @@ const ComplianceList = (props) => {
 
   const handleAssignOpenClose = (item) => {
 
-    dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_id } });
+    dispatch({ type: "GETUSERSTAFF", payload: { hostelId: state.login.selectedHostel_Id } });
     setShowDots(false);
     setCompliant(item?.assigneeId ?? "");
     setAlreadyAssigned(item?.assigneeId ?? "");
@@ -1065,18 +1056,18 @@ const ComplianceList = (props) => {
                         {state.ComplianceList?.complaintsView?.comments?.length > 0 ? (
                           state.ComplianceList?.complaintsView?.comments.map((item, index) => {
 
-                            const [day, month, year] = item?.commentedAt?.split("/") || [];
+                            // const [day, month, year] = item?.commentedAt?.split("/") || [];
 
 
-                            let Dated = new Date(year, month - 1, day);
+                            // let Dated = new Date(year, month - 1, day);
 
-                            const monthNames = [
-                              "January", "February", "March", "April", "May", "June",
-                              "July", "August", "September", "October", "November", "December",
-                            ];
+                            // const monthNames = [
+                            //   "January", "February", "March", "April", "May", "June",
+                            //   "July", "August", "September", "October", "November", "December",
+                            // ];
 
-                            let formattedMonth = monthNames[Dated.getMonth()];
-                            let formattedDate = `${day} ${formattedMonth} ${year}`;
+                            // let formattedMonth = monthNames[Dated.getMonth()];
+                            // let formattedDate = `${day} ${formattedMonth} ${year}`;
 
 
                             return (
@@ -1111,14 +1102,14 @@ const ComplianceList = (props) => {
                                         {item.commentText}
                                       </p>
                                       <p className="m-0 text-sm text-gray-500 font-gilroy">
-                                        {formattedDate}
+                                        {item.commentAt}
                                       </p>
                                     </div>
                                   </div>
 
                                   <div>
                                     <label className="block break-words whitespace-pre-wrap max-w-full mt-2 text-base font-normal text-gray-800 font-gilroy">
-                                      {item.comment}
+                                      {item.comment || ""}
                                     </label>
                                   </div>
                                 </div>

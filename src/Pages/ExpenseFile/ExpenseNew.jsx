@@ -821,6 +821,13 @@ function Expenses() {
   });
 
   useEffect(() => {
+    if (!open) {
+      setError("");
+      setCustomizeItems([...initialCustomizeItems]);
+    }
+  }, [open, initialCustomizeItems]);
+
+  useEffect(() => {
     const cols = getData?.columnList || [];
 
     const formatted = cols.map((col) => ({
@@ -844,6 +851,10 @@ function Expenses() {
     "Last Transaction": "px-4 whitespace-nowrap",
     "Payment Mode": "px-4 whitespace-nowrap",
   };
+
+
+
+
 
   const SortableItem = ({ item }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =

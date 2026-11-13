@@ -31,9 +31,10 @@ function NoDataFormat({
                 <div >
                     {isSearching ? (
                         <img src={DataSearch} alt="img" />
-                    ) : isWay === "Floor" || isWay === "Room" && (
-                        <Buildings2 size="32"
-                            color="#1e45e1" />
+                    ) : (
+                        (isWay === "Floor" || isWay === "Room") && (
+                            <Buildings2 size={32} color="#1e45e1" />
+                        )
                     )}
                 </div>
 
@@ -106,5 +107,9 @@ NoDataFormat.propTypes = {
     handleClear: PropTypes.func,
     isHeightChanged: PropTypes.bool,
     isClearSearch: PropTypes.bool,
+    subLabel: PropTypes.string,
+    isWay: PropTypes.string,
+    handleAddFloor: PropTypes.func,
+    handleAddRoom: PropTypes.func,
 };
 export default NoDataFormat;

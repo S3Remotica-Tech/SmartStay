@@ -26,39 +26,60 @@ import PermissionDeniedMessage from "../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import AddCompliants from "./AddCompliants";
 
-
 const CustomStyles = {
-  control: (base, state) => ({
-    ...base,
-    minHeight: "40px",
-    height: "40px",
-    border: "1px solid #D9D9D9",
-    borderRadius: "8px",
-    fontSize: "15px",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    alignItems: "center",
+  control: (base, state) => {
+    const selectedValue = state.getValue()?.[0]?.value;
 
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-    backgroundColor: state.isDisabled
-      ? "#F3F4F6"
-      : state.hasValue
-        ? "#FFF"
-        : "#fff",
-    opacity: state.isDisabled ? 0.7 : 1,
-  }),
+    const isActualSelected =
+      state.hasValue && selectedValue && selectedValue !== "ALL";
 
-  singleValue: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#333",
-    fontWeight: 600,
-  }),
+    return {
+      ...base,
+      minHeight: "38px",
+      height: "38px",
+      width: "100%",
+      border: `1px solid ${state.isFocused ? "#5865F2" : isActualSelected ? "#5865F2" : "#E5E5E5"
+        }`,
+      borderRadius: "8px",
+      fontSize: "12px",
+      fontFamily: "Gilroy, sans-serif",
+      fontWeight: 500,
+      boxShadow: "none",
+      cursor: "pointer",
 
-  placeholder: (base, state) => ({
-    ...base,
-    color: state.isDisabled ? "#9CA3AF" : "#6B7280",
-  }),
+      backgroundColor: isActualSelected
+        ? "#1E45E1"
+        : state.isFocused
+          ? "#FFFFFF"
+          : "#F7F7F7",
+
+      "&:hover": {
+        borderColor: state.isFocused
+          ? "#5865F2"
+          : isActualSelected
+            ? "#5865F2"
+            : "#D1D5DB",
+
+        backgroundColor: isActualSelected
+          ? "#5865F2"
+          : state.isFocused
+            ? "#FFFFFF"
+            : "#F0F0F0",
+      },
+    };
+  },
+
+  singleValue: (base, state) => {
+    const selectedValue = state.getValue()?.[0]?.value;
+
+    const isActualSelected = selectedValue && selectedValue !== "ALL";
+
+    return {
+      ...base,
+      color: isActualSelected ? "#FFFFFF" : "#6B7280",
+      fontWeight: 500,
+    };
+  },
 
   option: (base, state) => {
     const isSelected = state.isSelected;
@@ -66,31 +87,35 @@ const CustomStyles = {
     return {
       ...base,
       position: "relative",
-      fontSize: 14,
+      fontSize: "13px",
       padding: "6px 12px",
+
       backgroundColor: isSelected
         ? "#EEF2FF"
         : state.isFocused
           ? "#F3F4F6"
-          : "#fff",
+          : "#FFFFFF",
+
       color: "#111827",
       cursor: "pointer",
-
       whiteSpace: "nowrap",
       overflow: "visible",
-
       paddingLeft: isSelected ? "9px" : "12px",
 
       ...(isSelected && {
-        borderLeft: "3px solid #1E45E1",
+        borderLeft: "3px solid #5865F2",
         fontWeight: 500,
       }),
+
+      "&:hover": {
+        backgroundColor: "#F3F4F6",
+      },
     };
   },
 
   menu: (base) => ({
     ...base,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFFFFF",
     border: "1px solid #E5E7EB",
     borderRadius: "8px",
     padding: "6px 0",
@@ -113,20 +138,36 @@ const CustomStyles = {
 
   indicatorsContainer: (base) => ({
     ...base,
-    // height: "45px",
+    height: "32px",
   }),
 
-  dropdownIndicator: (base, state) => ({
-    ...base,
-    padding: "4px",
-    color: state.isDisabled ? "#D1D5DB" : "#6B7280",
-    cursor: state.isDisabled ? "not-allowed" : "pointer",
-  }),
+  dropdownIndicator: (base, state) => {
+    const selectedValue = state.getValue()?.[0]?.value;
+
+    const isActualSelected = selectedValue && selectedValue !== "ALL";
+
+    return {
+      ...base,
+      padding: "4px",
+      color: isActualSelected
+        ? "#FFFFFF"
+        : state.isFocused
+          ? "#5865F2"
+          : "#6B7280",
+
+      "&:hover": {
+        color: isActualSelected ? "#FFFFFF" : "#5865F2",
+      },
+    };
+  },
 
   indicatorSeparator: () => ({
     display: "none",
   }),
 };
+
+
+
 
 
 
@@ -141,13 +182,13 @@ const Compliance = () => {
 
   const [filteredUsers, setFilteredUsers] = useState([]);
 
-  console.log("filteredUsers", filteredUsers)
-
-  console.log("state.ComplianceList.Compliance", state.ComplianceList.Compliance)
 
   // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
   // const [filterStatus, setFilterStatus] = useState(false);
-  const [statusfilter, setStatusfilter] = useState("");
+  const [statusfilter, setStatusfilter] = useState({
+    value: "ALL",
+    label: "All",
+  });
   const location = useLocation();
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
@@ -157,13 +198,48 @@ const Compliance = () => {
   const [edit, setEdit] = useState(false);
   const [ComplaintData, setComplaintdata] = useState("");
 
+  const [chips, setChips] = useState([]);
+
+  const filterOptionsData = useSelector((state) => state.ComplianceList.Compliance.filterOption);
+
+
   const statusOptions = [
-    { value: "All", label: "All" },
-    { value: "open", label: "Open" },
-    { value: "in-progress", label: "In Progress" },
-    { value: "resolved", label: "Resolved" },
+    { value: "ALL", label: "All" },
+    ...(filterOptionsData?.status?.map((item) => ({
+      label: item.name,
+      value: item.type,
+    })) || []),
     { value: "date", label: "Date" },
   ];
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_COMPLIANCE_FILTERS",
+      payload: {
+        status: "",
+        statusLabel: "",
+        search: "",
+        startDate: "",
+        endDate: "",
+      },
+    });
+
+    dispatch({
+      type: "COMPLIANCE-LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+      },
+    });
+
+    setStatusfilter({
+      value: "ALL",
+      label: "All",
+    });
+
+    setSelectedDateRange([]);
+    setChips([]);
+    setFilterInput("");
+  };
 
   const {
     canWriteModule: canWriteComplaints,
@@ -186,6 +262,46 @@ const Compliance = () => {
   }, [state.UsersList?.accessRestrictionError]);
 
   const isComplaintForm = location.state?.isComplaintForm || false;
+
+
+  useEffect(() => {
+    const filters = state.ComplianceList?.complainceFilters;
+    const filterData = [];
+
+    if (
+      filters?.status &&
+      filters.status !== "ALL" &&
+      filters.status !== "date"
+    ) {
+      filterData.push({
+        key: "status",
+        label: "Status",
+        type: "status",
+        value: filters.statusLabel || filters.status,
+      });
+    }
+
+    if (filters?.search) {
+      filterData.push({
+        key: "search",
+        label: "Search",
+        type: "search",
+        value: filters.search,
+      });
+    }
+
+    if (filters?.startDate && filters?.endDate) {
+      filterData.push({
+        key: "date",
+        label: "Date",
+        type: "date",
+        value: `${filters.startDate} - ${filters.endDate}`,
+      });
+    }
+
+
+    setChips(filterData);
+  }, [state.ComplianceList?.complainceFilters]);
 
   useEffect(() => {
     setShow(isComplaintForm);
@@ -214,43 +330,6 @@ const Compliance = () => {
     }
   }, [state.UsersList?.exportComplianceDetails?.response?.fileUrl]);
 
-  // const handleComplianceeExcel = () => {
-  //   if (ExcelFilterDates.length === 2) {
-  //     dispatch({
-  //       type: "EXPORTCOMPLIANCEDETAILS",
-  //       payload: {
-  //         type: "complaint",
-  //         hostel_id: hosId,
-  //         start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-  //         end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD"),
-  //       },
-  //     });
-  //     setExcelFilterDates([]);
-  //     setStatusfilter("");
-  //   } else if (
-  //     statusfilter &&
-  //     statusfilter !== "date" &&
-  //     statusfilter !== "All"
-  //   ) {
-  //     dispatch({
-  //       type: "EXPORTCOMPLIANCEDETAILS",
-  //       payload: {
-  //         type: "complaint",
-  //         hostel_id: hosId,
-  //         status: statusfilter,
-  //       },
-  //     });
-  //     setExcelFilterDates([]);
-  //     setStatusfilter("");
-  //   } else {
-  //     dispatch({
-  //       type: "EXPORTCOMPLIANCEDETAILS",
-  //       payload: { type: "complaint", hostel_id: hosId },
-  //     });
-  //   }
-
-  //   setIsDownloadTriggered(true);
-  // };
 
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
@@ -277,7 +356,7 @@ const Compliance = () => {
   useEffect(() => {
     if (state.ComplianceList?.statusCodeCompliance === 200) {
       setLoading(false);
-      setFilteredUsers(state.ComplianceList.Compliance);
+      setFilteredUsers(state.ComplianceList.Compliance?.complaintsList);
 
 
       dispatch({ type: "CLEAR_COMPLIANCE_LIST" });
@@ -313,13 +392,15 @@ const Compliance = () => {
 
   const handleStatusFilter = (selected) => {
     // console.log("value", value)
-
-    setStatusfilter(selected?.value);
+    setSelectedDateRange([]);
+    setStatusfilter(selected);
     dispatch({
       type: "SET_COMPLIANCE_FILTERS",
       payload: {
-        status: selected?.value === "All" ? "" : selected?.value,
+        status: selected?.value === "ALL" ? "" : selected?.value,
         statusLabel: selected?.label || "All",
+        startDate: "",
+        endDate: "",
       },
     });
   };
@@ -327,6 +408,7 @@ const Compliance = () => {
 
 
   const handleDateChange = (dates) => {
+    setSelectedDateRange([]);
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setStatusfilter("All");
@@ -361,6 +443,7 @@ const Compliance = () => {
   };
 
 
+  console.log("complainceFilters;", state.ComplianceList?.complainceFilters)
 
   useEffect(() => {
     const hostelId = state.login?.selectedHostel_Id;
@@ -424,7 +507,7 @@ const Compliance = () => {
 
   useEffect(() => {
     setLoading(false);
-  }, [state.ComplianceList.Compliance]);
+  }, [state.ComplianceList.Compliance?.complaintsList]);
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 201) {
@@ -454,7 +537,7 @@ const Compliance = () => {
     }
   }, [state.ComplianceList.statusCodeForEditCompliant]);
 
-  console.log("complainceFilters", state.ComplianceList?.complainceFilters)
+  // console.log("complainceFilters", state.ComplianceList?.complainceFilters)
 
   // const handleFilterd = () => {
   //   setFilterStatus(!filterStatus);
@@ -606,7 +689,7 @@ const Compliance = () => {
     }
   }, [state.createAccount?.networkError]);
 
-
+  console.log("statusfilter", statusfilter)
 
   return (
     <>
@@ -634,7 +717,7 @@ const Compliance = () => {
                   <input
                     type="text"
                     placeholder="Search"
-                    className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2 w-full w-12 font-gilroy"
+                    className="form-control border-start-0 border border-l-0 border-r-0 border-[#CFD5DB] shadow-none outline-none px-2.5 py-2.5 w-full w-12 font-gilroy"
                     value={filterInput}
                     onChange={(e) => handlefilterInput(e)}
                   />
@@ -648,12 +731,13 @@ const Compliance = () => {
 
 
               <div className="mr-3 w-36 border border-gray-300 rounded-lg">
-                <Select isDisabled={!canReadComplaints}
+                <Select
+                  isDisabled={!canReadComplaints}
                   options={statusOptions}
-                  value={statusOptions.find((option) => option.value === statusfilter)}
-                  onChange={(selectedOption) =>
-                    handleStatusFilter(selectedOption)
-                  }
+                  value={statusOptions.find(
+                    (option) => option.value === statusfilter?.value
+                  )}
+                  onChange={handleStatusFilter}
                   isSearchable={false}
                   placeholder="Select Status"
                   className="text-sm font-gilroy"
@@ -661,7 +745,7 @@ const Compliance = () => {
                 />
               </div>
 
-              {statusfilter === "date" && (
+              {statusfilter?.value === "date" && (
                 <div style={{ paddingRight: 30 }}>
                   <RangePicker
                     value={selectedDateRange}
@@ -701,6 +785,29 @@ const Compliance = () => {
             </div>
           </div>
         </div>
+
+        {chips?.length > 0 && (
+          <div className="flex font-gilroy flex-wrap items-start gap-3 p-3 mx-3 mt-3 mb-3 rounded-lg bg-gray-50 border border-gray-200">
+            <div className="flex flex-wrap gap-2 flex-1">
+              {chips.map((chip) => (
+                <span
+                  key={chip.key}
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-blue-100 bg-blue-100 text-gray-800 flex-shrink-0"
+                >
+                  {chip.label} :
+                  <span className="text-gray-900">{chip.value}</span>
+                </span>
+              ))}
+            </div>
+            <span
+              className="text-blue-600 text-sm font-medium cursor-pointer"
+              onClick={handleReset}
+            >
+              Reset
+            </span>
+          </div>
+        )}
+
 
         {!canReadComplaints ? (
           <>
