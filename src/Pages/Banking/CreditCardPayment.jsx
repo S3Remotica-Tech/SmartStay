@@ -170,7 +170,7 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
           ?.availableCreditCards ?? []
       ).map((view) => ({
         value: view?.cardId,
-        label: `${view?.cardNetwork} - ${view?.cardNumber}${view?.bankName ? ` - ${view.bankName}` : ""
+        label: `${view?.cardNetwork} - ${view?.cardNumber}${view?.linkedBankAccount?.bankName ? ` - ${view.linkedBankAccount?.bankName}` : ""
           }`,
       })),
     [
@@ -228,9 +228,9 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
             subLabel: subLabel,
             type: accountType || bank?.bankName,
             isUpi: bank?.isUpi,
-            icon: bank?.isUpi && bank?.upiAppIcon ? (
+            icon: bank?.isUpi && bank?.upiIcon ? (
               <img
-                src={bank.upiAppIcon}
+                src={bank.upiIcon}
                 alt="UPI"
                 className="w-5 h-5 object-contain"
               />

@@ -345,18 +345,16 @@ function* handlecompliancelist(action) {
     if (hostelId) {
       yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId });
     }
-
+    // console.log("response", response)
     if (response?.status === 200) {
       yield put({
         type: "COMPLIANCE_LIST",
         payload: {
-          response: response.data.complaintsList || [],
-          filterOptions: response.data.filterOptions || [],
+          response: response.data.complaintsList,
+          // filterOptions: response.data.filterOptions || [],
           statusCode: response?.status,
         },
       });
-    } else {
-      yield put({ type: "ERROR", payload: response?.data?.message });
     }
   } catch (error) {
     yield* handleApiError(error);

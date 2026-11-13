@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Green from "../../Assets/Images/New_images/Frame.png";
-import White from "../../Assets/Images/New_images/empty_bed.png";
+import Green from "../../Assets/Images/New_images/GreenBed.png";
+import White from "../../Assets/Images/New_images/WhiteBed.png";
 import { FaSquarePlus } from "react-icons/fa6";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import overDude from "../../Assets/Images/New_images/overDue.png";
 import AddBedUI from "./AddBed";
 import PropTypes from "prop-types";
-import EmptyBed from "./EmptyBed";
-import BedDetails from "./ReservedBed/BedDetails";
+import EmptyBed from "../PayingGuestFile/EmptyBed/EmptyBed";
+// import BedDetails from "./ReservedBed/BedDetails";
 import MakeAsInactive from "../CustomerFile/MakeAsInactive";
-import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
+// import OccupiedBedStatus from "./OccupiedBeds/OccupiedBedStatus";
 import ChangeBedTenantWay from "../CustomerFile/ChangeBedTenantWay";
 import MoveToNoticePGAndTenant from "../CustomerFile/MoveToNoticePGAndTenant";
-import NoticeBedStatusDetails from "./NoticePeriod/BedStatus";
+// import NoticeBedStatusDetails from "./NoticePeriod/BedStatus";
 import BookingBed from "./NoticePeriod/BookingBed";
 import PGAssignTenant from "./PGAssignTenant";
 import OccupiedCustomer from "./OccupiedCustomer";
@@ -31,6 +31,12 @@ import { clickedBedForChange } from "../../Redux/Action/LoginAction";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import BookingToCheckin from "../CustomerFile/BookingToCheckin";
+import BedActivity from "./BedActivity";
+import OccupiedBed from "./OccupiedBeds/OccupiedBed";
+import BookedBed from "./ReservedBed/BookedBed";
+import NoticeBed from "./NoticePeriod/NoticeBed";
+
+
 function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -71,6 +77,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const [changeBedClicked, setChangedBedClicked] = useState("");
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false);
   const [editBedMode, setEditBedMode] = useState(false);
+  const [showActivity, setShowActivity] = useState(false)
 
   const { canWriteModule: canWritePayingGuests } =
     useHasPermission("Paying Guests");
@@ -255,6 +262,16 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   const handlecloseBed = () => {
     setEmptyBed(false);
   };
+
+  const handleShowActivity = () => {
+    setShowActivity(true)
+    setEmptyBed(false);
+  }
+
+  const handleCloseActivity = () => {
+    setShowActivity(false)
+  }
+
 
   const [selectedTenant, setSelectedTenant] = useState(null);
 
@@ -553,6 +570,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
 
   return (
     <div>
+      {showActivity && <BedActivity handleClose={handleCloseActivity} />}
       {bactocheckinForm && (
         <BackToCheckIn
           show={bactocheckinForm}
@@ -598,6 +616,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           showcustomer={handleShowAddCustomer}
           showtenant={handleShowAssignTenant}
           showEditBed={handleEditBed}
+          showActivity={handleShowActivity}
         />
       )}
 
@@ -616,8 +635,19 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {showReservedBed && (
+      {/* {showReservedBed && (
         <BedDetails
+          show={handleShowReservedBed}
+          handleCloseBed={handleCloseReservedBed}
+          handleShowCheck_In={handleShowCheck_In}
+          MakeAsInActive={handleShowMakeAsInActive}
+          currentItem={customer}
+          handleShowInActiveForm={handleShowInActiveForm}
+          showEditBed={handleEditBed}
+        />
+      )} */}
+      {showReservedBed && (
+        <BookedBed
           show={handleShowReservedBed}
           handleCloseBed={handleCloseReservedBed}
           handleShowCheck_In={handleShowCheck_In}
@@ -671,8 +701,22 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {Occubied_bed && (
+      {/* {Occubied_bed && (
         <OccupiedBedStatus
+          show={Occubied_bed}
+          showEditBed={handleEditBed}
+          handleShowInActiveForm={handleShowInActiveForm}
+          handleShowCheck_In={handleShowCheck_In}
+          handleCloseBed={handlecloseoccubiedbed}
+          currentItem={customer}
+          handleShowReassignBed={handleShowReAssignBedPopup}
+          handleShowNoticePeriod={handleShowNoticePeriod}
+        />
+      )} */}
+
+
+      {Occubied_bed && (
+        <OccupiedBed
           show={Occubied_bed}
           showEditBed={handleEditBed}
           handleShowInActiveForm={handleShowInActiveForm}
@@ -684,7 +728,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )}
 
-      {Noticeperiod_bed && (
+      {/* {Noticeperiod_bed && (
         <NoticeBedStatusDetails
           showEditBed={handleEditBed}
           show={Noticeperiod_bed}
@@ -700,7 +744,27 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
           handleOpenCancelCheckout={handleOpenCancelCheckout}
           handleShowNoticePeriod={handleShowNoticePeriod}
         />
+      )} */}
+
+      {Noticeperiod_bed && (
+        <NoticeBed
+          showEditBed={handleEditBed}
+          show={Noticeperiod_bed}
+          handleDisplayCheckInForm={handleDisplayCheckInForm}
+          handleCloseBed={handlecloseNoticePeriodBed}
+          currentItem={customer}
+          handleShowReassignBed={handleShowReAssignBedPopup}
+          showBooking={handleshowNoticePeriodBooking}
+          showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
+          showfinalsettelemnet={handleshowfinalsettlement}
+          handleOpenChangeBed={handleOpenChangeBed}
+          handleShowInActiveForm={handleShowInActiveForm}
+          handleOpenCancelCheckout={handleOpenCancelCheckout}
+          handleShowNoticePeriod={handleShowNoticePeriod}
+        />
       )}
+
+
 
       {showReAssignBedForm && (
         <ChangeBedTenantWay
@@ -748,7 +812,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         />
       )} */}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-x-3 gap-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start mx-0 max-h-60 py-1.5 overflow-y-auto show-scrolls overflow-x-hidden gap-x-3 gap-y-4">
         {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (
           filteredBeds.map((bed) => (
             <div
@@ -870,11 +934,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center py-2">
-            <label className="text-xs font-gilroy text-neutral-600 whitespace-nowrap">
-              No beds available
-            </label>
-          </div>
+          ""
         )}
 
         {!state.login.isTrigger && (

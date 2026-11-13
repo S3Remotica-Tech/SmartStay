@@ -16,7 +16,8 @@ function AllPlans() {
   const [paymentLoading, setPaymentLoading] = useState(false);
   // if (message.body === "failed")
   const onMessageReceived = (message) => {
-   
+    console.log("message", message)
+
     if (message.body === "success") {
       setPaymentLoading(false);
       window.location.reload();

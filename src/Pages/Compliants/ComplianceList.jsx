@@ -996,7 +996,7 @@ const ComplianceList = (props) => {
                     className="h-3.5 w-3.5"
                   />
                   <span className="text-xs font-medium text-[#333] font-gilroy" >
-                    {props.complaints?.commentCount}
+                    {props.complaints?.comments?.length || 0}
                   </span>
                 </div>
 
