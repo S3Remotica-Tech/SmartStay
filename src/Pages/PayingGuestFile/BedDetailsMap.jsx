@@ -951,7 +951,7 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
               <FaSquarePlus className={`text-blue-600 h-11 w-9`} />
 
               <div
-                className={`pt-2 text-[10px] font-semibold font-montserrat ${!canWritePayingGuests ? "text-gray-400" : "text-blue-600"}`}
+                className={`pt-2 text-[10px] font-semibold whitespace-nowrap font-gilroy ${!canWritePayingGuests ? "text-gray-400" : "text-blue-600"}`}
               >
                 Add bed
               </div>

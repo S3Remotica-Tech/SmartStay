@@ -1,24 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-// import Modal from "react-bootstrap/Modal";
+import React, { useState, useEffect } from "react";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
-// import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import "../../../Pages/AssetFile/addAsset.css";
 import TimerPause from "../../../Assets/Images/New_images/timer-pause.svg";
-// import logout from "../../../Assets/Images/New_images/logout.svg";
-// import AddPlus from "../../../Assets/Images/New_images/add-circle.png";
-// import Exchange from "../../../Assets/v2Images/exchange.svg";
-// import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg";
-// import { FiCalendar } from "react-icons/fi";
-// import Settings from "../../../Assets/v2Images/info-circle.svg";
 import { useHasPermission } from "../../../Utils/Permission";
 import { Calendar } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { LogoutCurve, Edit2, Verify, Add, AddCircle } from "iconsax-react";
-// import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import BedActivity from '../BedActivity';
 import FormComingSoon from '../../../Utils/FormComingSoon';
@@ -27,36 +18,32 @@ import BedOverview from "../BedOverview";
 
 
 function NoticeBed({
-    // show,
+
     handleCloseBed,
     currentItem,
     showBooking,
-    // showNoticeperiodCheckout,
+
     showfinalsettelemnet,
-    // handleOpenChangeBed,
+
     handleShowInActiveForm,
     handleOpenCancelCheckout,
-    // handleDisplayCheckInForm,
+
     showEditBed,
-    // handleShowReassignBed,
-    // handleShowNoticePeriod,
+
 }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const [showTooltip, setShowTooltip] = useState(false);
-    // const canWriteCustomers = useHasPermission("Customers", "canWrite")
+
 
     const {
         canWriteModule: canWriteCustomers,
-        // canReadModule: canReadPayingGuests,
-        // canUpdateModule: canUpdatePayingGuests,
-        // canDeleteModule: canDeletePayingGuests,
+
     } = useHasPermission("Customers");
 
     const {
         canWriteModule: canWriteCheckout,
-        // canUpdateModule: canUpdateCheckout,
+
     } = useHasPermission("Checkout");
 
 
@@ -64,56 +51,49 @@ function NoticeBed({
         useHasPermission("Booking");
     const {
         canUpdateModule: canUpdatePayingGuests,
-        // canDeleteModule: canDeletePayingGuests,
+
     } = useHasPermission("Paying Guests");
 
-    // const [recheckin, setRecheckin] = useState(false)
-    // const [activeMenu, setActiveMenu] = useState(null);
-    // const [activeMenuForReserved, setActiveMenuForReserved] = useState(null);
-    // const [selectedTenant, setSelectedTenant] = useState("");
-    const popupRef = useRef(null);
-    // const isNoticeAndBooked = currentItem?.newTenantInfo?.length > 0;
-    // const bedDetails = state?.PgList?.OccupiedCustomer;
-    const [expandedOccupied, setExpandedOccupied] = useState(null);
-    const [expandedReserved, setExpandedReserved] = useState(null);
+
+    // const popupRef = useRef(null);
+
+    const [selectedOccupiedTenant, setSelectedOccupiedTenant] = useState(null);
+    const [selectedReservedTenant, setSelectedReservedTenant] = useState(null);
     const [activeTab, setActiveTab] = useState("overview");
     const isDev = import.meta.env.MODE === "development";
-    const toggleOccupied = (id) => {
-        setExpandedOccupied((prev) => prev === id ? null : id);
+
+
+    const toggleOccupied = (tenant) => {
+        setSelectedOccupiedTenant((prev) =>
+            prev?.tenetId === tenant.tenetId ? null : tenant
+        );
+
+        setSelectedReservedTenant(null);
+        setActiveTab("overview");
     };
 
-    const toggleReserved = (id) => {
-        setExpandedReserved((prev) => prev === id ? null : id);
+    const toggleReserved = (tenant) => {
+        setSelectedReservedTenant((prev) =>
+            prev?.tenetId === tenant.tenetId ? null : tenant
+        );
+
+        setSelectedOccupiedTenant(null);
+        setActiveTab("overview");
     };
 
-    // useEffect(() => {
-    //     if (!selectedTenant?.tenetId) return;
-    //     dispatch({
-    //         type: "CUSTOMERDETAILS",
-    //         payload: { customerId: selectedTenant?.tenetId },
-    //     });
-    // }, [selectedTenant?.tenetId]);
+
+
+
 
     const handleEditBed = () => {
         showEditBed(true);
     };
 
-    // const handleShowDots = (type, tenant) => {
-    //     setActiveMenu((prev) => (prev === type ? null : type));
 
-    //     setSelectedTenant(tenant);
-    // };
 
-    // const handleShowDotsForReserved = (type, tenant) => {
-    //     setActiveMenuForReserved((prev) => (prev === type ? null : type));
-    //     setSelectedTenant(tenant);
-    // };
-
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            // setActiveMenu(null);
-            // setActiveMenuForReserved(null);
-        }
+    const handleClickOutside = () => {
+        // if (popupRef.current && !popupRef.current.contains(event.target)) {
+        // }
     };
 
     const handleMakeAsInActive = (tenant) => {
@@ -128,12 +108,7 @@ function NoticeBed({
         showBooking(true, tenant);
     };
 
-    // const handleCheckout = (tenantDetails) => {
-    //     showNoticeperiodCheckout(true, tenantDetails);
-    // };
 
-    // const matchedDataStatus =
-    //     state.UsersList.customerdetails?.customerCurrentStatus;
 
     const handleFinalsettelmentGenerate = (tenant) => {
         showfinalsettelemnet(tenant);
@@ -143,9 +118,7 @@ function NoticeBed({
         });
     };
 
-    // const handleCheckInforBookingTenant = () => {
-    //   handleDisplayCheckInForm(true)
-    // }
+
 
     useEffect(() => {
         if (state.Booking.StatusCodeInactiveCode === 200) {
@@ -165,10 +138,6 @@ function NoticeBed({
     useEffect(() => {
         if (state.UsersList.statusCodeForFinalSettlement === 201) {
             handleCloseBed();
-            // dispatch({
-            //   type: "USERLIST",
-            //   payload: { hostel_id: state.login.selectedHostel_Id },
-            // })
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: currentItem.roomId },
@@ -182,10 +151,7 @@ function NoticeBed({
     useEffect(() => {
         if (state.UsersList.statuscodeForConformCheckout === 200) {
             handleCloseBed();
-            // dispatch({
-            //   type: "USERLIST",
-            //   payload: { hostel_id: state.login.selectedHostel_Id },
-            // });
+
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: currentItem.roomId },
@@ -196,7 +162,11 @@ function NoticeBed({
         }
     }, [state.UsersList.statuscodeForConformCheckout]);
 
+    useEffect(() => {
+        const firstOccupied = currentItem?.currentTenantInfo?.[0] || null;
 
+        setSelectedOccupiedTenant(firstOccupied);
+    }, [currentItem?.currentTenantInfo]);
 
     useEffect(() => {
         if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
@@ -208,13 +178,7 @@ function NoticeBed({
         }
     }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
-    // const handleReAssignBed = (currentItem) => {
-    //     handleShowReassignBed(true, currentItem);
-    // };
 
-    // const handleMoveToNoticePeriod = (currentItem) => {
-    //     handleShowNoticePeriod(true, currentItem);
-    // };
 
     const handleNavigateTenantProfile = (tenantDetails) => {
         if (tenantDetails) {
@@ -326,17 +290,17 @@ function NoticeBed({
                         <div className="my-2 mx-2 gap-3 flex flex-col">
                             {currentItem?.currentTenantInfo?.map((tenant, index) => {
                                 const tenantId = tenant.tenetId || index;
-                                const isExpanded = expandedOccupied === tenantId;
+                                const isExpanded = selectedOccupiedTenant?.tenetId === tenantId;
 
                                 return (
                                     <div key={tenantId} className="mb-2">
 
 
                                         <div
-                                            onClick={() => toggleOccupied(tenantId)}
+                                            onClick={() => toggleOccupied(tenant)}
                                             className={`flex justify-between items-center px-2 py-1 cursor-pointer rounded transition-all duration-200 ${isExpanded
-                                                ? "border border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
-                                                : "border border-[#F2F2F2] hover:bg-[#F7FAFF]"
+                                                ? "border-1 border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
+                                                : "border-1 border-[#F2F2F2] hover:bg-[#F7FAFF]"
                                                 }`}
                                         >
                                             <div className="flex gap-3 items-center min-w-0">
@@ -386,120 +350,7 @@ function NoticeBed({
                                             </div>
                                         </div>
 
-                                        {isExpanded && (
-                                            <>
 
-                                                <div className="w-full my-3 shrink-0 px-3 mt-4">
-                                                    <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB]">
-                                                        {["overview", "activity"].map((tab) => (
-                                                            <button
-                                                                key={tab}
-                                                                type="button"
-                                                                onClick={() => setActiveTab(tab)}
-                                                                className={`flex-1 pb-3 text-sm font-medium capitalize border-b-2 transition-all ${activeTab === tab
-                                                                    ? "text-[#1E45E1] border-[#1E45E1] drop-shadow-[0_2px_4px_rgba(30,69,225,0.25)]"
-                                                                    : "text-gray-500 border-transparent hover:text-gray-700"
-                                                                    }`}
-                                                            >
-                                                                {tab}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-
-                                                {/* Overview / Activity */}
-                                                <div className="mx-2">
-                                                    {activeTab === "overview" && (
-                                                        <BedOverview
-                                                            isBed="NOTICE"
-                                                            tenant={tenant}
-                                                        />
-                                                    )}
-
-                                                    {activeTab === "activity" && (
-                                                        isDev ? <BedActivity /> : activeTab === "activity" && <FormComingSoon />
-                                                    )}
-                                                </div>
-
-
-                                                {activeTab === "overview" && (
-                                                    <div className="flex flex-wrap items-center gap-2 mb-6 mt-3">
-
-                                                        {/* New Booking */}
-                                                        <button
-                                                            type="button"
-                                                            disabled={!canWriteBooking}
-                                                            onClick={() => handleNewBooking(tenant)}
-                                                            className={`flex flex-1 min-w-[120px] gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteBooking
-                                                                ? "border-[#E5E7EB] bg-white hover:bg-[#F7FAFF]"
-                                                                : "border-[#E5E7EB] opacity-50 cursor-not-allowed"
-                                                                }`}
-                                                        >
-                                                            <img
-                                                                src={TimerPause}
-                                                                alt="booking"
-                                                                className={`h-[17px] w-[17px] ${!canWriteBooking ? "grayscale opacity-50" : ""
-                                                                    }`}
-                                                            />
-                                                            <span className="text-[13px] font-medium whitespace-nowrap">
-                                                                New Booking
-                                                            </span>
-                                                        </button>
-
-                                                        {/* Cancel Checkout */}
-                                                        <button
-                                                            type="button"
-                                                            disabled={!canWriteCustomers || hasCheckinAndNotice}
-                                                            onClick={() => {
-                                                                if (!hasCheckinAndNotice) {
-                                                                    handleRecheckInBed(tenant);
-                                                                }
-                                                            }}
-                                                            className={`flex flex-1  gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers && !hasCheckinAndNotice
-                                                                ? "border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
-                                                                : "border-[#E5E7EB] opacity-50 cursor-not-allowed"
-                                                                }`}
-                                                        >
-                                                            <Calendar
-                                                                size="16"
-                                                                color={
-                                                                    canWriteCustomers && !hasCheckinAndNotice
-                                                                        ? "#1E45E1"
-                                                                        : "#A9A9A9"
-                                                                }
-                                                            />
-                                                            <span className="text-[13px] font-medium whitespace-nowrap">
-                                                                Cancel Checkout
-                                                            </span>
-                                                        </button>
-
-                                                        {/* Generate Settlement */}
-                                                        <button
-                                                            type="button"
-                                                            disabled={!canWriteCheckout}
-                                                            onClick={() =>
-                                                                canWriteCheckout &&
-                                                                handleFinalsettelmentGenerate(tenant)
-                                                            }
-                                                            className={`flex flex-1 min-w-[120px] gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCheckout
-                                                                ? "border-[#1E45E1] bg-[#1E45E1] hover:bg-blue-700"
-                                                                : "border-[#E5E7EB] bg-gray-100 opacity-60 cursor-not-allowed"
-                                                                }`}
-                                                        >
-                                                            <LogoutCurve
-                                                                size="17"
-                                                                color={canWriteCheckout ? "#FFFFFF" : "#A9A9A9"}
-                                                            />
-                                                            <span className={`text-[13px] font-medium whitespace-nowrap ${canWriteCheckout ? "text-white" : "text-gray-400"
-                                                                }`}>
-                                                                Generate
-                                                            </span>
-                                                        </button>
-
-                                                    </div>
-                                                )}
-                                            </>
-                                        )}
                                     </div>
                                 );
                             })}
@@ -509,17 +360,16 @@ function NoticeBed({
                         <div className="my-2 mx-2">
                             {currentItem?.newTenantInfo?.map((tenant, index) => {
                                 const tenantId = tenant.tenetId || index;
-                                const isExpanded = expandedReserved === tenantId;
-
+                                const isExpanded = selectedReservedTenant?.tenetId === tenantId;
                                 return (
                                     <div key={tenantId} className="mb-2">
 
 
                                         <div
-                                            onClick={() => toggleReserved(tenantId)}
+                                            onClick={() => toggleReserved(tenant)}
                                             className={`flex justify-between items-center px-2 py-1 cursor-pointer rounded transition-all ${isExpanded
-                                                ? "border border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
-                                                : "border border-[#F2F2F2] hover:bg-[#F7FAFF]"
+                                                ? "border-1 border-[#ADBDFF] bg-white shadow-[0_2px_8px_rgba(30,69,225,0.12)]"
+                                                : "border-1 border-[#F2F2F2] hover:bg-[#F7FAFF]"
                                                 }`}
                                         >
                                             <div className="flex gap-3 items-center min-w-0">
@@ -570,89 +420,207 @@ function NoticeBed({
                                         </div>
 
 
-                                        {isExpanded && (
-                                            <>
-                                                <div className="w-full my-3 shrink-0 px-3 mt-4">
-                                                    <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB]">
-                                                        {["overview", "activity"].map((tab) => (
-                                                            <button
-                                                                key={tab}
-                                                                type="button"
-                                                                onClick={() => setActiveTab(tab)}
-                                                                className={`flex-1 pb-3 text-sm font-medium capitalize border-b-2 transition-all ${activeTab === tab
-                                                                    ? "text-[#1E45E1] border-[#1E45E1]"
-                                                                    : "text-gray-500 border-transparent hover:text-gray-700"
-                                                                    }`}
-                                                            >
-                                                                {tab}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
 
-                                                <div className="mx-2">
-                                                    {activeTab === "overview" && (
-                                                        <BedOverview
-                                                            isBed="RESERVED"
-                                                            tenant={tenant}
-                                                        />
-                                                    )}
-
-                                                    {activeTab === "activity" && (
-                                                        isDev ? <BedActivity /> : <FormComingSoon />
-                                                    )}
-                                                </div>
-
-                                                {/* Reserved Actions */}
-                                                {activeTab === "overview" && (
-                                                    <div className="flex items-center gap-2 mb-6 mt-3">
-
-                                                        <button
-                                                            type="button"
-                                                            disabled
-                                                            // disabled={!canWriteCustomers}
-                                                            // onClick={() => handleCheckIn(tenant)}
-                                                            className={`disabled:opacity-50 flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers
-                                                                ? "border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
-                                                                : "border-[#E5E7EB] opacity-60 cursor-not-allowed"
-                                                                }`}
-                                                        >
-                                                            <AddCircle
-                                                                size="18"
-                                                                color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
-                                                            />
-                                                            <span className="text-[13px] font-medium whitespace-nowrap">
-                                                                Check-In
-                                                            </span>
-                                                        </button>
-
-                                                        <button
-                                                            type="button"
-                                                            disabled={!canUpdateBooking}
-                                                            onClick={() => handleMakeAsInActive(tenant)}
-                                                            className={`flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canUpdateBooking
-                                                                ? "border-[#1E45E1] bg-[#1E45E1] hover:bg-blue-700"
-                                                                : "border-[#E5E7EB] bg-gray-100 opacity-60 cursor-not-allowed"
-                                                                }`}
-                                                        >
-                                                            <LogoutCurve
-                                                                size="18"
-                                                                color={canUpdateBooking ? "#FFFFFF" : "#A0A0A0"}
-                                                            />
-                                                            <span className={`text-[13px] font-medium whitespace-nowrap ${canUpdateBooking ? "text-white" : "text-gray-400"
-                                                                }`}>
-                                                                Make as Inactive
-                                                            </span>
-                                                        </button>
-
-                                                    </div>
-                                                )}
-                                            </>
-                                        )}
                                     </div>
                                 );
                             })}
                         </div>
+
+                        {selectedOccupiedTenant && (
+                            <>
+
+                                <div className="w-full my-3 shrink-0 px-3 mt-4">
+                                    <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB]">
+                                        {["overview", "activity"].map((tab) => (
+                                            <button
+                                                key={tab}
+                                                type="button"
+                                                onClick={() => setActiveTab(tab)}
+                                                className={`flex-1 pb-3 text-sm font-medium capitalize border-b-2 transition-all ${activeTab === tab
+                                                    ? "text-[#1E45E1] border-[#1E45E1] drop-shadow-[0_2px_4px_rgba(30,69,225,0.25)]"
+                                                    : "text-gray-500 border-transparent hover:text-gray-700"
+                                                    }`}
+                                            >
+                                                {tab}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Overview / Activity */}
+                                <div className="mx-2">
+                                    {activeTab === "overview" && (
+                                        <BedOverview
+                                            isBed="NOTICE"
+                                            tenant={selectedOccupiedTenant}
+                                        />
+                                    )}
+
+                                    {activeTab === "activity" && (
+                                        isDev ? <BedActivity /> : activeTab === "activity" && <FormComingSoon />
+                                    )}
+                                </div>
+
+
+                                {activeTab === "overview" && (
+                                    <div className="flex flex-wrap items-center gap-2 mb-6 mt-3">
+
+                                        {/* New Booking */}
+                                        <button
+                                            type="button"
+                                            disabled={!canWriteBooking}
+                                            onClick={() => handleNewBooking(selectedOccupiedTenant)}
+                                            className={`flex flex-1 min-w-[120px] gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteBooking
+                                                ? "border-[#E5E7EB] bg-white hover:bg-[#F7FAFF]"
+                                                : "border-[#E5E7EB] opacity-50 cursor-not-allowed"
+                                                }`}
+                                        >
+                                            <img
+                                                src={TimerPause}
+                                                alt="booking"
+                                                className={`h-[17px] w-[17px] ${!canWriteBooking ? "grayscale opacity-50" : ""
+                                                    }`}
+                                            />
+                                            <span className="text-[13px] font-medium whitespace-nowrap">
+                                                New Booking
+                                            </span>
+                                        </button>
+
+                                        {/* Cancel Checkout */}
+                                        <button
+                                            type="button"
+                                            disabled={!canWriteCustomers || hasCheckinAndNotice}
+                                            onClick={() => {
+                                                if (!hasCheckinAndNotice) {
+                                                    handleRecheckInBed(selectedOccupiedTenant);
+                                                }
+                                            }}
+                                            className={`flex flex-1  gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers && !hasCheckinAndNotice
+                                                ? "border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
+                                                : "border-[#E5E7EB] opacity-50 cursor-not-allowed"
+                                                }`}
+                                        >
+                                            <Calendar
+                                                size="16"
+                                                color={
+                                                    canWriteCustomers && !hasCheckinAndNotice
+                                                        ? "#1E45E1"
+                                                        : "#A9A9A9"
+                                                }
+                                            />
+                                            <span className="text-[13px] font-medium whitespace-nowrap">
+                                                Cancel Checkout
+                                            </span>
+                                        </button>
+
+                                        {/* Generate Settlement */}
+                                        <button
+                                            type="button"
+                                            disabled={!canWriteCheckout}
+                                            onClick={() =>
+                                                canWriteCheckout &&
+                                                handleFinalsettelmentGenerate(selectedOccupiedTenant)
+                                            }
+                                            className={`flex flex-1 min-w-[120px] gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCheckout
+                                                ? "border-[#1E45E1] bg-[#1E45E1] hover:bg-blue-700"
+                                                : "border-[#E5E7EB] bg-gray-100 opacity-60 cursor-not-allowed"
+                                                }`}
+                                        >
+                                            <LogoutCurve
+                                                size="17"
+                                                color={canWriteCheckout ? "#FFFFFF" : "#A9A9A9"}
+                                            />
+                                            <span className={`text-[13px] font-medium whitespace-nowrap ${canWriteCheckout ? "text-white" : "text-gray-400"
+                                                }`}>
+                                                Generate
+                                            </span>
+                                        </button>
+
+                                    </div>
+                                )}
+                            </>
+                        )}
+
+
+                        {selectedReservedTenant && (
+                            <>
+                                <div className="w-full my-3 shrink-0 px-3 mt-4">
+                                    <div className="flex items-center justify-around gap-6 border-b border-[#E5E7EB]">
+                                        {["overview", "activity"].map((tab) => (
+                                            <button
+                                                key={tab}
+                                                type="button"
+                                                onClick={() => setActiveTab(tab)}
+                                                className={`flex-1 pb-3 text-sm font-medium capitalize border-b-2 transition-all ${activeTab === tab
+                                                    ? "text-[#1E45E1] border-[#1E45E1]"
+                                                    : "text-gray-500 border-transparent hover:text-gray-700"
+                                                    }`}
+                                            >
+                                                {tab}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="mx-2">
+                                    {activeTab === "overview" && (
+                                        <BedOverview
+                                            isBed="RESERVED"
+                                            tenant={selectedReservedTenant}
+                                        />
+                                    )}
+
+                                    {activeTab === "activity" && (
+                                        isDev ? <BedActivity /> : <FormComingSoon />
+                                    )}
+                                </div>
+
+                                {/* Reserved Actions */}
+                                {activeTab === "overview" && (
+                                    <div className="flex items-center gap-2 mb-6 mt-3">
+
+                                        <button
+                                            type="button"
+                                            disabled
+                                            // disabled={!canWriteCustomers}
+                                            // onClick={() => handleCheckIn(selectedReservedTenant)}
+                                            className={`disabled:opacity-50 flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canWriteCustomers
+                                                ? "border-[#E5E7EB] bg-white hover:bg-[#F0F4FF]"
+                                                : "border-[#E5E7EB] opacity-60 cursor-not-allowed"
+                                                }`}
+                                        >
+                                            <AddCircle
+                                                size="18"
+                                                color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
+                                            />
+                                            <span className="text-[13px] font-medium whitespace-nowrap">
+                                                Check-In
+                                            </span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            disabled={!canUpdateBooking}
+                                            onClick={() => handleMakeAsInActive(selectedReservedTenant)}
+                                            className={`flex flex-1 gap-2 items-center justify-center p-2 border rounded transition-all ${canUpdateBooking
+                                                ? "border-[#1E45E1] bg-[#1E45E1] hover:bg-blue-700"
+                                                : "border-[#E5E7EB] bg-gray-100 opacity-60 cursor-not-allowed"
+                                                }`}
+                                        >
+                                            <LogoutCurve
+                                                size="18"
+                                                color={canUpdateBooking ? "#FFFFFF" : "#A0A0A0"}
+                                            />
+                                            <span className={`text-[13px] font-medium whitespace-nowrap ${canUpdateBooking ? "text-white" : "text-gray-400"
+                                                }`}>
+                                                Make as Inactive
+                                            </span>
+                                        </button>
+
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
