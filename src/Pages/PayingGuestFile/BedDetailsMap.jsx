@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Green from "../../Assets/Images/New_images/GreenBed.png";
 import White from "../../Assets/Images/New_images/WhiteBed.png";
@@ -117,14 +117,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         type: "GETALLBEDSLIST",
         payload: { roomId: room.id },
       });
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       setBacktoCheckInForm(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_CANCEL_CHECKOUT" });
@@ -374,14 +374,24 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
     }
   }, [state.PgList.OccupiedCustomerGetStatusCode]);
 
+
+  const previousRoomIdRef = useRef("");
+
   useEffect(() => {
-    if (room.id) {
-      dispatch({
-        type: "GETALLBEDSLIST",
-        payload: { roomId: room.id },
-      });
-    }
-  }, [room]);
+    const roomId = room?.id;
+
+    if (!roomId) return;
+
+    if (previousRoomIdRef.current === roomId) return;
+
+    previousRoomIdRef.current = roomId;
+
+    dispatch({
+      type: "GETALLBEDSLIST",
+      payload: { roomId },
+    });
+  }, [room?.id]);
+
 
   useEffect(() => {
     if (
@@ -422,14 +432,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         type: "GETALLBEDSLIST",
         payload: { roomId: room.id },
       });
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       setAssignTenantForm(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES_CHECK_IN" });
@@ -443,14 +453,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         type: "GETALLBEDSLIST",
         payload: { roomId: room.id },
       });
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       setAssignTenantForm(false);
 
       dispatch({ type: "REMOVE_DIRECT_CHECK_IN_REDUCER" });
@@ -465,14 +475,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         type: "GETALLBEDSLIST",
         payload: { roomId: room.id },
       });
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
 
       dispatch({ type: "REMOVE_BOOKING_TO_CHECK_IN_REDUCER" });
     }
@@ -493,14 +503,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       handleCloseAssignTenant();
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       dispatch({
         type: "GETALLBEDSLIST",
         payload: { roomId: room.id },
@@ -526,14 +536,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
       setShowInActive(false);
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       dispatch({
         type: "GETALLBEDSLIST",
         payload: { roomId: room.id },
@@ -553,14 +563,14 @@ function BedDetailsMap({ room, propsValue, selectedBed, setSelectedBed }) {
         payload: { roomId: room.id },
       });
 
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_REASSIGN_BED" });

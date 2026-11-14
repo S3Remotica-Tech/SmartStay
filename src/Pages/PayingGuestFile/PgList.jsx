@@ -120,24 +120,32 @@ function PgList() {
     floorName: null,
   });
 
-  const [hostel_Id, setHostel_Id] = useState("");
+  // const [hostel_Id, setHostel_Id] = useState("");
+
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     setHostel_Id(state.login.selectedHostel_Id);
+  //   }
+  // }, [state?.login?.selectedHostel_Id]);
+
+
+  const previousHostelRequestRef = useRef("");
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id);
-    }
+    const hostelId = state?.login?.selectedHostel_Id;
+    if (!hostelId) return;
+    if (previousHostelRequestRef.current === hostelId) return;
+    previousHostelRequestRef.current = hostelId;
+    setLoading(true);
+    dispatch({
+      type: "PARTICULAR_HOSTEL_DETAILS",
+      payload: { hostel_id: hostelId },
+    });
+    dispatch({
+      type: "ALLFLOORLIST",
+      payload: { hostel_id: hostelId },
+    });
   }, [state?.login?.selectedHostel_Id]);
-
-  useEffect(() => {
-    if (hostel_Id) {
-      dispatch({
-        type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: hostel_Id },
-      });
-      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
-      setLoading(true);
-    }
-  }, [hostel_Id]);
 
   useEffect(() => {
     if (floorList?.length > 0) {
@@ -201,7 +209,7 @@ function PgList() {
     ) {
       // dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       // dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
 
       setShowFloor(false);
       setTimeout(() => {
@@ -242,7 +250,7 @@ function PgList() {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       // dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       // dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setShowDelete(false);
 
       setTimeout(() => {
@@ -288,7 +296,7 @@ function PgList() {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({
         type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: hostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       // dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
@@ -306,7 +314,7 @@ function PgList() {
     if (state.PgList.dleteHostelImagesStatusCode === 200) {
       dispatch({
         type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: hostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       // dispatch({ type: "HOSTELLIST" })
 
@@ -327,7 +335,7 @@ function PgList() {
     ) {
       dispatch({
         type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: hostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       dispatch({ type: "HOSTELLIST" });
 
@@ -385,30 +393,14 @@ function PgList() {
     }
   }, [state.UsersList.hosteListStatusCode]);
 
-  // useEffect(() => {
-  //   if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-  //     const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-  //       return item.floor_id === floorClick;
-  //     }) || [];
-
-  //     setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
-
-  //   }
-
-  // }, [state.UsersList?.statuscodeForhotelDetailsinPg])
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
-      // dispatch({
-      //   type: "ROOMCOUNT",
-      //   payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
-      // });
-
       dispatch({
         type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: hostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
-      // dispatch({ type: "HOSTELLIST" });
+
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
@@ -529,17 +521,6 @@ function PgList() {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
-
-
-
-    // dispatch({
-    //   type: "SET_TENANT_TABLE_FILTERS",
-    //   payload: {
-    //     ...tenantFilters,
-    //     period: selectedOption?.value || "",
-    //     periodLabel: selectedOption?.label || "",
-    //   },
-    // });
 
 
   };

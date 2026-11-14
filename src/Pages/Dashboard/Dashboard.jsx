@@ -228,12 +228,18 @@ function Dashboard() {
     setShowWarning(false);
   };
 
-
+  const previousDashboardRequestRef = useRef("");
   useEffect(() => {
     const hostelId = state?.login?.selectedHostel_Id;
     if (!hostelId) {
       return;
     }
+    const requestKey = JSON.stringify({
+      hostelId,
+      occupancyFilter: "This Month",
+    });
+    if (previousDashboardRequestRef.current === requestKey) return;
+    previousDashboardRequestRef.current = requestKey;
     dispatch({
       type: "GET_DASHBOARD_SAGA",
       payload: {

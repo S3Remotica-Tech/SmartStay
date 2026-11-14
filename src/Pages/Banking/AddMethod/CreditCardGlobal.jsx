@@ -434,7 +434,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
             setDescription(editBankDetails?.description || "");
 
             setCreditLimit(
-                editBankDetails?.creditLimit != null
+                editBankDetails?.creditLimit !== null
                     ? String(editBankDetails.creditLimit)
                     : ""
             );
@@ -452,7 +452,7 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
     }, [editBankDetails]);
 
 
-    console.log("editBankDetails", editBankDetails)
+    // console.log("editBankDetails", editBankDetails)
 
 
 
@@ -806,6 +806,7 @@ CreditCardGlobal.propTypes = {
         displayName: PropTypes.string,
         accountHolder: PropTypes.string,
         cardNumber: PropTypes.string,
+        cardNerwork: PropTypes.string,
         description: PropTypes.string,
         creditLimit: PropTypes.oneOfType([
             PropTypes.string,

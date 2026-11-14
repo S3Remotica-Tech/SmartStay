@@ -101,16 +101,50 @@ function ParticularHostelDetails(props) {
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
+  // useEffect(() => {
+  //   if (props.floorID && props.hostel_Id) {
+  //     setLoader(true);
+  //     dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
+  //     dispatch({
+  //       type: "GETALLROOMSLIST",
+  //       payload: { floor_Id: props.floorID },
+  //     });
+  //   }
+  // }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id]);
+
+
+  const previousRoomRequestRef = useRef("");
+
   useEffect(() => {
-    if (props.floorID && props.hostel_Id) {
-      setLoader(true);
-      dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
-      dispatch({
-        type: "GETALLROOMSLIST",
-        payload: { floor_Id: props.floorID },
-      });
-    }
-  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id]);
+    const hostelId = props.hostel_Id;
+    const floorId = props.floorID;
+
+    if (!hostelId || !floorId) return;
+
+    const requestKey = JSON.stringify({
+      hostelId,
+      floorId,
+    });
+
+    if (previousRoomRequestRef.current === requestKey) return;
+    previousRoomRequestRef.current = requestKey;
+    setLoader(true);
+    dispatch({ type: "REMOVE_GET_ALL_ROOMS_STATUS_CODE" });
+    dispatch({
+      type: "GETALLROOMSLIST",
+      payload: { floor_Id: floorId },
+    });
+  }, [
+    props.hostel_Id,
+    props.floorID,
+    state?.login?.selectedHostel_Id,
+  ]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.accessRestrictionError) {
@@ -150,10 +184,10 @@ function ParticularHostelDetails(props) {
         dispatch({ type: "CLEAR_STATUS_CODES" });
         dispatch({ type: "REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO" });
       }, 2000);
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
     }
   }, [
     state.UsersList?.statusCodeForAddUser,
@@ -219,12 +253,24 @@ function ParticularHostelDetails(props) {
     }
   }, [state.PgList.createBedStatusCode, state.PgList.updateBedStatusCode]);
 
-  useEffect(() => {
-    dispatch({
-      type: "USERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, []);
+
+  // const previousUserRequestRef = useRef("");
+
+  // useEffect(() => {
+  //   const hostelId = state?.login?.selectedHostel_Id;
+
+  //   if (!hostelId) return;
+
+  //   if (previousUserRequestRef.current === hostelId) return;
+
+  //   previousUserRequestRef.current = hostelId;
+
+  //   dispatch({
+  //     type: "USERLIST",
+  //     payload: { hostel_id: hostelId },
+  //   });
+  // }, [state?.login?.selectedHostel_Id]);
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -333,14 +379,14 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       dispatch({
         type: "GETALLROOMSLIST",
         payload: { floor_Id: props.floorID },
@@ -353,14 +399,14 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList.statuscodeForConformCheckout === 200) {
-      dispatch({
-        type: "USERLIST",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          size: 10,
-          page: 1,
-        },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: {
+      //     hostel_id: state.login.selectedHostel_Id,
+      //     size: 10,
+      //     page: 1,
+      //   },
+      // });
       dispatch({
         type: "GETALLROOMSLIST",
         payload: { floor_Id: props.floorID },
