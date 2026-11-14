@@ -93,61 +93,27 @@ function UserListAmenities() {
         </>
       ) : (
         <>
-          <div className="row d-flex flex-wrap g-2">
-            {CustomerOverView.length > 0 ? (
+          <div className="flex flex-wrap gap-3">
+            {CustomerOverView?.length > 0 ? (
               CustomerOverView.map((v) => (
-                <div key={v?.amenityId} className="col-md-4 col-12">
-                  <div
-                    className="card "
-                    style={{
-                      backgroundColor: "#FFF",
-                      padding: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: 14,
-                      color: "#000",
-                      border: "1px solid #EFF2FF",
-                    }}
-                  >
-                    <div className="d-flex align-items-center gap-3">
-                      <div
-                        style={{
-                          backgroundColor: "#EFF2FF",
-                          padding: 8,
-                          borderRadius: 8,
-                        }}
-                      >
+                <div key={v?.amenityId} className="w-full md:w-[calc(33.333%-8px)]">
+                  <div className="rounded-lg border border-[#EFF2FF] bg-white p-3.5 font-gilroy text-sm font-medium text-black">
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-lg bg-[#EFF2FF] p-2">
                         <Tag2 size="32" color="#1E45E1" />
                       </div>
 
-                      <div>
-                        <div>
-                          <span
-                            key={v.amenityId}
-                            className="d-flex align-items-center"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              fontSize: 16,
-                              color: "#222",
-                            }}
-                          >
-                            {v.amenityName}
-                          </span>
-                        </div>
-                        <div>
-                          <span
-                            key={v.amenityId}
-                            className="d-flex align-items-center"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              fontSize: 14,
-                              color: "#4B4B4B",
-                            }}
-                          >
-                            ₹{v.amenityAmount}/m
-                          </span>
+                      <div className="min-w-0">
+                        <span className="mb-1 flex items-center capitalize font-semibold text-base text-[#222222]">
+                          {v?.amenityName}
+                        </span>
+
+                        <span className="flex items-center text-sm font-medium text-[#4B4B4B]">
+                          ₹{v?.amenityAmount}/m
+                        </span>
+
+                        <div className="mt-2 inline-flex rounded bg-pink-100 px-2 py-1.5 text-xs font-medium text-pink-700">
+                          Ending on {v?.endDate}
                         </div>
                       </div>
                     </div>
@@ -155,15 +121,8 @@ function UserListAmenities() {
                 </div>
               ))
             ) : (
-              <div className="d-flex align-items-center justify-content-center">
-                <label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                  }}
-                >
+              <div className="flex w-full items-center justify-center py-4">
+                <label className="font-gilroy text-sm font-medium text-[#4B4B4B]">
                   No amenities assigned
                 </label>
               </div>

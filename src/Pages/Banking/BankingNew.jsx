@@ -153,7 +153,7 @@ function BankingNew() {
   const [deleteShow, setDeleteShow] = useState(false);
   const [deleteBankId, setDeleteBankId] = useState("");
 
-  const isProduction = import.meta.env.MODE === "production";
+  const isDev = import.meta.env.MODE === "development";
   const [openMenuId, setOpenMenuId] = useState(null);
   const [bankDetails, setBankDetails] = useState("");
   const [showBankInfo, setShowBankInfo] = useState(null);
@@ -220,8 +220,8 @@ function BankingNew() {
   };
 
   const { canWriteModule: canWriteBanking, canReadModule: canReadBanking,
-    // canUpdateModule: canUpdateBanking,
-    // canDeleteModule: canDeleteBanking
+    canUpdateModule: canUpdateBanking,
+    canDeleteModule: canDeleteBanking
   } =
     useHasPermission("Banking");
 
@@ -1227,10 +1227,10 @@ function BankingNew() {
 
 
                                   <button
-                                    disabled={isProduction}
-                                    // disabled={
-                                    //   !canUpdateBanking
-                                    // }
+
+                                    disabled={
+                                      !canUpdateBanking || !isDev
+                                    }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleEditBank(item);
@@ -1251,8 +1251,11 @@ function BankingNew() {
 
 
                                   <button
-                                    disabled
+                                    // disabled
                                     // disabled={!canDeleteBanking}
+                                    disabled={
+                                      !canDeleteBanking || !isDev
+                                    }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleDeleteForm(item);
@@ -1283,7 +1286,7 @@ function BankingNew() {
                                 </span>
                               </div>
                               <div className="relative">
-                                <CustomTooltip text="View Bank Information" direction="top-full" usePortal={false}>
+                                <CustomTooltip text="View Bank Information" direction="top-full" usePortal={true}>
                                   <BsExclamationCircle
                                     ref={iconRef}
                                     className="text-[#64748B] cursor-pointer"

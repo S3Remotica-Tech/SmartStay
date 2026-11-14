@@ -143,43 +143,100 @@ function ReceiptNew() {
     setPage(1);
   }, [debouncedSearch, receiptType]);
 
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     const receiptFilters = state.InvoiceList?.receiptFilters;
+  //     setReceiptLoader(true);
+  //     dispatch({
+  //       type: "CUSTOMIZE_RECEIPTS_LIST_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         keyword: debouncedSearch,
+  //         size: size,
+  //         page: page,
+  //         period: receiptFilters?.period,
+  //         bankIds: [],
+  //         invoiceType: receiptType?.value || receiptFilters?.type,
+  //         collectedBy: receiptFilters?.collectedBy,
+  //         minAmount: receiptFilters?.minAmount,
+  //         maxAmount: receiptFilters?.maxAmount,
+  //       },
+  //     });
+  //     dispatch({
+  //       type: "SET_RECEIPT_FILTERS",
+  //       payload: {
+  //         search: debouncedSearch,
+  //         type: receiptType?.label || receiptFilters?.type,
+  //         modes: receiptFilters?.modes,
+  //         collectedBy: receiptFilters?.collectedBy,
+  //         collectedBYLabels: receiptFilters?.collectedBYLabels,
+  //         period: receiptFilters?.period,
+  //         minAmount: receiptFilters?.minAmount,
+  //         maxAmount: receiptFilters?.maxAmount,
+  //         paymentLabels: receiptFilters?.paymentLabels,
+  //       },
+  //     });
+  //   }
+  // }, [state.login.selectedHostel_Id, page, size, debouncedSearch, receiptType]);
+
+  const previousRequestRef = useRef("");
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      const receiptFilters = state.InvoiceList?.receiptFilters;
+    if (!state.login?.selectedHostel_Id) return;
+    const receiptFilters = state.InvoiceList?.receiptFilters;
+    const requestKey = JSON.stringify({
+      hostelId: state?.login?.selectedHostel_Id,
+      keyword: debouncedSearch,
+      size,
+      page,
+      period: receiptFilters?.period,
+      invoiceType: receiptType?.value || receiptFilters?.type,
+      collectedBy: receiptFilters?.collectedBy,
+      minAmount: receiptFilters?.minAmount,
+      maxAmount: receiptFilters?.maxAmount,
+    });
+    if (previousRequestRef.current === requestKey) return;
+    previousRequestRef.current = requestKey;
+    setReceiptLoader(true);
 
+    dispatch({
+      type: "CUSTOMIZE_RECEIPTS_LIST_SAGA",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        keyword: debouncedSearch,
+        size,
+        page,
+        period: receiptFilters?.period,
+        bankIds: [],
+        invoiceType: receiptType?.value || receiptFilters?.type,
+        collectedBy: receiptFilters?.collectedBy,
+        minAmount: receiptFilters?.minAmount,
+        maxAmount: receiptFilters?.maxAmount,
+      },
+    });
 
-      setReceiptLoader(true);
-      dispatch({
-        type: "CUSTOMIZE_RECEIPTS_LIST_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          keyword: debouncedSearch,
-          size: size,
-          page: page,
-          period: "",
-          bankIds: [],
-          invoiceType: receiptType?.value || receiptFilters?.type,
-          collectedBy: [],
-          minAmount: "",
-          maxAmount: "",
-        },
-      });
-      dispatch({
-        type: "SET_RECEIPT_FILTERS",
-        payload: {
-          search: debouncedSearch,
-          type: receiptType?.label || receiptFilters?.type,
-          modes: receiptFilters?.modes,
-          collectedBy: receiptFilters?.collectedBy,
-          collectedBYLabels: receiptFilters?.collectedBYLabels,
-          period: receiptFilters?.period,
-          minAmount: receiptFilters?.minAmount,
-          maxAmount: receiptFilters?.maxAmount,
-          paymentLabels: receiptFilters?.paymentLabels,
-        },
-      });
-    }
-  }, [state.login.selectedHostel_Id, page, size, debouncedSearch, receiptType]);
+    dispatch({
+      type: "SET_RECEIPT_FILTERS",
+      payload: {
+        search: debouncedSearch,
+        type: receiptType?.label || receiptFilters?.type,
+        modes: receiptFilters?.modes,
+        collectedBy: receiptFilters?.collectedBy,
+        collectedBYLabels: receiptFilters?.collectedBYLabels,
+        period: receiptFilters?.period,
+        minAmount: receiptFilters?.minAmount,
+        maxAmount: receiptFilters?.maxAmount,
+        paymentLabels: receiptFilters?.paymentLabels,
+      },
+    });
+  }, [
+    state?.login?.selectedHostel_Id,
+    page,
+    size,
+    debouncedSearch,
+    receiptType?.value,
+    receiptType?.label,
+  ]);
 
   useEffect(() => {
     return () => {

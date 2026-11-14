@@ -339,13 +339,14 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
                     bankId: editBankDetails?.bankId,
-                    holderName: cardHolderName,
+                    accountHolderName: cardHolderName,
                     cardNumber: cardNumber,
                     displayName: displayName.trim(),
                     description: description.trim(),
                     // cardNetwork: cardNetwork?.value,
                     creditLimit: Number(creditLimit),
                     billingCycle: billingCycle,
+                    linkedBankId: isLinked ? selectedBank?.value : "",
 
                 },
             });
@@ -433,27 +434,25 @@ function CreditCardGlobal({ handleClose, editBankDetails }) {
             setDescription(editBankDetails?.description || "");
 
             setCreditLimit(
-                editBankDetails?.creditLimit
+                editBankDetails?.creditLimit != null
                     ? String(editBankDetails.creditLimit)
                     : ""
             );
 
             setBillingCycle(editBankDetails?.billingCycle || null);
 
-            setCardNetwork(
-                cardOptions.find(
-                    (option) => option.value === editBankDetails?.cardNetwork
-                ) || null
+            const selectedNetwork = cardOptions.find(
+                (option) => option.value === editBankDetails?.cardNerwork
             );
 
-            const linkedBankId = editBankDetails?.linkedBankId;
+            setCardNetwork(selectedNetwork || null);
 
-            setIsLinked(Boolean(linkedBankId));
+            setIsLinked(Boolean(editBankDetails?.linkedBankId));
         }
     }, [editBankDetails]);
 
 
-
+    console.log("editBankDetails", editBankDetails)
 
 
 

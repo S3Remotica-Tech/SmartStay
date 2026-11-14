@@ -362,9 +362,16 @@ function BookingToCheckin({ tenantDetails, show, handleClose }) {
   useEffect(() => {
     if (
       state.UsersList.bedInitiaLizeError ||
-      state.UsersList?.bookedDetails?.responseCode === 400
+      (
+        state.UsersList?.bookedDetails?.responseCode === 400 &&
+        !canCheckIn
+      )
     ) {
-      setBedWarning(state.UsersList.bedInitiaLizeError || "Bed is unavailable");
+      setBedWarning(
+        state.UsersList.bedInitiaLizeError || "Bed is unavailable"
+      );
+    } else {
+      setBedWarning("");
     }
   }, [
     state.UsersList.bedInitiaLizeError,
