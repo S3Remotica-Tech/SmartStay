@@ -18,18 +18,13 @@ import BedOverview from "../BedOverview";
 
 
 function NoticeBed({
-
     handleCloseBed,
     currentItem,
     showBooking,
-
     showfinalsettelemnet,
-
     handleShowInActiveForm,
     handleOpenCancelCheckout,
-
     showEditBed,
-
 }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
