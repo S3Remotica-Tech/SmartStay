@@ -441,7 +441,13 @@ function Sidebar() {
 
 
 
+  const isCalledRef = useRef(false);
+
   useEffect(() => {
+    if (isCalledRef.current) return;
+
+    isCalledRef.current = true;
+
     dispatch({ type: "ACCOUNTDETAILS" });
     dispatch({ type: "HOSTELLIST" });
   }, []);

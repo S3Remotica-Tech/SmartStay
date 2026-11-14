@@ -355,9 +355,21 @@ function Vendor() {
     setPage(1);
   }, [debouncedSearch, categoryFilter, paymentStatus]);
 
+  const previousVendorRequestRef = useRef("");
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       const categoryFilterBy = categoryFilter === "ALL" ? "" : categoryFilter;
+      const requestKey = JSON.stringify({
+        hostelId: state.login.selectedHostel_Id,
+        page,
+        size,
+        categoryId: categoryFilterBy,
+        paymentStatus: String(paymentStatus),
+        name: debouncedSearch,
+      });
+      if (previousVendorRequestRef.current === requestKey) return;
+      previousVendorRequestRef.current = requestKey;
       dispatch({
         type: "VENDORLIST",
         payload: {
