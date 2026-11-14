@@ -374,7 +374,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
     return isValid;
   };
 
-  console.log("editBankDetails", editBankDetails);
+  // console.log("editBankDetails", editBankDetails);
 
   const handleSubmitBank = () => {
     dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
@@ -395,7 +395,7 @@ function AddNewAccount({ show, handleClose, editBankDetails }) {
           description: bankDescription,
           // isDefault: true,
           // newAccountType: accountMode,
-          // bankAccountType: accountType?.value || accountType,
+          bankAccountType: accountType?.value || accountType,
 
         },
       });
