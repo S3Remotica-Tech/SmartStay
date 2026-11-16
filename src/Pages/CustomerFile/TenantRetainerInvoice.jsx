@@ -97,21 +97,21 @@ function TenantRetainerInvoice() {
     !canWriteInvoice ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED";
+    "SETTLEMENT_GENERATED";
 
   const isDisabledButtonForApply =
     !canUpdateInvoice ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
     state.UsersList.customerdetails?.hostelInfo?.currentStatus ===
-      "CANCELLED" ||
+    "CANCELLED" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
     state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||
     state.UsersList.customerdetails?.customerCurrentStatus ===
-      "SETTLEMENT_GENERATED";
+    "SETTLEMENT_GENERATED";
 
   // useEffect(() => {
   //   const handleResize = () => {
@@ -323,7 +323,7 @@ function TenantRetainerInvoice() {
                             {row?.availableBalance}
                           </td>
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-                            {row?.paymentMode}
+                            {row.bankName} {row.paymentMode ? `- ${row.paymentMode}` : ""}
                           </td>
                           <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                             {(() => {
@@ -367,8 +367,8 @@ function TenantRetainerInvoice() {
                                 style={{
                                   top: showAbove
                                     ? popupPosition.top -
-                                      (popupRef.current?.offsetHeight || 120) -
-                                      10
+                                    (popupRef.current?.offsetHeight || 120) -
+                                    10
                                     : popupPosition.top + 5,
                                   left: popupPosition.left - 40,
                                   position: "fixed",
@@ -376,7 +376,7 @@ function TenantRetainerInvoice() {
                                 }}
                               >
                                 {row?.invoiceType === "ADVANCE" ||
-                                row?.invoiceType === "BOOKING" ? (
+                                  row?.invoiceType === "BOOKING" ? (
                                   <button
                                     disabled={isDisabledButtonForApply}
                                     onClick={() => {

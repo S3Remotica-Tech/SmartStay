@@ -170,14 +170,21 @@ function SettingAmenities() {
     }
   }, [amenitiesFilterddata]);
 
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "AMENITIESLIST",
-        payload: state.login.selectedHostel_Id,
-      });
-      setLoading(true);
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    setLoading(true);
+
+    dispatch({
+      type: "AMENITIESLIST",
+      payload: hostelId,
+    });
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {

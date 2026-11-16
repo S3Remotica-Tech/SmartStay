@@ -110,18 +110,23 @@ function SettingCompliance() {
   //   }
   // }, [state.login.selectedHostel_Id]);
 
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
-      dispatch({
-        type: "COMPLAINT-TYPE-LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login.selectedHostel_Id;
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+    setLoading(true);
+    dispatch({
+      type: "COMPLAINT-TYPE-LIST",
+      payload: { hostel_id: hostelId },
+    });
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 200);
+
+    return () => clearTimeout(timeout);
+  }, [state.login.selectedHostel_Id, dispatch]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -389,11 +394,10 @@ function SettingCompliance() {
             disabled={!canWriteComplaints}
             onClick={handleShowForm}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
-        ${
-          canWriteComplaints
-            ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+        ${canWriteComplaints
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             + Complaint Type
           </button>
@@ -437,9 +441,8 @@ function SettingCompliance() {
 
                       <button
                         onClick={(e) => handleShowDots(e, u, i)}
-                        className={`flex items-center justify-center h-[35px] w-[35px] rounded-full border border-[#EFEFEF] relative cursor-pointer ${
-                          showDots === i ? "bg-[#E7F1FF]" : "bg-white"
-                        }`}
+                        className={`flex items-center justify-center h-[35px] w-[35px] rounded-full border border-[#EFEFEF] relative cursor-pointer ${showDots === i ? "bg-[#E7F1FF]" : "bg-white"
+                          }`}
                       >
                         <PiDotsThreeOutlineVerticalFill className="h-4.5 w-4.5" />
                       </button>
@@ -457,11 +460,10 @@ function SettingCompliance() {
                       >
                         <div
                           onClick={() => canUpdateComplaints && handleEdit(u)}
-                          className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ${
-                            canUpdateComplaints
-                              ? "cursor-pointer"
-                              : "cursor-not-allowed opacity-50"
-                          } rounded-t-lg`}
+                          className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ${canUpdateComplaints
+                            ? "cursor-pointer"
+                            : "cursor-not-allowed opacity-50"
+                            } rounded-t-lg`}
                           onMouseEnter={(e) =>
                             canUpdateComplaints &&
                             (e.currentTarget.style.backgroundColor = "#EDF2FF")
@@ -478,11 +480,10 @@ function SettingCompliance() {
                             className={`h-4 w-4 ${canUpdateComplaints ? "filter-none opacity-100" : "filter grayscale opacity-50"}`}
                           />
                           <label
-                            className={`text-[14px] font-medium font-gilroy ${
-                              canUpdateComplaints
-                                ? "text-[#222222]"
-                                : "text-[#A0A0A0]"
-                            }`}
+                            className={`text-[14px] font-medium font-gilroy ${canUpdateComplaints
+                              ? "text-[#222222]"
+                              : "text-[#A0A0A0]"
+                              }`}
                           >
                             Edit
                           </label>
@@ -494,11 +495,10 @@ function SettingCompliance() {
                           onClick={() =>
                             canDeleteComplaints && handleDeleteClick()
                           }
-                          className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ${
-                            canDeleteComplaints
-                              ? "cursor-pointer"
-                              : "cursor-not-allowed opacity-50"
-                          } rounded-b-lg`}
+                          className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ${canDeleteComplaints
+                            ? "cursor-pointer"
+                            : "cursor-not-allowed opacity-50"
+                            } rounded-b-lg`}
                           onMouseEnter={(e) =>
                             canDeleteComplaints &&
                             (e.currentTarget.style.backgroundColor = "#FFF0F0")
@@ -515,11 +515,10 @@ function SettingCompliance() {
                             className={`h-4 w-4 ${canDeleteComplaints ? "filter-none opacity-100" : "filter grayscale opacity-50"}`}
                           />
                           <label
-                            className={`text-[14px] font-medium font-gilroy ${
-                              canDeleteComplaints
-                                ? "text-[#FF0000]"
-                                : "text-[#A0A0A0]"
-                            }`}
+                            className={`text-[14px] font-medium font-gilroy ${canDeleteComplaints
+                              ? "text-[#FF0000]"
+                              : "text-[#A0A0A0]"
+                              }`}
                           >
                             Delete
                           </label>
