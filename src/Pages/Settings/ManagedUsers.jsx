@@ -26,14 +26,20 @@ function ManagedUsers() {
   const { canUpdateModule: canUpdateUser, canDeleteModule: canDeleteUser } =
     useHasPermission("User");
 
+  const previousStaffRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GETUSERSTAFF",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login?.selectedHostel_Id;
+    if (!hostelId) return;
+    const payload = { hostelId };
+    const requestKey = JSON.stringify(payload);
+    if (previousStaffRequestRef.current === requestKey) return;
+    previousStaffRequestRef.current = requestKey;
+    dispatch({
+      type: "GETUSERSTAFF",
+      payload,
+    });
+  }, [state.login?.selectedHostel_Id]);
 
   const handleDotsClick = (index, event) => {
     event.stopPropagation();
@@ -201,8 +207,8 @@ function ManagedUsers() {
                             style={{
                               top: showAbove
                                 ? popupPosition.top -
-                                  (popupRef.current?.offsetHeight || 100) -
-                                  20
+                                (popupRef.current?.offsetHeight || 100) -
+                                20
                                 : popupPosition.top - 5,
                               left: popupPosition.left + 44,
                             }}
@@ -214,12 +220,12 @@ function ManagedUsers() {
                                 }
                                 className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ease-in-out rounded-t-[10px] ${canUpdateUser ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                 onMouseEnter={(e) =>
-                                  (e.currentTarget.style.backgroundColor =
-                                    "#F0F4FF")
+                                (e.currentTarget.style.backgroundColor =
+                                  "#F0F4FF")
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.currentTarget.style.backgroundColor =
-                                    "transparent")
+                                (e.currentTarget.style.backgroundColor =
+                                  "transparent")
                                 }
                               >
                                 <img
@@ -247,12 +253,12 @@ function ManagedUsers() {
                                 }
                                 className={`flex items-center gap-2 w-full px-3 py-2 transition-colors duration-200 ease-in-out rounded-b-[10px] ${canDeleteUser ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                 onMouseEnter={(e) =>
-                                  (e.currentTarget.style.backgroundColor =
-                                    "#FFF3F3")
+                                (e.currentTarget.style.backgroundColor =
+                                  "#FFF3F3")
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.currentTarget.style.backgroundColor =
-                                    "transparent")
+                                (e.currentTarget.style.backgroundColor =
+                                  "transparent")
                                 }
                               >
                                 <img

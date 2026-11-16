@@ -8,7 +8,6 @@ import searchteam from "../../Assets/Images/New_images/Search Team.png";
 // import Filters from "../../Assets/Images/Filters.svg";
 import Select from "react-select";
 import "sweetalert2/dist/sweetalert2.min.css";
-import "../Compliants/Compliance.css";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";

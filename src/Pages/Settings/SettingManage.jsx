@@ -80,7 +80,13 @@ function SettingManage() {
   const [floorList, setFloorList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+  const previousHostelListRequestRef = useRef(false);
+
   useEffect(() => {
+    if (previousHostelListRequestRef.current) return;
+
+    previousHostelListRequestRef.current = true;
+
     dispatch({ type: "HOSTELLIST" });
   }, []);
 

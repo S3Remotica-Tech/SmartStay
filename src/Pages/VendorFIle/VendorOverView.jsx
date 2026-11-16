@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Add, Flash, Call, Location, Warning2, AddCircle } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -43,31 +43,50 @@ function VendorOverView({
     setSelectedMonth(selectedPeriod?.type);
   };
 
-  
+
+
+  const previousVendorRequestRef = useRef(null);
 
   useEffect(() => {
     if (!selectedVendorId) return;
-
+    const payload = {
+      vendorId: selectedVendorId,
+      period: selectedMonth,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousVendorRequestRef.current === requestKey) return;
+    previousVendorRequestRef.current = requestKey;
     dispatch({
       type: "PARTICULAR_VENDOR_OVERVIEW_SAGA",
-      payload: {
-        vendorId: selectedVendorId,
-        period: selectedMonth,
-      },
+      payload,
     });
   }, [selectedVendorId, selectedMonth]);
 
- 
+
+  const previousVendorSettleRequestRef = useRef(null);
+
   useEffect(() => {
-    if (!state.login.selectedHostel_Id && !selectedVendorId) return;
+    if (!state.login?.selectedHostel_Id && !selectedVendorId) return;
+
+    const payload = {
+      hostelId: state.login?.selectedHostel_Id,
+      vendorId: Number(selectedVendorId),
+    };
+
+    const requestKey = JSON.stringify({
+      ...payload,
+      trigger,
+    });
+
+    if (previousVendorSettleRequestRef.current === requestKey) return;
+
+    previousVendorSettleRequestRef.current = requestKey;
+
     dispatch({
       type: "VENDOR_SETTLE_INITIALIZE_SAGA",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        vendorId: Number(selectedVendorId),
-      },
+      payload,
     });
-  }, [state.login.selectedHostel_Id, selectedVendorId, trigger]);
+  }, [state.login?.selectedHostel_Id, selectedVendorId, trigger, dispatch]);
 
   useEffect(() => {
     if (trigger) {
@@ -95,10 +114,9 @@ function VendorOverView({
   return (
     <div className="font-gilroy">
       <div
-        className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
-          show ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        // onClick={onClose}
+        className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${show ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+      // onClick={onClose}
       />
 
       <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
@@ -221,43 +239,39 @@ function VendorOverView({
               <div className="flex gap-8 ">
                 <button
                   onClick={() => setActiveTab("overview")}
-                  className={`pb-3  ${
-                    activeTab === "overview"
-                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
-                      : "text-[#666]  font-medium"
-                  }`}
+                  className={`pb-3  ${activeTab === "overview"
+                    ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                    : "text-[#666]  font-medium"
+                    }`}
                 >
                   Overview
                 </button>
                 <button
                   onClick={() => setActiveTab("payments")}
-                  className={`pb-3  ${
-                    activeTab === "payments"
-                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
-                      : "text-[#666] font-medium"
-                  }`}
+                  className={`pb-3  ${activeTab === "payments"
+                    ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                    : "text-[#666] font-medium"
+                    }`}
                 >
                   Payments Made
                 </button>
 
                 <button
                   onClick={() => setActiveTab("expenses")}
-                  className={`pb-3  ${
-                    activeTab === "expenses"
-                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
-                      : "text-[#666]  font-medium"
-                  }`}
+                  className={`pb-3  ${activeTab === "expenses"
+                    ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                    : "text-[#666]  font-medium"
+                    }`}
                 >
                   Expenses
                 </button>
 
                 <button
                   onClick={() => setActiveTab("comments")}
-                  className={`pb-3  ${
-                    activeTab === "comments"
-                      ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
-                      : "text-[#666]  font-medium"
-                  }`}
+                  className={`pb-3  ${activeTab === "comments"
+                    ? "border-b-2 border-[#1E45E1] text-[#222] font-semibold"
+                    : "text-[#666]  font-medium"
+                    }`}
                 >
                   Comments
                 </button>
@@ -269,11 +283,10 @@ function VendorOverView({
                     VendorOverView?.summary?.outstanding <= 0 || !canWriteVendor
                   }
                   onClick={() => handleShowSettlement(true)}
-                  className={`px-4 py-2 rounded-lg text-sm ${
-                    VendorOverView?.summary?.outstanding <= 0 || !canWriteVendor
-                      ? "bg-gray-400 cursor-not-allowed text-white"
-                      : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm ${VendorOverView?.summary?.outstanding <= 0 || !canWriteVendor
+                    ? "bg-gray-400 cursor-not-allowed text-white"
+                    : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
+                    }`}
                 >
                   + Settle Payment
                 </button>

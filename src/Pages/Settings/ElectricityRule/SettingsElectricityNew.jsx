@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Edit } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/Settings/SettingElectricity.css";
@@ -42,15 +42,22 @@ function SettingsElectricityNew() {
       }, 100);
     }
   }, [state.UsersList?.accessRestrictionError]);
+
+  const electricityRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
-      dispatch({
-        type: "EB-BILLING-UNIT-LIST",
-        payload: state.login.selectedHostel_Id,
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId) return;
+    const requestKey = JSON.stringify(hostelId);
+    if (electricityRef.current === requestKey) return;
+    electricityRef.current = requestKey;
+    setLoading(true);
+    dispatch({
+      type: "EB-BILLING-UNIT-LIST",
+      payload: hostelId,
+    });
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {

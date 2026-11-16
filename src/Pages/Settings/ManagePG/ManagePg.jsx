@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   // Add,
   AddCircle,
@@ -94,7 +94,13 @@ const ManagePg = () => {
     }
   }, [state.PgList.createPgStatusCode]);
 
+  const previousHostelListRequestRef = useRef(false);
+
   useEffect(() => {
+    if (previousHostelListRequestRef.current) return;
+
+    previousHostelListRequestRef.current = true;
+
     dispatch({ type: "HOSTELLIST" });
   }, []);
 

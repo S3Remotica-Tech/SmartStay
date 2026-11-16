@@ -95,18 +95,28 @@ function VendorExpenseHistory({ selectedVendorId }) {
     setPage(1);
   }, [searchQuery]);
 
+  const previousVendorExpenseRequestRef = useRef(null);
+
   useEffect(() => {
-    if (selectedVendorId) {
-      dispatch({
-        type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
-        payload: {
-          vendorId: selectedVendorId,
-          page: page,
-          size: size,
-          search: searchQuery,
-        },
-      });
-    }
+    if (!selectedVendorId) return;
+
+    const payload = {
+      vendorId: selectedVendorId,
+      page,
+      size,
+      search: searchQuery,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousVendorExpenseRequestRef.current === requestKey) return;
+
+    previousVendorExpenseRequestRef.current = requestKey;
+
+    dispatch({
+      type: "VENDOR_OVERVIEW_EXPENSE_SAGA",
+      payload,
+    });
   }, [page, size, selectedVendorId, searchQuery]);
 
   return (

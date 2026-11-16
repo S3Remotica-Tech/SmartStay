@@ -9,10 +9,8 @@ import imageCompression from "browser-image-compression";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Select from "react-select";
-
 import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
-
 import Delete from "../../Assets/Images/Delete_red.png";
 import "../Settings/SettingAll.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -777,7 +775,7 @@ function SettingGeneral() {
         Number(pincode) !== Number(initialStateAssign.pincode ?? "") ||
         normalize(state_name) !== normalize(initialStateAssign.state) ||
         String(Phone).replace(/\s+/g, "") !==
-          String(initialStateAssign.Phone ?? "").replace(/\s+/g, "") ||
+        String(initialStateAssign.Phone ?? "").replace(/\s+/g, "") ||
         // check profile pic safely
         (profileimage && profileimage !== initialStateAssign.file);
 
@@ -829,16 +827,19 @@ function SettingGeneral() {
     }
   }, [state.Settings.generalDeleteError]);
 
-  useEffect(() => {
-    setLoading(true);
+  const previousGeneralRequestRef = useRef(false);
 
+  useEffect(() => {
+    if (previousGeneralRequestRef.current) return;
+    previousGeneralRequestRef.current = true;
+    setLoading(true);
     dispatch({ type: "GETALLGENERAL" });
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 200);
 
     return () => clearTimeout(timeout);
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login?.selectedHostel_Id, dispatch]);
 
   useEffect(() => {
     if (state.Settings.statusCodeForCheckPassword === 200) {
@@ -1114,11 +1115,10 @@ function SettingGeneral() {
             <button
               disabled={!canWriteProfile}
               onClick={handleShowFormGreneral}
-              className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${
-                canWriteProfile
-                  ? "hover:bg-blue-800"
-                  : "cursor-not-allowed opacity-50"
-              }`}
+              className={`bg-blue-700 text-white font-semibold text-sm rounded-lg px-4 py-2 h-[45px] w-[146px] whitespace-nowrap font-gilroy transition ${canWriteProfile
+                ? "hover:bg-blue-800"
+                : "cursor-not-allowed opacity-50"
+                }`}
             >
               + Create Master
             </button>
@@ -1170,9 +1170,8 @@ function SettingGeneral() {
                         <div className="relative -mt-4">
                           <div
                             onClick={() => setOpenMenu(!openMenu)}
-                            className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${
-                              openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
-                            }`}
+                            className={`h-10 w-10 rounded-full flex items-center justify-center cursor-pointer ${openMenu ? "bg-[#E7F1FF]" : "bg-transparent"
+                              }`}
                           >
                             <PiDotsThreeOutlineVerticalFill className="h-5 w-5 cursor-pointer" />
                             {openMenu && (
@@ -1189,21 +1188,20 @@ function SettingGeneral() {
                                   className={`flex items-center gap-2 p-2.5 w-full   rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                      "#EDF2FF")
+                                  (e.currentTarget.style.backgroundColor =
+                                    "#EDF2FF")
                                   }
                                   onMouseLeave={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                      "#FFFFFF")
+                                  (e.currentTarget.style.backgroundColor =
+                                    "#FFFFFF")
                                   }
                                 >
                                   <Edit size="16" color="#1E45E1" />
                                   <label
-                                    className={`text-sm font-medium font-gilroy  rounded-lg ${
-                                      canUpdateProfile
-                                        ? "text-black cursor-pointer"
-                                        : "text-gray-400 cursor-not-allowed"
-                                    }`}
+                                    className={`text-sm font-medium font-gilroy  rounded-lg ${canUpdateProfile
+                                      ? "text-black cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                   >
                                     Edit
                                   </label>
@@ -1218,21 +1216,20 @@ function SettingGeneral() {
                                   className={`flex items-center gap-2 p-2.5 w-full rounded-lg
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                   onMouseEnter={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                      "#EDF2FF")
+                                  (e.currentTarget.style.backgroundColor =
+                                    "#EDF2FF")
                                   }
                                   onMouseLeave={(e) =>
-                                    (e.currentTarget.style.backgroundColor =
-                                      "#FFFFFF")
+                                  (e.currentTarget.style.backgroundColor =
+                                    "#FFFFFF")
                                   }
                                 >
                                   <PasswordCheck size="16" color="#FF9500" />
                                   <label
-                                    className={`text-sm font-medium font-gilroy  whitespace-nowrap ${
-                                      canUpdateProfile
-                                        ? "text-black cursor-pointer"
-                                        : "text-gray-400 cursor-not-allowed"
-                                    }`}
+                                    className={`text-sm font-medium font-gilroy  whitespace-nowrap ${canUpdateProfile
+                                      ? "text-black cursor-pointer"
+                                      : "text-gray-400 cursor-not-allowed"
+                                      }`}
                                   >
                                     Change Password
                                   </label>
@@ -1247,12 +1244,12 @@ function SettingGeneral() {
                                     className={`flex items-center gap-2 p-2.5 w-full   rounded-lg 
               ${canUpdateProfile ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-50"}`}
                                     onMouseEnter={(e) =>
-                                      (e.currentTarget.style.backgroundColor =
-                                        "#EDF2FF")
+                                    (e.currentTarget.style.backgroundColor =
+                                      "#EDF2FF")
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.currentTarget.style.backgroundColor =
-                                        "#FFFFFF")
+                                    (e.currentTarget.style.backgroundColor =
+                                      "#FFFFFF")
                                     }
                                   >
                                     <ArrowSwapHorizontal
@@ -1260,11 +1257,10 @@ function SettingGeneral() {
                                       color="#28303F"
                                     />
                                     <label
-                                      className={`text-sm font-medium font-gilroy  whitespace-nowrap ${
-                                        canUpdateProfile
-                                          ? "text-black cursor-pointer"
-                                          : "text-gray-400 cursor-not-allowed"
-                                      }`}
+                                      className={`text-sm font-medium font-gilroy  whitespace-nowrap ${canUpdateProfile
+                                        ? "text-black cursor-pointer"
+                                        : "text-gray-400 cursor-not-allowed"
+                                        }`}
                                     >
                                       Reset m-Pin
                                     </label>
@@ -1338,11 +1334,10 @@ function SettingGeneral() {
                   <div
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
-                    className={`relative px-1 py-3 text-sm cursor-pointer ${
-                      activeTab === tab.key
-                        ? "font-semibold text-[#1E45E1"
-                        : "font-medium text-gray-500"
-                    }`}
+                    className={`relative px-1 py-3 text-sm cursor-pointer ${activeTab === tab.key
+                      ? "font-semibold text-[#1E45E1"
+                      : "font-medium text-gray-500"
+                      }`}
                   >
                     {tab.label}
 
@@ -1354,222 +1349,214 @@ function SettingGeneral() {
               </div>
               {activeTab === "masters" && (
                 <div
-                  className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${
-                    generalFilterddata && generalFilterddata.length > 0
-                      ? "overflow-y-auto"
-                      : "flex items-center justify-center"
-                  }`}
+                  className={`flex-1 max-h-[calc(100vh-200px)] p-2 ${generalFilterddata && generalFilterddata.length > 0
+                    ? "overflow-y-auto"
+                    : "flex items-center justify-center"
+                    }`}
                 >
                   {generalFilterddata && generalFilterddata.length > 0
                     ? generalFilterddata.map((item) => {
-                        const imageUrl = item.profilePic;
-                        return (
-                          <div
-                            className="bg-white rounded-xl p-3 mt-2 border border-gray-200"
-                            key={item.userId}
-                          >
-                            <div className="flex flex-wrap justify-between items-center w-full">
-                              <div className="flex items-center w-100">
-                                {imageUrl ? (
-                                  <img
-                                    src={imageUrl}
-                                    alt={item.firstName || "Default Profile"}
-                                    className="h-12 w-12 rounded-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="h-12 w-12 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-base uppercase">
-                                    {item.initials}
+                      const imageUrl = item.profilePic;
+                      return (
+                        <div
+                          className="bg-white rounded-xl p-3 mt-2 border border-gray-200"
+                          key={item.userId}
+                        >
+                          <div className="flex flex-wrap justify-between items-center w-full">
+                            <div className="flex items-center w-100">
+                              {imageUrl ? (
+                                <img
+                                  src={imageUrl}
+                                  alt={item.firstName || "Default Profile"}
+                                  className="h-12 w-12 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="h-12 w-12 rounded-full bg-[#E2E8F0] text-[#44536A] flex items-center justify-center font-semibold text-base uppercase">
+                                  {item.initials}
+                                </div>
+                              )}
+                              <div className="ml-2 w-100">
+                                <div className="flex justify-between items-center w-full">
+                                  <div
+                                    className="mb-0 text-base font-semibold font-gilroy h-fit truncate ml-1"
+                                    title={`${item.firstName} ${item.lastName}`}
+                                  >
+                                    {item.firstName} {item.lastName}
                                   </div>
-                                )}
-                                <div className="ml-2 w-100">
-                                  <div className="flex justify-between items-center w-full">
-                                    <div
-                                      className="mb-0 text-base font-semibold font-gilroy h-fit truncate ml-1"
-                                      title={`${item.firstName} ${item.lastName}`}
-                                    >
-                                      {item.firstName} {item.lastName}
-                                    </div>
 
-                                    <div
-                                      className={`ml-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${
-                                        generalEdit === item.userId
-                                          ? "z-[1000]"
-                                          : ""
+                                  <div
+                                    className={`ml-2 me-2 mt-0 flex justify-center items-center rounded-full h-10 w-10 relative cursor-pointer ${generalEdit === item.userId
+                                      ? "z-[1000]"
+                                      : ""
                                       }`}
-                                      onClick={() =>
-                                        handlegeneralform(item.userId)
-                                      }
-                                    >
-                                      <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
+                                    onClick={() =>
+                                      handlegeneralform(item.userId)
+                                    }
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill className="h-5 w-5" />
 
-                                      {generalEdit === item.userId && (
-                                        <div
-                                          ref={popupRef}
-                                          className={`absolute top-10 ${
-                                            window.innerWidth <= 404
-                                              ? "right-auto w-24 text-[13px]"
-                                              : "right-10 w-32 text-[14px]"
+                                    {generalEdit === item.userId && (
+                                      <div
+                                        ref={popupRef}
+                                        className={`absolute top-10 ${window.innerWidth <= 404
+                                          ? "right-auto w-24 text-[13px]"
+                                          : "right-10 w-32 text-[14px]"
                                           } flex flex-col items-start bg-[#F9F9F9] border border-[#EBEBEB] rounded-lg p-0 z-[1050]`}
-                                        >
-                                          <div className="w-full rounded-lg bg-[#F9F9F9]">
-                                            <div
-                                              onClick={() =>
-                                                canUpdateProfile &&
-                                                handleEditGeneralUser(item)
-                                              }
-                                              onMouseEnter={(e) =>
-                                                (e.currentTarget.style.backgroundColor =
-                                                  "#EDF2FF")
-                                              }
-                                              onMouseLeave={(e) =>
-                                                (e.currentTarget.style.backgroundColor =
-                                                  "#F9F9F9")
-                                              }
-                                              className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-t-lg ${
+                                      >
+                                        <div className="w-full rounded-lg bg-[#F9F9F9]">
+                                          <div
+                                            onClick={() =>
+                                              canUpdateProfile &&
+                                              handleEditGeneralUser(item)
+                                            }
+                                            onMouseEnter={(e) =>
+                                            (e.currentTarget.style.backgroundColor =
+                                              "#EDF2FF")
+                                            }
+                                            onMouseLeave={(e) =>
+                                            (e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9")
+                                            }
+                                            className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-t-lg ${canUpdateProfile
+                                              ? "cursor-pointer opacity-100"
+                                              : "cursor-not-allowed opacity-50"
+                                              }`}
+                                          >
+                                            <Edit
+                                              size={16}
+                                              color="#1E45E1"
+                                              className={
                                                 canUpdateProfile
-                                                  ? "cursor-pointer opacity-100"
-                                                  : "cursor-not-allowed opacity-50"
-                                              }`}
-                                            >
-                                              <Edit
-                                                size={16}
-                                                color="#1E45E1"
-                                                className={
-                                                  canUpdateProfile
-                                                    ? ""
-                                                    : "filter grayscale brightness-[70%]"
-                                                }
-                                              />
-                                              <label
-                                                className={`text-[14px] font-medium font-gilroy ${
-                                                  canUpdateProfile
-                                                    ? "text-black cursor-pointer"
-                                                    : "text-gray-400 cursor-not-allowed"
+                                                  ? ""
+                                                  : "filter grayscale brightness-[70%]"
+                                              }
+                                            />
+                                            <label
+                                              className={`text-[14px] font-medium font-gilroy ${canUpdateProfile
+                                                ? "text-black cursor-pointer"
+                                                : "text-gray-400 cursor-not-allowed"
                                                 }`}
-                                              >
-                                                Edit
-                                              </label>
-                                            </div>
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
 
-                                            <div className="h-px bg-[#F0F0F0] m-0" />
+                                          <div className="h-px bg-[#F0F0F0] m-0" />
 
-                                            <div
-                                              onClick={() =>
-                                                canDeleteProfile &&
-                                                handleDelete(item)
-                                              }
-                                              onMouseEnter={(e) =>
-                                                (e.currentTarget.style.backgroundColor =
-                                                  "#FFF0F0")
-                                              }
-                                              onMouseLeave={(e) =>
-                                                (e.currentTarget.style.backgroundColor =
-                                                  "#F9F9F9")
-                                              }
-                                              className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-b-lg ${
+                                          <div
+                                            onClick={() =>
+                                              canDeleteProfile &&
+                                              handleDelete(item)
+                                            }
+                                            onMouseEnter={(e) =>
+                                            (e.currentTarget.style.backgroundColor =
+                                              "#FFF0F0")
+                                            }
+                                            onMouseLeave={(e) =>
+                                            (e.currentTarget.style.backgroundColor =
+                                              "#F9F9F9")
+                                            }
+                                            className={`flex items-center gap-2.5 px-3 py-2 w-full rounded-b-lg ${canDeleteProfile
+                                              ? "cursor-pointer opacity-100"
+                                              : "cursor-not-allowed opacity-50"
+                                              }`}
+                                          >
+                                            <img
+                                              src={Delete}
+                                              alt="Delete"
+                                              className={
                                                 canDeleteProfile
-                                                  ? "cursor-pointer opacity-100"
-                                                  : "cursor-not-allowed opacity-50"
-                                              }`}
-                                            >
-                                              <img
-                                                src={Delete}
-                                                alt="Delete"
-                                                className={
-                                                  canDeleteProfile
-                                                    ? ""
-                                                    : "filter grayscale brightness-[70%]"
-                                                }
-                                                style={{
-                                                  height: 16,
-                                                  width: 16,
-                                                }}
-                                              />
-                                              <label
-                                                className={`text-[14px] font-medium font-gilroy ${
-                                                  canDeleteProfile
-                                                    ? "text-red-600 cursor-pointer"
-                                                    : "text-gray-400 cursor-not-allowed"
+                                                  ? ""
+                                                  : "filter grayscale brightness-[70%]"
+                                              }
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                              }}
+                                            />
+                                            <label
+                                              className={`text-[14px] font-medium font-gilroy ${canDeleteProfile
+                                                ? "text-red-600 cursor-pointer"
+                                                : "text-gray-400 cursor-not-allowed"
                                                 }`}
-                                              >
-                                                Delete
-                                              </label>
-                                            </div>
+                                            >
+                                              Delete
+                                            </label>
                                           </div>
                                         </div>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  <div className="flex justify-between items-center w-full">
-                                    <div className="flex items-center gap-1 text-sm text-[#3A90E5] bg-[#F0F7FF] px-2 py-1 rounded-full font-gilroy w-fit">
-                                      {item.roleName}{" "}
-                                      <Shield size={14} color="#3A90E5" />
-                                    </div>
-
-                                    <div>
-                                      <label className="text-gray-400 text-sm font-normal font-gilroy">
-                                        Profile last updated
-                                      </label>
-                                    </div>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
-                              </div>
-                            </div>
 
-                            <hr className="my-2 border border-gray-200" />
+                                <div className="flex justify-between items-center w-full">
+                                  <div className="flex items-center gap-1 text-sm text-[#3A90E5] bg-[#F0F7FF] px-2 py-1 rounded-full font-gilroy w-fit">
+                                    {item.roleName}{" "}
+                                    <Shield size={14} color="#3A90E5" />
+                                  </div>
 
-                            {/* <div className="flex justify-between w-full"> */}
-                            <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between w-full gap-2">
-                              <div className="flex gap-4 mt-2">
-                                <div className="flex items-center gap-1.5 text-sm text-gray-600 font-gilroy">
-                                  <Call size={14} color="#1E45E1" />+
-                                  {item.countryCode} {item.mobileNo}
+                                  <div>
+                                    <label className="text-gray-400 text-sm font-normal font-gilroy">
+                                      Profile last updated
+                                    </label>
+                                  </div>
                                 </div>
-
-                                <div className="w-px h-7 border border-gray-300" />
-
-                                <div className="flex items-center gap-1.5 text-sm text-blue-700 font-gilroy">
-                                  <Sms size={14} color="#1E45E1" />
-                                  {item.mailId}
-                                  <span>
-                                    <CardSend size={16} color="#292D32" />
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
-                                <img
-                                  src={img2}
-                                  width={20}
-                                  height={20}
-                                  alt="icon"
-                                  className={
-                                    canWriteProfile
-                                      ? ""
-                                      : "filter grayscale brightness-[70%]"
-                                  }
-                                />
-                                <p
-                                  onClick={() =>
-                                    canWriteProfile &&
-                                    handleChangePassword(item)
-                                  }
-                                  className={`mb-0 mx-2 text-sm font-semibold font-montserrat ${
-                                    canWriteProfile
-                                      ? "text-blue-700 cursor-pointer"
-                                      : "text-gray-400 cursor-not-allowed"
-                                  }`}
-                                >
-                                  Change Password
-                                </p>
                               </div>
                             </div>
                           </div>
-                        );
-                      })
+
+                          <hr className="my-2 border border-gray-200" />
+
+                          {/* <div className="flex justify-between w-full"> */}
+                          <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between w-full gap-2">
+                            <div className="flex gap-4 mt-2">
+                              <div className="flex items-center gap-1.5 text-sm text-gray-600 font-gilroy">
+                                <Call size={14} color="#1E45E1" />+
+                                {item.countryCode} {item.mobileNo}
+                              </div>
+
+                              <div className="w-px h-7 border border-gray-300" />
+
+                              <div className="flex items-center gap-1.5 text-sm text-blue-700 font-gilroy">
+                                <Sms size={14} color="#1E45E1" />
+                                {item.mailId}
+                                <span>
+                                  <CardSend size={16} color="#292D32" />
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center flex-wrap mt-2 lg:mt-0 justify-start lg:justify-end">
+                              <img
+                                src={img2}
+                                width={20}
+                                height={20}
+                                alt="icon"
+                                className={
+                                  canWriteProfile
+                                    ? ""
+                                    : "filter grayscale brightness-[70%]"
+                                }
+                              />
+                              <p
+                                onClick={() =>
+                                  canWriteProfile &&
+                                  handleChangePassword(item)
+                                }
+                                className={`mb-0 mx-2 text-sm font-semibold font-montserrat ${canWriteProfile
+                                  ? "text-blue-700 cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed"
+                                  }`}
+                              >
+                                Change Password
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
                     : !loading && (
-                        <NoDataMessage label="Profile" isHeightChanged={true} />
-                      )}
+                      <NoDataMessage label="Profile" isHeightChanged={true} />
+                    )}
                 </div>
               )}
 
