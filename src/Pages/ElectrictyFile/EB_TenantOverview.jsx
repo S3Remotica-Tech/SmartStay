@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
@@ -21,16 +21,23 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
   const [tenantReadingList, setTenantreadingList] = useState([]);
 
+  const previousCustomerRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login?.selectedHostel_Id && tenant?.customerId) {
-      dispatch({
-        type: "GETPARTICULARCUSTOMERREADING",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          customerId: tenant.customerId,
-        },
-      });
-    }
+    const hostelId = state.login?.selectedHostel_Id;
+    const customerId = tenant?.customerId;
+    if (!hostelId || !customerId) return;
+    const payload = {
+      hostelId,
+      customerId,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousCustomerRequestRef.current === requestKey) return;
+    previousCustomerRequestRef.current = requestKey;
+    dispatch({
+      type: "GETPARTICULARCUSTOMERREADING",
+      payload,
+    });
   }, [tenant?.customerId, state.login?.selectedHostel_Id]);
 
   useEffect(() => {
