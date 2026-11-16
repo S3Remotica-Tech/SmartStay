@@ -138,6 +138,7 @@ const CustomStyles = {
     display: "none",
   }),
 };
+
 function BankingNew() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -303,42 +304,107 @@ function BankingNew() {
 
 
 
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     const bankFilterReducer = state.bankingDetails?.bankFilters;
+
+  //     dispatch({
+  //       type: "GET_ALL_TRANSACTION_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         page: pageTransaction,
+  //         size: sizeTransaction,
+  //         dateFilter: period?.value || bankFilterReducer?.period,
+  //         source: source?.value || bankFilterReducer?.source,
+  //         fromDate: bankFilterReducer?.startDate,
+  //         toDate: bankFilterReducer?.endDate,
+  //       },
+  //     });
+  //     setLoader(true);
+  //     const bankFilter = {
+  //       period: period?.value,
+  //       periodLabel: period?.label || "",
+  //       source: source?.value,
+  //       sourceLabel: source?.label || "",
+  //     };
+
+  //     dispatch({
+  //       type: "SET_BANK_TRANSACTION_FILTERS",
+  //       payload: bankFilter,
+  //     });
+  //   }
+  // }, [
+  //   state.login.selectedHostel_Id,
+  //   pageTransaction,
+  //   sizeTransaction,
+  //   period,
+  //   source,
+  // ]);
+
+
+
+
+
+  const previousTransactionRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      const bankFilterReducer = state.bankingDetails?.bankFilters;
+    const hostelId = state.login?.selectedHostel_Id;
 
-      dispatch({
-        type: "GET_ALL_TRANSACTION_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          page: pageTransaction,
-          size: sizeTransaction,
-          dateFilter: period?.value || bankFilterReducer?.period,
-          source: source?.value || bankFilterReducer?.source,
-          fromDate: bankFilterReducer?.startDate,
-          toDate: bankFilterReducer?.endDate,
-        },
-      });
-      setLoader(true);
-      const bankFilter = {
-        period: period?.value,
-        periodLabel: period?.label || "",
-        source: source?.value,
-        sourceLabel: source?.label || "",
-      };
+    if (!hostelId) return;
 
-      dispatch({
-        type: "SET_BANK_TRANSACTION_FILTERS",
-        payload: bankFilter,
-      });
-    }
+    const bankFilterReducer = state?.bankingDetails?.bankFilters;
+
+    const payload = {
+      hostelId: hostelId,
+      page: pageTransaction,
+      size: sizeTransaction,
+      dateFilter: period?.value || bankFilterReducer?.period,
+      source: source?.value || bankFilterReducer?.source,
+      fromDate: bankFilterReducer?.startDate,
+      toDate: bankFilterReducer?.endDate,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousTransactionRequestRef.current === requestKey) return;
+
+    previousTransactionRequestRef.current = requestKey;
+
+    setLoader(true);
+
+    dispatch({
+      type: "GET_ALL_TRANSACTION_SAGA",
+      payload: payload,
+    });
+
+    const bankFilter = {
+      period: period?.value,
+      periodLabel: period?.label || "",
+      source: source?.value,
+      sourceLabel: source?.label || "",
+    };
+
+    dispatch({
+      type: "SET_BANK_TRANSACTION_FILTERS",
+      payload: bankFilter,
+    });
   }, [
-    state.login.selectedHostel_Id,
+    state.login?.selectedHostel_Id,
     pageTransaction,
     sizeTransaction,
     period,
     source,
+
   ]);
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {

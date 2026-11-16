@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowUp, ArrowDown, ArrowSwapVertical } from "iconsax-react";
@@ -167,42 +167,99 @@ function BankingLedger() {
     })) || [];
   // ////////////////////////////////////////////////////////////
 
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     const bankFilterReducer = state.bankingDetails?.ledgerFilter;
+  //     dispatch({
+  //       type: "GET_BANKING_LEDGER_SAGA",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         bankId: OverviewDetails?.bankId,
+  //         page: pageTransaction,
+  //         size: sizeTransaction,
+  //         dateFilter: period?.value || bankFilterReducer?.period,
+  //         source: source?.value || bankFilterReducer?.source,
+  //         fromDate: bankFilterReducer?.startDate,
+  //         toDate: bankFilterReducer?.endDate,
+  //       },
+  //     });
+  //     setLoader(true);
+
+  //     const ledgerFilter = {
+  //       period: period?.value,
+  //       source: source?.value,
+  //       periodLabel: period?.label || "",
+  //       sourceLabel: source?.label || "",
+  //     };
+
+  //     dispatch({
+  //       type: "SET_BANK_LEDGER_FILTERS",
+  //       payload: ledgerFilter,
+  //     });
+  //   }
+  // }, [
+  //   state.login.selectedHostel_Id,
+  //   pageTransaction,
+  //   sizeTransaction,
+  //   period,
+  //   source,
+  // ]);
+
+
+
+
+  const previousLedgerRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      const bankFilterReducer = state.bankingDetails?.ledgerFilter;
-      dispatch({
-        type: "GET_BANKING_LEDGER_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          bankId: OverviewDetails?.bankId,
-          page: pageTransaction,
-          size: sizeTransaction,
-          dateFilter: period?.value || bankFilterReducer?.period,
-          source: source?.value || bankFilterReducer?.source,
-          fromDate: bankFilterReducer?.startDate,
-          toDate: bankFilterReducer?.endDate,
-        },
-      });
-      setLoader(true);
+    const hostelId = state.login?.selectedHostel_Id;
 
-      const ledgerFilter = {
-        period: period?.value,
-        source: source?.value,
-        periodLabel: period?.label || "",
-        sourceLabel: source?.label || "",
-      };
+    if (!hostelId) return;
 
-      dispatch({
-        type: "SET_BANK_LEDGER_FILTERS",
-        payload: ledgerFilter,
-      });
-    }
+    const bankFilterReducer = state.bankingDetails?.ledgerFilter;
+
+    const payload = {
+      hostelId,
+      bankId: OverviewDetails?.bankId,
+      page: pageTransaction,
+      size: sizeTransaction,
+      dateFilter: period?.value || bankFilterReducer?.period,
+      source: source?.value || bankFilterReducer?.source,
+      fromDate: bankFilterReducer?.startDate,
+      toDate: bankFilterReducer?.endDate,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousLedgerRequestRef.current === requestKey) return;
+
+    previousLedgerRequestRef.current = requestKey;
+
+    setLoader(true);
+
+    dispatch({
+      type: "GET_BANKING_LEDGER_SAGA",
+      payload,
+    });
+
+    const ledgerFilter = {
+      period: period?.value,
+      source: source?.value,
+      periodLabel: period?.label || "",
+      sourceLabel: source?.label || "",
+    };
+
+    dispatch({
+      type: "SET_BANK_LEDGER_FILTERS",
+      payload: ledgerFilter,
+    });
   }, [
-    state.login.selectedHostel_Id,
+    state.login?.selectedHostel_Id,
+    OverviewDetails?.bankId,
     pageTransaction,
     sizeTransaction,
     period,
     source,
+
   ]);
 
   useEffect(() => {

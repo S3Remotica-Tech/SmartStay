@@ -412,49 +412,104 @@ function Expenses() {
     selectedBillStatus,
   ]);
 
+
+  const previousRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      const paymentStatus = selectedBillStatus || expenseFilters?.paymentStatus;
+    const hostelId = state.login?.selectedHostel_Id;
 
-      const categoryId = categoryFilter || expenseFilters?.categoryId || "";
+    if (!hostelId) return;
 
-      const payload = {
+    const paymentStatus = selectedBillStatus || expenseFilters?.paymentStatus;
+    const categoryId = categoryFilter || expenseFilters?.categoryId || "";
+
+    const payload = {
+      ...expenseFilters,
+      hostelId,
+      page,
+      size,
+      name: debouncedSearch || "",
+      search: debouncedSearch || "",
+      paymentStatus,
+      categoryId,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousRequestRef.current === requestKey) return;
+
+    previousRequestRef.current = requestKey;
+
+    setLoading(true);
+
+    dispatch({
+      type: "EXPENSELIST",
+      payload,
+    });
+
+    dispatch({
+      type: "SET_EXPENSE_FILTERS",
+      payload: {
         ...expenseFilters,
-        hostelId: state.login.selectedHostel_Id,
-        page: page,
-        size: size,
-        name: debouncedSearch || "",
         search: debouncedSearch || "",
-        paymentStatus: paymentStatus,
-        categoryId: categoryId,
-      };
-
-      dispatch({
-        type: "EXPENSELIST",
-        payload,
-      });
-
-      setLoading(true);
-
-      dispatch({
-        type: "SET_EXPENSE_FILTERS",
-        payload: {
-          ...expenseFilters,
-
-          search: debouncedSearch || "",
-          paymentStatus: paymentStatus,
-          categoryId: categoryId,
-        },
-      });
-    }
+        paymentStatus,
+        categoryId,
+      },
+    });
   }, [
-    state.login.selectedHostel_Id,
+    state.login?.selectedHostel_Id,
     page,
     size,
     categoryFilter,
     debouncedSearch,
     selectedBillStatus,
   ]);
+
+
+
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     const paymentStatus = selectedBillStatus || expenseFilters?.paymentStatus;
+
+  //     const categoryId = categoryFilter || expenseFilters?.categoryId || "";
+
+  //     const payload = {
+  //       ...expenseFilters,
+  //       hostelId: state.login.selectedHostel_Id,
+  //       page: page,
+  //       size: size,
+  //       name: debouncedSearch || "",
+  //       search: debouncedSearch || "",
+  //       paymentStatus: paymentStatus,
+  //       categoryId: categoryId,
+  //     };
+
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload,
+  //     });
+
+  //     setLoading(true);
+
+  //     dispatch({
+  //       type: "SET_EXPENSE_FILTERS",
+  //       payload: {
+  //         ...expenseFilters,
+
+  //         search: debouncedSearch || "",
+  //         paymentStatus: paymentStatus,
+  //         categoryId: categoryId,
+  //       },
+  //     });
+  //   }
+  // }, [
+  //   state.login.selectedHostel_Id,
+  //   page,
+  //   size,
+  //   categoryFilter,
+  //   debouncedSearch,
+  //   selectedBillStatus,
+  // ]);
 
   //  useEffect(() => {
   //   setPage(1);

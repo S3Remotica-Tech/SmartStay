@@ -154,26 +154,78 @@ function BankingOverview({ show, onClose }) {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if (OverviewDetails && activeTab === "linkedMethods") {
+  //     dispatch({
+  //       type: "LINKED_PAYMENT_METHOD_SAGA",
+  //       payload: {
+  //         hostelId: state.login?.selectedHostel_Id,
+  //         bankId: OverviewDetails?.bankId,
+  //       },
+  //     });
+  //   } else if (activeTab === "overview") {
+  //     dispatch({
+  //       type: "GET_BANKING_OVERVIEW_SAGA",
+  //       payload: {
+  //         hostelId: state.login?.selectedHostel_Id,
+  //         bankId: OverviewDetails?.bankId,
+  //         dateFilter: period,
+  //       },
+  //     });
+  //   }
+  // }, [activeTab, period]);
+
+
+
+  const previousBankRequestRef = useRef(null);
+
   useEffect(() => {
     if (OverviewDetails && activeTab === "linkedMethods") {
+      const payload = {
+        hostelId: state.login?.selectedHostel_Id,
+        bankId: OverviewDetails?.bankId,
+      };
+
+      const requestKey = JSON.stringify(payload);
+
+      if (previousBankRequestRef.current === requestKey) return;
+
+      previousBankRequestRef.current = requestKey;
+
       dispatch({
         type: "LINKED_PAYMENT_METHOD_SAGA",
-        payload: {
-          hostelId: state.login?.selectedHostel_Id,
-          bankId: OverviewDetails?.bankId,
-        },
+        payload: payload,
       });
     } else if (activeTab === "overview") {
+      const payload = {
+        hostelId: state.login?.selectedHostel_Id,
+        bankId: OverviewDetails?.bankId,
+        dateFilter: period,
+      };
+
+      const requestKey = JSON.stringify(payload);
+
+      if (previousBankRequestRef.current === requestKey) return;
+
+      previousBankRequestRef.current = requestKey;
+
       dispatch({
         type: "GET_BANKING_OVERVIEW_SAGA",
-        payload: {
-          hostelId: state.login?.selectedHostel_Id,
-          bankId: OverviewDetails?.bankId,
-          dateFilter: period,
-        },
+        payload: payload,
       });
     }
-  }, [activeTab, period]);
+  }, [
+    activeTab,
+    period,
+
+  ]);
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state?.bankingDetails?.addPaymentMethodSuccessCode === 201) {

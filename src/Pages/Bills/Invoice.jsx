@@ -949,12 +949,84 @@ const InvoicePage = () => {
 
   // const previousFilters = state.InvoiceList.invoiceFilters || {};
 
+  // useEffect(() => {
+  //   if (!state.login?.selectedHostel_Id) return;
+
+  //   const previousFilters = state.InvoiceList?.invoiceFilters || {};
+
+  //   const hasPreviousPaymentStatus =
+  //     previousFilters?.paymentStatus?.length > 0 &&
+  //     !previousFilters.paymentStatus.includes("ALL");
+
+  //   const paymentStatus = hasPreviousPaymentStatus
+  //     ? previousFilters.paymentStatus
+  //     : statusfilter?.value
+  //       ? statusfilter.value === "ALL"
+  //         ? ""
+  //         : [statusfilter.value]
+  //       : [];
+
+  //   const paymentStatusLabel = hasPreviousPaymentStatus
+  //     ? previousFilters?.paymentStatusLabel || []
+  //     : statusfilter?.label
+  //       ? statusfilter.label === "ALL"
+  //         ? ""
+  //         : [statusfilter.label]
+  //       : [];
+
+  //   const filters = {
+  //     ...previousFilters,
+
+  //     startDate: previousFilters.startDate,
+  //     endDate: previousFilters.endDate,
+  //     type: previousFilters.type,
+  //     typeLabel: previousFilters.typeLabel,
+  //     createdBy: previousFilters.createdBy,
+  //     createdByLabels: previousFilters.createdByLabels,
+  //     modes: previousFilters.modes,
+  //     modesLabel: previousFilters.modesLabel,
+
+  //     paymentStatus: paymentStatus,
+  //     paymentStatusLabel: paymentStatusLabel,
+
+  //     search: debouncedInput?.trim()
+  //       ? debouncedInput.trim()
+  //       : previousFilters.search || "",
+
+  //     size,
+  //     page,
+  //   };
+
+  //   dispatch({
+  //     type: "SET_INVOICE_FILTERS",
+  //     payload: filters,
+  //   });
+
+  //   dispatch({
+  //     type: "INVOICESLISTFILTER",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       filters,
+  //     },
+  //   });
+
+  //   setLoading(true);
+  // }, [
+  //   debouncedInput,
+  //   statusfilter?.value,
+  //   statusfilter?.label,
+  //   size,
+  //   page,
+  //   state.login?.selectedHostel_Id,
+  // ]);
+
+
+  const previousInvoiceRequestRef = useRef(null);
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
     const previousFilters = state.InvoiceList?.invoiceFilters || {};
-
-
 
     const hasPreviousPaymentStatus =
       previousFilters?.paymentStatus?.length > 0 &&
@@ -968,11 +1040,6 @@ const InvoicePage = () => {
           : [statusfilter.value]
         : [];
 
-
-
-
-
-
     const paymentStatusLabel = hasPreviousPaymentStatus
       ? previousFilters?.paymentStatusLabel || []
       : statusfilter?.label
@@ -983,7 +1050,6 @@ const InvoicePage = () => {
 
     const filters = {
       ...previousFilters,
-
       startDate: previousFilters.startDate,
       endDate: previousFilters.endDate,
       type: previousFilters.type,
@@ -992,32 +1058,37 @@ const InvoicePage = () => {
       createdByLabels: previousFilters.createdByLabels,
       modes: previousFilters.modes,
       modesLabel: previousFilters.modesLabel,
-
-      paymentStatus: paymentStatus,
-      paymentStatusLabel: paymentStatusLabel,
-
+      paymentStatus,
+      paymentStatusLabel,
       search: debouncedInput?.trim()
         ? debouncedInput.trim()
         : previousFilters.search || "",
-
       size,
       page,
     };
+
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+      filters,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousInvoiceRequestRef.current === requestKey) return;
+
+    previousInvoiceRequestRef.current = requestKey;
 
     dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: filters,
     });
 
+    setLoading(true);
+
     dispatch({
       type: "INVOICESLISTFILTER",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters,
-      },
+      payload: payload,
     });
-
-    setLoading(true);
   }, [
     debouncedInput,
     statusfilter?.value,
@@ -1025,10 +1096,8 @@ const InvoicePage = () => {
     size,
     page,
     state.login?.selectedHostel_Id,
+
   ]);
-
-
-
 
 
 

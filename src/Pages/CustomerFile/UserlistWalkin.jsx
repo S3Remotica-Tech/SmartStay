@@ -47,12 +47,14 @@ function UserlistWalkin() {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
   const [deleteShow, setDeleteShow] = useState(false);
+
+
   const previousTenantRequestRef = useRef("");
   useEffect(() => {
     const hostelId = state?.login?.selectedHostel_Id;
     if (!hostelId) return;
     const requestKey = JSON.stringify({
-      hostelId,
+      hostelId: hostelId,
       purpose: "WALK_IN",
     });
     if (previousTenantRequestRef.current === requestKey) return;
@@ -61,7 +63,7 @@ function UserlistWalkin() {
     dispatch({
       type: "TENANT_LIST_SAGA",
       payload: {
-        hostelId,
+        hostelId: hostelId,
         purpose: "WALK_IN",
       },
     });
