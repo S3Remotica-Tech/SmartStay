@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useRef } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { ArrowCircleRight } from "iconsax-react";
 import { TagUser } from "iconsax-react";
@@ -30,12 +30,23 @@ function Complaints({ show, handleClose, complaintId, trigger }) {
     const [commentsLoading, setCommentsLoading] = useState(false);
     const [commentsError, setCommentsError] = useState("");
 
-    useEffect(() => {
-        if (complaintId) {
-            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
-        }
-    }, [complaintId])
+    const previousComplaintIdRef = useRef(null);
 
+    useEffect(() => {
+        if (!complaintId || !state.login.selectedHostel_Id) return;
+
+        if (previousComplaintIdRef.current === complaintId) return;
+
+        previousComplaintIdRef.current = complaintId;
+
+        dispatch({
+            type: "COMPLAINTSVIEWUPDATES",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                complaintsId: complaintId,
+            },
+        });
+    }, [complaintId, state.login.selectedHostel_Id]);
 
 
     const StepItem = ({ children, isLast, type }) => {
