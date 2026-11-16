@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Invoice from "./Invoice";
 import Receipt from "./Receipt";
@@ -12,14 +12,16 @@ function BillTemplates() {
 
   const [selectedType, setSelectedType] = useState("invoice");
 
+  const previousHostelIdRef = useRef(null);
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_TEMPLATE_LIST",
-        payload: state.login.selectedHostel_Id,
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login.selectedHostel_Id;
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+    dispatch({
+      type: "GET_TEMPLATE_LIST",
+      payload: hostelId,
+    });
+  }, [state.login.selectedHostel_Id,]);
 
 
 

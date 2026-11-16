@@ -184,19 +184,31 @@ const RoomReadingTable = () => {
     setShowHostelModal(false);
   };
 
+  const previousReadingRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GETROOMREADING",
-        payload: state.login.selectedHostel_Id,
-      });
-      dispatch({
-        type: "GETCUSTOMERREADING",
-        payload: state.login.selectedHostel_Id,
-      });
-      setLoading(true);
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId) return;
+
+    const requestKey = JSON.stringify(hostelId);
+
+    if (previousReadingRequestRef.current === requestKey) return;
+
+    previousReadingRequestRef.current = requestKey;
+
+    dispatch({
+      type: "GETROOMREADING",
+      payload: hostelId,
+    });
+
+    dispatch({
+      type: "GETCUSTOMERREADING",
+      payload: hostelId,
+    });
+
+    setLoading(true);
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList?.getRoomReadingStatus === 200) {

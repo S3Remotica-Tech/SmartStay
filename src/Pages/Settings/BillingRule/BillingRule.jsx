@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
@@ -64,15 +64,21 @@ function BillingRule() {
       }, 100);
     }
   }, [state.Settings.SettingsRecurringAddSuccess]);
+  const previousHostelIdRef = useRef(null);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "SETTINGS_GET_RECURRING",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      setFormLoading(false);
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "SETTINGS_GET_RECURRING",
+      payload: { hostelId },
+    });
+
+    setFormLoading(false);
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -172,11 +178,10 @@ function BillingRule() {
                         <ArrowRight2
                           color="#28303F"
                           size="14"
-                          className={`${
-                            !canUpdateBills
-                              ? "opacity-40 cursor-not-allowed pointer-events-none"
-                              : "cursor-pointer"
-                          }`}
+                          className={`${!canUpdateBills
+                            ? "opacity-40 cursor-not-allowed pointer-events-none"
+                            : "cursor-pointer"
+                            }`}
                         />
                       </div>
                     </div>

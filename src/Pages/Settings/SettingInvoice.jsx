@@ -782,15 +782,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   //   }
   // };
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
-      dispatch({
-        type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+
 
   useEffect(() => {
     const appearOptions = {
@@ -895,21 +887,40 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     setBankAccountForm(false);
   };
 
+
+  // dispatch({
+  //   type: "BANKING_LIST_SAGA",
+  //   payload: {
+  //     hostelId: state.login.selectedHostel_Id,
+  //   },
+  // });
+
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //   },
-      // });
-      dispatch({
-        type: "GET_TEMPLATE_LIST",
-        payload: state.login.selectedHostel_Id,
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "BANKINGLIST",
+      payload: hostelId,
+    });
+
+    dispatch({
+      type: "GET_TEMPLATE_LIST",
+      payload: hostelId,
+    });
+
+
+    dispatch({
+      type: "PARTICULAR_HOSTEL_DETAILS",
+      payload: { hostel_id: hostelId },
+    });
+    setLoading(true)
+  }, [state.login.selectedHostel_Id,]);
 
   useEffect(() => {
     if (

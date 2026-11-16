@@ -95,14 +95,17 @@ function VendorCategory() {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "VENDOR_CATEGORY_LIST_SAGA",
-        payload: state.login.selectedHostel_Id,
-      });
-      setLoading(true);
-    }
+    const hostelId = state.login.selectedHostel_Id;
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+    setLoading(true);
+    dispatch({
+      type: "VENDOR_CATEGORY_LIST_SAGA",
+      payload: hostelId,
+    });
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -188,11 +191,10 @@ function VendorCategory() {
             onClick={handleShow}
             disabled={!canWriteVendor}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
-        ${
-          canWriteVendor
-            ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+        ${canWriteVendor
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             + Vendor Category
           </button>
@@ -264,11 +266,10 @@ function VendorCategory() {
                               }}
                               disabled={!canUpdateVendor}
                               className={`w-full font-gilroy text-left  px-4 py-2 text-base flex items-center gap-1 
-    ${
-      canUpdateVendor
-        ? "text-[#1E45E1] hover:bg-gray-100 cursor-pointer"
-        : "text-gray-400 cursor-not-allowed opacity-50"
-    }`}
+    ${canUpdateVendor
+                                  ? "text-[#1E45E1] hover:bg-gray-100 cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed opacity-50"
+                                }`}
                             >
                               <Edit
                                 size="16"
@@ -283,11 +284,10 @@ function VendorCategory() {
                               }}
                               disabled={!canDeleteVendor}
                               className={`w-full font-gilroy text-left  px-4 py-2 text-base flex items-center gap-1 
-    ${
-      canDeleteVendor
-        ? "text-red-600 hover:bg-gray-100 cursor-pointer"
-        : "text-gray-400 cursor-not-allowed opacity-50"
-    }`}
+    ${canDeleteVendor
+                                  ? "text-red-600 hover:bg-gray-100 cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed opacity-50"
+                                }`}
                             >
                               <Trash
                                 size="16"

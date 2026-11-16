@@ -15,7 +15,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types"
 import Select from "react-select";
-import "./ComplianceList.css";
+
 import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
@@ -1044,7 +1044,7 @@ const ComplianceList = (props) => {
                       <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
                         className="cursor-pointer" />
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="max-h-[400px] overflow-y-auto show-scrolls">
 
                       <div
                         className={`p-2.5 bg-[#F4F5F7] rounded-[10px]
@@ -1074,7 +1074,7 @@ const ComplianceList = (props) => {
 
                               <div
                                 key={index}
-                                className="w-full mb-2.5"
+                                className="w-full mb-2.5 "
                               >
 
                                 <div className="flex items-start w-full">
@@ -1139,34 +1139,36 @@ const ComplianceList = (props) => {
                         <ErrorMessage message={state.createAccount?.networkError} type="error" />
                         : null} */}
 
-                      <Modal.Footer className="p-0 border-0">
-                        <div className="mt-4 relative inline-block w-full">
-                          <Form.Control
-                            type="text"
-                            value={comments}
-                            onChange={(e) => handleComments(e)}
-                            placeholder="Post your reply here"
-                            className="w-full h-[52px] border border-[#E7E7E7] rounded-xl pl-4 py-1 font-gilroy focus:outline-none"
-                          />
 
-                          <div
-                            onClick={handleAddComment}
-                            className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-[#1E45E1] border border-[#E7E7E7] rounded-full p-2 flex items-center justify-center cursor-pointer"
-                          >
-                            <img
-                              src={send}
-                              alt="Send"
-                              className="w-4 h-4"
-                            />
-                          </div>
-                        </div>
-                      </Modal.Footer>
 
-                      {commentError && (
-                        <ErrorMessage message={commentError} type="error" />
 
-                      )}
                     </Modal.Body>
+                    {commentError && (
+                      <ErrorMessage message={commentError} type="error" />
+
+                    )}
+                    <Modal.Footer className="p-2 border-0">
+                      <div className="mt-4 relative inline-block w-full">
+                        <Form.Control
+                          type="text"
+                          value={comments}
+                          onChange={(e) => handleComments(e)}
+                          placeholder="Post your reply here"
+                          className="w-full h-[52px] border border-[#E7E7E7] rounded-xl pl-4 py-1 font-gilroy focus:outline-none"
+                        />
+
+                        <div
+                          onClick={handleAddComment}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-[#1E45E1] border border-[#E7E7E7] rounded-full p-2 flex items-center justify-center cursor-pointer"
+                        >
+                          <img
+                            src={send}
+                            alt="Send"
+                            className="w-4 h-4"
+                          />
+                        </div>
+                      </div>
+                    </Modal.Footer>
                   </Modal.Dialog>
                 </Modal>
 

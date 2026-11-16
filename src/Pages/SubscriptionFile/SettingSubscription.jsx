@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Expire from "../../Assets/Images/New_images/subscriptionexpire.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Calendar } from "iconsax-react";
-import "./SettingSubscription.css";
+// import "./SettingSubscription.css";
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { TbCheck } from "react-icons/tb";
@@ -34,16 +34,20 @@ function SettingSubscription() {
     }
   }, [state.UsersList?.accessRestrictionError]);
 
+  const previousPlanRequestRef = useRef(null);
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "NEWPLANLIST" });
-      dispatch({
-        type: "CURRENT_PLAN_SAGA",
-        payload: state.login.selectedHostel_Id,
-      });
-      setFormLoading(true);
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login?.selectedHostel_Id;
+    if (!hostelId) return;
+    const requestKey = JSON.stringify(hostelId);
+    if (previousPlanRequestRef.current === requestKey) return;
+    previousPlanRequestRef.current = requestKey;
+    dispatch({ type: "NEWPLANLIST" });
+    dispatch({
+      type: "CURRENT_PLAN_SAGA",
+      payload: hostelId,
+    });
+    setFormLoading(true);
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.Settings.statusCodeNewSubscription === 200) {

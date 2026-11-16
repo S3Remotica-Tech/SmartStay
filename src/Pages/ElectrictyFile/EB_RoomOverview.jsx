@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from "/src/Assets/Images/New_images/building1.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,15 +22,29 @@ const EBRoomOverview = ({ onBack, room }) => {
   const [tenantReadingList, setTenantreadingList] = useState();
   const [tableLoading, setTableLoading] = useState(false);
 
+  const previousRoomRequestRef = useRef(null);
+
   useEffect(() => {
-    if (room.hostelId && room.roomId) {
-      dispatch({
-        type: "GETPARTICULARROOMREADING",
-        payload: { hostelId: room.hostelId, roomId: room.roomId },
-      });
-      setTableLoading(true);
-    }
-  }, []);
+    if (!room?.hostelId || !room?.roomId) return;
+
+    const payload = {
+      hostelId: room.hostelId,
+      roomId: room.roomId,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousRoomRequestRef.current === requestKey) return;
+
+    previousRoomRequestRef.current = requestKey;
+
+    setTableLoading(true);
+
+    dispatch({
+      type: "GETPARTICULARROOMREADING",
+      payload,
+    });
+  }, [room?.hostelId, room?.roomId]);
 
   useEffect(() => {
     if (state.UsersList.getparticularRoomReadingStatus === 200) {

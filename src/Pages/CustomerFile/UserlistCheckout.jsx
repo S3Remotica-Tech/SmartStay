@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -65,15 +65,39 @@ function CheckOut() {
     });
   };
 
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "CHECKOUTCUSTOMERLIST",
+  //       payload: { hostelId: state.login.selectedHostel_Id },
+  //     });
+  //     setCheckOutLoader(true);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
+
+
+  const previousCheckoutRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "CHECKOUTCUSTOMERLIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      setCheckOutLoader(true);
-    }
-  }, [state.login.selectedHostel_Id]);
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId) return;
+
+    const payload = { hostelId };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousCheckoutRequestRef.current === requestKey) return;
+
+    previousCheckoutRequestRef.current = requestKey;
+
+    setCheckOutLoader(true);
+
+    dispatch({
+      type: "CHECKOUTCUSTOMERLIST",
+      payload: payload,
+    });
+  }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

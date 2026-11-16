@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import "flatpickr/dist/themes/material_blue.css";
@@ -8,7 +8,6 @@ import searchteam from "../../Assets/Images/New_images/Search Team.png";
 // import Filters from "../../Assets/Images/Filters.svg";
 import Select from "react-select";
 import "sweetalert2/dist/sweetalert2.min.css";
-import "../Compliants/Compliance.css";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
@@ -443,7 +442,54 @@ const Compliance = () => {
   };
 
 
-  console.log("complainceFilters;", state.ComplianceList?.complainceFilters)
+  // console.log("complainceFilters;", state.ComplianceList?.complainceFilters)
+
+  // useEffect(() => {
+  //   const hostelId = state.login?.selectedHostel_Id;
+
+  //   if (!hostelId) {
+  //     setLoading(false);
+  //     return;
+  //   }
+
+
+
+  //   const debounceTimer = setTimeout(() => {
+  //     const filters = state.ComplianceList?.complainceFilters;
+
+  //     if (
+  //       filters?.status === "date" &&
+  //       (!filters?.startDate || !filters?.endDate)
+  //     ) {
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     setLoading(true);
+
+  //     dispatch({
+  //       type: "COMPLIANCE-LIST",
+  //       payload: {
+  //         hostelId,
+  //         customerName: filters?.search || "",
+  //         status: filters?.status === "date" ? "" : filters?.status,
+  //         startDate: filters?.status === "date" ? filters.startDate : "",
+  //         endDate: filters?.status === "date" ? filters.endDate : "",
+  //       },
+  //     });
+  //   }, 500);
+
+
+
+  //   return () => clearTimeout(debounceTimer);
+  // }, [
+  //   state.login?.selectedHostel_Id,
+  //   state.ComplianceList?.complainceFilters,
+
+  // ]);
+
+
+  const previousRequestRef = useRef(null);
 
   useEffect(() => {
     const hostelId = state.login?.selectedHostel_Id;
@@ -453,34 +499,38 @@ const Compliance = () => {
       return;
     }
 
+    const filters = state.ComplianceList?.complainceFilters;
 
+    if (
+      filters?.status === "date" &&
+      (!filters?.startDate || !filters?.endDate)
+    ) {
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      hostelId: hostelId,
+      customerName: filters?.search || "",
+      status: filters?.status === "date" ? "" : filters?.status,
+      startDate: filters?.status === "date" ? filters.startDate : "",
+      endDate: filters?.status === "date" ? filters.endDate : "",
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousRequestRef.current === requestKey) return;
 
     const debounceTimer = setTimeout(() => {
-      const filters = state.ComplianceList?.complainceFilters;
-
-      if (
-        filters?.status === "date" &&
-        (!filters?.startDate || !filters?.endDate)
-      ) {
-        setLoading(false);
-        return;
-      }
+      previousRequestRef.current = requestKey;
 
       setLoading(true);
 
       dispatch({
         type: "COMPLIANCE-LIST",
-        payload: {
-          hostelId,
-          customerName: filters?.search || "",
-          status: filters?.status === "date" ? "" : filters?.status,
-          startDate: filters?.status === "date" ? filters.startDate : "",
-          endDate: filters?.status === "date" ? filters.endDate : "",
-        },
+        payload: payload,
       });
     }, 500);
-
-
 
     return () => clearTimeout(debounceTimer);
   }, [
@@ -488,7 +538,6 @@ const Compliance = () => {
     state.ComplianceList?.complainceFilters,
 
   ]);
-
 
   useEffect(() => {
     return () => {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -136,15 +136,52 @@ function RecurringBills() {
     }
   };
 
+  // useEffect(() => {
+  //   if (state.login?.selectedHostel_Id) {
+  //     setRecurLoader(true);
+  //     dispatch({
+  //       type: "RECURRING-BILLS-LIST",
+  //       payload: state.login?.selectedHostel_Id,
+  //     });
+  //   }
+  // }, [state.login?.selectedHostel_Id, activeStay]);
+
+
+
+
+
+  const previousRecurringRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-      setRecurLoader(true);
-      dispatch({
-        type: "RECURRING-BILLS-LIST",
-        payload: state.login?.selectedHostel_Id,
-      });
-    }
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId) return;
+
+    // const payload = hostelId;
+
+    const requestKey = JSON.stringify({
+      hostelId,
+      activeStay,
+    });
+
+    if (previousRecurringRequestRef.current === requestKey) return;
+
+    previousRecurringRequestRef.current = requestKey;
+
+    setRecurLoader(true);
+
+    dispatch({
+      type: "RECURRING-BILLS-LIST",
+      payload: hostelId,
+    });
   }, [state.login?.selectedHostel_Id, activeStay]);
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
@@ -323,8 +360,8 @@ function RecurringBills() {
               width={38}
               height={38}
               className={`transition-opacity duration-300 ${canReadRecurring
-                  ? "cursor-pointer opacity-100 pointer-events-auto"
-                  : "cursor-not-allowed opacity-40 pointer-events-none"
+                ? "cursor-pointer opacity-100 pointer-events-auto"
+                : "cursor-not-allowed opacity-40 pointer-events-none"
                 }`}
 
             //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
@@ -344,8 +381,8 @@ function RecurringBills() {
               <button
                 onClick={() => handleClick("long_stay")}
                 className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "long_stay"
-                    ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
-                    : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                  ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                  : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
                   }`}
               >
                 Long Stay
@@ -354,8 +391,8 @@ function RecurringBills() {
               <button
                 onClick={() => handleClick("short_stay")}
                 className={`px-[25px] py-2 rounded-[20px] text-[12px] font-semibold font-gilroy ${activeStay === "short_stay"
-                    ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
-                    : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
+                  ? "bg-[#1E45E1] text-white border border-[#1E45E1]"
+                  : "bg-white text-[#1E1E1E] border border-[#D6D6D6]"
                   }`}
               >
                 Short Stay

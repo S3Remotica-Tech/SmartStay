@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MessageText,
   Send2,
- 
+
 } from "iconsax-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -111,13 +111,26 @@ function VendorComments() {
     }
   };
 
+  const vendorCommentsRef = useRef(null);
+
   useEffect(() => {
-    if (VendorOverView?.id) {
-      dispatch({
-        type: "VENDOR_COMMENTS_SAGA",
-        payload: { vendorId: VendorOverView?.id, page: page, size: size },
-      });
-    }
+    if (!VendorOverView?.id) return;
+    const payload = {
+      vendorId: VendorOverView.id,
+      page,
+      size,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (vendorCommentsRef.current === requestKey) return;
+    vendorCommentsRef.current = requestKey;
+    dispatch({
+      type: "VENDOR_COMMENTS_SAGA",
+      payload: {
+        vendorId: VendorOverView.id,
+        page,
+        size,
+      }
+    });
   }, [VendorOverView?.id, page, size]);
 
   useEffect(() => {
@@ -160,7 +173,7 @@ function VendorComments() {
 
   const vendorComments = state.ComplianceList?.getVendorCommentsList;
 
-  
+
   const currentPage = vendorComments?.currentPage ?? 1;
 
   const totalPages = vendorComments?.totalPages ?? 1;
@@ -169,7 +182,7 @@ function VendorComments() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    
+
   };
 
   const handleSizeChange = (sizeValue) => {
@@ -177,7 +190,7 @@ function VendorComments() {
   };
 
   const handleEdit = (item) => {
-    
+
     setComment(item.comment);
     setSelectedCommentId(item.id);
     setEdit(true);
@@ -222,11 +235,10 @@ function VendorComments() {
           <button
             onClick={handleAddComment}
             disabled={formLoading || !canWriteVendor}
-            className={`disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium ${
-              formLoading || !canWriteVendor
-                ? "opacity-70 cursor-not-allowed"
-                : ""
-            }`}
+            className={`disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#1E45E1] text-white px-4 py-2 rounded-lg text-sm font-medium ${formLoading || !canWriteVendor
+              ? "opacity-70 cursor-not-allowed"
+              : ""
+              }`}
           >
             {formLoading ? (
               <div className="flex items-center gap-2">
@@ -281,11 +293,10 @@ function VendorComments() {
                     <button
                       onClick={() => canUpdateVendor && handleEdit(item)}
                       disabled={!canUpdateVendor}
-                      className={`p-1 rounded ${
-                        canUpdateVendor
-                          ? "hover:bg-blue-100 cursor-pointer"
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
+                      className={`p-1 rounded ${canUpdateVendor
+                        ? "hover:bg-blue-100 cursor-pointer"
+                        : "opacity-50 cursor-not-allowed"
+                        }`}
                     >
                       <Edit2
                         size={18}
@@ -296,11 +307,10 @@ function VendorComments() {
                     <button
                       onClick={() => canDeleteVendor && handleDelete(item.id)}
                       disabled={!canDeleteVendor}
-                      className={`p-1 rounded ${
-                        canDeleteVendor
-                          ? "hover:bg-red-100 cursor-pointer"
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
+                      className={`p-1 rounded ${canDeleteVendor
+                        ? "hover:bg-red-100 cursor-pointer"
+                        : "opacity-50 cursor-not-allowed"
+                        }`}
                     >
                       <Trash
                         size={18}

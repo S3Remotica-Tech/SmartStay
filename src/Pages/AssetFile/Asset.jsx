@@ -10,9 +10,7 @@ import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-
 import PaginationList from "../../Components/PaginationList";
-
 import { useHasPermission } from "../../Utils/Permission";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useLocation } from "react-router-dom";
@@ -22,22 +20,13 @@ import NoDataMessage from "../../Utils/NoDataMessage";
 function Asset() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const { RangePicker } = DatePicker;
   const [getData, setGetData] = useState([]);
-  // const [selectedPriceRange, setSelectedPriceRange] = useState("All");
   const [show, setShow] = useState(null);
-  // const [showFilter, setShowFilter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [showDropDown, setShowDropDown] = useState(false);
-  // const [showFilterData, setShowFilterData] = useState(false);
-  // const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [ExcelFilterDates, setExcelFilterDates] = useState([]);
-  // const [ExcelDownloadDates, setExcelDownloadDates] = useState([]);
-  // const [filterexcelprice, setFilterExcelPrice] = useState("");
+
   const [filterInput, setFilterInput] = useState("");
   const { canWriteModule: canWriteAssets, canReadModule: canReadAssets } =
     useHasPermission("Assets");
@@ -72,51 +61,6 @@ function Asset() {
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
 
-  // const handleAssetsExcel = () => {
-  //   if (ExcelDownloadDates.length === 2) {
-  //     dispatch({
-  //       type: "EXPORTASSETSDETAILS",
-  //       payload: {
-  //         type: "assets",
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         start_date: ExcelDownloadDates[0]?.format("YYYY-MM-DD"),
-  //         end_date: ExcelDownloadDates[1]?.format("YYYY-MM-DD"),
-  //       },
-  //     });
-
-  //     setExcelDownloadDates([]);
-  //     setFilterExcelPrice("");
-  //     setIsDownloadTriggered(true);
-  //     return;
-  //   }
-
-  //   if (
-  //     filterexcelprice &&
-  //     filterexcelprice !== "date" &&
-  //     filterexcelprice !== "All"
-  //   ) {
-  //     dispatch({
-  //       type: "EXPORTASSETSDETAILS",
-  //       payload: {
-  //         type: "assets",
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         price_range: filterexcelprice,
-  //       },
-  //     });
-
-  //     setExcelDownloadDates([]);
-  //     setFilterExcelPrice("");
-  //     setIsDownloadTriggered(true);
-  //     return;
-  //   }
-
-  //   dispatch({
-  //     type: "EXPORTASSETSDETAILS",
-  //     payload: { type: "assets", hostel_id: state.login.selectedHostel_Id },
-  //   });
-
-  //   setIsDownloadTriggered(true);
-  // };
 
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
@@ -170,20 +114,24 @@ function Asset() {
     setCurrentItem("");
   };
 
-  useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-      setLoading(true);
+  const previousHostelIdRef = useRef(null);
 
-      dispatch({ type: "ASSETLIST", payload: state.login.selectedHostel_Id });
-      // dispatch({
-      //   type: "BANKING_LIST_SAGA",
-      //   payload: {
-      //     hostelId: state.login.selectedHostel_Id,
-      //   },
-      // });
-    } else {
+  useEffect(() => {
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId) {
       setLoading(false);
+      return;
     }
+
+    if (previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+
+    setLoading(true);
+    dispatch({
+      type: "ASSETLIST",
+      payload: hostelId,
+    });
   }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {

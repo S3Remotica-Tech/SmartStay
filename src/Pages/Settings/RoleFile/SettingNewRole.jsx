@@ -4,21 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import AddRole from "../../../Pages/Settings/RoleFile/AddRole";
-
 import Modal from "react-bootstrap/Modal";
-
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-
 import { useHasPermission } from "../../../Utils/Permission";
-
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
-
 import { IoMdMore } from "react-icons/io";
 import { AddCircle, Profile2User, Shield } from "iconsax-react";
 import PaginationList from "../../../Components/PaginationList";
 import PermissionDeniedMessage from "../../../Utils/PermissionDeniedMessage";
 import NoDataMessage from "../../../Utils/NoDataMessage";
+
+
 function SettingNewRole() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -34,10 +31,6 @@ function SettingNewRole() {
 
   const [loading, setLoading] = useState(false);
 
-  // const canReadRole = useHasPermission("Role", "canRead")
-  // const canWriteRole = useHasPermission("Role", "canWrite");
-  // const canUpdateRole = useHasPermission("Role", "canUpdate");
-  // const canDeleteRole = useHasPermission("Role", "canDelete");
 
   const {
     canWriteModule: canWriteRole,
@@ -52,7 +45,13 @@ function SettingNewRole() {
     }
   }, [canReadRole]);
 
+  const modulesCalledRef = useRef(false);
+
   useEffect(() => {
+    if (modulesCalledRef.current) return;
+
+    modulesCalledRef.current = true;
+
     dispatch({ type: "GETMODULES" });
   }, []);
 
@@ -129,13 +128,17 @@ function SettingNewRole() {
     }
   };
 
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
     const hostelId = state?.login?.selectedHostel_Id;
-    console.log("hostelId", hostelId)
-    if (hostelId) {
-      // dispatch({ type: "SETTING_ROLE_LIST", payload: hostelId });
-      setLoading(true);
-    }
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+    setLoading(true);
+    dispatch({
+      type: "SETTING_ROLE_LIST",
+      payload: hostelId,
+    });
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
@@ -203,16 +206,23 @@ function SettingNewRole() {
     if (
       state.Settings.statusCodeForAddRole === 201 &&
       state.login.selectedHostel_Id
-    )
+    ) {
       setShowRole(false);
-    dispatch({
-      type: "SETTING_ROLE_LIST",
-      payload: state.login.selectedHostel_Id,
-    });
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
-    }, 100);
-  }, [state.Settings.statusCodeForAddRole]);
+
+      dispatch({
+        type: "SETTING_ROLE_LIST",
+        payload: state.login.selectedHostel_Id,
+      });
+
+      const timeout = setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
+      }, 100);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [state.Settings.statusCodeForAddRole, state.login.selectedHostel_Id]);
+
+
 
   useEffect(() => {
     if (

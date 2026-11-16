@@ -245,24 +245,6 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
-  useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-      if (value === "3") {
-        dispatch({
-          type: "CHECKOUTCUSTOMERLIST",
-          payload: { hostelId: state.login.selectedHostel_Id },
-        });
-      } else if (value === "4") {
-        dispatch({
-          type: "TENANT_LIST_SAGA",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-            purpose: "WALK_IN",
-          },
-        });
-      }
-    }
-  }, [value, state.login.selectedHostel_Id]);
 
   useEffect(() => {
     setPage(1);
@@ -275,6 +257,67 @@ function UserList(props) {
   ]);
 
 
+
+  // useEffect(() => {
+  //   if (!state.login.selectedHostel_Id || value !== "1") {
+  //     return;
+  //   }
+
+  //   const hasStatusSelected = Boolean(statusfilter?.value);
+  //   const hasMonthSelected = Boolean(selectedMonth?.value);
+  //   const hasSearch = Boolean(debouncedInput);
+
+  //   const statusValue =
+  //     Array.isArray(tenantFilters?.status) && tenantFilters.status.length > 0
+  //       ? tenantFilters.status
+  //       : hasStatusSelected && statusfilter.value !== "ALL"
+  //         ? [statusfilter.value]
+  //         : [];
+
+
+
+  //   const periodValue = tenantFilters?.period
+  //     ? tenantFilters.period
+  //     : hasMonthSelected
+  //       ? selectedMonth.value
+  //       : "";
+
+
+
+  //   const searchValue = hasSearch
+  //     ? debouncedInput
+  //     : tenantFilters?.search || "";
+
+  //   const payload = {
+  //     hostel_id: state.login.selectedHostel_Id,
+  //     name: searchValue,
+  //     type: statusValue,
+  //     page,
+  //     size,
+  //     period: periodValue,
+  //     sharingType: tenantFilters?.sharingType || "",
+  //     sharingTypeLabel: tenantFilters?.sharingTypeLabel || "",
+  //   };
+
+  //   dispatch({
+  //     type: "USERLIST",
+  //     payload,
+  //   });
+
+  //   setLoading(true);
+  // }, [
+  //   state.login.selectedHostel_Id,
+  //   value,
+  //   page,
+  //   size,
+  //   debouncedInput,
+  //   statusfilter?.value,
+  //   selectedMonth?.value,
+  // ]);
+
+
+
+  const previousUserListRequestRef = useRef(null);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id || value !== "1") {
@@ -292,23 +335,11 @@ function UserList(props) {
           ? [statusfilter.value]
           : [];
 
-
-
-    // const statusLabel = hasStatusSelected
-    //   ? statusfilter.value === "ALL"
-    //     ? ""
-    //     : statusfilter.label || ""
-    //   : tenantFilters?.tenantStatusLabel || "";
-
     const periodValue = tenantFilters?.period
       ? tenantFilters.period
       : hasMonthSelected
         ? selectedMonth.value
         : "";
-
-    // const periodLabel = hasMonthSelected
-    //   ? selectedMonth.label || ""
-    //   : tenantFilters?.periodLabel || "";
 
     const searchValue = hasSearch
       ? debouncedInput
@@ -325,12 +356,20 @@ function UserList(props) {
       sharingTypeLabel: tenantFilters?.sharingTypeLabel || "",
     };
 
-    dispatch({
-      type: "USERLIST",
-      payload,
-    });
+    const requestKey = JSON.stringify(payload);
+
+
+
+    if (previousUserListRequestRef.current === requestKey) return;
+
+    previousUserListRequestRef.current = requestKey;
 
     setLoading(true);
+
+    dispatch({
+      type: "USERLIST",
+      payload: payload,
+    });
   }, [
     state.login.selectedHostel_Id,
     value,
@@ -339,7 +378,14 @@ function UserList(props) {
     debouncedInput,
     statusfilter?.value,
     selectedMonth?.value,
+
   ]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
@@ -1001,12 +1047,35 @@ function UserList(props) {
     setDeleteDraftTenant(false);
   };
 
+  // const handleChange = (key) => {
+  //   setValue(key);
+  //   setSearch(false);
+
+  //   setFilterInput("");
+  //   setFilterStatus("");
+  // };
+
   const handleChange = (key) => {
     setValue(key);
     setSearch(false);
-
     setFilterInput("");
     setFilterStatus("");
+
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId) return;
+    if (key === "1") {
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: hostelId,
+          page: page,
+          size: size,
+        },
+      });
+    }
+
+
   };
 
   const handleRoomDetailsPage = (userData) => {

@@ -522,8 +522,81 @@ function Booking() {
     setPage(1);
   }, [debouncedInput, selectedBillStatus?.value, selectedMonth?.value, size]);
 
+  // useEffect(() => {
+  //   if (!state.login.selectedHostel_Id) return;
+
+  //   const filters = state.Booking?.bookingFilters || {};
+
+  //   const selectedStatus = selectedBillStatus?.value;
+  //   const selectedStatusLabel = selectedBillStatus?.label;
+
+  //   const paymentStatus = filters?.status
+  //     ? filters.status
+  //     : selectedStatus === "ALL"
+  //       ? ""
+  //       : selectedStatus || "";
+
+  //   const selectedPeriod = filters?.period
+  //     ? filters.period
+  //     : selectedMonth?.value || "";
+
+  //   const selectedPeriodLabel = filters?.periodLabel
+  //     ? filters.periodLabel
+  //     : selectedMonth?.label || "";
+
+  //   const paymentStatusLabel = filters?.statusLabel
+  //     ? filters.statusLabel
+  //     : selectedStatus === "ALL"
+  //       ? ""
+  //       : selectedStatusLabel || "";
+
+  //   dispatch({
+  //     type: "GET_BOOKING_LIST",
+  //     payload: {
+  //       hostelId: state.login.selectedHostel_Id,
+  //       name: debouncedInput || filters?.name || "",
+  //       page: page,
+  //       size: size,
+  //       period: selectedPeriod,
+  //       status: paymentStatus,
+  //       floor: filters?.floorId || "",
+  //       room: filters?.roomId || "",
+  //       minAmount: filters?.minPaidAmount || "",
+  //       maxAmount: filters?.maxPaidAmount || "",
+  //     },
+  //   });
+
+  //   dispatch({
+  //     type: "SET_BOOKING_FILTERS",
+  //     payload: {
+  //       name: debouncedInput || filters?.name || "",
+  //       period: selectedPeriod,
+  //       periodLabel: selectedPeriodLabel,
+  //       status: paymentStatus,
+  //       statusLabel: paymentStatusLabel,
+  //       floor: filters?.floorId || "",
+  //       room: filters?.roomId || "",
+  //       minAmount: filters?.minPaidAmount || "",
+  //       maxAmount: filters?.maxPaidAmount || "",
+  //     },
+  //   });
+
+  //   setLoading(true);
+  // }, [
+  //   page,
+  //   size,
+  //   debouncedInput,
+  //   state.login.selectedHostel_Id,
+  //   selectedMonth,
+  //   selectedBillStatus?.value,
+  // ]);
+
+
+
+  const previousBookingRequestRef = useRef(null);
+
   useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
+    if (!state.login?.selectedHostel_Id) return;
 
     const filters = state.Booking?.bookingFilters || {};
 
@@ -550,26 +623,34 @@ function Booking() {
         ? ""
         : selectedStatusLabel || "";
 
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+      name: debouncedInput || filters?.name || "",
+      page,
+      size,
+      period: selectedPeriod,
+      status: paymentStatus,
+      floor: filters?.floorId || "",
+      room: filters?.roomId || "",
+      minAmount: filters?.minPaidAmount || "",
+      maxAmount: filters?.maxPaidAmount || "",
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousBookingRequestRef.current === requestKey) return;
+
+    previousBookingRequestRef.current = requestKey;
+
     dispatch({
       type: "GET_BOOKING_LIST",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        name: debouncedInput || filters?.name || "",
-        page: page,
-        size: size,
-        period: selectedPeriod,
-        status: paymentStatus,
-        floor: filters?.floorId || "",
-        room: filters?.roomId || "",
-        minAmount: filters?.minPaidAmount || "",
-        maxAmount: filters?.maxPaidAmount || "",
-      },
+      payload,
     });
 
     dispatch({
       type: "SET_BOOKING_FILTERS",
       payload: {
-        name: debouncedInput || filters?.name || "",
+        name: payload.name,
         period: selectedPeriod,
         periodLabel: selectedPeriodLabel,
         status: paymentStatus,
@@ -586,10 +667,22 @@ function Booking() {
     page,
     size,
     debouncedInput,
-    state.login.selectedHostel_Id,
-    selectedMonth,
+    state.login?.selectedHostel_Id,
+    selectedMonth?.value,
+    selectedMonth?.label,
     selectedBillStatus?.value,
+    selectedBillStatus?.label,
+
   ]);
+
+
+
+
+
+
+
+
+
 
   const handleReset = () => {
     dispatch({

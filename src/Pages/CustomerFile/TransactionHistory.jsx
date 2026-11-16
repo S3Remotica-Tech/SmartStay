@@ -122,7 +122,7 @@ function TransactionHistory() {
                           {row.paidTo}
                         </td>
                         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
-                          {row.paymentMode}
+                          {row.bankName} - {row.paymentMode}
                         </td>
                         <td className="w-[230px] py-1 px-2 whitespace-nowrap">
                           <span className="bg-[#D9FFD9] text-[#1D760E] rounded-[14px] px-2 py-1">

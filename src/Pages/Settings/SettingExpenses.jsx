@@ -152,17 +152,20 @@ function SettingExpenses() {
     }
   }, [state.Settings?.alreadycategoryerror]);
 
+  const previousHostelIdRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "EXPENCES-CATEGORY-LIST",
-        payload: state.login.selectedHostel_Id,
-      });
-      setLoading(true);
-    }
+    const hostelId = state.login.selectedHostel_Id;
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+    previousHostelIdRef.current = hostelId;
+    setLoading(true);
+    dispatch({
+      type: "EXPENCES-CATEGORY-LIST",
+      payload: hostelId,
+    });
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 20);
 
     return () => clearTimeout(timeout);
   }, [state.login.selectedHostel_Id]);
@@ -326,11 +329,10 @@ function SettingExpenses() {
             onClick={handleShow}
             disabled={!canWriteExpense}
             className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
-        ${
-          canWriteExpense
-            ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }`}
+        ${canWriteExpense
+                ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             + Category
           </button>
@@ -344,11 +346,10 @@ function SettingExpenses() {
       ) : (
         <div
           className={`mt-2 px-3 py-4 rounded-lg relative 
-    ${
-      expensesFilterddata.length === 0
-        ? "bg-[#FFFFFF] flex items-center justify-center overflow-hidden"
-        : "bg-[#F9FAFB] overflow-y-auto"
-    }
+    ${expensesFilterddata.length === 0
+              ? "bg-[#FFFFFF] flex items-center justify-center overflow-hidden"
+              : "bg-[#F9FAFB] overflow-y-auto"
+            }
 `}
         >
           {loading && (
@@ -467,19 +468,17 @@ function SettingExpenses() {
 
                             <div
                               className={`flex items-center gap-2 shrink-0 transition-all duration-200
-            ${
-              hoveredSubId === sub.subCategoryId
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-1 pointer-events-none"
-            }`}
+            ${hoveredSubId === sub.subCategoryId
+                                  ? "opacity-100 translate-x-0"
+                                  : "opacity-0 translate-x-1 pointer-events-none"
+                                }`}
                             >
                               <img
                                 src={Editbtn}
-                                className={`h-[15px] w-[15px] ${
-                                  canUpdateExpense
-                                    ? "cursor-pointer"
-                                    : "cursor-not-allowed opacity-40"
-                                }`}
+                                className={`h-[15px] w-[15px] ${canUpdateExpense
+                                  ? "cursor-pointer"
+                                  : "cursor-not-allowed opacity-40"
+                                  }`}
                                 alt="edit"
                                 onClick={() =>
                                   canUpdateExpense && handleSubEditCategory(sub)
@@ -488,11 +487,10 @@ function SettingExpenses() {
 
                               <img
                                 src={Closebtn}
-                                className={`h-[15px] w-[15px] ${
-                                  canDeleteExpense
-                                    ? "cursor-pointer"
-                                    : "cursor-not-allowed opacity-40"
-                                }`}
+                                className={`h-[15px] w-[15px] ${canDeleteExpense
+                                  ? "cursor-pointer"
+                                  : "cursor-not-allowed opacity-40"
+                                  }`}
                                 alt="delete"
                                 onClick={() =>
                                   canDeleteExpense &&

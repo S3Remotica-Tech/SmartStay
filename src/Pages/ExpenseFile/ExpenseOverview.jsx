@@ -1,13 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
-  // CloseCircle,
   Add,
-  // Flash,
-  // Call,
   Location,
-  // Warning2,
-  // AddCircle,
   ExportSquare,
 } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,25 +23,36 @@ function ExpenseOverview({
   const [activeTab, setActiveTab] = useState("payments");
   const expenseOverView = state.ExpenseList?.expenseOverview;
 
+  const previousExpenseOverviewRequestRef = useRef(null);
+
   useEffect(() => {
-    if (selectedExpenseId) {
-      dispatch({
-        type: "EXPENSE_OVERVIEW_SAGA",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          expenseId: selectedExpenseId,
-        },
-      });
-    }
-  }, [selectedExpenseId, activeTab]);
+    const hostelId = state.login?.selectedHostel_Id;
+
+    if (!hostelId || !selectedExpenseId) return;
+
+    const payload = {
+      hostelId,
+      expenseId: selectedExpenseId,
+    };
+
+    const requestKey = JSON.stringify(payload);
+
+    if (previousExpenseOverviewRequestRef.current === requestKey) return;
+
+    previousExpenseOverviewRequestRef.current = requestKey;
+
+    dispatch({
+      type: "EXPENSE_OVERVIEW_SAGA",
+      payload,
+    });
+  }, [selectedExpenseId, activeTab, state.login?.selectedHostel_Id]);
 
   return (
     <div className="font-gilroy">
       <div
-        className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
-          show ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        // onClick={onClose}
+        className={`fixed  inset-0 bg-black/40 z-40 transition-opacity duration-300 ${show ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+      // onClick={onClose}
       />
 
       <div className="fixed top-2 right-2 bottom-2 w-full max-w-[1000px] bg-white z-50 rounded-md flex flex-col">
@@ -84,13 +90,12 @@ function ExpenseOverview({
                 </div>
                 <div className="flex items-center gap-4">
                   <span
-                    className={`px-2 py-1 rounded text-[10px] font-medium ${
-                      expenseOverView?.paymentStatus === "Paid"
-                        ? "bg-green-100 text-green-700"
-                        : expenseOverView?.paymentStatus === "Partial"
-                          ? "bg-[#FFEDCA99] text-[#FF9900]"
-                          : "bg-red-100 text-red-600"
-                    }`}
+                    className={`px-2 py-1 rounded text-[10px] font-medium ${expenseOverView?.paymentStatus === "Paid"
+                      ? "bg-green-100 text-green-700"
+                      : expenseOverView?.paymentStatus === "Partial"
+                        ? "bg-[#FFEDCA99] text-[#FF9900]"
+                        : "bg-red-100 text-red-600"
+                      }`}
                   >
                     {expenseOverView?.paymentStatus}
                   </span>
@@ -137,22 +142,20 @@ function ExpenseOverview({
             <div className="flex gap-8">
               <button
                 onClick={() => setActiveTab("payments")}
-                className={`pb-3 font-semibold ${
-                  activeTab === "payments"
-                    ? "border-b-2 border-[#1E45E1] text-[#222]"
-                    : "text-[#666]"
-                }`}
+                className={`pb-3 font-semibold ${activeTab === "payments"
+                  ? "border-b-2 border-[#1E45E1] text-[#222]"
+                  : "text-[#666]"
+                  }`}
               >
                 Payments
               </button>
 
               <button
                 onClick={() => setActiveTab("expenses")}
-                className={`pb-3 font-semibold ${
-                  activeTab === "expenses"
-                    ? "border-b-2 border-[#1E45E1] text-[#222]"
-                    : "text-[#666]"
-                }`}
+                className={`pb-3 font-semibold ${activeTab === "expenses"
+                  ? "border-b-2 border-[#1E45E1] text-[#222]"
+                  : "text-[#666]"
+                  }`}
               >
                 Expense Items
               </button>
@@ -161,11 +164,10 @@ function ExpenseOverview({
               <button
                 disabled={expenseOverView?.balanceAmount <= 0}
                 onClick={() => handleShowSettlement(true)}
-                className={`px-4 py-2 rounded-lg text-sm ${
-                  expenseOverView?.balanceAmount <= 0
-                    ? "bg-gray-400 cursor-not-allowed text-white"
-                    : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm ${expenseOverView?.balanceAmount <= 0
+                  ? "bg-gray-400 cursor-not-allowed text-white"
+                  : "bg-[#1E45E1] text-white hover:bg-[#1838b8]"
+                  }`}
               >
                 + Settle Payment
               </button>

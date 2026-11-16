@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NoDataMessage from "../../Utils/NoDataMessage";
 import ApiPagination from "../../Components/ApiPagination";
@@ -12,18 +12,24 @@ function VendorPaymentHistory({ selectedVendorId }) {
   const vendorPaymentMadeHistory =
     state.ComplianceList?.vendorOverviewExpensePaymentList?.payments || [];
 
+  const previousVendorPaymentRequestRef = useRef(null);
+
   useEffect(() => {
     if (!selectedVendorId) return;
+    const payload = {
+      vendorId: selectedVendorId,
+      page,
+      size,
+    };
 
+    const requestKey = JSON.stringify(payload);
+    if (previousVendorPaymentRequestRef.current === requestKey) return;
+    previousVendorPaymentRequestRef.current = requestKey;
     dispatch({
       type: "VENDOR_OVERVIEW_EXPENSE_PAYMENTLIST_SAGA",
-      payload: {
-        vendorId: selectedVendorId,
-        page: page,
-        size: size,
-      },
+      payload,
     });
-  }, [selectedVendorId, page, size]);
+  }, [selectedVendorId, page, size, dispatch]);
 
   const currentPage =
     state.ComplianceList?.vendorOverviewExpensePaymentList?.currentPage ?? 1;
