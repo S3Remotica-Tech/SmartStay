@@ -163,14 +163,22 @@ function StaticExample({ setShow, currentItem }) {
     }
   }, []);
 
+  const initializeAssetCalledRef = useRef(false);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "ADD_ASSET_INITIALIZE_SAGA",
-        payload: state.login.selectedHostel_Id
-      });
-    }
-  }, []);
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || initializeAssetCalledRef.current) return;
+
+    initializeAssetCalledRef.current = true;
+
+    dispatch({
+      type: "ADD_ASSET_INITIALIZE_SAGA",
+      payload: hostelId,
+    });
+  }, [state.login.selectedHostel_Id]);
+
+
 
   const [initialState, setInitialState] = useState({
     assetName: "",

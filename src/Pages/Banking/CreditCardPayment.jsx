@@ -2,15 +2,10 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  // ArrowLeft2,
   Calendar,
-  // DocumentUpload,
-  // CloseCircle,
-  // ArrowDown2,
   Add,
   Bank,
   Wallet2,
-  // ArrowRight,
   MessageQuestion, Card
 } from "iconsax-react";
 import Select from "react-select";
@@ -131,7 +126,6 @@ const CustomStyles = {
 
 
 function CreditCardPayment({ show, handleClose, bankId, isBank }) {
-  // console.log("isBank", isBank)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const workRef = useRef(null);
@@ -143,8 +137,6 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
   const [paymentMethodError, setPaymentMethodError] = useState("");
 
   const [transactionId, setTransactionId] = useState("");
-  // const [transactionIdError, setTransactionIdError] = useState("");
-
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -360,13 +352,20 @@ function CreditCardPayment({ show, handleClose, bankId, isBank }) {
     }
   }, [state?.bankingDetails?.creditCardPaymentError]);
 
+  const previousCreditCardRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login?.selectedHostel_Id) {
-      dispatch({
-        type: "GET_CREDIT_CARD_INITIALIZE_SAGA",
-        payload: { hostelId: state.login?.selectedHostel_Id },
-      });
-    }
+    if (!state.login?.selectedHostel_Id) return;
+    const payload = {
+      hostelId: state.login.selectedHostel_Id,
+    };
+    const requestKey = JSON.stringify(payload);
+    if (previousCreditCardRequestRef.current === requestKey) return;
+    previousCreditCardRequestRef.current = requestKey;
+    dispatch({
+      type: "GET_CREDIT_CARD_INITIALIZE_SAGA",
+      payload,
+    });
   }, [state.login?.selectedHostel_Id]);
 
 

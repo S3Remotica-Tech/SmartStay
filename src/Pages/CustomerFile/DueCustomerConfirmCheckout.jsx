@@ -18,6 +18,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
   };
 
   const state = useSelector((state) => state);
+  const checkoutRequestRef = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -156,21 +157,34 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     }
   }, [state.UsersList.statuscodeForConformCheckout]);
 
+
   useEffect(() => {
+    const customerId =
+      data?.apiCall?.customerId || data?.tenetId || data?.customerId;
+
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || !customerId) return;
+
+    const requestKey = { hostelId, customerId };
+
     if (
-      state.login.selectedHostel_Id &&
-      (data?.apiCall?.customerId || data?.tenetId || data?.customerId)
-    ) {
-      dispatch({
-        type: "GETINITIALIZECHECKOUT",
-        payload: {
-          customerId:
-            data?.apiCall?.customerId || data?.tenetId || data?.customerId,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    }
-  }, []);
+      JSON.stringify(checkoutRequestRef.current) ===
+      JSON.stringify(requestKey)
+    ) return;
+
+    checkoutRequestRef.current = requestKey;
+
+    dispatch({
+      type: "GETINITIALIZECHECKOUT",
+      payload: requestKey,
+    });
+  }, [
+    state.login.selectedHostel_Id,
+    data?.apiCall?.customerId,
+    data?.tenetId,
+    data?.customerId,
+  ]);
 
   const getProfileImage = () => {
     const pic = data?.profilePic;
@@ -297,7 +311,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
             Cancel
           </Button>
           <Button
-            disabled={formLoading}
+            disabled={formLoading || !state.UsersList?.initializeCheckout?.canCheckout}
             onClick={handleConfirmCheckout}
             className="text-base !font-gilroy !font-normal !bg-[#1E45E1] text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           >

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -149,6 +149,9 @@ function MakeAsInactive({
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [paymentError, setPaymentError] = useState("");
   const [transactionId, setTransactionId] = useState("");
+  const previousCustomerIdRef = useRef(null);
+  const previousCustomerIdDetailsRef = useRef(null);
+  const CustomerOverView = state?.UsersList?.customerdetails;
 
   const handleTransactionId = (e) => {
     const value = e.target.value;
@@ -284,41 +287,46 @@ function MakeAsInactive({
 
 
 
+
+
+
   useEffect(() => {
     if (!inActiveDetails) return;
-    if (
+
+    const customerId =
       inActiveDetails?.apiCall?.customerId ||
       inActiveDetails?.tenetId ||
-      inActiveDetails?.customerId
-    ) {
-      dispatch({
-        type: "INITIALIZECANCELBOOKING",
-        payload:
-          inActiveDetails?.apiCall?.customerId ||
-          inActiveDetails?.tenetId ||
-          inActiveDetails?.customerId,
-      });
-    }
+      inActiveDetails?.customerId;
+
+    if (!customerId || previousCustomerIdRef.current === customerId) return;
+
+    previousCustomerIdRef.current = customerId;
+
+    dispatch({
+      type: "INITIALIZECANCELBOOKING",
+      payload: customerId,
+    });
   }, [inActiveDetails]);
 
-  const CustomerOverView = state?.UsersList?.customerdetails;
+
+
 
   useEffect(() => {
-    if (
+    const customerId =
       inActiveDetails?.apiCall?.customerId ||
       inActiveDetails?.tenetId ||
-      inActiveDetails?.customerId
-    ) {
-      dispatch({
-        type: "CUSTOMERDETAILS",
-        payload: {
-          customerId:
-            inActiveDetails?.apiCall?.customerId ||
-            inActiveDetails?.tenetId ||
-            inActiveDetails?.customerId,
-        },
-      });
-    }
+      inActiveDetails?.customerId;
+
+    if (!customerId || previousCustomerIdDetailsRef?.current === customerId) return;
+
+    previousCustomerIdDetailsRef.current = customerId;
+
+    dispatch({
+      type: "CUSTOMERDETAILS",
+      payload: {
+        customerId,
+      },
+    });
   }, [inActiveDetails]);
 
   const profilePic = inActiveDetails?.profilePic;

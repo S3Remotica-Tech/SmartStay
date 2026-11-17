@@ -1939,7 +1939,7 @@ function Sidebar() {
                         onClick={handleShowNotification}
                       />
 
-                      {state.UsersList.hotelDetailsinPg.unreadNotificationCount >
+                      {state?.UsersList?.hotelDetailsinPg?.unreadNotificationCount >
                         0 && (
                           <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
                             {

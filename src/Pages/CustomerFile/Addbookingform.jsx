@@ -132,6 +132,8 @@ function BookingModal(props) {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
+  const previousHostelIdRef = useRef(null);
+  const previousFloorIdRef = useRef(null);
 
   const [joiningDate, setJoiningDate] = useState(null);
   const [bookingDate, setBookingDate] = useState(null);
@@ -209,11 +211,7 @@ function BookingModal(props) {
     }
   }, [state.Booking.bookingEmailError, state.Booking?.bookingBedError]);
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-  //   }
-  // }, []);
+
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -360,18 +358,34 @@ function BookingModal(props) {
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
-  useEffect(() => {
-    dispatch({
-      type: "ALLFLOORLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, []);
+
 
   useEffect(() => {
-    if (Floor) {
-      dispatch({ type: "GETALLROOMSLIST", payload: { floor_Id: Floor } });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId || previousHostelIdRef.current === hostelId) return;
+
+    previousHostelIdRef.current = hostelId;
+
+    dispatch({
+      type: "ALLFLOORLIST",
+      payload: { hostel_id: hostelId },
+    });
+  }, [state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    if (!Floor || previousFloorIdRef.current === Floor) return;
+
+    previousFloorIdRef.current = Floor;
+
+    dispatch({
+      type: "GETALLROOMSLIST",
+      payload: { floor_Id: Floor },
+    });
   }, [Floor]);
+
+
+
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
       setTimeout(() => {

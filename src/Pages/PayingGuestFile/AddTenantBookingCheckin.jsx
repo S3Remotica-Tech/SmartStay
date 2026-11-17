@@ -275,13 +275,26 @@ function AddTenantBookingCheckin({
   const hideByPostPaidHostel =
     (IsPostPaid && isPastMonth) || (IsPrePaid && isPastMonthPrePaid);
 
+  const recurringRequestRef = useRef(null);
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "SETTINGS_GET_RECURRING",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
+    const hostelId = state.login.selectedHostel_Id;
+
+    if (!hostelId) return;
+
+    const requestKey = { hostelId };
+
+    if (
+      JSON.stringify(recurringRequestRef.current) ===
+      JSON.stringify(requestKey)
+    ) return;
+
+    recurringRequestRef.current = requestKey;
+
+    dispatch({
+      type: "SETTINGS_GET_RECURRING",
+      payload: requestKey,
+    });
   }, [state.login.selectedHostel_Id]);
 
   const DarftCustomerId =
@@ -852,15 +865,24 @@ function AddTenantBookingCheckin({
     return isValid;
   };
 
+  const draftTenantRequestRef = useRef(null);
+
   useEffect(() => {
-    if (DarftCustomerId) {
-      if (DarftCustomerId) {
-        dispatch({
-          type: "DRAFT_TENANT_LIST_SAGA",
-          payload: DarftCustomerId,
-        });
-      }
-    }
+    if (!DarftCustomerId) return;
+
+    const requestKey = { customerId: DarftCustomerId };
+
+    if (
+      JSON.stringify(draftTenantRequestRef.current) ===
+      JSON.stringify(requestKey)
+    ) return;
+
+    draftTenantRequestRef.current = requestKey;
+
+    dispatch({
+      type: "DRAFT_TENANT_LIST_SAGA",
+      payload: DarftCustomerId,
+    });
   }, [DarftCustomerId]);
 
   const DraftTenantDetails =
@@ -1557,29 +1579,76 @@ function AddTenantBookingCheckin({
     }
   }, [bookingRoom, joiningDate, state.UsersList?.availableBedList?.listBeds]);
 
-  useEffect(() => {
-    if (bookingJoiningDate || joiningDate) {
-      const formatDate = (date) => {
-        if (!date) return "";
-        const d = new Date(date);
-        const day = String(d.getDate()).padStart(2, "0");
-        const month = String(d.getMonth() + 1).padStart(2, "0");
-        const year = d.getFullYear();
-        return `${day}-${month}-${year}`;
-      };
+  // useEffect(() => {
+  //   if (bookingJoiningDate || joiningDate) {
+  //     const formatDate = (date) => {
+  //       if (!date) return "";
+  //       const d = new Date(date);
+  //       const day = String(d.getDate()).padStart(2, "0");
+  //       const month = String(d.getMonth() + 1).padStart(2, "0");
+  //       const year = d.getFullYear();
+  //       return `${day}-${month}-${year}`;
+  //     };
 
-      const joiningDateForFormatted = formatDate(
-        bookingJoiningDate || joiningDate,
-      );
-      dispatch({
-        type: "AVAILBALEBEDDETAILS",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          joiningDate: joiningDateForFormatted,
-        },
-      });
-    }
-  }, [bookingJoiningDate, joiningDate]);
+  //     const joiningDateForFormatted = formatDate(
+  //       bookingJoiningDate || joiningDate,
+  //     );
+  //     dispatch({
+  //       type: "AVAILBALEBEDDETAILS",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         joiningDate: joiningDateForFormatted,
+  //       },
+  //     });
+  //   }
+  // }, [bookingJoiningDate, joiningDate]);
+
+
+
+
+  const availableBedRequestRef = useRef(null);
+
+  useEffect(() => {
+    const hostelId = state.login.selectedHostel_Id;
+    const selectedDate = bookingJoiningDate || joiningDate;
+
+    if (!hostelId || !selectedDate) return;
+
+    const formatDate = (date) => {
+      if (!date) return "";
+
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    };
+
+    const joiningDateForFormatted = formatDate(selectedDate);
+
+    const requestKey = {
+      hostelId,
+      joiningDate: joiningDateForFormatted,
+    };
+
+    if (
+      JSON.stringify(availableBedRequestRef.current) ===
+      JSON.stringify(requestKey)
+    ) return;
+
+    availableBedRequestRef.current = requestKey;
+
+    dispatch({
+      type: "AVAILBALEBEDDETAILS",
+      payload: requestKey,
+    });
+  }, [
+    state.login.selectedHostel_Id,
+    bookingJoiningDate,
+    joiningDate,
+  ]);
+
 
   const handleBedLayoutPreview = (way) => {
     setCheckInFloorError("");
